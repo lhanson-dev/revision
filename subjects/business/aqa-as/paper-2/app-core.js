@@ -1,5 +1,5 @@
 const state = JSON.parse(localStorage.getItem("paper2State") || '{"cards":{},"quiz":{},"topic":{}}');
-function save(){localStorage.setItem("paper2State",JSON.stringify(state));renderDashboard();}
+function save(){localStorage.setItem("paper2State",JSON.stringify(state));renderDashboard();if(typeof scheduleCloudSave==="function")scheduleCloudSave();}
 const views=["home","learn","flashcards","mindmap","blueprint","test"];
 const navLabels={home:"Dashboard",learn:"Learn",flashcards:"Recall",mindmap:"Connect",blueprint:"Answer",test:"Test"};
 document.getElementById("nav").innerHTML=views.map(v=>`<button data-v="${v}" onclick="showView('${v}')">${navLabels[v]}</button>`).join("");
