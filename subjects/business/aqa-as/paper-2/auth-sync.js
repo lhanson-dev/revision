@@ -4,30 +4,31 @@ const SUPABASE_PUBLISHABLE_KEY="sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG";
 const revisionCloud=supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 let revisionUser=null,cloudSaveTimer=null,applyingCloud=false;
 
-function injectAuthUI(){
- const style=document.createElement("style");style.textContent=`
- .auth-box{margin:18px 0 10px;padding:12px;border:1px solid #294866;border-radius:12px;background:#17304f;color:#d9e4ed;font-size:12px}.auth-box b{display:block;color:#fff;margin-bottom:4px}.auth-box button{margin-top:8px;width:100%;border:1px solid #3a5571;border-radius:9px;padding:8px;background:transparent;color:#fff;font-weight:700;cursor:pointer}.auth-box .sync-ok{color:#7de0b2}.mobile-auth{white-space:nowrap;border:1px solid #3a5571!important;background:#0f2946!important;color:#fff!important}.mobile-auth.synced{border-color:#18a66a!important}.auth-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(6,24,46,.62);align-items:center;justify-content:center;padding:18px}.auth-modal.open{display:flex}.auth-panel{width:min(420px,100%);background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.2)}.auth-panel h2{margin:0 0 6px}.auth-panel p{color:#64748b;line-height:1.5}.auth-panel input{width:100%;margin:6px 0;padding:11px 12px;border:1px solid #dfe5eb;border-radius:10px}.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.auth-actions button,.auth-close{border:0;border-radius:10px;padding:10px;font-weight:800;cursor:pointer}.auth-primary{background:#18a66a;color:#fff}.auth-secondary{background:#eef2f5;color:#10243d}.auth-close{width:100%;margin-top:8px;background:#fff;border:1px solid #dfe5eb}.auth-message{min-height:20px;margin-top:8px;font-size:12px;color:#64748b}`;document.head.appendChild(style);
+function injectAccountUI(){
+ const style=document.createElement("style");style.textContent=`.auth-box{margin:18px 0 10px;padding:12px;border:1px solid #294866;border-radius:12px;background:#17304f;color:#d9e4ed;font-size:12px}.auth-box b{display:block;color:#fff;margin-bottom:4px}.auth-box button{margin-top:8px;width:100%;border:1px solid #3a5571;border-radius:9px;padding:8px;background:transparent;color:#fff;font-weight:700;cursor:pointer}.auth-box .sync-ok{color:#7de0b2}.mobile-auth{white-space:nowrap;border:1px solid #3a5571!important;background:#0f2946!important;color:#fff!important}.mobile-auth.synced{border-color:#18a66a!important}`;document.head.appendChild(style);
  const box=document.createElement("div");box.className="auth-box";box.id="authBox";document.querySelector(".sidebar .nav").after(box);
- const mobileButton=document.createElement("button");mobileButton.id="mobileAuthButton";mobileButton.className="mobile-auth";mobileButton.onclick=()=>revisionUser?signOutRevision():openAuth();document.getElementById("mobileNav").appendChild(mobileButton);
- const modal=document.createElement("div");modal.className="auth-modal";modal.id="authModal";modal.innerHTML=`<div class="auth-panel"><h2>Save progress everywhere</h2><p>Sign in on any device and your revision progress will follow you.</p><input id="authEmail" type="email" autocomplete="email" placeholder="Email"><input id="authPassword" type="password" autocomplete="current-password" placeholder="Password (6+ characters)"><div class="auth-actions"><button class="auth-primary" onclick="signInRevision()">Sign in</button><button class="auth-secondary" onclick="signUpRevision()">Create account</button></div><div class="auth-message" id="authMessage"></div><button class="auth-close" onclick="closeAuth()">Close</button></div>`;document.body.appendChild(modal);
+ const mobileButton=document.createElement("button");mobileButton.id="mobileAuthButton";mobileButton.className="mobile-auth synced";mobileButton.onclick=signOutRevision;document.getElementById("mobileNav").appendChild(mobileButton);
  renderAuthBox();
 }
-function openAuth(){document.getElementById("authModal").classList.add("open");document.getElementById("authEmail").focus()}
-function closeAuth(){document.getElementById("authModal").classList.remove("open")}
-function authMsg(t,isError=false){const el=document.getElementById("authMessage");el.textContent=t;el.style.color=isError?"#b43842":"#64748b"}
 function renderAuthBox(status=""){
  const el=document.getElementById("authBox"),mobile=document.getElementById("mobileAuthButton");
- if(revisionUser){const label=revisionUser.email||"Signed in";if(el)el.innerHTML=`<b>${label}</b><span class="sync-ok">${status||"Cloud progress on"}</span><button onclick="signOutRevision()">Sign out</button>`;if(mobile){mobile.textContent=status==="Saving…"?"Saving…":"✓ Synced";mobile.classList.add("synced")}}
- else{if(el)el.innerHTML=`<b>Progress on this device</b><span>Sign in to sync laptop + phone.</span><button onclick="openAuth()">Sign in / create account</button>`;if(mobile){mobile.textContent="Sign in";mobile.classList.remove("synced")}}
+ if(!revisionUser)return;
+ const label=revisionUser.email||"Signed in";
+ if(el)el.innerHTML=`<b>${label}</b><span class="sync-ok">${status||"Cloud progress on"}</span><button onclick="signOutRevision()">Sign out</button>`;
+ if(mobile)mobile.textContent=status==="Saving…"?"Saving…":"✓ Synced";
 }
-async function signInRevision(){authMsg("Signing in…");const email=document.getElementById("authEmail").value.trim(),password=document.getElementById("authPassword").value;const{error}=await revisionCloud.auth.signInWithPassword({email,password});if(error)return authMsg(error.message,true);authMsg("Signed in. Loading progress…");closeAuth()}
-async function signUpRevision(){authMsg("Creating account…");const email=document.getElementById("authEmail").value.trim(),password=document.getElementById("authPassword").value;if(password.length<6)return authMsg("Use a password of at least 6 characters.",true);const{data,error}=await revisionCloud.auth.signUp({email,password});if(error)return authMsg(error.message,true);if(data.session){authMsg("Account created and signed in.");closeAuth()}else authMsg("Account created. Check the email inbox to confirm the address, then sign in.")}
-async function signOutRevision(){await revisionCloud.auth.signOut();revisionUser=null;renderAuthBox()}
-
+async function signOutRevision(){await revisionCloud.auth.signOut();location.replace('../../../../')}
 function scheduleCloudSave(){if(applyingCloud||!revisionUser)return;clearTimeout(cloudSaveTimer);renderAuthBox("Saving…");cloudSaveTimer=setTimeout(saveCloudProgress,500)}
 async function saveCloudProgress(){if(!revisionUser)return;const payload={user_id:revisionUser.id,module_id:REVISION_MODULE_ID,state:JSON.parse(JSON.stringify(state)),updated_at:new Date().toISOString()};const{error}=await revisionCloud.from("revision_progress").upsert(payload,{onConflict:"user_id,module_id"});renderAuthBox(error?"Saved locally — cloud retry later":"Saved to cloud")}
 async function loadCloudProgress(){if(!revisionUser)return;renderAuthBox("Syncing…");const{data,error}=await revisionCloud.from("revision_progress").select("state,updated_at").eq("user_id",revisionUser.id).eq("module_id",REVISION_MODULE_ID).maybeSingle();if(error){renderAuthBox("Cloud unavailable — using local");return}if(data?.state){applyingCloud=true;Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,data.state);localStorage.setItem("paper2State",JSON.stringify(state));applyingCloud=false;buildFlashOrder();renderDashboard();if(document.getElementById("flashcards").classList.contains("active"))showFlash();renderAuthBox("Synced across devices")}else{await saveCloudProgress()}}
 async function resetRevisionProgress(){if(!window.confirm("Reset all revision progress on every synced device?"))return;Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,{cards:{},quiz:{},topic:{}});localStorage.setItem("paper2State",JSON.stringify(state));if(revisionUser)await revisionCloud.from("revision_progress").delete().eq("user_id",revisionUser.id).eq("module_id",REVISION_MODULE_ID);location.reload()}
-
-async function initRevisionAuth(){injectAuthUI();const{data}=await revisionCloud.auth.getSession();revisionUser=data.session?.user||null;renderAuthBox();if(revisionUser)await loadCloudProgress();revisionCloud.auth.onAuthStateChange(async(event,session)=>{revisionUser=session?.user||null;renderAuthBox();if(event==="SIGNED_IN"&&revisionUser)await loadCloudProgress()})}
+async function initRevisionAuth(){
+ const{data}=await revisionCloud.auth.getSession();revisionUser=data.session?.user||null;
+ if(!revisionUser){location.replace('../../../../');return}
+ document.body.classList.add('auth-ready');
+ document.title='AQA AS Business Paper 2 | Revision';
+ const firstEyebrow=document.querySelector('#home .eyebrow');if(firstEyebrow)firstEyebrow.textContent='Revision dashboard';
+ injectAccountUI();await loadCloudProgress();
+ revisionCloud.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'||!session){location.replace('../../../../')}})
+}
 initRevisionAuth();
