@@ -1,6 +1,6 @@
-# Jamie Revision Hub
+# Revision
 
-A lightweight static revision platform designed to support multiple subjects, qualifications, exam boards and papers.
+A lightweight revision platform designed to support multiple subjects, qualifications, exam boards and papers.
 
 ## Structure
 
@@ -15,10 +15,12 @@ A lightweight static revision platform designed to support multiple subjects, qu
                 ├── index.html         # Paper 2 revision app
                 ├── styles.css
                 ├── data-core.js       # syllabus notes + formula bank
-                ├── data-recall.js     # flashcards + mind-map relationships
+                ├── data-recall.js     # flashcards + topic relationships
                 ├── data-test.js       # question bank + case study
-                ├── app-core.js        # navigation, mastery + recall logic
-                └── app-test.js        # test + case-study logic
+                ├── app-core.js        # navigation + recall logic
+                ├── app-test.js        # quick test + case-study logic
+                ├── v2.js              # progress model + data lab + full exam simulator
+                └── feedback-v3.js     # adaptive difficulty + evidence-aware readiness
 ```
 
 ## Design rule
@@ -38,14 +40,20 @@ Each revision module can use the same learning pattern where useful:
 
 1. Learn
 2. Recall
-3. Connect
+3. Link topics
 4. Answer
 5. Test
+6. Measure progress
+7. Simulate the exam
 
 ## Current module
 
-AQA AS Business 7131 Paper 2 is the first live module. It includes full-course notes, flashcards, mind-map relationships, exam-answer blueprints, formula practice, mixed quizzes, a case-study trainer and local progress tracking.
+AQA AS Business 7131 Paper 2 is the first live module. It includes full-course notes, flashcards, topic-linking relationships, exam-answer blueprints, formula and data practice, adaptive quick checks, case-study training, an 80-mark/90-minute Paper 2 simulator, cloud progress sync, AO1–AO4 tracking and evidence-aware revision recommendations.
+
+## Progress principle
+
+Progress is based on evidence rather than clicks. The app builds a baseline across the syllabus before presenting an exam-readiness score, then combines knowledge checks with exam performance to identify what to revise next.
 
 ## Hosting
 
-The repository is designed to publish directly through GitHub Pages from the `main` branch and repository root.
+The repository publishes directly through GitHub Pages from the `main` branch and repository root.
