@@ -4,8 +4,8 @@ This folder contains approved and proposed authority for product scope, capabili
 
 ## Proposed authority awaiting Founder approval
 
-- `Personal Study Coach Capability.md` — product promise, boundaries, release gates and success measures.
-- `Personal Study Coach Learner Journey.md` — entry points, interaction journeys, assistance levels and initial acceptance criteria.
+- `Personal Study Coach Capability.md` — Personal Tutor product promise, boundaries, release gates and success measures.
+- `Personal Study Coach Learner Journey.md` — ongoing Tutor entry points, interaction journeys, assistance levels and initial acceptance criteria.
 
 ## Migration status
 
