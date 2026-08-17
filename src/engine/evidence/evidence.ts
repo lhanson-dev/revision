@@ -44,6 +44,7 @@ export const examQuestionEvidenceSchema = z.object({
   ...baseEvidenceShape,
   source: z.literal('exam_question'),
   ...marksShape,
+  markingMethod: z.enum(['self_assessed', 'externally_marked']).optional(),
   assessmentObjectives: z.object({
     ao1: aoScoreSchema.optional(),
     ao2: aoScoreSchema.optional(),

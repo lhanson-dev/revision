@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
-import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
+import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 
 export type LearningWorkspaceProps = {
   adapter: LearningContentAdapter
@@ -10,7 +10,9 @@ export type LearningWorkspaceProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
 }
 
-type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'quick-check' | 'formulas-data'
+type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'quick-check' | 'case-study' | 'exam-question' | 'formulas-data'
+type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
+const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
 
 function evidenceId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
@@ -29,6 +31,14 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
   const [showFormula, setShowFormula] = useState(false)
   const [drillIndex, setDrillIndex] = useState(0)
   const [showDrillAnswer, setShowDrillAnswer] = useState(false)
+  const [caseQuestionIndex, setCaseQuestionIndex] = useState(0)
+  const [caseDraft, setCaseDraft] = useState('')
+  const [showCaseGuidance, setShowCaseGuidance] = useState(false)
+  const [examQuestionIndex, setExamQuestionIndex] = useState(0)
+  const [examDraft, setExamDraft] = useState('')
+  const [showMarkingGuidance, setShowMarkingGuidance] = useState(false)
+  const [aoMarks, setAoMarks] = useState<Record<AoKey, number>>(emptyAoMarks)
+  const [examRecorded, setExamRecorded] = useState(false)
 
   const topic = adapter.getTopic(topicId)
   const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
@@ -36,10 +46,15 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
   const links = useMemo(() => adapter.listTopicLinks(topicId), [adapter, topicId])
   const formulas = adapter.listFormulas()
   const drills = adapter.listDataDrills()
+  const caseStudy = adapter.listCaseStudies()[0]
+  const exam = adapter.listExams()[0]
   const card = cards[cardIndex % Math.max(cards.length, 1)]
   const question = questions[questionIndex % Math.max(questions.length, 1)]
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
   const drill = drills[drillIndex % Math.max(drills.length, 1)]
+  const caseQuestion = caseStudy?.questions[caseQuestionIndex % Math.max(caseStudy.questions.length, 1)]
+  const examQuestion = exam?.questions[examQuestionIndex % Math.max(exam.questions.length, 1)]
+  const examTotalAwarded = (Object.keys(aoMarks) as AoKey[]).reduce((sum, key) => sum + aoMarks[key], 0)
 
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
@@ -86,6 +101,24 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
     setChecked(true)
   }
 
+  async function recordExamQuestion() {
+    if (!examQuestion || !exam || !showMarkingGuidance || examRecorded) return
+    const evidence = createSelfAssessedExamQuestionEvidence({
+      id: evidenceId('exam-question'),
+      moduleId: adapter.manifest.id,
+      topicId: examQuestion.topic,
+      contentId: examQuestion.id,
+      available: examQuestion.assessmentObjectives,
+      awarded: aoMarks,
+    })
+    try {
+      await onRecordEvidence(evidence)
+    } catch {
+      return
+    }
+    setExamRecorded(true)
+  }
+
   function nextQuestion() {
     setQuestionIndex((index) => index + 1)
     setSelectedOption(null)
@@ -102,13 +135,32 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
     setShowDrillAnswer(false)
   }
 
+  function nextCaseQuestion() {
+    setCaseQuestionIndex((index) => index + 1)
+    setCaseDraft('')
+    setShowCaseGuidance(false)
+  }
+
+  function nextExamQuestion() {
+    setExamQuestionIndex((index) => index + 1)
+    setExamDraft('')
+    setShowMarkingGuidance(false)
+    setAoMarks(emptyAoMarks)
+    setExamRecorded(false)
+  }
+
+  function updateAoMark(key: AoKey, value: number, available: number) {
+    const safeValue = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
+    setAoMarks((current) => ({ ...current, [key]: safeValue }))
+  }
+
   return (
     <section className="learning-workspace" aria-labelledby="practice-heading">
       <div className="workspace-heading">
         <div>
           <p className="eyebrow">Learn → Recall → Link → Answer</p>
           <h2 id="practice-heading">Practise Paper 2</h2>
-          <p className="muted">Use the topic notes to learn, then build evidence with recall and questions. Reading and revealing examples helps you study, but only scored activities contribute to readiness.</p>
+          <p className="muted">Use the topic notes to learn, then build evidence with recall, application and exam questions. Revision keeps learning activity separate from scored evidence so progress is not inflated by clicks or reading.</p>
         </div>
         <label className="topic-picker">Topic
           <select value={topicId} onChange={(event) => changeTopic(event.target.value)}>
@@ -122,6 +174,8 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
         <button className={mode === 'flashcards' ? 'active' : ''} onClick={() => setMode('flashcards')} role="tab" aria-selected={mode === 'flashcards'}>Flashcards</button>
         <button className={mode === 'links' ? 'active' : ''} onClick={() => setMode('links')} role="tab" aria-selected={mode === 'links'}>Link topics</button>
         <button className={mode === 'quick-check' ? 'active' : ''} onClick={() => setMode('quick-check')} role="tab" aria-selected={mode === 'quick-check'}>Quick check</button>
+        <button className={mode === 'case-study' ? 'active' : ''} onClick={() => setMode('case-study')} role="tab" aria-selected={mode === 'case-study'}>Case study</button>
+        <button className={mode === 'exam-question' ? 'active' : ''} onClick={() => setMode('exam-question')} role="tab" aria-selected={mode === 'exam-question'}>Exam question</button>
         <button className={mode === 'formulas-data' ? 'active' : ''} onClick={() => setMode('formulas-data')} role="tab" aria-selected={mode === 'formulas-data'}>Formulas & data</button>
       </div>
 
@@ -137,7 +191,7 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
               </article>
             ))}
           </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Try Flashcards to check recall, then Quick check to add scored evidence for this topic.</span></div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Try Flashcards to check recall, then Quick check or an Exam question to build scored evidence.</span></div>
         </div>
       )}
 
@@ -202,6 +256,82 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
         </div>
       )}
 
+      {mode === 'case-study' && caseStudy && caseQuestion && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Guided application practice</strong><span>This develops application and analysis, but it is not scored because these guided questions do not have an authoritative mark allocation.</span></div>
+          <h3>{caseStudy.title}</h3>
+          <div className="case-layout">
+            <article className="case-material">
+              <div dangerouslySetInnerHTML={{ __html: caseStudy.bodyHtml }} />
+              <div className="fact-chips">{caseStudy.facts.map((fact) => <span key={fact}>{fact}</span>)}</div>
+            </article>
+            <article className="written-practice">
+              <div className="practice-meta">Question {(caseQuestionIndex % caseStudy.questions.length) + 1} of {caseStudy.questions.length}</div>
+              <h3>{caseQuestion.prompt}</h3>
+              <label className="answer-label">Draft your answer
+                <textarea rows={9} value={caseDraft} onChange={(event) => setCaseDraft(event.target.value)} placeholder="Use the case evidence and build a clear chain of reasoning." />
+              </label>
+              {!showCaseGuidance ? (
+                <button className="primary" disabled={!caseDraft.trim()} onClick={() => setShowCaseGuidance(true)}>Compare with guidance</button>
+              ) : (
+                <>
+                  <div className="answer-panel"><strong>What a strong answer should do</strong><p>{caseQuestion.guidance}</p></div>
+                  <div className="next-step"><strong>What should I improve?</strong><span>Compare your answer with the guidance. Look for missing case evidence, weak chains of reasoning, or a judgement that is not conditional enough.</span></div>
+                  <button className="primary" onClick={nextCaseQuestion}>Next case question</button>
+                </>
+              )}
+            </article>
+          </div>
+        </div>
+      )}
+
+      {mode === 'exam-question' && exam && examQuestion && (
+        <div className="learn-panel">
+          <div className="activity-kind scored"><strong>Scored exam evidence — self-assessed</strong><span>Write the answer first, then use the existing marking guidance to award your own AO marks. Self-marked evidence contributes to readiness but cannot produce high confidence on its own.</span></div>
+          <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />
+          <article className="written-practice exam-practice">
+            <div className="practice-meta">{exam.title} · Question {(examQuestionIndex % exam.questions.length) + 1} of {exam.questions.length} · {examQuestion.marks} marks · {adapter.getTopic(examQuestion.topic)?.shortTitle ?? examQuestion.topic}</div>
+            <h3>{examQuestion.prompt}</h3>
+            <label className="answer-label">Write your answer
+              <textarea rows={12} value={examDraft} disabled={examRecorded} onChange={(event) => setExamDraft(event.target.value)} placeholder="Answer as you would in the exam. Use the case where relevant and show calculations." />
+            </label>
+            <p className="muted small-note">Your written draft stays on this screen only in this migration slice. Revision saves the marks you record, not the text of this answer.</p>
+            {!showMarkingGuidance ? (
+              <button className="primary" disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</button>
+            ) : (
+              <>
+                <div className="answer-panel">
+                  <strong>Marking guidance</strong>
+                  <ul>{examQuestion.markingGuidance.map((point) => <li key={point}>{point}</li>)}</ul>
+                </div>
+                <div className="self-mark-panel">
+                  <div><strong>Self-assess by assessment objective</strong><p className="muted">Award only the marks you can justify from your written answer. The total is calculated automatically.</p></div>
+                  <div className="ao-grid">
+                    {(Object.keys(examQuestion.assessmentObjectives) as AoKey[]).filter((key) => examQuestion.assessmentObjectives[key] > 0).map((key) => {
+                      const available = examQuestion.assessmentObjectives[key]
+                      return (
+                        <label key={key}>{key.toUpperCase()} <span>out of {available}</span>
+                          <input type="number" min={0} max={available} step={1} disabled={examRecorded} value={aoMarks[key]} onChange={(event) => updateAoMark(key, Number(event.target.value), available)} />
+                        </label>
+                      )
+                    })}
+                  </div>
+                  <div className="mark-total"><span>Your self-assessed mark</span><strong>{examTotalAwarded} / {examQuestion.marks}</strong></div>
+                </div>
+                {!examRecorded ? (
+                  <button className="primary" disabled={saving} onClick={recordExamQuestion}>Record this result</button>
+                ) : (
+                  <>
+                    <div className="result-explanation" aria-live="polite"><strong>Result recorded: {examTotalAwarded} / {examQuestion.marks}</strong><span>This is exam evidence, but because you marked it yourself Revision limits the confidence it can claim. Use the guidance above to identify what to improve next.</span></div>
+                    <button className="primary" onClick={nextExamQuestion}>Next exam question</button>
+                  </>
+                )}
+              </>
+            )}
+          </article>
+        </div>
+      )}
+
       {mode === 'formulas-data' && (
         <div className="learn-panel">
           <div className="activity-kind"><strong>Practice activity</strong><span>These reveal-and-check exercises help you prepare. They are not scored readiness evidence yet.</span></div>
@@ -225,7 +355,7 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
               </article>
             )}
           </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Use Quick check for scored evidence. Longer data and exam questions will add stronger application evidence in the next migration slices.</span></div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Use Quick check for application evidence or Exam question for stronger written exam evidence.</span></div>
         </div>
       )}
 

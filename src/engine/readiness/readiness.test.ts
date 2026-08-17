@@ -13,6 +13,21 @@ function card(id: string, occurredAt = '2026-08-15T12:00:00.000Z'): LearningEvid
   return { ...common, id, topicId: 'finance', source: 'flashcard', occurredAt, contentId: id, rating: 2 }
 }
 
+function selfMarkedExam(id: string, occurredAt = '2026-08-17T12:00:00.000Z'): LearningEvidence {
+  return {
+    ...common,
+    id,
+    topicId: 'finance',
+    source: 'exam_question',
+    occurredAt,
+    contentId: id,
+    markingMethod: 'self_assessed',
+    marksAwarded: 8,
+    marksAvailable: 10,
+    assessmentObjectives: { ao1: { awarded: 2, available: 2 }, ao2: { awarded: 2, available: 2 }, ao3: { awarded: 2, available: 3 }, ao4: { awarded: 2, available: 3 } },
+  }
+}
+
 describe('readiness', () => {
   it('withholds a score for sparse evidence but confirms activity counted', () => {
     const result = assessReadiness([card('c1'), card('c2'), question('q1')], now)
@@ -45,6 +60,18 @@ describe('readiness', () => {
       ...Array.from({ length: 6 }, (_, i) => ({ ...card(`c${i}`, old) })),
     ] as LearningEvidence[]
     expect(assessReadiness(evidence, now).confidence).toBe('low')
+  })
+
+  it('does not claim high confidence from self-assessed exam evidence alone', () => {
+    const evidence = [
+      ...Array.from({ length: 4 }, (_, i) => card(`c${i}`)),
+      ...Array.from({ length: 4 }, (_, i) => question(`q${i}`)),
+      ...Array.from({ length: 4 }, (_, i) => selfMarkedExam(`e${i}`)),
+    ]
+    const result = assessReadiness(evidence, now)
+    expect(result.confidence).toBe('medium')
+    expect(result.explanation).toContain('self-assessed')
+    expect(result.explanation).toContain('cannot be high')
   })
 
   it('returns recent activity independently of readiness thresholds', () => {
