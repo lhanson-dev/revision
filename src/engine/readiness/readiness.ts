@@ -128,18 +128,26 @@ export function assessReadiness(evidence: readonly LearningEvidence[], now = new
 
   const recentCount = usable.filter((entry) => ageDays(entry.item.occurredAt, now) <= 30).length
   const latestAge = latest ? ageDays(latest, now) : Infinity
+  const hasExternallyMarkedExamEvidence = usable.some((entry) =>
+    entry.item.source === 'exam_question' && entry.item.markingMethod === 'externally_marked')
 
   let confidence: ConfidenceLevel = 'insufficient'
   if (progress.scoreAvailable) {
     confidence = 'low'
     if (usable.length >= 8 && families.length >= 2 && recentCount >= 3) confidence = 'medium'
-    if (usable.length >= 12 && families.length >= 3 && recentCount >= 5 && families.includes('exam')) confidence = 'high'
+    if (usable.length >= 12 && families.length >= 3 && recentCount >= 5 && families.includes('exam') && hasExternallyMarkedExamEvidence) confidence = 'high'
     if (latestAge > 60) confidence = 'low'
   }
 
+  const selfAssessedExamCount = usable.filter((entry) =>
+    entry.item.source === 'exam_question' && entry.item.markingMethod === 'self_assessed').length
+  const confidenceNote = selfAssessedExamCount > 0 && !hasExternallyMarkedExamEvidence
+    ? ' Written exam evidence is currently self-assessed, so confidence cannot be high until independently marked evidence is available.'
+    : ''
+
   const explanation = score === null
     ? `${progress.message} ${progress.nextStep}`
-    : `Readiness is ${score}% with ${confidence} confidence, based on ${usable.length} scored attempts across ${families.length} evidence types. Evidence types are averaged separately so repeated flashcards cannot dominate the result.`
+    : `Readiness is ${score}% with ${confidence} confidence, based on ${usable.length} scored attempts across ${families.length} evidence types. Evidence types are averaged separately so repeated flashcards cannot dominate the result.${confidenceNote}`
 
   return {
     score,
