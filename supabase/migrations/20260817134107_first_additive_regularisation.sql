@@ -1,4 +1,3 @@
-
 begin;
 
 -- Keep internal trigger code outside the exposed public schema.
@@ -22,11 +21,13 @@ for select
 to authenticated
 using ((select auth.uid()) = user_id);
 
--- No INSERT / UPDATE / DELETE policies are granted to authenticated users.
--- Classification is controlled by trusted/admin processes, not browser state.
+-- Make Data API access explicit and least-privilege.
+-- Browser clients may read only their own profile via RLS and cannot mutate classification.
 revoke all on table public.profiles from anon;
 revoke all on table public.profiles from authenticated;
+revoke all on table public.profiles from service_role;
 grant select on table public.profiles to authenticated;
+grant select, update on table public.profiles to service_role;
 
 -- Automatically create a profile row for future auth users.
 create or replace function revision_private.handle_new_auth_user_profile()
