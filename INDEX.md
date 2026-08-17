@@ -22,7 +22,8 @@ Use this file to find the governing source before substantive work.
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
 
 ## Company and product
-- Founder/strategy authority → `00-company-foundation/`
+- Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
+- Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
 ## Brand and experience
