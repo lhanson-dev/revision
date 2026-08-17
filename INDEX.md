@@ -27,6 +27,7 @@ Use this file to find the governing source before substantive work.
 - Strategic positioning → `00-company-foundation/Strategic Positioning.md`
 - Target audience and personas → `10-product-governance/Target Audience and Personas.md`
 - Student problem definition → `10-product-governance/Student Problem Definition.md`
+- Product promise → `10-product-governance/Product Promise.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
