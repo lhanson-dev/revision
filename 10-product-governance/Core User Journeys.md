@@ -1,17 +1,20 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.
 
 ## Journey principles
 
 - Get students to useful value quickly.
 - Ask only for the minimum setup needed to make a meaningful recommendation.
+- Break setup and complex tasks into short, understandable steps.
+- Explain why information is being requested where it is not obvious.
 - Keep the AI tutor central to guidance, explanation and encouragement.
 - Allow students to override recommendations and choose their own focus.
 - Adapt recommendations as new evidence appears.
 - Shift the balance of activity as exams approach.
 - Keep parent and teacher experiences separate from the student's everyday flow.
+- Keep the primary journey concise while allowing deeper information through progressive disclosure.
 
 ## Journey 1 — New student setup and first useful action
 
@@ -26,11 +29,15 @@ Minimum setup should establish the context needed for accurate guidance, includi
 
 Once this is known, Revision should move quickly towards a useful first action.
 
-The system can then learn more about the student progressively through diagnostics, activity and results rather than front-loading excessive setup.
+Setup should be presented in short, clear steps rather than a dense form. The system can then learn more about the student progressively through diagnostics, activity and results rather than front-loading excessive setup.
+
+Account creation and data collection should introduce no more friction than is genuinely required. Where a piece of information is needed, Revision should explain its purpose in plain language.
 
 ### Intended flow
 
-Sign up → select qualification/subject → select exam board/specification → select relevant paper/course → establish enough baseline context → receive a useful recommended action → complete activity → receive feedback → update student model.
+Select qualification/subject → select exam board/specification → select relevant paper/course → establish enough baseline context → receive a useful recommended action → complete activity → receive feedback → update student model.
+
+Authentication may occur before or during this path according to implementation and commercial needs, but it should not become a long configuration barrier before value is clear.
 
 ## Journey 2 — Returning student
 
@@ -101,7 +108,7 @@ The student should receive useful feedback that helps them understand:
 - what they should learn or practise next; and
 - how the result changes the wider picture of their progress.
 
-Assessment should create learning evidence and a useful next action.
+Assessment feedback should be scannable first, with deeper explanation available where useful. Assessment should create learning evidence and a useful next action.
 
 ## Journey 7 — Parent support
 
@@ -116,7 +123,7 @@ Parents should eventually be able to understand at a high level whether the stud
 - broadly on track; and
 - showing areas where additional support may help.
 
-The detailed scope and privacy boundaries of the parent experience require later trust and product design work.
+Detailed student conversations, answers and activity should not automatically be assumed to be parent-visible. The detailed scope, consent and privacy boundaries of the parent experience require later trust and product design work.
 
 ## Journey 8 — Teacher/class insight
 
