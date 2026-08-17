@@ -1,24 +1,24 @@
 ---
-title: "Personal Study Coach MVP Technical Design"
+title: "Personal Tutor MVP Technical Design"
 document_id: "revision-personal-study-coach-mvp-technical-design"
 document_type: "technical-document"
 authority: "engineering"
 status: "draft"
-version: "0.1"
+version: "0.2"
 owner: "Founder"
 effective_date: null
 last_reviewed: "2026-08-17"
 review_cadence: "quarterly"
 content_review_status: "founder-review-required"
-source_of_truth_for: ["proposed Personal Study Coach MVP technical design"]
+source_of_truth_for: ["proposed Personal Tutor MVP technical design"]
 depends_on: ["Personal Study Coach Capability", "Personal Study Coach Learner Journey", "Target System Architecture", "Architecture Principles", "Security Standard"]
 supersedes: null
 ---
-# Personal Study Coach MVP Technical Design
+# Personal Tutor MVP Technical Design
 
 ## Decision sought
 
-Approve a narrow, cost-controlled Study Coach pilot that uses Revision's content packs and learning-evidence engine as the intelligence layer. The model is a bounded language and tutoring layer, not a second syllabus, recommendation engine or progress store.
+Approve a cost-controlled Personal Tutor pilot that feels like an ongoing tutoring relationship while using Revision's content packs, implemented deterministic recommendation engine and learning-evidence engine as the intelligence layer. The model is a bounded language and tutoring layer, not a second syllabus, recommendation engine or progress store.
 
 This document proposes a design; it does not authorise implementation.
 
@@ -31,13 +31,13 @@ This document proposes a design; it does not authorise implementation.
 5. Keep every model credential server-side.
 6. Model messages never create learning evidence.
 7. Coach failure must not block ordinary revision.
-8. Do not persist raw cross-session transcripts in the pilot.
+8. Preserve approved structured tutoring memory across sessions without making indefinite raw transcript retention the default.
 
 ## Runtime architecture
 
 ```mermaid
 flowchart TD
-    A["React learner app"] --> B["Study Coach UI"]
+    A["React learner app"] --> B["Personal Tutor UI"]
     B --> C["Supabase Edge Function"]
     C --> D["Auth and policy gate"]
     D --> E["Coach orchestrator"]
@@ -53,7 +53,7 @@ flowchart TD
 
 ### Browser
 
-The React application owns presentation, explicit coaching actions, current route/topic/activity context, a bounded in-session view of recent turns, normal activity launches and accessible failure states.
+The React application owns presentation, explicit tutoring actions, current route/topic/activity context, a bounded in-session view of recent turns, approved structured tutoring memory, normal activity launches and accessible failure states.
 
 It must not contain an OpenAI key, call OpenAI directly, send the full learner record/syllabus/transcript, decide model output is evidence, or request arbitrary tools.
 
@@ -162,7 +162,7 @@ Direct coach-derived evidence is deferred until separately designed and assured.
 | Total input | under 2,200 | 4,000 |
 | Learner-visible output | 80–180 | 250 |
 
-The prompt includes at most two previous learner/coach exchanges plus structured session state: topic, misconception, assistance level and next goal. It never accumulates the entire transcript.
+The prompt includes a bounded recent exchange window plus structured tutoring state: topic, concepts understood, unresolved misconception, explanation strategies tried, assistance level and next goal. A running structured summary preserves continuity without resending or indefinitely storing the entire transcript.
 
 Oversized requests are deterministically trimmed or turned into a clarifying question. Responses are schema-validated:
 
@@ -212,18 +212,21 @@ Indicative Luna token costs at current published prices:
 | 2,000 input + 300 output | $0.00076 |
 | 4,000 input + 250 output | $0.00110 |
 
-Twenty middle-case turns daily for 30 days are approximately $0.46 per fully active learner per month, excluding retries, regional uplifts and other infrastructure.
+Fifty middle-case turns daily for 30 days are approximately $1.14 per fully active learner per month; one hundred are approximately $2.28, excluding retries, regional uplifts and other infrastructure.
 
-Initial pilot limits:
-- 20 model-assisted turns per learner per day;
-- 15 per session;
+Initial pilot controls:
+- no ordinary per-session limit and no learner-visible turn counter;
+- a hidden exceptional-use ceiling, initially 150 model-assisted turns per learner per day;
 - one in-flight request per learner;
 - zero automatic retries;
 - one learner-initiated retry for a transient failure;
 - 4,000-token input design ceiling;
 - 250-token visible output ceiling;
-- no Terra until explicitly enabled; and
-- independent coach kill switch.
+- no Terra until explicitly enabled;
+- dedicated project spend alerts and a hard monthly cap; and
+- independent Tutor kill switch.
+
+The exceptional-use ceiling is an abuse/cost backstop, not a product target. Normal conversation should end for educational reasons or learner choice, not because a small allowance expired.
 
 Use a dedicated OpenAI project/key with the lowest practical hard monthly spend cap and lower alerts. Limits are server configuration, never client-controlled.
 
@@ -231,7 +234,9 @@ Telemetry records request ID, protected learner identifier, module/topic, model/
 
 ## Privacy and under-18 safety
 
-The pilot holds raw conversation only within the active client session unless approved safety handling requires otherwise. It does not introduce a raw transcript table.
+The pilot retains approved structured tutoring memory across sessions so the learner can resume a topic. The memory contains learning context, not claims of mastery: topic, concepts understood in conversation, unresolved misconceptions, explanations tried, assistance received, next goal and relevant evidence references.
+
+Raw transcript retention beyond the active session is excluded by default unless privacy/safeguarding authority later approves a defined purpose, retention period and learner controls.
 
 It must not launch until authority defines lawful basis, retention/deletion, parent visibility, non-study/safeguarding boundaries, incident response and provider data handling.
 
@@ -245,8 +250,9 @@ Safety is layered through narrow intents, input limits, protected-assessment rul
 
 No schema migration is approved here.
 
-If later implementation adds usage/session tables:
+If later implementation adds structured Tutor memory, usage or session tables:
 - inspect live schema first;
+- separate structured tutoring memory from raw transcripts and learning evidence;
 - create a version-controlled migration;
 - explicitly configure Data API grants because new tables are no longer auto-exposed by default;
 - enable RLS and learner ownership policies;
@@ -264,7 +270,7 @@ See the current [Supabase breaking-change register](https://supabase.com/changel
 | Invalid output | Safe response; no automatic retry |
 | Missing grounding | Disclose limitation and offer content navigation |
 | Insufficient evidence | Offer normal diagnostic activity |
-| Usage limit reached | Offer non-model activity |
+| Exceptional-use ceiling reached | Explain fair-use pause and offer non-model activity |
 | Spend cap/kill switch | Disable coach only |
 | Auth failure | Re-authenticate before any model call |
 | Restricted request | Approved redirect/safety response |
@@ -282,9 +288,9 @@ Playwright covers phone/tablet/desktop open-close state, dismissal, loading/erro
 ## Delivery sequence
 
 1. **Evaluation harness:** build topic-index contract, retrieval, prompt/output schemas and synthetic evaluation; no learner exposure.
-2. **Jamie pilot:** five intents, Business Paper 2, ephemeral context, Luna only, no coach evidence writes, hard limits and approved review process.
-3. **Evidence-guided mode:** deterministic **Guide me** recommendations using existing evidence summaries.
-4. **Controlled expansion:** only after quality, safety, privacy and economics pass; consider structured memory, direct evidence, more modules, Terra or semantic retrieval separately.
+2. **Jamie pilot:** five intents, Business Paper 2, ongoing conversation, approved structured cross-session memory, Luna only, no coach evidence writes, hidden exceptional-use controls and an approved review process.
+3. **Evidence-guided mode:** connect the deterministic recommendation capability already implemented on `main` to **Guide me** and Tutor explanations.
+4. **Controlled expansion:** only after quality, safety, privacy and economics pass; consider direct Tutor evidence, more modules, Terra, semantic retrieval or commercial entitlements separately.
 
 ## Implementation prerequisites
 
