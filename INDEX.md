@@ -46,7 +46,8 @@ Use this file to find the governing source before substantive work.
 - Marketing, website, content, SEO and channels → `30-marketing-governance/`
 
 ## Evidence, engineering and operations
-- Evidence, privacy and trust → `40-evidence-and-trust/`
+- Evidence, trust and educational integrity → `40-evidence-and-trust/Evidence Trust and Educational Integrity.md`
+- Other evidence, privacy and trust authority → `40-evidence-and-trust/`
 - Engineering standards → `50-engineering-standards/`
 - Commercial, KPI and operations authority → `60-business-operations/`
 
