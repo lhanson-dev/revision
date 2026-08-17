@@ -1,6 +1,6 @@
 # REV Homepage Shell Implementation
 
-**Status:** current implementation description for `feature/rev-homepage-v0.1`
+**Status:** current implementation description
 
 ## Purpose
 
@@ -44,3 +44,16 @@ REV uses a restrained orb pulse and waveform movement. The first message may typ
 ## Data and claim boundaries
 
 The homepage does not invent exam dates, extra subjects or grade forecasts that are not stored by the current system. Progress labels are derived only from available saved evidence. Exam readiness remains unassessed until suitable exam-attempt evidence exists.
+
+## GitHub Pages packaging
+
+The Pages workflow builds the Vite learner application into `dist/` and then preserves the repository-root Home and legacy subject routes during the migration period.
+
+Because the root Home depends on non-Vite files, deployment must explicitly copy:
+
+- `index.html` → `dist/index.html`
+- `subjects/` → `dist/subjects/`
+- `assets/home.css` → `dist/assets/home.css`
+- `assets/home.js` → `dist/assets/home.js`
+
+The production smoke test verifies the deployed root contains the REV Home marker and that both Home assets return successfully, as well as continuing to verify the built `/app/` route. This prevents a successful Pages deployment from silently publishing a root Home whose required CSS or JavaScript was omitted from the artifact.
