@@ -24,6 +24,8 @@ Use this file to find the governing source before substantive work.
 ## Company and product
 - Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
+- Proposed Personal Study Coach capability → `10-product-governance/Personal Study Coach Capability.md`
+- Proposed Personal Study Coach learner journey → `10-product-governance/Personal Study Coach Learner Journey.md`
 
 ## Brand and experience
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
