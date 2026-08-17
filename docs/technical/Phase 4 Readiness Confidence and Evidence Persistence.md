@@ -6,9 +6,29 @@ Introduce the first explicit interpretation layer over learner evidence and defi
 ## Separation of concerns
 - Selection decides what the learner sees.
 - Evidence records what the learner demonstrated.
-- Readiness interprets performance evidence.
+- Recent activity shows what the learner has actually done.
+- Readiness progress shows how close the learner is to having enough varied evidence for a readiness judgement.
+- Readiness interprets performance evidence once the evidence threshold is met.
 - Confidence expresses how much evidence supports the readiness result.
 - Persistence stores immutable evidence facts; it does not calculate readiness in SQL.
+
+## Learner visibility rule
+A learner must never complete valid revision activity and be left with the impression that nothing happened simply because the readiness threshold has not yet been met.
+
+The learner experience must therefore distinguish two views:
+
+### Recent activity
+This confirms completed work immediately and independently of readiness thresholds. It can show the latest flashcards, questions, exam practice and simulations, with topic, activity type, time and factual result where appropriate.
+
+### Readiness progress
+Before a readiness score is available, Revision must state plainly that the learner's work has been recorded, show the evidence accumulated so far, and explain what is still needed before a readiness judgement can be made.
+
+Examples:
+- `Your work is being recorded. You have 3 scored attempts across 2 evidence types.`
+- `To unlock a readiness score, complete 3 more scored attempts.`
+- `You have completed enough flashcards, but Revision also needs at least one activity beyond flashcards.`
+
+This is evidence-building progress, not a provisional mastery percentage. Revision must not display a misleading readiness percentage before the evidence threshold is met.
 
 ## Readiness v1
 A precise readiness score is withheld until there are at least six scored evidence items across at least two evidence families and at least one family beyond recall.
@@ -28,6 +48,8 @@ The v1 thresholds are deliberately conservative and must remain explainable. The
 
 ## Paper readiness
 Paper readiness is withheld until every topic in the paper has enough evidence for its own topic readiness result. Paper score is the equal average of topic results; paper confidence is capped by the least-supported topic.
+
+While paper readiness is withheld, the learner must still see that activity has been recorded and which topics need more or more varied evidence.
 
 ## Persistence model
 `public.learning_evidence` is additive to `public.revision_progress`.
@@ -54,4 +76,4 @@ After Founder approval:
 1. apply the migration to the Revision Supabase project;
 2. verify table structure, grants, RLS policies and zero impact to existing `revision_progress` rows;
 3. wire the `/app/` progress service to insert/read structured evidence;
-4. surface readiness/confidence explanations in the React learner experience only after persistence is proven.
+4. surface recent activity, readiness progress and readiness/confidence explanations in the React learner experience only after persistence is proven.
