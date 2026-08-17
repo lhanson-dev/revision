@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -6,7 +7,10 @@ export default defineConfig({
   base: '/revision/',
   build: {
     rollupOptions: {
-      input: 'foundation.html',
+      input: {
+        app: resolve(__dirname, 'app/index.html'),
+        foundation: resolve(__dirname, 'foundation.html'),
+      },
     },
   },
 })
