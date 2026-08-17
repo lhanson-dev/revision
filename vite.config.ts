@@ -6,7 +6,7 @@ export default defineConfig({
   base: '/revision/',
   build: {
     rollupOptions: {
-      input: 'foundation.html',
+      input: ['app/index.html', 'foundation.html'],
     },
   },
 })
