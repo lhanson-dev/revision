@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b --pretty false",
     "lint": "eslint src content vite.config.ts",
-    "test": "vitest run",
+    "test": "vitest run --exclude \"tests/e2e/**\"",
     "test:e2e": "playwright test",
     "validate": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
