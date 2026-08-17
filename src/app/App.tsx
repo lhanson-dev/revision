@@ -3,8 +3,9 @@ import type { User } from '@supabase/supabase-js'
 import { getContentAdapter } from '../engine/content/content-registry'
 import { assessPaperReadiness } from '../engine/readiness/readiness'
 import type { LearningEvidence } from '../engine/evidence/evidence'
-import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
+import { LearningWorkspace } from './LearningWorkspace'
 import { recentActivity } from './progress-view'
 
 const moduleId = 'business-aqa-as-paper-2'
@@ -17,6 +18,8 @@ export function App() {
   const [loading, setLoading] = useState(true)
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
   const [evidenceError, setEvidenceError] = useState('')
+  const [savingEvidence, setSavingEvidence] = useState(false)
+  const [saveError, setSaveError] = useState('')
 
   const adapter = getContentAdapter(moduleId)
   const topicIds = useMemo(() => adapter?.listTopics().map((topic) => topic.id) ?? [], [adapter])
@@ -35,6 +38,7 @@ export function App() {
       if (!session) {
         setEvidence([])
         setEvidenceError('')
+        setSaveError('')
       }
     })
     return () => {
@@ -53,6 +57,23 @@ export function App() {
       })
       .catch((error: unknown) => setEvidenceError(error instanceof Error ? error.message : 'Could not load progress.'))
   }, [user])
+
+  async function saveLearningEvidence(item: LearningEvidence) {
+    if (!user || savingEvidence) return
+    setSavingEvidence(true)
+    setSaveError('')
+    try {
+      const store = createSupabaseEvidenceStore(supabase)
+      const saved = await recordLearningEvidence(store, user.id, item)
+      setEvidence((current) => [saved, ...current.filter((existing) => existing.id !== saved.id)])
+    } catch (error: unknown) {
+      const text = error instanceof Error ? error.message : 'Could not save this activity.'
+      setSaveError(`${text} Your answer is still on screen; try saving it again.`)
+      throw error
+    } finally {
+      setSavingEvidence(false)
+    }
+  }
 
   async function signIn() {
     setMessage('Signing in…')
@@ -113,8 +134,10 @@ export function App() {
 
         <section className="course-card">
           <div><span className="tag">Available now</span><h2>Business · AQA AS · Paper 2</h2><p>{adapter?.catalogueEntry.topicCount ?? 0} topics · {adapter?.catalogueEntry.totalMarks ?? 0} marks</p></div>
-          <a className="primary-link" href="../subjects/business/aqa-as/paper-2/">Continue revising</a>
+          <a className="secondary-link" href="../subjects/business/aqa-as/paper-2/">Open full legacy course</a>
         </section>
+
+        {adapter && <LearningWorkspace adapter={adapter} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
 
         <div className="progress-grid">
           <section aria-labelledby="recent-activity">
