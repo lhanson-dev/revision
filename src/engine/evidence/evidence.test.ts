@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { LearningEvidence } from './evidence'
-import { evidencePercentage } from './evidence'
+import { evidencePercentage, learningEvidenceSchema } from './evidence'
 
 describe('learning evidence', () => {
   it('keeps raw evidence separate from readiness policy', () => {
@@ -17,6 +17,7 @@ describe('learning evidence', () => {
       correctOption: 2,
     }
 
+    expect(learningEvidenceSchema.parse(evidence)).toEqual(evidence)
     expect(evidencePercentage(evidence)).toBe(100)
     expect('readiness' in evidence).toBe(false)
     expect('mastery' in evidence).toBe(false)
@@ -52,5 +53,23 @@ describe('learning evidence', () => {
     }
 
     expect(evidencePercentage(evidence)).toBeNull()
+  })
+
+  it('rejects impossible awarded marks', () => {
+    const result = learningEvidenceSchema.safeParse({
+      id: 'e4',
+      moduleId: 'business-aqa-as-paper-2',
+      topicId: 'finance',
+      source: 'exam_attempt',
+      occurredAt: '2026-08-17T15:33:00.000Z',
+      contentId: 'harbour-home-1',
+      schemaVersion: 1,
+      marksAwarded: 81,
+      marksAvailable: 80,
+      durationMinutes: 90,
+      timed: true,
+    })
+
+    expect(result.success).toBe(false)
   })
 })
