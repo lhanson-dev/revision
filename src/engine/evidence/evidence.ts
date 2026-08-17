@@ -1,49 +1,85 @@
-import type { TopicId } from '../../../content/schema'
+import { z } from 'zod'
 
-export type EvidenceSource = 'flashcard' | 'multiple_choice' | 'exam_question' | 'exam_attempt'
+const topicIdSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+const nonNegativeInteger = z.number().int().nonnegative()
 
-export type BaseEvidence = {
-  id: string
-  moduleId: string
-  topicId: TopicId
-  source: EvidenceSource
-  occurredAt: string
-  contentId: string
-  schemaVersion: 1
+const baseEvidenceShape = {
+  id: z.string().min(1),
+  moduleId: z.string().min(1),
+  topicId: topicIdSchema,
+  occurredAt: z.iso.datetime(),
+  contentId: z.string().min(1),
+  schemaVersion: z.literal(1),
 }
 
-export type RecallEvidence = BaseEvidence & {
-  source: 'flashcard'
-  rating: 0 | 1 | 2
+const aoScoreSchema = z.object({
+  awarded: nonNegativeInteger,
+  available: nonNegativeInteger,
+}).superRefine((score, context) => {
+  if (score.awarded > score.available) {
+    context.addIssue({ code: 'custom', message: 'awarded marks cannot exceed available marks' })
+  }
+})
+
+const marksShape = {
+  marksAwarded: nonNegativeInteger,
+  marksAvailable: nonNegativeInteger,
 }
 
-export type MultipleChoiceEvidence = BaseEvidence & {
-  source: 'multiple_choice'
-  correct: boolean
-  selectedOption: number
-  correctOption: number
-}
+export const recallEvidenceSchema = z.object({
+  ...baseEvidenceShape,
+  source: z.literal('flashcard'),
+  rating: z.union([z.literal(0), z.literal(1), z.literal(2)]),
+})
 
-export type ExamQuestionEvidence = BaseEvidence & {
-  source: 'exam_question'
-  marksAwarded: number
-  marksAvailable: number
-  assessmentObjectives: Partial<Record<'ao1' | 'ao2' | 'ao3' | 'ao4', { awarded: number; available: number }>>
-}
+export const multipleChoiceEvidenceSchema = z.object({
+  ...baseEvidenceShape,
+  source: z.literal('multiple_choice'),
+  correct: z.boolean(),
+  selectedOption: nonNegativeInteger,
+  correctOption: nonNegativeInteger,
+})
 
-export type ExamAttemptEvidence = BaseEvidence & {
-  source: 'exam_attempt'
-  marksAwarded: number
-  marksAvailable: number
-  durationMinutes: number
-  timed: boolean
-}
+export const examQuestionEvidenceSchema = z.object({
+  ...baseEvidenceShape,
+  source: z.literal('exam_question'),
+  ...marksShape,
+  assessmentObjectives: z.object({
+    ao1: aoScoreSchema.optional(),
+    ao2: aoScoreSchema.optional(),
+    ao3: aoScoreSchema.optional(),
+    ao4: aoScoreSchema.optional(),
+  }),
+}).superRefine((evidence, context) => {
+  if (evidence.marksAwarded > evidence.marksAvailable) {
+    context.addIssue({ code: 'custom', path: ['marksAwarded'], message: 'awarded marks cannot exceed available marks' })
+  }
+})
 
-export type LearningEvidence =
-  | RecallEvidence
-  | MultipleChoiceEvidence
-  | ExamQuestionEvidence
-  | ExamAttemptEvidence
+export const examAttemptEvidenceSchema = z.object({
+  ...baseEvidenceShape,
+  source: z.literal('exam_attempt'),
+  ...marksShape,
+  durationMinutes: z.number().nonnegative(),
+  timed: z.boolean(),
+}).superRefine((evidence, context) => {
+  if (evidence.marksAwarded > evidence.marksAvailable) {
+    context.addIssue({ code: 'custom', path: ['marksAwarded'], message: 'awarded marks cannot exceed available marks' })
+  }
+})
+
+export const learningEvidenceSchema = z.union([
+  recallEvidenceSchema,
+  multipleChoiceEvidenceSchema,
+  examQuestionEvidenceSchema,
+  examAttemptEvidenceSchema,
+])
+
+export type RecallEvidence = z.infer<typeof recallEvidenceSchema>
+export type MultipleChoiceEvidence = z.infer<typeof multipleChoiceEvidenceSchema>
+export type ExamQuestionEvidence = z.infer<typeof examQuestionEvidenceSchema>
+export type ExamAttemptEvidence = z.infer<typeof examAttemptEvidenceSchema>
+export type LearningEvidence = z.infer<typeof learningEvidenceSchema>
 
 export function evidencePercentage(evidence: LearningEvidence): number | null {
   switch (evidence.source) {
