@@ -1,0 +1,48 @@
+.exam-simulator { margin-top: 20px; padding: 24px; background: var(--white); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 12px 34px rgba(16,36,61,.07); }
+.exam-sticky-bar { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: -24px -24px 20px; padding: 14px 24px; border-bottom: 1px solid var(--line); border-radius: 18px 18px 0 0; background: rgba(255,255,255,.97); }
+.exam-sticky-bar > div:first-child { display: grid; gap: 3px; }
+.exam-sticky-bar span { color: var(--muted); font-size: 12px; }
+.timer { flex: 0 0 auto; min-width: 92px; padding: 9px 12px; border-radius: 11px; background: var(--navy); color: #fff; font-size: 1.15rem; font-weight: 900; text-align: center; font-variant-numeric: tabular-nums; }
+.timer.warning { background: #8a2e38; }
+.exam-case { margin-bottom: 18px; border: 1px solid var(--line); border-radius: 13px; background: #fafbfc; }
+.exam-case summary { cursor: pointer; padding: 14px 16px; color: var(--navy); font-weight: 800; }
+.exam-case > div { max-height: 360px; overflow-y: auto; padding: 0 16px 16px; color: #374151; line-height: 1.6; }
+.question-nav { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 18px; padding-bottom: 5px; }
+.question-nav button { flex: 0 0 auto; min-width: 52px; min-height: 48px; border: 1px solid var(--line); border-radius: 10px; background: #f5f7f9; color: var(--navy); font-weight: 900; cursor: pointer; }
+.question-nav button.active { background: var(--navy); color: #fff; }
+.question-nav button span { display: block; margin-top: 2px; font-size: 10px; opacity: .75; }
+.exam-question-sheet { max-width: 900px; }
+.exam-nav-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.submitted-answer, .mark-guidance { margin: 16px 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fafbfc; }
+.submitted-answer p { white-space: pre-wrap; line-height: 1.6; }
+.mark-guidance ul { margin-bottom: 0; padding-left: 20px; line-height: 1.55; }
+.ao-marker-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+.ao-marker-grid label { color: var(--navy); font-size: 12px; font-weight: 900; }
+.ao-marker-grid label span { color: var(--muted); }
+.ao-marker-grid input { width: 100%; min-height: 46px; margin-top: 6px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.exam-submit-summary { position: sticky; bottom: 12px; display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.98); box-shadow: 0 8px 28px rgba(16,36,61,.12); }
+.exam-submit-summary span { margin-right: auto; color: var(--muted); font-size: 13px; }
+.exam-score { margin: 20px 0; color: var(--navy); font-size: clamp(2.6rem, 8vw, 5rem); font-weight: 900; letter-spacing: -.05em; }
+.exam-score span { color: var(--green); font-size: .45em; letter-spacing: 0; }
+.ao-results { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.ao-results article { display: grid; gap: 5px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fafbfc; }
+.ao-results article strong { color: var(--navy); }
+.ao-results article span { font-size: 1.35rem; font-weight: 900; }
+.ao-results article small { color: var(--muted); }
+.exam-results .secondary { margin-top: 18px; }
+
+@media (max-width: 760px) {
+  .exam-simulator { padding: 20px; }
+  .exam-sticky-bar { margin: -20px -20px 18px; padding: 12px 20px; }
+  .exam-sticky-bar > div:first-child span { display: none; }
+  .timer { min-width: 76px; font-size: 1rem; }
+  .exam-case > div { max-height: none; }
+  .ao-marker-grid, .ao-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exam-nav-actions { display: grid; grid-template-columns: 1fr; }
+  .exam-submit-summary { align-items: stretch; flex-direction: column; bottom: 6px; }
+  .exam-submit-summary span { margin-right: 0; }
+}
+
+@media (min-width: 761px) and (max-width: 1024px) {
+  .ao-marker-grid, .ao-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
