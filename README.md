@@ -6,7 +6,10 @@ A lightweight revision platform designed to support multiple subjects, qualifica
 
 ```text
 /
-├── index.html                         # Revision Hub / subject chooser
+├── index.html                         # Authentication + REV-led learner Home
+├── assets/
+│   ├── home.css                       # responsive Home / navigation / REV visual system
+│   └── home.js                        # auth, learner evidence and REV Home behaviour
 └── subjects/
     └── business/
         ├── index.html                 # Business subject landing page
@@ -22,6 +25,16 @@ A lightweight revision platform designed to support multiple subjects, qualifica
                 ├── v2.js              # progress model + data lab + full exam simulator
                 └── feedback-v3.js     # adaptive difficulty + evidence-aware readiness
 ```
+
+## Current Home experience
+
+After authentication, Home is led by **REV**, Revision's non-human AI study guide identity. REV is the first primary surface on desktop and mobile and asks the learner what they want to do next.
+
+REV v0.1 does not spend an AI-model call to manufacture an initial recommendation. It reads the learner's existing Business Paper 2 progress and uses saved recall/quiz evidence to identify the current weakest area. Where there is not enough evidence, it says so and directs the learner to build a baseline rather than inventing certainty.
+
+Supporting subject, progress and continue-learning content remains available by scrolling beneath REV. Desktop uses top navigation; mobile uses the Revision header, burger menu and fixed bottom navigation.
+
+See `docs/technical/REV Homepage Shell Implementation.md` for the current implementation description and `20-brand-and-experience/Visual Brand System.md` for the governing visual direction.
 
 ## Design rule
 
