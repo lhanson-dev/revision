@@ -9,12 +9,28 @@ Use this file to find the governing source before substantive work.
 - What happens to each legacy source? → `90-governance-registers/Authority Migration Register.md`
 - What conflicts require Founder resolution? → `90-governance-registers/Authority Conflict Register.md`
 
+## Technical foundation
+- Engineering baseline → `50-engineering-standards/Engineering Standards.md`
+- Architecture rules → `50-engineering-standards/Architecture Principles.md`
+- Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
+- Security → `50-engineering-standards/Security Standard.md`
+- Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
+- Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
+- Approved architecture target → `docs/technical/Target System Architecture.md`
+- Approved stack → `docs/technical/Technology Stack.md`
+- Refactor sequence → `docs/technical/Technical Refactor Plan.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
+
 ## Company and product
 - Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
+## Brand and experience
+- Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
+- Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
+- Other brand/visual authority → `20-brand-and-experience/`
+
 ## Brand and marketing
-- Brand, tone, UX and visual authority → `20-brand-and-experience/`
 - Marketing, website, content, SEO and channels → `30-marketing-governance/`
 
 ## Evidence, engineering and operations
@@ -28,11 +44,11 @@ Use this file to find the governing source before substantive work.
 - Registers/current governance state → `90-governance-registers/`
 
 ## Current implementation and history
-- Current implementation documentation → `docs/technical/`
+- Current/target implementation documentation → `docs/technical/`
 - Material decision history → `decisions/`
 - Research/exploration → `research/`
 - Point-in-time reviews → `audits/`
 - Superseded material → `archive/`
 
 ## Migration note
-During Light Adoption, the existing `README.md` and code remain important implementation evidence but are not automatically normative authority.
+The existing README/code remain important implementation evidence. The technical refactor is governed by the approved ADRs and standards rather than by copying current prototype structure forward.
