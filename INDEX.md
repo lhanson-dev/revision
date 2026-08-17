@@ -37,6 +37,7 @@ Use this file to find the governing source before substantive work.
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
 ## Brand and experience
+- Emotional experience principles → `20-brand-and-experience/Emotional Experience Principles.md`
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Other brand/visual authority → `20-brand-and-experience/`
@@ -57,7 +58,8 @@ Use this file to find the governing source before substantive work.
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
 - Material decision history → `decisions/`
-- Research/exploration → `research/`
+- Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
+- Other research/exploration → `research/`
 - Point-in-time reviews → `audits/`
 - Superseded material → `archive/`
 
