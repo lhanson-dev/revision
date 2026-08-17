@@ -1,0 +1,105 @@
+.recommendation-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 20px;
+  border: 1px solid #cfe6da;
+  border-radius: 16px;
+  background: #f1f8f4;
+}
+
+.recommendation-card h3 {
+  margin: 4px 0 10px;
+}
+
+.recommendation-card p {
+  margin: 7px 0;
+  line-height: 1.55;
+}
+
+.recommendation-card .primary {
+  min-width: 190px;
+}
+
+.recommendation-evidence {
+  color: #334155;
+  font-size: 14px;
+}
+
+.technique-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.technique-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.technique-card h4 {
+  font-size: 1.05rem;
+}
+
+.technique-card > p {
+  color: #475569;
+  line-height: 1.55;
+}
+
+.technique-steps {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+  padding-left: 26px;
+}
+
+.technique-steps li {
+  padding-left: 4px;
+  color: #1f2937;
+  line-height: 1.45;
+}
+
+.technique-steps li::marker {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.technique-tip {
+  display: grid;
+  gap: 5px;
+  padding: 13px 14px;
+  border-left: 4px solid var(--navy);
+  border-radius: 9px;
+  background: #f3f6f9;
+  line-height: 1.5;
+}
+
+.technique-tip strong {
+  color: var(--navy);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.technique-tip span {
+  color: #475569;
+}
+
+@media (max-width: 760px) {
+  .recommendation-card {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendation-card .primary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .technique-grid {
+    grid-template-columns: 1fr;
+  }
+}
