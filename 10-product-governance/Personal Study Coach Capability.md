@@ -1,9 +1,9 @@
 ---
 title: "Personal Study Coach Capability"
 document_id: "revision-personal-study-coach-capability"
-document_type: "product-authority"
+document_type: "domain-authority"
 authority: "product"
-status: "proposed"
+status: "draft"
 version: "0.1"
 owner: "Founder"
 effective_date: null
