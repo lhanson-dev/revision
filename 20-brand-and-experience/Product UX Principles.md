@@ -4,17 +4,22 @@ document_id: "revision-product-ux-principles"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.2"
+version: "0.3"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-17"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["learner experience principles"]
-depends_on: ["Tone of Voice Framework"]
+depends_on: ["Tone of Voice Framework", "Emotional Experience Principles"]
 supersedes: null
 ---
 # Product UX Principles
+
+## Make the useful action obvious
+Every important learner screen should have a clear hierarchy. The student should be able to scan the page and understand the primary useful action quickly.
+
+Do not make the learner decode a dense dashboard, deep menu or long introduction before they can start.
 
 ## Explain before asking
 Every section or exercise must briefly explain what it is, why it matters and what the learner is aiming to achieve.
@@ -27,13 +32,28 @@ Every result, score, readiness indicator or recommendation must explain in simpl
 - why a recommendation was made
 - what the learner should do next
 
+## Design for scanning
+Learner-facing content should use:
+- strong headings and hierarchy
+- short sections and paragraphs
+- concise lists where useful
+- action-oriented labels
+- progressive disclosure for secondary detail
+
+Do not remove useful depth merely to make a page shorter. Keep the primary path concise and make deeper explanation available when the learner wants or needs it.
+
+## Break complexity into manageable steps
+Complex setup, explanation or decision journeys should be divided into clear stages rather than presented as one large task.
+
+Collect information progressively where possible. Do not ask the student to configure more than is needed to reach the next useful outcome.
+
 ## Completion rule
 A learner-facing capability is not complete merely because it functions technically. It is complete only when its purpose, expected outcome, result and next action can be understood without technical knowledge.
 
-## Responsive experience
+## Responsive and mobile-first experience
 Revision is a multi-device learner product. Core learner journeys must be fully usable on mobile phones, tablets and laptop/desktop screens.
 
-Responsive design is a product requirement, not a visual enhancement. A smaller screen must not receive a materially reduced learning experience simply because of viewport size.
+Responsive design is a product requirement, not a visual enhancement. Design from constrained screens upward rather than treating mobile as a late retrofit.
 
 All learner-facing capabilities must therefore:
 - adapt layout, navigation, typography, controls, tables, forms, charts and exam interactions to the available screen size
@@ -46,9 +66,35 @@ All learner-facing capabilities must therefore:
 
 A capability that works on laptop but is materially harder or incomplete on mobile or tablet is not complete.
 
+## Performance supports engagement
+Learner journeys should feel responsive. Avoid unnecessary heavy media, autoplay, animation or interaction that delays the student reaching useful work.
+
+Rich media is justified when it improves learning or engagement enough to warrant the cost. Performance and clarity should not be sacrificed merely to make the interface look more impressive.
+
+## Accessibility and neurodiversity
+Revision should target WCAG 2.2 AA as the baseline for learner-facing experiences and should be designed for a diverse student population rather than an assumed average learner.
+
+At minimum:
+- do not use colour alone to communicate status
+- maintain readable typography and sufficient contrast
+- support keyboard navigation and logical focus order
+- provide captions and transcripts for relevant audio/video
+- avoid flashing or unnecessarily distracting motion
+- use clear, literal language where possible
+- allow non-essential motion to be reduced or skipped
+- test significant journeys with disabled and neurodivergent learners as the product matures
+
+Specific accessibility implementation requirements may be governed separately as the product develops.
+
+## Interaction should have a purpose
+Use quizzes, progress feedback, motion, rewards and other interactive elements when they improve understanding, motivation or momentum.
+
+Do not use addictive mechanics, manipulative countdowns, forced sharing or visual noise simply to increase engagement metrics.
+
 ## Design rules
 - Reduce cognitive load.
-- Do not use colour alone to communicate status.
+- Keep navigation recognisable and avoid unnecessary depth.
 - Make progress transparent rather than mysterious.
 - Prefer useful guidance over dashboards full of unexplained numbers.
-- Design from constrained screens upward rather than treating mobile as a late retrofit.
+- Keep secondary detail available without competing with the main action.
+- Avoid experiences that feel childish, institutional or needlessly formal.

@@ -22,10 +22,22 @@ Use this file to find the governing source before substantive work.
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
 
 ## Company and product
-- Founder/strategy authority → `00-company-foundation/`
+- Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
+- Mission, vision and purpose → `00-company-foundation/Mission Vision and Purpose.md`
+- Strategic positioning → `00-company-foundation/Strategic Positioning.md`
+- Target audience and personas → `10-product-governance/Target Audience and Personas.md`
+- Student problem definition → `10-product-governance/Student Problem Definition.md`
+- Product promise → `10-product-governance/Product Promise.md`
+- Product principles → `10-product-governance/Product Principles.md`
+- Product system model → `10-product-governance/Product System Model.md`
+- Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
+- Core user journeys → `10-product-governance/Core User Journeys.md`
+- Information architecture → `10-product-governance/Information Architecture.md`
+- Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
 ## Brand and experience
+- Emotional experience principles → `20-brand-and-experience/Emotional Experience Principles.md`
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Other brand/visual authority → `20-brand-and-experience/`
@@ -46,7 +58,8 @@ Use this file to find the governing source before substantive work.
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
 - Material decision history → `decisions/`
-- Research/exploration → `research/`
+- Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
+- Other research/exploration → `research/`
 - Point-in-time reviews → `audits/`
 - Superseded material → `archive/`
 
