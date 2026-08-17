@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Emotional experience principles → `20-brand-and-experience/Emotional Experience Principles.md`
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
+- Visual identity / REV / responsive navigation → `20-brand-and-experience/Visual Brand System.md`
 - Other brand/visual authority → `20-brand-and-experience/`
 
 ## Brand and marketing
@@ -61,6 +62,7 @@ Use this file to find the governing source before substantive work.
 
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
+- REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - Material decision history → `decisions/`
 - Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
 - Other research/exploration → `research/`
