@@ -2,7 +2,7 @@
 
 **Status:** current implementation audit  
 **Date:** 2026-08-17  
-**Decision:** **NO-GO for legacy deletion yet**
+**Decision:** **NO-GO for legacy deletion yet — two product gaps remain to close**
 
 ## Purpose
 
@@ -13,6 +13,21 @@ Parity does **not** mean copying every legacy implementation detail. A legacy be
 1. an equivalent or better React journey; or
 2. an explicit governed disposition explaining why it should not carry forward.
 
+## Founder decisions recorded 2026-08-17
+
+The following points are no longer cutover blockers:
+
+- **Subject Catalogue / My Revision:** future product scope, not required for the first production cutover. The current single available Business Paper 2 module may be presented directly in My Revision for now. Catalogue architecture should remain extensible through content manifests.
+- **Legacy learner progress:** no migration or continuity requirement. The existing prototype is not materially used, so the production React experience may start from structured evidence collected in the new system. Do not manufacture new readiness evidence from legacy aggregate state.
+- **Reset progress:** remove from the production learner product. Ordinary learning controls must not destructively reset evidence. Any future account/data deletion capability belongs in a separate privacy/data-rights journey, not in revision practice.
+
+Two areas remain for product closure before legacy deletion:
+
+1. answer-blueprint / exam-technique teaching;
+2. evidence-driven next-step recommendations.
+
+A mixed diagnostic and adaptive ordering are useful future capabilities, but are not themselves required for the first cutover if the learner already receives a truthful evidence-based next action.
+
 ## Current strengths of the React implementation
 
 The following capabilities are present in `/app/` and are suitable to carry forward:
@@ -22,10 +37,10 @@ The following capabilities are present in `/app/` and are suitable to carry forw
 | Authentication/session | Implemented with Supabase | PASS |
 | Multi-device shell | Responsive phone/tablet/desktop CSS | PASS, now backed by browser assurance |
 | Topic learning notes | Shared typed content pack | PASS |
-| Flashcard recall | Structured scored evidence | PASS for core recall; adaptive ordering gap noted below |
+| Flashcard recall | Structured scored evidence | PASS |
 | Topic linking | Shared topic-link chains | PASS; purpose of legacy mind-map journey retained without needing the same visual implementation |
 | Formula recall/data drills | Shared formulas and data drills | PASS |
-| Topic quick checks | Structured MCQ evidence | PASS for topic practice; mixed/adaptive diagnostic gap noted below |
+| Topic quick checks | Structured MCQ evidence | PASS |
 | Guided case-study practice | NorthPeak case study | PASS |
 | Exam-question writing | Harbour Home questions with AO self-assessment | PASS |
 | Full Paper 2 simulation | 90 minutes / 80 marks / all eight Harbour Home questions | PASS |
@@ -36,35 +51,13 @@ The following capabilities are present in `/app/` and are suitable to carry forw
 | Save failure behaviour | Does not advance/clear work falsely | PASS |
 | Self-marking transparency | Explicitly self-assessed; high confidence blocked without independent marking | PASS |
 
-## Material gaps before cutover
+## Remaining material gaps before cutover
 
-### P0 — learner catalogue / My Revision is not complete
-
-The target learner architecture requires a Subject Catalogue and a learner-selected My Revision area:
-
-`Browse → Subject → Qualification / Exam Board → Add paper → My Revision → Learn`
-
-The current React Hub displays Business · AQA AS · Paper 2 directly, but it does not yet provide the governed catalogue/add/remove journey. That is acceptable during migration but not sufficient for the permanent learner shell.
-
-**Required before cutover:** implement the shared-manifest-driven Catalogue and My Revision selection journey, even if Business Paper 2 is initially the only available pack.
-
-### P0 — legacy progress continuity needs an explicit disposition
-
-The legacy runtime stores learner state in `revision_progress` / legacy local state. The React readiness model uses new structured `learning_evidence`. The current React UI correctly says existing progress is preserved, but it does not convert legacy activity into new readiness evidence or otherwise surface that historical state in a meaningful learner view.
-
-Deleting the legacy runtime before deciding this would make preserved historical progress harder for an existing learner to see.
-
-**Required before cutover:** choose and implement one governed treatment:
-
-- show legacy progress as labelled historical activity without treating it as new readiness evidence; or
-- migrate only evidence that can be reconstructed truthfully and provenance-labelled; or
-- explicitly retire the old progress representation while retaining the source data for agreed retention/history purposes.
-
-Do **not** manufacture precise readiness evidence from old aggregate state.
-
-### P1 — answer-blueprint teaching is missing as a dedicated React capability
+### P1 — answer-blueprint teaching needs a dedicated React capability
 
 The legacy product explicitly teaches BLT analysis, MOPS evaluation, calculation structure and case-study application before asking learners to write longer answers. React now gives marking guidance after writing, but there is no equivalent dedicated answer-blueprint learning journey.
+
+This is more than legacy parity: the agreed learner flow includes `Answer` between linking topics and testing, and learners should be taught the method before being judged on it.
 
 **Required before cutover:** add an `Answer` / exam-technique learning mode using structured content, covering at minimum:
 
@@ -73,39 +66,43 @@ The legacy product explicitly teaches BLT analysis, MOPS evaluation, calculation
 - calculation workings + units;
 - case evidence as application rather than decoration.
 
-This should remain learning guidance, not scored evidence by itself.
+This remains learning guidance, not scored evidence by itself.
 
-### P1 — mixed diagnostic / adaptive practice is not yet equivalent
+### P1 — evidence-driven next-step recommendation needs to be visible
 
-The legacy runtime has:
+The legacy runtime includes a mixed diagnostic, weakest-area suggestion and weaker-card ordering. Those exact mechanisms are **not** required for the first React cutover.
 
-- a mixed 10-question diagnostic;
-- a suggested session aimed at the current weakest area;
-- flashcard ordering that pushes weaker cards earlier.
+However, the approved Revision product principle is that evidence should tell the learner what to focus on next. The current React readiness panel explains whether enough evidence exists, but does not yet consistently turn the available topic/evidence picture into a concrete revision recommendation.
 
-The current React UI provides topic quick checks and sequential flashcards, while the engine already has deterministic/evidence foundations. It does not yet expose a genuinely evidence-driven mixed diagnostic/recommendation loop.
+**Required before cutover:** add a truthful, deterministic recommendation such as:
 
-**Required before cutover:** implement a truthful evidence-driven replacement rather than copying the legacy readiness formula. At minimum:
+- least-supported topic or weakest evidenced topic;
+- recommended next activity type;
+- short explanation of the evidence used and any confidence limitation.
 
-- mixed diagnostic selection across topics;
-- recommendation of the least-supported / weakest evidenced topic;
-- next activity recommendation with an explanation of the evidence used;
-- flashcard/question selection may prioritise weak evidence, but must remain deterministic/testable and must not claim adaptivity that is not implemented.
+Example: `Marketing has the weakest current evidence. Do one quick check or exam question there next. This recommendation is based on 3 scored Marketing activities versus 7–10 in your other topics.`
 
-### P1 — legacy reset behaviour requires disposition
+**Not required before first cutover:**
 
-The legacy runtime has a `Reset progress` action. The new evidence store is intentionally append-only from the browser. A direct equivalent reset would conflict with the new evidence model.
+- a dedicated mixed 10-question diagnostic;
+- adaptive flashcard ordering;
+- opaque/personalised algorithms.
 
-**Required before legacy deletion:** explicitly decide whether the learner needs:
+These can be added later if useful, provided any claimed adaptivity is deterministic/testable and evidence-based.
 
-- a new-practice-session reset only;
-- an archive/hide-history function;
-- a formal data-deletion journey handled separately from ordinary learning controls; or
-- no learning-history reset.
+## Explicitly non-blocking / retired behaviours
 
-Do not reintroduce browser-side destructive evidence mutation solely for parity.
+### Subject Catalogue / My Revision selection
 
-## Legacy behaviours deliberately superseded
+**Disposition:** FUTURE SCOPE. Not required for first cutover. Keep the architecture content-pack driven so catalogue/add-remove journeys can be introduced when multiple subjects/papers exist.
+
+### Legacy progress continuity
+
+**Disposition:** RETIRE WITHOUT MIGRATION. The prototype is not materially used. The React evidence model starts clean. Existing legacy aggregate state must not be converted into fabricated structured evidence.
+
+### Reset progress
+
+**Disposition:** REMOVE. There will be no learner-facing `Reset progress` control in the production revision experience. Append-only evidence remains the learning record. A future privacy/data-deletion feature, if required, is a separate account/data-rights capability.
 
 ### Legacy readiness percentage
 
@@ -124,6 +121,10 @@ The sidebar/mobile-nav layout, static HTML view switching and JavaScript-global 
 The learner purpose is to connect business functions and extend causal chains. React's `Link topics` activity preserves that learning purpose using structured content.
 
 **Disposition:** REPLACED. Exact mind-map UI parity is not required unless later user testing shows the spatial treatment itself materially improves learning.
+
+### Mixed diagnostic and adaptive ordering
+
+**Disposition:** DEFER. Useful future enhancement, but not required for first cutover once a truthful evidence-driven next-step recommendation exists.
 
 ## Browser assurance introduced by this audit
 
@@ -146,20 +147,17 @@ Supabase evidence reads are intercepted in these browser tests. CI does not writ
 
 ## Cutover decision
 
-**NO-GO today.**
-
-The remaining work is materially smaller than the completed migration, but deleting the legacy runtime now would knowingly remove or strand learner capabilities.
+**NO-GO today, but only two product closures remain.**
 
 Recommended sequence:
 
 1. Merge this assurance/audit PR once CI is green and Founder-approved.
-2. Close P0 Catalogue/My Revision and legacy-progress continuity.
-3. Close P1 answer blueprints and evidence-driven mixed/adaptive practice.
-4. Decide reset/history disposition.
-5. Extend Playwright coverage to the new closure journeys.
-6. Run production smoke against the deployed `/app/` with a marked synthetic test account and verify live evidence persistence/RLS.
-7. Create a separate cutover PR that removes legacy learner runtime files and redirects/links learner entry points to `/app/`.
-8. Founder approval required for that deletion/cutover PR.
+2. Add the Answer / exam-technique learning mode.
+3. Add the evidence-driven next-step recommendation.
+4. Extend Playwright coverage to those two closure journeys.
+5. Run production smoke against the deployed `/app/` with a marked synthetic test account and verify live evidence persistence/RLS.
+6. Create a separate cutover PR that removes legacy learner runtime files and redirects/links learner entry points to `/app/`.
+7. Founder approval required for that deletion/cutover PR.
 
 ## Deletion candidates once the gate is satisfied
 
