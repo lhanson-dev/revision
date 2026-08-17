@@ -1,5 +1,18 @@
 # Evidence and Trust
 
-Future home of evidence/claims governance, privacy/data principles, consent/communications, legal/trust rules, testimonials/proof and compliance.
+This area governs how Revision earns and preserves trust in educational content, AI guidance, progress/readiness claims, student information and safeguarding-sensitive interactions.
 
-**Migration status:** authentication and cloud progress exist in implementation; product/data/privacy authority remains to be deliberately defined.
+## Current authority
+
+- `Evidence Trust and Educational Integrity.md` — factual/curriculum accuracy, AI uncertainty, evidence-backed progress/readiness, privacy by default, parent visibility boundaries, safeguarding stance and trust decision rules.
+- `Privacy and Student Data Principles.md` — data minimisation, private tutor conversations, model-training boundaries, personalisation, analytics, student control, communication preferences, retention and bounded parent/teacher access.
+- `Safeguarding Standard.md` — tutor role boundary, serious-risk handling, real-world support, privacy limits, proportionality, no automated third-party reporting in the first version, and safeguarding testing requirements.
+- `Claims and Progress Governance.md` — no guaranteed grades, evidence-backed grade estimates, anchored "on track" language, separation of coverage/mastery/readiness, revisable progress indicators and plain-English explanations for material claims.
+
+## Still to define
+
+Further authority is still required for legal/compliance verification, accessibility compliance evidence, testimonials/proof and communications where relevant.
+
+Detailed retention periods, consent models, data-subject procedures, safeguarding escalation operations and other legal requirements must be independently verified before production reliance.
+
+Research may inform these documents but does not itself become authority unless deliberately promoted through the governance process.

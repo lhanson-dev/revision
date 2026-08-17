@@ -1,5 +1,22 @@
 # Product Governance
 
-Future home of Product Source of Truth, Scope & Capability Taxonomy, Target Audience, User Journeys, Product Principles, lifecycle, prioritisation and pricing/entitlements where relevant.
+This folder contains Revision's approved product authority: what the product is for, who it serves, how it should behave and the core system and journeys it should support.
 
-**Migration status:** existing README/code contain candidate product decisions, but none are promoted to active authority by this foundation PR.
+## Current authority
+
+- `Target Audience and Personas.md`
+- `Student Problem Definition.md`
+- `Product Promise.md`
+- `Product Principles.md`
+- `Product System Model.md`
+- `Scope and Capability Taxonomy.md`
+- `Core User Journeys.md`
+- `Information Architecture.md`
+
+Together these documents define the current product foundation for the student-first Revision experience.
+
+## Future authority
+
+This folder should also contain lifecycle, prioritisation, entitlements/pricing rules where product-facing, and any further domain product authority needed as Revision develops.
+
+**Migration status:** core product foundation established and approved on main. Existing README/code remain implementation evidence and must be reconciled against this authority rather than treated as policy.
