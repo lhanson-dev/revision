@@ -2,55 +2,201 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Revision</title>
-<style>
-:root{--navy:#10243d;--green:#18a66a;--cream:#f7f4ee;--white:#fff;--ink:#1d2733;--muted:#64748b;--line:#dfe5eb;--shadow:0 12px 34px rgba(16,36,61,.1)}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}button,input{font:inherit}.shell{min-height:100vh}.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}.auth-card{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:var(--shadow)}.brand{font-size:15px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin-bottom:22px}.auth-card h1{font-size:42px;line-height:1;letter-spacing:-.045em;margin:0 0 12px}.auth-card p{color:var(--muted);line-height:1.55;margin:0 0 20px}.auth-card input{width:100%;margin:6px 0;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#fff}.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.auth-actions button{border:0;border-radius:11px;padding:12px;font-weight:850;cursor:pointer}.signin{background:var(--green);color:#fff}.signup{background:#edf2f5;color:var(--navy)}.message{min-height:22px;margin-top:10px;font-size:13px;color:var(--muted)}.app-screen{display:none}.app-screen.show{display:block}.top{background:var(--navy);color:#fff}.top-inner{max-width:1100px;margin:auto;padding:15px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}.wordmark{font-weight:900;font-size:20px}.account{display:flex;align-items:center;gap:10px;font-size:13px}.account span{color:#c6d4df}.account button{border:1px solid #45617d;background:#17304f;color:#fff;padding:8px 12px;border-radius:9px;font-weight:750;cursor:pointer}main{max-width:1100px;margin:auto;padding:48px 24px}.eyebrow{font-size:12px;font-weight:800;color:var(--green);letter-spacing:.1em;text-transform:uppercase}h1{font-size:48px;letter-spacing:-.045em;line-height:1.03;margin:8px 0 12px}.intro{max-width:700px;color:var(--muted);font-size:18px;line-height:1.6}.section{margin-top:38px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);text-decoration:none;color:inherit;display:block;transition:.15s}.card:hover{transform:translateY(-2px)}.card h2{margin:5px 0 8px}.card p{color:var(--muted);line-height:1.5}.tag{display:inline-block;background:#e8f7f0;color:#0b784b;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.coming{opacity:.55}.footer{margin-top:48px;color:var(--muted);font-size:13px}@media(max-width:760px){.auth-card{padding:24px}.auth-card h1{font-size:36px}.auth-actions{grid-template-columns:1fr}h1{font-size:38px}.grid{grid-template-columns:1fr}.top-inner{padding:11px 16px}.account span{display:none}main{padding:36px 18px}}
-</style>
+<meta name="theme-color" content="#f7f8ff">
+<link rel="stylesheet" href="assets/home.css">
 </head>
 <body>
 <div class="shell">
-<section class="auth-screen" id="authScreen">
-  <div class="auth-card">
-    <div class="brand">Revision</div>
-    <h1>Sign in</h1>
-    <p>Sign in to access your revision and keep progress synced across devices.</p>
-    <input id="email" type="email" autocomplete="email" placeholder="Email">
-    <input id="password" type="password" autocomplete="current-password" placeholder="Password">
-    <div class="auth-actions">
-      <button class="signin" onclick="signIn()">Sign in</button>
-      <button class="signup" onclick="signUp()">Create account</button>
+  <section class="auth-screen" id="authScreen" aria-labelledby="authTitle">
+    <div class="auth-wrap">
+      <div class="brand-lockup" aria-label="Revision">
+        <span class="wordmark">Revision</span><span class="brand-spark" aria-hidden="true">✦</span>
+      </div>
+      <div class="auth-card">
+        <p class="kicker">Your revision, your next step</p>
+        <h1 id="authTitle">Sign in</h1>
+        <p class="auth-copy">Pick up where you left off and keep your progress synced across devices.</p>
+        <label class="field-label" for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+        <label class="field-label" for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Password">
+        <div class="auth-actions">
+          <button class="button primary" onclick="signIn()">Sign in</button>
+          <button class="button secondary" onclick="signUp()">Create account</button>
+        </div>
+        <div class="message" id="message" role="status" aria-live="polite"></div>
+      </div>
     </div>
-    <div class="message" id="message"></div>
-  </div>
-</section>
+  </section>
 
-<section class="app-screen" id="appScreen">
-<header class="top"><div class="top-inner"><div class="wordmark">Revision</div><div class="account"><span id="userEmail"></span><button onclick="signOut()">Sign out</button></div></div></header>
-<main>
-<div class="eyebrow">Revision</div>
-<h1>Revision Hub</h1>
-<p class="intro">Your subjects, courses and exam papers in one place. Progress stays synced across devices.</p>
-<section class="section"><div class="eyebrow">Subjects</div><div class="grid" style="margin-top:12px">
-<a class="card" href="subjects/business/"><span class="tag">Available now</span><h2>Business</h2><p>AQA AS Business revision, starting with the full Paper 2 course.</p></a>
-<div class="card coming"><span class="tag">Future subject</span><h2>Next subject</h2><p>Additional subjects can be added here without changing the Business revision module.</p></div>
-<div class="card coming"><span class="tag">Future subject</span><h2>Next subject</h2><p>The structure supports different exam boards, levels, papers and topic areas.</p></div>
-</div></section>
-<div class="footer">Revision content is organised as Subject → Course / Exam Board → Paper or Area.</div>
-</main>
-</section>
+  <section class="app-screen" id="appScreen">
+    <header class="desktop-header">
+      <div class="desktop-header-inner">
+        <a class="brand-lockup nav-brand" href="./" aria-label="Revision home">
+          <span class="wordmark">Revision</span><span class="brand-spark" aria-hidden="true">✦</span>
+        </a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a class="active" href="./">Home</a>
+          <a href="subjects/business/">Subjects</a>
+          <a href="subjects/business/aqa-as/paper-2/">Practice</a>
+          <a href="subjects/business/aqa-as/paper-2/">Exam Prep</a>
+          <a href="subjects/business/aqa-as/paper-2/">Progress</a>
+          <button class="nav-button" type="button" onclick="focusRev()">REV</button>
+        </nav>
+        <button class="account-chip" type="button" onclick="toggleMenu(true)" aria-label="Open account menu">
+          <span class="account-avatar" id="desktopInitial">R</span>
+          <span class="account-meta"><strong id="desktopName">Student</strong><small>Account</small></span>
+          <span aria-hidden="true">⌄</span>
+        </button>
+      </div>
+    </header>
+
+    <header class="mobile-header">
+      <a class="brand-lockup nav-brand" href="./" aria-label="Revision home">
+        <span class="wordmark">Revision</span><span class="brand-spark" aria-hidden="true">✦</span>
+      </a>
+      <button class="menu-button" type="button" onclick="toggleMenu(true)" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main class="home-main">
+
+      <div class="home-layout">
+        <section class="rev-card" id="revGuide" aria-labelledby="revTitle">
+          <div class="rev-copy">
+            <div class="rev-pill"><span aria-hidden="true">✦</span> REV AI GUIDE</div>
+            <h2 id="revTitle">Hi, Jamie 👋</h2>
+            <p id="revMessage">What shall we do today? I can guide you to the topic that will make the biggest difference, or you can choose where to start.</p>
+            <div class="rev-actions" id="revInitialActions">
+              <button class="button lime" type="button" onclick="suggestNextStep()">Suggest my next step <span aria-hidden="true">→</span></button>
+              <button class="button ghost" type="button" onclick="chooseSubject()">I want to choose</button>
+            </div>
+            <div class="rev-actions recommendation-actions" id="recommendationActions" hidden>
+              <button class="button lime" type="button" onclick="startRecommendation()">Start recommended session <span aria-hidden="true">→</span></button>
+              <button class="button ghost" type="button" onclick="resetRev()">Show me the options</button>
+            </div>
+            <p class="evidence-line" id="evidenceLine"><span class="evidence-icon" aria-hidden="true">↗</span><span>REV uses your revision evidence to guide the next step.</span></p>
+          </div>
+          <div class="rev-orb-wrap" aria-hidden="true">
+            <div class="rev-orb">
+              <div class="orb-ring ring-1"></div>
+              <div class="orb-ring ring-2"></div>
+              <div class="orb-core">
+                <svg viewBox="0 0 160 80" role="img" aria-hidden="true">
+                  <path class="wave-line" d="M5 42H33L43 39L51 55L62 18L74 63L86 29L98 50L108 42H155" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="today-card" aria-labelledby="todayTitle">
+          <div class="today-heading">
+            <span class="today-icon" aria-hidden="true">◎</span>
+            <div><p class="small-label">AT A GLANCE</p><h2 id="todayTitle">Today’s picture</h2></div>
+          </div>
+          <dl class="today-list">
+            <div><dt>Current course</dt><dd>AQA AS Business · Paper 2</dd></div>
+            <div><dt>Strongest evidence</dt><dd id="strongestArea">Building your baseline</dd></div>
+            <div><dt>Needs attention</dt><dd id="weakestArea">Take a short diagnostic</dd></div>
+          </dl>
+          <p class="today-note" id="todayNote">As you answer questions, REV will have better evidence to guide you.</p>
+          <a class="text-link" href="subjects/business/aqa-as/paper-2/">Open Business Paper 2 <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+
+      <section class="below-fold" aria-label="Revision overview">
+        <section class="section-card" id="subjectsSection" aria-labelledby="subjectsTitle">
+          <div class="section-head">
+            <div><p class="small-label">YOUR SUBJECTS</p><h2 id="subjectsTitle">Keep everything in one place</h2></div>
+            <a href="subjects/business/">View subjects</a>
+          </div>
+          <div class="subject-grid">
+            <a class="subject-tile" href="subjects/business/">
+              <span class="subject-icon" aria-hidden="true">▣</span>
+              <div><h3>Business</h3><p>AQA AS · Paper 2</p></div>
+              <span class="subject-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section-card" id="progressSection" aria-labelledby="progressTitle">
+          <div class="section-head">
+            <div><p class="small-label">YOUR PROGRESS</p><h2 id="progressTitle">What the evidence says</h2></div>
+            <a href="subjects/business/aqa-as/paper-2/">Open progress</a>
+          </div>
+          <div class="progress-grid">
+            <article class="progress-item">
+              <small>Coverage</small>
+              <strong id="coverageValue">—</strong>
+              <div class="progress-bar" aria-hidden="true"><i id="coverageBar" style="width:0%"></i></div>
+              <p id="coverageText">Complete some revision activity to build this picture.</p>
+            </article>
+            <article class="progress-item">
+              <small>Understanding</small>
+              <strong id="understandingValue">—</strong>
+              <div class="progress-bar" aria-hidden="true"><i id="understandingBar" style="width:0%"></i></div>
+              <p id="understandingText">Based on answers rather than page views.</p>
+            </article>
+            <article class="progress-item">
+              <small>Exam evidence</small>
+              <strong id="readinessValue">—</strong>
+              <div class="progress-bar" aria-hidden="true"><i id="readinessBar" style="width:0%"></i></div>
+              <p id="readinessText">Complete exam-style work to strengthen this signal.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-card continue-card" aria-labelledby="continueTitle">
+          <div class="section-head">
+            <div><p class="small-label">CONTINUE</p><h2 id="continueTitle">Pick up your Business revision</h2></div>
+          </div>
+          <div class="continue-list">
+            <a class="continue-item" href="subjects/business/aqa-as/paper-2/">
+              <span class="continue-icon" aria-hidden="true">✓</span>
+              <span><strong>Business Paper 2</strong><small id="continueHint">Continue from your current evidence and focus areas.</small></span>
+              <span class="continue-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+      <a class="active" href="./"><span class="nav-icon" aria-hidden="true">⌂</span><span>Home</span></a>
+      <a href="subjects/business/"><span class="nav-icon" aria-hidden="true">▤</span><span>Subjects</span></a>
+      <a href="subjects/business/aqa-as/paper-2/"><span class="nav-icon" aria-hidden="true">✓</span><span>Practice</span></a>
+      <a href="subjects/business/aqa-as/paper-2/"><span class="nav-icon" aria-hidden="true">▥</span><span>Progress</span></a>
+      <button type="button" onclick="focusRev()"><span class="mini-orb" aria-hidden="true"></span><span>REV</span></button>
+    </nav>
+
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu(false)" hidden></div>
+    <aside class="menu-drawer" id="menuDrawer" aria-label="Account and additional links" aria-hidden="true">
+      <div class="drawer-head">
+        <div>
+          <p class="small-label">ACCOUNT</p>
+          <h2 id="drawerName">Student</h2>
+          <p id="drawerEmail"></p>
+        </div>
+        <button class="drawer-close" type="button" onclick="toggleMenu(false)" aria-label="Close menu">×</button>
+      </div>
+      <nav class="drawer-links">
+        <a href="subjects/business/">My subjects <span>→</span></a>
+        <a href="subjects/business/aqa-as/paper-2/">Business Paper 2 <span>→</span></a>
+        <button type="button" onclick="focusRev();toggleMenu(false)">Ask REV <span>→</span></button>
+      </nav>
+      <button class="signout-button" type="button" onclick="signOut()">Sign out</button>
+    </aside>
+  </section>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.min.js"></script>
-<script>
-const client=supabase.createClient("https://xwwhshpmeogswxfjtpvq.supabase.co","sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-let currentUser=null;
-function msg(text,error=false){const el=document.getElementById('message');el.textContent=text;el.style.color=error?'#b43842':'#64748b'}
-function render(){const signedIn=!!currentUser;document.getElementById('authScreen').style.display=signedIn?'none':'flex';document.getElementById('appScreen').classList.toggle('show',signedIn);document.getElementById('userEmail').textContent=signedIn?(currentUser.email||'Signed in'):''}
-async function signIn(){msg('Signing in…');const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const{error}=await client.auth.signInWithPassword({email,password});if(error)return msg(error.message,true)}
-async function signUp(){msg('Creating account…');const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;if(password.length<6)return msg('Use a password of at least 6 characters.',true);const{data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:'https://lhanson-dev.github.io/revision/'}});if(error)return msg(error.message,true);if(data.session){msg('Account created.');}else msg('Account created. Check your email to confirm your address, then return here to sign in.')}
-async function signOut(){await client.auth.signOut();currentUser=null;render()}
-async function init(){const{data}=await client.auth.getSession();currentUser=data.session?.user||null;render();client.auth.onAuthStateChange((event,session)=>{currentUser=session?.user||null;render();if(event==='SIGNED_IN')msg('')})}
-init();
-</script>
+<script src="subjects/business/aqa-as/paper-2/data-core.js"></script>
+<script src="subjects/business/aqa-as/paper-2/data-recall.js"></script>
+<script src="subjects/business/aqa-as/paper-2/data-test.js"></script>
+<script src="assets/home.js"></script>
 </body>
 </html>
