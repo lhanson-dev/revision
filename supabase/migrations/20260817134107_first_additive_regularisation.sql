@@ -1,7 +1,3 @@
--- PROPOSAL ONLY — NOT YET AN APPLIED MIGRATION
--- Revision first additive Supabase regularisation
--- Reviewed target: public.profiles + revision_progress.schema_version
-
 begin;
 
 -- Keep internal trigger code outside the exposed public schema.
