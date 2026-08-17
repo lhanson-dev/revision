@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
+import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 
 export type LearningWorkspaceProps = {
   adapter: LearningContentAdapter
+  recommendation: RevisionRecommendation | null
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
 }
 
-type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'quick-check' | 'case-study' | 'exam-question' | 'formulas-data'
+type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'answer' | 'quick-check' | 'case-study' | 'exam-question' | 'formulas-data'
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
 
@@ -18,7 +20,13 @@ function evidenceId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
 }
 
-export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence }: LearningWorkspaceProps) {
+function recommendationActivityLabel(activity: RevisionRecommendation['activity']) {
+  if (activity === 'flashcards') return 'Flashcards'
+  if (activity === 'exam-question') return 'Exam question'
+  return 'Quick check'
+}
+
+export function LearningWorkspace({ adapter, recommendation, saving, saveError, onRecordEvidence }: LearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const [topicId, setTopicId] = useState(topics[0]?.id ?? '')
   const [mode, setMode] = useState<WorkspaceMode>('learn')
@@ -46,8 +54,10 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
   const links = useMemo(() => adapter.listTopicLinks(topicId), [adapter, topicId])
   const formulas = adapter.listFormulas()
   const drills = adapter.listDataDrills()
+  const examTechnique = adapter.listExamTechnique()
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
+  const recommendationTopic = recommendation ? adapter.getTopic(recommendation.topicId) : undefined
   const card = cards[cardIndex % Math.max(cards.length, 1)]
   const question = questions[questionIndex % Math.max(questions.length, 1)]
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
@@ -63,6 +73,12 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
     setShowAnswer(false)
     setSelectedOption(null)
     setChecked(false)
+  }
+
+  function startRecommendation() {
+    if (!recommendation) return
+    changeTopic(recommendation.topicId)
+    setMode(recommendation.activity)
   }
 
   async function rateFlashcard(rating: 0 | 1 | 2) {
@@ -169,10 +185,24 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
         </label>
       </div>
 
+      {recommendation && recommendationTopic && (
+        <aside className="recommendation-card" aria-labelledby="recommendation-heading">
+          <div>
+            <p className="eyebrow">What should I revise next?</p>
+            <h3 id="recommendation-heading">{recommendationTopic.shortTitle} · {recommendationActivityLabel(recommendation.activity)}</h3>
+            <p>{recommendation.reason}</p>
+            <p className="recommendation-evidence"><strong>Evidence used:</strong> {recommendation.evidenceSummary}</p>
+            <p className="muted"><strong>Confidence limitation:</strong> {recommendation.limitation}</p>
+          </div>
+          <button className="primary" onClick={startRecommendation}>Start recommended activity</button>
+        </aside>
+      )}
+
       <div className="mode-tabs" role="tablist" aria-label="Revision activity">
         <button className={mode === 'learn' ? 'active' : ''} onClick={() => setMode('learn')} role="tab" aria-selected={mode === 'learn'}>Learn</button>
         <button className={mode === 'flashcards' ? 'active' : ''} onClick={() => setMode('flashcards')} role="tab" aria-selected={mode === 'flashcards'}>Flashcards</button>
         <button className={mode === 'links' ? 'active' : ''} onClick={() => setMode('links')} role="tab" aria-selected={mode === 'links'}>Link topics</button>
+        <button className={mode === 'answer' ? 'active' : ''} onClick={() => setMode('answer')} role="tab" aria-selected={mode === 'answer'}>Answer</button>
         <button className={mode === 'quick-check' ? 'active' : ''} onClick={() => setMode('quick-check')} role="tab" aria-selected={mode === 'quick-check'}>Quick check</button>
         <button className={mode === 'case-study' ? 'active' : ''} onClick={() => setMode('case-study')} role="tab" aria-selected={mode === 'case-study'}>Case study</button>
         <button className={mode === 'exam-question' ? 'active' : ''} onClick={() => setMode('exam-question')} role="tab" aria-selected={mode === 'exam-question'}>Exam question</button>
@@ -229,6 +259,27 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
             ))}
           </div>
           <div className="next-step"><strong>Exam habit</strong><span>Do not stop at the first effect. Build a chain: decision → immediate impact → functional consequence → business outcome.</span></div>
+        </div>
+      )}
+
+      {mode === 'answer' && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Learning activity</strong><span>Learn how to turn knowledge into marks before you attempt longer written questions. Reading this guidance does not count as scored evidence.</span></div>
+          <h3>Paper 2 answer blueprints</h3>
+          <p className="muted">The objective is not longer answers. It is more marks per sentence: apply the case, build the chain, and make the judgement specific.</p>
+          <div className="technique-grid">
+            {examTechnique.map((guide) => (
+              <article className="technique-card" key={guide.id}>
+                <h4>{guide.title}</h4>
+                <p>{guide.summary}</p>
+                <ol className="technique-steps">
+                  {guide.steps.map((step) => <li key={step}>{step}</li>)}
+                </ol>
+                <div className="technique-tip"><strong>Exam habit</strong><span>{guide.tip}</span></div>
+              </article>
+            ))}
+          </div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Use Case study to rehearse the structure without a mark, then Exam question to write and self-assess a scored response.</span></div>
         </div>
       )}
 

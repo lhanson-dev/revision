@@ -4,6 +4,7 @@ import { topics } from './topics'
 import { formulas, topicLinks } from './learning'
 import { flashcards } from './flashcards'
 import { dataDrills, northPeakCaseStudy, questions } from './questions'
+import { examTechnique } from './exam-technique'
 import { exams } from './exams'
 
 export const businessAqaAsPaper2 = contentPackSchema.parse({
@@ -15,6 +16,7 @@ export const businessAqaAsPaper2 = contentPackSchema.parse({
   questions,
   caseStudies: [northPeakCaseStudy],
   dataDrills,
+  examTechnique,
   exams,
 })
 

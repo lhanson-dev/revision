@@ -26,6 +26,7 @@ describe('AQA AS Business Paper 2 content pack', () => {
     expectUnique(businessAqaAsPaper2.flashcards.map((item) => item.id))
     expectUnique(businessAqaAsPaper2.questions.map((item) => item.id))
     expectUnique(businessAqaAsPaper2.dataDrills.map((item) => item.id))
+    expectUnique(businessAqaAsPaper2.examTechnique.map((item) => item.id))
     expectUnique(businessAqaAsPaper2.exams.map((item) => item.id))
   })
 
@@ -34,6 +35,19 @@ describe('AQA AS Business Paper 2 content pack', () => {
     expect(businessAqaAsPaper2.questions.length).toBeGreaterThanOrEqual(39)
     expect(businessAqaAsPaper2.formulas.length).toBeGreaterThanOrEqual(22)
     expect(businessAqaAsPaper2.dataDrills).toHaveLength(8)
+  })
+
+  it('preserves the six legacy Paper 2 answer blueprints as structured guidance', () => {
+    expect(businessAqaAsPaper2.examTechnique).toHaveLength(6)
+    expect(businessAqaAsPaper2.examTechnique.map((item) => item.id)).toEqual([
+      'blt-analysis',
+      'mops-evaluation',
+      'calculation-questions',
+      'case-study-application',
+      'analyse',
+      'evaluate-assess',
+    ])
+    expect(businessAqaAsPaper2.examTechnique[0].steps).toEqual(['Case fact', 'Because', 'Leading to', 'Therefore'])
   })
 
   it('only references declared topics', () => {

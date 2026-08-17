@@ -30,3 +30,7 @@ jobs:
         run: npm run test
       - name: Production build
         run: npm run build
+      - name: Install Chromium for browser assurance
+        run: npx playwright install --with-deps chromium
+      - name: Responsive browser assurance
+        run: npm run test:e2e

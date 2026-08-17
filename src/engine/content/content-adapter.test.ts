@@ -14,6 +14,8 @@ describe('shared content adapter', () => {
     expect(adapter.listTopics().map((topic) => topic.order)).toEqual([1, 2, 3, 4, 5, 6])
     expect(adapter.listFlashcards('finance').length).toBeGreaterThan(10)
     expect(adapter.listQuestions('operations').length).toBeGreaterThan(3)
+    expect(adapter.listExamTechnique()).toHaveLength(6)
+    expect(adapter.listExamTechnique()[0]?.id).toBe('blt-analysis')
     expect(adapter.listExams()[0]?.totalMarks).toBe(80)
   })
 
@@ -32,7 +34,7 @@ describe('shared content adapter', () => {
     expect(getContentAdapter('missing-module')).toBeUndefined()
   })
 
-  it('allows future subjects to use their own topic IDs', () => {
+  it('allows future subjects to use their own topic IDs and omit optional technique guides', () => {
     const futurePack = contentPackSchema.parse({
       manifest: {
         id: 'maths-example-paper-1',
@@ -58,7 +60,9 @@ describe('shared content adapter', () => {
       exams: [{ id: 'example-exam', title: 'Example', subtitle: 'Example', durationMinutes: 60, totalMarks: 10, caseHtml: '<p>Example</p>', questions: [{ id: 'q1', marks: 10, topic: 'algebra', assessmentObjectives: { ao1: 10, ao2: 0, ao3: 0, ao4: 0 }, prompt: 'Solve.', markingGuidance: ['Award marks.'] }] }],
     })
 
-    expect(createLearningContentAdapter(futurePack).getTopic('algebra')?.title).toBe('Algebra')
+    const adapter = createLearningContentAdapter(futurePack)
+    expect(adapter.getTopic('algebra')?.title).toBe('Algebra')
+    expect(adapter.listExamTechnique()).toEqual([])
   })
 
   it('rejects content that references a topic outside its manifest', () => {

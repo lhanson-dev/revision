@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { getContentAdapter } from '../engine/content/content-registry'
-import { assessPaperReadiness } from '../engine/readiness/readiness'
+import { assessPaperReadiness, recommendNextActivity } from '../engine/readiness/readiness'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
@@ -25,6 +25,7 @@ export function App() {
   const adapter = getContentAdapter(moduleId)
   const topicIds = useMemo(() => adapter?.listTopics().map((topic) => topic.id) ?? [], [adapter])
   const readiness = useMemo(() => assessPaperReadiness(moduleId, topicIds, evidence), [topicIds, evidence])
+  const recommendation = useMemo(() => recommendNextActivity(moduleId, topicIds, evidence), [topicIds, evidence])
   const activity = useMemo(() => recentActivity(evidence), [evidence])
   const primaryExam = adapter?.listExams()[0]
 
@@ -139,7 +140,7 @@ export function App() {
           <a className="secondary-link" href="../subjects/business/aqa-as/paper-2/">Open full legacy course</a>
         </section>
 
-        {adapter && <LearningWorkspace adapter={adapter} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
+        {adapter && <LearningWorkspace adapter={adapter} recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
         {primaryExam && <ExamSimulator exam={primaryExam} moduleId={moduleId} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
 
         <div className="progress-grid">
@@ -147,7 +148,7 @@ export function App() {
             <p className="eyebrow">What have I done?</p>
             <h2 id="recent-activity">Recent activity</h2>
             {evidenceError && <p className="error">{evidenceError}</p>}
-            {!evidenceError && activity.length === 0 && <p className="muted">No new structured activity has been recorded yet. Your existing Revision progress is still preserved.</p>}
+            {!evidenceError && activity.length === 0 && <p className="muted">No scored activity has been recorded yet. Complete a Flashcard rating, Quick check or marked exam response and it will appear here.</p>}
             <ul className="activity-list">
               {activity.map((item) => <li key={item.id}><strong>{item.label}</strong><span>{item.detail}</span><time dateTime={item.occurredAt}>{new Date(item.occurredAt).toLocaleDateString()}</time></li>)}
             </ul>
@@ -160,7 +161,7 @@ export function App() {
               <>
                 <div className="readiness-number">Building evidence</div>
                 <p>{readiness.explanation}</p>
-                <p className="muted"><strong>{readiness.evidenceCount}</strong> scored activities are currently available to the new readiness model.</p>
+                <p className="muted"><strong>{readiness.evidenceCount}</strong> scored activities are currently available to the readiness model.</p>
               </>
             ) : (
               <>
