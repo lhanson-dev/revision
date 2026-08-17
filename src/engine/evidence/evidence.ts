@@ -26,6 +26,8 @@ const marksShape = {
   marksAvailable: nonNegativeInteger,
 }
 
+const markingMethodSchema = z.enum(['self_assessed', 'externally_marked'])
+
 export const recallEvidenceSchema = z.object({
   ...baseEvidenceShape,
   source: z.literal('flashcard'),
@@ -44,7 +46,7 @@ export const examQuestionEvidenceSchema = z.object({
   ...baseEvidenceShape,
   source: z.literal('exam_question'),
   ...marksShape,
-  markingMethod: z.enum(['self_assessed', 'externally_marked']).optional(),
+  markingMethod: markingMethodSchema.optional(),
   assessmentObjectives: z.object({
     ao1: aoScoreSchema.optional(),
     ao2: aoScoreSchema.optional(),
@@ -63,6 +65,7 @@ export const examAttemptEvidenceSchema = z.object({
   ...marksShape,
   durationMinutes: z.number().nonnegative(),
   timed: z.boolean(),
+  markingMethod: markingMethodSchema.optional(),
 }).superRefine((evidence, context) => {
   if (evidence.marksAwarded > evidence.marksAvailable) {
     context.addIssue({ code: 'custom', path: ['marksAwarded'], message: 'awarded marks cannot exceed available marks' })
