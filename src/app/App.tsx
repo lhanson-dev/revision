@@ -5,6 +5,7 @@ import { assessPaperReadiness } from '../engine/readiness/readiness'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
+import { ExamSimulator } from './ExamSimulator'
 import { LearningWorkspace } from './LearningWorkspace'
 import { recentActivity } from './progress-view'
 
@@ -25,6 +26,7 @@ export function App() {
   const topicIds = useMemo(() => adapter?.listTopics().map((topic) => topic.id) ?? [], [adapter])
   const readiness = useMemo(() => assessPaperReadiness(moduleId, topicIds, evidence), [topicIds, evidence])
   const activity = useMemo(() => recentActivity(evidence), [evidence])
+  const primaryExam = adapter?.listExams()[0]
 
   useEffect(() => {
     let active = true
@@ -59,7 +61,7 @@ export function App() {
   }, [user])
 
   async function saveLearningEvidence(item: LearningEvidence) {
-    if (!user || savingEvidence) return
+    if (!user) return
     setSavingEvidence(true)
     setSaveError('')
     try {
@@ -68,7 +70,7 @@ export function App() {
       setEvidence((current) => [saved, ...current.filter((existing) => existing.id !== saved.id)])
     } catch (error: unknown) {
       const text = error instanceof Error ? error.message : 'Could not save this activity.'
-      setSaveError(`${text} Your answer is still on screen; try saving it again.`)
+      setSaveError(`${text} Your work is still on screen; try saving it again.`)
       throw error
     } finally {
       setSavingEvidence(false)
@@ -138,6 +140,7 @@ export function App() {
         </section>
 
         {adapter && <LearningWorkspace adapter={adapter} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
+        {primaryExam && <ExamSimulator exam={primaryExam} moduleId={moduleId} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />}
 
         <div className="progress-grid">
           <section aria-labelledby="recent-activity">

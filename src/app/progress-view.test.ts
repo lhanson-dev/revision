@@ -15,11 +15,11 @@ describe('recentActivity', () => {
     ])
   })
 
-  it('describes exam simulation evidence without inventing readiness', () => {
+  it('describes self-assessed timed exam simulation evidence transparently', () => {
     const evidence: LearningEvidence[] = [
-      { ...common, id: 'exam', source: 'exam_attempt', occurredAt: '2026-08-17T12:00:00.000Z', contentId: 'exam-1', marksAwarded: 54, marksAvailable: 80, durationMinutes: 90, timed: true },
+      { ...common, id: 'exam', source: 'exam_attempt', occurredAt: '2026-08-17T12:00:00.000Z', contentId: 'exam-1', marksAwarded: 54, marksAvailable: 80, durationMinutes: 90, timed: true, markingMethod: 'self_assessed' },
     ]
-    expect(recentActivity(evidence)[0].detail).toBe('54/80 marks · timed')
+    expect(recentActivity(evidence)[0].detail).toBe('54/80 marks · timed · self-assessed')
   })
 
   it('labels learner-marked exam questions as self-assessed', () => {
