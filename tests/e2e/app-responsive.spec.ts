@@ -59,13 +59,28 @@ test('authenticated revision and exam journeys remain available across viewports
 
   await expect(page.getByRole('heading', { name: 'Revision Hub' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Practise Paper 2' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business · Quick check' })).toBeVisible()
+  await expect(page.getByText('This is a coverage recommendation, not a judgement that the topic is weak.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Start recommended activity' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Learn' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Flashcards' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Answer' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Quick check' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Case study' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Exam question' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Recent activity' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Readiness progress' })).toBeVisible()
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('button', { name: 'Start recommended activity' }).click()
+  await expect(page.getByRole('tab', { name: 'Quick check' })).toHaveAttribute('aria-selected', 'true')
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('tab', { name: 'Answer' }).click()
+  await expect(page.getByRole('heading', { name: 'Paper 2 answer blueprints' })).toBeVisible()
+  await expect(page.getByText('BLT — build analysis')).toBeVisible()
+  await expect(page.getByText('MOPS — earn evaluation')).toBeVisible()
+  await expect(page.getByText('Formula', { exact: true })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await page.getByRole('tab', { name: 'Case study' }).click()
