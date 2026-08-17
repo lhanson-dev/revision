@@ -1,72 +1,54 @@
 # Revision
 
-A lightweight revision platform designed to support multiple subjects, qualifications, exam boards and papers.
+A personalised revision platform for GCSE and A-level students, built around evidence-aware guidance, practice and exam preparation.
 
-## Structure
+## Current learner application
+
+The governed learner product is the React application at:
+
+`/revision/app/`
+
+Its signed-in Home is led by **REV**, Revision's non-human AI study-guide identity. REV is the first primary surface after login and asks the learner what they want to do next.
+
+REV v0.1 uses the shared deterministic recommendation engine and the learner's structured evidence to suggest a useful topic/activity without spending an AI-model call. It explains the evidence and limitations behind the recommendation rather than inventing certainty.
+
+Supporting subjects, progress, practice and exam-preparation features remain on the same Home experience and are available by scrolling beneath REV.
+
+Desktop uses persistent top navigation. Mobile uses a Revision header with burger menu and fixed Home / Subjects / Practice / Progress / REV bottom navigation.
+
+See:
+
+- `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
+- `docs/technical/REV Homepage Shell Implementation.md` — current React Home implementation.
+- `docs/technical/React Cutover Parity Audit.md` — migration/cutover state.
+
+## Repository structure
 
 ```text
 /
-├── index.html                         # Authentication + REV-led learner Home
-├── assets/
-│   ├── home.css                       # responsive Home / navigation / REV visual system
-│   └── home.js                        # auth, learner evidence and REV Home behaviour
-└── subjects/
-    └── business/
-        ├── index.html                 # Business subject landing page
-        └── aqa-as/
-            └── paper-2/
-                ├── index.html         # Paper 2 revision app
-                ├── styles.css
-                ├── data-core.js       # syllabus notes + formula bank
-                ├── data-recall.js     # flashcards + topic relationships
-                ├── data-test.js       # question bank + case study
-                ├── app-core.js        # navigation + recall logic
-                ├── app-test.js        # quick test + case-study logic
-                ├── v2.js              # progress model + data lab + full exam simulator
-                └── feedback-v3.js     # adaptive difficulty + evidence-aware readiness
+├── app/                               # Vite entry HTML for the governed React learner app
+├── src/
+│   ├── app/                           # learner UI, REV Home, practice and exam simulator
+│   ├── engine/                        # typed content, evidence and readiness/recommendation logic
+│   └── services/                      # Supabase and persistence services
+├── content/                           # governed typed learning content packs
+├── index.html                         # migration/compatibility root Home
+├── assets/                            # root compatibility Home assets
+└── subjects/                          # legacy learner routes retained during cutover
 ```
 
-## Current Home experience
+## Content model
 
-After authentication, Home is led by **REV**, Revision's non-human AI study guide identity. REV is the first primary surface on desktop and mobile and asks the learner what they want to do next.
-
-REV v0.1 does not spend an AI-model call to manufacture an initial recommendation. It reads the learner's existing Business Paper 2 progress and uses saved recall/quiz evidence to identify the current weakest area. Where there is not enough evidence, it says so and directs the learner to build a baseline rather than inventing certainty.
-
-Supporting subject, progress and continue-learning content remains available by scrolling beneath REV. Desktop uses top navigation; mobile uses the Revision header, burger menu and fixed bottom navigation.
-
-See `docs/technical/REV Homepage Shell Implementation.md` for the current implementation description and `20-brand-and-experience/Visual Brand System.md` for the governing visual direction.
-
-## Design rule
-
-New content should follow:
+New content follows:
 
 `Subject → Qualification / Exam Board → Paper or Area`
 
-Examples:
-
-- `subjects/business/aqa-as/paper-1/`
-- `subjects/business/aqa-as/paper-2/`
-- `subjects/maths/aqa-gcse/higher/`
-- `subjects/economics/aqa-a-level/paper-1/`
-
-Each revision module can use the same learning pattern where useful:
-
-1. Learn
-2. Recall
-3. Link topics
-4. Answer
-5. Test
-6. Measure progress
-7. Simulate the exam
-
-## Current module
-
-AQA AS Business 7131 Paper 2 is the first live module. It includes full-course notes, flashcards, topic-linking relationships, exam-answer blueprints, formula and data practice, adaptive quick checks, case-study training, an 80-mark/90-minute Paper 2 simulator, cloud progress sync, AO1–AO4 tracking and evidence-aware revision recommendations.
+The first live content pack is AQA AS Business 7131 Paper 2. It includes notes, flashcards, topic links, formulas/data work, adaptive quick checks, case-study practice, exam-answer teaching, written exam questions and a full 80-mark/90-minute Paper 2 simulator.
 
 ## Progress principle
 
-Progress is based on evidence rather than clicks. The app builds a baseline across the syllabus before presenting an exam-readiness score, then combines knowledge checks with exam performance to identify what to revise next.
+Progress is based on evidence rather than clicks. Revision distinguishes coverage, scored understanding evidence and exam readiness. Readiness is withheld until the required breadth and variety of evidence exists and is accompanied by a confidence level and explanation.
 
 ## Hosting
 
-The repository publishes directly through GitHub Pages from the `main` branch and repository root.
+GitHub Pages deploys the Vite `dist/` build from `main` using `.github/workflows/deploy-pages.yml`. During migration the workflow also preserves the root compatibility page and legacy subject routes.
