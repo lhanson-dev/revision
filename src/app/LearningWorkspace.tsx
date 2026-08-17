@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
+import { createFlashcardEvidence, createMultipleChoiceEvidence } from './practice-evidence'
 
 export type LearningWorkspaceProps = {
   adapter: LearningContentAdapter
@@ -39,36 +40,37 @@ export function LearningWorkspace({ adapter, saving, saveError, onRecordEvidence
 
   async function rateFlashcard(rating: 0 | 1 | 2) {
     if (!card) return
-    const evidence: LearningEvidence = {
+    const evidence = createFlashcardEvidence({
       id: evidenceId('flashcard'),
       moduleId: adapter.manifest.id,
       topicId: card.topic,
-      occurredAt: new Date().toISOString(),
       contentId: card.id,
-      schemaVersion: 1,
-      source: 'flashcard',
       rating,
+    })
+    try {
+      await onRecordEvidence(evidence)
+    } catch {
+      return
     }
-    await onRecordEvidence(evidence)
     setCardIndex((index) => index + 1)
     setShowAnswer(false)
   }
 
   async function checkAnswer() {
     if (!question || selectedOption === null || checked) return
-    const evidence: LearningEvidence = {
+    const evidence = createMultipleChoiceEvidence({
       id: evidenceId('mcq'),
       moduleId: adapter.manifest.id,
       topicId: question.topic,
-      occurredAt: new Date().toISOString(),
       contentId: question.id,
-      schemaVersion: 1,
-      source: 'multiple_choice',
-      correct: selectedOption === question.correctOption,
       selectedOption,
       correctOption: question.correctOption,
+    })
+    try {
+      await onRecordEvidence(evidence)
+    } catch {
+      return
     }
-    await onRecordEvidence(evidence)
     setChecked(true)
   }
 
