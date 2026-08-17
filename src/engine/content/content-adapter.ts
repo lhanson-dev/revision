@@ -4,6 +4,7 @@ import type {
   ContentPack,
   DataDrill,
   Exam,
+  ExamTechniqueGuide,
   Flashcard,
   Formula,
   MultipleChoiceQuestion,
@@ -35,6 +36,7 @@ export type LearningContentAdapter = {
   listQuestions: (topicId?: TopicId) => readonly MultipleChoiceQuestion[]
   listCaseStudies: () => readonly CaseStudy[]
   listDataDrills: () => readonly DataDrill[]
+  listExamTechnique: () => readonly ExamTechniqueGuide[]
   listExams: () => readonly Exam[]
   getExam: (examId: string) => Exam | undefined
 }
@@ -63,6 +65,7 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     listQuestions: (topicId) => topicId ? pack.questions.filter((item) => item.topic === topicId) : pack.questions,
     listCaseStudies: () => pack.caseStudies,
     listDataDrills: () => pack.dataDrills,
+    listExamTechnique: () => pack.examTechnique,
     listExams: () => pack.exams,
     getExam: (examId) => pack.exams.find((exam) => exam.id === examId),
   }

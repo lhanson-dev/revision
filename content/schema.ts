@@ -47,6 +47,14 @@ export const topicLinkSchema = z.object({
   explanation: z.string().min(1),
 })
 
+export const examTechniqueGuideSchema = z.object({
+  id: slugSchema,
+  title: z.string().min(1),
+  summary: z.string().min(1),
+  steps: z.array(z.string().min(1)).min(1),
+  tip: z.string().min(1),
+})
+
 export const multipleChoiceQuestionSchema = z.object({
   id: slugSchema,
   topic: topicIdSchema,
@@ -153,6 +161,7 @@ export const contentPackSchema = z.object({
   questions: z.array(multipleChoiceQuestionSchema),
   caseStudies: z.array(caseStudySchema),
   dataDrills: z.array(dataDrillSchema),
+  examTechnique: z.array(examTechniqueGuideSchema).default([]),
   exams: z.array(examSchema),
 }).superRefine((pack, context) => {
   const manifestTopics = new Set(pack.manifest.topicIds)
@@ -182,6 +191,7 @@ export const contentPackSchema = z.object({
   assertUniqueIds(pack.questions, 'questions', context)
   assertUniqueIds(pack.caseStudies, 'caseStudies', context)
   assertUniqueIds(pack.dataDrills, 'dataDrills', context)
+  assertUniqueIds(pack.examTechnique, 'examTechnique', context)
   assertUniqueIds(pack.exams, 'exams', context)
 
   const primaryExam = pack.exams[0]
@@ -196,6 +206,7 @@ export type Topic = z.infer<typeof topicSchema>
 export type Formula = z.infer<typeof formulaSchema>
 export type Flashcard = z.infer<typeof flashcardSchema>
 export type TopicLink = z.infer<typeof topicLinkSchema>
+export type ExamTechniqueGuide = z.infer<typeof examTechniqueGuideSchema>
 export type MultipleChoiceQuestion = z.infer<typeof multipleChoiceQuestionSchema>
 export type CaseStudy = z.infer<typeof caseStudySchema>
 export type DataDrill = z.infer<typeof dataDrillSchema>

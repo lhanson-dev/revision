@@ -1,8 +1,8 @@
 # React Cutover Parity Audit
 
-**Status:** current implementation audit  
+**Status:** final product-gap implementation candidate  
 **Date:** 2026-08-17  
-**Decision:** **NO-GO for legacy deletion yet — two product gaps remain to close**
+**Decision:** **NO-GO for legacy deletion until this candidate passes CI/browser assurance and production smoke**
 
 ## Purpose
 
@@ -15,33 +15,27 @@ Parity does **not** mean copying every legacy implementation detail. A legacy be
 
 ## Founder decisions recorded 2026-08-17
 
-The following points are no longer cutover blockers:
+The following points are not cutover blockers:
 
-- **Subject Catalogue / My Revision:** future product scope, not required for the first production cutover. The current single available Business Paper 2 module may be presented directly in My Revision for now. Catalogue architecture should remain extensible through content manifests.
+- **Subject Catalogue / My Revision:** future product scope, not required for the first production cutover. The current single available Business Paper 2 module may be presented directly in My Revision for now. Catalogue architecture remains extensible through content manifests.
 - **Legacy learner progress:** no migration or continuity requirement. The existing prototype is not materially used, so the production React experience may start from structured evidence collected in the new system. Do not manufacture new readiness evidence from legacy aggregate state.
 - **Reset progress:** remove from the production learner product. Ordinary learning controls must not destructively reset evidence. Any future account/data deletion capability belongs in a separate privacy/data-rights journey, not in revision practice.
-
-Two areas remain for product closure before legacy deletion:
-
-1. answer-blueprint / exam-technique teaching;
-2. evidence-driven next-step recommendations.
-
-A mixed diagnostic and adaptive ordering are useful future capabilities, but are not themselves required for the first cutover if the learner already receives a truthful evidence-based next action.
+- **Mixed diagnostic and adaptive ordering:** useful future capabilities, but not required for the first cutover once a truthful evidence-based next action is present.
 
 ## Current strengths of the React implementation
-
-The following capabilities are present in `/app/` and are suitable to carry forward:
 
 | Capability | React state | Audit conclusion |
 |---|---|---|
 | Authentication/session | Implemented with Supabase | PASS |
-| Multi-device shell | Responsive phone/tablet/desktop CSS | PASS, now backed by browser assurance |
+| Multi-device shell | Responsive phone/tablet/desktop CSS | PASS, backed by browser assurance |
 | Topic learning notes | Shared typed content pack | PASS |
 | Flashcard recall | Structured scored evidence | PASS |
 | Topic linking | Shared topic-link chains | PASS; purpose of legacy mind-map journey retained without needing the same visual implementation |
 | Formula recall/data drills | Shared formulas and data drills | PASS |
 | Topic quick checks | Structured MCQ evidence | PASS |
 | Guided case-study practice | NorthPeak case study | PASS |
+| Answer / exam-technique teaching | Shared validated technique content rendered as a dedicated React `Answer` mode | IMPLEMENTED IN CANDIDATE — CI/browser gate pending |
+| Evidence-driven next step | Deterministic topic/activity recommendation with evidence summary and confidence limitation | IMPLEMENTED IN CANDIDATE — CI/browser gate pending |
 | Exam-question writing | Harbour Home questions with AO self-assessment | PASS |
 | Full Paper 2 simulation | 90 minutes / 80 marks / all eight Harbour Home questions | PASS |
 | Results | Overall mark, percentage and AO1–AO4 breakdown | PASS |
@@ -51,44 +45,39 @@ The following capabilities are present in `/app/` and are suitable to carry forw
 | Save failure behaviour | Does not advance/clear work falsely | PASS |
 | Self-marking transparency | Explicitly self-assessed; high confidence blocked without independent marking | PASS |
 
-## Remaining material gaps before cutover
+## Final product gaps — implementation candidate
 
-### P1 — answer-blueprint teaching needs a dedicated React capability
+### Answer / exam-technique teaching
 
-The legacy product explicitly teaches BLT analysis, MOPS evaluation, calculation structure and case-study application before asking learners to write longer answers. React now gives marking guidance after writing, but there is no equivalent dedicated answer-blueprint learning journey.
+The legacy learner purpose is preserved through structured, validated content rather than Business-specific React code. The Business Paper 2 pack now supplies six answer guides:
 
-This is more than legacy parity: the agreed learner flow includes `Answer` between linking topics and testing, and learners should be taught the method before being judged on it.
+- BLT analysis: case fact → because → leading to → therefore;
+- MOPS evaluation: magnitude, objective, probability, short vs long term;
+- calculation questions: formula → substitute → workings → answer + unit;
+- case-study application: use a case fact and explain how it changes the argument;
+- analyse structure;
+- evaluate / assess structure.
 
-**Required before cutover:** add an `Answer` / exam-technique learning mode using structured content, covering at minimum:
+The React workspace exposes this as a dedicated `Answer` learning mode between linking topics and scored testing. It is explicitly labelled as learning guidance and does not create scored readiness evidence merely because it is read.
 
-- case fact → because → leading to → therefore analysis chains;
-- conditional judgement/evaluation;
-- calculation workings + units;
-- case evidence as application rather than decoration.
+**Candidate disposition:** CLOSED subject to CI/browser assurance.
 
-This remains learning guidance, not scored evidence by itself.
+### Evidence-driven next-step recommendation
 
-### P1 — evidence-driven next-step recommendation needs to be visible
+The readiness engine now produces a deterministic recommendation from structured evidence. It:
 
-The legacy runtime includes a mixed diagnostic, weakest-area suggestion and weaker-card ordering. Those exact mechanisms are **not** required for the first React cutover.
+- prioritises topics without enough evidence before already-supported topics;
+- distinguishes missing coverage from demonstrated weakness;
+- chooses Flashcards, Quick check or Exam question to add missing/weaker evidence;
+- states the evidence count/types used;
+- states the topic readiness score/confidence when one is available;
+- states a confidence limitation, including when the recommendation is only a coverage recommendation or written exam evidence is self-assessed.
 
-However, the approved Revision product principle is that evidence should tell the learner what to focus on next. The current React readiness panel explains whether enough evidence exists, but does not yet consistently turn the available topic/evidence picture into a concrete revision recommendation.
+A learner with no evidence is **not** told that the first topic is weak. The UI says it is a coverage recommendation because Revision cannot judge strength yet.
 
-**Required before cutover:** add a truthful, deterministic recommendation such as:
+The recommendation is actionable: `Start recommended activity` switches the workspace to the recommended topic and activity.
 
-- least-supported topic or weakest evidenced topic;
-- recommended next activity type;
-- short explanation of the evidence used and any confidence limitation.
-
-Example: `Marketing has the weakest current evidence. Do one quick check or exam question there next. This recommendation is based on 3 scored Marketing activities versus 7–10 in your other topics.`
-
-**Not required before first cutover:**
-
-- a dedicated mixed 10-question diagnostic;
-- adaptive flashcard ordering;
-- opaque/personalised algorithms.
-
-These can be added later if useful, provided any claimed adaptivity is deterministic/testable and evidence-based.
+**Candidate disposition:** CLOSED subject to CI/browser assurance.
 
 ## Explicitly non-blocking / retired behaviours
 
@@ -126,18 +115,21 @@ The learner purpose is to connect business functions and extend causal chains. R
 
 **Disposition:** DEFER. Useful future enhancement, but not required for first cutover once a truthful evidence-driven next-step recommendation exists.
 
-## Browser assurance introduced by this audit
+## Browser assurance
 
-CI now runs Playwright against the production React build in Chromium using three representative viewports:
+CI runs Playwright against the production React build in Chromium using three representative viewports:
 
 - phone: 390 × 844, touch/mobile context;
 - tablet: 820 × 1180, touch context;
 - desktop: 1440 × 900.
 
-The checks cover:
+The candidate extends those checks to cover:
 
 - unauthenticated sign-in usability;
 - synthetic authenticated Revision Hub rendering without live learner credentials;
+- visible evidence-driven recommendation and its confidence limitation;
+- starting the recommended activity;
+- dedicated Answer mode, including BLT and MOPS guidance;
 - Learn / Flashcards / Quick check / Case study / Exam question availability;
 - Recent Activity and Readiness Progress availability;
 - full timed exam launch and question navigation;
@@ -147,21 +139,21 @@ Supabase evidence reads are intercepted in these browser tests. CI does not writ
 
 ## Cutover decision
 
-**NO-GO today, but only two product closures remain.**
+**NO-GO for deletion until the candidate is proven.** The known product-parity gaps are implemented, but deletion remains gated by evidence, not intent.
 
-Recommended sequence:
+Required sequence from this candidate:
 
-1. Merge this assurance/audit PR once CI is green and Founder-approved.
-2. Add the Answer / exam-technique learning mode.
-3. Add the evidence-driven next-step recommendation.
-4. Extend Playwright coverage to those two closure journeys.
-5. Run production smoke against the deployed `/app/` with a marked synthetic test account and verify live evidence persistence/RLS.
-6. Create a separate cutover PR that removes legacy learner runtime files and redirects/links learner entry points to `/app/`.
-7. Founder approval required for that deletion/cutover PR.
+1. Pass typecheck, lint, unit/content tests, production build and all phone/tablet/desktop Playwright assurance.
+2. Founder approval and merge of this product-gap PR.
+3. Deploy `/app/` from `main`.
+4. Run production smoke with a marked synthetic test account, including real live evidence persistence/RLS and the core learner journey.
+5. If smoke passes, create a separate cutover PR that removes legacy learner runtime files and removes/replaces legacy learner links.
+6. Re-run full CI and production smoke after cutover deployment.
+7. Founder approval remains required for the deletion/cutover PR.
 
 ## Deletion candidates once the gate is satisfied
 
-The historical implementation remains recoverable in Git history. Subject to the final cutover review, the legacy learner runtime candidates remain:
+The historical implementation remains recoverable in Git history. Subject to final smoke and cutover review, the legacy learner runtime candidates remain:
 
 ```text
 subjects/business/index.html
@@ -178,4 +170,4 @@ subjects/business/aqa-as/paper-2/
   feedback-v3.js
 ```
 
-No files in this list are deleted by this audit PR.
+No files in this list are deleted by this product-gap PR.
