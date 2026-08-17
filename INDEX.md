@@ -32,6 +32,7 @@ Use this file to find the governing source before substantive work.
 - Product system model → `10-product-governance/Product System Model.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
+- Information architecture → `10-product-governance/Information Architecture.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
