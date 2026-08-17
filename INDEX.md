@@ -25,6 +25,7 @@ Use this file to find the governing source before substantive work.
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
 - Mission, vision and purpose → `00-company-foundation/Mission Vision and Purpose.md`
 - Strategic positioning → `00-company-foundation/Strategic Positioning.md`
+- Target audience and personas → `10-product-governance/Target Audience and Personas.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
