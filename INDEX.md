@@ -19,6 +19,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
+- Draft Study Coach MVP technical design → `docs/technical/Personal Study Coach MVP Technical Design.md`
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
 
 ## Company and product
