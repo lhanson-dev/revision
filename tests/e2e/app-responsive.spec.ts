@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
+const appPath = '/revision/app/'
 
 async function expectNoPageOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
@@ -44,7 +45,7 @@ async function seedSyntheticSession(page: Page) {
 }
 
 test('sign-in experience remains usable without horizontal page scrolling', async ({ page }) => {
-  await page.goto('/app/')
+  await page.goto(appPath)
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
@@ -54,7 +55,7 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
 
 test('authenticated revision and exam journeys remain available across viewports', async ({ page }) => {
   await seedSyntheticSession(page)
-  await page.goto('/app/')
+  await page.goto(appPath)
 
   await expect(page.getByRole('heading', { name: 'Revision Hub' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Practise Paper 2' })).toBeVisible()
