@@ -1,9 +1,9 @@
 ---
 title: "Personal Study Coach Learner Journey"
 document_id: "revision-personal-study-coach-journey"
-document_type: "user-journey-authority"
+document_type: "domain-authority"
 authority: "product"
-status: "proposed"
+status: "draft"
 version: "0.1"
 owner: "Founder"
 effective_date: null
