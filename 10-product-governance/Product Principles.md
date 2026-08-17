@@ -1,6 +1,6 @@
 # Product Principles
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the product decision rules Revision should use when designing, prioritising and evaluating learner experiences.
 
 ## 1. Always make the next useful action clear
@@ -73,6 +73,20 @@ The student should experience the benefit of that complexity without having to m
 
 The product should feel simple, calm and easy to act on even when the underlying system is sophisticated.
 
+## 12. Design for fast comprehension
+
+Teenagers should not have to read a wall of text or explore a dense interface before understanding what to do.
+
+Learner-facing experiences should favour strong hierarchy, short scannable chunks, plain language, progressive disclosure and action-oriented controls. Deeper detail should remain available when useful without competing with the primary task.
+
+## 13. Accessibility, trust and safety are product quality
+
+Revision serves young people. Accessibility, privacy, safeguarding and transparent use of student data are not optional polish.
+
+The experience should be usable by a diverse range of students, including neurodivergent and disabled learners, and should avoid manipulative, addictive or forced-sharing mechanics.
+
+Detailed accessibility, privacy and safeguarding requirements should be governed by the relevant experience, evidence and trust authorities.
+
 ## Decision test
 
 When two product options compete, prefer the option that:
@@ -81,5 +95,6 @@ When two product options compete, prefer the option that:
 2. makes the right next action clearer;
 3. produces or uses better evidence of learning;
 4. strengthens useful engagement without relying on gimmicks;
-5. improves coverage, understanding or exam readiness; and
-6. keeps the learner experience simple and constructive.
+5. improves coverage, understanding or exam readiness;
+6. is fast to understand and act on; and
+7. keeps the learner experience simple, inclusive, constructive and trustworthy.
