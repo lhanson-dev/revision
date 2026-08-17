@@ -19,14 +19,14 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Draft Study Coach MVP technical design → `docs/technical/Personal Study Coach MVP Technical Design.md`
+- Draft Personal Tutor MVP technical design → `docs/technical/Personal Study Coach MVP Technical Design.md`
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
 
 ## Company and product
 - Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
-- Proposed Personal Study Coach capability → `10-product-governance/Personal Study Coach Capability.md`
-- Proposed Personal Study Coach learner journey → `10-product-governance/Personal Study Coach Learner Journey.md`
+- Proposed Personal Tutor capability → `10-product-governance/Personal Study Coach Capability.md`
+- Proposed Personal Tutor learner journey → `10-product-governance/Personal Study Coach Learner Journey.md`
 
 ## Brand and experience
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
