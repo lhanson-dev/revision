@@ -59,20 +59,20 @@ test('authenticated revision and exam journeys remain available across viewports
 
   await expect(page.getByRole('heading', { name: 'Revision Hub' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Practise Paper 2' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Learn' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Flashcards' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Quick check' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Case study' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Exam question' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Learn' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Flashcards' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Quick check' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Case study' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Exam question' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Recent activity' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Readiness progress' })).toBeVisible()
   await expectNoPageOverflow(page)
 
-  await page.getByRole('button', { name: 'Case study' }).click()
+  await page.getByRole('tab', { name: 'Case study' }).click()
   await expect(page.getByText('Guided application practice')).toBeVisible()
   await expectNoPageOverflow(page)
 
-  await page.getByRole('button', { name: 'Exam question' }).click()
+  await page.getByRole('tab', { name: 'Exam question' }).click()
   await expect(page.getByText('Scored exam evidence — self-assessed')).toBeVisible()
   await expectNoPageOverflow(page)
 
