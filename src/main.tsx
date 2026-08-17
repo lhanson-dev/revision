@@ -4,6 +4,7 @@ import { App } from './app/App'
 import './app/app.css'
 import './app/guidance.css'
 import './app/exam.css'
+import './app/rev-home.css'
 
 const root = document.getElementById('root')
 
