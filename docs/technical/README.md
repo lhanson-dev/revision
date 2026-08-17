@@ -12,7 +12,7 @@ This area describes **how Revision currently works** and records approved target
 - Module code includes recall, testing, progress/readiness logic, data practice and full exam simulation.
 
 ## Draft designs awaiting Founder approval
-- `Personal Study Coach MVP Technical Design.md` — cost-controlled model gateway, deterministic retrieval, evidence boundary, token budgets, safety controls and staged pilot design.
+- `Personal Study Coach MVP Technical Design.md` — cost-controlled ongoing Tutor, model gateway, deterministic retrieval, evidence boundary, token budgets, safety controls and staged pilot design.
 
 Detailed architecture, auth/data flow, content model, routing, deployment and testing documentation should be added as migration continues.
 
