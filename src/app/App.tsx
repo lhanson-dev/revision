@@ -51,6 +51,7 @@ export function App() {
   const [revMessage, setRevMessage] = useState(defaultRevMessage)
   const [revTyping, setRevTyping] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [reducedMotion] = useState(() => prefersReducedMotion())
 
   const adapter = getContentAdapter(moduleId)
   const topics = useMemo(() => adapter?.listTopics() ?? [], [adapter])
@@ -69,6 +70,9 @@ export function App() {
   const recommendationMessage = recommendation && recommendationTopic
     ? `I’d start with ${recommendationTopic.shortTitle} using ${activityLabel(recommendation.activity)}. ${recommendation.reason}`
     : 'I need a little more evidence before I can make a useful recommendation. Start with a short activity and I’ll use what you show me.'
+  const targetRevMessage = revSuggested ? recommendationMessage : defaultRevMessage
+  const displayedRevMessage = reducedMotion ? targetRevMessage : revMessage
+  const displayedRevTyping = !reducedMotion && revTyping
 
   useEffect(() => {
     let active = true
@@ -104,28 +108,21 @@ export function App() {
   }, [user])
 
   useEffect(() => {
-    if (!user) return
-    const text = revSuggested ? recommendationMessage : defaultRevMessage
-    if (prefersReducedMotion()) {
-      setRevMessage(text)
-      setRevTyping(false)
-      return
-    }
-
-    setRevMessage('')
-    setRevTyping(true)
+    if (!user || reducedMotion) return
+    const text = targetRevMessage
     let index = 0
-    const timer = window.setInterval(() => {
+    let timer = 0
+
+    const tick = () => {
       index = Math.min(text.length, index + 2)
       setRevMessage(text.slice(0, index))
-      if (index >= text.length) {
-        window.clearInterval(timer)
-        setRevTyping(false)
-      }
-    }, 18)
+      setRevTyping(index < text.length)
+      if (index < text.length) timer = window.setTimeout(tick, 18)
+    }
 
-    return () => window.clearInterval(timer)
-  }, [user, revSuggested, recommendationMessage])
+    timer = window.setTimeout(tick, 0)
+    return () => window.clearTimeout(timer)
+  }, [user, targetRevMessage, reducedMotion])
 
   useEffect(() => {
     if (!menuOpen) return
@@ -260,7 +257,7 @@ export function App() {
               <div className="rev-pill"><span aria-hidden="true">✦</span> REV AI GUIDE</div>
               <h1 id="rev-welcome">Hi, {learner} 👋</h1>
               <h2 className="rev-question">What shall we do today?</h2>
-              <p className={`rev-message ${revTyping ? 'typing' : ''}`} aria-live="polite">{revMessage}</p>
+              <p className={`rev-message ${displayedRevTyping ? 'typing' : ''}`} aria-live="polite">{displayedRevMessage}</p>
 
               {!revSuggested ? (
                 <div className="rev-actions">
