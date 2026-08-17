@@ -2,7 +2,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import tseslint from 'typescript-eslint'
 
-const files = ['src/**/*.{ts,tsx}', 'vite.config.ts']
+const files = ['src/**/*.{ts,tsx}', 'content/**/*.ts', 'vite.config.ts']
 
 export default tseslint.config(
   { ignores: ['dist/**', 'subjects/**'] },

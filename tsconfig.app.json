@@ -20,5 +20,5 @@
     "noUncheckedSideEffectImports": true,
     "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src", "content"]
 }
