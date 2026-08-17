@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the initial top-level structure of the Revision student experience.
 
 ## Principle
@@ -8,6 +8,8 @@
 The information architecture should make the product feel clear, calm and purposeful.
 
 The student should not have to understand the internal complexity of Revision in order to use it. The top-level structure should reflect the jobs they are trying to do: understand what matters now, move between subjects, practise, prepare for exams, see progress and get support.
+
+Navigation should remain recognisable and relatively flat. Avoid deep nesting, competing entry points and unnecessary menu complexity.
 
 ## Top-level navigation
 
@@ -28,6 +30,8 @@ Home should also provide a small number of supporting signals and signposts, suc
 
 Home should remain focused. It should not become a busy activity feed or dashboard full of competing widgets.
 
+The learner should be able to scan Home quickly and identify the main action without reading long explanatory text. Secondary detail may be progressively disclosed rather than competing with the main task.
+
 ### Subjects
 
 Subjects is the student's structured view of the subjects they have added.
@@ -37,6 +41,8 @@ Students with more than one subject must be able to switch between them easily.
 Within a subject, the student should be able to browse the underlying course/specification structure and see topic-by-topic coverage and progress rather than having the syllabus hidden behind recommendations.
 
 Subject areas may surface relevant learning resources, practice options, weaknesses and recommended next actions.
+
+The specification structure should remain understandable on mobile and should avoid requiring the student to navigate several nested levels before reaching a useful topic or activity.
 
 ### Practice
 
@@ -73,6 +79,8 @@ Progress should help the student understand the bigger picture across subjects a
 
 Progress should provide confidence when the student is on track and constructive direction when they are not.
 
+Progress views should prioritise meaning over dashboard density: show the learner what a signal means and what action follows from it rather than presenting unexplained metrics.
+
 ### Tutor
 
 Tutor is the dedicated space for the ongoing AI tutor relationship.
@@ -100,6 +108,8 @@ Account, settings, subject management and similar utility functions should remai
 
 Parent and teacher experiences should be treated as separate role-specific journeys when developed, rather than being inserted into the student's everyday navigation.
 
+Help, privacy and account explanations should be easy to find without displacing the primary revision navigation.
+
 ## Design guardrails
 
 The information architecture should:
@@ -108,6 +118,9 @@ The information architecture should:
 - support fast switching between multiple subjects;
 - keep the specification transparent and browsable;
 - make the AI tutor available in context;
+- keep navigation relatively flat and recognisable;
 - avoid excessive dashboard density;
-- preserve student freedom to navigate and choose their own activity; and
+- preserve student freedom to navigate and choose their own activity;
+- use progressive disclosure for secondary detail;
+- remain fully usable on mobile; and
 - make progress and exam preparation easy to find without overwhelming the primary revision flow.
