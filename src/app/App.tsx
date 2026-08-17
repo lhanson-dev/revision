@@ -32,6 +32,10 @@ export function App() {
     })
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
+      if (!session) {
+        setEvidence([])
+        setEvidenceError('')
+      }
     })
     return () => {
       active = false
@@ -40,10 +44,7 @@ export function App() {
   }, [])
 
   useEffect(() => {
-    if (!user) {
-      setEvidence([])
-      return
-    }
+    if (!user) return
     const store = createSupabaseEvidenceStore(supabase)
     loadLearningEvidence(store, user.id, moduleId)
       .then((items) => {
