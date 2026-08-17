@@ -36,6 +36,8 @@ jobs:
         run: |
           cp index.html dist/index.html
           cp -R subjects dist/subjects
+          mkdir -p dist/assets
+          cp assets/home.css assets/home.js dist/assets/
           touch dist/.nojekyll
 
       - name: Configure Pages
@@ -70,11 +72,17 @@ jobs:
           set -euo pipefail
           base="${PAGE_URL%/}/"
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}" -o /tmp/root.html
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}assets/home.css" -o /tmp/home.css
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}assets/home.js" -o /tmp/home.js
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}app/" -o /tmp/app.html
+          grep -q 'REV AI GUIDE' /tmp/root.html
+          grep -q 'assets/home.css' /tmp/root.html
+          grep -q -- '--indigo:' /tmp/home.css
+          grep -q 'const MODULE_ID=' /tmp/home.js
           grep -q '<div id="root"></div>' /tmp/app.html
           grep -Eq '/revision/assets/[^" ]+\.js' /tmp/app.html
           if grep -q '/src/main.tsx' /tmp/app.html; then
             echo 'Production /app/ is still serving source TypeScript instead of the Vite build.' >&2
             exit 1
           fi
-          echo "Production Pages smoke passed for ${base} and ${base}app/"
+          echo "Production Pages smoke passed for ${base}, REV Home assets and ${base}app/"
