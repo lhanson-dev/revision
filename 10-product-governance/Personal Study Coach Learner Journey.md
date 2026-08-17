@@ -1,24 +1,24 @@
 ---
-title: "Personal Study Coach Learner Journey"
+title: "Personal Personal Tutor Learner Journey"
 document_id: "revision-personal-study-coach-journey"
 document_type: "domain-authority"
 authority: "product"
 status: "draft"
-version: "0.1"
+version: "0.2"
 owner: "Founder"
 effective_date: null
 last_reviewed: "2026-08-17"
 review_cadence: "quarterly"
 content_review_status: "founder-review-required"
-source_of_truth_for: ["personal study coach learner journey"]
-depends_on: ["Personal Study Coach Capability", "Product UX Principles", "Tone of Voice Framework"]
+source_of_truth_for: ["personal tutor learner journey"]
+depends_on: ["Personal Personal Tutor Capability", "Product UX Principles", "Tone of Voice Framework"]
 supersedes: null
 ---
-# Personal Study Coach Learner Journey
+# Personal Personal Tutor Learner Journey
 
 ## Journey goal
 
-Help the learner move from uncertainty or indecision to a useful, active learning step without taking control away from them.
+Help the learner sustain a useful tutoring conversation from uncertainty through explanation, challenge, practice and a next action without taking control away from them.
 
 ## Entry points
 
@@ -31,6 +31,7 @@ After authentication, the normal learner home remains available. A non-blocking 
 Actions:
 - **Guide me**
 - **I’m stuck on something**
+- **Continue our last topic**
 - **Continue where I left off**
 - **Not now**
 
@@ -38,7 +39,15 @@ A greeting must not imply the coach knows how the learner feels. “How are you 
 
 ### Persistent support
 
-A consistently placed **Study Coach** control opens contextual support from ordinary learning routes. The control must not cover essential content or controls.
+A consistently placed **Personal Tutor** control opens contextual support from ordinary learning routes. The control must not cover essential content or controls. Ordinary tutoring has no small learner-visible turn counter and should continue while the discussion remains educationally useful.
+
+### Resume structured tutoring memory
+
+Where approved memory exists, the Tutor may offer a concise, transparent resumption such as:
+
+> Last time, you understood the stages of a supply chain but were still unsure how disruption affects cash flow. Shall we continue there?
+
+The learner can continue, inspect or clear this memory. The summary must distinguish remembered tutoring context from independently demonstrated mastery.
 
 ### Contextual invitation
 
@@ -46,7 +55,7 @@ Revision may offer help after a meaningful signal such as repeated misconception
 
 ## Journey A — learner chooses the topic
 
-1. Learner opens Study Coach.
+1. Learner opens Personal Tutor.
 2. Coach invites a question in ordinary language.
 3. Learner describes the problem.
 4. Coach identifies the active module and likely topic.
@@ -57,11 +66,12 @@ Revision may offer help after a meaningful signal such as repeated misconception
 9. Coach gives specific feedback and corrects misconceptions.
 10. Coach offers a next action and explains why.
 11. Valid learner performance may be submitted to the evidence service; the conversation itself is not evidence.
+12. The learner may keep questioning or request another explanation without an artificial session interruption.
 
 Example:
 
 > **Jamie:** I really don’t get how supply chains work.  
-> **Study Coach:** I’ve got you. A supply chain is everything involved in getting a product from its raw materials to the customer. Which part is hardest: who is involved, how goods move, or why supply-chain decisions affect a business?
+> **Personal Tutor:** I’ve got you. A supply chain is everything involved in getting a product from its raw materials to the customer. Which part is hardest: who is involved, how goods move, or why supply-chain decisions affect a business?
 
 ## Journey B — learner asks to be guided
 
@@ -90,7 +100,7 @@ Example:
 
 ## Journey D — protected assessment or exam
 
-1. Learner opens Study Coach during a scored or exam-mode attempt.
+1. Learner opens Personal Tutor during a scored or exam-mode attempt.
 2. Coach explains that giving the answer would invalidate the attempt.
 3. It may provide neutral operational help that does not reveal subject answers.
 4. Learner may return to the attempt, submit/end the attempt and then review, or leave under the assessment’s existing rules.
@@ -100,11 +110,12 @@ Example:
 ## Journey E — close and return
 
 At any point the learner may:
-- close the coach without losing their current work;
+- close the Tutor without losing their current work;
+- resume approved structured tutoring memory;
 - start a new conversation;
-- clear permitted conversation history;
+- inspect or clear permitted memory/history;
 - inspect why a recommendation was made; or
-- continue without the coach.
+- continue without the Tutor.
 
 The coach must not repeatedly reopen itself after dismissal within the same study context.
 
@@ -158,5 +169,7 @@ When a message falls outside safe study support, the coach responds according to
 - Assisted and independent learner performance remain distinguishable.
 - Protected assessment modes prevent answer leakage.
 - The learner can close the coach without losing activity state.
-- Privacy and history controls are available before any conversation is persisted.
+- Privacy and memory/history controls are available before anything is persisted.
+- The learner can sustain and resume an ordinary tutoring discussion without a small visible turn allowance.
+- Structured memory is distinguished from mastery evidence and can be inspected or cleared.
 - Failure of the AI service does not block core revision journeys.
