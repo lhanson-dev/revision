@@ -3,11 +3,11 @@ title: "Security Standard"
 document_id: "revision-security-standard"
 document_type: "standard"
 authority: "engineering"
-status: "draft"
+status: "active"
 version: "0.1"
 owner: "Founder"
-effective_date: null
-last_reviewed: null
+effective_date: "2026-08-17"
+last_reviewed: "2026-08-17"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["application and data security"]
