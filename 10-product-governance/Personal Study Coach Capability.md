@@ -1,30 +1,30 @@
 ---
-title: "Personal Study Coach Capability"
+title: "Personal Tutor Capability"
 document_id: "revision-personal-study-coach-capability"
 document_type: "domain-authority"
 authority: "product"
 status: "draft"
-version: "0.1"
+version: "0.2"
 owner: "Founder"
 effective_date: null
 last_reviewed: "2026-08-17"
 review_cadence: "quarterly"
 content_review_status: "founder-review-required"
-source_of_truth_for: ["personal study coach product capability"]
+source_of_truth_for: ["personal tutor product capability"]
 depends_on: ["Product UX Principles", "Tone of Voice Framework", "Security Standard"]
 supersedes: null
 ---
-# Personal Study Coach Capability
+# Personal Tutor Capability
 
 ## Decision sought
 
-Approve a permanent, evidence-aware Personal Study Coach as a flagship Revision capability, subject to the release gates in this document.
+Approve a permanent, evidence-aware Personal Tutor as a flagship Revision capability, subject to the release gates in this document.
 
-The learner-facing capability name is **Study Coach**. “Bot” may be used as an informal working name but is not the approved product name.
+**Personal Tutor** is the capability name used in this draft. The final learner-facing product name remains open; candidates include **Revision Tutor** and **Study Coach**. “Bot” is not the intended finished positioning.
 
 ## Product promise
 
-The Study Coach helps each learner decide what to study, understand difficult material, practise actively and take the next useful action.
+The Personal Tutor gives each learner an ongoing, syllabus-grounded tutoring conversation. It helps them decide what to study, understand difficult material, challenge explanations, practise actively and take the next useful action.
 
 It combines:
 - the learner’s selected subject, qualification, exam board and paper;
@@ -33,7 +33,7 @@ It combines:
 - the current activity and recent study history; and
 - clear uncertainty when the available evidence is incomplete.
 
-It is not a general-purpose chatbot and must not present itself as a human teacher.
+It is not a general-purpose chatbot and must not present itself as a human teacher. It should nevertheless feel continuous and personal: the learner can question, challenge, revisit and deepen an explanation without an artificial per-session interruption.
 
 ## Intended learner outcome
 
@@ -56,6 +56,20 @@ On entry to the authenticated learner product, the coach may greet the learner a
 - **Continue where I left off**
 
 The greeting must be lightweight and dismissible. It must not block access to the learner’s normal dashboard or create emotional pressure to engage.
+
+### Continue an ongoing tutoring thread
+
+The learner may continue discussing a topic for as long as the exchange remains useful and within fair-use controls. Revision must not expose a small turn counter or interrupt ordinary learning merely to protect fractions of a penny.
+
+Between sessions, the Tutor may retain approved structured learning memory such as:
+- current topic and next goal;
+- concepts understood;
+- misconceptions still unresolved;
+- explanations or examples already tried;
+- assistance received; and
+- links to relevant evidence facts.
+
+Structured tutoring memory is not mastery evidence and is not permission to retain full transcripts indefinitely.
 
 ### Explain and diagnose
 
@@ -137,7 +151,9 @@ The learner must be able to understand why a recommendation was made. Personalis
 - Mobile, tablet and desktop experiences must provide equivalent core coaching capability.
 - Conversation UI must support keyboard, touch, screen-reader navigation and reduced motion.
 - The coach must preserve the learner’s place when opened contextually.
-- A new conversation, clear-history control and explanation of data use must be easy to find.
+- A new conversation, memory/history controls and explanation of data use must be easy to find.
+- Ordinary tutoring must not display a small per-session response allowance.
+- The learner should be able to resume an approved structured tutoring thread across sessions.
 - Responses should be concise by default and expandable through dialogue.
 - The coach must use the active Tone of Voice and Product UX Principles.
 
@@ -174,7 +190,8 @@ Before release, Revision must be able to:
 The first release should be deliberately narrow:
 - authenticated learners only;
 - the current AQA AS Business Paper 2 content pack only;
-- typed conversation;
+- ongoing typed tutoring conversation;
+- structured cross-session learning memory where approved;
 - topic explanation and misconception diagnosis;
 - short active checks;
 - contextual help outside protected scored/exam conditions;
@@ -192,6 +209,16 @@ The first release should be deliberately narrow:
 - parent surveillance;
 - automatic readiness changes from conversation alone; or
 - supporting every subject before the first module is assured.
+
+## Access and commercial hypothesis
+
+The current hypothesis, not yet approved pricing authority, is:
+- Revision’s core activities and evidence-based guidance remain available without requiring unrestricted Tutor use;
+- free learners receive enough Personal Tutor access to experience its value;
+- a future premium entitlement may provide generous fair-use ongoing tutoring, structured memory and deeper personal guidance; and
+- the product must not use deliberately frustrating limits to manufacture an upgrade.
+
+Entitlements, price and acceptable unit economics require evidence from the Jamie pilot before approval.
 
 ## Success measures
 
@@ -227,8 +254,10 @@ Message count, conversation duration and daily usage must not be treated as evid
 ## Open Founder decisions
 
 Before implementation planning is approved:
-1. Confirm **Study Coach** as the capability name or choose an alternative.
-2. Decide whether conversation history is saved between sessions.
-3. Decide the parent/guardian visibility model for under-18 learners.
-4. Decide whether the coach may discuss non-study matters at all or redirects immediately.
-5. Define the first pilot users and acceptable model operating cost.
+1. Choose the final learner-facing name: **Revision Tutor**, **Study Coach** or another option.
+2. Approve the exact structured-memory fields, retention and learner deletion controls.
+3. Decide whether any raw transcript is retained beyond the active session and for how long.
+4. Decide the parent/guardian visibility model for under-18 learners.
+5. Decide whether the Tutor may discuss non-study matters at all or redirects immediately.
+6. Define free sampling, premium entitlement and pricing only after pilot evidence.
+7. Define the pilot operating budget and exceptional-use ceiling.
