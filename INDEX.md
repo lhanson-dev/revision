@@ -19,6 +19,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
+- Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`
@@ -34,6 +35,7 @@ Use this file to find the governing source before substantive work.
 - Product system model → `10-product-governance/Product System Model.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
+- Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture → `10-product-governance/Information Architecture.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Other Founder/strategy authority → `00-company-foundation/`
@@ -78,6 +80,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
+- Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
 - Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
 - Other research/exploration → `research/`

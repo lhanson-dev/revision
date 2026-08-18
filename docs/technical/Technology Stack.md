@@ -14,6 +14,8 @@ Status: Approved target pending implementation.
 ## Data and authentication
 - Existing Supabase project
 - Supabase Auth
+- Email/password authentication with password recovery
+- Google OAuth as the first approved social provider, displayed only when enabled in Supabase Auth
 - PostgreSQL / Supabase data APIs protected by RLS
 - Version-controlled Supabase migrations
 
