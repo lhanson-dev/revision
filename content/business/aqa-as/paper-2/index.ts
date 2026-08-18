@@ -4,8 +4,11 @@ import { topics } from './topics'
 import { formulas, topicLinks } from './learning'
 import { flashcards } from './flashcards'
 import { dataDrills, northPeakCaseStudy, questions } from './questions'
+import { extendedCaseStudies } from './cases-extended'
+import { extendedDataDrills } from './quantitative-extended'
 import { examTechnique } from './exam-technique'
 import { exams } from './exams'
+import { extendedExams } from './exams-extended'
 
 export const businessAqaAsPaper2 = contentPackSchema.parse({
   manifest,
@@ -14,10 +17,10 @@ export const businessAqaAsPaper2 = contentPackSchema.parse({
   topicLinks,
   flashcards,
   questions,
-  caseStudies: [northPeakCaseStudy],
-  dataDrills,
+  caseStudies: [northPeakCaseStudy, ...extendedCaseStudies],
+  dataDrills: [...dataDrills, ...extendedDataDrills],
   examTechnique,
-  exams,
+  exams: [...exams, ...extendedExams],
 })
 
 export default businessAqaAsPaper2
