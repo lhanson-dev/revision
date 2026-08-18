@@ -58,6 +58,8 @@ Use this file to find the governing source before substantive work.
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
+- New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
+- New content source / specification coverage template → `80-company-workflows/Content Pack Source and Coverage Template.md`
 - Existing repository adoption → `80-company-workflows/Existing Repository Adoption Workflow.md`
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
