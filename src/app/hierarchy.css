@@ -26,11 +26,12 @@
 .course-card p+.muted{margin-top:8px}
 .quiet-note{margin:18px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
 .paper-heading{margin-bottom:18px}
-.course-nav{position:sticky;top:73px;z-index:45;display:flex;gap:4px;margin:0 0 24px;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.95);box-shadow:var(--shadow-soft);backdrop-filter:blur(14px);overflow-x:auto}
+.course-nav{position:sticky;top:73px;z-index:45;min-width:0;max-width:100%;display:flex;gap:4px;margin:0 0 24px;padding:8px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.95);box-shadow:var(--shadow-soft);backdrop-filter:blur(14px);overflow-x:auto}
 .course-nav button{min-height:44px;flex:0 0 auto;padding:0 16px;border:0;border-radius:12px;background:transparent;color:var(--ink-soft);font-weight:850;cursor:pointer}
 .course-nav button:hover{background:var(--surface-soft)}
 .course-nav button.active{background:var(--indigo);color:#fff}
-.paper-section-content{display:grid;gap:22px}
+.paper-section-content{min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+.paper-section-content>*{min-width:0;max-width:100%}
 .paper-recommendation{grid-template-columns:1fr auto}
 .section-choice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .section-choice{min-width:0;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"icon title" "icon copy";column-gap:12px;align-items:start;padding:20px;text-align:left;border:1px solid var(--line);border-radius:22px;background:#fff;color:var(--ink);box-shadow:var(--shadow-soft);cursor:pointer}
@@ -44,9 +45,11 @@
 .topic-list-grid p{margin:4px 0 0;color:var(--muted);font-size:12px}
 .evidence-dot{width:11px;height:11px;flex:0 0 auto;border:2px solid #b9c0d8;border-radius:50%;background:#fff}
 .evidence-dot.has-evidence{border-color:var(--indigo);background:var(--indigo)}
-.focused-workspace{margin:0}
-.focused-workspace .mode-tabs{margin-bottom:20px}
-.exam-simulator-section{margin-top:0}
+.focused-workspace{min-width:0;width:100%;max-width:100%;margin:0;overflow:hidden}
+.focused-workspace .workspace-heading,.focused-workspace .practice-card,.focused-workspace .learn-panel,.focused-workspace .recommendation-card{min-width:0;max-width:100%}
+.focused-workspace .mode-tabs{min-width:0;max-width:100%;margin-bottom:20px}
+.focused-workspace .option-list label span{min-width:0;overflow-wrap:anywhere}
+.exam-simulator-section{min-width:0;max-width:100%;margin-top:0}
 .cross-section-next{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid var(--line);border-radius:20px;background:#fff}
 .cross-section-next>div{display:grid;gap:4px}
 .cross-section-next strong{color:var(--ink);font-size:18px}
