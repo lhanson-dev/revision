@@ -4,7 +4,7 @@ Status: Founder-approved authority change, pending merge.
 
 ## Purpose
 
-Amend the approved Content Factory v0.1 operating boundary so ordinary course intake is operated through a minimal protected Revision Admin / Content Operations surface rather than requiring the Founder to initiate jobs directly in GitHub.
+Amend the approved Content Factory v0.1 operating boundary so ordinary course intake is operated through a minimal protected Revision Content Operations capability rather than requiring the Founder to initiate jobs directly in GitHub.
 
 This amendment is narrow. It does not approve a broad administration platform or weaken any existing content, security, assurance, deployment or merge gate.
 
@@ -18,9 +18,19 @@ Where those documents say that no Admin UI is required before the pipeline is pr
 
 All other Content Factory authority remains unchanged.
 
-## v0.1 Admin boundary
+## Canonical runtime and entry point
 
-Revision will provide a protected internal `/admin/` surface separate from the learner `/app/` runtime.
+Content Operations is a **role-gated capability inside the canonical `/app/` React runtime**. Revision must not maintain a second standalone `/admin/` application or separate admin login experience for this v0.1 capability.
+
+The standard learner navigation remains Home / Subjects / Progress / REV.
+
+When the signed-in account has database-backed admin access:
+
+- desktop navigation may expose an additional **Admin** item after the ordinary learner destinations;
+- mobile must preserve the four-item learner bottom navigation and expose **Admin** through the account/additional-links menu; and
+- selecting Admin opens the Content Operations screen inside `/app/`.
+
+The Admin link is a privileged role-specific utility. It does not redefine the standard learner information architecture for ordinary student accounts.
 
 The first Content Operations capability is **Add Course**.
 
@@ -31,7 +41,15 @@ The minimum Add Course input is:
 
 Submitting the form must create the durable Content Factory job record and place it in the approved `requested` lifecycle state. The subsequent pipeline continues under the existing Content Factory operating model.
 
-The Admin surface may later expose Course Jobs, blockers, assurance, CI/deployment state and usage/cost, but those additions must remain operational views over governed evidence rather than alternative sources of educational authority.
+The Content Operations screen may later expose Course Jobs, blockers, assurance, CI/deployment state and usage/cost, but those additions must remain operational views over governed evidence rather than alternative sources of educational authority.
+
+## Authentication and account recovery
+
+Revision uses the existing application sign-in experience for learners and administrators. There must not be a second admin-specific username/password flow.
+
+The main sign-in experience must provide a **Forgot password** route using the approved Supabase Auth recovery mechanism. A recovery email returns the user to the canonical application, where the authenticated recovery session can set a new password before continuing.
+
+Admin status is evaluated after normal authentication; password recovery does not confer or change admin access.
 
 ## Admin assignment
 
@@ -41,14 +59,16 @@ Admin status must:
 
 - be database-owned rather than inferred from an email address in browser code;
 - be non-editable by ordinary authenticated browser clients;
-- be checked by the protected Admin UI for presentation; and
+- control whether the role-specific Admin navigation item is presented; and
 - be rechecked server-side before any privileged Content Factory operation is performed.
 
 The initial administrator is the existing authenticated account for `leehanson@hotmail.com`.
 
-Future administrators may be assigned or removed by an authorised database operation without changing learner application code.
+Future administrators may be assigned or removed by an authorised database operation without changing application code.
 
 ## Security boundary
+
+Browser presentation of an Admin link is not authorization.
 
 The browser must never receive GitHub write credentials, Supabase service-role credentials, AI provider secrets or other privileged factory credentials.
 
@@ -58,13 +78,13 @@ The server-side endpoint may hold a narrowly scoped GitHub credential sufficient
 
 ## Learner separation
 
-`/admin/` is an internal administration route, not part of learner information architecture or learner navigation.
+Content Operations shares the `/app/` runtime but remains role-gated operational functionality.
 
-The canonical learner runtime remains `/app/`. Adding Content Operations must not introduce admin links into Home / Subjects / Progress / REV or couple learner content rendering to admin implementation.
+Ordinary learner accounts must not see Admin navigation or Content Operations controls. Adding Content Operations must not change the normal four-destination learner hierarchy or couple learner content rendering to Content Factory implementation.
 
 ## Merge and publication boundary
 
-Creating a course job from Admin is not permission to generate unsupported content, publish a pack, or merge a PR.
+Creating a course job from Content Operations is not permission to generate unsupported content, publish a pack, or merge a PR.
 
 The existing pipeline remains authoritative:
 
@@ -74,7 +94,7 @@ Every merge into `main` continues to require explicit Founder approval for that 
 
 ## Deferred capability
 
-Still deferred from this initial Admin slice:
+Still deferred from this initial Content Operations slice:
 
 - a large dashboard;
 - user analytics and system-health dashboards beyond already governed operations work;
