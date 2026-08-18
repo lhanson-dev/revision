@@ -186,6 +186,6 @@ Future enrolment should filter the published course catalogue rather than reintr
 
 Normative placement authority is `10-product-governance/Course Content and Assessment Component Placement.md`.
 
-Architecture decision history is recorded in `decisions/ADR-0011-course-level-learning-and-exam-paper-placement.md`.
+Architecture decision history is recorded in `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`.
 
 Historical content assurance records are unchanged because this implementation reorganises already-assured content rather than rewriting the educational material.
