@@ -13,9 +13,11 @@ For an ordinary new course, the Founder may provide only an official awarding-bo
 
 The Founder should not have to manually provide subject, qualification, awarding body, specification code, paper names or assessment structure when those can be resolved reliably from the official source.
 
+At scale, the Founder may provide a batch of official course/specification URLs. Each resolved course should normally become its own durable Content Factory job and governed branch/PR boundary so status, assurance and approval remain attributable.
+
 ## Intake rules
 
-When an official course/specification URL is supplied, the agent must:
+When an official course/specification URL is supplied, the agent/system must:
 
 1. verify that the URL is an official awarding-body source rather than a third-party revision page;
 2. resolve the subject, qualification level, awarding body and specification code/identifier from the official source;
@@ -26,7 +28,7 @@ When an official course/specification URL is supplied, the agent must:
 7. build the specification coverage blueprint before substantial learner content is generated;
 8. preserve subject-authentic structure rather than forcing the course into an existing Business-shaped content model.
 
-The supplied URL is the **starting authority pointer**, not automatically the only source required. The agent is responsible for following the official awarding-body source set needed to establish curriculum and assessment truth.
+The supplied URL is the **starting authority pointer**, not automatically the only source required. The agent/system is responsible for following the official awarding-body source set needed to establish curriculum and assessment truth.
 
 ## Confirmation behaviour
 
@@ -65,7 +67,7 @@ Where the current content schema cannot represent the authentic course structure
 
 ## Source safety and currency
 
-The agent must not assume that the first search result, an old PDF, or a familiar specification code is current.
+The agent/system must not assume that the first search result, an old PDF, or a familiar specification code is current.
 
 The official awarding-body site must be used to confirm:
 
@@ -81,6 +83,8 @@ If the supplied URL redirects to a replaced or withdrawn qualification, surface 
 Successful URL intake must produce the information required by the existing governed workflow:
 
 **Official URL → resolved course identity → official source set → source record → coverage blueprint → typed content pack → Content Accuracy Assurance Gate → CI → preview/pilot publication → portable human-review PDF → human subject-review gate.**
+
+For scalable execution, `Content Factory Operating Model.md` owns orchestration/job state around those governed stages. It does not replace their educational or publication controls.
 
 All existing Founder merge approvals remain required.
 
