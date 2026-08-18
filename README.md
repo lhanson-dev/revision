@@ -48,7 +48,7 @@ See:
 - `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
 - `docs/technical/REV Homepage Shell Implementation.md` — current React learner shell and catalogue behaviour.
 - `docs/technical/Target System Architecture.md` — current/target technical architecture.
-- `decisions/ADR-0011-course-level-learning-and-exam-paper-placement.md` — implementation decision history for the course-first model.
+- `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md` — implementation decision history for the course-first model.
 
 ## Repository structure
 
