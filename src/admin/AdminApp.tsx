@@ -20,13 +20,21 @@ async function loadAdminFlag(userId: string) {
   return data?.is_admin === true
 }
 
+function recoveryRedirectUrl() {
+  return new URL('./', window.location.href).toString()
+}
+
 export function AdminApp() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
   const [authError, setAuthError] = useState('')
+  const [authMessage, setAuthMessage] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [recoveryMode, setRecoveryMode] = useState(() => window.location.hash.includes('type=recovery'))
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [officialUrl, setOfficialUrl] = useState('')
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -60,7 +68,8 @@ export function AdminApp() {
     }
 
     supabase.auth.getSession().then(({ data }) => refreshAccess(data.session?.user ?? null))
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') setRecoveryMode(true)
       setLoading(true)
       void refreshAccess(session?.user ?? null)
     })
@@ -74,6 +83,7 @@ export function AdminApp() {
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setAuthError('')
+    setAuthMessage('')
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
@@ -82,11 +92,65 @@ export function AdminApp() {
     }
   }
 
+  async function requestPasswordReset() {
+    setAuthError('')
+    setAuthMessage('')
+
+    const resetEmail = email.trim()
+    if (!resetEmail) {
+      setAuthError('Enter your email address first, then choose Forgot password?')
+      return
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: recoveryRedirectUrl(),
+    })
+
+    if (error) {
+      setAuthError(error.message)
+      return
+    }
+
+    setAuthMessage('If that account exists, a password reset email has been sent. Open the link in that email to set a new password.')
+  }
+
+  async function updatePassword(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setAuthError('')
+    setAuthMessage('')
+
+    if (newPassword.length < 8) {
+      setAuthError('Use a password with at least 8 characters.')
+      return
+    }
+
+    if (newPassword !== confirmPassword) {
+      setAuthError('The two passwords do not match.')
+      return
+    }
+
+    setLoading(true)
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (error) {
+      setAuthError(error.message)
+      setLoading(false)
+      return
+    }
+
+    setRecoveryMode(false)
+    setNewPassword('')
+    setConfirmPassword('')
+    window.history.replaceState({}, document.title, window.location.pathname)
+    setAuthMessage('Password updated. You are now signed in.')
+    setLoading(false)
+  }
+
   async function signOut() {
     await supabase.auth.signOut()
     setCreatedJob(null)
     setOfficialUrl('')
     setNotes('')
+    setRecoveryMode(false)
   }
 
   async function addCourse(event: FormEvent<HTMLFormElement>) {
@@ -126,6 +190,30 @@ export function AdminApp() {
     )
   }
 
+  if (recoveryMode && user) {
+    return (
+      <main className="admin-shell admin-centred">
+        <section className="admin-auth-card" aria-labelledby="admin-reset-title">
+          <p className="admin-eyebrow">Revision internal</p>
+          <h1 id="admin-reset-title">Set a new password</h1>
+          <p>Choose a new password for your Revision account.</p>
+          <form className="admin-form" onSubmit={updatePassword}>
+            <label>
+              New password
+              <input type="password" autoComplete="new-password" minLength={8} required value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
+            </label>
+            <label>
+              Confirm new password
+              <input type="password" autoComplete="new-password" minLength={8} required value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
+            </label>
+            {authError ? <p className="admin-error" role="alert">{authError}</p> : null}
+            <button type="submit">Update password</button>
+          </form>
+        </section>
+      </main>
+    )
+  }
+
   if (!user) {
     return (
       <main className="admin-shell admin-centred">
@@ -143,7 +231,11 @@ export function AdminApp() {
               <input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} />
             </label>
             {authError ? <p className="admin-error" role="alert">{authError}</p> : null}
-            <button type="submit">Sign in</button>
+            {authMessage ? <p className="admin-success" role="status">{authMessage}</p> : null}
+            <div className="admin-auth-actions">
+              <button type="submit">Sign in</button>
+              <button type="button" className="admin-text-button" onClick={requestPasswordReset}>Forgot password?</button>
+            </div>
           </form>
         </section>
       </main>
@@ -186,6 +278,8 @@ export function AdminApp() {
           </div>
           <span className="admin-user">{user.email}</span>
         </header>
+
+        {authMessage ? <p className="admin-success admin-panel-message" role="status">{authMessage}</p> : null}
 
         <section id="add-course" className="admin-panel" aria-labelledby="add-course-title">
           <h2 id="add-course-title">Official course source</h2>
