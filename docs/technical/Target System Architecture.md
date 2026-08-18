@@ -1,9 +1,11 @@
 # Target System Architecture
 
-Status: Approved target pending implementation.
+Status: Approved target, learner cutover complete.
 
 ## Current state
-Revision is migrating from a static HTML/CSS/JavaScript learner prototype to the governed React learner application. Supabase Auth and structured learning evidence are live; the legacy learner routes remain temporarily available until production verification and cutover are complete.
+Revision's governed learner product is the React application at `/app/`. Supabase Auth and structured learning evidence are live. The previous static learner runtime and legacy `subjects/` routes are retired from production.
+
+Until a public marketing/editorial site is introduced, the repository root `/` contains only a lightweight redirect into `/app/`.
 
 ## Target state
 
@@ -26,6 +28,7 @@ Supabase Auth + canonical progress data
 
 ## Permanent route boundary
 - `/` and public content routes are reserved for the future crawlable marketing and editorial website.
+- Until that website exists, `/` may redirect to `/app/`; it must not contain a competing learner runtime.
 - `/app/` is the permanent authenticated learner-product boundary.
 - Learner routes, including My Revision, catalogue, subject/paper study, assessments, exams, progress and account journeys, live beneath `/app/`.
 - Marketing pages may link into `/app/`, but authenticated learner application state must not be coupled to public-page rendering.
@@ -33,17 +36,15 @@ Supabase Auth + canonical progress data
 
 ## Production deployment
 - GitHub Pages remains the current production host while Revision proves the product.
-- `main` is the production source of truth, but Pages must publish the **built Vite artifact**, not raw TypeScript/source files from the repository tree.
-- The production workflow runs `npm ci` and `npm run build`, uploads `dist/` as the Pages artifact, then deploys that exact artifact to the `github-pages` environment.
-- During the migration window, the workflow copies the existing root `index.html` and legacy `subjects/` routes into the artifact unchanged so deployment correction does not itself perform learner cutover.
-- A post-deploy smoke must confirm `/` responds, `/app/` responds, `/app/` references a built `/revision/assets/*.js` asset and does not reference `/src/main.tsx`.
-- The repository's Pages publishing source must be configured for **GitHub Actions/custom workflow**, not legacy branch/Jekyll publishing, before this workflow becomes authoritative.
-- Deployment success is a release gate. A green PR build without a successful production artifact deployment is not sufficient for cutover.
+- `main` is the production source of truth, but Pages publishes the **built Vite artifact**, not raw TypeScript/source files from the repository tree.
+- The production workflow installs dependencies, runs the production build, uploads `dist/` as the Pages artifact, then deploys that exact artifact to the `github-pages` environment.
+- The workflow may add the lightweight root redirect to the artifact, but it must not republish the retired static learner runtime.
+- Post-deploy smoke must confirm `/` points to `/app/`, `/app/` references a built `/revision/assets/*.js` asset and does not reference `/src/main.tsx`, and retired learner routes remain unavailable.
+- The repository's Pages publishing source is GitHub Actions/custom workflow rather than legacy branch/Jekyll publishing.
+- Deployment success is a release gate. A green PR build without a successful production artifact deployment is not sufficient.
 
 ## Operational layer
 GitHub Actions provides risk-based assurance, builds and deployment. A protected Admin/Operations view surfaces system health, real-user usage, learning-system health and actionable issues.
 
 ## Migration principle
-Refactor the current site directly toward this architecture while keeping the product usable between governed PRs. Do not maintain a permanent parallel V1/V2 architecture.
-
-During migration, the legacy learner site may remain at its current routes only until React parity and production verification are complete. The `/app/` boundary must be established before cutover so the final retirement of legacy runtime code does not require a later learner-URL migration.
+The learner runtime migration is complete. Future learner implementation work targets the canonical `/app/` React runtime. Compatibility, experimental or public routes must not be treated as alternative learner implementations.
