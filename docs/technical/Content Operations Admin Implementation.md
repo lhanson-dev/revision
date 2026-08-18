@@ -1,6 +1,6 @@
 # Content Operations Admin Implementation
 
-Status: Implemented on governed branch, pending merge and production enablement.
+Status: Implemented on `main`; database admin-role migration enabled in production. Content Factory intake Edge Function production enablement remains pending verification.
 
 ## Purpose
 
@@ -27,9 +27,11 @@ Learners and administrators use the same existing Supabase Auth sign-in experien
 
 The main sign-in card provides **Forgot password?**. It calls `supabase.auth.resetPasswordForEmail` with the canonical app URL as the recovery redirect. On the returned `PASSWORD_RECOVERY` session, the application asks for and confirms a new password, then updates it with `supabase.auth.updateUser` before returning to the normal application.
 
-`public.profiles` gains a database-owned `is_admin boolean not null default false` classification. The existing authenticated-user profile policy permits a user to read only their own profile, while authenticated browser clients retain no INSERT/UPDATE/DELETE grant on `profiles`.
+`public.profiles` has a database-owned `is_admin boolean not null default false` classification. The existing authenticated-user profile policy permits a user to read only their own profile, while authenticated browser clients retain no INSERT/UPDATE/DELETE grant on `profiles`.
 
-The migration conditionally assigns `is_admin = true` to the existing auth account whose email is `leehanson@hotmail.com`.
+The approved migration conditionally assigns `is_admin = true` to the existing auth account whose email is `leehanson@hotmail.com`.
+
+The migration was applied to the production Supabase project on 2026-08-19. Production verification confirmed `leehanson@hotmail.com` has `is_admin = true`. A separate Google-linked `lhanson@gmail.com` identity remains a distinct learner account and is not an administrator unless deliberately assigned in the database.
 
 Future admin membership is changed in the database, not by hard-coding emails into React.
 
@@ -79,7 +81,7 @@ It deliberately does not yet implement course identity/source/coverage workers. 
 
 The Pages production smoke therefore continues to verify the canonical `/app/` Vite artifact rather than a separate Admin artifact.
 
-Supabase database migration and Edge Function deployment remain separate production changes from the static Pages artifact. They must be applied/deployed from the approved merged revision before Add Course can be considered operational in production.
+The Supabase admin-role database migration is now applied in production. Edge Function deployment and its required server-side GitHub token remain separate production enablement steps and must be verified before Add Course can be considered fully operational in production.
 
 The production `/app/` URL must be permitted as a Supabase Auth redirect so password-recovery links can return to the canonical application.
 
