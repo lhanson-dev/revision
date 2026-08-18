@@ -45,7 +45,7 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
       expect(pack.flashcards).toHaveLength(100)
       expect(pack.questions).toHaveLength(50)
       expect(pack.caseStudies).toHaveLength(6)
-      expect(pack.dataDrills).toHaveLength(24)
+      expect(pack.dataDrills).toHaveLength(25)
       expect(pack.examTechnique).toHaveLength(9)
       expect(pack.exams).toHaveLength(1)
     }
