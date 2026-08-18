@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm install --ignore-scripts --no-audit --no-fund
 
-      - name: Build Vite learner app
+      - name: Build Vite learner and admin apps
         run: npm run build
 
       - name: Publish root redirect
@@ -65,7 +65,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Verify canonical React app and legacy retirement
+      - name: Verify canonical React app, protected admin build and legacy retirement
         env:
           PAGE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
@@ -74,14 +74,22 @@ jobs:
 
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}" -o /tmp/root.html
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}app/" -o /tmp/app.html
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 2 "${base}admin/" -o /tmp/admin.html
 
           grep -q 'data-revision-redirect="app"' /tmp/root.html
           grep -q './app/' /tmp/root.html
           grep -q '<div id="root"></div>' /tmp/app.html
           grep -Eq '/revision/assets/[^" ]+\.js' /tmp/app.html
+          grep -q '<div id="admin-root"></div>' /tmp/admin.html
+          grep -Eq '/revision/assets/[^" ]+\.js' /tmp/admin.html
 
           if grep -q '/src/main.tsx' /tmp/app.html; then
             echo 'Production /app/ is still serving source TypeScript instead of the Vite build.' >&2
+            exit 1
+          fi
+
+          if grep -q '/src/admin/main.tsx' /tmp/admin.html; then
+            echo 'Production /admin/ is still serving source TypeScript instead of the Vite build.' >&2
             exit 1
           fi
 
@@ -91,4 +99,4 @@ jobs:
           test "$legacy_status" = "404"
           test "$root_asset_status" = "404"
 
-          echo "Production cutover smoke passed: ${base} redirects to ${base}app/, React assets are built, and legacy learner routes are retired."
+          echo "Production smoke passed: learner /app/ and protected /admin/ are built, and legacy learner routes are retired."
