@@ -20,4 +20,6 @@ export const businessAqaAsPaper2 = contentPackSchema.parse({
   exams,
 })
 
+export default businessAqaAsPaper2
+
 export type BusinessAqaAsPaper2Content = typeof businessAqaAsPaper2
