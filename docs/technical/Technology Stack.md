@@ -27,6 +27,8 @@ Status: Approved target pending implementation.
 ## CI/CD and hosting
 - GitHub Actions
 - GitHub Pages remains default hosting unless implementation proves a concrete need to change
+- CI and the Pages production build use Node 24.18.0 with npm 11.19.0 pinned explicitly. This avoids the npm 10 Arborist peer-dependency resolver null-dereference that previously prevented dependency installation before Revision's assurance suite could run.
+- The repository package engine remains `node >=22.12.0`; the stricter CI toolchain pin is a build-system reliability control rather than a learner-runtime requirement.
 
 ## Deliberate exclusions for now
 - no full-stack React framework
