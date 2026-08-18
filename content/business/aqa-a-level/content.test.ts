@@ -32,7 +32,7 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
     expect(packs.map((pack) => pack.manifest.paper.number)).toEqual([1, 2, 3])
     expect(packs.every((pack) => pack.manifest.paper.durationMinutes === 120)).toBe(true)
     expect(packs.every((pack) => pack.manifest.paper.totalMarks === 100)).toBe(true)
-    expect(packs.every((pack) => pack.manifest.status === 'preview')).toBe(true)
+    expect(packs.every((pack) => pack.manifest.status === 'available')).toBe(true)
   })
 
   it('shares the complete ten-area A-level curriculum and substantial practice layer', () => {

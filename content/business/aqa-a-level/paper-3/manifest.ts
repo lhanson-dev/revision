@@ -3,7 +3,7 @@ import { contentManifestSchema } from '../../../schema'
 export const manifest = contentManifestSchema.parse({
   id: 'business-aqa-a-level-7132-paper-3',
   schemaVersion: 1,
-  status: 'preview',
+  status: 'available',
   subject: { id: 'business', name: 'Business' },
   qualification: { id: 'aqa-a-level', name: 'AQA A-level' },
   examBoard: { id: 'aqa', name: 'AQA' },
