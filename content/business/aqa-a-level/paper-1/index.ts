@@ -5,6 +5,7 @@ import { formulas, topicLinks } from '../shared/learning'
 import { flashcards } from '../shared/flashcards'
 import { questions } from '../shared/questions'
 import { dataDrills } from '../shared/quantitative'
+import { networkPractice } from '../shared/network-practice'
 import { caseStudies } from '../shared/cases'
 import { examTechnique } from '../shared/exam-technique'
 import { exams } from './exam'
@@ -17,7 +18,7 @@ export const businessAqaALevel7132Paper1 = contentPackSchema.parse({
   flashcards,
   questions,
   caseStudies,
-  dataDrills,
+  dataDrills: [...dataDrills, ...networkPractice],
   examTechnique,
   exams,
 })
