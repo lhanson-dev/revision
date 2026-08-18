@@ -171,10 +171,7 @@ export function App() {
 
   useEffect(() => {
     let active = true
-    if (!user) {
-      setIsAdmin(false)
-      return () => { active = false }
-    }
+    if (!user) return () => { active = false }
 
     supabase
       .from('profiles')
