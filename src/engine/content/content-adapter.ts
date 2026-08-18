@@ -15,9 +15,15 @@ import type {
 
 export type CatalogueEntry = {
   id: string
+  subjectId: string
   subject: string
+  qualificationId: string
   qualification: string
+  examBoardId: string
   examBoard: string
+  specificationCode: string
+  paperId: string
+  paperNumber: number
   paper: string
   status: ContentManifest['status']
   durationMinutes: number
@@ -48,9 +54,15 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     manifest: pack.manifest,
     catalogueEntry: {
       id: pack.manifest.id,
+      subjectId: pack.manifest.subject.id,
       subject: pack.manifest.subject.name,
+      qualificationId: pack.manifest.qualification.id,
       qualification: pack.manifest.qualification.name,
+      examBoardId: pack.manifest.examBoard.id,
       examBoard: pack.manifest.examBoard.name,
+      specificationCode: pack.manifest.specificationCode,
+      paperId: pack.manifest.paper.id,
+      paperNumber: pack.manifest.paper.number,
       paper: pack.manifest.paper.name,
       status: pack.manifest.status,
       durationMinutes: pack.manifest.paper.durationMinutes,
