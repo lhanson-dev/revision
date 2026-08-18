@@ -22,6 +22,25 @@ Does this change what Revision **should do**?
 - [ ] No
 - [ ] Yes — authority has been updated/proposed
 
+## Implementation target verification
+Complete this section for implementation changes.
+
+**Intended user-facing route(s) / product surface:**
+
+**Canonical runtime / entry point:**
+
+**Primary files/components being changed:**
+
+**Technical source used to establish the canonical target:**
+
+**Compatibility / legacy / migration surfaces that also exist:**
+
+How do tests or production smoke prove this PR changes the intended canonical surface?
+
+- [ ] Canonical runtime/route was resolved before implementation began
+- [ ] No compatibility or legacy surface is being mistaken for the governed product
+- [ ] Deployment configuration publishes the runtime/surface changed by this PR
+
 ## Implementation
 Does implementation conform to active authority?
 - [ ] Yes
