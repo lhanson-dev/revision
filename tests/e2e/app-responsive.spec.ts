@@ -53,14 +53,29 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
   await expectNoPageOverflow(page)
 })
 
-test('authenticated revision and exam journeys remain available across viewports', async ({ page }) => {
+test('authenticated REV home, revision and exam journeys remain available across viewports', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
-  await expect(page.getByRole('heading', { name: 'Revision Hub' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What shall we do today?' })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Suggest my next step/ })).toBeVisible()
+
+  const viewportWidth = page.viewportSize()?.width ?? 0
+  if (viewportWidth <= 960) {
+    await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
+  } else {
+    await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible()
+  }
+
+  await page.getByRole('button', { name: /Suggest my next step/ }).click()
+  await expect(page.getByRole('button', { name: /Take me there/ })).toBeVisible()
+  await expect(page.getByText('This is a coverage recommendation, not a judgement that the topic is weak.').first()).toBeVisible()
+  await expectNoPageOverflow(page)
+
   await expect(page.getByRole('heading', { name: 'Practise Paper 2' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Business · Quick check' })).toBeVisible()
-  await expect(page.getByText('This is a coverage recommendation, not a judgement that the topic is weak.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Start recommended activity' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Learn' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Flashcards' })).toBeVisible()

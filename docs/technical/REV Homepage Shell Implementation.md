@@ -4,56 +4,83 @@
 
 ## Purpose
 
-Describe the first implemented Revision home shell that applies the approved visual direction and makes REV the primary post-login experience.
+Describe the implemented Revision Home experience and its relationship to the governed React learner application at `/app/`.
 
-## Current implementation
+## Canonical learner route
 
-The repository-root `index.html` remains the authentication entry point and signed-in Home route. The new shell separates presentation and behaviour into:
+The governed learner product is the Vite/React application published at:
 
-- `assets/home.css` — responsive visual system, desktop navigation, mobile bottom navigation, REV surface and reduced-motion behaviour.
-- `assets/home.js` — Supabase authentication, identity display, saved-progress loading, deterministic REV recommendation, menu behaviour and restrained typing response.
-- existing Business Paper 2 data files — reused by Home to interpret the current learner evidence without introducing a second curriculum copy.
+`/revision/app/`
+
+The repository-root page remains a migration/compatibility surface while the legacy runtime is still being retired. It is not the canonical learner application because it does not contain the shared typed content, evidence engine, learning workspace or exam simulator used by the React app.
+
+The REV-led Home design therefore lives in `src/app/App.tsx` and `src/app/rev-home.css`.
+
+## Home hierarchy
+
+After authentication, the React app presents:
+
+1. **REV first** — a large indigo recommendation/conversation surface containing the learner greeting and “What shall we do today?”.
+2. **Today’s picture** — a compact evidence-aware summary beside REV on desktop and immediately below it on mobile.
+3. **Subjects and progress overview** — supporting information that remains available by scrolling and does not compete with the first CTA.
+4. **Practice workspace** — the existing full Business Paper 2 learning/practice capability.
+5. **Exam Prep** — the existing full Paper 2 simulator.
+6. **Detailed progress** — recent evidence and readiness explanation.
+
+Desktop uses the approved persistent top navigation. Mobile uses the Revision header, burger menu and fixed Home / Subjects / Practice / Progress / REV bottom navigation.
 
 ## REV v0.1 behaviour
 
-REV is not yet a general conversational model on Home. The first recommendation is deterministic and cost-efficient:
+REV is not yet a general conversational model on Home. Its first useful recommendation is deterministic and cost-efficient.
 
-1. load the signed-in learner's `revision_progress` row for `business-aqa-as-paper-2`, falling back to local progress where necessary;
-2. derive topic evidence from the existing flashcard and quiz state;
-3. identify the weakest current topic when evidence exists; and
-4. explain that recommendation in plain English.
+The React Home uses the existing shared recommendation engine:
 
-If there is insufficient answer evidence, REV does not invent a weak area. It says that the baseline is insufficient and directs the learner to build evidence.
+- `recommendNextActivity(...)` chooses a topic and activity from structured learner evidence;
+- the recommendation carries a plain-English reason, evidence summary and confidence limitation;
+- `assessPaperReadiness(...)` supplies the governed paper-readiness state;
+- no extra AI-model call is required for the first recommendation.
 
-This is intentionally a v0.1 bridge. The recommendation calculation should later be extracted behind a shared recommendation/evidence service so Home and the paper module cannot drift.
+When evidence is sparse, REV states the limitation and may recommend gathering coverage evidence rather than claiming a topic is weak.
 
-## Responsive hierarchy
-
-### Desktop
-
-Home uses a persistent top navigation. REV is the dominant first surface, with a compact current-picture card alongside it and subject/progress/continue content beneath.
-
-### Mobile
-
-Home uses the Revision wordmark plus burger menu at the top and a fixed bottom navigation for Home, Subjects, Practice, Progress and REV. REV is the first CTA surface after the header; supporting content scrolls below it.
-
-## Motion and accessibility
-
-REV uses a restrained orb pulse and waveform movement. The first message may type on entry and recommendations may type in response. All motion is non-essential and is disabled/reduced when `prefers-reduced-motion` is set.
+The learner can ask REV to suggest the next step or choose practice manually. The existing `LearningWorkspace` remains the execution surface for the recommended activity.
 
 ## Data and claim boundaries
 
-The homepage does not invent exam dates, extra subjects or grade forecasts that are not stored by the current system. Progress labels are derived only from available saved evidence. Exam readiness remains unassessed until suitable exam-attempt evidence exists.
+Home displays only information supported by current product data. It does not invent:
 
-## GitHub Pages packaging
+- exam dates;
+- additional subjects;
+- grade forecasts;
+- generic “on track” claims; or
+- readiness where the governed evidence thresholds have not been met.
 
-The Pages workflow builds the Vite learner application into `dist/` and then preserves the repository-root Home and legacy subject routes during the migration period.
+The compact progress overview distinguishes evidence coverage, scored activity and paper readiness. Evidence coverage means topics with recorded evidence; it is not presented as mastery or syllabus completion.
 
-Because the root Home depends on non-Vite files, deployment must explicitly copy:
+## Motion and accessibility
 
-- `index.html` → `dist/index.html`
-- `subjects/` → `dist/subjects/`
-- `assets/home.css` → `dist/assets/home.css`
-- `assets/home.js` → `dist/assets/home.js`
+REV uses a restrained abstract orb/waveform presence. The initial message and returned recommendation may type onto the screen once.
 
-The production smoke test verifies the deployed root contains the REV Home marker and that both Home assets return successfully, as well as continuing to verify the built `/app/` route. This prevents a successful Pages deployment from silently publishing a root Home whose required CSS or JavaScript was omitted from the artifact.
+Motion:
+
+- is non-essential to understanding;
+- stops under `prefers-reduced-motion`;
+- does not flash; and
+- does not block navigation or learning work.
+
+## Implementation files
+
+- `src/app/App.tsx` — authentication, REV Home shell, responsive navigation, evidence-aware Home summaries and existing learner capability composition.
+- `src/app/rev-home.css` — approved v0.1 visual system application, REV motion, responsive Home hierarchy and navigation.
+- `src/app/app.css` — existing learning workspace/component baseline retained during the visual migration.
+- `src/engine/readiness/readiness.ts` — shared deterministic readiness and next-activity recommendation logic.
+- `tests/e2e/app-responsive.spec.ts` — phone/tablet/desktop browser assurance for the REV Home plus existing learning and exam journeys.
+
+## GitHub Pages deployment
+
+The Pages workflow builds the Vite learner application into `dist/`. The `/app/` route is therefore updated from `src/` whenever the production Vite build is deployed.
+
+During the migration period, the workflow also preserves the repository-root compatibility Home and legacy `subjects/` routes in the Pages artifact. Production smoke continues to verify that `/app/` references a built `/revision/assets/*.js` bundle rather than raw TypeScript source.
+
+## Future technical step
+
+A later REV programme can add a genuine conversational layer on top of this deterministic first recommendation. The conversation layer should call the same governed evidence/recommendation services rather than developing a separate interpretation of learner progress.
