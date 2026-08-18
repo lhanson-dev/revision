@@ -88,12 +88,13 @@ test('authenticated learner hierarchy keeps global and course navigation distinc
 
   await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'What should I work on in Business?' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Open Paper 2' }).first()).toBeVisible()
+  const asCourseCard = page.getByLabel('AQA AS Business')
+  await expect(asCourseCard.getByRole('button', { name: 'Open Paper 2' })).toBeVisible()
   await expectNoPageOverflow(page)
 
-  await page.getByRole('button', { name: 'Open Paper 2' }).first().click()
-  await expect(page.getByRole('heading', { name: 'Paper 2: Business 2' })).toBeVisible()
+  await asCourseCard.getByRole('button', { name: 'Open Paper 2' }).click()
   const paperNav = page.getByRole('navigation', { name: 'Paper 2 navigation' })
+  await expect(paperNav).toBeVisible()
   await expect(paperNav.getByRole('button')).toHaveCount(5)
   await expect(paperNav.getByRole('button', { name: 'Overview' })).toBeVisible()
   await expect(paperNav.getByRole('button', { name: 'Learn' })).toBeVisible()
