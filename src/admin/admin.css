@@ -126,6 +126,22 @@ p {
   opacity: 0.6;
 }
 
+.admin-auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-form .admin-text-button {
+  min-height: 44px;
+  padding: 0;
+  background: transparent;
+  color: #276fbf;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .admin-secondary {
   background: #e9eef4 !important;
   color: #102033 !important;
@@ -151,6 +167,7 @@ p {
 }
 
 .admin-success a { color: inherit; font-weight: 800; }
+.admin-panel-message { width: min(100%, 720px); margin: 0 auto 20px; }
 
 .admin-layout {
   min-height: 100vh;
