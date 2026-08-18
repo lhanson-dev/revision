@@ -4,6 +4,7 @@ import { getContentAdapter, listAvailableContentAdapters } from '../engine/conte
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
+import { ContentOperations } from './ContentOperations'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import {
@@ -21,6 +22,7 @@ import {
   type ModuleLearningState,
 } from './catalogue-model'
 import {
+  adminRoute,
   courseRoute,
   homeRoute,
   moduleRoute,
@@ -95,6 +97,10 @@ export function App() {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [recoveryMode, setRecoveryMode] = useState(() => window.location.hash.includes('type=recovery'))
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
   const [evidenceError, setEvidenceError] = useState('')
   const [savingEvidence, setSavingEvidence] = useState(false)
@@ -145,9 +151,11 @@ export function App() {
       setUser(data.session?.user ?? null)
       setLoading(false)
     })
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') setRecoveryMode(true)
       setUser(session?.user ?? null)
       if (!session) {
+        setIsAdmin(false)
         setEvidence([])
         setEvidenceError('')
         setSaveError('')
@@ -160,6 +168,26 @@ export function App() {
       listener.subscription.unsubscribe()
     }
   }, [])
+
+  useEffect(() => {
+    let active = true
+    if (!user) {
+      setIsAdmin(false)
+      return () => { active = false }
+    }
+
+    supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('user_id', user.id)
+      .single()
+      .then(({ data, error }) => {
+        if (!active) return
+        setIsAdmin(!error && data?.is_admin === true)
+      })
+
+    return () => { active = false }
+  }, [user])
 
   useEffect(() => {
     if (!user) return
@@ -255,6 +283,45 @@ export function App() {
     else setMessage(data.session ? 'Account created.' : 'Account created. Check your email to confirm your address, then return here to sign in.')
   }
 
+  async function requestPasswordReset() {
+    const resetEmail = email.trim()
+    if (!resetEmail) {
+      setMessage('Enter your email address first, then choose Forgot password?')
+      return
+    }
+
+    setMessage('Sending password reset…')
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: currentAppUrl(),
+    })
+    setMessage(error ? error.message : 'If that account exists, a password reset email has been sent. Open the link in that email to choose a new password.')
+  }
+
+  async function updatePassword() {
+    if (newPassword.length < 8) {
+      setMessage('Use a new password of at least 8 characters.')
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setMessage('The two passwords do not match.')
+      return
+    }
+
+    setMessage('Updating password…')
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+    if (error) {
+      setMessage(error.message)
+      return
+    }
+
+    setRecoveryMode(false)
+    setNewPassword('')
+    setConfirmPassword('')
+    setPassword('')
+    setMessage('Password updated.')
+    navigate(homeRoute())
+  }
+
   async function signOut() {
     setMenuOpen(false)
     await supabase.auth.signOut()
@@ -281,6 +348,25 @@ export function App() {
 
   if (loading) return <main className="loading-shell">Loading Revision…</main>
 
+  if (recoveryMode && user) {
+    return (
+      <main className="auth-shell">
+        <div className="auth-brand" aria-label="Revision">Revision<span aria-hidden="true">✦</span></div>
+        <section className="auth-card" aria-labelledby="reset-password-heading">
+          <p className="eyebrow">Account recovery</p>
+          <h1 id="reset-password-heading">Set a new password</h1>
+          <p className="intro">Choose a new password for your Revision account.</p>
+          <div className="auth-recovery-form">
+            <label>New password<input type="password" autoComplete="new-password" minLength={8} value={newPassword} onChange={(event) => setNewPassword(event.target.value)} /></label>
+            <label>Confirm new password<input type="password" autoComplete="new-password" minLength={8} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} /></label>
+            <div className="auth-actions"><button className="primary" onClick={updatePassword}>Update password</button></div>
+          </div>
+          <p className="message" aria-live="polite">{message}</p>
+        </section>
+      </main>
+    )
+  }
+
   if (!user) {
     return (
       <main className="auth-shell">
@@ -295,6 +381,7 @@ export function App() {
             <button className="primary" onClick={signIn}>Sign in</button>
             <button className="secondary" onClick={signUp}>Create account</button>
           </div>
+          <button className="auth-recovery-link" type="button" onClick={requestPasswordReset}>Forgot password?</button>
           <p className="message" aria-live="polite">{message}</p>
         </section>
       </main>
@@ -308,6 +395,7 @@ export function App() {
       <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}>Subjects</button>
       <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}>Progress</button>
       <button className={route.kind === 'rev' ? 'active' : ''} onClick={() => navigate(revRoute())}>REV</button>
+      {isAdmin && <button className={route.kind === 'admin' ? 'active' : ''} onClick={() => navigate(adminRoute())}>Admin</button>}
     </>
   )
 
@@ -528,7 +616,7 @@ export function App() {
     const recommendation = state.recommendation
     const recommendationTopic = state.recommendationTopic
     const paperNavigation = <nav className="course-nav" aria-label={`${pLabel} navigation`}>{sections.map((item) => { const labels = { overview: 'Overview', learn: 'Learn', practice: 'Practice', 'exam-prep': 'Exam Prep', progress: 'Progress' }; return <button key={item} className={section === item ? 'active' : ''} onClick={() => navigate(moduleRoute(subjectId, moduleId, item))}>{labels[item]}</button> })}</nav>
-    return <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="paper-page-title"><div className="breadcrumbs"><button onClick={() => navigate(subjectsRoute())}>Subjects</button><span>›</span><button onClick={() => navigate(subjectRoute(subjectId))}>{adapter.manifest.subject.name}</button><span>›</span><span>{pLabel}</span></div><header className="page-heading paper-heading"><p className="eyebrow">{cLabel} · specification {adapter.manifest.specificationCode}</p><h1 id="paper-page-title">{adapter.manifest.paper.name}</h1><p>{adapter.manifest.learnerExperience.what_is_this}</p></header>{paperNavigation}{section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation" aria-labelledby="paper-recommendation-title"><div><p className="eyebrow">REV · {pLabel}</p><h2 id="paper-recommendation-title">Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and I’ll use that evidence to guide the next step.'}</p></div></section><section className="home-section" aria-labelledby="paper-topics-title"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2 id="paper-topics-title">{pLabel} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}{section === 'learn' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="learn" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></div>}{section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></div>}{section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />{primaryExam && <section className="exam-simulator-section" aria-label="Full paper simulator"><ExamSimulator exam={primaryExam} moduleId={moduleId} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>}</div>}{section === 'progress' && <div className="paper-section-content">{learningProgressSummary(state)}{learningProgressDetail(state)}</div>}</main>
+    return <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="paper-page-title"><div className="breadcrumbs"><button onClick={() => navigate(subjectsRoute())}>Subjects</button><span>›</span><button onClick={() => navigate(subjectRoute(subjectId))}>{adapter.manifest.subject.name}</button><span>›</span><span>{pLabel}</span></div><header className="page-heading paper-heading"><p className="eyebrow">{cLabel} · specification {adapter.manifest.specificationCode}</p><h1 id="paper-page-title">{adapter.manifest.paper.name}</h1><p>{adapter.manifest.learnerExperience.what_is_this}</p></header>{paperNavigation}{section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation" aria-labelledby="paper-recommendation-title"><div><p className="eyebrow">REV · {pLabel}</p><h2 id="paper-recommendation-title">Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and I’ll use that evidence to guide the next step.'}</p></div></section><section className="home-section" aria-labelledby="paper-topics-title"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2 id="paper-topics-title">{pLabel} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}{section === 'learn' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="learn" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></div>}{section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></div>}{section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} />{primaryExam && <section className="exam-simulator-section" aria-label="Full paper simulator"><ExamSimulator exam={primaryExam} moduleId={moduleId} saving={savingLearningEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>}</div>}{section === 'progress' && <div className="paper-section-content">{learningProgressSummary(state)}{learningProgressDetail(state)}</div>}</main>
   }
 
   function renderGlobalProgress() {
@@ -553,6 +641,7 @@ export function App() {
   else if (route.kind === 'module') screen = renderModuleScreen(route.subjectId, route.moduleId, route.section)
   else if (route.kind === 'progress') screen = renderGlobalProgress()
   else if (route.kind === 'rev') screen = renderRev()
+  else if (route.kind === 'admin') screen = isAdmin ? <ContentOperations /> : renderHome()
 
-  return <div className="app-shell"><header className="topbar desktop-topbar"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button><nav className="desktop-nav" aria-label="Primary navigation">{globalNavigation}</nav><button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span><strong>{learner}</strong><small>Account</small></span><span aria-hidden="true">⌄</span></button></header><header className="mobile-topbar"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button><button className="burger-button" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button></header>{screen}<nav className="bottom-nav four-item-nav" aria-label="Mobile navigation"><button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><span className="nav-icon" aria-hidden="true">⌂</span><span>Home</span></button><button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><span className="nav-icon" aria-hidden="true">▤</span><span>Subjects</span></button><button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><span className="nav-icon" aria-hidden="true">▥</span><span>Progress</span></button><button className={route.kind === 'rev' ? 'active' : ''} onClick={() => navigate(revRoute())}><span className="mini-orb" aria-hidden="true"></span><span>REV</span></button></nav>{menuOpen && <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>}<aside className={`menu-drawer ${menuOpen ? 'open' : ''}`} aria-label="Account and additional links" aria-hidden={!menuOpen}><div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div><nav className="drawer-links"><button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button><button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button><button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button></nav><button className="signout-button" onClick={signOut}>Sign out</button></aside></div>
+  return <div className="app-shell"><header className="topbar desktop-topbar"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button><nav className="desktop-nav" aria-label="Primary navigation">{globalNavigation}</nav><button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span><strong>{learner}</strong><small>Account</small></span><span aria-hidden="true">⌄</span></button></header><header className="mobile-topbar"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button><button className="burger-button" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button></header>{screen}<nav className="bottom-nav four-item-nav" aria-label="Mobile navigation"><button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><span className="nav-icon" aria-hidden="true">⌂</span><span>Home</span></button><button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><span className="nav-icon" aria-hidden="true">▤</span><span>Subjects</span></button><button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><span className="nav-icon" aria-hidden="true">▥</span><span>Progress</span></button><button className={route.kind === 'rev' ? 'active' : ''} onClick={() => navigate(revRoute())}><span className="mini-orb" aria-hidden="true"></span><span>REV</span></button></nav>{menuOpen && <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>}<aside className={`menu-drawer ${menuOpen ? 'open' : ''}`} aria-label="Account and additional links" aria-hidden={!menuOpen}><div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div><nav className="drawer-links"><button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button><button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button><button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button>{isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}</nav><button className="signout-button" onClick={signOut}>Sign out</button></aside></div>
 }
