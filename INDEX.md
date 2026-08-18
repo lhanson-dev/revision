@@ -20,7 +20,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0011-content-factory-orchestration.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -34,6 +34,7 @@ Use this file to find the governing source before substantive work.
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Information architecture → `10-product-governance/Information Architecture.md`
+- Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
@@ -61,6 +62,7 @@ Use this file to find the governing source before substantive work.
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
+- Course vs assessment-component classification → `80-company-workflows/Course and Assessment Component Classification Check.md`
 - Official awarding-body URL intake for new courses → `80-company-workflows/Awarding Body URL Content Intake Workflow.md`
 - Learner-content factual / educational accuracy gate → `80-company-workflows/Content Accuracy Assurance Gate.md`
 - New content source / specification coverage template → `80-company-workflows/Content Pack Source and Coverage Template.md`

@@ -16,6 +16,8 @@ export type FocusedLearningWorkspaceProps = {
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
+  contextLabel?: string
+  includeExamQuestions?: boolean
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -53,25 +55,35 @@ function recommendationActivityLabel(activity: RevisionRecommendation['activity'
   return 'Quick check'
 }
 
-function sectionHeading(section: FocusedLearningSection, paperNumber: number) {
+function sectionHeading(section: FocusedLearningSection, paperNumber: number, contextLabel?: string) {
+  const target = contextLabel ?? `Paper ${paperNumber}`
   if (section === 'learn') return {
     eyebrow: 'Understand the content',
-    title: `Learn Paper ${paperNumber}`,
+    title: `Learn · ${target}`,
     intro: 'Choose a topic, build understanding and connect ideas before you test yourself.',
   }
   if (section === 'exam-prep') return {
     eyebrow: 'Turn knowledge into marks',
-    title: `Exam Prep · Paper ${paperNumber}`,
-    intro: 'Use exam technique guidance here, then move into timed or full-paper practice when you are ready.',
+    title: `Exam technique · ${target}`,
+    intro: 'Use exam technique guidance here, then choose the relevant paper for timed or full-paper practice.',
   }
   return {
     eyebrow: 'Retrieve, apply and test',
-    title: `Practice Paper ${paperNumber}`,
-    intro: 'Build evidence with recall, quick checks, application and exam-style questions. Reading alone does not inflate progress.',
+    title: `Practice · ${target}`,
+    intro: 'Build evidence with recall, quick checks and application. Paper-specific written exam practice belongs in Exam Prep.',
   }
 }
 
-export function FocusedLearningWorkspace({ adapter, section, recommendation, saving, saveError, onRecordEvidence }: FocusedLearningWorkspaceProps) {
+export function FocusedLearningWorkspace({
+  adapter,
+  section,
+  recommendation,
+  saving,
+  saveError,
+  onRecordEvidence,
+  contextLabel,
+  includeExamQuestions = true,
+}: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const [topicId, setTopicId] = useState(topics[0]?.id ?? '')
   const [mode, setMode] = useState<WorkspaceMode>(() => defaultMode(section))
@@ -93,9 +105,11 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
   const [aoMarks, setAoMarks] = useState<Record<AoKey, number>>(emptyAoMarks)
   const [examRecorded, setExamRecorded] = useState(false)
 
-  const availableModes = sectionModes[section]
+  const availableModes = section === 'practice' && !includeExamQuestions
+    ? sectionModes.practice.filter((item) => item !== 'exam-question')
+    : sectionModes[section]
   const effectiveMode = availableModes.includes(mode) ? mode : defaultMode(section)
-  const copy = sectionHeading(section, adapter.manifest.paper.number)
+  const copy = sectionHeading(section, adapter.manifest.paper.number, contextLabel)
   const topic = adapter.getTopic(topicId)
   const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
   const questions = useMemo(() => adapter.listQuestions(topicId), [adapter, topicId])
@@ -128,7 +142,7 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
   }
 
   function startRecommendation() {
-    if (!recommendation) return
+    if (!recommendation || !availableModes.includes(recommendation.activity)) return
     changeTopic(recommendation.topicId)
     changeMode(recommendation.activity)
   }
@@ -237,7 +251,7 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
         </label>
       </div>
 
-      {section === 'practice' && recommendation && recommendationTopic && (
+      {section === 'practice' && recommendation && recommendationTopic && availableModes.includes(recommendation.activity) && (
         <aside className="recommendation-card" aria-labelledby="recommendation-heading">
           <div>
             <p className="eyebrow">REV recommends</p>
@@ -362,7 +376,7 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
         </div>
       )}
 
-      {effectiveMode === 'exam-question' && exam && examQuestion && (
+      {effectiveMode === 'exam-question' && includeExamQuestions && exam && examQuestion && (
         <div className="learn-panel">
           <div className="activity-kind scored"><strong>Scored exam evidence — self-assessed</strong><span>Write the answer first, then use the marking guidance to award your own AO marks. Self-marked evidence contributes to readiness but cannot produce high confidence on its own.</span></div>
           <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />
@@ -432,14 +446,14 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
               </article>
             )}
           </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Use Quick check for application evidence or Exam question for stronger written exam evidence.</span></div>
+          <div className="next-step"><strong>What should I do next?</strong><span>{includeExamQuestions ? 'Use Quick check for application evidence or Exam question for stronger written exam evidence.' : 'Use Quick check for application evidence, then move to Exam Prep for paper-specific written practice.'}</span></div>
         </div>
       )}
 
       {effectiveMode === 'answer' && (
         <div className="learn-panel">
           <div className="activity-kind"><strong>Exam technique</strong><span>Learn how to turn knowledge into marks before you attempt longer written questions. Reading this guidance does not count as scored evidence.</span></div>
-          <h3>Paper {adapter.manifest.paper.number} answer blueprints</h3>
+          <h3>{contextLabel ? `${contextLabel} exam-answer blueprints` : `Paper ${adapter.manifest.paper.number} answer blueprints`}</h3>
           <p className="muted">The objective is not longer answers. It is more marks per sentence: apply the case, build the chain, and make the judgement specific.</p>
           <div className="technique-grid">
             {examTechnique.map((guide) => (
@@ -453,7 +467,7 @@ export function FocusedLearningWorkspace({ adapter, section, recommendation, sav
               </article>
             ))}
           </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Use the full Exam Simulator below when you want to test this technique under realistic conditions.</span></div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Choose the relevant paper below when you want to test this technique under realistic conditions.</span></div>
         </div>
       )}
 
