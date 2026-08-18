@@ -4,10 +4,10 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.1"
+version: "0.2"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-17"
+last_reviewed: "2026-08-18"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["visual identity", "learner application visual system", "REV visual presence", "responsive navigation treatment"]
@@ -20,7 +20,7 @@ supersedes: null
 
 Define the initial visual language for the Revision learner application.
 
-This system translates Revision's approved product and experience principles into a recognisable interface for 15–18-year-old learners. It is intentionally a v0.1 system: strong enough to govern current implementation while remaining open to refinement through learner testing.
+This system translates Revision's approved product and experience principles into a recognisable interface for 15–18-year-old learners. It is intentionally an early system: strong enough to govern current implementation while remaining open to refinement through learner testing.
 
 ## Core visual idea — focused energy
 
@@ -39,7 +39,9 @@ The interface should not resemble a dense adult SaaS dashboard, school learning-
 
 Home is led by REV as the first primary surface after sign-in. The greeting and the prompt "What shall we do today?" belong inside the REV surface rather than being repeated as a separate heading above it.
 
-The learner's next useful action or conversation with Revision should dominate the first screenful. Supporting subject, progress and continue-learning content may remain on Home, but it should sit beneath REV and be discovered naturally by scrolling rather than competing with the opening CTA.
+Home is learner-wide rather than paper-specific. REV's opening recommendation should be visually capable of identifying which subject deserves attention before narrowing into a course, paper/component, topic or activity.
+
+Supporting subject and high-level progress content may remain on Home, but it should sit beneath REV and be discovered naturally by scrolling rather than competing with the opening CTA.
 
 On mobile in particular, Home is a conversation starter first and a dashboard second.
 
@@ -59,7 +61,9 @@ Visual rules:
 - REV's language follows the Tone of Voice Framework: clear, supportive, direct and evidence-aware;
 - the interface should never imply a human is monitoring or replying when that is not true.
 
-The name and exact mark may be revisited deliberately later, but REV is the approved v0.1 product-facing identity.
+The same REV identity should remain recognisable when it appears on global Home, Subject Home or in activity context. Context may narrow, but the visual treatment must not imply separate assistant personas.
+
+The name and exact mark may be revisited deliberately later, but REV is the approved current product-facing identity.
 
 ## Colour direction
 
@@ -81,7 +85,7 @@ Initial implementation tokens:
 - muted text: `#66708F`
 - surface border: `#E3E6F2`
 
-These values are the v0.1 implementation baseline, not permission to use colour alone for meaning. Status and progress information must retain text/icon cues and required contrast.
+These values are the current implementation baseline, not permission to use colour alone for meaning. Status and progress information must retain text/icon cues and required contrast.
 
 ## Typography
 
@@ -103,21 +107,24 @@ Use a modern sans-serif family with system-safe fallbacks. Very large headlines 
 - Avoid long rows of equal widgets on the learner Home screen.
 - Progressive disclosure is preferred when detail is not needed immediately.
 - Progress signals must explain meaning rather than exist as decorative metrics.
+- Subject Home should feel like a clear narrowing of context from global Home, not a different product or visual theme.
 
 ## Navigation
 
+The primary global navigation follows the Information Architecture and represents learner-wide destinations rather than activity types.
+
 ### Desktop
 
-Desktop uses a persistent top navigation with the primary learner jobs:
+Desktop uses a persistent top navigation with:
 
 - Home
 - Subjects
-- Practice
-- Exam Prep
 - Progress
-- REV / Tutor
+- REV
 
 Account and utility controls remain visually secondary.
+
+Practice, Exam Prep, Learn and similar activity destinations should appear contextually once a subject/course/paper/component is selected. They should not compete with the four learner-wide destinations in global navigation.
 
 ### Mobile
 
@@ -125,17 +132,29 @@ Mobile uses:
 
 - Revision wordmark at the top left;
 - a burger/menu control at the top right for account and secondary utilities; and
-- a fixed bottom navigation for the highest-frequency learner destinations.
+- a fixed bottom navigation for the highest-frequency learner-wide destinations.
 
-The v0.1 bottom navigation is:
+The current bottom navigation is:
 
 - Home
 - Subjects
-- Practice
 - Progress
 - REV
 
-Exam Prep remains a primary product job but may be reached contextually or through wider navigation on constrained screens until usability evidence justifies a different mobile information architecture.
+Do not add a fifth destination solely for symmetry. A later context-specific action may occupy additional navigation space only when usability evidence demonstrates that it improves the learner journey.
+
+### Contextual subject navigation
+
+Within Subject Home or deeper course/paper/component views, navigation may expose context-specific destinations such as:
+
+- Overview
+- Learn
+- Practice
+- Exam Prep
+
+Exact labels should reflect the academic context and should not force every subject into the same paper structure.
+
+The global Home / Subjects / Progress / REV navigation should remain available or easily recoverable so learners do not feel trapped inside a subject hierarchy.
 
 ## Components
 
@@ -149,9 +168,15 @@ The bright-lime treatment is reserved for a small number of genuinely primary ac
 
 Cards should group a clear job or message, not create dashboard density. Use large-radius corners, light borders and soft depth.
 
+### Subject cards
+
+Subject cards should represent the learner's subject-level choices rather than individual paper tools. A card may show course/specification context and a quiet progress signal, but it should primarily act as the route into Subject Home.
+
 ### REV surface
 
 The REV recommendation/conversation surface may use a richer indigo treatment than the surrounding application so the AI guide has a recognisable home across devices.
+
+On Subject Home, the REV surface may be smaller than the global Home hero while remaining clearly identifiable as the same assistant.
 
 ## Motion
 
@@ -167,6 +192,8 @@ The REV orb may use subtle pulse or waveform movement. The initial REV message m
 ## Subject differentiation
 
 Subjects may gain restrained accent colours or iconography for fast recognition, but subject colour must not become a competing theme system or a proxy for attainment.
+
+Subject differentiation should help learners recognise where they are while preserving Revision as one coherent product.
 
 ## Accessibility
 
@@ -186,5 +213,9 @@ In particular:
 A learner opening Revision should quickly feel:
 
 > This is for me. I know what I can do next.
+
+A learner moving from Home into a subject should also immediately understand:
+
+> I know which subject I am in, and I know what I can do here.
 
 The design succeeds when the application feels motivating and distinctive while making the useful next action simpler, not harder, to find.
