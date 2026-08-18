@@ -19,8 +19,10 @@ describe('shared content adapter', () => {
     expect(adapter.listExams()[0]?.totalMarks).toBe(80)
   })
 
-  it('exposes catalogue metadata from the same manifest used by learning', () => {
-    expect(listCatalogueEntries()).toEqual([
+  it('exposes catalogue metadata from the same manifests used by learning', () => {
+    const entries = listCatalogueEntries()
+    expect(entries).toHaveLength(4)
+    expect(entries).toEqual(expect.arrayContaining([
       expect.objectContaining({
         id: 'business-aqa-as-paper-2',
         subject: 'Business',
@@ -29,8 +31,35 @@ describe('shared content adapter', () => {
         totalMarks: 80,
         topicCount: 6,
       }),
-    ])
+      expect.objectContaining({
+        id: 'business-aqa-a-level-7132-paper-1',
+        subject: 'Business',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 100,
+        topicCount: 10,
+      }),
+      expect.objectContaining({
+        id: 'business-aqa-a-level-7132-paper-2',
+        subject: 'Business',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 100,
+        topicCount: 10,
+      }),
+      expect.objectContaining({
+        id: 'business-aqa-a-level-7132-paper-3',
+        subject: 'Business',
+        examBoard: 'AQA',
+        durationMinutes: 120,
+        totalMarks: 100,
+        topicCount: 10,
+      }),
+    ]))
     expect(getContentAdapter('business-aqa-as-paper-2')?.manifest.subject.name).toBe('Business')
+    expect(getContentAdapter('business-aqa-a-level-7132-paper-1')?.manifest.status).toBe('available')
+    expect(getContentAdapter('business-aqa-a-level-7132-paper-2')?.manifest.status).toBe('available')
+    expect(getContentAdapter('business-aqa-a-level-7132-paper-3')?.manifest.status).toBe('available')
     expect(getContentAdapter('missing-module')).toBeUndefined()
   })
 
