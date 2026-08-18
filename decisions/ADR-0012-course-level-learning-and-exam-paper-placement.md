@@ -1,4 +1,4 @@
-# ADR-0011 — Course-level learning and exam-paper placement
+# ADR-0012 — Course-level learning and exam-paper placement
 
 **Status:** Accepted  
 **Date:** 2026-08-18
