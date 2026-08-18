@@ -53,7 +53,7 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
   await expectNoPageOverflow(page)
 })
 
-test('authenticated REV home, revision and exam journeys remain available across viewports', async ({ page }) => {
+test('authenticated learner hierarchy keeps global and course navigation distinct across viewports', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
@@ -63,50 +63,72 @@ test('authenticated REV home, revision and exam journeys remain available across
 
   const viewportWidth = page.viewportSize()?.width ?? 0
   if (viewportWidth <= 960) {
-    await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible()
+    const mobileNav = page.getByRole('navigation', { name: 'Mobile navigation' })
+    await expect(mobileNav).toBeVisible()
+    await expect(mobileNav.getByRole('button')).toHaveCount(4)
+    await expect(mobileNav.getByRole('button', { name: /Home/ })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: /Progress/ })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: /REV/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
   } else {
-    await expect(page.getByRole('navigation', { name: 'Primary navigation' })).toBeVisible()
+    const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
+    await expect(primaryNav).toBeVisible()
+    await expect(primaryNav.getByRole('button')).toHaveCount(4)
+    await expect(primaryNav.getByRole('button', { name: 'Home' })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'Subjects' })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'Progress' })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'REV' })).toBeVisible()
   }
 
   await page.getByRole('button', { name: /Suggest my next step/ }).click()
-  await expect(page.getByRole('button', { name: /Take me there/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /Take me to Business/ })).toBeVisible()
   await expect(page.getByText('This is a coverage recommendation, not a judgement that the topic is weak.').first()).toBeVisible()
+  await page.getByRole('button', { name: /Take me to Business/ }).click()
+
+  await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What should I work on in Business?' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Open Paper 2' }).first()).toBeVisible()
   await expectNoPageOverflow(page)
 
-  await expect(page.getByRole('heading', { name: 'Practise Paper 2' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Business · Quick check' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'Start recommended activity' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Learn' })).toBeVisible()
+  await page.getByRole('button', { name: 'Open Paper 2' }).first().click()
+  await expect(page.getByRole('heading', { name: 'Paper 2: Business 2' })).toBeVisible()
+  const paperNav = page.getByRole('navigation', { name: 'Paper 2 navigation' })
+  await expect(paperNav.getByRole('button')).toHaveCount(5)
+  await expect(paperNav.getByRole('button', { name: 'Overview' })).toBeVisible()
+  await expect(paperNav.getByRole('button', { name: 'Learn' })).toBeVisible()
+  await expect(paperNav.getByRole('button', { name: 'Practice' })).toBeVisible()
+  await expect(paperNav.getByRole('button', { name: 'Exam Prep' })).toBeVisible()
+  await expect(paperNav.getByRole('button', { name: 'Progress' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Learn' }).last()).toBeVisible()
+  await expectNoPageOverflow(page)
+
+  await paperNav.getByRole('button', { name: 'Learn' }).click()
+  await expect(page.getByRole('heading', { name: 'Learn Paper 2' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Topic notes' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Link topics' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Quick check' })).toHaveCount(0)
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('navigation', { name: 'Paper 2 navigation' }).getByRole('button', { name: 'Practice' }).click()
+  await expect(page.getByRole('heading', { name: 'Practice Paper 2' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Flashcards' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Answer' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Quick check' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Case study' })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Exam question' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Recent activity' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Readiness progress' })).toBeVisible()
-  await expectNoPageOverflow(page)
-
+  await expect(page.getByRole('button', { name: 'Start recommended activity' })).toBeVisible()
   await page.getByRole('button', { name: 'Start recommended activity' }).click()
   await expect(page.getByRole('tab', { name: 'Quick check' })).toHaveAttribute('aria-selected', 'true')
   await expectNoPageOverflow(page)
 
-  await page.getByRole('tab', { name: 'Answer' }).click()
+  await page.getByRole('navigation', { name: 'Paper 2 navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam Prep · Paper 2' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Exam technique' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Paper 2 answer blueprints' })).toBeVisible()
   await expect(page.getByText('BLT — build analysis')).toBeVisible()
-  await expect(page.getByText('MOPS — earn evaluation')).toBeVisible()
-  await expect(page.getByText('Formula', { exact: true })).toBeVisible()
-  await expectNoPageOverflow(page)
-
-  await page.getByRole('tab', { name: 'Case study' }).click()
-  await expect(page.getByText('Guided application practice')).toBeVisible()
-  await expectNoPageOverflow(page)
-
-  await page.getByRole('tab', { name: 'Exam question' }).click()
-  await expect(page.getByText('Scored exam evidence — self-assessed')).toBeVisible()
-  await expectNoPageOverflow(page)
-
   await expect(page.getByRole('heading', { name: 'Full 90-minute Paper 2' })).toBeVisible()
+  await expectNoPageOverflow(page)
+
   await page.getByRole('button', { name: 'Start timed exam' }).click()
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
   await expect(page.getByText(/90:00|89:59|89:58/)).toBeVisible()
