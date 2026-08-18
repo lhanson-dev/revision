@@ -4,7 +4,7 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.2"
+version: "0.3"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-18"
@@ -61,7 +61,7 @@ Visual rules:
 - REV's language follows the Tone of Voice Framework: clear, supportive, direct and evidence-aware;
 - the interface should never imply a human is monitoring or replying when that is not true.
 
-The same REV identity should remain recognisable when it appears on global Home, Subject Home or in activity context. Context may narrow, but the visual treatment must not imply separate assistant personas.
+The same REV identity should remain recognisable when it appears on global Home, Subject Home, course/paper Overview or in activity context. Context may narrow, but the visual treatment must not imply separate assistant personas.
 
 The name and exact mark may be revisited deliberately later, but REV is the approved current product-facing identity.
 
@@ -108,6 +108,8 @@ Use a modern sans-serif family with system-safe fallbacks. Very large headlines 
 - Progressive disclosure is preferred when detail is not needed immediately.
 - Progress signals must explain meaning rather than exist as decorative metrics.
 - Subject Home should feel like a clear narrowing of context from global Home, not a different product or visual theme.
+- Course/paper/component Overview should orient and signpost rather than render every learning capability in full.
+- Learn, Practice, Exam Prep and Progress should each feel like focused working spaces rather than stacked sections on one enormous page.
 
 ## Navigation
 
@@ -124,7 +126,7 @@ Desktop uses a persistent top navigation with:
 
 Account and utility controls remain visually secondary.
 
-Practice, Exam Prep, Learn and similar activity destinations should appear contextually once a subject/course/paper/component is selected. They should not compete with the four learner-wide destinations in global navigation.
+Learn, Practice, Exam Prep and contextual Progress appear once a subject/course/paper/component is selected. They should not compete with the four learner-wide destinations in global navigation.
 
 ### Mobile
 
@@ -141,20 +143,54 @@ The current bottom navigation is:
 - Progress
 - REV
 
-Do not add a fifth destination solely for symmetry. A later context-specific action may occupy additional navigation space only when usability evidence demonstrates that it improves the learner journey.
+Do not add a fifth global destination solely for symmetry. A later context-specific action may occupy additional navigation space only when usability evidence demonstrates that it improves the learner journey.
 
-### Contextual subject navigation
+### Contextual subject and course navigation
 
-Within Subject Home or deeper course/paper/component views, navigation may expose context-specific destinations such as:
+Within Subject Home, the learner should be able to see and enter the relevant course/specification or paper/component context without losing the global application navigation.
+
+Within a course, paper or component that has meaningful depth, contextual navigation should treat the following as first-class sibling sections:
 
 - Overview
 - Learn
 - Practice
 - Exam Prep
+- Progress
 
-Exact labels should reflect the academic context and should not force every subject into the same paper structure.
+The active section must be visually unambiguous. The learner should not have to scroll through Learn content to reach Practice, through Practice to reach Exam Prep, or through Exam Prep to reach Progress.
 
-The global Home / Subjects / Progress / REV navigation should remain available or easily recoverable so learners do not feel trapped inside a subject hierarchy.
+The exact control may vary by screen size. Desktop may use a horizontal secondary navigation or equivalent. Mobile may use a compact tab row, segmented navigation, selector or another accessible pattern. Whatever pattern is used must:
+
+- preserve the academic context clearly;
+- make the current section obvious;
+- allow fast switching between sections;
+- remain usable by touch and keyboard where applicable;
+- avoid horizontal page scrolling; and
+- leave the global Home / Subjects / Progress / REV model understandable and recoverable.
+
+Not every subject must expose every section at every level. The structure should follow the Information Architecture and the actual qualification context rather than forcing empty navigation items.
+
+## Focused section presentation
+
+### Overview
+
+Overview should feel like a calm hub. It may show the paper/component identity, REV recommendation, concise progress signals, recent activity and routes into the other sections. It must not become a duplicate of Learn, Practice, Exam Prep and Progress.
+
+### Learn
+
+Learn should prioritise readable educational content and topic exploration. The visual hierarchy should support sustained reading, worked examples and explanation without looking like a school textbook portal.
+
+### Practice
+
+Practice should prioritise the current task, prompt and feedback. Activity selection should remain available without competing with the exercise itself.
+
+### Exam Prep
+
+Exam Prep should feel more performance-oriented while remaining calm. Timing, marks, exam conditions and the Exam Simulator may become more prominent, but the experience must not manufacture stress or urgency.
+
+### Progress
+
+Contextual Progress should use the same visual language and evidence semantics as global Progress while clearly showing the narrower academic scope. It should explain what the evidence means and provide direct next actions into Learn, Practice or Exam Prep.
 
 ## Components
 
@@ -176,7 +212,9 @@ Subject cards should represent the learner's subject-level choices rather than i
 
 The REV recommendation/conversation surface may use a richer indigo treatment than the surrounding application so the AI guide has a recognisable home across devices.
 
-On Subject Home, the REV surface may be smaller than the global Home hero while remaining clearly identifiable as the same assistant.
+On Subject Home or a course/paper Overview, the REV surface may be smaller than the global Home hero while remaining clearly identifiable as the same assistant.
+
+Inside a focused section, REV may use a compact contextual affordance so it supports the current task without dominating the learning content.
 
 ## Motion
 
@@ -217,5 +255,9 @@ A learner opening Revision should quickly feel:
 A learner moving from Home into a subject should also immediately understand:
 
 > I know which subject I am in, and I know what I can do here.
+
+A learner entering a course or paper should be able to answer:
+
+> Am I learning, practising, preparing for the exam or checking my progress?
 
 The design succeeds when the application feels motivating and distinctive while making the useful next action simpler, not harder, to find.
