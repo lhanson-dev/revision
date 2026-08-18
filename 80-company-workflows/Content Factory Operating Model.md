@@ -20,7 +20,7 @@ The workflow is owned by an orchestrator. AI models, scripts and human reviewers
 
 The normal scalable path is:
 
-**official awarding-body URL → content job → source resolution → coverage map → generation work units → deterministic validation → independent educational review → remediation → CI verification → pilot-ready PR → Founder merge approval → later human benchmark review**
+**official awarding-body URL → content job → source resolution → coverage map → generation work units → deterministic validation → independent educational review → remediation → exact-head CI verification → pilot-ready PR → Founder merge approval → production deployment verification → pilot live → later human benchmark review**
 
 ## Separation of production state and learner publication state
 
@@ -44,13 +44,19 @@ Content Factory jobs use their own lifecycle:
 8. `remediation` when required
 9. `ci_verification`
 10. `ready_for_founder_merge_approval`
-11. `merged_pilot`
-12. `human_review` where commercial benchmark review is required
-13. `benchmark_approved`
+11. `merged`
+12. `deployment_verification`
+13. `pilot_live`
+14. `human_review` where commercial benchmark review is required
+15. `benchmark_approved`
 
 A job may also be `blocked` at any stage with an explicit reason.
 
-Operational job state must never be used as a shortcut around learner publication gates. In particular, a job being `ready_for_founder_merge_approval` does not itself make a pack `available`; all applicable content and CI gates must already permit that status.
+Operational job state must never be used as a shortcut around learner publication gates. In particular:
+
+- `ready_for_founder_merge_approval` does not itself make a pack `available`; all applicable content and CI gates must already permit that status on the proposed branch head;
+- `merged` does not mean the course is live;
+- `pilot_live` may be recorded only after the governed production deployment and post-deployment smoke checks succeed for the merged content.
 
 ## Minimum Founder interaction
 
@@ -61,7 +67,9 @@ The intended Founder interaction for an ordinary course is:
 3. receive a final exception/blocker or `ready_for_founder_merge_approval` decision;
 4. explicitly approve or reject the merge.
 
-The Founder should not have to manually coordinate generation context, independent-review context, deterministic checks or PR status for each course once orchestration exists.
+After an approved merge, deployment verification should continue without requiring the Founder to manually coordinate it. A failed deployment or production smoke must be surfaced as a blocker rather than reported as a successful pilot publication.
+
+The Founder should not have to manually coordinate generation context, independent-review context, deterministic checks, CI status or production-smoke status for each course once orchestration exists.
 
 ## Content job record
 
@@ -72,21 +80,40 @@ Every orchestrated course addition must have a machine-readable job record or eq
 - resolved subject, qualification, awarding body and specification identifier;
 - cohort/series validity and withdrawal/replacement information where relevant;
 - compulsory papers/components and unresolved learner choices;
-- source-register reference;
+- source-register reference and source-set version/fingerprint where practical;
 - coverage-map reference;
 - content pack IDs / paths;
 - branch and PR identity;
 - current factory state;
 - generation work units and their status;
+- worker-run provenance sufficient to identify worker contract/version, model/provider where applicable, input/output references and run result;
 - deterministic validation result/reference;
 - independent-review result/reference;
 - remediation findings/status;
-- CI run/result on the relevant head;
+- CI run/result on the relevant pre-merge head;
+- merged commit identity;
+- production deployment / smoke result and exact deployed revision where available;
 - human-review status where applicable;
 - blockers/limitations;
 - timestamps and exact reviewed/generated commit identifiers where material.
 
 The job record is operational evidence. Normative educational truth remains in the approved source records, coverage maps and governing workflow documents.
+
+## v0.1 durable job store
+
+For v0.1, each course job will use a **GitHub Issue in the Revision repository as its durable operational job record**.
+
+The issue should contain a schema-validated machine-readable state block or equivalent structured payload and may use labels for coarse operational state. It should link to the content branch/PR and the repository evidence files produced by the job.
+
+This choice is deliberately lightweight because it:
+
+- survives branch merges and chat/session loss;
+- provides durable history and links naturally to branches/PRs;
+- avoids committing operational status churn to `main`;
+- can be read and updated through the same GitHub integration used for the governed content change;
+- can later be migrated to a dedicated operational store without changing educational authority or content-pack architecture.
+
+The GitHub Issue is **not** educational authority, publication approval or merge approval. Its status cannot override repository governance, content assurance or CI/deployment evidence.
 
 ## Worker model
 
@@ -164,17 +191,48 @@ Remediation should fix findings rather than regenerate unrelated content. Histor
 
 Input: resolved content and assurance evidence.
 
-Output: final branch/PR state, exact-head CI result and publication eligibility decision.
+Output: final branch/PR state, exact-head CI result and merge eligibility decision.
 
 Infrastructure failures must be distinguished from content/test failures but neither may be silently treated as green CI.
 
-### 9. Human-review export worker
+### 9. Production deployment verification worker
+
+Input: Founder-approved merged commit and production deployment result.
+
+Output: verified deployment state for the canonical learner runtime.
+
+It must apply the existing release/deployment authority and post-publication checks, including as applicable:
+
+- successful production build/deployment of the merged revision;
+- canonical `/app/` route/runtime verification;
+- automatic catalogue appearance of newly `available` packs;
+- correct subject/course/paper projection;
+- no accidental return to a legacy or hard-coded learner route;
+- production smoke result recorded against the deployed revision.
+
+A merge or green PR CI result cannot be reported as `pilot_live` if deployment or production smoke fails.
+
+### 10. Human-review export worker
 
 Input: the exact content version requiring qualified subject review.
 
 Output: portable reviewer PDF/equivalent containing the governed review brief, source references, coverage summary, learner-facing content and sign-off structure.
 
 Human subject review remains the commercial benchmark gate defined by the content workflow; it is not replaced by AI orchestration.
+
+## Worker provenance
+
+Every material AI worker run should be attributable enough to support quality comparison and revalidation. Record, where available and proportionate:
+
+- worker/stage identity;
+- worker contract or prompt-template version;
+- model/provider and relevant configuration class;
+- source/coverage input references;
+- output artifact/commit reference;
+- run result and retry count;
+- usage/cost data where available.
+
+This metadata is operational evidence, not educational authority. It exists so Revision can compare quality/cost across worker versions and understand which downstream outputs require revalidation after a worker-contract change.
 
 ## Orchestrator responsibilities
 
@@ -185,13 +243,14 @@ It must:
 - create/resume durable jobs;
 - invoke only stages whose prerequisites are satisfied;
 - pass explicit source and coverage context into workers;
-- record exact outputs/commit identities;
+- record exact outputs/commit identities and material worker provenance;
 - enforce independent-review separation;
 - stop on material ambiguity or blocking findings;
 - allow safe restart without duplicating completed work;
 - distinguish retryable infrastructure failure from educational failure;
 - update PR/job status as work progresses;
-- stop before merge unless explicit Founder approval for the specific merge exists.
+- stop before merge unless explicit Founder approval for the specific merge exists;
+- after an approved merge, verify production deployment/smoke before recording `pilot_live`.
 
 The orchestrator must not silently downgrade a failed gate in order to keep the pipeline moving.
 
@@ -203,8 +262,9 @@ Where practical:
 
 - stage outputs receive stable identifiers/checksums/commit references;
 - a completed unchanged stage is reused rather than regenerated;
-- retries do not create duplicate content IDs or duplicate PRs;
-- a material upstream change invalidates affected downstream stages deliberately rather than leaving stale assurance marked complete.
+- retries do not create duplicate content IDs, job issues or pull requests;
+- a material upstream source/coverage change invalidates affected downstream stages deliberately rather than leaving stale assurance marked complete;
+- a material worker-contract change can invalidate affected generated/reviewed outputs when quality assumptions no longer hold.
 
 ## Cost and model routing
 
@@ -214,6 +274,8 @@ Use the cheapest reliable mechanism for each task.
 - smaller/lower-cost models for bounded transformation or straightforward retrieval work where quality evidence supports it;
 - stronger reasoning models for complex generation, assessment design and independent educational challenge where needed;
 - no unnecessary replay of large source/context bundles when a validated structured representation can be reused safely.
+
+The orchestrator should support per-job and batch usage budgets/limits so runaway retries or concurrency cannot consume unbounded model spend.
 
 Cost optimisation must not weaken source fidelity, independent review or publication gates.
 
@@ -238,11 +300,12 @@ The first implementation should remain deliberately simple.
 For v0.1:
 
 - GitHub remains the canonical store for learner content, source/coverage evidence, assurance records and PR review history;
-- durable job state may initially be stored as structured repository files or another deliberately approved lightweight operational store;
+- one GitHub Issue per course job is the durable operational job store;
 - the existing branch/PR model remains the publication/change boundary;
 - the current `content/**/index.ts` + schema + catalogue architecture remains unchanged;
 - no dedicated Admin UI is required to prove the factory;
 - no automated merge is permitted;
+- post-merge production deployment/smoke remains mandatory before `pilot_live`;
 - human subject review remains external/portable for the MVP benchmark process.
 
 The factory should first prove repeatability across materially different qualification types before a richer administration dashboard is built.
@@ -261,7 +324,7 @@ The purpose is to prove that source mapping, coverage compilation, content schem
 
 ## Future administration capability
 
-A protected Content Operations interface may later show jobs by state, blockers, source/coverage health, assurance findings, CI status and human-review status, and may allow authorised reviewers to annotate or sign off content.
+A protected Content Operations interface may later show jobs by state, blockers, source/coverage health, assurance findings, CI/deployment status, usage/cost and human-review status, and may allow authorised reviewers to annotate or sign off content.
 
 That interface is an internal administration/content-operations capability. It is not part of the learner or teacher feature set unless separately governed later.
 
@@ -270,3 +333,5 @@ That interface is an internal administration/content-operations capability. It i
 A Content Factory job may report `ready_for_founder_merge_approval` only when the applicable content workflow and accuracy gates are satisfied and CI is green on the exact intended head.
 
 Every merge into `main` continues to require explicit Founder approval for that specific PR/merge.
+
+After merge, the factory may report `pilot_live` only when the production deployment and post-deployment smoke checks required by current release authority succeed for the merged revision.
