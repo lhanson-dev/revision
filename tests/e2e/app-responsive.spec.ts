@@ -11,7 +11,7 @@ async function expectNoPageOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
-async function seedSyntheticSession(page: Page) {
+async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } = {}) {
   const userId = '00000000-0000-4000-8000-000000000001'
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -42,6 +42,14 @@ async function seedSyntheticSession(page: Page) {
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+
+  await page.route('**/rest/v1/profiles**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/vnd.pgrst.object+json',
+      body: JSON.stringify({ is_admin: options.isAdmin === true }),
+    })
+  })
 }
 
 test('sign-in experience remains usable without horizontal page scrolling', async ({ page }) => {
@@ -50,6 +58,7 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Forgot password?' })).toBeVisible()
   await expectNoPageOverflow(page)
 })
 
@@ -75,6 +84,7 @@ test('authenticated learner hierarchy keeps shared learning at course level and 
     const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
     await expect(primaryNav).toBeVisible()
     await expect(primaryNav.getByRole('button')).toHaveCount(4)
+    await expect(primaryNav.getByRole('button', { name: 'Admin' })).toHaveCount(0)
   }
 
   await page.getByRole('button', { name: /Suggest my next step/ }).click()
@@ -141,5 +151,29 @@ test('authenticated learner hierarchy keeps shared learning at course level and 
   await expect(page.getByText('Paper 1: Business 1', { exact: true })).toBeVisible()
   await expect(page.getByText('Paper 2: Business 2', { exact: true })).toBeVisible()
   await expect(page.getByText('Paper 3: Business 3', { exact: true })).toBeVisible()
+  await expectNoPageOverflow(page)
+})
+
+test('database admin access exposes Content Operations without changing the mobile learner navigation', async ({ page }) => {
+  await seedSyntheticSession(page, { isAdmin: true })
+  await page.goto(appPath)
+  await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
+
+  const viewportWidth = page.viewportSize()?.width ?? 0
+  if (viewportWidth <= 960) {
+    const mobileNav = page.getByRole('navigation', { name: 'Mobile navigation' })
+    await expect(mobileNav.getByRole('button')).toHaveCount(4)
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
+    await expect(drawer.getByRole('button', { name: /Admin/ })).toBeVisible()
+    await drawer.getByRole('button', { name: /Admin/ }).click()
+  } else {
+    const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
+    await expect(primaryNav.getByRole('button')).toHaveCount(5)
+    await primaryNav.getByRole('button', { name: 'Admin' }).click()
+  }
+
+  await expect(page.getByRole('heading', { name: 'Content Operations' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Add course' })).toBeVisible()
   await expectNoPageOverflow(page)
 })

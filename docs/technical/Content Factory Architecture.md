@@ -1,12 +1,12 @@
 # Content Factory Architecture
 
-Status: Approved target candidate for v0.1, pending merge.
+Status: Approved target; v0.1 foundation partially implemented.
 
 ## Purpose
 
-Define the technical architecture for scaling Revision content production independently of the learner runtime.
+Define the technical architecture for scaling Revision content production independently of conversational state while preserving the canonical learner application boundary.
 
-The learner product already consumes automatically discovered, validated content packs. The Content Factory is a separate **content production plane** that creates, assures and proposes those packs through governed branches and pull requests.
+The learner product already consumes automatically discovered, validated content packs. The Content Factory is a separate **content production plane** that creates, assures and proposes those packs through governed branches and pull requests. Its minimal Founder-facing intake can be presented as a role-gated operational screen inside the existing `/app/` React runtime without turning the Content Factory into a second learner runtime.
 
 ## Architectural decision
 
@@ -18,34 +18,39 @@ The scalable architecture separates:
 - **workers** — AI/model or deterministic tasks with bounded inputs/outputs;
 - **canonical content/evidence** — repository files and PR history;
 - **operational job state** — durable Content Factory state outside chat memory;
-- **learner publication** — existing validated content packs discovered by the learner catalogue.
+- **learner publication** — existing validated content packs discovered by the learner catalogue; and
+- **operational presentation** — role-gated Content Operations controls that invoke trusted server-side adapters without exposing privileged credentials to the browser.
 
 ```text
-Founder / future Admin input
-        |
+Founder
+   |
+/app/ -> role-gated Admin / Content Operations
+   |
 official awarding-body URL(s)
-        |
+   |
+trusted server-side intake adapter
+   |
 GitHub Issue job record
-        |
+   |
 Content Factory orchestrator
-        |
-        +--> identity/source worker
-        +--> coverage compiler
-        +--> generation workers (parallel where safe)
-        +--> deterministic validator
-        +--> independent educational reviewer
-        +--> remediation worker
-        +--> assembly / CI worker
-        |
+   |
+   +--> identity/source worker
+   +--> coverage compiler
+   +--> generation workers (parallel where safe)
+   +--> deterministic validator
+   +--> independent educational reviewer
+   +--> remediation worker
+   +--> assembly / CI worker
+   |
 governed content branch / PR
-        |
+   |
 Founder merge approval
-        |
+   |
 main -> production build/deploy -> production smoke
-        |
+   |
 validated content catalogue -> /app/
-        |
-        +--> human-review export / benchmark review when required
+   |
+   +--> human-review export / benchmark review when required
 ```
 
 ## Existing learner architecture remains authoritative
@@ -56,10 +61,11 @@ The factory must preserve the current learner boundary:
 - the content registry discovers packs automatically at build time;
 - only packs with `manifest.status === 'available'` enter the ordinary learner catalogue;
 - ordinary new subjects must not require hard-coded subject routes or shared React changes;
-- the canonical learner runtime remains `/app/`;
+- the canonical application runtime remains `/app/`;
+- standard learner navigation remains separate from role-gated operational controls; and
 - a successful merge is not equivalent to a successful production deployment.
 
-The factory is upstream of this architecture. It does not become a second learner runtime or a competing content catalogue.
+The factory remains upstream of learner content publication. A role-gated Content Operations screen inside `/app/` is an operational entry point, not a competing learner catalogue or second application runtime.
 
 ## v0.1 components
 
@@ -67,7 +73,9 @@ The factory is upstream of this architecture. It does not become a second learne
 
 Accept one or more official awarding-body course/specification URLs plus optional Founder constraints.
 
-It creates a durable content job rather than relying on conversational state.
+The first user-facing adapter is the role-gated Content Operations screen inside `/app/`. It calls a trusted server-side endpoint, which creates the durable content job rather than relying on conversational state.
+
+The browser may determine whether to present the Admin entry point from the signed-in user's database-backed role, but privileged job creation must revalidate that role server-side.
 
 ### 2. Orchestrator
 
@@ -127,7 +135,7 @@ timestamps
 
 The job issue is operational evidence only. It cannot override content authority, CI, publication gates or Founder merge approval.
 
-GitHub Issues are chosen for v0.1 because they survive branch merges, avoid operational-status commits to `main`, provide history and linking to PRs, and require no new database/service before the pipeline is proven. The job-store adapter must remain replaceable so a dedicated operational store can be introduced later without changing educational/content architecture.
+GitHub Issues are chosen for v0.1 because they survive branch merges, avoid operational-status commits to `main`, provide history and linking to PRs, and require no new operational database before the pipeline is proven. The job-store adapter must remain replaceable so a dedicated operational store can be introduced later without changing educational/content architecture.
 
 ### 4. Source representation
 
@@ -263,7 +271,7 @@ Only then may the job move to `pilot_live`.
 
 The export generator creates the portable teacher/subject-specialist review document from the exact reviewed content version and source/coverage evidence.
 
-The v0.1 export may remain PDF-based. A future internal Content Operations review UI can consume the same underlying structured job/content data.
+The v0.1 export may remain PDF-based. A later richer Content Operations review experience can consume the same underlying structured job/content data.
 
 ## Worker contract/versioning
 
@@ -325,6 +333,8 @@ Routing policy should prefer deterministic code and lower-cost workers where qua
 
 - Do not store secrets in job issues or content files.
 - Only approved connectors/services may access private operational systems.
+- Browser-delivered code must not contain GitHub write credentials, service-role credentials or model-provider secrets.
+- Privileged Content Operations actions must cross a trusted server-side authorization boundary that revalidates the database-backed admin role.
 - Official source references may be stored; substantial copyrighted awarding-body content must not be copied merely to make the factory self-contained.
 - Generated learner content should remain Revision-authored unless an appropriate licensed/official use is deliberately approved.
 
@@ -332,19 +342,21 @@ Routing policy should prefer deterministic code and lower-cost workers where qua
 
 1. Define machine-readable job, source-register and coverage schemas.
 2. Implement the GitHub-Issue job-store adapter and one-course orchestrator state machine.
-3. Implement deterministic validators and stage invalidation/restart rules.
-4. Add isolated generation and independent-review worker invocation contracts with worker-run provenance.
-5. Automate branch/PR and exact-head CI handling plus the final Founder-approval stop.
-6. Add post-merge deployment verification and `pilot_live` transition.
-7. Prove the pipeline on several materially different qualification types.
-8. Add batch intake/concurrency and spend limits.
-9. Only then add an Admin/Content Operations dashboard if operational volume justifies it.
+3. Add the minimal role-gated Content Operations intake inside `/app/`, database-backed admin assignment and trusted server-side job-creation adapter.
+4. Implement deterministic validators and stage invalidation/restart rules.
+5. Add isolated generation and independent-review worker invocation contracts with worker-run provenance.
+6. Automate branch/PR and exact-head CI handling plus the final Founder-approval stop.
+7. Add post-merge deployment verification and `pilot_live` transition.
+8. Prove the pipeline on several materially different qualification types.
+9. Add batch intake/concurrency and spend limits.
+10. Expand Content Operations into a broader dashboard only if operational volume justifies it.
 
 ## Explicitly out of v0.1
 
 - automated merging;
 - replacing qualified human benchmark review;
 - a large bespoke workflow platform;
-- a production-grade admin UI before the pipeline is proven;
+- a broad production-grade operations dashboard before the pipeline is proven;
+- a second standalone Admin application or separate Admin authentication system;
 - hard-coding awarding-body or subject logic into the learner React application;
 - treating AI output as educational authority.

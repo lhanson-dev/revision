@@ -62,7 +62,7 @@ Operational job state must never be used as a shortcut around learner publicatio
 
 The intended Founder interaction for an ordinary course is:
 
-1. provide one official awarding-body course/specification URL, or a batch of such URLs;
+1. submit one official awarding-body course/specification URL, or later a batch of such URLs, through the protected Content Operations capability or another approved intake adapter;
 2. answer only genuine learner/course-option questions that cannot be resolved from official authority;
 3. receive a final exception/blocker or `ready_for_founder_merge_approval` decision;
 4. explicitly approve or reject the merge.
@@ -303,12 +303,14 @@ For v0.1:
 - one GitHub Issue per course job is the durable operational job store;
 - the existing branch/PR model remains the publication/change boundary;
 - the current `content/**/index.ts` + schema + catalogue architecture remains unchanged;
-- no dedicated Admin UI is required to prove the factory;
+- a minimal role-gated **Content Operations** capability inside the canonical `/app/` runtime is the Founder-facing course-intake surface;
+- the standard learner navigation remains Home / Subjects / Progress / REV, with Admin exposed only to database-approved administrators;
+- no separate standalone Admin application is required or intended for this v0.1 capability;
 - no automated merge is permitted;
 - post-merge production deployment/smoke remains mandatory before `pilot_live`;
 - human subject review remains external/portable for the MVP benchmark process.
 
-The factory should first prove repeatability across materially different qualification types before a richer administration dashboard is built.
+The minimal Content Operations surface should remain narrow while the factory proves repeatability across materially different qualification types. A richer operations dashboard should be added only when operational volume justifies it.
 
 ## Scaling validation target
 
@@ -324,9 +326,9 @@ The purpose is to prove that source mapping, coverage compilation, content schem
 
 ## Future administration capability
 
-A protected Content Operations interface may later show jobs by state, blockers, source/coverage health, assurance findings, CI/deployment status, usage/cost and human-review status, and may allow authorised reviewers to annotate or sign off content.
+The initial protected Content Operations capability provides role-gated course intake inside `/app/`. It may later expand to show jobs by state, blockers, source/coverage health, assurance findings, CI/deployment status, usage/cost and human-review status, and may allow authorised reviewers to annotate or sign off content.
 
-That interface is an internal administration/content-operations capability. It is not part of the learner or teacher feature set unless separately governed later.
+Those are internal administration/content-operations capabilities. They must remain role-gated and must not alter the standard learner experience or become alternative sources of educational authority.
 
 ## Publication and merge boundary
 
