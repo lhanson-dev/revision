@@ -1,43 +1,72 @@
+export type PaperSection = 'overview' | 'learn' | 'practice' | 'exam-prep' | 'progress'
+
 export type AppRoute =
-  | 'home'
-  | 'subjects'
-  | 'subject-business'
-  | 'paper-2-overview'
-  | 'paper-2-learn'
-  | 'paper-2-practice'
-  | 'paper-2-exam-prep'
-  | 'paper-2-progress'
-  | 'progress'
-  | 'rev'
+  | { kind: 'home' }
+  | { kind: 'subjects' }
+  | { kind: 'subject'; subjectId: string }
+  | { kind: 'module'; subjectId: string; moduleId: string; section: PaperSection }
+  | { kind: 'progress' }
+  | { kind: 'rev' }
 
-const routeHashes: Record<AppRoute, string> = {
-  home: '#/home',
-  subjects: '#/subjects',
-  'subject-business': '#/subjects/business',
-  'paper-2-overview': '#/subjects/business/aqa-as/paper-2',
-  'paper-2-learn': '#/subjects/business/aqa-as/paper-2/learn',
-  'paper-2-practice': '#/subjects/business/aqa-as/paper-2/practice',
-  'paper-2-exam-prep': '#/subjects/business/aqa-as/paper-2/exam-prep',
-  'paper-2-progress': '#/subjects/business/aqa-as/paper-2/progress',
-  progress: '#/progress',
-  rev: '#/rev',
-}
+export const homeRoute = (): AppRoute => ({ kind: 'home' })
+export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
+export const subjectRoute = (subjectId: string): AppRoute => ({ kind: 'subject', subjectId })
+export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, moduleId, section })
+export const progressRoute = (): AppRoute => ({ kind: 'progress' })
+export const revRoute = (): AppRoute => ({ kind: 'rev' })
 
-const hashRoutes = new Map(Object.entries(routeHashes).map(([route, hash]) => [hash, route as AppRoute]))
+const clean = (value: string) => encodeURIComponent(value)
 
 export function routeHash(route: AppRoute) {
-  return routeHashes[route]
+  switch (route.kind) {
+    case 'home': return '#/home'
+    case 'subjects': return '#/subjects'
+    case 'subject': return `#/subjects/${clean(route.subjectId)}`
+    case 'module': return `#/subjects/${clean(route.subjectId)}/modules/${clean(route.moduleId)}/${route.section}`
+    case 'progress': return '#/progress'
+    case 'rev': return '#/rev'
+  }
+}
+
+function decode(value: string | undefined) {
+  if (!value) return null
+  try { return decodeURIComponent(value) } catch { return null }
 }
 
 export function parseRoute(hash: string): AppRoute {
-  return hashRoutes.get(hash) ?? 'home'
+  if (!hash || hash === '#' || hash === '#/' || hash === '#/home') return homeRoute()
+  if (hash === '#/subjects') return subjectsRoute()
+  if (hash === '#/progress') return progressRoute()
+  if (hash === '#/rev') return revRoute()
+
+  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
+  if (parts[0] === 'subjects' && parts.length === 2) {
+    const subjectId = decode(parts[1])
+    return subjectId ? subjectRoute(subjectId) : homeRoute()
+  }
+  if (parts[0] === 'subjects' && parts[2] === 'modules' && parts.length === 5) {
+    const subjectId = decode(parts[1])
+    const moduleId = decode(parts[3])
+    const section = parts[4] as PaperSection
+    if (subjectId && moduleId && ['overview', 'learn', 'practice', 'exam-prep', 'progress'].includes(section)) {
+      return moduleRoute(subjectId, moduleId, section)
+    }
+  }
+
+  // Compatibility with the short-lived pre-catalogue Business routes from PR #35.
+  if (hash === '#/subjects/business/aqa-as/paper-2') return moduleRoute('business', 'business-aqa-as-paper-2', 'overview')
+  if (hash.startsWith('#/subjects/business/aqa-as/paper-2/')) {
+    const section = hash.split('/').at(-1) as PaperSection
+    if (['learn', 'practice', 'exam-prep', 'progress'].includes(section)) return moduleRoute('business', 'business-aqa-as-paper-2', section)
+  }
+
+  return homeRoute()
 }
 
 export function routeBelongsToSubjects(route: AppRoute) {
-  return route === 'subjects' || route === 'subject-business' || route.startsWith('paper-2-')
+  return route.kind === 'subjects' || route.kind === 'subject' || route.kind === 'module'
 }
 
-export function paperSectionRoute(section: 'overview' | 'learn' | 'practice' | 'exam-prep' | 'progress'): AppRoute {
-  if (section === 'overview') return 'paper-2-overview'
-  return `paper-2-${section}` as AppRoute
+export function sameRoute(left: AppRoute, right: AppRoute) {
+  return routeHash(left) === routeHash(right)
 }
