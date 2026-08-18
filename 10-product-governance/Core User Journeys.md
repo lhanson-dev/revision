@@ -1,6 +1,6 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.3  
+**Status:** Draft authority candidate — v0.4  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.
 
 ## Journey principles
@@ -13,6 +13,7 @@
 - Allow students to override recommendations and choose their own focus.
 - Adapt recommendations as new evidence appears.
 - Compare priorities across subjects before narrowing into subject-specific work.
+- Use focused course/paper sections rather than presenting all learning tools on one long page.
 - Shift the balance of activity as exams approach.
 - Keep parent and teacher experiences separate from the student's everyday flow.
 - Keep the primary journey concise while allowing deeper information through progressive disclosure.
@@ -56,7 +57,7 @@ A typical returning journey may be:
 
 > REV: Business would be the best use of your time today. Shall I take you there?
 
-Student accepts → Business Home opens → REV narrows its guidance to Business → student starts the recommended paper/topic/activity.
+Student accepts → Business Home opens → REV narrows its guidance to Business → student enters the relevant course/paper Overview → REV or the learner selects Learn, Practice, Exam Prep or Progress → student starts focused work.
 
 The learner should not need to interpret complex analytics before they can begin useful work.
 
@@ -68,11 +69,20 @@ Students must remain free to choose their own focus.
 
 If the student wants to revise a particular subject, they should be able to choose Subjects from the global navigation and enter that Subject Home directly.
 
-Within the subject, they should be able to browse their course/specification, paper/component structure and topics, then choose the learning, practice or exam-preparation activity they want.
+Within the subject, they should be able to browse their course/specification and paper/component structure. Selecting a course, paper or component should normally open an Overview rather than a long page containing every learning tool.
+
+From that context the learner should be able to choose the focused section that matches their intent:
+
+- **Learn** — understand or revisit content;
+- **Practice** — retrieve, test and apply knowledge;
+- **Exam Prep** — prepare for real exam performance; or
+- **Progress** — understand how they are doing within that context.
 
 A typical self-directed path is:
 
-Home or Subjects → Subject Home → course/specification → paper/component where applicable → topic/area → activity.
+Home or Subjects → Subject Home → course/specification → paper/component where applicable → Overview → focused section → topic/area/activity.
+
+The learner may also enter through a topic and then switch between Learn, Practice, Exam Prep or Progress without losing the topic context.
 
 Revision may still provide useful context, such as noting that another subject or topic is currently a higher priority, but guidance must not become a locked path.
 
@@ -97,32 +107,36 @@ Guidance should narrow progressively rather than forcing a global learner to cho
 A recommendation may therefore operate in stages:
 
 1. identify the subject that most deserves attention;
-2. once the learner enters that Subject Home, identify the most useful course/paper/component/topic focus;
-3. recommend an appropriate learning, practice or exam-preparation activity; and
-4. use the resulting evidence to update the wider student model.
+2. once the learner enters that Subject Home, identify the most useful course/paper/component focus;
+3. within that context, identify whether the learner most needs Learn, Practice, Exam Prep or a Progress review;
+4. recommend the appropriate topic/activity within that focused section; and
+5. use the resulting evidence to update the wider student model.
 
 REV should explain why a recommendation matters where useful.
 
-## Journey 5 — Exam preparation
+REV may also recommend movement between focused sections. For example, a weak Practice result may lead to a specific Learn explanation before the learner returns to Practice.
 
-As an exam approaches, Revision should progressively shift the balance of activity towards exam performance.
+## Journey 5 — Learning and understanding
 
-This should include:
+When the learner wants to understand or revisit content, the journey should remain focused on learning rather than mixing assessment and progress tools into the same long page.
 
-- weak-area revision;
-- targeted exam questions;
-- timed practice;
-- full-paper/component practice where appropriate;
-- Exam Simulator use; and
-- readiness reassessment from real performance evidence.
+A typical journey is:
 
-Exam-preparation activity should remain attached to the relevant subject/course/paper/component rather than becoming an ambiguous global destination.
+Subject Home → course/paper/component → Learn → topic/specification area → explanation, notes, worked example or other learning material.
 
-REV may recommend Exam Prep from Home or Subject Home when exam timing and evidence justify it.
+The learner should be able to move from Learn into an appropriate Practice activity without losing the current subject/topic context.
 
-The system should continue to address gaps in knowledge while increasingly testing whether the student can apply that knowledge under realistic exam conditions.
+REV should be available to explain the selected material and may recommend the next useful practice step when appropriate.
 
-## Journey 6 — Assessment and feedback
+## Journey 6 — Practice and assessment
+
+Practice should help the learner retrieve knowledge, apply it and learn from feedback.
+
+A typical journey is:
+
+Subject Home or course/paper Overview → Practice → activity type → topic/area where relevant → activity → feedback → next action.
+
+Practice may include flashcards, quick checks, quizzes, topic tests, case/application work and exam-style questions.
 
 Tests, quizzes and exam practice must not end at a score.
 
@@ -138,29 +152,58 @@ Assessment feedback should be scannable first, with deeper explanation available
 
 REV should be available in the context of the current assessment or feedback when the student wants explanation or guidance.
 
-## Journey 7 — Progress review
+## Journey 7 — Exam preparation
 
-Progress should support the learner in moving from the whole revision picture into useful detail.
+As an exam approaches, Revision should progressively shift the balance of activity towards exam performance.
+
+Exam Prep is a focused section within the relevant course/paper/component and should include:
+
+- weak-area exam-question work;
+- targeted exam questions;
+- timed practice;
+- exam technique support;
+- full-paper/component practice where appropriate;
+- Exam Simulator use; and
+- readiness reassessment from real performance evidence.
 
 A typical journey is:
 
+Home or Subject Home recommendation → course/paper/component → Exam Prep → appropriate timed/question/paper/simulator activity → feedback → readiness update.
+
+Exam-preparation activity should remain attached to the relevant subject/course/paper/component rather than becoming an ambiguous global destination.
+
+REV may recommend Exam Prep from Home, Subject Home or course/paper Overview when exam timing and evidence justify it.
+
+The system should continue to address gaps in knowledge while increasingly testing whether the student can apply that knowledge under realistic exam conditions.
+
+## Journey 8 — Progress review
+
+Progress exists at both learner-wide and contextual levels and should use one underlying evidence model.
+
+A global journey is:
+
 Progress → all-subject overview → chosen subject → course/specification → paper/component → topic.
+
+A contextual journey is:
+
+Subject Home or course/paper Overview → Progress → coverage / understanding / readiness / weak areas → direct next action.
 
 The learner should be able to understand what a progress signal means and what useful action follows from it. Progress should not become a disconnected analytics dashboard.
 
-Where a signal suggests action, Revision may offer a direct route back into the relevant Subject Home or activity.
+Where a signal suggests action, Revision may offer a direct route into the relevant Learn, Practice or Exam Prep section while preserving the selected academic context.
 
-## Journey 8 — REV conversation
+## Journey 9 — REV conversation
 
 REV is one ongoing assistant relationship with context that changes as the learner moves through the product.
 
 - On Home or the dedicated REV area, REV can reason across the learner's whole revision programme.
 - On Subject Home, REV treats that subject as the immediate working context while retaining the wider picture.
-- Inside a topic, practice activity or assessment, REV can use the current content and feedback as additional context.
+- On a course/paper Overview, REV can reason about the selected academic scope and recommend the most useful focused section.
+- Inside Learn, Practice, Exam Prep, Progress or a topic/activity, REV can use the current section, content and feedback as additional context.
 
 The learner should not feel that they are starting a different tutor conversation at every level. Context should narrow naturally while the relationship remains continuous.
 
-## Journey 9 — Parent support
+## Journey 10 — Parent support
 
 Parent functionality should be a separate experience from the student's everyday revision flow.
 
@@ -175,7 +218,7 @@ Parents should eventually be able to understand at a high level whether the stud
 
 Detailed student conversations, answers and activity should not automatically be assumed to be parent-visible. The detailed scope, consent and privacy boundaries of the parent experience require later trust and product design work.
 
-## Journey 10 — Teacher/class insight
+## Journey 11 — Teacher/class insight
 
 Teacher functionality is not required to prove the initial student proposition, but it is a deliberate future direction.
 
@@ -190,9 +233,10 @@ The initial product should prioritise:
 1. new student setup and first useful action;
 2. returning learner-wide guidance;
 3. Subject Home and student-led subject navigation;
-4. guided subject/course/topic activity;
-5. assessment and feedback;
-6. progress review; and
-7. exam preparation and Exam Simulator.
+4. focused course/paper Overview, Learn, Practice, Exam Prep and Progress sections;
+5. guided topic/activity work and transitions between sections;
+6. assessment and feedback;
+7. global/contextual progress review; and
+8. exam preparation and Exam Simulator.
 
 Parent and teacher journeys should be developed later without compromising the student-first product model.
