@@ -2,6 +2,8 @@ import type { LearningEvidence } from '../engine/evidence/evidence'
 
 export type RecentActivityItem = {
   id: string
+  moduleId: string
+  topicId: string
   label: string
   detail: string
   occurredAt: string
@@ -31,6 +33,8 @@ export function recentActivity(evidence: readonly LearningEvidence[], limit = 6)
     .slice(0, limit)
     .map((item) => ({
       id: item.id,
+      moduleId: item.moduleId,
+      topicId: item.topicId,
       label: labelFor(item),
       detail: detailFor(item),
       occurredAt: item.occurredAt,
