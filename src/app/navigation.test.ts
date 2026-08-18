@@ -1,8 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { homeRoute, moduleRoute, parseRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
+import { courseRoute, homeRoute, moduleRoute, parseRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
 
 describe('learner navigation model', () => {
-  it('maps arbitrary modules to reloadable hash routes', () => {
+  it('maps course learning scopes to reloadable hash routes', () => {
+    const business = courseRoute('business', 'aqa:aqa-a-level:7132', 'exam-prep')
+    expect(routeHash(business)).toBe('#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
+    expect(parseRoute(routeHash(business))).toEqual(business)
+  })
+
+  it('keeps module routes for genuinely component-specific content and compatibility', () => {
     const spanish = moduleRoute('spanish', 'spanish-aqa-a-level-paper-1', 'exam-prep')
     expect(routeHash(spanish)).toBe('#/subjects/spanish/modules/spanish-aqa-a-level-paper-1/exam-prep')
     expect(parseRoute(routeHash(spanish))).toEqual(spanish)
@@ -12,8 +18,9 @@ describe('learner navigation model', () => {
     expect(parseRoute('#/not-a-real-route')).toEqual(homeRoute())
   })
 
-  it('keeps subject and module screens inside the Subjects global context', () => {
+  it('keeps subject, course and module screens inside the Subjects global context', () => {
     expect(routeBelongsToSubjects(subjectRoute('business'))).toBe(true)
+    expect(routeBelongsToSubjects(courseRoute('business', 'aqa:aqa-a-level:7132', 'progress'))).toBe(true)
     expect(routeBelongsToSubjects(moduleRoute('business', 'business-aqa-as-paper-2', 'progress'))).toBe(true)
     expect(routeBelongsToSubjects(progressRoute())).toBe(false)
   })

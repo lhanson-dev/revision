@@ -27,6 +27,10 @@ function formatTime(seconds: number) {
   return `${minutes}:${String(remainder).padStart(2, '0')}`
 }
 
+function paperLabel(exam: Exam) {
+  return exam.title.match(/Paper\s+\d+/i)?.[0] ?? 'exam'
+}
+
 export type ExamSimulatorProps = {
   exam: Exam
   moduleId: string
@@ -45,11 +49,20 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   const [secondsRemaining, setSecondsRemaining] = useState(exam.durationMinutes * 60)
   const [result, setResult] = useState<ExamResult | null>(null)
   const [submissionIds, setSubmissionIds] = useState<Record<string, string>>({})
+  const [questionPractice, setQuestionPractice] = useState(false)
+  const [practiceIndex, setPracticeIndex] = useState(0)
+  const [practiceDraft, setPracticeDraft] = useState('')
+  const [practiceGuidance, setPracticeGuidance] = useState(false)
+  const [practiceMarks, setPracticeMarks] = useState<Marks>(emptyMarks)
+  const [practiceSaved, setPracticeSaved] = useState(false)
   const startedAt = useRef<number | null>(null)
 
   const question = exam.questions[questionIndex]
+  const practiceQuestion = exam.questions[practiceIndex]
   const answeredCount = exam.questions.filter((item) => answers[item.id]?.trim()).length
   const currentMarks = question ? marks[question.id] ?? emptyMarks() : emptyMarks()
+  const practiceTotal = aoKeys.reduce((sum, key) => sum + practiceMarks[key], 0)
+  const pLabel = paperLabel(exam)
 
   useEffect(() => {
     if (!started || finishedWriting) return
@@ -81,8 +94,18 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
   }, [exam.questions, marks])
 
   function startExam() {
+    setQuestionPractice(false)
     setStarted(true)
     startedAt.current = Date.now()
+  }
+
+  function startQuestionPractice() {
+    setQuestionPractice(true)
+    setPracticeIndex(0)
+    setPracticeDraft('')
+    setPracticeGuidance(false)
+    setPracticeMarks(emptyMarks())
+    setPracticeSaved(false)
   }
 
   function updateMark(key: AoKey, value: number) {
@@ -93,6 +116,38 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       ...current,
       [question.id]: { ...(current[question.id] ?? emptyMarks()), [key]: safe },
     }))
+  }
+
+  function updatePracticeMark(key: AoKey, value: number) {
+    if (!practiceQuestion) return
+    const available = practiceQuestion.assessmentObjectives[key]
+    const safe = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
+    setPracticeMarks((current) => ({ ...current, [key]: safe }))
+  }
+
+  function resetPracticeQuestion(nextIndex: number) {
+    setPracticeIndex(nextIndex)
+    setPracticeDraft('')
+    setPracticeGuidance(false)
+    setPracticeMarks(emptyMarks())
+    setPracticeSaved(false)
+  }
+
+  async function savePracticeQuestion() {
+    if (!practiceQuestion || !practiceGuidance || practiceSaved) return
+    try {
+      await onRecordEvidence(createSelfAssessedExamQuestionEvidence({
+        id: attemptId('exam-question'),
+        moduleId,
+        topicId: practiceQuestion.topic,
+        contentId: practiceQuestion.id,
+        available: practiceQuestion.assessmentObjectives,
+        awarded: practiceMarks,
+      }))
+      setPracticeSaved(true)
+    } catch {
+      return
+    }
   }
 
   function finishWriting() {
@@ -162,14 +217,45 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     startedAt.current = null
   }
 
+  if (!started && questionPractice && practiceQuestion) {
+    return (
+      <section className="exam-simulator" aria-labelledby={`question-practice-${exam.id}`}>
+        <p className="eyebrow">Targeted {pLabel} practice</p>
+        <h2 id={`question-practice-${exam.id}`}>Practise one exam question</h2>
+        <div className="practice-meta">Question {practiceIndex + 1} of {exam.questions.length} · {practiceQuestion.marks} marks</div>
+        <h3>{practiceQuestion.prompt}</h3>
+        <label className="answer-label">Write your answer
+          <textarea rows={12} disabled={practiceSaved} value={practiceDraft} onChange={(event) => setPracticeDraft(event.target.value)} placeholder="Answer as you would in the exam." />
+        </label>
+        {!practiceGuidance ? (
+          <button className="primary" disabled={!practiceDraft.trim()} onClick={() => setPracticeGuidance(true)}>Show marking guidance</button>
+        ) : (
+          <>
+            <div className="mark-guidance"><strong>Marking guidance</strong><ul>{practiceQuestion.markingGuidance.map((line) => <li key={line}>{line}</li>)}</ul></div>
+            <div className="ao-marker-grid">
+              {aoKeys.filter((key) => practiceQuestion.assessmentObjectives[key] > 0).map((key) => <label key={key}>{key.toUpperCase()} <span>/{practiceQuestion.assessmentObjectives[key]}</span><input type="number" min={0} max={practiceQuestion.assessmentObjectives[key]} disabled={practiceSaved} value={practiceMarks[key]} onChange={(event) => updatePracticeMark(key, Number(event.target.value))} /></label>)}
+            </div>
+            {!practiceSaved ? <button className="primary" disabled={saving} onClick={savePracticeQuestion}>Record this result</button> : <div className="result-explanation" aria-live="polite"><strong>Result recorded: {practiceTotal} / {practiceQuestion.marks}</strong><span>This is self-assessed exam evidence, so Revision limits the confidence it can claim from it.</span></div>}
+          </>
+        )}
+        <div className="exam-nav-actions">
+          <button className="secondary" disabled={practiceIndex === 0} onClick={() => resetPracticeQuestion(practiceIndex - 1)}>Previous</button>
+          <button className="secondary" disabled={practiceIndex === exam.questions.length - 1} onClick={() => resetPracticeQuestion(practiceIndex + 1)}>Next question</button>
+          <button className="secondary" onClick={() => setQuestionPractice(false)}>Back to {pLabel}</button>
+        </div>
+        {saveError && <p className="error" role="alert">{saveError}</p>}
+      </section>
+    )
+  }
+
   if (!started) {
     return (
-      <section className="exam-simulator" aria-labelledby="full-exam-heading">
-        <p className="eyebrow">Simulate the exam</p>
-        <h2 id="full-exam-heading">Full {exam.durationMinutes}-minute Paper 2</h2>
-        <p className="intro">This is the closest Revision practice to the real paper: {exam.totalMarks} marks, the full Harbour Home case and all {exam.questions.length} questions under a running timer.</p>
-        <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge across a complete paper, managing time, and sustaining analysis and judgement. Your final marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
-        <button className="primary" onClick={startExam}>Start timed exam</button>
+      <section className="exam-simulator" aria-labelledby={`full-exam-${exam.id}`}>
+        <p className="eyebrow">{pLabel} exam practice</p>
+        <h2 id={`full-exam-${exam.id}`}>Full {exam.durationMinutes}-minute {pLabel}</h2>
+        <p className="intro">{exam.title}. Practise all {exam.questions.length} questions for {exam.totalMarks} marks under a running timer, or work on one question first.</p>
+        <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
+        <div className="inline-actions"><button className="secondary" onClick={startQuestionPractice}>Practise one question</button><button className="primary" onClick={startExam}>Start timed exam</button></div>
       </section>
     )
   }
@@ -189,7 +275,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             return <article key={key}><strong>{key.toUpperCase()}</strong><span>{value.awarded}/{value.available}</span><small>{pct}%</small></article>
           })}
         </div>
-        <div className="next-step"><strong>What should I do next?</strong><span>Use the weakest AO above to choose your next practice. If AO2/AO3 is weakest, return to case and exam questions. If AO4 is weakest, practise conditional judgements on the 16- and 20-mark questions.</span></div>
+        <div className="next-step"><strong>What should I do next?</strong><span>Use the weakest AO above to choose your next practice. If AO2/AO3 is weakest, return to targeted paper questions. If AO4 is weakest, practise conditional judgements on extended responses.</span></div>
         <button className="secondary" onClick={resetExam}>Start another attempt</button>
       </section>
     )
@@ -204,7 +290,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
 
       {!finishedWriting ? (
         <>
-          <details className="exam-case"><summary>Case study material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>
+          <details className="exam-case"><summary>Source/case material</summary><div dangerouslySetInnerHTML={{ __html: exam.caseHtml }} /></details>
           <nav className="question-nav" aria-label="Exam questions">
             {exam.questions.map((item, index) => <button key={item.id} className={index === questionIndex ? 'active' : ''} onClick={() => setQuestionIndex(index)}>{index + 1}<span>{item.marks}m</span></button>)}
           </nav>

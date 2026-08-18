@@ -4,201 +4,188 @@
 
 ## Purpose
 
-Describe the implemented Revision learner shell in the governed React application at `/app/`, including the REV-led Home, catalogue-driven subject/course hierarchy and focused learning screens.
+Describe the governed React learner shell at `/app/`, including the REV-led Home, catalogue-driven subject/course hierarchy, course-level shared learning, paper-specific Exam Prep and evidence-aware guidance.
 
-## Canonical learner route
+## Canonical learner route and runtime
 
-The governed learner product is the Vite/React application published at:
-
-`/revision/app/`
-
-The repository root `/revision/` is not a second learner application. Until a future public marketing/editorial site occupies `/`, the root contains only a lightweight redirect into `/revision/app/`.
-
-## Runtime and entry point
-
-The canonical runtime is:
+The governed learner product is:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/App.tsx`
 
-The Pages deployment publishes the built Vite `dist/` artifact.
+The repository root `/revision/` remains a lightweight redirect into `/revision/app/` until a future public marketing/editorial site is introduced. GitHub Pages publishes the built Vite `dist/` artifact.
 
-## Learner screen hierarchy
+## Learner hierarchy
 
-Global learner navigation is:
+Global navigation remains:
 
-1. **Home** — learner-wide REV guidance and high-level subject/progress signposts.
-2. **Subjects** — the current learner catalogue grouped by subject and course/specification.
-3. **Progress** — learner-wide evidence with drill-down into subject/paper context.
-4. **REV** — the dedicated global REV space.
+1. Home
+2. Subjects
+3. Progress
+4. REV
 
-Selecting a subject opens a Subject Home. Selecting a published paper/component opens an Overview hub with the focused sections supported by that content pack:
+Subject Home groups published material by course/specification.
+
+The shell now distinguishes two academic shapes.
+
+### Shared-syllabus course
+
+When several paper/component packs expose the same learning content, Revision presents one course-level learning scope:
 
 - Overview
 - Learn
-- Practice where practice content exists
-- Exam Prep where exam-preparation content exists
+- Practice
+- Exam Prep
 - Progress
 
-The Overview remains a hub. It does not render all learning tools on one page.
+Learn, general Practice and course/topic Progress appear once. Exam Prep contains the individual papers/components and their paper-specific written-question and timed/full-paper practice.
 
-## Catalogue-driven implementation
+### Distinct-content component
 
-The shared React learner shell does not enumerate Business, Spanish, Maths or other subjects as route/page definitions.
+If components genuinely expose different syllabus content, each component can retain its own Overview / Learn / Practice / Exam Prep / Progress context.
 
-`src/engine/content/content-registry.ts` automatically discovers `content/**/index.ts` with Vite `import.meta.glob`. Each content-pack entry point must default-export its validated pack. Only packs whose manifest is marked `available` enter the current learner catalogue.
+This behaviour implements `10-product-governance/Course Content and Assessment Component Placement.md`; storage boundaries do not determine the learner hierarchy.
 
-`src/app/catalogue-model.ts` then groups available adapters into subjects and courses, calculates each module's evidence/readiness state and determines which focused sections are meaningful for that pack.
+## Catalogue and shared-learning detection
 
-This means an ordinary new subject/paper can appear in Home, Subjects, Subject Home, Progress and REV without adding a subject-specific React page or route constant.
+`src/engine/content/content-registry.ts` discovers validated `content/**/index.ts` packs using Vite `import.meta.glob`. Only `available` packs enter the current pilot catalogue.
 
-## Client-side route model
+`src/app/catalogue-model.ts` groups packs into subjects and courses using awarding body, qualification and specification identity.
 
-GitHub Pages does not provide a general SPA rewrite for arbitrary deep learner URLs. The current implementation therefore uses reloadable hash routes beneath `/app/`.
+For each course it compares the validated learning payload represented by:
 
-The generic route pattern is:
+- topics;
+- formulas;
+- topic links;
+- flashcards;
+- quick-check questions;
+- case/application material; and
+- quantitative/data drills.
+
+Exam simulations and exam-technique records are not used to decide whether the underlying syllabus is shared.
+
+If all current course packs have the same learning payload, the course is treated as a shared-learning course. A course with one published component is also presented at course level because the component pack does not make its syllabus component-owned by itself.
+
+This inference is generic and contains no Business-specific route branch.
+
+## Routes
+
+GitHub Pages does not provide arbitrary SPA rewrites, so the learner hierarchy uses reloadable hash routes.
+
+Course-level shared learning uses:
+
+`#/subjects/:subjectId/courses/:courseId/:section`
+
+For example:
+
+- `#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/overview`
+- `#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/learn`
+- `#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/practice`
+- `#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep`
+- `#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/progress`
+
+Component routes remain available for genuinely distinct content:
 
 `#/subjects/:subjectId/modules/:moduleId/:section`
 
-Examples using the current Business pack are:
+Recent module URLs are preserved for compatibility. If such a module belongs to a shared-learning course, the screen resolves to that course-level experience rather than exposing a duplicate syllabus.
 
-- `/revision/app/#/home`
-- `/revision/app/#/subjects`
-- `/revision/app/#/subjects/business`
-- `/revision/app/#/subjects/business/modules/business-aqa-as-paper-2/overview`
-- `/revision/app/#/subjects/business/modules/business-aqa-as-paper-2/learn`
-- `/revision/app/#/subjects/business/modules/business-aqa-as-paper-2/practice`
-- `/revision/app/#/subjects/business/modules/business-aqa-as-paper-2/exam-prep`
-- `/revision/app/#/subjects/business/modules/business-aqa-as-paper-2/progress`
-- `/revision/app/#/progress`
-- `/revision/app/#/rev`
+## REV and evidence behaviour
 
-`src/app/navigation.ts` also accepts the short-lived Business hashes introduced by PR #35 and maps them into the generic route model so recent links do not fail immediately after this change.
+The learner shell still loads evidence by the existing persisted `module_id` because paper/component IDs remain useful for provenance and exam attempts.
 
-Hash routing is a hosting-compatible implementation choice, not product authority. A later hosting change may replace it without changing the governed hierarchy.
+For a shared-learning course, `createCourseLearningState`:
 
-## REV behaviour
+1. gathers evidence recorded under every published paper/component module ID in the course;
+2. normalises those records to the course's canonical learning adapter for the readiness/recommendation calculation;
+3. counts topic coverage once; and
+4. returns one course-level recommendation/readiness state.
 
-REV remains the first primary surface after sign-in and the same assistant identity across scopes.
+This means AQA A-level Business does not appear to REV as three separate copies of Marketing, Finance or Strategic Change merely because the same syllabus can be assessed on Papers 1, 2 and 3.
 
-### Global Home
-
-The learner shell loads evidence for every currently published module. It builds an independent learning state for each module and uses the shared deterministic engine to identify the least-supported or lowest-readiness useful focus.
-
-The cross-module selector currently prioritises:
-
-1. modules that do not yet have enough evidence for readiness over modules that already do;
-2. lower evidence coverage/fewer scored activities when readiness is unavailable;
-3. the lower supported readiness score when multiple modules have readiness; and
-4. stable subject/paper ordering only as a tie-break.
-
-The selected module's own recommendation engine then supplies the deeper topic/activity suggestion. This preserves the distinction between choosing **which subject/paper deserves attention** and choosing **what to do inside it**.
-
-Accepting a Home recommendation opens the recommended **Subject Home**, preserving the governed staged hierarchy rather than jumping straight into an activity.
-
-### Subject Home
-
-Subject Home filters the same module-state model to the selected subject. REV can recommend the most useful currently published paper/component within that subject and route the learner into its Overview or Progress.
-
-### Paper/component context
-
-The selected module receives its content through the generic `LearningContentAdapter`. The same focused learning components and evidence services operate regardless of subject identity.
-
-### Dedicated REV screen
-
-The dedicated REV screen uses the same cross-catalogue deterministic context and routes into the recommended subject or the full Subjects view. A conversational tutor layer can later build on this context model without redesigning the information architecture.
+Global Progress and REV use these course-level states. Paper-specific exam attempts remain attributable to their paper module and feed back into the combined course evidence picture.
 
 ## Focused learning capabilities
 
-`src/app/FocusedLearningWorkspace.tsx` is content-adapter driven.
+`src/app/FocusedLearningWorkspace.tsx` remains adapter-driven.
 
 ### Learn
 
-- topic notes/explanations;
-- topic connections/linking.
+Course-level Learn presents shared topic explanations and topic links.
 
 ### Practice
 
-Where supported by the content pack:
+For a shared-syllabus course, general Practice includes:
 
 - flashcards;
 - quick checks;
-- guided case/application practice;
-- self-assessed exam questions;
-- formulas and data drills.
+- guided case/application practice; and
+- formulas/data drills.
+
+Paper-specific written exam questions are intentionally excluded from general course Practice.
 
 ### Exam Prep
 
-Where supported by the content pack:
+Exam Prep contains:
 
-- exam-answer technique/blueprints;
-- full timed exam simulation using the pack's primary exam.
+- shared exam technique where appropriate; and
+- a paper/component selector.
+
+Each published paper expands to expose its own `ExamSimulator`. The simulator supports both:
+
+- targeted single-question written practice with self-assessed AO evidence; and
+- the full timed simulation.
+
+`ExamSimulator` derives the paper label from the exam metadata and no longer contains an AS Paper 2 / Harbour Home assumption, so the same component works for A-level Papers 1, 2 and 3 and future packs.
 
 ### Progress
 
-Module Progress keeps evidence coverage, scored activity and readiness distinct, shows recent evidence and allows topic-level evidence inspection.
+Shared course Progress aggregates course/topic evidence once across paper module IDs. It does not multiply topic totals by the number of exam papers.
 
-Global Progress aggregates coverage/activity across published modules while keeping each module's readiness result separate. It does not manufacture a single cross-subject readiness percentage.
+## Current Business behaviour
 
-## Pilot catalogue and enrolment boundary
+### AQA A-level Business 7132
 
-There is currently **no persisted per-user subject/course enrolment model** in the repository.
+The three available packs share the same ten-area learning payload. The learner therefore sees one **AQA A-level Business** course with one Learn, one Practice and one Progress experience.
 
-For the current Jamie pilot:
+Exam Prep contains:
 
-- all content packs marked `available` are treated as part of the authenticated learner catalogue;
-- `preview` and `planned` packs remain hidden; and
-- adding a new `available` content pack is sufficient for the generic learner shell to discover and render it after the governed build/deployment.
+- Paper 1: Business 1;
+- Paper 2: Business 2; and
+- Paper 3: Business 3.
 
-This is deliberately a pilot publication rule, not the long-term enrolment model. Future per-user enrolment should filter the published catalogue before it reaches the learner shell. It must not reintroduce subject-specific routes or engine logic.
+Each retains its own simulation and exam evidence identity.
 
-## Data and claim boundaries
+### AQA AS Business 7131
 
-The learner shell displays only information supported by current product data. It does not invent:
+The currently available AS pack is stored under Paper 2, but AQA's six AS subject areas are treated as **AQA AS Business** course learning rather than as a Paper 2-owned syllabus.
 
-- exam dates;
-- grade forecasts;
-- generic “on track” claims; or
-- readiness where the governed evidence thresholds have not been met.
+The learner therefore sees one AS course-level Learn/Practice/Progress experience. Exam Prep currently exposes Paper 2 because that is the only assured AS paper pack in the repository.
 
-A newly published subject with no evidence may be prioritised to establish a baseline. That is presented as a coverage/evidence recommendation, not as a claim that the learner is weak in that subject.
+Revision does not invent or display an AS Paper 1 simulation until an assured Paper 1 pack is produced and published.
 
-## Motion and accessibility
+## Pilot catalogue boundary
 
-REV retains the restrained abstract orb/waveform treatment and optional typing motion.
+There is still no persisted per-user course enrolment model. During the Jamie pilot all `available` packs are discoverable; `preview` and `planned` packs remain hidden.
 
-Motion:
+Future enrolment should filter the published course catalogue rather than reintroducing subject-specific or paper-specific routing logic.
 
-- is non-essential to understanding;
-- stops under `prefers-reduced-motion`;
-- does not flash; and
-- does not block navigation or learning work.
+## Key implementation files
 
-The global and contextual navigation remain keyboard/touch operable and subject to the project's WCAG 2.2 AA target.
+- `src/app/App.tsx` — global shell, Subject Home, course/component rendering, REV and progress aggregation.
+- `src/app/catalogue-model.ts` — course grouping, shared-learning detection and course learning state.
+- `src/app/navigation.ts` — course and component hash routes.
+- `src/app/FocusedLearningWorkspace.tsx` — shared Learn/Practice and exam-technique activities.
+- `src/app/ExamSimulator.tsx` — targeted question and timed paper practice.
+- `src/app/course-exam.css` — paper selector presentation inside Exam Prep.
+- `src/engine/content/content-registry.ts` — automatic pack discovery/publication filtering.
+- `src/engine/content/content-adapter.ts` — generic validated learning-content interface.
+- `src/engine/readiness/readiness.ts` — deterministic readiness/recommendation logic.
+- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy assurance.
 
-## Implementation files
+## Documentation and decision record
 
-- `src/app/App.tsx` — authentication, generic learner shell, REV scopes, evidence loading and route-aware rendering.
-- `src/app/catalogue-model.ts` — subject/course grouping, module learning states, supported sections and cross-module priority.
-- `src/app/navigation.ts` — generic reloadable hash-route model beneath `/app/`.
-- `src/app/FocusedLearningWorkspace.tsx` — focused Learn / Practice / Exam Prep capability composition.
-- `src/app/hierarchy.css` — subject/paper hierarchy and focused-screen presentation.
-- `src/app/rev-home.css` — core REV visual system and responsive global navigation baseline.
-- `src/app/ExamSimulator.tsx` — full timed exam experience.
-- `src/engine/content/content-registry.ts` — automatic content-pack discovery and publication filtering.
-- `src/engine/content/content-adapter.ts` — generic learning-content interface and catalogue metadata.
-- `src/engine/readiness/readiness.ts` — shared deterministic readiness and next-activity recommendation logic.
-- `tests/e2e/app-responsive.spec.ts` — phone/tablet/desktop assurance for the global/contextual navigation and learning/exam journeys.
+Normative placement authority is `10-product-governance/Course Content and Assessment Component Placement.md`.
 
-## GitHub Pages deployment
+Architecture decision history is recorded in `decisions/ADR-0011-course-level-learning-and-exam-paper-placement.md`.
 
-The Pages workflow builds the Vite learner application into `dist/` and deploys that artifact. Content-pack discovery therefore happens inside the governed build. `/app/` changes only through that build/deployment process.
-
-Production smoke continues to verify that the root points into `/app/`, `/app/` serves the built Vite bundle, and retired legacy learner routes remain unavailable.
-
-## Next technical steps
-
-The next content expansion can add Jamie's additional subjects/papers as validated content packs and use the existing shell without React subject-page work.
-
-After the pilot catalogue is proven with multiple subjects, the next structural product-data step is persisted learner enrolment so different learners can see different subsets of the published catalogue.
-
-A later REV programme can add genuine conversation on top of the same subject/paper/topic/activity context and governed evidence services rather than developing a parallel interpretation of learner progress.
+Historical content assurance records are unchanged because this implementation reorganises already-assured content rather than rewriting the educational material.

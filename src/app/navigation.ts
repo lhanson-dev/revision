@@ -1,9 +1,11 @@
 export type PaperSection = 'overview' | 'learn' | 'practice' | 'exam-prep' | 'progress'
+export type CourseSection = PaperSection
 
 export type AppRoute =
   | { kind: 'home' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
+  | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection }
   | { kind: 'module'; subjectId: string; moduleId: string; section: PaperSection }
   | { kind: 'progress' }
   | { kind: 'rev' }
@@ -11,6 +13,7 @@ export type AppRoute =
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
 export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
 export const subjectRoute = (subjectId: string): AppRoute => ({ kind: 'subject', subjectId })
+export const courseRoute = (subjectId: string, courseId: string, section: CourseSection = 'overview'): AppRoute => ({ kind: 'course', subjectId, courseId, section })
 export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, moduleId, section })
 export const progressRoute = (): AppRoute => ({ kind: 'progress' })
 export const revRoute = (): AppRoute => ({ kind: 'rev' })
@@ -22,6 +25,7 @@ export function routeHash(route: AppRoute) {
     case 'home': return '#/home'
     case 'subjects': return '#/subjects'
     case 'subject': return `#/subjects/${clean(route.subjectId)}`
+    case 'course': return `#/subjects/${clean(route.subjectId)}/courses/${clean(route.courseId)}/${route.section}`
     case 'module': return `#/subjects/${clean(route.subjectId)}/modules/${clean(route.moduleId)}/${route.section}`
     case 'progress': return '#/progress'
     case 'rev': return '#/rev'
@@ -31,6 +35,10 @@ export function routeHash(route: AppRoute) {
 function decode(value: string | undefined) {
   if (!value) return null
   try { return decodeURIComponent(value) } catch { return null }
+}
+
+function validSection(value: string): value is PaperSection {
+  return ['overview', 'learn', 'practice', 'exam-prep', 'progress'].includes(value)
 }
 
 export function parseRoute(hash: string): AppRoute {
@@ -44,27 +52,31 @@ export function parseRoute(hash: string): AppRoute {
     const subjectId = decode(parts[1])
     return subjectId ? subjectRoute(subjectId) : homeRoute()
   }
+  if (parts[0] === 'subjects' && parts[2] === 'courses' && parts.length === 5) {
+    const subjectId = decode(parts[1])
+    const courseId = decode(parts[3])
+    const section = parts[4]
+    if (subjectId && courseId && validSection(section)) return courseRoute(subjectId, courseId, section)
+  }
   if (parts[0] === 'subjects' && parts[2] === 'modules' && parts.length === 5) {
     const subjectId = decode(parts[1])
     const moduleId = decode(parts[3])
-    const section = parts[4] as PaperSection
-    if (subjectId && moduleId && ['overview', 'learn', 'practice', 'exam-prep', 'progress'].includes(section)) {
-      return moduleRoute(subjectId, moduleId, section)
-    }
+    const section = parts[4]
+    if (subjectId && moduleId && validSection(section)) return moduleRoute(subjectId, moduleId, section)
   }
 
   // Compatibility with the short-lived pre-catalogue Business routes from PR #35.
   if (hash === '#/subjects/business/aqa-as/paper-2') return moduleRoute('business', 'business-aqa-as-paper-2', 'overview')
   if (hash.startsWith('#/subjects/business/aqa-as/paper-2/')) {
-    const section = hash.split('/').at(-1) as PaperSection
-    if (['learn', 'practice', 'exam-prep', 'progress'].includes(section)) return moduleRoute('business', 'business-aqa-as-paper-2', section)
+    const section = hash.split('/').at(-1) ?? ''
+    if (validSection(section)) return moduleRoute('business', 'business-aqa-as-paper-2', section)
   }
 
   return homeRoute()
 }
 
 export function routeBelongsToSubjects(route: AppRoute) {
-  return route.kind === 'subjects' || route.kind === 'subject' || route.kind === 'module'
+  return route.kind === 'subjects' || route.kind === 'subject' || route.kind === 'course' || route.kind === 'module'
 }
 
 export function sameRoute(left: AppRoute, right: AppRoute) {
