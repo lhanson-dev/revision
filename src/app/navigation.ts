@@ -9,6 +9,7 @@ export type AppRoute =
   | { kind: 'module'; subjectId: string; moduleId: string; section: PaperSection }
   | { kind: 'progress' }
   | { kind: 'rev' }
+  | { kind: 'admin' }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
 export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
@@ -17,6 +18,7 @@ export const courseRoute = (subjectId: string, courseId: string, section: Course
 export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, moduleId, section })
 export const progressRoute = (): AppRoute => ({ kind: 'progress' })
 export const revRoute = (): AppRoute => ({ kind: 'rev' })
+export const adminRoute = (): AppRoute => ({ kind: 'admin' })
 
 const clean = (value: string) => encodeURIComponent(value)
 
@@ -29,6 +31,7 @@ export function routeHash(route: AppRoute) {
     case 'module': return `#/subjects/${clean(route.subjectId)}/modules/${clean(route.moduleId)}/${route.section}`
     case 'progress': return '#/progress'
     case 'rev': return '#/rev'
+    case 'admin': return '#/admin'
   }
 }
 
@@ -46,6 +49,7 @@ export function parseRoute(hash: string): AppRoute {
   if (hash === '#/subjects') return subjectsRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()
+  if (hash === '#/admin') return adminRoute()
 
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
   if (parts[0] === 'subjects' && parts.length === 2) {
