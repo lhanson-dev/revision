@@ -17,9 +17,10 @@ Use this file to find the governing source before substantive work.
 - Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
+- Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `ADR-0010-observability-and-admin-operations.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0011-content-factory-orchestration.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -59,6 +60,7 @@ Use this file to find the governing source before substantive work.
 - AI rules and approval boundaries → `70-ai-operating-system/`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
+- Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
 - Official awarding-body URL intake for new courses → `80-company-workflows/Awarding Body URL Content Intake Workflow.md`
 - Learner-content factual / educational accuracy gate → `80-company-workflows/Content Accuracy Assurance Gate.md`
 - New content source / specification coverage template → `80-company-workflows/Content Pack Source and Coverage Template.md`
@@ -69,6 +71,7 @@ Use this file to find the governing source before substantive work.
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
+- Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Material decision history → `decisions/`
 - Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
 - Other research/exploration → `research/`
