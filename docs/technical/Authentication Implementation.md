@@ -1,6 +1,6 @@
 # Authentication Implementation
 
-Status: Current implementation candidate in PR.
+Status: Implemented on `main`; Google OAuth enabled in production Supabase Auth on 2026-08-19.
 
 ## Canonical surface
 
@@ -45,7 +45,9 @@ The Supabase URL and publishable key are browser-public configuration. OAuth cli
 
 When enabled, `Continue with Google` uses Supabase Auth `signInWithOAuth` with provider `google` and redirects back to the canonical `/app/` URL.
 
-Production enablement requires Google to be configured as a Supabase Auth provider with the correct Google OAuth client and callback/redirect configuration. This repository does not contain the Google OAuth client secret.
+Google OAuth was enabled in the production Supabase Auth configuration on 2026-08-19 and a live Google sign-in was confirmed successful. Google-linked identities remain ordinary Supabase users and receive no administrator privilege merely because they use Google.
+
+The repository does not contain the Google OAuth client secret.
 
 ## Password recovery
 
@@ -62,4 +64,4 @@ Authentication changes require at least:
 - verification that Google is shown only when the provider is enabled;
 - regression assurance that an existing authenticated learner still reaches the ordinary `/app/` hierarchy.
 
-Provider enablement itself must also be verified against the live Supabase Auth configuration before Google can be considered production-ready.
+Provider enablement must also be verified against the live Supabase Auth configuration before Google can be considered production-ready. Production verification on 2026-08-19 confirmed the live Google login path is operational.
