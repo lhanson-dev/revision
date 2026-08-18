@@ -49,7 +49,7 @@ export function parseRoute(hash: string): AppRoute {
   if (hash === '#/subjects') return subjectsRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()
-  if (hash === '#/admin') return adminRoute()
+  if (hash === '#/admin' || hash.startsWith('#/admin/')) return adminRoute()
 
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
   if (parts[0] === 'subjects' && parts.length === 2) {
