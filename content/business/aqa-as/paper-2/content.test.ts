@@ -34,7 +34,7 @@ describe('AQA AS Business Paper 2 content pack', () => {
     expect(businessAqaAsPaper2.flashcards.length).toBeGreaterThanOrEqual(90)
     expect(businessAqaAsPaper2.questions.length).toBeGreaterThanOrEqual(39)
     expect(businessAqaAsPaper2.formulas.length).toBeGreaterThanOrEqual(22)
-    expect(businessAqaAsPaper2.dataDrills).toHaveLength(8)
+    expect(businessAqaAsPaper2.dataDrills.length).toBeGreaterThanOrEqual(18)
   })
 
   it('preserves the six legacy Paper 2 answer blueprints as structured guidance', () => {
