@@ -198,12 +198,32 @@ Create a Human Subject Review Pack using `80-company-workflows/Human Subject Rev
 The review pack must give the reviewer:
 
 - exact qualification/specification/component and reviewed commit;
-- all learner-facing Revision content in scope, by exact repository path;
+- all learner-facing Revision content in scope;
 - the source/provenance register and official source links;
 - the coverage blueprint;
 - prior automated/adversarial assurance records and resolved findings;
 - explicit instructions to look for factual, curriculum, pedagogical and assessment defects rather than merely copy-editing;
 - a structured issue register and sign-off form.
+
+### Portable teacher export
+
+The reviewer must not need GitHub or Revision administration access for the MVP review process. Before requesting human review, create a single portable PDF (or equivalent deliberately approved format) that can be emailed or shared directly with the reviewer.
+
+The export must contain:
+
+- the reviewer brief and sign-off instructions;
+- course identity and exact content version/date;
+- official source/reference links and a plain-English explanation of what each source governs;
+- the specification coverage summary;
+- all learner-facing Revision content being approved, presented in readable form rather than source code where practical;
+- all substantial cases, exam simulations, questions, guidance/model-answer material and exam-technique guidance;
+- formulas, quantitative drills, flashcards and quick checks in scope;
+- previous assurance findings that materially help the reviewer target risk;
+- a structured issue log and final PASS / CONDITIONAL PASS / FAIL-HOLD decision section.
+
+Do not reproduce substantial copyrighted awarding-body material inside the export merely for convenience. Link the reviewer to the official source material and identify the sections/resources that must be used as authority.
+
+The generated PDF is an **export of the governed repository content**, not a second editable source of truth. If content changes after export, regenerate it and record the new version/commit before review sign-off.
 
 For a benchmark pack, the human reviewer must inspect all topic/learning coverage, all substantial cases, simulations, exam technique and marking guidance. High-volume atomic items such as flashcards/MCQs may use documented risk-based sampling only under the rules in the Human Subject Review Pack Template.
 
@@ -231,7 +251,8 @@ Every new-pack PR should state:
 - whether any schema or shared-engine change was required and why;
 - documentation impact;
 - canonical learner route/runtime verification where learner behaviour is affected;
-- human subject-review status (`not yet required for restricted pilot`, `pending`, `conditional`, or `passed`) where applicable.
+- human subject-review status (`not yet required for restricted pilot`, `pending`, `conditional`, or `passed`) where applicable;
+- portable reviewer-export version/commit where human review is requested.
 
 ## Fast pilot mode
 
@@ -241,10 +262,12 @@ The minimum acceptable pilot path is:
 
 **Identify → primary sources → coverage blueprint → typed pack → Content Accuracy Assurance Gate → CI → preview check → Founder-approved `available` merge → production smoke.**
 
-Human subject review is the final gate before treating that pack as a commercial benchmark or using it to support broader teaching-quality claims.
+Human subject review is the final gate before treating that pack as a commercial benchmark or using it to support broader teaching-quality claims. When requested, the reviewer receives a portable PDF rather than repository access.
 
 Do not skip source verification, coverage mapping or educational assurance in the name of speed. Those are the controls that prevent a polished but incorrect revision product.
 
 ## Future scaling
 
-As Revision moves beyond a small pilot, this workflow can be extended with named content owners/reviewers, automated coverage metrics, source-version monitoring, reviewer panels, content change logs and withdrawal/revalidation procedures. Those controls should be added when operational scale justifies them rather than simulated prematurely.
+As Revision moves beyond a small pilot, this workflow can be extended with named content owners/reviewers, automated coverage metrics, source-version monitoring, reviewer panels, content change logs and withdrawal/revalidation procedures.
+
+**Backlog idea — administration content-review workspace:** consider a future authenticated admin/reviewer area where authorised subject reviewers can inspect a pack, compare it with sources, record issues, approve/reject content and retain sign-off history. This is an administration/content-governance capability, not part of the learner or teacher product experience, and is explicitly out of MVP scope while portable review exports are sufficient.
