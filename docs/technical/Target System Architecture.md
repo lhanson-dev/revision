@@ -7,6 +7,8 @@ Revision's governed learner product is the React application at `/app/`. Supabas
 
 Until a public marketing/editorial site is introduced, the repository root `/` contains only a lightweight redirect into `/app/`.
 
+The React runtime now presents the governed learner hierarchy as distinct client-side screens: global Home / Subjects / Progress / REV, then Subject Home and contextual course/paper sections such as Overview / Learn / Practice / Exam Prep / Progress.
+
 ## Target state
 
 ```text
@@ -30,9 +32,32 @@ Supabase Auth + canonical progress data
 - `/` and public content routes are reserved for the future crawlable marketing and editorial website.
 - Until that website exists, `/` may redirect to `/app/`; it must not contain a competing learner runtime.
 - `/app/` is the permanent authenticated learner-product boundary.
-- Learner routes, including My Revision, catalogue, subject/paper study, assessments, exams, progress and account journeys, live beneath `/app/`.
+- Learner routes/screens, including Home, Subjects, Subject Home, course/paper study, assessments, exams, progress, REV and account journeys, live beneath `/app/`.
+- The current GitHub Pages implementation uses hash routes beneath `/app/` for reloadable client-side learner screens because Pages does not provide a general SPA deep-route rewrite. This is a hosting implementation choice and may change without moving the permanent `/app/` boundary.
 - Marketing pages may link into `/app/`, but authenticated learner application state must not be coupled to public-page rendering.
 - The public marketing rendering/hosting strategy may evolve independently to support SEO, static generation or server rendering without relocating the learner product.
+
+## Learner application hierarchy
+
+The React application should preserve the governed separation between global and contextual navigation:
+
+```text
+/app/
+  Home
+  Subjects
+    Subject Home
+      Course / specification
+        Paper / component where applicable
+          Overview
+          Learn
+          Practice
+          Exam Prep
+          Progress
+  Progress
+  REV
+```
+
+Academic structures vary by specification. The runtime must not hard-code every future subject into Business's numbered-paper model. Focused sections are experience sections applied where meaningful; topics/specification areas remain cross-cutting content/evidence entities.
 
 ## Production deployment
 - GitHub Pages remains the current production host while Revision proves the product.
