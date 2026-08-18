@@ -18,6 +18,7 @@ Use this file to find the governing source before substantive work.
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
 - Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`
@@ -62,6 +63,7 @@ Use this file to find the governing source before substantive work.
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
+- Minimal Content Operations Admin amendment → `80-company-workflows/Content Operations Admin v0.1 Amendment.md`
 - Course vs assessment-component classification → `80-company-workflows/Course and Assessment Component Classification Check.md`
 - Official awarding-body URL intake for new courses → `80-company-workflows/Awarding Body URL Content Intake Workflow.md`
 - Learner-content factual / educational accuracy gate → `80-company-workflows/Content Accuracy Assurance Gate.md`
@@ -75,6 +77,7 @@ Use this file to find the governing source before substantive work.
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
+- Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Material decision history → `decisions/`
 - Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
 - Other research/exploration → `research/`
