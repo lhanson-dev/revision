@@ -5,5 +5,6 @@ test('protected Content Operations entry point renders without exposing admin ac
 
   await expect(page.getByRole('heading', { name: 'Content Operations' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Forgot password?' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Add course' })).toHaveCount(0)
 })
