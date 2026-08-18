@@ -4,17 +4,44 @@ import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
 
-export type LearningWorkspaceProps = {
+export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
+
+type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'answer' | 'quick-check' | 'case-study' | 'exam-question' | 'formulas-data'
+type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
+
+export type FocusedLearningWorkspaceProps = {
   adapter: LearningContentAdapter
+  section: FocusedLearningSection
   recommendation: RevisionRecommendation | null
   saving: boolean
   saveError: string
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
 }
 
-type WorkspaceMode = 'learn' | 'flashcards' | 'links' | 'answer' | 'quick-check' | 'case-study' | 'exam-question' | 'formulas-data'
-type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
+
+const sectionModes: Record<FocusedLearningSection, readonly WorkspaceMode[]> = {
+  learn: ['learn', 'links'],
+  practice: ['flashcards', 'quick-check', 'case-study', 'exam-question', 'formulas-data'],
+  'exam-prep': ['answer'],
+}
+
+const modeLabels: Record<WorkspaceMode, string> = {
+  learn: 'Topic notes',
+  flashcards: 'Flashcards',
+  links: 'Link topics',
+  answer: 'Exam technique',
+  'quick-check': 'Quick check',
+  'case-study': 'Case study',
+  'exam-question': 'Exam question',
+  'formulas-data': 'Formulas & data',
+}
+
+function defaultMode(section: FocusedLearningSection): WorkspaceMode {
+  if (section === 'practice') return 'flashcards'
+  if (section === 'exam-prep') return 'answer'
+  return 'learn'
+}
 
 function evidenceId(prefix: string) {
   return `${prefix}-${crypto.randomUUID()}`
@@ -26,10 +53,28 @@ function recommendationActivityLabel(activity: RevisionRecommendation['activity'
   return 'Quick check'
 }
 
-export function LearningWorkspace({ adapter, recommendation, saving, saveError, onRecordEvidence }: LearningWorkspaceProps) {
+function sectionHeading(section: FocusedLearningSection, paperNumber: number) {
+  if (section === 'learn') return {
+    eyebrow: 'Understand the content',
+    title: `Learn Paper ${paperNumber}`,
+    intro: 'Choose a topic, build understanding and connect ideas before you test yourself.',
+  }
+  if (section === 'exam-prep') return {
+    eyebrow: 'Turn knowledge into marks',
+    title: `Exam Prep · Paper ${paperNumber}`,
+    intro: 'Use exam technique guidance here, then move into timed or full-paper practice when you are ready.',
+  }
+  return {
+    eyebrow: 'Retrieve, apply and test',
+    title: `Practice Paper ${paperNumber}`,
+    intro: 'Build evidence with recall, quick checks, application and exam-style questions. Reading alone does not inflate progress.',
+  }
+}
+
+export function FocusedLearningWorkspace({ adapter, section, recommendation, saving, saveError, onRecordEvidence }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
   const [topicId, setTopicId] = useState(topics[0]?.id ?? '')
-  const [mode, setMode] = useState<WorkspaceMode>('learn')
+  const [mode, setMode] = useState<WorkspaceMode>(() => defaultMode(section))
   const [cardIndex, setCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -48,6 +93,9 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
   const [aoMarks, setAoMarks] = useState<Record<AoKey, number>>(emptyAoMarks)
   const [examRecorded, setExamRecorded] = useState(false)
 
+  const availableModes = sectionModes[section]
+  const effectiveMode = availableModes.includes(mode) ? mode : defaultMode(section)
+  const copy = sectionHeading(section, adapter.manifest.paper.number)
   const topic = adapter.getTopic(topicId)
   const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
   const questions = useMemo(() => adapter.listQuestions(topicId), [adapter, topicId])
@@ -75,10 +123,14 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
     setChecked(false)
   }
 
+  function changeMode(nextMode: WorkspaceMode) {
+    if (availableModes.includes(nextMode)) setMode(nextMode)
+  }
+
   function startRecommendation() {
     if (!recommendation) return
     changeTopic(recommendation.topicId)
-    setMode(recommendation.activity)
+    changeMode(recommendation.activity)
   }
 
   async function rateFlashcard(rating: 0 | 1 | 2) {
@@ -171,12 +223,12 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
   }
 
   return (
-    <section className="learning-workspace" aria-labelledby="practice-heading">
+    <section className={`learning-workspace focused-workspace focused-${section}`} aria-labelledby={`focused-${section}-heading`}>
       <div className="workspace-heading">
         <div>
-          <p className="eyebrow">Learn → Recall → Link → Answer</p>
-          <h2 id="practice-heading">Practise Paper 2</h2>
-          <p className="muted">Use the topic notes to learn, then build evidence with recall, application and exam questions. Revision keeps learning activity separate from scored evidence so progress is not inflated by clicks or reading.</p>
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h2 id={`focused-${section}-heading`}>{copy.title}</h2>
+          <p className="muted">{copy.intro}</p>
         </div>
         <label className="topic-picker">Topic
           <select value={topicId} onChange={(event) => changeTopic(event.target.value)}>
@@ -185,10 +237,10 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </label>
       </div>
 
-      {recommendation && recommendationTopic && (
+      {section === 'practice' && recommendation && recommendationTopic && (
         <aside className="recommendation-card" aria-labelledby="recommendation-heading">
           <div>
-            <p className="eyebrow">What should I revise next?</p>
+            <p className="eyebrow">REV recommends</p>
             <h3 id="recommendation-heading">{recommendationTopic.shortTitle} · {recommendationActivityLabel(recommendation.activity)}</h3>
             <p>{recommendation.reason}</p>
             <p className="recommendation-evidence"><strong>Evidence used:</strong> {recommendation.evidenceSummary}</p>
@@ -198,34 +250,45 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </aside>
       )}
 
-      <div className="mode-tabs" role="tablist" aria-label="Revision activity">
-        <button className={mode === 'learn' ? 'active' : ''} onClick={() => setMode('learn')} role="tab" aria-selected={mode === 'learn'}>Learn</button>
-        <button className={mode === 'flashcards' ? 'active' : ''} onClick={() => setMode('flashcards')} role="tab" aria-selected={mode === 'flashcards'}>Flashcards</button>
-        <button className={mode === 'links' ? 'active' : ''} onClick={() => setMode('links')} role="tab" aria-selected={mode === 'links'}>Link topics</button>
-        <button className={mode === 'answer' ? 'active' : ''} onClick={() => setMode('answer')} role="tab" aria-selected={mode === 'answer'}>Answer</button>
-        <button className={mode === 'quick-check' ? 'active' : ''} onClick={() => setMode('quick-check')} role="tab" aria-selected={mode === 'quick-check'}>Quick check</button>
-        <button className={mode === 'case-study' ? 'active' : ''} onClick={() => setMode('case-study')} role="tab" aria-selected={mode === 'case-study'}>Case study</button>
-        <button className={mode === 'exam-question' ? 'active' : ''} onClick={() => setMode('exam-question')} role="tab" aria-selected={mode === 'exam-question'}>Exam question</button>
-        <button className={mode === 'formulas-data' ? 'active' : ''} onClick={() => setMode('formulas-data')} role="tab" aria-selected={mode === 'formulas-data'}>Formulas & data</button>
+      <div className="mode-tabs" role="tablist" aria-label={`${copy.title} activities`}>
+        {availableModes.map((item) => (
+          <button key={item} className={effectiveMode === item ? 'active' : ''} onClick={() => changeMode(item)} role="tab" aria-selected={effectiveMode === item}>{modeLabels[item]}</button>
+        ))}
       </div>
 
-      {mode === 'learn' && topic && (
+      {effectiveMode === 'learn' && topic && (
         <div className="learn-panel">
           <div className="activity-kind"><strong>Learning activity</strong><span>Build understanding first. This does not change your readiness score by itself.</span></div>
           <h3>{topic.title}</h3>
           <div className="section-grid">
-            {topic.sections.map((section) => (
-              <article className="learn-section" key={section.id}>
-                <h4>{section.title}</h4>
-                <ul>{section.points.map((point) => <li key={point}>{point}</li>)}</ul>
+            {topic.sections.map((sectionItem) => (
+              <article className="learn-section" key={sectionItem.id}>
+                <h4>{sectionItem.title}</h4>
+                <ul>{sectionItem.points.map((point) => <li key={point}>{point}</li>)}</ul>
               </article>
             ))}
           </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Try Flashcards to check recall, then Quick check or an Exam question to build scored evidence.</span></div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Move to Practice when you want to check recall or prove the learning with scored evidence.</span></div>
         </div>
       )}
 
-      {mode === 'flashcards' && card && (
+      {effectiveMode === 'links' && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Learning activity</strong><span>Use these chains to connect a decision to its wider business consequences.</span></div>
+          <h3>Link {topic?.shortTitle ?? 'this topic'} to the wider business</h3>
+          <div className="link-list">
+            {links.map((link) => (
+              <article key={link.id}>
+                <strong>{link.label}</strong>
+                <p>{link.explanation}</p>
+              </article>
+            ))}
+          </div>
+          <div className="next-step"><strong>Exam habit</strong><span>Do not stop at the first effect. Build a chain: decision → immediate impact → functional consequence → business outcome.</span></div>
+        </div>
+      )}
+
+      {effectiveMode === 'flashcards' && card && (
         <div className="practice-card">
           <div className="activity-kind scored"><strong>Scored evidence</strong><span>Your self-rating is recorded and contributes to the evidence picture.</span></div>
           <div className="practice-meta">Card {(cardIndex % cards.length) + 1} of {cards.length}</div>
@@ -246,44 +309,7 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </div>
       )}
 
-      {mode === 'links' && (
-        <div className="learn-panel">
-          <div className="activity-kind"><strong>Learning activity</strong><span>Use these chains to practise connecting a decision to its wider business consequences.</span></div>
-          <h3>Link {topic?.shortTitle ?? 'this topic'} to the wider business</h3>
-          <div className="link-list">
-            {links.map((link) => (
-              <article key={link.id}>
-                <strong>{link.label}</strong>
-                <p>{link.explanation}</p>
-              </article>
-            ))}
-          </div>
-          <div className="next-step"><strong>Exam habit</strong><span>Do not stop at the first effect. Build a chain: decision → immediate impact → functional consequence → business outcome.</span></div>
-        </div>
-      )}
-
-      {mode === 'answer' && (
-        <div className="learn-panel">
-          <div className="activity-kind"><strong>Learning activity</strong><span>Learn how to turn knowledge into marks before you attempt longer written questions. Reading this guidance does not count as scored evidence.</span></div>
-          <h3>Paper 2 answer blueprints</h3>
-          <p className="muted">The objective is not longer answers. It is more marks per sentence: apply the case, build the chain, and make the judgement specific.</p>
-          <div className="technique-grid">
-            {examTechnique.map((guide) => (
-              <article className="technique-card" key={guide.id}>
-                <h4>{guide.title}</h4>
-                <p>{guide.summary}</p>
-                <ol className="technique-steps">
-                  {guide.steps.map((step) => <li key={step}>{step}</li>)}
-                </ol>
-                <div className="technique-tip"><strong>Exam habit</strong><span>{guide.tip}</span></div>
-              </article>
-            ))}
-          </div>
-          <div className="next-step"><strong>What should I do next?</strong><span>Use Case study to rehearse the structure without a mark, then Exam question to write and self-assess a scored response.</span></div>
-        </div>
-      )}
-
-      {mode === 'quick-check' && question && (
+      {effectiveMode === 'quick-check' && question && (
         <div className="practice-card">
           <div className="activity-kind scored"><strong>Scored evidence</strong><span>Your answer is recorded and contributes to readiness once there is enough varied evidence.</span></div>
           <div className="practice-meta">Question {(questionIndex % questions.length) + 1} of {questions.length}</div>
@@ -307,7 +333,7 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </div>
       )}
 
-      {mode === 'case-study' && caseStudy && caseQuestion && (
+      {effectiveMode === 'case-study' && caseStudy && caseQuestion && (
         <div className="learn-panel">
           <div className="activity-kind"><strong>Guided application practice</strong><span>This develops application and analysis, but it is not scored because these guided questions do not have an authoritative mark allocation.</span></div>
           <h3>{caseStudy.title}</h3>
@@ -336,9 +362,9 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </div>
       )}
 
-      {mode === 'exam-question' && exam && examQuestion && (
+      {effectiveMode === 'exam-question' && exam && examQuestion && (
         <div className="learn-panel">
-          <div className="activity-kind scored"><strong>Scored exam evidence — self-assessed</strong><span>Write the answer first, then use the existing marking guidance to award your own AO marks. Self-marked evidence contributes to readiness but cannot produce high confidence on its own.</span></div>
+          <div className="activity-kind scored"><strong>Scored exam evidence — self-assessed</strong><span>Write the answer first, then use the marking guidance to award your own AO marks. Self-marked evidence contributes to readiness but cannot produce high confidence on its own.</span></div>
           <div className="exam-context" dangerouslySetInnerHTML={{ __html: exam.caseHtml }} />
           <article className="written-practice exam-practice">
             <div className="practice-meta">{exam.title} · Question {(examQuestionIndex % exam.questions.length) + 1} of {exam.questions.length} · {examQuestion.marks} marks · {adapter.getTopic(examQuestion.topic)?.shortTitle ?? examQuestion.topic}</div>
@@ -346,7 +372,7 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
             <label className="answer-label">Write your answer
               <textarea rows={12} value={examDraft} disabled={examRecorded} onChange={(event) => setExamDraft(event.target.value)} placeholder="Answer as you would in the exam. Use the case where relevant and show calculations." />
             </label>
-            <p className="muted small-note">Your written draft stays on this screen only in this migration slice. Revision saves the marks you record, not the text of this answer.</p>
+            <p className="muted small-note">Your written draft stays on this screen only. Revision saves the marks you record, not the text of this answer.</p>
             {!showMarkingGuidance ? (
               <button className="primary" disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</button>
             ) : (
@@ -383,7 +409,7 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
         </div>
       )}
 
-      {mode === 'formulas-data' && (
+      {effectiveMode === 'formulas-data' && (
         <div className="learn-panel">
           <div className="activity-kind"><strong>Practice activity</strong><span>These reveal-and-check exercises help you prepare. They are not scored readiness evidence yet.</span></div>
           <div className="practice-split">
@@ -407,6 +433,27 @@ export function LearningWorkspace({ adapter, recommendation, saving, saveError, 
             )}
           </div>
           <div className="next-step"><strong>What should I do next?</strong><span>Use Quick check for application evidence or Exam question for stronger written exam evidence.</span></div>
+        </div>
+      )}
+
+      {effectiveMode === 'answer' && (
+        <div className="learn-panel">
+          <div className="activity-kind"><strong>Exam technique</strong><span>Learn how to turn knowledge into marks before you attempt longer written questions. Reading this guidance does not count as scored evidence.</span></div>
+          <h3>Paper {adapter.manifest.paper.number} answer blueprints</h3>
+          <p className="muted">The objective is not longer answers. It is more marks per sentence: apply the case, build the chain, and make the judgement specific.</p>
+          <div className="technique-grid">
+            {examTechnique.map((guide) => (
+              <article className="technique-card" key={guide.id}>
+                <h4>{guide.title}</h4>
+                <p>{guide.summary}</p>
+                <ol className="technique-steps">
+                  {guide.steps.map((step) => <li key={step}>{step}</li>)}
+                </ol>
+                <div className="technique-tip"><strong>Exam habit</strong><span>{guide.tip}</span></div>
+              </article>
+            ))}
+          </div>
+          <div className="next-step"><strong>What should I do next?</strong><span>Use the full Exam Simulator below when you want to test this technique under realistic conditions.</span></div>
         </div>
       )}
 

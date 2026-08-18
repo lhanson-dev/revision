@@ -5,6 +5,7 @@ import './app/app.css'
 import './app/guidance.css'
 import './app/exam.css'
 import './app/rev-home.css'
+import './app/hierarchy.css'
 
 const root = document.getElementById('root')
 
