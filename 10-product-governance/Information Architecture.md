@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.3  
+**Status:** Draft authority candidate — v0.4  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -32,7 +32,7 @@ Account, settings, subject management and similar utilities remain secondary.
 
 Revision should be designed from the outset for a learner with multiple subjects and multiple assessment components, even when the first live content catalogue is narrower.
 
-The conceptual hierarchy is:
+The conceptual academic hierarchy is:
 
 ```text
 Learner
@@ -44,7 +44,22 @@ Learner
                     └── Evidence and feedback
 ```
 
-Not every qualification must expose every level. Some specifications may use components, themes, texts, skills or other exam-board structures rather than numbered papers. Revision should preserve the official structure where it matters without forcing every subject into the current Business model.
+The experience hierarchy within a selected course, paper or component is different from the academic hierarchy. Where sufficient content exists, the learner should normally move through focused contextual sections:
+
+```text
+Course / paper / component
+├── Overview
+├── Learn
+├── Practice
+├── Exam Prep
+└── Progress
+```
+
+These sections are first-class parts of the learner hierarchy. They should not be collapsed into one long all-purpose course or paper page containing learning content, flashcards, quizzes, exam simulation and progress one after another.
+
+Topics and specification areas cut across these sections. A topic such as Marketing may therefore be reached through Learn, Practice, Exam Prep or Progress without creating separate duplicated versions of the topic.
+
+Not every qualification must expose every academic level or every contextual section. Some specifications may use components, themes, texts, skills or other exam-board structures rather than numbered papers. Revision should preserve the official structure where it matters without forcing every subject into the current Business model.
 
 The learner should normally be able to move from a global recommendation to useful work in a small number of understandable steps.
 
@@ -100,7 +115,7 @@ Subject Home may include:
 - weaknesses or under-covered areas;
 - recent subject activity;
 - REV guidance scoped to that subject; and
-- routes into learning, practice and exam-preparation work.
+- routes into the relevant course, paper or component.
 
 REV remains visible or contextually available on Subject Home. It is the same assistant relationship as global REV, but the current subject becomes explicit context.
 
@@ -114,48 +129,123 @@ Within a subject, the learner should be able to browse the official course/speci
 
 Where a course has papers or components, these provide a useful next level of organisation. Where it does not, Revision should use the appropriate official structure instead of inventing a paper hierarchy.
 
-At this level, Revision should surface the learning and assessment capabilities relevant to the selected context, including:
+A course, paper or component Home should be an overview and launch point, not the place where every learning capability is rendered in full. It should orient the learner, show the most useful next action and provide direct access to the focused contextual sections that apply.
 
-- concise learning content and explanations;
-- flashcards and active recall;
-- quizzes and topic tests;
-- exam questions;
-- timed practice;
-- full-paper/component practice where appropriate; and
-- the Exam Simulator where the specification supports it.
+## Contextual course / paper sections
 
-The specification structure should remain understandable on mobile and should avoid requiring the student to navigate several nested levels before reaching useful work.
+Where the selected academic context has enough depth to justify them, the standard contextual sections are:
 
-## Practice and Exam Prep
+### Overview
 
-Practice and Exam Prep are core capabilities, not global organising destinations.
+Overview answers:
+
+> Where am I in this course, paper or component, and what should I do next?
+
+It may include:
+
+- the official specification/paper context;
+- REV's recommendation for this context;
+- recent activity;
+- concise coverage/readiness signals;
+- the main topics/specification areas; and
+- clear routes into Learn, Practice, Exam Prep and Progress.
+
+Overview must remain a hub. It should not duplicate the full contents of the other sections.
+
+### Learn
+
+Learn answers:
+
+> Help me understand this.
+
+It may include:
+
+- concise revision notes;
+- explanations;
+- worked examples;
+- visual material;
+- audio/video where useful and justified; and
+- topic/specification browsing for learning purposes.
 
 ### Practice
 
-Practice includes active revision and assessment activities such as:
+Practice answers:
 
-- flashcards;
-- quizzes;
+> Help me test whether I know this.
+
+It includes active revision and assessment activities such as:
+
+- flashcards and active recall;
+- quick checks and quizzes;
 - topic tests;
-- exam questions; and
-- other active-recall formats.
+- case/application practice where relevant;
+- exam-style questions; and
+- other validated practice formats.
 
-Practice should normally inherit the current subject/course/topic context. It should feed evidence back into the wider student model and provide useful explanatory feedback, not just scores.
+Practice should feed evidence back into the wider student model and provide useful explanatory feedback, not just scores.
 
 ### Exam Prep
 
-Exam Prep includes activity specifically intended to prepare the student for exam conditions, including:
+Exam Prep answers:
 
-- timed practice;
-- full papers/components;
-- targeted exam-question work; and
-- the Exam Simulator.
+> Help me perform in the real exam.
 
-As an exam approaches, REV may increasingly recommend these activities from Home or a Subject Home, but the activity itself remains attached to the relevant course/paper/component context.
+It includes activity intended to prepare the learner for exam conditions, including:
+
+- targeted exam-question work;
+- timed questions or sections;
+- exam technique support;
+- full-paper/component practice where appropriate; and
+- the Exam Simulator where the specification supports it.
+
+As an exam approaches, REV may increasingly recommend Exam Prep activities from Home, Subject Home or the selected course/paper Overview.
+
+### Progress
+
+Contextual Progress answers:
+
+> How am I doing here, and what needs attention?
+
+It may include:
+
+- specification coverage;
+- understanding/mastery;
+- weak or under-covered areas;
+- recent evidence; and
+- exam readiness where supported by sufficient evidence.
+
+This contextual Progress view is a drill-down of the global Progress model, not a separate progress system.
+
+## Focused-section rule
+
+Learn, Practice, Exam Prep and contextual Progress should normally be distinct navigable sections or focused screen states when the course/paper/component contains meaningful depth.
+
+Implementation may use routes, tabs or another accessible navigation pattern, but the learner must be able to understand which section they are in and move between sections without scrolling through unrelated capabilities.
+
+The design should preserve deep linking or equivalent addressability where practical so REV recommendations and progress signals can take the learner directly to the relevant focused work.
+
+A small or simple academic context may combine sections where doing so genuinely reduces friction, but combining sections must not become the default simply because a single-page implementation is easier to build.
+
+## Topic and specification-area behaviour
+
+Topics are cross-cutting academic entities rather than children of only one contextual section.
+
+For example, a learner may reach Marketing through:
+
+```text
+Paper 2 → Learn → Marketing
+Paper 2 → Practice → Flashcards → Marketing
+Paper 2 → Practice → Exam questions → Marketing
+Paper 2 → Progress → Marketing
+```
+
+These routes should refer to the same underlying topic/specification identity and evidence model.
+
+A topic view may itself expose relevant actions such as Learn, Flashcards, Quick Check, Exam Questions or Progress, allowing the learner to change learning mode without losing academic context.
 
 ## Progress
 
-Progress is a global destination that helps the student understand the bigger picture across subjects.
+Progress is also a global destination that helps the student understand the bigger picture across subjects.
 
 It should support progressive drill-down:
 
@@ -163,13 +253,7 @@ It should support progressive drill-down:
 All subjects → Subject → Course/specification → Paper/component → Topic
 ```
 
-Progress may include:
-
-- specification coverage;
-- understanding/mastery;
-- weaknesses;
-- recent progress; and
-- exam readiness where supported by sufficient evidence.
+Global and contextual Progress views should use the same underlying evidence model. Global Progress answers how the learner is doing across revision as a whole; contextual Progress answers the same question within the selected academic scope.
 
 Progress should provide confidence when the student is on track and constructive direction when they are not.
 
@@ -191,11 +275,13 @@ On a Subject Home, REV keeps the learner's wider picture available but treats th
 
 ### Activity-context REV
 
-While the learner is viewing a topic, completing practice, reviewing feedback or preparing for an exam, REV can use the current content/activity as additional context for explanation and guidance.
+Within a course/paper section, topic or activity, REV can use the current academic context, selected section and current content/feedback as additional context for explanation and guidance.
 
 These are not separate assistants. They are contextual scopes of the same REV relationship.
 
-REV should be able to recommend, explain and guide while preserving student agency. A student should always be able to choose a different subject, topic or activity.
+REV should be able to recommend transitions between sections when useful. For example, a weak Practice result may lead REV to recommend a specific Learn explanation before returning the learner to Practice.
+
+REV should preserve student agency. A student should always be able to choose a different subject, topic, section or activity.
 
 ## Navigation model
 
@@ -208,7 +294,13 @@ Desktop primary navigation should expose:
 - Progress
 - REV
 
-Contextual navigation within a Subject Home or course/paper area may expose Practice, Exam Prep and other relevant activities without promoting them to global navigation.
+Within a Subject Home or course/paper/component area, contextual navigation should expose the focused sections that apply, normally:
+
+- Overview
+- Learn
+- Practice
+- Exam Prep
+- Progress
 
 ### Mobile
 
@@ -218,7 +310,9 @@ Mobile should use:
 - a burger/menu control at the top right for account and secondary utilities; and
 - fixed bottom navigation for Home, Subjects, Progress and REV.
 
-The fifth mobile slot should not be filled merely to match a conventional five-tab pattern. A context-specific action may be used later only where usability evidence supports it.
+Contextual course/paper navigation must remain easy to use on small screens without replacing or obscuring the learner-wide navigation model. Its exact mobile treatment may use tabs, a compact selector or another accessible pattern supported by usability evidence.
+
+The fifth global mobile slot should not be filled merely to match a conventional five-tab pattern.
 
 ## Supporting experiences
 
@@ -236,12 +330,14 @@ The information architecture should:
 - support fast switching between multiple subjects;
 - make Subject Home the bridge between global guidance and subject-specific work;
 - preserve the official specification structure rather than hard-coding one subject's hierarchy;
+- use focused Overview, Learn, Practice, Exam Prep and Progress sections where the selected academic context has meaningful depth;
+- avoid turning course/paper pages into long collections of unrelated tools;
+- keep topics/specification areas consistent across learning modes rather than duplicating them;
 - keep the specification transparent and browsable;
 - make REV available globally and in context;
 - keep global navigation relatively flat and recognisable;
-- keep Practice and Exam Prep contextual to relevant academic content;
 - avoid excessive dashboard density;
-- preserve student freedom to navigate and choose their own activity;
+- preserve student freedom to navigate and choose their own section or activity;
 - use progressive disclosure for secondary detail;
 - remain fully usable on mobile; and
-- allow future subjects, courses and components to be added without redesigning Home.
+- allow future subjects, courses and components to be added without redesigning Home or forcing them into the current Business structure.
