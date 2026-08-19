@@ -4,7 +4,15 @@
   display: none !important;
 }
 
-@media (max-width: 760px) {
+.planner-runtime > .menu-backdrop {
+  z-index: 80;
+}
+
+.planner-runtime > .runtime-menu-drawer {
+  z-index: 100;
+}
+
+@media (max-width: 960px) {
   .planner-runtime .runtime-screen > .app-shell .desktop-topbar,
   .planner-runtime .runtime-screen > .app-shell .mobile-topbar,
   .planner-runtime .runtime-screen > .app-shell > .bottom-nav {
