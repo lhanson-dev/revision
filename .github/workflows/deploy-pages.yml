@@ -14,8 +14,65 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
+  SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
+  EXPECTED_BACKEND_CONTRACT: planner-v1
+
 jobs:
+  backend-readiness:
+    name: Production backend readiness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify database release contract
+        run: |
+          set -euo pipefail
+
+          response="$(curl --fail --silent --show-error \
+            --request POST \
+            --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            --header "Content-Type: application/json" \
+            --data '{}' \
+            "${SUPABASE_URL}/rest/v1/rpc/revision_release_readiness")"
+
+          contract="$(jq -r '.contract // empty' <<<"$response")"
+          ready="$(jq -r '.ready // false' <<<"$response")"
+
+          if [ "$contract" != "$EXPECTED_BACKEND_CONTRACT" ]; then
+            echo "Production database contract mismatch. Expected ${EXPECTED_BACKEND_CONTRACT}, got ${contract:-missing}." >&2
+            echo "$response" >&2
+            exit 1
+          fi
+
+          if [ "$ready" != "true" ]; then
+            echo 'Production database is missing one or more required Revision capabilities.' >&2
+            echo "$response" >&2
+            exit 1
+          fi
+
+          echo "Production database contract ${contract} is ready."
+
+      - name: Verify protected planner operations function is deployed
+        run: |
+          set -euo pipefail
+
+          status="$(curl --silent --show-error \
+            --request POST \
+            --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            --output /tmp/planner-operations-response.txt \
+            --write-out '%{http_code}' \
+            "${SUPABASE_URL}/functions/v1/planner-operations")"
+
+          if [ "$status" != "401" ]; then
+            echo "Expected protected planner-operations to reject an unauthenticated request with 401; received ${status}." >&2
+            cat /tmp/planner-operations-response.txt >&2 || true
+            exit 1
+          fi
+
+          echo 'Protected planner-operations Edge Function is deployed and requires authentication.'
+
   build:
+    needs: backend-readiness
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
