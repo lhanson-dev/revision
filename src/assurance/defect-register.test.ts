@@ -7,7 +7,8 @@ describe('defect register projection', () => {
     expect(defectRegister.version).toBe(1)
     expect(defectRegister.lastTriaged).toBe('2026-08-19')
     expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001')).toBe(true)
-    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 0, P2: 1, total: 1 })
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002')).toBe(true)
+    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 0, P2: 2, total: 2 })
   })
 
   it('treats a deliberately triaged valid empty register as available with zero known open defects', () => {
