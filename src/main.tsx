@@ -11,6 +11,7 @@ import './app/hierarchy.css'
 import './app/course-exam.css'
 import './app/content-operations.css'
 import './app/admin-operations-responsive.css'
+import './app/planner.css'
 
 const root = document.getElementById('root')
 
