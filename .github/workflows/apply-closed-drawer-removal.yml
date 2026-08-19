@@ -1,0 +1,42 @@
+name: Apply closed drawer removal
+
+on:
+  push:
+    branches:
+      - agent/close-assurance-foundation-gaps
+
+permissions:
+  contents: write
+
+jobs:
+  remove-closed-drawer:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/close-assurance-foundation-gaps
+      - name: Remove closed account drawer from DOM
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('src/app/App.tsx')
+          text = path.read_text()
+          pattern = re.compile(r'<aside className=\{`menu-drawer \$\{menuOpen \? \'open\' : \'\'\}`\} aria-label="Account and additional links" aria-hidden=\{!menuOpen\} inert=\{!menuOpen\}>(.*?)</aside>', re.S)
+          matches = pattern.findall(text)
+          if len(matches) != 1:
+              raise SystemExit(f'Expected one guarded App drawer target, found {len(matches)}')
+          replacement = '{menuOpen && <aside className="menu-drawer open" aria-label="Account and additional links">' + matches[0] + '</aside>}'
+          path.write_text(pattern.sub(lambda _match: replacement, text, count=1))
+          PY
+      - name: Commit fix
+        run: |
+          set -euo pipefail
+          git config user.name 'revision-foundation-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add src/app/App.tsx
+          git commit -m 'Remove closed account drawer from focus tree'
+          git push origin HEAD:agent/close-assurance-foundation-gaps
