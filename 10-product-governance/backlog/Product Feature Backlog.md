@@ -125,3 +125,254 @@ If approved, review and update at minimum:
 - applicable experience authority if new planning interaction principles are required;
 - applicable privacy/trust authority if scheduling or student-behaviour data introduces new considerations; and
 - technical architecture/implementation documentation when implementation begins.
+
+---
+
+## FI-002 — Subscription Plans / Feature Entitlements and Upgrade Journey
+
+**Status:** Idea  
+**Captured:** 2026-08-19  
+**Capability fit:** Commercial capability evolution; cross-cutting product entitlement layer  
+**Authority context:** Free, paid and premium tiers are already anticipated in `Scope and Capability Taxonomy.md`; exact entitlements, pricing and boundaries remain deliberately undefined.  
+**Initial assessment:** High commercial importance; strategically necessary for monetisation; must preserve strong free-product value
+
+### User and business problem
+
+Revision needs a sustainable paid model without making the free experience feel broken, misleading or unusable.
+
+Students should be able to start using Revision for free, understand the value of the product and make meaningful progress before being asked to pay. At the same time, paid plans need to provide clear, desirable additional value that is visible enough to motivate upgrading.
+
+### Proposed capability
+
+Introduce a subscription and entitlement system that understands the current user's plan and consistently determines which features, limits and benefits they can use.
+
+The product should support multiple plan levels rather than a single free/paid switch, with exact plan names, prices and entitlements governed separately.
+
+The app should:
+
+- know the authenticated user's current subscription plan and entitlement state;
+- apply that entitlement state consistently across all relevant surfaces and APIs;
+- show the broader Revision product and its premium capabilities to free users rather than hiding the existence of paid features;
+- clearly distinguish available features from features requiring an upgrade;
+- when a user intentionally tries to use a locked capability, explain the benefit and present an appropriate upgrade journey;
+- unlock the correct capabilities promptly after a successful plan change;
+- handle downgrade, cancellation, expiry, failed payment and entitlement refresh states safely; and
+- give the user a clear place to understand their current plan and available upgrades.
+
+### Product principle
+
+**Free must feel genuinely useful. Paid must feel materially better.**
+
+The free product should be capable of proving Revision's core value and helping a student make real revision progress. Upgrade pressure should come from seeing meaningful additional benefits, not from deliberately crippling basic use after acquisition.
+
+### Premium discovery / locked-feature behaviour
+
+Premium features should remain discoverable in the interface where that improves understanding of the product.
+
+A locked feature should not masquerade as available. Its state should be understandable before or at the point of interaction.
+
+When a free or lower-tier user reaches a locked feature, the upgrade experience should explain:
+
+- what the capability does;
+- why it may be useful to this student;
+- which plan unlocks it; and
+- a simple route to compare or upgrade plans.
+
+Upgrade prompts should be contextual rather than constant. Revision should avoid filling the learning experience with repeated paywalls, banners or manipulative urgency.
+
+### Entitlement model
+
+The technical design should favour capability/entitlement checks over scattered hard-coded plan-name checks.
+
+Conceptually:
+
+`user → subscription state → plan → entitlements/limits → product capability access`
+
+This should allow plan packaging to change later without requiring entitlement logic to be rewritten throughout the application.
+
+### Guardrails
+
+The feature should avoid:
+
+- making the free tier a non-functional demo;
+- unexpectedly blocking an activity the student reasonably believed was free;
+- hiding all premium functionality so students cannot understand upgrade value;
+- deceptive countdowns, false scarcity or manipulative upgrade mechanics;
+- entitlement enforcement only in the UI while protected server/API actions remain callable;
+- tying educational truth, scores or readiness claims to payment status; and
+- making cancellation or plan management deliberately difficult.
+
+### Dependencies / questions to assess
+
+- approved pricing and packaging strategy;
+- exact free/paid/premium entitlement matrix;
+- payment/subscription provider and billing architecture;
+- account model, including who purchases when a parent pays for a student's plan;
+- upgrade/downgrade/cancellation lifecycle;
+- trials, referral-earned access and promotional entitlement handling;
+- server-side entitlement enforcement and caching strategy;
+- analytics for upgrade exposure, intent, conversion and churn;
+- treatment of AI/token-intensive features and usage allowances; and
+- consumer/subscription legal requirements applicable to the chosen commercial model.
+
+### Promotion impact
+
+If approved, this requires dedicated product/commercial authority defining pricing, plans and entitlements rather than embedding those rules only in implementation.
+
+Review and update at minimum:
+
+- `10-product-governance/Scope and Capability Taxonomy.md`;
+- new product-facing plan/entitlement authority under `10-product-governance/`;
+- relevant `60-business-operations/` commercial authority;
+- `10-product-governance/Core User Journeys.md` for upgrade and plan-management journeys;
+- relevant experience authority for paywall/locked-feature behaviour;
+- privacy/security requirements for billing/account data; and
+- technical architecture and implementation documentation.
+
+---
+
+## FI-003 — Full REV Intelligent AI Tutor
+
+**Status:** Candidate  
+**Captured:** 2026-08-19  
+**Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
+**Authority context:** REV / the AI tutor is already approved as a core part of Revision's product system and first serious product version. This backlog item captures the fuller product capability required to realise that approved direction rather than proposing whether an AI tutor should exist.  
+**Initial assessment:** Very high strategic value; central differentiator; likely major retention and premium-value driver; implementation must be cost-controlled and evidence-grounded
+
+### Student problem
+
+Students often need help at the exact point they become confused, stuck, unsure what to revise next or uncertain about what an exam question is asking. Static content and generic chatbots do not have enough context about the learner to provide consistently useful guidance.
+
+Revision's opportunity is for REV to behave as an intelligent tutor that understands the student's subjects, specification, progress, strengths, weaknesses, recent work and upcoming exam context, then uses that context throughout the product.
+
+### Proposed capability
+
+Deliver REV as a persistent, context-aware AI tutor integrated into Revision rather than a standalone generic chat window.
+
+REV should be able to support both direct student questions and proactive guidance.
+
+Examples include:
+
+- explaining a concept when the student says they do not understand it;
+- answering questions in the context of the correct qualification, exam board and specification;
+- helping a student understand why an answer lost marks;
+- giving hints or scaffolding without immediately supplying the answer when learning would benefit from retrieval or reasoning;
+- recommending what to revise next using the student's wider evidence picture;
+- recognising patterns of weakness across activity rather than reacting only to the latest result;
+- connecting progress, upcoming exams and available study time to useful guidance;
+- helping with exam technique and answer structure;
+- checking understanding conversationally;
+- moving naturally between explanation, questioning, practice and recommendation; and
+- remembering appropriate learning context over time so the student does not need to repeatedly explain their situation.
+
+### REV should feel embedded in Revision
+
+REV should not behave like an external chatbot bolted onto the app.
+
+It should be capable of understanding the surface and activity the student is currently using, for example a topic, quiz result, exam question, revision plan or progress view, and respond using that context where appropriate.
+
+The experience should make sophisticated intelligence feel simple to the student.
+
+### Proactive intelligence
+
+REV should not wait for every interaction to start with a student prompt.
+
+Where the evidence is strong enough, REV should be able to surface concise, useful interventions such as:
+
+- a recommended next task;
+- a warning that an important area remains under-covered;
+- recognition that a student has improved enough to shift priority elsewhere;
+- a suggestion to move from learning content into exam practice; or
+- an adjustment to the student's revision plan because time or evidence has changed.
+
+Proactivity should be useful and restrained, not noisy.
+
+### Memory and learner context
+
+REV should use structured learner context wherever possible rather than relying on unbounded conversational history.
+
+Relevant context may include:
+
+- enrolled subjects, qualification and exam board;
+- specification/topic structure;
+- coverage state;
+- mastery/understanding evidence;
+- exam-readiness evidence;
+- recent assessments and mistakes;
+- identified strengths and weaknesses;
+- upcoming assessments and revision-plan priorities;
+- student preferences that materially improve learning support; and
+- recent conversational context where needed.
+
+This context should be permissioned, explainable where appropriate and governed by Revision's privacy rules.
+
+### Cost-efficient AI architecture principle
+
+A full REV experience should not imply sending the student's entire history and content corpus to a large model on every interaction.
+
+Implementation should minimise AI cost through approaches such as:
+
+- deterministic product logic for tasks that do not need generative reasoning;
+- structured learner-state summaries;
+- retrieval of only the relevant specification/content/evidence context;
+- routing different tasks to appropriately capable/cost-effective models;
+- bounded conversation summaries rather than unlimited raw transcript replay;
+- caching/reuse where safe;
+- precomputed recommendations where appropriate; and
+- product-level usage controls that preserve usefulness rather than arbitrary conversation interruption.
+
+The exact architecture remains an engineering decision, but cost efficiency is a product requirement because unrestricted token consumption would undermine the viability of the tutor.
+
+### Conversational modes
+
+REV should ultimately support natural typed conversation and may support spoken conversation where it creates genuine student value and is commercially/technically viable.
+
+Voice should be considered an interaction mode for the same tutor and learner model, not a separate intelligence.
+
+### Guardrails
+
+REV should avoid:
+
+- pretending to know facts about the student that are not supported by data;
+- inventing specification or subject content when an authoritative source should be used;
+- giving false certainty about grades or exam outcomes;
+- completing assessed work in ways that undermine learning or applicable educational integrity rules;
+- producing so much explanation that the student becomes more overwhelmed;
+- creating dependency by discouraging independent thinking;
+- treating one poor result as proof the student is weak overall;
+- unsafe or inappropriate behaviour for young users; and
+- exposing private learner information unnecessarily to AI providers or other users.
+
+### Dependencies / questions to assess
+
+- structured learner/evidence model maturity;
+- authoritative curriculum/content retrieval layer;
+- tutor orchestration and model-routing architecture;
+- prompt/policy/version governance;
+- conversation and learner-memory design;
+- safety, safeguarding and privacy controls for users aged 14–18;
+- evaluation framework for answer quality, educational usefulness and hallucination risk;
+- token/cost budgets and paid-tier allowances;
+- latency expectations;
+- voice architecture if pursued;
+- observability and auditability of AI interactions; and
+- fallback behaviour when REV lacks sufficient evidence or confidence.
+
+### Relationship to FI-001 and FI-002
+
+REV is likely to be the intelligence that explains and interacts with the adaptive revision planner in FI-001.
+
+FI-002 may use differentiated REV allowances or premium REV capabilities as part of plan packaging, but the free tier should still expose enough REV value to demonstrate why the intelligent tutor matters. Packaging must not redefine the educational behaviour or truthfulness of REV.
+
+### Promotion / implementation impact
+
+Because the AI tutor already exists in approved product direction, this item should be used to define and sequence the **full implementation** rather than to re-approve the existence of REV.
+
+Before material implementation, review/update at minimum:
+
+- `10-product-governance/Product System Model.md` where fuller behavioural authority is required;
+- `10-product-governance/Core User Journeys.md`;
+- relevant REV/experience authority under `20-brand-and-experience/`;
+- AI, privacy, safeguarding, evidence and educational-integrity authority;
+- target system architecture and dedicated REV technical design documentation; and
+- assurance/evaluation standards for AI tutoring quality.
