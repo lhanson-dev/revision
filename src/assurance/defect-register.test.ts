@@ -2,13 +2,13 @@ import { describe, expect, it } from 'vitest'
 import { defectRegister, openDefectCounts, parseDefectRegister } from './defect-register'
 
 describe('defect register projection', () => {
-  it('projects the governed current register and keeps fix-in-review defects open', () => {
+  it('projects closed historical defects without counting them as open', () => {
     expect(defectRegister.available).toBe(true)
     expect(defectRegister.version).toBe(1)
     expect(defectRegister.lastTriaged).toBe('2026-08-19')
-    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001')).toBe(true)
-    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002')).toBe(true)
-    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 0, P2: 2, total: 2 })
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-001' && record.status === 'Closed')).toBe(true)
+    expect(defectRegister.records.some((record) => record.id === 'DEF-2026-002' && record.status === 'Closed')).toBe(true)
+    expect(openDefectCounts(defectRegister.records)).toEqual({ P0: 0, P1: 0, P2: 0, total: 0 })
   })
 
   it('treats a deliberately triaged valid empty register as available with zero known open defects', () => {
