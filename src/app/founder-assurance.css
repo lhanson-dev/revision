@@ -1,0 +1,93 @@
+.founder-assurance {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.assurance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.assurance-summary-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem;
+  border: 1px solid var(--border, #d9dfeb);
+  border-radius: 1rem;
+  background: var(--surface, #fff);
+  text-align: left;
+}
+
+.assurance-summary-card small {
+  font-weight: 700;
+}
+
+.assurance-summary-card strong {
+  font-size: 1.2rem;
+}
+
+.assurance-summary-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.assurance-health.healthy { color: #167347; }
+.assurance-health.attention-needed { color: #9a4d00; }
+.assurance-health.unknown { color: #606777; }
+
+.assurance-truth-note {
+  margin: 0;
+}
+
+.assurance-evidence-panel {
+  margin: 0;
+}
+
+.assurance-table td:first-child {
+  min-width: 15rem;
+}
+
+.assurance-table td:first-child span {
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.assurance-table td:nth-child(4),
+.assurance-table td:nth-child(5) {
+  min-width: 16rem;
+}
+
+.assurance-coverage-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.assurance-coverage-badge.covered { background: #e4f5eb; color: #16623d; }
+.assurance-coverage-badge.partial { background: #fff2d8; color: #815000; }
+.assurance-coverage-badge.uncovered { background: #fde7e5; color: #8f2f28; }
+.assurance-coverage-badge.unknown { background: #edf0f5; color: #535b6a; }
+
+@media (max-width: 1100px) {
+  .assurance-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .assurance-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .assurance-summary-card {
+    padding: 0.9rem;
+  }
+}
