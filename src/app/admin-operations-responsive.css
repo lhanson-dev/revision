@@ -1,0 +1,25 @@
+@media (max-width: 760px) {
+  .admin-subnav {
+    position: static;
+    z-index: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
+  }
+
+  .admin-subnav button {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    padding-inline: 12px;
+    white-space: normal;
+    scroll-margin-top: 96px;
+  }
+}

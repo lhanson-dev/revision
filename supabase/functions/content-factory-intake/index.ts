@@ -4,7 +4,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.111.0"
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 }
 
 function jsonResponse(status: number, body: unknown) {
@@ -34,7 +34,7 @@ function buildIssueBody(job: Record<string, unknown>) {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders })
-  if (req.method !== "POST") return jsonResponse(405, { error: "Method not allowed" })
+  if (req.method !== "GET" && req.method !== "POST") return jsonResponse(405, { error: "Method not allowed" })
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL")
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")
@@ -43,7 +43,6 @@ Deno.serve(async (req) => {
   const authorization = req.headers.get("Authorization")
 
   if (!supabaseUrl || !supabaseAnonKey) return jsonResponse(503, { error: "Supabase function environment is incomplete" })
-  if (!githubToken) return jsonResponse(503, { error: "Content Factory GitHub integration is not configured" })
   if (!authorization) return jsonResponse(401, { error: "Authentication required" })
 
   const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -63,6 +62,15 @@ Deno.serve(async (req) => {
 
   if (profileError) return jsonResponse(500, { error: "Admin access could not be verified" })
   if (profile?.is_admin !== true) return jsonResponse(403, { error: "Admin access required" })
+
+  if (req.method === "GET") {
+    return jsonResponse(200, {
+      status: githubToken ? "ready" : "attention",
+      githubConfigured: Boolean(githubToken),
+    })
+  }
+
+  if (!githubToken) return jsonResponse(503, { error: "Content Factory GitHub integration is not configured" })
 
   let input: { officialUrl?: unknown; notes?: unknown }
   try {

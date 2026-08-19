@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { courseRoute, homeRoute, moduleRoute, parseRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
+import { adminRoute, courseRoute, homeRoute, moduleRoute, parseRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
 
 describe('learner navigation model', () => {
   it('maps course learning scopes to reloadable hash routes', () => {
@@ -12,6 +12,14 @@ describe('learner navigation model', () => {
     const spanish = moduleRoute('spanish', 'spanish-aqa-a-level-paper-1', 'exam-prep')
     expect(routeHash(spanish)).toBe('#/subjects/spanish/modules/spanish-aqa-a-level-paper-1/exam-prep')
     expect(parseRoute(routeHash(spanish))).toEqual(spanish)
+  })
+
+  it('keeps protected Admin detail hashes inside the Admin route', () => {
+    expect(parseRoute('#/admin')).toEqual(adminRoute())
+    expect(parseRoute('#/admin/users')).toEqual(adminRoute())
+    expect(parseRoute('#/admin/activity')).toEqual(adminRoute())
+    expect(parseRoute('#/admin/health')).toEqual(adminRoute())
+    expect(parseRoute('#/admin/content')).toEqual(adminRoute())
   })
 
   it('falls back to Home for an unknown hash', () => {
