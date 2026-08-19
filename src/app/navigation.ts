@@ -3,6 +3,7 @@ export type CourseSection = PaperSection
 
 export type AppRoute =
   | { kind: 'home' }
+  | { kind: 'plan' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
   | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection }
@@ -12,6 +13,7 @@ export type AppRoute =
   | { kind: 'admin' }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
+export const planRoute = (): AppRoute => ({ kind: 'plan' })
 export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
 export const subjectRoute = (subjectId: string): AppRoute => ({ kind: 'subject', subjectId })
 export const courseRoute = (subjectId: string, courseId: string, section: CourseSection = 'overview'): AppRoute => ({ kind: 'course', subjectId, courseId, section })
@@ -25,6 +27,7 @@ const clean = (value: string) => encodeURIComponent(value)
 export function routeHash(route: AppRoute) {
   switch (route.kind) {
     case 'home': return '#/home'
+    case 'plan': return '#/plan'
     case 'subjects': return '#/subjects'
     case 'subject': return `#/subjects/${clean(route.subjectId)}`
     case 'course': return `#/subjects/${clean(route.subjectId)}/courses/${clean(route.courseId)}/${route.section}`
@@ -46,6 +49,7 @@ function validSection(value: string): value is PaperSection {
 
 export function parseRoute(hash: string): AppRoute {
   if (!hash || hash === '#' || hash === '#/' || hash === '#/home') return homeRoute()
+  if (hash === '#/plan') return planRoute()
   if (hash === '#/subjects') return subjectsRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()
