@@ -18,6 +18,7 @@ import {
   type AppRoute,
 } from './navigation'
 import { PlannerActivityReconciler } from './PlannerActivityReconciler'
+import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
@@ -85,10 +86,16 @@ export function PlannerRuntime() {
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const subjectsActive = routeBelongsToSubjects(route)
+  const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
 
   function navigate(nextRoute: AppRoute) {
     setMenuOpen(false)
     window.location.hash = routeHash(nextRoute)
+  }
+
+  function openPlannerAdmin() {
+    setMenuOpen(false)
+    window.location.hash = '#/admin/planner'
   }
 
   async function signOut() {
@@ -115,13 +122,15 @@ export function PlannerRuntime() {
     screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'rev') {
     screen = <PlannerRevScreen client={supabase} userId={user.id} onOpenPlan={() => navigate(planRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+  } else if (plannerAdminActive && isAdmin) {
+    screen = <PlannerAdminScreen onBack={() => navigate(adminRoute())} />
   } else {
     screen = <App />
   }
 
   return (
     <div className="planner-runtime">
-      <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />
+      {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
       <header className="topbar desktop-topbar runtime-topbar">
         <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button>
         <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{navigation}</nav>
@@ -156,6 +165,7 @@ export function PlannerRuntime() {
           <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
           <button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button>
           {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
+          {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
         </nav>
         <button className="signout-button" onClick={signOut}>Sign out</button>
       </aside>
