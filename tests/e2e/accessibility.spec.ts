@@ -67,26 +67,81 @@ async function expectWcagBaseline(page: Page, surface: string) {
   expect(violations, `${surface} must have no automated WCAG A/AA violations`).toEqual([])
 }
 
+function primaryNavigationName(page: Page) {
+  return (page.viewportSize()?.width ?? 0) <= 960 ? 'Mobile navigation' : 'Primary navigation'
+}
+
 test('sign-in meets the automated WCAG A/AA baseline', async ({ page }) => {
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
   await expectWcagBaseline(page, 'Sign in')
 })
 
-test('Home, Plan and REV meet the automated WCAG A/AA baseline', async ({ page }) => {
+test('global Home, Plan and REV surfaces meet the automated WCAG A/AA baseline', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: 'What matters today?' })).toBeVisible()
   await expectWcagBaseline(page, 'Home')
 
-  const primaryNavName = (page.viewportSize()?.width ?? 0) <= 960 ? 'Mobile navigation' : 'Primary navigation'
-  const primaryNav = page.getByRole('navigation', { name: primaryNavName })
-
-  await primaryNav.getByRole('button', { name: /Plan/ }).click()
+  const primaryNavName = primaryNavigationName(page)
+  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Plan/ }).click()
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
   await expectWcagBaseline(page, 'Plan')
 
   await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
   await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
   await expectWcagBaseline(page, 'REV')
+})
+
+test('critical subject, learning, practice, exam and progress journey meets the automated WCAG A/AA baseline', async ({ page }) => {
+  await seedSyntheticSession(page)
+  await page.goto(appPath)
+
+  const primaryNavName = primaryNavigationName(page)
+  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()
+  await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
+  await expectWcagBaseline(page, 'Subjects')
+
+  const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
+  await businessCard.getByRole('button', { name: /Open Business/ }).click()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
+  await expectWcagBaseline(page, 'Business subject home')
+
+  await page.getByLabel('AQA AS Business').getByRole('button', { name: 'Open course' }).click()
+  await expect(page.getByRole('heading', { name: 'AQA AS Business' })).toBeVisible()
+  await expectWcagBaseline(page, 'AQA AS Business course overview')
+
+  const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
+  await courseNav.getByRole('button', { name: 'Learn' }).click()
+  await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
+  await expectWcagBaseline(page, 'Learn')
+
+  await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()
+  await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
+  await expectWcagBaseline(page, 'Practice')
+
+  await page.getByRole('tab', { name: 'Quick check' }).click()
+  await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
+  await expectWcagBaseline(page, 'Practice quick check')
+
+  await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
+  await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()
+  await expectWcagBaseline(page, 'Exam Prep')
+
+  const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' })
+  await paper.locator('summary').click()
+  await expectWcagBaseline(page, 'Expanded exam paper')
+
+  await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
+  await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
+  await expectWcagBaseline(page, 'Timed exam')
+
+  await page.goto(`${appPath}#/subjects/business/courses/aqa%3Aaqa-as%3A7131/progress`)
+  await expect(page.getByRole('heading', { name: 'AQA AS Business' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
+  await expectWcagBaseline(page, 'Course Progress')
+
+  await page.getByRole('navigation', { name: primaryNavigationName(page) }).getByRole('button', { name: /Progress/ }).click()
+  await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
+  await expectWcagBaseline(page, 'Global Progress')
 })
