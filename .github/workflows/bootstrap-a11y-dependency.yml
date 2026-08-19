@@ -1,0 +1,39 @@
+name: Bootstrap accessibility dependency
+
+on:
+  push:
+    branches:
+      - agent/close-assurance-foundation-gaps
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap-a11y-dependency:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/close-assurance-foundation-gaps
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Add pinned axe Playwright integration
+        run: npm install --save-dev --save-exact @axe-core/playwright@4.13.0 --ignore-scripts --no-audit --no-fund
+      - name: Commit deterministic dependency update
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package.json package-lock.json; then
+            echo 'Accessibility dependency is already pinned.'
+            exit 0
+          fi
+          git config user.name 'revision-foundation-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add package.json package-lock.json
+          git commit -m 'Add pinned accessibility assurance dependency'
+          git push origin HEAD:agent/close-assurance-foundation-gaps
