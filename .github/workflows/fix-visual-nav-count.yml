@@ -1,0 +1,37 @@
+name: Fix visual navigation count wording
+
+on:
+  push:
+    branches:
+      - agent/close-assurance-foundation-gaps
+
+permissions:
+  contents: write
+
+jobs:
+  fix-visual-nav-count:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/close-assurance-foundation-gaps
+      - name: Fix stale destination count
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('20-brand-and-experience/Visual Brand System.md')
+          text = path.read_text()
+          old = 'They should not compete with the four learner-wide destinations in global navigation.'
+          new = 'They should not compete with the five learner-wide destinations in global navigation.'
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one stale destination-count sentence, found {text.count(old)}')
+          path.write_text(text.replace(old, new))
+          PY
+      - name: Commit wording fix
+        run: |
+          git config user.name 'revision-foundation-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add '20-brand-and-experience/Visual Brand System.md'
+          git commit -m 'Fix visual navigation destination count'
+          git push origin HEAD:agent/close-assurance-foundation-gaps
