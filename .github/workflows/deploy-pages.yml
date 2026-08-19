@@ -88,8 +88,8 @@ jobs:
       - name: Pin npm
         run: npm install --global npm@11.19.0 --no-audit --no-fund
 
-      - name: Install dependencies
-        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Build Vite learner app
         run: npm run build
