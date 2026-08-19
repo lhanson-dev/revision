@@ -149,21 +149,25 @@
   border: 0;
   border-radius: 0.7rem;
   background: transparent;
-  color: #d8e2ec;
+  color: #4f5878;
   font-weight: 750;
   cursor: pointer;
 }
 
 .runtime-desktop-nav button:hover,
-.runtime-desktop-nav button:focus-visible,
+.runtime-desktop-nav button:focus-visible {
+  background: var(--surface-soft, #eef1ff);
+  color: var(--ink, #10143f);
+}
+
 .runtime-desktop-nav button.active {
-  background: rgba(255,255,255,.1);
-  color: #fff;
+  background: var(--surface-soft, #eef1ff);
+  color: var(--indigo, #3349f4);
 }
 
 .runtime-desktop-nav .runtime-rev-link {
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.28);
+  color: var(--indigo, #3349f4);
+  border: 1px solid rgba(51,73,244,.28);
 }
 
 .runtime-screen > .app-shell {
