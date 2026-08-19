@@ -27,11 +27,13 @@ export type AssuranceSnapshot = {
   }
 }
 
+type CoverageSummary = ReturnType<typeof coverageCounts> & { available: boolean }
+
 type AssuranceSummary = {
   production: { status: AssuranceHealthStatus; detail: string }
   pathToLive: { status: AssuranceHealthStatus; detail: string }
-  journeys: ReturnType<typeof coverageCounts>
-  dataSecurity: ReturnType<typeof coverageCounts>
+  journeys: CoverageSummary
+  dataSecurity: CoverageSummary
   defects: { status: 'Known' | 'Unknown'; detail: string }
 }
 
@@ -39,10 +41,16 @@ function checkById(snapshot: AssuranceSnapshot | null, id: string) {
   return snapshot?.health.checks.find((check) => check.id === id) ?? null
 }
 
+function summariseCoverage(records: readonly AssuranceCoverageRecord[]): CoverageSummary {
+  return { ...coverageCounts(records), available: records.length > 0 }
+}
+
 export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): AssuranceSummary {
   const production = checkById(snapshot, 'learner-app')
   const deployment = checkById(snapshot, 'deployment')
   const defectControl = defectCoverage()
+  const journeyRecords = journeyCoverage()
+  const dataRecords = dataSecurityCoverage()
 
   const productionStatus = production?.status ?? 'Unknown'
   const productionDetail = production?.detail ?? 'Current production reachability evidence is unavailable.'
@@ -61,8 +69,8 @@ export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): Ass
   return {
     production: { status: productionStatus, detail: productionDetail },
     pathToLive: { status: pathStatus, detail: pathDetail },
-    journeys: coverageCounts(journeyCoverage()),
-    dataSecurity: coverageCounts(dataSecurityCoverage()),
+    journeys: summariseCoverage(journeyRecords),
+    dataSecurity: summariseCoverage(dataRecords),
     defects: defectControl?.status === 'Covered'
       ? { status: 'Known', detail: 'The governed defect control is covered by a durable defect source.' }
       : { status: 'Unknown', detail: 'A durable P0/P1/P2 defect source is not implemented yet, so zero defects must not be claimed.' },
@@ -77,8 +85,14 @@ function coverageClass(status: CoverageStatus) {
   return status.toLowerCase()
 }
 
-function countsText(counts: ReturnType<typeof coverageCounts>) {
+function countsText(counts: CoverageSummary) {
+  if (!counts.available) return 'Coverage register projection unavailable — status is Unknown.'
   return `${counts.Covered} Covered · ${counts.Partial} Partial · ${counts.Uncovered} Uncovered · ${counts.Unknown} Unknown`
+}
+
+function formatEvidenceTime(value: string | null | undefined) {
+  if (!value) return 'Evidence refresh time unavailable'
+  return `Evidence refreshed ${new Date(value).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}`
 }
 
 function CoverageBadge({ status }: { status: CoverageStatus }) {
@@ -94,22 +108,26 @@ function EvidenceTable({ title, records }: { title: string; records: AssuranceCo
           <h2 id={`assurance-${title.toLowerCase().replaceAll(' ', '-')}`}>{title}</h2>
         </div>
       </div>
-      <div className="admin-table-wrap">
-        <table className="admin-table assurance-table">
-          <thead><tr><th>Journey / control</th><th>Risk</th><th>Status</th><th>Evidence</th><th>Gap / next action</th></tr></thead>
-          <tbody>
-            {records.map((record) => (
-              <tr key={record.id}>
-                <td><strong>{record.id}</strong><span>{record.name}</span></td>
-                <td>{record.risk}</td>
-                <td><CoverageBadge status={record.status} /></td>
-                <td>{record.evidenceSource}</td>
-                <td>{record.gap}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {records.length === 0 ? (
+        <div className="admin-warning"><strong>Coverage Unknown</strong><p>The governed coverage register could not be projected for this domain.</p></div>
+      ) : (
+        <div className="admin-table-wrap">
+          <table className="admin-table assurance-table">
+            <thead><tr><th>Journey / control</th><th>Risk</th><th>Status</th><th>Evidence</th><th>Gap / next action</th></tr></thead>
+            <tbody>
+              {records.map((record) => (
+                <tr key={record.id}>
+                  <td><strong>{record.id}</strong><span>{record.name}</span></td>
+                  <td>{record.risk}</td>
+                  <td><CoverageBadge status={record.status} /></td>
+                  <td>{record.evidenceSource}</td>
+                  <td>{record.gap}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   )
 }
@@ -122,6 +140,7 @@ export function FounderAssurance({ snapshot }: { snapshot: AssuranceSnapshot | n
 
   return (
     <div className="founder-assurance">
+      <p className="quiet-note assurance-evidence-time">{formatEvidenceTime(snapshot?.generatedAt)}</p>
       <section className="assurance-summary-grid" aria-label="Founder assurance summary">
         <article className="assurance-summary-card">
           <small>Production</small>
@@ -135,12 +154,12 @@ export function FounderAssurance({ snapshot }: { snapshot: AssuranceSnapshot | n
         </article>
         <article className="assurance-summary-card">
           <small>Critical journeys</small>
-          <strong>{summary.journeys.Covered} covered</strong>
+          <strong>{summary.journeys.available ? `${summary.journeys.Covered} covered` : 'Unknown'}</strong>
           <p>{countsText(summary.journeys)}</p>
         </article>
         <article className="assurance-summary-card">
           <small>Data &amp; security</small>
-          <strong>{summary.dataSecurity.Covered} covered</strong>
+          <strong>{summary.dataSecurity.available ? `${summary.dataSecurity.Covered} covered` : 'Unknown'}</strong>
           <p>{countsText(summary.dataSecurity)}</p>
         </article>
         <article className="assurance-summary-card">
