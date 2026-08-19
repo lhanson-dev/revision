@@ -94,18 +94,47 @@ The treatment must remain accessible, calm and purposeful. REV's prominence exis
 
 Home remains the default signed-in destination. The prominent REV control opens the dedicated REV coaching space rather than acting as a generic create/add button.
 
-## Navigation responsibility model to confirm
+### D14 — REV opens as a living conversational coach
 
-The working responsibility split is:
+Tapping the central REV action opens the dedicated REV page with the learner's current context already available. It must not open as a blank generic chatbot and must not lead with a dashboard of static links or information cards.
 
-- **Home** — what matters now; today-focused learner-wide guidance and the clearest next action.
-- **Plan** — the learner's current adaptive revision programme across today, this week and upcoming assessments.
-- **REV** — the dedicated intelligent-coach relationship for questions, explanations, planning discussion and contextual support.
-- **Progress** — evidence-backed coverage, understanding/mastery, exam readiness and relevant subjective confidence signals.
-- **Subjects** — learner-led browsing and direct choice of subject/course/topic/activity, independent of the current recommendation.
-- **Secondary menu** — profile, account, settings, help, subject management and other utilities.
+The primary impression should be that REV is present, aware and ready to respond. The page should feel closer to an active `How can I help?` conversation than to a menu.
 
-Exact destination behaviour should be confirmed before FI-001 is promoted.
+REV may use current context such as:
+
+- today's recommended work and current adaptive plan;
+- upcoming assessments and time remaining;
+- recent revision activity and reliable completion evidence;
+- current subject/course/topic context where the learner arrived from one;
+- coverage, understanding/mastery and exam-readiness evidence;
+- recent mistakes or weak areas where relevant;
+- learner confidence and other approved learner context; and
+- recent bounded conversational context where useful.
+
+REV should use that context to shape a concise opening interaction. For example, it may acknowledge what is happening now, ask what the learner needs, or offer one or two contextually relevant prompts. It should not dump the learner's data back at them or present a long list of capabilities.
+
+The interaction should support natural requests such as:
+
+- help me understand this;
+- what should I do next?;
+- why is this in my plan?;
+- I'm stuck;
+- quiz me on this;
+- how am I doing?; or
+- I don't have as much time as I thought.
+
+Suggested prompts may be used as lightweight conversation starters, but the text input/conversation remains primary. Prompts should be dynamic and context-sensitive rather than a permanent menu of canned actions.
+
+REV should feel like the same continuing coach wherever it is used in the product. Moving from Home, Plan, Progress, Subjects or an activity into the REV page should preserve relevant context rather than forcing the learner to explain where they came from.
+
+## Confirmed navigation responsibility model
+
+- **Home** — answers `What matters now?` and `What should I do today?`. It is the default signed-in destination, contains REV's concise learner-wide recommendation, and shows a smaller `Today's plan` summary linking to Plan. It must remain focused rather than becoming a dense dashboard.
+- **Plan** — answers `What does my current revision programme look like?`. It shows the living adaptive plan across today, the next few days, this week and upcoming assessments, with declining precision further into the future. It supports availability/exam context and explains material changes without becoming a fixed task manager.
+- **REV** — answers `How can you help me right now?`. It opens the context-aware conversational coaching space described in D14 and supports explanation, guidance, planning discussion and learning help.
+- **Progress** — answers `How am I doing, and what needs attention?`. It presents evidence-backed coverage, understanding/mastery, exam readiness and relevant subjective confidence signals, with clear routes into useful next actions rather than dashboard-only analytics.
+- **Subjects** — answers `What do I want to work on?`. It provides learner-led browsing across subjects, specifications, papers/components, topics and activities regardless of the current recommendation, preserving student agency.
+- **Secondary menu** — contains profile, account, settings, help, subject management, privacy and other utilities that do not represent primary learner jobs.
 
 ## Related future capability
 
