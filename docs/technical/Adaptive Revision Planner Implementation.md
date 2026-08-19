@@ -1,118 +1,75 @@
 # Adaptive Revision Planner Implementation
 
-**Status:** Implementation design — FI-001  
+**Status:** Implemented on `main` — FI-001  
 **Owner:** Product / Engineering  
 **Canonical product surface:** `/app/` React/Vite learner runtime, published under GitHub Pages as `/revision/app/`  
 **Governed product authority:** `10-product-governance/Adaptive Revision Planning.md`
 
 ## Purpose
 
-Define how FI-001 Adaptive Revision Planning will be implemented in the canonical learner runtime without moving planning authority into an LLM or creating a second learner surface.
+Record the current implementation truth for FI-001 Adaptive Revision Planning in the canonical learner runtime. Normative planner behaviour remains governed by `10-product-governance/Adaptive Revision Planning.md`; this document describes how that authority is currently implemented.
 
-## Canonical runtime and route proof
+## Canonical runtime and route
 
-Current approved technical authority identifies `/app/` as the permanent authenticated learner-product boundary. The GitHub Pages deployment publishes that built runtime beneath the repository Pages path as `/revision/app/`.
+The authenticated learner product is the React/Vite application at `/app/`, published under GitHub Pages as `/revision/app/`.
 
-The current implementation entry points are:
+Current implementation entry points include:
 
 - `src/app/navigation.ts` — learner route model and hash-route parsing;
-- `src/app/App.tsx` — authenticated learner shell, Home, global navigation, REV and high-level screen routing;
-- `src/engine/**` — deterministic learning/evidence/readiness domain logic;
-- `src/services/**` — persistence/platform boundaries;
-- `supabase/migrations/**` — version-controlled persisted learner-data changes.
+- `src/app/PlannerRuntime.tsx` and `src/app/App.tsx` — learner shell, Home, Plan, REV and shared learner experience;
+- `src/engine/planning/**` — deterministic planning domain logic;
+- `src/services/planning/**` — planner persistence adapters and loading/saving boundaries;
+- `supabase/migrations/**` — version-controlled learner planner persistence and protected Admin aggregates.
 
-The retired static learner runtime and compatibility routes are not implementation targets for FI-001.
+The retired static learner runtime and legacy/compatibility surfaces are not implementation targets.
 
-## Implementation principles
+## Implemented product behaviour
 
-1. **Deterministic planning core.** Priority calculation and plan generation live in a testable domain engine. REV may explain or negotiate but does not own the calculation.
-2. **Persist inputs and learner actions; recompute derived plans.** Assessments, availability, learner preferences and activity events are durable inputs. The current plan can be rebuilt deterministically from those inputs plus learning evidence.
-3. **Explainability is first-class data.** Planner output contains reason codes and structured evidence references so learner-facing explanations do not have to reverse-engineer opaque scores.
-4. **No task debt.** Uncompleted recommendations are historical activity state, not future obligations that must be manually rescheduled.
-5. **RLS by default.** All learner-owned planner data is protected by Supabase RLS and only the owning authenticated user may read/write it.
-6. **Minimal behavioural telemetry.** Persist only events required for planning, assurance and useful product measurement. Do not implement active-time surveillance as part of FI-001 MVP.
-7. **Daily check is reconciliation, not a batch timetable generator.** A planner recalculation may occur after material events and when the app establishes a new local day/current-plan view.
+FI-001 is live in the canonical learner runtime with five primary destinations:
 
-## MVP domain model
+- Home;
+- Plan;
+- REV;
+- Progress;
+- Subjects.
 
-### Learner assessments
+On mobile, the same five destinations remain persistently available, with REV in the centre and given the governed visual prominence.
 
-Durable record of an assessment the learner is preparing for.
+### Home
 
-Required fields:
+Home is led by REV and answers the immediate question **What matters today?**. When planner context is available, Home presents the current recommendation and a smaller Today’s Plan summary rather than a static timetable.
 
-- assessment id;
-- user id;
-- subject id;
-- optional course/module scope ids;
-- assessment type (`topic_test`, `mock`, `public_exam`, `other`);
-- title;
-- assessment date;
-- relative importance (`normal`, `high`);
-- simple scope payload;
-- active/archive state;
-- created/updated timestamps.
+### Plan
 
-### Learner availability
+`#/plan` is the wider adaptive-programme surface. It presents the learner’s current programme using their latest assessments, capacity, learning evidence and bounded planning preferences.
 
-Two layers:
+The plan is recalculated rather than maintained as a task-debt ledger. Missed work creates new planning information; it is not mechanically moved forward as overdue work.
 
-- normal weekday/weekend capacity in minutes;
-- date-specific exceptions that replace normal capacity for that local date.
+### REV
 
-Capacity is deliberately a flexible daily workload, not a start/end-time schedule.
+REV receives structured planner context and can explain why work is being recommended, discuss learner priorities and apply bounded temporary planning preferences. REV does not own the scheduling calculation and does not turn preferences into mastery or readiness evidence.
 
-### Learner planning preferences
+## Deterministic planning core
 
-Temporary learner-directed planning context created directly or through REV negotiation.
+Planning authority lives in pure TypeScript domain logic under `src/engine/planning/**`, not in an LLM call.
 
-Examples:
+The planner currently consumes context including:
 
-- prefer a subject for a bounded period;
-- prefer an activity type such as essay/exam practice;
-- temporarily reduce a subject.
+- active assessments and dates;
+- assessment importance and scope;
+- normal revision capacity and date-specific exceptions;
+- specification/course work candidates;
+- learning evidence, coverage, readiness and evidence confidence;
+- recent planner/activity state; and
+- bounded learner planning preferences.
 
-Preferences are planning context only and never become mastery/readiness evidence.
+It produces ordered priority candidates, current-plan items, capacity state, structured reason codes and calculation metadata.
 
-### Recommendation/activity events
+The implementation uses an explainable weighted heuristic rather than a trained planning model. Versioned implementation parameters are tested and are not shown to learners as scores.
 
-Minimum event states:
+### Current reason vocabulary
 
-- `offered`;
-- `started`;
-- `meaningfully_engaged`;
-- `completed`;
-- `chosen_alternative`.
-
-These events support replanning and the FI-001 measurement contract. They do not imply active study minutes.
-
-## Planner engine boundary
-
-Create `src/engine/planning/` as a pure TypeScript domain module.
-
-Inputs:
-
-- current date;
-- active assessments;
-- learner availability;
-- content/catalogue work candidates;
-- coverage/mastery/readiness evidence summaries;
-- evidence confidence;
-- recent activity/completion;
-- active learner planning preferences.
-
-Outputs:
-
-- ordered priority candidates;
-- today's plan items;
-- near-term plan outlook;
-- capacity state (`normal` or `prioritising`);
-- structured recommendation reasons;
-- planner calculation metadata/version.
-
-### Initial explainable reason codes
-
-The first implementation should support a bounded reason vocabulary:
+The implemented planner uses bounded reason codes including:
 
 - `ASSESSMENT_SOON`;
 - `HIGH_IMPORTANCE_ASSESSMENT`;
@@ -126,84 +83,31 @@ The first implementation should support a bounded reason vocabulary:
 - `COMPETING_PRIORITY`;
 - `CAPACITY_CONSTRAINED`.
 
-Reason codes are implementation metadata. The UI/REV translates them into plain learner language.
+Learner-facing UI/REV translates these into plain language.
 
-## Initial prioritisation approach
+## Capacity and prioritising state
 
-The MVP should use a transparent weighted heuristic rather than a trained model.
+The engine compares remaining useful work with realistic remaining capacity. When useful workload materially exceeds capacity, Revision enters a calm `prioritising` state and concentrates on the highest-value candidates rather than presenting an impossible full-coverage timetable.
 
-Candidate priority should be influenced by:
+Workload estimates are deliberately coarse. They are not represented as precise predictions of study time.
 
-- time to assessment;
-- assessment importance;
-- evidence-backed weakness;
-- missing/low-confidence evidence;
-- under-coverage;
-- exam-readiness need as an assessment approaches;
-- known assessment weighting/mark opportunity where content metadata supports it;
-- temporary learner preference;
-- recent useful activity so the engine does not repeatedly select one area without cause.
+## Recalculation behaviour
 
-The exact weights are versioned implementation parameters and must be covered by unit tests. They are not learner-facing scores.
-
-## Capacity and priority mode
-
-For each active assessment, the engine estimates remaining useful workload from relevant uncovered/weak candidates and compares that with realistic remaining capacity.
-
-Where useful work materially exceeds available capacity, the plan enters `prioritising` mode and deliberately concentrates on the highest-value candidates. It must not carry an impossible full-coverage timetable forward.
-
-MVP workload estimates are coarse and activity-type based. They are not presented as precise study-time predictions.
-
-## Recalculation triggers
-
-Recalculate after:
+The current implementation can recalculate after material changes including:
 
 - assessment create/edit/archive;
-- availability change;
-- new learning evidence;
+- availability changes;
+- new validated learning evidence;
 - reliable planner-linked activity completion;
-- material learner preference change;
+- material learner planning-preference changes;
 - meaningful external-revision reconciliation; and
-- first plan access on a new local day.
+- establishing a new local day/current-plan view.
 
-Minor navigation events do not trigger learner-visible plan churn.
+Minor navigation events do not create learner-visible plan churn.
 
-## Application routes and UI
+## Persistence
 
-Add a global `plan` route to `src/app/navigation.ts` with hash `#/plan`.
-
-Global navigation becomes:
-
-- Home
-- Plan
-- REV
-- Progress
-- Subjects
-
-On mobile, REV is the centre destination and receives the governed prominent treatment while remaining fully accessible.
-
-### Home
-
-Home keeps REV as the dominant guidance surface and replaces the current generic `Today’s picture` concept with a smaller `Today’s plan` summary when planner data exists.
-
-### Plan
-
-The Plan page renders:
-
-- Today;
-- Next few days;
-- Later this week;
-- Upcoming assessments/outlook.
-
-Future precision reduces with distance. Empty/low-evidence/loading/error states must remain useful.
-
-### REV
-
-The existing dedicated REV route becomes the conversational planning/tutor surface. FI-001 MVP provides structured context and deterministic plan explanations; full generative conversational orchestration remains aligned with FI-003 and may be incrementally added without moving scheduling authority into the LLM.
-
-## Persistence plan
-
-Add a version-controlled migration containing learner-owned tables for:
+Planner persistence is implemented in Supabase using learner-owned tables including:
 
 - `revision_assessments`;
 - `revision_availability_profiles`;
@@ -211,73 +115,53 @@ Add a version-controlled migration containing learner-owned tables for:
 - `revision_planning_preferences`;
 - `revision_activity_events`.
 
-All tables:
+These tables reference the authenticated learner, use RLS, deny anonymous access and expose owner-scoped authenticated operations only.
 
-- reference `auth.users(id)`;
-- enable RLS;
-- expose only owner-scoped authenticated access;
-- deny `anon`;
-- use explicit grants;
-- avoid privileged client credentials.
+The current plan remains derived state. Revision persists the learner/context inputs and relevant activity state, then recomputes planning outputs.
 
-Derived plan snapshots are not required for the first implementation unless performance/observability evidence demonstrates a need. Planner version/reason data should be available in activity/analytics events so behaviour can be audited.
+Production verification on 2026-08-19 confirms the planner tables are present. Automated database/RLS CI can recreate the migration chain and verifies the declared owner-isolation controls. Browser/client persistence-reload remains an identified assurance gap rather than being overstated as fully covered.
 
-## Services
+## Activity and evidence boundary
 
-Create planner persistence adapters under `src/services/planning/` so React components do not embed Supabase query details.
+Planner activity supports states such as offered, started, meaningfully engaged, completed and chosen alternative.
 
-The service layer should expose typed operations for:
+Planner events and preferences are planning/behaviour context only. They do not become mastery/readiness evidence simply because an item was opened, selected or completed. Learning evidence must come through the governed evidence model.
 
-- assessments;
-- availability;
-- preferences;
-- activity events.
+## Admin and operational evidence
 
-The deterministic engine consumes domain objects rather than Supabase row shapes.
+Planner operational evidence is exposed through protected server-side paths. `planner-operations` is deployed in production with JWT verification, and privileged planner aggregates are not executable by browser roles.
 
-## Admin and observability
+Current Admin/Founder Assurance can surface planner coverage and operational evidence without treating missing telemetry as Healthy.
 
-The implementation should make it possible for Admin to surface, using aggregate/role-gated evidence:
+## Assurance implemented
 
-- learners with active assessments/plans;
-- planner calculation failures;
-- plan items offered/started/completed;
-- deliberate alternative choices;
-- priority-mode incidence;
-- replanning reasons;
-- pathological concentration/churn indicators.
+FI-001 is high-risk because it touches shared learner navigation, persisted learner data, deterministic guidance and protected operational evidence.
 
-Unknown operational evidence remains `Unknown`, never `Healthy`.
+Current repeatable assurance includes:
 
-## Assurance strategy
+- unit tests for planner prioritisation/capacity/reason behaviour;
+- planner model tests;
+- responsive Playwright coverage across Home / Plan / REV and existing learner journeys;
+- isolated database migration replay and pgTAP RLS/privilege assurance;
+- production backend-readiness checks for the required planner database contract and protected Edge Functions;
+- typecheck, lint, unit tests and production build in GitHub Actions.
 
-FI-001 is high risk because it changes learner navigation, persisted learner data, shared planning logic and progress-guidance behaviour.
+The Assurance Coverage Register deliberately retains Partial/Uncovered states for evidence that is not yet proven at the required layer, including:
 
-Required assurance includes:
+- database-backed planner setup/reload/replan integration;
+- learner evidence persistence/reload through the real client boundary;
+- authorised Edge Function success-path integration;
+- automated accessibility coverage; and
+- exact CI → approved merge → deployment → smoke lineage correlation.
 
-- unit tests for deterministic prioritisation and capacity states;
-- unit tests for reason-code generation;
-- database/RLS tests for learner ownership;
-- service-boundary tests where practical;
-- navigation/parser tests for `#/plan`;
-- Playwright coverage for Home → Plan → activity and learner-choice flows;
-- mobile/tablet/desktop responsive checks for the five-destination navigation and Plan page;
-- accessibility checks for raised REV navigation treatment, chronology and status semantics;
-- full typecheck/lint/unit/build CI;
-- post-deploy smoke of `/revision/app/` and `#/plan` after implementation merge/deploy.
+## Current production readiness
 
-## Delivery sequence
+The production `revision_release_readiness()` contract reports `planner-v1` and `ready: true`. Required planner schema capabilities and protected operational functions are present.
 
-1. **Foundation** — schema, domain types, deterministic planner engine and unit/RLS tests.
-2. **Persistence integration** — planner services and load/save hooks.
-3. **Navigation and Plan shell** — add `Plan` route and five-destination navigation; accessible responsive treatment.
-4. **Assessment and availability setup** — simple learner input/edit journeys.
-5. **Home integration** — Today recommendation + Today’s plan.
-6. **Activity linkage/replanning** — offered/started/completed/alternative-choice events and recalculation.
-7. **REV planner context** — explain why, discuss learner preference and preserve whole-programme consequences.
-8. **Admin/analytics** — minimum operational/KPI evidence.
-9. **Full assurance and technical documentation reconciliation.**
+The readiness RPC has been least-privilege hardened to `SECURITY INVOKER`, and repository migration history is reconciled with the production Supabase migration ledger.
+
+This proves required backend capability presence; it does not replace end-to-end persistence, security or journey assurance.
 
 ## Documentation impact
 
-This implementation changes how the system currently works, so this document, README and any affected technical architecture/operations documentation must be updated in the same governed implementation PR. Normative product authority remains in the numbered governance folders and is not redefined here.
+This document is implementation truth only. Any future change to what the planner **should** do must first update the relevant normative product authority. Any material implementation change must keep this document, README, deployment configuration and the Assurance Coverage Register aligned in the same governed branch/PR where required.
