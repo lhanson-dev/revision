@@ -1,5 +1,10 @@
 import type { ModuleLearningState } from './catalogue-model'
-import type { RevisionAssessment, RevisionAvailabilityException, RevisionAvailabilityProfile } from '../services/planning/planner-service'
+import type {
+  RevisionAssessment,
+  RevisionAvailabilityException,
+  RevisionAvailabilityProfile,
+  RevisionPlanningPreference,
+} from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
 
 function confidenceStrength(confidence: ModuleLearningState['readiness']['confidence']) {
@@ -42,9 +47,37 @@ function recentlyCompletedTopic(state: ModuleLearningState, topicId: string, now
   return state.evidence.some((item) => item.topicId === topicId && new Date(item.occurredAt).getTime() >= cutoff)
 }
 
+function learnerPreferenceForCandidate(
+  preferences: readonly RevisionPlanningPreference[],
+  subjectId: string,
+  activityType: string,
+  now: Date,
+): -1 | 0 | 1 | 2 | 3 {
+  const today = localDate(now)
+  let subjectPreference = 0
+  let activityPreference = 0
+
+  for (const preference of preferences) {
+    if (!preference.isActive || preference.startsOn > today || preference.endsOn < today) continue
+    if (preference.preferenceType === 'prefer_subject' && preference.subjectId === subjectId) {
+      subjectPreference = Math.max(subjectPreference, preference.strength)
+    }
+    if (preference.preferenceType === 'reduce_subject' && preference.subjectId === subjectId) {
+      subjectPreference = -1
+    }
+    if (preference.preferenceType === 'prefer_activity' && preference.activityType === activityType) {
+      activityPreference = Math.max(activityPreference, preference.strength)
+    }
+  }
+
+  if (subjectPreference === -1) return -1
+  return Math.max(subjectPreference, activityPreference) as 0 | 1 | 2 | 3
+}
+
 export function plannerCandidatesFromLearningState(
   states: readonly ModuleLearningState[],
   assessments: readonly RevisionAssessment[],
+  preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
 ): PlannerCandidate[] {
   return assessments.flatMap((assessment) => {
@@ -71,7 +104,7 @@ export function plannerCandidatesFromLearningState(
       understanding: null,
       readiness: state.readiness.score === null ? null : state.readiness.score / 100,
       examWeight: null,
-      learnerPreference: 0,
+      learnerPreference: learnerPreferenceForCandidate(preferences, assessment.subjectId, recommendation.activity, now),
       recentlyCompleted: recentlyCompletedTopic(state, recommendation.topicId, now),
     } satisfies PlannerCandidate]
   })
@@ -108,9 +141,10 @@ export function buildPlannerSnapshot(
   assessments: readonly RevisionAssessment[],
   availability: RevisionAvailabilityProfile | null,
   exceptions: readonly RevisionAvailabilityException[],
+  preferences: readonly RevisionPlanningPreference[] = [],
   now = new Date(),
 ): PlannerResult | null {
-  const candidates = plannerCandidatesFromLearningState(states, assessments, now)
+  const candidates = plannerCandidatesFromLearningState(states, assessments, preferences, now)
   const days = plannerDaysFromAvailability(availability, exceptions, assessments, now)
   if (candidates.length === 0 || days.length === 0) return null
   return buildAdaptivePlan(candidates, days)
