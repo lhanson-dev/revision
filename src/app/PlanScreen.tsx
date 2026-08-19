@@ -56,7 +56,6 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
 
   useEffect(() => {
     let active = true
-    setLoading(true)
     loadPlannerSetup(client, userId)
       .then((setup) => {
         if (!active) return
