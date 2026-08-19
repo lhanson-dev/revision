@@ -54,7 +54,7 @@ jobs:
       - name: Start isolated Supabase test stack and replay migrations
         run: supabase start
       - name: Run pgTAP database and RLS assurance
-        run: supabase test db
+        run: supabase test db supabase/tests/database-assurance.test.sql
       - name: Stop isolated Supabase test stack
         if: always()
         run: supabase stop --no-backup
