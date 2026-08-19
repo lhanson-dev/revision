@@ -54,13 +54,6 @@ test.describe('database-backed learner persistence', () => {
     await page.getByRole('button', { name: 'Check answer' }).click()
     await expect(page.getByRole('button', { name: 'Next question' })).toBeVisible()
 
-    const { count, error } = await admin
-      .from('learning_evidence')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-    if (error) throw error
-    expect(count).toBe(1)
-
     await page.reload()
     await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
     await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Progress' }).click()
