@@ -1,6 +1,6 @@
 # Emotional Experience Principles
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define how Revision should make a student feel while preserving educational seriousness and trust.
 
 ## Desired emotional state
@@ -25,20 +25,24 @@ It should create enough energy, relevance and interaction that a student is genu
 
 Motivation should come from clear next actions, visible progress, good feedback, personal relevance, encouragement and a sense of achievement — not gimmicks, manipulation or artificial urgency.
 
-## When a student struggles
+## When a student struggles or falls behind
 
-Poor performance should trigger coaching, not punishment.
+Poor performance, missed work or an unrealistic remaining workload should trigger coaching and replanning, not punishment.
 
 Revision should:
 
-- explain what went wrong in clear language;
-- avoid shame, alarmist language or overreaction to one result;
-- place the result in the context of the student's wider progress;
-- show what can be improved;
+- explain what has changed in clear language;
+- avoid shame, alarmist language or overreaction;
+- recognise that plans change and life happens;
+- place missed work and weak performance in the context of the student's wider progress;
+- recalculate what is realistically achievable with the time remaining;
+- prioritise the work most likely to improve exam readiness when everything cannot be covered;
 - provide a manageable next step; and
-- encourage the student to keep going.
+- encourage the student to keep going without pretending the situation is better than the evidence suggests.
 
-The intended emotional message is: a weakness is useful information and there is a practical way forward.
+A student who is behind should not be made to feel that they have failed the product. The intended emotional message is: **you do not need to solve the whole problem at once; Revision will help you use the time you have as well as possible.**
+
+The product should reduce overwhelm by turning an imperfect situation into a clear next action.
 
 ## Serious about learning, not school-like
 

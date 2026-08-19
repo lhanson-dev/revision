@@ -33,10 +33,11 @@ Use this file to find the governing source before substantive work.
 - Product promise → `10-product-governance/Product Promise.md`
 - Product principles → `10-product-governance/Product Principles.md`
 - Product system model → `10-product-governance/Product System Model.md`
+- Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
-- Information architecture → `10-product-governance/Information Architecture.md`
+- Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Product backlog folder rules → `10-product-governance/backlog/README.md`
@@ -51,6 +52,7 @@ Use this file to find the governing source before substantive work.
 - Other brand/visual authority → `20-brand-and-experience/`
 
 ## Brand and marketing
+- Core product messaging / no-shame positioning → `30-marketing-governance/Core Product Messaging.md`
 - Marketing, website, content, SEO and channels → `30-marketing-governance/`
 
 ## Evidence, engineering and operations
@@ -60,10 +62,12 @@ Use this file to find the governing source before substantive work.
 - Claims and progress governance → `40-evidence-and-trust/Claims and Progress Governance.md`
 - Other evidence, privacy and trust authority → `40-evidence-and-trust/`
 - Engineering standards → `50-engineering-standards/`
+- Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
+- Product feature definition, measurement and packaging → `80-company-workflows/Feature Definition and Measurement Workflow.md`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`

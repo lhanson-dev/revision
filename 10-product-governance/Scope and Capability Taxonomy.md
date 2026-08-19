@@ -1,6 +1,6 @@
 # Scope and Capability Taxonomy
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define Revision's principal product capability areas and distinguish core product scope from later commercial evolution.
 
 ## Product capability model
@@ -28,12 +28,17 @@ Includes:
 
 - personalised priorities;
 - recommended next actions;
-- revision planning;
+- adaptive revision planning across assessments and subjects;
+- realistic availability and remaining-time awareness;
 - proactive guidance from the AI tutor;
-- balancing priorities across topics and subjects; and
+- balancing priorities across topics and subjects;
+- explaining why a recommendation matters;
+- supporting deliberate learner choices and short-term priority changes; and
 - support, encouragement and explanation when the student is unsure what to do.
 
 Guidance should use the wider evidence picture rather than react disproportionately to one isolated result.
+
+Adaptive planning should recalculate from reality as evidence, learner choices, availability and assessment context change rather than preserve an obsolete timetable. Detailed planner behaviour is governed by `Adaptive Revision Planning.md`.
 
 ### 3. Learn
 
@@ -101,10 +106,13 @@ The first serious version should be capable of proving the central Revision prop
 It should include, at minimum:
 
 - subject, qualification and exam-board setup;
+- assessment dates/context and realistic learner availability sufficient to support useful planning;
 - specification coverage tracking;
 - student evidence model;
 - personalised priorities and recommendations;
-- proactive AI tutor guidance;
+- an adaptive revision plan that can recalculate as evidence, time and learner choices change;
+- a clear today-focused experience plus wider Plan visibility;
+- proactive AI tutor guidance and explanation of meaningful planning decisions;
 - core learning content;
 - multiple learning formats where useful and feasible;
 - quizzes and tests;
@@ -113,7 +121,7 @@ It should include, at minimum:
 - progress and weakness tracking; and
 - the Exam Simulator.
 
-Individual formats may initially have limited breadth, but the end-to-end system must demonstrate the loop from understanding the student to recommending work, learning, testing, feedback and updated guidance.
+Individual formats may initially have limited breadth, but the end-to-end system must demonstrate the loop from understanding the student to planning/recommending work, learning, testing, feedback, updated evidence and recalculated guidance.
 
 ## Explicitly not first-release scope
 
@@ -121,6 +129,7 @@ Revision should not initially expand into:
 
 - general homework management;
 - coursework management;
+- generic calendar or task-management functionality unrelated to adaptive revision planning;
 - teaching entire subjects from first principles as a replacement for school;
 - school behaviour management;
 - university admissions support;
@@ -142,10 +151,11 @@ The product should also work towards a **student referral system** in which succ
 A proposed capability should be considered core when it materially improves Revision's ability to:
 
 1. understand the student's position;
-2. identify the most useful next action;
-3. help the student learn or practise effectively;
-4. generate useful evidence and feedback;
-5. improve exam preparation; or
-6. increase justified confidence that the student is on track.
+2. identify and explain the most useful next action;
+3. help the student use the time available effectively;
+4. help the student learn or practise effectively;
+5. generate useful evidence and feedback;
+6. improve exam preparation; or
+7. increase justified confidence that the student is on track.
 
 Capabilities that do not strengthen this loop should normally remain secondary until the core proposition is proven.
