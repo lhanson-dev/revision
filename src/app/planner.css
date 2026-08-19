@@ -125,6 +125,56 @@
   font: inherit;
 }
 
+.planner-runtime > .app-shell .desktop-topbar,
+.planner-runtime > .app-shell .mobile-topbar,
+.planner-runtime > .app-shell > .bottom-nav {
+  display: none !important;
+}
+
+.runtime-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.runtime-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.runtime-desktop-nav button {
+  min-height: 42px;
+  padding: 0 0.85rem;
+  border: 0;
+  border-radius: 0.7rem;
+  background: transparent;
+  color: #d8e2ec;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.runtime-desktop-nav button:hover,
+.runtime-desktop-nav button:focus-visible,
+.runtime-desktop-nav button.active {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+}
+
+.runtime-desktop-nav .runtime-rev-link {
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.28);
+}
+
+.runtime-screen > .app-shell {
+  min-height: calc(100vh - 64px);
+}
+
+.runtime-mobile-topbar,
+.runtime-bottom-nav {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .planner-setup-grid,
   .planner-field-grid {
@@ -145,5 +195,90 @@
 
   .planner-date-block {
     grid-column: 1 / -1;
+  }
+
+  .planner-runtime > .app-shell .desktop-topbar,
+  .planner-runtime > .app-shell .mobile-topbar,
+  .planner-runtime > .app-shell > .bottom-nav,
+  .runtime-topbar {
+    display: none !important;
+  }
+
+  .runtime-mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+  }
+
+  .runtime-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 35;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: end;
+    min-height: 68px;
+    padding: 6px max(4px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left));
+    border-top: 1px solid var(--line, #dfe5eb);
+    background: rgba(255,255,255,.98);
+    box-shadow: 0 -8px 24px rgba(16,36,61,.08);
+  }
+
+  .runtime-bottom-nav button {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 3px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 4px 2px;
+    border: 0;
+    background: transparent;
+    color: #596574;
+    font-size: 11px;
+    font-weight: 750;
+  }
+
+  .runtime-bottom-nav button.active {
+    color: var(--navy, #10243d);
+  }
+
+  .runtime-bottom-nav .runtime-rev-button {
+    position: relative;
+    top: -8px;
+    min-height: 62px;
+    border-radius: 18px 18px 12px 12px;
+    background: var(--navy, #10243d);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(16,36,61,.2);
+  }
+
+  .runtime-bottom-nav .runtime-rev-button.active {
+    color: #fff;
+    outline: 3px solid rgba(24,166,106,.28);
+    outline-offset: 2px;
+  }
+
+  .runtime-bottom-nav .runtime-rev-button .mini-orb {
+    width: 26px;
+    height: 26px;
+  }
+
+  .runtime-screen {
+    padding-bottom: 78px;
+  }
+
+  .runtime-menu-drawer {
+    z-index: 60;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runtime-rev-button,
+  .runtime-rev-link {
+    transition: none !important;
   }
 }
