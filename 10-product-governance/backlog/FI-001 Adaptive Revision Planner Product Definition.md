@@ -127,6 +127,31 @@ Suggested prompts may be used as lightweight conversation starters, but the text
 
 REV should feel like the same continuing coach wherever it is used in the product. Moving from Home, Plan, Progress, Subjects or an activity into the REV page should preserve relevant context rather than forcing the learner to explain where they came from.
 
+### D15 — Proactive support must be useful, restrained and learner-controlled
+
+REV should be proactive primarily inside the product. When the learner opens Revision, REV may surface a concise contextual message when there is a materially useful reason, such as a changed priority, a newly relevant exam context, a meaningful improvement, or a plan adjustment.
+
+External contact such as push notifications or email should be selective and event-driven rather than used as attendance policing or engagement pressure. Appropriate reasons may include:
+
+- today's plan is ready;
+- a material change in evidence has changed priorities;
+- an assessment is approaching and the current plan has meaningfully changed;
+- the learner's available time is no longer sufficient to cover everything and a prioritisation update is useful;
+- a modest optional increase in available study time would materially improve the plan; or
+- the learner has been away long enough that a gentle re-entry prompt is likely to help.
+
+REV must not use guilt, streak pressure, shaming or artificial urgency. It should not send messages such as `you are falling behind`, `you missed yesterday`, `don't break your streak`, or countdown-style pressure that treats non-use as failure.
+
+Most algorithmic recalculation should remain silent. A notification is justified only when communicating the change is likely to help the learner act or understand what matters.
+
+Students should have meaningful control over optional proactive communications. A simple preference model may later distinguish levels such as important-only, helpful reminders and off, subject to final UX and legal review.
+
+A default daily push such as `Your plan for today is ready` should not be assumed during first-run setup. Revision should first demonstrate planner value inside the product, then invite the learner to opt in to a daily or similar reminder if they want it.
+
+Email should be lower-frequency and better suited to broader-value communication such as a weekly outlook or meaningful upcoming-assessment summary rather than daily nagging.
+
+REV's proactive presence must remain consistent with safeguarding and privacy authority: it may be attentive and responsive, but it must not imply emotional dependency, say that it `missed` the learner, or position returning to REV as a substitute for human emotional support.
+
 ## Confirmed navigation responsibility model
 
 - **Home** — answers `What matters now?` and `What should I do today?`. It is the default signed-in destination, contains REV's concise learner-wide recommendation, and shows a smaller `Today's plan` summary linking to Plan. It must remain focused rather than becoming a dense dashboard.
