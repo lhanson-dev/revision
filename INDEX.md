@@ -61,6 +61,7 @@ Use this file to find the governing source before substantive work.
 - Other evidence, privacy and trust authority → `40-evidence-and-trust/`
 - Engineering standards → `50-engineering-standards/`
 - Commercial, KPI and operations authority → `60-business-operations/`
+- Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
