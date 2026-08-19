@@ -127,7 +127,7 @@ Desktop uses a persistent top navigation with:
 
 Plan is a genuine primary learner job under the approved adaptive-planning model, not a decorative navigation item. REV may receive distinctive visual treatment while preserving the clarity and accessibility of every other destination. Account and utility controls remain visually secondary.
 
-Learn, Practice, Exam Prep and contextual Progress appear once a subject/course/paper/component is selected. They should not compete with the four learner-wide destinations in global navigation.
+Learn, Practice, Exam Prep and contextual Progress appear once a subject/course/paper/component is selected. They should not compete with the five learner-wide destinations in global navigation.
 
 ### Mobile
 
