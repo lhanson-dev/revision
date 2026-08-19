@@ -1,0 +1,149 @@
+.planner-screen {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.planner-heading {
+  max-width: 52rem;
+}
+
+.planner-message {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border, #d8dce3);
+  border-radius: 0.9rem;
+  background: var(--surface, #fff);
+}
+
+.planner-panel {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid var(--border, #d8dce3);
+  border-radius: 1.25rem;
+  background: var(--surface, #fff);
+}
+
+.planner-panel h2,
+.planner-panel h3,
+.planner-panel p {
+  margin-top: 0;
+}
+
+.planner-panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.planner-state {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #eef3f1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.planner-empty {
+  padding: 1rem 0;
+}
+
+.planner-assessments {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-assessments li {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.7fr) minmax(0, 2fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border, #e1e4e9);
+}
+
+.planner-date-block,
+.planner-assessment-copy {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.planner-date-block span,
+.planner-assessment-copy p {
+  color: var(--muted, #626b77);
+  font-size: 0.92rem;
+}
+
+.planner-assessment-copy h3,
+.planner-assessment-copy p {
+  margin: 0;
+}
+
+.planner-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.planner-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.planner-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.planner-form label,
+.planner-panel label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 650;
+}
+
+.planner-form input,
+.planner-form select,
+.planner-panel input,
+.planner-panel select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border, #cfd4dc);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+@media (max-width: 760px) {
+  .planner-setup-grid,
+  .planner-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-panel-heading {
+    display: grid;
+  }
+
+  .planner-state {
+    justify-self: start;
+  }
+
+  .planner-assessments li {
+    grid-template-columns: 1fr auto;
+  }
+
+  .planner-date-block {
+    grid-column: 1 / -1;
+  }
+}
