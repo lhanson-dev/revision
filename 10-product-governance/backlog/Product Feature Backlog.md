@@ -44,10 +44,11 @@ When an item is assessed, consider:
 
 ## FI-001 — Intelligent Exam Calendar / Adaptive Revision Planner
 
-**Status:** Idea  
+**Status:** Approved  
 **Captured:** 2026-08-19  
 **Capability fit:** Guide; Progress and Readiness  
-**Initial assessment:** High potential value; strong strategic alignment; not yet prioritised
+**Approved authority:** `10-product-governance/Adaptive Revision Planning.md`  
+**Initial assessment:** Founder-approved product direction; high strategic value; promoted into normative product authority; runtime implementation has not yet started
 
 ### Student problem
 
@@ -117,14 +118,9 @@ The experience should remain calm, supportive, realistic and useful under pressu
 
 ### Promotion impact
 
-If approved, review and update at minimum:
+FI-001 has been promoted into `10-product-governance/Adaptive Revision Planning.md`. The approved authority also requires alignment of the wider product model, information architecture, experience, trust, measurement and technical implementation documentation as implementation proceeds.
 
-- `10-product-governance/Scope and Capability Taxonomy.md`;
-- `10-product-governance/Core User Journeys.md`;
-- `10-product-governance/Product System Model.md` where relevant;
-- applicable experience authority if new planning interaction principles are required;
-- applicable privacy/trust authority if scheduling or student-behaviour data introduces new considerations; and
-- technical architecture/implementation documentation when implementation begins.
+Before runtime implementation begins, the Governed Implementation Workflow must prove the canonical learner route/runtime and the implementation must remain consistent with the approved authority.
 
 ---
 
