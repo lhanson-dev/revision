@@ -20,6 +20,7 @@
 | AV-01 | Canonical production `/app/` is reachable and serves the built React artifact | High | Production smoke | `.github/workflows/deploy-pages.yml` production-smoke job | Covered | Surface latest run/commit/freshness in Admin |
 | PTL-01 | PR change can pass required quality gates | High | Exact-head CI | `.github/workflows/ci.yml` — install, typecheck, lint, unit tests, build, Playwright | Covered | Admin should show latest relevant run and exact commit |
 | PTL-02 | `main` deploys and production smoke follows deploy | High | Deploy + production smoke | `.github/workflows/deploy-pages.yml` | Covered | Correlate deployed commit with smoke evidence in Admin |
+| PTL-03 | Frontend deployment is blocked when required production database/backend capabilities are absent | Critical | Pre-deploy backend readiness | `revision_release_readiness()` plus `.github/workflows/deploy-pages.yml` backend-readiness job | Partial | Apply the readiness migration, verify required Edge Functions, and record the first successful readiness-gated production deployment before promoting this control to Covered |
 | AUTH-01 | Sign-in entry is usable and provider gating fails closed | High | Browser | `tests/e2e/auth-entry.spec.ts`; responsive sign-in check | Partial | Browser tests stub provider settings and do not prove a real production sign-in transaction |
 | AUTH-02 | Ordinary learner does not receive Admin navigation or Admin utilities | High | Browser | `tests/e2e/app-responsive.spec.ts` | Covered for UI presentation | Add/retain server-side authorization coverage so UI hiding is never treated as authorization |
 | ADM-01 | Database-approved admin receives protected Admin experience | High | Browser + server/data boundary | `tests/e2e/admin-operations.spec.ts`, `tests/e2e/app-responsive.spec.ts`, `supabase/tests/admin-access-verification.sql` | Partial | SQL verification is not currently part of CI; production Edge Function authorization needs repeatable integration/smoke evidence |
@@ -44,9 +45,11 @@
 
 ## Current interpretation
 
-The repository has a meaningful automated foundation, particularly around build quality, responsive browser navigation and production artifact smoke. FI-001 extends that browser and domain coverage to the adaptive planner, but the current branch does **not** justify claiming complete production-backed planner persistence, planner RLS/security integration, real production authentication, accessibility or the full practice/progress/exam evidence lifecycle.
+The repository has a meaningful automated foundation, particularly around build quality, responsive browser navigation and production artifact smoke. FI-001 extends that browser and domain coverage to the adaptive planner. The production incident in which the planner frontend was deployed before its Supabase schema existed exposed a separate path-to-live gap: frontend availability did not prove backend readiness. PTL-03 records the fail-closed control being added to close that gap.
 
-That distinction is intentional. Founder confidence should increase as these Partial/Uncovered rows become Covered through real automated evidence rather than by changing labels.
+Revision still does **not** justify claiming complete production-backed planner persistence, planner RLS/security integration, real production authentication, accessibility or the full practice/progress/exam evidence lifecycle. Those remain Partial/Uncovered until repeatable evidence exists at the required layer.
+
+That distinction is intentional. Founder confidence should increase as Partial/Uncovered rows become Covered through real automated evidence rather than by changing labels.
 
 ## Maintenance model
 
