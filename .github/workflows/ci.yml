@@ -43,18 +43,38 @@ jobs:
   database-assurance:
     name: Database and RLS assurance
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Set up Supabase CLI
         uses: supabase/setup-cli@v1
         with:
           version: 2.111.0
       - name: Start isolated Supabase test stack and replay migrations
         run: supabase start
+      - name: Export isolated Supabase client credentials
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          {
+            echo "SUPABASE_URL=http://127.0.0.1:54321"
+            echo "SUPABASE_ANON_KEY=${ANON_KEY}"
+            echo "SUPABASE_SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY}"
+            echo "REVISION_SUPABASE_INTEGRATION=1"
+          } >> "$GITHUB_ENV"
       - name: Run pgTAP database and RLS assurance
         run: supabase test db supabase/tests/database-assurance.test.sql
+      - name: Run authenticated persistence and reload integration assurance
+        run: npx vitest run tests/integration/supabase-persistence.test.ts
       - name: Stop isolated Supabase test stack
         if: always()
         run: supabase stop --no-backup
