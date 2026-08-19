@@ -20,8 +20,8 @@
 
 | Defect ID | Severity | Affected journey / control | Observed evidence | Status | Owner / next action | Fix PR | Verification / closure evidence |
 |---|---|---|---|---|---|---|---|
-| DEF-2026-001 | P2 | A11Y-01; signed-in global navigation/account drawer | Axe WCAG A/AA CI run #339 found serious `aria-hidden-focus`: the closed `.menu-drawer` remained keyboard-focusable on phone, tablet and desktop | Fix in review | Engineering — make the closed drawer inert; require expanded accessibility regression to pass before closure | #66 | Pending exact-head CI after fix |
+| DEF-2026-001 | P2 | A11Y-01; signed-in global and learner-runtime account/menu drawers | Axe WCAG A/AA CI run #339 found serious `aria-hidden-focus` on the closed `.menu-drawer`; expanded run #359 confirmed the same issue on `.menu-drawer` and `.runtime-menu-drawer` across phone, tablet and desktop | Fix in review | Engineering — conditionally render both drawers only while open so closed focusable controls are absent from the DOM; require the expanded accessibility journey to pass before closure | #66 | Pending exact-head CI after both drawer fixes |
 
 ## Triage note — 2026-08-19
 
-The foundation stabilisation review established this register as Revision's durable P0/P1/P2 source. At creation, DEF-2026-001 is the only known open P0/P1/P2 defect from the current stabilisation work. The register will be reconciled again before PR #66 is ready for Founder merge approval.
+The foundation stabilisation review established this register as Revision's durable P0/P1/P2 source. DEF-2026-001 remains the only known open P0/P1/P2 defect from the current stabilisation work. CI #359 broadened the same systemic hidden-drawer finding to the planner learner runtime; it is treated as one defect because the severity, accessibility control and root interaction pattern are shared. The register will be reconciled again before PR #66 is ready for Founder merge approval.
