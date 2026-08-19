@@ -1,27 +1,25 @@
 @media (max-width: 760px) {
   .admin-subnav {
-    position: sticky;
-    top: 68px;
-    z-index: 65;
-    display: flex;
-    flex-wrap: nowrap;
+    position: static;
+    z-index: auto;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 8px;
-    margin-inline: -20px;
-    padding: 8px 20px;
-    overflow-x: auto;
-    background: rgba(247, 248, 255, .97);
-    border-bottom: 1px solid var(--line);
-    backdrop-filter: blur(16px);
-    scrollbar-width: thin;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
   }
 
   .admin-subnav button {
-    position: relative;
-    flex: 0 0 auto;
-    width: auto;
-    min-width: max-content;
+    position: static;
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
     padding-inline: 12px;
-    white-space: nowrap;
-    scroll-margin: 0;
+    white-space: normal;
+    scroll-margin-top: 96px;
   }
 }
