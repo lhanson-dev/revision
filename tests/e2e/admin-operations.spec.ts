@@ -133,6 +133,10 @@ async function seedAdminSession(page: Page) {
   })
 }
 
+async function waitForAdminPageToSettle(page: Page) {
+  await page.waitForFunction(() => Math.abs(window.scrollY) <= 1)
+}
+
 test('admin operations dashboard shows high-level evidence and drills into detail views', async ({ page }) => {
   await seedAdminSession(page)
   await page.goto(`${appPath}#/admin`)
@@ -150,14 +154,17 @@ test('admin operations dashboard shows high-level evidence and drills into detai
   await expect(page).toHaveURL(/#\/admin\/users$/)
   await expect(page.getByRole('heading', { name: 'Users', exact: true })).toBeVisible()
   await expect(page.getByText('Admin and test accounts excluded')).toBeVisible()
+  await waitForAdminPageToSettle(page)
 
   await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'Activity' }).click()
   await expect(page.getByRole('heading', { name: 'Learning Activity' })).toBeVisible()
   await expect(page.getByText('Flashcards')).toBeVisible()
+  await waitForAdminPageToSettle(page)
 
   await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'System Health' }).click()
   await expect(page.getByRole('heading', { name: 'System Health' })).toBeVisible()
   await expect(page.getByText('Attention needed').first()).toBeVisible()
+  await waitForAdminPageToSettle(page)
 
   await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'Content Operations' }).click()
   await expect(page.getByRole('heading', { name: 'Content Operations' })).toBeVisible()
