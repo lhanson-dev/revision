@@ -12,18 +12,20 @@
 - Planned tests do not count as coverage.
 - CI/deployment execution results are dynamic operational evidence and must be read from their current source; this register records the intended assurance ownership and implemented evidence paths, not a permanently green result.
 - Update this register when a material feature/journey/control is added, materially changed, or its assurance ownership changes.
+- The Admin runtime may project this register into machine-readable data, but the projection must read this governed source rather than becoming a competing manually maintained coverage inventory.
 
 ## Current baseline — 2026-08-19
 
 | ID | Critical journey/control | Risk | Required assurance | Current evidence source | Baseline status | Gap / next step |
 |---|---|---:|---|---|---|---|
-| AV-01 | Canonical production `/app/` is reachable and serves the built React artifact | High | Production smoke | `.github/workflows/deploy-pages.yml` production-smoke job | Covered | Surface latest run/commit/freshness in Admin |
-| PTL-01 | PR change can pass required quality gates | High | Exact-head CI | `.github/workflows/ci.yml` — install, typecheck, lint, unit tests, build, Playwright | Covered | Admin should show latest relevant run and exact commit |
-| PTL-02 | `main` deploys and production smoke follows deploy | High | Deploy + production smoke | `.github/workflows/deploy-pages.yml` | Covered | Correlate deployed commit with smoke evidence in Admin |
+| AV-01 | Canonical production `/app/` is reachable and serves the built React artifact | High | Production smoke | `.github/workflows/deploy-pages.yml` production-smoke job; protected `admin-operations` learner-app check | Covered | Admin Assurance surfaces the current reachability check; add explicit production revision/freshness correlation |
+| PTL-01 | PR change can pass required quality gates | High | Exact-head CI | `.github/workflows/ci.yml` — install, typecheck, lint, unit tests, build, Playwright | Covered | Admin must still correlate exact-head CI evidence to the deployed production revision before Path to live can be Healthy |
+| PTL-02 | `main` deploys and production smoke follows deploy | High | Deploy + production smoke | `.github/workflows/deploy-pages.yml`; protected deployment health check | Covered | Admin Assurance surfaces deployment/smoke evidence but still needs full CI → merge → deploy lineage correlation |
 | PTL-03 | Frontend deployment is blocked when required production database/backend capabilities are absent | Critical | Pre-deploy backend readiness | `revision_release_readiness()` plus `.github/workflows/deploy-pages.yml` backend-readiness job | Partial | Apply the readiness migration, verify required Edge Functions, and record the first successful readiness-gated production deployment before promoting this control to Covered |
 | AUTH-01 | Sign-in entry is usable and provider gating fails closed | High | Browser | `tests/e2e/auth-entry.spec.ts`; responsive sign-in check | Partial | Browser tests stub provider settings and do not prove a real production sign-in transaction |
 | AUTH-02 | Ordinary learner does not receive Admin navigation or Admin utilities | High | Browser | `tests/e2e/app-responsive.spec.ts` | Covered for UI presentation | Add/retain server-side authorization coverage so UI hiding is never treated as authorization |
 | ADM-01 | Database-approved admin receives protected Admin experience | High | Browser + server/data boundary | `tests/e2e/admin-operations.spec.ts`, `tests/e2e/app-responsive.spec.ts`, `supabase/tests/admin-access-verification.sql` | Partial | SQL verification is not currently part of CI; production Edge Function authorization needs repeatable integration/smoke evidence |
+| ADM-02 | Founder Assurance view truthfully exposes governed coverage and Unknown states | High | Unit + browser | `src/assurance/coverage-register.test.ts`; `tests/e2e/admin-operations.spec.ts` | Covered at UI/projection layer | Add protected dynamic CI/defect evidence sources without weakening Unknown truthfulness |
 | JRN-01 | Learner Home / Plan / REV entry and recommendation launch | High | Responsive browser | `tests/e2e/app-responsive.spec.ts`; FI-001 planner browser journey | Covered at browser layer | Production planner/backend readiness remains separately evidenced |
 | JRN-02 | Subject Home and course navigation | High | Responsive browser | `tests/e2e/app-responsive.spec.ts` | Covered at browser layer | Expand as new subjects introduce materially different structures |
 | JRN-03 | Learn journey | Medium | Responsive browser | `tests/e2e/app-responsive.spec.ts` | Partial | Current browser assurance proves navigation/content presence, not completion of a learning interaction |
@@ -45,11 +47,13 @@
 
 ## Current interpretation
 
-The repository has a meaningful automated foundation, particularly around build quality, responsive browser navigation and production artifact smoke. FI-001 extends that browser and domain coverage to the adaptive planner. The production incident in which the planner frontend was deployed before its Supabase schema existed exposed a separate path-to-live gap: frontend availability did not prove backend readiness. PTL-03 records the fail-closed control being added to close that gap.
+The repository has a meaningful automated foundation, particularly around build quality, responsive browser navigation and production artifact smoke. FI-001 extends that browser and domain coverage to the adaptive planner. Founder Assurance v1 now projects this register and current protected production/deployment health without converting gaps into a false confidence score.
 
-Revision still does **not** justify claiming complete production-backed planner persistence, planner RLS/security integration, real production authentication, accessibility or the full practice/progress/exam evidence lifecycle. Those remain Partial/Uncovered until repeatable evidence exists at the required layer.
+The production incident in which the planner frontend was deployed before its Supabase schema existed exposed a separate path-to-live gap: frontend availability did not prove backend readiness. PTL-03 records the fail-closed control being added to close that gap.
 
-That distinction is intentional. Founder confidence should increase as Partial/Uncovered rows become Covered through real automated evidence rather than by changing labels.
+The current implementation does **not** justify claiming complete production-backed planner persistence, learner data persistence, RLS/security integration, real production authentication, accessibility, the full practice/progress/exam evidence lifecycle, exact CI-to-production lineage, durable defect aggregation, or a completed backend-readiness control until the first readiness-gated production deployment is verified.
+
+That distinction is intentional. Founder confidence should increase as these Partial/Uncovered rows become Covered through real automated evidence rather than by changing labels.
 
 ## Maintenance model
 
