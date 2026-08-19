@@ -42,6 +42,21 @@ async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } =
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.route('**/rest/v1/revision_availability_profiles**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: 'null' })
+  })
+  await page.route('**/rest/v1/revision_availability_exceptions**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.route('**/rest/v1/revision_planning_preferences**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.route('**/rest/v1/revision_activity_events**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
 
   await page.route('**/rest/v1/profiles**', async (route) => {
     await route.fulfill({
@@ -62,35 +77,42 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
   await expectNoPageOverflow(page)
 })
 
-test('authenticated learner hierarchy keeps shared learning at course level and papers in Exam Prep', async ({ page }) => {
+test('authenticated learner hierarchy keeps adaptive Plan and shared learning hierarchy usable', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
   await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What shall we do today?' })).toBeVisible()
-  await expect(page.getByRole('button', { name: /Suggest my next step/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What matters today?' })).toBeVisible()
+  await expect(page.getByText(/Tell me roughly how much revision time is realistically available/)).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  if (viewportWidth <= 960) {
-    const mobileNav = page.getByRole('navigation', { name: 'Mobile navigation' })
-    await expect(mobileNav).toBeVisible()
-    await expect(mobileNav.getByRole('button')).toHaveCount(4)
-    await expect(mobileNav.getByRole('button', { name: /Home/ })).toBeVisible()
-    await expect(mobileNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
-    await expect(mobileNav.getByRole('button', { name: /Progress/ })).toBeVisible()
-    await expect(mobileNav.getByRole('button', { name: /REV/ })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
-  } else {
-    const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
-    await expect(primaryNav).toBeVisible()
-    await expect(primaryNav.getByRole('button')).toHaveCount(4)
-    await expect(primaryNav.getByRole('button', { name: 'Admin' })).toHaveCount(0)
-  }
+  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
+  const primaryNav = page.getByRole('navigation', { name: primaryNavName })
+  await expect(primaryNav).toBeVisible()
+  await expect(primaryNav.getByRole('button')).toHaveCount(5)
+  await expect(primaryNav.getByRole('button', { name: /Home/ })).toBeVisible()
+  await expect(primaryNav.getByRole('button', { name: /Plan/ })).toBeVisible()
+  await expect(primaryNav.getByRole('button', { name: /REV/ })).toBeVisible()
+  await expect(primaryNav.getByRole('button', { name: /Progress/ })).toBeVisible()
+  await expect(primaryNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
+  if (viewportWidth <= 960) await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
 
-  await page.getByRole('button', { name: /Suggest my next step/ }).click()
-  await expect(page.getByRole('button', { name: /Take me to Business/ })).toBeVisible()
-  await expect(page.getByText('This is a coverage recommendation, not a judgement that the topic is weak.').first()).toBeVisible()
-  await page.getByRole('button', { name: /Take me to Business/ }).click()
+  await primaryNav.getByRole('button', { name: /Plan/ }).click()
+  await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'What matters now' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Set your realistic availability' })).toBeVisible()
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
+  await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
+  await expect(page.getByLabel('Talk to REV about your plan')).toBeVisible()
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()
+  await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
+  const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
+  await businessCard.getByRole('button', { name: /Open Business/ }).click()
 
   await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'What should I work on in Business?' })).toBeVisible()
@@ -154,26 +176,27 @@ test('authenticated learner hierarchy keeps shared learning at course level and 
   await expectNoPageOverflow(page)
 })
 
-test('database admin access exposes Content Operations without changing the mobile learner navigation', async ({ page }) => {
+test('database admin access stays secondary while protected Admin remains reachable', async ({ page }) => {
   await seedSyntheticSession(page, { isAdmin: true })
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  if (viewportWidth <= 960) {
-    const mobileNav = page.getByRole('navigation', { name: 'Mobile navigation' })
-    await expect(mobileNav.getByRole('button')).toHaveCount(4)
-    await page.getByRole('button', { name: 'Open menu' }).click()
-    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
-    await expect(drawer.getByRole('button', { name: /Admin/ })).toBeVisible()
-    await drawer.getByRole('button', { name: /Admin/ }).click()
-  } else {
-    const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
-    await expect(primaryNav.getByRole('button')).toHaveCount(5)
-    await primaryNav.getByRole('button', { name: 'Admin' }).click()
-  }
+  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
+  const primaryNav = page.getByRole('navigation', { name: primaryNavName })
+  await expect(primaryNav.getByRole('button')).toHaveCount(5)
+  await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
 
-  await expect(page.getByRole('heading', { name: 'Content Operations' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Add course' })).toBeVisible()
+  if (viewportWidth <= 960) {
+    await page.getByRole('button', { name: 'Open menu' }).click()
+  } else {
+    await page.getByRole('button', { name: /Synthetic Account/ }).click()
+  }
+  const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
+  await expect(drawer.getByRole('button', { name: /^Admin/ })).toBeVisible()
+  await expect(drawer.getByRole('button', { name: /Planner assurance/ })).toBeVisible()
+  await drawer.getByRole('button', { name: /^Admin/ }).click()
+
+  await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
   await expectNoPageOverflow(page)
 })

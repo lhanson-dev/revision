@@ -1,0 +1,100 @@
+.planner-today {
+  border-color: rgba(24,166,106,.28);
+}
+
+.planner-priority-note {
+  padding: 1rem;
+  border-left: 4px solid var(--green, #18a66a);
+  border-radius: .8rem;
+  background: #eef7f2;
+}
+
+.planner-priority-note strong {
+  color: var(--navy, #10243d);
+}
+
+.planner-priority-note p {
+  margin: .4rem 0 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.planner-today-list,
+.planner-home-items {
+  display: grid;
+  gap: .8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.planner-today-list > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line, #dfe5eb);
+}
+
+.planner-today-list h3 {
+  margin: .45rem 0 .2rem;
+}
+
+.planner-today-list p {
+  margin: 0;
+  color: var(--muted, #64748b);
+}
+
+.planner-reasons {
+  display: grid;
+  gap: .35rem;
+  margin: .75rem 0 0;
+  padding-left: 1.1rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.planner-home {
+  display: grid;
+  gap: 1rem;
+}
+
+.planner-home-today {
+  align-self: stretch;
+}
+
+.planner-home-items li {
+  display: grid;
+  gap: .2rem;
+  padding: .7rem 0;
+  border-top: 1px solid var(--line, #dfe5eb);
+}
+
+.planner-home-items li:first-child {
+  border-top: 0;
+}
+
+.planner-home-items strong {
+  color: var(--navy, #10243d);
+  line-height: 1.35;
+}
+
+.planner-home-items span {
+  color: var(--muted, #64748b);
+  font-size: .9rem;
+}
+
+.planner-home-support {
+  margin-top: .5rem;
+}
+
+@media (max-width: 760px) {
+  .planner-today-list > li {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-today-list > li > .primary {
+    width: 100%;
+  }
+}
