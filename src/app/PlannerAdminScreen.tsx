@@ -54,8 +54,22 @@ export function PlannerAdminScreen({ onBack }: { onBack: () => void }) {
   }, [])
 
   useEffect(() => {
-    void load()
-  }, [load])
+    let active = true
+    supabase.functions.invoke<PlannerOperationsSnapshot>('planner-operations', {
+      body: { view: 'summary' },
+    }).then(({ data, error: invokeError }) => {
+      if (!active) return
+      if (invokeError || !data) {
+        setSnapshot(null)
+        setError('Planner operations data is not available. The protected planner metrics service may still need deployment.')
+      } else {
+        setSnapshot(data)
+        setError('')
+      }
+      setLoading(false)
+    })
+    return () => { active = false }
+  }, [])
 
   const planner = snapshot?.planner
 
