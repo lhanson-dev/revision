@@ -470,3 +470,95 @@ If approved, review and update at minimum:
 - applicable UX, privacy, safeguarding and claims authority;
 - `60-business-operations/Product KPI Framework.md` if measurement rules mature; and
 - technical implementation and analytics documentation.
+
+---
+
+## FI-005 — Study-Time Measurement / Active Engagement Telemetry
+
+**Status:** Idea  
+**Captured:** 2026-08-19  
+**Capability fit:** Understand; Progress and Readiness; product analytics  
+**Initial assessment:** Potentially high measurement value; not required for the adaptive-planner MVP; accuracy and privacy need deliberate design
+
+### Opportunity
+
+Revision may benefit from understanding not only which learning activities a student starts and completes, but approximately how much **active revision time** they spend on those activities.
+
+This could improve:
+
+- planner estimates and future workload recommendations;
+- understanding of how much study effort different activities require in practice;
+- product metrics describing useful revision time rather than raw visits;
+- analysis of the relationship between revision effort and learning outcomes; and
+- future REV guidance where actual effort materially differs from planned effort.
+
+### Why this is not a simple timer
+
+Elapsed time between opening and completing an activity is not automatically active study time. A learner may:
+
+- leave the browser tab open;
+- switch apps or tabs;
+- take a break;
+- leave the device unattended;
+- read or think without generating interaction; or
+- resume an activity later.
+
+Revision must therefore avoid presenting raw elapsed time as precise study time.
+
+### Candidate approach
+
+A later implementation could combine signals such as:
+
+- recommendation click-through / activity start timestamp;
+- meaningful interaction events within the activity;
+- activity completion timestamp;
+- page/tab visibility where technically and legally appropriate;
+- inactivity thresholds and pause/resume inference; and
+- optional learner correction where a material discrepancy matters.
+
+The resulting measure should be described as **estimated active time** unless and until evidence supports a stronger interpretation.
+
+### Measurement principles
+
+The feature should distinguish at minimum:
+
+- activity offered;
+- activity opened/started;
+- activity meaningfully engaged with;
+- activity completed; and
+- estimated active time.
+
+A click must not be treated as completion, and a long elapsed session must not automatically be treated as long productive study.
+
+### Product use
+
+Study-time data should only be surfaced to students where it is genuinely helpful. It must not create surveillance, guilt, streak pressure or a simplistic message that more minutes always means better revision.
+
+The strongest use may be behind the scenes: improving planning assumptions, product analytics and REV's understanding of realistic workload.
+
+### Packaging hypothesis
+
+The underlying telemetry should not be artificially restricted by subscription tier if it is needed for safe, accurate product operation and measurement.
+
+If learner-facing insights based on study-time data later become a feature, packaging across Free / Level 1 / Level 2 should be assessed separately through the feature-definition process rather than assumed now.
+
+### Dependencies / questions to assess
+
+- technically reliable start/completion states for activity types;
+- inactivity and visibility semantics across desktop/mobile browsers;
+- acceptable accuracy threshold and validation method;
+- privacy/data-minimisation implications for behavioural telemetry;
+- whether estimated active time materially improves planner quality;
+- analytics event model and retention policy;
+- distinction between in-product activity and revision completed elsewhere; and
+- UX wording that communicates estimation rather than false precision.
+
+### Promotion impact
+
+If promoted, review and update at minimum:
+
+- `60-business-operations/Product KPI Framework.md`;
+- relevant product/REV authority where time changes recommendation behaviour;
+- privacy and student-data authority;
+- observability/analytics technical documentation; and
+- planner implementation documentation if the estimate becomes a scheduling input.
