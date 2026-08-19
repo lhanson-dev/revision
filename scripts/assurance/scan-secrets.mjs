@@ -6,7 +6,7 @@ const allowedFixtureFiles = new Set([
   'scripts/assurance/scan-secrets.test.mjs',
 ])
 
-const textExtensions = /\.(?:cjs|css|env|html|js|json|jsx|md|mjs|sql|ts|tsx|txt|yaml|yml)$/i
+const maxScanBytes = 2 * 1024 * 1024
 
 const directPatterns = [
   ['GitHub token', /\bgh[pousr]_[A-Za-z0-9]{30,}\b/g],
@@ -24,6 +24,10 @@ function decodeBase64Url(value) {
   const normalized = value.replace(/-/g, '+').replace(/_/g, '/')
   const padding = '='.repeat((4 - (normalized.length % 4)) % 4)
   return Buffer.from(`${normalized}${padding}`, 'base64').toString('utf8')
+}
+
+function isBinary(buffer) {
+  return buffer.includes(0)
 }
 
 export function scanText(path, text) {
@@ -66,14 +70,17 @@ export function scanRepository() {
   const findings = []
 
   for (const path of tracked) {
-    if (allowedFixtureFiles.has(path) || !textExtensions.test(path)) continue
-    let text
+    if (allowedFixtureFiles.has(path)) continue
+
+    let buffer
     try {
-      text = readFileSync(path, 'utf8')
+      buffer = readFileSync(path)
     } catch {
       continue
     }
-    findings.push(...scanText(path, text))
+
+    if (buffer.length > maxScanBytes || isBinary(buffer)) continue
+    findings.push(...scanText(path, buffer.toString('utf8')))
   }
 
   return findings
