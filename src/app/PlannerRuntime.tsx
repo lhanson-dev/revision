@@ -67,10 +67,7 @@ export function PlannerRuntime() {
 
   useEffect(() => {
     let active = true
-    if (!user) {
-      setIsAdmin(false)
-      return () => { active = false }
-    }
+    if (!user) return () => { active = false }
     void supabase
       .from('profiles')
       .select('is_admin')
