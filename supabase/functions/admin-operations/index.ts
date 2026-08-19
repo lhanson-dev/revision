@@ -223,7 +223,7 @@ Deno.serve(async (req) => {
   const terminalStates = new Set(["benchmark_approved"])
   const blocked = jobs.filter((job) => job.state === "blocked" || job.blockers > 0).length
   const readyForFounderAction = jobs.filter((job) => job.state === "ready_for_founder_merge_approval").length
-  const inProgress = jobs.filter((job) => !terminalStates.has(job.state) && job.state !== "blocked").length
+  const inProgress = jobs.filter((job) => !terminalStates.has(job.state)).length
 
   return jsonResponse(200, {
     generatedAt: new Date().toISOString(),
