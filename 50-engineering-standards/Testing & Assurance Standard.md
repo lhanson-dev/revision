@@ -4,7 +4,7 @@ document_id: "revision-testing-assurance"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.3"
+version: "0.4"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-19"
@@ -20,6 +20,8 @@ supersedes: null
 Automation is the default source of regression confidence. Manual testing is reserved for targeted usability and exploratory judgement.
 
 Assurance must describe what is actually evidenced, not imply confidence from test volume alone. Revision should be able to answer not only "did CI pass?" but also "which important user journeys, data boundaries and security controls were exercised, how recently, and what remains uncovered?"
+
+Revision is a living product. The assurance model must grow with product authority and implementation: when a critical user journey, control or dependency is added or materially changed, the assurance coverage model must be reviewed and updated as part of the same governed change.
 
 ## Required layers
 - schema/content validation
@@ -118,17 +120,107 @@ Each critical journey/control record should contain:
 ### Code coverage
 Statement/branch/function coverage may be introduced as a supplementary engineering diagnostic. It must not be presented to the Founder as product assurance by itself. No minimum percentage is authorised until baseline instrumentation exists and a threshold has been deliberately set from observed risk/value rather than chosen arbitrarily.
 
-## Build-on-change rule
-Every material feature, defect fix or architecture change must update assurance along with the implementation.
+## Living assurance rule
+Every material feature, defect fix, architecture change or product-journey change must update assurance along with the implementation.
 
 The change must identify:
 1. which critical journeys/controls are affected;
 2. whether existing tests still prove them;
 3. which new/updated automated assurance is required;
 4. whether the Founder assurance matrix changes;
-5. whether a new production smoke is required.
+5. whether a new production smoke is required;
+6. whether the change introduces a new critical journey, data responsibility, security boundary or dependency that must be added to the Assurance Coverage Register.
 
 A new critical journey or security/data responsibility is not complete until its intended assurance ownership is recorded, even if some tests are deferred deliberately.
+
+The Assurance Coverage Register must be reviewed whenever active product authority changes the set of critical user journeys. Coverage is therefore a living map of the current product, not a one-off test inventory.
+
+## Risk-based path-to-live assurance
+Revision should run the smallest assurance set that provides proportionate confidence for the change. Full site regression is not the default for every PR.
+
+### Risk classification inputs
+Risk should be determined from the highest applicable factor, including:
+- blast radius: isolated component vs shared runtime/global behaviour;
+- user impact: cosmetic/internal vs learner-facing/core journey;
+- data impact: read-only vs persistence/migration/destructive behaviour;
+- security/privacy impact: no boundary change vs auth/RLS/privileged access/secrets;
+- educational impact: presentation-only vs scoring/readiness/exam/content correctness;
+- deployment impact: documentation/static frontend vs backend/function/configuration/migration;
+- coupling: local implementation vs shared engine/navigation/auth/data layer.
+
+If a change touches multiple areas, assurance escalates to the highest relevant level rather than averaging risk down.
+
+### Level 1 — Low risk
+Typical examples:
+- documentation-only changes;
+- isolated copy or visual changes with no behaviour change;
+- non-critical styling changes;
+- bounded internal refactors with no shared contract change.
+
+Expected assurance:
+- relevant static/schema validation;
+- typecheck/lint/build where code changes;
+- targeted unit or browser check only where the changed behaviour warrants it.
+
+A full end-to-end site regression is not required merely because one exists.
+
+### Level 2 — Medium risk
+Typical examples:
+- learner-facing UI behaviour in a bounded journey;
+- local navigation/form changes;
+- a new activity interaction without changing shared persistence/security;
+- an Admin presentation change consuming an existing trusted contract.
+
+Expected assurance:
+- Level 1 checks;
+- targeted unit/integration tests for changed logic;
+- targeted Playwright coverage for the affected user journey;
+- responsive/accessibility regression where the user-facing surface changes;
+- production build.
+
+Unrelated full-site browser suites should not be mandatory unless shared dependencies make them relevant.
+
+### Level 3 — High risk
+Typical examples:
+- authentication or authorisation;
+- RLS/security/privacy boundaries;
+- learner evidence/progress persistence;
+- database migrations or privileged RPC/Edge Functions;
+- shared navigation/runtime/engine changes;
+- readiness/scoring logic;
+- exam submission/result behaviour;
+- changes capable of affecting multiple critical journeys.
+
+Expected assurance:
+- all relevant lower-level checks;
+- deterministic integration/database/security tests;
+- full relevant critical-journey regression, including all journeys sharing the changed dependency;
+- full responsive browser regression where shared learner UI/runtime is affected;
+- production build;
+- explicit post-deployment smoke for affected live dependencies/journeys.
+
+### Level 4 — Critical release risk
+Use only when the change has unusually high blast radius or consequence, for example:
+- destructive/high-risk learner-data migration;
+- major authentication model replacement;
+- broad runtime cutover;
+- security remediation after a confirmed exposure;
+- foundational change affecting most critical learner journeys.
+
+Expected assurance:
+- full repository regression suite;
+- complete affected journey/control matrix review;
+- targeted production verification beyond basic availability;
+- explicit rollback/recovery readiness;
+- any additional manual/exploratory assurance justified by the risk.
+
+## Test selection rules
+- Risk level determines minimum depth, not a fixed count of tests.
+- Changed journeys must always receive targeted assurance even when overall change risk is low or medium.
+- Shared dependencies require regression of the critical journeys that depend on them.
+- Unaffected journeys should not be rerun solely to create a larger green test count when there is no credible regression path.
+- CI should progressively automate change classification and test selection where this can be done deterministically; uncertain classification must fail safe by escalating rather than skipping required assurance.
+- The PR/assurance evidence should make the selected risk level and test scope inspectable so Founder confidence is based on why those tests ran, not only that they passed.
 
 ## Responsive assurance
 Core learner journeys must be assured on representative mobile, tablet and laptop/desktop viewport classes.
@@ -141,11 +233,6 @@ At minimum, automated browser coverage should verify that critical journeys:
 - preserve exam, assessment, progress and subject-selection functionality across device classes.
 
 Major learner-facing layout changes should include targeted responsive Playwright coverage. Manual device testing may supplement this for usability judgement, but it does not replace automated viewport regression checks.
-
-## Risk-based CI
-Low-risk changes run lightweight relevant checks. Medium-risk changes run targeted behavioural checks. High-risk changes to auth, data, progress, readiness, exams, migrations or shared engine run the full regression suite.
-
-Any learner-facing change that materially alters layout, navigation, forms, assessment interactions, exam experience or progress presentation must include responsive regression coverage appropriate to its risk.
 
 ## Defect severity
 Revision uses the following operational severity model for known defects. Severity is based on user/business impact, not implementation difficulty.
