@@ -1,6 +1,6 @@
 # Content Operations Admin Implementation
 
-Status: Operations Dashboard implementation merged to `main` in PR #52. Database-backed admin assignment and Google OAuth are live. The Admin assurance expansion described below is a governed target; the new assurance telemetry/defect aggregation is not yet implemented. The admin metrics migration and Edge Function production enablement from PR #52 still require deployment verification before their live status is represented as Healthy.
+Status: Operations Dashboard implementation merged to `main` in PR #52. Database-backed admin assignment and Google OAuth are live. The Founder assurance expansion is a governed target. PR #58 adds a planner-specific protected assurance view and aggregate planner operations metrics; broader Founder assurance telemetry/defect aggregation remains follow-on work. The admin metrics migration and Edge Function production enablement from PR #52 still require deployment verification before their live status is represented as Healthy.
 
 ## Purpose
 
@@ -9,17 +9,18 @@ Record the protected Founder operations capability inside Revision's canonical R
 ## Route and runtime boundary
 
 - Canonical application: `/app/`
-- Standard learner destinations: Home / Subjects / Progress / REV
+- Standard learner destinations: **Home / Plan / REV / Progress / Subjects**
 - Role-gated Admin landing view: `/app/#/admin`
 - Current protected detail views: `/app/#/admin/users`, `/app/#/admin/activity`, `/app/#/admin/health`, `/app/#/admin/content`
-- Target assurance detail view: `/app/#/admin/assurance`
+- Planner-specific protected assurance view introduced by FI-001: `/app/#/admin/planner`
+- Target broader Founder assurance detail view: `/app/#/admin/assurance`
 - Public root: `/`
 
 There is no standalone `/admin/` HTML entry point or separate Admin React bootstrap.
 
-For a database-approved administrator, desktop primary navigation exposes an additional **Admin** item. Mobile preserves the four-item learner bottom navigation and exposes Admin through the account/additional-links drawer.
+For a database-approved administrator, Admin remains a secondary utility rather than a learner destination. The FI-001 planner runtime preserves the governed five-destination learner navigation on desktop and mobile and exposes **Admin** and **Planner assurance** through the account/additional-links drawer.
 
-For ordinary learner accounts, the Admin item is absent.
+For ordinary learner accounts, those Admin utilities are absent.
 
 ## Operations Dashboard
 
@@ -37,9 +38,23 @@ It currently presents:
 
 The dashboard deliberately distinguishes **recorded learning activity** from general app usage. Revision does not currently collect governed page-view/session telemetry, so the dashboard does not invent reading time, session duration, DAU based on visits or REV usage counts.
 
+## Planner assurance increment
+
+FI-001 adds a bounded protected planner-assurance view and server-side aggregate metrics for the planner loop. This is narrower than the future Founder Assurance view.
+
+The planner-assurance view may surface, where backed by current data:
+
+- learners with assessments/availability configured;
+- planner activity states such as offered, started and completed;
+- alternative-choice activity;
+- planner priority-mode incidence; and
+- planner data/service failures or Unknown states where evidence cannot be established.
+
+These metrics are operational evidence only. They must not be treated as mastery, readiness or learner-success evidence, and they must continue to exclude test/admin activity where the aggregate contract requires it.
+
 ## Founder assurance target
 
-The next Admin assurance increment should add a dedicated **Assurance** view rather than overloading System Health.
+The broader Admin assurance increment should add a dedicated **Assurance** view rather than overloading System Health.
 
 The landing dashboard should gain a compact **Founder assurance confidence** summary with five independently evidenced cards:
 
@@ -191,6 +206,8 @@ Learner engagement queries exclude:
 - `profiles.is_test_user = true`; and
 - `profiles.is_admin = true`.
 
+The FI-001 planner metrics follow the same protected aggregate-first principle and must not require browser access to cross-user planner rows.
+
 ## Assurance telemetry implementation direction
 
 The Assurance view should be fed from machine-readable evidence rather than hard-coded labels.
@@ -238,14 +255,16 @@ PR #52 merged the repository implementation. Production operational confidence s
 8. verify system-health Unknown/Attention states are truthful; and
 9. run one governed Add Course smoke only when the Content Factory GitHub secret is configured.
 
+FI-001 adds separate planner migrations and a `planner-operations` server-side function. Those backend components require deployment/readiness verification before planner assurance is represented as operationally Healthy in production.
+
 The project currently uses Supabase's hosted legacy `SUPABASE_SERVICE_ROLE_KEY` inside server-side Edge Functions. Migration to the newer secret-key model should occur before the legacy key is retired.
 
 ## Assurance
 
-Repository assurance currently includes TypeScript/lint/build checks, unit tests, responsive browser assurance and a production Pages smoke. The new Assurance Coverage Register deliberately records several data/security/persistence areas as Partial or Uncovered until repeatable automated evidence exists.
+Repository assurance currently includes TypeScript/lint/build checks, unit tests, responsive browser assurance and a production Pages smoke. FI-001 extends responsive browser coverage across Home → Plan → REV and records planner-specific coverage in the Assurance Coverage Register. Database/RLS planner verification exists as deterministic SQL evidence but remains Partial until that verification is executed automatically in CI or another repeatable integration environment.
 
-Future implementation should close those gaps rather than changing the labels.
+Future implementation should close remaining gaps rather than changing the labels.
 
 ## Documentation impact
 
-This document records current Admin implementation truth and the target technical direction required by the updated Testing & Assurance, Observability & Operations, and Release & Deployment standards. The current coverage state is maintained in `90-governance-registers/Assurance Coverage Register.md`.
+This document records current Admin implementation truth and the target technical direction required by the updated Testing & Assurance, Observability & Operations, Release & Deployment, Information Architecture and Adaptive Revision Planning authorities. The current coverage state is maintained in `90-governance-registers/Assurance Coverage Register.md`.
