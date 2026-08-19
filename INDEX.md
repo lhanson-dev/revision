@@ -38,6 +38,8 @@ Use this file to find the governing source before substantive work.
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture → `10-product-governance/Information Architecture.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
+- Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
+- Product backlog folder rules → `10-product-governance/backlog/README.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 
