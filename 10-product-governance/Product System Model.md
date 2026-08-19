@@ -1,6 +1,6 @@
 # Product System Model
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the core model by which Revision understands a student, recommends activity and updates guidance over time.
 
 ## Core model
@@ -16,8 +16,10 @@ The core loop is:
 3. update the student's current revision state;
 4. compare needs across topics and subjects;
 5. recommend the most useful next action;
-6. let the student complete, defer or override that recommendation;
-7. use the resulting evidence to update future guidance.
+6. let the student choose whether to follow that recommendation or do something else; and
+7. use what the student actually did, together with the resulting evidence and remaining time, to recalculate future guidance.
+
+The system should optimise from reality rather than try to preserve an obsolete plan. A recommendation is guidance for the current moment, not a commitment the learner must later reschedule if life changes.
 
 ## Three distinct dimensions
 
@@ -62,10 +64,29 @@ Prioritisation should therefore consider context such as:
 - specification coverage;
 - strength and weakness across the wider subject;
 - competing priorities across other subjects;
-- exam timing and importance where known; and
-- the student's recent revision activity.
+- exam timing and importance where known;
+- realistic available revision time; and
+- the student's recent revision activity and actual choices.
 
 The exact weighting is an implementation and evidence question and should be refined as the product develops.
+
+## Continuous adaptation
+
+Revision's wider guidance and any revision plan built from it should be treated as a living model rather than a fixed timetable.
+
+When the student completes different work from what Revision recommended, misses a day, has less time than expected or generates new learning evidence, the next recommendation should be recalculated from the updated state.
+
+The system should not create artificial task debt by carrying every uncompleted recommendation forward. It should decide again what matters most given:
+
+- current coverage, understanding and exam-readiness evidence;
+- the time remaining before relevant assessments;
+- the student's realistic future availability;
+- competing priorities across subjects; and
+- the educational value of the remaining work.
+
+Where the available time is no longer sufficient to cover everything, Revision should say so without judgement and prioritise the work most likely to improve the student's position. It should not imply that an impossible plan remains achievable.
+
+Revision may suggest that additional study time would materially help when that is genuinely supported by the remaining workload and the student's stated availability. Such suggestions must be optional, proportionate and non-pressuring. If extra time is not available, the system should continue to optimise the time the student does have.
 
 ## Recommendation behaviour
 
@@ -86,21 +107,24 @@ It should be able to:
 - answer questions in the context of the student's subject and specification;
 - help interpret assessment feedback;
 - encourage the student when progress is good;
-- respond constructively when the student is behind or struggling; and
-- help the student stay calm and focused on the wider plan.
+- respond constructively when the student is behind or struggling;
+- explain changes to the wider revision plan when priorities move; and
+- help the student stay calm and focused on what is most useful now.
 
-The tutor should not manufacture urgency from isolated weak evidence.
+The tutor should not manufacture urgency from isolated weak evidence or imply failure because a previous recommendation was not followed.
 
 ## Student agency
 
 Revision should provide strong guidance, not a locked pathway.
 
-The student must remain free to ignore, defer or override a recommendation and choose a different subject, topic or activity.
+The student must remain free to ignore a recommendation and choose a different subject, topic or activity.
 
-Student choices become additional context for future guidance; they should not be treated as product failure simply because the system recommended something else.
+The product should not require the learner to manage the recommendation by manually moving it to another day. What the learner actually chooses to do becomes additional context for the next recommendation and for any wider adaptive plan.
+
+Student choices should not be treated as product failure simply because the system recommended something else.
 
 ## Desired outcome
 
-The system model succeeds when the complexity of balancing subjects, coverage, evidence and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
+The system model succeeds when the complexity of balancing subjects, coverage, evidence, exam dates, available time and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
 
 **What is the most useful thing for me to do next, and why?**
