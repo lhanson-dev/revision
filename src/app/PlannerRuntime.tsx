@@ -17,6 +17,7 @@ import {
   subjectsRoute,
   type AppRoute,
 } from './navigation'
+import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlanScreen } from './PlanScreen'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
@@ -105,9 +106,14 @@ export function PlannerRuntime() {
     </>
   )
 
-  const screen = route.kind === 'plan'
-    ? <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
-    : <App />
+  let screen
+  if (route.kind === 'home') {
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => navigate(revRoute())} onOpenProgress={() => navigate(progressRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+  } else if (route.kind === 'plan') {
+    screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+  } else {
+    screen = <App />
+  }
 
   return (
     <div className="planner-runtime">
