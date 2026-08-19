@@ -45,6 +45,10 @@ The initial `planner-v1` contract verifies the current learner/profile/evidence 
 
 Production verification on 2026-08-19 confirmed the RPC is present and currently returns `ready: true` with all `planner-v1` database capability checks true. That proves the database side of the readiness contract is enabled; it does not by itself prove that a complete Pages deployment has subsequently passed every readiness and smoke stage.
 
+The original applied migration created the RPC as `SECURITY DEFINER`. Supabase Security Advisor identified that elevated execution is unnecessary for a function callable by `anon` and `authenticated`. A rolled-back production verification proved the same contract remains callable by `anon` as `SECURITY INVOKER`. PR #62 therefore adds a forward-only hardening migration, `20260819160700_harden_release_readiness_security.sql`, rather than rewriting the historical applied migration. The isolated database assurance suite verifies the final RPC is `SECURITY INVOKER`.
+
+Until that forward migration is applied in production after an approved merge, the production advisor warning remains a real deployment follow-up and must not be represented as closed.
+
 ## Required Edge Functions
 
 The current frontend has protected Admin experiences that depend on two separately deployed functions:
@@ -92,7 +96,9 @@ Those remain separate assurance responsibilities under the Testing & Assurance S
 
 The FI-001 planner schema, `admin_planner_metrics()`, `admin_operations_metrics()`, `planner-operations`, `admin-operations` and the `planner-v1` release-readiness RPC are currently present in production.
 
-The remaining evidence gap is lineage, not database capability presence: Revision still needs a recorded deployment where the current production commit is shown to have passed the readiness gate, Pages deployment and production smoke as one correlated path-to-live chain. Until that evidence is correlated, PTL-03 remains Partial and Founder Assurance Path to live remains Unknown rather than overstated.
+The remaining path-to-live evidence gap is lineage, not database capability presence: Revision still needs a recorded deployment where the current production commit is shown to have passed the readiness gate, Pages deployment and production smoke as one correlated chain. Until that evidence is correlated, PTL-03 remains Partial and Founder Assurance Path to live remains Unknown rather than overstated.
+
+The release-readiness least-privilege hardening in PR #62 is a separate production enablement step. It is not required for frontend functionality, but the Security Advisor warning remains open until the new forward migration is applied and rechecked.
 
 ## Migration-history note
 
