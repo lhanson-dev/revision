@@ -86,7 +86,7 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(page.getByText(/Tell me roughly how much revision time is realistically available/)).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 760 ? 'Mobile navigation' : 'Primary navigation'
+  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
   const primaryNav = page.getByRole('navigation', { name: primaryNavName })
   await expect(primaryNav).toBeVisible()
   await expect(primaryNav.getByRole('button')).toHaveCount(5)
@@ -95,7 +95,7 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(primaryNav.getByRole('button', { name: /REV/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Progress/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
-  if (viewportWidth <= 760) await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
+  if (viewportWidth <= 960) await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
 
   await primaryNav.getByRole('button', { name: /Plan/ }).click()
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
@@ -182,12 +182,12 @@ test('database admin access stays secondary while protected Admin remains reacha
   await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 760 ? 'Mobile navigation' : 'Primary navigation'
+  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
   const primaryNav = page.getByRole('navigation', { name: primaryNavName })
   await expect(primaryNav.getByRole('button')).toHaveCount(5)
   await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
 
-  if (viewportWidth <= 760) {
+  if (viewportWidth <= 960) {
     await page.getByRole('button', { name: 'Open menu' }).click()
   } else {
     await page.getByRole('button', { name: /Synthetic Account/ }).click()
