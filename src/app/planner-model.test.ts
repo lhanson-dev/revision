@@ -17,9 +17,18 @@ const assessment: RevisionAssessment = {
   isActive: true,
 }
 
+const topics = [
+  { id: 'operations', shortTitle: 'Operations' },
+  { id: 'finance', shortTitle: 'Finance' },
+  { id: 'marketing', shortTitle: 'Marketing' },
+]
+
 const state = {
   adapter: {
     manifest: { subject: { id: 'business', name: 'Business' } },
+    listTopics: () => topics,
+    listQuestions: () => [{ id: 'q1' }],
+    listFlashcards: () => [{ id: 'f1' }],
   },
   evidence: [],
   readiness: {
@@ -33,7 +42,7 @@ const state = {
   },
   recommendationTopic: { id: 'operations', shortTitle: 'Operations' },
   evidencedTopics: 0,
-  topicCount: 6,
+  topicCount: topics.length,
 } as unknown as ModuleLearningState
 
 const availability: RevisionAvailabilityProfile = {
@@ -44,11 +53,12 @@ const availability: RevisionAvailabilityProfile = {
 }
 
 describe('planner model bridge', () => {
-  it('turns the existing learning recommendation into a deterministic planner candidate', () => {
+  it('turns the assessment scope into topic-level work candidates rather than one synthetic task', () => {
     const now = new Date('2026-08-19T09:00:00')
     const candidates = plannerCandidatesFromLearningState([state], [assessment], [], now)
 
-    expect(candidates).toHaveLength(1)
+    expect(candidates).toHaveLength(3)
+    expect(candidates.map((candidate) => candidate.topicId)).toEqual(['operations', 'finance', 'marketing'])
     expect(candidates[0]).toMatchObject({
       subjectId: 'business',
       assessmentId: 'assessment-1',
@@ -59,6 +69,14 @@ describe('planner model bridge', () => {
       understanding: null,
       readiness: null,
     })
+  })
+
+  it('respects explicit topic scope without forcing the learner through a giant topic list', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const scoped = { ...assessment, scope: { topicIds: ['finance'] } }
+    const candidates = plannerCandidatesFromLearningState([state], [scoped], [], now)
+    expect(candidates).toHaveLength(1)
+    expect(candidates[0]?.topicId).toBe('finance')
   })
 
   it('applies a bounded learner preference as planning context rather than learning evidence', () => {
@@ -77,10 +95,10 @@ describe('planner model bridge', () => {
       isActive: true,
     }
 
-    const [candidate] = plannerCandidatesFromLearningState([state], [assessment], [preference], now)
-    expect(candidate?.learnerPreference).toBe(2)
-    expect(candidate?.evidenceStrength).toBe(0.2)
-    expect(candidate?.readiness).toBeNull()
+    const candidates = plannerCandidatesFromLearningState([state], [assessment], [preference], now)
+    expect(candidates.every((candidate) => candidate.learnerPreference === 2)).toBe(true)
+    expect(candidates.every((candidate) => candidate.evidenceStrength === 0.2)).toBe(true)
+    expect(candidates.every((candidate) => candidate.readiness === null)).toBe(true)
   })
 
   it('uses normal weekday/weekend capacity and date exceptions without converting it into a clock timetable', () => {
@@ -98,21 +116,30 @@ describe('planner model bridge', () => {
     expect(days.find((day) => day.date === '2026-08-23')?.availableMinutes).toBe(90)
   })
 
-  it('produces no plan until both useful evidence guidance and realistic availability exist', () => {
+  it('produces no plan until both useful planning candidates and realistic availability exist', () => {
     const now = new Date('2026-08-19T09:00:00')
     expect(buildPlannerSnapshot([state], [assessment], null, [], [], now)).toBeNull()
     expect(buildPlannerSnapshot([], [assessment], availability, [], [], now)).toBeNull()
   })
 
-  it('builds a current-day plan when both planning context and evidence guidance are available', () => {
+  it('builds today from the highest-priority work without treating the rest as task debt', () => {
     const now = new Date('2026-08-19T09:00:00')
     const snapshot = buildPlannerSnapshot([state], [assessment], availability, [], [], now)
 
-    expect(snapshot?.today).toHaveLength(1)
+    expect(snapshot?.today.length).toBeGreaterThan(0)
     expect(snapshot?.today[0]).toMatchObject({
       subjectId: 'business',
-      topicId: 'operations',
+      topicId: 'finance',
       activityType: 'quick-check',
     })
+    expect(snapshot?.ranked).toHaveLength(3)
+  })
+
+  it('enters priority mode when broad remaining useful workload exceeds realistic capacity', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const tinyCapacity = { ...availability, weekdayMinutes: 5, weekendMinutes: 5 }
+    const snapshot = buildPlannerSnapshot([state], [assessment], tinyCapacity, [], [], now)
+    expect(snapshot?.capacityState).toBe('prioritising')
+    expect(snapshot?.requiredUsefulMinutes).toBeGreaterThan(snapshot?.remainingCapacityMinutes ?? 0)
   })
 })
