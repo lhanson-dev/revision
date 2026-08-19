@@ -22,8 +22,8 @@ The gate currently verifies:
 
 1. `public.revision_release_readiness()` exists and is callable with the public publishable key;
 2. the returned contract identifier is exactly `planner-v1`;
-3. the contract reports all current required database capabilities as present; and
-4. the protected `planner-operations` Edge Function is deployed and rejects an unauthenticated request with `401`.
+3. the contract reports all current required database capabilities as present, including both protected Admin aggregate RPCs; and
+4. the protected `admin-operations` and `planner-operations` Edge Functions are deployed and each rejects an unauthenticated request with `401`.
 
 Any missing function, contract mismatch, missing schema capability, missing Edge Function or unexpected authentication behaviour fails the workflow before a new Pages artifact is built or deployed.
 
@@ -41,7 +41,18 @@ It exposes only:
 
 It does not expose learner data, migration history, credentials or operational secrets.
 
-The initial `planner-v1` contract verifies the current learner/profile/evidence tables, FI-001 planner tables and protected planner aggregate function required by the deployed runtime.
+The initial `planner-v1` contract verifies the current learner/profile/evidence tables, FI-001 planner tables, `admin_operations_metrics()` and `admin_planner_metrics()` required by the deployed runtime.
+
+## Required Edge Functions
+
+The current frontend has protected Admin experiences that depend on two separately deployed functions:
+
+- `admin-operations` — Founder Operations / Founder Assurance evidence;
+- `planner-operations` — planner-specific protected operational evidence.
+
+The release workflow probes both without credentials. A `401` proves that the route is deployed and that its JWT boundary is active. A missing route, success without authentication, or any other response fails the gate.
+
+`content-factory-intake` is not currently a whole-product deployment blocker because Content Operations can truthfully surface its unavailable/unconfigured state without breaking the learner runtime. Its health remains independently visible in Admin. If a future release makes that function mandatory for the production contract, it must be promoted into this gate deliberately.
 
 ## Extending the contract
 
@@ -78,5 +89,7 @@ Those remain separate assurance responsibilities under the Testing & Assurance S
 ## Current production enablement
 
 The FI-001 planner schema and `admin_planner_metrics()` were applied after the incomplete frontend deployment was detected. `planner-operations` was subsequently deployed with JWT verification enabled.
+
+During reconciliation with Founder Assurance v1, production was also found to be missing its already-approved `admin_operations_metrics()` RPC and `admin-operations` function. Those approved backend components have now been enabled and `admin-operations` is deployed with JWT verification enabled.
 
 The new readiness RPC itself must be applied only after this governed change is approved and merged. The first deployment after merge is expected to fail closed until that migration is applied; after application, rerunning the Pages workflow should prove the new control end to end.
