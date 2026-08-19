@@ -7,7 +7,7 @@ describe('assurance coverage register projection', () => {
     expect(assuranceCoverage.find((record) => record.id === 'AV-01')).toMatchObject({ status: 'Covered', risk: 'High' })
     expect(assuranceCoverage.find((record) => record.id === 'DATA-01')).toMatchObject({ status: 'Covered', risk: 'Critical' })
     expect(assuranceCoverage.find((record) => record.id === 'SEC-01')).toMatchObject({ status: 'Covered', risk: 'Critical' })
-    expect(defectCoverage()).toMatchObject({ id: 'DEF-01', status: 'Uncovered' })
+    expect(defectCoverage()).toMatchObject({ id: 'DEF-01', status: 'Covered' })
   })
 
   it('keeps journey and data/security coverage independently countable', () => {
