@@ -13,6 +13,7 @@ import {
   revRoute,
   routeBelongsToSubjects,
   routeHash,
+  subjectRoute,
   subjectsRoute,
   type AppRoute,
 } from './navigation'
@@ -105,7 +106,7 @@ export function PlannerRuntime() {
   )
 
   const screen = route.kind === 'plan'
-    ? <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} />
+    ? <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
     : <App />
 
   return (
