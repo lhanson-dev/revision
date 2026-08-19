@@ -1,0 +1,93 @@
+.planner-rev-copy {
+  min-width: 0;
+}
+
+.planner-conversation {
+  display: grid;
+  gap: .7rem;
+  margin: 1rem 0;
+  max-height: 28rem;
+  overflow-y: auto;
+  padding-right: .25rem;
+}
+
+.planner-message-bubble {
+  max-width: 44rem;
+  padding: .8rem 1rem;
+  border-radius: 1rem;
+}
+
+.planner-message-bubble p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.planner-message-bubble.rev {
+  justify-self: start;
+  background: rgba(255,255,255,.85);
+  color: var(--navy, #10243d);
+}
+
+.planner-message-bubble.learner {
+  justify-self: end;
+  background: var(--navy, #10243d);
+  color: #fff;
+}
+
+.planner-rev-confirm {
+  display: grid;
+  gap: .55rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(24,166,106,.35);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.9);
+}
+
+.planner-rev-confirm p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.planner-rev-input {
+  display: grid;
+  gap: .45rem;
+  margin-top: 1rem;
+}
+
+.planner-rev-input label {
+  font-size: .85rem;
+  font-weight: 750;
+  color: var(--navy, #10243d);
+}
+
+.planner-rev-input > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .6rem;
+}
+
+.planner-rev-input input {
+  min-width: 0;
+  min-height: 46px;
+  padding: .7rem .85rem;
+  border: 1px solid var(--line, #dfe5eb);
+  border-radius: .8rem;
+  background: #fff;
+  color: #1d2733;
+}
+
+@media (max-width: 760px) {
+  .planner-rev-input > div {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-rev-input .rev-primary {
+    width: 100%;
+  }
+
+  .planner-conversation {
+    max-height: none;
+  }
+}
