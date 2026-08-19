@@ -152,6 +152,29 @@ Email should be lower-frequency and better suited to broader-value communication
 
 REV's proactive presence must remain consistent with safeguarding and privacy authority: it may be attentive and responsive, but it must not imply emotional dependency, say that it `missed` the learner, or position returning to REV as a substitute for human emotional support.
 
+### D16 — Deterministic, explainable planner intelligence
+
+The planner and replanning engine should use deterministic, testable product logic rather than rely on a large language model to generate the learner's schedule or priority order.
+
+The engine may consider factors such as:
+
+- exam or assessment proximity;
+- assessment scope and relative importance;
+- current specification coverage;
+- understanding/mastery evidence;
+- exam-readiness evidence;
+- evidence confidence and consistency;
+- remaining workload;
+- realistic available revision time;
+- recent revision activity and actual learner choices; and
+- competing priorities across other subjects.
+
+Exact weighting, thresholds and heuristics are implementation/evidence questions and should be iterated through testing and observed outcomes. They should not be presented to the learner as false-precision scores.
+
+REV's role is to interpret and explain material planning decisions in natural language, not to own the deterministic scheduling calculation. This separation is required for consistency, cost control, testability, observability and trust.
+
+A learner should be able to understand the important reason behind a recommendation without seeing internal mathematical detail. For example, REV may explain that one subject has moved forward because its assessment is closer and the learner currently has weaker evidence there.
+
 ## Confirmed navigation responsibility model
 
 - **Home** — answers `What matters now?` and `What should I do today?`. It is the default signed-in destination, contains REV's concise learner-wide recommendation, and shows a smaller `Today's plan` summary linking to Plan. It must remain focused rather than becoming a dense dashboard.
