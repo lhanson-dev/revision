@@ -1,6 +1,6 @@
 # Founder Assurance Implementation
 
-**Status:** Current `main` includes governed coverage/defect projection, authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, fail-closed path-to-live correlation, risk-based assurance planning and repository secret/config scanning. The current closure PR adds durable commit-level path-to-live evidence and deployment enforcement; those additions remain in review until merged and observed in production.
+**Status:** Current `main` includes governed coverage/defect projection, authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, fail-closed path-to-live enforcement with durable commit-level evidence, risk-based assurance planning and repository secret/config scanning.
 
 ## Purpose
 
@@ -81,7 +81,7 @@ The gate discovered two P2 accessibility defects during PR #66: hidden focusable
 
 Automated axe coverage is a baseline; manual assistive-technology/usability review remains appropriate for interaction patterns automated rules cannot meaningfully judge.
 
-## Path-to-live correlation
+## Path-to-live correlation and enforcement
 
 Production and PR evidence remain separate. Protected `admin-operations` correlates, where GitHub evidence is readable:
 
@@ -102,21 +102,37 @@ head_sha: <40-character exact PR head SHA>
 
 Missing evidence is `Unknown`; a known failed required stage is `Attention needed`. Approval is never inferred merely because a merge occurred.
 
-PR #66 introduced the protected correlation implementation. PR #67 then added machine-readable risk classification and secret/config assurance and was explicitly Founder-approved and merged as `7295f21d9baaf058e8f438fd48558a33f05d2042`.
+PR #66 introduced protected correlation. PR #67 added machine-readable risk classification and secret/config assurance. PR #68 then made production deployment itself enforce governed lineage before backend readiness and publish a durable commit-level release result.
 
 ### Durable commit-level release evidence
 
-The current closure PR strengthens the release path so path-to-live evidence no longer depends solely on a consumer being able to enumerate push-triggered GitHub Actions runs.
-
-It adds a pre-deploy release-lineage verifier and a final durable commit status:
+The release workflow publishes:
 
 `revision/path-to-live`
 
-Before backend readiness, deployment must prove the current `main` commit came from a merged PR whose exact proposed head has successful Revision CI and an exact-head Founder approval marker. After the one explicit bootstrap release, the previous `main` commit must also carry `revision/path-to-live = success`.
+Before backend readiness, deployment must prove the current `main` commit came from the exact merged PR whose latest exact proposed-head Revision CI completed successfully and whose latest valid Founder approval marker was recorded after that CI. After the one explicit bootstrap release, the immediately previous `main` commit must also carry `revision/path-to-live = success`.
 
-After backend readiness, build, Pages deploy and production smoke finish, the workflow writes `revision/path-to-live = success` only if every required stage succeeded; otherwise it writes failure. The status is attached to the exact `main` revision and links to the release run.
+The workflow writes `pending` when the release attempt begins. After governed lineage, backend readiness, build, Pages deployment and production smoke finish, it writes `success` only if every required stage succeeded; otherwise it writes a terminal non-success result. The status is attached to the exact `main` revision and links to the release run.
 
-This gives Revision a durable release-chain fact that can be inspected independently of workflow-list visibility. PTL-03 remains Partial until the first post-merge success status is actually observed.
+### First observed governed production lineage
+
+PR #68 exact head `53e8bbef9bb85dd95830a504ce55de29bad7f1ff` passed Revision CI #413 / run `32303360669` and was explicitly Founder-approved after that exact-head CI completed.
+
+PR #68 merged as:
+
+`2f4eb8f9166ca658ae19a8b72400e26488d5c16a`
+
+Production release run `32304142083` then successfully passed:
+
+1. governed release-lineage preflight;
+2. production database readiness;
+3. required protected Edge Function readiness;
+4. production build;
+5. GitHub Pages deployment;
+6. production smoke; and
+7. durable path-to-live status publication.
+
+The merge commit was independently observed with `revision/path-to-live = success`. This closes the evidence gap previously recorded under PTL-03; the Assurance Coverage Register may therefore classify PTL-03 as Covered while continuing to treat each future release result as dynamic operational evidence.
 
 ## Risk-based assurance planning
 
@@ -132,11 +148,11 @@ See `docs/technical/Risk-Based Assurance Plan Implementation.md`.
 
 ### GitHub branch protection
 
-GitHub `main` protection/rulesets are not currently enabled. The available connected GitHub capability does not expose branch-protection/ruleset mutation.
+GitHub `main` protection/rulesets are not currently enabled. Post-PR #68 verification still reports `protected:false`, with required status checks off. The available connected GitHub capability does not expose branch-protection/ruleset mutation.
 
-The closure PR therefore adds a strong compensating production control: an ungoverned direct `main` push cannot deploy through the unchanged workflow because it cannot satisfy PR/CI/Founder lineage, and its failed `revision/path-to-live` status breaks the prior-release chain for subsequent deployment until deliberately remediated.
+PR #68 provides a strong compensating production control: an ungoverned direct `main` push cannot deploy through the unchanged workflow because it cannot satisfy PR/CI/Founder lineage, and a non-successful `revision/path-to-live` result breaks the prior-release chain for subsequent deployment until deliberately remediated.
 
-This is not equivalent to branch protection because an administrator could deliberately change the workflow itself. Repository protection remains required defence in depth and should be configured manually before the foundation programme is finally closed.
+This is not equivalent to branch protection because an administrator could deliberately change repository history or the workflow itself. Repository protection remains required defence in depth and must be configured/reverified before PTL-05 can be Covered and the foundation stabilisation tracker can close.
 
 ### Supabase leaked-password protection
 
@@ -144,7 +160,7 @@ Supabase Security Advisor currently reports managed leaked-password protection d
 
 The active Revision Security Standard does not mandate that specific vendor feature. Current production inspection on 2026-08-19 shows a small controlled Auth population (3 Auth users / 3 profiles, including 1 admin). Revision will therefore **not incur a paid Supabase plan change solely to clear this advisor warning without a separate commercial decision**.
 
-The warning remains visible and is not dismissed or represented as fixed. Managed leaked-password protection becomes a launch/upgrade control: enable and reverify it before broad external learner acquisition, or when Revision moves to Supabase Pro for another justified reason, whichever comes first.
+The warning remains visible and is not dismissed or represented as fixed. Managed leaked-password protection is tracked as launch/upgrade control Issue #69: enable and reverify it before broad external learner acquisition, or when Revision moves to Supabase Pro for another justified reason, whichever comes first.
 
 This is a transparent risk disposition, not an assertion that leaked-password protection is unnecessary.
 
@@ -154,7 +170,6 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Remaining boundaries
 
-- PTL-03 requires the first observed successful `revision/path-to-live` status after the closure PR merges.
 - GitHub `main` protection remains an external defence-in-depth control until manually configured and reverified.
 - Supabase managed leaked-password protection remains a visible Pro-plan launch/upgrade control, not a closed advisor finding.
 - Real production sign-in transaction assurance remains separate from isolated CI authentication.
@@ -163,4 +178,4 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Documentation impact
 
-The closure PR changes release-path implementation truth and records the current external-control disposition. This document, the Production Backend Readiness Gate, Technology Stack, Assurance Coverage Register and foundation tracker are maintained accordingly. Historical audits/incidents are not rewritten.
+PR #68 changed release-path implementation truth. This follow-up reconciliation records the now-observed production lineage, promotes PTL-03 from evidence rather than intent, and removes stale pre-merge wording from the Production Backend Readiness Gate, Technology Stack and Assurance Coverage Register. Historical audits/incidents are not rewritten.
