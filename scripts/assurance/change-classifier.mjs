@@ -1,9 +1,6 @@
 const riskLabels = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' }
 
 const highRiskPrefixes = [
-  '.github/workflows/',
-  'supabase/',
-  'content/',
   'src/services/auth/',
   'src/services/supabase/',
   'src/services/progress/',
@@ -14,15 +11,11 @@ const highRiskPrefixes = [
 ]
 
 const highRiskFiles = new Set([
-  'package.json',
-  'package-lock.json',
-  'vite.config.ts',
   'src/app/App.tsx',
   'src/app/PlannerRuntime.tsx',
   'src/app/navigation.ts',
 ])
 
-const mediumRiskPrefixes = ['src/', 'tests/', 'scripts/']
 const docsExtensions = ['.md', '.mdx']
 const destructiveSql = /\b(drop\s+(table|schema|column)|truncate\s+table|delete\s+from|alter\s+table[\s\S]{0,120}\bdrop\b)\b/i
 
@@ -91,17 +84,39 @@ export function classifyChange(files) {
       continue
     }
 
-    if (highRiskFiles.has(path) || highRiskPrefixes.some((prefix) => path.startsWith(prefix))) {
+    if (path === 'package.json' || path === 'package-lock.json') {
       level = Math.max(level, 3)
-      reasons.push(`${path}: shared runtime, dependency, auth, persistence or planning layer changed.`)
-      addDomain(affectedDomains, 'critical-journeys')
+      reasons.push(`${path}: dependency/build contract changed.`)
+      addDomain(affectedDomains, 'path-to-live')
       addDomain(affectedDomains, 'security-privacy')
       continue
     }
 
-    if (mediumRiskPrefixes.some((prefix) => path.startsWith(prefix)) || /\.(css|scss|html)$/.test(path)) {
+    if (path === 'vite.config.ts') {
+      level = Math.max(level, 3)
+      reasons.push(`${path}: production build/runtime configuration changed.`)
+      addDomain(affectedDomains, 'path-to-live')
+      continue
+    }
+
+    if (highRiskFiles.has(path) || highRiskPrefixes.some((prefix) => path.startsWith(prefix))) {
+      level = Math.max(level, 3)
+      reasons.push(`${path}: shared runtime, auth, persistence, evidence or planning layer changed.`)
+      addDomain(affectedDomains, 'critical-journeys')
+      if (/auth|supabase|services\/progress|services\/planning/.test(path)) addDomain(affectedDomains, 'security-privacy')
+      continue
+    }
+
+    if (path.startsWith('tests/') || path.startsWith('scripts/assurance/')) {
       level = Math.max(level, 2)
-      reasons.push(`${path}: bounded application/test behaviour changed.`)
+      reasons.push(`${path}: assurance implementation changed.`)
+      addDomain(affectedDomains, 'path-to-live')
+      continue
+    }
+
+    if (path.startsWith('src/') || /\.(css|scss|html)$/.test(path)) {
+      level = Math.max(level, 2)
+      reasons.push(`${path}: bounded application behaviour changed.`)
       addDomain(affectedDomains, 'critical-journeys')
       continue
     }
