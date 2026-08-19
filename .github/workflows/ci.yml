@@ -13,6 +13,7 @@ jobs:
   foundation-quality:
     name: Foundation quality
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -33,6 +34,8 @@ jobs:
       - name: Production build
         run: npm run build
       - name: Install Chromium for browser assurance
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 10
+        run: npx playwright install chromium
       - name: Responsive browser assurance
+        timeout-minutes: 10
         run: npm run test:e2e

@@ -1,17 +1,18 @@
 # Content Operations Admin Implementation
 
-Status: Operations Dashboard implementation candidate on governed branch. Production currently has database admin assignment and Google OAuth enabled; the new metrics endpoint/database aggregate and Content Factory Edge Function deployment remain post-merge production enablement steps.
+Status: Operations Dashboard implementation merged to `main` in PR #52. Database-backed admin assignment and Google OAuth are live. The Admin assurance expansion described below is a governed target; the new assurance telemetry/defect aggregation is not yet implemented. The admin metrics migration and Edge Function production enablement from PR #52 still require deployment verification before their live status is represented as Healthy.
 
 ## Purpose
 
-Record the protected Founder operations capability inside Revision's canonical React application and its relationship to Supabase operational data, GitHub deployment evidence and the governed Content Factory.
+Record the protected Founder operations capability inside Revision's canonical React application and its relationship to Supabase operational data, GitHub deployment evidence, assurance evidence and the governed Content Factory.
 
 ## Route and runtime boundary
 
 - Canonical application: `/app/`
 - Standard learner destinations: Home / Subjects / Progress / REV
 - Role-gated Admin landing view: `/app/#/admin`
-- Protected detail views: `/app/#/admin/users`, `/app/#/admin/activity`, `/app/#/admin/health`, `/app/#/admin/content`
+- Current protected detail views: `/app/#/admin/users`, `/app/#/admin/activity`, `/app/#/admin/health`, `/app/#/admin/content`
+- Target assurance detail view: `/app/#/admin/assurance`
 - Public root: `/`
 
 There is no standalone `/admin/` HTML entry point or separate Admin React bootstrap.
@@ -24,7 +25,7 @@ For ordinary learner accounts, the Admin item is absent.
 
 The Admin landing view is a high-level operations summary rather than a dense back-office console.
 
-It presents:
+It currently presents:
 
 - overall health and known items needing attention;
 - total learner accounts excluding admin/test classifications;
@@ -35,6 +36,83 @@ It presents:
 - click-through navigation to Users, Activity, System Health and Content Operations.
 
 The dashboard deliberately distinguishes **recorded learning activity** from general app usage. Revision does not currently collect governed page-view/session telemetry, so the dashboard does not invent reading time, session duration, DAU based on visits or REV usage counts.
+
+## Founder assurance target
+
+The next Admin assurance increment should add a dedicated **Assurance** view rather than overloading System Health.
+
+The landing dashboard should gain a compact **Founder assurance confidence** summary with five independently evidenced cards:
+
+1. **Production** — Is the canonical live product up and serving the expected production revision?
+2. **Path to live** — Did the current production lineage pass required CI, deployment and post-deployment smoke?
+3. **Critical journeys** — Which declared learner/Admin journeys are Covered, Partial, Uncovered or Unknown at their required layer?
+4. **Data & security** — Which declared database/security controls have current automated evidence?
+5. **Defects** — Open P0/P1/P2 counts and the highest current severity.
+
+The cards should not be collapsed into one numeric confidence score. A single score would hide important differences, such as production being reachable while RLS assurance remains Partial.
+
+### Recommended Assurance detail layout
+
+The Assurance view should be organised in this order:
+
+**A. Current confidence banner**
+- overall operational state: Healthy / Attention needed / Unknown;
+- production commit/revision being assessed;
+- generated/evidence timestamp;
+- highest open defect severity;
+- a plain-language explanation of any condition preventing Healthy.
+
+**B. Production & path to live**
+- live `/app/` reachability;
+- deployed revision;
+- latest required PR/main CI evidence where applicable;
+- production deployment result;
+- production smoke result;
+- backend/database/Edge Function readiness where the deployed feature depends on them;
+- evidence freshness.
+
+**C. Critical journey coverage**
+A table/card matrix driven by `90-governance-registers/Assurance Coverage Register.md`, showing:
+- journey/control name;
+- risk;
+- required assurance layer;
+- current coverage state;
+- latest evidence source/run;
+- gap or next action.
+
+Filters should allow Founder focus on Uncovered/Partial and Critical/High risk first.
+
+**D. Data & security assurance**
+A focused control list for:
+- learner data ownership/RLS;
+- evidence persistence/reload;
+- Admin authorization;
+- privileged database-function execution boundaries;
+- secret/server-side credential controls;
+- test/admin exclusion from live metrics.
+
+**E. Defects**
+Headline counts for P0 / P1 / P2 plus drill-down records showing:
+- title;
+- severity;
+- affected journey/control;
+- current status;
+- evidence/impact;
+- next action;
+- linked fix PR and verification where present.
+
+Open P0 must dominate the view. Open P1 must visibly mark the affected assurance domain Attention needed. P2 remains visible without making unrelated domains unhealthy.
+
+### Truthfulness rules for the UI
+
+- Do not show a zero defect count until a durable defect source has been queried successfully; otherwise show Unknown.
+- Do not show a coverage percentage unless the denominator is the declared critical journey/control register and the weighting rule is explicit.
+- Prefer counts such as `12 Covered · 5 Partial · 2 Uncovered` over an unexplained `86% covered`.
+- Planned tests never count as Covered.
+- A successful PR CI run does not prove production health.
+- A successful static Pages deployment does not prove database migrations/Edge Functions/secrets are healthy.
+- Stale evidence degrades to Unknown.
+- Every status should expose its evidence source and last-checked time on drill-down.
 
 ## Users detail
 
@@ -65,7 +143,7 @@ No global average score is calculated across heterogeneous evidence types.
 
 The protected `admin-operations` Edge Function returns plain-language health checks using the governed statuses **Healthy**, **Attention needed** and **Unknown**.
 
-Initial checks are:
+Current implementation checks include:
 
 - authenticated admin access;
 - database/metrics availability;
@@ -75,6 +153,8 @@ Initial checks are:
 - Content Factory intake readiness.
 
 Missing external evidence is reported as **Unknown**, not Healthy.
+
+System Health should remain focused on runtime/service health. Assurance coverage, path-to-live lineage and defect governance should move to the dedicated Assurance view as that implementation is added.
 
 ## Authentication and admin assignment
 
@@ -88,9 +168,7 @@ The browser uses `profiles.is_admin` only to decide whether to present the Admin
 
 Cross-user metrics are not made available by weakening learner RLS.
 
-A new server-side Edge Function:
-
-`admin-operations`
+The server-side Edge Function `admin-operations`:
 
 1. requires an authenticated request;
 2. resolves the authenticated user through Supabase Auth;
@@ -113,19 +191,32 @@ Learner engagement queries exclude:
 - `profiles.is_test_user = true`; and
 - `profiles.is_admin = true`.
 
+## Assurance telemetry implementation direction
+
+The Assurance view should be fed from machine-readable evidence rather than hard-coded labels.
+
+A practical implementation sequence is:
+
+1. make the Assurance Coverage Register available to build/runtime as a validated machine-readable manifest or generated JSON representation;
+2. collect current GitHub CI/deployment/smoke evidence with commit IDs and timestamps;
+3. make database/RLS/Edge Function verification tests executable automatically rather than leaving SQL files as manual assets;
+4. add integration/browser tests that close the current persistence/security gaps in the register;
+5. establish a durable defect record source using the governed P0/P1/P2 taxonomy;
+6. aggregate those evidence sources server-side through the protected Admin boundary;
+7. add `/app/#/admin/assurance` plus landing-page summary cards;
+8. add responsive browser tests for the new Assurance view and truthfulness/Unknown states.
+
+The runtime should never infer Covered from the existence of a test filename. Coverage is established by the declared register plus successful current evidence for the required test/check.
+
 ## Content Operations
 
-The Content Operations detail view retains Add Course and adds current factory-job visibility.
+The Content Operations detail view retains Add Course and current factory-job visibility.
 
-Add Course invokes:
-
-`content-factory-intake`
+Add Course invokes `content-factory-intake`.
 
 The function requires authenticated database-backed admin access before creating a GitHub Issue job. The implementation also exposes an admin-authenticated read-only `GET` health response so the Operations Dashboard can distinguish an undeployed/unconfigured intake function from a ready one without creating a job.
 
-The write path still requires the deployment secret:
-
-`GITHUB_CONTENT_FACTORY_TOKEN`
+The write path still requires the deployment secret `GITHUB_CONTENT_FACTORY_TOKEN`.
 
 The token must be narrowly scoped to the Revision repository with the minimum Issue write access needed by this function. It must not be committed to Git or returned to the browser.
 
@@ -135,33 +226,26 @@ The Dashboard reads Content Factory Issue records as operational evidence only. 
 
 Static Pages deployment alone does not enable the operations backend.
 
-After the governed PR is merged, production enablement requires:
+PR #52 merged the repository implementation. Production operational confidence still requires verification of the backend enablement steps recorded by that change:
 
-1. apply the approved `admin_operations_metrics` database migration;
-2. deploy `admin-operations` with authenticated JWT verification enabled;
-3. deploy the approved `content-factory-intake` version with authenticated JWT verification enabled;
-4. configure `GITHUB_CONTENT_FACTORY_TOKEN` before Add Course can be reported Healthy;
+1. apply/verify the approved `admin_operations_metrics` database migration;
+2. deploy/verify `admin-operations` with authenticated JWT verification enabled;
+3. deploy/verify the approved `content-factory-intake` version with authenticated JWT verification enabled;
+4. configure/verify `GITHUB_CONTENT_FACTORY_TOKEN` before Add Course can be reported Healthy;
 5. verify the Admin dashboard loads only for the database-approved administrator;
 6. verify the test account remains unable to see/open Admin;
 7. verify test/admin data is excluded from learner engagement metrics;
 8. verify system-health Unknown/Attention states are truthful; and
 9. run one governed Add Course smoke only when the Content Factory GitHub secret is configured.
 
-The project currently uses Supabase's hosted legacy `SUPABASE_SERVICE_ROLE_KEY` inside server-side Edge Functions. Supabase documentation states that hosted functions still receive this legacy variable during the 2026 key-transition period; migration to the newer secret-key model should occur before the legacy key is retired.
+The project currently uses Supabase's hosted legacy `SUPABASE_SERVICE_ROLE_KEY` inside server-side Edge Functions. Migration to the newer secret-key model should occur before the legacy key is retired.
 
 ## Assurance
 
-Repository assurance should cover:
+Repository assurance currently includes TypeScript/lint/build checks, unit tests, responsive browser assurance and a production Pages smoke. The new Assurance Coverage Register deliberately records several data/security/persistence areas as Partial or Uncovered until repeatable automated evidence exists.
 
-- TypeScript/lint/build coverage for the Admin dashboard and detail views;
-- generic Admin hash routing under `/app/#/admin/...`;
-- ordinary accounts receiving no Admin navigation;
-- database-admin accounts receiving Admin without changing the four-item mobile learner navigation;
-- mock-backed browser verification of dashboard metrics, health and detail navigation;
-- SQL privilege verification for the aggregate function;
-- no test/admin activity in learner headline metrics; and
-- the existing Pages production smoke for the canonical `/app/` entry point.
+Future implementation should close those gaps rather than changing the labels.
 
 ## Documentation impact
 
-This implementation follows the Founder-approved v0.2 Content Operations Admin amendment and the Observability & Operations Standard. It does not alter learner navigation, learner publication rules or the Founder merge boundary.
+This document records current Admin implementation truth and the target technical direction required by the updated Testing & Assurance, Observability & Operations, and Release & Deployment standards. The current coverage state is maintained in `90-governance-registers/Assurance Coverage Register.md`.

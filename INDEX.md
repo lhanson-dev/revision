@@ -16,6 +16,7 @@ Use this file to find the governing source before substantive work.
 - Security → `50-engineering-standards/Security Standard.md`
 - Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
+- Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
@@ -64,6 +65,7 @@ Use this file to find the governing source before substantive work.
 - Engineering standards → `50-engineering-standards/`
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
+- Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
@@ -82,6 +84,7 @@ Use this file to find the governing source before substantive work.
 
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
+- Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
