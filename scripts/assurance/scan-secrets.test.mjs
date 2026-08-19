@@ -7,10 +7,13 @@ describe('repository secret/config scanner', () => {
   })
 
   it('rejects Supabase secret keys and privileged literals', () => {
-    expect(scanText('config.ts', "const key = 'sb_secret_abcdefghijklmnopqrstuvwxyz123456'")).toEqual([
+    const supabaseSecret = ['sb', 'secret', 'abcdefghijklmnopqrstuvwxyz123456'].join('_')
+    expect(scanText('config.ts', `const key = '${supabaseSecret}'`)).toEqual([
       { path: 'config.ts', kind: 'Supabase secret key' },
     ])
-    expect(scanText('config.ts', "SUPABASE_SERVICE_ROLE_KEY = 'definitely-a-real-secret-value'")).toEqual([
+
+    const serviceRoleName = ['SUPABASE', 'SERVICE', 'ROLE', 'KEY'].join('_')
+    expect(scanText('config.ts', `${serviceRoleName} = 'definitely-a-real-secret-value'`)).toEqual([
       { path: 'config.ts', kind: 'Literal privileged configuration: SUPABASE_SERVICE_ROLE_KEY' },
     ])
   })
@@ -23,8 +26,11 @@ describe('repository secret/config scanner', () => {
   })
 
   it('rejects private key blocks and credential-bearing database urls', () => {
-    expect(scanText('ops.env', '-----BEGIN PRIVATE KEY-----')).toContainEqual({ path: 'ops.env', kind: 'Private key block' })
-    expect(scanText('ops.env', 'postgresql://revision:supersecret@db.example.com/revision')).toContainEqual({
+    const privateKey = `-----BEGIN ${'PRIVATE KEY-----'}`
+    expect(scanText('ops.env', privateKey)).toContainEqual({ path: 'ops.env', kind: 'Private key block' })
+
+    const databaseUrl = `postgresql://${'revision:supersecret@db.example.com/revision'}`
+    expect(scanText('ops.env', databaseUrl)).toContainEqual({
       path: 'ops.env',
       kind: 'Credential-bearing database URL',
     })
