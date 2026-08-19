@@ -1,15 +1,35 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { listAvailableContentAdapters } from '../engine/content/content-registry'
+import type { PlannerItem, PlannerReasonCode } from '../engine/planning/planning'
 import {
   archiveAssessment,
   loadPlannerSetup,
+  recordPlannerActivityEvent,
   saveAssessment,
   saveAvailabilityProfile,
   type AssessmentImportance,
   type AssessmentType,
   type RevisionAssessment,
+  type RevisionAvailabilityException,
   type RevisionAvailabilityProfile,
+  type RevisionPlanningPreference,
 } from '../services/planning/planner-service'
+import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
+import {
+  buildCatalogue,
+  createCourseLearningState,
+  createModuleLearningState,
+  type ModuleLearningState,
+} from './catalogue-model'
+import { buildPlannerSnapshot } from './planner-model'
+
+const availableAdapters = listAvailableContentAdapters()
+const plannerCatalogue = buildCatalogue(availableAdapters)
+const plannerCourses = plannerCatalogue.flatMap((subject) => subject.courses)
+const sharedLearningModuleIds = new Set(
+  plannerCourses.filter((course) => course.sharedLearning).flatMap((course) => course.modules.map((module) => module.manifest.id)),
+)
 
 export interface PlanSubjectOption {
   id: string
@@ -20,6 +40,7 @@ interface PlanScreenProps {
   client: SupabaseClient
   userId: string
   subjects: readonly PlanSubjectOption[]
+  onOpenSubject?: (subjectId: string) => void
 }
 
 function assessmentTypeLabel(type: AssessmentType) {
@@ -27,6 +48,29 @@ function assessmentTypeLabel(type: AssessmentType) {
   if (type === 'topic_test') return 'Topic test'
   if (type === 'mock') return 'Mock'
   return 'Other assessment'
+}
+
+function activityLabel(activity: string) {
+  if (activity === 'exam-question') return 'Exam practice'
+  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'flashcards') return 'Flashcards'
+  return 'Revision activity'
+}
+
+function reasonLabel(reason: PlannerReasonCode) {
+  switch (reason) {
+    case 'ASSESSMENT_SOON': return 'The assessment is getting closer.'
+    case 'HIGH_IMPORTANCE_ASSESSMENT': return 'You marked this assessment as higher priority.'
+    case 'LOW_EVIDENCE': return 'Revision has limited evidence in this area so far.'
+    case 'WEAK_EVIDENCE': return 'Recent evidence suggests this area needs more work.'
+    case 'UNDER_COVERED': return 'This area has less evidence coverage than others.'
+    case 'EXAM_PRACTICE_DUE': return 'Exam-style practice is becoming more useful as the assessment approaches.'
+    case 'HIGH_MARK_OPPORTUNITY': return 'This area has a larger known mark opportunity.'
+    case 'ALREADY_STRONG': return 'You already have stronger evidence here, so it is less urgent.'
+    case 'LEARNER_PRIORITY': return 'You asked Revision to give this more attention for now.'
+    case 'COMPETING_PRIORITY': return 'Revision is balancing this against another important priority.'
+    case 'CAPACITY_CONSTRAINED': return 'Available time is limited, so Revision is focusing on the highest-value work.'
+  }
 }
 
 function formatDate(date: string) {
@@ -40,9 +84,17 @@ function daysUntil(date: string) {
   return Math.ceil((target.getTime() - localToday.getTime()) / 86_400_000)
 }
 
-export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
+function itemTopicLabel(item: PlannerItem, states: readonly ModuleLearningState[]) {
+  const state = states.find((candidate) => candidate.adapter.manifest.subject.id === item.subjectId && candidate.recommendationTopic?.id === item.topicId)
+  return state?.recommendationTopic?.shortTitle ?? item.topicId
+}
+
+export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScreenProps) {
   const [assessments, setAssessments] = useState<RevisionAssessment[]>([])
   const [availability, setAvailability] = useState<RevisionAvailabilityProfile | null>(null)
+  const [exceptions, setExceptions] = useState<RevisionAvailabilityException[]>([])
+  const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
+  const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
@@ -56,11 +108,24 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
 
   useEffect(() => {
     let active = true
-    loadPlannerSetup(client, userId)
-      .then((setup) => {
+    const evidenceStore = createSupabaseEvidenceStore(client)
+    Promise.all([
+      loadPlannerSetup(client, userId),
+      Promise.all(availableAdapters.map((adapter) => loadLearningEvidence(evidenceStore, userId, adapter.manifest.id))),
+    ])
+      .then(([setup, evidenceByModule]) => {
         if (!active) return
+        const evidence = evidenceByModule.flat()
+        const moduleStates = availableAdapters.map((adapter) => createModuleLearningState(adapter, evidence))
+        const courseStates = plannerCourses.filter((course) => course.sharedLearning).map((course) => createCourseLearningState(course, evidence))
+        setLearningStates([
+          ...courseStates,
+          ...moduleStates.filter((state) => !sharedLearningModuleIds.has(state.adapter.manifest.id)),
+        ])
         setAssessments(setup.assessments)
         setAvailability(setup.availability)
+        setExceptions(setup.exceptions)
+        setPreferences(setup.preferences)
         if (setup.availability) {
           setWeekdayMinutes(setup.availability.weekdayMinutes)
           setWeekendMinutes(setup.availability.weekendMinutes)
@@ -83,6 +148,11 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
       .filter((assessment) => daysUntil(assessment.assessmentDate) >= 0)
       .sort((left, right) => left.assessmentDate.localeCompare(right.assessmentDate)),
     [assessments],
+  )
+
+  const snapshot = useMemo(
+    () => buildPlannerSnapshot(learningStates, assessments, availability, exceptions, preferences),
+    [learningStates, assessments, availability, exceptions, preferences],
   )
 
   async function handleSaveAvailability() {
@@ -115,7 +185,7 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
       setTitle('')
       setAssessmentDate('')
       setImportance('normal')
-      setMessage('Assessment added. Revision will use it when deciding what deserves attention.')
+      setMessage('Assessment added. Revision has recalculated what deserves attention.')
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not add assessment.')
     } finally {
@@ -129,12 +199,28 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
     try {
       await archiveAssessment(client, userId, assessmentId)
       setAssessments((current) => current.filter((assessment) => assessment.assessmentId !== assessmentId))
-      setMessage('Assessment removed from the active plan.')
+      setMessage('Assessment removed. Revision has recalculated from the remaining priorities.')
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not remove assessment.')
     } finally {
       setSaving(false)
     }
+  }
+
+  async function handleStart(item: PlannerItem) {
+    try {
+      await recordPlannerActivityEvent(client, userId, {
+        recommendationId: item.recommendationId,
+        eventType: 'started',
+        subjectId: item.subjectId,
+        topicId: item.topicId,
+        activityType: item.activityType,
+        metadata: { plannerVersion: 1, source: 'plan' },
+      })
+    } catch (error: unknown) {
+      setMessage(error instanceof Error ? `${error.message} You can still continue with the revision activity.` : 'Could not record the planner start. You can still continue.')
+    }
+    onOpenSubject?.(item.subjectId)
   }
 
   return (
@@ -151,6 +237,48 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
         <section className="planner-panel"><p>Loading your current plan…</p></section>
       ) : (
         <>
+          <section className="planner-panel planner-today" aria-labelledby="today-plan-title">
+            <div className="planner-panel-heading">
+              <div>
+                <p className="eyebrow">Today</p>
+                <h2 id="today-plan-title">What matters now</h2>
+              </div>
+              {snapshot && <span className="planner-state">{snapshot.capacityState === 'prioritising' ? 'Prioritising' : 'Current plan'}</span>}
+            </div>
+
+            {!availability && <div className="planner-empty"><h3>Set your realistic availability</h3><p>Revision needs to know roughly how much time you normally have so it does not create an impossible plan.</p></div>}
+            {availability && assessments.length === 0 && <div className="planner-empty"><h3>Add an assessment</h3><p>Once Revision knows what you are preparing for, it can start balancing your time.</p></div>}
+            {availability && assessments.length > 0 && !snapshot && <div className="planner-empty"><h3>Building the evidence picture</h3><p>Your dates and available time are saved. Complete some scored revision activity and Revision will become more specific about what deserves attention first.</p></div>}
+
+            {snapshot?.capacityState === 'prioritising' && (
+              <div className="planner-priority-note">
+                <strong>Making the time you have count</strong>
+                <p>There is not enough realistic capacity to cover every useful area before the current assessments. Revision is prioritising the work with the strongest evidence of need. You can still choose differently.</p>
+              </div>
+            )}
+
+            {snapshot && snapshot.today.length === 0 && <p className="muted">There is no useful planner item to add today. Your wider plan will keep checking as evidence and dates change.</p>}
+            {snapshot && snapshot.today.length > 0 && (
+              <ol className="planner-today-list">
+                {snapshot.today.map((item) => {
+                  const subject = subjects.find((candidate) => candidate.id === item.subjectId)
+                  const reasons = item.reasons.filter((reason) => reason !== 'ALREADY_STRONG').slice(0, 2)
+                  return (
+                    <li key={item.recommendationId}>
+                      <div>
+                        <span className="tag">{subject?.name ?? item.subjectId}</span>
+                        <h3>{itemTopicLabel(item, learningStates)}</h3>
+                        <p>{activityLabel(item.activityType)} · about {item.estimatedMinutes} minutes</p>
+                        <ul className="planner-reasons">{reasons.map((reason) => <li key={reason}>{reasonLabel(reason)}</li>)}</ul>
+                      </div>
+                      {onOpenSubject && <button className="primary" type="button" onClick={() => void handleStart(item)}>Start</button>}
+                    </li>
+                  )
+                })}
+              </ol>
+            )}
+          </section>
+
           <section className="planner-panel" aria-labelledby="plan-outlook-title">
             <div className="planner-panel-heading">
               <div>
@@ -180,7 +308,7 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
                         <h3>{assessment.title}</h3>
                         <p>{subject?.name ?? assessment.subjectId}{assessment.relativeImportance === 'high' ? ' · Higher priority' : ''}</p>
                       </div>
-                      <button className="text-link" type="button" disabled={saving} onClick={() => handleRemoveAssessment(assessment.assessmentId)}>Remove</button>
+                      <button className="text-link" type="button" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</button>
                     </li>
                   )
                 })}
@@ -203,7 +331,7 @@ export function PlanScreen({ client, userId, subjects }: PlanScreenProps) {
                   <input type="number" min={0} max={1440} step={5} value={weekendMinutes} onChange={(event) => setWeekendMinutes(Number(event.target.value))} />
                 </label>
               </div>
-              <button className="primary" type="button" disabled={saving} onClick={handleSaveAvailability}>{availability ? 'Update availability' : 'Save availability'}</button>
+              <button className="primary" type="button" disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Update availability' : 'Save availability'}</button>
             </section>
 
             <section className="planner-panel" aria-labelledby="assessment-add-title">
