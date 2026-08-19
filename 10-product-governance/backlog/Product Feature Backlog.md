@@ -376,3 +376,97 @@ Before material implementation, review/update at minimum:
 - AI, privacy, safeguarding, evidence and educational-integrity authority;
 - target system architecture and dedicated REV technical design documentation; and
 - assurance/evaluation standards for AI tutoring quality.
+
+---
+
+## FI-004 — Student Confidence Tracking / Confidence Calibration
+
+**Status:** Idea  
+**Captured:** 2026-08-19  
+**Capability fit:** Progress and Readiness; Guide  
+**Initial assessment:** High measurement and student-value potential; lightweight to capture; must remain distinct from objective readiness
+
+### Student problem
+
+Students do not experience revision only as scores and coverage. They also experience uncertainty about whether they are prepared, and that feeling can materially affect how manageable revision feels.
+
+A student may be objectively improving while still feeling unprepared, or may feel confident despite weak evidence. Revision currently needs a structured way to understand this subjective dimension without confusing it with learning evidence.
+
+### Proposed capability
+
+Capture a student's self-reported confidence about a subject assessment or exam when the relevant subject/assessment context is first established, then invite them to refresh that confidence at sensible intervals or meaningful milestones.
+
+The interaction should be extremely lightweight and use stable wording and a consistent scale so change over time is interpretable.
+
+The system should retain confidence observations as time-series data attached to the relevant subject / assessment context.
+
+### Intended value
+
+Confidence data should support:
+
+- helping the student see how their feeling changes through revision;
+- allowing REV to give justified reassurance where evidence is stronger than the student's confidence suggests;
+- identifying possible overconfidence where the student's feeling is materially stronger than available learning/readiness evidence;
+- understanding whether Revision users become more confident as they prepare;
+- adding a subjective student-outcome measure alongside behavioural and learning metrics; and
+- creating a potentially valuable product-impact measure for external communication when evidence and claims governance support it.
+
+### Confidence is not readiness
+
+Self-reported confidence must not be presented as mastery, readiness or predicted attainment.
+
+Revision should explicitly preserve the distinction between:
+
+- **how prepared I feel**; and
+- **what my revision evidence currently suggests**.
+
+The relationship between those signals may itself be useful.
+
+### MVP hypothesis
+
+A useful MVP could:
+
+1. ask for an initial confidence rating when a student establishes a relevant subject/exam context;
+2. persist the response with timestamp and context;
+3. ask for a refresh after meaningful elapsed time or revision milestones rather than repeatedly interrupting the learner;
+4. show the student simple confidence movement over time where it is useful; and
+5. make baseline/latest/change and response-rate measures available for product analytics and Founder/Admin reporting.
+
+Exact scale, prompting cadence and learner-facing visualisation require product design before implementation.
+
+### Measurement relationship
+
+This feature should implement the confidence measures defined in `60-business-operations/Product KPI Framework.md`, including analysis of confidence change and eventual calibration against evidence-backed readiness.
+
+### Guardrails
+
+The feature should avoid:
+
+- implying that confidence proves exam preparedness;
+- pressuring a student to report higher confidence;
+- asking so often that the prompt becomes noise;
+- treating declining confidence as failure;
+- creating anxiety through excessive comparison between feeling and performance;
+- diagnosing emotional or mental-health conditions; and
+- making marketing claims from weak, biased or non-representative samples.
+
+### Dependencies / questions to assess
+
+- stable student-facing question and response scale;
+- when baseline is captured: subject enrolment, assessment creation, or both;
+- appropriate refresh triggers/cadence;
+- relationship to the adaptive revision planner and REV;
+- minimum evidence needed before showing confidence/readiness calibration to a student;
+- analytics event/data model;
+- privacy and safeguarding treatment of subjective learner data; and
+- claims-evidence threshold before confidence improvement is used externally.
+
+### Promotion impact
+
+If approved, review and update at minimum:
+
+- `10-product-governance/Product System Model.md`;
+- `10-product-governance/Core User Journeys.md` where confidence capture becomes part of setup/progress journeys;
+- applicable UX, privacy, safeguarding and claims authority;
+- `60-business-operations/Product KPI Framework.md` if measurement rules mature; and
+- technical implementation and analytics documentation.
