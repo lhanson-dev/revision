@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { App } from './app/App'
 import { AuthGate } from './app/AuthGate'
+import { PlannerRuntime } from './app/PlannerRuntime'
 import './app/app.css'
 import './app/auth-entry.css'
 import './app/guidance.css'
@@ -22,7 +22,7 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <AuthGate>
-      <App />
+      <PlannerRuntime />
     </AuthGate>
   </StrictMode>,
 )
