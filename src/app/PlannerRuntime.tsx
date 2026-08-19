@@ -18,6 +18,7 @@ import {
   type AppRoute,
 } from './navigation'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
+import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
@@ -111,6 +112,8 @@ export function PlannerRuntime() {
     screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => navigate(revRoute())} onOpenProgress={() => navigate(progressRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'plan') {
     screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+  } else if (route.kind === 'rev') {
+    screen = <PlannerRevScreen client={supabase} userId={user.id} onOpenPlan={() => navigate(planRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else {
     screen = <App />
   }
