@@ -6,9 +6,7 @@ export const releaseStatusContext = 'revision/path-to-live'
 
 export function selectMergedPull(pulls, mergeSha) {
   if (!Array.isArray(pulls)) return null
-  return pulls.find((pull) => pull?.merged_at && pull?.merge_commit_sha === mergeSha)
-    ?? pulls.find((pull) => pull?.merged_at)
-    ?? null
+  return pulls.find((pull) => pull?.merged_at && pull?.merge_commit_sha === mergeSha) ?? null
 }
 
 export function approvalMatches(comment, founderLogin, headSha) {
@@ -18,9 +16,15 @@ export function approvalMatches(comment, founderLogin, headSha) {
   return match?.[1]?.toLowerCase() === headSha.toLowerCase()
 }
 
-export function findSuccessfulCiRun(runs, headSha) {
+export function latestCiRunForHead(runs, headSha) {
   if (!Array.isArray(runs)) return null
-  return runs.find((run) => run?.head_sha === headSha && run?.status === 'completed' && run?.conclusion === 'success') ?? null
+  return runs
+    .filter((run) => run?.head_sha === headSha)
+    .sort((left, right) => {
+      const runNumberDelta = Number(right?.run_number ?? 0) - Number(left?.run_number ?? 0)
+      if (runNumberDelta !== 0) return runNumberDelta
+      return String(right?.updated_at ?? right?.created_at ?? '').localeCompare(String(left?.updated_at ?? left?.created_at ?? ''))
+    })[0] ?? null
 }
 
 export function latestReleaseStatus(statuses) {
@@ -33,6 +37,11 @@ export function latestReleaseStatus(statuses) {
 function requireValue(value, name) {
   if (!value) throw new Error(`${name} is required.`)
   return value
+}
+
+function timestamp(value) {
+  const parsed = Date.parse(value ?? '')
+  return Number.isFinite(parsed) ? parsed : null
 }
 
 async function githubJson(url, token, init = {}) {
@@ -92,22 +101,31 @@ export async function verifyReleaseLineage(options = {}) {
   const prNumber = pull?.number
   const headSha = pull?.head?.sha
   if (!prNumber || !headSha) {
-    throw new Error(`Main commit ${mergeSha} cannot be correlated to a merged PR with an exact proposed head.`)
+    throw new Error(`Main commit ${mergeSha} cannot be correlated to the exact merged PR and proposed head.`)
   }
 
   const ciPayload = await githubJson(
     `${apiUrl}/repos/${repository}/actions/workflows/ci.yml/runs?event=pull_request&head_sha=${headSha}&per_page=50`,
     token,
   )
-  const ciRun = findSuccessfulCiRun(ciPayload?.workflow_runs, headSha)
+  const ciRun = latestCiRunForHead(ciPayload?.workflow_runs, headSha)
   if (!ciRun) {
-    throw new Error(`PR #${prNumber} has no completed successful exact-head Revision CI run for ${headSha}.`)
+    throw new Error(`PR #${prNumber} has no readable exact-head Revision CI run for ${headSha}.`)
+  }
+  if (ciRun.status !== 'completed' || ciRun.conclusion !== 'success') {
+    throw new Error(`Latest exact-head Revision CI for PR #${prNumber} is ${ciRun.status ?? 'unknown'}/${ciRun.conclusion ?? 'unknown'}; release fails closed.`)
   }
 
   const comments = await githubJson(`${apiUrl}/repos/${repository}/issues/${prNumber}/comments?per_page=100`, token)
   const approval = comments.find((comment) => approvalMatches(comment, founderLogin, headSha))
   if (!approval) {
     throw new Error(`PR #${prNumber} has no Founder approval marker by ${founderLogin} for exact head ${headSha}.`)
+  }
+
+  const ciCompletedAt = timestamp(ciRun.updated_at)
+  const approvalAt = timestamp(approval.created_at)
+  if (ciCompletedAt !== null && (approvalAt === null || approvalAt < ciCompletedAt)) {
+    throw new Error(`PR #${prNumber} Founder approval marker predates completion of the latest exact-head CI run; release fails closed.`)
   }
 
   return {
@@ -132,7 +150,9 @@ export async function publishReleaseStatus(options = {}) {
   const targetUrl = options.targetUrl ?? process.env.REVISION_RELEASE_TARGET_URL
   const description = state === 'success'
     ? 'Governed PR, backend readiness, Pages deploy and production smoke passed.'
-    : 'Governed path-to-live did not complete successfully.'
+    : state === 'pending'
+      ? 'Governed path-to-live verification is in progress.'
+      : 'Governed path-to-live did not complete successfully.'
 
   return githubJson(`${apiUrl}/repos/${repository}/statuses/${sha}`, token, {
     method: 'POST',
