@@ -1,0 +1,46 @@
+name: Reconcile closed defect assertions
+
+on:
+  push:
+    branches:
+      - agent/close-assurance-foundation-gaps
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile-closed-defects:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/close-assurance-foundation-gaps
+      - name: Update Founder Assurance defect assertions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('tests/e2e/admin-operations.spec.ts')
+          text = path.read_text()
+          old = '''  await expect(page.getByText('0 P0 · 0 P1 · 2 P2 open')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Defects' })).toBeVisible()
+  await expect(page.getByText('DEF-2026-001')).toBeVisible()
+  await expect(page.getByText('signed-in global and learner-runtime account/menu drawers', { exact: false })).toBeVisible()
+  await expect(page.getByText('DEF-2026-002')).toBeVisible()
+  await expect(page.getByText('learner-runtime desktop primary navigation', { exact: false })).toBeVisible()'''
+          new = '''  await expect(page.getByText('0 P0 · 0 P1 · 0 P2 open')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Defects' })).toBeVisible()
+  await expect(page.getByText('No known open P0/P1/P2 defects')).toBeVisible()
+  await expect(page.getByText('DEF-2026-001')).toHaveCount(0)
+  await expect(page.getByText('DEF-2026-002')).toHaveCount(0)'''
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one open-defect assertion block, found {text.count(old)}')
+          path.write_text(text.replace(old, new))
+          PY
+      - name: Commit update
+        run: |
+          git config user.name 'revision-foundation-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add tests/e2e/admin-operations.spec.ts
+          git commit -m 'Assert zero known open P0 P1 P2 defects'
+          git push origin HEAD:agent/close-assurance-foundation-gaps
