@@ -1,6 +1,9 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js'
+import { getContentAdapter } from '../../src/engine/content/content-registry'
 import type { LearningEvidence } from '../../src/engine/evidence/evidence'
+import { createModuleLearningState } from '../../src/app/catalogue-model'
+import { buildPlannerSnapshot } from '../../src/app/planner-model'
 import {
   createSupabaseEvidenceStore,
   loadLearningEvidence,
@@ -93,7 +96,7 @@ suite('isolated Supabase persistence assurance', () => {
     expect(crossUserRead).toEqual([])
   })
 
-  it('round-trips planner setup through the real service, Auth and RLS boundary', async () => {
+  it('round-trips planner setup and uses the reloaded context for deterministic replanning', async () => {
     const assessment = await saveAssessment(learnerA.client, learnerA.user.id, {
       subjectId: 'business',
       assessmentType: 'mock',
@@ -143,6 +146,21 @@ suite('isolated Supabase persistence assurance', () => {
     expect(reloaded.exceptions).toContainEqual(exception)
     expect(reloaded.preferences).toContainEqual(preference)
     expect(reloaded.activityEvents).toContainEqual(event)
+
+    const adapter = getContentAdapter('business-aqa-as-paper-2')
+    if (!adapter) throw new Error('Expected Business AS Paper 2 content adapter for planner integration assurance')
+    const state = createModuleLearningState(adapter, [])
+    const replanned = buildPlannerSnapshot(
+      [state],
+      reloaded.assessments,
+      reloaded.availability,
+      reloaded.exceptions,
+      reloaded.preferences,
+      new Date('2026-08-21T12:00:00Z'),
+    )
+    expect(replanned).not.toBeNull()
+    expect(replanned?.ranked.some((candidate) => candidate.reasons.includes('LEARNER_PRIORITY'))).toBe(true)
+    expect(replanned?.today.length).toBeGreaterThan(0)
 
     const learnerBViewOfA = await loadPlannerSetup(learnerB.client, learnerA.user.id)
     expect(learnerBViewOfA.assessments).toEqual([])
