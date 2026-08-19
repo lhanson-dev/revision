@@ -2,10 +2,6 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 
-const allowedFixtureFiles = new Set([
-  'scripts/assurance/scan-secrets.test.mjs',
-])
-
 const maxScanBytes = 2 * 1024 * 1024
 
 const directPatterns = [
@@ -70,8 +66,6 @@ export function scanRepository() {
   const findings = []
 
   for (const path of tracked) {
-    if (allowedFixtureFiles.has(path)) continue
-
     let buffer
     try {
       buffer = readFileSync(path)
