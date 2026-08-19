@@ -10,8 +10,51 @@ permissions:
   contents: read
 
 jobs:
+  assurance-plan:
+    name: Assurance plan and secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      risk_level: ${{ steps.plan-output.outputs.risk_level }}
+      risk_label: ${{ steps.plan-output.outputs.risk_label }}
+    steps:
+      - name: Checkout full change history
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Generate machine-readable assurance plan
+        env:
+          REVISION_BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          REVISION_HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          REVISION_EVENT_NAME: ${{ github.event_name }}
+        run: node scripts/assurance/generate-assurance-plan.mjs --output assurance-plan.json
+      - name: Expose assurance plan summary
+        id: plan-output
+        run: |
+          node <<'NODE'
+          const fs = require('fs')
+          const plan = JSON.parse(fs.readFileSync('assurance-plan.json', 'utf8'))
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\n`)
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
+          NODE
+      - name: Scan repository for privileged secrets and config
+        run: node scripts/assurance/scan-secrets.mjs
+      - name: Upload assurance plan evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assurance-plan-${{ github.run_id }}
+          path: assurance-plan.json
+          if-no-files-found: error
+          retention-days: 30
+
   foundation-quality:
     name: Foundation quality
+    needs: assurance-plan
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -42,6 +85,7 @@ jobs:
 
   database-assurance:
     name: Database, RLS and protected service assurance
+    needs: assurance-plan
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
