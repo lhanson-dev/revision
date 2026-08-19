@@ -148,11 +148,21 @@ See `docs/technical/Risk-Based Assurance Plan Implementation.md`.
 
 ### GitHub branch protection
 
-GitHub `main` protection/rulesets are not currently enabled. Post-PR #68 verification still reports `protected:false`, with required status checks off. The available connected GitHub capability does not expose branch-protection/ruleset mutation.
+GitHub `main` is now protected by an active ruleset configured by the Founder on 2026-08-19. The configured rule set requires:
 
-PR #68 provides a strong compensating production control: an ungoverned direct `main` push cannot deploy through the unchanged workflow because it cannot satisfy PR/CI/Founder lineage, and a non-successful `revision/path-to-live` result breaks the prior-release chain for subsequent deployment until deliberately remediated.
+- a pull request before merge;
+- the three Revision CI jobs — `Assurance plan and secret scan`, `Foundation quality`, and `Database, RLS and protected service assurance`;
+- conversation resolution;
+- the branch to be current before merge;
+- deletion restriction;
+- force-push blocking; and
+- no bypass list.
 
-This is not equivalent to branch protection because an administrator could deliberately change repository history or the workflow itself. Repository protection remains required defence in depth and must be configured/reverified before PTL-05 can be Covered and the foundation stabilisation tracker can close.
+After the ruleset was created, the GitHub branch API independently changed from `protected:false` to `protected:true` for `main`.
+
+The connected GitHub capability does not expose the ruleset's internal rule list. The assurance evidence therefore deliberately distinguishes API-verifiable protected state from the specific Founder-configured UI selections rather than falsely claiming the connector independently enumerated those rules.
+
+Together with PR #68's proven fail-closed production release chain, repository protection closes the PTL-05 defence-in-depth gap. An administrator with sufficient GitHub authority could still deliberately change repository settings or workflows, so protection does not remove the need for governed change discipline or Founder approval.
 
 ### Supabase leaked-password protection
 
@@ -170,7 +180,6 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Remaining boundaries
 
-- GitHub `main` protection remains an external defence-in-depth control until manually configured and reverified.
 - Supabase managed leaked-password protection remains a visible Pro-plan launch/upgrade control, not a closed advisor finding.
 - Real production sign-in transaction assurance remains separate from isolated CI authentication.
 - Full exam save/result lifecycle assurance remains separate from the current Practice/Progress persistence path.
@@ -178,4 +187,4 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Documentation impact
 
-PR #68 changed release-path implementation truth. This follow-up reconciliation records the now-observed production lineage, promotes PTL-03 from evidence rather than intent, and removes stale pre-merge wording from the Production Backend Readiness Gate, Technology Stack and Assurance Coverage Register. Historical audits/incidents are not rewritten.
+PR #68 changed release-path implementation truth. This follow-up reconciliation records the observed production lineage, active repository protection and PTL-03/PTL-05 coverage from evidence rather than intent. It removes stale pre-merge/protection wording from the Production Backend Readiness Gate, Technology Stack and Assurance Coverage Register. Historical audits/incidents are not rewritten.
