@@ -13,6 +13,7 @@ import './app/content-operations.css'
 import './app/admin-operations-responsive.css'
 import './app/planner.css'
 import './app/planner-runtime.css'
+import './app/planner-today.css'
 
 const root = document.getElementById('root')
 
