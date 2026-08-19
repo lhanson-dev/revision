@@ -1,6 +1,6 @@
 # Founder Assurance Implementation
 
-Status: Founder Assurance v1 implementation candidate on `implementation/founder-assurance-v1`. The governing strategy is active on `main`. This branch implements the first Admin evidence view and machine-readable coverage projection; dynamic CI lineage, durable defect aggregation and stronger database/security assurance remain follow-on work until implemented and verified.
+Status: Founder Assurance v1 is implemented on `main`. The governing strategy is active. Dynamic CI lineage, durable defect aggregation and stronger database/security assurance remain follow-on work until implemented and verified.
 
 ## Purpose
 
@@ -59,7 +59,7 @@ The page also exposes the underlying journey/control records with risk, evidence
 
 ### Admin landing summary
 
-The existing `/app/#/admin` landing page now includes a compact Founder Assurance summary linking to the detailed view. It keeps System Health and Assurance separate:
+The existing `/app/#/admin` landing page includes a compact Founder Assurance summary linking to the detailed view. It keeps System Health and Assurance separate:
 
 - System Health answers whether current services/checks are working now;
 - Founder Assurance answers why the Founder should trust the product and where coverage still has gaps.
@@ -178,4 +178,4 @@ The Admin must show existing evidence only. Missing/stale evidence is Unknown. P
 
 ## Documentation impact
 
-This implementation changes current Admin behaviour and adds a machine-readable projection of the governed assurance register. The corresponding coverage register has been updated with `ADM-02` for the new Founder Assurance presentation journey. No new normative authority is required because this implementation is within the already approved Founder Assurance scope.
+This implementation changes current Admin behaviour and adds a machine-readable projection of the governed assurance register. The corresponding coverage register has been updated with `ADM-02` for the Founder Assurance presentation journey. No new normative authority is required because this implementation is within the already approved Founder Assurance scope.

@@ -4,7 +4,7 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.3"
+version: "0.4"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-19"
@@ -23,6 +23,7 @@ supersedes: null
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
 - Explicit Founder approval remains required for every merge to `main`.
 - A merge to `main` triggers automated production build/deployment.
+- **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
 - Application rollback defaults to revert/redeploy.
 - Database migrations should be forward-safe and backward-compatible where practical.
@@ -35,9 +36,10 @@ Revision treats path-to-live as a chain of separately evidenced stages rather th
 2. **Change assurance** — required PR CI for the exact proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
 3. **Founder gate** — explicit approval is recorded for that specific PR.
 4. **Merge** — the approved head is merged into `main`.
-5. **Production build/deploy** — the intended `main` commit is built and deployed successfully.
-6. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
-7. **Operational observation** — production availability/health evidence remains current after deployment.
+5. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
+6. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
+7. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
+8. **Operational observation** — production availability/health evidence remains current after deployment.
 
 Admin may summarise the path as Healthy only when the required current stages are green for the production commit being reported. Missing or stale stage evidence is Unknown; a known failed required stage is Attention needed.
 
@@ -60,3 +62,11 @@ Where practical, operational evidence should expose the production commit/revisi
 
 ## Database/backend enablement
 Static frontend deployment does not prove separately deployed database migrations, Edge Functions or server-side secrets/configuration are healthy. Where a feature depends on those components, path-to-live assurance must include explicit deployment/readiness evidence for them before the feature is represented as operationally Healthy.
+
+For the canonical Revision release path:
+- the database exposes a deliberately narrow, non-sensitive release-readiness contract that reports whether the currently required schema capabilities are present;
+- the Pages deployment checks the expected contract before building/uploading a new frontend artifact;
+- required protected Edge Functions are probed for deployed/authenticated behaviour rather than assumed present because source files exist in Git;
+- a missing readiness function, contract mismatch, missing required capability, missing Edge Function, or unexpected authentication response blocks the frontend deployment;
+- adding a new production database/backend dependency requires updating the release-readiness contract and deployment expectation in the same governed PR; and
+- the readiness contract proves capability presence, not learner-data correctness or full security assurance; those remain governed by the Testing & Assurance Standard and Assurance Coverage Register.
