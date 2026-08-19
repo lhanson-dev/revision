@@ -4,10 +4,10 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.3"
+version: "0.4"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-18"
+last_reviewed: "2026-08-19"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["visual identity", "learner application visual system", "REV visual presence", "responsive navigation treatment"]
@@ -120,11 +120,12 @@ The primary global navigation follows the Information Architecture and represent
 Desktop uses a persistent top navigation with:
 
 - Home
-- Subjects
-- Progress
+- Plan
 - REV
+- Progress
+- Subjects
 
-Account and utility controls remain visually secondary.
+Plan is a genuine primary learner job under the approved adaptive-planning model, not a decorative navigation item. REV may receive distinctive visual treatment while preserving the clarity and accessibility of every other destination. Account and utility controls remain visually secondary.
 
 Learn, Practice, Exam Prep and contextual Progress appear once a subject/course/paper/component is selected. They should not compete with the four learner-wide destinations in global navigation.
 
@@ -139,11 +140,12 @@ Mobile uses:
 The current bottom navigation is:
 
 - Home
-- Subjects
-- Progress
+- Plan
 - REV
+- Progress
+- Subjects
 
-Do not add a fifth global destination solely for symmetry. A later context-specific action may occupy additional navigation space only when usability evidence demonstrates that it improves the learner journey.
+REV occupies the centre position and may receive a modest differentiated treatment because it is a core product capability. That prominence must not reduce label clarity, touch-target quality, focus visibility or the usability of the other four destinations. Do not add further global destinations solely for symmetry; later navigation changes require deliberate product/experience authority.
 
 ### Contextual subject and course navigation
 
