@@ -7,9 +7,11 @@
     "dev": "vite --open /app/",
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b --pretty false",
-    "lint": "eslint src content vite.config.ts",
+    "lint": "eslint src content scripts vite.config.ts",
     "test": "vitest run --exclude \"tests/e2e/**\"",
     "test:e2e": "playwright test",
+    "assurance:plan": "node scripts/assurance/generate-assurance-plan.mjs",
+    "assurance:secrets": "node scripts/assurance/scan-secrets.mjs",
     "validate": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {
