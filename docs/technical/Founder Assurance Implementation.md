@@ -1,6 +1,6 @@
 # Founder Assurance Implementation
 
-**Status:** Founder Assurance v1 and database/RLS assurance are implemented on `main`. PR #66 extends the implementation with authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, a durable defect register and fail-closed path-to-live lineage correlation. Those additions remain in review until merged and verified.
+**Status:** Founder Assurance v1 and database/RLS assurance are implemented on `main`. PR #66 extends the implementation with authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, a durable defect register and fail-closed path-to-live lineage correlation. Exact-head CI #381 verified the in-review implementation; it is not production truth until merged and post-deploy evidence is established.
 
 ## Purpose
 
@@ -98,7 +98,7 @@ PR #66 pins `@axe-core/playwright` and runs automated WCAG A/AA checks through P
 
 The assurance covers sign-in, Home, Plan, REV, Subjects, Subject Home, course Overview, Learn, Practice, Quick Check, Exam Prep, expanded exam-paper content, a timed exam, course Progress and global Progress.
 
-The first runs found a real P2 defect: closed account/menu drawers remained keyboard-focusable while hidden. The defect is recorded as `DEF-2026-001`; PR #66 changes both implementations so closed drawers are removed from the DOM. The defect must remain open until an exact-head expanded accessibility run proves the fix.
+The new gate found two real P2 defects before the tranche was declared complete: hidden account/menu drawers remained keyboard-focusable while closed (`DEF-2026-001`), and inactive desktop runtime navigation failed colour contrast (`DEF-2026-002`). PR #66 removes closed drawers from the DOM and aligns runtime navigation with the approved high-contrast deep-ink/indigo treatment. Exact-head Revision CI #381 on head `ec11bbd596e475d597331510136babe1b1124c4c` passed the complete phone/tablet/desktop WCAG A/AA journey; both defects are closed in the governed Defect Register with that verification evidence.
 
 Automated axe coverage is a baseline, not a claim that all accessibility quality can be proven mechanically. Manual/assistive-technology review remains appropriate where a change introduces interaction patterns not meaningfully covered by automated rules.
 
