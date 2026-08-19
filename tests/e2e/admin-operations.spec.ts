@@ -123,6 +123,7 @@ async function seedAdminSession(page: Page) {
             { id: 'database', label: 'Database', status: 'Healthy', detail: 'Metrics query succeeded.' },
             { id: 'learner-app', label: 'Learner app', status: 'Healthy', detail: 'The canonical production /app/ route is reachable.' },
             { id: 'deployment', label: 'Deployment', status: 'Healthy', detail: 'Latest main deployment and production smoke passed for abc1234.' },
+            { id: 'path-to-live', label: 'Path to live', status: 'Unknown', detail: 'PR #64 exact-head CI and production deployment are green, but no Founder approval marker is recorded for head abc1234.' },
             { id: 'content-factory', label: 'Content Factory', status: 'Attention needed', detail: 'GitHub integration needs configuration.', action: 'Configure the Content Factory secret.' },
           ],
           needsAttention: [
@@ -174,7 +175,7 @@ test('admin operations dashboard shows high-level evidence and drills into detai
   await expect(page).toHaveURL(/#\/admin\/assurance$/)
   await expect(page.getByRole('heading', { name: 'Founder Assurance' })).toBeVisible()
   await expect(page.getByText('Evidence, not a confidence score')).toBeVisible()
-  await expect(page.getByText('Exact-head CI correlation for the deployed revision is still not implemented')).toBeVisible()
+  await expect(page.getByText('no Founder approval marker is recorded')).toBeVisible()
   await expect(page.getByText('0 P0 · 0 P1 · 1 P2 open')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Defects' })).toBeVisible()
   await expect(page.getByText('DEF-2026-001')).toBeVisible()
