@@ -37,10 +37,16 @@ PR following this finding adds:
 
 - a narrow production database readiness RPC;
 - a fail-closed Pages pre-deploy backend-readiness job;
-- a required protected Edge Function deployment/authentication probe;
+- required protected Edge Function deployment/authentication probes;
 - updated Release & Deployment authority;
 - a new PTL-03 assurance-control record; and
 - technical documentation describing how future backend-dependent features extend the contract.
+
+## Additional finding during reconciliation
+
+While the corrective branch was being reconciled with the subsequently merged Founder Assurance v1 implementation, production was also found to be missing the already-approved `admin_operations_metrics()` database RPC and `admin-operations` Edge Function required by the protected Founder Operations/Assurance UI.
+
+Those already-approved backend components were enabled in production and `admin-operations` was deployed with JWT verification enabled. The corrective readiness gate was expanded to require both `admin-operations` and `planner-operations`, and to include both Admin aggregate RPCs in the database readiness contract.
 
 ## Residual assurance
 
