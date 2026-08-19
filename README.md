@@ -1,6 +1,6 @@
 # Revision
 
-A personalised revision platform for GCSE and A-level students, built around evidence-aware guidance, practice and exam preparation.
+A personalised revision platform for GCSE and A-level students, built around evidence-aware guidance, adaptive planning, practice and exam preparation.
 
 ## Current learner application
 
@@ -8,16 +8,45 @@ The governed learner product is the React application at:
 
 `/revision/app/`
 
-Its signed-in Home is led by **REV**, Revision's non-human AI study-guide identity. REV is the first primary surface after login and asks the learner what they want to do next.
+Its signed-in Home is led by **REV**, Revision's non-human intelligent study-guide identity. Home answers the immediate question **What matters today?** and combines REV's concise guidance with a smaller **Today's plan** summary.
 
-REV v0.1 uses the shared deterministic recommendation engine and structured learning evidence to suggest a useful subject, course/topic and activity without spending an AI-model call. It explains the evidence and limitations behind the recommendation rather than inventing certainty.
+The adaptive planner uses deterministic, testable logic rather than an AI-model call to calculate priorities. It combines assessment dates, realistic learner availability, specification/topic coverage, existing learning/readiness evidence and bounded learner planning preferences. REV explains and discusses those priorities but does not replace the planner calculation.
 
 Global learner navigation is:
 
 - Home
-- Subjects
-- Progress
+- Plan
 - REV
+- Progress
+- Subjects
+
+On mobile the same five destinations remain persistently available in bottom navigation, with REV in the centre and given modest visual prominence. Profile, account, Admin and other utilities remain secondary rather than taking a learner navigation slot.
+
+### Adaptive Plan
+
+`#/plan` is the learner's wider adaptive programme. The current implementation supports:
+
+- learner-owned assessments with type, date and importance;
+- realistic weekday/weekend revision capacity;
+- date-specific capacity exceptions in the persistence model;
+- deterministic topic-level priority candidates derived from the same learning evidence used by Progress;
+- a current-day plan with plain-English recommendation reasons;
+- calm **Prioritising** behaviour when useful remaining workload exceeds realistic capacity;
+- bounded learner/REV planning preferences that can reshape sequencing without changing mastery/readiness evidence;
+- planner activity states including start, completion and deliberate alternative choice; and
+- automatic reconciliation of planner starts with later validated learning evidence where the match is reliable.
+
+The plan is a current forecast, not a fixed timetable or task-debt ledger. Missed recommendations are not manually moved forward; Revision recalculates from the learner's latest state.
+
+### REV and the planner
+
+The dedicated REV destination opens contextually with the current planner picture rather than as a menu of AI features. A learner can question the recommendation or ask to change the short-term balance, for example by focusing more heavily on one subject for a week. REV explains relevant cross-subject consequences before a bounded planning preference is applied.
+
+Planning preference is planning context only. It does not improve objective progress, mastery or readiness by itself.
+
+Full generative tutoring/orchestration remains governed through the wider REV capability; FI-001 keeps the scheduling authority deterministic and explainable.
+
+## Subject and course hierarchy
 
 Selecting a subject opens a Subject Home. The learner then enters the relevant course/specification.
 
@@ -37,16 +66,15 @@ The current GitHub Pages host cannot serve arbitrary SPA deep paths directly, so
 
 `/revision/app/#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/practice`
 
-Desktop uses persistent Home / Subjects / Progress / REV navigation. Mobile uses the same four learner-wide destinations in its fixed bottom navigation; contextual course navigation appears once the learner enters the academic context.
-
 The repository root `/revision/` remains a lightweight redirect into `/revision/app/` until the future public marketing/editorial site is introduced.
 
 See:
 
-- `10-product-governance/Information Architecture.md` — governing learner hierarchy and contextual-section authority.
+- `10-product-governance/Adaptive Revision Planning.md` — governing adaptive planner and REV/planner behaviour.
+- `10-product-governance/Information Architecture.md` — governing learner hierarchy and primary navigation.
 - `10-product-governance/Course Content and Assessment Component Placement.md` — authority for shared course learning versus paper/component Exam Prep.
 - `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
-- `docs/technical/REV Homepage Shell Implementation.md` — current React learner shell and catalogue behaviour.
+- `docs/technical/Adaptive Revision Planner Implementation.md` — current FI-001 technical design and implementation boundary.
 - `docs/technical/Target System Architecture.md` — current/target technical architecture.
 - `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md` — implementation decision history for the course-first model.
 
@@ -56,17 +84,17 @@ See:
 /
 ├── app/                               # Vite entry HTML for the governed React learner app
 ├── src/
-│   ├── app/                           # catalogue-driven learner shell, navigation, focused screens, REV and exam simulator
-│   ├── engine/                        # typed content, evidence and readiness/recommendation logic
+│   ├── app/                           # learner runtime, adaptive Plan/Home/REV, navigation, focused screens and exam simulator
+│   ├── engine/                        # typed content, evidence, readiness and deterministic planning logic
 │   └── services/                      # Supabase and persistence services
 ├── content/                           # governed typed learning content packs
-├── supabase/                          # migrations, verification and database support
+├── supabase/                          # migrations, verification, Edge Functions and database support
 └── index.html                         # temporary redirect from /revision/ to /revision/app/
 ```
 
 ## Content model and automatic catalogue discovery
 
-The current typed content manifest still represents storage/publishing units as:
+The current typed content manifest represents storage/publishing units as:
 
 `Subject → Qualification / Exam Board → Paper or Area`
 
@@ -80,7 +108,7 @@ For a qualification with genuinely component-specific content, the relevant comp
 
 Content packs live beneath `content/**/index.ts`. Each validated pack default-exports itself. The Vite content registry discovers those pack entry points automatically at build time.
 
-A pack with `manifest.status: 'available'` enters the current pilot catalogue automatically. The shared React shell then derives:
+A pack with `manifest.status: 'available'` enters the current pilot catalogue automatically. The shared React runtime then derives:
 
 - the Subjects list;
 - Subject Homes;
@@ -89,8 +117,9 @@ A pack with `manifest.status: 'available'` enters the current pilot catalogue au
 - course or component routes;
 - focused Learn / Practice / Exam Prep / Progress sections;
 - course-level evidence aggregation for shared syllabuses;
-- global Progress; and
-- REV's deterministic prioritisation.
+- global Progress;
+- topic-level adaptive-planner work candidates; and
+- REV's evidence-aware planner explanation.
 
 Adding a new subject or paper should not require a subject-specific React page or route branch. Content production must still establish from the official specification whether syllabus learning is course-wide or component-specific.
 
@@ -106,11 +135,17 @@ Revision does **not yet persist per-user subject/course enrolments**. During the
 
 Future learner enrolment should be implemented as a user-specific filter over the published catalogue. It should not require returning subject knowledge or route definitions to shared React code.
 
-## Progress principle
+## Progress and planner evidence principle
 
 Progress is based on evidence rather than clicks. Revision distinguishes coverage, scored understanding evidence and readiness. Readiness is withheld until the required breadth and variety of evidence exists and is accompanied by a confidence level and explanation.
 
 For shared-syllabus courses, evidence recorded under different paper/module IDs is combined into one course-level topic evidence picture. Paper-specific exam attempts retain their paper identity while contributing to that wider course picture.
+
+Planner context remains separate from learning evidence. Assessment dates, availability, learner preferences, planner starts and time-related signals may affect what Revision recommends, but they do not become mastery/readiness evidence by themselves.
+
+## Planner operations
+
+Planner persistence is protected by learner-owner Supabase RLS. Aggregate planner adoption/activity metrics are exposed only through a protected service-role Admin path after database-backed administrator verification. Missing planner-failure telemetry is reported as **Unknown**, never Healthy.
 
 ## Hosting
 
