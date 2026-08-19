@@ -17,6 +17,7 @@ import {
   subjectsRoute,
   type AppRoute,
 } from './navigation'
+import { PlannerActivityReconciler } from './PlannerActivityReconciler'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
@@ -120,6 +121,7 @@ export function PlannerRuntime() {
 
   return (
     <div className="planner-runtime">
+      <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />
       <header className="topbar desktop-topbar runtime-topbar">
         <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button>
         <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{navigation}</nav>
