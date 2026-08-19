@@ -53,6 +53,7 @@ function summariseCoverage(records: readonly AssuranceCoverageRecord[]): Coverag
 export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): AssuranceSummary {
   const production = checkById(snapshot, 'learner-app')
   const deployment = checkById(snapshot, 'deployment')
+  const correlatedPath = checkById(snapshot, 'path-to-live')
   const journeyRecords = journeyCoverage()
   const dataRecords = dataSecurityCoverage()
 
@@ -60,14 +61,17 @@ export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): Ass
   const productionDetail = production?.detail ?? 'Current production reachability evidence is unavailable.'
 
   let pathStatus: AssuranceHealthStatus = 'Unknown'
-  let pathDetail = 'Exact CI → merge → deployment → production-smoke lineage is not yet available as one correlated evidence chain.'
-  if (deployment?.status === 'Attention needed') {
+  let pathDetail = 'Exact CI → Founder approval → merge → backend readiness → deployment → production-smoke lineage is not yet available as one correlated evidence chain.'
+  if (correlatedPath) {
+    pathStatus = correlatedPath.status
+    pathDetail = correlatedPath.detail
+  } else if (deployment?.status === 'Attention needed') {
     pathStatus = 'Attention needed'
     pathDetail = deployment.detail
   } else if (deployment?.status === 'Unknown') {
     pathDetail = deployment.detail
   } else if (deployment?.status === 'Healthy') {
-    pathDetail = `${deployment.detail} Exact-head CI correlation for the deployed revision is still not implemented, so Path to live remains Unknown rather than being overstated.`
+    pathDetail = `${deployment.detail} Correlated exact-head CI and Founder approval evidence is not available from the current operations contract, so Path to live remains Unknown.`
   }
 
   let defects: AssuranceSummary['defects'] = {
