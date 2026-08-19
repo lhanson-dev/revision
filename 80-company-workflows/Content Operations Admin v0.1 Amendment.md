@@ -13,23 +13,28 @@ This remains a bounded internal capability. It does not approve a broad administ
 ## Authority relationship
 
 This document amends `80-company-workflows/Content Factory Operating Model.md` and applies the current:
+- `10-product-governance/Information Architecture.md`;
 - `50-engineering-standards/Testing & Assurance Standard.md`;
 - `50-engineering-standards/Observability & Operations Standard.md`; and
 - `50-engineering-standards/Release & Deployment Standard.md`
 
 to the Founder-facing Admin experience.
 
+Where this workflow refers to learner navigation, `10-product-governance/Information Architecture.md` remains the controlling product authority.
+
 ## Canonical runtime and entry point
 
 Admin is a **role-gated capability inside the canonical `/app/` React runtime**. Revision must not maintain a second standalone `/admin/` application or separate admin login experience.
 
-The standard learner navigation remains Home / Subjects / Progress / REV.
+The standard learner navigation is **Home / Plan / REV / Progress / Subjects**.
 
 When the signed-in account has database-backed admin access:
 
-- desktop navigation may expose an additional **Admin** item after the ordinary learner destinations;
-- mobile must preserve the four-item learner bottom navigation and expose **Admin** through the account/additional-links menu; and
-- selecting Admin opens the protected Operations Dashboard inside `/app/`.
+- Admin remains a secondary role-specific utility rather than a sixth learner destination;
+- desktop may expose Admin through the account/additional-links experience or another clearly secondary utility treatment; and
+- mobile must preserve the five-item learner bottom navigation and expose **Admin** through the account/additional-links menu.
+
+Selecting Admin opens the protected Operations Dashboard inside `/app/`.
 
 The Admin link is a privileged role-specific utility. It does not redefine the standard learner information architecture for ordinary student accounts.
 
@@ -162,7 +167,7 @@ Any later learner-level operational view requires a separately justified purpose
 
 Admin shares the `/app/` runtime but remains role-gated operational functionality.
 
-Ordinary learner accounts must not see Admin navigation or Admin controls. Adding operations/assurance capability must not change the normal four-destination learner hierarchy or couple learner content rendering to Content Factory/assurance implementation.
+Ordinary learner accounts must not see Admin navigation or Admin controls. Adding operations/assurance capability must not change the normal five-destination learner hierarchy or couple learner content rendering to Content Factory/assurance implementation.
 
 ## Merge and publication boundary
 
