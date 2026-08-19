@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(18);
+select plan(19);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
