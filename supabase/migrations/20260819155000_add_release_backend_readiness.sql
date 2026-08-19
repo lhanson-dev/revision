@@ -17,6 +17,7 @@ select jsonb_build_object(
     and to_regclass('public.revision_availability_exceptions') is not null
     and to_regclass('public.revision_planning_preferences') is not null
     and to_regclass('public.revision_activity_events') is not null
+    and to_regprocedure('public.admin_operations_metrics()') is not null
     and to_regprocedure('public.admin_planner_metrics()') is not null
   ),
   'checks', jsonb_build_object(
@@ -27,6 +28,7 @@ select jsonb_build_object(
     'availabilityExceptions', to_regclass('public.revision_availability_exceptions') is not null,
     'planningPreferences', to_regclass('public.revision_planning_preferences') is not null,
     'activityEvents', to_regclass('public.revision_activity_events') is not null,
+    'adminOperationsMetrics', to_regprocedure('public.admin_operations_metrics()') is not null,
     'plannerAdminMetrics', to_regprocedure('public.admin_planner_metrics()') is not null
   )
 );
