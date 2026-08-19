@@ -52,24 +52,26 @@ jobs:
 
           echo "Production database contract ${contract} is ready."
 
-      - name: Verify protected planner operations function is deployed
+      - name: Verify required protected Edge Functions are deployed
         run: |
           set -euo pipefail
 
-          status="$(curl --silent --show-error \
-            --request POST \
-            --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
-            --output /tmp/planner-operations-response.txt \
-            --write-out '%{http_code}' \
-            "${SUPABASE_URL}/functions/v1/planner-operations")"
+          for function_name in admin-operations planner-operations; do
+            status="$(curl --silent --show-error \
+              --request POST \
+              --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+              --output "/tmp/${function_name}-response.txt" \
+              --write-out '%{http_code}' \
+              "${SUPABASE_URL}/functions/v1/${function_name}")"
 
-          if [ "$status" != "401" ]; then
-            echo "Expected protected planner-operations to reject an unauthenticated request with 401; received ${status}." >&2
-            cat /tmp/planner-operations-response.txt >&2 || true
-            exit 1
-          fi
+            if [ "$status" != "401" ]; then
+              echo "Expected protected ${function_name} to reject an unauthenticated request with 401; received ${status}." >&2
+              cat "/tmp/${function_name}-response.txt" >&2 || true
+              exit 1
+            fi
 
-          echo 'Protected planner-operations Edge Function is deployed and requires authentication.'
+            echo "Protected ${function_name} Edge Function is deployed and requires authentication."
+          done
 
   build:
     needs: backend-readiness
