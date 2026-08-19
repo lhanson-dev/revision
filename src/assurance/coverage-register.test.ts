@@ -5,7 +5,8 @@ describe('assurance coverage register projection', () => {
   it('parses the governed coverage table into stable records', () => {
     expect(assuranceCoverage.length).toBeGreaterThanOrEqual(20)
     expect(assuranceCoverage.find((record) => record.id === 'AV-01')).toMatchObject({ status: 'Covered', risk: 'High' })
-    expect(assuranceCoverage.find((record) => record.id === 'DATA-01')).toMatchObject({ status: 'Partial', risk: 'Critical' })
+    expect(assuranceCoverage.find((record) => record.id === 'DATA-01')).toMatchObject({ status: 'Covered', risk: 'Critical' })
+    expect(assuranceCoverage.find((record) => record.id === 'SEC-01')).toMatchObject({ status: 'Covered', risk: 'Critical' })
     expect(defectCoverage()).toMatchObject({ id: 'DEF-01', status: 'Uncovered' })
   })
 
@@ -15,6 +16,7 @@ describe('assurance coverage register projection', () => {
 
     expect(journeyCounts.Covered).toBeGreaterThan(0)
     expect(journeyCounts.Partial + journeyCounts.Uncovered).toBeGreaterThan(0)
+    expect(dataCounts.Covered).toBeGreaterThanOrEqual(2)
     expect(dataCounts.Partial + dataCounts.Uncovered).toBeGreaterThan(0)
   })
 
