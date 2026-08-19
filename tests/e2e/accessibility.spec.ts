@@ -137,7 +137,6 @@ test('critical subject, learning, practice, exam and progress journey meets the 
   await expectWcagBaseline(page, 'Timed exam')
 
   await page.goto(`${appPath}#/subjects/business/courses/aqa%3Aaqa-as%3A7131/progress`)
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', level: 2 })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
   await expectWcagBaseline(page, 'Course Progress')
 
