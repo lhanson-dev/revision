@@ -2,6 +2,9 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 export type AssessmentType = 'topic_test' | 'mock' | 'public_exam' | 'other'
 export type AssessmentImportance = 'normal' | 'high'
+export type PlanningPreferenceType = 'prefer_subject' | 'reduce_subject' | 'prefer_activity'
+export type PlanningPreferenceSource = 'learner' | 'rev_negotiated'
+export type PlannerActivityEventType = 'offered' | 'started' | 'meaningfully_engaged' | 'completed' | 'chosen_alternative'
 
 export interface RevisionAssessment {
   assessmentId: string
@@ -30,6 +33,34 @@ export interface RevisionAvailabilityException {
   localDate: string
   availableMinutes: number
   note: string | null
+}
+
+export interface RevisionPlanningPreference {
+  preferenceId: string
+  userId: string
+  preferenceType: PlanningPreferenceType
+  subjectId: string | null
+  activityType: string | null
+  startsOn: string
+  endsOn: string
+  strength: 1 | 2 | 3
+  source: PlanningPreferenceSource
+  rationale: string | null
+  isActive: boolean
+}
+
+export interface RevisionActivityEvent {
+  eventId: string
+  userId: string
+  recommendationId: string | null
+  eventType: PlannerActivityEventType
+  subjectId: string
+  courseId: string | null
+  moduleId: string | null
+  topicId: string | null
+  activityType: string | null
+  occurredAt: string
+  metadata: Record<string, unknown>
 }
 
 type AssessmentRow = {
@@ -61,6 +92,34 @@ type ExceptionRow = {
   note: string | null
 }
 
+type PreferenceRow = {
+  preference_id: string
+  user_id: string
+  preference_type: PlanningPreferenceType
+  subject_id: string | null
+  activity_type: string | null
+  starts_on: string
+  ends_on: string
+  strength: number
+  source: PlanningPreferenceSource
+  rationale: string | null
+  is_active: boolean
+}
+
+type ActivityEventRow = {
+  event_id: string
+  user_id: string
+  recommendation_id: string | null
+  event_type: PlannerActivityEventType
+  subject_id: string
+  course_id: string | null
+  module_id: string | null
+  topic_id: string | null
+  activity_type: string | null
+  occurred_at: string
+  metadata: Record<string, unknown> | null
+}
+
 function assessmentFromRow(row: AssessmentRow): RevisionAssessment {
   return {
     assessmentId: row.assessment_id,
@@ -77,8 +136,41 @@ function assessmentFromRow(row: AssessmentRow): RevisionAssessment {
   }
 }
 
+function preferenceFromRow(row: PreferenceRow): RevisionPlanningPreference {
+  const strength = Math.max(1, Math.min(3, Math.round(row.strength))) as 1 | 2 | 3
+  return {
+    preferenceId: row.preference_id,
+    userId: row.user_id,
+    preferenceType: row.preference_type,
+    subjectId: row.subject_id,
+    activityType: row.activity_type,
+    startsOn: row.starts_on,
+    endsOn: row.ends_on,
+    strength,
+    source: row.source,
+    rationale: row.rationale,
+    isActive: row.is_active,
+  }
+}
+
+function activityEventFromRow(row: ActivityEventRow): RevisionActivityEvent {
+  return {
+    eventId: row.event_id,
+    userId: row.user_id,
+    recommendationId: row.recommendation_id,
+    eventType: row.event_type,
+    subjectId: row.subject_id,
+    courseId: row.course_id,
+    moduleId: row.module_id,
+    topicId: row.topic_id,
+    activityType: row.activity_type,
+    occurredAt: row.occurred_at,
+    metadata: row.metadata ?? {},
+  }
+}
+
 export async function loadPlannerSetup(client: SupabaseClient, userId: string) {
-  const [assessmentResult, availabilityResult, exceptionsResult] = await Promise.all([
+  const [assessmentResult, availabilityResult, exceptionsResult, preferenceResult, activityResult] = await Promise.all([
     client
       .from('revision_assessments')
       .select('assessment_id,user_id,subject_id,course_id,module_id,assessment_type,title,assessment_date,relative_importance,scope,is_active')
@@ -95,11 +187,25 @@ export async function loadPlannerSetup(client: SupabaseClient, userId: string) {
       .select('exception_id,user_id,local_date,available_minutes,note')
       .eq('user_id', userId)
       .order('local_date', { ascending: true }),
+    client
+      .from('revision_planning_preferences')
+      .select('preference_id,user_id,preference_type,subject_id,activity_type,starts_on,ends_on,strength,source,rationale,is_active')
+      .eq('user_id', userId)
+      .eq('is_active', true)
+      .order('starts_on', { ascending: false }),
+    client
+      .from('revision_activity_events')
+      .select('event_id,user_id,recommendation_id,event_type,subject_id,course_id,module_id,topic_id,activity_type,occurred_at,metadata')
+      .eq('user_id', userId)
+      .order('occurred_at', { ascending: false })
+      .limit(100),
   ])
 
   if (assessmentResult.error) throw new Error(`Could not load assessments: ${assessmentResult.error.message}`)
   if (availabilityResult.error) throw new Error(`Could not load availability: ${availabilityResult.error.message}`)
   if (exceptionsResult.error) throw new Error(`Could not load availability exceptions: ${exceptionsResult.error.message}`)
+  if (preferenceResult.error) throw new Error(`Could not load planning preferences: ${preferenceResult.error.message}`)
+  if (activityResult.error) throw new Error(`Could not load planner activity: ${activityResult.error.message}`)
 
   const availability = availabilityResult.data as AvailabilityRow | null
   const exceptions = (exceptionsResult.data ?? []) as ExceptionRow[]
@@ -121,6 +227,8 @@ export async function loadPlannerSetup(client: SupabaseClient, userId: string) {
       availableMinutes: row.available_minutes,
       note: row.note,
     } satisfies RevisionAvailabilityException)),
+    preferences: ((preferenceResult.data ?? []) as PreferenceRow[]).map(preferenceFromRow),
+    activityEvents: ((activityResult.data ?? []) as ActivityEventRow[]).map(activityEventFromRow),
   }
 }
 
@@ -234,4 +342,80 @@ export async function saveAvailabilityException(
     availableMinutes: row.available_minutes,
     note: row.note,
   }
+}
+
+export async function savePlanningPreference(
+  client: SupabaseClient,
+  userId: string,
+  value: {
+    preferenceType: PlanningPreferenceType
+    subjectId?: string
+    activityType?: string
+    startsOn: string
+    endsOn: string
+    strength?: 1 | 2 | 3
+    source?: PlanningPreferenceSource
+    rationale?: string
+  },
+): Promise<RevisionPlanningPreference> {
+  if (value.endsOn < value.startsOn) throw new Error('Preference end date must be on or after its start date.')
+  const subjectId = value.subjectId?.trim() || null
+  const activityType = value.activityType?.trim() || null
+  if (value.preferenceType === 'prefer_activity' && !activityType) throw new Error('Activity preference requires an activity type.')
+  if (value.preferenceType !== 'prefer_activity' && !subjectId) throw new Error('Subject preference requires a subject.')
+
+  const { data, error } = await client
+    .from('revision_planning_preferences')
+    .insert({
+      user_id: userId,
+      preference_type: value.preferenceType,
+      subject_id: subjectId,
+      activity_type: activityType,
+      starts_on: value.startsOn,
+      ends_on: value.endsOn,
+      strength: value.strength ?? 1,
+      source: value.source ?? 'learner',
+      rationale: value.rationale?.trim() || null,
+      is_active: true,
+    })
+    .select('preference_id,user_id,preference_type,subject_id,activity_type,starts_on,ends_on,strength,source,rationale,is_active')
+    .single()
+
+  if (error) throw new Error(`Could not save planning preference: ${error.message}`)
+  return preferenceFromRow(data as PreferenceRow)
+}
+
+export async function recordPlannerActivityEvent(
+  client: SupabaseClient,
+  userId: string,
+  value: {
+    recommendationId?: string
+    eventType: PlannerActivityEventType
+    subjectId: string
+    courseId?: string
+    moduleId?: string
+    topicId?: string
+    activityType?: string
+    metadata?: Record<string, unknown>
+  },
+): Promise<RevisionActivityEvent> {
+  if (!value.subjectId.trim()) throw new Error('Planner activity subject is required.')
+  const { data, error } = await client
+    .from('revision_activity_events')
+    .insert({
+      user_id: userId,
+      recommendation_id: value.recommendationId?.trim() || null,
+      event_type: value.eventType,
+      subject_id: value.subjectId,
+      course_id: value.courseId?.trim() || null,
+      module_id: value.moduleId?.trim() || null,
+      topic_id: value.topicId?.trim() || null,
+      activity_type: value.activityType?.trim() || null,
+      metadata: value.metadata ?? {},
+    })
+    .select('event_id,user_id,recommendation_id,event_type,subject_id,course_id,module_id,topic_id,activity_type,occurred_at,metadata')
+    .single()
+
+  if (error) throw new Error(`Could not record planner activity: ${error.message}`)
+  return activityEventFromRow(data as ActivityEventRow)
 }
