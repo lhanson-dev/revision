@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain.  
+**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain, and `main` now has active repository protection.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -55,9 +55,11 @@ Missing PR, CI, approval or prior-release evidence blocks deployment. A successf
 
 After the bootstrap release, every deployed `main` revision must descend directly from a previous `main` revision whose latest `revision/path-to-live` status is `success`.
 
-This means an ordinary direct push to `main` cannot deploy under the unchanged governed workflow: it has no associated governed PR/approval lineage, the preflight fails, and the release status remains non-successful. The failed revision also prevents the next release from silently carrying it forward because the prior-release chain check fails closed until deliberately remediated.
+This means a direct push that somehow bypassed repository policy still cannot deploy under the unchanged governed workflow: it has no associated governed PR/approval lineage, the preflight fails, and the release status remains non-successful. The failed revision also prevents the next release from silently carrying it forward because the prior-release chain check fails closed until deliberately remediated.
 
-This is a strong compensating production control while GitHub branch protection is not yet configured. It is **not equivalent to repository branch protection**, because someone with sufficient repository write/admin access could deliberately alter the workflow itself. GitHub branch protection/rulesets therefore remain required defence in depth.
+Repository protection now provides an additional preventive layer before this release control. On 2026-08-19 the Founder configured an active `main` ruleset requiring a pull request, the three Revision CI jobs, conversation resolution and an up-to-date branch before merge, with deletion restricted, force pushes blocked and no bypass list. The GitHub branch API independently reports `protected:true` for `main`.
+
+The connected GitHub capability does not expose the ruleset's internal rule list, so the specific rule selections are recorded as Founder-configured UI evidence while protected state remains independently API-verifiable. Repository protection and the release-chain gate are complementary controls; neither removes the requirement for explicit Founder approval and governed change discipline.
 
 ### Bootstrap parent
 
