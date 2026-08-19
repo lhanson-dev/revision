@@ -8,7 +8,9 @@ const corsHeaders = {
 }
 
 const githubRepo = "lhanson-dev/revision"
+const founderGithubLogin = "lhanson-dev"
 const learnerAppUrl = "https://lhanson-dev.github.io/revision/app/"
+const founderApprovalMarker = "revision-founder-approval:v1"
 
 type HealthStatus = "Healthy" | "Attention needed" | "Unknown"
 
@@ -29,6 +31,28 @@ type FactoryJob = {
   updatedAt: string
 }
 
+type WorkflowRun = {
+  id?: number
+  status?: string
+  conclusion?: string | null
+  head_sha?: string
+  updated_at?: string
+}
+
+type PullRequest = {
+  number?: number
+  state?: string
+  merged_at?: string | null
+  merge_commit_sha?: string | null
+  head?: { sha?: string }
+}
+
+type IssueComment = {
+  body?: string | null
+  user?: { login?: string }
+  created_at?: string
+}
+
 function jsonResponse(status: number, body: unknown) {
   return new Response(JSON.stringify(body), {
     status,
@@ -40,6 +64,25 @@ function healthOverall(checks: HealthCheck[]): HealthStatus {
   if (checks.some((check) => check.status === "Attention needed")) return "Attention needed"
   if (checks.some((check) => check.status === "Unknown")) return "Unknown"
   return "Healthy"
+}
+
+function githubHeaders() {
+  const githubToken = Deno.env.get("GITHUB_CONTENT_FACTORY_TOKEN")
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  }
+  if (githubToken) headers.Authorization = `Bearer ${githubToken}`
+  return headers
+}
+
+async function githubJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, {
+    headers: githubHeaders(),
+    signal: AbortSignal.timeout(5000),
+  })
+  if (!response.ok) throw new Error(`GitHub returned ${response.status} for ${url}`)
+  return response.json() as Promise<T>
 }
 
 function parseFactoryJob(issue: { number?: number; html_url?: string; body?: string | null; updated_at?: string }): FactoryJob | null {
@@ -69,21 +112,11 @@ function parseFactoryJob(issue: { number?: number; html_url?: string; body?: str
 }
 
 async function loadFactoryJobs() {
-  const githubToken = Deno.env.get("GITHUB_CONTENT_FACTORY_TOKEN")
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  }
-  if (githubToken) headers.Authorization = `Bearer ${githubToken}`
-
   const jobs: FactoryJob[] = []
   for (let page = 1; page <= 3; page += 1) {
-    const response = await fetch(`https://api.github.com/repos/${githubRepo}/issues?state=all&per_page=100&page=${page}`, {
-      headers,
-      signal: AbortSignal.timeout(5000),
-    })
-    if (!response.ok) throw new Error(`GitHub issue visibility returned ${response.status}`)
-    const issues = await response.json() as Array<{ number?: number; html_url?: string; body?: string | null; updated_at?: string; pull_request?: unknown }>
+    const issues = await githubJson<Array<{ number?: number; html_url?: string; body?: string | null; updated_at?: string; pull_request?: unknown }>>(
+      `https://api.github.com/repos/${githubRepo}/issues?state=all&per_page=100&page=${page}`,
+    )
     for (const issue of issues) {
       if (issue.pull_request) continue
       const job = parseFactoryJob(issue)
@@ -94,6 +127,13 @@ async function loadFactoryJobs() {
 
   jobs.sort((left, right) => right.updatedAt.localeCompare(left.updatedAt))
   return jobs
+}
+
+async function loadLatestDeploymentRun(): Promise<WorkflowRun | null> {
+  const payload = await githubJson<{ workflow_runs?: WorkflowRun[] }>(
+    `https://api.github.com/repos/${githubRepo}/actions/workflows/deploy-pages.yml/runs?branch=main&per_page=1`,
+  )
+  return payload.workflow_runs?.[0] ?? null
 }
 
 async function checkLearnerApp(): Promise<HealthCheck> {
@@ -112,30 +152,80 @@ async function checkLearnerApp(): Promise<HealthCheck> {
   }
 }
 
-async function checkDeployment(): Promise<HealthCheck> {
-  try {
-    const response = await fetch(`https://api.github.com/repos/${githubRepo}/actions/workflows/deploy-pages.yml/runs?branch=main&per_page=1`, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-      signal: AbortSignal.timeout(5000),
-    })
-    if (!response.ok) return { id: "deployment", label: "Deployment", status: "Unknown", detail: "Latest deployment evidence could not be read from GitHub." }
+async function checkDeployment(run: WorkflowRun | null): Promise<HealthCheck> {
+  if (!run) return { id: "deployment", label: "Deployment", status: "Unknown", detail: "No main deployment run was available." }
+  if (run.status !== "completed") return { id: "deployment", label: "Deployment", status: "Unknown", detail: "The latest main deployment is still running." }
+  if (run.conclusion !== "success") {
+    return { id: "deployment", label: "Deployment", status: "Attention needed", detail: `The latest main deployment finished with ${run.conclusion ?? "an unknown result"}.`, action: "Open the latest Pages workflow and diagnose the failed stage." }
+  }
+  const revision = run.head_sha?.slice(0, 7)
+  return { id: "deployment", label: "Deployment", status: "Healthy", detail: `Latest main deployment and production smoke passed${revision ? ` for ${revision}` : ""}.` }
+}
 
-    const payload = await response.json() as {
-      workflow_runs?: Array<{ status?: string; conclusion?: string | null; head_sha?: string; updated_at?: string }>
+function approvalMatches(comment: IssueComment, headSha: string) {
+  if (comment.user?.login !== founderGithubLogin || !comment.body?.includes(founderApprovalMarker)) return false
+  const match = comment.body.match(/head_sha:\s*([0-9a-f]{40})/i)
+  return match?.[1]?.toLowerCase() === headSha.toLowerCase()
+}
+
+async function checkPathToLive(deploymentRun: WorkflowRun | null): Promise<HealthCheck> {
+  try {
+    if (!deploymentRun?.head_sha) {
+      return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: "The latest deployment does not expose a production commit SHA." }
     }
-    const run = payload.workflow_runs?.[0]
-    if (!run) return { id: "deployment", label: "Deployment", status: "Unknown", detail: "No main deployment run was available." }
-    if (run.status !== "completed") return { id: "deployment", label: "Deployment", status: "Unknown", detail: "The latest main deployment is still running." }
-    if (run.conclusion !== "success") {
-      return { id: "deployment", label: "Deployment", status: "Attention needed", detail: `The latest main deployment finished with ${run.conclusion ?? "an unknown result"}.`, action: "Open the latest Pages workflow and diagnose the failed stage." }
+    if (deploymentRun.status !== "completed") {
+      return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: "The latest deployment is still running, so the release lineage is not complete." }
     }
-    const revision = run.head_sha?.slice(0, 7)
-    return { id: "deployment", label: "Deployment", status: "Healthy", detail: `Latest main deployment and production smoke passed${revision ? ` for ${revision}` : ""}.` }
+    if (deploymentRun.conclusion !== "success") {
+      return { id: "path-to-live", label: "Path to live", status: "Attention needed", detail: "The current production lineage contains a failed deployment or production-smoke stage." }
+    }
+
+    const associated = await githubJson<PullRequest[]>(
+      `https://api.github.com/repos/${githubRepo}/commits/${deploymentRun.head_sha}/pulls`,
+    )
+    const pull = associated.find((candidate) => candidate.merged_at && candidate.merge_commit_sha === deploymentRun.head_sha)
+      ?? associated.find((candidate) => candidate.merged_at)
+    if (!pull?.number || !pull.head?.sha) {
+      return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: `Deployment ${deploymentRun.head_sha.slice(0, 7)} could not be correlated to a merged PR with an exact proposed head.` }
+    }
+
+    const headSha = pull.head.sha
+    const ciPayload = await githubJson<{ workflow_runs?: WorkflowRun[] }>(
+      `https://api.github.com/repos/${githubRepo}/actions/workflows/ci.yml/runs?event=pull_request&head_sha=${headSha}&per_page=20`,
+    )
+    const ciRun = ciPayload.workflow_runs?.find((run) => run.head_sha === headSha)
+    if (!ciRun) {
+      return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: `PR #${pull.number} has no readable exact-head CI run for ${headSha.slice(0, 7)}.` }
+    }
+    if (ciRun.status !== "completed") {
+      return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: `Exact-head CI for PR #${pull.number} is still running.` }
+    }
+    if (ciRun.conclusion !== "success") {
+      return { id: "path-to-live", label: "Path to live", status: "Attention needed", detail: `Exact-head CI for PR #${pull.number} finished with ${ciRun.conclusion ?? "an unknown result"}.` }
+    }
+
+    const comments = await githubJson<IssueComment[]>(
+      `https://api.github.com/repos/${githubRepo}/issues/${pull.number}/comments?per_page=100`,
+    )
+    const approval = comments.find((comment) => approvalMatches(comment, headSha))
+    if (!approval) {
+      return {
+        id: "path-to-live",
+        label: "Path to live",
+        status: "Unknown",
+        detail: `PR #${pull.number} exact-head CI and production deployment are green, but no Founder approval marker is recorded for head ${headSha.slice(0, 7)}.`,
+        action: "For future governed merges, record the machine-readable Founder approval marker after explicit approval and before merge.",
+      }
+    }
+
+    return {
+      id: "path-to-live",
+      label: "Path to live",
+      status: "Healthy",
+      detail: `PR #${pull.number} head ${headSha.slice(0, 7)} has successful exact-head CI, Founder approval recorded by ${founderGithubLogin}, merge ${deploymentRun.head_sha.slice(0, 7)}, backend-readiness-gated Pages deployment and production smoke all correlated.`,
+    }
   } catch {
-    return { id: "deployment", label: "Deployment", status: "Unknown", detail: "Latest deployment evidence could not be checked from the operations service." }
+    return { id: "path-to-live", label: "Path to live", status: "Unknown", detail: "The complete PR/CI/approval/merge/deploy lineage could not be read from GitHub." }
   }
 }
 
@@ -211,13 +301,21 @@ Deno.serve(async (req) => {
     { id: "learning-data", label: "Learning data", status: "Healthy", detail: "Learner evidence storage is readable by the protected operations service." },
   ]
 
-  const [learnerApp, deployment, contentFactory, factoryResult] = await Promise.all([
+  let latestDeployment: WorkflowRun | null = null
+  try {
+    latestDeployment = await loadLatestDeploymentRun()
+  } catch {
+    latestDeployment = null
+  }
+
+  const [learnerApp, deployment, pathToLive, contentFactory, factoryResult] = await Promise.all([
     checkLearnerApp(),
-    checkDeployment(),
+    checkDeployment(latestDeployment),
+    checkPathToLive(latestDeployment),
     checkContentFactory(supabaseUrl, supabaseAnonKey, authorization),
     loadFactoryJobs().then((jobs) => ({ jobs, error: null as string | null })).catch((error: unknown) => ({ jobs: [] as FactoryJob[], error: error instanceof Error ? error.message : "GitHub job visibility failed" })),
   ])
-  checks.push(learnerApp, deployment, contentFactory)
+  checks.push(learnerApp, deployment, pathToLive, contentFactory)
 
   const jobs = factoryResult.jobs
   const terminalStates = new Set(["benchmark_approved"])
