@@ -33,10 +33,11 @@ Use this file to find the governing source before substantive work.
 - Product promise → `10-product-governance/Product Promise.md`
 - Product principles → `10-product-governance/Product Principles.md`
 - Product system model → `10-product-governance/Product System Model.md`
+- Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
-- Information architecture → `10-product-governance/Information Architecture.md`
+- Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Product backlog folder rules → `10-product-governance/backlog/README.md`
