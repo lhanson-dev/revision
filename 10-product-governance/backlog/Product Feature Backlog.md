@@ -44,56 +44,53 @@ When an item is assessed, consider:
 
 ## FI-001 — Intelligent Exam Calendar / Adaptive Revision Planner
 
-**Status:** Approved  
+**Status:** Live  
 **Captured:** 2026-08-19  
 **Capability fit:** Guide; Progress and Readiness  
 **Approved authority:** `10-product-governance/Adaptive Revision Planning.md`  
-**Initial assessment:** Founder-approved product direction; high strategic value; promoted into normative product authority; runtime implementation has not yet started
+**Implementation evidence:** PR #58; canonical `/app/` runtime; `docs/technical/Adaptive Revision Planner Implementation.md`; current production `planner-v1` backend-readiness contract  
+**Current assessment:** Founder-approved product direction implemented in the canonical learner runtime; assurance remains intentionally Partial for persistence/reload and exact path-to-live lineage where recorded in the Assurance Coverage Register
 
 ### Student problem
 
 Students often know they need to revise but struggle to turn multiple subjects, topics, deadlines and limited available time into a realistic plan. Static revision timetables quickly become obsolete when work is missed, progress changes or an exam gets close.
 
-### Proposed capability
+### Implemented capability
 
-Allow a student to record upcoming assessments for each subject, including class or mid-term tests, mocks and final examinations, together with the amount of study time they can realistically commit each day or week.
+Revision allows the learner to record upcoming assessments, realistic revision capacity and bounded planning preferences. It combines those inputs with specification coverage and learning/readiness evidence to create a calm adaptive plan.
 
-Revision would create a calm, realistic study plan that determines what subjects and topics to work on and when.
-
-The plan should use relevant learning evidence rather than simply divide available time evenly. Inputs may include:
+The planner uses deterministic, testable logic rather than an AI-model call to calculate priorities. It can respond to:
 
 - exam/assessment date;
 - assessment importance;
-- available study time;
+- available study time and date-specific exceptions;
 - specification/syllabus coverage;
-- current topic mastery and weaknesses;
-- previous performance and evidence quality;
-- remaining workload; and
-- recent study activity.
+- current learning/readiness evidence and evidence confidence;
+- remaining useful workload;
+- recent planner/activity state; and
+- bounded temporary learner priorities.
 
 ### Adaptive behaviour
 
 The differentiating behaviour is continuous replanning rather than generation of a one-off timetable.
 
-If a student misses planned work, Revision should recalculate the remaining schedule without creating unnecessary guilt or presenting the missed session as failure.
+If a student misses planned work, Revision recalculates from the latest state without creating task debt or presenting the missed session as failure.
 
-If there is no longer enough available time to cover everything before an assessment, Revision should explicitly prioritise the work most likely to improve readiness using the student's progress evidence, rather than pretending the original plan remains achievable.
+If there is no longer enough realistic capacity to cover everything, Revision enters a calm prioritising state and concentrates on the highest-value work rather than pretending the original plan remains achievable.
 
-As new evidence is created through study, quizzes, exam questions or other activity, the plan should be capable of changing priorities accordingly.
+As new validated learning evidence is created, the plan can change priorities accordingly.
 
 ### REV role
 
-REV should be able to explain important planning decisions in simple language, for example why a weaker high-value topic has been brought forward or why already-strong material has been deprioritised.
+REV explains important planning decisions in plain language and can discuss bounded short-term learner preferences. REV does not replace the deterministic planner calculation and planning preferences do not become mastery/readiness evidence.
 
-Desired loop:
+Current loop:
 
-`exam dates → plan → study → learning evidence → updated mastery/readiness → reprioritisation → adaptive plan`
+`assessment dates + availability → adaptive plan → study → learning evidence → updated readiness → reprioritisation → adaptive plan`
 
 ### Guardrails
 
-The feature should not become a generic calendar or homework-management system.
-
-It should avoid:
+The feature must not become a generic calendar or homework-management system. It continues to avoid:
 
 - filling every available hour simply because time exists;
 - punitive red-state or streak mechanics for missed study;
@@ -102,25 +99,21 @@ It should avoid:
 - optimising solely for syllabus completion when evidence indicates a different priority; and
 - presenting an impossible plan as achievable when available time is insufficient.
 
-The experience should remain calm, supportive, realistic and useful under pressure.
+### Remaining maturity work
 
-### Dependencies / questions to assess
+FI-001 is live, but the Assurance Coverage Register still records deliberate gaps including:
 
-- reliable mapping between subjects, topics/specification coverage and assessment scope;
-- student evidence/mastery model of sufficient quality to drive prioritisation;
-- representation of assessment importance and scope;
-- scheduling/replanning algorithm and constraints;
-- interaction model between the planner and REV;
-- notification/reminder strategy without becoming noisy or anxiety-inducing;
-- accessibility of calendar and timetable views;
-- treatment of incomplete or low-confidence learning evidence; and
-- whether official exam-board dates can later be pre-populated while still supporting school-specific tests and mocks.
+- database-backed planner setup/reload/replan integration;
+- browser/client persistence-reload assurance;
+- authorised protected Edge Function integration paths;
+- automated accessibility coverage; and
+- exact CI → Founder-approved merge → production readiness → deployment → smoke lineage correlation.
 
-### Promotion impact
+These are assurance/maturity work on the existing live capability, not evidence that FI-001 is still unimplemented.
 
-FI-001 has been promoted into `10-product-governance/Adaptive Revision Planning.md`. The approved authority also requires alignment of the wider product model, information architecture, experience, trust, measurement and technical implementation documentation as implementation proceeds.
+### Promotion / implementation record
 
-Before runtime implementation begins, the Governed Implementation Workflow must prove the canonical learner route/runtime and the implementation must remain consistent with the approved authority.
+FI-001 is promoted into `10-product-governance/Adaptive Revision Planning.md` and implemented in the canonical runtime. Future material behaviour changes must update the relevant normative authority first; implementation changes must keep technical documentation and assurance evidence aligned.
 
 ---
 
@@ -558,3 +551,90 @@ If promoted, review and update at minimum:
 - privacy and student-data authority;
 - observability/analytics technical documentation; and
 - planner implementation documentation if the estimate becomes a scheduling input.
+
+---
+
+## FI-006 — Initial Subject Diagnostic and Periodic Knowledge Check-in
+
+**Status:** Candidate  
+**Captured:** 2026-08-19  
+**Capability fit:** Understand; Guide; Practise and Test; Progress and Readiness  
+**Authority context:** Baseline/diagnostic assessment is already part of the approved Understand capability. This item defines the concrete first-subject/check-in experience and evidence-strength rules.  
+**History:** Re-entered from superseded PR #57 during foundation stabilisation; renumbered because FI-004 is already allocated.  
+**Initial assessment:** High strategic value for early personalisation; implementation must prevent broad shallow evidence from overstating mastery or progress
+
+### Student problem
+
+When a student first starts a subject, Revision may know the qualification and specification but still know very little about what that learner personally understands. Early recommendations can therefore be too generic.
+
+A short broad diagnostic can improve the starting picture, but it cannot justify strong mastery or readiness claims from one or two sampled answers.
+
+### Proposed capability
+
+When a learner starts a subject for the first time, offer a short broad diagnostic that samples important areas across the relevant specification and produces provisional signals for prioritisation.
+
+A likely flow is:
+
+`start subject → confirm academic context → explain quick diagnostic → complete broad sample → simple starting summary → useful next action`
+
+The diagnostic should be short enough not to become an onboarding barrier. If it is skipped or incomplete, Revision must degrade gracefully and build its learner model from later evidence rather than inventing a baseline.
+
+### Evidence-strength rule
+
+**Diagnostic evidence may influence prioritisation before it is strong enough to support strong progress claims.**
+
+The evidence model must distinguish between:
+
+- directional diagnostic evidence — useful for choosing what to investigate or prioritise next;
+- corroborated understanding evidence — repeated/deeper evidence capable of supporting stronger understanding claims; and
+- exam-readiness evidence — exam-relevant evidence capable of supporting readiness judgements.
+
+A small number of correct diagnostic answers must not automatically mark a topic proficient, mastered, complete or exam-ready. One incorrect sampled answer must not permanently label a learner weak. Later, stronger evidence must be able to confirm, weaken or overturn the initial signal.
+
+### Progress protection
+
+The diagnostic must not artificially inflate headline progress merely because it touches many topics quickly.
+
+In particular:
+
+- a sampled answer does not automatically mean the whole topic is covered;
+- one or two correct answers do not establish mastery;
+- broad diagnostic success must not create a disproportionate progress jump;
+- evidence strength/confidence must be represented behind the scenes;
+- later stronger evidence supersedes provisional diagnostic signals where appropriate; and
+- learner-facing language remains cautious while diagnostic evidence dominates.
+
+### Periodic check-ins
+
+Revision may later repeat a broad diagnostic as a check-in when it is useful to refresh the learner picture.
+
+Useful triggers may include stale evidence, a long gap in the subject, a material revision-plan change or an important approaching assessment. Check-ins should not run on an arbitrary frequent schedule.
+
+Repeated shallow quizzes must not mechanically accumulate into false mastery. Evidence quality, breadth, recency and corroboration matter more than raw attempt count.
+
+### REV role
+
+REV may explain provisional strengths and focus areas constructively, while making clear that Revision is still learning about the student. REV must not make definitive statements about ability from a small diagnostic sample.
+
+### Dependencies / questions to assess
+
+- specification-to-question mapping and diagnostic question-bank coverage;
+- sampling strategy and initial diagnostic length;
+- evidence-strength/confidence model;
+- contribution to recommendation scoring without progress inflation;
+- check-in triggers and recency handling;
+- handling skipped/guessed/low-confidence answers where relevant;
+- accessible mobile completion;
+- analytics showing whether the diagnostic improves recommendation quality; and
+- explicit consistency with `40-evidence-and-trust/Claims and Progress Governance.md`.
+
+### Promotion / implementation impact
+
+Before material implementation, review/update at minimum:
+
+- `10-product-governance/Core User Journeys.md`;
+- `10-product-governance/Product System Model.md`;
+- `40-evidence-and-trust/Claims and Progress Governance.md` where more explicit diagnostic evidence rules are needed;
+- applicable assessment/content standards;
+- technical documentation for the evidence model and diagnostic engine; and
+- assurance coverage proving shallow diagnostic evidence cannot falsely create mastery, proficiency or readiness states.
