@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { getContentAdapter, listAvailableContentAdapters } from '../engine/content/content-registry'
 import { supabase } from '../services/supabase/browser-client'
 import { buildCatalogue } from './catalogue-model'
+import { FounderAssurance, founderAssuranceSummary } from './FounderAssurance'
 
 type IntakeResponse = {
   jobId: string
@@ -10,7 +11,7 @@ type IntakeResponse = {
   issueUrl: string
 }
 
-type AdminView = 'dashboard' | 'users' | 'activity' | 'health' | 'content'
+type AdminView = 'dashboard' | 'users' | 'activity' | 'health' | 'assurance' | 'content'
 type HealthStatus = 'Healthy' | 'Attention needed' | 'Unknown'
 
 type DailyCount = {
@@ -88,7 +89,7 @@ const publishedCourseCount = buildCatalogue(availableAdapters).reduce((sum, subj
 
 function currentView(): AdminView {
   const segment = window.location.hash.replace(/^#\/admin\/?/, '').split('/')[0]
-  if (segment === 'users' || segment === 'activity' || segment === 'health' || segment === 'content') return segment
+  if (segment === 'users' || segment === 'activity' || segment === 'health' || segment === 'assurance' || segment === 'content') return segment
   return 'dashboard'
 }
 
@@ -121,6 +122,7 @@ function AdminSubnav({ view }: { view: AdminView }) {
     { view: 'users', label: 'Users' },
     { view: 'activity', label: 'Activity' },
     { view: 'health', label: 'System Health' },
+    { view: 'assurance', label: 'Assurance' },
     { view: 'content', label: 'Content Operations' },
   ]
   return (
@@ -252,6 +254,7 @@ export function ContentOperations() {
     const users = snapshot?.users
     const activity = snapshot?.activity
     const content = snapshot?.content
+    const assurance = founderAssuranceSummary(snapshot)
     return (
       <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="admin-dashboard-title">
         <header className="page-heading admin-page-heading">
@@ -275,6 +278,21 @@ export function ContentOperations() {
           </div>
           {health ? <HealthBadge status={health.overall} /> : null}
           <button className="text-link" onClick={() => navigateAdmin('health')}>View system health <span aria-hidden="true">→</span></button>
+        </section>
+
+        <section className="admin-panel admin-wide-panel" aria-labelledby="founder-assurance-summary-title">
+          <div className="section-heading">
+            <div><p className="eyebrow">Confidence</p><h2 id="founder-assurance-summary-title">Founder assurance</h2></div>
+            <button className="text-link" onClick={() => navigateAdmin('assurance')}>View evidence <span aria-hidden="true">→</span></button>
+          </div>
+          <div className="admin-content-summary">
+            <div><small>Production</small><strong>{assurance.production.status}</strong></div>
+            <div><small>Path to live</small><strong>{assurance.pathToLive.status}</strong></div>
+            <div><small>Critical journeys</small><strong>{assurance.journeys.Covered} covered</strong></div>
+            <div><small>Data &amp; security</small><strong>{assurance.dataSecurity.Covered} covered</strong></div>
+            <div><small>Defects</small><strong>{assurance.defects.status}</strong></div>
+          </div>
+          <p className="quiet-note">Assurance is evidence-based. Partial, Uncovered and Unknown remain visible rather than being converted into a single confidence percentage.</p>
         </section>
 
         <section className="admin-stat-grid" aria-label="Operations summary">
@@ -382,6 +400,15 @@ export function ContentOperations() {
     )
   }
 
+  function renderAssurance() {
+    return (
+      <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="admin-assurance-title">
+        {pageHeader('admin-assurance-title', 'Revision Admin · Assurance', 'Founder Assurance', 'See what is currently evidenced across production, path to live, critical user journeys, data and security. Gaps remain visible until repeatable assurance closes them.')}
+        <FounderAssurance snapshot={snapshot} />
+      </main>
+    )
+  }
+
   function renderContent() {
     const content = snapshot?.content
     return (
@@ -429,6 +456,7 @@ export function ContentOperations() {
   if (view === 'users') return renderUsers()
   if (view === 'activity') return renderActivity()
   if (view === 'health') return renderHealth()
+  if (view === 'assurance') return renderAssurance()
   if (view === 'content') return renderContent()
   return renderDashboard()
 }
