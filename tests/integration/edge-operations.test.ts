@@ -86,8 +86,16 @@ suite('protected operations Edge Functions', () => {
     it(`${functionName} permits a database-authorised admin`, async () => {
       const response = await invoke(functionName, founder.accessToken)
       expect(response.status).toBe(200)
-      const payload = await response.json() as Record<string, unknown>
+      const payload = await response.json() as {
+        generatedAt?: unknown
+        health?: { checks?: Array<{ id?: string; status?: string }> }
+      }
       expect(payload.generatedAt).toEqual(expect.any(String))
+      if (functionName === 'admin-operations') {
+        const pathToLive = payload.health?.checks?.find((check) => check.id === 'path-to-live')
+        expect(pathToLive).toBeDefined()
+        expect(['Healthy', 'Attention needed', 'Unknown']).toContain(pathToLive?.status)
+      }
     })
   }
 })
