@@ -2,7 +2,7 @@ import { createServer } from 'node:http'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   approvalMatches,
-  findSuccessfulCiRun,
+  latestCiRunForHead,
   latestReleaseStatus,
   publishReleaseStatus,
   releaseStatusContext,
@@ -38,12 +38,13 @@ function json(response, body, status = 200) {
 }
 
 describe('governed release lineage helpers', () => {
-  it('selects the PR whose merge commit matches the deployed main SHA', () => {
+  it('selects only the PR whose merge commit matches the deployed main SHA', () => {
     const pulls = [
       { number: 10, merged_at: '2026-08-19T10:00:00Z', merge_commit_sha: 'other', head: { sha: 'head-a' } },
       { number: 11, merged_at: '2026-08-19T11:00:00Z', merge_commit_sha: 'merge-b', head: { sha: 'head-b' } },
     ]
     expect(selectMergedPull(pulls, 'merge-b')?.number).toBe(11)
+    expect(selectMergedPull(pulls, 'unknown')).toBeNull()
   })
 
   it('matches Founder approval only for the exact head', () => {
@@ -56,13 +57,14 @@ describe('governed release lineage helpers', () => {
     expect(approvalMatches(comment, 'someone-else', 'a'.repeat(40))).toBe(false)
   })
 
-  it('requires a completed successful CI run for the exact proposed head', () => {
+  it('uses the latest exact-head CI run rather than an older green run', () => {
+    const headSha = 'a'.repeat(40)
     const runs = [
-      { id: 1, head_sha: 'head-a', status: 'completed', conclusion: 'failure' },
-      { id: 2, head_sha: 'head-b', status: 'completed', conclusion: 'success' },
+      { id: 1, run_number: 10, head_sha: headSha, status: 'completed', conclusion: 'success' },
+      { id: 2, run_number: 11, head_sha: headSha, status: 'completed', conclusion: 'failure' },
+      { id: 3, run_number: 12, head_sha: 'other', status: 'completed', conclusion: 'success' },
     ]
-    expect(findSuccessfulCiRun(runs, 'head-b')?.id).toBe(2)
-    expect(findSuccessfulCiRun(runs, 'head-a')).toBeNull()
+    expect(latestCiRunForHead(runs, headSha)?.id).toBe(2)
   })
 
   it('uses the latest path-to-live status for prior-release chaining', () => {
@@ -91,10 +93,24 @@ describe('governed release lineage API contract', () => {
         return json(response, [{ number: 68, merged_at: '2026-08-19T21:00:00Z', merge_commit_sha: mergeSha, head: { sha: headSha } }])
       }
       if (request.url?.startsWith('/repos/owner/repo/actions/workflows/ci.yml/runs?')) {
-        return json(response, { workflow_runs: [{ id: 405, head_sha: headSha, status: 'completed', conclusion: 'success' }] })
+        return json(response, {
+          workflow_runs: [{
+            id: 405,
+            run_number: 405,
+            head_sha: headSha,
+            status: 'completed',
+            conclusion: 'success',
+            updated_at: '2026-08-19T21:05:00Z',
+          }],
+        })
       }
       if (request.url === '/repos/owner/repo/issues/68/comments?per_page=100') {
-        return json(response, [{ id: 9001, user: { login: 'lhanson-dev' }, body: `revision-founder-approval:v1\nhead_sha: ${headSha}` }])
+        return json(response, [{
+          id: 9001,
+          created_at: '2026-08-19T21:06:00Z',
+          user: { login: 'lhanson-dev' },
+          body: `revision-founder-approval:v1\nhead_sha: ${headSha}`,
+        }])
       }
       return json(response, { error: 'unexpected request' }, 404)
     })
@@ -140,6 +156,66 @@ describe('governed release lineage API contract', () => {
       founderLogin: 'lhanson-dev',
       bootstrapParent: 'not-the-parent',
     })).rejects.toThrow(`${releaseStatusContext}=failure`)
+  })
+
+  it('fails closed when the latest exact-head CI is not successful even if an older run passed', async () => {
+    const headSha = '1'.repeat(40)
+    const mergeSha = '2'.repeat(40)
+    const bootstrapParent = '3'.repeat(40)
+
+    const apiUrl = await fakeGithub(async (request, response) => {
+      if (request.url === `/repos/owner/repo/commits/${mergeSha}`) return json(response, { parents: [{ sha: bootstrapParent }] })
+      if (request.url === `/repos/owner/repo/commits/${mergeSha}/pulls`) {
+        return json(response, [{ number: 68, merged_at: '2026-08-19T21:00:00Z', merge_commit_sha: mergeSha, head: { sha: headSha } }])
+      }
+      if (request.url?.startsWith('/repos/owner/repo/actions/workflows/ci.yml/runs?')) {
+        return json(response, {
+          workflow_runs: [
+            { id: 2, run_number: 12, head_sha: headSha, status: 'completed', conclusion: 'failure', updated_at: '2026-08-19T21:05:00Z' },
+            { id: 1, run_number: 11, head_sha: headSha, status: 'completed', conclusion: 'success', updated_at: '2026-08-19T21:04:00Z' },
+          ],
+        })
+      }
+      return json(response, { error: 'unexpected request' }, 404)
+    })
+
+    await expect(verifyReleaseLineage({
+      apiUrl,
+      repository: 'owner/repo',
+      mergeSha,
+      token: 'test-token',
+      founderLogin: 'lhanson-dev',
+      bootstrapParent,
+    })).rejects.toThrow('Latest exact-head Revision CI')
+  })
+
+  it('fails closed if Founder approval predates completion of the latest exact-head CI', async () => {
+    const headSha = '4'.repeat(40)
+    const mergeSha = '5'.repeat(40)
+    const bootstrapParent = '6'.repeat(40)
+
+    const apiUrl = await fakeGithub(async (request, response) => {
+      if (request.url === `/repos/owner/repo/commits/${mergeSha}`) return json(response, { parents: [{ sha: bootstrapParent }] })
+      if (request.url === `/repos/owner/repo/commits/${mergeSha}/pulls`) {
+        return json(response, [{ number: 68, merged_at: '2026-08-19T21:00:00Z', merge_commit_sha: mergeSha, head: { sha: headSha } }])
+      }
+      if (request.url?.startsWith('/repos/owner/repo/actions/workflows/ci.yml/runs?')) {
+        return json(response, { workflow_runs: [{ id: 7, run_number: 7, head_sha: headSha, status: 'completed', conclusion: 'success', updated_at: '2026-08-19T21:05:00Z' }] })
+      }
+      if (request.url === '/repos/owner/repo/issues/68/comments?per_page=100') {
+        return json(response, [{ id: 8, created_at: '2026-08-19T21:04:00Z', user: { login: 'lhanson-dev' }, body: `revision-founder-approval:v1\nhead_sha: ${headSha}` }])
+      }
+      return json(response, { error: 'unexpected request' }, 404)
+    })
+
+    await expect(verifyReleaseLineage({
+      apiUrl,
+      repository: 'owner/repo',
+      mergeSha,
+      token: 'test-token',
+      founderLogin: 'lhanson-dev',
+      bootstrapParent,
+    })).rejects.toThrow('approval marker predates completion')
   })
 
   it('publishes the durable path-to-live status on the exact main revision', async () => {
