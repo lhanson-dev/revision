@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { adminRoute, courseRoute, homeRoute, moduleRoute, parseRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
+import { adminRoute, courseRoute, homeRoute, moduleRoute, parseRoute, planRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
 
 describe('learner navigation model', () => {
+  it('maps the governed Plan destination to a reloadable hash route', () => {
+    expect(routeHash(planRoute())).toBe('#/plan')
+    expect(parseRoute('#/plan')).toEqual(planRoute())
+  })
+
   it('maps course learning scopes to reloadable hash routes', () => {
     const business = courseRoute('business', 'aqa:aqa-a-level:7132', 'exam-prep')
     expect(routeHash(business)).toBe('#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
@@ -30,6 +35,7 @@ describe('learner navigation model', () => {
     expect(routeBelongsToSubjects(subjectRoute('business'))).toBe(true)
     expect(routeBelongsToSubjects(courseRoute('business', 'aqa:aqa-a-level:7132', 'progress'))).toBe(true)
     expect(routeBelongsToSubjects(moduleRoute('business', 'business-aqa-as-paper-2', 'progress'))).toBe(true)
+    expect(routeBelongsToSubjects(planRoute())).toBe(false)
     expect(routeBelongsToSubjects(progressRoute())).toBe(false)
   })
 
