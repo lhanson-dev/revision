@@ -1,6 +1,6 @@
 # Product System Model
 
-**Status:** Draft authority candidate — v0.2  
+**Status:** Draft authority candidate — v0.3  
 **Purpose:** Define the core model by which Revision understands a student, recommends activity and updates guidance over time.
 
 ## Core model
@@ -49,6 +49,22 @@ The model may use evidence from activities including:
 - other validated learning interactions introduced later.
 
 Assessment should not only produce a score. Where practical it should provide feedback that helps the student understand mistakes and improve.
+
+## Activity completion and reconciliation
+
+Revision should infer completion from reliable product activity wherever possible rather than asking the student to maintain a manual task list.
+
+Where REV recommends an in-product activity and the learner follows that recommendation into the activity, Revision should retain the recommendation-to-activity link. When the activity reaches a reliable completion state, the system should record that the recommended work was completed and use the resulting evidence automatically.
+
+A click-through alone must not be treated as completion where the activity has a meaningful completion event. The product should distinguish recommendation exposure, activity start and activity completion so product metrics do not overstate useful engagement.
+
+At an appropriate return point, Revision may use a very short reconciliation interaction such as asking what the learner got done since their last visit. This should primarily:
+
+- confirm what Revision already inferred where confirmation is useful;
+- let the learner add meaningful revision completed outside Revision; and
+- correct obvious gaps without turning the student into a time-sheet administrator.
+
+Reconciliation must be lightweight, skippable where appropriate and designed to improve the next recommendation rather than police compliance.
 
 ## Context over reaction
 
