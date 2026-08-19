@@ -41,20 +41,82 @@ jobs:
         run: npm run test:e2e
 
   database-assurance:
-    name: Database and RLS assurance
+    name: Database, RLS and protected service assurance
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Set up Supabase CLI
         uses: supabase/setup-cli@v1
         with:
           version: 2.111.0
       - name: Start isolated Supabase test stack and replay migrations
         run: supabase start
+      - name: Export isolated Supabase client credentials
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          {
+            echo "SUPABASE_URL=http://127.0.0.1:54321"
+            echo "SUPABASE_ANON_KEY=${ANON_KEY}"
+            echo "SUPABASE_SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY}"
+            echo "VITE_SUPABASE_URL=http://127.0.0.1:54321"
+            echo "VITE_SUPABASE_PUBLISHABLE_KEY=${ANON_KEY}"
+            echo "REVISION_SUPABASE_INTEGRATION=1"
+          } >> "$GITHUB_ENV"
       - name: Run pgTAP database and RLS assurance
         run: supabase test db supabase/tests/database-assurance.test.sql
+      - name: Run authenticated persistence and reload integration assurance
+        run: npx vitest run tests/integration/supabase-persistence.test.ts
+      - name: Serve protected Edge Functions from repository source
+        run: |
+          set -euo pipefail
+          nohup supabase functions serve > /tmp/revision-edge-functions.log 2>&1 &
+          echo $! > /tmp/revision-edge-functions.pid
+          ready=false
+          for attempt in $(seq 1 60); do
+            status="$(curl --silent --output /tmp/admin-edge-probe.txt --write-out '%{http_code}' \
+              --request POST \
+              --header "apikey: ${SUPABASE_ANON_KEY}" \
+              --header 'Content-Type: application/json' \
+              --data '{}' \
+              "${SUPABASE_URL}/functions/v1/admin-operations" || true)"
+            if [ "$status" = "401" ]; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then
+            echo 'Protected Edge Functions did not become ready with the expected unauthenticated 401 boundary.' >&2
+            cat /tmp/revision-edge-functions.log >&2 || true
+            cat /tmp/admin-edge-probe.txt >&2 || true
+            exit 1
+          fi
+      - name: Run protected Edge Function authorization integration assurance
+        env:
+          REVISION_EDGE_INTEGRATION: '1'
+        run: npx vitest run tests/integration/edge-operations.test.ts
+      - name: Install Chromium for database-backed browser assurance
+        timeout-minutes: 10
+        run: npx playwright install chromium
+      - name: Run database-backed browser persistence and reload assurance
+        env:
+          REVISION_BROWSER_DB_INTEGRATION: '1'
+        run: npx playwright test tests/e2e/database-persistence.spec.ts --project=desktop
       - name: Stop isolated Supabase test stack
         if: always()
-        run: supabase stop --no-backup
+        run: |
+          if [ -f /tmp/revision-edge-functions.pid ]; then
+            kill "$(cat /tmp/revision-edge-functions.pid)" 2>/dev/null || true
+          fi
+          supabase stop --no-backup

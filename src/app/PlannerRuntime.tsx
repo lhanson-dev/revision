@@ -156,19 +156,23 @@ export function PlannerRuntime() {
         <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><span className="nav-icon" aria-hidden="true">▤</span><span>Subjects</span></button>
       </nav>
 
-      {menuOpen && <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>}
-      <aside className={`menu-drawer runtime-menu-drawer ${menuOpen ? 'open' : ''}`} aria-label="Account and additional links" aria-hidden={!menuOpen}>
-        <div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
-        <nav className="drawer-links">
-          <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
-          <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
-          <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
-          <button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button>
-          {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
-          {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
-        </nav>
-        <button className="signout-button" onClick={signOut}>Sign out</button>
-      </aside>
+      {menuOpen && (
+        <>
+          <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
+          <aside className="menu-drawer runtime-menu-drawer open" aria-label="Account and additional links">
+            <div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
+            <nav className="drawer-links">
+              <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
+              <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
+              <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
+              <button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button>
+              {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
+              {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
+            </nav>
+            <button className="signout-button" onClick={signOut}>Sign out</button>
+          </aside>
+        </>
+      )}
     </div>
   )
 }
