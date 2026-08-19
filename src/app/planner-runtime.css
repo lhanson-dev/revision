@@ -15,7 +15,16 @@
 @media (max-width: 960px) {
   .planner-runtime .runtime-screen > .app-shell .desktop-topbar,
   .planner-runtime .runtime-screen > .app-shell .mobile-topbar,
-  .planner-runtime .runtime-screen > .app-shell > .bottom-nav {
+  .planner-runtime .runtime-screen > .app-shell > .bottom-nav,
+  .planner-runtime > .runtime-topbar {
     display: none !important;
+  }
+
+  .planner-runtime > .runtime-mobile-topbar {
+    display: flex !important;
+  }
+
+  .planner-runtime > .runtime-bottom-nav {
+    display: grid !important;
   }
 }
