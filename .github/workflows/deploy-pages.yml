@@ -40,6 +40,12 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24.18.0'
+      - name: Mark release lineage pending
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REVISION_RELEASE_TARGET_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          REVISION_RELEASE_STATE: pending
+        run: node scripts/assurance/release-lineage.mjs publish-status
       - name: Verify PR, exact-head CI, Founder approval and prior release chain
         env:
           GITHUB_TOKEN: ${{ github.token }}
