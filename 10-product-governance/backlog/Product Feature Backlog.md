@@ -376,3 +376,148 @@ Before material implementation, review/update at minimum:
 - AI, privacy, safeguarding, evidence and educational-integrity authority;
 - target system architecture and dedicated REV technical design documentation; and
 - assurance/evaluation standards for AI tutoring quality.
+
+---
+
+## FI-004 — Initial Subject Diagnostic and Periodic Knowledge Check-in
+
+**Status:** Candidate  
+**Captured:** 2026-08-19  
+**Capability fit:** Understand; Guide; Practise and Test; Progress and Readiness  
+**Authority context:** Baseline and diagnostic assessment are already part of the approved `Understand` capability, and the core setup journey already expects Revision to establish baseline context progressively. This item defines a concrete diagnostic experience and evidence-handling model rather than proposing whether diagnostics should exist.  
+**Initial assessment:** High strategic value; creates an early evidence baseline for personalisation; implementation must prevent shallow diagnostic evidence from overstating mastery or progress
+
+### Student problem
+
+When a student first adds a subject, Revision may know their qualification, exam board and specification but still know almost nothing about what they personally understand.
+
+Without an initial evidence point, early recommendations risk being generic or based mainly on syllabus structure rather than the student's actual strengths and weaknesses.
+
+At the same time, a short broad quiz cannot provide enough evidence to conclude that a student has mastered a topic simply because they answered one or two sampled questions correctly.
+
+### Proposed capability
+
+When a student starts a subject for the first time, Revision should ask them to complete a short diagnostic quiz designed to establish a **broad initial picture** of their knowledge across the relevant subject/specification.
+
+The diagnostic should sample across important areas rather than deeply testing every topic. Its purpose is to identify useful starting signals such as:
+
+- areas that may need earlier attention;
+- areas that appear relatively stronger and may need less immediate focus;
+- major knowledge gaps or misconceptions worth checking further; and
+- areas where Revision currently has too little evidence to make a useful judgement.
+
+The result should immediately improve early recommendations while remaining explicitly provisional.
+
+### First-subject experience
+
+The diagnostic should fit naturally into the first-use journey after the academic context is known.
+
+A likely flow is:
+
+`add subject → confirm qualification/exam board/specification → explain the purpose of the quick diagnostic → complete broad diagnostic → receive a simple starting summary → receive a useful recommended next action`
+
+The experience should explain that the quiz is there to help Revision understand where to start, not to give the student a grade or judge their overall ability.
+
+It should be short enough that it does not become a large onboarding barrier. If the student cannot complete it, the system should degrade gracefully and build its learner model from later evidence rather than inventing a baseline.
+
+### Evidence weighting and progress protection
+
+**Diagnostic evidence should influence prioritisation before it is strong enough to influence strong progress claims.**
+
+The initial diagnostic is broad but shallow. Evidence from it should therefore begin with lower confidence than repeated topic-level assessment or exam-relevant performance.
+
+The model should distinguish between:
+
+- **directional diagnostic evidence** — useful for deciding what to investigate or prioritise next;
+- **corroborated understanding evidence** — enough repeated or sufficiently deep evidence to support stronger understanding claims; and
+- **exam-readiness evidence** — evidence from exam-relevant tasks capable of supporting readiness judgements.
+
+A small number of correct diagnostic answers may create a tentative signal that an area is probably stronger, but **must not automatically mark that area proficient, mastered, complete or exam-ready**.
+
+Similarly, one incorrect sampled question should not permanently label a student weak. It should increase the priority of checking or revisiting that area, with later evidence able to confirm or overturn the initial signal.
+
+### Progress-stat behaviour
+
+The diagnostic should not distort headline progress simply because it samples many areas quickly.
+
+In particular:
+
+- answering a sampled question should not automatically count the whole topic as covered;
+- one or two correct answers should not establish topic mastery/proficiency;
+- broad diagnostic success should not produce a large artificial jump in overall progress;
+- diagnostic evidence should carry an explicit confidence/evidence-strength concept behind the scenes;
+- later, stronger evidence should be able to supersede the diagnostic signal; and
+- progress/readiness UI should use cautious language where the diagnostic is the main evidence source.
+
+The system should prefer states such as **early evidence**, **possible strength**, **possible focus area** or equivalent plain-language treatment over definitive mastery labels when evidence is still shallow.
+
+Exact thresholds and weighting should be validated as an evidence-model decision rather than chosen solely to make the progress UI look responsive.
+
+### Periodic knowledge check-ins
+
+Revision may repeat a similar broad diagnostic periodically as a **check-in activity** once a student has been using a subject for some time.
+
+A check-in can help detect:
+
+- knowledge that has strengthened;
+- areas that may have been forgotten;
+- gaps that normal self-selected activity has not exposed;
+- whether previous weak-area priorities are still justified; and
+- whether the student's broader evidence picture has become stale or uneven.
+
+Check-ins should not simply repeat on an arbitrary frequent schedule. Useful triggers may include elapsed time, stale evidence, major changes in the revision plan, long gaps in a subject, or a need to refresh the broad picture before an important assessment.
+
+Repeated check-ins should create additional evidence, but should not allow repeated shallow quizzes to accumulate mechanically into false mastery. Evidence quality, breadth, recency and corroboration should matter more than raw attempt count.
+
+### REV role
+
+REV should use diagnostic results constructively to explain the starting point and next action.
+
+For example, REV may say that early answers suggest a topic deserves checking first, while making it clear that Revision is still learning about the student.
+
+REV should not make definitive statements about ability from a small diagnostic sample.
+
+### Diagnostic design principles
+
+The diagnostic should:
+
+- sample across the relevant specification rather than only the first topics in sequence;
+- use questions with clear curriculum mapping so evidence can be attributed correctly;
+- include enough breadth to improve prioritisation without attempting to prove mastery;
+- avoid making the student feel that poor baseline performance is a failure;
+- provide useful feedback where appropriate without turning the diagnostic into a long teaching session;
+- record uncertainty explicitly when the evidence is insufficient; and
+- be accessible and fast to complete on mobile as well as larger screens.
+
+### Dependencies / questions to assess
+
+- specification-to-question mapping and diagnostic question-bank coverage;
+- sampling strategy across subject/topic areas;
+- initial diagnostic length and acceptable completion burden;
+- evidence-strength/confidence model;
+- how diagnostic evidence contributes to recommendation scoring without inflating progress;
+- how repeated check-ins interact with existing evidence and recency;
+- whether question difficulty should adapt during the diagnostic;
+- handling of skipped, guessed or low-confidence answers where relevant;
+- learner-facing language for provisional signals;
+- analytics/evaluation showing whether the diagnostic actually improves recommendation quality; and
+- assurance that diagnostic outcomes remain consistent with `Claims and Progress Governance.md`.
+
+### Relationship to other backlog items
+
+FI-004 should provide early learner evidence that improves the adaptive planning logic in FI-001 and the personalised guidance available to REV in FI-003.
+
+The diagnostic itself should remain an educational/evidence capability. If commercial packaging later differentiates diagnostic depth or frequency under FI-002, payment status must not change the truthfulness or evidence standards used for progress and mastery claims.
+
+### Promotion / implementation impact
+
+Because baseline/diagnostic assessment already exists in approved product direction, this item should be used to define and sequence its concrete implementation.
+
+Before material implementation, review/update at minimum:
+
+- `10-product-governance/Core User Journeys.md` for the first-subject baseline/check-in journey;
+- `10-product-governance/Product System Model.md` for diagnostic evidence strength and learner-state updates;
+- `40-evidence-and-trust/Claims and Progress Governance.md` if more explicit diagnostic evidence rules or thresholds are needed;
+- applicable assessment/content standards for diagnostic question quality and curriculum coverage;
+- technical documentation for the learner evidence model and diagnostic engine; and
+- assurance/evaluation coverage proving that shallow diagnostic evidence cannot falsely create mastery, proficiency or readiness states.
