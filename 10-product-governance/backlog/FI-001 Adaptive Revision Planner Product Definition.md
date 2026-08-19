@@ -175,6 +175,37 @@ REV's role is to interpret and explain material planning decisions in natural la
 
 A learner should be able to understand the important reason behind a recommendation without seeing internal mathematical detail. For example, REV may explain that one subject has moved forward because its assessment is closer and the learner currently has weaker evidence there.
 
+### D17 — Insufficient time triggers calm priority mode, not failure mode
+
+Revision should detect when the learner's remaining realistic availability is no longer sufficient to cover all meaningful remaining work before an assessment.
+
+This state must be treated as a planning condition rather than a learner failure. The product's job is to help the learner get the best possible outcome from the time they genuinely have available and reduce unnecessary panic.
+
+When this happens, the planner should switch from trying to preserve broad coverage to explicitly maximising the value of the remaining time. It should prioritise work such as:
+
+- important weak or under-covered areas;
+- exam-readiness activity where the assessment is close;
+- high-value gaps with realistic improvement potential;
+- work supported by stronger evidence of current need; and
+- a sensible balance across competing subjects and assessments.
+
+It should deprioritise work such as:
+
+- already-strong material;
+- lower-value repetition;
+- marginal areas where the likely benefit is small relative to the time required; and
+- activity that would create superficial coverage without meaningful learning or readiness value.
+
+Learner-facing language must remain calm, factual and action-oriented. It should not use red-alert framing, shame, blame, panic-inducing countdowns or labels such as `failed`, `behind`, `bad`, or `at risk` merely because available time is insufficient.
+
+A suitable interaction should acknowledge the constraint and immediately move to what Revision can still do. For example, REV may explain that there is not enough time to cover everything and that it has therefore prioritised the areas where the remaining time can make the biggest difference.
+
+The wider Plan experience may expose a neutral state such as `Prioritising` or equivalent wording, but the exact label should be validated through UX/content design. The meaning should be that Revision is actively optimising the remaining time, not that the learner has entered a failure state.
+
+Where a modest increase in availability would materially improve the outlook, REV may make a specific optional suggestion, explaining what the additional time would unlock. Such suggestions must remain proportionate and non-pressuring. If the learner cannot or does not want to add time, Revision should continue to optimise the time already available without judgement.
+
+The product should never pretend that an impossible plan is achievable, but it should also never imply that constrained time makes revision pointless. The intended emotional outcome is: `I know what matters most now, I have a realistic plan for the time I have, and I can still make useful progress.`
+
 ## Confirmed navigation responsibility model
 
 - **Home** — answers `What matters now?` and `What should I do today?`. It is the default signed-in destination, contains REV's concise learner-wide recommendation, and shows a smaller `Today's plan` summary linking to Plan. It must remain focused rather than becoming a dense dashboard.
