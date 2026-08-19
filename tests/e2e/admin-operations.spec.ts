@@ -121,6 +121,8 @@ async function seedAdminSession(page: Page) {
           checks: [
             { id: 'authentication', label: 'Authentication', status: 'Healthy', detail: 'Authenticated admin access verified.' },
             { id: 'database', label: 'Database', status: 'Healthy', detail: 'Metrics query succeeded.' },
+            { id: 'learner-app', label: 'Learner app', status: 'Healthy', detail: 'The canonical production /app/ route is reachable.' },
+            { id: 'deployment', label: 'Deployment', status: 'Healthy', detail: 'Latest main deployment and production smoke passed for abc1234.' },
             { id: 'content-factory', label: 'Content Factory', status: 'Attention needed', detail: 'GitHub integration needs configuration.', action: 'Configure the Content Factory secret.' },
           ],
           needsAttention: [
@@ -145,6 +147,8 @@ test('admin operations dashboard shows high-level evidence and drills into detai
   await expect(page.getByRole('button', { name: /Learners 12/ })).toBeVisible()
   await expect(page.getByRole('button', { name: /Active learners · 7d 8/ })).toBeVisible()
   await expect(page.getByRole('button', { name: /Learning activities · 7d 64/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Founder assurance' })).toBeVisible()
+  await expect(page.getByText('ProductionHealthy')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Needs attention' })).toBeVisible()
   await expect(page.getByText('GitHub integration needs configuration.')).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Content Operations' })).toBeVisible()
@@ -164,6 +168,17 @@ test('admin operations dashboard shows high-level evidence and drills into detai
   await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'System Health' }).click()
   await expect(page.getByRole('heading', { name: 'System Health' })).toBeVisible()
   await expect(page.getByText('Attention needed').first()).toBeVisible()
+  await waitForAdminPageToSettle(page)
+
+  await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'Assurance' }).click()
+  await expect(page).toHaveURL(/#\/admin\/assurance$/)
+  await expect(page.getByRole('heading', { name: 'Founder Assurance' })).toBeVisible()
+  await expect(page.getByText('Evidence, not a confidence score')).toBeVisible()
+  await expect(page.getByText('Exact-head CI correlation for the deployed revision is still not implemented')).toBeVisible()
+  await expect(page.getByText('A durable P0/P1/P2 defect source is not implemented yet')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Critical journeys' })).toBeVisible()
+  await expect(page.getByText('JRN-04')).toBeVisible()
+  await expect(page.getByText('DATA-01')).toBeVisible()
   await waitForAdminPageToSettle(page)
 
   await page.getByRole('navigation', { name: 'Admin operations' }).getByRole('button', { name: 'Content Operations' }).click()
