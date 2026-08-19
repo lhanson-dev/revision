@@ -1,6 +1,6 @@
 # Technology Stack
 
-**Status:** Current implemented technical stack and approved baseline. PRs #66, #67 and #68 are merged on `main`; chained commit-level production release evidence is now live and has completed its first successful governed production run.
+**Status:** Current implemented technical stack and approved baseline. PRs #66, #67 and #68 are merged on `main`; chained commit-level production release evidence is live and has completed its first successful governed production run. `main` is protected by an active GitHub ruleset.
 
 ## Application
 - React
@@ -48,6 +48,8 @@ The isolated integration stack uses synthetic Auth users only. Production learne
 - production smoke remains mandatory after Pages deployment
 - deployment publishes `revision/path-to-live` on the exact `main` commit as `pending` during verification and `success` only when lineage, readiness, build, deploy and smoke all pass; after the bootstrap release the immediately previous main revision must already carry a successful status
 - PR #68 merge `2f4eb8f9166ca658ae19a8b72400e26488d5c16a` completed the first observed full production chain successfully in release run `32304142083`
+- `main` is protected by a Founder-configured GitHub ruleset requiring a pull request, the three Revision CI jobs, conversation resolution and an up-to-date branch, with deletion restricted, force pushes blocked and no bypass list
+- GitHub's branch API independently reports `protected:true`; the connected capability does not enumerate the ruleset's internal rule list, so that visibility boundary is retained in assurance documentation
 - PR #66's `admin-operations` lineage implementation is deployed to production as Edge Function version 2 with JWT verification enabled
 - PR #67's assurance-plan v1 is intentionally `conservative-full`: it classifies and records risk but does not skip either existing CI suite while the classifier is calibrated
 
@@ -61,7 +63,7 @@ The isolated Supabase instance created by CI is an assurance dependency, not a s
 
 ## External controls / commercial boundaries
 
-GitHub `main` branch protection/ruleset remains an external repository setting and is not currently enabled. PR #68 provides a verified compensating production fail-closed release chain, but repository protection remains required defence in depth because an administrator could otherwise alter repository history or the workflow itself.
+GitHub repository protection is now active for `main` and complements the fail-closed production release chain. It is defence in depth rather than a replacement for governed change discipline: repository administrators retain the capability to alter settings/workflows and therefore remain bound by the explicit Founder approval and documented path-to-live rules.
 
 Supabase Security Advisor currently reports managed leaked-password protection disabled. Revision is currently on the Supabase Free plan, while that managed control requires Pro. The warning remains visible and is not represented as solved by application CI. Enable/reverify it before broad external learner acquisition or when Revision moves to Pro for another justified reason, whichever occurs first; this future launch/security control is tracked in Issue #69.
 
