@@ -1,0 +1,163 @@
+import {
+  assuranceCoverage,
+  coverageCounts,
+  dataSecurityCoverage,
+  defectCoverage,
+  journeyCoverage,
+  type AssuranceCoverageRecord,
+  type CoverageStatus,
+} from '../assurance/coverage-register'
+import './founder-assurance.css'
+
+export type AssuranceHealthStatus = 'Healthy' | 'Attention needed' | 'Unknown'
+
+export type AssuranceHealthCheck = {
+  id: string
+  label: string
+  status: AssuranceHealthStatus
+  detail: string
+  action?: string
+}
+
+export type AssuranceSnapshot = {
+  generatedAt: string
+  health: {
+    overall: AssuranceHealthStatus
+    checks: AssuranceHealthCheck[]
+  }
+}
+
+type AssuranceSummary = {
+  production: { status: AssuranceHealthStatus; detail: string }
+  pathToLive: { status: AssuranceHealthStatus; detail: string }
+  journeys: ReturnType<typeof coverageCounts>
+  dataSecurity: ReturnType<typeof coverageCounts>
+  defects: { status: 'Known' | 'Unknown'; detail: string }
+}
+
+function checkById(snapshot: AssuranceSnapshot | null, id: string) {
+  return snapshot?.health.checks.find((check) => check.id === id) ?? null
+}
+
+export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): AssuranceSummary {
+  const production = checkById(snapshot, 'learner-app')
+  const deployment = checkById(snapshot, 'deployment')
+  const defectControl = defectCoverage()
+
+  const productionStatus = production?.status ?? 'Unknown'
+  const productionDetail = production?.detail ?? 'Current production reachability evidence is unavailable.'
+
+  let pathStatus: AssuranceHealthStatus = 'Unknown'
+  let pathDetail = 'Exact CI → merge → deployment → production-smoke lineage is not yet available as one correlated evidence chain.'
+  if (deployment?.status === 'Attention needed') {
+    pathStatus = 'Attention needed'
+    pathDetail = deployment.detail
+  } else if (deployment?.status === 'Unknown') {
+    pathDetail = deployment.detail
+  } else if (deployment?.status === 'Healthy') {
+    pathDetail = `${deployment.detail} Exact-head CI correlation for the deployed revision is still not implemented, so Path to live remains Unknown rather than being overstated.`
+  }
+
+  return {
+    production: { status: productionStatus, detail: productionDetail },
+    pathToLive: { status: pathStatus, detail: pathDetail },
+    journeys: coverageCounts(journeyCoverage()),
+    dataSecurity: coverageCounts(dataSecurityCoverage()),
+    defects: defectControl?.status === 'Covered'
+      ? { status: 'Known', detail: 'The governed defect control is covered by a durable defect source.' }
+      : { status: 'Unknown', detail: 'A durable P0/P1/P2 defect source is not implemented yet, so zero defects must not be claimed.' },
+  }
+}
+
+function healthClass(status: AssuranceHealthStatus) {
+  return status.toLowerCase().replaceAll(' ', '-')
+}
+
+function coverageClass(status: CoverageStatus) {
+  return status.toLowerCase()
+}
+
+function countsText(counts: ReturnType<typeof coverageCounts>) {
+  return `${counts.Covered} Covered · ${counts.Partial} Partial · ${counts.Uncovered} Uncovered · ${counts.Unknown} Unknown`
+}
+
+function CoverageBadge({ status }: { status: CoverageStatus }) {
+  return <span className={`assurance-coverage-badge ${coverageClass(status)}`}>{status}</span>
+}
+
+function EvidenceTable({ title, records }: { title: string; records: AssuranceCoverageRecord[] }) {
+  return (
+    <section className="admin-panel assurance-evidence-panel" aria-labelledby={`assurance-${title.toLowerCase().replaceAll(' ', '-')}`}>
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Coverage evidence</p>
+          <h2 id={`assurance-${title.toLowerCase().replaceAll(' ', '-')}`}>{title}</h2>
+        </div>
+      </div>
+      <div className="admin-table-wrap">
+        <table className="admin-table assurance-table">
+          <thead><tr><th>Journey / control</th><th>Risk</th><th>Status</th><th>Evidence</th><th>Gap / next action</th></tr></thead>
+          <tbody>
+            {records.map((record) => (
+              <tr key={record.id}>
+                <td><strong>{record.id}</strong><span>{record.name}</span></td>
+                <td>{record.risk}</td>
+                <td><CoverageBadge status={record.status} /></td>
+                <td>{record.evidenceSource}</td>
+                <td>{record.gap}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )
+}
+
+export function FounderAssurance({ snapshot }: { snapshot: AssuranceSnapshot | null }) {
+  const summary = founderAssuranceSummary(snapshot)
+  const journeyRecords = journeyCoverage()
+  const dataRecords = dataSecurityCoverage()
+  const otherRecords = assuranceCoverage.filter((record) => !journeyRecords.includes(record) && !dataRecords.includes(record))
+
+  return (
+    <div className="founder-assurance">
+      <section className="assurance-summary-grid" aria-label="Founder assurance summary">
+        <article className="assurance-summary-card">
+          <small>Production</small>
+          <strong className={`assurance-health ${healthClass(summary.production.status)}`}>{summary.production.status}</strong>
+          <p>{summary.production.detail}</p>
+        </article>
+        <article className="assurance-summary-card">
+          <small>Path to live</small>
+          <strong className={`assurance-health ${healthClass(summary.pathToLive.status)}`}>{summary.pathToLive.status}</strong>
+          <p>{summary.pathToLive.detail}</p>
+        </article>
+        <article className="assurance-summary-card">
+          <small>Critical journeys</small>
+          <strong>{summary.journeys.Covered} covered</strong>
+          <p>{countsText(summary.journeys)}</p>
+        </article>
+        <article className="assurance-summary-card">
+          <small>Data &amp; security</small>
+          <strong>{summary.dataSecurity.Covered} covered</strong>
+          <p>{countsText(summary.dataSecurity)}</p>
+        </article>
+        <article className="assurance-summary-card">
+          <small>Defects</small>
+          <strong>{summary.defects.status}</strong>
+          <p>{summary.defects.detail}</p>
+        </article>
+      </section>
+
+      <div className="admin-warning assurance-truth-note" role="note">
+        <strong>Evidence, not a confidence score</strong>
+        <p>Covered means the required repeatable evidence exists. Partial, Uncovered and Unknown remain visible until real assurance closes the gap. Planned tests never count as Covered.</p>
+      </div>
+
+      <EvidenceTable title="Critical journeys" records={journeyRecords} />
+      <EvidenceTable title="Data and security" records={dataRecords} />
+      <EvidenceTable title="Production, delivery and other controls" records={otherRecords} />
+    </div>
+  )
+}
