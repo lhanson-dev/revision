@@ -1,8 +1,10 @@
+import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import tseslint from 'typescript-eslint'
 
 const files = ['src/**/*.{ts,tsx}', 'content/**/*.ts', 'vite.config.ts']
+const assuranceScripts = ['scripts/**/*.mjs']
 
 export default tseslint.config(
   { ignores: ['dist/**', 'subjects/**'] },
@@ -19,5 +21,14 @@ export default tseslint.config(
       },
     },
     rules: reactHooks.configs.flat.recommended.rules,
+  },
+  {
+    ...js.configs.recommended,
+    files: assuranceScripts,
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
   },
 )
