@@ -1,3 +1,4 @@
+import { evidencePercentage } from '../engine/evidence/evidence'
 import type { ModuleLearningState } from './catalogue-model'
 import type {
   RevisionAssessment,
@@ -74,6 +75,36 @@ function learnerPreferenceForCandidate(
   return Math.max(subjectPreference, activityPreference) as 0 | 1 | 2 | 3
 }
 
+function topicEvidenceSummary(state: ModuleLearningState, topicId: string) {
+  const evidence = state.evidence.filter((item) => item.topicId === topicId)
+  const percentages = evidence.map(evidencePercentage).filter((value): value is number => value !== null)
+  const understanding = percentages.length === 0
+    ? null
+    : percentages.reduce((sum, value) => sum + value, 0) / percentages.length / 100
+  const evidenceStrength = Math.min(1, evidence.length / 4)
+  return { evidence, understanding, evidenceStrength }
+}
+
+function activityForTopic(state: ModuleLearningState, topicId: string, daysUntilAssessment: number, understanding: number | null) {
+  if (state.recommendation?.topicId === topicId) return state.recommendation.activity
+  const hasQuickCheck = state.adapter.listQuestions(topicId).length > 0
+  const hasFlashcards = state.adapter.listFlashcards(topicId).length > 0
+
+  if (daysUntilAssessment <= 21 && understanding !== null && understanding >= 0.55) return 'exam-question'
+  if (hasQuickCheck) return 'quick-check'
+  if (hasFlashcards) return 'flashcards'
+  return 'quick-check'
+}
+
+function scopeTopicIds(assessment: RevisionAssessment, state: ModuleLearningState) {
+  const explicitTopicIds = Array.isArray(assessment.scope.topicIds)
+    ? assessment.scope.topicIds.filter((value): value is string => typeof value === 'string')
+    : []
+  const available = new Set(state.adapter.listTopics().map((topic) => topic.id))
+  const validExplicit = explicitTopicIds.filter((topicId) => available.has(topicId))
+  return validExplicit.length > 0 ? validExplicit : [...available]
+}
+
 export function plannerCandidatesFromLearningState(
   states: readonly ModuleLearningState[],
   assessments: readonly RevisionAssessment[],
@@ -85,28 +116,36 @@ export function plannerCandidatesFromLearningState(
     if (daysUntilAssessment < 0 || !assessment.isActive) return []
 
     const state = stateForAssessment(states, assessment)
-    if (!state?.recommendation || !state.recommendationTopic) return []
+    if (!state) return []
+    const topicIds = scopeTopicIds(assessment, state)
+    const courseCoverage = state.topicCount === 0 ? 1 : state.evidencedTopics / state.topicCount
 
-    const recommendation = state.recommendation
-    const coverage = state.topicCount === 0 ? 1 : state.evidencedTopics / state.topicCount
+    return topicIds.map((topicId) => {
+      const summary = topicEvidenceSummary(state, topicId)
+      const activityType = activityForTopic(state, topicId, daysUntilAssessment, summary.understanding)
+      const topicCoverage = summary.evidence.length > 0 ? 1 : 0
+      const evidenceStrength = summary.evidence.length === 0
+        ? Math.min(0.2, confidenceStrength(state.readiness.confidence))
+        : Math.max(summary.evidenceStrength, confidenceStrength(state.readiness.confidence) * 0.5)
 
-    return [{
-      id: `${assessment.assessmentId}:${recommendation.topicId}:${recommendation.activity}`,
-      subjectId: assessment.subjectId,
-      assessmentId: assessment.assessmentId,
-      topicId: recommendation.topicId,
-      activityType: recommendation.activity,
-      estimatedMinutes: estimatedMinutes(recommendation.activity),
-      daysUntilAssessment,
-      assessmentImportance: assessment.relativeImportance,
-      coverage,
-      evidenceStrength: confidenceStrength(state.readiness.confidence),
-      understanding: null,
-      readiness: state.readiness.score === null ? null : state.readiness.score / 100,
-      examWeight: null,
-      learnerPreference: learnerPreferenceForCandidate(preferences, assessment.subjectId, recommendation.activity, now),
-      recentlyCompleted: recentlyCompletedTopic(state, recommendation.topicId, now),
-    } satisfies PlannerCandidate]
+      return {
+        id: `${assessment.assessmentId}:${topicId}:${activityType}`,
+        subjectId: assessment.subjectId,
+        assessmentId: assessment.assessmentId,
+        topicId,
+        activityType,
+        estimatedMinutes: estimatedMinutes(activityType),
+        daysUntilAssessment,
+        assessmentImportance: assessment.relativeImportance,
+        coverage: Math.min(topicCoverage, courseCoverage + 0.4),
+        evidenceStrength,
+        understanding: summary.understanding,
+        readiness: state.readiness.score === null ? null : state.readiness.score / 100,
+        examWeight: null,
+        learnerPreference: learnerPreferenceForCandidate(preferences, assessment.subjectId, activityType, now),
+        recentlyCompleted: recentlyCompletedTopic(state, topicId, now),
+      } satisfies PlannerCandidate
+    })
   })
 }
 
