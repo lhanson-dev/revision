@@ -65,6 +65,7 @@ Use this file to find the governing source before substantive work.
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
+- Product feature definition, measurement and packaging → `80-company-workflows/Feature Definition and Measurement Workflow.md`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
