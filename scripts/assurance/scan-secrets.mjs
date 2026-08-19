@@ -2,8 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 
-const skippedSelfFiles = new Set([
-  'scripts/assurance/scan-secrets.mjs',
+const allowedFixtureFiles = new Set([
   'scripts/assurance/scan-secrets.test.mjs',
 ])
 
@@ -67,7 +66,7 @@ export function scanRepository() {
   const findings = []
 
   for (const path of tracked) {
-    if (skippedSelfFiles.has(path) || !textExtensions.test(path)) continue
+    if (allowedFixtureFiles.has(path) || !textExtensions.test(path)) continue
     let text
     try {
       text = readFileSync(path, 'utf8')
