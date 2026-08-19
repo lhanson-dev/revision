@@ -2,6 +2,7 @@ import { createServer } from 'node:http'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   approvalMatches,
+  latestApprovalForHead,
   latestCiRunForHead,
   latestReleaseStatus,
   publishReleaseStatus,
@@ -47,14 +48,24 @@ describe('governed release lineage helpers', () => {
     expect(selectMergedPull(pulls, 'unknown')).toBeNull()
   })
 
-  it('matches Founder approval only for the exact head', () => {
-    const comment = {
+  it('matches Founder approval only for the exact head and selects the latest matching marker', () => {
+    const headSha = 'a'.repeat(40)
+    const oldApproval = {
+      id: 1,
+      created_at: '2026-08-19T21:01:00Z',
       user: { login: 'lhanson-dev' },
-      body: `revision-founder-approval:v1\nhead_sha: ${'a'.repeat(40)}`,
+      body: `revision-founder-approval:v1\nhead_sha: ${headSha}`,
     }
-    expect(approvalMatches(comment, 'lhanson-dev', 'a'.repeat(40))).toBe(true)
-    expect(approvalMatches(comment, 'lhanson-dev', 'b'.repeat(40))).toBe(false)
-    expect(approvalMatches(comment, 'someone-else', 'a'.repeat(40))).toBe(false)
+    const newApproval = {
+      id: 2,
+      created_at: '2026-08-19T21:02:00Z',
+      user: { login: 'lhanson-dev' },
+      body: `revision-founder-approval:v1\nhead_sha: ${headSha}`,
+    }
+    expect(approvalMatches(oldApproval, 'lhanson-dev', headSha)).toBe(true)
+    expect(approvalMatches(oldApproval, 'lhanson-dev', 'b'.repeat(40))).toBe(false)
+    expect(approvalMatches(oldApproval, 'someone-else', headSha)).toBe(false)
+    expect(latestApprovalForHead([oldApproval, newApproval], 'lhanson-dev', headSha)?.id).toBe(2)
   })
 
   it('uses the latest exact-head CI run rather than an older green run', () => {
