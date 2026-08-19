@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Merged and production database contract enabled; first fully evidenced readiness-gated Pages lineage still to be recorded  
+**Status:** Merged and production database contract enabled; readiness hardening applied and reconciled; first fully evidenced readiness-gated Pages lineage still to be recorded  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -43,11 +43,17 @@ It does not expose learner data, migration history, credentials or operational s
 
 The initial `planner-v1` contract verifies the current learner/profile/evidence tables, FI-001 planner tables, `admin_operations_metrics()` and `admin_planner_metrics()` required by the deployed runtime.
 
-Production verification on 2026-08-19 confirmed the RPC is present and currently returns `ready: true` with all `planner-v1` database capability checks true. That proves the database side of the readiness contract is enabled; it does not by itself prove that a complete Pages deployment has subsequently passed every readiness and smoke stage.
+Production verification on 2026-08-19 confirmed the RPC is present and returns `ready: true` with all `planner-v1` database capability checks true.
 
-The original applied migration created the RPC as `SECURITY DEFINER`. Supabase Security Advisor identified that elevated execution is unnecessary for a function callable by `anon` and `authenticated`. A rolled-back production verification proved the same contract remains callable by `anon` as `SECURITY INVOKER`. PR #62 therefore adds a forward-only hardening migration, `20260819160700_harden_release_readiness_security.sql`, rather than rewriting the historical applied migration. The isolated database assurance suite verifies the final RPC is `SECURITY INVOKER`.
+The original applied readiness migration created the RPC as `SECURITY DEFINER`. Supabase Security Advisor identified that elevated execution was unnecessary for a non-sensitive function callable by `anon` and `authenticated`.
 
-Until that forward migration is applied in production after an approved merge, the production advisor warning remains a real deployment follow-up and must not be represented as closed.
+PR #62 introduced a forward-only hardening migration rather than rewriting historical applied SQL. When that migration was applied through Supabase, production recorded the exact migration version as:
+
+`20260819162037_harden_release_readiness_security.sql`
+
+PR #63 reconciled the repository filename to that production migration-ledger version. Production verification on 2026-08-19 confirmed `revision_release_readiness()` is now `SECURITY INVOKER`, and the previous Security Advisor warning for this function is closed.
+
+The isolated database assurance suite also verifies the final RPC remains `SECURITY INVOKER`, so repository replay and production state now agree on this control.
 
 ## Required Edge Functions
 
@@ -55,6 +61,8 @@ The current frontend has protected Admin experiences that depend on two separate
 
 - `admin-operations` — Founder Operations / Founder Assurance evidence;
 - `planner-operations` — planner-specific protected operational evidence.
+
+Both functions were verified active in production on 2026-08-19 with JWT verification enabled.
 
 The release workflow probes both without credentials. A `401` proves that the route is deployed and that its JWT boundary is active. A missing route, success without authentication, or any other response fails the gate.
 
@@ -96,10 +104,12 @@ Those remain separate assurance responsibilities under the Testing & Assurance S
 
 The FI-001 planner schema, `admin_planner_metrics()`, `admin_operations_metrics()`, `planner-operations`, `admin-operations` and the `planner-v1` release-readiness RPC are currently present in production.
 
-The remaining path-to-live evidence gap is lineage, not database capability presence: Revision still needs a recorded deployment where the current production commit is shown to have passed the readiness gate, Pages deployment and production smoke as one correlated chain. Until that evidence is correlated, PTL-03 remains Partial and Founder Assurance Path to live remains Unknown rather than overstated.
+The readiness RPC currently reports `planner-v1` and `ready: true`. The least-privilege hardening is applied in production and reconciled to repository migration history.
 
-The release-readiness least-privilege hardening in PR #62 is a separate production enablement step. It is not required for frontend functionality, but the Security Advisor warning remains open until the new forward migration is applied and rechecked.
+The remaining path-to-live evidence gap is lineage, not backend capability presence: Revision still needs a recorded deployment where the same production lineage is correlated across required CI, explicit Founder merge approval, resulting `main` commit, backend readiness, Pages deployment and production smoke. Until that evidence is correlated, PTL-03 remains Partial and Founder Assurance Path to live remains Unknown rather than overstated.
 
 ## Migration-history note
 
-PR #62 reconciles repository migration filenames to the exact versions in the production `supabase_migrations.schema_migrations` ledger and restores the original `create_revision_progress` migration from the SQL retained by production. This makes isolated migration replay faithful to the production history and avoids introducing duplicate earlier migrations that would make future CLI migration comparison unsafe.
+PR #62 reconciled repository migration history to the production `supabase_migrations.schema_migrations` ledger and restored the original `create_revision_progress` migration from SQL retained by production. PR #63 completed the reconciliation for the readiness-hardening migration after Supabase assigned its applied version.
+
+The current repository migration filename and production ledger now both use `20260819162037_harden_release_readiness_security.sql`. This keeps isolated migration replay faithful to production history and avoids duplicate or divergent migration versions.
