@@ -1,0 +1,13 @@
+.planner-runtime .runtime-screen > .app-shell .desktop-topbar,
+.planner-runtime .runtime-screen > .app-shell .mobile-topbar,
+.planner-runtime .runtime-screen > .app-shell > .bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .planner-runtime .runtime-screen > .app-shell .desktop-topbar,
+  .planner-runtime .runtime-screen > .app-shell .mobile-topbar,
+  .planner-runtime .runtime-screen > .app-shell > .bottom-nav {
+    display: none !important;
+  }
+}
