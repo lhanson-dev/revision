@@ -41,9 +41,9 @@ jobs:
         run: npm run test:e2e
 
   database-assurance:
-    name: Database and RLS assurance
+    name: Database, RLS and protected service assurance
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -75,6 +75,39 @@ jobs:
         run: supabase test db supabase/tests/database-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
+      - name: Serve protected Edge Functions from repository source
+        run: |
+          set -euo pipefail
+          nohup supabase functions serve > /tmp/revision-edge-functions.log 2>&1 &
+          echo $! > /tmp/revision-edge-functions.pid
+          ready=false
+          for attempt in $(seq 1 60); do
+            status="$(curl --silent --output /tmp/admin-edge-probe.txt --write-out '%{http_code}' \
+              --request POST \
+              --header "apikey: ${SUPABASE_ANON_KEY}" \
+              --header 'Content-Type: application/json' \
+              --data '{}' \
+              "${SUPABASE_URL}/functions/v1/admin-operations" || true)"
+            if [ "$status" = "401" ]; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != "true" ]; then
+            echo 'Protected Edge Functions did not become ready with the expected unauthenticated 401 boundary.' >&2
+            cat /tmp/revision-edge-functions.log >&2 || true
+            cat /tmp/admin-edge-probe.txt >&2 || true
+            exit 1
+          fi
+      - name: Run protected Edge Function authorization integration assurance
+        env:
+          REVISION_EDGE_INTEGRATION: '1'
+        run: npx vitest run tests/integration/edge-operations.test.ts
       - name: Stop isolated Supabase test stack
         if: always()
-        run: supabase stop --no-backup
+        run: |
+          if [ -f /tmp/revision-edge-functions.pid ]; then
+            kill "$(cat /tmp/revision-edge-functions.pid)" 2>/dev/null || true
+          fi
+          supabase stop --no-backup
