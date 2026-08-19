@@ -1,6 +1,6 @@
 # Product Promise
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the core outcomes Revision should consistently help a student achieve.
 
 ## Core promise
@@ -20,6 +20,18 @@ The product should reduce uncertainty by helping the student understand:
 Revision should adapt its guidance to the student's subjects, progress and needs.
 
 The product should use what it knows about the student and their performance to make support more relevant over time rather than presenting the same generic path to everyone.
+
+## Make the remaining time useful
+
+Revision must work for students who are highly organised and on track, students whose plans change, and students who begin late or fall behind.
+
+Being behind is a real planning state, not a failure state.
+
+Revision should never shame a student for missed work or imply that a disrupted plan reflects poor character or ability. Life happens. The product should respond by recalculating what is realistically achievable and helping the student make the best use of the time that remains.
+
+If there is not enough time before an assessment to cover everything, Revision should say so calmly and truthfully. It should then use the student's exam dates, specification coverage, progress and available evidence to prioritise the work most likely to improve readiness.
+
+The product promise is not that every student will complete everything. It is that Revision will reduce overwhelm and give the student a clear, evidence-aware next action that improves their chance of doing as well as possible with the time available.
 
 ## Confidence must be earned
 
