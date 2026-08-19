@@ -1,6 +1,6 @@
 # Technology Stack
 
-**Status:** Current implemented technical stack and approved baseline. PR #66 is merged on `main`; PR #67 adds inspectable risk classification and repository secret/config scanning and remains in review until merged.
+**Status:** Current implemented technical stack and approved baseline. PRs #66 and #67 are merged on `main`; the current closure PR adds chained commit-level production release evidence and remains in review until merged/observed.
 
 ## Application
 - React
@@ -32,7 +32,9 @@
 - pinned `@axe-core/playwright` automated WCAG A/AA assurance across critical learner surfaces
 - governed P0/P1/P2 Defect Register projected into Founder Assurance
 - fail-closed PR-head CI / Founder approval / merge / deployment lineage correlation in protected `admin-operations`
-- PR #67 adds a machine-readable risk/assurance plan and repository privileged-secret/config scan before the main CI suites execute
+- machine-readable exact-base/head risk/assurance plan before main CI suites
+- repository privileged-secret/config scan across tracked non-binary files before downstream CI
+- closure PR adds a pre-deploy governed-lineage verifier and durable chained `revision/path-to-live` commit status
 
 The isolated integration stack uses synthetic Auth users only. Production learner data is not used for CI integration assurance.
 
@@ -42,7 +44,9 @@ The isolated integration stack uses synthetic Auth users only. Production learne
 - CI and Pages production build use Node 24.18.0 with npm 11.19.0 pinned explicitly
 - `package-lock.json` is committed and dependency installation uses `npm ci`
 - the repository package engine remains `node >=22.12.0`; the stricter CI pin is a build-system reliability control
-- Pages deployment is gated by the production `planner-v1` backend-readiness contract and required protected Edge Function probes before publication
+- Pages deployment is gated by governed PR/CI/Founder lineage, the production `planner-v1` backend-readiness contract and required protected Edge Function probes before publication once the closure PR is merged
+- production smoke remains mandatory after Pages deployment
+- the closure PR publishes `revision/path-to-live` on the exact `main` commit as success only when lineage, readiness, build, deploy and smoke all pass; after the bootstrap release the immediately previous main revision must already carry a successful status
 - PR #66's `admin-operations` lineage implementation is deployed to production as Edge Function version 2 with JWT verification enabled
 - PR #67's assurance-plan v1 is intentionally `conservative-full`: it classifies and records risk but does not skip either existing CI suite while the classifier is calibrated
 
@@ -54,9 +58,11 @@ The isolated integration stack uses synthetic Auth users only. Production learne
 
 The isolated Supabase instance created by CI is an assurance dependency, not a second production environment.
 
-## External controls still outstanding
+## External controls / commercial boundaries
 
-GitHub `main` branch protection/ruleset remains an external repository setting and is currently not enabled. Supabase leaked-password protection also remains an external Auth setting and the current Security Advisor still reports it disabled. These are not represented as solved by application CI.
+GitHub `main` branch protection/ruleset remains an external repository setting and is not currently enabled. The closure PR adds a compensating production fail-closed release chain, but repository protection remains required defence in depth because an administrator could otherwise alter repository history or the workflow itself.
+
+Supabase Security Advisor currently reports managed leaked-password protection disabled. Revision is currently on the Supabase Free plan, while that managed control requires Pro. The warning remains visible and is not represented as solved by application CI. Enable/reverify it before broad external learner acquisition or when Revision moves to Pro for another justified reason, whichever occurs first.
 
 ## Maintenance rule
 
