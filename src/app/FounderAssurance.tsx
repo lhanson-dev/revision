@@ -2,11 +2,16 @@ import {
   assuranceCoverage,
   coverageCounts,
   dataSecurityCoverage,
-  defectCoverage,
   journeyCoverage,
   type AssuranceCoverageRecord,
   type CoverageStatus,
 } from '../assurance/coverage-register'
+import {
+  defectRegister,
+  openDefectCounts,
+  openDefects,
+  type DefectRecord,
+} from '../assurance/defect-register'
 import './founder-assurance.css'
 
 export type AssuranceHealthStatus = 'Healthy' | 'Attention needed' | 'Unknown'
@@ -48,7 +53,6 @@ function summariseCoverage(records: readonly AssuranceCoverageRecord[]): Coverag
 export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): AssuranceSummary {
   const production = checkById(snapshot, 'learner-app')
   const deployment = checkById(snapshot, 'deployment')
-  const defectControl = defectCoverage()
   const journeyRecords = journeyCoverage()
   const dataRecords = dataSecurityCoverage()
 
@@ -66,14 +70,24 @@ export function founderAssuranceSummary(snapshot: AssuranceSnapshot | null): Ass
     pathDetail = `${deployment.detail} Exact-head CI correlation for the deployed revision is still not implemented, so Path to live remains Unknown rather than being overstated.`
   }
 
+  let defects: AssuranceSummary['defects'] = {
+    status: 'Unknown',
+    detail: 'The governed defect register is unavailable or has not been deliberately triaged, so zero defects must not be claimed.',
+  }
+  if (defectRegister.available) {
+    const counts = openDefectCounts()
+    defects = {
+      status: 'Known',
+      detail: `${counts.P0} P0 · ${counts.P1} P1 · ${counts.P2} P2 open. Register last triaged ${defectRegister.lastTriaged}.`,
+    }
+  }
+
   return {
     production: { status: productionStatus, detail: productionDetail },
     pathToLive: { status: pathStatus, detail: pathDetail },
     journeys: summariseCoverage(journeyRecords),
     dataSecurity: summariseCoverage(dataRecords),
-    defects: defectControl?.status === 'Covered'
-      ? { status: 'Known', detail: 'The governed defect control is covered by a durable defect source.' }
-      : { status: 'Unknown', detail: 'A durable P0/P1/P2 defect source is not implemented yet, so zero defects must not be claimed.' },
+    defects,
   }
 }
 
@@ -132,6 +146,43 @@ function EvidenceTable({ title, records }: { title: string; records: AssuranceCo
   )
 }
 
+function DefectTable({ records }: { records: DefectRecord[] }) {
+  const open = openDefects(records)
+  return (
+    <section className="admin-panel assurance-evidence-panel" aria-labelledby="assurance-defects">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Operational defect evidence</p>
+          <h2 id="assurance-defects">Defects</h2>
+        </div>
+      </div>
+      {!defectRegister.available ? (
+        <div className="admin-warning"><strong>Defect status Unknown</strong><p>The governed defect register could not be projected or has not been deliberately triaged.</p></div>
+      ) : open.length === 0 ? (
+        <div className="admin-success"><strong>No known open P0/P1/P2 defects</strong><p>The governed register was last triaged {defectRegister.lastTriaged}. This is a statement about recorded known defects, not proof that undiscovered defects cannot exist.</p></div>
+      ) : (
+        <div className="admin-table-wrap">
+          <table className="admin-table assurance-table">
+            <thead><tr><th>Defect</th><th>Severity</th><th>Status</th><th>Affected journey / control</th><th>Evidence</th><th>Action / closure</th></tr></thead>
+            <tbody>
+              {open.map((record) => (
+                <tr key={record.id}>
+                  <td><strong>{record.id}</strong><span>{record.fixPr ? `Fix ${record.fixPr}` : 'No fix PR yet'}</span></td>
+                  <td>{record.severity}</td>
+                  <td>{record.status}</td>
+                  <td>{record.affected}</td>
+                  <td>{record.evidence}</td>
+                  <td>{record.action}<br /><span>{record.closureEvidence}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  )
+}
+
 export function FounderAssurance({ snapshot }: { snapshot: AssuranceSnapshot | null }) {
   const summary = founderAssuranceSummary(snapshot)
   const journeyRecords = journeyCoverage()
@@ -174,6 +225,7 @@ export function FounderAssurance({ snapshot }: { snapshot: AssuranceSnapshot | n
         <p>Covered means the required repeatable evidence exists. Partial, Uncovered and Unknown remain visible until real assurance closes the gap. Planned tests never count as Covered.</p>
       </div>
 
+      <DefectTable records={defectRegister.records} />
       <EvidenceTable title="Critical journeys" records={journeyRecords} />
       <EvidenceTable title="Data and security" records={dataRecords} />
       <EvidenceTable title="Production, delivery and other controls" records={otherRecords} />
