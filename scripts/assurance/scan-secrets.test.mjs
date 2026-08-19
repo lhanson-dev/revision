@@ -29,7 +29,7 @@ describe('repository secret/config scanner', () => {
     const privateKey = `-----BEGIN ${'PRIVATE KEY-----'}`
     expect(scanText('ops.env', privateKey)).toContainEqual({ path: 'ops.env', kind: 'Private key block' })
 
-    const databaseUrl = `postgresql://${'revision:supersecret@db.example.com/revision'}`
+    const databaseUrl = `${'postgresql'}://${'revision:supersecret@db.example.com/revision'}`
     expect(scanText('ops.env', databaseUrl)).toContainEqual({
       path: 'ops.env',
       kind: 'Credential-bearing database URL',
