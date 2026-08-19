@@ -21,6 +21,7 @@ interface PlannerHomeScreenProps {
   onOpenPlan: () => void
   onOpenRev: () => void
   onOpenProgress: () => void
+  onOpenSubjects: () => void
   onOpenSubject: (subjectId: string) => void
 }
 
@@ -48,15 +49,15 @@ function activityLabel(activity: string) {
 }
 
 function itemTopicLabel(item: PlannerItem, states: readonly ModuleLearningState[]) {
-  const state = states.find((candidate) => candidate.adapter.manifest.subject.id === item.subjectId && candidate.recommendationTopic?.id === item.topicId)
-  return state?.recommendationTopic?.shortTitle ?? item.topicId
+  const state = states.find((candidate) => candidate.adapter.manifest.subject.id === item.subjectId && candidate.adapter.getTopic(item.topicId))
+  return state?.adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId
 }
 
 function subjectName(subjectId: string) {
   return catalogue.find((subject) => subject.id === subjectId)?.name ?? subjectId
 }
 
-export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenProgress, onOpenSubject }: PlannerHomeScreenProps) {
+export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenProgress, onOpenSubjects, onOpenSubject }: PlannerHomeScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
@@ -107,12 +108,30 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
         subjectId: item.subjectId,
         topicId: item.topicId,
         activityType: item.activityType,
-        metadata: { plannerVersion: 1, source: 'home' },
+        metadata: { plannerVersion: 1, source: 'home', capacityState: snapshot?.capacityState ?? 'unknown' },
       })
     } catch {
       // Activity logging must never block a learner from starting useful revision.
     }
     onOpenSubject(item.subjectId)
+  }
+
+  async function chooseSomethingElse() {
+    if (topItem) {
+      try {
+        await recordPlannerActivityEvent(client, userId, {
+          recommendationId: topItem.recommendationId,
+          eventType: 'chosen_alternative',
+          subjectId: topItem.subjectId,
+          topicId: topItem.topicId,
+          activityType: topItem.activityType,
+          metadata: { plannerVersion: 1, source: 'home', capacityState: snapshot?.capacityState ?? 'unknown' },
+        })
+      } catch {
+        // Deliberate learner choice remains available even if telemetry fails.
+      }
+    }
+    onOpenSubjects()
   }
 
   if (loading) return <main className="dashboard screen-dashboard"><section className="planner-panel"><p>REV is checking what matters today…</p></section></main>
@@ -142,6 +161,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
             <p className="rev-message">{guidance}</p>
             <div className="rev-actions">
               {topItem && <button className="rev-primary" onClick={() => void startItem(topItem)}>Start {activityLabel(topItem.activityType)} <span aria-hidden="true">→</span></button>}
+              {topItem && <button className="rev-secondary" onClick={() => void chooseSomethingElse()}>I want to choose</button>}
               <button className="rev-secondary" onClick={onOpenRev}>Talk to REV</button>
               <button className="rev-secondary" onClick={onOpenPlan}>Open my plan</button>
             </div>
