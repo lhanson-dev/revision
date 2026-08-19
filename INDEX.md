@@ -51,6 +51,7 @@ Use this file to find the governing source before substantive work.
 - Other brand/visual authority → `20-brand-and-experience/`
 
 ## Brand and marketing
+- Core product messaging / no-shame positioning → `30-marketing-governance/Core Product Messaging.md`
 - Marketing, website, content, SEO and channels → `30-marketing-governance/`
 
 ## Evidence, engineering and operations
