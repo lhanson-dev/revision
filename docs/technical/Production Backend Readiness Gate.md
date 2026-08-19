@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Implemented design pending merge and first production verification  
+**Status:** Merged and production database contract enabled; first fully evidenced readiness-gated Pages lineage still to be recorded  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -29,7 +29,7 @@ Any missing function, contract mismatch, missing schema capability, missing Edge
 
 ## Database contract
 
-`supabase/migrations/20260819155000_add_release_backend_readiness.sql` defines the deliberately narrow public RPC:
+The production migration ledger records `20260819154143_add_release_backend_readiness.sql`, defining the deliberately narrow public RPC:
 
 `public.revision_release_readiness()`
 
@@ -42,6 +42,8 @@ It exposes only:
 It does not expose learner data, migration history, credentials or operational secrets.
 
 The initial `planner-v1` contract verifies the current learner/profile/evidence tables, FI-001 planner tables, `admin_operations_metrics()` and `admin_planner_metrics()` required by the deployed runtime.
+
+Production verification on 2026-08-19 confirmed the RPC is present and currently returns `ready: true` with all `planner-v1` database capability checks true. That proves the database side of the readiness contract is enabled; it does not by itself prove that a complete Pages deployment has subsequently passed every readiness and smoke stage.
 
 ## Required Edge Functions
 
@@ -88,8 +90,10 @@ Those remain separate assurance responsibilities under the Testing & Assurance S
 
 ## Current production enablement
 
-The FI-001 planner schema and `admin_planner_metrics()` were applied after the incomplete frontend deployment was detected. `planner-operations` was subsequently deployed with JWT verification enabled.
+The FI-001 planner schema, `admin_planner_metrics()`, `admin_operations_metrics()`, `planner-operations`, `admin-operations` and the `planner-v1` release-readiness RPC are currently present in production.
 
-During reconciliation with Founder Assurance v1, production was also found to be missing its already-approved `admin_operations_metrics()` RPC and `admin-operations` function. Those approved backend components have now been enabled and `admin-operations` is deployed with JWT verification enabled.
+The remaining evidence gap is lineage, not database capability presence: Revision still needs a recorded deployment where the current production commit is shown to have passed the readiness gate, Pages deployment and production smoke as one correlated path-to-live chain. Until that evidence is correlated, PTL-03 remains Partial and Founder Assurance Path to live remains Unknown rather than overstated.
 
-The new readiness RPC itself must be applied only after this governed change is approved and merged. The first deployment after merge is expected to fail closed until that migration is applied; after application, rerunning the Pages workflow should prove the new control end to end.
+## Migration-history note
+
+PR #62 reconciles repository migration filenames to the exact versions in the production `supabase_migrations.schema_migrations` ledger and restores the original `create_revision_progress` migration from the SQL retained by production. This makes isolated migration replay faithful to the production history and avoids introducing duplicate earlier migrations that would make future CLI migration comparison unsafe.
