@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(19);
+select plan(20);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -117,6 +117,10 @@ select throws_ok(
 reset role;
 
 select ok(has_function_privilege('anon', 'public.revision_release_readiness()', 'execute'), 'publishable/anonymous role can read the non-sensitive release readiness contract');
+select ok(
+  not (select prosecdef from pg_proc where oid = 'public.revision_release_readiness()'::regprocedure),
+  'release readiness RPC runs as SECURITY INVOKER'
+);
 
 select * from finish();
 rollback;
