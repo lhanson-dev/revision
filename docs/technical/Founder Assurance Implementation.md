@@ -1,6 +1,6 @@
 # Founder Assurance Implementation
 
-Status: Founder Assurance v1 is implemented on `main`. The governing strategy is active. Dynamic CI lineage, durable defect aggregation and stronger database/security assurance remain follow-on work until implemented and verified.
+Status: Founder Assurance v1 is implemented on `main`. PR #62 adds automated isolated database/RLS assurance and reconciles repository migration history to production truth. Dynamic CI lineage, durable defect aggregation, persistence/reload integration, Edge Function authorised-path integration and accessibility assurance remain follow-on work until implemented and verified.
 
 ## Purpose
 
@@ -45,7 +45,7 @@ The parser:
 
 ### Founder Assurance Admin view
 
-`src/app/FounderAssurance.tsx` provides the first `/app/#/admin/assurance` detail view.
+`src/app/FounderAssurance.tsx` provides `/app/#/admin/assurance`.
 
 It presents five separate Founder questions:
 
@@ -66,16 +66,27 @@ The existing `/app/#/admin` landing page includes a compact Founder Assurance su
 
 ### Browser assurance
 
-`tests/e2e/admin-operations.spec.ts` covers:
+`tests/e2e/admin-operations.spec.ts` covers the Founder Assurance summary, navigation to the Assurance view, production evidence presentation, truthful Unknown states and visibility of governed journey/data-control rows. The browser test uses controlled mocks and therefore proves presentation behaviour, not production backend/data integration.
 
-- the Founder Assurance summary appearing on the Admin landing page;
-- navigation to `/app/#/admin/assurance`;
-- production evidence presentation;
-- Path to live remaining Unknown when CI lineage is not correlated;
-- defect state remaining Unknown without a durable source;
-- governed journey/data-control rows being visible.
+## Automated database and RLS assurance
 
-The test uses controlled browser mocks and therefore proves Admin presentation behaviour, not production backend/data integration.
+PR #62 adds a separate `Database and RLS assurance` CI job. It starts an isolated Supabase stack, replays the version-controlled migration chain from zero and runs `supabase/tests/database-assurance.test.sql` through pgTAP. No production learner data is used.
+
+The suite proves the current declared scope including:
+
+- `learning_evidence` RLS is enabled and only the intended owner policies exist;
+- anonymous users cannot read learner evidence;
+- authenticated learners retain append-only select/insert privileges without update/delete;
+- one authenticated learner can read/insert their own learning evidence but cannot insert evidence for another learner;
+- all five adaptive-planner persistence tables have RLS and owner-scoped `USING`/`WITH CHECK` policies;
+- a learner can create their own planner assessment but cannot create one for another learner;
+- browser roles cannot execute the privileged Admin aggregate functions while `service_role` can;
+- the public release-readiness contract remains callable; and
+- the release-readiness RPC runs as `SECURITY INVOKER`, not with unnecessary elevated execution.
+
+The repository migration filenames are reconciled to the exact versions recorded in the production Supabase migration ledger. The original `create_revision_progress` migration was restored from the exact SQL retained by production. Already-applied historical migration SQL is preserved; new desired database behaviour is introduced only through forward migrations.
+
+This automation closes the repeatability gap for the specific RLS/privilege controls it asserts. It does not by itself prove browser-to-database persistence/reload, Admin Edge Function authorised success paths or all planner lifecycle persistence behaviour.
 
 ## Core implementation rule
 
@@ -123,7 +134,7 @@ Expected assurance adds full relevant regression, recovery/rollback verification
 
 ## Target CI implementation
 
-Risk-based CI selection is **not implemented by v1**. The target remains:
+Risk-based CI selection is not yet implemented. The target remains:
 
 1. inspect changed files and declared affected journeys/controls;
 2. calculate a proposed risk level;
@@ -140,7 +151,7 @@ The assurance plan should include change risk, classification reason, affected j
 
 Pre-merge evidence and production evidence remain separate.
 
-The current protected operations service provides production reachability and latest deployment/smoke evidence. v1 intentionally does not mark Path to live Healthy from that alone.
+The protected operations service provides production reachability and latest deployment/smoke evidence. Founder Assurance intentionally does not mark Path to live Healthy from that alone.
 
 Follow-on implementation must correlate:
 
@@ -156,26 +167,25 @@ Only then can Admin report a complete Path-to-live health state for the current 
 
 ## Data/security and defect boundary
 
-v1 does not convert the existing manual/partial database and security checks into Covered evidence. The coverage register continues to report those rows Partial/Uncovered until repeatable automation exists.
+Database/RLS automation only promotes controls whose required scope is now repeatably asserted. Persistence/reload and protected Edge Function authorised paths remain Partial until their additional required layers exist.
 
-Likewise, v1 does not invent `0 P0 / 0 P1 / 0 P2`. Defects remain Unknown until a durable governed defect source can be queried successfully.
+Founder Assurance still does not invent `0 P0 / 0 P1 / 0 P2`. Defects remain Unknown until a durable governed defect source can be queried successfully.
 
 ## Next implementation priorities
 
-1. automate database/RLS verification in CI or a governed integration environment;
-2. add real learner evidence persistence/reload integration coverage;
-3. add protected Admin 401/403/authorised Edge Function integration coverage;
-4. add automated accessibility checks for critical learner journeys;
-5. implement CI risk classification and assurance-plan artifact;
-6. correlate exact-head/main/deployment/smoke evidence;
-7. establish durable P0/P1/P2 defect records;
-8. aggregate those dynamic evidence sources through the protected Admin boundary;
-9. add targeted production journey smokes selected by change risk.
+1. add real learner evidence persistence/reload integration coverage;
+2. add protected Admin and Planner 401/403/authorised Edge Function integration coverage;
+3. add automated accessibility checks for critical learner journeys;
+4. implement CI risk classification and assurance-plan artifact;
+5. correlate exact-head/main/deployment/smoke evidence;
+6. establish durable P0/P1/P2 defect records;
+7. aggregate those dynamic evidence sources through the protected Admin boundary;
+8. add targeted production journey smokes selected by change risk.
 
 ## Truthfulness boundary
 
-The Admin must show existing evidence only. Missing/stale evidence is Unknown. Planned risk-based CI selection, database/security automation or defect aggregation must not be represented as live capability until implemented and verified.
+The Admin must show existing evidence only. Missing/stale evidence is Unknown. Planned risk-based CI selection, unimplemented persistence/integration coverage or defect aggregation must not be represented as live capability until implemented and verified.
 
 ## Documentation impact
 
-This implementation changes current Admin behaviour and adds a machine-readable projection of the governed assurance register. The corresponding coverage register has been updated with `ADM-02` for the Founder Assurance presentation journey. No new normative authority is required because this implementation is within the already approved Founder Assurance scope.
+Founder Assurance v1 added the Admin assurance presentation and machine-readable projection. PR #62 changes implementation truth by making a defined set of database/RLS controls repeatably executable in CI and reconciling migration history to production. The Assurance Coverage Register is updated only for controls whose required automated evidence is now proven; other gaps remain Partial/Uncovered.
