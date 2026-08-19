@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Production backend contract enabled and hardened. The current closure PR adds a governed release-lineage preflight and durable `revision/path-to-live` commit status; PTL-03 remains Partial until the first post-merge chain is observed successfully.  
+**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -19,7 +19,7 @@ The canonical learner frontend remains the React/Vite application at `/app/`, de
 
 A successful frontend build therefore does not by itself prove that the release is usable or governed.
 
-The proposed deployment sequence is:
+The current deployment sequence is:
 
 1. governed release-lineage preflight;
 2. production backend readiness;
@@ -32,14 +32,14 @@ Every stage fails closed. The final durable status is `success` only when all re
 
 ## Governed release-lineage preflight
 
-The closure PR adds `scripts/assurance/release-lineage.mjs` and makes `.github/workflows/deploy-pages.yml` run it before backend readiness.
+PR #68 added `scripts/assurance/release-lineage.mjs` and made `.github/workflows/deploy-pages.yml` run it before backend readiness.
 
 For the `main` commit being deployed, the preflight requires:
 
-1. the commit can be associated with a merged pull request;
+1. the commit can be associated with the exact merged pull request;
 2. the exact proposed PR head SHA can be established;
-3. Revision CI completed successfully for that exact head;
-4. the PR contains the machine-readable Founder approval marker authored by the configured Founder GitHub identity for that exact head; and
+3. the latest Revision CI for that exact head completed successfully;
+4. the PR contains a valid machine-readable Founder approval marker authored by the configured Founder GitHub identity for that exact head and recorded after the latest exact-head CI completed; and
 5. the immediately previous `main` commit has a successful `revision/path-to-live` status, except for the one explicit bootstrap parent described below.
 
 Founder approval marker format remains:
@@ -55,30 +55,31 @@ Missing PR, CI, approval or prior-release evidence blocks deployment. A successf
 
 After the bootstrap release, every deployed `main` revision must descend directly from a previous `main` revision whose latest `revision/path-to-live` status is `success`.
 
-This means an ordinary direct push to `main` cannot deploy under the unchanged governed workflow: it has no associated governed PR/approval lineage, the preflight fails, and the final status is published as failure. The failed revision also prevents the next release from silently carrying it forward because the prior-release chain check will fail closed until deliberately remediated.
+This means an ordinary direct push to `main` cannot deploy under the unchanged governed workflow: it has no associated governed PR/approval lineage, the preflight fails, and the release status remains non-successful. The failed revision also prevents the next release from silently carrying it forward because the prior-release chain check fails closed until deliberately remediated.
 
 This is a strong compensating production control while GitHub branch protection is not yet configured. It is **not equivalent to repository branch protection**, because someone with sufficient repository write/admin access could deliberately alter the workflow itself. GitHub branch protection/rulesets therefore remain required defence in depth.
 
 ### Bootstrap parent
 
-The first durable release-status deployment needs a single known parent because earlier releases did not publish `revision/path-to-live` commit statuses.
+The first durable release-status deployment needed a single known parent because earlier releases did not publish `revision/path-to-live` commit statuses.
 
-The allowed bootstrap parent is deliberately pinned to PR #67's governed merge:
+The allowed bootstrap parent was deliberately pinned to PR #67's governed merge:
 
 `7295f21d9baaf058e8f438fd48558a33f05d2042`
 
-PR #67 had prospectively recorded exact-head CI and Founder approval before merge. The bootstrap exception applies only when that exact SHA is the first parent of the first status-producing release. It must not be broadened or reused for an unrelated ancestry gap.
+PR #67 had prospectively recorded exact-head CI and Founder approval before merge. The bootstrap exception applied only when that exact SHA was the first parent of the first status-producing release. It must not be broadened or reused for an unrelated ancestry gap.
 
 ## Durable path-to-live status
 
-The final deployment job runs even when an earlier required stage fails and writes a GitHub commit status with context:
+The deployment workflow writes a GitHub commit status with context:
 
 `revision/path-to-live`
 
 The status is:
 
-- `success` only when governed-lineage preflight, backend readiness, build, Pages deploy and production smoke are all successful;
-- `failure` otherwise.
+- `pending` while governed release verification is in progress;
+- `success` only when governed-lineage preflight, backend readiness, build, Pages deploy and production smoke are all successful; and
+- a terminal non-success result otherwise.
 
 The status links to the corresponding GitHub Actions run and is attached directly to the deployed/attempted `main` commit. This makes the release-chain result queryable through ordinary commit-status APIs without relying on a client being able to enumerate push-triggered workflow runs.
 
@@ -170,18 +171,21 @@ The release gate proves governance lineage, required backend capability presence
 
 Those remain separate assurance responsibilities under the Testing & Assurance Standard, Security Standard, operational health checks and Assurance Coverage Register.
 
-## Current evidence boundary
+## First observed complete production lineage
 
-The FI-001 planner schema, protected Admin aggregate RPCs, `planner-operations`, `admin-operations` and the `planner-v1` readiness contract are currently present in production, and the readiness contract reports `ready: true`.
+PR #68 exact head `53e8bbef9bb85dd95830a504ce55de29bad7f1ff` passed Revision CI #413 / run `32303360669` and was explicitly Founder-approved after that CI completed.
 
-The closure PR implements the missing durable lineage/status mechanism but **does not itself prove PTL-03 is Covered while it remains unmerged**. PTL-03 may be promoted only after:
+PR #68 merged as:
 
-1. the closure PR has exact-head CI and explicit Founder approval;
-2. it is merged through the governed process;
-3. its `main` deployment passes lineage preflight, backend readiness, Pages deploy and production smoke; and
-4. the resulting merge commit is independently observed with `revision/path-to-live = success`.
+`2f4eb8f9166ca658ae19a8b72400e26488d5c16a`
 
-Until then the Assurance Coverage Register remains Partial for PTL-03.
+Production release run `32304142083` then completed successfully across governed lineage, production backend readiness, build, GitHub Pages deployment, production smoke and durable status publication.
+
+The exact merge commit was independently observed with:
+
+`revision/path-to-live = success`
+
+This is the first complete observed production lineage under the durable commit-level control and is sufficient to promote PTL-03 to Covered. Future release health remains dynamic operational evidence and must continue to be read from the current release status rather than inferred from this historical success.
 
 ## Migration-history note
 
