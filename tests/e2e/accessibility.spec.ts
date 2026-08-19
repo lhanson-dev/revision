@@ -108,10 +108,10 @@ test('critical subject, learning, practice, exam and progress journey meets the 
   await expectWcagBaseline(page, 'Business subject home')
 
   await page.getByLabel('AQA AS Business').getByRole('button', { name: 'Open course' }).click()
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', level: 2 })).toBeVisible()
+  const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
+  await expect(courseNav).toBeVisible()
   await expectWcagBaseline(page, 'AQA AS Business course overview')
 
-  const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
   await courseNav.getByRole('button', { name: 'Learn' }).click()
   await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
   await expectWcagBaseline(page, 'Learn')
