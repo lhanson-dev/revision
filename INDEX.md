@@ -67,6 +67,7 @@ Use this file to find the governing source before substantive work.
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 - Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
+- Current known P0/P1/P2 defects and closure evidence → `90-governance-registers/Defect Register.md`
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
