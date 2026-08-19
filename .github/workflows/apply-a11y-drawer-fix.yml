@@ -1,0 +1,40 @@
+name: Apply drawer accessibility fix
+
+on:
+  push:
+    branches:
+      - agent/close-assurance-foundation-gaps
+
+permissions:
+  contents: write
+
+jobs:
+  fix-drawer-a11y:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/close-assurance-foundation-gaps
+      - name: Make hidden drawer inert
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('src/app/App.tsx')
+          text = path.read_text()
+          old = 'aria-label="Account and additional links" aria-hidden={!menuOpen}>'
+          new = 'aria-label="Account and additional links" aria-hidden={!menuOpen} inert={!menuOpen}>'
+          count = text.count(old)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one guarded drawer target, found {count}')
+          path.write_text(text.replace(old, new))
+          PY
+      - name: Commit fix
+        run: |
+          set -euo pipefail
+          git config user.name 'revision-foundation-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add src/app/App.tsx
+          git commit -m 'Make hidden account drawer inert'
+          git push origin HEAD:agent/close-assurance-foundation-gaps
