@@ -1,12 +1,12 @@
 # Founder Assurance Implementation
 
-**Status:** Founder Assurance v1 and database/RLS assurance are implemented on `main`. PR #66 extends the implementation with authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, a durable defect register and fail-closed path-to-live lineage correlation. Exact-head CI #381 verified the in-review implementation; it is not production truth until merged and post-deploy evidence is established.
+**Status:** Current implementation on `main` includes governed coverage/defect projection, authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance and fail-closed path-to-live lineage correlation. PR #67 adds inspectable risk classification and repository secret/config scanning and remains in review until merged.
 
 ## Purpose
 
 Define how Revision implements the living Founder assurance model so operational confidence grows with the product and missing evidence remains visible rather than being converted into false certainty.
 
-This document implements the intent of:
+This document implements:
 
 - `50-engineering-standards/Testing & Assurance Standard.md`;
 - `50-engineering-standards/Observability & Operations Standard.md`;
@@ -19,145 +19,111 @@ It does not replace those authorities.
 
 ## Canonical runtime
 
-The implementation remains inside the existing role-gated Admin capability in the canonical React runtime:
+Founder Assurance remains inside the role-gated Admin capability in the canonical React runtime:
 
 - application: `/app/`;
 - Admin landing: `/app/#/admin`;
 - Founder Assurance: `/app/#/admin/assurance`;
 - protected evidence service: `supabase/functions/admin-operations`.
 
-No second Admin application or alternate learner runtime is introduced.
+No second Admin application or alternate learner runtime exists.
 
-## Governed coverage projection
+## Governed coverage and defect projection
 
-`src/assurance/coverage-register.ts` imports `90-governance-registers/Assurance Coverage Register.md` as raw build input and parses the governed table into typed coverage records.
+`src/assurance/coverage-register.ts` reads `90-governance-registers/Assurance Coverage Register.md` as governed build input and fails unrecognised status text to `Unknown`.
 
-The Markdown register remains the source of current assurance ownership. The runtime projection:
+`src/assurance/defect-register.ts` reads `90-governance-registers/Defect Register.md`. The projection is available only when the register has the supported schema version and a deliberate triage date. Open and Fix-in-review records count as open; Closed records remain durable history but do not contribute to current counts.
 
-- recognises stable assurance IDs;
-- preserves risk, required layer, evidence source, status and gap/next action;
-- normalises qualified Covered states to the governed headline state;
-- fails unrecognised status text to `Unknown`; and
-- is covered by unit tests.
+A deliberately triaged valid register with no open records may therefore truthfully show zero **known** P0/P1/P2 defects. It never claims undiscovered defects cannot exist.
 
-## Durable defect evidence
+## Founder Assurance view
 
-PR #66 introduces `90-governance-registers/Defect Register.md` as the durable source for known P0/P1/P2 defects and `src/assurance/defect-register.ts` as its fail-closed runtime projection.
+The Admin Assurance view separates:
 
-The projection is considered available only when the register declares the supported schema version and a deliberate triage date. `Open` and `Fix in review` records count as open. `Closed` records remain durable history in the register but do not contribute to current open-defect counts.
+1. **Production** — canonical learner-app reachability;
+2. **Path to live** — correlated release lineage when evidence is complete;
+3. **Critical journeys** — governed journey/control coverage;
+4. **Data & security** — governed data/security coverage; and
+5. **Defects** — governed P0/P1/P2 state.
 
-A valid deliberately triaged empty register can therefore truthfully mean **zero known open P0/P1/P2 defects**. It does not claim that undiscovered defects cannot exist. If the register cannot be parsed or has not been deliberately triaged, Founder Assurance reports defect status as `Unknown` rather than zero.
+It does not calculate a single confidence percentage.
 
-The Admin Assurance view exposes both the headline P0/P1/P2 counts and the underlying open defect evidence.
+## Database, persistence and planner assurance
 
-## Founder Assurance Admin view
+Revision CI starts an isolated Supabase stack, replays the version-controlled migration chain and runs pgTAP database/RLS assurance. Synthetic authenticated users then exercise the same service adapters used by the application.
 
-`src/app/FounderAssurance.tsx` presents five separate Founder questions:
+Current repeatable evidence includes:
 
-1. **Production** — current canonical learner-app reachability evidence.
-2. **Path to live** — correlated release-lineage evidence when the protected operations contract can prove it; otherwise `Unknown` or `Attention needed` as appropriate.
-3. **Critical journeys** — counts and detailed rows from the governed Assurance Coverage Register.
-4. **Data & security** — counts and detailed rows from the same governed register.
-5. **Defects** — P0/P1/P2 state from the governed Defect Register when its projection is available.
+- learning evidence write/reload through the real Data API and RLS boundary;
+- cross-user learner-evidence rejection;
+- planner assessment, availability, exception, preference and activity persistence/reload;
+- cross-user planner read/write rejection;
+- reloaded planner state fed back through the deterministic planner, proving persisted preference affects recommendation reasons; and
+- a real browser Practice → database save → reload → Progress reconstruction journey against isolated Supabase.
 
-The page does not calculate a single confidence percentage.
-
-## Database, RLS and authenticated persistence assurance
-
-The CI database job starts an isolated Supabase stack, replays the complete version-controlled migration chain and runs `supabase/tests/database-assurance.test.sql` through pgTAP. No production learner data is used.
-
-The existing pgTAP suite proves the declared database/RLS scope, including learner evidence ownership, planner table ownership, browser-role denial for privileged Admin aggregates and least-privilege release-readiness execution.
-
-PR #66 adds `tests/integration/supabase-persistence.test.ts`. It creates synthetic authenticated users in the isolated stack and exercises the same Supabase service adapters used by the application:
-
-- learning evidence is written through `recordLearningEvidence()` and reloaded through `loadLearningEvidence()`;
-- another authenticated learner cannot read that evidence through the service path;
-- assessments, availability, availability exceptions, learner planning preferences and activity events are written and reloaded through the planner service;
-- another learner cannot read those planner rows and a cross-user planner write is rejected; and
-- reloaded assessment/availability/preference state is fed back into the deterministic planner and demonstrably affects its recommendation reasons.
-
-PR #66 also adds a database-backed Playwright journey. The real app signs into the isolated Supabase Auth service, completes a scored Practice quick check, persists learning evidence, reloads the browser, and verifies that Progress reflects the persisted evidence. Public browser Supabase configuration is environment-overridable for this isolated test while production public configuration remains the default.
+Production learner data is not used for CI integration assurance.
 
 ## Protected Edge authorization assurance
 
-PR #66 runs repository `admin-operations` and `planner-operations` source locally with `supabase functions serve` against the isolated stack.
+Repository `admin-operations` and `planner-operations` source is served against isolated Supabase during CI. Integration tests require:
 
-`tests/integration/edge-operations.test.ts` proves for both functions that:
+- unauthenticated requests → `401`;
+- authenticated ordinary learner → `403`; and
+- database-authorised synthetic administrator → successful response.
 
-- unauthenticated requests are rejected with `401`;
-- an authenticated ordinary learner is rejected with `403`; and
-- a database-authorised synthetic administrator receives a successful response.
-
-For `admin-operations`, the integration test also requires the path-to-live health check to be present in the protected operations contract.
-
-This is materially stronger evidence than proving only that an Edge Function route exists or that a browser mock renders an Admin screen.
+This verifies the server/data authorization boundary rather than relying on Admin UI visibility.
 
 ## Automated accessibility assurance
 
-PR #66 pins `@axe-core/playwright` and runs automated WCAG A/AA checks through Playwright on phone, tablet and desktop.
+Pinned `@axe-core/playwright` checks WCAG A/AA rules on phone, tablet and desktop across sign-in, Home, Plan, REV, Subjects, Subject Home, course Overview, Learn, Practice, Quick Check, Exam Prep, expanded exam-paper content, timed exam, course Progress and global Progress.
 
-The assurance covers sign-in, Home, Plan, REV, Subjects, Subject Home, course Overview, Learn, Practice, Quick Check, Exam Prep, expanded exam-paper content, a timed exam, course Progress and global Progress.
+The gate discovered two P2 accessibility defects during PR #66: hidden focusable drawers and insufficient inactive desktop-navigation contrast. Both were durably recorded, fixed and closed only after exact-head browser/accessibility evidence passed.
 
-The new gate found two real P2 defects before the tranche was declared complete: hidden account/menu drawers remained keyboard-focusable while closed (`DEF-2026-001`), and inactive desktop runtime navigation failed colour contrast (`DEF-2026-002`). PR #66 removes closed drawers from the DOM and aligns runtime navigation with the approved high-contrast deep-ink/indigo treatment. Exact-head Revision CI #381 on head `ec11bbd596e475d597331510136babe1b1124c4c` passed the complete phone/tablet/desktop WCAG A/AA journey; both defects are closed in the governed Defect Register with that verification evidence.
-
-Automated axe coverage is a baseline, not a claim that all accessibility quality can be proven mechanically. Manual/assistive-technology review remains appropriate where a change introduces interaction patterns not meaningfully covered by automated rules.
+Automated axe coverage is a baseline; manual assistive-technology/usability review remains appropriate for interaction patterns automated rules cannot meaningfully judge.
 
 ## Path-to-live correlation
 
-Pre-merge and production evidence remain separate. A green PR run is not production evidence, and a successful deployment is not proof that the approved PR head was correctly governed.
+Production and PR evidence remain separate. Protected `admin-operations` correlates, where available:
 
-PR #66 adds a fail-closed `path-to-live` check to the protected `admin-operations` contract. For the latest successful `main` Pages deployment it attempts to correlate:
+1. deployed `main` commit;
+2. associated merged PR;
+3. exact proposed PR head;
+4. successful Revision CI for that exact head;
+5. machine-readable Founder approval marker authored by the configured Founder GitHub identity;
+6. merge revision; and
+7. successful backend-readiness-gated Pages deployment and production smoke.
 
-1. deployed `main` commit SHA;
-2. the merged PR associated with that commit;
-3. the exact proposed PR head SHA;
-4. successful `Revision CI` for that exact PR head;
-5. a machine-readable Founder approval marker authored by the configured Founder GitHub identity for that exact head;
-6. the merged `main` revision; and
-7. the backend-readiness-gated Pages deployment and production smoke represented by the successful deployment workflow.
-
-The Founder approval marker format is intentionally explicit:
+Founder approval marker format:
 
 ```text
 revision-founder-approval:v1
 head_sha: <40-character exact PR head SHA>
 ```
 
-The marker must be authored by the configured Founder GitHub identity and recorded **after explicit approval and before merge**. Missing approval evidence is `Unknown`; it is never inferred from the fact that a PR was merged. Known failed CI/deployment evidence is `Attention needed`.
+Missing evidence is `Unknown`; a known failed required stage is `Attention needed`. Approval is never inferred merely because a merge occurred.
 
-PR #64 predates this marker and must not be backfilled to manufacture historical evidence. The first complete lineage can only be recorded on a future explicitly approved merge using the marker prospectively.
+PR #66 was explicitly approved with the marker and merged as `d49e5c7cc956a8c37294fa7c2392646505204a29`. The updated `admin-operations` implementation is deployed to production as version 2 with JWT verification enabled. The current execution environment could not independently enumerate the push-triggered Pages run after that merge, so the first complete observed production lineage remains deliberately unpromoted rather than reconstructed or assumed.
 
-## Core implementation rule
+## Risk-based assurance planning
 
-Every material change must resolve:
+PR #67 introduces the first machine-readable change-assurance plan. It implements existing authority rather than changing it.
 
-1. which governed user journeys and controls are affected;
-2. the risk level of the change;
-3. the minimum required assurance layers;
-4. whether existing tests still provide valid evidence;
-5. which checks must run before merge;
-6. which checks must run after deployment; and
-7. whether the Assurance Coverage Register or Defect Register changes.
+The plan records exact base/head SHAs, risk level/reasons, affected domains, required assurance layers and execution mode. V1 is intentionally `conservative-full`: classification is inspectable but both existing CI suites still run for every PR while the classifier is calibrated. Unknown executable/config changes escalate fail-safe.
 
-A feature is not complete merely because its implementation works locally. Its assurance ownership and evidence must remain aligned with the governed registers.
-
-## Remaining boundaries after PR #66
-
-PR #66 does not by itself justify claiming every assurance row is Covered. In particular:
-
-- the first fully correlated production path-to-live lineage cannot exist until an explicitly approved PR using the new marker is merged, deployed and smoked;
-- repository branch protection remains an external GitHub settings control until configured and reverified;
-- Supabase leaked-password protection remains an external Auth setting until enabled and the Security Advisor rechecked;
-- real production authentication transaction assurance remains separate from isolated CI authentication;
-- complete exam save/result lifecycle assurance remains separate from the Practice/Progress persistence path; and
-- content-pack educational assurance remains governed independently of software CI.
-
-Risk-based CI selection and a machine-readable assurance-plan artifact remain a useful engineering maturity improvement, but are not substituted for the concrete evidence layers above.
+See `docs/technical/Risk-Based Assurance Plan Implementation.md`.
 
 ## Truthfulness boundary
 
-The Admin must show existing evidence only. Missing or stale evidence is `Unknown`. Planned tests never count as coverage. A known failed required stage is `Attention needed`. Coverage-register rows are promoted only after their declared required assurance is repeatably demonstrated.
+Founder Assurance may show only evidence that exists. Planned tests do not count as coverage. Missing/stale evidence is `Unknown`; known failed required evidence is `Attention needed`; coverage rows are promoted only after their declared layer is repeatably demonstrated.
+
+## Remaining external/current boundaries
+
+- GitHub `main` protection/ruleset is not enabled and remains an external repository-setting control.
+- Supabase leaked-password protection remains disabled according to the current Security Advisor and must be enabled in Auth settings before that warning can close.
+- Real production sign-in transaction assurance remains separate from isolated CI authentication.
+- Full exam save/result lifecycle assurance remains separate from the current Practice/Progress persistence path.
+- Educational/content assurance remains governed independently of software CI.
 
 ## Documentation impact
 
-PR #66 changes implementation truth around CI, protected operations, defect evidence, public test configuration and accessibility. This document, the Technology Stack, the Assurance Coverage Register, the Defect Register and INDEX are therefore maintained in the same governed PR. Historical audits/incidents are not rewritten.
+PR #67 changes CI/assurance implementation truth and therefore maintains this document, the Technology Stack, the Risk-Based Assurance Plan implementation document and the Assurance Coverage Register in the same governed change. Historical audit/incident evidence is not rewritten.
