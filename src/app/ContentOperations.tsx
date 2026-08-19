@@ -180,8 +180,21 @@ export function ContentOperations() {
   }, [])
 
   useEffect(() => {
-    void loadSnapshot()
-  }, [loadSnapshot])
+    let active = true
+    supabase.functions.invoke<AdminSnapshot>('admin-operations', {
+      body: { view: 'summary' },
+    }).then(({ data, error }) => {
+      if (!active) return
+      if (error || !data) {
+        setSnapshot(null)
+        setSnapshotError('Operations data is not available yet. The protected admin metrics service may still need production deployment.')
+      } else {
+        setSnapshot(data)
+      }
+      setLoadingSnapshot(false)
+    })
+    return () => { active = false }
+  }, [])
 
   const moduleActivity = useMemo(() => snapshot?.activity.modules30d ?? [], [snapshot])
 
@@ -215,13 +228,13 @@ export function ContentOperations() {
     }
   }
 
-  function pageHeader(eyebrow: string, title: string, copy: string) {
+  function pageHeader(titleId: string, eyebrow: string, title: string, copy: string) {
     return (
       <>
         <header className="page-heading admin-page-heading">
           <div>
             <p className="eyebrow">{eyebrow}</p>
-            <h1>{title}</h1>
+            <h1 id={titleId}>{title}</h1>
             <p>{copy}</p>
           </div>
           <button className="secondary admin-refresh" onClick={() => void loadSnapshot()} disabled={loadingSnapshot}>
@@ -314,7 +327,7 @@ export function ContentOperations() {
     const users = snapshot?.users
     return (
       <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="admin-users-title">
-        {pageHeader('Revision Admin · Users', 'Users', 'Understand whether real learners are joining and recording learning activity, without mixing in test or admin behaviour.')}
+        {pageHeader('admin-users-title', 'Revision Admin · Users', 'Users', 'Understand whether real learners are joining and recording learning activity, without mixing in test or admin behaviour.')}
         <section className="admin-stat-grid admin-detail-stats" aria-label="User statistics">
           <article className="admin-static-stat"><small>Total learners</small><strong>{users?.totalLearners ?? '—'}</strong><span>Admin and test accounts excluded</span></article>
           <article className="admin-static-stat"><small>New learners · 7d</small><strong>{users?.newLearners7d ?? '—'}</strong><span>{users ? `${users.newLearners30d} in 30 days` : '—'}</span></article>
@@ -339,7 +352,7 @@ export function ContentOperations() {
     ] as const : []
     return (
       <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="admin-activity-title">
-        {pageHeader('Revision Admin · Activity', 'Learning Activity', 'See what learners are actually doing from recorded Revision evidence. This does not infer reading time or page visits that Revision does not currently collect.')}
+        {pageHeader('admin-activity-title', 'Revision Admin · Activity', 'Learning Activity', 'See what learners are actually doing from recorded Revision evidence. This does not infer reading time or page visits that Revision does not currently collect.')}
         <section className="admin-stat-grid admin-detail-stats" aria-label="Learning activity statistics">
           <article className="admin-static-stat"><small>Activities · 7d</small><strong>{activity?.events7d ?? '—'}</strong><span>Recorded scored evidence</span></article>
           <article className="admin-static-stat"><small>Activities · 30d</small><strong>{activity?.events30d ?? '—'}</strong><span>Across real learner accounts</span></article>
@@ -359,7 +372,7 @@ export function ContentOperations() {
     const health = snapshot?.health
     return (
       <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="admin-health-title">
-        {pageHeader('Revision Admin · Operations', 'System Health', 'Health is evidence-based: missing evidence is shown as Unknown rather than being silently treated as Healthy.')}
+        {pageHeader('admin-health-title', 'Revision Admin · Operations', 'System Health', 'Health is evidence-based: missing evidence is shown as Unknown rather than being silently treated as Healthy.')}
         <section className="admin-health-banner admin-health-detail" aria-labelledby="health-overall-title"><div><p className="eyebrow">Overall</p><h2 id="health-overall-title">{health?.overall ?? 'Unknown'}</h2><p>{snapshot ? `Last checked ${formatDate(snapshot.generatedAt)}.` : 'No live check is currently available.'}</p></div>{health ? <HealthBadge status={health.overall} /> : null}</section>
         <section className="admin-health-list" aria-label="System health checks">
           {health?.checks.map((check) => <article className="admin-health-item" key={check.id}><div><h2>{check.label}</h2><p>{check.detail}</p>{check.action ? <small><strong>Action:</strong> {check.action}</small> : null}</div><HealthBadge status={check.status} /></article>)}
@@ -373,7 +386,7 @@ export function ContentOperations() {
     const content = snapshot?.content
     return (
       <main className="dashboard screen-dashboard page-screen content-operations admin-operations" aria-labelledby="content-operations-title">
-        {pageHeader('Revision Admin · Content', 'Content Operations', 'Start governed course intake and see the current Content Factory job picture. Job state never replaces content assurance or Founder merge approval.')}
+        {pageHeader('content-operations-title', 'Revision Admin · Content', 'Content Operations', 'Start governed course intake and see the current Content Factory job picture. Job state never replaces content assurance or Founder merge approval.')}
         <section className="admin-stat-grid admin-detail-stats" aria-label="Content statistics">
           <article className="admin-static-stat"><small>Published courses</small><strong>{publishedCourseCount}</strong><span>{availableAdapters.length} available exam components</span></article>
           <article className="admin-static-stat"><small>Jobs in progress</small><strong>{content?.jobsKnown ? content.jobsInProgress : '—'}</strong><span>Factory jobs not at a terminal state</span></article>
