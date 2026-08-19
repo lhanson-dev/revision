@@ -15,6 +15,7 @@ Use this file to find the governing source before substantive work.
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
 - Security → `50-engineering-standards/Security Standard.md`
 - Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
+- Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
@@ -84,6 +85,7 @@ Use this file to find the governing source before substantive work.
 
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
+- Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
