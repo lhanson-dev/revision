@@ -34,6 +34,13 @@ export function latestReleaseStatus(statuses) {
     .sort((left, right) => String(right?.updated_at ?? '').localeCompare(String(left?.updated_at ?? '')))[0] ?? null
 }
 
+export function latestApprovalForHead(comments, founderLogin, headSha) {
+  if (!Array.isArray(comments)) return null
+  return comments
+    .filter((comment) => approvalMatches(comment, founderLogin, headSha))
+    .sort((left, right) => String(right?.created_at ?? '').localeCompare(String(left?.created_at ?? '')))[0] ?? null
+}
+
 function requireValue(value, name) {
   if (!value) throw new Error(`${name} is required.`)
   return value
@@ -117,7 +124,7 @@ export async function verifyReleaseLineage(options = {}) {
   }
 
   const comments = await githubJson(`${apiUrl}/repos/${repository}/issues/${prNumber}/comments?per_page=100`, token)
-  const approval = comments.find((comment) => approvalMatches(comment, founderLogin, headSha))
+  const approval = latestApprovalForHead(comments, founderLogin, headSha)
   if (!approval) {
     throw new Error(`PR #${prNumber} has no Founder approval marker by ${founderLogin} for exact head ${headSha}.`)
   }
@@ -125,7 +132,7 @@ export async function verifyReleaseLineage(options = {}) {
   const ciCompletedAt = timestamp(ciRun.updated_at)
   const approvalAt = timestamp(approval.created_at)
   if (ciCompletedAt !== null && (approvalAt === null || approvalAt < ciCompletedAt)) {
-    throw new Error(`PR #${prNumber} Founder approval marker predates completion of the latest exact-head CI run; release fails closed.`)
+    throw new Error(`PR #${prNumber} latest Founder approval marker predates completion of the latest exact-head CI run; release fails closed.`)
   }
 
   return {
