@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2440" viewBox="0 0 1600 2440" role="img" aria-labelledby="title desc">
+  <title id="title">Revision Brand Studio visual confirmation v0.1</title>
+  <desc id="desc">Experimental cross-channel brand-system board for Founder confirmation. Shows the approved core palette, proposed semantic roles, typography scale, shape and elevation families, controls, form states, surface families, REV treatment and channel expression examples.</desc>
+  <defs>
+    <linearGradient id="revGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#3349F4"/>
+      <stop offset="0.55" stop-color="#3147EF"/>
+      <stop offset="1" stop-color="#18279F"/>
+    </linearGradient>
+    <radialGradient id="orbGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#7BF3FF"/>
+      <stop offset="0.28" stop-color="#4C7DFF"/>
+      <stop offset="0.68" stop-color="#263ACF"/>
+      <stop offset="1" stop-color="#18249A"/>
+    </radialGradient>
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#1F2D78" flood-opacity="0.10"/>
+    </filter>
+    <filter id="shadowFeature" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="28" flood-color="#2D3DCD" flood-opacity="0.22"/>
+    </filter>
+    <style>
+      .bg{fill:#F7F8FF}.ink{fill:#10143F}.muted{fill:#66708F}.indigo{fill:#3349F4}.white{fill:#fff}
+      .h0{font:900 54px Inter,Arial,sans-serif;letter-spacing:-2.4px}.h1{font:900 34px Inter,Arial,sans-serif;letter-spacing:-1.1px}
+      .h2{font:850 23px Inter,Arial,sans-serif;letter-spacing:-.4px}.body{font:500 17px Inter,Arial,sans-serif}.small{font:600 14px Inter,Arial,sans-serif}.tiny{font:700 12px Inter,Arial,sans-serif;letter-spacing:.5px}
+      .label{font:800 12px Inter,Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase}.card{fill:#fff;stroke:#E3E6F2;stroke-width:1.5}
+      .pill{rx:999;ry:999}.r14{rx:14;ry:14}.r20{rx:20;ry:20}.r32{rx:32;ry:32}.divider{stroke:#E3E6F2;stroke-width:1.5}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="2440"/>
+  <circle cx="1460" cy="70" r="220" fill="#3349F4" opacity="0.05"/>
+  <circle cx="90" cy="640" r="180" fill="#C9FF2E" opacity="0.10"/>
+
+  <!-- Header -->
+  <text x="90" y="92" class="label indigo">Brand Studio · Experimental visual reference</text>
+  <text x="90" y="155" class="h0 ink">Revision visual confirmation</text>
+  <text x="90" y="200" class="body muted">v0.1 · for Founder confirmation · not approved brand authority by appearance alone</text>
+  <rect x="1215" y="86" width="285" height="52" rx="26" fill="#EEF1FF"/>
+  <circle cx="1244" cy="112" r="8" fill="#3349F4"/>
+  <text x="1265" y="119" class="small indigo">Status: EXPERIMENTAL</text>
+
+  <!-- Principle band -->
+  <rect x="90" y="252" width="1420" height="116" rx="28" fill="#10143F"/>
+  <text x="125" y="298" class="label" fill="#C9FF2E">System principle</text>
+  <text x="125" y="342" class="h2 white">One brand → shared foundations → controlled primitives → flexible surfaces → channel-specific creative composition</text>
+
+  <!-- Identity + core palette -->
+  <text x="90" y="440" class="h1 ink">1. Identity &amp; core colour</text>
+  <text x="90" y="474" class="body muted">Current implemented identity reference plus the approved source palette. Exact logo lock-ups still need dedicated confirmation.</text>
+
+  <rect x="90" y="510" width="430" height="238" rx="28" class="card" filter="url(#shadowSoft)"/>
+  <text x="125" y="552" class="label indigo">Current implementation reference</text>
+  <text x="125" y="634" class="h0 ink">Revision</text>
+  <text x="325" y="594" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="900" fill="#B9F11D">✦</text>
+  <text x="125" y="684" class="small muted">Wordmark treatment used in the learner shell</text>
+  <rect x="125" y="704" width="180" height="28" rx="14" fill="#FFF6E5"/>
+  <text x="143" y="723" class="tiny" fill="#8C5A00">NEEDS LOCK-UP REVIEW</text>
+
+  <rect x="546" y="510" width="964" height="238" rx="28" class="card"/>
+  <text x="580" y="552" class="label indigo">Approved source palette</text>
+  <!-- swatches -->
+  <g transform="translate(580 584)">
+    <rect width="118" height="92" rx="18" fill="#10143F"/><text x="0" y="119" class="small ink">Deep Ink</text><text x="0" y="140" class="tiny muted">#10143F</text>
+    <g transform="translate(138 0)"><rect width="118" height="92" rx="18" fill="#3349F4"/><text x="0" y="119" class="small ink">Indigo</text><text x="0" y="140" class="tiny muted">#3349F4</text></g>
+    <g transform="translate(276 0)"><rect width="118" height="92" rx="18" fill="#18279F"/><text x="0" y="119" class="small ink">Deep Indigo</text><text x="0" y="140" class="tiny muted">#18279F</text></g>
+    <g transform="translate(414 0)"><rect width="118" height="92" rx="18" fill="#C9FF2E"/><text x="0" y="119" class="small ink">Bright Lime</text><text x="0" y="140" class="tiny muted">#C9FF2E</text></g>
+    <g transform="translate(552 0)"><rect width="118" height="92" rx="18" fill="#F7F8FF" stroke="#E3E6F2"/><text x="0" y="119" class="small ink">Canvas</text><text x="0" y="140" class="tiny muted">#F7F8FF</text></g>
+    <g transform="translate(690 0)"><rect width="118" height="92" rx="18" fill="#66708F"/><text x="0" y="119" class="small ink">Muted</text><text x="0" y="140" class="tiny muted">#66708F</text></g>
+  </g>
+
+  <!-- semantic roles -->
+  <text x="90" y="826" class="h1 ink">2. Proposed semantic colour roles</text>
+  <text x="90" y="860" class="body muted">Recommended mapping for routine UI. This keeps creative colour separate from meaning-critical controls and statuses.</text>
+  <rect x="90" y="896" width="1420" height="190" rx="28" class="card"/>
+  <g transform="translate(125 930)">
+    <g><circle cx="18" cy="18" r="18" fill="#10143F"/><text x="48" y="15" class="small ink">Text primary</text><text x="48" y="38" class="tiny muted">Deep Ink · Recommended</text></g>
+    <g transform="translate(270 0)"><circle cx="18" cy="18" r="18" fill="#3349F4"/><text x="48" y="15" class="small ink">Action primary</text><text x="48" y="38" class="tiny muted">Indigo · Recommended</text></g>
+    <g transform="translate(565 0)"><circle cx="18" cy="18" r="18" fill="#C9FF2E"/><text x="48" y="15" class="small ink">Momentum accent</text><text x="48" y="38" class="tiny muted">Lime · Selective only</text></g>
+    <g transform="translate(875 0)"><circle cx="18" cy="18" r="18" fill="#EEF1FF" stroke="#D9DEFE"/><text x="48" y="15" class="small ink">Surface subtle</text><text x="48" y="38" class="tiny muted">Soft Indigo · Recommended</text></g>
+    <g transform="translate(0 82)"><circle cx="18" cy="18" r="18" fill="#A43850"/><text x="48" y="15" class="small ink">Danger</text><text x="48" y="38" class="tiny muted">Candidate from current UI</text></g>
+    <g transform="translate(270 82)"><circle cx="18" cy="18" r="18" fill="#7BF3FF"/><text x="48" y="15" class="small ink">REV cyan</text><text x="48" y="38" class="tiny muted">Expressive · Experimental</text></g>
+    <g transform="translate(565 82)"><circle cx="18" cy="18" r="18" fill="#E3E6F2"/><text x="48" y="15" class="small ink">Border default</text><text x="48" y="38" class="tiny muted">Current approved baseline</text></g>
+    <g transform="translate(875 82)"><circle cx="18" cy="18" r="18" fill="#3349F4" opacity="0.24"/><text x="48" y="15" class="small ink">Focus ring</text><text x="48" y="38" class="tiny muted">Indigo alpha · Recommended</text></g>
+  </g>
+
+  <!-- type -->
+  <text x="90" y="1162" class="h1 ink">3. Typography hierarchy</text>
+  <text x="90" y="1196" class="body muted">Inter/system-sans remains the current baseline. The scale below is proposed as a coherent cross-channel starting point.</text>
+  <rect x="90" y="1232" width="700" height="388" rx="28" class="card"/>
+  <text x="125" y="1274" class="label indigo">Product &amp; operational scale · recommended direction</text>
+  <text x="125" y="1340" font-family="Inter,Arial,sans-serif" font-size="50" font-weight="900" letter-spacing="-2" fill="#10143F">What matters today?</text>
+  <text x="125" y="1380" class="tiny muted">DISPLAY · 50 / 48 · 900</text>
+  <text x="125" y="1444" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="900" letter-spacing="-1.2" fill="#10143F">Your revision plan</text>
+  <text x="125" y="1476" class="tiny muted">H1 · 34 / 38 · 900</text>
+  <text x="125" y="1530" font-family="Inter,Arial,sans-serif" font-size="23" font-weight="850" fill="#10143F">Business · Operations</text>
+  <text x="125" y="1560" class="tiny muted">H2/H3 · 23 / 30 · 850</text>
+  <text x="125" y="1600" class="body ink">Readable body text for explanations, learning and forms.</text>
+
+  <rect x="816" y="1232" width="694" height="388" rx="28" fill="#10143F"/>
+  <text x="852" y="1274" class="label" fill="#C9FF2E">Marketing / social / video · alternative expression</text>
+  <text x="852" y="1362" font-family="Inter,Arial,sans-serif" font-size="64" font-weight="950" letter-spacing="-3" fill="#fff">Make the time</text>
+  <text x="852" y="1422" font-family="Inter,Arial,sans-serif" font-size="64" font-weight="950" letter-spacing="-3" fill="#C9FF2E">you have count.</text>
+  <text x="852" y="1472" class="small" fill="#C7CCE0">Same family. More scale, crop and expressive composition.</text>
+  <rect x="852" y="1516" width="202" height="48" rx="14" fill="#3349F4"/>
+  <text x="888" y="1547" class="small white">Explore Revision</text>
+
+  <!-- shape / elevation -->
+  <text x="90" y="1698" class="h1 ink">4. Shape, depth &amp; reusable primitives</text>
+  <text x="90" y="1732" class="body muted">Deliberate families instead of dozens of unrelated one-off radii and shadows.</text>
+
+  <rect x="90" y="1768" width="470" height="274" rx="28" class="card"/>
+  <text x="125" y="1810" class="label indigo">Radius family · proposed</text>
+  <rect x="125" y="1844" width="96" height="58" rx="14" fill="#EEF1FF"/><text x="125" y="1926" class="tiny muted">14 · controls</text>
+  <rect x="245" y="1844" width="112" height="70" rx="20" fill="#EEF1FF"/><text x="245" y="1926" class="tiny muted">20 · cards</text>
+  <rect x="382" y="1844" width="140" height="86" rx="32" fill="#EEF1FF"/><text x="382" y="1952" class="tiny muted">32 · feature</text>
+  <rect x="125" y="1970" width="138" height="42" rx="21" fill="#C9FF2E"/><text x="154" y="1997" class="tiny ink">PILL / STATUS</text>
+
+  <rect x="584" y="1768" width="926" height="274" rx="28" class="card"/>
+  <text x="620" y="1810" class="label indigo">Action &amp; field grammar · proposed</text>
+  <rect x="620" y="1844" width="194" height="54" rx="15" fill="#3349F4"/><text x="665" y="1878" class="small white">Primary action</text>
+  <rect x="830" y="1844" width="194" height="54" rx="15" fill="#C9FF2E"/><text x="870" y="1878" class="small ink">Momentum CTA</text>
+  <rect x="1040" y="1844" width="194" height="54" rx="15" fill="#EEF1FF"/><text x="1084" y="1878" class="small ink">Secondary</text>
+  <text x="1258" y="1878" class="small indigo">Tertiary text →</text>
+  <rect x="620" y="1926" width="350" height="64" rx="14" fill="#fff" stroke="#E3E6F2" stroke-width="1.5"/>
+  <text x="642" y="1950" class="tiny muted">SUBJECT</text><text x="642" y="1978" class="small ink">Business</text>
+  <rect x="992" y="1926" width="350" height="64" rx="14" fill="#fff" stroke="#3349F4" stroke-width="2"/>
+  <rect x="986" y="1920" width="362" height="76" rx="20" fill="none" stroke="#3349F4" stroke-opacity="0.20" stroke-width="6"/>
+  <text x="1014" y="1950" class="tiny indigo">FOCUS</text><text x="1014" y="1978" class="small ink">Clear and consistent</text>
+
+  <!-- surfaces -->
+  <text x="90" y="2120" class="h1 ink">5. Surface families &amp; channel expression</text>
+  <text x="90" y="2154" class="body muted">Different jobs can look different. Consistency comes from the shared grammar, not identical card templates.</text>
+
+  <!-- surface row -->
+  <g transform="translate(90 2190)">
+    <rect width="260" height="158" rx="20" class="card"/>
+    <text x="24" y="34" class="label indigo">Recommended</text><text x="24" y="76" class="h2 ink">Standard</text><text x="24" y="106" class="small muted">Routine grouping</text>
+    <g transform="translate(282 0)"><rect width="260" height="158" rx="20" fill="#EEF1FF"/><text x="24" y="34" class="label indigo">Recommended</text><text x="24" y="76" class="h2 ink">Quiet</text><text x="24" y="106" class="small muted">Secondary support</text></g>
+    <g transform="translate(564 0)"><rect width="260" height="158" rx="20" fill="#fff" stroke="#D9DEFE" stroke-width="2"/><circle cx="52" cy="54" r="22" fill="#EEF1FF"/><text x="45" y="61" font-family="Inter,Arial,sans-serif" font-size="20" font-weight="900" fill="#3349F4">→</text><text x="24" y="105" class="h2 ink">Interactive</text><text x="24" y="134" class="small muted">Route / subject / topic</text></g>
+    <g transform="translate(846 0)"><rect width="260" height="158" rx="26" fill="url(#revGrad)" filter="url(#shadowFeature)"/><text x="24" y="34" class="label" fill="#C9FF2E">Recommended family</text><text x="24" y="78" class="h2 white">REV surface</text><circle cx="210" cy="90" r="32" fill="url(#orbGrad)" stroke="#DDFCFF" stroke-width="2"/><text x="24" y="130" class="small" fill="#D9DEFF">AI guide / intelligence</text></g>
+    <g transform="translate(1128 0)"><rect width="202" height="158" rx="26" fill="#10143F"/><text x="20" y="34" class="label" fill="#C9FF2E">Alternative</text><text x="20" y="78" class="h2 white">Feature</text><text x="20" y="108" class="small" fill="#C7CCE0">Marketing / social</text><rect x="20" y="124" width="112" height="8" rx="4" fill="#3349F4"/></g>
+  </g>
+
+  <!-- footer callouts over bottom margin -->
+  <rect x="90" y="2374" width="1420" height="1.5" fill="#E3E6F2"/>
+  <text x="90" y="2412" class="small ink">Founder confirmation queue:</text>
+  <text x="292" y="2412" class="small muted">Indigo as default action · Lime as selective momentum · Inter baseline · 14/20/32 radius family · REV cyan as expressive accent · wordmark lock-up requires dedicated review</text>
+</svg>
