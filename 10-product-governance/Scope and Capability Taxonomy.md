@@ -1,6 +1,6 @@
 # Scope and Capability Taxonomy
 
-**Status:** Draft authority candidate — v0.2  
+**Status:** Draft authority candidate — v0.3  
 **Purpose:** Define Revision's principal product capability areas and distinguish core product scope from later commercial evolution.
 
 ## Product capability model
@@ -140,11 +140,27 @@ These exclusions do not permanently prohibit future adjacent capabilities. They 
 
 ## Commercial capability evolution
 
-Revision should be designed with the expectation that the product may later operate across **free, paid and premium tiers**.
+Revision is designed to operate across **Free, Paid and Premium** product tiers.
 
-Exact entitlements, pricing and boundaries are not defined by this document and should be governed separately through product/commercial authority.
+Exact global plan names, prices and final entitlement boundaries are not defined by this document and must be governed separately through product/commercial authority.
 
-The product should also work towards a **student referral system** in which successful referrals can earn benefits such as free subscription months. Referral mechanics are not required for version 1 and must not distract from proving core student value first.
+However, every material learner-facing feature must be explicitly considered across Free, Paid and Premium before it is implementation-ready, following `80-company-workflows/Feature Definition and Measurement Workflow.md`.
+
+The product-level commercial principle is:
+
+**Free proves the value. Paid compounds the value. Premium maximises the value.**
+
+This means:
+
+- **Free** must provide genuine standalone student value and demonstrate Revision's core proposition rather than act as a broken demo.
+- **Paid** should unlock a materially stronger repeat-use benefit through additional depth, scale, intelligence, personalisation, convenience or capability.
+- **Premium** should provide the fullest/highest-value experience, particularly where advanced intelligence, personalisation or higher cost-to-serve creates a defensible step up.
+
+A feature may legitimately be identical across tiers where safety, evidence integrity, accessibility, core operation or product coherence requires it. Tiering is a commercial design decision, not an obligation to create artificial restrictions.
+
+Paid value should be discoverable in context so learners can understand why an upgrade would be useful, but Revision must not manufacture conversion by making Free intentionally frustrating, obscuring educational truth, exploiting exam anxiety, using false scarcity or degrading safety/accessibility/evidence behaviour for non-paying students.
+
+Revision should also work towards a **student referral system** in which successful referrals can earn benefits such as free subscription months. Referral mechanics are not required for version 1 and must not distract from proving core student value first.
 
 ## Scope decision rule
 

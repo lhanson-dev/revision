@@ -4,10 +4,10 @@ document_id: "revision-product-ux-principles"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.3"
+version: "0.4"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-17"
+last_reviewed: "2026-08-20"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["learner experience principles"]
@@ -85,6 +85,30 @@ At minimum:
 - test significant journeys with disabled and neurodivergent learners as the product matures
 
 Specific accessibility implementation requirements may be governed separately as the product develops.
+
+## Commercial discovery and upgrade behaviour
+Revision may expose stronger Paid or Premium capability to Free/lower-tier learners where doing so helps them understand the product and the additional value available.
+
+Upgrade desire should be earned through clear additional value, not manufactured frustration.
+
+Where a learner encounters a tier boundary:
+- make the current entitlement state understandable rather than allowing a locked feature to masquerade as available
+- explain the additional learner benefit in context, not merely the plan name or a padlock
+- prefer upgrade prompts at moments where the stronger capability is genuinely relevant to the learner's current goal
+- preserve work already completed and avoid making the learner repeat or lose activity simply because an entitlement boundary was reached
+- use previews, examples or bounded demonstrations where they help the learner understand the stronger experience
+- make the route to compare plans or upgrade simple without overwhelming the learning journey
+- keep upgrade prompts proportionate rather than turning ordinary study into a stream of sales interruptions
+
+Do not use:
+- false scarcity or manipulative countdowns
+- exam-anxiety exploitation or messages implying payment is necessary to avoid failure
+- shame, guilt or pressure about the learner or parent not paying
+- misleading enabled-looking controls that reveal a paywall only after unnecessary work
+- repeated blocking prompts designed primarily to wear the learner down
+- artificial degradation of evidence, progress, safety, accessibility or educational accuracy by subscription status
+
+Free must remain a coherent and genuinely useful learner experience. Paid and Premium should feel desirable because they provide materially stronger value, depth, intelligence, personalisation, scale or convenience.
 
 ## Interaction should have a purpose
 Use quizzes, progress feedback, motion, rewards and other interactive elements when they improve understanding, motivation or momentum.
