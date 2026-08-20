@@ -1,6 +1,6 @@
 # Product Principles
 
-**Status:** Draft authority candidate — v0.2  
+**Status:** Draft authority candidate — v0.3  
 **Purpose:** Define the product decision rules Revision should use when designing, prioritising and evaluating learner experiences.
 
 ## 1. Always make the next useful action clear
@@ -87,6 +87,22 @@ The experience should be usable by a diverse range of students, including neurod
 
 Detailed accessibility, privacy and safeguarding requirements should be governed by the relevant experience, evidence and trust authorities.
 
+## 14. Earn upgrade desire through additional value
+
+Revision is a commercial product, but conversion should be earned by making higher tiers genuinely more valuable rather than making Free deliberately worse.
+
+For material learner-facing features, design across **Free, Paid and Premium** before development:
+
+- Free must remain genuinely useful and capable of producing a real student outcome.
+- Paid should provide a materially stronger repeat-use benefit.
+- Premium should provide the fullest or highest-value experience where additional intelligence, personalisation, scale, convenience or cost-to-serve justifies it.
+
+Learners should be able to discover relevant higher-tier value at sensible moments and understand why it would help them. Contextual previews, examples and clear benefit explanation are preferable to generic banners or opaque locks.
+
+Do not create upgrade pressure by exploiting exam anxiety, using false scarcity, guilt, misleading controls, artificial breakage or degradation of educational truth, safety, accessibility or evidence quality.
+
+The commercial test is not simply whether a restriction increases conversion. It is whether the product creates enough additional value that a learner or parent can reasonably want the next level while the Free product remains worth using.
+
 ## Decision test
 
 When two product options compete, prefer the option that:
@@ -96,5 +112,6 @@ When two product options compete, prefer the option that:
 3. produces or uses better evidence of learning;
 4. strengthens useful engagement without relying on gimmicks;
 5. improves coverage, understanding or exam readiness;
-6. is fast to understand and act on; and
-7. keeps the learner experience simple, inclusive, constructive and trustworthy.
+6. is fast to understand and act on;
+7. keeps the learner experience simple, inclusive, constructive and trustworthy; and
+8. where commercially relevant, earns willingness to upgrade through additional value rather than artificial frustration.
