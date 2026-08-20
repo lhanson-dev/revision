@@ -1,6 +1,6 @@
 # Privacy and Student Data Principles
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define the product-level rules Revision should follow when collecting, using, sharing, retaining and allowing students to control personal data.
 
 ## Core principle
@@ -114,7 +114,20 @@ Parent and teacher functionality must not create an automatic entitlement to det
 
 High-level progress and support signals may be appropriate where separately governed, but detailed tutor conversations, individual answers and private learning interactions remain private by default.
 
-Any future sharing must define:
+For FI-002, where a valid linked parent/payer relationship exists, Paid and Premium may provide a governed parent/payer dashboard using an explicitly approved parent-visible data set. The commercial tier may change the quality of interpretation, synthesis, trends and support guidance available to the parent/payer, but must not be used to sell progressively deeper access to private learner information.
+
+The parent-visible boundary for FI-002 must therefore exclude by default:
+
+- REV conversation transcripts and private tutor interactions;
+- individual learner answers and raw submitted work;
+- private learner notes;
+- detailed click-by-click or timestamp-by-timestamp activity surveillance;
+- safeguarding-sensitive information; and
+- other learner data not necessary for the approved reassurance/support purpose.
+
+A learner must be told clearly and in age-appropriate language what information a linked parent/payer can see. Payment itself does not grant ownership of the learner's educational data.
+
+Any future sharing beyond the approved FI-002 parent/payer boundary must define:
 
 - what is shared;
 - with whom;
@@ -122,6 +135,8 @@ Any future sharing must define:
 - under what authority or consent model;
 - how the student is informed; and
 - how safeguarding exceptions are handled.
+
+Exact relationship verification, consent, age-related and legal mechanisms require current external validation before production implementation.
 
 ## 9. Explain data use in plain language
 
