@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Revision app icon</title>
+  <desc id="desc">Three horizontal teal bars inside a soft teal halo on a deep teal background.</desc>
+  <defs>
+    <radialGradient id="halo-core" cx="50%" cy="48%" r="50%">
+      <stop offset="0" stop-color="#2BB6A3" stop-opacity="0.30"/>
+      <stop offset="0.42" stop-color="#2BB6A3" stop-opacity="0.16"/>
+      <stop offset="0.72" stop-color="#2BB6A3" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#2BB6A3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="halo-ring" cx="50%" cy="50%" r="50%">
+      <stop offset="0.48" stop-color="#2BB6A3" stop-opacity="0"/>
+      <stop offset="0.70" stop-color="#2BB6A3" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#2BB6A3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="#0F2F36"/>
+  <g transform="translate(132 132) scale(3.1666666667)">
+    <ellipse cx="120" cy="120" rx="92" ry="88" fill="url(#halo-core)"/>
+    <ellipse cx="120" cy="120" rx="108" ry="102" fill="url(#halo-ring)"/>
+    <g fill="#2BB6A3">
+      <rect x="64" y="79" width="112" height="15" rx="7.5"/>
+      <rect x="64" y="112.5" width="112" height="15" rx="7.5"/>
+      <rect x="64" y="146" width="112" height="15" rx="7.5"/>
+    </g>
+  </g>
+</svg>
