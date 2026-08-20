@@ -1,6 +1,6 @@
 # Brand Studio — visual confirmation workspace
 
-**Status:** Founder-confirmed visual foundations; v0.3 reusable-system confirmation in progress  
+**Status:** Founder-confirmed foundations; v0.3 reusable system promoted; v0.4 confirmation in progress  
 **Authority:** This folder is visual evidence/reference. Canonical policy lives in `20-brand-and-experience/Visual Brand System.md`.  
 **Related PR:** #75
 
@@ -10,21 +10,20 @@ Provide a single visual place to inspect Revision's approved brand grammar, rema
 
 ## Founder-confirmed foundations — 20 August 2026
 
-The Founder has locked:
+Locked direction:
 
 - **Typeface:** Manrope.
 - **Core visual palette:** Calm Teal.
 - **REV identity:** Living E — three horizontal bars with a soft halo.
 - **REV states:** Resting, Listening, Thinking, Responding and Completed.
 - **Themes:** light and dark are both first-class applications of one brand system.
-- **Homepage:** spacious REV-led composition across mobile, tablet and desktop, with greeting/prompt, REV input, quick actions and continue/recent context beneath.
+- **Homepage:** spacious REV-led composition across mobile, tablet and desktop.
 - **Mobile navigation:** Home / Plan / REV / Progress / Subjects with Living E in the centre.
-- **Cross-audience intent:** contemporary and student-relevant while remaining calm, credible and trustworthy for parents/supporting adults.
+- **Cross-audience intent:** contemporary and student-relevant while calm, credible and trustworthy for parents/supporting adults.
 
 ### Approved Calm Teal palette
 
 Core:
-
 - Deep Teal Ink `#0F2F36`
 - Primary Teal `#2BB6A3`
 - Soft Aqua Accent `#E6FBF4`
@@ -33,129 +32,116 @@ Core:
 - Graphite Ink `#132026`
 
 Supporting:
-
 - Sage `#BCE8CF`
 - Stone Blue `#C7D9EE`
 - Warm Sand `#F2E9D9`
 - Mist `#E9EEF2`
 
 Functional source colours:
-
 - Success `#3BAA7A`
 - Warning `#DDAA3A`
 - Error `#E0605A`
 - Information `#4A8ECB`
 
-See the canonical Brand System for the current light/dark theme token mapping.
+## v0.3 — promoted reusable foundations
 
-## v0.3 — reusable system foundations
+The v0.3 direction has now been promoted into Brand System v0.7:
+
+- Manrope role-based type scale with 16px learner body;
+- 4px spacing rhythm and 16 / 24 / 32–40px responsive gutters;
+- `12 / 14 / 20 / 32 / pill` radius family;
+- Flat / Raised / Floating / Overlay elevation model;
+- 44px standard and 52px major CTA controls;
+- Primary Teal + Graphite as default accessible primary action;
+- consistent field anatomy and interaction states; and
+- stronger accessible semantic foregrounds and pale semantic surfaces.
 
 ### Typography, spacing, shape and depth
 
 ![Brand Studio foundations v0.3](brand-studio-foundations-v0.3.svg)
 
-Current proposal:
-
-- a small Manrope type-role hierarchy rather than local font sizes;
-- 16px default learner/product body text;
-- a 4px base spacing rhythm;
-- mobile/tablet/desktop gutters of 16 / 24 / 32–40px;
-- `12 / 14 / 20 / 32 / pill` radius families;
-- border/whitespace-first depth with Flat / Raised / Floating / Overlay elevation levels; and
-- 1200px general product width with narrower reading/form widths.
-
 ### Controls and forms
 
 ![Brand Studio controls and forms v0.3](brand-studio-controls-forms-v0.3.svg)
 
+Detailed specification: [`brand-studio-foundations-controls-v0.3.md`](brand-studio-foundations-controls-v0.3.md).
+
+## v0.4 — surfaces, iconography and graphic language
+
+![Brand Studio surfaces and icons v0.4](brand-studio-surfaces-icons-v0.4.svg)
+
 Current proposal:
 
-- 44px standard controls and 52px major CTAs;
-- 14px control radius;
-- Primary Teal + Graphite Ink as the default accessible primary action treatment;
-- Deep Teal + white as a strong/inverse primary alternative;
-- consistent default/focus/pressed/loading/disabled states;
-- visible field labels and 16px input text;
-- shared error/warning/success/loading anatomy across learner, marketing and Admin; and
-- derived stronger semantic foreground colours for accessible status text.
+- named Standard, Quiet, Interactive, Feature, Guidance, REV, Status, Exam/Performance, Subject Accent and Pricing/Upgrade surface families;
+- 20px standard / 32px feature expression rather than one universal card;
+- consistent rounded line icons at 24px default, 20px compact and 16px inline;
+- 1.75–2px rounded icon strokes;
+- Living-E-derived graphic motifs: soft halo, line echoes, restrained rings, marker bars and sparse trace accents;
+- halo remains a REV-specific identity device rather than a general decoration.
 
-The detailed proposal and contrast notes are in [`brand-studio-foundations-controls-v0.3.md`](brand-studio-foundations-controls-v0.3.md).
+## v0.4 — subject accents and data visualisation
 
-### Accessibility finding to resolve before promotion
+![Brand Studio subjects and data v0.4](brand-studio-subjects-data-v0.4.svg)
 
-The earlier branch token mapping used white text on Primary Teal. That combination is only about **2.52:1**, so it cannot be the default normal-text button treatment under the WCAG 2.2 AA target.
+Current proposal:
 
-The v0.3 proposal keeps the confirmed Primary Teal colour but changes the normal action text to Graphite Ink (`#132026`), approximately **6.59:1** contrast. White text remains viable on Deep Teal Ink.
+- subject recognition uses name + icon + optional small accent cue;
+- approved supporting colours provide accent sources without creating full subject themes;
+- no fixed subject-to-colour mapping unless testing proves it useful;
+- progress bars, line charts and bar charts are selected by the data job rather than visual fashion;
+- coverage, understanding, exam readiness and plan progress remain distinct evidence concepts;
+- candidate data series: `#168C7C`, `#5F7FA3`, `#5F8F73`, `#A5824A`, `#607074`;
+- direct labels/markers/patterns supplement colour for multi-series charts.
 
-This is a usage correction, not a reopening of the confirmed Calm Teal palette.
+Detailed specification: [`brand-studio-surfaces-icons-data-v0.4.md`](brand-studio-surfaces-icons-data-v0.4.md).
 
 ## Current Founder confirmation queue
 
-The next approval should confirm or adjust the v0.3 reusable-system direction:
+Confirm or adjust the v0.4 direction:
 
-1. Manrope type-role scale;
-2. 4px spacing rhythm and responsive gutters;
-3. `12 / 14 / 20 / 32 / pill` radius family;
-4. four-level elevation model;
-5. 44px standard / 52px large control sizing;
-6. Primary Teal + Graphite as the default accessible primary action;
-7. form anatomy/state model; and
-8. stronger semantic foreground derivatives for accessible status text.
+1. ten named surface families and their intended jobs;
+2. rounded line icon language and size/stroke rules;
+3. restrained Living-E-derived graphic motifs;
+4. subject accents as small recognition cues rather than full themes;
+5. no fixed subject-colour mapping yet;
+6. evidence-first chart selection rules;
+7. five-colour derived data-series palette; and
+8. strict separation of coverage, understanding, readiness and plan progress in visualisation.
 
-Once confirmed, these recurring rules should be promoted into the Brand System and the next tranche should move to **card/surface families, iconography/graphic language, subject accents and data visualisation**.
+Once confirmed, these recurring rules should be promoted into the Brand System and the next tranche should move to **marketing/Admin pattern families, social/video formats, REV motion and asset-production rules**.
 
 ## Navigation clarification
 
-The supplied responsive homepage board is approved for visual layout, but concept artwork does not override product Information Architecture.
-
-The governed desktop and mobile destinations remain:
+Concept artwork does not override product Information Architecture. The governed desktop and mobile destinations remain:
 
 **Home / Plan / REV / Progress / Subjects**
 
-A desktop mock-up that omits a separate REV navigation label is a visual concept only; production must preserve the genuine REV destination.
-
-## Remaining system work after v0.3
+## Remaining system work after v0.4
 
 1. production logo/REV asset masters, lock-ups, clear-space and minimum-size rules;
-2. card and surface families with `use when` / `avoid when` guidance;
-3. iconography and illustration/graphic-language rules;
-4. subject-accent strategy and exact mapping if needed;
-5. data visualisation and progress/status treatment;
-6. marketing-site pattern families;
-7. Admin/operations pattern families;
-8. social format families;
-9. video/motion title, lower-third, caption and transition rules;
-10. REV motion timing/easing and reduced-motion equivalents; and
-11. canonical asset naming, export sizes/formats, editable-source and licensing rules.
+2. marketing-site pattern families;
+3. Admin/operations pattern families;
+4. social format families;
+5. video/motion title, lower-third, caption and transition rules;
+6. REV motion timing/easing and reduced-motion equivalents; and
+7. canonical asset naming, export sizes/formats, editable-source and licensing rules.
 
 ## Pattern status vocabulary
 
-Use:
-
-- **Recommended** — default for the stated job;
-- **Alternative** — approved when context justifies it;
-- **Experimental** — visible for evaluation but not reusable authority;
-- **Deprecated** — retained during migration/history but not for new work; or
-- **Do not use** — rejected/non-compliant.
+Use **Recommended**, **Alternative**, **Experimental**, **Deprecated** or **Do not use**.
 
 ## Previous exploration boards — design history
 
-Earlier v0.1/v0.2 boards remain as exploration/history but no longer represent the leading brand direction where they conflict with the Founder-confirmed Calm Teal system.
+Earlier v0.1/v0.2 boards remain design-history evidence and do not override Calm Teal, Manrope or Living E where they conflict.
 
 ### v0.2 — identity and typography
-
 ![Brand Studio identity and typography v0.2](brand-studio-identity-typography-v0.2.svg)
 
 ### v0.2 — expressive colour and semantic status
-
 ![Brand Studio expressive colour and status v0.2](brand-studio-expressive-colour-status-v0.2.svg)
 
 ### v0.1 — foundations and primitives
-
 ![Brand Studio visual confirmation v0.1](brand-studio-visual-confirmation-v0.1.svg)
 
 ### v0.1 — cross-channel expression
-
 ![Brand Studio channel expressions v0.1](brand-studio-channel-expressions-v0.1.svg)
-
-These artifacts remain valid design-history evidence. Calm Teal, Manrope and Living E take precedence where they differ.
