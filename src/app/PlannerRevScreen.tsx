@@ -6,6 +6,7 @@ import { loadPlannerSetup, savePlanningPreference, type PlanningPreferenceType, 
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { buildCatalogue, createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { buildPlannerSnapshot } from './planner-model'
+import { RevPresence, type RevPresenceState } from './RevPresence'
 
 const availableAdapters = listAvailableContentAdapters()
 const catalogue = buildCatalogue(availableAdapters)
@@ -83,12 +84,21 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [input, setInput] = useState('')
+  const [inputFocused, setInputFocused] = useState(false)
   const [messages, setMessages] = useState<ConversationMessage[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
   const [preferences, setPreferences] = useState<RevisionPlanningPreference[]>([])
   const [pendingPreference, setPendingPreference] = useState<PendingPreference | null>(null)
   const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    const draft = window.sessionStorage.getItem('revision:rev-draft')
+    if (draft) {
+      setInput(draft)
+      window.sessionStorage.removeItem('revision:rev-draft')
+    }
+  }, [])
 
   useEffect(() => {
     let active = true
@@ -134,6 +144,14 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
       : topItem
         ? `How can I help? Right now I’m giving ${subjectName(topItem.subjectId)} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
         : 'How can I help? Your planner does not need to push one activity to the front right now, but we can still talk about how you want to use the next few days.'
+
+  const revVisualState: RevPresenceState = loading
+    ? 'thinking'
+    : saving
+      ? 'responding'
+      : inputFocused
+        ? 'listening'
+        : 'resting'
 
   function appendMessage(message: ConversationMessage) {
     setMessages((current) => [...current, message])
@@ -228,9 +246,9 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
         <p>Talk through the plan, question a recommendation or change the short-term balance. REV keeps the wider programme visible while you remain in control.</p>
       </header>
 
-      <section className="rev-hero rev-page-hero rev-awake" aria-labelledby="planner-rev-conversation-title">
+      <section className="rev-hero rev-page-hero" aria-labelledby="planner-rev-conversation-title">
         <div className="rev-copy planner-rev-copy">
-          <div className="rev-pill"><span aria-hidden="true">✦</span> REV</div>
+          <div className="rev-pill">REV</div>
           <h2 id="planner-rev-conversation-title">How can I help?</h2>
           <div className="planner-conversation" aria-live="polite">
             <div className="planner-message-bubble rev"><p>{loading ? 'I’m checking your current plan and evidence…' : opening}</p></div>
@@ -247,7 +265,7 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
 
           <form className="planner-rev-input" onSubmit={submitConversation}>
             <label htmlFor="rev-plan-message">Talk to REV about your plan</label>
-            <div><input id="rev-plan-message" value={input} maxLength={240} placeholder="e.g. I want to focus more on Spanish this week" onChange={(event) => setInput(event.target.value)} /><button className="rev-primary" type="submit" disabled={loading || saving}>Send</button></div>
+            <div><input id="rev-plan-message" value={input} maxLength={240} placeholder="e.g. I want to focus more on Spanish this week" onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} onChange={(event) => setInput(event.target.value)} /><button className="rev-primary" type="submit" disabled={loading || saving}>Send</button></div>
           </form>
 
           <div className="rev-actions">
@@ -255,7 +273,7 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
             {topItem && <button className="rev-secondary" onClick={() => onOpenSubject(topItem.subjectId)}>Open {subjectName(topItem.subjectId)}</button>}
           </div>
         </div>
-        <div className="rev-orb-wrap" aria-hidden="true"><div className="rev-orb"><span className="orb-ring ring-one"></span><span className="orb-ring ring-two"></span><span className="orbit-dot"></span><span className="orb-core"></span></div></div>
+        <RevPresence state={revVisualState} size="conversation" />
       </section>
 
       <p className="quiet-note">REV can reshape the plan, but learner preferences are planning context only. They do not create progress, mastery or readiness evidence.</p>
