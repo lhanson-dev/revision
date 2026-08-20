@@ -426,3 +426,105 @@ Multiple-parent household management, family plans beyond the required linked pa
 This Founder decision conflicted with the earlier FI-002 MVP exclusion and the earlier Core User Journeys sequencing that placed parent support later. The governed increment therefore updates `10-product-governance/Subscription Plans and Entitlements.md`, `10-product-governance/Core User Journeys.md` and `40-evidence-and-trust/Privacy and Student Data Principles.md` together and records the decision in the FI-002 analysis record.
 
 No production implementation, pricing, billing provider, final contracting-age rule or technical account schema is approved by this decision.
+
+---
+
+## Founder-approved purchaser, payer and supporter account model — 21 August 2026
+
+Founder decision:
+
+`Approve FI-002 purchaser, payer and supporter account model`
+
+This decision resolves the policy-level purchaser/account model and initial contracting-age product rule. It deliberately distinguishes commercial payment responsibility from learner-data permission.
+
+### Approved account roles
+
+- **Learner** — owns and uses the Revision learning account, learner work, educational evidence and REV relationship.
+- **Billing customer / payer** — owns the subscription contract, payment method, invoices, renewal and cancellation responsibilities.
+- **Linked supporter** — holds permission to access the separately governed Paid/Premium parent-support dashboard for that learner.
+
+One person may hold more than one role. An adult learner may be both learner and payer. A parent will commonly be both payer and linked supporter.
+
+Role combination must not collapse the permissions. Payment may create the learner's commercial entitlement, but payment alone does **not** grant the payer learner progress information or parent-dashboard access. Supporter access requires a valid supporter relationship in addition to the relevant subscription entitlement.
+
+### Approved adult-payer rule
+
+For the initial UK FI-002 product, the billing customer must be **18 or over**.
+
+This is a product-policy choice for MVP simplicity and risk reduction, not a legal conclusion that every contract made by a younger person would necessarily be invalid in every UK jurisdiction or circumstance.
+
+An adult learner may pay for themselves. A learner under 18 may receive the paid entitlement through a separate adult payer account.
+
+Revision must not collect learner date of birth solely to enable subscription purchase. Exact payer declaration, age-assurance mechanism, checkout wording and legal implementation remain subject to current legal/privacy validation before production reliance.
+
+### Approved linking paths
+
+Two relationship paths are approved in principle:
+
+1. **Learner-led:** learner chooses to link a parent/supporter → Revision creates a secure invitation/link → adult signs in or creates an account → adult accepts the relationship and, where relevant, completes the subscription journey.
+2. **Adult-led:** adult starts from an appropriate pricing/purchase route → adult signs in or creates a payer account → Revision creates a learner invitation → learner accepts the relationship before supporter access to learner information becomes active.
+
+The system must not rely on unrestricted learner search or expose whether a named child/email address has a Revision account.
+
+The first implementation should support one primary payer/supporter relationship per learner subscription. Multiple-parent household management, broader family-plan management and gift-subscription workflows remain outside the MVP.
+
+Exact identity and relationship verification, invitation expiry/recovery, unlinking safeguards and exceptional support processes remain Definition-of-Ready work.
+
+### Learner transparency and lifecycle
+
+A learner with an active linked supporter must be able to see who is linked and what that supporter can and cannot see.
+
+Cancellation, downgrade, expiry or unlinking must not delete legitimate learner work or rewrite educational evidence. Ending the supporter relationship must remove that person's learner-dashboard access when the relationship ceases to be valid. Account recovery must not silently recreate supporter access.
+
+### Commercial/child-user consequence
+
+Learner surfaces may continue to explain and demonstrate higher-tier value. Exact age-specific purchase calls-to-action, including the treatment of under-16 learners, remain subject to current UK advertising, consumer, child-design and privacy validation before production implementation. Revision must not make child-to-parent pressure the conversion mechanism.
+
+## Current Definition-of-Ready position — supersedes the previous current position above
+
+- Student problem and target user — **PASS**
+- Strategic case — **PASS**
+- User-value hypothesis — **PASS**
+- Experience and simplicity — **PARTIAL**; tier boundaries, parent value ladder and learner/adult linking paths are approved, but detailed checkout, verification, invitation recovery and subscription lifecycle/recovery UX remain
+- Evidence / intelligence model — **PARTIAL**; commercial/learning separation, account-role semantics and parent-visible data boundary are approved, but the concrete subscription/relationship schema and downstream event contract remain
+- REV role — **PARTIAL**; restrained commercial role remains approved, while exact REV behaviour around entitlement explanation and parent-visible summaries depends on separately approved REV capability
+- MVP boundary — **PASS**; includes distinct learner/payer/supporter roles, 18+ payer rule, one primary linked relationship, basic Paid parent/supporter dashboard and secure linking paths
+- Free / Paid / Premium value ladder — **PARTIAL**; learner and parent/supporter tier jobs are approved, but numeric AI allowances, cost sustainability and final Premium launch proposition remain unresolved
+- Upgrade / conversion hypothesis — **PARTIAL**; contextual value selling and adult-led/learner-led purchaser routes are approved in principle, but final pricing proposition, checkout design and age-specific CTAs remain unresolved
+- Measurement contract — **PARTIAL**; must include payer checkout, invitation/linking, supporter activation/usefulness and access-state health alongside the governed tier funnel
+- Admin / Founder assurance — **PARTIAL**; must include relationship-linking/access exceptions plus entitlement and commercial-health visibility, with concrete checks and thresholds still unresolved
+- Risk / trust / accessibility — **PARTIAL**; payer/supporter separation, adult-payer rule, learner transparency and private-data boundary are governed, but exact verification/consent/age-assurance and current UK legal implementation still require validation
+- Technical feasibility and dependencies — **PASS in principle**; the architecture can represent distinct roles and permissioned relationships, but billing provider, schema, event ordering, caching and server-side enforcement design remain
+- Test and assurance approach — **BLOCKED**; must explicitly cover role-confusion, payer-without-supporter access, supporter authorization/bypass, invitation/linking, unlinking/recovery, entitlement bypass and billing-event failure modes
+- Documentation / authority impact — **PARTIAL**; Subscription Plans and Entitlements, Core User Journeys, Authentication Experience and Privacy and Student Data Principles are aligned in this increment; pricing/commercial and technical implementation authority remain pending
+- Blocking decisions resolved — **NO**
+- Human Definition-of-Ready approval — **NOT REQUESTED / NOT GRANTED**
+
+## Remaining blocking decisions after purchaser/payer/supporter approval
+
+- exact prices and billing cadence;
+- customer-facing plan names if different from Free / Paid / Premium;
+- numeric AI/REV and other variable-cost allowances, supported by unit economics;
+- payment/subscription provider and billing architecture;
+- exact payer age-assurance/declaration implementation and checkout legal wording;
+- detailed learner/supporter identity and relationship-verification method;
+- invitation expiry/recovery, unlinking safeguards and exceptional support processes;
+- age-specific learner purchase/upgrade calls-to-action;
+- trial policy, if any;
+- detailed upgrade, downgrade, cancellation, expiry, failed-payment, grace/retry and recovery behaviour;
+- entitlement/supporter-access refresh and caching design;
+- billing/account/relationship data model, RLS/authorization and security boundary;
+- concrete learner, payer and supporter analytics/event contract and Founder assurance thresholds;
+- test/assurance strategy covering account-role separation, privacy-boundary bypass, entitlement bypass and billing/webhook/event failures; and
+- current UK consumer, child-design, advertising/privacy and subscription requirements applicable to the selected implementation.
+
+## Documentation-impact check — purchaser/payer/supporter increment
+
+This approval changes the governed product/account model and resolves a previously explicit FI-002 blocker. The same branch therefore updates:
+
+- `10-product-governance/Subscription Plans and Entitlements.md` for the normative role model, adult-payer rule and MVP consequences;
+- `10-product-governance/Core User Journeys.md` for learner-led and adult-led linking and the supporter journey;
+- `10-product-governance/Authentication Experience.md` for role-aware account/authentication boundaries and learner data-minimisation consequences; and
+- `40-evidence-and-trust/Privacy and Student Data Principles.md` for the rule that payment is not learner-data permission.
+
+No production implementation, payment provider, database schema, pricing, billing cadence, numeric allowance or `Analyse → Ready` approval is created by this decision. Technical documentation and ADR updates become appropriate only once the provider/data architecture is approved.
