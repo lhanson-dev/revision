@@ -1,6 +1,6 @@
 # Brand Studio — visual confirmation workspace
 
-**Status:** Founder-confirmed foundations; v0.3 reusable system promoted; v0.4 confirmation in progress  
+**Status:** Founder-confirmed foundations; v0.3 and v0.4 reusable systems promoted; v0.5 channel/motion/asset confirmation in progress  
 **Authority:** This folder is visual evidence/reference. Canonical policy lives in `20-brand-and-experience/Visual Brand System.md`.  
 **Related PR:** #75
 
@@ -45,7 +45,7 @@ Functional source colours:
 
 ## v0.3 — promoted reusable foundations
 
-The v0.3 direction has now been promoted into Brand System v0.7:
+The v0.3 direction is promoted into the Brand System:
 
 - Manrope role-based type scale with 16px learner body;
 - 4px spacing rhythm and 16 / 24 / 32–40px responsive gutters;
@@ -66,49 +66,81 @@ The v0.3 direction has now been promoted into Brand System v0.7:
 
 Detailed specification: [`brand-studio-foundations-controls-v0.3.md`](brand-studio-foundations-controls-v0.3.md).
 
-## v0.4 — surfaces, iconography and graphic language
+## v0.4 — Founder-approved surfaces, iconography, subjects and data
+
+The Founder approved the v0.4 direction on 20 August 2026. Its recurring rules are now promoted into Brand System v0.8.
+
+### Surfaces and iconography
 
 ![Brand Studio surfaces and icons v0.4](brand-studio-surfaces-icons-v0.4.svg)
 
-Current proposal:
+Confirmed direction:
 
-- named Standard, Quiet, Interactive, Feature, Guidance, REV, Status, Exam/Performance, Subject Accent and Pricing/Upgrade surface families;
+- Standard, Quiet, Interactive, Feature, Guidance, REV, Status, Exam/Performance, Subject Accent and Pricing/Upgrade surface families;
 - 20px standard / 32px feature expression rather than one universal card;
-- consistent rounded line icons at 24px default, 20px compact and 16px inline;
+- rounded line icons at 24px default, 20px compact and 16px inline;
 - 1.75–2px rounded icon strokes;
-- Living-E-derived graphic motifs: soft halo, line echoes, restrained rings, marker bars and sparse trace accents;
-- halo remains a REV-specific identity device rather than a general decoration.
+- restrained Living-E-derived motifs;
+- halo remains a REV-specific identity device rather than general decoration.
 
-## v0.4 — subject accents and data visualisation
+### Subject accents and data visualisation
 
 ![Brand Studio subjects and data v0.4](brand-studio-subjects-data-v0.4.svg)
 
-Current proposal:
+Confirmed direction:
 
 - subject recognition uses name + icon + optional small accent cue;
-- approved supporting colours provide accent sources without creating full subject themes;
 - no fixed subject-to-colour mapping unless testing proves it useful;
-- progress bars, line charts and bar charts are selected by the data job rather than visual fashion;
-- coverage, understanding, exam readiness and plan progress remain distinct evidence concepts;
-- candidate data series: `#168C7C`, `#5F7FA3`, `#5F8F73`, `#A5824A`, `#607074`;
+- evidence-first chart selection;
+- coverage, understanding/mastery evidence, exam readiness and plan progress remain distinct;
+- approved derived data series: `#168C7C`, `#5F7FA3`, `#5F8F73`, `#A5824A`, `#607074`;
 - direct labels/markers/patterns supplement colour for multi-series charts.
 
 Detailed specification: [`brand-studio-surfaces-icons-data-v0.4.md`](brand-studio-surfaces-icons-data-v0.4.md).
 
+## v0.5 — cross-channel application
+
+![Brand Studio channels v0.5](brand-studio-channels-v0.5.svg)
+
+Current proposal defines reusable pattern families for:
+
+- marketing/editorial hero, feature story, product proof, pricing, testimonial/proof, editorial and closing CTA;
+- Admin shell, tables, filters/search, statuses and destructive actions;
+- social brand statement, study tip, product showcase, proof/statistic and launch/campaign formats;
+- video opening, title, lower third, captions, product-demo frame, end card and restrained transition language;
+- simplified email/lifecycle visual expression.
+
+## v0.5 — REV motion and production assets
+
+![Brand Studio motion and assets v0.5](brand-studio-motion-assets-v0.5.svg)
+
+Current proposal:
+
+- Resting: 6–8s subtle breathe;
+- Listening: 1.2–1.8s restrained ripple/equalised response;
+- Thinking: 1.4–2.2s controlled stagger/ring loop;
+- Responding: 600–900ms state entry without delaying text;
+- Completed: 700–1000ms settle;
+- reduced-motion mode removes loops and uses static state variants / very short opacity change;
+- canonical production package requires real editable/vector wordmark and Living E masters, app/favicon exports, social/video templates and lifecycle/source/licensing records;
+- recommended human-readable naming pattern: `revision-{asset}-{variant}-{theme}-{size}.{ext}`.
+
+Detailed specification: [`brand-studio-channels-motion-assets-v0.5.md`](brand-studio-channels-motion-assets-v0.5.md).
+
 ## Current Founder confirmation queue
 
-Confirm or adjust the v0.4 direction:
+Confirm or adjust the v0.5 direction:
 
-1. ten named surface families and their intended jobs;
-2. rounded line icon language and size/stroke rules;
-3. restrained Living-E-derived graphic motifs;
-4. subject accents as small recognition cues rather than full themes;
-5. no fixed subject-colour mapping yet;
-6. evidence-first chart selection rules;
-7. five-colour derived data-series palette; and
-8. strict separation of coverage, understanding, readiness and plan progress in visualisation.
+1. seven marketing/editorial pattern families;
+2. Admin shell/table/filter/status/destructive pattern rules;
+3. five social format families and canonical canvas sizes;
+4. video title/lower-third/caption/demo/end-card/transition system;
+5. REV timing/behaviour and reduced-motion model;
+6. simplified email/lifecycle treatment;
+7. required production identity/app/social/video asset package; and
+8. canonical asset naming/export/lifecycle rules.
 
-Once confirmed, these recurring rules should be promoted into the Brand System and the next tranche should move to **marketing/Admin pattern families, social/video formats, REV motion and asset-production rules**.
+Approval would complete the major **brand-grammar definition**. It would not pretend that reference-image artwork is a production vector/motion master and would not approve production styling implementation.
 
 ## Navigation clarification
 
@@ -116,15 +148,14 @@ Concept artwork does not override product Information Architecture. The governed
 
 **Home / Plan / REV / Progress / Subjects**
 
-## Remaining system work after v0.4
+## Production work still required after brand-grammar confirmation
 
-1. production logo/REV asset masters, lock-ups, clear-space and minimum-size rules;
-2. marketing-site pattern families;
-3. Admin/operations pattern families;
-4. social format families;
-5. video/motion title, lower-third, caption and transition rules;
-6. REV motion timing/easing and reduced-motion equivalents; and
-7. canonical asset naming, export sizes/formats, editable-source and licensing rules.
+- obtain/create canonical editable vector Revision wordmark and Living E masters;
+- derive approved light/dark/mono/static-state/app/favicon exports;
+- select the production REV animation implementation and create its source asset/code;
+- implement the Brand Studio reference surface if desired;
+- refactor the current product token/CSS system to the approved Brand System;
+- migrate learner screens, then marketing/Admin and reusable media templates under governed implementation PRs.
 
 ## Pattern status vocabulary
 
