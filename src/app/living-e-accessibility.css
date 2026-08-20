@@ -19,14 +19,18 @@
   color: var(--teal-text);
 }
 
-/* Active course navigation needs a paired surface/text treatment, not Primary Teal
+/* Active navigation and tabs need paired surface/text treatments, not Primary Teal
    used as both the brand surface and a low-contrast text accent. */
-.planner-runtime .course-nav button.active {
+.planner-runtime .course-nav button.active,
+.planner-runtime .mode-tabs button.active,
+.planner-runtime [role="tab"].active {
   background: #0f2f36;
   color: #ffffff;
 }
 
-.planner-runtime[data-theme="dark"] .course-nav button.active {
+.planner-runtime[data-theme="dark"] .course-nav button.active,
+.planner-runtime[data-theme="dark"] .mode-tabs button.active,
+.planner-runtime[data-theme="dark"] [role="tab"].active {
   background: #2bb6a3;
   color: #0f2f36;
 }
