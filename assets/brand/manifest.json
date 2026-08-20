@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "authority": "20-brand-and-experience/Visual Brand System.md",
+  "package_status": "production-readiness",
+  "assets": [
+    {
+      "id": "revision-rev-living-e-master",
+      "name": "REV Living E vector master",
+      "lifecycle": "Recommended",
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-rev-living-e-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-rev-living-e-resting-light.svg",
+        "assets/brand/exports/revision-rev-living-e-resting-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-nav-light.svg",
+        "assets/brand/exports/revision-rev-living-e-nav-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-mono-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-mono-light.svg"
+      ],
+      "channels": ["learner", "marketing", "admin-when-rev-is-present", "social", "video", "email-when-rev-is-context"],
+      "theme_rules": "Use Calm Teal theme variants. Halo is REV-specific and must remain restrained.",
+      "source_basis": "Founder-approved Living E direction and existing inline SVG/CSS implementation",
+      "licensing": "Original Revision brand artwork"
+    },
+    {
+      "id": "revision-wordmark-primary",
+      "name": "Primary Revision wordmark",
+      "lifecycle": "Recommended",
+      "readiness": "blocked",
+      "source": null,
+      "exports": [],
+      "channels": ["learner", "marketing", "admin", "social", "video", "email"],
+      "theme_rules": "Requires light, dark and monochrome variants after canonical master is supplied or deliberately created.",
+      "source_basis": "Required by Brand System v0.9; no canonical full Revision vector master is currently stored in the repository.",
+      "licensing": "Pending canonical source"
+    },
+    {
+      "id": "revision-app-icon",
+      "name": "Revision app icon",
+      "lifecycle": "Recommended",
+      "readiness": "blocked",
+      "source": null,
+      "exports": [],
+      "channels": ["app", "browser"],
+      "theme_rules": "Derive from approved identity master and clear-space/framing rule; do not redraw individual sizes.",
+      "source_basis": "Living E is approved for app-icon use but final production framing is not recorded as a canonical asset.",
+      "licensing": "Original Revision brand artwork"
+    },
+    {
+      "id": "revision-rev-motion-web",
+      "name": "REV web motion implementation",
+      "lifecycle": "Recommended",
+      "readiness": "alignment-required",
+      "source": "src/app/RevPresence.tsx + src/app/living-e.css",
+      "exports": [],
+      "channels": ["learner-web"],
+      "theme_rules": "Motion must correspond to genuine REV state and respect prefers-reduced-motion.",
+      "source_basis": "Current learner implementation; timing drift against Brand System v0.9 is documented in docs/technical/Brand System Production Readiness.md.",
+      "licensing": "Repository implementation"
+    },
+    {
+      "id": "revision-social-template-family",
+      "name": "Editable social template masters",
+      "lifecycle": "Recommended",
+      "readiness": "not-started",
+      "source": null,
+      "exports": [],
+      "channels": ["social"],
+      "theme_rules": "Use the approved 1080x1080, 1080x1350, 1080x1920 and 1920x1080 canvases after identity masters are stable.",
+      "source_basis": "Required by Brand System v0.9",
+      "licensing": "Pending template production"
+    },
+    {
+      "id": "revision-video-template-family",
+      "name": "Editable video graphics masters",
+      "lifecycle": "Recommended",
+      "readiness": "not-started",
+      "source": null,
+      "exports": [],
+      "channels": ["video"],
+      "theme_rules": "Opening, title, lower-third, caption and end-card masters must use the approved Calm Teal / Manrope / Living E grammar.",
+      "source_basis": "Required by Brand System v0.9",
+      "licensing": "Pending template production"
+    },
+    {
+      "id": "manrope",
+      "name": "Manrope typeface",
+      "lifecycle": "Recommended",
+      "readiness": "metadata-required",
+      "source": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+      "exports": [],
+      "channels": ["learner", "marketing", "admin", "social", "video", "email"],
+      "theme_rules": "Primary Revision typeface; use approved role hierarchy and system-sans fallback where font loading is unavailable.",
+      "source_basis": "Founder-approved Brand System v0.9 and current learner implementation",
+      "licensing": "Authoritative source/license record still to be captured before production-readiness closure"
+    }
+  ]
+}
