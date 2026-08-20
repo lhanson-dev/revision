@@ -38,16 +38,30 @@ This implementation evidence does not replace the Brand System and is not yet a 
 
 | Area | Current evidence | Readiness status | Required action |
 | --- | --- | --- | --- |
-| Primary Revision wordmark | No canonical editable full Revision wordmark master exists in the repository | **Blocked on source master** | Obtain or create the approved full Revision wordmark vector without inventing a new lock-up from code alone |
-| REV / Living E vector master | Geometry exists in `RevPresence.tsx`; halo treatment exists in CSS | **Ready to formalise** | Store canonical editable vector master and portable theme/static exports in the brand asset package |
-| Light/dark/mono Living E exports | Runtime can render them, but no portable files exist | **Ready to formalise** | Derive portable SVG exports from the canonical master |
-| App icon / favicon | Living E is suitable in principle, but exact production master/export package is absent | **Partially blocked** | Finalise app-icon framing once the approved identity master/clear-space rule is available, then generate exports rather than redraw sizes |
+| Primary Revision wordmark | Founder supplied final outlined light/dark SVG artwork on 20 August 2026; canonical source and light/dark/mono exports now live under `assets/brand/` | **Ready** | Preserve geometry and colour treatment; production runtime consumption is a later implementation change |
+| REV / Living E vector master | Canonical portable master and static exports exist under `assets/brand/` | **Ready** | Keep portable asset geometry aligned with the interactive runtime construction |
+| Light/dark/mono Living E exports | Portable static exports exist | **Ready** | No further action unless a materially different approved static state is introduced |
+| App icon / favicon | Living E is approved for compact/app use, but exact production framing and clear-space treatment are not yet canonical | **Partially blocked** | Confirm framing/clear-space rule, then generate 1024 master and favicon/PWA exports rather than redraw sizes |
+| Wordmark clear-space / minimum-size guidance | Brand System requires guidance but does not yet state numeric values | **Decision required** | Define a small explicit rule and promote it through the governed Brand System rather than inventing it in implementation |
 | REV motion source | CSS implementation exists | **Drift to resolve** | Align current timings to v0.9 and designate the aligned CSS/component pair as the canonical web motion implementation |
 | Manrope source/licensing metadata | Font is loaded remotely | **Metadata missing** | Record authoritative source/licensing information and decide whether remote loading remains the production choice |
-| Social/video templates | Brand grammar exists; editable masters do not | **Not started** | Create editable SVG/template masters after the identity master is canonical |
-| Asset registry | No canonical registry existed before this tranche | **Started in this branch** | Maintain `assets/brand/manifest.json` as source/export/lifecycle metadata |
+| Social/video templates | Brand grammar exists; editable masters do not | **Not started** | Create editable SVG/template masters after identity and app/icon foundations are stable |
+| Asset registry | `assets/brand/manifest.json` exists and now records Living E and full Revision wordmark sources/exports | **Established** | Maintain it with each production asset change |
 | Product token/component migration | Calm Teal overrides coexist with legacy token names and hard-coded local values | **Implementation work required** | Migrate through a separate governed implementation PR after readiness approval |
 | Brand Studio live reference surface | Repository reference boards exist | **Optional** | Do not build a live surface unless it materially improves contributor workflow |
+
+## Revision wordmark intake validation
+
+The supplied light and dark SVGs were inspected before intake:
+
+- working size: **1600×400**;
+- transparent background;
+- vector path geometry rather than embedded raster artwork;
+- no live `<text>` element or font dependency in the SVG;
+- light treatment: Graphite Ink `#132026` + Primary Teal `#2BB6A3`;
+- dark treatment: white + Primary Teal `#2BB6A3`.
+
+The canonical package stores the approved light artwork as the editable/source vector and derives the theme/monochrome portable exports without changing the wordmark geometry.
 
 ## Confirmed implementation drift to address later
 
@@ -58,7 +72,7 @@ The current learner styling is directionally correct but not yet a clean impleme
 - several local teal text values are implementation-specific rather than role-based design tokens;
 - Living E Resting uses a 5.8s loop, slightly outside the approved 6–8s range;
 - Listening and Thinking halo loops exceed some approved timing ranges even though the bar animations are closer to the intended behaviour; and
-- the runtime constructs the REV wordmark in JSX rather than consuming a canonical identity asset.
+- the runtime constructs a compact REV wordmark in JSX rather than consuming a canonical identity asset.
 
 These are implementation gaps, not permission to change Brand System authority.
 
@@ -70,7 +84,17 @@ Repository source location:
 
 The directory is intentionally outside Vite's deployed `public/` surface. It is the source-of-truth package for approved production assets and metadata, not an automatic deployment mechanism.
 
-Initial package in this tranche:
+Current package includes:
+
+### Revision wordmark
+
+- `assets/brand/source/revision-wordmark-primary-master.svg`
+- `assets/brand/exports/revision-wordmark-primary-light.svg`
+- `assets/brand/exports/revision-wordmark-primary-dark.svg`
+- `assets/brand/exports/revision-wordmark-mono-dark.svg`
+- `assets/brand/exports/revision-wordmark-mono-light.svg`
+
+### REV / Living E
 
 - `assets/brand/source/revision-rev-living-e-master.svg`
 - `assets/brand/exports/revision-rev-living-e-resting-light.svg`
@@ -81,17 +105,17 @@ Initial package in this tranche:
 - `assets/brand/exports/revision-rev-living-e-mono-light.svg`
 - `assets/brand/manifest.json`
 
-The first package deliberately does **not** fabricate the missing full Revision wordmark, app-icon framing or social/video masters.
+The package still deliberately does **not** fabricate app-icon framing, numeric wordmark clear-space/minimum-size rules or social/video masters.
 
 ## Production-readiness sequence
 
 ### Stage 1 — canonical identity assets
 
-1. Formalise the Living E master and portable exports.
-2. Obtain/create the approved full Revision wordmark vector master.
-3. Record clear-space/minimum-size rules for the wordmark and Living E.
-4. Derive app/favicon assets from the approved masters.
-5. Complete source/licensing metadata.
+1. Living E master and portable exports — **complete**.
+2. Full Revision wordmark vector master and light/dark/mono variants — **complete**.
+3. Clear-space/minimum-size rules — **decision required**.
+4. App/favicon assets — **pending framing rule**.
+5. Source/licensing metadata — **Manrope metadata still pending**.
 
 ### Stage 2 — motion and token alignment
 
@@ -106,21 +130,21 @@ Migrate learner surfaces incrementally using the approved token, primitive and s
 
 ### Stage 4 — cross-channel production masters
 
-Create social, video and marketing/Admin templates only after the identity and token foundations are stable, so those assets do not encode temporary geometry or palette drift.
+Create social, video and marketing/Admin templates only after the identity, app/icon and token foundations are stable, so those assets do not encode temporary geometry or palette drift.
 
 ## Gate before learner styling implementation
 
 The learner styling migration should not start until all of the following are true:
 
-- full Revision wordmark master is available or explicitly scoped out by a new Founder decision;
-- Living E canonical source and required portable exports are recorded;
-- app/favicon treatment is either ready or explicitly excluded from the migration tranche;
-- motion timing changes are specified against v0.9;
-- the target token architecture is documented;
-- canonical runtime/route remains `/revision/app/` through `PlannerRuntime`;
-- implementation scope is separated from unrelated product-feature work; and
-- assurance covers light/dark, responsive, keyboard/focus, reduced motion and no horizontal overflow.
+- full Revision wordmark master is available — **met**;
+- Living E canonical source and required portable exports are recorded — **met**;
+- app/favicon treatment is either ready or explicitly excluded from the migration tranche — **open**;
+- motion timing changes are specified against v0.9 — **open**;
+- the target token architecture is documented — **open**;
+- canonical runtime/route remains `/revision/app/` through `PlannerRuntime` — **met**;
+- implementation scope is separated from unrelated product-feature work — **met for this readiness PR**; and
+- assurance covers light/dark, responsive, keyboard/focus, reduced motion and no horizontal overflow — **required for implementation PR**.
 
 ## Documentation impact
 
-This work creates implementation-readiness documentation and a canonical asset-source package. It does not change normative brand authority or learner behaviour. When the subsequent implementation PR changes runtime styling, `docs/technical/REV Living E Implementation.md` and any affected technical docs must be updated in the same governed change.
+This work creates implementation-readiness documentation and a canonical asset-source package. It does not change normative brand authority or learner behaviour. Numeric clear-space/minimum-size rules would be a brand-governance change and must be promoted deliberately. When the subsequent implementation PR changes runtime styling, `docs/technical/REV Living E Implementation.md` and any affected technical docs must be updated in the same governed change.
