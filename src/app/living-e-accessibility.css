@@ -1,0 +1,26 @@
+.planner-runtime {
+  --teal-text: #0f5d54;
+}
+
+.planner-runtime[data-theme="dark"] {
+  --teal-text: #74d9ca;
+}
+
+/* Primary Teal remains the visual/action colour; text accents use a darker/lighter
+   companion so WCAG contrast is not sacrificed to brand colour. */
+.planner-runtime .runtime-desktop-nav button.active,
+.planner-runtime .runtime-desktop-nav .runtime-rev-link,
+.planner-runtime .account-avatar,
+.planner-runtime .living-home-support-header .eyebrow,
+.planner-runtime .living-home-guidance-actions button,
+.planner-runtime .text-link,
+.planner-runtime .runtime-bottom-nav button.active {
+  color: var(--teal-text);
+}
+
+/* Legacy subject/course tags inherited the former indigo text token. Keep the
+   Calm Teal surface treatment but use normal high-contrast text. */
+.planner-runtime .tag {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
