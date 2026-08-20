@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import type { PlannerItem, PlannerReasonCode } from '../engine/planning/planning'
@@ -6,6 +6,7 @@ import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planni
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { buildCatalogue, createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
 import { buildPlannerSnapshot } from './planner-model'
+import { RevPresence, type RevPresenceState } from './RevPresence'
 
 const availableAdapters = listAvailableContentAdapters()
 const catalogue = buildCatalogue(availableAdapters)
@@ -62,6 +63,8 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
+  const [prompt, setPrompt] = useState('')
+  const [revState, setRevState] = useState<RevPresenceState>('resting')
 
   useEffect(() => {
     let active = true
@@ -134,57 +137,116 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
     onOpenSubjects()
   }
 
-  if (loading) return <main className="dashboard screen-dashboard"><section className="planner-panel"><p>REV is checking what matters today…</p></section></main>
+  function submitPrompt(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const text = prompt.trim()
+    if (!text) {
+      setRevState('listening')
+      return
+    }
+    window.sessionStorage.setItem('revision:rev-draft', text)
+    setRevState('complete')
+    onOpenRev()
+  }
 
-  const guidance = error
-    ? 'I cannot read the planner state right now. You can still choose a subject or open Progress while I recover.'
-    : !setup?.availability
-      ? 'Tell me roughly how much revision time is realistically available and I can start balancing the work around your assessments.'
-      : setup.assessments.length === 0
-        ? 'Add an assessment and I can start turning dates, available time and your learning evidence into a useful plan.'
-        : !snapshot
-          ? 'I know your dates and available time. I need a little more scored revision evidence before I can be specific about what should come first.'
-          : snapshot.capacityState === 'prioritising' && topItem
-            ? `Time is tight, so I’m prioritising ${subjectName(topItem.subjectId)} · ${topic}. ${topReason ? `The main reason is that ${reasonLabel(topReason)}.` : ''}`
-            : topItem
-              ? `I’d start with ${subjectName(topItem.subjectId)} · ${topic} today. ${topReason ? `That’s because ${reasonLabel(topReason)}.` : ''}`
-              : 'Your plan is up to date. There is no useful planner item I need to push to the front right now.'
+  const guidance = loading
+    ? 'REV is checking your current plan and evidence.'
+    : error
+      ? 'I cannot read the planner state right now. You can still choose a subject or open Progress while I recover.'
+      : !setup?.availability
+        ? 'Tell me roughly how much revision time is realistically available and I can start balancing the work around your assessments.'
+        : setup.assessments.length === 0
+          ? 'Add an assessment and I can start turning dates, available time and your learning evidence into a useful plan.'
+          : !snapshot
+            ? 'I know your dates and available time. I need a little more scored revision evidence before I can be specific about what should come first.'
+            : snapshot.capacityState === 'prioritising' && topItem
+              ? `Time is tight, so I’m prioritising ${subjectName(topItem.subjectId)} · ${topic}. ${topReason ? `The main reason is that ${reasonLabel(topReason)}.` : ''}`
+              : topItem
+                ? `I’d start with ${subjectName(topItem.subjectId)} · ${topic} today. ${topReason ? `That’s because ${reasonLabel(topReason)}.` : ''}`
+                : 'Your plan is up to date. There is no useful planner item I need to push to the front right now.'
 
   return (
-    <main className="dashboard screen-dashboard planner-home" aria-label="Home">
-      <div className="hero-layout planner-home-hero">
-        <section className="rev-hero rev-awake" aria-labelledby="planner-home-welcome">
-          <div className="rev-copy">
-            <div className="rev-pill"><span aria-hidden="true">✦</span> REV</div>
-            <h1 id="planner-home-welcome">Hi, {learnerName}</h1>
-            <h2 className="rev-question">What matters today?</h2>
-            <p className="rev-message">{guidance}</p>
-            <div className="rev-actions">
-              {topItem && <button className="rev-primary" onClick={() => void startItem(topItem)}>Start {activityLabel(topItem.activityType)} <span aria-hidden="true">→</span></button>}
-              {topItem && <button className="rev-secondary" onClick={() => void chooseSomethingElse()}>I want to choose</button>}
-              <button className="rev-secondary" onClick={onOpenRev}>Talk to REV</button>
-              <button className="rev-secondary" onClick={onOpenPlan}>Open my plan</button>
-            </div>
-          </div>
-          <div className="rev-orb-wrap" aria-hidden="true"><div className="rev-orb"><span className="orb-ring ring-one"></span><span className="orb-ring ring-two"></span><span className="orbit-dot"></span><span className="orb-core"></span></div></div>
-        </section>
-
-        <aside className="today-card planner-home-today" aria-labelledby="planner-home-today-title">
-          <div className="today-heading"><span className="today-icon" aria-hidden="true">◎</span><div><p className="eyebrow">Today’s plan</p><h2 id="planner-home-today-title">{snapshot?.capacityState === 'prioritising' ? 'Prioritising the time available' : 'Your current focus'}</h2></div></div>
-          {!snapshot && <p className="today-note">{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
-          {snapshot && snapshot.today.length === 0 && <p className="today-note">No planner activity needs to be pushed forward right now.</p>}
-          {snapshot && snapshot.today.length > 0 && <ol className="planner-home-items">{snapshot.today.slice(0, 3).map((item) => <li key={item.recommendationId}><strong>{subjectName(item.subjectId)} · {itemTopicLabel(item, learningStates)}</strong><span>{activityLabel(item.activityType)} · about {item.estimatedMinutes} min</span></li>)}</ol>}
-          <button className="text-link" onClick={onOpenPlan}>See the wider plan <span aria-hidden="true">→</span></button>
-        </aside>
-      </div>
-
-      <section className="home-section planner-home-support" aria-labelledby="planner-home-overview-title">
-        <div className="section-heading"><div><p className="eyebrow">Bigger picture</p><h2 id="planner-home-overview-title">Keep the whole programme visible</h2></div><button className="text-link" onClick={onOpenProgress}>See progress <span aria-hidden="true">→</span></button></div>
-        <div className="progress-overview">
-          <article><small>Active assessments</small><strong>{setup?.assessments.length ?? 0}</strong><p>Dates currently shaping your adaptive plan.</p></article>
-          <article><small>Today’s plan</small><strong>{snapshot?.today.length ?? 0}</strong><p>Current useful activities within realistic capacity.</p></article>
-          <article><small>Planner state</small><strong>{snapshot?.capacityState === 'prioritising' ? 'Prioritising' : snapshot ? 'Current' : 'Building'}</strong><p>{snapshot?.capacityState === 'prioritising' ? 'Focusing on the highest-value work without creating panic or task debt.' : 'The plan will keep adapting as evidence and dates change.'}</p></article>
+    <main className="dashboard screen-dashboard planner-home living-home" aria-label="Home">
+      <section className="living-home-hero" aria-labelledby="planner-home-welcome">
+        <div className="living-home-hero-inner">
+          <RevPresence state={loading ? 'thinking' : revState} size="hero" />
+          <h1 id="planner-home-welcome">Hey {learnerName},<br />what shall we do today?</h1>
+          <form className="living-home-prompt" onSubmit={submitPrompt}>
+            <input
+              value={prompt}
+              maxLength={240}
+              placeholder="Ask REV anything…"
+              aria-label="Ask REV anything"
+              onFocus={() => setRevState('listening')}
+              onBlur={() => setRevState('resting')}
+              onChange={(event) => setPrompt(event.target.value)}
+            />
+            <button className="living-home-send" type="submit" aria-label="Send to REV">↑</button>
+          </form>
+          <p className="living-home-status" aria-live="polite">{loading ? 'REV is checking what matters today…' : 'REV is ready when you are.'}</p>
+          <a className="living-home-scroll" href="#planner-home-support">Your wider Revision workspace<span aria-hidden="true">↓</span></a>
         </div>
+      </section>
+
+      <section className="living-home-support" id="planner-home-support" aria-labelledby="planner-home-support-title">
+        <header className="living-home-support-header">
+          <p className="eyebrow">Your Revision workspace</p>
+          <h2 id="planner-home-support-title">Everything else is here when you need it.</h2>
+        </header>
+
+        <div className="living-home-feature-grid">
+          <button className="living-home-feature" onClick={onOpenPlan}>
+            <span className="living-home-feature-icon" aria-hidden="true">◎</span>
+            <strong>Plan smart</strong>
+            <span>Build revision around the time you actually have and the assessments ahead.</span>
+          </button>
+          <button className="living-home-feature" onClick={() => topItem ? void startItem(topItem) : onOpenSubjects()}>
+            <span className="living-home-feature-icon" aria-hidden="true">↻</span>
+            <strong>Continue where you left off</strong>
+            <span>{topItem ? `${subjectName(topItem.subjectId)} · ${itemTopicLabel(topItem, learningStates)}` : 'Choose a subject and get back into useful work.'}</span>
+          </button>
+          <button className="living-home-feature" onClick={onOpenSubjects}>
+            <span className="living-home-feature-icon" aria-hidden="true">▤</span>
+            <strong>Find resources</strong>
+            <span>Move quickly into Learn, Practice and Exam Prep for your subjects.</span>
+          </button>
+          <button className="living-home-feature" onClick={onOpenProgress}>
+            <span className="living-home-feature-icon" aria-hidden="true">↗</span>
+            <strong>Track progress</strong>
+            <span>See what your evidence says and where useful work should go next.</span>
+          </button>
+        </div>
+
+        <div className="living-home-guidance-grid">
+          <section className="living-home-guidance" aria-labelledby="planner-home-rev-view">
+            <p className="eyebrow">REV’s view</p>
+            <h3 id="planner-home-rev-view">What matters now</h3>
+            <p>{guidance}</p>
+            <div className="living-home-guidance-actions">
+              {topItem && <button className="primary" onClick={() => void startItem(topItem)}>Start {activityLabel(topItem.activityType)}</button>}
+              {topItem && <button className="secondary" onClick={() => void chooseSomethingElse()}>Choose something else</button>}
+              <button className="secondary" onClick={onOpenRev}>Talk to REV</button>
+            </div>
+          </section>
+
+          <aside className="living-home-today" aria-labelledby="planner-home-today-title">
+            <p className="eyebrow">Today’s plan</p>
+            <h3 id="planner-home-today-title">{snapshot?.capacityState === 'prioritising' ? 'Prioritising the time available' : 'Your current focus'}</h3>
+            {!snapshot && <p>{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
+            {snapshot && snapshot.today.length === 0 && <p>No planner activity needs to be pushed forward right now.</p>}
+            {snapshot && snapshot.today.length > 0 && <ol className="planner-home-items">{snapshot.today.slice(0, 3).map((item) => <li key={item.recommendationId}><strong>{subjectName(item.subjectId)} · {itemTopicLabel(item, learningStates)}</strong><span>{activityLabel(item.activityType)} · about {item.estimatedMinutes} min</span></li>)}</ol>}
+            <button className="text-link" onClick={onOpenPlan}>See the wider plan <span aria-hidden="true">→</span></button>
+          </aside>
+        </div>
+
+        <section className="home-section planner-home-support" aria-labelledby="planner-home-overview-title">
+          <div className="section-heading"><div><p className="eyebrow">Bigger picture</p><h2 id="planner-home-overview-title">Keep the whole programme visible</h2></div><button className="text-link" onClick={onOpenProgress}>See progress <span aria-hidden="true">→</span></button></div>
+          <div className="progress-overview">
+            <article><small>Active assessments</small><strong>{setup?.assessments.length ?? 0}</strong><p>Dates currently shaping your adaptive plan.</p></article>
+            <article><small>Today’s plan</small><strong>{snapshot?.today.length ?? 0}</strong><p>Current useful activities within realistic capacity.</p></article>
+            <article><small>Planner state</small><strong>{snapshot?.capacityState === 'prioritising' ? 'Prioritising' : snapshot ? 'Current' : 'Building'}</strong><p>{snapshot?.capacityState === 'prioritising' ? 'Focusing on the highest-value work without creating panic or task debt.' : 'The plan will keep adapting as evidence and dates change.'}</p></article>
+          </div>
+        </section>
       </section>
     </main>
   )

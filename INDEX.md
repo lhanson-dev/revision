@@ -92,6 +92,7 @@ Use this file to find the governing source before substantive work.
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
+- REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
