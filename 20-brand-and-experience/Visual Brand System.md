@@ -4,7 +4,7 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.5"
+version: "0.6"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-20"
@@ -20,234 +20,171 @@ supersedes: null
 
 Define Revision's canonical brand-guidelines and visual-expression system across every owned product, channel and asset.
 
-Revision should feel unmistakably like one brand whether someone encounters it in the learner application, marketing site, Admin, social media, video, campaign creative, email, presentation or another approved asset. Consistency must come from shared foundations and recognisable brand grammar, not from forcing every surface to use the same layouts or card designs.
+Revision should feel recognisably like one brand across the learner application, marketing/editorial site, Admin, social media, video, email, presentations and reusable assets. Consistency comes from shared foundations and recognisable grammar, not from forcing every surface to use the same layout or card design.
 
-This document governs visual identity and visual expression. Learner language remains governed by the Tone of Voice Framework, product UX by Product UX Principles, and marketing messages/claims by the relevant marketing and evidence authorities. The Brand System should make those authorities easy to discover and apply without duplicating or weakening them.
+This document governs visual identity and expression. Product behaviour, learner language, marketing claims and educational evidence remain governed by their respective authorities.
 
 ## Brand-system model
 
 Revision uses four levels of visual control:
 
-1. **Brand foundations — tightly controlled.** Identity, core palette, typography, spacing rhythm, radius/elevation families, icon language, accessibility, focus treatment and core motion principles.
-2. **Primitives — controlled variants.** Buttons, fields, selectors, tabs, chips, navigation, status treatments and other recurring interaction patterns.
-3. **Surface families — flexible within rules.** Cards, panels, editorial blocks, recommendations, REV surfaces, exam/performance surfaces and channel-specific content modules.
-4. **Composition and art direction — deliberately creative.** Page layouts, campaign compositions, social posts, video scenes, feature moments and other expressive arrangements may vary substantially while using the shared foundations.
+1. **Brand foundations — tightly controlled.** Identity, core palette, typography, themes, spacing rhythm, shape/depth, icon language, accessibility, focus treatment and core motion principles.
+2. **Primitives — controlled variants.** Buttons, fields, selectors, tabs, chips, navigation, statuses and recurring interaction patterns.
+3. **Surface families — flexible within rules.** Cards, panels, recommendations, REV surfaces, exam/performance surfaces and channel-specific modules.
+4. **Composition and art direction — deliberately creative.** Page layouts, campaign compositions, social posts, video scenes and feature moments may vary substantially while using shared foundations.
 
-The system therefore defines **what is fixed, what is bounded and what is free**. It must not become a rigid component library that makes every Revision surface look identical.
+The system therefore defines **what is fixed, what is bounded and what is free**.
 
-## Cross-channel scope
+## Founder-confirmed visual foundations — 20 August 2026
 
-The Brand System applies to:
+The following are now confirmed brand direction and replace the earlier indigo/lime exploration in this branch.
 
-- learner application and authenticated learner journeys;
-- public marketing/editorial website;
-- Admin, operations and internal product tooling;
-- email and lifecycle visual treatment;
-- social-media posts, stories, covers, thumbnails and campaign assets;
-- video, animation, motion graphics, captions, titles, lower thirds and end cards;
-- product screenshots and device mock-ups;
-- illustrations, icons and data visualisation treatment;
-- presentations, reports and other outward-facing company assets; and
-- future owned channels unless another Founder-approved authority explicitly supersedes this system for a defined purpose.
+### Typeface
 
-Marketing governance still owns channel strategy, conversion, campaign, SEO and publishing rules. The Brand System owns the visual language used to express Revision within those channels.
+**Manrope** is the approved primary Revision typeface for brand and product use.
 
-## One brand, different expression profiles
+The exact production type scale, weights, line heights and channel-specific display sizes still require implementation definition, but new visual work should treat Manrope as the default family rather than continuing to explore unrelated typefaces.
 
-All channels share the same brand foundations but may use different levels of visual expression.
+### Core identity
 
-### Learner product
+REV's approved core identity is the **Living E**:
 
-Energetic, calm, intelligent and focused. Interaction clarity and learning usability dominate. REV may be expressive, but ordinary learning surfaces should never become visually noisy.
+- three horizontal bars form the recognisable E / REV symbol;
+- the symbol sits inside a **soft halo** rather than a hard-edged or heavily sci-fi orb treatment;
+- the visual character should feel calm, intelligent, present and responsive;
+- glow is subtle and atmospheric, not neon spectacle;
+- the three bars remain clear at small sizes; and
+- the same symbol adapts across app icon, mobile centre navigation, conversation presence and larger homepage treatments.
 
-### Marketing and editorial
+The current approved REV state family is:
 
-More expressive and story-led than the learner application. Larger typography, illustration, motion, photography or unusual composition may be used where approved, provided the work remains recognisably Revision and does not undermine claims, accessibility or trust.
+- **Resting** — calm and ready;
+- **Listening** — attentive and focused;
+- **Thinking** — processing and analysing;
+- **Responding** — generating a response; and
+- **Completed** — done and ready.
 
-### Admin and operations
+Motion may be used to distinguish these states, but meaning must remain understandable without motion and reduced-motion preferences must be respected.
 
-More functional and restrained. Density may be higher where the job requires it, but typography, colour roles, controls, statuses and basic surface grammar should still belong to Revision rather than becoming an unrelated internal tool.
+### Calm Teal palette
 
-### Social media and campaigns
+The approved core brand palette is:
 
-High expressive freedom within the approved identity. Formats may adapt to the platform, but recurring treatment should build recognition rather than invent a new campaign identity for every post.
+- **Deep Teal Ink** — `#0F2F36`
+- **Primary Teal** — `#2BB6A3`
+- **Soft Aqua Accent** — `#E6FBF4`
+- **Canvas Off-White** — `#FAFCFB`
+- **Soft Surface Tint** — `#F1FAF8`
+- **Graphite Ink** — `#132026`
 
-### Video and motion assets
+Approved neutral references:
 
-Movement may be more expressive than in-product motion, but the same identity, typography, colour, icon/illustration language and REV treatment should remain recognisable. Captions and essential information must remain accessible.
+- **Neutral 0 / Near White** — `#FFFFFF`
+- **Neutral 100 / Light** — `#F6F8F7`
+- **Neutral 200 / Soft** — `#E6ECEB`
+- **Neutral 600 / Medium** — `#607074`
+- **Neutral 900 / Charcoal** — `#0F1416`
 
-## Brand reference and approval surface
+Approved supporting accents:
 
-Revision must maintain a single visual reference surface where the Founder and authorised contributors can **see the system rather than infer it from prose**.
+- **Sage** — `#BCE8CF`
+- **Stone Blue** — `#C7D9EE`
+- **Warm Sand** — `#F2E9D9`
+- **Mist** — `#E9EEF2`
 
-The reference surface should present approved real examples of:
+Approved functional colours:
 
-- logos and lock-ups;
-- colours and semantic roles;
-- typography hierarchy;
-- spacing, radius and elevation families;
-- buttons and interaction states;
-- complete form states;
-- cards and surface families;
-- navigation and tabs;
-- icons and illustration treatments;
-- REV states and motion examples;
-- learner-app examples;
-- marketing-site examples;
-- Admin examples;
-- social-media treatments;
-- video/motion frames and templates; and
-- approved reusable assets/templates.
+- **Success** — `#3BAA7A`
+- **Warning** — `#DDAA3A`
+- **Error** — `#E0605A`
+- **Information** — `#4A8ECB`
 
-Each pattern or asset should state its status and intended use. The preferred vocabulary is:
+Functional colours carry stable semantic meaning. They must not be repurposed merely for decoration, and colour must not be the sole carrier of meaning.
 
-- **Recommended** — default choice for the stated job;
-- **Alternative** — approved when the stated context justifies it;
-- **Experimental** — may be explored but is not yet approved as standard brand grammar;
-- **Deprecated** — retained for transition/history but should not be used for new work; and
-- **Do not use** — explicitly rejected or non-compliant treatment.
+### Light theme tokens
 
-Where useful, entries should also show **use when**, **avoid when**, applicable channels, accessibility considerations and the canonical implementation/asset reference.
+- background — `#FAFCFB`
+- surface — `#FFFFFF`
+- elevated surface — `#FFFFFF`
+- border — `#E6ECEB`
+- primary text — `#132026`
+- secondary text — `#5B686C`
+- primary action — `#2BB6A3`
+- action text — `#FFFFFF`
 
-The reference surface is a rendered implementation of this authority; it does not silently become policy merely because a new example is added. Material additions to approved brand grammar require the normal governed approval path.
+### Dark theme tokens
 
-## Core visual idea — focused energy
+- background — `#0F2024`
+- surface — `#13272B`
+- elevated surface — `#173136`
+- border — `#24434A`
+- primary text — `#E6F2EF`
+- secondary text — `#A8BCC0`
+- primary action — `#2BB6A3`
+- action text — `#FFFFFF`
+
+Light and dark modes are both first-class Revision experiences. Dark mode is not a separate brand; it is the same Calm Teal system translated into a darker surface hierarchy.
+
+## Core visual idea
+
+The confirmed visual direction is **calm, contemporary, trusted and focused**.
 
 Revision should feel:
 
-- contemporary and made for students rather than institutions;
-- energetic enough to motivate action;
-- calm enough to keep the next step obvious;
+- made for students without looking childish;
+- credible to parents and other paying/supporting adults;
+- calm enough to reduce cognitive load;
 - intelligent and personalised;
-- educationally credible without looking like a school portal; and
-- distinctive without becoming gimmicky.
+- contemporary rather than institutional;
+- distinctive through the Living E, teal system and refined interaction language rather than heavy visual effects; and
+- capable of expressive moments without making the entire experience visually loud.
 
-The learner experience should not resemble a dense adult SaaS dashboard, school learning-management system or children's game. Marketing may be more editorial and expressive, while Admin may be denser and quieter, but both must retain the same core identity.
+The learner application should not resemble a dense adult SaaS dashboard, school LMS, children's game or sci-fi AI interface.
 
-## Identity and REV
+## Cross-channel expression profiles
 
-Revision's primary identity and approved logo/wordmark lock-ups must remain consistent across channels. Exact lock-up, clear-space, minimum-size and asset-export rules must be confirmed visually and then recorded through the Brand System/reference surface.
+All channels share the same foundations but may use different levels of expression.
 
-Revision's AI tutor is presented as a named, non-human product presence.
+### Learner product
 
-**Current product-facing name: REV.**
+Calm, clear, intelligent and task-first. Interaction and learning clarity dominate. REV may be expressive, but ordinary learning surfaces should remain quiet.
 
-REV should feel like an intelligent operating-system-style guide integrated into Revision rather than a simulated human tutor.
+### Marketing and editorial
 
-Visual rules:
+More expressive and story-led. Larger type, editorial composition, illustration, photography or motion may be used where appropriate while retaining Calm Teal foundations and Manrope.
 
-- do not represent REV with a human portrait or invented person;
-- use an abstract orb, pulse, waveform, halo or related system motif;
-- the visual presence may use restrained glow or motion to signal intelligence and responsiveness;
-- the same REV identity must remain recognisable across product, marketing, social and video contexts; and
-- the interface must never imply a human is monitoring or replying when that is not true.
+### Admin and operations
 
-The name and exact mark may be revisited deliberately later, but REV is the approved current product-facing identity.
+Functional and restrained. Density may increase where the task requires it, but typography, semantic colours, controls and status meaning remain aligned with Revision.
 
-## Colour system
+### Social media and campaigns
 
-The approved baseline brand colours are:
+Higher expressive freedom within the approved identity. Recurring layouts and motifs should build recognition rather than create a new identity for each post.
 
-- **Deep Ink** — `#10143F`
-- **Revision Indigo** — `#3349F4`
-- **Deep Indigo** — `#18279F`
-- **Bright Lime** — `#C9FF2E`
-- **Canvas** — `#F7F8FF`
-- **Muted text** — `#66708F`
-- **Surface border** — `#E3E6F2`
+### Video and motion
 
-These are the current source colours, not the complete implementation contract.
+Motion may be more expressive than in-product motion, but the Living E, typography, palette and overall calm intelligence should remain recognisable.
 
-The confirmed system should distinguish:
+## Homepage visual layout
 
-### Brand palette
+The Founder-confirmed homepage direction applies across mobile, tablet and desktop in both light and dark modes.
 
-Recognisable source colours and approved supporting tints/shades.
+The structural hierarchy is:
 
-### Semantic colour roles
+1. REV / Living E presence given generous breathing room near the top of the experience;
+2. a concise personalised greeting / "what shall we do today?" prompt;
+3. a prominent REV input field directly beneath the greeting;
+4. a small set of useful quick-action cards such as planning, continuing previous work, finding resources and progress;
+5. "continue where you left off" or equivalent recent-context content beneath the first action layer; and
+6. progressively richer content through scrolling rather than a dense dashboard above the fold.
 
-Routine product/channel implementation should normally consume roles such as text, canvas, surface, border, action, focus, success, warning, danger and information rather than inventing local hex values.
+The same hierarchy should scale rather than fundamentally change between mobile, tablet and desktop. Desktop gains space and horizontal composition; mobile preserves focus and touch clarity.
 
-### Expressive palette
+### Navigation authority note
 
-A bounded set of additional colours/tints may be approved for illustration, REV effects, subject recognition, campaign art direction, social/video creative and feature surfaces.
+The supplied homepage artboards confirm visual layout but **do not override Information Architecture**.
 
-Expressive colour must not redefine core controls, educational evidence semantics, accessibility-critical statuses or the meaning of success/warning/error.
-
-Additional expressive colours are **not approved simply because they appear in an experiment**. They become reusable only after visual confirmation and governed promotion.
-
-## Typography
-
-Typography should be:
-
-- modern, confident and recognisable;
-- expressive enough to give Revision personality;
-- highly readable in learning and operational content;
-- capable of larger editorial expression in marketing/social/video; and
-- free from decorative treatment that harms speed or accessibility.
-
-The exact type scale, weights, line heights and channel-specific display treatments should be shown and approved visually before becoming the implementation baseline.
-
-## Spacing, shape and depth
-
-Revision should have a recognisable spatial and shape grammar without forcing one radius or one card treatment everywhere.
-
-The confirmed system should define approved families for:
-
-- spacing rhythm;
-- compact/standard/feature surface radii;
-- control radii;
-- pill/circular treatments;
-- border strength;
-- elevation/shadow levels; and
-- responsive gutters and content widths.
-
-Variation is deliberate when it maps to a named family. Accidental one-off values should be avoided.
-
-## Components and interaction primitives
-
-Reusable interaction primitives should offer controlled variants rather than each screen creating its own visual language.
-
-The system should cover at least:
-
-- primary, secondary, tertiary and destructive actions;
-- icon buttons;
-- text inputs, textareas and selects;
-- check/radio/toggle controls;
-- validation, disabled, loading, success and error states;
-- tabs and segmented controls;
-- chips/badges;
-- navigation controls;
-- drawers/modals; and
-- progress/status indicators.
-
-Bright Lime remains a selective momentum/primary-action accent rather than a colour to spread across every action.
-
-## Surface families and creative flexibility
-
-Cards and boxes should not collapse into one universal component. Revision should maintain a family of approved surface types, for example:
-
-- **standard surface** — ordinary content grouping;
-- **quiet surface** — secondary/supporting content;
-- **interactive surface** — clickable route/subject/topic choice;
-- **feature/editorial surface** — a stronger branded moment;
-- **guidance surface** — recommendation, explanation or next step;
-- **status/feedback surface** — success, warning, danger or information;
-- **REV surface** — recognisable AI-guide treatment;
-- **exam/performance surface** — calm but more performance-oriented; and
-- **subject-accent surface** — restrained subject recognition.
-
-Within an approved family, layout, illustration, accent placement and composition may vary. Shared typography, colour roles, interaction states and accessibility rules provide coherence.
-
-## Learner application
-
-### Home experience
-
-Home is led by REV as the first primary surface after sign-in. Home is learner-wide rather than paper-specific. Supporting subject and high-level progress content should sit beneath REV rather than competing with the opening CTA. On mobile in particular, Home is a conversation starter first and a dashboard second.
-
-### Navigation
-
-Desktop primary navigation is:
+The governed global learner destinations remain:
 
 - Home
 - Plan
@@ -255,9 +192,106 @@ Desktop primary navigation is:
 - Progress
 - Subjects
 
-Mobile uses the Revision wordmark/top utility treatment plus fixed bottom navigation containing the same five destinations, with REV in the centre and modest differentiated treatment.
+Mobile keeps REV in the centre of the five-item bottom navigation using the Living E treatment. Desktop implementation must also preserve REV as a genuine global destination even where a concept artboard visually omits a separate REV text item.
 
-Learn, Practice, Exam Prep and contextual Progress appear inside the relevant subject/course context rather than competing with learner-wide global navigation.
+Account/profile and utilities remain secondary.
+
+## Brand reference and approval surface
+
+Revision must maintain a single visual reference surface, currently called **Brand Studio**, where authorised contributors can see approved examples rather than infer them from prose.
+
+The reference surface should show at minimum:
+
+- identity and lock-ups;
+- colour and semantic roles;
+- typography hierarchy;
+- spacing, radius and elevation families;
+- buttons and interaction states;
+- complete form states;
+- cards and surface families;
+- navigation and tabs;
+- icon and illustration treatments;
+- REV states and motion examples;
+- learner-app examples;
+- marketing-site examples;
+- Admin examples;
+- social-media treatments;
+- video/motion frames and templates; and
+- reusable source assets and exports.
+
+Every pattern or asset should carry one of these statuses:
+
+- **Recommended** — default choice for the stated job;
+- **Alternative** — approved when context justifies it;
+- **Experimental** — visible for exploration but not standard;
+- **Deprecated** — retained for transition/history but not for new work; or
+- **Do not use** — explicitly rejected or non-compliant.
+
+A rendered example does not become policy merely because it appears in Brand Studio. Material additions to recurring brand grammar require the normal governed approval path.
+
+## Shape, spacing and depth
+
+Revision should have a recognisable spatial and shape grammar without forcing one radius or card treatment everywhere.
+
+The confirmed system still needs final approved families for:
+
+- spacing rhythm;
+- control radii;
+- compact, standard and feature surface radii;
+- pill/circular treatments;
+- border strength;
+- elevation/shadow levels;
+- responsive gutters; and
+- content widths.
+
+Variation should map to named families. Accidental one-off values should be avoided.
+
+## Components and interaction primitives
+
+Reusable interaction primitives should offer controlled variants rather than each screen inventing a separate language.
+
+The system must define at least:
+
+- primary, secondary, tertiary and destructive actions;
+- icon buttons;
+- text inputs, textareas and selects;
+- check/radio/toggle controls;
+- default, hover, focus, pressed, disabled and loading states;
+- validation, success, warning and error states;
+- tabs and segmented controls;
+- chips/badges;
+- navigation controls;
+- drawers/modals; and
+- progress/status indicators.
+
+Primary Teal is the default branded interaction colour. Functional status colours remain semantic rather than decorative.
+
+## Surface families and creative flexibility
+
+Cards and boxes must not collapse into one universal component. Revision should maintain a family of approved surface types such as:
+
+- standard surface;
+- quiet/supporting surface;
+- interactive surface;
+- feature/editorial surface;
+- guidance/recommendation surface;
+- status/feedback surface;
+- REV surface;
+- exam/performance surface;
+- subject-accent surface; and
+- pricing/upgrade surface.
+
+Within an approved family, layout, illustration, accent placement and composition may vary. Shared typography, semantic colours, interaction states and accessibility rules provide coherence.
+
+## Learner application
+
+### Home
+
+Home is conversation-first rather than dashboard-first. REV leads the opening experience, followed by useful actions and recent context. Supporting subject/progress information is discoverable by scrolling rather than competing with the opening prompt.
+
+### Navigation
+
+Desktop and mobile follow the governed Home / Plan / REV / Progress / Subjects model. REV uses the Living E as the differentiated central/mobile treatment.
 
 ### Focused sections
 
@@ -265,76 +299,42 @@ Learn, Practice, Exam Prep and contextual Progress appear inside the relevant su
 - **Learn** — readable educational content and topic exploration.
 - **Practice** — current task, prompt and feedback dominate.
 - **Exam Prep** — more performance-oriented while remaining calm and non-alarmist.
-- **Progress** — evidence meaning and next action should be clearer than decorative metrics.
+- **Progress** — evidence meaning and next action are clearer than decorative metrics.
 
-Subject differentiation may use restrained accent colour/iconography, but must not become a competing theme or proxy for attainment.
+Subject differentiation may use restrained approved accents and icons, but must not create competing themes or imply attainment.
 
-## Marketing and editorial website
+## Marketing and editorial
 
-The marketing site should share Revision's identity, typography, palette and interaction grammar while having greater freedom in editorial layout, imagery, illustration, motion and campaign composition.
-
-Marketing should not simply copy learner-app screens into a brochure layout. Its job is explanation, persuasion and brand-building. Visual expression may therefore be bolder, but calls to action, claims, pricing/packaging presentation and accessibility must still follow their governing authorities.
+The marketing site shares identity, Manrope, Calm Teal foundations and interaction grammar while having more freedom in editorial layout, imagery, illustration and motion. It should not simply copy learner screens into brochure pages.
 
 ## Admin and operations
 
-Admin may use denser layouts and more neutral/functional surfaces where operational work requires them. However:
+Admin may use denser layouts and more neutral/functional surfaces. Shared typography, controls and semantic statuses remain aligned with the main system, and destructive actions must remain unmistakable.
 
-- core typography and semantic colours should remain aligned;
-- form/control states should reuse the shared primitive system;
-- status colours must have consistent meanings;
-- destructive actions must be unmistakable; and
-- Admin must not create a separate visual brand merely because it is internal.
+## Social media
 
-## Social-media treatment
+The approved social system should define reusable families for feed posts, portrait/story/reel covers, video thumbnails, quote/message cards, product-screen compositions, launch/campaign treatments and profile/header/avatar use.
 
-The approved social system should eventually show reusable examples for major post formats rather than relying on improvised one-offs.
+## Video and motion
 
-The confirmation/reference surface should cover, where relevant:
-
-- square/feed posts;
-- portrait/story/reel covers;
-- video thumbnails/covers;
-- quote/stat/message cards;
-- product-screen compositions;
-- campaign/launch treatments; and
-- profile/header/avatar uses of the brand.
-
-Platform dimensions may vary; the identity grammar should not.
-
-## Video and motion assets
-
-Video/motion guidance should cover representative examples of:
-
-- opening/closing brand treatment;
-- wordmark/REV animation;
-- title cards;
-- lower thirds;
-- captions/subtitles;
-- product demo framing;
-- social cut-downs/thumbnails; and
-- transitions/motion rhythm.
-
-Motion should communicate state, response, energy or narrative rather than exist as decoration. Learner-product motion remains more restrained than marketing/video art direction.
-
-Relevant video/audio must provide captions/transcripts where required by the Product UX Principles and accessibility obligations.
+Video guidance should define opening/closing treatment, wordmark/REV animation, title cards, lower thirds, captions, product demo framing, social cut-downs and transition/motion rhythm. Motion should communicate state, response, energy or narrative rather than exist as decoration.
 
 ## Asset governance
 
-Reusable brand assets should have a canonical source and lifecycle status rather than being copied ad hoc into different projects.
+Reusable brand assets must have a canonical source and lifecycle state rather than being copied ad hoc between channels.
 
-The Brand System/reference surface should make it clear:
+The Brand System/Studio should identify:
 
-- which asset is canonical;
-- which variants are approved;
-- where each variant should be used;
-- whether it is Recommended, Alternative, Experimental or Deprecated; and
-- where the source/export can be obtained.
-
-Do not silently replace a canonical asset by uploading a visually similar local copy to one channel.
+- the canonical editable source;
+- approved variants;
+- intended use;
+- lifecycle status;
+- export formats/sizes; and
+- licensing/source information where relevant.
 
 ## Accessibility
 
-The Brand System inherits the Product UX Principles, including the WCAG 2.2 AA target for learner-facing experiences.
+The Brand System inherits Product UX Principles and the WCAG 2.2 AA target.
 
 At minimum:
 
@@ -342,31 +342,29 @@ At minimum:
 - text/background combinations require adequate contrast;
 - interactive controls need clear focus and touch states;
 - motion must be reducible where non-essential;
-- social/video information should remain understandable with appropriate captions/text alternatives where relevant; and
-- visual hierarchy must survive supported screen sizes without making essential content inaccessible.
+- essential social/video information requires appropriate text/caption alternatives; and
+- hierarchy must survive supported screen sizes without making essential content inaccessible.
+
+## Still to define
+
+The Founder-confirmed foundations substantially narrow the remaining Brand Studio work. The next items to define are:
+
+1. production logo/REV asset masters, lock-ups, clear-space and minimum-size rules;
+2. exact Manrope type scale, weights, line heights and responsive sizing;
+3. spacing, radius, border and elevation families;
+4. complete control and form anatomy/states;
+5. card/surface family examples and usage rules;
+6. iconography and illustration/graphic-language rules;
+7. subject-accent mapping, if subject colours are used;
+8. data-visualisation treatment;
+9. marketing, Admin, social and video format families;
+10. REV motion timing/easing and reduced-motion states; and
+11. canonical asset naming, export and source/licensing rules.
 
 ## Approval and evolution
 
-Founder approval should focus on the **brand grammar and representative range**, not on approving every future card layout or social post individually.
+Founder approval focuses on the **brand grammar and representative range**, not every future composition.
 
-A new treatment may be created creatively within approved foundations/families. If it introduces a materially new colour role, typography treatment, component family, identity treatment or recurring cross-channel pattern, it should be presented through the visual reference surface and deliberately approved before being promoted to reusable standard.
+New creative treatments may be produced within approved foundations/families. If a treatment introduces a materially new colour role, typography treatment, component family, identity treatment or recurring cross-channel pattern, it should be deliberately reviewed and promoted before becoming reusable standard.
 
-Experimental work must remain visibly experimental until promoted. Deprecated patterns should remain identifiable during migration rather than disappearing from history.
-
-## Design tests
-
-Across channels, the system succeeds when someone can reasonably recognise Revision without needing to see the full wordmark every time.
-
-For learner surfaces, a student should quickly feel:
-
-> This is for me. I know what I can do next.
-
-For marketing/social/video, the work should feel:
-
-> This is clearly Revision, but it has been designed for this moment rather than copied from another channel.
-
-For Admin, the experience should feel:
-
-> This is operationally clear and efficient, and still belongs to the same product.
-
-The target is **one coherent brand with controlled foundations and deliberate creative range**.
+The target is **one coherent Revision brand with controlled foundations and deliberate creative range**.
