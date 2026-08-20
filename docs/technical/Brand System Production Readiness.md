@@ -44,11 +44,11 @@ This implementation evidence does not replace the Brand System and is not yet a 
 | Living E clear space | `Identity Asset Usage Rules.md` defines 1e clear space outside the outer halo for standalone use | **Ready** | Preserve the halo as identity, simplifying only at compact sizes where permitted |
 | App icon framing | Canonical 1024×1024 SVG master now exists under `assets/brand/source/` using full-bleed Deep Teal and a centred 760×760 Living E identity frame | **Ready** | Generate platform-specific exports from this master rather than redraw the mark |
 | Favicon | Canonical SVG plus 32×32 and 16×16 raster fallbacks exist | **Ready** | Use the simplified three-bar treatment at favicon sizes |
-| REV motion source | CSS implementation exists | **Drift to resolve** | Align current timings to v0.9 and designate the aligned CSS/component pair as the canonical web motion implementation |
-| Manrope source/licensing metadata | Font is loaded remotely | **Metadata missing** | Record authoritative source/licensing information and decide whether remote loading remains the production choice |
-| Social/video templates | Brand grammar exists; editable masters do not | **Not started** | Create editable SVG/template masters after identity and app/icon foundations are stable |
-| Asset registry | `assets/brand/manifest.json` records Living E, wordmark, app icon and favicon source/export metadata | **Established** | Maintain it with each production asset change |
-| Product token/component migration | Calm Teal overrides coexist with legacy token names and hard-coded local values | **Implementation work required** | Migrate through a separate governed implementation PR after readiness approval |
+| REV motion source | CSS implementation exists and exact target alignment is now specified in `Brand Tokens and REV Motion Implementation Plan.md` | **Implementation-ready** | Implement the approved timing corrections in the separate governed runtime tranche |
+| Manrope source/licensing metadata | Google Fonts runtime source and OFL-1.1 provenance are recorded in `assets/brand/manrope-source-and-license.md` and the asset manifest | **Ready** | Keep current remote-loading choice unless a later implementation decision deliberately changes delivery |
+| Social/video templates | Brand grammar exists; editable masters do not | **Deferred** | Create editable SVG/template masters after token foundations are stable; not a blocker to learner implementation readiness |
+| Asset registry | `assets/brand/manifest.json` records Living E, wordmark, app icon, favicon and Manrope source/licensing metadata | **Established** | Maintain it with each production asset change |
+| Product token/component migration | Target central token architecture and compatibility migration are specified in `Brand Tokens and REV Motion Implementation Plan.md` | **Implementation-ready** | Implement Increment A in a separate governed runtime PR, then migrate learner surfaces incrementally |
 | Brand Studio live reference surface | Repository reference boards exist | **Optional** | Do not build a live surface unless it materially improves contributor workflow |
 
 ## Revision wordmark intake validation
@@ -77,16 +77,31 @@ The Founder-directed production rules are captured in `20-brand-and-experience/I
 - essential bars/halo core remain within the central **66%** platform-safe region;
 - favicon uses the three bars on Deep Teal without relying on halo detail at 16/32px.
 
-## Confirmed implementation drift to address later
+## Manrope provenance now closed
+
+The approved typeface remains Manrope. `app/index.html` currently loads weights 400, 500, 600, 700 and 800 from Google Fonts.
+
+`assets/brand/manrope-source-and-license.md` now records:
+
+- the runtime stylesheet source;
+- the canonical Google Fonts repository source;
+- Copyright 2018 The Manrope Project Authors; and
+- SIL Open Font License 1.1 (OFL-1.1).
+
+No font binaries are stored or redistributed in the brand asset package. If the product later self-hosts or bundles Manrope, the font-software licence/notice obligations must be handled in that implementation change.
+
+## Confirmed implementation drift to address in the runtime tranche
 
 The current learner styling is directionally correct but not yet a clean implementation of Brand System v0.9:
 
 - `living-e.css` retains legacy variable names such as `--indigo`, `--lime`, `--navy` and `--green` as compatibility aliases;
 - the dark background currently uses `#0E2024` while the approved token is `#0F2024`;
 - several local teal text values are implementation-specific rather than role-based design tokens;
-- Living E Resting uses a 5.8s loop, slightly outside the approved 6–8s range;
-- Listening and Thinking halo loops exceed some approved timing ranges even though the bar animations are closer to the intended behaviour; and
-- the runtime constructs a compact REV wordmark in JSX rather than consuming a canonical identity asset.
+- Living E Resting uses a 5.8s loop rather than the specified 7s target within the approved 6–8s range;
+- Listening and Thinking halo loops exceed the approved ranges; and
+- Responding currently loops continuously rather than using the specified one-shot 0.8s state-entry treatment.
+
+The exact target architecture, compatibility strategy, motion timings and assurance boundary are now defined in `docs/technical/Brand Tokens and REV Motion Implementation Plan.md`.
 
 These are implementation gaps, not permission to change Brand System authority.
 
@@ -125,6 +140,10 @@ Current package includes:
 - `assets/brand/exports/revision-favicon-32.png`
 - `assets/brand/exports/revision-favicon-16.png`
 
+### Typeface provenance
+
+- `assets/brand/manrope-source-and-license.md`
+
 ### Registry
 
 - `assets/brand/manifest.json`
@@ -133,14 +152,18 @@ Current package includes:
 
 ### Stage 1 — canonical identity assets
 
-**Substantially complete.** Wordmark, Living E, usage rules, app-icon master and favicon treatment are now defined and recorded. Remaining metadata closure is Manrope licensing/source provenance.
+**Complete for learner implementation readiness.** Wordmark, Living E, identity usage rules, app-icon master, favicon treatment and Manrope source/licensing provenance are recorded.
 
 ### Stage 2 — motion and token alignment
 
-1. Align web motion timings to Brand System v0.9.
-2. Replace legacy compatibility token names with semantic/brand tokens in a controlled migration.
-3. Centralise light/dark design tokens rather than allowing feature CSS to define competing palettes.
-4. Preserve reduced-motion behaviour and existing semantic state contracts.
+**Specified and ready for a separate implementation PR.** The target is defined in `Brand Tokens and REV Motion Implementation Plan.md`:
+
+1. introduce `src/app/brand-tokens.css` before feature CSS imports;
+2. centralise brand, theme-role, semantic and shape/depth tokens;
+3. correct the governed dark canvas to `#0F2024`;
+4. use a bounded compatibility bridge rather than a big-bang rewrite;
+5. align REV motion to 7s Resting / 1.5s Listening / 1.8s Thinking / 0.8s one-shot Responding / 0.85s Completed; and
+6. preserve current state wiring, ARIA semantics, responsive behaviour and reduced-motion support.
 
 ### Stage 3 — learner styling migration
 
@@ -148,7 +171,7 @@ Migrate learner surfaces incrementally using the approved token, primitive and s
 
 ### Stage 4 — cross-channel production masters
 
-Create social, video and marketing/Admin templates only after the identity and token foundations are stable, so those assets do not encode temporary geometry or palette drift.
+Create social, video and marketing/Admin templates after the identity and token foundations are stable, so those assets do not encode temporary geometry or palette drift. These are useful follow-on production assets but are not blockers to the learner token/motion implementation tranche.
 
 ## Gate before learner styling implementation
 
@@ -157,14 +180,15 @@ The learner styling migration should not start until all of the following are tr
 - full Revision wordmark master is available;
 - Living E canonical source and required portable exports are recorded;
 - app/favicon treatment is ready;
+- Manrope source/licensing provenance is recorded;
 - motion timing changes are specified against v0.9;
 - the target token architecture is documented;
 - canonical runtime/route remains `/revision/app/` through `PlannerRuntime`;
 - implementation scope is separated from unrelated product-feature work; and
 - assurance covers light/dark, responsive, keyboard/focus, reduced motion and no horizontal overflow.
 
-The first three identity conditions are now satisfied. Motion/token definition is the remaining implementation gate before learner styling migration.
+**All production-readiness definition conditions above are now satisfied on this branch.** The next governed step after this readiness package is merged is a separate runtime implementation PR for Increment A; it must not be folded silently into this documentation/asset PR.
 
 ## Documentation impact
 
-This work now includes a narrow brand-authority addition for identity asset usage plus implementation-readiness documentation and canonical asset-source material. When the subsequent implementation PR changes runtime styling, `docs/technical/REV Living E Implementation.md` and any affected technical docs must be updated in the same governed change.
+This work includes a narrow brand-authority addition for identity asset usage plus implementation-readiness documentation and canonical asset-source material. When the subsequent implementation PR changes runtime styling, `docs/technical/REV Living E Implementation.md`, `Brand Tokens and REV Motion Implementation Plan.md` and any affected technical docs must be updated in the same governed change.
