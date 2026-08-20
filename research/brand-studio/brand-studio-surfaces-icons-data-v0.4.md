@@ -1,7 +1,7 @@
 # Brand Studio v0.4 — surfaces, iconography, subject accents and data visualisation
 
-**Status:** Experimental proposal for Founder confirmation  
-**Authority:** None until deliberately promoted into `20-brand-and-experience/Visual Brand System.md`  
+**Status:** Founder-confirmed direction — approved 20 August 2026  
+**Authority:** Recurring rules are promoted into the draft `20-brand-and-experience/Visual Brand System.md`; this file remains design evidence/reference  
 **Approved foundation:** Manrope, Calm Teal, Living E, light/dark themes, v0.3 typography/spacing/radius/elevation/controls/forms
 
 ## Purpose
@@ -91,7 +91,7 @@ Avoid mixed icon libraries, emoji as product controls, cartoon clip-art, inconsi
 
 ## 3. Graphic language
 
-Approved-direction motifs to continue testing:
+Approved motifs:
 
 - soft halo / diffused circle around REV only;
 - three-line / stacked-line echoes derived from the Living E;
@@ -117,7 +117,7 @@ Use the approved supporting palette as a recognition layer rather than a theme s
 
 Subject identity must combine **name + icon + optional accent**. Colour alone is never sufficient, and two subjects may reuse an accent when the icon/name remain clear.
 
-No fixed subject-to-colour mapping is proposed yet. Introduce exact mapping only if user testing shows it materially improves recognition.
+No fixed subject-to-colour mapping is approved. Introduce exact mapping only if user testing shows it materially improves recognition.
 
 ## 5. Data visualisation
 
@@ -143,8 +143,8 @@ Never collapse these into one decorative percentage:
 
 A trend may legitimately move down when new evidence changes the picture. Avoid visual metaphors that imply progress can only increase.
 
-### Candidate ordered data-series palette
-These are v0.4 derived chart colours, not new brand identity colours:
+### Approved derived data-series palette
+These are chart colours, not new brand identity colours:
 
 1. Data Teal `#168C7C`
 2. Data Blue `#5F7FA3`
@@ -169,16 +169,16 @@ Primary Teal `#2BB6A3` remains excellent as a fill/accent but is too low-contras
 - Admin: Standard/Quiet surfaces, compact radius where needed, limited shadow, dense tables outside card overload.
 - Social/video: use Feature composition and graphic motifs, but retain Manrope, Calm Teal and Living E recognition.
 
-## Founder confirmation requested
+## Founder decision
 
-Approve or adjust the following as the v0.4 system direction:
+On 20 August 2026 the Founder explicitly approved the Brand Studio v0.4 direction, including:
 
 1. the ten named surface families and their jobs;
-2. rounded line icon language and size/stroke rules;
+2. the rounded line icon language and size/stroke rules;
 3. restrained Living-E-derived graphic motifs;
-4. subject accents as small recognition cues using the approved supporting palette, without fixed mapping yet;
+4. subject accents as small recognition cues using the approved supporting palette, without fixed mapping;
 5. evidence-first chart selection rules;
 6. the five-colour derived data-series palette; and
-7. strict separation of coverage, understanding, readiness and plan progress in visualisation.
+7. strict separation of coverage, understanding/mastery evidence, exam readiness and plan progress in visualisation.
 
-Approval would allow these recurring rules to be promoted into the Brand System. It would not freeze individual card layouts, subject designs or future marketing compositions.
+This confirms the recurring grammar, not every future card layout, subject design or marketing composition.
