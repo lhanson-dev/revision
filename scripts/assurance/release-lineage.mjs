@@ -76,32 +76,16 @@ function appendGithubFile(envName, text) {
   if (path) appendFileSync(path, `${text}\n`)
 }
 
-export async function verifyReleaseLineage(options = {}) {
+export async function verifyMergedCommitGovernance(options = {}) {
   const apiUrl = options.apiUrl ?? process.env.GITHUB_API_URL ?? 'https://api.github.com'
   const repository = requireValue(options.repository ?? process.env.GITHUB_REPOSITORY, 'GITHUB_REPOSITORY')
-  const mergeSha = requireValue(options.mergeSha ?? process.env.GITHUB_SHA, 'GITHUB_SHA')
+  const mergeSha = requireValue(options.mergeSha, 'mergeSha')
   const token = requireValue(options.token ?? process.env.GITHUB_TOKEN, 'GITHUB_TOKEN')
   const founderLogin = requireValue(options.founderLogin ?? process.env.REVISION_FOUNDER_GITHUB_LOGIN, 'REVISION_FOUNDER_GITHUB_LOGIN')
-  const bootstrapParent = options.bootstrapParent ?? process.env.REVISION_RELEASE_BOOTSTRAP_PARENT ?? ''
 
   const commit = await githubJson(`${apiUrl}/repos/${repository}/commits/${mergeSha}`, token)
   const parentSha = commit?.parents?.[0]?.sha
   if (!parentSha) throw new Error(`Merge ${mergeSha} has no first parent; governed release ancestry cannot be established.`)
-
-  let priorRelease = 'bootstrap'
-  if (parentSha !== bootstrapParent) {
-    const priorStatusPayload = await githubJson(`${apiUrl}/repos/${repository}/commits/${parentSha}/status`, token)
-    const priorStatus = latestReleaseStatus(priorStatusPayload?.statuses)
-    if (!priorStatus) {
-      throw new Error(`Previous main commit ${parentSha} has no ${releaseStatusContext} status; release chain fails closed.`)
-    }
-    if (priorStatus.state !== 'success') {
-      throw new Error(`Previous main commit ${parentSha} has ${releaseStatusContext}=${priorStatus.state}; release chain fails closed.`)
-    }
-    priorRelease = `verified:${parentSha}`
-  } else if (!bootstrapParent) {
-    throw new Error('No governed bootstrap parent is configured for the first release-status deployment.')
-  }
 
   const pulls = await githubJson(`${apiUrl}/repos/${repository}/commits/${mergeSha}/pulls`, token)
   const pull = selectMergedPull(pulls, mergeSha)
@@ -138,11 +122,103 @@ export async function verifyReleaseLineage(options = {}) {
   return {
     mergeSha,
     parentSha,
-    priorRelease,
     prNumber,
     headSha,
     ciRunId: ciRun.id,
     approvalCommentId: approval.id,
+  }
+}
+
+export async function verifyPriorReleaseChain(options = {}) {
+  const apiUrl = options.apiUrl ?? process.env.GITHUB_API_URL ?? 'https://api.github.com'
+  const repository = requireValue(options.repository ?? process.env.GITHUB_REPOSITORY, 'GITHUB_REPOSITORY')
+  const token = requireValue(options.token ?? process.env.GITHUB_TOKEN, 'GITHUB_TOKEN')
+  const founderLogin = requireValue(options.founderLogin ?? process.env.REVISION_FOUNDER_GITHUB_LOGIN, 'REVISION_FOUNDER_GITHUB_LOGIN')
+  const bootstrapParent = options.bootstrapParent ?? process.env.REVISION_RELEASE_BOOTSTRAP_PARENT ?? ''
+  const startSha = requireValue(options.startSha, 'startSha')
+  const maxDepth = options.maxDepth ?? 50
+
+  if (!bootstrapParent) {
+    throw new Error('No governed bootstrap parent is configured for release-status ancestry.')
+  }
+
+  let candidateSha = startSha
+  const recoveredGovernedFailures = []
+
+  for (let depth = 0; depth < maxDepth; depth += 1) {
+    if (candidateSha === bootstrapParent) {
+      return {
+        priorRelease: recoveredGovernedFailures.length > 0 ? 'recovered-to-bootstrap' : 'bootstrap',
+        recoveredGovernedFailures,
+      }
+    }
+
+    const statusPayload = await githubJson(`${apiUrl}/repos/${repository}/commits/${candidateSha}/status`, token)
+    const status = latestReleaseStatus(statusPayload?.statuses)
+    if (!status) {
+      throw new Error(`Previous main commit ${candidateSha} has no ${releaseStatusContext} status; release chain fails closed.`)
+    }
+
+    if (status.state === 'success') {
+      return {
+        priorRelease: recoveredGovernedFailures.length > 0 ? `recovered-to:${candidateSha}` : `verified:${candidateSha}`,
+        recoveredGovernedFailures,
+      }
+    }
+
+    if (status.state === 'pending') {
+      throw new Error(`Previous main commit ${candidateSha} has ${releaseStatusContext}=pending; release chain fails closed while that release is unresolved.`)
+    }
+
+    if (!['failure', 'error'].includes(status.state)) {
+      throw new Error(`Previous main commit ${candidateSha} has unsupported ${releaseStatusContext}=${status.state}; release chain fails closed.`)
+    }
+
+    let governance
+    try {
+      governance = await verifyMergedCommitGovernance({ apiUrl, repository, mergeSha: candidateSha, token, founderLogin })
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error)
+      throw new Error(`Previous main commit ${candidateSha} has ${releaseStatusContext}=${status.state} and cannot be proven as a governed merge: ${reason}`)
+    }
+
+    recoveredGovernedFailures.push({
+      mergeSha: candidateSha,
+      releaseState: status.state,
+      prNumber: governance.prNumber,
+      headSha: governance.headSha,
+      ciRunId: governance.ciRunId,
+      approvalCommentId: governance.approvalCommentId,
+    })
+    candidateSha = governance.parentSha
+  }
+
+  throw new Error(`Release ancestry exceeded ${maxDepth} commits without reaching a successful governed release or the configured bootstrap parent.`)
+}
+
+export async function verifyReleaseLineage(options = {}) {
+  const apiUrl = options.apiUrl ?? process.env.GITHUB_API_URL ?? 'https://api.github.com'
+  const repository = requireValue(options.repository ?? process.env.GITHUB_REPOSITORY, 'GITHUB_REPOSITORY')
+  const mergeSha = requireValue(options.mergeSha ?? process.env.GITHUB_SHA, 'GITHUB_SHA')
+  const token = requireValue(options.token ?? process.env.GITHUB_TOKEN, 'GITHUB_TOKEN')
+  const founderLogin = requireValue(options.founderLogin ?? process.env.REVISION_FOUNDER_GITHUB_LOGIN, 'REVISION_FOUNDER_GITHUB_LOGIN')
+  const bootstrapParent = options.bootstrapParent ?? process.env.REVISION_RELEASE_BOOTSTRAP_PARENT ?? ''
+
+  const governance = await verifyMergedCommitGovernance({ apiUrl, repository, mergeSha, token, founderLogin })
+  const prior = await verifyPriorReleaseChain({
+    apiUrl,
+    repository,
+    startSha: governance.parentSha,
+    token,
+    founderLogin,
+    bootstrapParent,
+    maxDepth: options.maxDepth,
+  })
+
+  return {
+    ...governance,
+    priorRelease: prior.priorRelease,
+    recoveredGovernedFailures: prior.recoveredGovernedFailures,
   }
 }
 
@@ -178,7 +254,10 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     if (command === 'verify') {
       const evidence = await verifyReleaseLineage()
       console.log(JSON.stringify(evidence, null, 2))
-      appendGithubFile('GITHUB_STEP_SUMMARY', `## Governed release lineage preflight\n\n- PR: #${evidence.prNumber}\n- Exact head: \`${evidence.headSha}\`\n- Merge: \`${evidence.mergeSha}\`\n- Previous release: ${evidence.priorRelease}\n- Exact-head CI run: ${evidence.ciRunId}\n- Founder approval comment: ${evidence.approvalCommentId}`)
+      const recovered = evidence.recoveredGovernedFailures.length > 0
+        ? `\n- Governed failed releases traversed for recovery: ${evidence.recoveredGovernedFailures.map((item) => `${item.mergeSha} (PR #${item.prNumber})`).join(', ')}`
+        : ''
+      appendGithubFile('GITHUB_STEP_SUMMARY', `## Governed release lineage preflight\n\n- PR: #${evidence.prNumber}\n- Exact head: \`${evidence.headSha}\`\n- Merge: \`${evidence.mergeSha}\`\n- Previous release: ${evidence.priorRelease}${recovered}\n- Exact-head CI run: ${evidence.ciRunId}\n- Founder approval comment: ${evidence.approvalCommentId}`)
     } else if (command === 'publish-status') {
       const result = await publishReleaseStatus()
       console.log(`Published ${result.context}=${result.state} for ${result.sha}.`)
