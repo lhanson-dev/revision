@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "authority": "20-brand-and-experience/Visual Brand System.md",
+  "identity_usage_authority": "20-brand-and-experience/Identity Asset Usage Rules.md",
   "package_status": "production-readiness",
   "assets": [
     {
@@ -35,7 +36,7 @@
         "assets/brand/exports/revision-wordmark-mono-light.svg"
       ],
       "channels": ["learner", "marketing", "admin", "social", "video", "email"],
-      "theme_rules": "Light treatment uses Graphite Ink #132026 with Primary Teal #2BB6A3 for the Living E. Dark treatment uses white with Primary Teal. Monochrome variants use Graphite Ink or white throughout.",
+      "theme_rules": "Light treatment uses Graphite Ink #132026 with Primary Teal #2BB6A3 for the Living E. Dark treatment uses white with Primary Teal. Monochrome variants use Graphite Ink or white throughout. Clear space is 2x where x is one teal E-bar height; minimum full-wordmark width is 160px digital / 35mm print.",
       "source_basis": "Founder-supplied outlined SVG masters received 20 August 2026; 1600x400 working size with transparent background and no embedded font or raster dependency.",
       "licensing": "Original Revision brand artwork"
     },
@@ -43,12 +44,16 @@
       "id": "revision-app-icon",
       "name": "Revision app icon",
       "lifecycle": "Recommended",
-      "readiness": "blocked",
-      "source": null,
-      "exports": [],
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-app-icon-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-favicon.svg",
+        "assets/brand/exports/revision-favicon-32.png",
+        "assets/brand/exports/revision-favicon-16.png"
+      ],
       "channels": ["app", "browser"],
-      "theme_rules": "Derive from approved identity master and clear-space/framing rule; do not redraw individual sizes.",
-      "source_basis": "Living E is approved for app-icon use but final production framing is not recorded as a canonical asset.",
+      "theme_rules": "Canonical 1024x1024 master uses full-bleed Deep Teal Ink #0F2F36 with the Living E centred in a 760x760 identity frame. No baked outer corner radius. Essential bars/core stay within the central 66% safe region; faint outer halo may clip under platform masks. Favicon omits the halo at 16/32px.",
+      "source_basis": "Founder-directed identity usage rules, 21 August 2026, derived from approved Living E geometry without changing the mark.",
       "licensing": "Original Revision brand artwork"
     },
     {
