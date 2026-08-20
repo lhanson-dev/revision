@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "authority": "20-brand-and-experience/Visual Brand System.md",
+  "identity_usage_authority": "20-brand-and-experience/Identity Asset Usage Rules.md",
+  "package_status": "production-readiness",
+  "assets": [
+    {
+      "id": "revision-rev-living-e-master",
+      "name": "REV Living E vector master",
+      "lifecycle": "Recommended",
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-rev-living-e-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-rev-living-e-resting-light.svg",
+        "assets/brand/exports/revision-rev-living-e-resting-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-nav-light.svg",
+        "assets/brand/exports/revision-rev-living-e-nav-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-mono-dark.svg",
+        "assets/brand/exports/revision-rev-living-e-mono-light.svg"
+      ],
+      "channels": ["learner", "marketing", "admin-when-rev-is-present", "social", "video", "email-when-rev-is-context"],
+      "theme_rules": "Use Calm Teal theme variants. Halo is REV-specific and must remain restrained.",
+      "source_basis": "Founder-approved Living E direction and existing inline SVG/CSS implementation",
+      "licensing": "Original Revision brand artwork"
+    },
+    {
+      "id": "revision-wordmark-primary",
+      "name": "Primary Revision wordmark",
+      "lifecycle": "Recommended",
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-wordmark-primary-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-wordmark-primary-light.svg",
+        "assets/brand/exports/revision-wordmark-primary-dark.svg",
+        "assets/brand/exports/revision-wordmark-mono-dark.svg",
+        "assets/brand/exports/revision-wordmark-mono-light.svg"
+      ],
+      "channels": ["learner", "marketing", "admin", "social", "video", "email"],
+      "theme_rules": "Light treatment uses Graphite Ink #132026 with Primary Teal #2BB6A3 for the Living E. Dark treatment uses white with Primary Teal. Monochrome variants use Graphite Ink or white throughout. Clear space is 2x where x is one teal E-bar height; minimum full-wordmark width is 160px digital / 35mm print.",
+      "source_basis": "Founder-supplied outlined SVG masters received 20 August 2026; 1600x400 working size with transparent background and no embedded font or raster dependency.",
+      "licensing": "Original Revision brand artwork"
+    },
+    {
+      "id": "revision-app-icon",
+      "name": "Revision app icon",
+      "lifecycle": "Recommended",
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-app-icon-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-favicon.svg",
+        "assets/brand/exports/revision-favicon-32.png",
+        "assets/brand/exports/revision-favicon-16.png"
+      ],
+      "channels": ["app", "browser"],
+      "theme_rules": "Canonical 1024x1024 master uses full-bleed Deep Teal Ink #0F2F36 with the Living E centred in a 760x760 identity frame. No baked outer corner radius. Essential bars/core stay within the central 66% safe region; faint outer halo may clip under platform masks. Favicon omits the halo at 16/32px.",
+      "source_basis": "Founder-directed identity usage rules, 21 August 2026, derived from approved Living E geometry without changing the mark.",
+      "licensing": "Original Revision brand artwork"
+    },
+    {
+      "id": "revision-rev-motion-web",
+      "name": "REV web motion implementation",
+      "lifecycle": "Recommended",
+      "readiness": "alignment-required",
+      "source": "src/app/RevPresence.tsx + src/app/living-e.css",
+      "exports": [],
+      "channels": ["learner-web"],
+      "theme_rules": "Motion must correspond to genuine REV state and respect prefers-reduced-motion.",
+      "source_basis": "Current learner implementation; timing drift against Brand System v0.9 is documented in docs/technical/Brand System Production Readiness.md.",
+      "licensing": "Repository implementation"
+    },
+    {
+      "id": "revision-social-template-family",
+      "name": "Editable social template masters",
+      "lifecycle": "Recommended",
+      "readiness": "not-started",
+      "source": null,
+      "exports": [],
+      "channels": ["social"],
+      "theme_rules": "Use the approved 1080x1080, 1080x1350, 1080x1920 and 1920x1080 canvases after identity masters are stable.",
+      "source_basis": "Required by Brand System v0.9",
+      "licensing": "Pending template production"
+    },
+    {
+      "id": "revision-video-template-family",
+      "name": "Editable video graphics masters",
+      "lifecycle": "Recommended",
+      "readiness": "not-started",
+      "source": null,
+      "exports": [],
+      "channels": ["video"],
+      "theme_rules": "Opening, title, lower-third, caption and end-card masters must use the approved Calm Teal / Manrope / Living E grammar.",
+      "source_basis": "Required by Brand System v0.9",
+      "licensing": "Pending template production"
+    },
+    {
+      "id": "manrope",
+      "name": "Manrope typeface",
+      "lifecycle": "Recommended",
+      "readiness": "ready",
+      "source": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+      "exports": [],
+      "channels": ["learner", "marketing", "admin", "social", "video", "email"],
+      "theme_rules": "Primary Revision typeface; use approved role hierarchy and system-sans fallback where font loading is unavailable. Current production choice is remote loading from Google Fonts; no font binaries are stored in the brand asset package.",
+      "source_basis": "Founder-approved Brand System v0.9, current learner runtime in app/index.html, and provenance record assets/brand/manrope-source-and-license.md.",
+      "licensing": "SIL Open Font License 1.1 (OFL-1.1); Copyright 2018 The Manrope Project Authors. See assets/brand/manrope-source-and-license.md."
+    }
+  ]
+}
