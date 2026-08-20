@@ -80,7 +80,8 @@ test('sign-in meets the automated WCAG A/AA baseline', async ({ page }) => {
 test('global Home, Plan and REV surfaces meet the automated WCAG A/AA baseline', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: 'What matters today?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByLabel('Ask REV anything')).toBeVisible()
   await expectWcagBaseline(page, 'Home')
 
   const primaryNavName = primaryNavigationName(page)
