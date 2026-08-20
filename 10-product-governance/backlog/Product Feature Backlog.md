@@ -4,24 +4,49 @@
 **Authority:** non-authoritative product-management backlog  
 **Status:** active register  
 **Owner:** Product  
-**Purpose:** Canonical inventory of candidate product features, their current product-management status, and the evidence needed before promotion into approved product authority.
+**Purpose:** Canonical inventory of product features, their current product-management lifecycle state, and the evidence needed to progress them through governed product definition, implementation and production verification.
 
 ## Status model
 
-Use the following lifecycle consistently:
+Use the following normal lifecycle consistently:
 
-- **Idea** — captured but not yet assessed in depth.
-- **Exploring** — value, evidence, feasibility, dependencies or risks are being investigated.
-- **Candidate** — strong enough to be considered for prioritisation and possible promotion into approved product scope.
-- **Approved** — Founder-approved product direction; the relevant normative product authority must be updated before implementation proceeds as governed scope.
-- **Planned** — approved and sequenced for implementation.
-- **Building** — implementation is actively in progress on a governed branch/PR.
-- **Live** — implementation evidence confirms the feature is available on the canonical product runtime.
-- **Parked** — potentially useful, but not currently worth pursuing.
+`New → To Do → Analyse → Ready → In Progress → Live`
+
+- **New** — feature captured for consideration; no human decision has yet established that the feature belongs in Revision.
+- **To Do** — explicit human product decision recorded that the feature belongs in Revision, supported by the applicable governed product authority/decision evidence; Definition-of-Ready analysis has not yet started.
+- **Analyse** — active work is underway to challenge, define and prepare the feature to satisfy the complete Definition of Ready.
+- **Ready** — every applicable Definition-of-Ready criterion has passed and explicit human approval to proceed to development has been recorded.
+- **In Progress** — governed implementation has actually started on the approved Ready scope.
+- **Live** — production evidence confirms the feature is available on the canonical production runtime.
+
+Exception/disposition states:
+
+- **Parked** — deliberately not progressing now, but potentially worth revisiting.
 - **Rejected** — deliberately not pursuing; retain the rationale.
-- **Retired** — previously live/approved but deliberately withdrawn or superseded.
+- **Retired** — previously approved/live capability deliberately withdrawn or superseded.
 
-A status in this register must not be used to bypass repository authority. In particular, **Idea, Exploring and Candidate are not approved scope**, and **Live must not be asserted without implementation evidence**.
+The detailed lifecycle, human approval boundaries, Definition of Ready and `Start / Continue / Status FI-XXX` invocation protocol are governed by `80-company-workflows/Feature Definition and Measurement Workflow.md`.
+
+A status in this register must not be used to bypass repository authority. In particular:
+
+- `To Do` must reflect an approval/authority decision; the backlog label does not create product authority by itself;
+- `Ready` requires complete applicable Definition-of-Ready evidence plus explicit human approval and cannot be self-approved by an AI agent;
+- `In Progress` requires actual governed implementation, not a prototype or feasibility spike; and
+- `Live` must not be asserted without production implementation evidence.
+
+## 20 August 2026 lifecycle migration note
+
+The previous `Idea / Exploring / Candidate / Approved / Planned / Building / Live` model has been retired in favour of the clearer lifecycle above.
+
+Existing entries were migrated conservatively rather than by mechanical renaming:
+
+- former `Idea` entries become `New` unless current authority already establishes that the capability belongs in Revision;
+- former `Candidate` entries become `To Do` only where current approved product authority already establishes the capability direction; otherwise they become `New`;
+- former `Exploring` entries become `Analyse` only where active Definition-of-Ready work is genuinely underway; research-only exploration does not imply current analysis;
+- `Live` remains `Live` where production evidence already exists; and
+- `Parked` remains `Parked`.
+
+No feature is treated as `Ready` merely because earlier work described or researched it. The new Definition of Ready applies before future material implementation begins.
 
 ## Prioritisation dimensions
 
@@ -34,6 +59,7 @@ When an item is assessed, consider:
 - differentiation and defensibility;
 - adoption, engagement and retention potential;
 - commercial value where relevant;
+- Free / Paid / Premium value-ladder potential where relevant;
 - implementation complexity;
 - operating, AI/token and content cost;
 - dependencies and sequencing;
@@ -119,7 +145,7 @@ FI-001 is promoted into `10-product-governance/Adaptive Revision Planning.md` an
 
 ## FI-002 — Subscription Plans / Feature Entitlements and Upgrade Journey
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-19  
 **Capability fit:** Commercial capability evolution; cross-cutting product entitlement layer  
 **Authority context:** Free, paid and premium tiers are already anticipated in `Scope and Capability Taxonomy.md`; exact entitlements, pricing and boundaries remain deliberately undefined.  
@@ -222,7 +248,7 @@ Review and update at minimum:
 
 ## FI-003 — Full REV Intelligent AI Tutor
 
-**Status:** Candidate  
+**Status:** To Do  
 **Captured:** 2026-08-19  
 **Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
 **Authority context:** REV / the AI tutor is already approved as a core part of Revision's product system and first serious product version. This backlog item captures the fuller product capability required to realise that approved direction rather than proposing whether an AI tutor should exist.  
@@ -370,7 +396,7 @@ Before material implementation, review/update at minimum:
 
 ## FI-004 — Student Confidence Tracking / Confidence Calibration
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-19  
 **Capability fit:** Progress and Readiness; Guide  
 **Initial assessment:** High measurement and student-value potential; lightweight to capture; must remain distinct from objective readiness
@@ -464,7 +490,7 @@ If approved, review and update at minimum:
 
 ## FI-005 — Study-Time Measurement / Active Engagement Telemetry
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-19  
 **Capability fit:** Understand; Progress and Readiness; product analytics  
 **Initial assessment:** Potentially high measurement value; not required for the adaptive-planner MVP; accuracy and privacy need deliberate design
@@ -529,7 +555,7 @@ The strongest use may be behind the scenes: improving planning assumptions, prod
 
 The underlying telemetry should not be artificially restricted by subscription tier if it is needed for safe, accurate product operation and measurement.
 
-If learner-facing insights based on study-time data later become a feature, packaging across Free / Level 1 / Level 2 should be assessed separately through the feature-definition process rather than assumed now.
+If learner-facing insights based on study-time data later become a feature, packaging across Free / Paid / Premium should be assessed separately through the feature-definition process rather than assumed now.
 
 ### Dependencies / questions to assess
 
@@ -556,7 +582,7 @@ If promoted, review and update at minimum:
 
 ## FI-006 — Initial Subject Diagnostic and Periodic Knowledge Check-in
 
-**Status:** Candidate  
+**Status:** To Do  
 **Captured:** 2026-08-19  
 **Capability fit:** Understand; Guide; Practise and Test; Progress and Readiness  
 **Authority context:** Baseline/diagnostic assessment is already part of the approved Understand capability. This item defines the concrete first-subject/check-in experience and evidence-strength rules.  
@@ -643,11 +669,12 @@ Before material implementation, review/update at minimum:
 
 ## FI-007 — Assisted / AI Exam-Answer Marking
 
-**Status:** Exploring  
+**Status:** Analyse  
 **Captured:** 2026-08-20  
 **Capability fit:** Practise and Test; Prepare for the Exam; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
-**Initial assessment:** High strategic fit and competitive importance; marking reliability and evidence confidence are the critical constraints
+**Initial assessment:** High strategic fit and competitive importance; marking reliability and evidence confidence are the critical constraints  
+**Current lifecycle note:** Active feature-definition work is underway toward the governed Definition of Ready. Material production implementation must not begin until FI-007 achieves explicit human-approved `Ready` status.
 
 ### Opportunity
 
@@ -674,7 +701,7 @@ If promoted, review assessment/evidence authority, Claims and Progress Governanc
 
 ## FI-008 — Assured Subject / Qualification Catalogue Expansion
 
-**Status:** Candidate  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Understand; Learn; Practise and Test; Prepare for the Exam  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -701,7 +728,7 @@ Likely impacts product/content roadmap authority, content operations, source/cov
 
 ## FI-009 — Adaptive Retrieval / Spaced Repetition
 
-**Status:** Exploring  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Guide; Practise and Test; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -728,7 +755,7 @@ Review Product System Model, Adaptive Revision Planning, evidence/recency rules,
 
 ## FI-010 — Weakness-Driven Targeted Tests
 
-**Status:** Exploring  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Guide; Practise and Test; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -753,7 +780,7 @@ Review assessment authority, content-generation assurance, Product System Model,
 
 ## FI-011 — Misconception Recovery / Wrong-Answer Mode
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Learn; Practise and Test; Guide  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -775,7 +802,7 @@ Review practice UX, evidence recency/corroboration rules, REV explanation behavi
 
 ## FI-012 — Exam-Soon Focused Review Mode
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Guide; Prepare for the Exam; Progress and Readiness  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -797,7 +824,7 @@ Likely changes Adaptive Revision Planning, core journeys, REV behaviour, tone/ex
 
 ## FI-013 — Past Paper and Mark Scheme Library
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Prepare for the Exam; Practise and Test  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -822,7 +849,7 @@ Review content provenance/licensing, Course Content and Assessment Component Pla
 
 ## FI-014 — Selective Video and Audio Learning
 
-**Status:** Idea  
+**Status:** To Do  
 **Captured:** 2026-08-20  
 **Capability fit:** Learn  
 **Authority context:** Multiple learning formats, including video and audio where useful, are already anticipated by `Scope and Capability Taxonomy.md`.  
@@ -845,7 +872,7 @@ Review content schema/Content Factory, accessibility standards, media hosting, c
 
 ## FI-015 — Learner Uploads → Personal Study Materials
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Learn; Practise and Test  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -871,7 +898,7 @@ Would require product authority, privacy/data-retention rules, upload security s
 
 ## FI-016 — Offline / Downloadable Study
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Learn; Practise and Test; accessibility/convenience  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -893,7 +920,7 @@ Would affect architecture, security/privacy, content distribution, entitlement b
 
 ## FI-017 — Native Mobile Applications
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Cross-cutting experience/distribution  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
@@ -938,7 +965,7 @@ Would require Founder-approved change to product scope, target audience/journeys
 
 ## FI-019 — Predicted / Forecast Exam Practice
 
-**Status:** Idea  
+**Status:** New  
 **Captured:** 2026-08-20  
 **Capability fit:** Prepare for the Exam  
 **Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
