@@ -1,12 +1,12 @@
 # Brand Studio — visual confirmation workspace
 
-**Status:** Founder-confirmed foundations; v0.3 and v0.4 reusable systems promoted; v0.5 channel/motion/asset confirmation in progress  
+**Status:** Major brand grammar Founder-approved through v0.5; production-readiness work next  
 **Authority:** This folder is visual evidence/reference. Canonical policy lives in `20-brand-and-experience/Visual Brand System.md`.  
 **Related PR:** #75
 
 ## Purpose
 
-Provide a single visual place to inspect Revision's approved brand grammar, remaining open design-system decisions and channel-specific examples.
+Provide a single visual place to inspect Revision's approved brand grammar, design history and production-readiness requirements.
 
 ## Founder-confirmed foundations — 20 August 2026
 
@@ -43,9 +43,9 @@ Functional source colours:
 - Error `#E0605A`
 - Information `#4A8ECB`
 
-## v0.3 — promoted reusable foundations
+## v0.3 — Founder-approved reusable foundations
 
-The v0.3 direction is promoted into the Brand System:
+Promoted into the Brand System:
 
 - Manrope role-based type scale with 16px learner body;
 - 4px spacing rhythm and 16 / 24 / 32–40px responsive gutters;
@@ -66,9 +66,7 @@ The v0.3 direction is promoted into the Brand System:
 
 Detailed specification: [`brand-studio-foundations-controls-v0.3.md`](brand-studio-foundations-controls-v0.3.md).
 
-## v0.4 — Founder-approved surfaces, iconography, subjects and data
-
-The Founder approved the v0.4 direction on 20 August 2026. Its recurring rules are now promoted into Brand System v0.8.
+## v0.4 — Founder-approved surfaces, icons, subjects and data
 
 ### Surfaces and iconography
 
@@ -98,49 +96,40 @@ Confirmed direction:
 
 Detailed specification: [`brand-studio-surfaces-icons-data-v0.4.md`](brand-studio-surfaces-icons-data-v0.4.md).
 
-## v0.5 — cross-channel application
+## v0.5 — Founder-approved cross-channel application
+
+The Founder approved the v0.5 direction on 20 August 2026. Its recurring rules are promoted into Brand System v0.9.
 
 ![Brand Studio channels v0.5](brand-studio-channels-v0.5.svg)
 
-Current proposal defines reusable pattern families for:
+Confirmed direction:
 
-- marketing/editorial hero, feature story, product proof, pricing, testimonial/proof, editorial and closing CTA;
-- Admin shell, tables, filters/search, statuses and destructive actions;
-- social brand statement, study tip, product showcase, proof/statistic and launch/campaign formats;
-- video opening, title, lower third, captions, product-demo frame, end card and restrained transition language;
-- simplified email/lifecycle visual expression.
+- seven marketing/editorial pattern families: Hero, Feature Story, Product Proof, Pricing, Proof/Testimonial, Editorial/Guide and Closing CTA;
+- Admin shell/table/filter/status/destructive rules using shared primitives with denser expression;
+- five social format families using canonical 1080×1080, 1080×1350, 1080×1920 and 1920×1080 working canvases;
+- video opening/title/lower-third/caption/demo/end-card/transition system;
+- simplified email/lifecycle treatment using the same foundations.
 
-## v0.5 — REV motion and production assets
+## v0.5 — Founder-approved REV motion and production assets
 
 ![Brand Studio motion and assets v0.5](brand-studio-motion-assets-v0.5.svg)
 
-Current proposal:
+Confirmed direction:
 
 - Resting: 6–8s subtle breathe;
 - Listening: 1.2–1.8s restrained ripple/equalised response;
 - Thinking: 1.4–2.2s controlled stagger/ring loop;
 - Responding: 600–900ms state entry without delaying text;
 - Completed: 700–1000ms settle;
-- reduced-motion mode removes loops and uses static state variants / very short opacity change;
-- canonical production package requires real editable/vector wordmark and Living E masters, app/favicon exports, social/video templates and lifecycle/source/licensing records;
-- recommended human-readable naming pattern: `revision-{asset}-{variant}-{theme}-{size}.{ext}`.
+- reduced-motion removes loops and uses static states / very short opacity changes;
+- production requires editable/vector Revision wordmark and Living E masters, light/dark/mono/static-state variants, app/favicon exports, canonical motion source and editable social/video templates;
+- canonical asset names follow `revision-{asset}-{variant}-{theme}-{size}.{ext}` with lifecycle/source/export/licensing records.
 
 Detailed specification: [`brand-studio-channels-motion-assets-v0.5.md`](brand-studio-channels-motion-assets-v0.5.md).
 
-## Current Founder confirmation queue
+## Brand grammar status
 
-Confirm or adjust the v0.5 direction:
-
-1. seven marketing/editorial pattern families;
-2. Admin shell/table/filter/status/destructive pattern rules;
-3. five social format families and canonical canvas sizes;
-4. video title/lower-third/caption/demo/end-card/transition system;
-5. REV timing/behaviour and reduced-motion model;
-6. simplified email/lifecycle treatment;
-7. required production identity/app/social/video asset package; and
-8. canonical asset naming/export/lifecycle rules.
-
-Approval would complete the major **brand-grammar definition**. It would not pretend that reference-image artwork is a production vector/motion master and would not approve production styling implementation.
+The major recurring brand grammar is now defined. Brand Studio should no longer expand rules merely to create more examples. New recurring visual rules require deliberate governance only when a genuine gap is identified.
 
 ## Navigation clarification
 
@@ -148,14 +137,17 @@ Concept artwork does not override product Information Architecture. The governed
 
 **Home / Plan / REV / Progress / Subjects**
 
-## Production work still required after brand-grammar confirmation
+## Production-readiness work still required
 
-- obtain/create canonical editable vector Revision wordmark and Living E masters;
-- derive approved light/dark/mono/static-state/app/favicon exports;
-- select the production REV animation implementation and create its source asset/code;
-- implement the Brand Studio reference surface if desired;
-- refactor the current product token/CSS system to the approved Brand System;
-- migrate learner screens, then marketing/Admin and reusable media templates under governed implementation PRs.
+The next stage is production rather than further brand exploration:
+
+1. obtain/create canonical editable vector Revision wordmark and Living E masters;
+2. derive approved light/dark/mono/static-state/app/favicon exports;
+3. select/create the canonical REV motion source and production implementation;
+4. create editable social/video templates and safe-zone guides;
+5. record canonical asset source/export/licensing/lifecycle metadata;
+6. decide whether to implement Brand Studio as a live internal reference surface; and
+7. refactor current product tokens/components/CSS and migrate learner, marketing and Admin surfaces under governed implementation PRs.
 
 ## Pattern status vocabulary
 
