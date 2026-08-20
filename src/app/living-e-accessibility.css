@@ -11,13 +11,24 @@
 .planner-runtime .eyebrow,
 .planner-runtime .runtime-desktop-nav button.active,
 .planner-runtime .runtime-desktop-nav .runtime-rev-link,
-.planner-runtime .course-nav button.active,
 .planner-runtime .account-avatar,
 .planner-runtime .living-home-support-header .eyebrow,
 .planner-runtime .living-home-guidance-actions button,
 .planner-runtime .text-link,
 .planner-runtime .runtime-bottom-nav button.active {
   color: var(--teal-text);
+}
+
+/* Active course navigation needs a paired surface/text treatment, not Primary Teal
+   used as both the brand surface and a low-contrast text accent. */
+.planner-runtime .course-nav button.active {
+  background: #0f2f36;
+  color: #ffffff;
+}
+
+.planner-runtime[data-theme="dark"] .course-nav button.active {
+  background: #2bb6a3;
+  color: #0f2f36;
 }
 
 /* Legacy subject/course tags inherited the former indigo text token. Keep the
