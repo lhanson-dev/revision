@@ -110,9 +110,19 @@ The release workflow publishes:
 
 `revision/path-to-live`
 
-Before backend readiness, deployment must prove the current `main` commit came from the exact merged PR whose latest exact proposed-head Revision CI completed successfully and whose latest valid Founder approval marker was recorded after that CI. After the one explicit bootstrap release, the immediately previous `main` commit must also carry `revision/path-to-live = success`.
+Before backend readiness, deployment must prove the current `main` commit came from the exact merged PR whose latest exact proposed-head Revision CI completed successfully and whose latest valid Founder approval marker was recorded after that CI.
+
+The prior-release chain is fail-closed but recoverable. A previous `main` commit with `revision/path-to-live = success` is accepted immediately. If one or more previous commits have a terminal `failure` or `error`, the release workflow may traverse them only when **each failed commit is independently re-proven as a governed merge**: exact merged PR correlation, successful exact-head Revision CI and a valid Founder approval marker recorded after that CI. Traversal must terminate at either a previously successful path-to-live commit or the configured bootstrap parent. A missing status, unresolved `pending` status, direct/unmatched commit, failed CI, missing/early Founder approval or excessive ancestry depth still fails closed.
+
+This recovery rule prevents a failed deployment from permanently deadlocking all later corrective releases while preserving the core invariant that no ungoverned `main` commit can be silently inherited into production.
 
 The workflow writes `pending` when the release attempt begins. After governed lineage, backend readiness, build, Pages deployment and production smoke finish, it writes `success` only if every required stage succeeded; otherwise it writes a terminal non-success result. The status is attached to the exact `main` revision and links to the release run.
+
+### Release-lineage recovery correction — 20 August 2026
+
+The first implementation required the immediately previous `main` commit to have `revision/path-to-live = success`. That was stricter than the governing Release & Deployment Standard and created a recovery deadlock: once a governed release failed, every later governed release failed at lineage before it could reach backend readiness, build or deployment.
+
+The corrected implementation keeps the release path fail-closed but distinguishes **governed-but-unreleased** commits from ungoverned ancestry by re-verifying the PR/CI/Founder evidence for each terminally failed ancestor. This is an implementation correction, not a relaxation of Founder approval, CI, backend readiness, production smoke or branch-governance requirements.
 
 ### First observed governed production lineage
 
@@ -187,4 +197,4 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Documentation impact
 
-PR #68 changed release-path implementation truth. This follow-up reconciliation records the observed production lineage, active repository protection and PTL-03/PTL-05 coverage from evidence rather than intent. It removes stale pre-merge/protection wording from the Production Backend Readiness Gate, Technology Stack and Assurance Coverage Register. Historical audits/incidents are not rewritten.
+The release-lineage recovery correction changes implementation truth only. It keeps the active Release & Deployment Standard unchanged, updates this technical implementation record, and adds executable regression coverage for governed recovery and fail-closed ancestry. Historical audits/incidents are not rewritten.
