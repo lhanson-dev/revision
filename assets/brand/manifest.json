@@ -26,13 +26,18 @@
       "id": "revision-wordmark-primary",
       "name": "Primary Revision wordmark",
       "lifecycle": "Recommended",
-      "readiness": "blocked",
-      "source": null,
-      "exports": [],
+      "readiness": "ready",
+      "source": "assets/brand/source/revision-wordmark-primary-master.svg",
+      "exports": [
+        "assets/brand/exports/revision-wordmark-primary-light.svg",
+        "assets/brand/exports/revision-wordmark-primary-dark.svg",
+        "assets/brand/exports/revision-wordmark-mono-dark.svg",
+        "assets/brand/exports/revision-wordmark-mono-light.svg"
+      ],
       "channels": ["learner", "marketing", "admin", "social", "video", "email"],
-      "theme_rules": "Requires light, dark and monochrome variants after canonical master is supplied or deliberately created.",
-      "source_basis": "Required by Brand System v0.9; no canonical full Revision vector master is currently stored in the repository.",
-      "licensing": "Pending canonical source"
+      "theme_rules": "Light treatment uses Graphite Ink #132026 with Primary Teal #2BB6A3 for the Living E. Dark treatment uses white with Primary Teal. Monochrome variants use Graphite Ink or white throughout.",
+      "source_basis": "Founder-supplied outlined SVG masters received 20 August 2026; 1600x400 working size with transparent background and no embedded font or raster dependency.",
+      "licensing": "Original Revision brand artwork"
     },
     {
       "id": "revision-app-icon",
