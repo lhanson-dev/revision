@@ -4,13 +4,13 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.8"
+version: "0.9"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-20"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
-source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "brand assets", "REV visual presence", "responsive navigation treatment", "typography system", "spacing and shape system", "controls and forms", "surface families", "iconography", "subject accents", "data visualisation"]
+source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "REV visual presence", "REV motion", "responsive navigation treatment", "typography system", "spacing and shape system", "controls and forms", "surface families", "iconography", "subject accents", "data visualisation", "asset naming and lifecycle"]
 depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture", "Core Product Messaging", "Claims and Progress Governance"]
 supersedes: null
 ---
@@ -171,7 +171,7 @@ Use a small role-based hierarchy rather than arbitrary local font sizes.
 | Button | 15px | 15px | 600 | 20 | Button and prominent action label |
 | Caption | 12px | 12px | 500/600 | 16 | Metadata / timestamps / helper metadata |
 
-Learner body copy remains 16px minimum. Marketing may use the display roles more freely; Admin may use Body S where density helps, but inputs should remain 16px where practical. Avoid routine weights above 700.
+Learner body copy remains 16px minimum. Marketing may use display roles more freely; Admin may use Body S where density helps, but inputs should remain 16px where practical. Avoid routine weights above 700.
 
 ## Spacing and responsive layout
 
@@ -349,14 +349,7 @@ Use one or two motifs per composition rather than all at once. Avoid heavy sci-f
 
 Subject identity combines **name + icon + optional accent**.
 
-Approved recognition accents may use:
-
-- Soft Aqua Accent;
-- Sage;
-- Stone Blue;
-- Warm Sand;
-- Mist; and
-- Primary Teal as a shared brand accent rather than a unique subject colour.
+Approved recognition accents may use Soft Aqua Accent, Sage, Stone Blue, Warm Sand, Mist and Primary Teal as a shared brand accent rather than a unique subject colour.
 
 Do not use Success, Warning or Error colours as subject identities. Colour alone is never sufficient. No fixed subject-to-colour mapping is approved; introduce one only if user testing shows it materially improves recognition.
 
@@ -377,20 +370,9 @@ Use:
 
 Material progress/readiness views provide plain-English meaning and a next action where appropriate.
 
-### Evidence semantics
+Never collapse coverage, understanding/mastery evidence, exam readiness and plan progress into one decorative percentage. A trend may legitimately move down when new evidence changes the picture.
 
-Never collapse these into one decorative percentage:
-
-- coverage;
-- understanding/mastery evidence;
-- exam readiness; and
-- plan progress.
-
-A trend may legitimately move down when new evidence changes the picture. Avoid visual metaphors that imply progress can only increase.
-
-### Approved derived chart palette
-
-These are chart colours, not new brand identity colours:
+Approved derived chart palette:
 
 1. Data Teal `#168C7C`
 2. Data Blue `#5F7FA3`
@@ -455,6 +437,245 @@ Higher expressive freedom within the approved identity. Recurring layouts and mo
 
 Motion may be more expressive than in-product motion, but the Living E, typography, palette and overall calm intelligence remain recognisable.
 
+## Marketing and editorial pattern families
+
+Marketing has seven approved recurring pattern families.
+
+### Hero / proposition
+
+- 64–96px vertical breathing room where viewport supports it;
+- Display XL / Display L Manrope hierarchy;
+- one dominant primary CTA and at most one secondary action;
+- Feature surface or open-canvas editorial composition;
+- Living E appears when the proposition is genuinely REV-led, not as compulsory decoration;
+- product UI/screenshots are framed as product evidence rather than ornamental collage.
+
+Avoid multiple equal CTAs, dense feature grids above the fold and halo overuse.
+
+### Feature story
+
+Use asymmetric two-column or stacked composition, one strong visual/product example, concise H2/H3-led copy and Standard/Feature/Guidance surfaces according to emphasis. Alternate composition to create editorial rhythm rather than repeating identical cards.
+
+### Product proof / demonstration
+
+Use real or clearly labelled representative UI. Annotate only the important point. Do not invent performance claims to make a mock-up persuasive. Evidence semantics remain governed by Claims and Progress Governance.
+
+### Pricing / packaging
+
+Use the Pricing/Upgrade surface family. Ordinary plans use Standard radius; a featured plan may use Feature radius. Price hierarchy must remain truthful, and locked-capability treatment explains additional learner value without shame or anxiety.
+
+### Proof / testimonial / quote
+
+Use Quiet or Feature surfaces according to prominence. Quotes remain readable and attributable. Marketing/evidence governance controls claims.
+
+### Editorial / guide
+
+Use 680–760px reading width, strong typography and spacing rather than wrapping every paragraph in a card. Inline diagrams, note surfaces or REV guidance may appear where context genuinely benefits.
+
+### Closing CTA
+
+Use one dominant action. Deep Teal or Soft Aqua Feature treatment is preferred over introducing a new campaign colour. Maintain enough whitespace to distinguish the close from another ordinary feature block.
+
+## Admin / operations patterns
+
+Admin remains recognisably Revision while prioritising operational efficiency.
+
+### Admin shell
+
+Use compact but readable Manrope hierarchy, neutral/Soft Surface foundations and Primary Teal for action/selection rather than decoration. The Living E halo appears only where a genuine REV/AI function is present. Navigation may be denser than learner navigation while preserving shared icon/control language.
+
+### Tables
+
+Tables are first-class. Do not force every row into cards. Compact 12px radius may be used where grouping requires it. Sticky headings/columns are allowed when useful. Sorting/filtering states must remain obvious without colour alone.
+
+### Filters and search
+
+Use shared Control radius and form anatomy. Compact 36px controls are acceptable in pointer/keyboard-dense contexts, while touch-exposed surfaces retain larger targets. Active filters use explicit labelled removable chips.
+
+### Status and assurance
+
+Semantic colours retain exactly the same meaning as elsewhere. Status cards use the Status family rather than colourful dashboard tiles. Unknown / Not checked must remain visually distinct from Success. Operational severity and educational-evidence semantics must not be conflated.
+
+### Critical / destructive actions
+
+Deep Teal/Graphite remains the default action language. Destructive operations use Error semantics and explicit confirmation where consequence warrants it. Irreversible actions must not rely on position or colour alone.
+
+## Social media format families
+
+Canonical working canvases are:
+
+- square feed — **1080×1080**;
+- portrait feed — **1080×1350**;
+- story/reel — **1080×1920**;
+- landscape/video thumbnail — **1920×1080**.
+
+Five approved social pattern families are:
+
+1. **Brand statement / message** — large Manrope statement, one Living-E-derived motif or soft geometric crop, small identity anchor, usually 8–20 words.
+2. **Study tip / educational value** — short title plus one concise useful point and a calm icon/diagram; useful even without a sales CTA.
+3. **Product showcase** — real product crop/device frame, one clear annotation or benefit statement, consistent Calm Teal screenshot framing.
+4. **Proof / statistic** — one primary number/claim with plain-language context and source/evidence reference where required.
+5. **Launch / campaign** — Feature-level expression with larger crops, Deep Teal fields and more motion while retaining Manrope, Calm Teal and approved motifs.
+
+Keep key text inside platform safe areas. Do not use the Living E as a random bullet/icon or make the halo the background of every post. Captions/alt text carry essential information when the visual alone is insufficient.
+
+## Video and motion-graphics system
+
+### Opening sting
+
+Recommended default: **0.8–1.5 seconds**. Use a clean Living E or Revision wordmark entrance with soft halo/pulse, no compulsory sound dependency and no unnecessary delay before useful content.
+
+### Title card
+
+Use Manrope H1/Display hierarchy, Calm Teal/Canvas or Deep Teal foundation, one supporting motif maximum, plus topic and optional qualification/series label.
+
+### Lower third
+
+Use readable 14px/16px-equivalent text at target resolution, a Soft Surface or Deep Teal compact bar with 12–14px corners, and positioning that does not cover key learning content.
+
+### Captions/subtitles
+
+Use high-contrast text with a solid or semi-opaque backing where video content reduces contrast. Avoid all-caps paragraphs. Keep line length and placement readable on mobile crops. Captions are functional, not decorative.
+
+### Product demo frame
+
+Show product at legible scale. Pointer/highlight treatment uses Primary/Data Teal and simple ring/marker language rather than glow everywhere. Zoom/crop only when it improves comprehension.
+
+### End card
+
+Recommended default: **2–3 seconds** where format allows. Show the Revision wordmark / Living E relationship with one CTA or destination on Deep Teal or Canvas; avoid multiple handles/URLs competing equally.
+
+### Transitions
+
+Prefer cuts, soft fades, short slides and Living-E-line wipes. Product-style branded transitions usually remain around **160–320ms**, with modest extension allowed in editorial video. Avoid spins, bounce-heavy motion, glitch, scanlines and sci-fi particle transitions.
+
+## REV motion system
+
+REV motion communicates state rather than ambient spectacle.
+
+### Resting
+
+Bars remain stable and evenly spaced. The halo breathes subtly on a **6–8 second** loop. Any sparse dot/trace movement must not resemble a notification.
+
+### Listening
+
+Bars remain recognisable. A soft outward ripple or slight equalised movement confirms attention on a **1.2–1.8 second** rhythm. Avoid aggressive microphone-waveform treatment unless context genuinely requires it.
+
+### Thinking
+
+Bars may stagger or shift in a controlled sequence and the halo/ring may become slightly more active on a **1.4–2.2 second** loop. The animation must not imply completion percentage or estimated time.
+
+### Responding
+
+Use a left-to-right or centre-out pulse as response begins, with state entry around **600–900ms**. Response text must not wait for the animation to complete. Typing animation, if used, must be fast and compatible with reduced-motion preferences.
+
+### Completed
+
+Bars settle back to equal alignment. The halo briefly expands/softens and returns to Resting over **700–1000ms**. Do not use confetti or gamified celebration by default.
+
+### Reduced motion
+
+When `prefers-reduced-motion` or equivalent preference is active:
+
+- remove looping halo breathe, ripple and bar oscillation;
+- use static state variants for Resting, Listening, Thinking, Responding and Completed;
+- state changes use instant swap or a short opacity change of approximately 100–150ms maximum; and
+- context/text must make the state understandable without animation.
+
+REV motion must be lightweight, avoid layout shift and never block interaction or materially delay first useful paint. The Brand System governs appearance and behaviour, not a specific animation library.
+
+## Email / lifecycle visual treatment
+
+Email uses a simplified expression of the same system:
+
+- Revision wordmark at top; Living E only where REV is genuinely the sender/context;
+- white/Canvas background with Deep Teal text;
+- Primary Teal + Graphite CTA treatment where email-client support and contrast remain safe;
+- 14px CTA radius rather than oversized app-card radii;
+- Status treatment may simplify to border + icon + text;
+- no dependence on gradients, animation or advanced CSS for essential meaning; and
+- dark-mode email treatment must be tested rather than assumed from app tokens.
+
+## Production identity and asset package
+
+Concept boards are approved visual references, not production master assets.
+
+Before production implementation is considered complete, the canonical package must contain:
+
+### Revision identity
+
+- primary Revision wordmark — editable vector master;
+- light-background SVG;
+- dark-background SVG;
+- monochrome dark SVG;
+- monochrome light/reversed SVG;
+- compact/approved lock-up if one exists;
+- minimum-size and clear-space guidance.
+
+### REV / Living E
+
+- static Living E master SVG;
+- light-theme and dark-theme variants;
+- small/nav variant preserving three-bar legibility;
+- static Resting / Listening / Thinking / Responding / Completed state files where states differ visually;
+- canonical motion source once animation implementation is selected; and
+- reduced-motion/static-state equivalents.
+
+### App / browser
+
+- app-icon master at **1024×1024** or platform-equivalent vector/master source;
+- generated platform icon exports rather than manually redrawing every size;
+- favicon SVG where supported;
+- 32×32 and 16×16 raster fallbacks where required;
+- maskable/PWA-safe treatment if required by the web app.
+
+### Social / media templates
+
+- 1080×1080;
+- 1080×1350;
+- 1080×1920;
+- 1920×1080;
+- editable source plus export preset;
+- safe-zone guides where platform UI overlaps content.
+
+### Video
+
+- title-card master;
+- lower-third master;
+- caption-style reference;
+- opening/end-card master;
+- transparent motion exports only where a destination workflow requires them.
+
+## Canonical asset naming and lifecycle
+
+Use human-readable stable names and avoid spaces encoded as `%20` in exported filenames.
+
+Recommended pattern:
+
+`revision-{asset}-{variant}-{theme}-{size}.{ext}`
+
+Examples:
+
+- `revision-wordmark-primary-light.svg`
+- `revision-wordmark-mono-dark.svg`
+- `revision-rev-living-e-resting-light.svg`
+- `revision-rev-living-e-nav-dark.svg`
+- `revision-app-icon-1024.png`
+- `revision-social-product-1080x1350.png`
+- `revision-video-lower-third-light.svg`
+
+Ordinary production filenames should not accumulate version suffixes such as `final-v7`. Version history belongs in source control or the canonical asset-management system.
+
+Each canonical asset entry records:
+
+- lifecycle status: Recommended / Alternative / Experimental / Deprecated / Do not use;
+- editable source location;
+- export location or generation method;
+- intended channels;
+- theme/variant rules;
+- licensing/source information for third-party materials; and
+- replacement/deprecation relationship where applicable.
+
 ## Brand reference and approval surface
 
 Revision maintains a visual reference surface, currently called **Brand Studio**, where authorised contributors can see approved examples rather than infer them from prose.
@@ -468,37 +689,6 @@ Patterns/assets use these lifecycle statuses:
 - **Do not use** — explicitly rejected or non-compliant.
 
 A rendered example does not become policy merely because it appears in Brand Studio. Material additions to recurring brand grammar require the normal governed approval path.
-
-## Marketing and editorial
-
-The marketing site shares identity, Manrope, Calm Teal foundations and interaction grammar while having more freedom in editorial layout, imagery, illustration and motion. It should not simply copy learner screens into brochure pages.
-
-## Admin and operations
-
-Admin may use denser layouts and more neutral/functional surfaces. Shared typography, controls and semantic statuses remain aligned with the main system, and destructive actions must remain unmistakable.
-
-## Social media
-
-The social system should define reusable families for feed posts, portrait/story/reel covers, video thumbnails, quote/message cards, product-screen compositions, launch/campaign treatments and profile/header/avatar use.
-
-## Video and motion
-
-Video guidance should define opening/closing treatment, wordmark/REV animation, title cards, lower thirds, captions, product demo framing, social cut-downs and transition/motion rhythm. Motion should communicate state, response, energy or narrative rather than exist as decoration.
-
-## Asset governance
-
-Reusable brand assets must have a canonical source and lifecycle state rather than being copied ad hoc between channels.
-
-The Brand System/Studio must identify:
-
-- canonical editable source;
-- approved variants;
-- intended use;
-- lifecycle status;
-- export formats/sizes; and
-- licensing/source information where relevant.
-
-Reference-image concept boards are not production master assets. Production logo, Living E, app icon and other identity assets require canonical vector/editable masters before implementation is treated as complete.
 
 ## Accessibility
 
@@ -514,22 +704,22 @@ At minimum:
 - charts require non-colour differentiation where needed; and
 - hierarchy must survive supported screen sizes without making essential content inaccessible.
 
-## Still to define
+## Production-readiness work still required
 
-The remaining Brand Studio work is now concentrated on channel application, motion and production assets:
+The major brand grammar is now defined. Remaining work is production readiness and implementation, not further open-ended brand exploration:
 
-1. production logo/REV master assets, lock-ups, clear-space and minimum-size rules;
-2. marketing-site pattern families;
-3. Admin/operations pattern families;
-4. social format families;
-5. video/motion title, lower-third, caption and transition rules;
-6. REV motion timing/easing and reduced-motion equivalents; and
-7. canonical asset naming, export formats/sizes, editable-source and licensing rules.
+1. obtain/create canonical editable/vector Revision wordmark and Living E masters;
+2. derive approved light/dark/mono/static-state/app/favicon exports;
+3. create/select the canonical REV motion source and implementation treatment;
+4. create editable social/video template masters and safe-zone guides;
+5. record canonical asset source/export/licensing/lifecycle metadata;
+6. implement the Brand Studio reference surface if useful; and
+7. migrate learner, marketing and Admin implementation onto the approved token/component system through governed implementation work.
+
+These production tasks must not silently reinterpret the approved grammar. Material new colour roles, typography treatments, component families, identity treatments or recurring cross-channel patterns require deliberate review and approval.
 
 ## Approval and evolution
 
 Founder approval focuses on the **brand grammar and representative range**, not every future composition.
 
-New creative treatments may be produced within approved foundations/families. If a treatment introduces a materially new colour role, typography treatment, component family, identity treatment or recurring cross-channel pattern, it must be deliberately reviewed and promoted before becoming reusable standard.
-
-The target is **one coherent Revision brand with controlled foundations and deliberate creative range**.
+New creative treatments may be produced within approved foundations/families. The target is **one coherent Revision brand with controlled foundations and deliberate creative range**.
