@@ -1,10 +1,10 @@
 # Subscription Plans and Entitlements
 
-**Status:** Draft authority candidate — v0.2  
+**Status:** Draft authority candidate — v0.3  
 **Owner:** Product / Founder  
 **Purpose:** Define Revision's governed product policy for subscription tiers, entitlement behaviour and the minimum commercial capability required by FI-002.  
-**Source decision:** FI-002 Subscription Plans / Feature Entitlements and Upgrade Journey. Founder-approved value ladder, entitlement policy, MVP boundary and tiered parent-dashboard model captured 2026-08-20.  
-**Authority relationship:** This is the specific product authority for subscription-tier and entitlement behaviour. Exact prices, customer-facing plan names, numeric usage allowances, billing-provider selection, contracting-age policy and detailed purchaser/account architecture remain unresolved Definition-of-Ready decisions and are not approved by this document.
+**Source decision:** FI-002 Subscription Plans / Feature Entitlements and Upgrade Journey. Founder-approved value ladder, entitlement policy, MVP boundary and tiered parent-dashboard model captured 2026-08-20; purchaser, payer and supporter account model approved 2026-08-21.  
+**Authority relationship:** This is the specific product authority for subscription-tier, entitlement and FI-002 commercial-account behaviour. Exact prices, customer-facing plan names, numeric usage allowances, billing-provider selection, detailed relationship-verification mechanics, age-assurance implementation and technical schema remain unresolved Definition-of-Ready decisions and are not approved by this document.
 
 ## Product outcome
 
@@ -18,7 +18,7 @@ The commercial system should make it easy for a learner to understand:
 - which tier provides it; and
 - how to compare or change plans without losing their existing learning work.
 
-Where a parent or other approved payer funds a learner's subscription, Revision should also create legitimate value for that payer through a bounded parent/payer experience that supports reassurance and useful support rather than surveillance.
+Where an adult funds a learner's subscription, Revision should also create legitimate value for a valid linked parent/supporter through a bounded support experience that provides reassurance and useful guidance rather than surveillance.
 
 The entitlement system should allow packaging to evolve without scattering hard-coded plan checks throughout educational product logic.
 
@@ -38,7 +38,7 @@ Free must demonstrate the central Revision loop rather than operate as a broken 
 
 Paid should materially increase usable depth, breadth, scale and convenience without repeatedly interrupting ordinary study with artificial restrictions.
 
-Where a valid linked parent/payer relationship exists, Paid should also include a basic parent dashboard that answers whether the learner is engaging, making progress and broadly on track without exposing private learner interactions.
+Where a valid linked supporter relationship exists, Paid should also include a basic parent/support dashboard that answers whether the learner is engaging, making progress and broadly on track without exposing private learner interactions.
 
 ### Premium — deepest personalised REV / AI experience
 
@@ -46,13 +46,13 @@ Where a valid linked parent/payer relationship exists, Paid should also include 
 
 Premium must not exist merely as "Paid with larger limits". It should be actively sold only when separately approved capabilities give it a genuinely stronger proposition.
 
-Where a valid linked parent/payer relationship exists, Premium should provide richer interpretation, trends and support guidance from the approved parent-visible dataset. Premium must not create a commercial right to progressively more private learner data.
+Where a valid linked supporter relationship exists, Premium should provide richer interpretation, trends and support guidance from the approved parent-visible dataset. Premium must not create a commercial right to progressively more private learner data.
 
 The commercial ladder is therefore:
 
 **Free proves that Revision understands and guides me.**  
-**Paid gives me the complete system to revise properly and gives a linked parent/payer basic reassurance.**  
-**Premium gives me the deepest personalised REV/AI support and gives a linked parent/payer richer support insight.**
+**Paid gives me the complete system to revise properly and gives a linked parent/supporter basic reassurance.**  
+**Premium gives me the deepest personalised REV/AI support and gives a linked parent/supporter richer support insight.**
 
 ## Cross-tier foundations that must remain correct
 
@@ -87,7 +87,7 @@ The policy-level entitlement model is:
 | Exam-style practice and exam preparation | Bounded but genuinely useful | Full approved self-service use | Full |
 | Exam Simulator | Genuine limited access sufficient to demonstrate value | Full approved use | Full |
 | Separately approved high-variable-cost AI capability | Preview, example or bounded genuine allowance where sensible | Material useful allowance where commercially sustainable | Highest approved depth/allowance and personalisation |
-| Linked parent/payer dashboard | Not applicable without a paid linked relationship | Basic reassurance and high-level progress/support view | Richer trends, interpretation and support guidance from the same approved parent-visible data boundary |
+| Linked parent/supporter dashboard | Not applicable without a paid linked relationship | Basic reassurance and high-level progress/support view | Richer trends, interpretation and support guidance from the same approved parent-visible data boundary |
 
 This table defines policy, not final numeric limits or an entitlement catalogue for unapproved future features.
 
@@ -119,13 +119,17 @@ Conceptually:
 
 `learner/account → subscription state → package → entitlements and allowances → capability access`
 
-Where a parent or payer is linked, the commercial/account model must also distinguish the payer's subscription relationship from the learner's educational-data ownership and permissions.
+The commercial/account model must distinguish the person who learns, the person who pays and the person who has permission to receive the bounded parent-support view.
 
 Conceptually:
 
-`payer relationship → subscription → learner entitlement`
+`billing customer / payer → subscription → learner entitlement`
 
-must remain separate from:
+must remain distinct from:
+
+`linked supporter relationship → approved parent-visible permissions`
+
+and both must remain distinct from:
 
 `learner → learning evidence / activity / REV interactions → governed learner-data permissions`.
 
@@ -136,7 +140,58 @@ The model must support both:
 
 Packaging should be able to evolve without rewriting educational feature logic across the application.
 
-Where an entitlement protects a server/API operation, enforcement must exist at the relevant trust boundary. UI locking alone is not sufficient.
+Where an entitlement or supporter permission protects a server/API operation, enforcement must exist at the relevant trust boundary. UI locking alone is not sufficient.
+
+## Purchaser, payer and supporter account model
+
+Founder decision on 21 August 2026 establishes three distinct FI-002 roles:
+
+- **Learner** — owns and uses the Revision learning account, learner work, educational evidence and REV relationship.
+- **Billing customer / payer** — owns the subscription contract, payment method, invoices, renewal and cancellation responsibilities.
+- **Linked supporter** — has explicit permission to access the separately governed Paid/Premium parent-support dashboard for that learner.
+
+One authenticated person may occupy more than one role. An adult learner may be both learner and payer. A parent may normally be both payer and linked supporter.
+
+Role combination must not collapse the permission model. In particular:
+
+- payment may create or maintain a learner's commercial entitlement;
+- payment alone must **not** create linked-supporter permission to learner information; and
+- supporter access must depend on a valid learner-supporter relationship in addition to any required paid entitlement.
+
+A person who pays for a learner but is not validly linked as a supporter must not receive the learner's parent-dashboard information merely because they funded the subscription.
+
+### Adult billing-customer rule
+
+For the initial UK FI-002 product, the billing customer must be **18 or over**.
+
+This is an MVP product-policy rule chosen for a simple UK-wide commercial model and reduced implementation/risk complexity. It is not a claim that every contract entered into by a person under 18 would necessarily be legally invalid in every UK jurisdiction or circumstance.
+
+An adult learner may pay for their own subscription. Where a learner is under 18, the subscription may be funded through a separate adult payer account.
+
+Revision must not collect a learner's date of birth solely to enable subscription purchase. The precise payer declaration, age-assurance mechanism, legal wording and provider implementation remain subject to current legal/privacy validation before production reliance.
+
+### Approved linking paths
+
+FI-002 must support secure linking without exposing learner-account existence through unrestricted lookup.
+
+Two product paths are approved in principle:
+
+1. **Learner-led link** — learner chooses to link a parent/supporter → Revision creates a secure invitation/link → adult signs in or creates an account → adult accepts the relationship and, where relevant, completes the subscription journey.
+2. **Adult-led purchase/link** — adult starts from an appropriate pricing/purchase journey → adult signs in or creates a payer account → Revision creates an invitation for the learner → learner accepts the relationship before supporter access to learner information becomes active.
+
+The FI-002 MVP should support one primary payer/supporter relationship per learner subscription. This is a scope boundary, not a permanent data-model assumption that families can only ever have one relevant adult.
+
+Exact identity/relationship verification, invitation expiry, recovery, unlinking safeguards and exceptional support handling remain Definition-of-Ready work.
+
+### Learner transparency
+
+A learner with an active linked supporter must be able to see clearly:
+
+- who is linked;
+- that the linked person may receive the approved parent-dashboard information; and
+- what that person can and cannot see.
+
+This information must remain available after linking and use age-appropriate language.
 
 ## Contextual discovery and upgrade behaviour
 
@@ -155,26 +210,30 @@ Revision must not drive conversion through false scarcity, manipulative countdow
 
 REV may explain an entitlement boundary when context requires it, but the trusted tutor relationship must not become a persistent sales channel.
 
-## Tiered parent/payer dashboard policy
+For learner-facing commercial surfaces, the product may explain and demonstrate higher-tier value. Age-appropriate purchase calls-to-action, including the treatment of under-16 learners, remain subject to current advertising/consumer-law validation before production implementation. The product must not rely on a child pressuring an adult as the conversion mechanism.
 
-Founder decision on 20 August 2026 establishes a parent/payer dashboard as part of the Paid and Premium value proposition where a valid linked parent/payer relationship exists.
+## Tiered parent/supporter dashboard policy
 
-The purpose is to help a payer support the learner and understand whether the paid service is creating useful value. It is not to create surveillance of the learner.
+Founder decision on 20 August 2026 establishes a parent/supporter dashboard as part of the Paid and Premium value proposition where a valid linked supporter relationship exists.
 
-### Paid parent/payer experience
+The purpose is to help a parent/supporter support the learner and understand whether the paid service is creating useful value. It is not to create surveillance of the learner.
+
+Being the billing customer is neither necessary nor sufficient on its own to create supporter-data permission. A person may only receive parent-dashboard learner information while the governed supporter relationship and relevant entitlement are valid.
+
+### Paid parent/supporter experience
 
 Paid should provide a basic dashboard capable of showing, where evidence supports it:
 
-- subscription and billing status relevant to the payer;
+- subscription and billing status where the viewer is also the payer;
 - upcoming assessments or exams that are already part of the learner's approved academic context;
 - a high-level indication of whether the learner is engaging with Revision;
 - overall progress and a simple subject-level progress overview;
 - whether the learner appears broadly on track or whether an area needs attention, with appropriate uncertainty where evidence is incomplete; and
-- a concise periodic summary that helps the parent understand whether support may be useful.
+- a concise periodic summary that helps the parent/supporter understand whether support may be useful.
 
 The Paid parent proposition is reassurance: **I can see that Revision is being used and whether things broadly appear to be moving in the right direction.**
 
-### Premium parent/payer experience
+### Premium parent/supporter experience
 
 Premium may provide richer interpretation from the same approved parent-visible data boundary, including:
 
@@ -182,7 +241,7 @@ Premium may provide richer interpretation from the same approved parent-visible 
 - changing priorities and areas that may need support;
 - progress/readiness trajectory and plain-language interpretation where evidence supports it;
 - more useful context on why a subject or area needs attention;
-- personalised suggestions for how the parent can support without taking over the learner's revision; and
+- personalised suggestions for how the parent/supporter can help without taking over the learner's revision; and
 - more intelligent proactive summaries or alerts when a meaningful change genuinely warrants attention.
 
 The Premium parent proposition is support insight: **I understand where things are improving, where support may help and what I can usefully do.**
@@ -191,7 +250,7 @@ The Premium parent proposition is support insight: **I understand where things a
 
 Paying more must buy better interpretation, synthesis, trends and support guidance, not progressively deeper access to private learner information.
 
-The following are outside automatic parent/payer visibility in both Paid and Premium unless a separate future governance decision explicitly changes the data-sharing model with appropriate privacy, safeguarding and legal authority:
+The following are outside automatic parent/supporter visibility in both Paid and Premium unless a separate future governance decision explicitly changes the data-sharing model with appropriate privacy, safeguarding and legal authority:
 
 - REV conversation transcripts or private tutor interactions;
 - individual learner answers or raw submitted work;
@@ -200,9 +259,9 @@ The following are outside automatic parent/payer visibility in both Paid and Pre
 - safeguarding-sensitive information; and
 - other private learner data not necessary for the approved high-level support purpose.
 
-The learner must be told clearly, in age-appropriate language, what a linked parent/payer can see. The product must not imply that payment itself grants ownership of the learner's educational data.
+The learner must be told clearly, in age-appropriate language, what a linked supporter can see. The product must not imply that payment itself grants ownership of the learner's educational data.
 
-Exact consent, relationship-verification, age and legal mechanisms remain Definition-of-Ready work and must be validated against current applicable UK requirements before production implementation.
+Exact relationship-verification, consent/authority, age-assurance and legal mechanisms remain Definition-of-Ready work and must be validated against current applicable UK requirements before production implementation.
 
 ## FI-002 MVP boundary
 
@@ -210,6 +269,8 @@ The FI-002 MVP is the reusable commercial and entitlement layer required to make
 
 It should establish:
 
+- distinct learner, billing-customer/payer and linked-supporter role concepts;
+- an 18+ billing-customer product rule for initial UK checkout;
 - subscription/account state sufficient to determine entitlement status;
 - package-to-entitlement mapping;
 - support for boolean entitlements and quantitative allowances;
@@ -221,11 +282,13 @@ It should establish:
 - entitlement refresh after a plan or subscription-state change;
 - safe handling of upgrade, downgrade, cancellation, expiry and failed-payment states;
 - preservation of existing learner work and learning evidence across entitlement changes;
-- a linked parent/payer relationship model sufficient to support the approved Paid parent dashboard where the subscription is funded by a parent/payer;
-- the basic Paid parent/payer dashboard and its governed parent-visible data boundary;
-- architecture capable of supporting the richer Premium parent/payer experience without making private learner data a commercial entitlement;
+- secure learner-led and adult-led invitation/linking paths sufficient to create one primary payer/supporter relationship per learner subscription;
+- separation of payment entitlement from supporter learner-data permission;
+- the basic Paid parent/supporter dashboard and its governed parent-visible data boundary;
+- learner-visible explanation of who is linked and what they can see;
+- architecture capable of supporting the richer Premium parent/supporter experience without making private learner data a commercial entitlement;
 - commercial analytics events needed for the approved measurement funnel; and
-- Founder/Admin visibility sufficient to identify entitlement, lifecycle, parent-linking and conversion-health problems.
+- Founder/Admin visibility sufficient to identify entitlement, lifecycle, relationship-linking, access and conversion-health problems.
 
 FI-002 should create the reusable platform through which separately governed learner features can later declare and consume entitlements. It should not encode feature packaging through duplicated plan-name conditionals.
 
@@ -236,14 +299,14 @@ The following are not required to prove FI-002's initial hypothesis and should n
 - referral reward mechanics;
 - coupons and complex promotions;
 - elaborate trial variants;
-- family-plan packaging beyond the single linked parent/payer relationship required for the approved dashboard;
+- family-plan packaging beyond the single primary payer/supporter relationship required for the approved dashboard;
 - multiple-parent/guardian household management;
-- gift subscriptions;
+- gift-subscription workflows;
 - sophisticated promotional pricing;
 - detailed parent surveillance or access to private learner interactions; and
 - speculative entitlement rules for features that have not completed their own product governance.
 
-The underlying entitlement architecture should avoid making these future capabilities unnecessarily difficult, but FI-002 MVP should not build them pre-emptively.
+The underlying entitlement/account architecture should avoid making these future capabilities unnecessarily difficult, but FI-002 MVP should not build them pre-emptively.
 
 ## Premium launch rule
 
@@ -255,21 +318,23 @@ Premium should be actively sold only when at least one separately approved capab
 
 If that qualitative difference is not ready, the architecture may support Premium without forcing a weak customer proposition into market.
 
-## Subscription lifecycle principles
+## Subscription and relationship lifecycle principles
 
-Entitlement state must remain understandable and recoverable through subscription changes.
+Entitlement and supporter-access state must remain understandable and recoverable through subscription and relationship changes.
 
 At minimum:
 
-- a successful upgrade should unlock the correct entitlement promptly;
+- a successful upgrade should unlock the correct learner entitlement promptly;
 - downgrade or cancellation must not delete legitimate learner work or rewrite learning evidence;
 - cancellation-at-period-end must distinguish current access from future expiry;
 - expired or failed-payment states must produce an explicit, recoverable entitlement state rather than ambiguous partial access;
 - entitlement refresh/caching must not leave a learner indefinitely in the wrong tier;
-- parent/payer dashboard access must follow the valid subscription and relationship state rather than persist indefinitely after the relationship or entitlement ends; and
+- supporter dashboard access must require both the relevant subscription entitlement and a valid supporter relationship;
+- ending or unlinking a supporter relationship must remove that person's learner-dashboard access without deleting the learner's work;
+- account recovery must not silently recreate an ended supporter relationship or grant new learner-data permission; and
 - commercial lifecycle failure must not corrupt educational evidence or core account integrity.
 
-Detailed grace periods, retry behaviour, relationship-recovery behaviour and billing-provider event handling remain technical/commercial Definition-of-Ready work.
+Detailed grace periods, retry behaviour, relationship-recovery/unlinking safeguards and billing-provider event handling remain technical/commercial Definition-of-Ready work.
 
 ## Measurement requirement
 
@@ -285,24 +350,27 @@ Measurement should also cover, where material:
 - abandonment/frustration around entitlement boundaries;
 - upgrade-prompt frequency and dismissal;
 - first and repeat use of unlocked learner capability;
-- activation and repeat use of the linked parent/payer dashboard;
+- payer checkout start/completion/failure once defined;
+- invitation/link creation, acceptance, failure, expiry and unlinking once defined;
+- activation and repeat use of the linked parent/supporter dashboard;
 - usefulness of parent summaries or support guidance without encouraging surveillance;
 - downgrade/churn patterns;
 - support or trust problems caused by packaging or parent visibility;
-- entitlement, parent-linking and lifecycle operational failures; and
+- entitlement, relationship-linking and lifecycle operational failures; and
 - tier-level cost-to-serve where material.
 
 ## Decisions deliberately not made by this authority
 
-This v0.2 authority does not yet define:
+This v0.3 authority does not yet define:
 
 - exact customer-facing plan names;
 - exact prices or billing cadence;
 - exact numeric allowances;
 - payment/subscription provider;
-- final contracting-age rule;
-- detailed student versus purchaser/payer account relationship and verification flow;
-- age-specific purchase calls-to-action;
+- exact payer age-assurance/declaration implementation;
+- detailed learner/supporter identity and relationship-verification method;
+- invitation expiry/recovery and exceptional unlinking/support processes;
+- age-specific purchase calls-to-action and final legal wording;
 - trial policy;
 - referral or promotional entitlement mechanics;
 - detailed billing retry/grace-period rules;
@@ -313,6 +381,6 @@ These remain FI-002 Definition-of-Ready work and require current commercial, tec
 
 ## Documentation-impact rule
 
-Material future changes to the tier jobs, cross-tier foundations, entitlement policy, contextual upgrade behaviour, parent/payer visibility or FI-002 MVP boundary must update this authority through a governed PR.
+Material future changes to the tier jobs, cross-tier foundations, entitlement policy, contextual upgrade behaviour, payer/supporter account roles, parent/supporter visibility or FI-002 MVP boundary must update this authority through a governed PR.
 
 Exact pricing/commercial terms should be governed in the appropriate `60-business-operations/` authority once decided. Technical implementation detail belongs in `docs/technical/` and ADRs once the provider/data architecture is approved.
