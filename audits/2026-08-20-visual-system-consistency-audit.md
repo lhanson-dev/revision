@@ -1,22 +1,34 @@
 # Visual System Consistency Audit — 20 August 2026
 
 **Status:** In progress  
-**Scope:** learner-facing Revision application visual system and styling architecture  
-**Canonical runtime reviewed:** `/revision/app/` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` with nested learner screens from `src/app/App.tsx` and planner screens.  
-**Authority baseline:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `10-product-governance/Information Architecture.md`.
+**Scope:** Revision cross-channel brand system, with current implementation evidence concentrated in the learner application because that is the implemented public product surface today.  
+**Canonical learner runtime reviewed:** `/revision/app/` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` with nested learner screens from `src/app/App.tsx` and planner screens.  
+**Authority baseline:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `20-brand-and-experience/Tone of Voice Framework.md`, `10-product-governance/Information Architecture.md`, and relevant marketing authority.
 
 ## Audit objective
 
-Determine whether Revision has enough visual-system definition and implementation discipline to achieve both:
+Determine whether Revision has enough brand-system definition and implementation discipline to achieve both:
 
-1. recognisable, professional consistency across learner surfaces; and
-2. deliberate creative flexibility for cards, panels, forms, subject treatments, REV surfaces and future experiences without creating styling drift.
+1. recognisable, professional consistency across the learner app, future marketing site, Admin, social media, video/motion and reusable brand assets; and
+2. deliberate creative flexibility for cards, panels, forms, illustrations, campaigns, social/video treatments and future experiences without creating visual drift.
 
-This audit is evidence and recommendation only. It does not redefine active visual authority until any proposed changes are deliberately approved and promoted.
+This audit remains evidence/recommendation. The Founder has now explicitly directed that the Brand System should become the cross-channel brand-guidelines system rather than remain learner-app-only. That instruction conflicts with the previous narrow purpose statement in the active Visual Brand System, so this branch deliberately proposes the corresponding authority change rather than silently treating the old and new scopes as equivalent.
+
+## Founder scope decision captured during audit
+
+The intended target is now:
+
+- one Revision brand system across learner product, marketing, Admin, social and media assets;
+- consistency through shared foundations rather than identical layouts;
+- enough bounded flexibility for strong creative work in cards, boxes, forms, campaigns and media;
+- one visual reference/approval surface where approved patterns and assets can be seen; and
+- guidance that tells contributors which treatment is recommended for which job.
+
+The proposed authority update in this PR therefore expands `20-brand-and-experience/Visual Brand System.md` into the canonical **Revision Brand System** while preserving the existing file path for continuity.
 
 ## Current authority assessment
 
-The active Visual Brand System establishes a useful visual direction:
+The existing visual authority established the right broad direction:
 
 - focused energy;
 - Deep Ink, Revision Indigo, Bright Lime, cool near-white and soft indigo/blue surfaces;
@@ -24,235 +36,241 @@ The active Visual Brand System establishes a useful visual direction:
 - generous whitespace;
 - rounded cards and restrained depth;
 - REV as a distinctive indigo/AI surface;
-- clear responsive navigation;
+- clear responsive navigation; and
 - WCAG 2.2 AA intent.
 
-However, it currently operates mainly at **directional** level. It does not yet define enough system-level rules for consistent implementation of typography scale, spacing, radii, elevations, semantic colour roles, buttons, fields, form states, card families, feedback surfaces or component variants.
+The main weakness is that it was scoped primarily to the learner application and remained directional rather than defining enough reusable system grammar for implementation across multiple channels.
 
-That gap makes local CSS choices too easy and means visual consistency currently depends on individual implementation judgement rather than an explicit reusable system.
-
-## Initial implementation findings
+## Current implementation findings
 
 ### 1. Competing colour foundations exist
 
-`src/app/app.css` still declares an older cream/navy/green palette (`--navy: #10243d`, `--green: #18a66a`, `--cream: #f7f4ee`) while `src/app/rev-home.css`, loaded later, redefines those aliases onto the approved ink/indigo/canvas palette.
+`src/app/app.css` still declares an older cream/navy/green palette while `src/app/rev-home.css`, loaded later, redefines legacy aliases onto the newer ink/indigo/canvas palette.
 
-This works through cascade order rather than through a single source of truth. It is fragile and obscures which tokens are actually authoritative.
+The current look therefore depends partly on cascade/import order rather than one canonical token layer.
 
 **Assessment:** high-priority design-system debt.
 
 ### 2. Design tokens are incomplete and inconsistently named
 
-The newer layer defines useful colour and shadow variables, but there is no complete token system covering:
-
-- semantic text/background/action/status roles;
-- spacing scale;
-- radius scale;
-- elevation scale;
-- typography scale;
-- control heights;
-- responsive layout widths/gutters;
-- motion durations/easing;
-- focus-ring semantics.
-
-Several files therefore fall back to local hard-coded values or legacy aliases.
+The newer layer defines useful colour and shadow variables, but there is no complete token model for semantic colours, spacing, radii, elevations, type scale, control heights, layout widths/gutters, motion or focus roles.
 
 **Assessment:** high-priority consistency gap.
 
-### 3. Styling is fragmented across many global CSS files
+### 3. Styling is fragmented across global CSS layers
 
-`src/main.tsx` imports thirteen application CSS files in a fixed sequence. Additional CSS files also exist in `src/app/`.
-
-The current visual result therefore depends materially on import order and overlapping global selectors. `app.css`, `rev-home.css`, `hierarchy.css`, `planner.css`, `planner-runtime.css`, `planner-today.css`, `planner-rev.css`, `exam.css`, `guidance.css`, `auth-entry.css` and other files all contribute to shared visual behaviour.
-
-This is not automatically wrong, but there is no explicit layering contract defining which file owns foundations, primitives, components and screen-specific composition.
+`src/main.tsx` imports thirteen application CSS files in a fixed sequence. Multiple files contribute to shared visual behaviour without an explicit layering contract for foundations, primitives, components and screen-specific composition.
 
 **Assessment:** medium/high maintainability and drift risk.
 
 ### 4. Radius, spacing and surface treatments are individually chosen
 
-Current implementation uses many reasonable but unrelated radii and surface treatments — for example 11px, 12px, 13px, 14px, 15px, 17px, 18px, 20px, 22px, 24px, 26px, 28px, 30px and 32px treatments across controls, cards and hero surfaces.
+The learner implementation contains many reasonable but unrelated radius and surface values. Variation itself is desirable; accidental variation is not.
 
-Variation itself is desirable; accidental variation is not. There is currently no documented distinction between:
+The system needs named families such as control, compact surface, standard surface, feature surface and pill/circular treatments rather than arbitrary local values.
 
-- control radius;
-- compact card radius;
-- standard card radius;
-- feature card radius;
-- hero/special surface radius;
-- pill/circular treatment.
-
-**Assessment:** medium-priority visual consistency gap.
+**Assessment:** medium-priority consistency gap.
 
 ### 5. Card creativity exists, but without a governed family model
 
-The implementation already uses materially different card types — REV hero, subject cards, progress cards, planner panels, recommendation panels, course cards, exam cards, topic cards and operational/admin cards.
+REV hero, subject cards, progress cards, planner panels, recommendations, course cards, exam cards and topic cards are intentionally different.
 
-This proves that a single universal card component would be too restrictive. The missing piece is a **family system**: shared structural rules with deliberately permitted variants.
+This demonstrates why one universal card component would be too restrictive. The missing piece is a family model: shared foundations plus deliberately different surface types.
 
-**Assessment:** preserve variety; govern the underlying grammar.
+**Assessment:** preserve variety; govern the grammar.
 
 ### 6. Forms do not yet have one shared visual language
 
-Authentication, planner forms, learning inputs and exam-response fields use overlapping but different dimensions, radii, borders, focus states and local fallback colours.
+Authentication, planner forms, learning inputs and exam-response fields use overlapping but different dimensions, borders, radii and focus states.
 
-The active UX authority requires responsive, accessible and understandable interactions, but the current visual authority does not define field anatomy and states precisely enough.
-
-**Assessment:** high-priority component-system gap because forms are both frequent and accessibility-sensitive.
+**Assessment:** high-priority component-system gap because forms are frequent and accessibility-sensitive.
 
 ### 7. Hard-coded presentation colours remain common
 
-Several learner-facing files use direct hex/RGBA values for borders, success/error feedback, soft surfaces, REV gradients and other presentation details.
+Some direct colour values are justified for art-directed REV effects or illustrations. Routine controls/statuses should instead resolve through semantic roles.
 
-Some direct values are appropriate for distinctive compositions such as the REV orb or intentionally art-directed hero gradients. Routine component colours should instead resolve through semantic tokens so they can be kept coherent and contrast-tested.
-
-**Assessment:** distinguish expressive/art-directed colour from semantic/system colour.
+**Assessment:** explicitly separate expressive colour from semantic/system colour.
 
 ### 8. Responsive rules have accumulated by feature
 
-The recently corrected global navigation breakpoint exposed a wider pattern: multiple files contain independent responsive thresholds and local adaptations.
-
-Different breakpoints are sometimes justified by content, but shared layout/navigation breakpoints should be named and deliberate rather than recreated independently.
+Different breakpoints are sometimes justified by content, but shared layout/navigation breakpoints should be named and deliberate rather than independently recreated.
 
 **Assessment:** medium-priority system gap.
 
-## Proposed consistency-with-creativity model
-
-The design system should not attempt to make every screen or card look the same. It should define **what is fixed, what is bounded and what is free**.
+## Cross-channel consistency-with-creativity model
 
 ### Layer 1 — Brand foundations: tightly controlled
 
-These should be consistent across all learner-facing Revision surfaces:
+Shared across all Revision channels:
 
+- primary identity and lock-ups;
 - core brand colours and semantic colour roles;
-- typography family and type scale;
+- typography family and hierarchy;
 - spacing rhythm;
-- radius scale;
-- elevation/shadow scale;
-- focus treatment;
-- core icon language;
-- primary action language;
-- responsive layout/gutter conventions;
-- accessibility and contrast rules;
+- radius/elevation families;
+- focus/accessibility treatment;
+- icon/illustration language;
+- motion principles; and
 - REV identity rules.
 
 ### Layer 2 — UI primitives: controlled variants
 
-Reusable primitives should have a small supported variant set rather than one fixed appearance:
+Reusable primitives should offer a small supported range rather than a single rigid appearance:
 
 - buttons;
-- inputs, selects, textareas and check/radio controls;
+- inputs/selects/textareas;
+- check/radio/toggle controls;
 - badges/chips;
 - tabs/segmented controls;
-- navigation controls;
-- dividers;
+- navigation;
 - progress/status indicators;
-- modal/drawer treatment.
-
-Developers/designers may choose a supported variant but should not create a new visual language locally without deliberate need.
+- modals/drawers; and
+- feedback/error states.
 
 ### Layer 3 — Surface families: flexible within rules
 
 Cards, boxes and panels should support creativity through named families such as:
 
-- **standard surface** — ordinary content grouping;
-- **quiet surface** — low-emphasis support information;
-- **interactive surface** — clickable subject/topic/route card;
-- **feature surface** — a stronger editorial or promotional moment;
-- **guidance surface** — recommendation/explanation/next-step treatment;
-- **status/feedback surface** — success, warning, error, information;
-- **REV surface** — recognisable AI-guide treatment;
-- **exam/performance surface** — calm but more performance-oriented;
-- **subject-accent surface** — restrained subject recognition.
+- standard;
+- quiet;
+- interactive;
+- feature/editorial;
+- guidance;
+- status/feedback;
+- REV;
+- exam/performance; and
+- subject-accent.
 
-Each family can vary layout, illustration, accent placement and composition while inheriting tokenised colour, typography, radius/elevation ranges and interaction states.
+Within an approved family, layout, illustration, accent placement and composition may vary substantially.
 
-### Layer 4 — Page composition: deliberately creative
+### Layer 4 — Composition/art direction: deliberately creative
 
 Home, Plan, REV, Subjects, Learn, Practice, Exam Prep and Progress should not be forced into the same card grid.
 
-Page-level art direction may vary substantially where it supports the learner job, provided it uses the shared foundations and primitives and remains recognisably Revision.
+Likewise, marketing pages, social posts and video frames should not be expected to look like application screens. They should express the same Revision identity through channel-appropriate composition.
 
-This is where creative differentiation should live.
+## Expression profiles
 
-## Colour-system recommendation for confirmation
+### Learner product
+Balanced expression: energetic, calm, intelligent and highly usable.
 
-The approved palette should be expanded from raw brand colours into three levels.
+### Marketing/editorial
+Higher expressive freedom: editorial composition, illustration, larger type and motion can be bolder while staying on-brand.
+
+### Admin/operations
+Lower expressive freedom: functional and denser where needed, but still using shared primitives, typography and semantic colours.
+
+### Social/campaign
+High expressive freedom within approved identity rules and reusable templates.
+
+### Video/motion
+High motion/art-direction freedom relative to the product, while preserving brand recognition, captions/accessibility and recognisable REV treatment.
+
+## Colour-system recommendation
+
+The confirmed system should use three levels:
 
 ### A. Brand palette
-
-The recognisable source colours, including Deep Ink, Revision Indigo, Deep Indigo, Bright Lime and carefully approved supporting tints.
+Recognisable source colours and approved supporting tints/shades.
 
 ### B. Semantic tokens
-
-Components should normally consume roles such as:
-
-- text-primary / text-secondary / text-inverse;
-- canvas / surface / surface-subtle / surface-brand;
-- border-default / border-strong / border-focus;
-- action-primary / action-primary-hover / action-secondary;
-- accent-momentum;
-- status-success / status-warning / status-danger / status-info;
-- focus-ring.
-
-This allows the brand palette to evolve without rewriting every component and prevents arbitrary local colour choices.
+Roles such as text, surface, border, action, focus, success, warning, danger and information.
 
 ### C. Expressive palette
+Bounded additional colours/tints for REV, illustrations, subject recognition, social/video art direction and feature surfaces.
 
-A deliberately bounded set of art-direction colours/tints for:
+Expressive colour must not redefine controls, accessibility-critical statuses or educational evidence semantics.
 
-- REV effects;
-- subject recognition;
-- illustrations;
-- feature cards;
-- special editorial surfaces.
+## Brand reference and approval surface
 
-Expressive colours must not redefine core controls, educational evidence semantics or accessibility-critical status behaviour.
+The Founder should not have to approve a list of CSS values blind. Revision should maintain a rendered **Brand Studio** (working name) where the full system can be inspected visually.
 
-## What needs Founder/design confirmation before implementation
+It should show:
 
-The next confirmation stage should be visual, not just a long list of CSS numbers.
+1. logo/wordmark and lock-up examples;
+2. core/semantic/expressive colours;
+3. typography hierarchy;
+4. spacing/radius/elevation families;
+5. buttons and interaction states;
+6. complete form states;
+7. card/surface families from quiet through feature/REV;
+8. tabs, chips, progress and statuses;
+9. icon/illustration treatment;
+10. mobile/desktop navigation;
+11. learner-app page examples;
+12. marketing-site examples;
+13. Admin examples;
+14. social post/story/thumbnail examples;
+15. video title/lower-third/caption/end-card examples; and
+16. approved reusable assets/templates.
 
-A compact **Revision visual-system confirmation board** should show representative examples of:
+Every pattern/asset should carry a status and usage recommendation:
 
-1. core palette and semantic colour roles;
-2. typography hierarchy;
-3. spacing/radius/elevation families;
-4. primary, secondary, tertiary and destructive actions;
-5. form fields in default, focus, error, disabled and completed states;
-6. card/surface families from quiet through feature/REV;
-7. tabs, chips, progress and status treatments;
-8. icon style;
-9. mobile/desktop navigation;
-10. representative page compositions for Home, Plan, a subject/course screen and a learning/exam screen.
+- **Recommended** — default for the stated job;
+- **Alternative** — approved for the stated context;
+- **Experimental** — not yet standard;
+- **Deprecated** — do not use for new work; and
+- **Do not use** — explicitly rejected/non-compliant.
 
-The Founder should approve the **system grammar and representative range**, not every future card layout. Once the grammar is approved, future screens retain creative freedom within it.
+Where useful, it should show **use when**, **avoid when**, applicable channels, accessibility notes and canonical implementation/asset references.
 
-## Proposed implementation sequence after confirmation
+## Technical recommendation for the Brand Studio
 
-1. Confirm the design-system grammar and visual board.
-2. Promote approved rules into the Visual Brand System (normative authority).
-3. Create one canonical implementation token layer.
-4. Remove legacy/competing root palette definitions and aliases where no longer required.
-5. Introduce reusable primitive/component classes or React primitives where repetition warrants it.
-6. Migrate forms and common controls first.
-7. Migrate shared navigation and common surfaces.
-8. Migrate learner screens by journey: Home → Plan → REV → Subjects/course → Learn/Practice → Exam Prep → Progress.
-9. Retain intentional page-specific/art-directed styling at the composition layer.
-10. Add responsive/accessibility and selective visual-regression assurance for the shared system.
+Do **not** add a heavyweight design-system platform merely to create the gallery.
 
-## Initial conclusion
+The current React/TypeScript/Vite stack can support a protected native Brand Studio. The preferred first implementation is a Founder/Admin reference surface inside the existing application runtime because:
 
-Revision does **not** need a rigid component library that makes every card and page identical.
+- it avoids a second frontend/toolchain;
+- it can render the actual production tokens/components rather than screenshots;
+- it can show responsive states and motion;
+- it can link directly to canonical assets and code references; and
+- it can later expose selected public brand guidance if needed without making internal experiments public.
 
-It does need a stronger design system than it currently has.
+This is an implementation recommendation, not yet implementation authority. Before coding, the canonical route/runtime and appropriate Admin access model must be recorded under the governed implementation workflow.
 
-The correct target is **consistent foundations + controlled primitives + flexible surface families + creative page composition**.
+## What still needs visual Founder confirmation
 
-The current Visual Brand System provides the right broad direction, but implementation has already accumulated enough local CSS and legacy overrides that further feature-by-feature styling without this system would increase drift.
+The scope/model can be governed now, but the following should **not** be treated as approved merely from prose:
+
+- final logo/wordmark lock-up rules;
+- exact complete colour/tint system and expressive colours;
+- typography scale/weights;
+- spacing/radius/elevation scales;
+- component variants;
+- form anatomy/states;
+- icon and illustration language;
+- final surface families/examples;
+- social templates; and
+- video/motion templates.
+
+These should be presented visually through the confirmation board/Brand Studio and approved as a coherent range.
+
+## Proposed delivery sequence
+
+1. Complete the cross-channel audit and inventory current styling/assets.
+2. Produce a visual confirmation set covering the system foundations and representative channel examples.
+3. Founder confirms/refines the grammar and range.
+4. Promote confirmed rules into the Brand System.
+5. Establish one canonical token/primitives implementation layer.
+6. Build the protected Brand Studio/reference surface.
+7. Migrate learner product styling from legacy/local CSS to the confirmed system.
+8. Add marketing/Admin/social/video examples and reusable assets as those channels are built.
+9. Add responsive/accessibility and targeted visual-regression assurance for shared system behaviour.
+
+## Current conclusion
+
+Revision does **not** need identical cards, pages or media assets.
+
+It needs one recognisable brand grammar with a clear boundary between foundations and creative expression.
+
+The target is:
+
+**one brand → shared foundations → controlled primitives → flexible surface families → channel-specific creative composition.**
 
 ## Documentation-impact check
 
-No normative authority is changed by this audit record.
+This branch now contains a proposed normative scope change because the Founder has explicitly expanded the intended Brand System beyond the learner application.
 
-If the proposed model is approved, `20-brand-and-experience/Visual Brand System.md` should be expanded in the same governed change that establishes the implementation token/component foundation. Technical documentation should also record the resulting CSS/design-system architecture. Historical audit evidence should remain unchanged.
+The proposed `20-brand-and-experience/Visual Brand System.md` update captures that cross-channel authority and the requirement for a visual reference/approval surface. `INDEX.md` and marketing-folder ownership guidance are updated to prevent visual-brand and marketing-channel authority from competing.
+
+No production styling or Brand Studio implementation is changed in this audit stage. Technical documentation will need updating when the canonical token architecture and Brand Studio are implemented. Historical merged audit/decision evidence must remain unchanged.
