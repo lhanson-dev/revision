@@ -83,7 +83,7 @@ function preferenceIntent(text: string): PlanningPreferenceType {
 export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: PlannerRevScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(() => window.sessionStorage.getItem('revision:rev-draft') ?? '')
   const [inputFocused, setInputFocused] = useState(false)
   const [messages, setMessages] = useState<ConversationMessage[]>([])
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
@@ -93,11 +93,7 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    const draft = window.sessionStorage.getItem('revision:rev-draft')
-    if (draft) {
-      setInput(draft)
-      window.sessionStorage.removeItem('revision:rev-draft')
-    }
+    window.sessionStorage.removeItem('revision:rev-draft')
   }, [])
 
   useEffect(() => {
