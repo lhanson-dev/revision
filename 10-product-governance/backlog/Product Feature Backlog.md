@@ -145,11 +145,13 @@ FI-001 is promoted into `10-product-governance/Adaptive Revision Planning.md` an
 
 ## FI-002 — Subscription Plans / Feature Entitlements and Upgrade Journey
 
-**Status:** New  
+**Status:** Analyse  
 **Captured:** 2026-08-19  
 **Capability fit:** Commercial capability evolution; cross-cutting product entitlement layer  
 **Authority context:** Free, paid and premium tiers are already anticipated in `Scope and Capability Taxonomy.md`; exact entitlements, pricing and boundaries remain deliberately undefined.  
-**Initial assessment:** High commercial importance; strategically necessary for monetisation; must preserve strong free-product value
+**Analysis record:** `10-product-governance/backlog/FI-002 Subscription Plans Analysis.md`  
+**Lifecycle evidence:** Founder approved `New → To Do` on 2026-08-20; active Definition-of-Ready analysis is underway. Material implementation must not begin until explicit human-approved `Ready` status.  
+**Current assessment:** High commercial importance; approved three-tier architecture is Free = useful core intelligent Revision, Paid = complete self-service Revision, Premium = deepest personalised REV/AI experience; exact entitlements, allowances, pricing, purchaser journey and billing architecture remain unresolved
 
 ### User and business problem
 
