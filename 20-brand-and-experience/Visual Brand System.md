@@ -110,7 +110,9 @@ Functional colours carry stable semantic meaning. They must not be repurposed me
 - primary text — `#132026`
 - secondary text — `#5B686C`
 - primary action — `#2BB6A3`
-- action text — `#FFFFFF`
+- action text on Primary Teal — `#132026`
+- inverse action surface — `#0F2F36`
+- inverse action text — `#FFFFFF`
 
 ### Dark theme tokens
 
@@ -121,7 +123,11 @@ Functional colours carry stable semantic meaning. They must not be repurposed me
 - primary text — `#E6F2EF`
 - secondary text — `#A8BCC0`
 - primary action — `#2BB6A3`
-- action text — `#FFFFFF`
+- action text on Primary Teal — `#132026`
+- inverse action surface — `#0F2F36`
+- inverse action text — `#FFFFFF`
+
+Primary Teal remains the confirmed branded action colour, but ordinary text/icons on that fill use Graphite Ink because white on Primary Teal does not meet the normal-text contrast target. White action text is reserved for tested darker fills such as Deep Teal Ink.
 
 Light and dark modes are both first-class Revision experiences. Dark mode is not a separate brand; it is the same Calm Teal system translated into a darker surface hierarchy.
 
