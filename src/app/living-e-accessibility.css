@@ -8,6 +8,7 @@
 
 /* Primary Teal remains the visual/action colour; text accents use a darker/lighter
    companion so WCAG contrast is not sacrificed to brand colour. */
+.planner-runtime .eyebrow,
 .planner-runtime .runtime-desktop-nav button.active,
 .planner-runtime .runtime-desktop-nav .runtime-rev-link,
 .planner-runtime .account-avatar,
