@@ -22,9 +22,27 @@ Do not add `final`, `v7`, dates or similar pseudo-versioning to ordinary product
 
 ## Current package boundary
 
-The initial production-readiness package formalises the approved REV / Living E geometry and portable static exports that can be derived without inventing new identity rules.
+The production-readiness package now contains canonical portable vector sources for:
 
-It does not fabricate the missing canonical full Revision wordmark, final app-icon framing or editable social/video masters. Those remain explicit readiness items in `docs/technical/Brand System Production Readiness.md`.
+- the REV / Living E identity; and
+- the primary full Revision wordmark supplied by the Founder.
+
+The full wordmark package contains light, dark and monochrome variants. The supplied artwork is path-based SVG with no embedded raster or live-font dependency. The light treatment uses Graphite Ink `#132026` plus Primary Teal `#2BB6A3`; the dark treatment uses white plus Primary Teal.
+
+Final app-icon framing, favicon exports and editable social/video masters remain explicit readiness items in `docs/technical/Brand System Production Readiness.md`.
+
+## Revision wordmark source rule
+
+`source/revision-wordmark-primary-master.svg` is the canonical portable vector master for the full **REVISION** wordmark with the Living E replacing the letter E.
+
+Derived exports are:
+
+- `exports/revision-wordmark-primary-light.svg`
+- `exports/revision-wordmark-primary-dark.svg`
+- `exports/revision-wordmark-mono-dark.svg`
+- `exports/revision-wordmark-mono-light.svg`
+
+The source master retains the approved 1600×400 working size and transparent background. Production use should scale the SVG proportionally; do not rasterise it merely to change display size.
 
 ## Living E source rule
 
@@ -51,4 +69,4 @@ Use only:
 - `Deprecated`
 - `Do not use`
 
-Items that are required but not yet supplied are recorded in the manifest with `readiness: blocked` rather than being represented by invented placeholder artwork.
+Items that are required but not yet supplied are recorded in the manifest with an explicit readiness status rather than being represented by invented placeholder artwork.
