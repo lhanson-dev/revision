@@ -15,6 +15,7 @@ import './app/planner.css'
 import './app/planner-runtime.css'
 import './app/planner-today.css'
 import './app/planner-rev.css'
+import './app/living-e.css'
 
 const root = document.getElementById('root')
 
