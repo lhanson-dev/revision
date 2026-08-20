@@ -96,13 +96,13 @@
       "id": "manrope",
       "name": "Manrope typeface",
       "lifecycle": "Recommended",
-      "readiness": "metadata-required",
+      "readiness": "ready",
       "source": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
       "exports": [],
       "channels": ["learner", "marketing", "admin", "social", "video", "email"],
-      "theme_rules": "Primary Revision typeface; use approved role hierarchy and system-sans fallback where font loading is unavailable.",
-      "source_basis": "Founder-approved Brand System v0.9 and current learner implementation",
-      "licensing": "Authoritative source/license record still to be captured before production-readiness closure"
+      "theme_rules": "Primary Revision typeface; use approved role hierarchy and system-sans fallback where font loading is unavailable. Current production choice is remote loading from Google Fonts; no font binaries are stored in the brand asset package.",
+      "source_basis": "Founder-approved Brand System v0.9, current learner runtime in app/index.html, and provenance record assets/brand/manrope-source-and-license.md.",
+      "licensing": "SIL Open Font License 1.1 (OFL-1.1); Copyright 2018 The Manrope Project Authors. See assets/brand/manrope-source-and-license.md."
     }
   ]
 }
