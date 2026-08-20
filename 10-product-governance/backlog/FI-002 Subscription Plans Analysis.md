@@ -338,3 +338,91 @@ The material unresolved Definition-of-Ready work is now narrowed to:
 This increment materially changes what Revision's subscription product should do, so the approved policy has been promoted out of the backlog into dedicated product authority at `10-product-governance/Subscription Plans and Entitlements.md` and added to `INDEX.md`.
 
 No implementation, billing provider, pricing, numeric allowance or customer payment flow is approved by this increment. Further normative, commercial and technical documentation will be updated as those remaining decisions are resolved.
+
+---
+
+## Founder-approved tiered parent dashboard model — 20 August 2026
+
+Founder decision:
+
+`Approve FI-002 tiered parent dashboard model`
+
+This decision deliberately changes the previous FI-002 MVP exclusion that placed parent dashboards outside the initial subscription scope. Where a valid linked parent/payer relationship exists, a bounded parent/payer dashboard is now part of the Paid proposition and its richer support-insight layer contributes to Premium differentiation.
+
+This approval does **not** resolve the separate contracting-age rule, exact purchaser verification flow, pricing, billing provider or technical account schema.
+
+### Approved parent value ladder
+
+**Paid parent/payer value — basic reassurance**
+
+- subscription/billing visibility relevant to the payer;
+- upcoming known assessments/exams;
+- high-level learner engagement;
+- overall progress and simple subject-level progress;
+- evidence-supported broad on-track / attention-needed signals; and
+- a concise periodic parent summary.
+
+**Premium parent/payer value — richer support insight**
+
+- subject-level trends over time;
+- changing priorities and areas where support may help;
+- progress/readiness trajectory and explanation where evidence supports it;
+- richer context behind attention-needed signals;
+- personalised suggestions for constructive parent support; and
+- restrained proactive summaries/alerts when a material change genuinely warrants attention.
+
+### Privacy and trust rule
+
+Premium buys better interpretation, synthesis, trends and support guidance from the approved parent-visible data set. It does **not** buy progressively deeper access to the learner's private information.
+
+REV conversations, individual answers/raw work, private notes, detailed activity surveillance and safeguarding-sensitive data remain outside automatic parent/payer visibility unless a future separately governed sharing decision explicitly changes that boundary.
+
+The learner must be told clearly what a linked parent/payer can see.
+
+### Revised FI-002 MVP consequence
+
+The basic Paid parent/payer dashboard, the linked relationship needed to support it, and its permission boundary are now part of FI-002 MVP. The architecture should support richer Premium parent insight, but the detailed Premium information design may mature alongside approved learner evidence/intelligence capability.
+
+Multiple-parent household management, family plans beyond the required linked payer relationship and broader surveillance remain outside the MVP.
+
+## Current Definition-of-Ready position — supersedes the previous current position above
+
+- Student problem and target user — **PASS**
+- Strategic case — **PASS**
+- User-value hypothesis — **PASS**
+- Experience and simplicity — **PARTIAL**; learner tier boundaries and parent value ladder are approved, but linking, payer purchase flow and lifecycle/recovery UX remain
+- Evidence / intelligence model — **PARTIAL**; commercial/learning separation and parent-visible data boundary are approved, but account/subscription/relationship data model and event contract remain
+- REV role — **PARTIAL**; restrained commercial role remains approved, while exact REV behaviour around parent-visible summaries remains dependent on separately approved REV capabilities
+- MVP boundary — **PASS**; now includes the basic Paid parent/payer dashboard and linked relationship
+- Free / Paid / Premium value ladder — **PARTIAL**; learner and parent/payer tier jobs are approved, but numeric AI allowances, cost sustainability and final Premium launch proposition remain unresolved
+- Upgrade / conversion hypothesis — **PARTIAL**; parent reassurance is now an explicit Paid value driver and Premium parent support insight a differentiator, but purchaser flow and final pricing proposition remain unresolved
+- Measurement contract — **PARTIAL**; must now include parent-dashboard activation/usefulness and parent-linking health in addition to the governed tier funnel
+- Admin / Founder assurance — **PARTIAL**; must now include parent-linking/access exceptions as well as entitlement and commercial-health visibility
+- Risk / trust / accessibility — **PARTIAL**; explicit parent privacy boundary is governed, but relationship verification, age, consent and current UK legal analysis remain
+- Technical feasibility and dependencies — **PASS in principle**; architecture can represent a linked payer and permissioned parent view, but billing/account relationship and schema design remain
+- Test and assurance approach — **BLOCKED**; must include parent authorization/bypass and visibility-boundary assurance in addition to subscription lifecycle failure modes
+- Documentation / authority impact — **PARTIAL**; subscription authority, Core User Journeys and Privacy principles are aligned in this increment; commercial and technical authority remain pending
+- Blocking decisions resolved — **NO**
+- Human Definition-of-Ready approval — **NOT REQUESTED / NOT GRANTED**
+
+## Remaining blocking decisions after parent-dashboard approval
+
+- final purchaser/account relationship and contracting-age policy;
+- relationship verification/linking and unlinking behaviour;
+- exact prices and billing cadence;
+- customer-facing plan names if different from Free / Paid / Premium;
+- numeric AI/REV and other variable-cost allowances, supported by unit economics;
+- payment/subscription provider and billing architecture;
+- trial policy, if any;
+- detailed upgrade, downgrade, cancellation, expiry, failed-payment and recovery behaviour;
+- entitlement/parent-access refresh and caching design;
+- billing/account/relationship data model and security boundary;
+- concrete learner and parent analytics/event contract and Founder assurance thresholds;
+- test/assurance strategy including parent authorization, privacy-boundary bypass, entitlement bypass and billing-event failures; and
+- current UK consumer, child-design, advertising/privacy and subscription requirements applicable to the selected purchaser model.
+
+## Documentation-impact check — tiered parent dashboard increment
+
+This Founder decision conflicted with the earlier FI-002 MVP exclusion and the earlier Core User Journeys sequencing that placed parent support later. The governed increment therefore updates `10-product-governance/Subscription Plans and Entitlements.md`, `10-product-governance/Core User Journeys.md` and `40-evidence-and-trust/Privacy and Student Data Principles.md` together and records the decision in the FI-002 analysis record.
+
+No production implementation, pricing, billing provider, final contracting-age rule or technical account schema is approved by this decision.

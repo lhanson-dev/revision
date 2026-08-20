@@ -1,6 +1,6 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.4  
+**Status:** Draft authority candidate — v0.5  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.
 
 ## Journey principles
@@ -203,20 +203,56 @@ REV is one ongoing assistant relationship with context that changes as the learn
 
 The learner should not feel that they are starting a different tutor conversation at every level. Context should narrow naturally while the relationship remains continuous.
 
-## Journey 10 — Parent support
+## Journey 10 — Parent / payer support
 
-Parent functionality should be a separate experience from the student's everyday revision flow.
+Parent functionality is a separate experience from the student's everyday revision flow.
 
 Its purpose is reassurance and appropriate support, not surveillance.
 
-Parents should eventually be able to understand at a high level whether the student is:
+Where a valid linked parent/payer relationship funds a Paid or Premium learner subscription, FI-002 should provide a bounded parent/payer dashboard as part of the paid proposition.
 
-- engaging with revision;
-- making progress;
-- broadly on track; and
-- showing areas where additional support may help.
+### Paid parent/payer journey
 
-Detailed student conversations, answers and activity should not automatically be assumed to be parent-visible. The detailed scope, consent and privacy boundaries of the parent experience require later trust and product design work.
+A linked Paid parent/payer should be able to understand at a high level whether the learner is:
+
+- engaging with Revision;
+- making progress overall;
+- broadly on track where evidence supports that judgement;
+- showing a subject or area where attention may be useful; and
+- approaching important known assessments or exams.
+
+The basic Paid journey should answer a simple parent question:
+
+**Is Revision being used, and do things broadly appear to be moving in the right direction?**
+
+A typical path is:
+
+Parent/payer sign in → subscription / learner link → parent dashboard → high-level engagement and progress → simple subject overview → any useful support prompt.
+
+### Premium parent/payer journey
+
+Premium may provide richer interpretation from the same approved parent-visible evidence boundary, including:
+
+- subject-level trends;
+- changing priorities;
+- progress/readiness trajectory with appropriate uncertainty;
+- clearer explanation of why an area may need attention;
+- personalised suggestions for useful parent support; and
+- restrained proactive summaries or alerts when a material change genuinely warrants attention.
+
+The Premium journey should answer a deeper support question:
+
+**Where are things improving, where may support help, and what can I usefully do without taking over?**
+
+### Parent visibility boundary
+
+Detailed student conversations, individual answers, raw submitted work, private notes, detailed activity surveillance and safeguarding-sensitive information must not automatically become parent-visible because a subscription is paid or Premium.
+
+Paying more should buy better interpretation, synthesis and support guidance from the approved parent-visible data set, not progressively deeper access to private learner information.
+
+The learner must be able to understand what a linked parent/payer can see. Exact consent, relationship verification, age and legal mechanisms require the dedicated FI-002 trust/commercial design before implementation.
+
+This parent/payer journey is part of the FI-002 commercial MVP where a linked parent/payer relationship exists. It does not make a broader family-management product, multi-parent household system or teacher-style monitoring experience part of the initial scope.
 
 ## Journey 11 — Teacher/class insight
 
@@ -228,7 +264,7 @@ Teacher functionality should not redefine Revision into a school learning-manage
 
 ## Journey priority
 
-The initial product should prioritise:
+The initial learner product should prioritise:
 
 1. new student setup and first useful action;
 2. returning learner-wide guidance;
@@ -239,4 +275,6 @@ The initial product should prioritise:
 7. global/contextual progress review; and
 8. exam preparation and Exam Simulator.
 
-Parent and teacher journeys should be developed later without compromising the student-first product model.
+FI-002 additionally includes the bounded Paid parent/payer dashboard needed to support the approved subscription proposition where a linked payer relationship exists. The parent experience must remain separate from the student's everyday flow and must not compromise the student-first product model.
+
+Teacher journeys should be developed later without compromising the student-first product model.
