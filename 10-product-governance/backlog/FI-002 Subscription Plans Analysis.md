@@ -246,3 +246,95 @@ Historical research and audits must not be rewritten to make them appear authori
 This increment records the Founder-approved three-tier value-ladder architecture and advances Definition-of-Ready analysis. It does not yet create normative plan/entitlement authority because exact entitlements, allowances, pricing and purchaser behaviour remain unresolved.
 
 No production code, billing provider, technical architecture, price or exact entitlement matrix is approved by this record.
+
+---
+
+## Founder-approved entitlement policy and MVP boundary — 20 August 2026
+
+Founder decision:
+
+`Approve FI-002 entitlement policy and MVP boundary`
+
+This approval establishes the policy-level entitlement architecture and the minimum FI-002 product boundary. It does **not** approve exact prices, plan names, numeric allowances, billing provider, purchaser/account model or implementation.
+
+The approved policy is promoted into `10-product-governance/Subscription Plans and Entitlements.md`. That authority now governs the stable product rules for tier jobs, cross-tier foundations, entitlement behaviour and FI-002 MVP scope.
+
+### Approved policy consequences
+
+- Free must retain enough subject breadth and adaptive capability to demonstrate Revision's genuine cross-subject proposition; subject count must not become the core Free paywall.
+- Core planning, progress/evidence truth, safety, accessibility and preservation of learner work remain coherent across tiers.
+- Paid primarily differentiates through materially greater breadth, depth, scale and convenience for serious self-service revision.
+- Premium must provide a qualitative additional proposition rather than merely larger numeric limits; deeper personalised REV/AI is the intended direction where separately approved capabilities support it.
+- Separately approved high-variable-cost AI capability may use bounded or quantitative allowances where needed for commercial sustainability.
+- The entitlement model must support both boolean capability access and quantitative allowances.
+- Higher-tier capability remains discoverable contextually without using vulnerability, exam anxiety, false urgency or deliberate Free degradation to create conversion.
+- FI-002 must provide the reusable entitlement platform; future feature definitions map approved packaging into it rather than hard-coding plan names independently.
+
+### Approved FI-002 MVP
+
+The MVP must establish:
+
+- subscription/account state sufficient to resolve entitlement status;
+- package-to-entitlement mapping;
+- boolean entitlements and quantitative allowances;
+- consistent capability-access decisions;
+- current-plan visibility;
+- locked/unlocked product states and contextual upgrade discovery;
+- a plan-comparison route;
+- relevant server/API enforcement rather than UI-only locking;
+- entitlement refresh after plan/subscription changes;
+- safe upgrade, downgrade, cancellation, expiry and failed-payment states;
+- preservation of learner work and evidence across entitlement changes;
+- commercial analytics events required by the governed funnel; and
+- Founder/Admin visibility for material entitlement, lifecycle and commercial-health failures.
+
+Deliberately excluded from the FI-002 MVP are referral rewards, coupons/complex promotions, elaborate trial variants, family-plan packaging, parent dashboards, gift subscriptions, sophisticated promotional pricing and speculative packaging for unapproved future features.
+
+### Premium launch rule
+
+The architecture should support the approved Free / Paid / Premium model, but commercial launch of Premium is not mandatory merely because the entitlement layer supports it.
+
+Premium should be actively sold only when a separately approved capability provides a genuinely qualitative higher-tier experience. Until then, the architecture may support Premium without forcing a weak proposition into market.
+
+## Current Definition-of-Ready position — supersedes preliminary position above
+
+- Student problem and target user — **PASS**
+- Strategic case — **PASS**
+- User-value hypothesis — **PASS**
+- Experience and simplicity — **PARTIAL**; contextual visibility and tier-boundary principles are approved, but purchaser flow and detailed lifecycle/recovery UX remain
+- Evidence / intelligence model — **PARTIAL**; commercial/learning evidence separation is approved, but account/subscription data model and downstream event contract remain
+- REV role — **PARTIAL**; restrained commercial role is approved, but exact entitlement explanation behaviour remains to be finalised alongside the broader REV capability
+- MVP boundary — **PASS**
+- Free / Paid / Premium value ladder — **PARTIAL**; tier jobs and policy-level capability families are approved, but numeric allowances and cost sustainability remain unresolved
+- Upgrade / conversion hypothesis — **PARTIAL**; contextual consultative pattern is approved, but purchaser/account journey and final proposition remain
+- Measurement contract — **PARTIAL**; common funnel and guardrails are governed by the KPI framework and promoted entitlement authority, but concrete FI-002 event definitions and operational thresholds remain
+- Admin / Founder assurance — **PARTIAL**; required visibility is now part of the MVP, but concrete checks/thresholds remain
+- Risk / trust / accessibility — **PARTIAL**; core guardrails are approved, but current consumer/child/payer/legal analysis remains
+- Technical feasibility and dependencies — **PASS in principle**; reusable entitlement architecture is defined, but billing provider, account relationship and technical data/event design remain
+- Test and assurance approach — **BLOCKED**; critical failure modes still require an explicit assurance plan
+- Documentation / authority impact — **PARTIAL**; dedicated product authority has now been created and indexed, while commercial, journey, privacy/security and technical authority remain to be completed as decisions mature
+- Blocking decisions resolved — **NO**
+- Human Definition-of-Ready approval — **NOT REQUESTED / NOT GRANTED**
+
+## Remaining blocking decisions after entitlement/MVP approval
+
+The material unresolved Definition-of-Ready work is now narrowed to:
+
+- purchaser/account relationship, including parent-paid plans and age-appropriate purchase routes;
+- exact prices and billing cadence;
+- customer-facing plan names if different from Free / Paid / Premium;
+- numeric AI/REV and other variable-cost allowances, supported by unit economics;
+- payment/subscription provider and billing architecture;
+- trial policy, if any;
+- detailed upgrade, downgrade, cancellation, expiry, failed-payment and recovery behaviour;
+- entitlement refresh/caching and server-side enforcement design;
+- billing/account data model and privacy/security boundary;
+- concrete analytics/event contract and Founder assurance thresholds;
+- test/assurance strategy for entitlement bypass, lifecycle failure and billing-event failure modes; and
+- current UK consumer, child-design, advertising/privacy and subscription requirements applicable to the selected purchaser model.
+
+## Documentation-impact check — entitlement policy increment
+
+This increment materially changes what Revision's subscription product should do, so the approved policy has been promoted out of the backlog into dedicated product authority at `10-product-governance/Subscription Plans and Entitlements.md` and added to `INDEX.md`.
+
+No implementation, billing provider, pricing, numeric allowance or customer payment flow is approved by this increment. Further normative, commercial and technical documentation will be updated as those remaining decisions are resolved.
