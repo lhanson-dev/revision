@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#0F2F36" flood-opacity="0.08"/></filter>
+    <style>
+      .title{font:700 42px Manrope,Arial,sans-serif;fill:#132026}.sub{font:500 18px Manrope,Arial,sans-serif;fill:#607074}.h{font:700 22px Manrope,Arial,sans-serif;fill:#132026}.k{font:700 14px Manrope,Arial,sans-serif;fill:#0F2F36}.b{font:500 14px Manrope,Arial,sans-serif;fill:#5B686C}.small{font:600 12px Manrope,Arial,sans-serif;fill:#607074}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#FAFCFB"/>
+  <text x="56" y="66" class="title">Brand Studio v0.5 — REV motion + production assets</text>
+  <text x="56" y="98" class="sub">State communicates meaning. Assets have canonical masters, variants and lifecycle status.</text>
+
+  <!-- motion row -->
+  <g transform="translate(56 142)" filter="url(#shadow)">
+    <rect width="1488" height="300" rx="28" fill="#FFFFFF" stroke="#E6ECEB"/>
+    <text x="30" y="42" class="h">REV motion states</text>
+    <text x="30" y="68" class="b">The three bars always remain recognisable. Motion intensity rises only when state requires it.</text>
+
+    <g transform="translate(54 96)">
+      <circle cx="82" cy="72" r="55" fill="#E6FBF4"/><circle cx="82" cy="72" r="38" fill="#2BB6A3" opacity="0.10"/>
+      <line x1="58" y1="58" x2="106" y2="58" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="58" y1="72" x2="106" y2="72" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="58" y1="86" x2="106" y2="86" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/>
+      <text x="82" y="153" text-anchor="middle" class="k">Resting</text><text x="82" y="175" text-anchor="middle" class="small">6–8s soft breathe</text>
+    </g>
+    <g transform="translate(328 96)">
+      <circle cx="82" cy="72" r="55" fill="#E6FBF4"/><circle cx="82" cy="72" r="42" fill="none" stroke="#2BB6A3" stroke-width="2" opacity="0.45"/>
+      <line x1="58" y1="58" x2="106" y2="58" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="54" y1="72" x2="110" y2="72" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="60" y1="86" x2="104" y2="86" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/>
+      <text x="82" y="153" text-anchor="middle" class="k">Listening</text><text x="82" y="175" text-anchor="middle" class="small">1.2–1.8s ripple</text>
+    </g>
+    <g transform="translate(602 96)">
+      <circle cx="82" cy="72" r="55" fill="#E6FBF4"/><circle cx="82" cy="72" r="44" fill="none" stroke="#2BB6A3" stroke-width="2" stroke-dasharray="7 7" opacity="0.5"/>
+      <line x1="62" y1="52" x2="105" y2="52" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="56" y1="72" x2="99" y2="72" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="64" y1="92" x2="107" y2="92" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/>
+      <text x="82" y="153" text-anchor="middle" class="k">Thinking</text><text x="82" y="175" text-anchor="middle" class="small">1.4–2.2s stagger</text>
+    </g>
+    <g transform="translate(876 96)">
+      <circle cx="82" cy="72" r="55" fill="#E6FBF4"/>
+      <line x1="52" y1="58" x2="96" y2="58" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><circle cx="108" cy="58" r="4" fill="#2BB6A3" opacity="0.65"/>
+      <line x1="58" y1="72" x2="106" y2="72" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><circle cx="118" cy="72" r="4" fill="#2BB6A3" opacity="0.45"/>
+      <line x1="64" y1="86" x2="110" y2="86" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/>
+      <text x="82" y="153" text-anchor="middle" class="k">Responding</text><text x="82" y="175" text-anchor="middle" class="small">600–900ms enter</text>
+    </g>
+    <g transform="translate(1150 96)">
+      <circle cx="82" cy="72" r="55" fill="#E6FBF4"/><circle cx="118" cy="40" r="5" fill="#2BB6A3" opacity="0.7"/><circle cx="128" cy="54" r="3" fill="#BCE8CF"/>
+      <line x1="58" y1="58" x2="106" y2="58" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="58" y1="72" x2="106" y2="72" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/><line x1="58" y1="86" x2="106" y2="86" stroke="#168C7C" stroke-width="7" stroke-linecap="round"/>
+      <text x="82" y="153" text-anchor="middle" class="k">Completed</text><text x="82" y="175" text-anchor="middle" class="small">700–1000ms settle</text>
+    </g>
+  </g>
+
+  <!-- Reduced motion -->
+  <g transform="translate(56 486)" filter="url(#shadow)">
+    <rect width="450" height="326" rx="28" fill="#FFFFFF" stroke="#E6ECEB"/>
+    <text x="28" y="42" class="h">Reduced motion</text>
+    <text x="28" y="68" class="b">Static state variants carry the meaning.</text>
+    <rect x="28" y="94" width="394" height="88" rx="20" fill="#F1FAF8"/>
+    <circle cx="78" cy="138" r="30" fill="#E6FBF4"/><line x1="63" y1="128" x2="93" y2="128" stroke="#168C7C" stroke-width="5" stroke-linecap="round"/><line x1="63" y1="138" x2="93" y2="138" stroke="#168C7C" stroke-width="5" stroke-linecap="round"/><line x1="63" y1="148" x2="93" y2="148" stroke="#168C7C" stroke-width="5" stroke-linecap="round"/>
+    <text x="124" y="130" class="k">No loops</text><text x="124" y="154" class="small">Instant swap or 100–150ms opacity</text>
+    <text x="28" y="218" class="b">• No halo breathe / ripple / oscillation</text>
+    <text x="28" y="244" class="b">• Text/context still explains state</text>
+    <text x="28" y="270" class="b">• Response is never delayed for animation</text>
+    <text x="28" y="296" class="b">• Motion tech remains an engineering choice</text>
+  </g>
+
+  <!-- Asset package -->
+  <g transform="translate(544 486)" filter="url(#shadow)">
+    <rect width="1000" height="326" rx="28" fill="#FFFFFF" stroke="#E6ECEB"/>
+    <text x="28" y="42" class="h">Production asset package</text>
+    <text x="28" y="68" class="b">Concept boards are references. Production needs canonical editable/vector masters.</text>
+
+    <g transform="translate(28 94)"><rect width="220" height="176" rx="20" fill="#F1FAF8"/><text x="18" y="30" class="k">Revision identity</text><text x="18" y="58" class="small">Primary wordmark</text><text x="18" y="80" class="small">Light / dark / mono</text><text x="18" y="102" class="small">Clear space + min size</text><text x="18" y="124" class="small">Editable vector master</text><rect x="18" y="142" width="106" height="14" rx="7" fill="#0F2F36"/><rect x="130" y="142" width="54" height="14" rx="7" fill="#2BB6A3"/></g>
+    <g transform="translate(264 94)"><rect width="220" height="176" rx="20" fill="#E6FBF4"/><text x="18" y="30" class="k">REV / Living E</text><text x="18" y="58" class="small">Light + dark masters</text><text x="18" y="80" class="small">Nav/small variant</text><text x="18" y="102" class="small">5 static states</text><text x="18" y="124" class="small">Motion source + reduced</text><circle cx="177" cy="140" r="24" fill="#fff"/><line x1="166" y1="132" x2="188" y2="132" stroke="#168C7C" stroke-width="4" stroke-linecap="round"/><line x1="166" y1="140" x2="188" y2="140" stroke="#168C7C" stroke-width="4" stroke-linecap="round"/><line x1="166" y1="148" x2="188" y2="148" stroke="#168C7C" stroke-width="4" stroke-linecap="round"/></g>
+    <g transform="translate(500 94)"><rect width="220" height="176" rx="20" fill="#FFFFFF" stroke="#E6ECEB"/><text x="18" y="30" class="k">App / browser</text><text x="18" y="58" class="small">1024 app master</text><text x="18" y="80" class="small">Generated platform sizes</text><text x="18" y="102" class="small">favicon.svg</text><text x="18" y="124" class="small">32×32 / 16×16 fallback</text><rect x="154" y="128" width="44" height="44" rx="12" fill="#0F2024"/><circle cx="176" cy="150" r="14" fill="#2BB6A3" opacity="0.18"/><line x1="168" y1="144" x2="184" y2="144" stroke="#2BB6A3" stroke-width="3"/><line x1="168" y1="150" x2="184" y2="150" stroke="#2BB6A3" stroke-width="3"/><line x1="168" y1="156" x2="184" y2="156" stroke="#2BB6A3" stroke-width="3"/></g>
+    <g transform="translate(736 94)"><rect width="236" height="176" rx="20" fill="#F2E9D9"/><text x="18" y="30" class="k">Social / video</text><text x="18" y="58" class="small">1080×1080 / 1350</text><text x="18" y="80" class="small">1080×1920 / 1920×1080</text><text x="18" y="102" class="small">Editable templates</text><text x="18" y="124" class="small">Safe-zone guides</text><text x="18" y="146" class="small">Title / lower third / end card</text></g>
+
+    <text x="28" y="298" class="small">Naming: revision-{asset}-{variant}-{theme}-{size}.{ext} · lifecycle + source + licensing recorded</text>
+  </g>
+</svg>

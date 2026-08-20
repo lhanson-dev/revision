@@ -52,7 +52,7 @@ Use this file to find the governing source before substantive work.
 - Emotional experience principles → `20-brand-and-experience/Emotional Experience Principles.md`
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
-- Visual identity / REV / responsive navigation → `20-brand-and-experience/Visual Brand System.md`
+- Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
 - Other brand/visual authority → `20-brand-and-experience/`
 
 ## Brand and marketing
