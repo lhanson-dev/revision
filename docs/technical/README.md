@@ -19,6 +19,7 @@ This area describes **how Revision currently works** and how approved authority 
 - `REV Homepage Shell Implementation.md` — canonical learner shell, routing, hierarchy and REV/evidence presentation.
 - `REV Living E Implementation.md` — current Calm Teal, Manrope, Living E, theme and REV-state implementation.
 - `Brand System Production Readiness.md` — canonical brand-asset readiness, implementation gaps and migration sequencing.
+- `Brand Tokens and REV Motion Implementation Plan.md` — exact target token architecture, motion alignment and controlled learner styling migration sequence.
 - `Adaptive Revision Planner Implementation.md` — current adaptive planner implementation.
 - `Authentication Implementation.md` — authentication implementation.
 - `Content Factory Architecture.md` and related Content Factory docs — content-production implementation.
