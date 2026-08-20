@@ -638,3 +638,324 @@ Before material implementation, review/update at minimum:
 - applicable assessment/content standards;
 - technical documentation for the evidence model and diagnostic engine; and
 - assurance coverage proving shallow diagnostic evidence cannot falsely create mastery, proficiency or readiness states.
+
+---
+
+## FI-007 — Assisted / AI Exam-Answer Marking
+
+**Status:** Exploring  
+**Captured:** 2026-08-20  
+**Capability fit:** Practise and Test; Prepare for the Exam; Progress and Readiness  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** High strategic fit and competitive importance; marking reliability and evidence confidence are the critical constraints
+
+### Opportunity
+
+Competitors increasingly provide automated feedback on written exam answers. Revision currently asks learners to self-assess written work against marking guidance. A trustworthy assisted-marking capability could evaluate an answer against the correct specification, question, mark allocation, assessment objectives and governed marking guidance, then explain where marks were earned or lost.
+
+The strongest value is not the mark alone. The result could update the learner evidence model and feed the wider Revision loop:
+
+`answer → feedback/marking evidence → AO/topic weaknesses → readiness → planner → REV → next action`
+
+### Guardrails / questions
+
+- automated marking must not claim examiner-level certainty unless validated;
+- confidence and marking method must remain explicit in the evidence model;
+- hallucinated mark-scheme criteria are unacceptable;
+- evaluation needs representative real responses and human-reviewed benchmark marking;
+- appeal/review behaviour is needed where confidence is low; and
+- AI cost, latency, safeguarding and educational-integrity implications require design.
+
+### Promotion impact
+
+If promoted, review assessment/evidence authority, Claims and Progress Governance, REV behaviour, AI evaluation requirements, content/mark-scheme provenance, technical architecture and assurance coverage.
+
+---
+
+## FI-008 — Assured Subject / Qualification Catalogue Expansion
+
+**Status:** Candidate  
+**Captured:** 2026-08-20  
+**Capability fit:** Understand; Learn; Practise and Test; Prepare for the Exam  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Essential scaling programme; breadth must not outrun educational assurance
+
+### Opportunity
+
+Major competitors support far broader subject, qualification and exam-board catalogues than Revision's current assured pilot. Revision needs enough breadth to become a credible multi-subject student product while preserving its content assurance model.
+
+Catalogue expansion should use the existing Content Factory and governed course/component classification rather than create subject-specific product forks.
+
+### Guardrails / questions
+
+- prioritise subjects/boards using user demand, exam population, content cost and strategic learning value;
+- do not publish shallow or weakly assured content merely to increase subject count;
+- ensure each course can participate meaningfully in the evidence/planner loop, not just display notes; and
+- distinguish catalogue roadmap from individual content-pack production state.
+
+### Promotion impact
+
+Likely impacts product/content roadmap authority, content operations, source/coverage registers, Content Factory capacity planning and assurance reporting. This candidate does not itself approve a particular subject sequence.
+
+---
+
+## FI-009 — Adaptive Retrieval / Spaced Repetition
+
+**Status:** Exploring  
+**Captured:** 2026-08-20  
+**Capability fit:** Guide; Practise and Test; Progress and Readiness  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Strong strategic fit because Revision already holds the evidence and planning context needed to resurface material intelligently
+
+### Opportunity
+
+Move beyond presenting a static flashcard set. Revision could decide when specific knowledge is worth checking again using recall performance, recency, evidence confidence, topic importance, exam proximity and competing priorities.
+
+The desired experience is closer to “these are the seven things worth checking again today” than “open your flashcards”.
+
+### Guardrails / questions
+
+- scheduling should be deterministic/testable where practical;
+- self-rated flashcard evidence must not be treated as equivalent to stronger objective evidence;
+- resurfacing should not create endless task debt or repetitive busywork; and
+- the interaction should integrate with the wider adaptive plan rather than run a competing scheduler.
+
+### Promotion impact
+
+Review Product System Model, Adaptive Revision Planning, evidence/recency rules, learning UX and technical planner/retrieval documentation.
+
+---
+
+## FI-010 — Weakness-Driven Targeted Tests
+
+**Status:** Exploring  
+**Captured:** 2026-08-20  
+**Capability fit:** Guide; Practise and Test; Progress and Readiness  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** High fit if tests are curriculum-grounded and generated/selected from evidence rather than generic AI question generation
+
+### Opportunity
+
+Create a targeted practice test from the learner's current evidence gaps, weak topics, stale evidence or exam-readiness needs. Revision should be able to explain why each area was selected and use the resulting evidence to update future recommendations.
+
+### Guardrails / questions
+
+- question selection/generation must stay aligned to the correct specification and assessment expectations;
+- test composition must not overreact to one anomalous result;
+- generated questions require factual/assessment-quality assurance; and
+- the feature should complement the Exam Simulator rather than blur targeted practice with full-paper readiness.
+
+### Promotion impact
+
+Review assessment authority, content-generation assurance, Product System Model, REV role and technical question-selection architecture.
+
+---
+
+## FI-011 — Misconception Recovery / Wrong-Answer Mode
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Learn; Practise and Test; Guide  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Useful practice pattern; should solve misconceptions rather than merely repeat failed questions
+
+### Opportunity
+
+Give learners a focused way to revisit answers they previously got wrong or areas showing repeated misconception patterns. The mode should explain the issue, provide an appropriate retry or related question, and recognise improvement when later evidence supports it.
+
+### Guardrails / questions
+
+Avoid rote repetition of remembered answer choices, punitive “mistake lists”, and treating every isolated wrong answer as a persistent weakness.
+
+### Promotion impact
+
+Review practice UX, evidence recency/corroboration rules, REV explanation behaviour and question-bank requirements.
+
+---
+
+## FI-012 — Exam-Soon Focused Review Mode
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Guide; Prepare for the Exam; Progress and Readiness  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Potentially useful learner-facing mode, but must build on the existing capacity-constrained planner rather than create panic-driven “cramming” mechanics
+
+### Opportunity
+
+When an assessment is close, provide a deliberately focused review experience that concentrates limited remaining time on high-value retrieval, weak evidence and exam practice. It should use the planner's existing understanding of realistic capacity and explicitly acknowledge when not everything can be covered.
+
+### Guardrails / questions
+
+No countdown pressure, shame, all-night-study encouragement, false mark promises or simplistic “cover everything fast” behaviour.
+
+### Promotion impact
+
+Likely changes Adaptive Revision Planning, core journeys, REV behaviour, tone/experience guidance and planner UX.
+
+---
+
+## FI-013 — Past Paper and Mark Scheme Library
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Prepare for the Exam; Practise and Test  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Valuable exam-preparation breadth; provenance, permissions and integration with the evidence model matter more than raw document count
+
+### Opportunity
+
+Provide a searchable course/paper-aligned library of permitted past papers, mark schemes and related official assessment material, with routes into timed practice or supported review where licensing and source terms allow.
+
+### Guardrails / questions
+
+- use official/source-permitted material only;
+- preserve paper/version/year identity;
+- do not imply content ownership where Revision is linking to third-party official sources; and
+- decide which interactions can legitimately create readiness evidence.
+
+### Promotion impact
+
+Review content provenance/licensing, Course Content and Assessment Component Placement, exam-prep UX, storage/linking architecture and content assurance workflows.
+
+---
+
+## FI-014 — Selective Video and Audio Learning
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Learn  
+**Authority context:** Multiple learning formats, including video and audio where useful, are already anticipated by `Scope and Capability Taxonomy.md`.  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Useful format expansion, but not a strategy to compete on library size
+
+### Opportunity
+
+Introduce short video, animation, worked-example audio or podcast-style revision where the format materially improves understanding, accessibility or engagement. Content should remain specification-linked and capable of feeding naturally into retrieval/practice.
+
+### Guardrails / questions
+
+Prioritise concepts where visual/audio explanation adds value; avoid expensive long-form content production for its own sake; provide transcripts/captions and accessible alternatives.
+
+### Promotion impact
+
+Review content schema/Content Factory, accessibility standards, media hosting, content assurance and learning UX.
+
+---
+
+## FI-015 — Learner Uploads → Personal Study Materials
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Learn; Practise and Test  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Attractive convenience feature but weaker strategic fit and significant truth/provenance risk
+
+### Opportunity
+
+Allow a learner to upload or paste their own notes/materials and generate private study aids such as summaries, flashcards or practice questions.
+
+### Critical boundary
+
+Learner-provided material is **not authoritative curriculum truth**. Generated assets based on uploads must not silently alter specification coverage, mastery or readiness unless validated through appropriate evidence and grounded content.
+
+### Guardrails / questions
+
+Privacy, copyright, malicious/unsafe uploads, age-appropriate file handling, AI cost, factual-error detection and clear separation from governed Revision content all require design.
+
+### Promotion impact
+
+Would require product authority, privacy/data-retention rules, upload security standards, AI/content provenance rules and dedicated technical architecture.
+
+---
+
+## FI-016 — Offline / Downloadable Study
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Learn; Practise and Test; accessibility/convenience  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Useful convenience and resilience capability; low differentiation relative to core intelligent loop
+
+### Opportunity
+
+Support selected revision material or activities for low-connectivity/offline use, potentially through downloads or cached experiences.
+
+### Guardrails / questions
+
+Evidence synchronisation, stale content, entitlement enforcement, sensitive local data and cross-device conflict behaviour need explicit design.
+
+### Promotion impact
+
+Would affect architecture, security/privacy, content distribution, entitlement behaviour and offline assurance strategy.
+
+---
+
+## FI-017 — Native Mobile Applications
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Cross-cutting experience/distribution  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Potential later retention/distribution investment; not required to prove Revision's core proposition while responsive web can provide a strong mobile experience
+
+### Opportunity
+
+Consider native iOS/Android applications if evidence shows meaningful benefits in engagement, notifications, offline use, device capabilities, performance or acquisition that justify the additional platform cost.
+
+### Guardrails / questions
+
+Avoid creating three divergent product runtimes, inconsistent accessibility, duplicated release burden or app-only product behaviour without a clear strategic case.
+
+### Promotion impact
+
+Would require a material architecture decision/ADR, release/deployment changes, security/privacy review, mobile design authority and multi-platform assurance.
+
+---
+
+## FI-018 — Teacher / Classroom Tools
+
+**Status:** Parked  
+**Captured:** 2026-08-20  
+**Capability fit:** Potential future adjacent market/distribution  
+**Authority conflict:** Current first-release scope explicitly excludes teacher lesson planning and a general-purpose school LMS.  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Competitively relevant but intentionally parked until the direct-to-student personalised revision proposition is proven
+
+### Opportunity
+
+Competitors offer teacher test builders, assignments, class monitoring and progress tools. A later Revision teacher surface could potentially support learner coaching or distribution without becoming an LMS.
+
+### Boundary
+
+This item is captured for traceability, not as permission to enter classroom-management scope. Any future promotion must explicitly resolve the scope boundary and show how teacher value strengthens rather than dilutes the student system.
+
+### Promotion impact
+
+Would require Founder-approved change to product scope, target audience/journeys, privacy/safeguarding model, account/relationship model, commercial strategy and technical architecture.
+
+---
+
+## FI-019 — Predicted / Forecast Exam Practice
+
+**Status:** Idea  
+**Captured:** 2026-08-20  
+**Capability fit:** Prepare for the Exam  
+**Research:** `research/Competitor Feature Gap Analysis - 2026-08-20.md`  
+**Initial assessment:** Potentially attractive exam-season product, but high trust/claims risk and easy to over-market
+
+### Opportunity
+
+Explore forecast-style practice papers designed from specification coverage, known assessment structure and defensible topic/skill analysis. The educational value would need to come from realistic practice, not a promise that Revision can know the real paper in advance.
+
+### Guardrails / questions
+
+- never imply access to confidential exam content;
+- avoid presenting speculative topic predictions as certainty;
+- do not introduce a grade guarantee without a separate, exceptionally strong evidence and legal case;
+- clearly distinguish official past papers, Revision-authored mocks and forecast practice; and
+- evaluate whether this actually improves preparation versus stronger targeted/exam-simulator work.
+
+### Promotion impact
+
+Would require evidence/claims review, content and assessment governance, marketing claims approval, legal/trust review and clear learner-facing provenance.
