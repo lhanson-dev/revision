@@ -1,6 +1,6 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.5  
+**Status:** Draft authority candidate — v0.6  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.
 
 ## Journey principles
@@ -203,17 +203,37 @@ REV is one ongoing assistant relationship with context that changes as the learn
 
 The learner should not feel that they are starting a different tutor conversation at every level. Context should narrow naturally while the relationship remains continuous.
 
-## Journey 10 — Parent / payer support
+## Journey 10 — Parent / payer / supporter support
 
-Parent functionality is a separate experience from the student's everyday revision flow.
+Parent/supporter functionality is a separate experience from the student's everyday revision flow.
 
 Its purpose is reassurance and appropriate support, not surveillance.
 
-Where a valid linked parent/payer relationship funds a Paid or Premium learner subscription, FI-002 should provide a bounded parent/payer dashboard as part of the paid proposition.
+FI-002 distinguishes three roles: learner, billing customer/payer and linked supporter. A parent will commonly be both payer and linked supporter, but paying for the subscription does not by itself grant learner-data access.
 
-### Paid parent/payer journey
+Where a valid linked supporter relationship and the relevant Paid or Premium entitlement exist, FI-002 should provide a bounded parent/supporter dashboard as part of the paid proposition.
 
-A linked Paid parent/payer should be able to understand at a high level whether the learner is:
+### Learner-led linking journey
+
+The learner should be able to initiate a supporter relationship without exposing their account through public or unrestricted lookup.
+
+A typical path is:
+
+Learner account → Link a parent/supporter → secure invitation/link → adult signs in or creates an account → adult accepts relationship → subscription/payer step where relevant → supporter dashboard becomes available only when both relationship and entitlement requirements are satisfied.
+
+### Adult-led purchase/linking journey
+
+An adult should be able to begin from an appropriate commercial journey without automatically receiving learner information.
+
+A typical path is:
+
+Pricing/purchase journey → adult signs in or creates payer account → confirms they meet the approved adult-payer rule → chooses learner-linked purchase → secure learner invitation → learner accepts relationship → subscription entitlement becomes associated with learner → supporter dashboard becomes available only if the adult is also validly linked as supporter.
+
+The system must not infer that the payer has supporter permission simply because payment succeeded.
+
+### Paid parent/supporter journey
+
+A linked Paid parent/supporter should be able to understand at a high level whether the learner is:
 
 - engaging with Revision;
 - making progress overall;
@@ -227,9 +247,11 @@ The basic Paid journey should answer a simple parent question:
 
 A typical path is:
 
-Parent/payer sign in → subscription / learner link → parent dashboard → high-level engagement and progress → simple subject overview → any useful support prompt.
+Parent/supporter sign in → linked learner → parent dashboard → high-level engagement and progress → simple subject overview → any useful support prompt.
 
-### Premium parent/payer journey
+Billing/subscription management should be shown to the same adult only where that authenticated person is also the billing customer/payer.
+
+### Premium parent/supporter journey
 
 Premium may provide richer interpretation from the same approved parent-visible evidence boundary, including:
 
@@ -244,15 +266,17 @@ The Premium journey should answer a deeper support question:
 
 **Where are things improving, where may support help, and what can I usefully do without taking over?**
 
-### Parent visibility boundary
+### Learner transparency and parent visibility boundary
+
+A learner with an active linked supporter must be able to see who is linked and understand what that person can and cannot see.
 
 Detailed student conversations, individual answers, raw submitted work, private notes, detailed activity surveillance and safeguarding-sensitive information must not automatically become parent-visible because a subscription is paid or Premium.
 
 Paying more should buy better interpretation, synthesis and support guidance from the approved parent-visible data set, not progressively deeper access to private learner information.
 
-The learner must be able to understand what a linked parent/payer can see. Exact consent, relationship verification, age and legal mechanisms require the dedicated FI-002 trust/commercial design before implementation.
+The initial FI-002 product uses an 18+ billing-customer rule and should not collect learner date of birth solely to enable a subscription purchase. Exact payer verification, relationship verification, invitation expiry/recovery, unlinking safeguards and legal/consent mechanisms require the remaining FI-002 trust/commercial Definition-of-Ready work before implementation.
 
-This parent/payer journey is part of the FI-002 commercial MVP where a linked parent/payer relationship exists. It does not make a broader family-management product, multi-parent household system or teacher-style monitoring experience part of the initial scope.
+The first implementation should support one primary payer/supporter relationship per learner subscription. It does not make broader family-management, multi-parent household management or teacher-style monitoring part of the initial scope.
 
 ## Journey 11 — Teacher/class insight
 
@@ -275,6 +299,6 @@ The initial learner product should prioritise:
 7. global/contextual progress review; and
 8. exam preparation and Exam Simulator.
 
-FI-002 additionally includes the bounded Paid parent/payer dashboard needed to support the approved subscription proposition where a linked payer relationship exists. The parent experience must remain separate from the student's everyday flow and must not compromise the student-first product model.
+FI-002 additionally includes the bounded Paid parent/supporter dashboard and the learner/payer/supporter linking journeys required to support the approved subscription proposition. The parent/supporter experience must remain separate from the student's everyday flow and must not compromise the student-first product model.
 
 Teacher journeys should be developed later without compromising the student-first product model.
