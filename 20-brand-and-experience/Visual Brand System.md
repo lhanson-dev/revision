@@ -4,7 +4,7 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.6"
+version: "0.7"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-20"
@@ -37,13 +37,9 @@ The system therefore defines **what is fixed, what is bounded and what is free**
 
 ## Founder-confirmed visual foundations — 20 August 2026
 
-The following are now confirmed brand direction and replace the earlier indigo/lime exploration in this branch.
-
 ### Typeface
 
 **Manrope** is the approved primary Revision typeface for brand and product use.
-
-The exact production type scale, weights, line heights and channel-specific display sizes still require implementation definition, but new visual work should treat Manrope as the default family rather than continuing to explore unrelated typefaces.
 
 ### Core identity
 
@@ -56,7 +52,7 @@ REV's approved core identity is the **Living E**:
 - the three bars remain clear at small sizes; and
 - the same symbol adapts across app icon, mobile centre navigation, conversation presence and larger homepage treatments.
 
-The current approved REV state family is:
+The approved REV state family is:
 
 - **Resting** — calm and ready;
 - **Listening** — attentive and focused;
@@ -64,11 +60,11 @@ The current approved REV state family is:
 - **Responding** — generating a response; and
 - **Completed** — done and ready.
 
-Motion may be used to distinguish these states, but meaning must remain understandable without motion and reduced-motion preferences must be respected.
+Motion may distinguish these states, but meaning must remain understandable without motion and reduced-motion preferences must be respected.
 
 ### Calm Teal palette
 
-The approved core brand palette is:
+Approved core brand colours:
 
 - **Deep Teal Ink** — `#0F2F36`
 - **Primary Teal** — `#2BB6A3`
@@ -92,7 +88,7 @@ Approved supporting accents:
 - **Warm Sand** — `#F2E9D9`
 - **Mist** — `#E9EEF2`
 
-Approved functional colours:
+Approved functional source colours:
 
 - **Success** — `#3BAA7A`
 - **Warning** — `#DDAA3A`
@@ -100,6 +96,20 @@ Approved functional colours:
 - **Information** — `#4A8ECB`
 
 Functional colours carry stable semantic meaning. They must not be repurposed merely for decoration, and colour must not be the sole carrier of meaning.
+
+Approved stronger semantic foregrounds for normal text are:
+
+- **Success foreground** — `#2D7A5D`
+- **Warning foreground** — `#826C31`
+- **Error foreground** — `#AD504D`
+- **Information foreground** — `#3C72A2`
+
+Approved pale semantic surfaces are:
+
+- success — `#E7F5EF`
+- warning — `#FBF5E7`
+- error — `#FBECEB`
+- information — `#E9F1F9`
 
 ### Light theme tokens
 
@@ -127,9 +137,9 @@ Functional colours carry stable semantic meaning. They must not be repurposed me
 - inverse action surface — `#0F2F36`
 - inverse action text — `#FFFFFF`
 
-Primary Teal remains the confirmed branded action colour, but ordinary text/icons on that fill use Graphite Ink because white on Primary Teal does not meet the normal-text contrast target. White action text is reserved for tested darker fills such as Deep Teal Ink.
+Primary Teal remains the branded action colour, but ordinary text/icons on that fill use Graphite Ink. White action text is reserved for tested darker fills such as Deep Teal Ink.
 
-Light and dark modes are both first-class Revision experiences. Dark mode is not a separate brand; it is the same Calm Teal system translated into a darker surface hierarchy.
+Light and dark modes are first-class Revision experiences. Dark mode is not a separate brand; it is the same Calm Teal system translated into a darker surface hierarchy.
 
 ## Core visual idea
 
@@ -148,8 +158,6 @@ Revision should feel:
 The learner application should not resemble a dense adult SaaS dashboard, school LMS, children's game or sci-fi AI interface.
 
 ## Cross-channel expression profiles
-
-All channels share the same foundations but may use different levels of expression.
 
 ### Learner product
 
@@ -171,9 +179,59 @@ Higher expressive freedom within the approved identity. Recurring layouts and mo
 
 Motion may be more expressive than in-product motion, but the Living E, typography, palette and overall calm intelligence should remain recognisable.
 
+## Approved typography system
+
+Use a small role-based Manrope hierarchy rather than arbitrary local font sizes.
+
+| Role | Desktop | Mobile | Weight | Line height | Typical use |
+| --- | --- | --- | --- | --- | --- |
+| Display XL | 56px | 40px | 700 | 64 / 48 | Marketing hero / exceptional brand moment |
+| Display L | 44px | 34px | 700 | 52 / 42 | Learner Home greeting / major page statement |
+| H1 | 36px | 30px | 700 | 44 / 38 | Primary page title |
+| H2 | 28px | 26px | 700 | 36 / 34 | Major section heading |
+| H3 | 22px | 20px | 650/700 | 30 / 28 | Card group / working-area heading |
+| H4 | 18px | 18px | 650/700 | 26 | Compact heading |
+| Body L | 18px | 18px | 400/500 | 28 | Intro / explanation |
+| Body | 16px | 16px | 400/500 | 24 | Default learner/product copy |
+| Body S | 14px | 14px | 400/500 | 20 | Secondary UI / Admin density |
+| Label | 13px | 13px | 600 | 18 | Field label / compact control label |
+| Button | 15px | 15px | 600 | 20 | Button and prominent action label |
+| Caption | 12px | 12px | 500/600 | 16 | Metadata / timestamps / helper metadata |
+
+Learner body copy remains 16px minimum. Marketing may use the display roles more freely; Admin may use Body S where density helps, but inputs should remain 16px where practical. Avoid routine weights above 700.
+
+## Approved spacing, shape and depth
+
+Revision uses a **4px base rhythm** with the standard spacing set:
+
+`4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 / 80 / 96`
+
+Recommended page gutters are 16px mobile, 24px tablet and 32–40px desktop. Standard mobile/tablet/desktop section gaps are approximately 32 / 48 / 64px, with 64–96px allowed for marketing/hero breathing room.
+
+General product content should normally remain within **1200px**. Long-form reading should usually stay within **680–760px** and focused forms within **560–680px**.
+
+Approved radius families are:
+
+- **Compact** — 12px;
+- **Control** — 14px;
+- **Standard surface** — 20px;
+- **Feature surface** — 32px; and
+- **Pill/circle** — 999px / circular geometry.
+
+Variation must map to a named family rather than accidental one-off values.
+
+Approved elevation levels are:
+
+- **Flat** — border/whitespace, no shadow;
+- **Raised** — subtle local shadow for interactive/selected surfaces;
+- **Floating** — stronger separation for nav, menus and popovers; and
+- **Overlay** — modal/dialog depth only.
+
+In light mode, Raised may use approximately `0 2px 8px rgba(15,47,54,.06)`, Floating `0 10px 30px rgba(15,47,54,.10)` and Overlay `0 20px 50px rgba(15,47,54,.14)`. Dark mode should rely more on surface-tone steps and borders than black shadow.
+
 ## Homepage visual layout
 
-The Founder-confirmed homepage direction applies across mobile, tablet and desktop in both light and dark modes.
+The confirmed homepage direction applies across mobile, tablet and desktop in both light and dark modes.
 
 The structural hierarchy is:
 
@@ -184,13 +242,11 @@ The structural hierarchy is:
 5. "continue where you left off" or equivalent recent-context content beneath the first action layer; and
 6. progressively richer content through scrolling rather than a dense dashboard above the fold.
 
-The same hierarchy should scale rather than fundamentally change between mobile, tablet and desktop. Desktop gains space and horizontal composition; mobile preserves focus and touch clarity.
+The same hierarchy should scale rather than fundamentally change between mobile, tablet and desktop.
 
 ### Navigation authority note
 
-The supplied homepage artboards confirm visual layout but **do not override Information Architecture**.
-
-The governed global learner destinations remain:
+Concept artwork does **not** override Information Architecture. The governed global learner destinations remain:
 
 - Home
 - Plan
@@ -198,32 +254,11 @@ The governed global learner destinations remain:
 - Progress
 - Subjects
 
-Mobile keeps REV in the centre of the five-item bottom navigation using the Living E treatment. Desktop implementation must also preserve REV as a genuine global destination even where a concept artboard visually omits a separate REV text item.
-
-Account/profile and utilities remain secondary.
+Mobile keeps REV in the centre of the five-item bottom navigation using the Living E treatment. Desktop implementation must also preserve REV as a genuine global destination. Account/profile and utilities remain secondary.
 
 ## Brand reference and approval surface
 
-Revision must maintain a single visual reference surface, currently called **Brand Studio**, where authorised contributors can see approved examples rather than infer them from prose.
-
-The reference surface should show at minimum:
-
-- identity and lock-ups;
-- colour and semantic roles;
-- typography hierarchy;
-- spacing, radius and elevation families;
-- buttons and interaction states;
-- complete form states;
-- cards and surface families;
-- navigation and tabs;
-- icon and illustration treatments;
-- REV states and motion examples;
-- learner-app examples;
-- marketing-site examples;
-- Admin examples;
-- social-media treatments;
-- video/motion frames and templates; and
-- reusable source assets and exports.
+Revision maintains a visual reference surface, currently called **Brand Studio**, where authorised contributors can see approved examples rather than infer them from prose.
 
 Every pattern or asset should carry one of these statuses:
 
@@ -235,46 +270,51 @@ Every pattern or asset should carry one of these statuses:
 
 A rendered example does not become policy merely because it appears in Brand Studio. Material additions to recurring brand grammar require the normal governed approval path.
 
-## Shape, spacing and depth
+## Approved controls and forms
 
-Revision should have a recognisable spatial and shape grammar without forcing one radius or card treatment everywhere.
+### Control sizing
 
-The confirmed system still needs final approved families for:
+- compact — 36px, Admin/secondary use only;
+- standard — 44px;
+- large — 52px for major learner/marketing actions;
+- icon button — 44×44px default touch target;
+- standard form field — 48px.
 
-- spacing rhythm;
-- control radii;
-- compact, standard and feature surface radii;
-- pill/circular treatments;
-- border strength;
-- elevation/shadow levels;
-- responsive gutters; and
-- content widths.
+Learner interactions should normally be 44px or larger. No essential interaction may depend on hover.
 
-Variation should map to named families. Accidental one-off values should be avoided.
+### Button family
 
-## Components and interaction primitives
+**Primary:** Primary Teal `#2BB6A3` with Graphite Ink `#132026`, 14px radius, 44px standard or 52px major CTA.
 
-Reusable interaction primitives should offer controlled variants rather than each screen inventing a separate language.
+**Strong / inverse primary:** Deep Teal Ink `#0F2F36` with white text.
 
-The system must define at least:
+**Secondary:** white/Soft Surface Tint in light mode or elevated dark surface in dark mode, with a visible border and primary text colour.
 
-- primary, secondary, tertiary and destructive actions;
-- icon buttons;
-- text inputs, textareas and selects;
-- check/radio/toggle controls;
-- default, hover, focus, pressed, disabled and loading states;
-- validation, success, warning and error states;
-- tabs and segmented controls;
-- chips/badges;
-- navigation controls;
-- drawers/modals; and
-- progress/status indicators.
+**Tertiary:** no permanent container; use primary/deep-teal text with a teal icon, underline or accent where useful. Do not use Primary Teal as ordinary small text on white as the sole contrast signal.
 
-Primary Teal is the default branded interaction colour. Functional status colours remain semantic rather than decorative.
+**Destructive:** use Error colour as border/icon/fill accent while ensuring text uses an accessible error foreground or primary text.
+
+All actions require visible hover where relevant, pressed, focus, disabled and loading states. Disabled content must remain readable; loading should preserve label context where possible and avoid width jumps.
+
+### Form anatomy
+
+- visible label above the field; placeholder-only labelling is not allowed;
+- 48px standard field height;
+- 14px radius;
+- 16px input text;
+- helper text at Body S / 14px;
+- focus ring that remains obvious without glow alone;
+- filled fields stay visually close to default;
+- error/warning/success use icon + text + colour rather than colour alone;
+- routine valid fields do not need green confirmation;
+- disabled and read-only are visually and behaviourally distinct; and
+- recoverable validation/server errors must not wipe user-entered values.
+
+Checkbox/radio controls use approximately 20–22px visuals inside a larger hit area. Toggles and chips require position/label or another non-colour state cue.
 
 ## Surface families and creative flexibility
 
-Cards and boxes must not collapse into one universal component. Revision should maintain a family of approved surface types such as:
+Cards and boxes must not collapse into one universal component. Revision should maintain named surface families. The detailed family definitions remain under Brand Studio confirmation; until promoted, the following labels describe intended jobs rather than exact implementation:
 
 - standard surface;
 - quiet/supporting surface;
@@ -353,19 +393,14 @@ At minimum:
 
 ## Still to define
 
-The Founder-confirmed foundations substantially narrow the remaining Brand Studio work. The next items to define are:
-
 1. production logo/REV asset masters, lock-ups, clear-space and minimum-size rules;
-2. exact Manrope type scale, weights, line heights and responsive sizing;
-3. spacing, radius, border and elevation families;
-4. complete control and form anatomy/states;
-5. card/surface family examples and usage rules;
-6. iconography and illustration/graphic-language rules;
-7. subject-accent mapping, if subject colours are used;
-8. data-visualisation treatment;
-9. marketing, Admin, social and video format families;
-10. REV motion timing/easing and reduced-motion states; and
-11. canonical asset naming, export and source/licensing rules.
+2. card/surface family examples and usage rules;
+3. iconography and illustration/graphic-language rules;
+4. subject-accent mapping, if subject colours are used;
+5. data-visualisation treatment;
+6. marketing, Admin, social and video format families;
+7. REV motion timing/easing and reduced-motion states; and
+8. canonical asset naming, export and source/licensing rules.
 
 ## Approval and evolution
 
