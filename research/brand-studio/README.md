@@ -15,6 +15,8 @@ The Brand Studio should help answer two questions:
 
 ## Current boards
 
+Open this README on GitHub and the SVG boards below render directly in the page.
+
 ### Foundations and primitives — v0.1
 
 ![Brand Studio visual confirmation v0.1](brand-studio-visual-confirmation-v0.1.svg)
