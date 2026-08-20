@@ -38,6 +38,7 @@ Use this file to find the governing source before substantive work.
 - Product system model → `10-product-governance/Product System Model.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
+- Subscription tiers / entitlement policy / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
