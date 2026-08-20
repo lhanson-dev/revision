@@ -1,7 +1,7 @@
 # Brand Studio v0.5 — channels, REV motion and production assets
 
-**Status:** Experimental proposal for Founder confirmation  
-**Authority:** None until deliberately promoted into `20-brand-and-experience/Visual Brand System.md`  
+**Status:** Founder-approved direction; promoted into `20-brand-and-experience/Visual Brand System.md` v0.9  
+**Proposal date:** 20 August 2026  
 **Approved foundation:** Manrope, Calm Teal, Living E, light/dark themes, v0.3 foundations/controls/forms and v0.4 surfaces/icons/subject/data rules
 
 ## Purpose
@@ -19,6 +19,10 @@ This tranche covers:
 7. production asset/export governance.
 
 It does **not** claim that concept-board artwork is a production master logo or motion asset. Canonical vector/editable masters are still required before implementation is complete.
+
+## Founder decision
+
+The Founder explicitly approved the v0.5 direction on 20 August 2026. The recurring rules below are now represented normatively in Brand System v0.9 on PR #75. This research file remains the detailed proposal/design reference rather than becoming a second source of authority.
 
 ---
 
@@ -386,17 +390,6 @@ Each canonical asset entry should record:
 - licensing/source information for third-party materials; and
 - replacement/deprecation relationship where applicable.
 
-## Founder confirmation requested
+## Promotion note
 
-Approve or adjust the following as the v0.5 direction:
-
-1. the seven marketing/editorial pattern families;
-2. the Admin shell/table/filter/status/destructive pattern rules;
-3. the five social format families and canonical canvas sizes;
-4. the video opening/title/lower-third/caption/demo/end-card/transition system;
-5. the REV timing/behaviour model and reduced-motion equivalents;
-6. simplified email/lifecycle expression;
-7. the production identity asset package requirements; and
-8. canonical asset naming/export/lifecycle rules.
-
-Approval would complete the major **brand-grammar definition**. It would not pretend the required vector/motion masters already exist, and it would not approve production implementation of the styling refactor.
+The approval of this direction completes the major **brand-grammar definition**. It does not pretend the required vector/motion masters already exist and does not approve production implementation of the styling refactor. The normative rules are maintained in the Brand System; this document remains detailed research/design evidence.
