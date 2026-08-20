@@ -1,6 +1,6 @@
 # Product KPI Framework
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Owner:** Product / Business Operations  
 **Purpose:** Define how Revision measures whether product capabilities create meaningful student and business value, and how those measures should be surfaced for Founder assurance.
 
@@ -15,7 +15,7 @@ A material feature should normally define measures across four layers:
 3. **Student outcome / product value** — is there evidence that the capability improves the student's revision experience, learning behaviour, confidence, coverage, understanding or exam readiness?
 4. **Product / business value** — does the capability strengthen retention, differentiation, conversion, sustainable usage or other agreed strategic outcomes without compromising educational quality?
 
-Metrics should be defined before or alongside implementation so the required events and data are designed into the feature rather than retrofitted later.
+Metrics should be defined before implementation so the required events and data are designed into the feature rather than retrofitted later. For material features this measurement contract forms part of the governed Definition of Ready in `80-company-workflows/Feature Definition and Measurement Workflow.md`.
 
 ## Evidence hierarchy
 
@@ -89,6 +89,31 @@ For every material product feature, product definition should identify where rel
 
 Not every feature requires every metric class. Measures should be proportionate to the feature and chosen because they inform a decision, not because they are easy to count.
 
+## Tiered feature and conversion measurement
+
+Where a feature is differentiated across **Free, Paid and Premium**, the measurement contract should test whether the value ladder works without damaging the free experience.
+
+Where relevant, distinguish:
+
+`eligible user → higher-tier value exposed → upgrade intent → proposition viewed → conversion → unlocked benefit used → retained`
+
+Useful measures may include:
+
+- exposure rate to discoverable higher-tier value;
+- interaction/intent rate at a contextual tier boundary;
+- plan comparison or checkout progression;
+- conversion attributed or associated with the feature where defensibly measurable;
+- first use and repeat use of the newly unlocked benefit;
+- retained use after upgrade;
+- Free engagement/retention before and after packaging changes;
+- abandonment or frustration signals around entitlement boundaries;
+- upgrade prompt frequency and dismissal rate;
+- support complaints or trust issues caused by packaging;
+- feature-level cost-to-serve by tier where material; and
+- downgrade/churn patterns associated with perceived feature value.
+
+Conversion is not a sufficient success measure on its own. A packaging change that increases upgrade conversion while materially degrading student value, trust, accessibility, Free retention or educational quality is not automatically a successful product change.
+
 ## Admin / Founder assurance
 
 Admin should progressively provide a Founder-facing view that answers:
@@ -98,6 +123,7 @@ Admin should progressively provide a Founder-facing view that answers:
 - Are educational and subjective outcomes moving in the desired direction?
 - Are there material differences between activity and actual learning evidence?
 - Are confidence and evidence-backed readiness becoming better aligned?
+- Are tiered features creating healthy upgrade desire without damaging the Free experience?
 - Are there significant drop-offs, pathological usage patterns or operational failures?
 - What requires product or operational attention?
 
