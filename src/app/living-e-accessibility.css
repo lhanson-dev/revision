@@ -1,0 +1,43 @@
+.planner-runtime {
+  --teal-text: #0f5d54;
+}
+
+.planner-runtime[data-theme="dark"] {
+  --teal-text: #74d9ca;
+}
+
+/* Primary Teal remains the visual/action colour; text accents use a darker/lighter
+   companion so WCAG contrast is not sacrificed to brand colour. */
+.planner-runtime .eyebrow,
+.planner-runtime .runtime-desktop-nav button.active,
+.planner-runtime .runtime-desktop-nav .runtime-rev-link,
+.planner-runtime .account-avatar,
+.planner-runtime .living-home-support-header .eyebrow,
+.planner-runtime .living-home-guidance-actions button,
+.planner-runtime .text-link,
+.planner-runtime .runtime-bottom-nav button.active {
+  color: var(--teal-text);
+}
+
+/* Active navigation and tabs need paired surface/text treatments, not Primary Teal
+   used as both the brand surface and a low-contrast text accent. */
+.planner-runtime .course-nav button.active,
+.planner-runtime .mode-tabs button.active,
+.planner-runtime [role="tab"].active {
+  background: #0f2f36;
+  color: #ffffff;
+}
+
+.planner-runtime[data-theme="dark"] .course-nav button.active,
+.planner-runtime[data-theme="dark"] .mode-tabs button.active,
+.planner-runtime[data-theme="dark"] [role="tab"].active {
+  background: #2bb6a3;
+  color: #0f2f36;
+}
+
+/* Legacy subject/course tags inherited the former indigo text token. Keep the
+   Calm Teal surface treatment but use normal high-contrast text. */
+.planner-runtime .tag {
+  background: var(--surface-soft);
+  color: var(--ink);
+}

@@ -36,7 +36,7 @@ test.describe('database-backed learner persistence', () => {
     await page.getByLabel('Email').fill(email)
     await page.getByLabel('Password').fill(password)
     await page.getByRole('button', { name: 'Sign in' }).click()
-    await expect(page.getByRole('heading', { name: /Hi,/ })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Hey .*what shall we do today\?/ })).toBeVisible()
 
     const primaryNavName = (page.viewportSize()?.width ?? 0) <= 960 ? 'Mobile navigation' : 'Primary navigation'
     await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()

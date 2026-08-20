@@ -1,16 +1,19 @@
 # Brand and Experience
 
-This folder contains Revision's approved authority for how the learner experience should feel, communicate and behave.
+This folder contains normative authority for Revision's learner experience, language and visual brand system.
 
-## Current authority
+## Active sources
 
-- `Product UX Principles.md` — learner UX, explanation, responsive design, accessibility and interaction principles.
-- `Tone of Voice Framework.md` — learner-facing language rules.
-- `Emotional Experience Principles.md` — emotional goals, motivation, coaching response and age-appropriate experience stance.
-- `Visual Brand System.md` — visual identity, REV presence, colour direction, responsive navigation, hierarchy and motion rules.
+- `Product UX Principles.md` — learner experience and accessibility principles.
+- `Tone of Voice Framework.md` — learner-facing language and interaction tone.
+- `Visual Brand System.md` — company-wide visual identity and cross-channel Brand System covering learner product, marketing/editorial, Admin, social, video/motion, email, REV visual/motion treatment and reusable brand assets.
 
-## Future authority
+## Candidate / supporting authority
 
-More detailed accessibility implementation standards, channel-specific visual application standards and tested component-level design guidance may be added as the product matures.
+- `Emotional Experience Principles.md` — desired emotional state and motivational principles; currently a draft authority candidate.
 
-**Migration status:** core experience and v0.1 visual authority are established. Current CSS/UI remains implementation evidence and must conform to these authorities rather than redefining them.
+## Knowledge rule
+
+The numbered authority folder contains normative truth about what Revision should do. Visual explorations and boards in `research/brand-studio/` are evidence/reference only until deliberately promoted into `Visual Brand System.md` through the governed approval path.
+
+Implementation evidence lives in code and `docs/technical/`; it does not override this authority.

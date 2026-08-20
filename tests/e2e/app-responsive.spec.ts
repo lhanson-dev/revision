@@ -81,8 +81,9 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
-  await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What matters today?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByLabel('Ask REV anything')).toBeVisible()
+  await expect(page.locator('.rev-presence-hero')).toHaveCount(1)
   await expect(page.getByText(/Tell me roughly how much revision time is realistically available/)).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
@@ -98,10 +99,10 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   if (viewportWidth <= 960) {
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
     await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
-    await expect(primaryNav.locator('.mini-orb')).toHaveCount(1)
+    await expect(primaryNav.locator('.rev-presence-nav')).toHaveCount(1)
   } else {
-    await expect(primaryNav.getByRole('button', { name: /Plan/ })).toHaveCSS('color', 'rgb(16, 20, 63)')
-    await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveCSS('color', 'rgb(51, 73, 244)')
+    await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveClass(/active/)
+    await expect(page.getByRole('button', { name: /Switch to (dark|light) mode/ })).toBeVisible()
   }
 
   await primaryNav.getByRole('button', { name: /Plan/ }).click()
@@ -114,6 +115,7 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
   await expect(page.getByLabel('Talk to REV about your plan')).toBeVisible()
+  await expect(page.locator('.rev-presence-conversation')).toHaveCount(1)
   await expectNoPageOverflow(page)
 
   await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()
@@ -186,7 +188,7 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
 test('database admin access stays secondary while protected Admin remains reachable', async ({ page }) => {
   await seedSyntheticSession(page, { isAdmin: true })
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hi, Synthetic/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
   const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'

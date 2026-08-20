@@ -22,11 +22,14 @@ import { PlannerAdminScreen } from './PlannerAdminScreen'
 import { PlannerHomeScreen } from './PlannerHomeScreen'
 import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
+import { RevPresence } from './RevPresence'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const planSubjects = catalogue.map((subject) => ({ id: subject.id, name: subject.name }))
+const themeStorageKey = 'revision:theme'
 
 type NavIconName = 'home' | 'plan' | 'progress' | 'subjects'
+type ThemeName = 'light' | 'dark'
 
 function NavIcon({ name }: { name: NavIconName }) {
   const commonProps = {
@@ -74,6 +77,22 @@ function NavIcon({ name }: { name: NavIconName }) {
   )
 }
 
+function RevWordmark() {
+  return (
+    <span className="rev-wordmark" aria-hidden="true">
+      <span>R</span>
+      <span className="rev-wordmark-e"><i></i><i></i><i></i></span>
+      <span>V</span>
+    </span>
+  )
+}
+
+function initialTheme(): ThemeName {
+  const saved = window.localStorage.getItem(themeStorageKey)
+  if (saved === 'light' || saved === 'dark') return saved
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
 function learnerName(user: User) {
   const metadata = user.user_metadata ?? {}
   const explicit = metadata.first_name ?? metadata.given_name ?? metadata.name
@@ -94,6 +113,7 @@ export function PlannerRuntime() {
   const [route, setRoute] = useState<AppRoute>(() => parseRoute(window.location.hash))
   const [menuOpen, setMenuOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
 
   useEffect(() => {
     let active = true
@@ -132,6 +152,11 @@ export function PlannerRuntime() {
     return () => { active = false }
   }, [user])
 
+  useEffect(() => {
+    window.localStorage.setItem(themeStorageKey, theme)
+    document.documentElement.dataset.revisionTheme = theme
+  }, [theme])
+
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const subjectsActive = routeBelongsToSubjects(route)
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
@@ -144,6 +169,10 @@ export function PlannerRuntime() {
   function openPlannerAdmin() {
     setMenuOpen(false)
     window.location.hash = '#/admin/planner'
+  }
+
+  function toggleTheme() {
+    setTheme((current) => current === 'light' ? 'dark' : 'light')
   }
 
   async function signOut() {
@@ -177,20 +206,23 @@ export function PlannerRuntime() {
   }
 
   return (
-    <div className="planner-runtime">
+    <div className="planner-runtime" data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
       <header className="topbar desktop-topbar runtime-topbar">
-        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button>
+        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
         <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{navigation}</nav>
-        <button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}>
-          <span className="account-avatar">{learner.charAt(0).toUpperCase()}</span>
-          <span><strong>{learner}</strong><small>Account</small></span>
-          <span aria-hidden="true">⌄</span>
-        </button>
+        <div className="runtime-utilities">
+          <button className="theme-toggle desktop-theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>{theme === 'light' ? 'Dark mode' : 'Light mode'}</button>
+          <button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}>
+            <span className="account-avatar">{learner.charAt(0).toUpperCase()}</span>
+            <span><strong>{learner}</strong><small>Account</small></span>
+            <span aria-hidden="true">⌄</span>
+          </button>
+        </div>
       </header>
 
       <header className="mobile-topbar runtime-mobile-topbar">
-        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="Revision home">Revision<span aria-hidden="true">✦</span></button>
+        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
         <button className="burger-button" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
       </header>
 
@@ -199,7 +231,7 @@ export function PlannerRuntime() {
       <nav className="bottom-nav runtime-bottom-nav" aria-label="Mobile navigation">
         <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
         <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
-        <button className={`runtime-rev-button ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())} aria-label="Open REV"><span className="mini-orb" aria-hidden="true"></span><span>REV</span></button>
+        <button className={`runtime-rev-button ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())} aria-label="Open REV"><RevPresence size="nav" state="resting" decorative /><span>REV</span></button>
         <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
         <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
       </nav>
@@ -217,6 +249,7 @@ export function PlannerRuntime() {
               {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
               {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
             </nav>
+            <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>
             <button className="signout-button" onClick={signOut}>Sign out</button>
           </aside>
         </>
