@@ -2,7 +2,7 @@
 
 This directory contains canonical production-source brand assets and their metadata.
 
-Normative visual rules remain in `20-brand-and-experience/Visual Brand System.md`. Files here implement those approved rules; they do not create new brand authority by themselves.
+Normative visual rules live in `20-brand-and-experience/Visual Brand System.md` and the specialised `20-brand-and-experience/Identity Asset Usage Rules.md`. Files here implement those approved rules; they do not create new brand authority by themselves.
 
 ## Directory model
 
@@ -22,14 +22,15 @@ Do not add `final`, `v7`, dates or similar pseudo-versioning to ordinary product
 
 ## Current package boundary
 
-The production-readiness package now contains canonical portable vector sources for:
+The production-readiness package contains canonical portable vector sources for:
 
-- the REV / Living E identity; and
-- the primary full Revision wordmark supplied by the Founder.
+- the REV / Living E identity;
+- the primary full Revision wordmark supplied by the Founder; and
+- the primary 1024×1024 Revision app-icon framing.
 
-The full wordmark package contains light, dark and monochrome variants. The supplied artwork is path-based SVG with no embedded raster or live-font dependency. The light treatment uses Graphite Ink `#132026` plus Primary Teal `#2BB6A3`; the dark treatment uses white plus Primary Teal.
+It also contains a canonical favicon SVG with 32×32 and 16×16 raster fallbacks.
 
-Final app-icon framing, favicon exports and editable social/video masters remain explicit readiness items in `docs/technical/Brand System Production Readiness.md`.
+Editable social/video masters remain later cross-channel production work. Runtime consumption of these assets remains a separate governed implementation change.
 
 ## Revision wordmark source rule
 
@@ -44,6 +45,12 @@ Derived exports are:
 
 The source master retains the approved 1600×400 working size and transparent background. Production use should scale the SVG proportionally; do not rasterise it merely to change display size.
 
+Identity usage is governed by `20-brand-and-experience/Identity Asset Usage Rules.md`, including:
+
+- 2x wordmark clear space, where x is one teal E-bar height;
+- 160px digital / 35mm print full-wordmark minimum size; and
+- use of compact REV/Living E below that threshold rather than compressing the full wordmark.
+
 ## Living E source rule
 
 `source/revision-rev-living-e-master.svg` is the canonical portable vector master for the three-bar Living E with soft halo.
@@ -54,6 +61,32 @@ The existing learner runtime currently constructs the same identity as inline SV
 - a current runtime construction for interactive motion/state behaviour.
 
 They must remain visually aligned.
+
+For standalone use outside a control/app-icon safe area, the Living E keeps 1e clear space outside the outer halo, where e is one bar height in the canonical master.
+
+## App icon source rule
+
+`source/revision-app-icon-master.svg` is the canonical 1024×1024 primary app-icon master.
+
+It uses:
+
+- full-bleed Deep Teal Ink `#0F2F36`;
+- the canonical Living E centred within a 760×760 identity frame;
+- no baked outer corner radius;
+- no wordmark or text; and
+- a central 66% essential-content safe region for platform masking.
+
+Do not redraw individual platform sizes. Generate platform-specific exports from the canonical master and preserve the Living E geometry.
+
+## Favicon rule
+
+The browser/favicon package is:
+
+- `exports/revision-favicon.svg`
+- `exports/revision-favicon-32.png`
+- `exports/revision-favicon-16.png`
+
+At these small sizes, use the three centred Primary Teal bars on full-bleed Deep Teal. The halo is intentionally omitted from the 16×16 and 32×32 treatment so recognition is not lost to blur/detail.
 
 ## Static states and reduced motion
 
