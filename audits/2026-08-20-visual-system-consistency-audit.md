@@ -214,6 +214,18 @@ Every pattern/asset should carry a status and usage recommendation:
 
 Where useful, it should show **use when**, **avoid when**, applicable channels, accessibility notes and canonical implementation/asset references.
 
+## Brand Studio visual confirmation v0.1
+
+The first rendered confirmation set now exists under `research/brand-studio/` and is intentionally non-authoritative:
+
+- `brand-studio-visual-confirmation-v0.1.svg` — foundations, palette, semantic-role proposal, typography direction, radii/primitives and surface families;
+- `brand-studio-channel-expressions-v0.1.svg` — representative learner, marketing, Admin, social and video expressions using the same shared brand DNA; and
+- `README.md` — recommendation status, explicit non-approvals and confirmation queue.
+
+A separate dated audit record at `audits/2026-08-20-brand-studio-visual-confirmation-v0.1.md` records the evidence basis and decisions requiring Founder feedback.
+
+The boards reuse approved/current implementation evidence wherever possible and visibly mark material extensions as proposed or Experimental. They do not promote a treatment merely because it renders well.
+
 ## Technical recommendation for the Brand Studio
 
 Do **not** add a heavyweight design-system platform merely to create the gallery.
