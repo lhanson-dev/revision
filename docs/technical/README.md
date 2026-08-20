@@ -1,19 +1,29 @@
 # Technical Documentation
 
-This area describes **how Revision currently works**. It does not define what the product should be.
+This area describes **how Revision currently works** and how approved authority is implemented. It does not define what the product should be.
 
 ## Current implementation snapshot
-- Static HTML/CSS/JavaScript repository.
-- GitHub Pages publishes from `main` / repository root.
-- Root application provides email/password authentication and a REV-led signed-in Home experience.
-- Desktop Home uses persistent top navigation; mobile Home uses a burger menu plus fixed bottom navigation.
-- Home reads saved Business Paper 2 progress and can produce a deterministic evidence-based REV recommendation without an AI-model call.
-- Supabase is used for authentication and cloud progress persistence.
-- Current content hierarchy is implemented under `subjects/`.
-- First live module is AQA AS Business Paper 2.
-- Module code includes recall, testing, progress/readiness logic, data practice and full exam simulation.
-- `REV Homepage Shell Implementation.md` describes the current Home/REV implementation and its known v0.1 boundary.
 
-Detailed architecture, auth/data flow, content model, routing, deployment and testing documentation should continue to evolve as migration continues.
+- The governed learner product is the React/Vite application at `/revision/app/`.
+- Canonical signed-in runtime: `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`.
+- GitHub Pages deploys the built Vite `dist/` artifact from approved `main`.
+- Global learner navigation is Home / Plan / REV / Progress / Subjects.
+- Home is REV-led and conversation-first while the deterministic adaptive planner remains the authority for planning calculations.
+- Supabase provides authentication, learner persistence and protected operational services.
+- Learning content is discovered from governed typed content packs and presented through the course/component hierarchy described in the relevant implementation docs.
+- Evidence, readiness and planning remain separate concepts in both engine and presentation.
+- The approved Calm Teal / Manrope / Living E system is partially implemented in the learner runtime, with further token/component migration still required.
 
-Where this document conflicts with code about **current implementation**, inspect the code and update this documentation. Neither code nor this document may silently redefine approved product authority.
+## Key implementation documents
+
+- `REV Homepage Shell Implementation.md` — canonical learner shell, routing, hierarchy and REV/evidence presentation.
+- `REV Living E Implementation.md` — current Calm Teal, Manrope, Living E, theme and REV-state implementation.
+- `Brand System Production Readiness.md` — canonical brand-asset readiness, implementation gaps and migration sequencing.
+- `Adaptive Revision Planner Implementation.md` — current adaptive planner implementation.
+- `Authentication Implementation.md` — authentication implementation.
+- `Content Factory Architecture.md` and related Content Factory docs — content-production implementation.
+- `Production Backend Readiness Gate.md` — production backend readiness controls.
+- `Risk-Based Assurance Plan Implementation.md` — change-driven assurance implementation.
+- `Target System Architecture.md` and `Technology Stack.md` — current/target architecture and approved technical stack.
+
+When this documentation conflicts with code about **current implementation**, inspect the code and correct the documentation. Neither code nor technical documentation may silently redefine approved product or brand authority.
