@@ -1,26 +1,115 @@
 ---
-title: "Visual Brand System"
+title: "Revision Brand System"
 document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.4"
+version: "0.5"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-19"
+last_reviewed: "2026-08-20"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
-source_of_truth_for: ["visual identity", "learner application visual system", "REV visual presence", "responsive navigation treatment"]
-depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture"]
+source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "brand assets", "REV visual presence", "responsive navigation treatment"]
+depends_on: ["Product UX Principles", "Emotional Experience Principles", "Tone of Voice Framework", "Information Architecture", "Core Product Messaging"]
 supersedes: null
 ---
-# Visual Brand System
+# Revision Brand System
 
 ## Purpose
 
-Define the initial visual language for the Revision learner application.
+Define Revision's canonical brand-guidelines and visual-expression system across every owned product, channel and asset.
 
-This system translates Revision's approved product and experience principles into a recognisable interface for 15–18-year-old learners. It is intentionally an early system: strong enough to govern current implementation while remaining open to refinement through learner testing.
+Revision should feel unmistakably like one brand whether someone encounters it in the learner application, marketing site, Admin, social media, video, campaign creative, email, presentation or another approved asset. Consistency must come from shared foundations and recognisable brand grammar, not from forcing every surface to use the same layouts or card designs.
+
+This document governs visual identity and visual expression. Learner language remains governed by the Tone of Voice Framework, product UX by Product UX Principles, and marketing messages/claims by the relevant marketing and evidence authorities. The Brand System should make those authorities easy to discover and apply without duplicating or weakening them.
+
+## Brand-system model
+
+Revision uses four levels of visual control:
+
+1. **Brand foundations — tightly controlled.** Identity, core palette, typography, spacing rhythm, radius/elevation families, icon language, accessibility, focus treatment and core motion principles.
+2. **Primitives — controlled variants.** Buttons, fields, selectors, tabs, chips, navigation, status treatments and other recurring interaction patterns.
+3. **Surface families — flexible within rules.** Cards, panels, editorial blocks, recommendations, REV surfaces, exam/performance surfaces and channel-specific content modules.
+4. **Composition and art direction — deliberately creative.** Page layouts, campaign compositions, social posts, video scenes, feature moments and other expressive arrangements may vary substantially while using the shared foundations.
+
+The system therefore defines **what is fixed, what is bounded and what is free**. It must not become a rigid component library that makes every Revision surface look identical.
+
+## Cross-channel scope
+
+The Brand System applies to:
+
+- learner application and authenticated learner journeys;
+- public marketing/editorial website;
+- Admin, operations and internal product tooling;
+- email and lifecycle visual treatment;
+- social-media posts, stories, covers, thumbnails and campaign assets;
+- video, animation, motion graphics, captions, titles, lower thirds and end cards;
+- product screenshots and device mock-ups;
+- illustrations, icons and data visualisation treatment;
+- presentations, reports and other outward-facing company assets; and
+- future owned channels unless another Founder-approved authority explicitly supersedes this system for a defined purpose.
+
+Marketing governance still owns channel strategy, conversion, campaign, SEO and publishing rules. The Brand System owns the visual language used to express Revision within those channels.
+
+## One brand, different expression profiles
+
+All channels share the same brand foundations but may use different levels of visual expression.
+
+### Learner product
+
+Energetic, calm, intelligent and focused. Interaction clarity and learning usability dominate. REV may be expressive, but ordinary learning surfaces should never become visually noisy.
+
+### Marketing and editorial
+
+More expressive and story-led than the learner application. Larger typography, illustration, motion, photography or unusual composition may be used where approved, provided the work remains recognisably Revision and does not undermine claims, accessibility or trust.
+
+### Admin and operations
+
+More functional and restrained. Density may be higher where the job requires it, but typography, colour roles, controls, statuses and basic surface grammar should still belong to Revision rather than becoming an unrelated internal tool.
+
+### Social media and campaigns
+
+High expressive freedom within the approved identity. Formats may adapt to the platform, but recurring treatment should build recognition rather than invent a new campaign identity for every post.
+
+### Video and motion assets
+
+Movement may be more expressive than in-product motion, but the same identity, typography, colour, icon/illustration language and REV treatment should remain recognisable. Captions and essential information must remain accessible.
+
+## Brand reference and approval surface
+
+Revision must maintain a single visual reference surface where the Founder and authorised contributors can **see the system rather than infer it from prose**.
+
+The reference surface should present approved real examples of:
+
+- logos and lock-ups;
+- colours and semantic roles;
+- typography hierarchy;
+- spacing, radius and elevation families;
+- buttons and interaction states;
+- complete form states;
+- cards and surface families;
+- navigation and tabs;
+- icons and illustration treatments;
+- REV states and motion examples;
+- learner-app examples;
+- marketing-site examples;
+- Admin examples;
+- social-media treatments;
+- video/motion frames and templates; and
+- approved reusable assets/templates.
+
+Each pattern or asset should state its status and intended use. The preferred vocabulary is:
+
+- **Recommended** — default choice for the stated job;
+- **Alternative** — approved when the stated context justifies it;
+- **Experimental** — may be explored but is not yet approved as standard brand grammar;
+- **Deprecated** — retained for transition/history but should not be used for new work; and
+- **Do not use** — explicitly rejected or non-compliant treatment.
+
+Where useful, entries should also show **use when**, **avoid when**, applicable channels, accessibility considerations and the canonical implementation/asset reference.
+
+The reference surface is a rendered implementation of this authority; it does not silently become policy merely because a new example is added. Material additions to approved brand grammar require the normal governed approval path.
 
 ## Core visual idea — focused energy
 
@@ -33,19 +122,11 @@ Revision should feel:
 - educationally credible without looking like a school portal; and
 - distinctive without becoming gimmicky.
 
-The interface should not resemble a dense adult SaaS dashboard, school learning-management system or children's game.
+The learner experience should not resemble a dense adult SaaS dashboard, school learning-management system or children's game. Marketing may be more editorial and expressive, while Admin may be denser and quieter, but both must retain the same core identity.
 
-## Home experience
+## Identity and REV
 
-Home is led by REV as the first primary surface after sign-in. The greeting and the prompt "What shall we do today?" belong inside the REV surface rather than being repeated as a separate heading above it.
-
-Home is learner-wide rather than paper-specific. REV's opening recommendation should be visually capable of identifying which subject deserves attention before narrowing into a course, paper/component, topic or activity.
-
-Supporting subject and high-level progress content may remain on Home, but it should sit beneath REV and be discovered naturally by scrolling rather than competing with the opening CTA.
-
-On mobile in particular, Home is a conversation starter first and a dashboard second.
-
-## REV — the AI guide
+Revision's primary identity and approved logo/wordmark lock-ups must remain consistent across channels. Exact lock-up, clear-space, minimum-size and asset-export rules must be confirmed visually and then recorded through the Brand System/reference surface.
 
 Revision's AI tutor is presented as a named, non-human product presence.
 
@@ -58,66 +139,115 @@ Visual rules:
 - do not represent REV with a human portrait or invented person;
 - use an abstract orb, pulse, waveform, halo or related system motif;
 - the visual presence may use restrained glow or motion to signal intelligence and responsiveness;
-- REV's language follows the Tone of Voice Framework: clear, supportive, direct and evidence-aware;
-- the interface should never imply a human is monitoring or replying when that is not true.
-
-The same REV identity should remain recognisable when it appears on global Home, Subject Home, course/paper Overview or in activity context. Context may narrow, but the visual treatment must not imply separate assistant personas.
+- the same REV identity must remain recognisable across product, marketing, social and video contexts; and
+- the interface must never imply a human is monitoring or replying when that is not true.
 
 The name and exact mark may be revisited deliberately later, but REV is the approved current product-facing identity.
 
-## Colour direction
+## Colour system
 
-The core application palette is:
+The approved baseline brand colours are:
 
-- **Deep ink** — primary text, navigation and high-contrast structure.
-- **Revision indigo** — primary brand surface and interaction colour.
-- **Bright lime** — selective action and momentum accent, normally paired with dark text.
-- **Cool near-white** — main application canvas.
-- **Soft indigo/blue surfaces** — secondary grouping and depth.
+- **Deep Ink** — `#10143F`
+- **Revision Indigo** — `#3349F4`
+- **Deep Indigo** — `#18279F`
+- **Bright Lime** — `#C9FF2E`
+- **Canvas** — `#F7F8FF`
+- **Muted text** — `#66708F`
+- **Surface border** — `#E3E6F2`
 
-Initial implementation tokens:
+These are the current source colours, not the complete implementation contract.
 
-- deep ink: `#10143F`
-- Revision indigo: `#3349F4`
-- deep indigo: `#18279F`
-- bright lime: `#C9FF2E`
-- canvas: `#F7F8FF`
-- muted text: `#66708F`
-- surface border: `#E3E6F2`
+The confirmed system should distinguish:
 
-These values are the current implementation baseline, not permission to use colour alone for meaning. Status and progress information must retain text/icon cues and required contrast.
+### Brand palette
+
+Recognisable source colours and approved supporting tints/shades.
+
+### Semantic colour roles
+
+Routine product/channel implementation should normally consume roles such as text, canvas, surface, border, action, focus, success, warning, danger and information rather than inventing local hex values.
+
+### Expressive palette
+
+A bounded set of additional colours/tints may be approved for illustration, REV effects, subject recognition, campaign art direction, social/video creative and feature surfaces.
+
+Expressive colour must not redefine core controls, educational evidence semantics, accessibility-critical statuses or the meaning of success/warning/error.
+
+Additional expressive colours are **not approved simply because they appear in an experiment**. They become reusable only after visual confirmation and governed promotion.
 
 ## Typography
 
 Typography should be:
 
-- large, confident and compact for key learner questions and actions;
-- highly readable for learning and explanatory content;
-- noticeably more expressive in hierarchy than the previous prototype;
-- free from decorative type that harms speed or accessibility.
+- modern, confident and recognisable;
+- expressive enough to give Revision personality;
+- highly readable in learning and operational content;
+- capable of larger editorial expression in marketing/social/video; and
+- free from decorative treatment that harms speed or accessibility.
 
-Use a modern sans-serif family with system-safe fallbacks. Very large headlines are appropriate where they clarify the main action; ordinary learning content must remain comfortable to read.
+The exact type scale, weights, line heights and channel-specific display treatments should be shown and approved visually before becoming the implementation baseline.
 
-## Layout and hierarchy
+## Spacing, shape and depth
 
-- Use generous whitespace.
-- Prefer one dominant primary surface over many equal-weight cards.
-- Use rounded cards and controls with restrained shadows.
-- Keep secondary information visually quieter than the current task.
-- Avoid long rows of equal widgets on the learner Home screen.
-- Progressive disclosure is preferred when detail is not needed immediately.
-- Progress signals must explain meaning rather than exist as decorative metrics.
-- Subject Home should feel like a clear narrowing of context from global Home, not a different product or visual theme.
-- Course/paper/component Overview should orient and signpost rather than render every learning capability in full.
-- Learn, Practice, Exam Prep and Progress should each feel like focused working spaces rather than stacked sections on one enormous page.
+Revision should have a recognisable spatial and shape grammar without forcing one radius or one card treatment everywhere.
 
-## Navigation
+The confirmed system should define approved families for:
 
-The primary global navigation follows the Information Architecture and represents learner-wide destinations rather than activity types.
+- spacing rhythm;
+- compact/standard/feature surface radii;
+- control radii;
+- pill/circular treatments;
+- border strength;
+- elevation/shadow levels; and
+- responsive gutters and content widths.
 
-### Desktop
+Variation is deliberate when it maps to a named family. Accidental one-off values should be avoided.
 
-Desktop uses a persistent top navigation with:
+## Components and interaction primitives
+
+Reusable interaction primitives should offer controlled variants rather than each screen creating its own visual language.
+
+The system should cover at least:
+
+- primary, secondary, tertiary and destructive actions;
+- icon buttons;
+- text inputs, textareas and selects;
+- check/radio/toggle controls;
+- validation, disabled, loading, success and error states;
+- tabs and segmented controls;
+- chips/badges;
+- navigation controls;
+- drawers/modals; and
+- progress/status indicators.
+
+Bright Lime remains a selective momentum/primary-action accent rather than a colour to spread across every action.
+
+## Surface families and creative flexibility
+
+Cards and boxes should not collapse into one universal component. Revision should maintain a family of approved surface types, for example:
+
+- **standard surface** — ordinary content grouping;
+- **quiet surface** — secondary/supporting content;
+- **interactive surface** — clickable route/subject/topic choice;
+- **feature/editorial surface** — a stronger branded moment;
+- **guidance surface** — recommendation, explanation or next step;
+- **status/feedback surface** — success, warning, danger or information;
+- **REV surface** — recognisable AI-guide treatment;
+- **exam/performance surface** — calm but more performance-oriented; and
+- **subject-accent surface** — restrained subject recognition.
+
+Within an approved family, layout, illustration, accent placement and composition may vary. Shared typography, colour roles, interaction states and accessibility rules provide coherence.
+
+## Learner application
+
+### Home experience
+
+Home is led by REV as the first primary surface after sign-in. Home is learner-wide rather than paper-specific. Supporting subject and high-level progress content should sit beneath REV rather than competing with the opening CTA. On mobile in particular, Home is a conversation starter first and a dashboard second.
+
+### Navigation
+
+Desktop primary navigation is:
 
 - Home
 - Plan
@@ -125,141 +255,118 @@ Desktop uses a persistent top navigation with:
 - Progress
 - Subjects
 
-Plan is a genuine primary learner job under the approved adaptive-planning model, not a decorative navigation item. REV may receive distinctive visual treatment while preserving the clarity and accessibility of every other destination. Account and utility controls remain visually secondary.
+Mobile uses the Revision wordmark/top utility treatment plus fixed bottom navigation containing the same five destinations, with REV in the centre and modest differentiated treatment.
 
-Learn, Practice, Exam Prep and contextual Progress appear once a subject/course/paper/component is selected. They should not compete with the five learner-wide destinations in global navigation.
+Learn, Practice, Exam Prep and contextual Progress appear inside the relevant subject/course context rather than competing with learner-wide global navigation.
 
-### Mobile
+### Focused sections
 
-Mobile uses:
+- **Overview** — calm hub/orientation surface.
+- **Learn** — readable educational content and topic exploration.
+- **Practice** — current task, prompt and feedback dominate.
+- **Exam Prep** — more performance-oriented while remaining calm and non-alarmist.
+- **Progress** — evidence meaning and next action should be clearer than decorative metrics.
 
-- Revision wordmark at the top left;
-- a burger/menu control at the top right for account and secondary utilities; and
-- a fixed bottom navigation for the highest-frequency learner-wide destinations.
+Subject differentiation may use restrained accent colour/iconography, but must not become a competing theme or proxy for attainment.
 
-The current bottom navigation is:
+## Marketing and editorial website
 
-- Home
-- Plan
-- REV
-- Progress
-- Subjects
+The marketing site should share Revision's identity, typography, palette and interaction grammar while having greater freedom in editorial layout, imagery, illustration, motion and campaign composition.
 
-REV occupies the centre position and may receive a modest differentiated treatment because it is a core product capability. That prominence must not reduce label clarity, touch-target quality, focus visibility or the usability of the other four destinations. Do not add further global destinations solely for symmetry; later navigation changes require deliberate product/experience authority.
+Marketing should not simply copy learner-app screens into a brochure layout. Its job is explanation, persuasion and brand-building. Visual expression may therefore be bolder, but calls to action, claims, pricing/packaging presentation and accessibility must still follow their governing authorities.
 
-### Contextual subject and course navigation
+## Admin and operations
 
-Within Subject Home, the learner should be able to see and enter the relevant course/specification or paper/component context without losing the global application navigation.
+Admin may use denser layouts and more neutral/functional surfaces where operational work requires them. However:
 
-Within a course, paper or component that has meaningful depth, contextual navigation should treat the following as first-class sibling sections:
+- core typography and semantic colours should remain aligned;
+- form/control states should reuse the shared primitive system;
+- status colours must have consistent meanings;
+- destructive actions must be unmistakable; and
+- Admin must not create a separate visual brand merely because it is internal.
 
-- Overview
-- Learn
-- Practice
-- Exam Prep
-- Progress
+## Social-media treatment
 
-The active section must be visually unambiguous. The learner should not have to scroll through Learn content to reach Practice, through Practice to reach Exam Prep, or through Exam Prep to reach Progress.
+The approved social system should eventually show reusable examples for major post formats rather than relying on improvised one-offs.
 
-The exact control may vary by screen size. Desktop may use a horizontal secondary navigation or equivalent. Mobile may use a compact tab row, segmented navigation, selector or another accessible pattern. Whatever pattern is used must:
+The confirmation/reference surface should cover, where relevant:
 
-- preserve the academic context clearly;
-- make the current section obvious;
-- allow fast switching between sections;
-- remain usable by touch and keyboard where applicable;
-- avoid horizontal page scrolling; and
-- leave the global Home / Subjects / Progress / REV model understandable and recoverable.
+- square/feed posts;
+- portrait/story/reel covers;
+- video thumbnails/covers;
+- quote/stat/message cards;
+- product-screen compositions;
+- campaign/launch treatments; and
+- profile/header/avatar uses of the brand.
 
-Not every subject must expose every section at every level. The structure should follow the Information Architecture and the actual qualification context rather than forcing empty navigation items.
+Platform dimensions may vary; the identity grammar should not.
 
-## Focused section presentation
+## Video and motion assets
 
-### Overview
+Video/motion guidance should cover representative examples of:
 
-Overview should feel like a calm hub. It may show the paper/component identity, REV recommendation, concise progress signals, recent activity and routes into the other sections. It must not become a duplicate of Learn, Practice, Exam Prep and Progress.
+- opening/closing brand treatment;
+- wordmark/REV animation;
+- title cards;
+- lower thirds;
+- captions/subtitles;
+- product demo framing;
+- social cut-downs/thumbnails; and
+- transitions/motion rhythm.
 
-### Learn
+Motion should communicate state, response, energy or narrative rather than exist as decoration. Learner-product motion remains more restrained than marketing/video art direction.
 
-Learn should prioritise readable educational content and topic exploration. The visual hierarchy should support sustained reading, worked examples and explanation without looking like a school textbook portal.
+Relevant video/audio must provide captions/transcripts where required by the Product UX Principles and accessibility obligations.
 
-### Practice
+## Asset governance
 
-Practice should prioritise the current task, prompt and feedback. Activity selection should remain available without competing with the exercise itself.
+Reusable brand assets should have a canonical source and lifecycle status rather than being copied ad hoc into different projects.
 
-### Exam Prep
+The Brand System/reference surface should make it clear:
 
-Exam Prep should feel more performance-oriented while remaining calm. Timing, marks, exam conditions and the Exam Simulator may become more prominent, but the experience must not manufacture stress or urgency.
+- which asset is canonical;
+- which variants are approved;
+- where each variant should be used;
+- whether it is Recommended, Alternative, Experimental or Deprecated; and
+- where the source/export can be obtained.
 
-### Progress
-
-Contextual Progress should use the same visual language and evidence semantics as global Progress while clearly showing the narrower academic scope. It should explain what the evidence means and provide direct next actions into Learn, Practice or Exam Prep.
-
-## Components
-
-### Primary actions
-
-Primary learner actions should be unmistakable, touch-friendly and written as actions.
-
-The bright-lime treatment is reserved for a small number of genuinely primary actions, such as starting the recommended next step.
-
-### Cards
-
-Cards should group a clear job or message, not create dashboard density. Use large-radius corners, light borders and soft depth.
-
-### Subject cards
-
-Subject cards should represent the learner's subject-level choices rather than individual paper tools. A card may show course/specification context and a quiet progress signal, but it should primarily act as the route into Subject Home.
-
-### REV surface
-
-The REV recommendation/conversation surface may use a richer indigo treatment than the surrounding application so the AI guide has a recognisable home across devices.
-
-On Subject Home or a course/paper Overview, the REV surface may be smaller than the global Home hero while remaining clearly identifiable as the same assistant.
-
-Inside a focused section, REV may use a compact contextual affordance so it supports the current task without dominating the learning content.
-
-## Motion
-
-Motion should communicate state, response or momentum.
-
-The REV orb may use subtle pulse or waveform movement. The initial REV message may type onto the screen once when the learner enters Home, and response text may type when REV returns a recommendation, provided this remains fast and optional. Motion must:
-
-- remain non-essential to understanding;
-- respect reduced-motion preferences;
-- avoid flashing or excessive stimulation; and
-- not delay the learner reaching useful work.
-
-## Subject differentiation
-
-Subjects may gain restrained accent colours or iconography for fast recognition, but subject colour must not become a competing theme system or a proxy for attainment.
-
-Subject differentiation should help learners recognise where they are while preserving Revision as one coherent product.
+Do not silently replace a canonical asset by uploading a visually similar local copy to one channel.
 
 ## Accessibility
 
-This visual system inherits the Product UX Principles, including the WCAG 2.2 AA target.
+The Brand System inherits the Product UX Principles, including the WCAG 2.2 AA target for learner-facing experiences.
 
-In particular:
+At minimum:
 
-- colour is never the only carrier of status;
-- interactive controls need clear focus and touch states;
+- colour is never the only carrier of meaning;
 - text/background combinations require adequate contrast;
-- motion must be reducible;
-- navigation remains usable by keyboard and touch; and
-- hierarchy must survive smaller screens without forcing horizontal scrolling.
+- interactive controls need clear focus and touch states;
+- motion must be reducible where non-essential;
+- social/video information should remain understandable with appropriate captions/text alternatives where relevant; and
+- visual hierarchy must survive supported screen sizes without making essential content inaccessible.
 
-## Design test
+## Approval and evolution
 
-A learner opening Revision should quickly feel:
+Founder approval should focus on the **brand grammar and representative range**, not on approving every future card layout or social post individually.
+
+A new treatment may be created creatively within approved foundations/families. If it introduces a materially new colour role, typography treatment, component family, identity treatment or recurring cross-channel pattern, it should be presented through the visual reference surface and deliberately approved before being promoted to reusable standard.
+
+Experimental work must remain visibly experimental until promoted. Deprecated patterns should remain identifiable during migration rather than disappearing from history.
+
+## Design tests
+
+Across channels, the system succeeds when someone can reasonably recognise Revision without needing to see the full wordmark every time.
+
+For learner surfaces, a student should quickly feel:
 
 > This is for me. I know what I can do next.
 
-A learner moving from Home into a subject should also immediately understand:
+For marketing/social/video, the work should feel:
 
-> I know which subject I am in, and I know what I can do here.
+> This is clearly Revision, but it has been designed for this moment rather than copied from another channel.
 
-A learner entering a course or paper should be able to answer:
+For Admin, the experience should feel:
 
-> Am I learning, practising, preparing for the exam or checking my progress?
+> This is operationally clear and efficient, and still belongs to the same product.
 
-The design succeeds when the application feels motivating and distinctive while making the useful next action simpler, not harder, to find.
+The target is **one coherent brand with controlled foundations and deliberate creative range**.
