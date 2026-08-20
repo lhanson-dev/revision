@@ -986,3 +986,75 @@ Explore forecast-style practice papers designed from specification coverage, kno
 ### Promotion impact
 
 Would require evidence/claims review, content and assessment governance, marketing claims approval, legal/trust review and clear learner-facing provenance.
+
+---
+
+## FI-020 — AI Case-Study Feedback and Coaching
+
+**Status:** New  
+**Captured:** 2026-08-20  
+**Capability fit:** Practise and Test; Learn; Guide  
+**Current implementation context:** The existing Practice → Case study activity is guided application practice. Learners write a response and can reveal guidance, but the activity is deliberately unscored because the current case-study prompts do not carry authoritative mark allocations.  
+**Initial assessment:** Strong learner-value and commercial potential if AI adds useful response-specific coaching without inventing unsupported marks
+
+### Opportunity
+
+Extend the existing Case Study practice experience so a learner can ask Revision/REV for contextual AI feedback on the answer they have written. The feedback should be grounded in the approved case material, the prompt, the intended application/analysis skill and any governed guidance available for that activity.
+
+Useful feedback may include:
+
+- what the learner applied well from the case;
+- where their reasoning or causal chain is weak or incomplete;
+- whether they have used the case context specifically rather than answering generically;
+- where analysis, balance or judgement could be developed where relevant;
+- one or two concrete ways to improve the response; and
+- an optional prompt to revise and resubmit the answer for further coaching.
+
+The aim is to turn the existing static self-review step into a more personalised learning loop without misrepresenting a guided case-study prompt as a formally marked exam question.
+
+### Commercial / packaging hypothesis
+
+The current guided experience should remain genuinely useful on **Free**:
+
+- learner writes the case-study response;
+- learner can reveal the approved guidance/model considerations; and
+- learner can self-review their answer without an AI requirement.
+
+A **Paid** tier may add response-specific AI feedback and improvement coaching. A later **Premium** treatment may add deeper REV follow-up, longitudinal pattern insight across case-study responses or higher AI-use allowances where this creates genuine additional value.
+
+The entitlement boundary must preserve the learner's written work. A Free learner should not complete an answer believing AI feedback is included and only then discover an unexpected paywall; the additional AI value should be discoverable and clearly explained at the relevant point.
+
+Exact tiers, allowances and upgrade treatment remain subject to FI-002 and the governed feature-definition process.
+
+### Evidence boundary
+
+AI feedback on an unscored case-study activity is **coaching, not an authoritative mark**.
+
+Until a case-study question has an approved mark allocation and marking model that satisfies the assisted-marking evidence standard:
+
+- do not invent a numeric exam mark or grade;
+- do not present the AI as an examiner;
+- do not treat qualitative AI feedback as strong exam-readiness evidence by default; and
+- do not silently feed unsupported AI judgements into Progress or the adaptive planner as if they were validated assessment evidence.
+
+If a future case-study activity is deliberately authored as an assured exam-style question with authoritative marks, assessment objectives and marking guidance, formal assisted marking belongs under FI-007 rather than this feature.
+
+### Relationship to other features
+
+- **FI-007 — Assisted / AI Exam-Answer Marking:** formal marking for assured exam questions with governed mark allocations and evidence semantics.
+- **FI-003 — Full REV Intelligent AI Tutor:** may provide the conversational coaching layer used to explain or deepen the feedback.
+- **FI-002 — Subscription Plans / Feature Entitlements:** governs final plan packaging and entitlement enforcement.
+
+### Guardrails / questions
+
+- feedback must stay grounded in the supplied case and approved learning intent;
+- do not fabricate mark-scheme criteria or numeric scores where none exist;
+- avoid replacing the learner's thinking with a complete answer before they have attempted improvement;
+- define whether any resulting behavioural/learning signal is safe to use downstream and at what confidence;
+- evaluate response quality, hallucination risk, latency and AI cost;
+- preserve accessible non-AI self-review as a coherent Free journey; and
+- ensure contextual upgrade prompts earn desire through better coaching rather than degrading the existing case-study experience.
+
+### Promotion impact
+
+If promoted, review/update Practice/Core User Journeys, Product System Model where AI coaching creates learner-state effects, REV behaviour, Product UX Principles for the entitlement moment, AI/evidence/trust authority, commercial entitlements, measurement/Admin assurance and the technical case-study/AI orchestration documentation.
