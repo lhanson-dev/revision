@@ -95,7 +95,14 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(primaryNav.getByRole('button', { name: /REV/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Progress/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
-  if (viewportWidth <= 960) await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
+  if (viewportWidth <= 960) {
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
+    await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
+    await expect(primaryNav.locator('.mini-orb')).toHaveCount(1)
+  } else {
+    await expect(primaryNav.getByRole('button', { name: /Plan/ })).toHaveCSS('color', 'rgb(16, 20, 63)')
+    await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveCSS('color', 'rgb(51, 73, 244)')
+  }
 
   await primaryNav.getByRole('button', { name: /Plan/ }).click()
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()

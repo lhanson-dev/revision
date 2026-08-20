@@ -26,6 +26,54 @@ import { PlanScreen } from './PlanScreen'
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const planSubjects = catalogue.map((subject) => ({ id: subject.id, name: subject.name }))
 
+type NavIconName = 'home' | 'plan' | 'progress' | 'subjects'
+
+function NavIcon({ name }: { name: NavIconName }) {
+  const commonProps = {
+    className: 'nav-icon',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    'aria-hidden': true,
+    focusable: false,
+  }
+
+  if (name === 'home') {
+    return (
+      <svg {...commonProps}>
+        <path d="M3.5 10.5 12 3.5l8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z" />
+      </svg>
+    )
+  }
+
+  if (name === 'plan') {
+    return (
+      <svg {...commonProps}>
+        <rect x="3" y="5" width="18" height="16" rx="2.5" />
+        <path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 4-4" />
+      </svg>
+    )
+  }
+
+  if (name === 'progress') {
+    return (
+      <svg {...commonProps}>
+        <path d="M4 19V5M4 19h17M7 15l4-4 3 2 5-6" />
+        <path d="M16 7h3v3" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" />
+    </svg>
+  )
+}
+
 function learnerName(user: User) {
   const metadata = user.user_metadata ?? {}
   const explicit = metadata.first_name ?? metadata.given_name ?? metadata.name
@@ -149,11 +197,11 @@ export function PlannerRuntime() {
       <div className="runtime-screen">{screen}</div>
 
       <nav className="bottom-nav runtime-bottom-nav" aria-label="Mobile navigation">
-        <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><span className="nav-icon" aria-hidden="true">⌂</span><span>Home</span></button>
-        <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><span className="nav-icon" aria-hidden="true">▦</span><span>Plan</span></button>
+        <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
+        <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
         <button className={`runtime-rev-button ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())} aria-label="Open REV"><span className="mini-orb" aria-hidden="true"></span><span>REV</span></button>
-        <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><span className="nav-icon" aria-hidden="true">▥</span><span>Progress</span></button>
-        <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><span className="nav-icon" aria-hidden="true">▤</span><span>Subjects</span></button>
+        <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
+        <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
       </nav>
 
       {menuOpen && (

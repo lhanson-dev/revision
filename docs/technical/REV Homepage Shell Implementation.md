@@ -4,24 +4,29 @@
 
 ## Purpose
 
-Describe the governed React learner shell at `/app/`, including the REV-led Home, catalogue-driven subject/course hierarchy, course-level shared learning, paper-specific Exam Prep and evidence-aware guidance.
+Describe the governed React learner shell at `/app/`, including the REV-led Home, adaptive Plan, catalogue-driven subject/course hierarchy, course-level shared learning, paper-specific Exam Prep and evidence-aware guidance.
 
 ## Canonical learner route and runtime
 
 The governed learner product is:
 
-`/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/App.tsx`
+`/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
+
+`PlannerRuntime` owns the canonical signed-in global learner shell and primary responsive navigation. It directly renders the adaptive Home, Plan and REV experiences and delegates catalogue, subject, course/component, Progress and Admin content to `src/app/App.tsx` where required. When `App` is nested inside `PlannerRuntime`, its older embedded global navigation is suppressed so only one learner-wide navigation surface is presented.
 
 The repository root `/revision/` remains a lightweight redirect into `/revision/app/` until a future public marketing/editorial site is introduced. GitHub Pages publishes the built Vite `dist/` artifact.
 
 ## Learner hierarchy
 
-Global navigation remains:
+Global navigation is:
 
 1. Home
-2. Subjects
-3. Progress
-4. REV
+2. Plan
+3. REV
+4. Progress
+5. Subjects
+
+Desktop presents these destinations in the persistent top navigation. Mobile and tablet widths up to 960px use the persistent five-item bottom navigation while retaining the Revision wordmark and secondary-utility menu at the top. REV remains the differentiated centre destination; the other mobile destinations use simple recognisable line icons alongside their labels. Active state, label clarity and focus treatment do not rely on colour alone.
 
 Subject Home groups published material by course/specification.
 
@@ -171,7 +176,10 @@ Future enrolment should filter the published course catalogue rather than reintr
 
 ## Key implementation files
 
-- `src/app/App.tsx` — global shell, Subject Home, course/component rendering, REV and progress aggregation.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in global learner shell and responsive Home / Plan / REV / Progress / Subjects navigation.
+- `src/app/planner.css` — runtime navigation styling and responsive breakpoint behaviour.
+- `src/app/planner-runtime.css` — nested-shell suppression and runtime display switching.
+- `src/app/App.tsx` — catalogue, Subject Home, course/component rendering, Progress and supporting legacy shell implementation when nested.
 - `src/app/catalogue-model.ts` — course grouping, shared-learning detection and course learning state.
 - `src/app/navigation.ts` — course and component hash routes.
 - `src/app/FocusedLearningWorkspace.tsx` — shared Learn/Practice and exam-technique activities.
@@ -180,9 +188,11 @@ Future enrolment should filter the published course catalogue rather than reintr
 - `src/engine/content/content-registry.ts` — automatic pack discovery/publication filtering.
 - `src/engine/content/content-adapter.ts` — generic validated learning-content interface.
 - `src/engine/readiness/readiness.ts` — deterministic readiness/recommendation logic.
-- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy assurance.
+- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy and global navigation assurance.
 
 ## Documentation and decision record
+
+Normative navigation authority is `10-product-governance/Information Architecture.md` and `20-brand-and-experience/Visual Brand System.md`. This implementation follows those existing rules; the navigation visual maintenance does not change normative product or brand authority.
 
 Normative placement authority is `10-product-governance/Course Content and Assessment Component Placement.md`.
 
