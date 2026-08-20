@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Revision favicon</title>
+  <desc id="desc">Three horizontal teal bars on a deep teal square.</desc>
+  <rect width="64" height="64" fill="#0F2F36"/>
+  <g fill="#2BB6A3">
+    <rect x="14" y="17" width="36" height="6" rx="3"/>
+    <rect x="14" y="29" width="36" height="6" rx="3"/>
+    <rect x="14" y="41" width="36" height="6" rx="3"/>
+  </g>
+</svg>
