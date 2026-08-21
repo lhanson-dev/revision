@@ -47,21 +47,50 @@ export function AccountModal({
   onOpenAdmin,
   onOpenPlannerAdmin,
 }: AccountModalProps) {
+  const modalRef = useRef<HTMLElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
 
   useEffect(() => {
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
     closeButtonRef.current?.focus()
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onCloseRef.current()
+        return
+      }
+
+      if (event.key !== 'Tab' || !modalRef.current) return
+      const focusable = Array.from(modalRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )).filter((element) => !element.hasAttribute('aria-hidden'))
+      if (focusable.length === 0) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
-    document.addEventListener('keydown', closeOnEscape)
-    return () => document.removeEventListener('keydown', closeOnEscape)
-  }, [onClose])
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      previousFocus?.focus()
+    }
+  }, [])
 
   return (
     <>
-      <button className="runtime-account-modal-backdrop" aria-label="Close account window" onClick={onClose}></button>
-      <section className="runtime-account-modal" role="dialog" aria-modal="true" aria-label="Account settings">
+      <button className="runtime-account-modal-backdrop" tabIndex={-1} aria-label="Close account window" onClick={onClose}></button>
+      <section ref={modalRef} className="runtime-account-modal" role="dialog" aria-modal="true" aria-label="Account settings">
         <aside className="runtime-account-modal-nav">
           <div className="runtime-account-modal-identity">
             <span className="runtime-account-modal-avatar" aria-hidden="true">{learnerName.charAt(0).toUpperCase()}</span>
