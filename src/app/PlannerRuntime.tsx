@@ -190,7 +190,7 @@ export function PlannerRuntime() {
 
   let screen
   if (route.kind === 'home') {
-    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenProgress={() => navigate(progressRoute())} onOpenSubjects={() => navigate(subjectsRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenProgress={() => navigate(progressRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'plan') {
     screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'rev') {
