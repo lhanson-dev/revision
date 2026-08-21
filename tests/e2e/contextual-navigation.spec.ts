@@ -140,7 +140,7 @@ test('Subjects expands only the active academic branch from subject to course se
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business')
-  await expect(page.getByRole('heading', { name: 'AS Business', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true })).toBeVisible()
 
   nav = await navigation(page)
   subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
