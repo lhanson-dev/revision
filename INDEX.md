@@ -43,6 +43,7 @@ Use this file to find the governing source before substantive work.
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
+- Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Product backlog folder rules → `10-product-governance/backlog/README.md`
