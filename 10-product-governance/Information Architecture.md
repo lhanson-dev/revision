@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.8  
+**Status:** Draft authority candidate — v0.9  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -17,7 +17,7 @@ The student should not need to understand the product's internal complexity. The
 
 Learning, practice and exam-preparation tools remain contextual to the relevant subject, course, paper/component or topic rather than competing as global destinations.
 
-Navigation should remain recognisable and relatively flat. Avoid deep nesting, duplicate entry points and unnecessary menu complexity.
+Navigation should remain recognisable and relatively flat **at global scope**, while the active academic branch may expand progressively to show the learner's current parent, sibling and child pages. Avoid unrelated branches being expanded at the same time, duplicate entry points and unnecessary menu complexity.
 
 ## Primary global navigation
 
@@ -40,7 +40,7 @@ Practice and Exam Prep remain core product capabilities, but they are contextual
 
 Account, profile, settings, plan/subscription management, help, privacy, subject management and similar utilities remain secondary. Desktop uses one compact authenticated account control at the bottom of the persistent learner rail; tablet/mobile use the slide-out secondary navigation/account drawer.
 
-Detailed responsive behaviour is governed by `Global Learner Navigation.md`.
+Detailed responsive and contextual-expansion behaviour is governed by `Global Learner Navigation.md`.
 
 ## Learner hierarchy
 
@@ -74,6 +74,25 @@ These focused sections should not normally be collapsed into one long all-purpos
 Topics and specification areas are shared academic identities across Learn, Practice, Exam Prep and Progress rather than duplicated entities.
 
 Not every qualification must expose every level. Revision should preserve the official structure where it matters without forcing all subjects into one paper model.
+
+### Navigation projection of the hierarchy
+
+The left learner navigation may project the currently active academic path without turning every academic object into a permanent global destination.
+
+When Subjects is active, the contextual path is:
+
+```text
+Subjects
+├── All subjects
+├── learner subject
+│   └── course/specification
+│       └── applicable focused sections
+└── learner subject
+```
+
+The selected subject expands to its courses. The selected course/component expands to the focused sections that genuinely apply. Unselected branches remain collapsed.
+
+The subject entries should represent the learner's current Revision programme. Until a dedicated persisted subject-enrolment model exists, the current published learner catalogue may act as the programme set; future enrolment/subject-management filtering should not require a different navigation architecture.
 
 ## Home
 
@@ -181,9 +200,9 @@ Subjects is the learner-led route and answers:
 
 > **What do I want to work on?**
 
-Students must be able to switch between enrolled subjects easily.
+Students must be able to switch between enrolled/current-programme subjects easily.
 
-Selecting a subject opens a Subject Home rather than dropping immediately into a single activity or paper.
+Selecting Subjects exposes an `All subjects` page plus the learner's current subject set in the contextual navigation. Selecting a subject opens a Subject Home rather than dropping immediately into a single activity or paper, and expands that subject in navigation to expose its courses/specifications.
 
 ### Subject Home
 
@@ -245,6 +264,8 @@ Learn, Practice, Exam Prep and contextual Progress should normally be distinct n
 
 Implementation may use routes, tabs or another accessible pattern, but the learner must understand where they are and move between sections without scrolling through unrelated capabilities.
 
+The selected course/component may expose its applicable focused sections in the contextual left navigation. That does **not** make Learn, Practice, Exam Prep or contextual Progress learner-wide destinations.
+
 Deep-linking or equivalent addressability should be preserved where practical so REV and Plan can take the learner directly into relevant work.
 
 ## Topic behaviour
@@ -281,7 +302,7 @@ The bottom area exposes one compact authenticated account control showing avatar
 
 Until FI-002 has completed the governed feature lifecycle and a real plan-comparison/upgrade route exists, an `Upgrade plan` preview must remain clearly unavailable/forthcoming.
 
-Within Subject Home or course/paper/component areas, contextual navigation exposes the focused sections that apply, normally Overview, Learn, Practice, Exam Prep and Progress.
+When Subjects is active, the rail expands only the current academic branch: `All subjects` and subject siblings are visible; the selected subject exposes its courses; and the selected course/component exposes its applicable focused sections. Parent rows remain navigable to their own overview/home pages.
 
 ### Tablet and mobile
 
@@ -292,7 +313,9 @@ Tablet and mobile use:
 - account utilities in the lower part of that drawer; and
 - a persistent bottom-anchored **Ask REV** action dock as the only persistent bottom learner action.
 
-The drawer is secondary disclosure, not a deep navigation hierarchy. Opening it should keep the four learner-wide destinations immediately recognisable and keep Profile, Settings, Upgrade, permission-gated Admin and Log out clearly separate as account/utility jobs.
+The drawer keeps the four learner-wide destinations immediately recognisable. When the current route belongs to Subjects, it also projects the same route-scoped academic branch used on desktop. This contextual expansion is progressive disclosure, not an always-open full-site tree.
+
+Profile, Settings, Upgrade, permission-gated Admin and Log out remain clearly separate as account/utility jobs.
 
 The Ask REV dock is global assistant access rather than a fifth navigation destination. It should remain reachable while scrolling, respect safe areas and leave sufficient content clearance so it does not obscure learner actions.
 
@@ -330,7 +353,8 @@ The information architecture should:
 - preserve official specification structure;
 - use focused learning/practice/exam-prep/progress sections where depth justifies them;
 - avoid duplicate topic identities across learning modes;
-- keep global navigation flat and recognisable;
+- keep global navigation flat and recognisable when no contextual academic branch is active;
+- expand only the selected academic branch rather than every subject/course;
 - prevent the desktop rail and responsive drawer becoming dumping grounds;
 - avoid excessive dashboard density;
 - use progressive disclosure for secondary detail;
