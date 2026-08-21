@@ -22,7 +22,6 @@ interface PlannerHomeScreenProps {
   onOpenPlan: () => void
   onOpenRev: () => void
   onOpenProgress: () => void
-  onOpenSubjects: () => void
   onOpenSubject: (subjectId: string) => void
 }
 
@@ -58,7 +57,7 @@ function subjectName(subjectId: string) {
   return catalogue.find((subject) => subject.id === subjectId)?.name ?? subjectId
 }
 
-export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenSubjects, onOpenSubject }: PlannerHomeScreenProps) {
+export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenSubject }: PlannerHomeScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
