@@ -4,9 +4,9 @@ const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const themeKey = 'revision:theme'
 const appPath = '/revision/app/'
 
-async function seedSyntheticSession(page: Page, theme: 'light' | 'dark' = 'light') {
+async function seedSyntheticSession(page: Page, theme: 'light' | 'dark' = 'light', firstName = 'Jamie') {
   const userId = '00000000-0000-4000-8000-000000000001'
-  await page.addInitScript(({ key, id, preferredThemeKey, preferredTheme }) => {
+  await page.addInitScript(({ key, id, preferredThemeKey, preferredTheme, learnerFirstName }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const accessToken = `${header}.${payload}.synthetic`
@@ -20,18 +20,18 @@ async function seedSyntheticSession(page: Page, theme: 'light' | 'dark' = 'light
         id,
         aud: 'authenticated',
         role: 'authenticated',
-        email: 'jamie@revision.invalid',
+        email: `${learnerFirstName.toLowerCase()}@revision.invalid`,
         email_confirmed_at: '2026-08-17T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
-        user_metadata: { first_name: 'Jamie' },
+        user_metadata: { first_name: learnerFirstName },
         identities: [],
         created_at: '2026-08-17T12:00:00.000Z',
         updated_at: '2026-08-17T12:00:00.000Z',
       },
     }))
     localStorage.setItem(preferredThemeKey, preferredTheme)
-  }, { key: storageKey, id: userId, preferredThemeKey: themeKey, preferredTheme: theme })
+  }, { key: storageKey, id: userId, preferredThemeKey: themeKey, preferredTheme: theme, learnerFirstName: firstName })
 
   await page.route('**/rest/v1/learning_evidence**', async (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/revision_assessments**', async (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
@@ -46,14 +46,14 @@ async function seedSyntheticSession(page: Page, theme: 'light' | 'dark' = 'light
   }))
 }
 
-async function loadHome(page: Page, theme: 'light' | 'dark' = 'light') {
-  await seedSyntheticSession(page, theme)
+async function loadHome(page: Page, theme: 'light' | 'dark' = 'light', firstName = 'Jamie') {
+  await seedSyntheticSession(page, theme, firstName)
   await page.goto(appPath)
   await expect(page.locator('.planner-runtime')).toHaveAttribute('data-theme', theme)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('what shall we do today?')
 }
 
-test('desktop shell uses the canonical Revision identity and conversation-first Home hierarchy', async ({ page }) => {
+test('desktop shell uses four-item top navigation and contextual Ask REV access', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await loadHome(page)
 
@@ -79,10 +79,22 @@ test('desktop shell uses the canonical Revision identity and conversation-first 
   expect(brandStyle.fallbackVisibility).toBe('hidden')
 
   const primaryNav = page.getByRole('navigation', { name: 'Primary navigation' })
-  for (const label of ['Home', 'Plan', 'REV', 'Progress', 'Subjects']) {
-    await expect(primaryNav.getByRole('button', { name: label, exact: true })).toBeVisible()
-  }
+  const navButtons = primaryNav.getByRole('button')
+  await expect(navButtons).toHaveCount(4)
+  expect((await navButtons.allTextContents()).map((label) => label.trim())).toEqual(['Home', 'Plan', 'Progress', 'Subjects'])
+  await expect(primaryNav.getByRole('button', { name: 'REV', exact: true })).toHaveCount(0)
   await expect(primaryNav.getByRole('button', { name: 'Home', exact: true })).toHaveClass(/active/)
+
+  const revFab = page.getByRole('button', { name: /Ask REV/i })
+  await expect(revFab).toBeVisible()
+  const hashBefore = await page.evaluate(() => window.location.hash)
+  await revFab.click()
+  const revDialog = page.getByRole('dialog', { name: 'Ask REV about Home' })
+  await expect(revDialog).toBeVisible()
+  await expect(revDialog.getByLabel('Ask REV about Home')).toBeVisible()
+  expect(await page.evaluate(() => window.location.hash)).toBe(hashBefore)
+  await revDialog.getByRole('button', { name: 'Close REV chat' }).click()
+  await expect(revDialog).toBeHidden()
 
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Hey Jamie')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('what shall we do today?')
@@ -106,6 +118,13 @@ test('desktop shell uses the canonical Revision identity and conversation-first 
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
   expect(overflow).toBeLessThanOrEqual(1)
+})
+
+test('Home greeting resolves the signed-in learner first name rather than a hard-coded example', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await loadHome(page, 'light', 'Amara')
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Hey Amara')
+  await expect(page.getByRole('heading', { level: 1 })).not.toContainText('Jamie')
 })
 
 test('dark theme swaps to the approved dark wordmark while preserving Calm Teal actions', async ({ page }) => {
@@ -137,6 +156,7 @@ test('tablet and phone keep the five-item bottom navigation with REV as the cent
 
   await expect(page.locator('.runtime-topbar')).toBeHidden()
   await expect(page.locator('.runtime-mobile-topbar')).toBeVisible()
+  await expect(page.locator('.runtime-rev-fab')).toBeHidden()
   const mobileNav = page.getByRole('navigation', { name: 'Mobile navigation' })
   await expect(mobileNav).toBeVisible()
 
