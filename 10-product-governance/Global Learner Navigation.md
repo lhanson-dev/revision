@@ -1,19 +1,19 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.6  
+**Status:** Active authority — v0.7  
 **Owner:** Founder  
 **Effective date:** 2026-08-21  
-**Purpose:** Define the governed global learner navigation model and persistent REV access pattern across desktop, tablet and mobile.
+**Purpose:** Define the governed global learner navigation model, contextual academic hierarchy and persistent REV access pattern across desktop, tablet and mobile.
 
 ## Authority relationship
 
-This document is the specific product authority for global learner navigation and persistent access to REV.
+This document is the specific product authority for global learner navigation, contextual academic expansion and persistent access to REV.
 
 Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or the responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
 
-This v0.6 model retains the v0.5 decision that explicitly superseded the earlier requirement for a five-item persistent tablet/mobile bottom navigation bar. That earlier treatment must not be implemented as the current learner navigation model.
+This v0.7 model retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar and the v0.6 progressive disclosure of account utilities. It replaces the earlier rule that the learner rail/drawer should remain entirely flat while inside academic work: the **active academic branch may now expand contextually**.
 
-This decision does not change the academic hierarchy, the contextual Learn / Practice / Exam Prep / Progress structure, or the requirement that REV preserves and uses relevant learner context.
+This decision does not change the underlying academic hierarchy or the requirement that REV preserves and uses relevant learner context.
 
 ## Core decision
 
@@ -30,7 +30,42 @@ The persistent global action is:
 
 - **Ask REV**
 
+The global destinations remain recognisable and simple at rest. When the learner moves into an academic branch, the navigation may expand only the **currently relevant branch** so the learner can understand where they are and move to nearby parent, sibling and child pages without returning to an index page first.
+
 A full REV workspace may still exist for extended conversation, but ordinary access is contextual Ask REV rather than requiring the learner to navigate away from their current task.
+
+## Contextual academic hierarchy
+
+The navigation hierarchy follows the governed learner information architecture:
+
+```text
+Subjects
+├── All subjects
+├── Subject
+│   ├── Course / specification
+│   │   ├── Overview
+│   │   ├── Learn
+│   │   ├── Practice where available
+│   │   ├── Exam Prep where available
+│   │   └── Progress
+│   └── Course / specification
+└── Subject
+```
+
+Where a qualification genuinely has component-specific learning rather than one shared course-level learning scope, the contextual branch may represent the course as a grouping and expose the relevant paper/component pages beneath it before exposing their applicable focused sections.
+
+### Expansion rules
+
+- On Home, Plan, global Progress and Admin, the global navigation remains flat.
+- On **All subjects**, Subjects expands to show `All subjects` plus the learner's current subject set.
+- On a **Subject Home**, Subjects remains expanded and the selected subject expands to show that subject's courses/specifications.
+- On a **course/specification**, the selected subject and course remain expanded and the course exposes the focused sections that genuinely exist for that course.
+- On a component-specific route, the same rule applies using the applicable course/component path.
+- Only the active academic branch expands. Unrelated subjects/courses do not all expand simultaneously.
+- The exact current page receives an accessible active state; parent context remains visually clear but must not falsely claim `aria-current="page"`.
+- Contextual child navigation is route/catalogue driven rather than hard-coded to one subject, qualification or exam board.
+
+The subject list should represent the learner's current Revision programme. While the current runtime does not yet persist a separate per-user subject-enrolment set, the published learner catalogue is the temporary programme source. Future subject-management/enrolment implementation may filter this source without changing the navigation hierarchy.
 
 ## Desktop navigation
 
@@ -46,6 +81,8 @@ The top contains the REV identity and a visually prominent **Ask REV** action, f
 4. Subjects
 
 Ask REV receives the strongest branded emphasis. Ordinary destinations remain restrained and use a clear accessible active state.
+
+When Subjects is active, its contextual academic branch appears immediately beneath it according to the expansion rules above. Child items use progressively quieter indentation and hierarchy rather than competing visually with the four global destinations.
 
 ### Bottom account control
 
@@ -96,14 +133,18 @@ The interaction may take usability cues from products such as ChatGPT, but it mu
 
 ### Tablet/mobile drawer
 
-Opening the top-left menu reveals a left-side drawer over the current screen. The drawer contains the learner-wide destinations:
+Opening the top-left menu reveals a left-side drawer over the current screen. The drawer always keeps the learner-wide destinations recognisable:
 
 1. Home
 2. Plan
 3. Progress
 4. Subjects
 
-The active destination is clearly indicated without relying on colour alone.
+When the current route belongs to Subjects, the same contextual academic branch used on desktop appears beneath Subjects. This is **route-scoped progressive disclosure**, not an always-open site tree: only the active Subject/course/component branch expands.
+
+Selecting a contextual child page navigates to that page and closes the drawer. Reopening the drawer reconstructs the hierarchy from the new current route so orientation is preserved.
+
+The active destination/page is clearly indicated without relying on colour alone.
 
 The lower part of the drawer uses the same progressive-disclosure principle as desktop account access. When the drawer first opens, account utilities are **collapsed by default**. Only one compact learner account control is shown, containing:
 
@@ -175,18 +216,21 @@ All navigation uses the approved Revision Brand System.
 - quiet left-rail surface;
 - REV identity and Ask REV prominent;
 - Primary Teal / approved surfaces for branded emphasis;
-- ordinary destinations neutral with restrained active state;
+- ordinary global destinations neutral with restrained active state;
+- contextual academic children smaller, indented and visually subordinate to their parent;
+- only the active academic branch expands;
 - one compact learner identity/account row at the bottom;
 - compact elevated account popover;
 - centred Profile/Settings modal with no REV halo; and
-- no unnecessary badges, nested menu complexity or contextual learning tools in the global rail.
+- no badges or unrelated contextual tools added to the global rail.
 
 ### Tablet and mobile
 
 - no five-item bottom navigation bar;
 - two-line top-left menu control with a minimum 44×44px touch target;
 - left-side drawer using approved surface, border, radius/elevation and focus treatments;
-- Home, Plan, Progress and Subjects remain recognisable and flat inside the drawer;
+- Home, Plan, Progress and Subjects remain recognisable as global destinations;
+- the active Subjects branch may expand beneath Subjects using the same contextual hierarchy as desktop;
 - one compact learner account row at the bottom of the drawer, with account utilities hidden until that row is selected;
 - persistent bottom Ask REV dock uses Living E with restrained halo/state treatment;
 - the dock is visually prominent without becoming neon, sci-fi or decorative AI theatre;
@@ -200,8 +244,11 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 ## Guardrails
 
 - Do not restore the five-item tablet/mobile bottom navigation without a new Founder-approved authority change.
-- Do not turn the desktop rail or mobile drawer into a dumping ground for contextual learning tools.
-- Learn, Practice and Exam Prep remain contextual to subject/course/paper/topic scope.
+- Do not turn the desktop rail or mobile drawer into an always-expanded sitemap or a dumping ground for unrelated tools.
+- Expand only the route-relevant academic branch; do not expand every subject/course simultaneously.
+- Learn, Practice, Exam Prep and contextual Progress appear in the navigation only within the selected course/component context; they do not become new learner-wide destinations.
+- Preserve the distinction between Subject Home, course/specification and paper/component structure rather than flattening them into misleading sibling links.
+- Do not hard-code navigation around a single subject, qualification or exam board.
 - Do not make REV a separate assistant relationship at different product levels.
 - Do not require a learner to leave their current task merely to ask REV a contextual question.
 - Do not duplicate Ask REV in the mobile drawer merely because the drawer has space.
@@ -214,4 +261,4 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 
 ## Documentation impact
 
-This v0.6 model is aligned in the learner-shell technical documentation. `Information Architecture.md` already defines account utilities as secondary disclosure and therefore does not require a structural IA change for this refinement. Responsive implementation and browser assurance must remain aligned with this authority.
+This v0.7 model requires the contextual hierarchy to remain aligned across `Information Architecture.md`, the canonical learner-shell technical documentation, route/catalogue implementation and responsive browser assurance. Historical evidence remains unchanged.
