@@ -123,19 +123,19 @@ export function AccountModal({
 
   return (
     <>
-      <button className="runtime-account-modal-backdrop" tabIndex={-1} aria-label="Close account window" onClick={onClose}></button>
-      <section ref={modalRef} className="runtime-account-modal" role="dialog" aria-modal="true" aria-label="Account settings">
+      <button className="runtime-account-modal-backdrop ui-overlay-backdrop" tabIndex={-1} aria-label="Close account window" onClick={onClose}></button>
+      <section ref={modalRef} className="runtime-account-modal ui-overlay-surface" role="dialog" aria-modal="true" aria-label="Account settings">
         <aside className="runtime-account-modal-nav">
           <div className="runtime-account-modal-identity">
             <span className="runtime-account-modal-avatar" aria-hidden="true">{learnerName.charAt(0).toUpperCase()}</span>
             <span>{learnerName}</span>
           </div>
-          <nav aria-label="Account sections">
-            <button className={section === 'profile' ? 'active' : ''} onClick={() => onSectionChange('profile')} aria-current={section === 'profile' ? 'page' : undefined}>
+          <nav className="ui-menu" aria-label="Account sections">
+            <button className={`ui-menu-item ${section === 'profile' ? 'active' : ''}`} onClick={() => onSectionChange('profile')} aria-current={section === 'profile' ? 'page' : undefined}>
               <AccountSectionIcon name="profile" />
               <span>Profile</span>
             </button>
-            <button className={section === 'settings' ? 'active' : ''} onClick={() => onSectionChange('settings')} aria-current={section === 'settings' ? 'page' : undefined}>
+            <button className={`ui-menu-item ${section === 'settings' ? 'active' : ''}`} onClick={() => onSectionChange('settings')} aria-current={section === 'settings' ? 'page' : undefined}>
               <AccountSectionIcon name="settings" />
               <span>Settings</span>
             </button>
@@ -148,12 +148,12 @@ export function AccountModal({
               <p className="eyebrow">Account</p>
               <h2>{section === 'profile' ? 'Profile' : 'Settings'}</h2>
             </div>
-            <button ref={closeButtonRef} className="runtime-account-modal-close" onClick={onClose} aria-label="Close account window">×</button>
+            <button ref={closeButtonRef} className="runtime-account-modal-close ui-icon-button" onClick={onClose} aria-label="Close account window">×</button>
           </header>
 
           {section === 'profile' ? (
             <div className="runtime-account-modal-section">
-              <div className="runtime-account-profile-hero">
+              <div className="runtime-account-profile-hero ui-surface-quiet">
                 <span className="runtime-account-profile-avatar" aria-hidden="true">{learnerName.charAt(0).toUpperCase()}</span>
                 <div><h3>{learnerName}</h3><p>{email}</p></div>
               </div>
@@ -165,6 +165,7 @@ export function AccountModal({
                   </label>
                   <div className="runtime-profile-edit-control">
                     <input
+                      className="ui-field"
                       id="revision-profile-first-name"
                       name="firstName"
                       type="text"
@@ -177,7 +178,7 @@ export function AccountModal({
                         setNameError('')
                       }}
                     />
-                    <button type="submit" disabled={nameSaveState === 'saving' || nameDraft.trim().replace(/\s+/g, ' ') === learnerName}>
+                    <button className="ui-button ui-button--primary ui-button--compact" type="submit" disabled={nameSaveState === 'saving' || nameDraft.trim().replace(/\s+/g, ' ') === learnerName}>
                       {nameSaveState === 'saving' ? 'Saving…' : 'Save'}
                     </button>
                   </div>
@@ -194,9 +195,9 @@ export function AccountModal({
             <div className="runtime-account-modal-section">
               <section className="runtime-account-setting-row">
                 <div><h3>Appearance</h3><p>Choose how Revision looks on this device.</p></div>
-                <div className="runtime-theme-choice" role="group" aria-label="Appearance">
-                  <button className={theme === 'light' ? 'active' : ''} aria-pressed={theme === 'light'} onClick={() => onThemeChange('light')}>Light</button>
-                  <button className={theme === 'dark' ? 'active' : ''} aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
+                <div className="runtime-theme-choice ui-segmented-control" role="group" aria-label="Appearance">
+                  <button className={`ui-button ui-button--tertiary ui-button--compact ${theme === 'light' ? 'active' : ''}`} aria-pressed={theme === 'light'} onClick={() => onThemeChange('light')}>Light</button>
+                  <button className={`ui-button ui-button--tertiary ui-button--compact ${theme === 'dark' ? 'active' : ''}`} aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
                 </div>
               </section>
             </div>
