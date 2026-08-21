@@ -44,7 +44,7 @@ function reasonLabel(reason: PlannerReasonCode) {
 
 function activityLabel(activity: string) {
   if (activity === 'exam-question') return 'Exam practice'
-  if (activity === 'quick-check') return 'Quick check'
+  if (activity === 'quick-check') return 'Quick quiz'
   if (activity === 'flashcards') return 'Flashcards'
   return 'Revision activity'
 }
@@ -58,7 +58,7 @@ function subjectName(subjectId: string) {
   return catalogue.find((subject) => subject.id === subjectId)?.name ?? subjectId
 }
 
-export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenProgress, onOpenSubjects, onOpenSubject }: PlannerHomeScreenProps) {
+export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onOpenRev, onOpenSubjects, onOpenSubject }: PlannerHomeScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
@@ -119,22 +119,9 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
     onOpenSubject(item.subjectId)
   }
 
-  async function chooseSomethingElse() {
-    if (topItem) {
-      try {
-        await recordPlannerActivityEvent(client, userId, {
-          recommendationId: topItem.recommendationId,
-          eventType: 'chosen_alternative',
-          subjectId: topItem.subjectId,
-          topicId: topItem.topicId,
-          activityType: topItem.activityType,
-          metadata: { plannerVersion: 1, source: 'home', capacityState: snapshot?.capacityState ?? 'unknown' },
-        })
-      } catch {
-        // Deliberate learner choice remains available even if telemetry fails.
-      }
-    }
-    onOpenSubjects()
+  function openRevWithDraft(text: string) {
+    window.sessionStorage.setItem('revision:rev-draft', text)
+    onOpenRev()
   }
 
   function submitPrompt(event: FormEvent<HTMLFormElement>) {
@@ -142,6 +129,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
     const text = prompt.trim()
     if (!text) {
       setRevState('listening')
+      onOpenRev()
       return
     }
     window.sessionStorage.setItem('revision:rev-draft', text)
@@ -152,7 +140,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
   const guidance = loading
     ? 'REV is checking your current plan and evidence.'
     : error
-      ? 'I cannot read the planner state right now. You can still choose a subject or open Progress while I recover.'
+      ? 'I cannot read the planner state right now. You can still choose a subject or open Plan while I recover.'
       : !setup?.availability
         ? 'Tell me roughly how much revision time is realistically available and I can start balancing the work around your assessments.'
         : setup.assessments.length === 0
@@ -162,8 +150,14 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
             : snapshot.capacityState === 'prioritising' && topItem
               ? `Time is tight, so I’m prioritising ${subjectName(topItem.subjectId)} · ${topic}. ${topReason ? `The main reason is that ${reasonLabel(topReason)}.` : ''}`
               : topItem
-                ? `I’d start with ${subjectName(topItem.subjectId)} · ${topic} today. ${topReason ? `That’s because ${reasonLabel(topReason)}.` : ''}`
+                ? `${topic ? `${topic} needs attention. ` : ''}${topReason ? `That’s because ${reasonLabel(topReason)}.` : 'This is the strongest next step from your current plan and evidence.'}`
                 : 'Your plan is up to date. There is no useful planner item I need to push to the front right now.'
+
+  const recommendationTitle = topItem
+    ? `${subjectName(topItem.subjectId)} is the best use of your time today`
+    : loading
+      ? 'REV is working out what matters most today'
+      : 'REV is ready to build your next recommendation'
 
   return (
     <main className="dashboard screen-dashboard planner-home living-home" aria-label="Home">
@@ -183,70 +177,46 @@ export function PlannerHomeScreen({ client, userId, learnerName, onOpenPlan, onO
             />
             <button className="living-home-send" type="submit" aria-label="Send to REV">↑</button>
           </form>
-          <p className="living-home-status" aria-live="polite">{loading ? 'REV is checking what matters today…' : 'REV is ready when you are.'}</p>
-          <a className="living-home-scroll" href="#planner-home-support">Your wider Revision workspace<span aria-hidden="true">↓</span></a>
         </div>
       </section>
 
-      <section className="living-home-support" id="planner-home-support" aria-labelledby="planner-home-support-title">
-        <header className="living-home-support-header">
-          <p className="eyebrow">Your Revision workspace</p>
-          <h2 id="planner-home-support-title">Everything else is here when you need it.</h2>
-        </header>
-
-        <div className="living-home-feature-grid">
-          <button className="living-home-feature" onClick={onOpenPlan}>
-            <span className="living-home-feature-icon" aria-hidden="true">◎</span>
-            <strong>Plan smart</strong>
-            <span>Build revision around the time you actually have and the assessments ahead.</span>
-          </button>
-          <button className="living-home-feature" onClick={() => topItem ? void startItem(topItem) : onOpenSubjects()}>
-            <span className="living-home-feature-icon" aria-hidden="true">↻</span>
-            <strong>Continue where you left off</strong>
-            <span>{topItem ? `${subjectName(topItem.subjectId)} · ${itemTopicLabel(topItem, learningStates)}` : 'Choose a subject and get back into useful work.'}</span>
-          </button>
-          <button className="living-home-feature" onClick={onOpenSubjects}>
-            <span className="living-home-feature-icon" aria-hidden="true">▤</span>
-            <strong>Find resources</strong>
-            <span>Move quickly into Learn, Practice and Exam Prep for your subjects.</span>
-          </button>
-          <button className="living-home-feature" onClick={onOpenProgress}>
-            <span className="living-home-feature-icon" aria-hidden="true">↗</span>
-            <strong>Track progress</strong>
-            <span>See what your evidence says and where useful work should go next.</span>
-          </button>
-        </div>
-
-        <div className="living-home-guidance-grid">
-          <section className="living-home-guidance" aria-labelledby="planner-home-rev-view">
-            <p className="eyebrow">REV’s view</p>
-            <h3 id="planner-home-rev-view">What matters now</h3>
+      <section className="planner-home-primary-grid" aria-label="Today’s recommendation and plan">
+        <article className="planner-home-recommendation">
+          <div className="planner-home-recommendation-copy">
+            <p className="planner-home-recommendation-label"><span aria-hidden="true">✦</span> REV recommends</p>
+            <h2>{recommendationTitle}</h2>
             <p>{guidance}</p>
-            <div className="living-home-guidance-actions">
-              {topItem && <button className="primary" onClick={() => void startItem(topItem)}>Start {activityLabel(topItem.activityType)}</button>}
-              {topItem && <button className="secondary" onClick={() => void chooseSomethingElse()}>Choose something else</button>}
-              <button className="secondary" onClick={onOpenRev}>Talk to REV</button>
+            <div className="planner-home-recommendation-actions">
+              {topItem ? (
+                <button className="primary" onClick={() => void startItem(topItem)}>Start {topItem.estimatedMinutes} min session</button>
+              ) : (
+                <button className="primary" onClick={onOpenPlan}>{setup?.assessments.length ? 'Complete plan setup' : 'Set up my plan'}</button>
+              )}
+              <button className="planner-home-why" onClick={() => openRevWithDraft(topItem ? `Why is ${subjectName(topItem.subjectId)} my top recommendation today?` : 'What do you need from me before you can recommend what to revise?')}>Why this? <span aria-hidden="true">›</span></button>
             </div>
-          </section>
-
-          <aside className="living-home-today" aria-labelledby="planner-home-today-title">
-            <p className="eyebrow">Today’s plan</p>
-            <h3 id="planner-home-today-title">{snapshot?.capacityState === 'prioritising' ? 'Prioritising the time available' : 'Your current focus'}</h3>
-            {!snapshot && <p>{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
-            {snapshot && snapshot.today.length === 0 && <p>No planner activity needs to be pushed forward right now.</p>}
-            {snapshot && snapshot.today.length > 0 && <ol className="planner-home-items">{snapshot.today.slice(0, 3).map((item) => <li key={item.recommendationId}><strong>{subjectName(item.subjectId)} · {itemTopicLabel(item, learningStates)}</strong><span>{activityLabel(item.activityType)} · about {item.estimatedMinutes} min</span></li>)}</ol>}
-            <button className="text-link" onClick={onOpenPlan}>See the wider plan <span aria-hidden="true">→</span></button>
-          </aside>
-        </div>
-
-        <section className="home-section planner-home-support" aria-labelledby="planner-home-overview-title">
-          <div className="section-heading"><div><p className="eyebrow">Bigger picture</p><h2 id="planner-home-overview-title">Keep the whole programme visible</h2></div><button className="text-link" onClick={onOpenProgress}>See progress <span aria-hidden="true">→</span></button></div>
-          <div className="progress-overview">
-            <article><small>Active assessments</small><strong>{setup?.assessments.length ?? 0}</strong><p>Dates currently shaping your adaptive plan.</p></article>
-            <article><small>Today’s plan</small><strong>{snapshot?.today.length ?? 0}</strong><p>Current useful activities within realistic capacity.</p></article>
-            <article><small>Planner state</small><strong>{snapshot?.capacityState === 'prioritising' ? 'Prioritising' : snapshot ? 'Current' : 'Building'}</strong><p>{snapshot?.capacityState === 'prioritising' ? 'Focusing on the highest-value work without creating panic or task debt.' : 'The plan will keep adapting as evidence and dates change.'}</p></article>
           </div>
-        </section>
+          <div className="planner-home-recommendation-mark" aria-hidden="true"><span>↗</span></div>
+        </article>
+
+        <aside className="planner-home-today" aria-labelledby="planner-home-today-title">
+          <div className="planner-home-today-head"><h2 id="planner-home-today-title">Today’s plan</h2><button className="planner-home-view-plan" onClick={onOpenPlan}>View full plan <span aria-hidden="true">→</span></button></div>
+          {!snapshot && <p className="planner-home-today-empty">{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
+          {snapshot && snapshot.today.length === 0 && <p className="planner-home-today-empty">No planner activity needs to be pushed forward right now.</p>}
+          {snapshot && snapshot.today.length > 0 && (
+            <ol className="planner-home-items">
+              {snapshot.today.slice(0, 3).map((item) => (
+                <li key={item.recommendationId}>
+                  <button onClick={() => void startItem(item)}>
+                    <span className="planner-home-item-icon" aria-hidden="true">{item.activityType === 'quick-check' ? '✓' : item.activityType === 'flashcards' ? '□' : '◫'}</span>
+                    <span className="planner-home-item-copy"><strong>{subjectName(item.subjectId)} — {itemTopicLabel(item, learningStates)}</strong><small>{activityLabel(item.activityType)}</small></span>
+                    <span className="planner-home-item-time">{item.estimatedMinutes} min</span>
+                    <span className="planner-home-item-arrow" aria-hidden="true">›</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          )}
+        </aside>
       </section>
     </main>
   )
