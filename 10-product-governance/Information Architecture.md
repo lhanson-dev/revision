@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.5  
+**Status:** Draft authority candidate — v0.6  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -11,7 +11,7 @@ The student should not need to understand the product's internal complexity. The
 
 - understand what matters now;
 - see and shape their wider revision plan;
-- get intelligent support from REV;
+- get intelligent support from REV from wherever they are;
 - understand progress across subjects; and
 - choose their own subject or activity when they want to.
 
@@ -21,21 +21,26 @@ Navigation should remain recognisable and relatively flat. Avoid deep nesting, d
 
 ## Primary global navigation
 
-The primary learner navigation is:
+The learner-wide destinations are:
 
 1. **Home**
 2. **Plan**
-3. **REV**
-4. **Progress**
-5. **Subjects**
+3. **Progress**
+4. **Subjects**
 
-These destinations operate across the learner's wider revision programme rather than one particular paper or activity.
+The persistent learner-wide action is:
 
-The order reflects the product's intended experience: orient to today, understand the wider plan, access the intelligent coach, understand the evidence picture, or choose work directly.
+- **Ask REV**
+
+REV is therefore not primarily a peer destination alongside the four learner-wide destinations. It is an ongoing intelligent-coach relationship that should remain available from any learner screen. A full REV workspace may still exist for extended conversation, but ordinary access should not require the learner to navigate away from the work they are doing.
+
+The structure reflects the product's intended experience: orient to today, understand the wider plan, understand the evidence picture, choose work directly, or ask the intelligent coach for help at any point.
 
 Practice and Exam Prep remain core product capabilities, but they are contextual capabilities within a selected subject/course rather than global destinations.
 
-Account, profile, settings, help, privacy, subject management and similar utilities remain secondary and belong in the secondary/burger menu.
+Account, profile, settings, help, privacy, subject management and similar utilities remain secondary. Desktop may expose the most useful account utilities at the bottom of the persistent learner rail; tablet/mobile use the secondary menu.
+
+Detailed responsive behaviour is governed by `Global Learner Navigation.md`.
 
 ## Learner hierarchy
 
@@ -87,9 +92,11 @@ The REV guidance and Today's plan card are complementary:
 - REV explains the most useful focus and why;
 - Today's plan makes the practical workload visible.
 
+Home may include a prominent `Ask REV anything…` input as part of the opening composition. That Home input does not replace the persistent Ask REV action elsewhere in the shell.
+
 Home may include a small number of quiet supporting signals, but must not become a dense dashboard or activity feed.
 
-The learner remains free to ignore the recommendation and choose work through Subjects, Plan or REV.
+The learner remains free to ignore the recommendation and choose work through Subjects or Plan, or ask REV for a different approach.
 
 ## Plan
 
@@ -122,17 +129,15 @@ Plan should not become a generic calendar, homework manager or manual task-resch
 
 ## REV
 
-REV is a primary global destination and the dedicated space for the ongoing intelligent-coach relationship.
+REV is the ongoing intelligent-coach relationship and a persistent global action.
 
-REV must feel context-aware and ready to respond rather than opening as a blank generic chatbot or a dashboard of AI functions.
-
-The dedicated REV page should lead with an active conversational posture — closer to **How can I help?** — while already understanding relevant learner context.
+Opening Ask REV should feel context-aware and ready to respond rather than like a blank generic chatbot or a dashboard of AI functions.
 
 REV may operate at several scopes:
 
 ### Global REV
 
-On Home and in the dedicated REV area, REV can use the learner's wider subjects, plan, progress, activity and assessment context.
+On Home, Plan, global Progress and the expanded REV workspace, REV can use the learner's wider subjects, plan, progress, activity and assessment context.
 
 ### Subject-scoped REV
 
@@ -144,7 +149,7 @@ Within a course/paper section, topic, activity or feedback view, REV may use tha
 
 These are contextual scopes of one assistant relationship, not separate assistants.
 
-Moving from Home, Plan, Progress, Subjects or an activity into REV should preserve relevant context.
+Selecting Ask REV should preserve relevant context so the learner does not need to explain where they came from. On desktop this should normally open a substantial contextual side panel; tablet/mobile should use an appropriate overlay or sheet. A route to an expanded/full REV workspace may be available for longer conversations.
 
 REV should support natural planning conversations, including learner preferences that temporarily reshape the plan, while keeping wider consequences visible.
 
@@ -259,35 +264,40 @@ These routes should resolve to the same underlying topic/specification identity 
 
 ### Desktop
 
-Desktop primary navigation should expose:
+Desktop uses a persistent left learner rail rather than a top primary navigation bar.
 
-- Home
-- Plan
-- REV
-- Progress
-- Subjects
+The top area should expose:
 
-REV may receive distinctive visual treatment, but visual prominence must not reduce clarity or accessibility of the other destinations.
+- REV identity;
+- a prominent **Ask REV** action;
+- Home;
+- Plan;
+- Progress; and
+- Subjects.
+
+The bottom area should expose restrained account utilities, normally Profile and Settings. Sign out is an account action rather than a peer learner destination.
+
+Ask REV should receive the strongest branded emphasis in the rail. Ordinary destinations should remain visually quiet with a clear accessible active state.
 
 Within Subject Home or course/paper/component areas, contextual navigation should expose the focused sections that apply, normally Overview, Learn, Practice, Exam Prep and Progress.
 
-### Mobile
+### Tablet and mobile
 
-Mobile should use:
+Tablet and mobile should use:
 
 - Revision wordmark at the top left;
 - a burger/menu control at the top right for account and secondary utilities; and
 - persistent fixed bottom navigation for **Home, Plan, REV, Progress and Subjects**.
 
-REV occupies the centre position and may use a modest raised/differentiated treatment because it is a core differentiating capability.
+The centre REV element is a persistent **Ask REV action**, not merely a peer page destination. It may use a modest raised/differentiated treatment because REV is a core differentiating capability.
 
-The treatment should make REV distinctive without becoming decorative AI theatre. It must have a clear accessible label, adequate touch target and an active state that does not rely only on colour.
+The treatment should make REV distinctive without becoming decorative AI theatre. It must have a clear accessible label, adequate touch target and a state that does not rely only on colour.
 
 Contextual course/paper navigation must remain easy to use on small screens without replacing or obscuring learner-wide navigation.
 
 ## Secondary menu
 
-The secondary/burger menu contains utilities rather than primary learner jobs, including as applicable:
+The secondary/burger or account menu contains utilities rather than primary learner jobs, including as applicable:
 
 - profile;
 - account;
@@ -295,7 +305,8 @@ The secondary/burger menu contains utilities rather than primary learner jobs, i
 - notification preferences;
 - subject management;
 - help;
-- privacy/data controls; and
+- privacy/data controls;
+- sign out; and
 - other secondary utilities.
 
 Parent and teacher experiences should remain separate role-specific journeys when developed.
@@ -306,14 +317,15 @@ The information architecture should:
 
 - keep the learner-wide next action prominent on Home;
 - make Today's plan visible without turning Home into the full planner;
-- make Plan a genuine primary job, not a decorative fifth tab;
-- make REV distinctive, context-aware and easy to reach;
+- make Plan a genuine primary job;
+- make Ask REV distinctive, contextual and available from any learner screen;
 - keep the wider learner picture available while preserving student choice;
 - support fast switching between multiple subjects;
 - preserve official specification structure;
 - use focused learning/practice/exam-prep/progress sections where depth justifies them;
 - avoid duplicate topic identities across learning modes;
 - keep global navigation flat and recognisable;
+- prevent the desktop rail becoming a dumping ground for contextual tools;
 - avoid excessive dashboard density;
 - use progressive disclosure for secondary detail;
 - remain fully usable on mobile and with assistive technology; and
