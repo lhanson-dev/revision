@@ -136,7 +136,8 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   await expect(modal).toHaveClass(/ui-overlay-surface/)
   await expect(modal).toHaveCSS('border-radius', '24px')
 
-  const backdrop = page.getByRole('button', { name: 'Close account window' }).filter({ hasNot: page.locator('.ui-icon-button') })
+  const backdrop = page.locator('.ui-overlay-backdrop[aria-label="Close account window"]')
+  await expect(backdrop).toHaveCount(1)
   await expect(backdrop).toHaveClass(/ui-overlay-backdrop/)
 
   const close = modal.getByRole('button', { name: 'Close account window' })
