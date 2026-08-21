@@ -6,6 +6,7 @@ import { AccountModal } from './AccountModal'
 import { App } from './App'
 import { buildCatalogue } from './catalogue-model'
 import { ContentOperations } from './ContentOperations'
+import { ContextualLearnerNavigation } from './ContextualLearnerNavigation'
 import {
   adminRoute,
   homeRoute,
@@ -319,6 +320,7 @@ export function PlannerRuntime() {
           <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
           <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
           <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
+          {subjectsActive && <ContextualLearnerNavigation route={route} subjects={catalogue} onNavigate={navigate} />}
         </nav>
         <div className="runtime-sidebar-account">
           {accountMenuOpen && (
@@ -401,6 +403,7 @@ export function PlannerRuntime() {
               <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
               <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
               <button aria-current={subjectsActive ? 'page' : undefined} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
+              {subjectsActive && <ContextualLearnerNavigation route={route} subjects={catalogue} onNavigate={navigate} />}
             </nav>
 
             <div className="runtime-mobile-drawer-spacer"></div>
