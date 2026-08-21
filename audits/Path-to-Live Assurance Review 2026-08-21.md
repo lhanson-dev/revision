@@ -73,6 +73,14 @@ The Assurance Coverage Register remains valid as a statement that the path-to-li
 5. After remediation is approved and merged, verify the resulting `main` release reaches backend readiness, build, deployment and production smoke, and that the exact production commit carries `revision/path-to-live = success`.
 6. Only then close the P1 with verification evidence.
 
+## Recovery mechanism selected in PR #85
+
+PR #85 implements the non-fabricating recovery option from item 3. The existing release-lineage bootstrap mechanism is deliberately re-anchored once to the exact pre-remediation `main` commit `d960c950f4620dd469888a1174af582524706ec2`.
+
+This does not assert that PRs #75, #77, #81, #82 or #84 had compliant GitHub approval markers. Their failed statuses and missing evidence remain unchanged. Instead, the pre-remediation repository state becomes an explicit one-time recovery trust root, recorded by ADR-0013, so PR #85 can establish a new prospective governed chain after its own exact-head CI and Founder approval are durably evidenced.
+
+The checkpoint is intentionally narrow: it is valid only while PR #85's first parent is the recorded pre-remediation `main` SHA. It must not be advanced again simply to bypass a future governance failure. Any future reset requires a new governed recovery decision and explicit Founder approval.
+
 ## Documentation impact conclusion
 
-This incident changes current operational truth and exposes a missing procedural step in the AI/repository workflow. It therefore requires both a current defect record and a normative AI workflow clarification. Historical release evidence is preserved rather than rewritten.
+This incident changes current operational truth and exposes a missing procedural step in the AI/repository workflow. It therefore requires a current defect record, normative AI workflow clarification, a durable recovery decision and technical release configuration change. Historical release evidence is preserved rather than rewritten.
