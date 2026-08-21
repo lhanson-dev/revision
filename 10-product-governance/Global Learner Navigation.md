@@ -1,6 +1,6 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.2  
+**Status:** Active authority — v0.3  
 **Owner:** Founder  
 **Effective date:** 2026-08-21  
 **Purpose:** Define the governed global learner navigation model and persistent REV access pattern across desktop, tablet and mobile.
@@ -69,13 +69,36 @@ Selecting the account control opens a compact account menu anchored to the sideb
 
 The menu is an account utility surface, not another primary navigation section. It should use the approved Calm Teal surface, border, typography and focus treatments while remaining visually quieter than Ask REV.
 
-Profile and Settings may open a larger account panel or dedicated account surface when more space is required. Log out remains an account action rather than a destination.
-
-Where a user has an authorised operational/admin role, role-specific Admin utilities may remain available through the secondary account/profile experience without changing the ordinary learner menu model.
-
 `Upgrade plan` must not masquerade as a working purchase control before the governed subscription/upgrade capability exists. While FI-002 remains before `Ready`, any visible preview of this menu item must be clearly marked unavailable or forthcoming and must not initiate an unapproved purchase journey. Once the governed upgrade route exists, the item should become the direct route into plan comparison/change rather than requiring a redesign of the account menu.
 
 The compact account menu should close naturally after a selection, on Escape, or when the learner clicks/taps outside it.
+
+### Profile and Settings modal behaviour
+
+Profile and Settings use one shared **centred account modal workspace** rather than a right-edge drawer or a new full-page destination.
+
+Selecting either Profile or Settings should:
+
+- keep the underlying learner screen in place;
+- dim the background with a restrained modal backdrop;
+- open an elevated account window positioned near the centre of the viewport rather than attached to the right edge;
+- open directly to the section the learner selected; and
+- allow the learner to switch between Profile and Settings inside the same modal without returning to the sidebar account menu.
+
+On desktop and larger tablets, the modal should use a simple two-area composition inspired by familiar modern application settings patterns:
+
+- a compact internal section rail for **Profile** and **Settings**; and
+- a larger content area for the selected section.
+
+The interaction pattern may take usability cues from established products such as ChatGPT, but Revision must use its own approved Calm Teal visual system, Manrope typography, spacing, radius, focus treatment and surface hierarchy rather than copying another product's visual identity.
+
+The modal should close via its close control, Escape or the modal backdrop. Focus behaviour must remain accessible and the underlying page must not become a second active interaction layer while the modal is open.
+
+On mobile, the same account workspace should adapt to a near-full-screen modal with compact section switching rather than becoming a narrow desktop-style side drawer.
+
+Profile currently owns authenticated learner identity/account information. Settings owns implemented learner preferences such as appearance. Future account settings may extend this modal only when separately governed; the modal must not become an unstructured dumping ground for unrelated product functions.
+
+Where a user has an authorised operational/admin role, role-specific Admin utilities may remain available through the Profile section without changing the ordinary learner account menu model.
 
 ### Desktop Ask REV behaviour
 
@@ -123,6 +146,8 @@ On tablet, selecting REV should use a side sheet, large overlay or equivalent tr
 
 Tablet and mobile continue to use the secondary account/menu control in the top bar rather than reproducing the desktop left-rail account control. The same account jobs should remain available there as they become implemented, while preserving the fixed bottom bar for learner-wide navigation and Ask REV.
 
+Selecting Profile or Settings from the tablet/mobile account menu should open the same governed account modal workspace, responsively adapted to the smaller viewport.
+
 ## Home-specific REV input
 
 Home may additionally present a large, prominent `Ask REV anything...` input as part of its calm REV-led hero composition.
@@ -146,6 +171,7 @@ The navigation must use the approved Revision Brand System.
 - keep ordinary destinations neutral with restrained active-state treatment;
 - use a single compact learner identity/account row at the bottom rather than duplicate Profile/Settings rows;
 - render the account menu as a compact elevated surface within/adjacent to the rail, not a second navigation column;
+- render Profile/Settings as a centred elevated modal with restrained backdrop, clear internal section navigation and no REV halo;
 - do not apply the REV halo to ordinary navigation or account items; and
 - do not add unnecessary section headings, badges, nested menus or secondary product features to the global rail.
 
@@ -164,7 +190,7 @@ Light and dark modes are first-class versions of the same navigation system.
 
 The information architecture, spacing, ordering and interaction model should remain the same across themes.
 
-Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift into neon or sci-fi styling. REV may retain its subtle soft halo; ordinary navigation and account controls should not.
+Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift into neon or sci-fi styling. REV may retain its subtle soft halo; ordinary navigation, account controls and account modal surfaces should not.
 
 ## Guardrails
 
@@ -174,6 +200,7 @@ Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift
 - Do not require a learner to leave their current task merely to ask REV a contextual question.
 - Do not duplicate navigation destinations simply because desktop has more space.
 - Do not duplicate Profile and Settings as both persistent rail rows and account-menu actions.
+- Do not attach Profile or Settings to the right screen edge as though they are the same interaction as Ask REV; account management uses the centred account modal pattern.
 - Keep the learner-wide navigation flat and recognisable.
 - Preserve deep-linking/addressability for product destinations and contextual work independently of the Ask REV overlay.
 
@@ -181,4 +208,4 @@ Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift
 
 Implementation of this model requires the current learner-shell technical documentation and responsive navigation implementation to remain aligned.
 
-`Information Architecture.md`, responsive assurance and any implementation description that still depicts separate persistent Profile / Settings rows should be aligned with this specific navigation authority in the same governed change where practical.
+`Information Architecture.md` remains compatible because it defines Profile and Settings as secondary account utilities without prescribing a screen-edge treatment. Technical documentation and responsive assurance must explicitly reflect the centred account modal behaviour.
