@@ -15,6 +15,7 @@
 .planner-runtime .living-home-support-header .eyebrow,
 .planner-runtime .living-home-guidance-actions button,
 .planner-runtime .text-link,
+.planner-runtime .breadcrumbs button,
 .planner-runtime .runtime-bottom-nav button.active {
   color: var(--color-accent-text);
 }
