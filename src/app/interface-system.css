@@ -9,38 +9,6 @@
  */
 
 .planner-runtime {
-  /* Spacing roles — governed 4px rhythm. */
-  --ui-space-1: 4px;
-  --ui-space-2: 8px;
-  --ui-space-3: 12px;
-  --ui-space-4: 16px;
-  --ui-space-5: 20px;
-  --ui-space-6: 24px;
-  --ui-space-8: 32px;
-  --ui-space-10: 40px;
-  --ui-space-12: 48px;
-  --ui-space-16: 64px;
-
-  /* Reusable control geometry. */
-  --ui-control-compact: 36px;
-  --ui-control-standard: 44px;
-  --ui-control-large: 52px;
-  --ui-field-height: 48px;
-  --ui-icon-button-size: 44px;
-
-  /* Interaction timing. Motion is intentionally quiet and consistent. */
-  --ui-motion-fast: 160ms;
-  --ui-motion-standard: 200ms;
-  --ui-ease-standard: cubic-bezier(.2, .8, .2, 1);
-
-  /* Shared overlay/floating roles. */
-  --ui-backdrop: rgba(15, 32, 36, .36);
-  --ui-backdrop-blur: 3px;
-  --ui-overlay-radius: 24px;
-  --ui-menu-radius: 16px;
-  --ui-menu-item-radius: 12px;
-  --ui-focus-ring: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 22%, transparent);
-
   font-family: Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -57,7 +25,7 @@
 }
 
 .ui-surface-standard {
-  padding: var(--ui-space-6);
+  padding: var(--space-6);
 }
 
 .ui-surface-quiet {
@@ -73,10 +41,10 @@
   background: var(--color-surface);
   color: var(--color-text);
   transition:
-    border-color var(--ui-motion-fast) var(--ui-ease-standard),
-    background var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    transform var(--ui-motion-fast) var(--ui-ease-standard);
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    background var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .ui-surface-interactive:hover,
@@ -94,7 +62,7 @@
 
 .ui-floating-surface {
   border: 1px solid var(--color-border);
-  border-radius: var(--ui-menu-radius);
+  border-radius: var(--menu-radius);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -111,14 +79,14 @@
   height: 100%;
   padding: 0;
   border: 0;
-  background: var(--ui-backdrop);
-  backdrop-filter: blur(var(--ui-backdrop-blur));
+  background: var(--overlay-backdrop);
+  backdrop-filter: blur(var(--overlay-backdrop-blur));
   cursor: default;
 }
 
 .ui-overlay-surface {
   border: 1px solid var(--color-border);
-  border-radius: var(--ui-overlay-radius);
+  border-radius: var(--overlay-radius);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -129,14 +97,14 @@
 .runtime-account-modal-backdrop,
 .runtime-mobile-menu-backdrop,
 .runtime-rev-backdrop {
-  background: var(--ui-backdrop);
-  backdrop-filter: blur(var(--ui-backdrop-blur));
+  background: var(--overlay-backdrop);
+  backdrop-filter: blur(var(--overlay-backdrop-blur));
 }
 
 .runtime-account-modal,
 .runtime-rev-panel {
   border-color: var(--color-border);
-  border-radius: var(--ui-overlay-radius);
+  border-radius: var(--overlay-radius);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -151,7 +119,7 @@
 
 .runtime-account-popover {
   border-color: var(--color-border);
-  border-radius: var(--ui-menu-radius);
+  border-radius: var(--menu-radius);
   background: var(--color-surface-elevated);
   color: var(--color-text);
   box-shadow: var(--shadow-overlay);
@@ -162,12 +130,12 @@
 /* -------------------------------------------------------------------------- */
 
 .ui-button {
-  min-height: var(--ui-control-standard);
+  min-height: var(--control-height-standard);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ui-space-2);
-  padding: 0 var(--ui-space-4);
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   font: inherit;
@@ -176,11 +144,11 @@
   line-height: 20px;
   cursor: pointer;
   transition:
-    background var(--ui-motion-fast) var(--ui-ease-standard),
-    border-color var(--ui-motion-fast) var(--ui-ease-standard),
-    color var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    transform var(--ui-motion-fast) var(--ui-ease-standard);
+    background var(--motion-fast) var(--motion-ease-standard),
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .ui-button:focus-visible,
@@ -188,7 +156,7 @@
 .ui-menu-item:focus-visible,
 .ui-field:focus-visible {
   outline: 0;
-  box-shadow: var(--ui-focus-ring);
+  box-shadow: var(--focus-ring);
 }
 
 .ui-button:active:not(:disabled),
@@ -205,14 +173,14 @@
 }
 
 .ui-button--compact {
-  min-height: var(--ui-control-compact);
-  padding-inline: var(--ui-space-3);
+  min-height: var(--control-height-compact);
+  padding-inline: var(--space-3);
   font-size: 13px;
 }
 
 .ui-button--large {
-  min-height: var(--ui-control-large);
-  padding-inline: var(--ui-space-5);
+  min-height: var(--control-height-large);
+  padding-inline: var(--space-5);
 }
 
 .ui-button--primary {
@@ -255,23 +223,23 @@
 }
 
 .ui-icon-button {
-  width: var(--ui-icon-button-size);
-  height: var(--ui-icon-button-size);
-  min-width: var(--ui-icon-button-size);
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  min-width: var(--icon-button-size);
   display: inline-grid;
   place-items: center;
   padding: 0;
   border: 0;
-  border-radius: var(--ui-menu-item-radius);
+  border-radius: var(--menu-item-radius);
   background: transparent;
   color: var(--color-text-secondary);
   font: inherit;
   cursor: pointer;
   transition:
-    background var(--ui-motion-fast) var(--ui-ease-standard),
-    color var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    transform var(--ui-motion-fast) var(--ui-ease-standard);
+    background var(--motion-fast) var(--motion-ease-standard),
+    color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .ui-icon-button:hover:not(:disabled),
@@ -286,8 +254,8 @@
 
 .ui-menu {
   display: grid;
-  gap: var(--ui-space-1);
-  padding: var(--ui-space-2);
+  gap: var(--space-1);
+  padding: var(--space-2);
 }
 
 .ui-menu-item {
@@ -296,10 +264,10 @@
   display: grid;
   grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
-  gap: var(--ui-space-3);
-  padding: var(--ui-space-2) var(--ui-space-3);
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border: 0;
-  border-radius: var(--ui-menu-item-radius);
+  border-radius: var(--menu-item-radius);
   background: transparent;
   color: var(--color-text-secondary);
   text-align: left;
@@ -308,10 +276,10 @@
   font-weight: 650;
   cursor: pointer;
   transition:
-    background var(--ui-motion-fast) var(--ui-ease-standard),
-    color var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    transform var(--ui-motion-fast) var(--ui-ease-standard);
+    background var(--motion-fast) var(--motion-ease-standard),
+    color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .ui-menu-item:hover,
@@ -332,10 +300,10 @@
 .runtime-mobile-drawer-nav > button,
 .runtime-mobile-account-links > button {
   transition:
-    background var(--ui-motion-fast) var(--ui-ease-standard),
-    color var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    transform var(--ui-motion-fast) var(--ui-ease-standard);
+    background var(--motion-fast) var(--motion-ease-standard),
+    color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .runtime-account-popover button:focus-visible,
@@ -343,7 +311,7 @@
 .runtime-mobile-account-links > button:focus-visible,
 .runtime-sidebar-user:focus-visible {
   outline: 0;
-  box-shadow: var(--ui-focus-ring);
+  box-shadow: var(--focus-ring);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -352,8 +320,8 @@
 
 .ui-field {
   width: 100%;
-  min-height: var(--ui-field-height);
-  padding: 0 var(--ui-space-3);
+  min-height: var(--field-height-standard);
+  padding: 0 var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-control);
   background: var(--color-surface);
@@ -361,9 +329,9 @@
   font: inherit;
   font-size: 16px;
   transition:
-    border-color var(--ui-motion-fast) var(--ui-ease-standard),
-    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
-    background var(--ui-motion-fast) var(--ui-ease-standard);
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    background var(--motion-fast) var(--motion-ease-standard);
 }
 
 .ui-field::placeholder {
@@ -385,7 +353,7 @@
 }
 
 .ui-segmented-control .ui-button {
-  min-height: var(--ui-control-compact);
+  min-height: var(--control-height-compact);
   border-radius: 9px;
 }
 
@@ -396,8 +364,8 @@
 .ui-status {
   display: flex;
   align-items: flex-start;
-  gap: var(--ui-space-3);
-  padding: var(--ui-space-4);
+  gap: var(--space-3);
+  padding: var(--space-4);
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   font-size: 14px;
