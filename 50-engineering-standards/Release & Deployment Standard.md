@@ -4,10 +4,10 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.4"
+version: "0.5"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-19"
+last_reviewed: "2026-08-21"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["CI/CD and deployment", "path-to-live assurance"]
@@ -22,6 +22,7 @@ supersedes: null
 - CI selects assurance depth using change risk, with critical shared areas escalating automatically.
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
 - Explicit Founder approval remains required for every merge to `main`.
+- **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that merge. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that exact-head evidence before merge. The Founder must not be asked to repeat approval or perform a separate release-registration step.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
@@ -34,8 +35,8 @@ Revision treats path-to-live as a chain of separately evidenced stages rather th
 
 1. **Change classification** — determine the change risk and affected journeys/controls.
 2. **Change assurance** — required PR CI for the exact proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
-3. **Founder gate** — explicit approval is recorded for that specific PR.
-4. **Merge** — the approved head is merged into `main`.
+3. **Founder gate** — explicit approval is recorded for that specific PR. The operating agent persists and verifies the required exact-head GitHub evidence as part of carrying out the approved merge; this is not a second Founder action.
+4. **Merge** — the approved and durably evidenced head is merged into `main`.
 5. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
 6. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
 7. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
