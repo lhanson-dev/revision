@@ -83,7 +83,7 @@ export function ContextualLearnerNavigation({ route, subjects, onNavigate }: Con
   const selectedSubjectId = routeSubjectId(route)
 
   return (
-    <div className="runtime-context-nav" aria-label="Subjects navigation">
+    <div className="runtime-context-nav" role="group" aria-label="Subjects navigation">
       <div className="runtime-context-nav-level runtime-context-nav-subjects">
         <button
           className="runtime-context-nav-item"
