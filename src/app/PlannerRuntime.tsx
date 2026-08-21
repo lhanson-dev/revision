@@ -29,7 +29,7 @@ const catalogue = buildCatalogue(listAvailableContentAdapters())
 const planSubjects = catalogue.map((subject) => ({ id: subject.id, name: subject.name }))
 const themeStorageKey = 'revision:theme'
 
-type NavIconName = 'home' | 'plan' | 'progress' | 'subjects' | 'profile' | 'settings' | 'upgrade' | 'logout'
+type NavIconName = 'home' | 'plan' | 'progress' | 'subjects' | 'profile' | 'settings' | 'admin' | 'upgrade' | 'logout'
 type ThemeName = 'light' | 'dark'
 type AccountSection = 'profile' | 'settings'
 
@@ -64,6 +64,9 @@ function NavIcon({ name }: { name: NavIconName }) {
   if (name === 'settings') {
     return <svg {...commonProps}><circle cx="12" cy="12" r="3.2" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z" /></svg>
   }
+  if (name === 'admin') {
+    return <svg {...commonProps}><path d="M12 3.5 19 6v5.2c0 4.5-2.7 7.7-7 9.3-4.3-1.6-7-4.8-7-9.3V6z" /><path d="M9.5 12.2 11 13.7l3.7-3.7" /></svg>
+  }
   if (name === 'upgrade') {
     return <svg {...commonProps}><path d="M5 19 19 5M10 5h9v9" /><path d="M5 8v11h11" /></svg>
   }
@@ -86,17 +89,23 @@ function initialTheme(): ThemeName {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
+function titleCaseFirstCharacter(value: string) {
+  const trimmed = value.trim().replace(/\s+/g, ' ')
+  return trimmed ? trimmed.charAt(0).toUpperCase() + trimmed.slice(1) : ''
+}
+
 function learnerName(user: User) {
   const metadata = user.user_metadata ?? {}
-  const explicit = metadata.first_name ?? metadata.given_name ?? metadata.name
-  if (typeof explicit === 'string' && explicit.trim()) {
-    const first = explicit.trim().split(/\s+/)[0]
-    return first.charAt(0).toUpperCase() + first.slice(1)
+  const explicitFirstName = metadata.first_name ?? metadata.given_name
+  if (typeof explicitFirstName === 'string' && explicitFirstName.trim()) {
+    return titleCaseFirstCharacter(explicitFirstName)
+  }
+  if (typeof metadata.name === 'string' && metadata.name.trim()) {
+    return titleCaseFirstCharacter(metadata.name.trim().split(/\s+/)[0])
   }
   const local = (user.email ?? '').split('@')[0].replace(/[._-]+/g, ' ').trim()
   if (/^[a-zA-Z ]+$/.test(local) && local.length > 1) {
-    const first = local.split(/\s+/)[0]
-    return first.charAt(0).toUpperCase() + first.slice(1)
+    return titleCaseFirstCharacter(local.split(/\s+/)[0])
   }
   return 'there'
 }
@@ -214,15 +223,15 @@ export function PlannerRuntime() {
     setMenuOpen(true)
   }
 
-  function openPlannerAdmin() {
-    setMenuOpen(false)
-    setAccountMenuOpen(false)
-    setAccountModalOpen(false)
-    window.location.hash = '#/admin/planner'
-  }
-
   function toggleTheme() {
     setTheme((current) => current === 'light' ? 'dark' : 'light')
+  }
+
+  async function updateLearnerFirstName(firstName: string) {
+    const { data, error } = await supabase.auth.updateUser({ data: { first_name: firstName } })
+    if (error) return 'We could not update your name. Try again.'
+    if (data.user) setUser(data.user)
+    return null
   }
 
   async function signOut() {
@@ -265,6 +274,7 @@ export function PlannerRuntime() {
             <div className="runtime-account-popover" role="menu" aria-label="Profile menu">
               <button role="menuitem" onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
               <button role="menuitem" onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
+              {isAdmin && <button role="menuitem" onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
               <div className="runtime-account-menu-disabled" role="menuitem" aria-disabled="true">
                 <NavIcon name="upgrade" />
                 <span className="runtime-account-menu-copy"><span>Upgrade plan</span><small>Coming soon</small></span>
@@ -320,12 +330,10 @@ export function PlannerRuntime() {
           email={user.email}
           section={accountSection}
           theme={theme}
-          isAdmin={isAdmin}
           onSectionChange={setAccountSection}
           onThemeChange={setTheme}
+          onNameChange={updateLearnerFirstName}
           onClose={() => setAccountModalOpen(false)}
-          onOpenAdmin={() => navigate(adminRoute())}
-          onOpenPlannerAdmin={openPlannerAdmin}
         />
       )}
 
@@ -342,7 +350,6 @@ export function PlannerRuntime() {
               <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
               <button onClick={() => openRev()}>Ask REV <span>→</span></button>
               {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
-              {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
             </nav>
             <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>
             <button className="signout-button" onClick={signOut}>Sign out</button>
