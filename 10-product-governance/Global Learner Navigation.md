@@ -206,6 +206,4 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 
 ## Documentation impact
 
-Implementation of this model must keep the learner-shell technical documentation and responsive browser assurance aligned.
-
-`Information Architecture.md` and the older responsive-navigation wording in `Visual Brand System.md` contain pre-v0.5 bottom-navigation descriptions. Where those descriptions conflict, this active specific navigation authority supersedes them. They should be consolidated when next materially edited; agents must not use those superseded paragraphs to reintroduce the old bottom bar.
+This v0.5 model is aligned in the current `Information Architecture.md`, `Visual Brand System.md` and learner-shell technical documentation. Responsive implementation and browser assurance must remain aligned with this authority.
