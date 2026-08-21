@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.7  
+**Status:** Draft authority candidate — v0.8  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -38,7 +38,7 @@ The structure reflects the product's intended experience: orient to today, under
 
 Practice and Exam Prep remain core product capabilities, but they are contextual capabilities within a selected subject/course rather than global destinations.
 
-Account, profile, settings, plan/subscription management, help, privacy, subject management and similar utilities remain secondary. Desktop uses one compact authenticated account control at the bottom of the persistent learner rail; tablet/mobile use the secondary menu.
+Account, profile, settings, plan/subscription management, help, privacy, subject management and similar utilities remain secondary. Desktop uses one compact authenticated account control at the bottom of the persistent learner rail; tablet/mobile use the slide-out secondary navigation/account drawer.
 
 Detailed responsive behaviour is governed by `Global Learner Navigation.md`.
 
@@ -150,6 +150,8 @@ Within a course/paper section, topic, activity or feedback view, REV may use tha
 These are contextual scopes of one assistant relationship, not separate assistants.
 
 Selecting Ask REV should preserve relevant context so the learner does not need to explain where they came from. On desktop this should normally open a substantial contextual side panel; tablet/mobile should use an appropriate overlay or sheet. A route to an expanded/full REV workspace may be available for longer conversations.
+
+On tablet/mobile the persistent Ask REV access point is a bottom-anchored action dock, not a peer item in a multi-item bottom navigation bar.
 
 REV should support natural planning conversations, including learner preferences that temporarily reshape the plan, while keeping wider consequences visible.
 
@@ -266,42 +268,39 @@ These routes should resolve to the same underlying topic/specification identity 
 
 Desktop uses a persistent left learner rail rather than a top primary navigation bar.
 
-The top area should expose:
+The top area exposes:
 
 - REV identity;
-- a prominent **Ask REV** action;
+- prominent **Ask REV**;
 - Home;
 - Plan;
 - Progress; and
 - Subjects.
 
-The bottom area should expose one compact authenticated account control showing the learner's circular avatar/initial and name. It should not repeat Profile and Settings as permanent rail rows.
+The bottom area exposes one compact authenticated account control showing avatar/initial and learner name. Selecting it opens the compact Profile / Settings / Upgrade / Log out menu, with Admin added only for authorised administrators.
 
-Selecting that account control opens a compact menu anchored to the rail. For ordinary learners it contains Profile, Settings, the governed plan/upgrade route when available, and Log out. Profile and Settings may open a larger secondary account panel where more space is needed. Admin-only operational utilities may remain available to authorised users through the secondary account/profile experience without changing the ordinary learner information architecture.
+Until FI-002 has completed the governed feature lifecycle and a real plan-comparison/upgrade route exists, an `Upgrade plan` preview must remain clearly unavailable/forthcoming.
 
-Until FI-002 has completed the governed feature lifecycle and a real plan-comparison/upgrade route exists, an `Upgrade plan` preview must be clearly unavailable/forthcoming rather than behaving like a working purchase action.
-
-Ask REV should receive the strongest branded emphasis in the rail. Ordinary destinations and the account control should remain visually quiet with clear accessible hover/focus/open states.
-
-Within Subject Home or course/paper/component areas, contextual navigation should expose the focused sections that apply, normally Overview, Learn, Practice, Exam Prep and Progress.
+Within Subject Home or course/paper/component areas, contextual navigation exposes the focused sections that apply, normally Overview, Learn, Practice, Exam Prep and Progress.
 
 ### Tablet and mobile
 
-Tablet and mobile should use:
+Tablet and mobile use:
 
-- Revision wordmark at the top left;
-- a burger/menu control at the top right for account and secondary utilities; and
-- persistent fixed bottom navigation for **Home, Plan, REV, Progress and Subjects**.
+- a compact top bar with a **two-line menu control at the top left** and REV identity;
+- a slide-out **left navigation drawer** for Home, Plan, Progress and Subjects;
+- account utilities in the lower part of that drawer; and
+- a persistent bottom-anchored **Ask REV** action dock as the only persistent bottom learner action.
 
-The centre REV element is a persistent **Ask REV action**, not merely a peer page destination. It may use a modest raised/differentiated treatment because REV is a core differentiating capability.
+The drawer is secondary disclosure, not a deep navigation hierarchy. Opening it should keep the four learner-wide destinations immediately recognisable and keep Profile, Settings, Upgrade, permission-gated Admin and Log out clearly separate as account/utility jobs.
 
-The treatment should make REV distinctive without becoming decorative AI theatre. It must have a clear accessible label, adequate touch target and a state that does not rely only on colour.
+The Ask REV dock is global assistant access rather than a fifth navigation destination. It should remain reachable while scrolling, respect safe areas and leave sufficient content clearance so it does not obscure learner actions.
 
-Contextual course/paper navigation must remain easy to use on small screens without replacing or obscuring learner-wide navigation.
+Contextual course/paper navigation must remain easy to use on small screens without colliding with the persistent Ask REV dock.
 
-## Secondary menu
+## Secondary menu / drawer
 
-The secondary/burger or account menu contains utilities rather than primary learner jobs, including as applicable:
+The responsive drawer may contain secondary utilities including as applicable:
 
 - profile;
 - account;
@@ -312,9 +311,11 @@ The secondary/burger or account menu contains utilities rather than primary lear
 - help;
 - privacy/data controls;
 - log out/sign out; and
-- other secondary utilities.
+- permission-gated Admin.
 
-Parent and teacher experiences should remain separate role-specific journeys when developed.
+Ask REV should not be duplicated as a drawer item when the persistent dock is present.
+
+Parent and teacher experiences remain separate role-specific journeys when developed.
 
 ## Design guardrails
 
@@ -330,7 +331,7 @@ The information architecture should:
 - use focused learning/practice/exam-prep/progress sections where depth justifies them;
 - avoid duplicate topic identities across learning modes;
 - keep global navigation flat and recognisable;
-- prevent the desktop rail becoming a dumping ground for contextual tools or duplicated account destinations;
+- prevent the desktop rail and responsive drawer becoming dumping grounds;
 - avoid excessive dashboard density;
 - use progressive disclosure for secondary detail;
 - remain fully usable on mobile and with assistive technology; and
