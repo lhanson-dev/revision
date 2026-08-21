@@ -7,6 +7,28 @@ Read authority → confirm governed feature state → complete analysis/Definiti
 
 For defects, maintenance and other non-feature implementation, apply the relevant authority and Governed Implementation Workflow without inventing a feature lifecycle record unnecessarily.
 
+## Autonomous execution and status rule
+
+Once the Founder has authorised a piece of work, the executing AI agent should continue autonomously through the routine investigation, remediation, validation, documentation and PR-assurance steps that are within the approved scope. It should not return control merely because an intermediate test, CI check or implementation attempt failed when it can safely investigate and remediate that failure itself.
+
+The agent should return control only when one of the following is true:
+
+1. **Founder action required** — a specific approval, governance decision, scope decision or other Founder-only action is genuinely required;
+2. **Waiting on an external system** — an external process such as GitHub Actions is the only remaining blocker and no useful authorised work can continue until it finishes; or
+3. **Complete** — the authorised work is complete and no further action is required.
+
+An AI response must never state or imply that the agent itself will continue working after that response has ended unless an actual automation or supported external trigger has been created to do so.
+
+Every final work update must end with an explicit status statement so the Founder does not have to infer whether work is still happening. Use one of these forms, adapted with the specific next action where useful:
+
+- **STATUS: FOUNDER ACTION REQUIRED — <exact action required>.**
+- **STATUS: WAITING ON EXTERNAL SYSTEM — <what is running>. Check back when it has completed and I will immediately continue from the result.**
+- **STATUS: COMPLETE — no further action required.**
+
+Do not use a final status such as `working`, `continuing`, `in progress` or equivalent after returning control unless a real asynchronous mechanism exists and has been explicitly disclosed. Intermediate progress updates within an active turn may state that work is continuing because the agent has not yet returned control.
+
+For efficiency, a short Founder follow-up such as `continue`, `status`, `done?` or equivalent after a `WAITING ON EXTERNAL SYSTEM` state is sufficient instruction to resume. The agent must re-read the current external evidence and continue the authorised workflow without asking the Founder to restate the task.
+
 ## Feature-readiness rule
 
 - Do not begin material production feature implementation while a feature is `New`, `To Do` or `Analyse`.
