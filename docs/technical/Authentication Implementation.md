@@ -40,7 +40,13 @@ Email signup passes:
 user_metadata.first_name
 ```
 
-to Supabase Auth. The learner greeting already resolves `first_name`, `given_name` or `name`, so email signup and Google identities can feed the same learner-facing personalisation without adding a new profile-table column solely for the greeting.
+to Supabase Auth. The learner greeting resolves `first_name` or `given_name`, with provider `name` and email-local-part fallbacks, so email signup and Google identities can feed the same learner-facing personalisation without adding a profile-table column solely for the greeting.
+
+The centred Profile account modal also allows the authenticated learner to correct the first name Revision uses. The save action calls Supabase Auth `updateUser` for the signed-in identity's own `user_metadata.first_name`; the returned Auth user replaces the learner-shell user state so the greeting, account-menu name and avatar initial update immediately.
+
+This self-service edit deliberately does **not** write to `public.profiles`. That table remains database-owned classification state such as `is_test_user` and `is_admin`, readable to the owning user but not client-editable. Profile editing therefore cannot be used to alter administrator permission.
+
+Email remains read-only in the current Profile modal because changing an authentication email requires a separately designed verification/recovery journey.
 
 ## Google provider capability detection
 
@@ -75,7 +81,9 @@ Authentication changes require at least:
 - responsive browser assurance for sign-in and create-account modes;
 - verification that First name appears only where required;
 - verification that Google is shown only when the provider is enabled;
-- regression assurance that an existing authenticated learner still reaches the ordinary `/app/` hierarchy.
+- regression assurance that an existing authenticated learner still reaches the ordinary `/app/` hierarchy;
+- verification that an authenticated learner can update their own first-name metadata and see the revised learner-facing name; and
+- verification that profile editing cannot alter database-owned administrator classification.
 
 PR #66 additionally uses synthetic Auth users inside the isolated Supabase CI stack to prove authenticated learner persistence/reload and protected Admin/Planner authorization boundaries without production learner data.
 

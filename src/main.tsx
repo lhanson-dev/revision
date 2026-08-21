@@ -20,6 +20,7 @@ import './app/living-e.css'
 import './app/living-e-accessibility.css'
 import './app/sidebar-account-menu.css'
 import './app/account-modal.css'
+import './app/profile-edit.css'
 
 const root = document.getElementById('root')
 
