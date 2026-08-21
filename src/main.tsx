@@ -23,6 +23,7 @@ import './app/account-modal.css'
 import './app/profile-edit.css'
 import './app/mobile-navigation.css'
 import './app/contextual-navigation.css'
+import './app/interface-system.css'
 
 const root = document.getElementById('root')
 

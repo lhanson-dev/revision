@@ -56,6 +56,38 @@
   --shadow-floating: 0 10px 30px rgba(15, 47, 54, .10);
   --shadow-overlay: 0 20px 50px rgba(15, 47, 54, .14);
 
+  /* Governed 4px spacing rhythm for reusable product primitives. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Shared control sizing from the approved control system. */
+  --control-height-compact: 36px;
+  --control-height-standard: 44px;
+  --control-height-large: 52px;
+  --field-height-standard: 48px;
+  --icon-button-size: 44px;
+
+  /* Shared interaction and overlay roles. */
+  --motion-fast: 160ms;
+  --motion-standard: 200ms;
+  --motion-ease-standard: cubic-bezier(.2, .8, .2, 1);
+  --overlay-backdrop: rgba(15, 32, 36, .36);
+  --overlay-backdrop-blur: 3px;
+  --overlay-radius: 24px;
+  --menu-radius: 16px;
+  --menu-item-radius: 12px;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 22%, transparent);
+
   /* REV-specific derived roles remain central so theme translation is single-source. */
   --rev-halo-core: rgba(43, 182, 163, .18);
   --rev-halo-mid: rgba(230, 251, 244, .92);
