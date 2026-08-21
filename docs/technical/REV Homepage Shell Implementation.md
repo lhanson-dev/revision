@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Describe the governed React learner shell at `/app/`, including the REV-led Home, persistent contextual Ask REV access, responsive global navigation, compact account utilities, centred Profile/Settings modal, adaptive Plan, catalogue-driven subject/course hierarchy, paper-specific Exam Prep and evidence-aware guidance.
+Describe the governed React learner shell at `/app/`, including the REV-led Home, persistent contextual Ask REV access, responsive global navigation, route-driven academic child navigation, compact account utilities, centred Profile/Settings modal, adaptive Plan, catalogue-driven subject/course hierarchy, paper-specific Exam Prep and evidence-aware guidance.
 
 ## Canonical learner route and runtime
 
@@ -32,6 +32,21 @@ The learner-wide destinations are:
 
 REV is a persistent global action rather than a peer destination that must be visited before the learner can ask for help.
 
+### Contextual Subjects hierarchy
+
+`src/app/ContextualLearnerNavigation.tsx` projects the current route and catalogue into an expanded Subjects branch. It is rendered only when `routeBelongsToSubjects(route)` is true.
+
+The hierarchy is route-driven:
+
+- `#/subjects` → `All subjects` plus the current subject set;
+- `#/subjects/:subjectId` → the selected subject plus that subject's courses/specifications;
+- `#/subjects/:subjectId/courses/:courseId/:section` → the selected course plus its available `Overview / Learn / Practice / Exam Prep / Progress` sections;
+- component-specific routes use the same pattern, representing a non-shared course as a grouping with its relevant paper/component routes and focused sections.
+
+Only the active academic branch expands. Other subjects/courses remain collapsed. Exact pages use `aria-current="page"`; parent rows remain available for navigation without falsely claiming current-page status.
+
+The navigation source is `buildCatalogue(listAvailableContentAdapters())`, so labels and available focused sections come from validated catalogue/content data rather than hard-coded Business routes. The current runtime does **not** yet have a separate persisted learner subject-enrolment table, so the published learner catalogue is currently treated as the learner programme set. A future enrolment/subject-management layer can filter the `subjects` input supplied to `ContextualLearnerNavigation` without changing the tree model.
+
 ### Desktop
 
 Desktop uses a persistent left navigation rail containing:
@@ -43,6 +58,8 @@ Desktop uses a persistent left navigation rail containing:
 - Progress;
 - Subjects; and
 - one compact learner account control at the bottom.
+
+When Subjects is active, `ContextualLearnerNavigation` renders directly beneath the Subjects global row. Child levels are progressively indented, smaller and quieter than learner-wide destinations. The rail therefore remains flat on Home/Plan/global Progress and expands only while the learner is inside Subjects/course/component work.
 
 The account control shows a Calm Teal circular initial/avatar plus the learner's current first name. Profile and Settings are not duplicated as permanent navigation rows.
 
@@ -62,11 +79,13 @@ The canonical responsive shell contains:
 - a left-side modal navigation drawer; and
 - a persistent bottom **Ask REV** dock on ordinary learner screens.
 
-The drawer contains Home, Plan, Progress and Subjects as the learner-wide destinations. Its lower account area now mirrors the desktop progressive-disclosure model: when the drawer first opens, it shows only one compact learner row with avatar/initial and first name. Profile, Settings, permission-gated Admin, forthcoming Upgrade plan and Log out are hidden until that learner row is selected.
+The drawer contains Home, Plan, Progress and Subjects as the learner-wide destinations. When the current route belongs to Subjects, the same `ContextualLearnerNavigation` branch is rendered beneath Subjects. Selecting any child route closes the drawer via the existing `navigate()` path; reopening the drawer reconstructs the expanded branch from the new route.
 
-`PlannerRuntime` tracks this with `mobileAccountOpen`. The learner trigger exposes `aria-expanded` and `aria-controls`, and the utility group remains in the DOM with the `hidden` attribute while collapsed. Reopening the navigation drawer resets the account section to collapsed. The resting mobile account trigger intentionally does not expose the learner email, matching the compact desktop identity treatment.
+Its lower account area mirrors the desktop progressive-disclosure model: when the drawer first opens, it shows only one compact learner row with avatar/initial and first name. Profile, Settings, permission-gated Admin, forthcoming Upgrade plan and Log out are hidden until that learner row is selected.
 
-The drawer is rendered only while open. It uses a modal backdrop, closes on navigation, backdrop, explicit close or Escape, resets the learner-account disclosure when it closes, and temporarily locks body scrolling while open. The active learner destination uses `aria-current="page"` and an accessible non-colour active marker.
+`PlannerRuntime` tracks account disclosure with `mobileAccountOpen`. The learner trigger exposes `aria-expanded` and `aria-controls`, and the utility group remains in the DOM with the `hidden` attribute while collapsed. Reopening the navigation drawer resets the account section to collapsed. The resting mobile account trigger intentionally does not expose the learner email, matching the compact desktop identity treatment.
+
+The drawer is rendered only while open. It uses a modal backdrop, closes on navigation, backdrop, explicit close or Escape, resets the learner-account disclosure when it closes, and temporarily locks body scrolling while open. The active learner destination/page uses `aria-current="page"` and an accessible non-colour active marker.
 
 The previous `runtime-bottom-nav` is removed from the canonical `PlannerRuntime` markup. Responsive tests assert that it is absent.
 
@@ -148,7 +167,7 @@ Submitting the Home input stores the draft in session storage and opens the cont
 
 Light and dark mode use the same information architecture and component hierarchy.
 
-Theme roles come from `src/app/brand-tokens.css`. Desktop rail, account popover, account modal, responsive drawer, mobile/tablet REV dock, Home surfaces and contextual REV panel use role-based Calm Teal theme tokens.
+Theme roles come from `src/app/brand-tokens.css`. Desktop rail, contextual navigation, account popover, account modal, responsive drawer, mobile/tablet REV dock, Home surfaces and contextual REV panel use role-based Calm Teal theme tokens.
 
 The learner canvas is flat in both themes; the REV halo is owned by `RevPresence` rather than a page-level decorative gradient.
 
@@ -168,7 +187,7 @@ Learn, general Practice and course/topic Progress appear once. Exam Prep contain
 
 If components genuinely expose different syllabus content, each component may retain its own Overview / Learn / Practice / Exam Prep / Progress context.
 
-`src/app/catalogue-model.ts` determines shared-learning course structure from validated content packs rather than route-specific subject branches.
+`src/app/catalogue-model.ts` determines shared-learning course structure from validated content packs rather than route-specific subject branches. `ContextualLearnerNavigation` consumes the same catalogue structure, keeping navigation and learner screens aligned.
 
 ## Routes
 
@@ -196,7 +215,9 @@ Global Progress and REV use the same combined evidence model.
 
 ## Key implementation files
 
-- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop navigation, mobile/tablet drawer, collapsed mobile learner-account disclosure, persistent Ask REV dock, account permission gating, first-name Auth update, contextual REV layer and direct Admin route rendering.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop navigation, mobile/tablet drawer, contextual academic branch integration, collapsed mobile learner-account disclosure, persistent Ask REV dock, account permission gating, first-name Auth update, contextual REV layer and direct Admin route rendering.
+- `src/app/ContextualLearnerNavigation.tsx` — route/catalogue-driven Subjects → subject → course/component → focused-section tree shared by desktop and responsive drawer.
+- `src/app/contextual-navigation.css` — subordinate indentation, active-page treatment and responsive sizing for the contextual academic tree.
 - `src/app/mobile-navigation.css` — top-left two-line menu, responsive left drawer, collapsible mobile account area and fixed Ask REV dock treatment.
 - `src/app/AccountModal.tsx` — shared centred Profile/Settings workspace and first-name edit form.
 - `src/app/account-modal.css` — modal positioning and responsive layout.
@@ -209,6 +230,7 @@ Global Progress and REV use the same combined evidence model.
 - `src/app/ContentOperations.tsx` — general protected Admin content rendered directly by canonical runtime.
 - `src/app/PlannerAdminScreen.tsx` — planner-specific Admin assurance content.
 - `src/app/App.tsx` — catalogue, Subject Home, course/component and Progress compatibility content when nested; older Home/REV compatibility rendering remains non-canonical.
+- `tests/e2e/contextual-navigation.spec.ts` — desktop/tablet/mobile hierarchy expansion and active-route assurance.
 - `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, drawer/account disclosure, REV dock, account/profile/Admin permission behaviour and global-navigation assurance.
 - `tests/e2e/admin-entry-transition.spec.ts` — regression assurance that Admin entry never mounts the legacy `.rev-hero` compatibility Home treatment.
 
@@ -227,9 +249,13 @@ GitHub Pages publishes the Vite `dist/` artifact. Production smoke continues to 
 Responsive browser assurance for this navigation model should prove:
 
 - desktop retains four learner destinations plus persistent Ask REV in the left rail;
+- the contextual academic tree is absent outside Subjects routes;
+- entering Subjects exposes `All subjects` and the subject list;
+- entering a subject exposes that subject's courses/specifications while unrelated branches remain collapsed;
+- entering a course/component exposes only the focused sections supported by that scope and preserves exact-page active state;
+- tablet/mobile render the same contextual branch inside the drawer and reconstruct it after each navigation;
 - tablet/mobile no longer render `runtime-bottom-nav`;
 - the top-left menu button contains the intended two-line treatment;
-- opening the responsive drawer exposes Home, Plan, Progress and Subjects;
 - tablet/mobile learner account utilities are collapsed when the drawer first opens;
 - selecting the learner account row exposes Profile, Settings, forthcoming Upgrade, Log out and Admin only for authorised users;
 - closing and reopening the drawer returns learner account utilities to the collapsed state;
@@ -243,6 +269,6 @@ Responsive browser assurance for this navigation model should prove:
 
 Normative navigation/account-placement authority is `10-product-governance/Global Learner Navigation.md`, supported by `10-product-governance/Information Architecture.md`, `10-product-governance/Authentication Experience.md`, `40-evidence-and-trust/Privacy and Student Data Principles.md` and the engineering Security Standard.
 
-The v0.6 Global Learner Navigation model retains the v0.5 retirement of the five-item tablet/mobile bottom navigation and adds collapsed learner-account disclosure within the responsive drawer. Visual tokens and Living E styling remain governed by the Visual Brand System.
+The v0.7 Global Learner Navigation model retains the mobile/tablet drawer and persistent Ask REV model while adding a route-scoped contextual academic branch to both desktop and responsive left navigation. Visual tokens and Living E styling remain governed by the Visual Brand System.
 
 Historical audits and decision records remain unchanged because this is a current learner-shell/navigation refinement rather than a rewrite of historical evidence.
