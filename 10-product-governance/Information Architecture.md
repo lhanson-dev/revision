@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.6  
+**Status:** Draft authority candidate — v0.7  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -38,7 +38,7 @@ The structure reflects the product's intended experience: orient to today, under
 
 Practice and Exam Prep remain core product capabilities, but they are contextual capabilities within a selected subject/course rather than global destinations.
 
-Account, profile, settings, help, privacy, subject management and similar utilities remain secondary. Desktop may expose the most useful account utilities at the bottom of the persistent learner rail; tablet/mobile use the secondary menu.
+Account, profile, settings, plan/subscription management, help, privacy, subject management and similar utilities remain secondary. Desktop uses one compact authenticated account control at the bottom of the persistent learner rail; tablet/mobile use the secondary menu.
 
 Detailed responsive behaviour is governed by `Global Learner Navigation.md`.
 
@@ -275,9 +275,13 @@ The top area should expose:
 - Progress; and
 - Subjects.
 
-The bottom area should expose restrained account utilities, normally Profile and Settings. Sign out is an account action rather than a peer learner destination.
+The bottom area should expose one compact authenticated account control showing the learner's circular avatar/initial and name. It should not repeat Profile and Settings as permanent rail rows.
 
-Ask REV should receive the strongest branded emphasis in the rail. Ordinary destinations should remain visually quiet with a clear accessible active state.
+Selecting that account control opens a compact menu anchored to the rail. For ordinary learners it contains Profile, Settings, the governed plan/upgrade route when available, and Log out. Profile and Settings may open a larger secondary account panel where more space is needed. Admin-only operational utilities may remain available to authorised users through the secondary account/profile experience without changing the ordinary learner information architecture.
+
+Until FI-002 has completed the governed feature lifecycle and a real plan-comparison/upgrade route exists, an `Upgrade plan` preview must be clearly unavailable/forthcoming rather than behaving like a working purchase action.
+
+Ask REV should receive the strongest branded emphasis in the rail. Ordinary destinations and the account control should remain visually quiet with clear accessible hover/focus/open states.
 
 Within Subject Home or course/paper/component areas, contextual navigation should expose the focused sections that apply, normally Overview, Learn, Practice, Exam Prep and Progress.
 
@@ -302,11 +306,12 @@ The secondary/burger or account menu contains utilities rather than primary lear
 - profile;
 - account;
 - settings;
+- current plan / plan comparison / upgrade when that commercial capability is governed and available;
 - notification preferences;
 - subject management;
 - help;
 - privacy/data controls;
-- sign out; and
+- log out/sign out; and
 - other secondary utilities.
 
 Parent and teacher experiences should remain separate role-specific journeys when developed.
@@ -325,7 +330,7 @@ The information architecture should:
 - use focused learning/practice/exam-prep/progress sections where depth justifies them;
 - avoid duplicate topic identities across learning modes;
 - keep global navigation flat and recognisable;
-- prevent the desktop rail becoming a dumping ground for contextual tools;
+- prevent the desktop rail becoming a dumping ground for contextual tools or duplicated account destinations;
 - avoid excessive dashboard density;
 - use progressive disclosure for secondary detail;
 - remain fully usable on mobile and with assistive technology; and

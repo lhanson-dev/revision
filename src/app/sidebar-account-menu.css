@@ -1,0 +1,163 @@
+/* Desktop learner account control: one compact identity row with a local account menu. */
+.runtime-sidebar-account {
+  position: relative;
+  display: block;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.runtime-sidebar-account > .runtime-sidebar-user {
+  width: 100%;
+  min-height: 50px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--color-text);
+  text-align: left;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.runtime-sidebar-account > .runtime-sidebar-user:hover,
+.runtime-sidebar-account > .runtime-sidebar-user:focus-visible,
+.runtime-sidebar-account > .runtime-sidebar-user[aria-expanded="true"] {
+  background: var(--color-surface-soft);
+}
+
+.runtime-sidebar-user .account-avatar {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--brand-primary-teal);
+  color: var(--brand-graphite);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.runtime-sidebar-user-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.runtime-account-popover {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  left: 0;
+  z-index: 70;
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+.runtime-account-popover button,
+.runtime-account-menu-disabled {
+  width: 100%;
+  min-height: 42px;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--color-text);
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+}
+
+.runtime-account-popover button {
+  cursor: pointer;
+}
+
+.runtime-account-popover button:hover,
+.runtime-account-popover button:focus-visible {
+  background: var(--color-surface-soft);
+}
+
+.runtime-account-popover .nav-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.runtime-account-menu-disabled {
+  color: var(--color-text-secondary);
+  cursor: default;
+}
+
+.runtime-account-menu-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.runtime-account-menu-copy small {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 550;
+}
+
+.runtime-account-menu-separator {
+  height: 1px;
+  margin: 5px 4px;
+  background: var(--color-border);
+}
+
+.runtime-account-popover .runtime-account-logout {
+  color: var(--color-text);
+}
+
+.runtime-account-details,
+.runtime-account-settings {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.runtime-account-details > div {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface-soft);
+}
+
+.runtime-account-details span,
+.runtime-account-settings p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.runtime-account-details strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+@media (max-width: 960px) {
+  .runtime-account-popover {
+    display: none;
+  }
+}

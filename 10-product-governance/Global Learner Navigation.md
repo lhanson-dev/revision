@@ -1,6 +1,6 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.1  
+**Status:** Active authority — v0.2  
 **Owner:** Founder  
 **Effective date:** 2026-08-21  
 **Purpose:** Define the governed global learner navigation model and persistent REV access pattern across desktop, tablet and mobile.
@@ -51,14 +51,31 @@ The primary learner destinations appear beneath it in this order:
 
 The Ask REV action should receive the strongest branded emphasis in the navigation. Ordinary destinations should use restrained neutral styling with a clear active state.
 
-### Bottom area
+### Bottom account control
 
-The bottom of the sidebar contains account utilities, normally:
+The bottom of the desktop sidebar uses one compact authenticated account control rather than separate persistent Profile and Settings navigation rows.
 
-- Profile
-- Settings
+The resting control should show:
 
-`Log out` is an account action rather than a destination and should normally live within the authenticated account/profile controls rather than occupying equal persistent navigation prominence.
+- a circular avatar/initial treatment; and
+- the learner's name.
+
+Selecting the account control opens a compact account menu anchored to the sidebar. For an ordinary learner the menu should contain:
+
+- **Profile**;
+- **Settings**;
+- **Upgrade plan**, when a governed plan-comparison or upgrade route is actually available; and
+- **Log out**.
+
+The menu is an account utility surface, not another primary navigation section. It should use the approved Calm Teal surface, border, typography and focus treatments while remaining visually quieter than Ask REV.
+
+Profile and Settings may open a larger account panel or dedicated account surface when more space is required. Log out remains an account action rather than a destination.
+
+Where a user has an authorised operational/admin role, role-specific Admin utilities may remain available through the secondary account/profile experience without changing the ordinary learner menu model.
+
+`Upgrade plan` must not masquerade as a working purchase control before the governed subscription/upgrade capability exists. While FI-002 remains before `Ready`, any visible preview of this menu item must be clearly marked unavailable or forthcoming and must not initiate an unapproved purchase journey. Once the governed upgrade route exists, the item should become the direct route into plan comparison/change rather than requiring a redesign of the account menu.
+
+The compact account menu should close naturally after a selection, on Escape, or when the learner clicks/taps outside it.
 
 ### Desktop Ask REV behaviour
 
@@ -102,6 +119,10 @@ On mobile, selecting the centre REV action should open a near-full-screen or ful
 
 On tablet, selecting REV should use a side sheet, large overlay or equivalent treatment appropriate to the available width. The interaction should preserve the same conceptual model as desktop and mobile: contextual Ask REV without forcing unnecessary navigation away from the current task.
 
+### Tablet/mobile account behaviour
+
+Tablet and mobile continue to use the secondary account/menu control in the top bar rather than reproducing the desktop left-rail account control. The same account jobs should remain available there as they become implemented, while preserving the fixed bottom bar for learner-wide navigation and Ask REV.
+
 ## Home-specific REV input
 
 Home may additionally present a large, prominent `Ask REV anything...` input as part of its calm REV-led hero composition.
@@ -123,7 +144,9 @@ The navigation must use the approved Revision Brand System.
 - keep the REV identity and Ask REV action prominent;
 - use Primary Teal and approved pale/dark surface tokens for branded emphasis;
 - keep ordinary destinations neutral with restrained active-state treatment;
-- do not apply the REV halo to ordinary navigation items; and
+- use a single compact learner identity/account row at the bottom rather than duplicate Profile/Settings rows;
+- render the account menu as a compact elevated surface within/adjacent to the rail, not a second navigation column;
+- do not apply the REV halo to ordinary navigation or account items; and
 - do not add unnecessary section headings, badges, nested menus or secondary product features to the global rail.
 
 ### Tablet and mobile
@@ -141,7 +164,7 @@ Light and dark modes are first-class versions of the same navigation system.
 
 The information architecture, spacing, ordering and interaction model should remain the same across themes.
 
-Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift into neon or sci-fi styling. REV may retain its subtle soft halo; ordinary navigation should not.
+Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift into neon or sci-fi styling. REV may retain its subtle soft halo; ordinary navigation and account controls should not.
 
 ## Guardrails
 
@@ -150,11 +173,12 @@ Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift
 - Do not make REV a separate assistant relationship at different product levels.
 - Do not require a learner to leave their current task merely to ask REV a contextual question.
 - Do not duplicate navigation destinations simply because desktop has more space.
+- Do not duplicate Profile and Settings as both persistent rail rows and account-menu actions.
 - Keep the learner-wide navigation flat and recognisable.
 - Preserve deep-linking/addressability for product destinations and contextual work independently of the Ask REV overlay.
 
 ## Documentation impact
 
-Implementation of this model requires the current learner-shell technical documentation and responsive navigation implementation to be updated when development begins.
+Implementation of this model requires the current learner-shell technical documentation and responsive navigation implementation to remain aligned.
 
-The existing `Information Architecture.md`, `Adaptive Revision Planning.md` and any other general authority describing REV as a peer primary destination should be aligned with this specific navigation authority during the next governed documentation-alignment change. Until then, this document governs navigation-specific conflicts.
+`Information Architecture.md`, responsive assurance and any implementation description that still depicts separate persistent Profile / Settings rows should be aligned with this specific navigation authority in the same governed change where practical.

@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Describe the governed React learner shell at `/app/`, including the REV-led Home, persistent contextual Ask REV access, adaptive Plan, catalogue-driven subject/course hierarchy, course-level shared learning, paper-specific Exam Prep and evidence-aware guidance.
+Describe the governed React learner shell at `/app/`, including the REV-led Home, persistent contextual Ask REV access, responsive global navigation, compact desktop account menu, adaptive Plan, catalogue-driven subject/course hierarchy, course-level shared learning, paper-specific Exam Prep and evidence-aware guidance.
 
 ## Canonical learner route and runtime
 
@@ -40,7 +40,22 @@ Desktop uses a persistent left navigation rail. It contains:
 - Plan;
 - Progress;
 - Subjects; and
-- the learner account area with Profile and Settings access at the bottom.
+- one compact learner account control at the bottom.
+
+The bottom account control shows a Calm Teal circular initial/avatar plus the learner's first name. Profile and Settings are no longer duplicated as permanent rows underneath it.
+
+Selecting the account control opens a compact elevated menu anchored immediately above the control inside the sidebar. The ordinary learner menu contains:
+
+- Profile;
+- Settings;
+- Upgrade plan, currently rendered as a clearly unavailable `Coming soon` item while FI-002 remains before `Ready`; and
+- Log out.
+
+The account menu closes when an item is selected, when Escape is pressed, when the learner clicks outside the account area, or when another learner-wide action navigates/opens REV.
+
+Profile and Settings open the existing secondary account drawer when more space is required. The Profile panel exposes the current learner name and email. Settings currently exposes the implemented light/dark appearance preference. Authorised admin users retain Admin and Planner assurance routes through the secondary Profile/account experience; those operational routes are not added to the ordinary learner menu.
+
+`Upgrade plan` is intentionally not a working purchase route yet. FI-002 remains in `Analyse`, so the shell may show the future account-menu location without pretending that a governed subscription-change journey already exists. Once FI-002 reaches the required lifecycle state and a real plan-comparison/upgrade route is implemented, this menu item can become active without changing the account-menu structure.
 
 Selecting Ask REV opens a right-hand contextual conversation panel without replacing the current learner screen. The panel reuses `PlannerRevScreen` and can expand into the full `#/rev` workspace when a longer conversation benefits from more space.
 
@@ -55,6 +70,8 @@ Widths up to 960px retain the persistent five-position bottom bar:
 The centre REV control is an **Ask REV action**, not a peer navigation destination. Selecting it opens a full-screen/near-full-screen contextual conversation layer. The Revision wordmark and account/burger control remain at the top.
 
 The bottom-bar structure and ordering remain stable across learner screens. The REV centre action uses the Living E presence and receives restrained branded prominence without obscuring the other destinations.
+
+The mobile/tablet burger continues to open the secondary account/additional-links drawer rather than reproducing the desktop sidebar account popover.
 
 ## Home composition
 
@@ -80,9 +97,11 @@ The recommendation card remains evidence/planner driven. It exposes the current 
 
 Light and dark mode use the same information architecture and component hierarchy.
 
-Theme roles come from `src/app/brand-tokens.css` and follow the approved Calm Teal system. Desktop rail, Home surfaces, contextual REV panel and mobile bottom navigation use role-based theme tokens rather than a separate dark visual language.
+Theme roles come from `src/app/brand-tokens.css` and follow the approved Calm Teal system. Desktop rail, account popover, Home surfaces, contextual REV panel and mobile bottom navigation use role-based theme tokens rather than a separate dark visual language.
 
-Dark mode uses the approved deep-teal surface hierarchy and does not introduce neon or sci-fi styling. The Living E may retain its governed soft halo; ordinary navigation items do not borrow it.
+Dark mode uses the approved deep-teal surface hierarchy and does not introduce neon or sci-fi styling. The Living E may retain its governed soft halo; ordinary navigation and account items do not borrow it.
+
+The learner canvas is flat in both themes; the REV halo is owned by `RevPresence` rather than a page-level decorative gradient.
 
 ## Learner hierarchy
 
@@ -154,6 +173,8 @@ Recent module URLs are preserved for compatibility. If such a module belongs to 
 
 `#/rev` remains the expanded REV workspace route. Ordinary Ask REV access does not require a route change.
 
+There is currently no production Profile, Settings or Upgrade Plan hash route. Profile and Settings use the secondary account drawer; Upgrade Plan remains deliberately non-interactive until its governed route exists.
+
 ## REV and evidence behaviour
 
 The learner shell still loads evidence by the existing persisted `module_id` because paper/component IDs remain useful for provenance and exam attempts.
@@ -209,7 +230,8 @@ Future enrolment should filter the published course catalogue rather than reintr
 
 ## Key implementation files
 
-- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop rail, mobile/tablet bottom navigation, account utilities and contextual Ask REV layer.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop rail, compact account menu, mobile/tablet bottom navigation, secondary account drawer and contextual Ask REV layer.
+- `src/app/sidebar-account-menu.css` — compact account trigger/popover and account-panel styling using Calm Teal role tokens.
 - `src/app/PlannerHomeScreen.tsx` — calm REV-led Home hero, planner recommendation and Today's plan.
 - `src/app/planner-runtime.css` — canonical shell/Home/Ask REV responsive layout and light/dark theme treatment.
 - `src/app/brand-tokens.css` — canonical Calm Teal theme roles.
@@ -219,7 +241,7 @@ Future enrolment should filter the published course catalogue rather than reintr
 - `src/app/navigation.ts` — global, course and component hash routes.
 - `src/app/FocusedLearningWorkspace.tsx` — shared Learn/Practice and exam-technique activities.
 - `src/app/ExamSimulator.tsx` — targeted question and timed paper practice.
-- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, persistent Ask REV and global navigation assurance.
+- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, persistent Ask REV, compact account menu and global navigation assurance.
 
 ## Compatibility and competing surfaces
 
@@ -233,7 +255,12 @@ The full REV route is an expanded workspace/compatibility destination. The persi
 
 GitHub Pages publishes the Vite `dist/` artifact. A production smoke for this change should verify on `/revision/app/`:
 
-- desktop shows the left rail with Ask REV, Home, Plan, Progress, Subjects, Profile and Settings;
+- desktop shows the left rail with Ask REV, Home, Plan, Progress and Subjects plus one learner identity/account control at the bottom;
+- desktop does not show duplicate persistent Profile and Settings rows;
+- selecting the account control opens a compact Calm Teal account menu with Profile, Settings, a clearly unavailable/forthcoming Upgrade plan item while FI-002 is not Ready, and Log out;
+- Escape and outside interaction close the compact account menu;
+- Profile and Settings remain reachable through the secondary account drawer;
+- authorised admin access remains reachable without adding Admin to ordinary primary navigation;
 - desktop Ask REV opens a contextual right-hand panel without changing the current route;
 - tablet/mobile retain the five-position bottom bar and centre REV action;
 - Home contains the Living E, greeting, Ask REV field, recommendation and Today's plan without the removed helper/feature-grid content;
@@ -248,4 +275,4 @@ Normative placement authority remains `10-product-governance/Course Content and 
 
 Architecture decision history for course-level learning remains `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`.
 
-Historical content assurance records are unchanged because this implementation changes learner navigation and composition rather than educational material.
+Historical content assurance records are unchanged because this implementation changes learner navigation/account presentation rather than educational material.

@@ -120,8 +120,22 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(page.getByRole('complementary', { name: 'Learner navigation' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Ask REV', exact: true })).toBeVisible()
     await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveClass(/active/)
-    await expect(page.getByRole('button', { name: 'Profile' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible()
+
+    const accountTrigger = page.getByRole('button', { name: 'Synthetic account menu' })
+    await expect(accountTrigger).toBeVisible()
+    await expect(page.getByRole('menu', { name: 'Profile menu' })).toHaveCount(0)
+    await accountTrigger.click()
+
+    const accountMenu = page.getByRole('menu', { name: 'Profile menu' })
+    await expect(accountMenu).toBeVisible()
+    await expect(accountMenu.getByRole('menuitem', { name: 'Profile' })).toBeVisible()
+    await expect(accountMenu.getByRole('menuitem', { name: 'Settings' })).toBeVisible()
+    await expect(accountMenu.getByRole('menuitem', { name: /Upgrade plan/ })).toHaveAttribute('aria-disabled', 'true')
+    await expect(accountMenu.getByText('Coming soon')).toBeVisible()
+    await expect(accountMenu.getByRole('menuitem', { name: 'Log out' })).toBeVisible()
+
+    await page.keyboard.press('Escape')
+    await expect(accountMenu).toHaveCount(0)
   }
 
   await openAskRev(page)
@@ -222,7 +236,8 @@ test('database admin access stays secondary while protected Admin remains reacha
   if (viewportWidth <= 960) {
     await page.getByRole('button', { name: 'Open menu' }).click()
   } else {
-    await page.getByRole('button', { name: 'Profile' }).click()
+    await page.getByRole('button', { name: 'Synthetic account menu' }).click()
+    await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Profile' }).click()
   }
   const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
   await expect(drawer.getByRole('button', { name: /^Admin/ })).toBeVisible()
