@@ -4,7 +4,7 @@ document_id: "revision-pricing-and-billing-policy"
 document_type: "domain-authority"
 authority: "business-operations"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
 effective_date: "2026-08-21"
 last_reviewed: "2026-08-21"
@@ -111,9 +111,13 @@ Do not add hidden mandatory fees at checkout that make the actual consumer charg
 
 ## Commercial sustainability and AI allowances
 
-These price points create the commercial envelope within which Paid and Premium must operate; they do not approve a particular AI/REV allowance.
+These price points create the commercial envelope within which Paid and Premium must operate.
 
-Before FI-002 becomes Ready, variable-cost capability must still be assessed against:
+Founder decision on 21 August 2026 separately approved the internal FI-002 AI/REV cost envelope and cost-weighted allowance principle. The source of truth for those guardrails is `60-business-operations/AI Cost and Allowance Policy.md`.
+
+That policy intentionally does **not** create a public message/day quota or approve an AI provider/model. Exact learner-facing REV/AI usage limits remain feature-specific Definition-of-Ready work, particularly for FI-003.
+
+Commercial sustainability must still consider the combined effect of:
 
 - payment/billing fees;
 - applicable tax treatment;
@@ -124,13 +128,13 @@ Before FI-002 becomes Ready, variable-cost capability must still be assessed aga
 - realistic usage distributions rather than only averages; and
 - sufficient margin headroom for sustainable operation.
 
-Premium should not be launched merely because a Premium price now exists. The separate product rule remains that Premium requires a genuinely qualitative higher-tier learner proposition.
+Premium should not be launched merely because a Premium price now exists or because it has a larger AI cost envelope. The separate product rule remains that Premium requires a genuinely qualitative higher-tier learner proposition.
 
 ## Price and offer changes
 
 Future changes to the approved consumer price points, available billing cadences or auto-converting trial policy require a governed commercial decision and PR.
 
-This v1.0 authority does not yet decide:
+This v1.1 authority does not yet decide:
 
 - final customer-facing plan names;
 - introductory discounts, coupons, referrals or promotional pricing;
@@ -158,10 +162,12 @@ Founder assurance should eventually make it possible to understand, where applic
 - cost-to-serve and contribution by tier/cadence; and
 - trust, complaints or abandonment signals caused by pricing or renewal presentation.
 
+AI/REV variable-cost assurance must additionally follow `AI Cost and Allowance Policy.md` rather than being inferred from conversion or gross subscription revenue alone.
+
 Concrete event names, dashboards and thresholds remain FI-002 Definition-of-Ready work.
 
 ## Documentation-impact rule
 
 Material changes to launch prices, billing cadence, trial policy or consumer pricing-presentation rules must update this authority through a governed PR.
 
-Changes to what each tier provides belong in `10-product-governance/Subscription Plans and Entitlements.md`. Provider, schema and billing-runtime implementation detail belongs in `docs/technical/` and ADRs once approved. Historical analysis and evidence must not be rewritten to make later prices appear to have been earlier policy.
+Changes to AI/REV cost envelopes or the cost-weighted allowance principle belong in `AI Cost and Allowance Policy.md`. Changes to what each tier provides belong in `10-product-governance/Subscription Plans and Entitlements.md`. Provider, schema and billing-runtime implementation detail belongs in `docs/technical/` and ADRs once approved. Historical analysis and evidence must not be rewritten to make later prices or cost rules appear to have been earlier policy.
