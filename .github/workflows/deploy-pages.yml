@@ -23,10 +23,14 @@ env:
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: planner-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
-  # PR #67 is the last prospectively Founder-approved main commit before durable
-  # revision/path-to-live commit statuses exist. Only this exact first parent may
-  # bootstrap the chained release-status control.
-  REVISION_RELEASE_BOOTSTRAP_PARENT: 7295f21d9baaf058e8f438fd48558a33f05d2042
+  # One-time 2026-08-21 recovery checkpoint. PRs #75/#77/#81/#82/#84 reached
+  # main without the machine-readable Founder marker later required by the
+  # release-lineage verifier, so their failed statuses cannot be retrospectively
+  # re-proven without inventing approval evidence. PR #85 records the incident,
+  # fixes the approval handoff and deliberately re-establishes prospective
+  # release lineage from the exact pre-remediation main commit below. This value
+  # must not be advanced again merely to bypass a future failed governance check.
+  REVISION_RELEASE_BOOTSTRAP_PARENT: d960c950f4620dd469888a1174af582524706ec2
 
 jobs:
   governed-lineage:
