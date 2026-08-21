@@ -82,6 +82,19 @@ async function openAskRev(page: Page) {
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
+async function openProfileModal(page: Page) {
+  const viewportWidth = page.viewportSize()?.width ?? 0
+  if (viewportWidth <= 960) {
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
+    await drawer.getByRole('button', { name: /^Profile/ }).click()
+  } else {
+    await page.getByRole('button', { name: 'Synthetic account menu' }).click()
+    await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Profile' }).click()
+  }
+  await expect(page.getByRole('dialog', { name: 'Account settings' })).toBeVisible()
+}
+
 test('sign-in experience remains usable without horizontal page scrolling', async ({ page }) => {
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
@@ -116,6 +129,8 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(primaryNav.getByRole('button', { name: 'Ask REV' })).toBeVisible()
     await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
     await expect(primaryNav.locator('.rev-presence-nav')).toHaveCount(1)
+
+    await openProfileModal(page)
   } else {
     await expect(page.getByRole('complementary', { name: 'Learner navigation' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Ask REV', exact: true })).toBeVisible()
@@ -134,9 +149,33 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(accountMenu.getByText('Coming soon')).toBeVisible()
     await expect(accountMenu.getByRole('menuitem', { name: 'Log out' })).toBeVisible()
 
-    await page.keyboard.press('Escape')
-    await expect(accountMenu).toHaveCount(0)
+    await accountMenu.getByRole('menuitem', { name: 'Profile' }).click()
   }
+
+  const accountDialog = page.getByRole('dialog', { name: 'Account settings' })
+  await expect(accountDialog).toBeVisible()
+  await expect(accountDialog.getByRole('heading', { name: 'Profile' })).toBeVisible()
+  await expect(accountDialog.getByLabel('Profile details')).toContainText('Synthetic')
+  const accountSections = accountDialog.getByRole('navigation', { name: 'Account sections' })
+  await expect(accountSections.getByRole('button', { name: 'Profile' })).toHaveAttribute('aria-current', 'page')
+  await accountSections.getByRole('button', { name: 'Settings' }).click()
+  await expect(accountDialog.getByRole('heading', { name: 'Settings' })).toBeVisible()
+  await expect(accountDialog.getByRole('group', { name: 'Appearance' }).getByRole('button', { name: 'Light' })).toBeVisible()
+  await expect(accountDialog.getByRole('group', { name: 'Appearance' }).getByRole('button', { name: 'Dark' })).toBeVisible()
+
+  if (viewportWidth > 960) {
+    const box = await accountDialog.boundingBox()
+    const viewport = page.viewportSize()
+    expect(box).not.toBeNull()
+    expect(viewport).not.toBeNull()
+    if (box && viewport) {
+      expect(Math.abs(box.x + box.width / 2 - viewport.width / 2)).toBeLessThan(3)
+      expect(Math.abs(box.y + box.height / 2 - viewport.height / 2)).toBeLessThan(3)
+    }
+  }
+
+  await page.keyboard.press('Escape')
+  await expect(accountDialog).toHaveCount(0)
 
   await openAskRev(page)
   const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
@@ -233,16 +272,12 @@ test('database admin access stays secondary while protected Admin remains reacha
   await expect(primaryNav.getByRole('button')).toHaveCount(viewportWidth <= 960 ? 5 : 4)
   await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
 
-  if (viewportWidth <= 960) {
-    await page.getByRole('button', { name: 'Open menu' }).click()
-  } else {
-    await page.getByRole('button', { name: 'Synthetic account menu' }).click()
-    await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Profile' }).click()
-  }
-  const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
-  await expect(drawer.getByRole('button', { name: /^Admin/ })).toBeVisible()
-  await expect(drawer.getByRole('button', { name: /Planner assurance/ })).toBeVisible()
-  await drawer.getByRole('button', { name: /^Admin/ }).click()
+  await openProfileModal(page)
+  const accountDialog = page.getByRole('dialog', { name: 'Account settings' })
+  const adminTools = accountDialog.getByRole('region', { name: 'Admin tools' })
+  await expect(adminTools.getByRole('button', { name: 'Open Admin' })).toBeVisible()
+  await expect(adminTools.getByRole('button', { name: 'Planner assurance' })).toBeVisible()
+  await adminTools.getByRole('button', { name: 'Open Admin' }).click()
 
   await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
   await expectNoPageOverflow(page)
