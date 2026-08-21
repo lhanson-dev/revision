@@ -13,7 +13,9 @@ The governed learner product is:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
-`PlannerRuntime` owns the canonical signed-in global learner shell and responsive navigation. It renders Home, Plan and the full REV workspace directly and delegates catalogue, subject, course/component, Progress and Admin content to `src/app/App.tsx` where required. When `App` is nested inside `PlannerRuntime`, its older embedded global navigation is suppressed so only one learner-wide navigation surface is presented.
+`PlannerRuntime` owns the canonical signed-in global learner shell and responsive navigation. It renders Home, Plan, the full REV workspace and Admin directly. Catalogue, subject, course/component and Progress content continue to be delegated to `src/app/App.tsx` where required. When `App` is nested inside `PlannerRuntime`, its older embedded global navigation is suppressed so only one learner-wide navigation surface is presented.
+
+Admin must not enter the nested compatibility `App` simply to reuse `ContentOperations`. `PlannerRuntime` owns the administrator-permission check and renders `ContentOperations` or `PlannerAdminScreen` directly once that check resolves. This prevents compatibility Home/REV UI from appearing while Admin permission is being established.
 
 The repository root `/revision/` remains a lightweight redirect into `/revision/app/`. GitHub Pages publishes the built Vite `dist/` artifact.
 
@@ -28,7 +30,7 @@ The learner-wide destinations are:
 3. Progress
 4. Subjects
 
-REV is a persistent global action rather than a peer destination that must be visited before a learner can ask for help.
+REV is a persistent global action rather than a peer destination that must be visited before the learner can ask for help.
 
 ### Desktop
 
@@ -103,6 +105,20 @@ The burger opens the secondary account/additional-links menu. Profile and Settin
 
 `Upgrade plan` remains deliberately unavailable until the FI-002 upgrade journey is governed and implemented.
 
+## Admin route behaviour
+
+Admin is a secondary operational route reached from the permission-gated account menu.
+
+`PlannerRuntime` owns the browser-side discovery check against the signed-in user's `public.profiles.is_admin` value. The route behaves fail-closed:
+
+- while the permission check is unresolved, the runtime shows a neutral `Checking Admin access…` state;
+- when the user is authorised, the canonical Admin surface is rendered directly without mounting the legacy compatibility Home/REV shell;
+- `#/admin/planner` renders `PlannerAdminScreen` directly;
+- the general Admin route renders `ContentOperations` directly; and
+- when the permission check resolves false or errors, the runtime shows an explicit unavailable state rather than substituting learner Home.
+
+This browser check controls discovery/presentation only. Protected Admin data and operations continue to enforce administrator authorization independently at their server/database boundaries.
+
 ## Ask REV behaviour
 
 Selecting Ask REV opens a contextual conversation layer without replacing the current learner screen. On desktop this is a right-hand panel; tablet/mobile use the responsive overlay treatment. The panel reuses `PlannerRevScreen` and can expand into the full `#/rev` workspace.
@@ -163,7 +179,7 @@ Component routes remain available for genuinely distinct content:
 
 `#/rev` remains the expanded REV workspace route.
 
-There is no production Profile or Settings hash route; those utilities are modal sections. Admin remains a protected operational route. Upgrade Plan remains deliberately non-interactive until its governed route exists.
+There is no production Profile or Settings hash route; those utilities are modal sections. Admin remains a protected operational route rendered by the canonical `PlannerRuntime`. Upgrade Plan remains deliberately non-interactive until its governed route exists.
 
 ## Evidence behaviour
 
@@ -175,7 +191,7 @@ Global Progress and REV use the same combined evidence model.
 
 ## Key implementation files
 
-- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, navigation, account-menu permission gating, first-name Auth update, responsive account entry and contextual Ask REV layer.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, navigation, account-menu permission gating, first-name Auth update, responsive account entry, contextual Ask REV layer and direct Admin route rendering.
 - `src/app/AccountModal.tsx` — shared centred Profile/Settings workspace and first-name edit form.
 - `src/app/account-modal.css` — modal positioning and responsive layout.
 - `src/app/profile-edit.css` — editable Profile field, save and feedback styling.
@@ -184,22 +200,29 @@ Global Progress and REV use the same combined evidence model.
 - `src/app/planner-runtime.css` — canonical shell/Home/Ask REV responsive layout.
 - `src/app/brand-tokens.css` — Calm Teal theme roles.
 - `src/app/PlannerRevScreen.tsx` — shared REV planning conversation.
-- `src/app/App.tsx` — catalogue, Subject Home, course/component rendering, Progress and Admin content when nested.
+- `src/app/ContentOperations.tsx` — general protected Admin content rendered directly by the canonical runtime for authorised users.
+- `src/app/PlannerAdminScreen.tsx` — planner-specific Admin assurance content rendered directly for authorised users.
+- `src/app/App.tsx` — catalogue, Subject Home, course/component and Progress compatibility content when nested; it still contains older Home/REV compatibility rendering but does not own canonical Home, REV or Admin presentation.
 - `src/app/catalogue-model.ts` — course grouping, shared-learning detection and course learning state.
 - `src/app/navigation.ts` — global, course and component hash routes.
 - `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, account/profile/Admin permission behaviour and global navigation assurance.
+- `tests/e2e/admin-entry-transition.spec.ts` — regression assurance that Admin entry never mounts the legacy `.rev-hero` compatibility Home treatment.
 
 ## Compatibility and competing surfaces
 
 The canonical learner shell is `PlannerRuntime` on `/revision/app/`.
 
-The older global navigation markup inside nested `App` is compatibility implementation only and is suppressed when `App` is hosted by `PlannerRuntime`. It must not be treated as the learner-wide source of truth.
+The older global navigation and older Home/REV renderers inside `App` are compatibility implementation only. They are not the learner-wide source of truth. When `App` is hosted by `PlannerRuntime`, its older embedded global navigation is suppressed.
+
+The compatibility Home/REV implementation must never be used as an authorization fallback. In particular, Admin entry must remain within `PlannerRuntime` and must not mount `App.renderHome()` while permission state is unresolved or denied.
+
+A future bounded refactor may retire the remaining compatibility Home/REV code once `App` has been fully separated into contextual catalogue/progress content. That cleanup is not required to correct the canonical Admin journey and should not be confused with the live product surface.
 
 ## Deployment and smoke evidence
 
 GitHub Pages publishes the Vite `dist/` artifact. Production smoke should continue to verify the canonical React app and legacy retirement. Responsive CI additionally verifies the account behaviour before merge.
 
-For this account refinement, browser assurance should prove:
+For the account/Admin refinement, browser assurance should prove:
 
 - ordinary learners do not see Admin in the account menu;
 - authorised users do see Admin in the account menu;
@@ -207,8 +230,9 @@ For this account refinement, browser assurance should prove:
 - Profile permits an authenticated user to update their own first name;
 - the updated name is reflected in learner-facing shell personalisation;
 - database-owned administrator classification is not part of the profile edit payload;
-- Profile/Settings modal accessibility and responsive behaviour remain intact; and
-- Admin remains protected independently of menu visibility.
+- Profile/Settings modal accessibility and responsive behaviour remain intact;
+- Admin remains protected independently of menu visibility; and
+- entering Admin does not mount the legacy blue `.rev-hero` Home treatment at any point in the transition.
 
 ## Documentation and authority
 
