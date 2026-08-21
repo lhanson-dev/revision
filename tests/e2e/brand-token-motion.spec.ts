@@ -168,9 +168,15 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
   })
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
-  const revInput = page.getByLabel('Talk to REV about your plan')
+  const mobile = viewportWidth <= 960
+  let revInput
+  if (mobile) {
+    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: /REV/ }).click()
+    revInput = page.getByLabel('Talk to REV about your plan')
+  } else {
+    await page.getByRole('button', { name: /Ask REV/ }).click()
+    revInput = page.getByRole('dialog', { name: 'Ask REV about Home' }).getByLabel('Ask REV about Home')
+  }
   await expect(revInput).toBeVisible()
   await revInput.focus()
   await expect(page.locator('.rev-presence-conversation')).toHaveAttribute('data-state', 'listening')
