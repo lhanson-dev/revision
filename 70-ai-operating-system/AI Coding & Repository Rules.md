@@ -22,8 +22,10 @@ An AI response must never state or imply that the agent itself will continue wor
 Every final work update must end with an explicit status statement so the Founder does not have to infer whether work is still happening. Use one of these forms, adapted with the specific next action where useful:
 
 - **STATUS: FOUNDER ACTION REQUIRED — <exact action required>.**
-- **STATUS: WAITING ON EXTERNAL SYSTEM — <what is running>. Check back when it has completed and I will immediately continue from the result.**
+- **STATUS: WAITING ON EXTERNAL SYSTEM — <what is running>. Estimated check-back: <evidence-based time window>. Check back after that and I will immediately continue from the result.**
 - **STATUS: COMPLETE — no further action required.**
+
+When the status is `WAITING ON EXTERNAL SYSTEM`, include a practical **estimated check-back** window whenever the available evidence supports one. Base the estimate on observable information such as the current external stage, remaining jobs and recent comparable run durations. Use a range rather than false precision, make clear that it is an estimate rather than a guarantee, and do not invent a duration when there is insufficient evidence. If no defensible estimate is available, say that the check-back time is unknown and explain what completion signal is being awaited.
 
 Do not use a final status such as `working`, `continuing`, `in progress` or equivalent after returning control unless a real asynchronous mechanism exists and has been explicitly disclosed. Intermediate progress updates within an active turn may state that work is continuing because the agent has not yet returned control.
 
