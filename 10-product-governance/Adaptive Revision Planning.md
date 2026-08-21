@@ -1,10 +1,10 @@
 # Adaptive Revision Planning
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress and learner choice.  
 **Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19.  
-**Authority relationship:** This is the specific product authority for adaptive planning. Where a general product document conflicts with this approved planner behaviour, the conflict must be resolved in favour of this specific authority once this change is merged, and the general document must be brought back into alignment.
+**Authority relationship:** This is the specific product authority for adaptive planning. Global navigation mechanics are governed more specifically by `Global Learner Navigation.md`; this document remains authoritative for planner behaviour and the way REV explains and negotiates the plan.
 
 ## Product outcome
 
@@ -161,7 +161,7 @@ The product should distinguish:
 3. meaningfully engaged; and
 4. completed.
 
-A navigation click is not completion where the activity has a meaningful completion state.
+A navigation click is not completion where the activity has a meaningful completion event.
 
 At useful return points, REV may use lightweight reconciliation:
 
@@ -211,7 +211,7 @@ Learner-facing language must remain calm, factual and action-oriented. Avoid sha
 
 A neutral Plan state such as **Prioritising** may be used if UX validation supports it.
 
-Where a modest increase in availability would materially improve the outlook, REV may make a specific optional suggestion and explain what that time would unlock. If the learner cannot or does not want to add time, Revision continues to optimise the time already available without judgement.
+Where a modest increase in availability would materially improve the outlook, REV may make a specific optional suggestion and explain what that time would unlock. If the learner cannot or does not want to add time, Revision continues to optimise the time the learner does have without judgement.
 
 The intended learner outcome is:
 
@@ -219,17 +219,17 @@ The intended learner outcome is:
 
 ## 12. REV experience
 
-REV is a living, context-aware coaching presence, not a menu of AI functions.
+REV is a living, context-aware coaching presence, not a menu of AI functions and not primarily a peer navigation destination.
 
-Opening the dedicated REV destination should feel closer to **How can I help?** than to a dashboard or blank generic chatbot.
+The ordinary access pattern is persistent **Ask REV** from the learner's current screen. Opening Ask REV should feel closer to **How can I help?** than to a dashboard or blank generic chatbot.
 
-REV may use approved context including the current plan, assessments, recent activity, progress evidence, confidence, current subject/topic and bounded conversational context.
+REV may use approved context including the current plan, assessments, recent activity, progress evidence, confidence, current subject/topic, current activity or feedback and bounded conversational context.
 
 It should use context quietly. It should not recite everything it knows about the learner.
 
 Suggested prompts may be dynamic conversation starters, but natural text/conversation remains primary.
 
-Moving into REV from Home, Plan, Progress, Subjects or an activity should preserve relevant context so the learner does not need to explain where they came from.
+Opening Ask REV from Home, Plan, Progress, Subjects or an activity should preserve the current context so the learner does not need to explain where they came from. Desktop should normally preserve the underlying screen while a substantial conversation panel opens; tablet/mobile should use an appropriate sheet or overlay. A full REV workspace may still be offered for longer conversations.
 
 ## 13. Proactive support and notifications
 
@@ -245,17 +245,21 @@ Email should normally be lower-frequency and suited to broader-value communicati
 
 ## 14. Primary learner navigation
 
-The governed primary learner destinations are:
+The governed learner-wide destinations are:
 
-**Home | Plan | REV | Progress | Subjects**
+**Home | Plan | Progress | Subjects**
 
-On mobile, these are persistently available in bottom navigation. REV occupies the centre position and receives modest distinctive visual prominence because it is a core differentiating capability.
+The persistent global learner action is **Ask REV**.
+
+On desktop, the four destinations and Ask REV are exposed through the governed left learner rail, with Ask REV receiving the strongest branded emphasis.
+
+On tablet/mobile, the persistent bottom bar retains the five visible positions **Home | Plan | REV | Progress | Subjects**, but the centre REV control is an Ask REV action rather than a peer destination.
 
 The REV treatment must remain accessible, calm and purposeful rather than decorative AI theatre.
 
 Home remains the default signed-in destination.
 
-Profile, account, settings, help, subject management, privacy and similar utilities belong in the secondary/burger menu rather than the primary learner navigation.
+Profile, account, settings, help, subject management, privacy and similar utilities remain secondary to the learner-wide jobs. Desktop may expose Profile and Settings at the bottom of the rail; mobile/tablet use the secondary menu.
 
 ## 15. MVP boundary
 
@@ -275,8 +279,8 @@ The first implementation must prove the core adaptive loop rather than every pos
 - recommendation-to-activity linking and reliable activity-state events;
 - lightweight external revision reconciliation;
 - insufficient-capacity / priority-mode behaviour;
-- context-aware REV entry and planning explanation;
-- the five-destination primary navigation;
+- persistent context-aware Ask REV entry and planning explanation;
+- desktop left-rail learner navigation plus tablet/mobile bottom navigation;
 - minimum viable product analytics and Founder/Admin health signals; and
 - accessible loading, empty, unavailable, low-evidence and error states.
 
@@ -422,7 +426,7 @@ Specific requirements include:
 - ensure claim strength matches evidence strength;
 - avoid manipulative urgency, shame and dark patterns;
 - keep the full planner and navigation operable by keyboard and assistive technology;
-- ensure the raised REV mobile action has a clear accessible name, usable touch target and non-colour-only active state;
+- ensure the persistent Ask REV action has a clear accessible name and usable touch target at every breakpoint;
 - make chronology, priority and status understandable without relying only on colour;
 - support reduced-motion preferences where REV presence or navigation uses animation;
 - keep plan changes understandable for learners with cognitive or attention-related accessibility needs; and

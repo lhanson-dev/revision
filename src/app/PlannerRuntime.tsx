@@ -28,8 +28,9 @@ const catalogue = buildCatalogue(listAvailableContentAdapters())
 const planSubjects = catalogue.map((subject) => ({ id: subject.id, name: subject.name }))
 const themeStorageKey = 'revision:theme'
 
-type NavIconName = 'home' | 'plan' | 'progress' | 'subjects'
+type NavIconName = 'home' | 'plan' | 'progress' | 'subjects' | 'profile' | 'settings'
 type ThemeName = 'light' | 'dark'
+type AccountPanel = 'profile' | 'settings' | 'menu'
 
 function NavIcon({ name }: { name: NavIconName }) {
   const commonProps = {
@@ -45,36 +46,21 @@ function NavIcon({ name }: { name: NavIconName }) {
   }
 
   if (name === 'home') {
-    return (
-      <svg {...commonProps}>
-        <path d="M3.5 10.5 12 3.5l8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z" />
-      </svg>
-    )
+    return <svg {...commonProps}><path d="M3.5 10.5 12 3.5l8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z" /></svg>
   }
-
   if (name === 'plan') {
-    return (
-      <svg {...commonProps}>
-        <rect x="3" y="5" width="18" height="16" rx="2.5" />
-        <path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 4-4" />
-      </svg>
-    )
+    return <svg {...commonProps}><rect x="3" y="5" width="18" height="16" rx="2.5" /><path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 4-4" /></svg>
   }
-
   if (name === 'progress') {
-    return (
-      <svg {...commonProps}>
-        <path d="M4 19V5M4 19h17M7 15l4-4 3 2 5-6" />
-        <path d="M16 7h3v3" />
-      </svg>
-    )
+    return <svg {...commonProps}><path d="M4 19V5M4 19h17M7 15l4-4 3 2 5-6" /><path d="M16 7h3v3" /></svg>
   }
-
-  return (
-    <svg {...commonProps}>
-      <path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" />
-    </svg>
-  )
+  if (name === 'subjects') {
+    return <svg {...commonProps}><path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" /></svg>
+  }
+  if (name === 'profile') {
+    return <svg {...commonProps}><circle cx="12" cy="8" r="3.5" /><path d="M5 21c.7-4.3 3.1-6.5 7-6.5s6.3 2.2 7 6.5" /></svg>
+  }
+  return <svg {...commonProps}><circle cx="12" cy="12" r="3.2" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z" /></svg>
 }
 
 function RevWordmark() {
@@ -112,6 +98,8 @@ export function PlannerRuntime() {
   const [user, setUser] = useState<User | null>(null)
   const [route, setRoute] = useState<AppRoute>(() => parseRoute(window.location.hash))
   const [menuOpen, setMenuOpen] = useState(false)
+  const [accountPanel, setAccountPanel] = useState<AccountPanel>('menu')
+  const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
 
@@ -133,6 +121,7 @@ export function PlannerRuntime() {
     const onHashChange = () => {
       setRoute(parseRoute(window.location.hash))
       setMenuOpen(false)
+      setRevPanelOpen(false)
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
@@ -163,7 +152,24 @@ export function PlannerRuntime() {
 
   function navigate(nextRoute: AppRoute) {
     setMenuOpen(false)
+    setRevPanelOpen(false)
     window.location.hash = routeHash(nextRoute)
+  }
+
+  function openRev(draft?: string) {
+    if (draft?.trim()) window.sessionStorage.setItem('revision:rev-draft', draft.trim())
+    setMenuOpen(false)
+    setRevPanelOpen(true)
+  }
+
+  function expandRev() {
+    setRevPanelOpen(false)
+    window.location.hash = routeHash(revRoute())
+  }
+
+  function openAccount(nextPanel: AccountPanel) {
+    setAccountPanel(nextPanel)
+    setMenuOpen(true)
   }
 
   function openPlannerAdmin() {
@@ -182,19 +188,9 @@ export function PlannerRuntime() {
 
   if (!user) return <main className="loading-shell">Loading Revision…</main>
 
-  const navigation = (
-    <>
-      <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}>Home</button>
-      <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}>Plan</button>
-      <button className={`runtime-rev-link ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())}>REV</button>
-      <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}>Progress</button>
-      <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}>Subjects</button>
-    </>
-  )
-
   let screen
   if (route.kind === 'home') {
-    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => navigate(revRoute())} onOpenProgress={() => navigate(progressRoute())} onOpenSubjects={() => navigate(subjectsRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
+    screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenProgress={() => navigate(progressRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'plan') {
     screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'rev') {
@@ -208,22 +204,26 @@ export function PlannerRuntime() {
   return (
     <div className="planner-runtime" data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
-      <header className="topbar desktop-topbar runtime-topbar">
-        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{navigation}</nav>
-        <div className="runtime-utilities">
-          <button className="theme-toggle desktop-theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>{theme === 'light' ? 'Dark mode' : 'Light mode'}</button>
-          <button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}>
-            <span className="account-avatar">{learner.charAt(0).toUpperCase()}</span>
-            <span><strong>{learner}</strong><small>Account</small></span>
-            <span aria-hidden="true">⌄</span>
-          </button>
+
+      <aside className="runtime-sidebar" aria-label="Learner navigation">
+        <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
+        <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><span aria-hidden="true">✦</span>Ask REV</button>
+        <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
+          <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
+          <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
+          <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
+          <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
+        </nav>
+        <div className="runtime-sidebar-account">
+          <button className="runtime-sidebar-user" onClick={() => openAccount('profile')} aria-haspopup="dialog"><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span>{learner}</span><span aria-hidden="true">›</span></button>
+          <button onClick={() => openAccount('profile')}><NavIcon name="profile" /><span>Profile</span></button>
+          <button onClick={() => openAccount('settings')}><NavIcon name="settings" /><span>Settings</span></button>
         </div>
-      </header>
+      </aside>
 
       <header className="mobile-topbar runtime-mobile-topbar">
         <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <button className="burger-button" onClick={() => setMenuOpen(true)} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
+        <button className="burger-button" onClick={() => openAccount('menu')} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
       </header>
 
       <div className="runtime-screen">{screen}</div>
@@ -231,21 +231,34 @@ export function PlannerRuntime() {
       <nav className="bottom-nav runtime-bottom-nav" aria-label="Mobile navigation">
         <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
         <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
-        <button className={`runtime-rev-button ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())} aria-label="Open REV"><RevPresence size="nav" state="resting" decorative /><span>REV</span></button>
+        <button className="runtime-rev-button" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>REV</span></button>
         <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
         <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
       </nav>
+
+      {revPanelOpen && (
+        <>
+          <button className="runtime-rev-backdrop" aria-label="Close Ask REV" onClick={() => setRevPanelOpen(false)}></button>
+          <aside className="runtime-rev-panel" role="dialog" aria-modal="true" aria-label="Ask REV">
+            <header className="runtime-rev-panel-head">
+              <div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div>
+              <div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><button onClick={() => setRevPanelOpen(false)} aria-label="Close Ask REV">×</button></div>
+            </header>
+            <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} onOpenPlan={() => navigate(planRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} /></div>
+          </aside>
+        </>
+      )}
 
       {menuOpen && (
         <>
           <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
           <aside className="menu-drawer runtime-menu-drawer open" aria-label="Account and additional links">
-            <div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
+            <div className="drawer-head"><div><p className="eyebrow">{accountPanel === 'settings' ? 'Settings' : 'Account'}</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
             <nav className="drawer-links">
               <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
               <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
               <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
-              <button onClick={() => navigate(revRoute())}>Ask REV <span>→</span></button>
+              <button onClick={() => openRev()}>Ask REV <span>→</span></button>
               {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
               {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
             </nav>
