@@ -318,10 +318,18 @@ export function PlannerRuntime() {
               </nav>
             )}
             {accountPanel === 'profile' && (
-              <div className="runtime-account-details" aria-label="Profile details">
-                <div><span>Name</span><strong>{learner}</strong></div>
-                <div><span>Email</span><strong>{user.email}</strong></div>
-              </div>
+              <>
+                <div className="runtime-account-details" aria-label="Profile details">
+                  <div><span>Name</span><strong>{learner}</strong></div>
+                  <div><span>Email</span><strong>{user.email}</strong></div>
+                </div>
+                {isAdmin && (
+                  <nav className="drawer-links runtime-profile-admin-links" aria-label="Admin links">
+                    <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>
+                    <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>
+                  </nav>
+                )}
+              </>
             )}
             {accountPanel === 'settings' && (
               <div className="runtime-account-settings">
