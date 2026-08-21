@@ -1,0 +1,442 @@
+/*
+ * Revision Interface System — Increment B1 foundation.
+ *
+ * This layer turns the approved Brand System primitives and surface families into
+ * reusable production UI rules. New learner UI should consume these roles/classes
+ * instead of inventing local colours, radii, shadows, control heights or overlay
+ * treatments. Existing domain styles remain as compatibility while bounded surface
+ * groups migrate.
+ */
+
+.planner-runtime {
+  /* Spacing roles — governed 4px rhythm. */
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-5: 20px;
+  --ui-space-6: 24px;
+  --ui-space-8: 32px;
+  --ui-space-10: 40px;
+  --ui-space-12: 48px;
+  --ui-space-16: 64px;
+
+  /* Reusable control geometry. */
+  --ui-control-compact: 36px;
+  --ui-control-standard: 44px;
+  --ui-control-large: 52px;
+  --ui-field-height: 48px;
+  --ui-icon-button-size: 44px;
+
+  /* Interaction timing. Motion is intentionally quiet and consistent. */
+  --ui-motion-fast: 160ms;
+  --ui-motion-standard: 200ms;
+  --ui-ease-standard: cubic-bezier(.2, .8, .2, 1);
+
+  /* Shared overlay/floating roles. */
+  --ui-backdrop: rgba(15, 32, 36, .36);
+  --ui-backdrop-blur: 3px;
+  --ui-overlay-radius: 24px;
+  --ui-menu-radius: 16px;
+  --ui-menu-item-radius: 12px;
+  --ui-focus-ring: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 22%, transparent);
+
+  font-family: Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Shared surfaces                                                             */
+/* -------------------------------------------------------------------------- */
+
+.ui-surface,
+.ui-surface-standard {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.ui-surface-standard {
+  padding: var(--ui-space-6);
+}
+
+.ui-surface-quiet {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.ui-surface-interactive {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition:
+    border-color var(--ui-motion-fast) var(--ui-ease-standard),
+    background var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    transform var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.ui-surface-interactive:hover,
+.ui-surface-interactive:focus-within {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 32%, var(--color-border));
+  box-shadow: var(--shadow-raised);
+}
+
+.ui-surface-feature {
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 22%, var(--color-border));
+  border-radius: var(--radius-feature);
+  background: color-mix(in srgb, var(--color-surface) 92%, var(--brand-soft-aqua));
+  color: var(--color-text);
+}
+
+.ui-floating-surface {
+  border: 1px solid var(--color-border);
+  border-radius: var(--ui-menu-radius);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Overlay / modal / sheet grammar                                             */
+/* -------------------------------------------------------------------------- */
+
+.ui-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--ui-backdrop);
+  backdrop-filter: blur(var(--ui-backdrop-blur));
+  cursor: default;
+}
+
+.ui-overlay-surface {
+  border: 1px solid var(--color-border);
+  border-radius: var(--ui-overlay-radius);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+/* Existing canonical overlays are bridged onto the same visual contract while
+ * their feature CSS continues to own placement and internal layout. */
+.runtime-account-modal-backdrop,
+.runtime-mobile-menu-backdrop,
+.runtime-rev-backdrop {
+  background: var(--ui-backdrop);
+  backdrop-filter: blur(var(--ui-backdrop-blur));
+}
+
+.runtime-account-modal,
+.runtime-rev-panel {
+  border-color: var(--color-border);
+  border-radius: var(--ui-overlay-radius);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+.runtime-mobile-drawer {
+  border-color: var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+.runtime-account-popover {
+  border-color: var(--color-border);
+  border-radius: var(--ui-menu-radius);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Buttons and icon actions                                                    */
+/* -------------------------------------------------------------------------- */
+
+.ui-button {
+  min-height: var(--ui-control-standard);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-2);
+  padding: 0 var(--ui-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    background var(--ui-motion-fast) var(--ui-ease-standard),
+    border-color var(--ui-motion-fast) var(--ui-ease-standard),
+    color var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    transform var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.ui-button:focus-visible,
+.ui-icon-button:focus-visible,
+.ui-menu-item:focus-visible,
+.ui-field:focus-visible {
+  outline: 0;
+  box-shadow: var(--ui-focus-ring);
+}
+
+.ui-button:active:not(:disabled),
+.ui-icon-button:active:not(:disabled),
+.ui-menu-item:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ui-button:disabled,
+.ui-icon-button:disabled,
+.ui-menu-item:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.ui-button--compact {
+  min-height: var(--ui-control-compact);
+  padding-inline: var(--ui-space-3);
+  font-size: 13px;
+}
+
+.ui-button--large {
+  min-height: var(--ui-control-large);
+  padding-inline: var(--ui-space-5);
+}
+
+.ui-button--primary {
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.ui-button--primary:hover:not(:disabled),
+.ui-button--primary:focus-visible:not(:disabled) {
+  background: color-mix(in srgb, var(--color-action) 92%, var(--color-text));
+}
+
+.ui-button--strong {
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+}
+
+.ui-button--secondary {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.ui-button--secondary:hover:not(:disabled),
+.ui-button--secondary:focus-visible:not(:disabled),
+.ui-button--tertiary:hover:not(:disabled),
+.ui-button--tertiary:focus-visible:not(:disabled) {
+  background: var(--color-surface-soft);
+}
+
+.ui-button--tertiary {
+  background: transparent;
+  color: var(--color-accent-text);
+}
+
+.ui-button--destructive {
+  border-color: color-mix(in srgb, var(--status-error-fg) 36%, var(--color-border));
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+}
+
+.ui-icon-button {
+  width: var(--ui-icon-button-size);
+  height: var(--ui-icon-button-size);
+  min-width: var(--ui-icon-button-size);
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ui-menu-item-radius);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background var(--ui-motion-fast) var(--ui-ease-standard),
+    color var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    transform var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.ui-icon-button:hover:not(:disabled),
+.ui-icon-button:focus-visible:not(:disabled) {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Menus and progressive disclosure                                            */
+/* -------------------------------------------------------------------------- */
+
+.ui-menu {
+  display: grid;
+  gap: var(--ui-space-1);
+  padding: var(--ui-space-2);
+}
+
+.ui-menu-item {
+  min-height: 42px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--ui-space-3);
+  padding: var(--ui-space-2) var(--ui-space-3);
+  border: 0;
+  border-radius: var(--ui-menu-item-radius);
+  background: transparent;
+  color: var(--color-text-secondary);
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background var(--ui-motion-fast) var(--ui-ease-standard),
+    color var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    transform var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.ui-menu-item:hover,
+.ui-menu-item:focus-visible,
+.ui-menu-item[aria-current="page"],
+.ui-menu-item[aria-pressed="true"] {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.ui-menu-item[aria-current="page"] {
+  color: var(--color-accent-text);
+}
+
+/* Compatibility bridge for account/navigation controls that have not yet moved
+ * to the explicit .ui-menu-item class. */
+.runtime-account-popover button,
+.runtime-mobile-drawer-nav > button,
+.runtime-mobile-account-links > button {
+  transition:
+    background var(--ui-motion-fast) var(--ui-ease-standard),
+    color var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    transform var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.runtime-account-popover button:focus-visible,
+.runtime-mobile-drawer-nav > button:focus-visible,
+.runtime-mobile-account-links > button:focus-visible,
+.runtime-sidebar-user:focus-visible {
+  outline: 0;
+  box-shadow: var(--ui-focus-ring);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Fields and segmented controls                                               */
+/* -------------------------------------------------------------------------- */
+
+.ui-field {
+  width: 100%;
+  min-height: var(--ui-field-height);
+  padding: 0 var(--ui-space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 16px;
+  transition:
+    border-color var(--ui-motion-fast) var(--ui-ease-standard),
+    box-shadow var(--ui-motion-fast) var(--ui-ease-standard),
+    background var(--ui-motion-fast) var(--ui-ease-standard);
+}
+
+.ui-field::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.ui-field:focus {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 72%, var(--color-border));
+}
+
+.ui-segmented-control {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+}
+
+.ui-segmented-control .ui-button {
+  min-height: var(--ui-control-compact);
+  border-radius: 9px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Feedback surfaces                                                           */
+/* -------------------------------------------------------------------------- */
+
+.ui-status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ui-space-3);
+  padding: var(--ui-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.ui-status--success {
+  border-color: color-mix(in srgb, var(--status-success-fg) 24%, transparent);
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+}
+
+.ui-status--warning {
+  border-color: color-mix(in srgb, var(--status-warning-fg) 24%, transparent);
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+}
+
+.ui-status--error {
+  border-color: color-mix(in srgb, var(--status-error-fg) 24%, transparent);
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+}
+
+.ui-status--info {
+  border-color: color-mix(in srgb, var(--status-info-fg) 24%, transparent);
+  background: var(--status-info-bg);
+  color: var(--status-info-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-surface-interactive,
+  .ui-button,
+  .ui-icon-button,
+  .ui-menu-item,
+  .ui-field,
+  .runtime-account-popover button,
+  .runtime-mobile-drawer-nav > button,
+  .runtime-mobile-account-links > button {
+    transition: none;
+  }
+}
