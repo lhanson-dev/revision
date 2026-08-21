@@ -11,6 +11,10 @@ async function expectNoPageOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
+function isMobileLayout(page: Page) {
+  return (page.viewportSize()?.width ?? 0) <= 960
+}
+
 async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } = {}) {
   const userId = '00000000-0000-4000-8000-000000000001'
   await page.addInitScript(({ key, id }) => {
@@ -96,27 +100,38 @@ async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } =
   })
 }
 
-function primaryNavigation(page: Page) {
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  return page.getByRole('navigation', { name: viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation' })
+function desktopPrimaryNavigation(page: Page) {
+  return page.getByRole('navigation', { name: 'Primary navigation' })
+}
+
+async function openMobileDrawer(page: Page) {
+  const existing = page.getByRole('dialog', { name: 'Navigation menu' })
+  if (await existing.count()) return existing
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  const drawer = page.getByRole('dialog', { name: 'Navigation menu' })
+  await expect(drawer).toBeVisible()
+  return drawer
+}
+
+async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' | 'Progress' | 'Subjects') {
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    await drawer.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: destination, exact: true }).click()
+    await expect(drawer).toHaveCount(0)
+    return
+  }
+  await desktopPrimaryNavigation(page).getByRole('button', { name: destination, exact: true }).click()
 }
 
 async function openAskRev(page: Page) {
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  if (viewportWidth <= 960) {
-    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: 'Ask REV' }).click()
-  } else {
-    await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
-  }
+  await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
 async function openProfileModal(page: Page) {
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  if (viewportWidth <= 960) {
-    await page.getByRole('button', { name: 'Open menu' }).click()
-    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
-    await drawer.getByRole('button', { name: /^Profile/ }).click()
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    await drawer.getByRole('button', { name: 'Profile', exact: true }).click()
   } else {
     await page.getByRole('button', { name: /account menu$/ }).click()
     await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Profile' }).click()
@@ -145,28 +160,38 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expect(page.getByRole('heading', { name: 'Today’s plan' })).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNav = primaryNavigation(page)
-  await expect(primaryNav).toBeVisible()
-  await expect(primaryNav.getByRole('button')).toHaveCount(viewportWidth <= 960 ? 5 : 4)
-  await expect(primaryNav.getByRole('button', { name: /Home/ })).toBeVisible()
-  await expect(primaryNav.getByRole('button', { name: /Plan/ })).toBeVisible()
-  await expect(primaryNav.getByRole('button', { name: /Progress/ })).toBeVisible()
-  await expect(primaryNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
 
   if (viewportWidth <= 960) {
-    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
-    await expect(primaryNav.getByRole('button', { name: 'Ask REV' })).toBeVisible()
-    await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
-    await expect(primaryNav.locator('.rev-presence-nav')).toHaveCount(1)
+    const menuButton = page.getByRole('button', { name: 'Open menu' })
+    await expect(menuButton).toBeVisible()
+    await expect(menuButton.locator('span')).toHaveCount(2)
+    await expect(page.locator('.runtime-bottom-nav')).toHaveCount(0)
 
-    await page.getByRole('button', { name: 'Open menu' }).click()
-    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
-    await expect(drawer.getByRole('button', { name: /^Admin/ })).toHaveCount(0)
-    await drawer.getByRole('button', { name: /^Profile/ }).click()
+    const revDock = page.getByRole('button', { name: 'Ask REV', exact: true })
+    await expect(revDock).toBeVisible()
+    await expect(revDock.locator('.rev-presence-nav')).toHaveCount(1)
+    expect(await revDock.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
+
+    const drawer = await openMobileDrawer(page)
+    const mobileNav = drawer.getByRole('navigation', { name: 'Mobile navigation' })
+    await expect(mobileNav.getByRole('button')).toHaveCount(4)
+    await expect(mobileNav.getByRole('button', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
+    await expect(mobileNav.getByRole('button', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: 'Subjects', exact: true })).toBeVisible()
+    await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toHaveCount(0)
+    await expect(drawer.getByText('Coming soon')).toBeVisible()
+    await drawer.getByRole('button', { name: 'Profile', exact: true }).click()
   } else {
+    const primaryNav = desktopPrimaryNavigation(page)
+    await expect(primaryNav).toBeVisible()
+    await expect(primaryNav.getByRole('button')).toHaveCount(4)
+    await expect(primaryNav.getByRole('button', { name: 'Home', exact: true })).toHaveClass(/active/)
+    await expect(primaryNav.getByRole('button', { name: 'Plan', exact: true })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'Subjects', exact: true })).toBeVisible()
     await expect(page.getByRole('complementary', { name: 'Learner navigation' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Ask REV', exact: true })).toBeVisible()
-    await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveClass(/active/)
 
     const accountTrigger = page.getByRole('button', { name: 'Synthetic account menu' })
     await expect(accountTrigger).toBeVisible()
@@ -226,7 +251,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expectNoPageOverflow(page)
   await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
 
-  await primaryNavigation(page).getByRole('button', { name: /Plan/ }).click()
+  await clickGlobalDestination(page, 'Plan')
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'What matters now' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Set your realistic availability' })).toBeVisible()
@@ -236,7 +261,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expect(page.getByRole('dialog', { name: 'Ask REV' }).getByRole('heading', { name: 'How can I help?' })).toBeVisible()
   await page.getByRole('dialog', { name: 'Ask REV' }).getByRole('button', { name: 'Close Ask REV' }).click()
 
-  await primaryNavigation(page).getByRole('button', { name: /Subjects/ }).click()
+  await clickGlobalDestination(page, 'Subjects')
   await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
   const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
   await businessCard.getByRole('button', { name: /Open Business/ }).click()
@@ -308,22 +333,25 @@ test('database admin access stays secondary while protected Admin remains reacha
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNav = primaryNavigation(page)
-  await expect(primaryNav.getByRole('button')).toHaveCount(viewportWidth <= 960 ? 5 : 4)
-  await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
+  if (!isMobileLayout(page)) {
+    const primaryNav = desktopPrimaryNavigation(page)
+    await expect(primaryNav.getByRole('button')).toHaveCount(4)
+    await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
+  }
 
   await openProfileModal(page)
   const accountDialog = page.getByRole('dialog', { name: 'Account settings' })
   await expect(accountDialog.getByRole('region', { name: 'Admin tools' })).toHaveCount(0)
   await accountDialog.getByRole('button', { name: 'Close account window' }).click()
 
-  if (viewportWidth <= 960) {
-    await page.getByRole('button', { name: 'Open menu' }).click()
-    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
-    await expect(drawer.getByRole('button', { name: /^Admin/ })).toBeVisible()
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    const mobileNav = drawer.getByRole('navigation', { name: 'Mobile navigation' })
+    await expect(mobileNav.getByRole('button')).toHaveCount(4)
+    await expect(mobileNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
+    await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toBeVisible()
     await expect(drawer.getByRole('button', { name: /Planner assurance/ })).toHaveCount(0)
-    await drawer.getByRole('button', { name: /^Admin/ }).click()
+    await drawer.getByRole('button', { name: 'Admin', exact: true }).click()
   } else {
     await page.getByRole('button', { name: 'Synthetic account menu' }).click()
     const accountMenu = page.getByRole('menu', { name: 'Profile menu' })
