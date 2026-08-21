@@ -8,6 +8,12 @@ function isResponsiveLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
 }
 
+function durationToMs(value: string) {
+  if (value.endsWith('ms')) return Number.parseFloat(value)
+  if (value.endsWith('s')) return Number.parseFloat(value) * 1000
+  return Number.NaN
+}
+
 async function seedSession(page: Page) {
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -126,7 +132,7 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   expect(roles.space4).toBe('16px')
   expect(roles.standardControl).toBe('44px')
   expect(roles.fieldHeight).toBe('48px')
-  expect(roles.fastMotion).toBe('160ms')
+  expect(durationToMs(roles.fastMotion)).toBe(160)
   expect(roles.overlayRadius).toBe('24px')
 
   await openProfile(page)
