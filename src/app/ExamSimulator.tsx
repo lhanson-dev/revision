@@ -292,7 +292,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
         <h2 id={`full-exam-${exam.id}`}>Full {exam.durationMinutes}-minute {pLabel}</h2>
         <p className="intro">{exam.title}. Practise all {exam.questions.length} questions for {exam.totalMarks} marks under a running timer, or work on one question first.</p>
         <div className="activity-kind scored"><strong>What am I trying to improve?</strong><span>Applying knowledge in this paper’s format, managing time, and sustaining analysis and judgement. Marks are self-assessed, so they inform readiness but cannot create high confidence on their own.</span></div>
-        <div className="inline-actions"><button className="secondary" onClick={startQuestionPractice}>Practise one question</button><button className="primary" onClick={startExam}>Open timed exam</button></div>
+        <div className="inline-actions"><button className="secondary" onClick={startQuestionPractice}>Practise one question</button><button className="primary" aria-label="Start timed exam" onClick={startExam}>Open timed exam</button></div>
       </section>
     )
   }
