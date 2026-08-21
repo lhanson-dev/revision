@@ -42,7 +42,7 @@ Use this file to find the governing source before substantive work.
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
-- Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
+- Information architecture / responsive learner navigation / contextual desktop REV access → `10-product-governance/Information Architecture.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Product backlog folder rules → `10-product-governance/backlog/README.md`
@@ -54,6 +54,7 @@ Use this file to find the governing source before substantive work.
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
+- Responsive REV access / desktop floating Ask REV / mobile centre REV → `20-brand-and-experience/REV Responsive Access Pattern.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
 - Other brand/visual authority → `20-brand-and-experience/`
 
