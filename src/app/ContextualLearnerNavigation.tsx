@@ -1,6 +1,7 @@
 import {
   availableCourseSections,
   availablePaperSections,
+  catalogueCourseLabel,
   type CatalogueCourse,
   type CatalogueSubject,
 } from './catalogue-model'
@@ -33,10 +34,6 @@ function routeSubjectId(route: AppRoute) {
   return null
 }
 
-function courseLabel(course: CatalogueCourse, subjectName: string) {
-  return `${course.examBoardName} ${course.qualificationName} ${subjectName}`
-}
-
 function courseContainsModule(course: CatalogueCourse, moduleId: string) {
   return course.modules.some((module) => module.manifest.id === moduleId)
 }
@@ -52,11 +49,13 @@ function activeCourseId(route: AppRoute, subject: CatalogueSubject) {
 function SectionLinks({
   route,
   sections,
+  contextLabel,
   onNavigate,
   destination,
 }: {
   route: AppRoute
   sections: readonly (CourseSection | PaperSection)[]
+  contextLabel: string
   onNavigate: (route: AppRoute) => void
   destination: (section: CourseSection | PaperSection) => AppRoute
 }) {
@@ -64,14 +63,16 @@ function SectionLinks({
     <div className="runtime-context-nav-level runtime-context-nav-sections">
       {sections.map((section) => {
         const active = (route.kind === 'course' || route.kind === 'module') && route.section === section
+        const label = sectionLabels[section]
         return (
           <button
             key={section}
             className="runtime-context-nav-item runtime-context-nav-section"
+            aria-label={`${contextLabel} ${label}`}
             aria-current={active ? 'page' : undefined}
             onClick={() => onNavigate(destination(section))}
           >
-            <span>{sectionLabels[section]}</span>
+            <span>{label}</span>
           </button>
         )
       })}
@@ -111,7 +112,7 @@ export function ContextualLearnerNavigation({ route, subjects, onNavigate }: Con
                 <div className="runtime-context-nav-level runtime-context-nav-courses">
                   {subject.courses.map((course) => {
                     const selectedCourse = selectedCourseId === course.id
-                    const label = courseLabel(course, subject.name)
+                    const label = catalogueCourseLabel(course, subject.name)
 
                     if (course.sharedLearning) {
                       const sections = availableCourseSections(course)
@@ -128,6 +129,7 @@ export function ContextualLearnerNavigation({ route, subjects, onNavigate }: Con
                             <SectionLinks
                               route={route}
                               sections={sections}
+                              contextLabel={label}
                               onNavigate={onNavigate}
                               destination={(section) => courseRoute(subject.id, course.id, section as CourseSection)}
                             />
@@ -142,6 +144,7 @@ export function ContextualLearnerNavigation({ route, subjects, onNavigate }: Con
                         <div className="runtime-context-nav-level runtime-context-nav-components">
                           {course.modules.map((module) => {
                             const moduleSelected = route.kind === 'module' && route.moduleId === module.manifest.id
+                            const moduleLabel = module.manifest.paper.name
                             return (
                               <div className="runtime-context-nav-node" key={module.manifest.id}>
                                 <button
@@ -149,12 +152,13 @@ export function ContextualLearnerNavigation({ route, subjects, onNavigate }: Con
                                   aria-current={moduleSelected && route.section === 'overview' ? 'page' : undefined}
                                   onClick={() => onNavigate(moduleRoute(subject.id, module.manifest.id))}
                                 >
-                                  <span>{module.manifest.paper.name}</span>
+                                  <span>{moduleLabel}</span>
                                 </button>
                                 {moduleSelected && (
                                   <SectionLinks
                                     route={route}
                                     sections={availablePaperSections(module)}
+                                    contextLabel={`${label} ${moduleLabel}`}
                                     onNavigate={onNavigate}
                                     destination={(section) => moduleRoute(subject.id, module.manifest.id, section as PaperSection)}
                                   />
