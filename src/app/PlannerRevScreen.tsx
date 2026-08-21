@@ -20,6 +20,9 @@ interface PlannerRevScreenProps {
   userId: string
   onOpenPlan: () => void
   onOpenSubject: (subjectId: string) => void
+  embedded?: boolean
+  contextLabel?: string
+  contextSubjectId?: string
 }
 
 type ConversationMessage = {
@@ -80,7 +83,7 @@ function preferenceIntent(text: string): PlanningPreferenceType {
   return 'prefer_subject'
 }
 
-export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: PlannerRevScreenProps) {
+export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject, embedded = false, contextLabel, contextSubjectId }: PlannerRevScreenProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [input, setInput] = useState(() => window.sessionStorage.getItem('revision:rev-draft') ?? '')
@@ -132,14 +135,18 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
 
   const topItem = snapshot?.today[0]
   const topReason = topItem?.reasons.find((reason) => reason !== 'CAPACITY_CONSTRAINED' && reason !== 'ALREADY_STRONG')
+  const contextualSubject = contextSubjectId ? catalogue.find((subject) => subject.id === contextSubjectId) : undefined
+  const contextPrefix = embedded && contextLabel ? `You’re looking at ${contextLabel}. ` : ''
 
   const opening = error
-    ? 'I cannot read your full planner context right now, so I will not pretend I know what should change. You can still open your plan or subjects.'
+    ? `${contextPrefix}I cannot read your full planner context right now, so I will not pretend I know what should change. You can still open your plan or subjects.`
     : !setup?.availability || setup.assessments.length === 0
-      ? 'How can I help? I can talk through your revision, but I need an assessment and realistic availability before I can properly negotiate the wider plan.'
+      ? embedded
+        ? `${contextPrefix}How can I help? I can keep this screen open while we talk, but I need an assessment and realistic availability before I can properly negotiate the wider plan.`
+        : 'How can I help? I can talk through your revision, but I need an assessment and realistic availability before I can properly negotiate the wider plan.'
       : topItem
-        ? `How can I help? Right now I’m giving ${subjectName(topItem.subjectId)} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
-        : 'How can I help? Your planner does not need to push one activity to the front right now, but we can still talk about how you want to use the next few days.'
+        ? `${contextPrefix}How can I help? Right now I’m giving ${subjectName(topItem.subjectId)} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
+        : `${contextPrefix}How can I help? Your planner does not need to push one activity to the front right now, but we can still talk about how you want to use the next few days.`
 
   const revVisualState: RevPresenceState = loading
     ? 'thinking'
@@ -160,7 +167,7 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
     appendMessage({ id: crypto.randomUUID(), speaker: 'learner', text })
     setInput('')
 
-    const subject = findMentionedSubject(text)
+    const subject = findMentionedSubject(text) ?? contextualSubject
     if (!subject) {
       appendMessage({
         id: crypto.randomUUID(),
@@ -234,13 +241,17 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
     setPendingPreference(null)
   }
 
+  const RootElement = embedded ? 'section' : 'main'
+
   return (
-    <main className="dashboard screen-dashboard page-screen rev-page planner-rev-page" aria-labelledby="planner-rev-title">
-      <header className="page-heading">
-        <p className="eyebrow">Your intelligent revision guide</p>
-        <h1 id="planner-rev-title">REV</h1>
-        <p>Talk through the plan, question a recommendation or change the short-term balance. REV keeps the wider programme visible while you remain in control.</p>
-      </header>
+    <RootElement className={`dashboard screen-dashboard page-screen rev-page planner-rev-page${embedded ? ' planner-rev-embedded' : ''}`} aria-labelledby={embedded ? 'planner-rev-conversation-title' : 'planner-rev-title'}>
+      {!embedded && (
+        <header className="page-heading">
+          <p className="eyebrow">Your intelligent revision guide</p>
+          <h1 id="planner-rev-title">REV</h1>
+          <p>Talk through the plan, question a recommendation or change the short-term balance. REV keeps the wider programme visible while you remain in control.</p>
+        </header>
+      )}
 
       <section className="rev-hero rev-page-hero" aria-labelledby="planner-rev-conversation-title">
         <div className="rev-copy planner-rev-copy">
@@ -260,8 +271,8 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
           )}
 
           <form className="planner-rev-input" onSubmit={submitConversation}>
-            <label htmlFor="rev-plan-message">Talk to REV about your plan</label>
-            <div><input id="rev-plan-message" value={input} maxLength={240} placeholder="e.g. I want to focus more on Spanish this week" onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} onChange={(event) => setInput(event.target.value)} /><button className="rev-primary" type="submit" disabled={loading || saving}>Send</button></div>
+            <label htmlFor={embedded ? 'rev-context-message' : 'rev-plan-message'}>{embedded ? `Ask REV about ${contextLabel ?? 'this screen'}` : 'Talk to REV about your plan'}</label>
+            <div><input id={embedded ? 'rev-context-message' : 'rev-plan-message'} value={input} maxLength={240} placeholder={contextualSubject ? `Ask about ${contextualSubject.name} or change the plan` : 'e.g. I want to focus more on Spanish this week'} onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} onChange={(event) => setInput(event.target.value)} /><button className="rev-primary" type="submit" disabled={loading || saving}>Send</button></div>
           </form>
 
           <div className="rev-actions">
@@ -273,6 +284,6 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject }: 
       </section>
 
       <p className="quiet-note">REV can reshape the plan, but learner preferences are planning context only. They do not create progress, mastery or readiness evidence.</p>
-    </main>
+    </RootElement>
   )
 }

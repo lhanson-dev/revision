@@ -12,13 +12,13 @@ The governed learner product is:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
-`PlannerRuntime` owns the canonical signed-in global learner shell and primary responsive navigation. It directly renders the adaptive Home, Plan and REV experiences and delegates catalogue, subject, course/component, Progress and Admin content to `src/app/App.tsx` where required. When `App` is nested inside `PlannerRuntime`, its older embedded global navigation is suppressed so only one learner-wide navigation surface is presented.
+`PlannerRuntime` owns the canonical signed-in global learner shell and responsive navigation/access model. It directly renders the adaptive Home, Plan and REV experiences and delegates catalogue, subject, course/component, Progress and Admin content to `src/app/App.tsx` where required. When `App` is nested inside `PlannerRuntime`, its older embedded global navigation is suppressed so only one learner-wide navigation surface is presented.
 
 The repository root `/revision/` remains a lightweight redirect into `/revision/app/` until a future public marketing/editorial site is introduced. GitHub Pages publishes the built Vite `dist/` artifact.
 
-## Learner hierarchy
+## Learner-wide jobs and responsive access
 
-Global navigation is:
+The learner-wide jobs remain:
 
 1. Home
 2. Plan
@@ -26,11 +26,17 @@ Global navigation is:
 4. Progress
 5. Subjects
 
-Desktop presents these destinations in the persistent top navigation. Mobile and tablet widths up to 960px use the persistent five-item bottom navigation while retaining the Revision wordmark and secondary-utility menu at the top. REV remains the differentiated centre destination; the other mobile destinations use simple recognisable line icons alongside their labels. Active state, label clarity and focus treatment do not rely on colour alone.
+Their presentation differs intentionally by viewport.
+
+Desktop top navigation presents **Home / Plan / Progress / Subjects**. REV is not a desktop top-navigation item. Instead, a floating **Ask REV** control at the right of non-Admin learner screens opens a contained contextual conversation panel while preserving the current screen.
+
+Mobile and supported tablet widths up to 960px use the persistent five-item bottom navigation **Home / Plan / REV / Progress / Subjects**, with REV in the differentiated centre position. The Revision wordmark and secondary-utility menu remain at the top.
+
+The desktop Ask REV panel receives the current route context from `PlannerRuntime`. Where a subject/course/component route identifies a subject reliably, that subject is passed into the embedded REV conversation so the learner does not have to restate known context. The dedicated REV route remains available for mobile navigation and deep links.
 
 Subject Home groups published material by course/specification.
 
-The shell now distinguishes two academic shapes.
+The shell distinguishes two academic shapes.
 
 ### Shared-syllabus course
 
@@ -94,6 +100,16 @@ Component routes remain available for genuinely distinct content:
 
 Recent module URLs are preserved for compatibility. If such a module belongs to a shared-learning course, the screen resolves to that course-level experience rather than exposing a duplicate syllabus.
 
+`#/rev` remains a valid dedicated REV route. On mobile/tablet it is the destination opened from the centre bottom-navigation item. Desktop ordinarily reaches REV through the contextual panel without changing route.
+
+## Home personalisation
+
+The Home greeting pattern is:
+
+`Hey {first name}, what shall we do today?`
+
+`PlannerRuntime` resolves the signed-in learner first name from Supabase user metadata (`first_name`, `given_name` or `name`) with a conservative email-local-part fallback. Design/example names are not hard-coded into the Home experience.
+
 ## REV and evidence behaviour
 
 The learner shell still loads evidence by the existing persisted `module_id` because paper/component IDs remain useful for provenance and exam attempts.
@@ -108,6 +124,8 @@ For a shared-learning course, `createCourseLearningState`:
 This means AQA A-level Business does not appear to REV as three separate copies of Marketing, Finance or Strategic Change merely because the same syllabus can be assessed on Papers 1, 2 and 3.
 
 Global Progress and REV use these course-level states. Paper-specific exam attempts remain attributable to their paper module and feed back into the combined course evidence picture.
+
+The embedded desktop REV panel reuses `PlannerRevScreen`; it is not a separate assistant implementation. When a reliable subject context is supplied, planning conversation may use that subject without requiring an explicit subject-name mention. Existing evidence and planner limitations still apply.
 
 ## Focused learning capabilities
 
@@ -176,8 +194,11 @@ Future enrolment should filter the published course catalogue rather than reintr
 
 ## Key implementation files
 
-- `src/app/PlannerRuntime.tsx` — canonical signed-in global learner shell and responsive Home / Plan / REV / Progress / Subjects navigation.
-- `src/app/planner.css` — runtime navigation styling and responsive breakpoint behaviour.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in learner shell, responsive global access model, current-route REV context and desktop Ask REV panel.
+- `src/app/PlannerRevScreen.tsx` — full REV route plus embedded contextual desktop conversation mode.
+- `src/app/learner-shell-home.css` — governed learner shell and Home visual migration layer.
+- `src/app/desktop-rev-access.css` — desktop floating Ask REV and right-side panel treatment.
+- `src/app/planner.css` — earlier runtime navigation styling and responsive breakpoint behaviour.
 - `src/app/planner-runtime.css` — nested-shell suppression and runtime display switching.
 - `src/app/App.tsx` — catalogue, Subject Home, course/component rendering, Progress and supporting legacy shell implementation when nested.
 - `src/app/catalogue-model.ts` — course grouping, shared-learning detection and course learning state.
@@ -189,10 +210,11 @@ Future enrolment should filter the published course catalogue rather than reintr
 - `src/engine/content/content-adapter.ts` — generic validated learning-content interface.
 - `src/engine/readiness/readiness.ts` — deterministic readiness/recommendation logic.
 - `tests/e2e/app-responsive.spec.ts` — responsive hierarchy and global navigation assurance.
+- `tests/e2e/learner-shell-home-brand.spec.ts` — Brand System Increment B navigation, contextual REV, personalisation and visual assurance.
 
 ## Documentation and decision record
 
-Normative navigation authority is `10-product-governance/Information Architecture.md` and `20-brand-and-experience/Visual Brand System.md`. This implementation follows those existing rules; the navigation visual maintenance does not change normative product or brand authority.
+Normative navigation/access authority is `10-product-governance/Information Architecture.md`, specialised visually by `20-brand-and-experience/REV Responsive Access Pattern.md` and the wider `20-brand-and-experience/Visual Brand System.md`.
 
 Normative placement authority is `10-product-governance/Course Content and Assessment Component Placement.md`.
 

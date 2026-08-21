@@ -85,13 +85,20 @@ test('global Home, Plan and REV surfaces meet the automated WCAG A/AA baseline',
   await expectWcagBaseline(page, 'Home')
 
   const primaryNavName = primaryNavigationName(page)
+  const desktop = primaryNavName === 'Primary navigation'
   await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Plan/ }).click()
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
   await expectWcagBaseline(page, 'Plan')
 
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
-  await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
-  await expectWcagBaseline(page, 'REV')
+  if (desktop) {
+    await page.getByRole('button', { name: /Ask REV/ }).click()
+    await expect(page.getByRole('dialog', { name: 'Ask REV about your Plan' })).toBeVisible()
+    await expectWcagBaseline(page, 'Contextual REV')
+  } else {
+    await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
+    await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
+    await expectWcagBaseline(page, 'REV')
+  }
 })
 
 test('critical subject, learning, practice, exam and progress journey meets the automated WCAG A/AA baseline', async ({ page }) => {

@@ -1,0 +1,591 @@
+/* Brand System Increment B — Learner Shell & Home
+ * Applies the approved Calm Teal / Manrope system to the canonical learner chrome
+ * and conversation-first Home without changing product behaviour or IA.
+ */
+
+.planner-runtime .runtime-topbar {
+  min-height: 80px;
+  grid-template-columns: 188px minmax(0, 1fr) auto;
+  gap: 32px;
+  padding: 12px clamp(24px, 4vw, 48px);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(18px);
+}
+
+.planner-runtime .brand-button {
+  width: 188px;
+  height: 47px;
+  flex: 0 0 auto;
+  padding: 0;
+  border-radius: var(--radius-control);
+  background-image: url('../../assets/brand/exports/revision-wordmark-primary-light.svg');
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.planner-runtime[data-theme="dark"] .brand-button {
+  background-image: url('../../assets/brand/exports/revision-wordmark-primary-dark.svg');
+}
+
+.planner-runtime .brand-button .rev-wordmark {
+  visibility: hidden;
+}
+
+.planner-runtime .brand-button:hover {
+  background-color: var(--color-surface-soft);
+}
+
+.planner-runtime .brand-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-primary-teal) 38%, transparent);
+  outline-offset: 2px;
+}
+
+.planner-runtime .runtime-desktop-nav {
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.planner-runtime .runtime-desktop-nav button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  transition: color .16s ease, background-color .16s ease;
+}
+
+.planner-runtime .runtime-desktop-nav button:hover,
+.planner-runtime .runtime-desktop-nav button:focus-visible {
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .runtime-desktop-nav button.active {
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .runtime-desktop-nav button.active::after {
+  left: 14px;
+  right: 14px;
+  bottom: -12px;
+  height: 3px;
+  background: var(--color-action);
+}
+
+.planner-runtime .runtime-desktop-nav .runtime-rev-link {
+  color: var(--color-accent-text);
+}
+
+.planner-runtime .runtime-utilities {
+  gap: 8px;
+}
+
+.planner-runtime .theme-toggle,
+.planner-runtime .account-chip {
+  min-height: 44px;
+  border-radius: var(--radius-control);
+  box-shadow: none;
+}
+
+.planner-runtime .theme-toggle {
+  padding-inline: 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.planner-runtime .account-chip {
+  padding: 5px 10px 5px 7px;
+}
+
+.planner-runtime .account-avatar {
+  width: 34px;
+  height: 34px;
+}
+
+.planner-runtime .account-chip small {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.planner-runtime .runtime-mobile-topbar {
+  min-height: 68px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(18px);
+}
+
+.planner-runtime .runtime-mobile-topbar .brand-button {
+  width: 170px;
+  height: 42px;
+}
+
+.planner-runtime .burger-button {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: var(--radius-control);
+}
+
+.planner-runtime .burger-button:hover,
+.planner-runtime .burger-button:focus-visible {
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .burger-button span {
+  height: 2px;
+  background: var(--color-text);
+}
+
+/* Conversation-first Home */
+.planner-runtime .living-home-hero {
+  min-height: calc(100svh - 80px);
+  padding: clamp(56px, 7vw, 96px) 24px 96px;
+}
+
+.planner-runtime .living-home-hero-inner {
+  width: min(820px, 100%);
+}
+
+.planner-runtime .living-home-hero .rev-presence-hero {
+  --rev-size: clamp(172px, 17vw, 216px);
+}
+
+.planner-runtime .living-home-hero h1 {
+  max-width: 720px;
+  margin-top: 28px;
+  color: var(--color-text);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 52px;
+  letter-spacing: -.04em;
+}
+
+.planner-runtime .living-home-prompt {
+  width: min(720px, 100%);
+  min-height: 68px;
+  margin-top: 32px;
+  padding: 8px 8px 8px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+  transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+
+.planner-runtime .living-home-prompt:hover {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 30%, var(--color-border));
+}
+
+.planner-runtime .living-home-prompt:focus-within {
+  border-color: var(--color-action);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 18%, transparent), var(--shadow-raised);
+  transform: none;
+}
+
+.planner-runtime .living-home-prompt input {
+  min-height: 48px;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.planner-runtime .living-home-prompt input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
+
+.planner-runtime .living-home-send {
+  width: 52px;
+  height: 52px;
+  flex-basis: 52px;
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  transition: transform .16s ease, background-color .16s ease;
+}
+
+.planner-runtime .living-home-send:hover {
+  background: color-mix(in srgb, var(--brand-primary-teal) 88%, var(--brand-deep-teal));
+}
+
+.planner-runtime .living-home-send:active {
+  transform: scale(.97);
+}
+
+.planner-runtime .living-home-status {
+  min-height: 20px;
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.planner-runtime .living-home-scroll {
+  gap: 8px;
+  margin-top: 40px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.planner-runtime .living-home-scroll span {
+  width: 36px;
+  height: 36px;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.planner-runtime .living-home-support {
+  width: min(1200px, 100%);
+  max-width: 1200px;
+  padding: 80px clamp(24px, 3vw, 40px) 96px;
+}
+
+.planner-runtime .living-home-support-header {
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+
+.planner-runtime .living-home-support-header h2 {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -.035em;
+}
+
+.planner-runtime .living-home-feature-grid {
+  gap: 16px;
+}
+
+.planner-runtime .living-home-feature {
+  min-height: 208px;
+  padding: 24px;
+  border-radius: var(--radius-surface);
+  box-shadow: none;
+  transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+
+.planner-runtime .living-home-feature:hover,
+.planner-runtime .living-home-feature:focus-visible {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 42%, var(--color-border));
+  box-shadow: var(--shadow-raised);
+  transform: translateY(-2px);
+}
+
+.planner-runtime .living-home-feature-icon {
+  --home-feature-icon: none;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 32px;
+  border-radius: var(--radius-control);
+  background: var(--brand-soft-aqua);
+  color: var(--brand-deep-teal);
+  font-size: 0;
+}
+
+.planner-runtime .living-home-feature-icon::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: block;
+  background: currentColor;
+  -webkit-mask: var(--home-feature-icon) center / contain no-repeat;
+  mask: var(--home-feature-icon) center / contain no-repeat;
+}
+
+.planner-runtime .living-home-feature:nth-child(1) .living-home-feature-icon {
+  --home-feature-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2.5'/%3E%3Cpath d='M8 3v4M16 3v4M3 10h18M8 15l2 2 4-4'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.planner-runtime .living-home-feature:nth-child(2) .living-home-feature-icon {
+  --home-feature-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12a8 8 0 1 0 2.3-5.7L4 8.6'/%3E%3Cpath d='M4 4v4.6h4.6M12 8v4l2.6 1.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.planner-runtime .living-home-feature:nth-child(3) .living-home-feature-icon {
+  --home-feature-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.planner-runtime .living-home-feature:nth-child(4) .living-home-feature-icon {
+  --home-feature-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5M4 19h17M7 15l4-4 3 2 5-6'/%3E%3Cpath d='M16 7h3v3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.planner-runtime .living-home-feature strong {
+  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.planner-runtime .living-home-feature span:last-child {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.planner-runtime .living-home-guidance-grid {
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.planner-runtime .living-home-guidance,
+.planner-runtime .living-home-today {
+  padding: 28px;
+  border-radius: var(--radius-surface);
+  box-shadow: none;
+}
+
+.planner-runtime .living-home-guidance h3,
+.planner-runtime .living-home-today h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.planner-runtime .living-home-guidance > p:not(.eyebrow),
+.planner-runtime .living-home-today > p:not(.eyebrow) {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.planner-runtime .living-home-guidance-actions {
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.planner-runtime .living-home-guidance-actions button {
+  min-height: 44px;
+  border-radius: var(--radius-control);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.planner-runtime .planner-home-items li {
+  padding-block: 14px;
+}
+
+.planner-runtime .planner-home-items li strong {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.planner-runtime .planner-home-items li span {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.planner-runtime .home-section.planner-home-support {
+  width: auto;
+  max-width: none;
+  margin-top: 24px;
+  padding: 28px;
+  border-top: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+}
+
+.planner-runtime .progress-overview {
+  gap: 16px;
+}
+
+.planner-runtime .progress-overview article {
+  padding: 20px;
+  border-radius: var(--radius-surface);
+  box-shadow: none;
+}
+
+.planner-runtime .progress-overview small,
+.planner-runtime .progress-overview p {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Mobile and tablet navigation keeps the same information hierarchy. */
+@media (max-width: 960px) {
+  .planner-runtime .runtime-mobile-topbar {
+    display: flex;
+  }
+
+  .planner-runtime .runtime-bottom-nav {
+    min-height: calc(76px + env(safe-area-inset-bottom));
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-surface) 97%, transparent);
+    box-shadow: 0 -4px 18px rgba(15, 47, 54, .08);
+    backdrop-filter: blur(18px);
+  }
+
+  .planner-runtime .runtime-bottom-nav > button {
+    min-height: 56px;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 4px;
+    padding: 4px 2px;
+    border: 0;
+    border-radius: var(--radius-compact);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+  }
+
+  .planner-runtime .runtime-bottom-nav > button:hover,
+  .planner-runtime .runtime-bottom-nav > button:focus-visible,
+  .planner-runtime .runtime-bottom-nav > button.active {
+    background: var(--color-surface-soft);
+    color: var(--color-text);
+  }
+
+  .planner-runtime .runtime-bottom-nav .nav-icon {
+    width: 23px;
+    height: 23px;
+  }
+
+  .planner-runtime .runtime-bottom-nav .runtime-rev-button {
+    top: -12px;
+    width: 64px;
+    min-width: 64px;
+    height: 64px;
+    min-height: 64px;
+    justify-self: center;
+    align-content: center;
+    gap: 1px;
+    padding: 3px;
+    border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 28%, var(--color-border));
+    border-radius: 24px;
+    background: var(--color-surface-elevated);
+    color: var(--color-accent-text);
+    box-shadow: var(--shadow-floating);
+  }
+
+  .planner-runtime .runtime-bottom-nav .runtime-rev-button .rev-presence-nav {
+    --rev-size: 38px;
+  }
+
+  .planner-runtime .runtime-bottom-nav .runtime-rev-button span:last-child {
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 12px;
+  }
+
+  .planner-runtime .living-home-hero {
+    min-height: calc(100svh - 68px);
+    padding: 52px 24px calc(112px + env(safe-area-inset-bottom));
+  }
+
+  .planner-runtime .living-home-hero h1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+
+  .planner-runtime .living-home-support {
+    padding-top: 64px;
+    padding-bottom: calc(128px + env(safe-area-inset-bottom));
+  }
+
+  .planner-runtime .living-home-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .planner-runtime .runtime-mobile-topbar .brand-button {
+    width: 170px;
+    height: 42px;
+  }
+
+  .planner-runtime .living-home-hero {
+    padding: 40px 16px calc(110px + env(safe-area-inset-bottom));
+  }
+
+  .planner-runtime .living-home-hero .rev-presence-hero {
+    --rev-size: 164px;
+  }
+
+  .planner-runtime .living-home-hero h1 {
+    max-width: 350px;
+    margin-top: 20px;
+    font-size: 34px;
+    line-height: 42px;
+  }
+
+  .planner-runtime .living-home-prompt {
+    min-height: 64px;
+    margin-top: 28px;
+    padding-left: 16px;
+  }
+
+  .planner-runtime .living-home-send {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .planner-runtime .living-home-status {
+    font-size: 14px;
+  }
+
+  .planner-runtime .living-home-scroll {
+    margin-top: 32px;
+  }
+
+  .planner-runtime .living-home-support {
+    padding: 56px 16px calc(124px + env(safe-area-inset-bottom));
+  }
+
+  .planner-runtime .living-home-support-header h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .planner-runtime .living-home-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .living-home-feature {
+    min-height: 164px;
+    padding: 20px;
+  }
+
+  .planner-runtime .living-home-feature-icon {
+    margin-bottom: 24px;
+  }
+
+  .planner-runtime .living-home-guidance,
+  .planner-runtime .living-home-today,
+  .planner-runtime .home-section.planner-home-support {
+    padding: 24px;
+  }
+
+  .planner-runtime .progress-overview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .brand-button,
+  .planner-runtime .runtime-desktop-nav button,
+  .planner-runtime .living-home-feature,
+  .planner-runtime .living-home-prompt,
+  .planner-runtime .living-home-send {
+    transition: none !important;
+  }
+
+  .planner-runtime .living-home-feature:hover,
+  .planner-runtime .living-home-feature:focus-visible {
+    transform: none;
+  }
+}

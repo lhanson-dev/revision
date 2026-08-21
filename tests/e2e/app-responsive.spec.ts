@@ -87,20 +87,23 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(page.getByText(/Tell me roughly how much revision time is realistically available/)).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
+  const isMobileNavigation = viewportWidth <= 960
+  const primaryNavName = isMobileNavigation ? 'Mobile navigation' : 'Primary navigation'
   const primaryNav = page.getByRole('navigation', { name: primaryNavName })
   await expect(primaryNav).toBeVisible()
-  await expect(primaryNav.getByRole('button')).toHaveCount(5)
+  await expect(primaryNav.getByRole('button')).toHaveCount(isMobileNavigation ? 5 : 4)
   await expect(primaryNav.getByRole('button', { name: /Home/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Plan/ })).toBeVisible()
-  await expect(primaryNav.getByRole('button', { name: /REV/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Progress/ })).toBeVisible()
   await expect(primaryNav.getByRole('button', { name: /Subjects/ })).toBeVisible()
-  if (viewportWidth <= 960) {
+  if (isMobileNavigation) {
+    await expect(primaryNav.getByRole('button', { name: /REV/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible()
     await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
     await expect(primaryNav.locator('.rev-presence-nav')).toHaveCount(1)
   } else {
+    await expect(primaryNav.getByRole('button', { name: /REV/ })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /Ask REV/ })).toBeVisible()
     await expect(primaryNav.getByRole('button', { name: /Home/ })).toHaveClass(/active/)
     await expect(page.getByRole('button', { name: /Switch to (dark|light) mode/ })).toBeVisible()
   }
@@ -111,11 +114,21 @@ test('authenticated learner hierarchy keeps adaptive Plan and shared learning hi
   await expect(page.getByRole('heading', { name: 'Set your realistic availability' })).toBeVisible()
   await expectNoPageOverflow(page)
 
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
-  await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
-  await expect(page.getByLabel('Talk to REV about your plan')).toBeVisible()
-  await expect(page.locator('.rev-presence-conversation')).toHaveCount(1)
+  if (isMobileNavigation) {
+    await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
+    await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
+    await expect(page.getByLabel('Talk to REV about your plan')).toBeVisible()
+    await expect(page.locator('.rev-presence-conversation')).toHaveCount(1)
+  } else {
+    await page.getByRole('button', { name: /Ask REV/ }).click()
+    const revDialog = page.getByRole('dialog', { name: 'Ask REV about your Plan' })
+    await expect(revDialog).toBeVisible()
+    await expect(revDialog.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
+    await expect(revDialog.getByLabel('Ask REV about your Plan')).toBeVisible()
+    await expect(revDialog.locator('.rev-presence-conversation')).toHaveCount(1)
+    await revDialog.getByRole('button', { name: 'Close REV chat' }).click()
+  }
   await expectNoPageOverflow(page)
 
   await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()
@@ -191,12 +204,13 @@ test('database admin access stays secondary while protected Admin remains reacha
   await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
   const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
+  const isMobileNavigation = viewportWidth <= 960
+  const primaryNavName = isMobileNavigation ? 'Mobile navigation' : 'Primary navigation'
   const primaryNav = page.getByRole('navigation', { name: primaryNavName })
-  await expect(primaryNav.getByRole('button')).toHaveCount(5)
+  await expect(primaryNav.getByRole('button')).toHaveCount(isMobileNavigation ? 5 : 4)
   await expect(primaryNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
 
-  if (viewportWidth <= 960) {
+  if (isMobileNavigation) {
     await page.getByRole('button', { name: 'Open menu' }).click()
   } else {
     await page.getByRole('button', { name: /Synthetic Account/ }).click()

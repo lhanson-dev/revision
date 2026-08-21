@@ -1,0 +1,243 @@
+/* Desktop contextual REV access
+ * Desktop keeps REV out of the primary top navigation and exposes a floating
+ * context-aware Ask REV control. Mobile/tablet retain REV in the five-item nav.
+ */
+
+.runtime-rev-fab {
+  position: fixed;
+  z-index: 74;
+  right: 24px;
+  bottom: 24px;
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 9px;
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 32%, var(--color-border));
+  border-radius: 20px;
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-floating);
+  cursor: pointer;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+.runtime-rev-fab:hover,
+.runtime-rev-fab:focus-visible {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 58%, var(--color-border));
+  box-shadow: var(--shadow-overlay);
+  transform: translateY(-2px);
+}
+
+.runtime-rev-fab .rev-presence-nav {
+  --rev-size: 40px;
+}
+
+.runtime-rev-fab > span:last-child {
+  display: grid;
+  gap: 1px;
+  text-align: left;
+}
+
+.runtime-rev-fab strong {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.runtime-rev-fab small {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+}
+
+.runtime-rev-panel {
+  position: fixed;
+  z-index: 86;
+  top: 96px;
+  right: 24px;
+  bottom: 24px;
+  width: min(480px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  background: var(--color-surface-elevated);
+  box-shadow: var(--shadow-overlay);
+}
+
+.runtime-rev-panel-head {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px 12px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.runtime-rev-panel-head > div {
+  min-width: 0;
+}
+
+.runtime-rev-panel-head .eyebrow {
+  margin: 0 0 2px;
+  color: var(--color-accent-text);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.runtime-rev-panel-head strong {
+  display: block;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.runtime-rev-panel .planner-rev-embedded {
+  min-width: 0;
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 16px;
+}
+
+.runtime-rev-panel .planner-rev-embedded .rev-page-hero {
+  min-height: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.runtime-rev-panel .planner-rev-embedded .rev-page-hero::before,
+.runtime-rev-panel .planner-rev-embedded .rev-pill,
+.runtime-rev-panel .planner-rev-embedded .rev-presence-conversation,
+.runtime-rev-panel .planner-rev-embedded .quiet-note {
+  display: none;
+}
+
+.runtime-rev-panel .planner-rev-embedded .planner-rev-copy {
+  width: 100%;
+}
+
+.runtime-rev-panel .planner-rev-embedded h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.runtime-rev-panel .planner-conversation {
+  max-height: none;
+  gap: 10px;
+  margin: 16px 0;
+  overflow: visible;
+  padding: 0;
+}
+
+.runtime-rev-panel .planner-message-bubble {
+  max-width: 92%;
+  padding: 10px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
+.runtime-rev-panel .planner-message-bubble.rev {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.runtime-rev-panel .planner-message-bubble.learner {
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+}
+
+.runtime-rev-panel .planner-rev-confirm {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 34%, var(--color-border));
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.runtime-rev-panel .planner-rev-confirm p {
+  color: var(--color-text-secondary);
+}
+
+.runtime-rev-panel .planner-rev-input {
+  position: sticky;
+  bottom: -16px;
+  z-index: 2;
+  margin: 18px -16px -16px;
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface-elevated) 96%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.runtime-rev-panel .planner-rev-input label {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.runtime-rev-panel .planner-rev-input input {
+  min-height: 48px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 16px;
+}
+
+.runtime-rev-panel .planner-rev-input .rev-primary {
+  min-height: 48px;
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.runtime-rev-panel .rev-actions {
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.runtime-rev-panel .rev-actions .rev-secondary {
+  min-height: 42px;
+  min-width: 0;
+  padding-inline: 14px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: 13px;
+}
+
+@media (max-width: 960px) {
+  .runtime-rev-fab,
+  .runtime-rev-panel {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runtime-rev-fab {
+    transition: none !important;
+  }
+
+  .runtime-rev-fab:hover,
+  .runtime-rev-fab:focus-visible {
+    transform: none;
+  }
+}

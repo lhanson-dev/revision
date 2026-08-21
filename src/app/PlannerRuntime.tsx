@@ -108,10 +108,34 @@ function learnerName(user: User) {
   return 'there'
 }
 
+function subjectLabel(subjectId: string) {
+  return catalogue.find((subject) => subject.id === subjectId)?.name ?? 'this subject'
+}
+
+function routeContextLabel(route: AppRoute) {
+  switch (route.kind) {
+    case 'home': return 'Home'
+    case 'plan': return 'your Plan'
+    case 'progress': return 'Progress'
+    case 'subjects': return 'Subjects'
+    case 'subject': return subjectLabel(route.subjectId)
+    case 'course': return `${subjectLabel(route.subjectId)} · ${route.section.replace('-', ' ')}`
+    case 'module': return `${subjectLabel(route.subjectId)} · ${route.section.replace('-', ' ')}`
+    case 'rev': return 'REV'
+    case 'admin': return 'Admin'
+  }
+}
+
+function routeContextSubjectId(route: AppRoute) {
+  if (route.kind === 'subject' || route.kind === 'course' || route.kind === 'module') return route.subjectId
+  return undefined
+}
+
 export function PlannerRuntime() {
   const [user, setUser] = useState<User | null>(null)
   const [route, setRoute] = useState<AppRoute>(() => parseRoute(window.location.hash))
   const [menuOpen, setMenuOpen] = useState(false)
+  const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
 
@@ -133,10 +157,20 @@ export function PlannerRuntime() {
     const onHashChange = () => {
       setRoute(parseRoute(window.location.hash))
       setMenuOpen(false)
+      setRevPanelOpen(false)
     }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
+
+  useEffect(() => {
+    if (!revPanelOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setRevPanelOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [revPanelOpen])
 
   useEffect(() => {
     let active = true
@@ -160,14 +194,18 @@ export function PlannerRuntime() {
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const subjectsActive = routeBelongsToSubjects(route)
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
+  const revContextLabel = routeContextLabel(route)
+  const revContextSubjectId = routeContextSubjectId(route)
 
   function navigate(nextRoute: AppRoute) {
     setMenuOpen(false)
+    setRevPanelOpen(false)
     window.location.hash = routeHash(nextRoute)
   }
 
   function openPlannerAdmin() {
     setMenuOpen(false)
+    setRevPanelOpen(false)
     window.location.hash = '#/admin/planner'
   }
 
@@ -177,16 +215,16 @@ export function PlannerRuntime() {
 
   async function signOut() {
     setMenuOpen(false)
+    setRevPanelOpen(false)
     await supabase.auth.signOut()
   }
 
   if (!user) return <main className="loading-shell">Loading Revision…</main>
 
-  const navigation = (
+  const desktopNavigation = (
     <>
       <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}>Home</button>
       <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}>Plan</button>
-      <button className={`runtime-rev-link ${route.kind === 'rev' ? 'active' : ''}`} onClick={() => navigate(revRoute())}>REV</button>
       <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}>Progress</button>
       <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}>Subjects</button>
     </>
@@ -210,7 +248,7 @@ export function PlannerRuntime() {
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
       <header className="topbar desktop-topbar runtime-topbar">
         <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{navigation}</nav>
+        <nav className="desktop-nav runtime-desktop-nav" aria-label="Primary navigation">{desktopNavigation}</nav>
         <div className="runtime-utilities">
           <button className="theme-toggle desktop-theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>{theme === 'light' ? 'Dark mode' : 'Light mode'}</button>
           <button className="account-chip" onClick={() => setMenuOpen(true)} aria-haspopup="dialog" aria-expanded={menuOpen}>
@@ -235,6 +273,31 @@ export function PlannerRuntime() {
         <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
         <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
       </nav>
+
+      {route.kind !== 'admin' && route.kind !== 'rev' && (
+        <button className="runtime-rev-fab" onClick={() => setRevPanelOpen(true)} aria-haspopup="dialog" aria-expanded={revPanelOpen} aria-controls="runtime-rev-panel">
+          <RevPresence size="nav" state="resting" decorative />
+          <span><strong>Ask REV</strong><small>About this screen</small></span>
+        </button>
+      )}
+
+      {revPanelOpen && route.kind !== 'admin' && route.kind !== 'rev' && (
+        <aside id="runtime-rev-panel" className="runtime-rev-panel" role="dialog" aria-modal="false" aria-label={`Ask REV about ${revContextLabel}`}>
+          <div className="runtime-rev-panel-head">
+            <div><p className="eyebrow">Ask REV</p><strong>{revContextLabel}</strong></div>
+            <button className="drawer-close" onClick={() => setRevPanelOpen(false)} aria-label="Close REV chat">×</button>
+          </div>
+          <PlannerRevScreen
+            client={supabase}
+            userId={user.id}
+            onOpenPlan={() => navigate(planRoute())}
+            onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))}
+            embedded
+            contextLabel={revContextLabel}
+            contextSubjectId={revContextSubjectId}
+          />
+        </aside>
+      )}
 
       {menuOpen && (
         <>
