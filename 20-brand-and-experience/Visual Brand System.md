@@ -4,10 +4,10 @@ document_id: "revision-visual-brand-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.9"
+version: "1.0"
 owner: "Founder"
 effective_date: "2026-08-20"
-last_reviewed: "2026-08-20"
+last_reviewed: "2026-08-21"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["visual identity", "cross-channel brand expression", "learner application visual system", "marketing-site visual system", "admin visual system", "social-media visual treatment", "video and motion brand treatment", "email visual treatment", "brand assets", "REV visual presence", "REV motion", "responsive navigation treatment", "typography system", "spacing and shape system", "controls and forms", "surface families", "iconography", "subject accents", "data visualisation", "asset naming and lifecycle"]
@@ -50,7 +50,7 @@ REV's approved core identity is the **Living E**:
 - the character should feel calm, intelligent, present and responsive;
 - glow is subtle and atmospheric, not neon spectacle;
 - the three bars remain clear at small sizes; and
-- the same symbol adapts across app icon, mobile centre navigation, conversation presence and larger homepage treatments.
+- the same symbol adapts across app icon, persistent mobile/tablet Ask REV dock, conversation presence and larger homepage treatments.
 
 Do not create a separate mascot, robot, face or character for REV. Compact sizes may reduce halo detail while preserving the three-bar identity.
 
@@ -342,15 +342,30 @@ Home is learner-wide rather than paper-specific. REV should be able to identify 
 
 ### Global navigation
 
-Concept art never overrides Information Architecture. The governed global destinations are:
+Concept art never overrides Information Architecture or `Global Learner Navigation.md`.
+
+The governed learner-wide destinations are:
 
 - Home
 - Plan
-- REV
 - Progress
 - Subjects
 
-Mobile and supported tablet widths use the compact brand treatment at the top plus a fixed five-item bottom navigation. REV occupies the centre and uses the Living E with restrained halo/state treatment. Desktop uses persistent top navigation and preserves REV as a genuine destination. Account/profile and utilities remain secondary.
+REV is a persistent global action rather than a peer destination.
+
+Desktop uses the governed persistent left rail, with REV identity and Ask REV receiving the strongest branded emphasis and the account control at the bottom.
+
+Mobile and supported tablet widths use:
+
+- a compact Calm Teal top bar with a **two-line menu control at the top left**;
+- a left-side navigation drawer containing Home, Plan, Progress and Subjects, with account utilities lower in the drawer; and
+- a fixed bottom **Ask REV** dock as the only persistent bottom learner action.
+
+The responsive drawer uses ordinary/elevated Revision surfaces, rounded-line icons, clear active state and restrained overlay depth. It must not become a dense enterprise sidebar simply because it can hold more links.
+
+The persistent Ask REV dock uses the Living E, an explicit `Ask REV` label, safe-area spacing and a bounded floating/raised surface. It should be distinctive and easy to reach without becoming neon, sci-fi or decorative AI theatre. The dock must leave sufficient page clearance so it does not obscure content or controls.
+
+A five-item persistent tablet/mobile bottom navigation is not part of the current approved system.
 
 ### Contextual subject and course navigation
 
