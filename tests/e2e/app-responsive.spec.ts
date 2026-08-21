@@ -113,6 +113,14 @@ async function openMobileDrawer(page: Page) {
   return drawer
 }
 
+async function expandMobileAccount(drawer: ReturnType<Page['getByRole']>) {
+  const accountTrigger = drawer.getByRole('button', { name: /account options$/ })
+  await expect(accountTrigger).toHaveAttribute('aria-expanded', 'false')
+  await accountTrigger.click()
+  await expect(accountTrigger).toHaveAttribute('aria-expanded', 'true')
+  return accountTrigger
+}
+
 async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' | 'Progress' | 'Subjects') {
   if (isMobileLayout(page)) {
     const drawer = await openMobileDrawer(page)
@@ -131,6 +139,7 @@ async function openAskRev(page: Page) {
 async function openProfileModal(page: Page) {
   if (isMobileLayout(page)) {
     const drawer = await openMobileDrawer(page)
+    await expandMobileAccount(drawer)
     await drawer.getByRole('button', { name: 'Profile', exact: true }).click()
   } else {
     await page.getByRole('button', { name: /account menu$/ }).click()
@@ -172,15 +181,39 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(revDock.locator('.rev-presence-nav')).toHaveCount(1)
     expect(await revDock.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
 
-    const drawer = await openMobileDrawer(page)
+    let drawer = await openMobileDrawer(page)
     const mobileNav = drawer.getByRole('navigation', { name: 'Mobile navigation' })
     await expect(mobileNav.getByRole('button')).toHaveCount(4)
     await expect(mobileNav.getByRole('button', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
     await expect(mobileNav.getByRole('button', { name: 'Plan', exact: true })).toBeVisible()
     await expect(mobileNav.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
     await expect(mobileNav.getByRole('button', { name: 'Subjects', exact: true })).toBeVisible()
+
+    const accountTrigger = drawer.getByRole('button', { name: 'Synthetic account options' })
+    const accountLinks = drawer.locator('#runtime-mobile-account-links')
+    await expect(accountTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(accountLinks).toBeHidden()
+    await expect(drawer.getByRole('button', { name: 'Profile', exact: true })).toHaveCount(0)
+    await expect(drawer.getByRole('button', { name: 'Settings', exact: true })).toHaveCount(0)
+    await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toHaveCount(0)
+
+    await accountTrigger.click()
+    await expect(accountTrigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(accountLinks).toBeVisible()
+    await expect(drawer.getByRole('button', { name: 'Profile', exact: true })).toBeVisible()
+    await expect(drawer.getByRole('button', { name: 'Settings', exact: true })).toBeVisible()
     await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toHaveCount(0)
     await expect(drawer.getByText('Coming soon')).toBeVisible()
+
+    await drawer.getByRole('button', { name: 'Close menu' }).click()
+    await expect(drawer).toHaveCount(0)
+
+    drawer = await openMobileDrawer(page)
+    const reopenedAccountTrigger = drawer.getByRole('button', { name: 'Synthetic account options' })
+    await expect(reopenedAccountTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(drawer.locator('#runtime-mobile-account-links')).toBeHidden()
+    await expect(drawer.getByRole('button', { name: 'Profile', exact: true })).toHaveCount(0)
+    await reopenedAccountTrigger.click()
     await drawer.getByRole('button', { name: 'Profile', exact: true }).click()
   } else {
     const primaryNav = desktopPrimaryNavigation(page)
@@ -349,6 +382,8 @@ test('database admin access stays secondary while protected Admin remains reacha
     const mobileNav = drawer.getByRole('navigation', { name: 'Mobile navigation' })
     await expect(mobileNav.getByRole('button')).toHaveCount(4)
     await expect(mobileNav.getByRole('button', { name: /Admin/ })).toHaveCount(0)
+    await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toHaveCount(0)
+    await expandMobileAccount(drawer)
     await expect(drawer.getByRole('button', { name: 'Admin', exact: true })).toBeVisible()
     await expect(drawer.getByRole('button', { name: /Planner assurance/ })).toHaveCount(0)
     await drawer.getByRole('button', { name: 'Admin', exact: true }).click()

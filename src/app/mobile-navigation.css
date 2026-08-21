@@ -180,7 +180,7 @@
   }
 
   .runtime-mobile-drawer-nav button,
-  .runtime-mobile-drawer-account > button,
+  .runtime-mobile-account-links > button,
   .runtime-mobile-upgrade {
     min-height: 48px;
     width: 100%;
@@ -199,14 +199,17 @@
   }
 
   .runtime-mobile-drawer-nav button,
-  .runtime-mobile-drawer-account > button {
+  .runtime-mobile-account-links > button,
+  .runtime-mobile-drawer-user {
     cursor: pointer;
   }
 
   .runtime-mobile-drawer-nav button:hover,
   .runtime-mobile-drawer-nav button:focus-visible,
-  .runtime-mobile-drawer-account > button:hover,
-  .runtime-mobile-drawer-account > button:focus-visible {
+  .runtime-mobile-account-links > button:hover,
+  .runtime-mobile-account-links > button:focus-visible,
+  .runtime-mobile-drawer-user:hover,
+  .runtime-mobile-drawer-user:focus-visible {
     background: var(--color-surface-soft);
     color: var(--color-text);
   }
@@ -249,11 +252,18 @@
 
   .runtime-mobile-drawer-user {
     min-height: 54px;
+    width: 100%;
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-columns: 36px minmax(0, 1fr) 20px;
     align-items: center;
     gap: 10px;
-    padding: 0 10px 8px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--color-text);
+    text-align: left;
+    font: inherit;
   }
 
   .runtime-mobile-drawer-user .account-avatar {
@@ -263,27 +273,41 @@
     color: var(--brand-graphite);
   }
 
-  .runtime-mobile-drawer-user > span:last-child {
+  .runtime-mobile-drawer-user-name {
     min-width: 0;
-    display: grid;
-    gap: 2px;
   }
 
-  .runtime-mobile-drawer-user strong,
-  .runtime-mobile-drawer-user small {
+  .runtime-mobile-drawer-user strong {
+    display: block;
     overflow: hidden;
+    color: var(--color-text);
+    font-size: 14px;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .runtime-mobile-drawer-user strong {
-    color: var(--color-text);
-    font-size: 14px;
+  .runtime-mobile-account-chevron {
+    display: inline-grid;
+    place-items: center;
+    color: var(--color-text-secondary);
+    font-size: 22px;
+    line-height: 1;
+    transform: rotate(0deg);
+    transition: transform 160ms ease;
   }
 
-  .runtime-mobile-drawer-user small {
-    color: var(--color-text-secondary);
-    font-size: 12px;
+  .runtime-mobile-drawer-user[aria-expanded="true"] .runtime-mobile-account-chevron {
+    transform: rotate(90deg);
+  }
+
+  .runtime-mobile-account-links {
+    display: grid;
+    gap: 4px;
+    padding-top: 4px;
+  }
+
+  .runtime-mobile-account-links[hidden] {
+    display: none;
   }
 
   .runtime-mobile-upgrade {
@@ -302,7 +326,7 @@
     font-weight: 600;
   }
 
-  .runtime-mobile-drawer-account .runtime-mobile-logout {
+  .runtime-mobile-account-links .runtime-mobile-logout {
     margin-top: 6px;
     color: var(--color-text);
   }
@@ -314,7 +338,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .runtime-mobile-drawer {
+  .runtime-mobile-drawer,
+  .runtime-mobile-account-chevron {
     animation: none;
+    transition: none;
   }
 }

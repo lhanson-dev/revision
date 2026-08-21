@@ -115,6 +115,7 @@ export function PlannerRuntime() {
   const [user, setUser] = useState<User | null>(null)
   const [route, setRoute] = useState<AppRoute>(() => parseRoute(window.location.hash))
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mobileAccountOpen, setMobileAccountOpen] = useState(false)
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
   const [accountModalOpen, setAccountModalOpen] = useState(false)
   const [accountSection, setAccountSection] = useState<AccountSection>('profile')
@@ -145,6 +146,7 @@ export function PlannerRuntime() {
     const onHashChange = () => {
       setRoute(parseRoute(window.location.hash))
       setMenuOpen(false)
+      setMobileAccountOpen(false)
       setAccountMenuOpen(false)
       setAccountModalOpen(false)
       setRevPanelOpen(false)
@@ -198,7 +200,10 @@ export function PlannerRuntime() {
     if (!menuOpen) return
     const previousOverflow = document.body.style.overflow
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false)
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        setMobileAccountOpen(false)
+      }
     }
     document.body.style.overflow = 'hidden'
     document.addEventListener('keydown', closeOnEscape)
@@ -214,6 +219,7 @@ export function PlannerRuntime() {
 
   function navigate(nextRoute: AppRoute) {
     setMenuOpen(false)
+    setMobileAccountOpen(false)
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     setRevPanelOpen(false)
@@ -223,6 +229,7 @@ export function PlannerRuntime() {
   function openRev(draft?: string) {
     if (draft?.trim()) window.sessionStorage.setItem('revision:rev-draft', draft.trim())
     setMenuOpen(false)
+    setMobileAccountOpen(false)
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     setRevPanelOpen(true)
@@ -235,15 +242,22 @@ export function PlannerRuntime() {
 
   function openAccountModal(section: AccountSection) {
     setMenuOpen(false)
+    setMobileAccountOpen(false)
     setAccountMenuOpen(false)
     setAccountSection(section)
     setAccountModalOpen(true)
   }
 
   function openMobileMenu() {
+    setMobileAccountOpen(false)
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     setMenuOpen(true)
+  }
+
+  function closeMobileMenu() {
+    setMenuOpen(false)
+    setMobileAccountOpen(false)
   }
 
   async function updateLearnerFirstName(firstName: string) {
@@ -255,6 +269,7 @@ export function PlannerRuntime() {
 
   async function signOut() {
     setMenuOpen(false)
+    setMobileAccountOpen(false)
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     await supabase.auth.signOut()
@@ -374,11 +389,11 @@ export function PlannerRuntime() {
 
       {menuOpen && (
         <>
-          <button className="runtime-mobile-menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
+          <button className="runtime-mobile-menu-backdrop" aria-label="Close menu" onClick={closeMobileMenu}></button>
           <aside className="runtime-mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
             <header className="runtime-mobile-drawer-head">
               <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-              <button className="runtime-mobile-drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
+              <button className="runtime-mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close menu">×</button>
             </header>
 
             <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
@@ -391,18 +406,27 @@ export function PlannerRuntime() {
             <div className="runtime-mobile-drawer-spacer"></div>
 
             <section className="runtime-mobile-drawer-account" aria-label="Account">
-              <div className="runtime-mobile-drawer-user">
+              <button
+                className="runtime-mobile-drawer-user"
+                onClick={() => setMobileAccountOpen((open) => !open)}
+                aria-expanded={mobileAccountOpen}
+                aria-controls="runtime-mobile-account-links"
+                aria-label={`${learner} account options`}
+              >
                 <span className="account-avatar">{learner.charAt(0).toUpperCase()}</span>
-                <span><strong>{learner}</strong><small>{user.email}</small></span>
+                <span className="runtime-mobile-drawer-user-name"><strong>{learner}</strong></span>
+                <span className="runtime-mobile-account-chevron" aria-hidden="true">›</span>
+              </button>
+              <div id="runtime-mobile-account-links" className="runtime-mobile-account-links" hidden={!mobileAccountOpen}>
+                <button onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
+                <button onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
+                {isAdmin && <button onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
+                <div className="runtime-mobile-upgrade" aria-disabled="true">
+                  <NavIcon name="upgrade" />
+                  <span><span>Upgrade plan</span><small>Coming soon</small></span>
+                </div>
+                <button className="runtime-mobile-logout" onClick={signOut}><NavIcon name="logout" /><span>Log out</span></button>
               </div>
-              <button onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
-              <button onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
-              {isAdmin && <button onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
-              <div className="runtime-mobile-upgrade" aria-disabled="true">
-                <NavIcon name="upgrade" />
-                <span><span>Upgrade plan</span><small>Coming soon</small></span>
-              </div>
-              <button className="runtime-mobile-logout" onClick={signOut}><NavIcon name="logout" /><span>Log out</span></button>
             </section>
           </aside>
         </>
