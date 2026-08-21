@@ -1,0 +1,107 @@
+.planner-runtime {
+  /* Canonical Calm Teal foundations. */
+  --brand-deep-teal: #0f2f36;
+  --brand-primary-teal: #2bb6a3;
+  --brand-soft-aqua: #e6fbf4;
+  --brand-canvas-off-white: #fafcfb;
+  --brand-soft-surface: #f1faf8;
+  --brand-graphite: #132026;
+  --neutral-0: #ffffff;
+  --neutral-100: #f6f8f7;
+  --neutral-200: #e6eceb;
+  --neutral-600: #607074;
+  --neutral-900: #0f1416;
+
+  /* Approved supporting accents and functional source colours. */
+  --brand-sage: #bce8cf;
+  --brand-stone-blue: #c7d9ee;
+  --brand-warm-sand: #f2e9d9;
+  --brand-mist: #e9eef2;
+  --functional-success: #3baa7a;
+  --functional-warning: #ddaa3a;
+  --functional-error: #e0605a;
+  --functional-info: #4a8ecb;
+
+  /* Light-theme roles. Components should consume these rather than foundation names. */
+  --color-bg: var(--brand-canvas-off-white);
+  --color-surface: var(--neutral-0);
+  --color-surface-elevated: var(--neutral-0);
+  --color-surface-soft: var(--brand-soft-surface);
+  --color-border: var(--neutral-200);
+  --color-text: var(--brand-graphite);
+  --color-text-secondary: #5b686c;
+  --color-action: var(--brand-primary-teal);
+  --color-action-text: var(--brand-graphite);
+  --color-inverse-action: var(--brand-deep-teal);
+  --color-inverse-action-text: var(--neutral-0);
+  --color-accent-text: #0f5d54;
+
+  /* Semantic status roles. */
+  --status-success-fg: #2d7a5d;
+  --status-success-bg: #e7f5ef;
+  --status-warning-fg: #826c31;
+  --status-warning-bg: #fbf5e7;
+  --status-error-fg: #ad504d;
+  --status-error-bg: #fbeceb;
+  --status-info-fg: #3c72a2;
+  --status-info-bg: #e9f1f9;
+
+  /* Reusable shape and depth roles. */
+  --radius-compact: 12px;
+  --radius-control: 14px;
+  --radius-surface: 20px;
+  --radius-feature: 32px;
+  --radius-pill: 999px;
+  --shadow-raised: 0 2px 8px rgba(15, 47, 54, .06);
+  --shadow-floating: 0 10px 30px rgba(15, 47, 54, .10);
+  --shadow-overlay: 0 20px 50px rgba(15, 47, 54, .14);
+
+  /* REV-specific derived roles remain central so theme translation is single-source. */
+  --rev-halo-core: rgba(43, 182, 163, .18);
+  --rev-halo-mid: rgba(230, 251, 244, .92);
+  --rev-halo-outer: rgba(43, 182, 163, .09);
+  --rev-shadow: 0 22px 58px rgba(15, 47, 54, .10);
+
+  /*
+   * Increment A compatibility bridge.
+   * These aliases preserve unchanged legacy consumers while Increment B migrates them.
+   * New work must use the role-based tokens above. Remove only after repository search
+   * proves that no live consumer remains.
+   */
+  --ink: var(--color-text);
+  --ink-soft: #294046;
+  --indigo: var(--brand-primary-teal);
+  --indigo-dark: var(--brand-deep-teal);
+  --lime: var(--brand-primary-teal);
+  --lime-strong: #249f8f;
+  --canvas: var(--color-bg);
+  --surface: var(--color-surface);
+  --surface-soft: var(--color-surface-soft);
+  --muted: var(--color-text-secondary);
+  --line: var(--color-border);
+  --navy: var(--color-text);
+  --green: var(--brand-primary-teal);
+  --cream: var(--color-bg);
+  --white: var(--color-surface);
+}
+
+.planner-runtime[data-theme="dark"] {
+  --color-bg: #0f2024;
+  --color-surface: #13272b;
+  --color-surface-elevated: #173136;
+  --color-surface-soft: #173136;
+  --color-border: #24434a;
+  --color-text: #e6f2ef;
+  --color-text-secondary: #a8bcc0;
+  --color-action: var(--brand-primary-teal);
+  --color-action-text: var(--brand-graphite);
+  --color-inverse-action: var(--brand-deep-teal);
+  --color-inverse-action-text: var(--neutral-0);
+  --color-accent-text: #74d9ca;
+
+  --ink-soft: #c9dcda;
+  --rev-halo-core: rgba(43, 182, 163, .30);
+  --rev-halo-mid: rgba(43, 182, 163, .14);
+  --rev-halo-outer: rgba(43, 182, 163, .11);
+  --rev-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+}
