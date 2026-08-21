@@ -93,6 +93,13 @@ async function navigation(page: Page) {
   return page.getByRole('navigation', { name: 'Primary navigation' })
 }
 
+async function closeResponsiveNavigation(page: Page) {
+  if (!isResponsiveLayout(page)) return
+  const drawer = page.getByRole('dialog', { name: 'Navigation menu' })
+  await drawer.getByRole('button', { name: 'Close menu' }).click()
+  await expect(drawer).toHaveCount(0)
+}
+
 async function clickNavigation(page: Page, label: string) {
   const nav = await navigation(page)
   await nav.getByRole('button', { name: label, exact: true }).click()
@@ -108,9 +115,7 @@ test('Subjects expands only the active academic branch from subject to course se
 
   let nav = await navigation(page)
   await expect(nav.getByRole('group', { name: 'Subjects navigation' })).toHaveCount(0)
-  if (isResponsiveLayout(page)) {
-    await page.getByRole('button', { name: 'Close menu' }).click()
-  }
+  await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'Subjects')
   await expect(page.getByRole('heading', { name: 'Subjects', exact: true })).toBeVisible()
@@ -121,7 +126,7 @@ test('Subjects expands only the active academic branch from subject to course se
   await expect(subjectsTree.getByRole('button', { name: 'All subjects', exact: true })).toHaveAttribute('aria-current', 'page')
   await expect(subjectsTree.getByRole('button', { name: 'Business', exact: true })).toBeVisible()
   await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveCount(0)
-  if (isResponsiveLayout(page)) await page.getByRole('button', { name: 'Close menu' }).click()
+  await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'Business')
   await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
@@ -131,8 +136,8 @@ test('Subjects expands only the active academic branch from subject to course se
   await expect(subjectsTree.getByRole('button', { name: 'Business', exact: true })).toHaveAttribute('aria-current', 'page')
   await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
   await expect(subjectsTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'Learn', exact: true })).toHaveCount(0)
-  if (isResponsiveLayout(page)) await page.getByRole('button', { name: 'Close menu' }).click()
+  await expect(subjectsTree.getByRole('button', { name: /Business Learn$/ })).toHaveCount(0)
+  await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'AS Business', exact: true })).toBeVisible()
@@ -140,18 +145,18 @@ test('Subjects expands only the active academic branch from subject to course se
   nav = await navigation(page)
   subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
   await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'Overview', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'Learn', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'Practice', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'Exam Prep', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
-  if (isResponsiveLayout(page)) await page.getByRole('button', { name: 'Close menu' }).click()
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Overview', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Practice', exact: true })).toBeVisible()
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Exam Prep', exact: true })).toBeVisible()
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Progress', exact: true })).toBeVisible()
+  await closeResponsiveNavigation(page)
 
-  await clickNavigation(page, 'Learn')
+  await clickNavigation(page, 'AQA AS Business Learn')
   await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
 
   nav = await navigation(page)
   subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
-  await expect(subjectsTree.getByRole('button', { name: 'Learn', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toHaveAttribute('aria-current', 'page')
   await expect(subjectsTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
 })
