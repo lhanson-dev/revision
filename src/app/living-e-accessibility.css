@@ -1,3 +1,11 @@
+/* The REV halo belongs to RevPresence only. Keep the learner canvas flat so a
+   page-level decorative gradient cannot create a second, unrelated halo. */
+.planner-runtime,
+.planner-runtime[data-theme="dark"] {
+  background-image: none;
+  background-color: var(--color-bg);
+}
+
 /* Primary Teal remains the visual/action colour; text accents use the governed
    theme role so WCAG contrast is not sacrificed to brand colour. */
 .planner-runtime .eyebrow,
