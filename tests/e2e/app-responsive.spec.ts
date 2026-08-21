@@ -31,13 +31,42 @@ async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } =
         email_confirmed_at: '2026-08-17T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
-        user_metadata: {},
+        user_metadata: { first_name: 'Synthetic' },
         identities: [],
         created_at: '2026-08-17T12:00:00.000Z',
         updated_at: '2026-08-17T12:00:00.000Z',
       },
     }))
   }, { key: storageKey, id: userId })
+
+  let firstName = 'Synthetic'
+  await page.route('**/auth/v1/user**', async (route) => {
+    const method = route.request().method()
+    if (method === 'PUT' || method === 'PATCH') {
+      const payload = route.request().postDataJSON() as { data?: { first_name?: unknown } }
+      if (typeof payload.data?.first_name === 'string' && payload.data.first_name.trim()) {
+        firstName = payload.data.first_name.trim()
+      }
+    }
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        id: userId,
+        aud: 'authenticated',
+        role: 'authenticated',
+        email: 'synthetic-browser-test@revision.invalid',
+        email_confirmed_at: '2026-08-17T12:00:00.000Z',
+        phone: '',
+        app_metadata: { provider: 'email', providers: ['email'] },
+        user_metadata: { first_name: firstName },
+        identities: [],
+        created_at: '2026-08-17T12:00:00.000Z',
+        updated_at: '2026-08-21T17:45:00.000Z',
+      }),
+    })
+  })
 
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
@@ -89,7 +118,7 @@ async function openProfileModal(page: Page) {
     const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
     await drawer.getByRole('button', { name: /^Profile/ }).click()
   } else {
-    await page.getByRole('button', { name: 'Synthetic account menu' }).click()
+    await page.getByRole('button', { name: /account menu$/ }).click()
     await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Profile' }).click()
   }
   await expect(page.getByRole('dialog', { name: 'Account settings' })).toBeVisible()
@@ -130,7 +159,10 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(primaryNav.locator('svg.nav-icon')).toHaveCount(4)
     await expect(primaryNav.locator('.rev-presence-nav')).toHaveCount(1)
 
-    await openProfileModal(page)
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
+    await expect(drawer.getByRole('button', { name: /^Admin/ })).toHaveCount(0)
+    await drawer.getByRole('button', { name: /^Profile/ }).click()
   } else {
     await expect(page.getByRole('complementary', { name: 'Learner navigation' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Ask REV', exact: true })).toBeVisible()
@@ -145,6 +177,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(accountMenu).toBeVisible()
     await expect(accountMenu.getByRole('menuitem', { name: 'Profile' })).toBeVisible()
     await expect(accountMenu.getByRole('menuitem', { name: 'Settings' })).toBeVisible()
+    await expect(accountMenu.getByRole('menuitem', { name: 'Admin' })).toHaveCount(0)
     await expect(accountMenu.getByRole('menuitem', { name: /Upgrade plan/ })).toHaveAttribute('aria-disabled', 'true')
     await expect(accountMenu.getByText('Coming soon')).toBeVisible()
     await expect(accountMenu.getByRole('menuitem', { name: 'Log out' })).toBeVisible()
@@ -155,7 +188,15 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   const accountDialog = page.getByRole('dialog', { name: 'Account settings' })
   await expect(accountDialog).toBeVisible()
   await expect(accountDialog.getByRole('heading', { name: 'Profile' })).toBeVisible()
-  await expect(accountDialog.getByLabel('Profile details')).toContainText('Synthetic')
+  await expect(accountDialog.getByRole('region', { name: 'Admin tools' })).toHaveCount(0)
+  const firstNameInput = accountDialog.getByLabel('First name')
+  await expect(firstNameInput).toHaveValue('Synthetic')
+  await firstNameInput.fill('Alex')
+  await accountDialog.getByRole('button', { name: 'Save' }).click()
+  await expect(accountDialog.getByRole('status')).toHaveText('Name updated.')
+  await expect(firstNameInput).toHaveValue('Alex')
+  await expect(page.getByRole('heading', { name: /Hey Alex,\s*what shall we do today\?/ })).toBeVisible()
+
   const accountSections = accountDialog.getByRole('navigation', { name: 'Account sections' })
   await expect(accountSections.getByRole('button', { name: 'Profile' })).toHaveAttribute('aria-current', 'page')
   await accountSections.getByRole('button', { name: 'Settings' }).click()
@@ -274,10 +315,21 @@ test('database admin access stays secondary while protected Admin remains reacha
 
   await openProfileModal(page)
   const accountDialog = page.getByRole('dialog', { name: 'Account settings' })
-  const adminTools = accountDialog.getByRole('region', { name: 'Admin tools' })
-  await expect(adminTools.getByRole('button', { name: 'Open Admin' })).toBeVisible()
-  await expect(adminTools.getByRole('button', { name: 'Planner assurance' })).toBeVisible()
-  await adminTools.getByRole('button', { name: 'Open Admin' }).click()
+  await expect(accountDialog.getByRole('region', { name: 'Admin tools' })).toHaveCount(0)
+  await accountDialog.getByRole('button', { name: 'Close account window' }).click()
+
+  if (viewportWidth <= 960) {
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    const drawer = page.getByRole('complementary', { name: 'Account and additional links' })
+    await expect(drawer.getByRole('button', { name: /^Admin/ })).toBeVisible()
+    await expect(drawer.getByRole('button', { name: /Planner assurance/ })).toHaveCount(0)
+    await drawer.getByRole('button', { name: /^Admin/ }).click()
+  } else {
+    await page.getByRole('button', { name: 'Synthetic account menu' }).click()
+    const accountMenu = page.getByRole('menu', { name: 'Profile menu' })
+    await expect(accountMenu.getByRole('menuitem', { name: 'Admin' })).toBeVisible()
+    await accountMenu.getByRole('menuitem', { name: 'Admin' }).click()
+  }
 
   await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
   await expectNoPageOverflow(page)
