@@ -18,6 +18,7 @@ import './app/planner-today.css'
 import './app/planner-rev.css'
 import './app/living-e.css'
 import './app/living-e-accessibility.css'
+import './app/learner-shell-home.css'
 
 const root = document.getElementById('root')
 
