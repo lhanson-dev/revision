@@ -55,10 +55,6 @@ export function AccountModal({
   }, [onClose])
 
   useEffect(() => {
-    setNameDraft(learnerName)
-  }, [learnerName])
-
-  useEffect(() => {
     const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
     closeButtonRef.current?.focus()
 
