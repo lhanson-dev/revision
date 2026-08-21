@@ -52,9 +52,9 @@ The account menu closes after selection, on Escape, when the learner clicks outs
 
 ### Tablet and mobile
 
-Widths up to 960px no longer render the previous five-item fixed bottom navigation.
+Widths up to 960px do not render the previous five-item fixed bottom navigation.
 
-The canonical responsive shell now contains:
+The canonical responsive shell contains:
 
 - a compact sticky top bar;
 - a **two-line menu button on the top left**;
@@ -62,9 +62,11 @@ The canonical responsive shell now contains:
 - a left-side modal navigation drawer; and
 - a persistent bottom **Ask REV** dock on ordinary learner screens.
 
-The drawer contains Home, Plan, Progress and Subjects as the learner-wide destinations. Its lower account area shows learner identity plus Profile, Settings, permission-gated Admin, truthful forthcoming Upgrade plan state and Log out.
+The drawer contains Home, Plan, Progress and Subjects as the learner-wide destinations. Its lower account area now mirrors the desktop progressive-disclosure model: when the drawer first opens, it shows only one compact learner row with avatar/initial and first name. Profile, Settings, permission-gated Admin, forthcoming Upgrade plan and Log out are hidden until that learner row is selected.
 
-The drawer is rendered only while open. It uses a modal backdrop, closes on selection, backdrop, explicit close or Escape, and temporarily locks body scrolling while open. The active learner destination uses `aria-current="page"` and an accessible non-colour active marker.
+`PlannerRuntime` tracks this with `mobileAccountOpen`. The learner trigger exposes `aria-expanded` and `aria-controls`, and the utility group remains in the DOM with the `hidden` attribute while collapsed. Reopening the navigation drawer resets the account section to collapsed. The resting mobile account trigger intentionally does not expose the learner email, matching the compact desktop identity treatment.
+
+The drawer is rendered only while open. It uses a modal backdrop, closes on navigation, backdrop, explicit close or Escape, resets the learner-account disclosure when it closes, and temporarily locks body scrolling while open. The active learner destination uses `aria-current="page"` and an accessible non-colour active marker.
 
 The previous `runtime-bottom-nav` is removed from the canonical `PlannerRuntime` markup. Responsive tests assert that it is absent.
 
@@ -120,7 +122,7 @@ Admin is a secondary operational route reached from the permission-gated account
 - authorised `#/admin/planner` renders `PlannerAdminScreen` directly; and
 - denied/error permission shows an explicit unavailable state rather than learner Home.
 
-The browser check controls discovery/presentation only. Protected Admin data and operations continue to authorize independently at server/database boundaries.
+On tablet/mobile, Admin is only discoverable after the learner expands the collapsed account section. The browser check controls discovery/presentation only. Protected Admin data and operations continue to authorize independently at server/database boundaries.
 
 ## Ask REV behaviour
 
@@ -194,8 +196,8 @@ Global Progress and REV use the same combined evidence model.
 
 ## Key implementation files
 
-- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop navigation, mobile/tablet drawer, persistent Ask REV dock, account permission gating, first-name Auth update, contextual REV layer and direct Admin route rendering.
-- `src/app/mobile-navigation.css` — top-left two-line menu, responsive left drawer, mobile account area and fixed Ask REV dock treatment.
+- `src/app/PlannerRuntime.tsx` — canonical signed-in shell, desktop navigation, mobile/tablet drawer, collapsed mobile learner-account disclosure, persistent Ask REV dock, account permission gating, first-name Auth update, contextual REV layer and direct Admin route rendering.
+- `src/app/mobile-navigation.css` — top-left two-line menu, responsive left drawer, collapsible mobile account area and fixed Ask REV dock treatment.
 - `src/app/AccountModal.tsx` — shared centred Profile/Settings workspace and first-name edit form.
 - `src/app/account-modal.css` — modal positioning and responsive layout.
 - `src/app/profile-edit.css` — editable Profile field, save and feedback styling.
@@ -207,7 +209,7 @@ Global Progress and REV use the same combined evidence model.
 - `src/app/ContentOperations.tsx` — general protected Admin content rendered directly by canonical runtime.
 - `src/app/PlannerAdminScreen.tsx` — planner-specific Admin assurance content.
 - `src/app/App.tsx` — catalogue, Subject Home, course/component and Progress compatibility content when nested; older Home/REV compatibility rendering remains non-canonical.
-- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, mobile drawer/REV dock, account/profile/Admin permission behaviour and global-navigation assurance.
+- `tests/e2e/app-responsive.spec.ts` — responsive hierarchy, drawer/account disclosure, REV dock, account/profile/Admin permission behaviour and global-navigation assurance.
 - `tests/e2e/admin-entry-transition.spec.ts` — regression assurance that Admin entry never mounts the legacy `.rev-hero` compatibility Home treatment.
 
 ## Compatibility and competing surfaces
@@ -228,8 +230,9 @@ Responsive browser assurance for this navigation model should prove:
 - tablet/mobile no longer render `runtime-bottom-nav`;
 - the top-left menu button contains the intended two-line treatment;
 - opening the responsive drawer exposes Home, Plan, Progress and Subjects;
-- ordinary learners do not see Admin in the drawer/account area;
-- authorised users do see Admin there;
+- tablet/mobile learner account utilities are collapsed when the drawer first opens;
+- selecting the learner account row exposes Profile, Settings, forthcoming Upgrade, Log out and Admin only for authorised users;
+- closing and reopening the drawer returns learner account utilities to the collapsed state;
 - the bottom Ask REV dock remains fixed and opens contextual REV;
 - Profile/Settings modal behaviour remains intact;
 - updated learner name propagates to learner-shell identity;
@@ -240,6 +243,6 @@ Responsive browser assurance for this navigation model should prove:
 
 Normative navigation/account-placement authority is `10-product-governance/Global Learner Navigation.md`, supported by `10-product-governance/Information Architecture.md`, `10-product-governance/Authentication Experience.md`, `40-evidence-and-trust/Privacy and Student Data Principles.md` and the engineering Security Standard.
 
-The v0.5 Global Learner Navigation decision supersedes older five-item tablet/mobile bottom-navigation wording in the Visual Brand System. Visual tokens and Living E styling remain governed by that Brand System.
+The v0.6 Global Learner Navigation model retains the v0.5 retirement of the five-item tablet/mobile bottom navigation and adds collapsed learner-account disclosure within the responsive drawer. Visual tokens and Living E styling remain governed by the Visual Brand System.
 
 Historical audits and decision records remain unchanged because this is a current learner-shell/navigation refinement rather than a rewrite of historical evidence.
