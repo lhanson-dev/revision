@@ -141,7 +141,9 @@ export function PlannerRevScreen({ client, userId, onOpenPlan, onOpenSubject, em
   const opening = error
     ? `${contextPrefix}I cannot read your full planner context right now, so I will not pretend I know what should change. You can still open your plan or subjects.`
     : !setup?.availability || setup.assessments.length === 0
-      ? `${contextPrefix}How can I help? I can keep this screen open while we talk, but I need an assessment and realistic availability before I can properly negotiate the wider plan.`
+      ? embedded
+        ? `${contextPrefix}How can I help? I can keep this screen open while we talk, but I need an assessment and realistic availability before I can properly negotiate the wider plan.`
+        : 'How can I help? I can talk through your revision, but I need an assessment and realistic availability before I can properly negotiate the wider plan.'
       : topItem
         ? `${contextPrefix}How can I help? Right now I’m giving ${subjectName(topItem.subjectId)} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
         : `${contextPrefix}How can I help? Your planner does not need to push one activity to the front right now, but we can still talk about how you want to use the next few days.`
