@@ -60,12 +60,12 @@
       "id": "revision-rev-motion-web",
       "name": "REV web motion implementation",
       "lifecycle": "Recommended",
-      "readiness": "alignment-required",
-      "source": "src/app/RevPresence.tsx + src/app/living-e.css",
+      "readiness": "ready",
+      "source": "src/app/RevPresence.tsx + src/app/brand-tokens.css + src/app/living-e.css + src/app/living-e-accessibility.css",
       "exports": [],
       "channels": ["learner-web"],
-      "theme_rules": "Motion must correspond to genuine REV state and respect prefers-reduced-motion.",
-      "source_basis": "Current learner implementation; timing drift against Brand System v0.9 is documented in docs/technical/Brand System Production Readiness.md.",
+      "theme_rules": "Motion corresponds to genuine REV state, uses the governed 7s / 1.5s / 1.8s / 0.8s / 0.85s web timing contract, and respects prefers-reduced-motion.",
+      "source_basis": "Brand Token / REV Motion Increment A aligns the canonical learner implementation with Brand System v0.9 and is protected by tests/e2e/brand-token-motion.spec.ts.",
       "licensing": "Repository implementation"
     },
     {
