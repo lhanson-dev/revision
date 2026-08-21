@@ -71,13 +71,22 @@ function primaryNavigationName(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960 ? 'Mobile navigation' : 'Primary navigation'
 }
 
+async function openAskRev(page: Page) {
+  if ((page.viewportSize()?.width ?? 0) <= 960) {
+    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: 'Ask REV' }).click()
+  } else {
+    await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  }
+  await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
+}
+
 test('sign-in meets the automated WCAG A/AA baseline', async ({ page }) => {
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
   await expectWcagBaseline(page, 'Sign in')
 })
 
-test('global Home, Plan and REV surfaces meet the automated WCAG A/AA baseline', async ({ page }) => {
+test('global Home, Plan and Ask REV surfaces meet the automated WCAG A/AA baseline', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
@@ -89,9 +98,11 @@ test('global Home, Plan and REV surfaces meet the automated WCAG A/AA baseline',
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
   await expectWcagBaseline(page, 'Plan')
 
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
-  await expect(page.getByRole('heading', { name: 'REV', exact: true })).toBeVisible()
-  await expectWcagBaseline(page, 'REV')
+  await openAskRev(page)
+  const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
+  await expect(revDialog.getByRole('heading', { name: 'Ask REV' })).toBeVisible()
+  await expect(revDialog.getByRole('heading', { name: 'How can I help?' })).toBeVisible()
+  await expectWcagBaseline(page, 'Ask REV')
 })
 
 test('critical subject, learning, practice, exam and progress journey meets the automated WCAG A/AA baseline', async ({ page }) => {
