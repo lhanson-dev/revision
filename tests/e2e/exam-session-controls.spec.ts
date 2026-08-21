@@ -109,5 +109,5 @@ test('stop exam requires confirmation and lets the learner either continue or di
   await stopDialog.getByRole('button', { name: 'Yes, stop exam' }).click()
 
   await expect(page.locator('.exam-session-page')).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: 'Full 90-minute exam' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Full 90-minute exam' }).first()).toBeVisible()
 })
