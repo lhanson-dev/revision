@@ -20,6 +20,16 @@
 - Version-controlled Supabase migrations
 - Browser Supabase URL/publishable-key configuration defaults to production public configuration, with `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` overrides for isolated browser CI only
 
+## Approved FI-002 billing target — not implemented
+
+FI-002 analysis has approved **Stripe Payments + Stripe Billing** as the target provider for the initial UK subscription implementation, with Stripe-hosted Checkout and the Stripe Billing Customer Portal as the preferred hosted purchase/management surfaces subject to the final governed journey and legal requirements.
+
+The approved architecture is defined in `docs/technical/Subscription Billing Architecture.md` and ADR-0014. It requires a server-side Stripe integration boundary, verified/idempotent webhook processing, a Revision-owned local subscription projection, reconciliation against Stripe and strict separation between payer billing state and supporter access to learner information.
+
+Stripe Managed Payments is retained only as a future optional merchant-of-record route for supported international markets/products. It is not part of the FI-002 UK MVP.
+
+**Implementation status:** no production Stripe account configuration, billing schema, webhook handler, checkout flow or entitlement integration is authorised while FI-002 remains `Analyse`.
+
 ## Testing and assurance
 - TypeScript checks and linting
 - Vitest unit/domain tests
@@ -67,6 +77,8 @@ GitHub repository protection is now active for `main` and complements the fail-c
 
 Supabase Security Advisor currently reports managed leaked-password protection disabled. Revision is currently on the Supabase Free plan, while that managed control requires Pro. The warning remains visible and is not represented as solved by application CI. Enable/reverify it before broad external learner acquisition or when Revision moves to Pro for another justified reason, whichever occurs first; this future launch/security control is tracked in Issue #69.
 
+The approved Stripe billing target is a future FI-002 dependency rather than current implementation. Provider pricing, product capabilities, tax treatment and hosted-surface behaviour must be revalidated before implementation so changing external facts do not silently become stale technical assumptions.
+
 ## Maintenance rule
 
-Material changes to the implemented stack, dependency installation model, hosting path, authentication provider model, assurance execution model or production backend boundary must update this document and any affected engineering authority/ADR in the same governed change where required.
+Material changes to the implemented stack, dependency installation model, hosting path, authentication provider model, assurance execution model, production backend boundary or approved billing-provider architecture must update this document and any affected engineering authority/ADR in the same governed change where required.

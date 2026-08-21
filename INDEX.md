@@ -20,12 +20,13 @@ Use this file to find the governing source before substantive work.
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
+- Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0012-course-level-learning-and-exam-paper-placement.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0014-stripe-subscription-billing-architecture.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -95,6 +96,7 @@ Use this file to find the governing source before substantive work.
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
+- Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`

@@ -621,3 +621,81 @@ This approval creates normative commercial policy, so the same governed branch:
 - records this decision and revised Definition-of-Ready position in the FI-002 analysis record.
 
 No payment provider, technical billing schema, production checkout, AI allowance, VAT implementation or `Analyse → Ready` approval is created by this decision.
+
+---
+
+## Founder-approved Stripe billing architecture — 21 August 2026
+
+Founder decision: the Founder explicitly approved the recommended FI-002 Stripe billing architecture on 21 August 2026.
+
+This resolves the payment/subscription provider decision and establishes the provider-level target architecture without authorising production implementation.
+
+### Approved provider model
+
+- Initial UK launch provider: **Stripe Payments + Stripe Billing**.
+- Revision remains the merchant for the direct UK launch model.
+- Initial purchase should prefer **Stripe-hosted Checkout** where it satisfies the final governed purchaser journey and legal requirements.
+- Ordinary payer billing management/cancellation should prefer the **Stripe Billing Customer Portal** where it satisfies the final governed lifecycle policy.
+- Stripe is authoritative for external financial/provider subscription facts; Revision owns the local commercial projection used by the entitlement system.
+- Stripe integration must sit behind a server-side Revision service boundary rather than being called ad hoc from learner UI components.
+- Stripe secret/API keys and webhook secrets must remain server-side only; Revision does not store raw card data.
+- Provider events must be signature-verified, processed idempotently, tolerate duplicates/delay/out-of-order delivery and feed a durable local projection.
+- Periodic reconciliation with Stripe is required so a missed webhook cannot leave entitlement state permanently stale.
+- A Stripe Customer, payment or subscription relationship does **not** grant supporter access to learner data; payer billing and supporter authorization remain separate paths.
+- Stripe Managed Payments is retained as a future optional merchant-of-record route for supported international markets/products where the compliance/cost trade-off later justifies it. It is outside the UK FI-002 MVP.
+
+The decision is recorded in `decisions/ADR-0014-stripe-subscription-billing-architecture.md` and the target architecture is documented in `docs/technical/Subscription Billing Architecture.md`.
+
+### Unit-economics consequence
+
+The approved consumer prices should be stress-tested on a VAT-inclusive basis using the prevailing standard UK VAT rate as a conservative planning scenario when setting variable-cost AI/REV allowances.
+
+This is a commercial modelling assumption only. It is not evidence that Revision is currently VAT-registered and does not resolve exact tax classification, accounting, invoice or Stripe tax configuration.
+
+### Current Definition-of-Ready position — supersedes the previous current position above
+
+- Student problem and target user — **PASS**
+- Strategic case — **PASS**
+- User-value hypothesis — **PASS**
+- Experience and simplicity — **PARTIAL**; pricing, provider surfaces, tier boundaries and purchaser/linking paths are approved in principle, but detailed checkout, verification, invitation recovery and lifecycle/recovery UX remain
+- Evidence / intelligence model — **PARTIAL**; commercial/learning separation, account-role semantics, provider/local source-of-truth boundary and parent-visible data boundary are approved, but the concrete subscription/relationship schema and downstream event contract remain
+- REV role — **PARTIAL**; restrained commercial role remains approved, while exact entitlement explanation and parent-visible summary behaviour depends on separately approved REV capability
+- MVP boundary — **PASS**; includes the approved account roles, monthly/annual pricing path, no card-required auto-converting trial, basic Paid supporter dashboard, secure linking paths and Stripe-based billing target architecture
+- Free / Paid / Premium value ladder — **PARTIAL**; tier jobs and launch prices are approved, but numeric AI/REV allowances, unit economics and the qualitative Premium launch capability remain unresolved
+- Upgrade / conversion hypothesis — **PARTIAL**; contextual value selling, adult/learner purchaser routes, approved launch pricing and hosted Stripe purchase/management surfaces are defined, but detailed checkout design and age-specific CTAs remain unresolved
+- Measurement contract — **PARTIAL**; must include tier/cadence selection, checkout/provider outcomes, invitation/linking, supporter activation/usefulness, reconciliation/access health and the governed tier funnel; concrete events and thresholds remain unresolved
+- Admin / Founder assurance — **PARTIAL**; must include billing-event processing, provider/local drift, renewal/cancellation health, cost-to-serve and relationship/access exceptions, with concrete checks and thresholds still unresolved
+- Risk / trust / accessibility — **PARTIAL**; provider secrets/payment-data boundary, payer/supporter separation, pricing transparency and adult-payer policy are governed, but exact verification/consent/age-assurance, VAT/tax implementation and current UK legal implementation still require validation
+- Technical feasibility and dependencies — **PASS** for provider architecture; Stripe/Supabase service boundary, hosted surfaces, verified webhooks, local projection and reconciliation are approved, while exact schema, lifecycle-state mapping, cache/refresh semantics and implementation details remain unresolved
+- Test and assurance approach — **PARTIAL**; the architecture now defines mandatory billing failure modes to test, but the full assurance contract and lifecycle-specific expected outcomes remain unresolved
+- Documentation / authority impact — **PARTIAL**; provider ADR, billing architecture, Technology Stack and `INDEX.md` are now aligned, while concrete schema/lifecycle implementation documentation remains pending
+- Blocking decisions resolved — **NO**
+- Human Definition-of-Ready approval — **NOT REQUESTED / NOT GRANTED**
+
+## Remaining blocking decisions after Stripe architecture approval
+
+- customer-facing plan names if different from Free / Paid / Premium;
+- numeric AI/REV and other variable-cost allowances, supported by unit economics within the approved price envelope and VAT-inclusive stress scenario;
+- VAT/tax implementation consistent with the approved customer-facing prices;
+- exact payer age-assurance/declaration implementation and checkout legal wording;
+- detailed learner/supporter identity and relationship-verification method;
+- invitation expiry/recovery, unlinking safeguards and exceptional support processes;
+- age-specific learner purchase/upgrade calls-to-action;
+- detailed upgrade, downgrade, cancellation, expiry, failed-payment, grace/retry, refund/cooling-off and recovery behaviour;
+- entitlement/supporter-access refresh and caching design;
+- concrete billing/account/relationship schema, RLS/authorization and lifecycle-state mapping;
+- concrete learner, payer and supporter analytics/event contract and Founder assurance thresholds;
+- final test/assurance contract covering price/cadence correctness, role separation, privacy/entitlement bypass, webhook verification/replay/order/loss, reconciliation and provider outage/recovery; and
+- current UK consumer, child-design, advertising/privacy, tax and subscription requirements applicable to the selected implementation.
+
+## Documentation-impact check — Stripe billing architecture increment
+
+This approval resolves a technical architecture blocker, so the governed branch:
+
+- creates ADR-0014 for the Stripe provider and merchant/billing boundary decision;
+- creates `docs/technical/Subscription Billing Architecture.md` for the approved target service, webhook, reconciliation and authorization architecture;
+- updates `docs/technical/Technology Stack.md` to identify Stripe as an approved FI-002 target dependency while making clear it is not yet implemented;
+- updates `INDEX.md` so future agents can locate the approved billing architecture; and
+- updates this FI-002 analysis record so provider selection is no longer falsely reported as unresolved.
+
+No production Stripe configuration, Supabase billing schema, webhook handler, checkout code, entitlement integration, VAT implementation, numeric AI allowance or `Analyse → Ready` approval is created by this decision.
