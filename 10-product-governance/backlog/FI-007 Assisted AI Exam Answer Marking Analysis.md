@@ -17,6 +17,8 @@ This record must be read with:
 - `10-product-governance/Scope and Capability Taxonomy.md`;
 - `10-product-governance/Product System Model.md`;
 - `20-brand-and-experience/Product UX Principles.md`;
+- `20-brand-and-experience/Tone of Voice Framework.md`;
+- `20-brand-and-experience/Emotional Experience Principles.md`;
 - `40-evidence-and-trust/Evidence Trust and Educational Integrity.md`; and
 - `40-evidence-and-trust/Claims and Progress Governance.md`.
 
@@ -113,7 +115,7 @@ The minimum result should contain:
 
 Learner-facing wording must not imply that Revision is the awarding body, an examiner of record or a guaranteed substitute for human examiner judgement.
 
-The detailed visual and interaction design remains unresolved and must be completed under the experience criterion of the Definition of Ready.
+The detailed end-to-end learner marking experience was Founder-approved on 21 August 2026 and is recorded in section 11.
 
 ---
 
@@ -302,22 +304,210 @@ Whole-paper automatic marking is deliberately outside MVP. FI-007 should first p
 
 ---
 
-## 11. Definition-of-Ready position after MVP decision
+## 11. Founder-approved end-to-end learner marking experience — 21 August 2026
+
+**Decision status:** Approved analysis decision.  
+**Lifecycle effect:** FI-007 remains `Analyse`; this closes the MVP experience/simplicity decision but does not complete the Definition of Ready.  
+
+### 11.1 Entry point
+
+Assisted marking is **embedded into supported written exam-question practice**. It is not a separate generic `AI Marker` destination in the MVP.
+
+The learner enters a supported question through the normal Practice or later Exam Prep context, sees the question and mark allocation, writes a typed answer, and uses the primary action:
+
+**Mark my answer**
+
+The marking interaction must preserve the academic context already established by the activity. The learner should not need to select the subject, board, specification or marking scheme again.
+
+A separate confirmation screen before marking is not required.
+
+### 11.2 Independent-attempt protection
+
+Where the attempt is intended to contribute meaningful independent exam-performance evidence, governed marking guidance must not be revealed before the learner's first submission.
+
+If hints, marking guidance or REV assistance materially shape the answer before submission, Revision may still mark the answer, but the evidence record must represent the attempt as assisted rather than independent.
+
+The product should not hide useful help simply to manufacture stronger evidence; it should instead preserve truthful evidence semantics about how the answer was produced.
+
+### 11.3 Submission behaviour
+
+When the learner selects **Mark my answer**, Revision must:
+
+- preserve an immutable snapshot/reference of what was submitted;
+- create the attempt before starting the marking request;
+- prevent the submitted first attempt from being silently overwritten by later edits;
+- prevent accidental duplicate submissions from creating misleading evidence; and
+- retain the answer safely if the downstream marking operation fails.
+
+An empty answer should receive a simple inline prompt to enter an answer first.
+
+Revision should not reject an answer merely because it appears short, weak or incomplete. Those are legitimate assessment outcomes and should be marked accordingly where the marking contract supports it.
+
+### 11.4 Processing state
+
+The default processing state should remain simple:
+
+**Marking your answer…**
+
+Revision may use the established REV visual treatment or restrained motion to make the state feel responsive, but it must not invent fake multi-stage AI progress such as claiming to be checking specific assessment objectives unless those stages correspond to real product behaviour.
+
+The learner's work must already be saved before this state begins.
+
+If the marking operation fails, the experience should state what happened, confirm that the answer is safe and offer a clear retry path, for example:
+
+**We couldn't mark that just now. Your answer is saved.**
+
+**Try again**
+
+### 11.5 Result hierarchy
+
+For a normal reliable mark, the primary result hierarchy is:
+
+1. **Mark**, for example `7 / 9`.
+2. A short plain-language interpretation, for example `Strong application. Your analysis needs one more step.`
+3. A small source label such as **Revision-assessed mark**.
+4. **What you did well**.
+5. **Where you missed marks**.
+6. **Make it stronger** — normally one to three prioritised improvement actions.
+7. A context-sensitive primary next action.
+8. Secondary progressive disclosure such as **See how this was marked**.
+
+The first result view should be scannable. The product should not dump the full mark scheme or a long AI explanation onto the learner before the useful interpretation.
+
+**See how this was marked** may progressively reveal relevant assessment objectives, mark/level reasoning, governed marking criteria and the parts of the learner response that support the judgement where the validated marking design can do so reliably.
+
+### 11.6 Learner-facing confidence behaviour
+
+Internal confidence must change product behaviour rather than forcing the learner to interpret a pseudo-precise AI-confidence percentage.
+
+#### Normal / high-confidence result
+
+Show a numerical provisional mark and grounded feedback, labelled so that it is clear the result is Revision-assessed rather than an official awarding-body mark.
+
+A large confidence badge or percentage is not required when there is no material uncertainty for the learner to act on.
+
+#### Borderline / qualified result
+
+Where validation supports a range more honestly than an exact number, Revision may show a bounded result such as:
+
+**Likely 6–7 / 9**
+
+with a short explanation that the answer is close to a marking boundary and a human marker could reasonably differ.
+
+#### Low-confidence result
+
+Revision must not provide a precise numerical mark when it cannot do so reliably.
+
+The result should say plainly that Revision cannot give a reliable mark, while still offering grounded qualitative review, the relevant marking guidance where appropriate and a route to check/review the judgement.
+
+The exact confidence thresholds and mapping to these states remain subject to benchmark validation before `Ready`.
+
+### 11.7 Disputed mark / review experience
+
+A learner must have a simple way to challenge a result, using language such as:
+
+**Think this mark is wrong? → Check this mark**
+
+The product should avoid examiner-like language such as `Appeal` for the normal learner interaction.
+
+The technical arbitration mechanism remains unresolved, but the experience rule is fixed: a review must be deliberately designed and must not simply re-run the same unconstrained marking request and show whichever result appears on the second pass.
+
+If a checked mark changes materially, Revision must explain that the judgement changed rather than silently replacing the original record.
+
+### 11.8 Improve and resubmit
+
+Where improvement is the most useful next action, the primary CTA is:
+
+**Improve my answer**
+
+The learner returns to their answer with the relevant feedback available, edits the answer and then selects:
+
+**Mark my improved answer**
+
+The original attempt remains preserved.
+
+A later result may explicitly show improvement, for example `8 / 9 — up from 6 / 9`, and explain what changed in the answer that made it stronger.
+
+The experience should help the learner understand:
+
+`what I wrote → what I changed → why it became better`
+
+The evidence layer continues to distinguish independent and feedback-assisted attempts.
+
+### 11.9 Context-sensitive next action
+
+The result screen should not always force resubmission.
+
+The primary next action should respond to the result, for example:
+
+- substantial improvement opportunity → **Improve my answer**;
+- strong/full response → **Next question**;
+- low marking confidence → **Check this mark** or **Review marking guidance**;
+- clear knowledge gap → a later bounded route to **Review this topic** where the wider product model supports it.
+
+This keeps FI-007 connected to the wider Revision loop rather than ending at a score.
+
+### 11.10 Model-answer rule
+
+A complete model/full-mark answer should **not** be the default immediate response to an imperfect first attempt.
+
+The intended learning sequence is:
+
+`feedback → learner improves → resubmits`
+
+A strong example answer may be available later through secondary disclosure where educationally useful, but AI should not routinely replace the learner's thinking by presenting the finished answer before they have attempted improvement.
+
+### 11.11 REV role in the experience
+
+FI-007 remains usable as a bounded marking capability without requiring a full conversational REV session.
+
+REV may be available in context to explain feedback or help the learner understand a weakness, but the MVP marking flow should not automatically turn every result into an open-ended chat.
+
+REV assistance that materially shapes a subsequent answer must be represented truthfully in the attempt/evidence semantics.
+
+### 11.12 Mobile and accessibility behaviour
+
+The information hierarchy must work mobile-first rather than designing a desktop marking dashboard and shrinking it later.
+
+On narrow screens, the result should stack naturally in the same order: mark/interpretation → useful feedback → next action → deeper disclosure.
+
+During answer improvement, desktop/tablet may use a side-by-side or tabbed answer/feedback treatment where it remains usable; mobile should stack or switch views rather than create cramped parallel panes.
+
+The implementation must meet Revision's WCAG 2.2 AA target and in particular:
+
+- not communicate result meaning through colour alone;
+- support full keyboard operation;
+- move/focus the learner sensibly when asynchronous marking completes;
+- expose processing and error states accessibly;
+- keep long answers and feedback readable at supported viewport sizes; and
+- provide screen-reader-compatible structure for marks, feedback headings and actions.
+
+### 11.13 Approved experience flow
+
+The approved MVP experience is therefore:
+
+`supported question → independent or truthfully assisted typed answer → Mark my answer → saved attempt → simple marking state → confidence-controlled result → concise explanation → improve/resubmit or appropriate next action → structured evidence → wider Revision loop`
+
+This deliberately makes **improvement and learning**, not the novelty of an AI score, the centre of the feature.
+
+---
+
+## 12. Definition-of-Ready position after learner-experience decision
 
 The current position is:
 
 - Student problem and target user — **PARTIAL**; core problem is defined, but target learner/use context needs final wording.
 - Strategic case — **PARTIAL**; strong fit established, opportunity-cost case still to complete.
 - User-value hypothesis — **PARTIAL**; needs final falsifiable hypothesis and success measures.
-- Experience and simplicity — **PARTIAL**; result direction and resubmission agreed, detailed journey/failure/recovery/accessibility still unresolved.
-- Evidence / intelligence model — **PARTIAL**; major evidence boundary agreed, weighting/confidence semantics unresolved.
-- REV role — **PARTIAL**; deliberately bounded for MVP, exact role still to close.
+- Experience and simplicity — **PASS for MVP analysis direction**; Founder approved the end-to-end learner marking experience on 2026-08-21, including submission, processing, result hierarchy, uncertainty, disputed-mark recovery, resubmission and mobile/accessibility behaviour. Final UI artefacts remain implementation/design work within this approved behaviour.
+- Evidence / intelligence model — **PARTIAL**; major evidence boundary and independent-versus-assisted attempt distinction are agreed, weighting/confidence thresholds remain unresolved.
+- REV role — **PARTIAL**; bounded in the learner journey, but the final cross-feature role and entitlement implications still need closure.
 - MVP boundary — **PASS for analysis direction**; Founder approved 2026-08-21.
 - Free / Paid / Premium — **BLOCKED**; not yet decided.
 - Upgrade / conversion hypothesis — **BLOCKED**; depends on tiering.
 - Measurement contract — **PARTIAL**; marking-quality direction established, quantitative thresholds and product metrics unresolved.
 - Admin / Founder assurance — **BLOCKED**.
-- Risk / trust / accessibility — **PARTIAL**; core marking/truth risks identified, control design incomplete.
+- Risk / trust / accessibility — **PARTIAL**; learner-facing uncertainty, failure recovery, answer preservation and accessibility direction are now defined, but control design remains incomplete.
 - Technical feasibility and dependencies — **BLOCKED** pending structured marking-pack/data/model feasibility analysis.
 - Test and assurance approach — **PARTIAL**; benchmark principle agreed, full assurance architecture unresolved.
 - Documentation / authority impact — **PARTIAL**; likely authorities identified, final promotion set not yet prepared.
@@ -328,26 +518,26 @@ FI-007 therefore remains correctly in `Analyse`.
 
 ---
 
-## 12. Next analysis decision
+## 13. Next analysis decision
 
-The next material product decision should define the **end-to-end learner marking experience**, including:
+The next material product decision is **Free / Paid / Premium packaging and usage allowances** for FI-007.
 
-- entry point from a supported exam question;
-- answer submission behaviour;
-- what happens while marking is processing;
-- exact result hierarchy;
-- how confidence/uncertainty is communicated;
-- how feedback is revealed without overwhelming the learner;
-- improve/resubmit behaviour;
-- failure, disagreement and low-confidence recovery;
-- accessibility/mobile behaviour; and
-- the useful next action after the result.
+This decision should determine:
 
-This should be resolved before detailed technical architecture because the required user experience determines important evidence, latency, review and state-management requirements.
+- whether assisted marking itself is available on Free or only a bounded allowance is available;
+- what materially stronger repeat-use value Paid receives;
+- whether Premium adds deeper REV coaching, larger allowances, richer longitudinal insight or another defensible benefit;
+- what happens when an allowance is reached;
+- how upgrade value is discoverable without surprising a learner after they have already completed an answer;
+- how a parent/payer understands the value where they are the purchaser;
+- how AI cost-to-serve affects allowances without creating arbitrary educational degradation; and
+- which parts of marking truth, confidence, evidence integrity, safety and accessibility must remain identical regardless of tier.
+
+The packaging decision should follow the already-approved FI-002 principle that Free proves the value, Paid compounds the value and Premium maximises the value, rather than turning Free into a non-functional demo.
 
 ---
 
-## Documentation impact check
+## 14. Documentation impact check
 
 This change records a Founder-approved decision within active FI-007 analysis. It does **not** promote FI-007 into normative product authority, change implementation truth or move the feature to `Ready`.
 
