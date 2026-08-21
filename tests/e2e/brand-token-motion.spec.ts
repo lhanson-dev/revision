@@ -114,6 +114,15 @@ async function readMotionSnapshot(page: Page, state: MotionState) {
   }, state)
 }
 
+async function openAskRev(page: Page) {
+  if ((page.viewportSize()?.width ?? 0) <= 960) {
+    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: 'Ask REV' }).click()
+  } else {
+    await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  }
+  await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
+}
+
 test('central brand roles drive the governed light and dark learner themes', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
@@ -167,16 +176,14 @@ test('REV motion uses governed timings, genuine listening state and reduced-moti
     markIterations: '1',
   })
 
-  const viewportWidth = page.viewportSize()?.width ?? 0
-  const primaryNavName = viewportWidth <= 960 ? 'Mobile navigation' : 'Primary navigation'
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /REV/ }).click()
-  const revInput = page.getByLabel('Talk to REV about your plan')
+  await openAskRev(page)
+  const revInput = page.getByRole('dialog', { name: 'Ask REV' }).getByLabel('Talk to REV about your plan')
   await expect(revInput).toBeVisible()
   await revInput.focus()
-  await expect(page.locator('.rev-presence-conversation')).toHaveAttribute('data-state', 'listening')
+  await expect(page.locator('.runtime-rev-panel .rev-presence-conversation')).toHaveAttribute('data-state', 'listening')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const reducedMotion = await page.locator('.rev-presence-conversation .rev-halo').evaluate((halo) => {
+  const reducedMotion = await page.locator('.runtime-rev-panel .rev-presence-conversation .rev-halo').evaluate((halo) => {
     const style = getComputedStyle(halo)
     return { name: style.animationName, duration: style.animationDuration }
   })
