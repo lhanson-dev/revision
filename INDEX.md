@@ -67,6 +67,7 @@ Use this file to find the governing source before substantive work.
 - Claims and progress governance → `40-evidence-and-trust/Claims and Progress Governance.md`
 - Other evidence, privacy and trust authority → `40-evidence-and-trust/`
 - Engineering standards → `50-engineering-standards/`
+- Subscription launch pricing / billing cadence / trial baseline / price presentation → `60-business-operations/Pricing and Billing Policy.md`
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 - Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`

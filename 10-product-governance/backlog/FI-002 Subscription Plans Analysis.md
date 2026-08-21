@@ -528,3 +528,96 @@ This approval changes the governed product/account model and resolves a previous
 - `40-evidence-and-trust/Privacy and Student Data Principles.md` for the rule that payment is not learner-data permission.
 
 No production implementation, payment provider, database schema, pricing, billing cadence, numeric allowance or `Analyse → Ready` approval is created by this decision. Technical documentation and ADR updates become appropriate only once the provider/data architecture is approved.
+
+---
+
+## Founder-approved launch pricing and billing cadence — 21 August 2026
+
+Founder decision:
+
+`Approve FI-002 launch pricing and billing cadence`
+
+This decision resolves the initial consumer price points, supported billing periods and the MVP trial baseline. The approved commercial source of truth is `60-business-operations/Pricing and Billing Policy.md`.
+
+### Approved launch pricing
+
+| Tier | Monthly | Annual | Annual equivalent |
+|---|---:|---:|---:|
+| Free | £0 | £0 | £0 |
+| Paid | £6.99/month | £59.99/year | approximately £5.00/month / 16.4p/day |
+| Premium | £12.99/month | £109.99/year | approximately £9.17/month / 30.1p/day |
+
+The initial FI-002 product supports monthly and annual billing only. Annual is billed upfront and may be described as `Best value` where that remains accurate against the monthly option.
+
+A daily or monthly equivalent may lead visually on an annual proposition only where the actual amount charged and billing period are equally clear in the same pricing context. The equivalent must not imply that an annual subscription is charged daily or monthly.
+
+### Approved trial baseline
+
+FI-002 will not launch with a card-required, auto-converting paid-tier trial. Revision's genuine Free tier and contextual previews/examples are the default way to demonstrate value before purchase.
+
+A future trial, introductory offer or auto-converting promotion requires a separate governed commercial decision.
+
+### Approved renewal/cancellation principles
+
+- auto-renewal must be clearly disclosed before purchase;
+- cancellation must be available through a straightforward online subscription-management route;
+- cancellation must not delete learner work or educational evidence;
+- cancellation at period end preserves the paid entitlement until the paid period ends unless a separately governed refund/termination rule requires otherwise;
+- annual subscribers should receive a clear pre-renewal reminder; and
+- the payer must be able to understand tier, amount, cadence, renewal state and next material billing event.
+
+Exact reminder timing, cooling-off/refund mechanics, failed-payment retries, grace periods and provider-specific lifecycle behaviour remain unresolved and require current UK legal/commercial validation before implementation.
+
+### Commercial-envelope consequence
+
+The approved prices define the commercial envelope but do not prove that proposed AI/REV allowances are sustainable. Before FI-002 becomes Ready, cost-to-serve analysis must still account for payment/billing fees, applicable tax treatment, infrastructure, AI/model usage, support/refund cost and realistic usage distributions.
+
+Provider or tax constraints must not silently change the approved consumer price points. If the selected implementation requires a different customer-facing total, that returns to the Founder as a new pricing decision.
+
+## Current Definition-of-Ready position — supersedes the previous current position above
+
+- Student problem and target user — **PASS**
+- Strategic case — **PASS**
+- User-value hypothesis — **PASS**
+- Experience and simplicity — **PARTIAL**; pricing cadence and presentation rules, tier boundaries, parent value ladder and learner/adult linking paths are approved, but detailed checkout, verification, invitation recovery and subscription lifecycle/recovery UX remain
+- Evidence / intelligence model — **PARTIAL**; commercial/learning separation, account-role semantics and parent-visible data boundary are approved, but the concrete subscription/relationship schema and downstream event contract remain
+- REV role — **PARTIAL**; restrained commercial role remains approved, while exact REV behaviour around entitlement explanation and parent-visible summaries depends on separately approved REV capability
+- MVP boundary — **PASS**; includes distinct roles, 18+ payer rule, approved monthly/annual commercial path, no card-required auto-converting trial, basic Paid parent/supporter dashboard and secure linking paths
+- Free / Paid / Premium value ladder — **PARTIAL**; tier jobs and exact launch price points are approved, but numeric AI/REV allowances, unit economics and the qualitative Premium launch capability remain unresolved
+- Upgrade / conversion hypothesis — **PARTIAL**; contextual value selling, adult/learner purchaser routes and the launch price proposition are approved, but detailed checkout design and age-specific CTAs remain unresolved
+- Measurement contract — **PARTIAL**; must include tier/cadence selection, payer checkout, invitation/linking, supporter activation/usefulness and access-state health alongside the governed tier funnel; concrete events and thresholds remain unresolved
+- Admin / Founder assurance — **PARTIAL**; must include conversion by tier/cadence, renewal/cancellation health, cost-to-serve and relationship/access exceptions, with concrete checks and thresholds still unresolved
+- Risk / trust / accessibility — **PARTIAL**; pricing transparency, payer/supporter separation, adult-payer rule, learner transparency and private-data boundary are governed, but exact verification/consent/age-assurance, VAT/tax implementation and current UK legal implementation still require validation
+- Technical feasibility and dependencies — **PASS in principle**; monthly/annual subscriptions and the approved roles are technically feasible, but provider, schema, webhook/event ordering, caching and server-side enforcement design remain
+- Test and assurance approach — **BLOCKED**; must explicitly cover pricing/cadence correctness, checkout/lifecycle failure, role-confusion, supporter authorization, entitlement bypass, webhook replay/order and recovery paths
+- Documentation / authority impact — **PARTIAL**; dedicated pricing/billing commercial authority is now created and linked from Subscription Plans and Entitlements and `INDEX.md`; provider-specific technical authority remains pending
+- Blocking decisions resolved — **NO**
+- Human Definition-of-Ready approval — **NOT REQUESTED / NOT GRANTED**
+
+## Remaining blocking decisions after launch-pricing approval
+
+- customer-facing plan names if different from Free / Paid / Premium;
+- numeric AI/REV and other variable-cost allowances, supported by unit economics within the approved price envelope;
+- payment/subscription provider and billing architecture;
+- VAT/tax/provider implementation consistent with the approved customer-facing prices;
+- exact payer age-assurance/declaration implementation and checkout legal wording;
+- detailed learner/supporter identity and relationship-verification method;
+- invitation expiry/recovery, unlinking safeguards and exceptional support processes;
+- age-specific learner purchase/upgrade calls-to-action;
+- detailed upgrade, downgrade, cancellation, expiry, failed-payment, grace/retry, refund/cooling-off and recovery behaviour;
+- entitlement/supporter-access refresh and caching design;
+- billing/account/relationship data model, RLS/authorization and security boundary;
+- concrete learner, payer and supporter analytics/event contract and Founder assurance thresholds;
+- test/assurance strategy covering price/cadence correctness, account-role separation, privacy-boundary bypass, entitlement bypass and billing/webhook/event failures; and
+- current UK consumer, child-design, advertising/privacy, tax and subscription requirements applicable to the selected implementation.
+
+## Documentation-impact check — launch pricing and billing increment
+
+This approval creates normative commercial policy, so the same governed branch:
+
+- creates `60-business-operations/Pricing and Billing Policy.md` as the source of truth for approved launch prices, billing cadence, MVP trial baseline and consumer pricing presentation;
+- updates `10-product-governance/Subscription Plans and Entitlements.md` so it no longer reports those decisions as unresolved and instead references the commercial authority;
+- updates `60-business-operations/README.md` and `INDEX.md` so the new authority is discoverable; and
+- records this decision and revised Definition-of-Ready position in the FI-002 analysis record.
+
+No payment provider, technical billing schema, production checkout, AI allowance, VAT implementation or `Analyse → Ready` approval is created by this decision.

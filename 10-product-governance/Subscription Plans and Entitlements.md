@@ -1,10 +1,10 @@
 # Subscription Plans and Entitlements
 
-**Status:** Draft authority candidate — v0.3  
+**Status:** Draft authority candidate — v0.4  
 **Owner:** Product / Founder  
 **Purpose:** Define Revision's governed product policy for subscription tiers, entitlement behaviour and the minimum commercial capability required by FI-002.  
-**Source decision:** FI-002 Subscription Plans / Feature Entitlements and Upgrade Journey. Founder-approved value ladder, entitlement policy, MVP boundary and tiered parent-dashboard model captured 2026-08-20; purchaser, payer and supporter account model approved 2026-08-21.  
-**Authority relationship:** This is the specific product authority for subscription-tier, entitlement and FI-002 commercial-account behaviour. Exact prices, customer-facing plan names, numeric usage allowances, billing-provider selection, detailed relationship-verification mechanics, age-assurance implementation and technical schema remain unresolved Definition-of-Ready decisions and are not approved by this document.
+**Source decision:** FI-002 Subscription Plans / Feature Entitlements and Upgrade Journey. Founder-approved value ladder, entitlement policy, MVP boundary and tiered parent-dashboard model captured 2026-08-20; purchaser, payer and supporter account model and launch pricing/billing cadence approved 2026-08-21.  
+**Authority relationship:** This is the specific product authority for subscription-tier, entitlement and FI-002 commercial-account behaviour. Exact launch consumer pricing, billing cadence and the MVP trial baseline are governed by `60-business-operations/Pricing and Billing Policy.md`. Customer-facing plan names, numeric usage allowances, billing-provider selection, detailed relationship-verification mechanics, age-assurance implementation and technical schema remain unresolved Definition-of-Ready decisions and are not approved by this document.
 
 ## Product outcome
 
@@ -359,19 +359,24 @@ Measurement should also cover, where material:
 - entitlement, relationship-linking and lifecycle operational failures; and
 - tier-level cost-to-serve where material.
 
+## Pricing and billing authority
+
+Exact launch consumer prices, monthly/annual billing cadence, the no-card-required auto-converting trial baseline, renewal/cancellation transparency requirements and consumer price-presentation rules are governed by `60-business-operations/Pricing and Billing Policy.md`.
+
+Those commercial terms must not be redefined through entitlement implementation. Any change to the approved consumer price points or billing cadence requires a governed commercial decision.
+
 ## Decisions deliberately not made by this authority
 
-This v0.3 authority does not yet define:
+This v0.4 authority does not yet define:
 
 - exact customer-facing plan names;
-- exact prices or billing cadence;
 - exact numeric allowances;
 - payment/subscription provider;
 - exact payer age-assurance/declaration implementation;
 - detailed learner/supporter identity and relationship-verification method;
 - invitation expiry/recovery and exceptional unlinking/support processes;
 - age-specific purchase calls-to-action and final legal wording;
-- trial policy;
+- future trial or promotional mechanics beyond the approved FI-002 MVP trial baseline;
 - referral or promotional entitlement mechanics;
 - detailed billing retry/grace-period rules;
 - detailed Premium parent-dashboard information design beyond the governed data boundary; or
@@ -383,4 +388,4 @@ These remain FI-002 Definition-of-Ready work and require current commercial, tec
 
 Material future changes to the tier jobs, cross-tier foundations, entitlement policy, contextual upgrade behaviour, payer/supporter account roles, parent/supporter visibility or FI-002 MVP boundary must update this authority through a governed PR.
 
-Exact pricing/commercial terms should be governed in the appropriate `60-business-operations/` authority once decided. Technical implementation detail belongs in `docs/technical/` and ADRs once the provider/data architecture is approved.
+Exact pricing, billing cadence, trial baseline and consumer pricing-presentation rules are governed in `60-business-operations/Pricing and Billing Policy.md`. Technical implementation detail belongs in `docs/technical/` and ADRs once the provider/data architecture is approved.
