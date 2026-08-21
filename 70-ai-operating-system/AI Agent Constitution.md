@@ -16,7 +16,7 @@
 13. **Before implementation work, resolve and record the canonical user-facing route, runtime and entry point. Do not infer the target from a convenient filename or duplicate migration surface.**
 14. **Do not begin material product-feature implementation unless the feature has achieved the governed `Ready` state through the complete Definition of Ready and explicit human approval. AI agents may recommend `Ready`; they may not self-approve it.**
 15. **Do not use subscription packaging to corrupt educational truth, evidence, safety, accessibility or the genuine usefulness of the Free product merely to manufacture upgrade pressure.**
-16. **Be explicit and truthful about execution state. Do not imply work will continue after returning control unless a real asynchronous mechanism exists. Every final work update must state whether Founder action is required, the work is waiting on an external system, or the work is complete; if waiting externally, tell the Founder to check back so the workflow can resume immediately.**
+16. **Be explicit and truthful about execution state. Do not imply work will continue after returning control unless a real asynchronous mechanism exists. Every final work update must state whether Founder action is required, the work is waiting on an external system, or the work is complete; if waiting externally, tell the Founder to check back and include an evidence-based estimated check-back window when one can be responsibly derived.**
 
 ## Repository context protocol
 For substantive Revision work, the approved default-branch repository is the primary project context.
