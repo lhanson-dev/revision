@@ -1,6 +1,6 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.3  
+**Status:** Active authority — v0.4  
 **Owner:** Founder  
 **Effective date:** 2026-08-21  
 **Purpose:** Define the governed global learner navigation model and persistent REV access pattern across desktop, tablet and mobile.
@@ -67,6 +67,10 @@ Selecting the account control opens a compact account menu anchored to the sideb
 - **Upgrade plan**, when a governed plan-comparison or upgrade route is actually available; and
 - **Log out**.
 
+Where the authenticated user has the database-governed administrator permission, the same compact account menu additionally exposes **Admin**. The Admin item must not be rendered for a user without that permission.
+
+Admin is an operational utility rather than learner profile information. Admin controls must not be placed inside the Profile modal simply because the user is an administrator. UI visibility is not the authorization boundary: protected Admin routes and services must continue to enforce administrator permission independently of whether a menu item is shown.
+
 The menu is an account utility surface, not another primary navigation section. It should use the approved Calm Teal surface, border, typography and focus treatments while remaining visually quieter than Ask REV.
 
 `Upgrade plan` must not masquerade as a working purchase control before the governed subscription/upgrade capability exists. While FI-002 remains before `Ready`, any visible preview of this menu item must be clearly marked unavailable or forthcoming and must not initiate an unapproved purchase journey. Once the governed upgrade route exists, the item should become the direct route into plan comparison/change rather than requiring a redesign of the account menu.
@@ -96,9 +100,11 @@ The modal should close via its close control, Escape or the modal backdrop. Focu
 
 On mobile, the same account workspace should adapt to a near-full-screen modal with compact section switching rather than becoming a narrow desktop-style side drawer.
 
-Profile currently owns authenticated learner identity/account information. Settings owns implemented learner preferences such as appearance. Future account settings may extend this modal only when separately governed; the modal must not become an unstructured dumping ground for unrelated product functions.
+Profile owns authenticated learner identity/account information. The learner must be able to correct the first name Revision uses for personalisation from Profile. The edit should update the authenticated user's own identity metadata and must not make database-owned classification such as administrator permission client-editable. Email may remain read-only until a separately governed email-change/reverification journey exists.
 
-Where a user has an authorised operational/admin role, role-specific Admin utilities may remain available through the Profile section without changing the ordinary learner account menu model.
+Settings owns implemented learner preferences such as appearance. Future account settings may extend this modal only when separately governed; the modal must not become an unstructured dumping ground for unrelated product functions.
+
+Administrator tools do not appear inside Profile. Authorised users reach the operational Admin experience through the permission-gated account-menu item.
 
 ### Desktop Ask REV behaviour
 
@@ -147,6 +153,8 @@ On tablet, selecting REV should use a side sheet, large overlay or equivalent tr
 Tablet and mobile continue to use the secondary account/menu control in the top bar rather than reproducing the desktop left-rail account control. The same account jobs should remain available there as they become implemented, while preserving the fixed bottom bar for learner-wide navigation and Ask REV.
 
 Selecting Profile or Settings from the tablet/mobile account menu should open the same governed account modal workspace, responsively adapted to the smaller viewport.
+
+Where the authenticated user has administrator permission, the tablet/mobile account menu may expose the same **Admin** utility. It must remain absent for ordinary learners and must not bypass the protected Admin authorization boundary.
 
 ## Home-specific REV input
 
@@ -201,6 +209,8 @@ Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift
 - Do not duplicate navigation destinations simply because desktop has more space.
 - Do not duplicate Profile and Settings as both persistent rail rows and account-menu actions.
 - Do not attach Profile or Settings to the right screen edge as though they are the same interaction as Ask REV; account management uses the centred account modal pattern.
+- Do not expose Admin in learner account menus unless the user has the governed administrator permission.
+- Do not make administrator classification editable from Profile or other browser account controls.
 - Keep the learner-wide navigation flat and recognisable.
 - Preserve deep-linking/addressability for product destinations and contextual work independently of the Ask REV overlay.
 
@@ -208,4 +218,4 @@ Dark mode must use the approved Calm Teal dark-theme surfaces and must not drift
 
 Implementation of this model requires the current learner-shell technical documentation and responsive navigation implementation to remain aligned.
 
-`Information Architecture.md` remains compatible because it defines Profile and Settings as secondary account utilities without prescribing a screen-edge treatment. Technical documentation and responsive assurance must explicitly reflect the centred account modal behaviour.
+`Information Architecture.md` remains compatible because it defines Profile, Settings and Admin as secondary account/operational utilities without prescribing a screen-edge treatment. Technical documentation and responsive assurance must explicitly reflect the centred account modal behaviour, permission-gated Admin entry and learner first-name correction.
