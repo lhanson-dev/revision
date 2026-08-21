@@ -72,6 +72,7 @@ async function readThemeSnapshot(page: Page) {
     return {
       theme: runtime.dataset.theme,
       backgroundColor: runtimeStyle.backgroundColor,
+      backgroundImage: runtimeStyle.backgroundImage,
       actionBackground: sendStyle.backgroundColor,
       actionText: sendStyle.color,
     }
@@ -130,6 +131,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
 
   const light = await readThemeSnapshot(page)
   expect(light.backgroundColor).toBe('rgb(250, 252, 251)')
+  expect(light.backgroundImage).toBe('none')
   expect(light.actionBackground).toBe('rgb(43, 182, 163)')
   expect(light.actionText).toBe('rgb(19, 32, 38)')
 
@@ -139,6 +141,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
 
   const dark = await readThemeSnapshot(page)
   expect(dark.backgroundColor).toBe('rgb(15, 32, 36)')
+  expect(dark.backgroundImage).toBe('none')
   expect(dark.actionBackground).toBe('rgb(43, 182, 163)')
   expect(dark.actionText).toBe('rgb(19, 32, 38)')
 })
