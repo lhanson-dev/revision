@@ -67,16 +67,28 @@ async function expectWcagBaseline(page: Page, surface: string) {
   expect(violations, `${surface} must have no automated WCAG A/AA violations`).toEqual([])
 }
 
-function primaryNavigationName(page: Page) {
-  return (page.viewportSize()?.width ?? 0) <= 960 ? 'Mobile navigation' : 'Primary navigation'
+function isMobileLayout(page: Page) {
+  return (page.viewportSize()?.width ?? 0) <= 960
+}
+
+async function openMobileDrawer(page: Page) {
+  await page.getByRole('button', { name: 'Open menu' }).click()
+  const drawer = page.getByRole('dialog', { name: 'Navigation menu' })
+  await expect(drawer).toBeVisible()
+  return drawer
+}
+
+async function navigateGlobally(page: Page, destination: 'Plan' | 'Progress' | 'Subjects') {
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    await drawer.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: destination, exact: true }).click()
+    return
+  }
+  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('button', { name: destination, exact: true }).click()
 }
 
 async function openAskRev(page: Page) {
-  if ((page.viewportSize()?.width ?? 0) <= 960) {
-    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: 'Ask REV' }).click()
-  } else {
-    await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
-  }
+  await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
@@ -93,8 +105,7 @@ test('global Home, Plan and Ask REV surfaces meet the automated WCAG A/AA baseli
   await expect(page.getByLabel('Ask REV anything')).toBeVisible()
   await expectWcagBaseline(page, 'Home')
 
-  const primaryNavName = primaryNavigationName(page)
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Plan/ }).click()
+  await navigateGlobally(page, 'Plan')
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
   await expectWcagBaseline(page, 'Plan')
 
@@ -109,8 +120,7 @@ test('critical subject, learning, practice, exam and progress journey meets the 
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
-  const primaryNavName = primaryNavigationName(page)
-  await page.getByRole('navigation', { name: primaryNavName }).getByRole('button', { name: /Subjects/ }).click()
+  await navigateGlobally(page, 'Subjects')
   await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
   await expectWcagBaseline(page, 'Subjects')
 
@@ -152,7 +162,7 @@ test('critical subject, learning, practice, exam and progress journey meets the 
   await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
   await expectWcagBaseline(page, 'Course Progress')
 
-  await page.getByRole('navigation', { name: primaryNavigationName(page) }).getByRole('button', { name: /Progress/ }).click()
+  await navigateGlobally(page, 'Progress')
   await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
   await expectWcagBaseline(page, 'Global Progress')
 })

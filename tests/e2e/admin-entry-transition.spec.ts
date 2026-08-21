@@ -94,7 +94,9 @@ test('Admin entry never mounts the legacy blue REV Home hero', async ({ page }) 
   const viewportWidth = page.viewportSize()?.width ?? 0
   if (viewportWidth <= 960) {
     await page.getByRole('button', { name: 'Open menu' }).click()
-    await page.getByRole('complementary', { name: 'Account and additional links' }).getByRole('button', { name: /^Admin/ }).click()
+    const drawer = page.getByRole('dialog', { name: 'Navigation menu' })
+    await expect(drawer).toBeVisible()
+    await drawer.getByRole('button', { name: 'Admin', exact: true }).click()
   } else {
     await page.getByRole('button', { name: 'Admin account menu' }).click()
     await page.getByRole('menu', { name: 'Profile menu' }).getByRole('menuitem', { name: 'Admin' }).click()

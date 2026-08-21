@@ -21,6 +21,7 @@ import './app/living-e-accessibility.css'
 import './app/sidebar-account-menu.css'
 import './app/account-modal.css'
 import './app/profile-edit.css'
+import './app/mobile-navigation.css'
 
 const root = document.getElementById('root')
 
