@@ -65,6 +65,7 @@
   left: -11px;
   width: 3px;
   height: 18px;
+  margin-left: 0;
   border-radius: var(--radius-pill);
   background: var(--brand-primary-teal);
 }
