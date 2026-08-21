@@ -2,7 +2,7 @@
 
 **Status:** Active current-state register  
 **Defect register version:** 1  
-**Last triaged:** 2026-08-19  
+**Last triaged:** 2026-08-21  
 **Purpose:** Durable source for known P0/P1/P2 defects surfaced through Founder Assurance. This register implements the defect evidence/lifecycle requirements in `50-engineering-standards/Testing & Assurance Standard.md`.
 
 ## Rules
@@ -21,8 +21,13 @@
 | Defect ID | Severity | Affected journey / control | Observed evidence | Status | Owner / next action | Fix PR | Verification / closure evidence |
 |---|---|---|---|---|---|---|---|
 | DEF-2026-001 | P2 | A11Y-01; signed-in global and learner-runtime account/menu drawers | Axe WCAG A/AA CI run #339 found serious `aria-hidden-focus` on the closed `.menu-drawer`; expanded run #359 confirmed the same issue on `.menu-drawer` and `.runtime-menu-drawer` across phone, tablet and desktop | Closed | Engineering — both drawers now render only while open, so closed focusable controls are absent from the DOM | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d597331510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |
-| DEF-2026-002 | P2 | A11Y-01; learner-runtime desktop primary navigation | Expanded axe CI run #367 found serious `color-contrast` failures for inactive Home, Plan and Progress controls on the white runtime desktop header during Practice | Closed | Engineering — runtime desktop navigation now uses the approved high-contrast deep-ink/indigo treatment | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d597331510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |
+| DEF-2026-002 | P2 | A11Y-01; learner-runtime desktop primary navigation | Expanded axe CI run #367 found serious `color-contrast` failures for inactive Home, Plan and Progress controls on the white runtime desktop header during Practice | Closed | Engineering — runtime desktop navigation now uses the approved high-contrast deep-ink/indigo treatment | #66 | Revision CI #381 on PR #66 head `ec11bbd596e475d5975531510136babe1b1124c4c` passed the expanded phone/tablet/desktop WCAG A/AA browser suite |
+| DEF-2026-003 | P1 | PTL-02 / PTL-03; governed path from approved `main` changes to production | Latest `main` commit `d960c950f4620dd469888a1174af582524706ec2` has `revision/path-to-live = failure`; Pages run `32432017259` failed governed release lineage because PR #84 had no Founder approval marker for exact head `754077b40c7ca6fac40117629b97d576285fdc58`, so backend readiness, build, deploy and production smoke were skipped. Recent merged PRs #75, #77, #81 and #82 also have terminal path-to-live failure. | Open | Engineering / AI operating system — repair approval-to-GitHub evidence handoff, recover governed release chain without inventing historical approval, then prove current `main` deploy + smoke succeeds | remediation PR from `assurance/2026-08-21-path-to-live-recovery` | Open — close only after exact production commit has `revision/path-to-live = success` and affected deployment/smoke evidence is recorded |
 
 ## Triage note — 2026-08-19
 
-The foundation stabilisation review established this register as Revision's durable P0/P1/P2 source. DEF-2026-001 and DEF-2026-002 were both discovered by the new automated accessibility gate, corrected in PR #66 and closed only after exact-head Revision CI #381 passed the complete responsive WCAG A/AA journey across phone, tablet and desktop. There are currently **zero known open P0/P1/P2 defects** in this register. That is a statement about deliberately recorded and triaged known defects, not proof that undiscovered defects cannot exist.
+The foundation stabilisation review established this register as Revision's durable P0/P1/P2 source. DEF-2026-001 and DEF-2026-002 were both discovered by the new automated accessibility gate, corrected in PR #66 and closed only after exact-head Revision CI #381 passed the complete responsive WCAG A/AA journey across phone, tablet and desktop.
+
+## Triage note — 2026-08-21
+
+A full path-to-live assurance review found the current production release chain unhealthy while an older safe deployment remains available. This matches the Testing & Assurance Standard's P1 example for an unhealthy production deployment with an older safe version still available. DEF-2026-003 is therefore open and Founder Assurance must report Attention needed until current `main` has completed the governed release chain successfully.
