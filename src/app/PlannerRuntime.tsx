@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { listAvailableContentAdapters } from '../engine/content/content-registry'
 import { supabase } from '../services/supabase/browser-client'
+import { AccountModal } from './AccountModal'
 import { App } from './App'
 import { buildCatalogue } from './catalogue-model'
 import {
@@ -30,7 +31,7 @@ const themeStorageKey = 'revision:theme'
 
 type NavIconName = 'home' | 'plan' | 'progress' | 'subjects' | 'profile' | 'settings' | 'upgrade' | 'logout'
 type ThemeName = 'light' | 'dark'
-type AccountPanel = 'profile' | 'settings' | 'menu'
+type AccountSection = 'profile' | 'settings'
 
 function NavIcon({ name }: { name: NavIconName }) {
   const commonProps = {
@@ -105,7 +106,8 @@ export function PlannerRuntime() {
   const [route, setRoute] = useState<AppRoute>(() => parseRoute(window.location.hash))
   const [menuOpen, setMenuOpen] = useState(false)
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
-  const [accountPanel, setAccountPanel] = useState<AccountPanel>('menu')
+  const [accountModalOpen, setAccountModalOpen] = useState(false)
+  const [accountSection, setAccountSection] = useState<AccountSection>('profile')
   const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
@@ -129,6 +131,7 @@ export function PlannerRuntime() {
       setRoute(parseRoute(window.location.hash))
       setMenuOpen(false)
       setAccountMenuOpen(false)
+      setAccountModalOpen(false)
       setRevPanelOpen(false)
     }
     window.addEventListener('hashchange', onHashChange)
@@ -180,6 +183,7 @@ export function PlannerRuntime() {
   function navigate(nextRoute: AppRoute) {
     setMenuOpen(false)
     setAccountMenuOpen(false)
+    setAccountModalOpen(false)
     setRevPanelOpen(false)
     window.location.hash = routeHash(nextRoute)
   }
@@ -188,6 +192,7 @@ export function PlannerRuntime() {
     if (draft?.trim()) window.sessionStorage.setItem('revision:rev-draft', draft.trim())
     setMenuOpen(false)
     setAccountMenuOpen(false)
+    setAccountModalOpen(false)
     setRevPanelOpen(true)
   }
 
@@ -196,15 +201,23 @@ export function PlannerRuntime() {
     window.location.hash = routeHash(revRoute())
   }
 
-  function openAccount(nextPanel: AccountPanel) {
+  function openAccountModal(section: AccountSection) {
+    setMenuOpen(false)
     setAccountMenuOpen(false)
-    setAccountPanel(nextPanel)
+    setAccountSection(section)
+    setAccountModalOpen(true)
+  }
+
+  function openMobileMenu() {
+    setAccountMenuOpen(false)
+    setAccountModalOpen(false)
     setMenuOpen(true)
   }
 
   function openPlannerAdmin() {
     setMenuOpen(false)
     setAccountMenuOpen(false)
+    setAccountModalOpen(false)
     window.location.hash = '#/admin/planner'
   }
 
@@ -215,6 +228,7 @@ export function PlannerRuntime() {
   async function signOut() {
     setMenuOpen(false)
     setAccountMenuOpen(false)
+    setAccountModalOpen(false)
     await supabase.auth.signOut()
   }
 
@@ -233,8 +247,6 @@ export function PlannerRuntime() {
     screen = <App />
   }
 
-  const accountHeading = accountPanel === 'profile' ? 'Profile' : accountPanel === 'settings' ? 'Settings' : 'Account'
-
   return (
     <div className="planner-runtime" data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
@@ -251,8 +263,8 @@ export function PlannerRuntime() {
         <div className="runtime-sidebar-account">
           {accountMenuOpen && (
             <div className="runtime-account-popover" role="menu" aria-label="Profile menu">
-              <button role="menuitem" onClick={() => openAccount('profile')}><NavIcon name="profile" /><span>Profile</span></button>
-              <button role="menuitem" onClick={() => openAccount('settings')}><NavIcon name="settings" /><span>Settings</span></button>
+              <button role="menuitem" onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
+              <button role="menuitem" onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
               <div className="runtime-account-menu-disabled" role="menuitem" aria-disabled="true">
                 <NavIcon name="upgrade" />
                 <span className="runtime-account-menu-copy"><span>Upgrade plan</span><small>Coming soon</small></span>
@@ -276,7 +288,7 @@ export function PlannerRuntime() {
 
       <header className="mobile-topbar runtime-mobile-topbar">
         <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <button className="burger-button" onClick={() => openAccount('menu')} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
+        <button className="burger-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
       </header>
 
       <div className="runtime-screen">{screen}</div>
@@ -302,42 +314,37 @@ export function PlannerRuntime() {
         </>
       )}
 
+      {accountModalOpen && (
+        <AccountModal
+          learnerName={learner}
+          email={user.email}
+          section={accountSection}
+          theme={theme}
+          isAdmin={isAdmin}
+          onSectionChange={setAccountSection}
+          onThemeChange={setTheme}
+          onClose={() => setAccountModalOpen(false)}
+          onOpenAdmin={() => navigate(adminRoute())}
+          onOpenPlannerAdmin={openPlannerAdmin}
+        />
+      )}
+
       {menuOpen && (
         <>
           <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
           <aside className="menu-drawer runtime-menu-drawer open" aria-label="Account and additional links">
-            <div className="drawer-head"><div><p className="eyebrow">{accountHeading}</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
-            {accountPanel === 'menu' && (
-              <nav className="drawer-links">
-                <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
-                <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
-                <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
-                <button onClick={() => openRev()}>Ask REV <span>→</span></button>
-                {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
-                {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
-              </nav>
-            )}
-            {accountPanel === 'profile' && (
-              <>
-                <div className="runtime-account-details" aria-label="Profile details">
-                  <div><span>Name</span><strong>{learner}</strong></div>
-                  <div><span>Email</span><strong>{user.email}</strong></div>
-                </div>
-                {isAdmin && (
-                  <nav className="drawer-links runtime-profile-admin-links" aria-label="Admin links">
-                    <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>
-                    <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>
-                  </nav>
-                )}
-              </>
-            )}
-            {accountPanel === 'settings' && (
-              <div className="runtime-account-settings">
-                <p>Appearance</p>
-                <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>
-              </div>
-            )}
-            {accountPanel !== 'settings' && <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>}
+            <div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
+            <nav className="drawer-links">
+              <button onClick={() => openAccountModal('profile')}>Profile <span>→</span></button>
+              <button onClick={() => openAccountModal('settings')}>Settings <span>→</span></button>
+              <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
+              <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
+              <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
+              <button onClick={() => openRev()}>Ask REV <span>→</span></button>
+              {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
+              {isAdmin && <button onClick={openPlannerAdmin}>Planner assurance <span>→</span></button>}
+            </nav>
+            <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>
             <button className="signout-button" onClick={signOut}>Sign out</button>
           </aside>
         </>
