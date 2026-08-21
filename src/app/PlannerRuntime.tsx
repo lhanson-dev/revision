@@ -5,6 +5,7 @@ import { supabase } from '../services/supabase/browser-client'
 import { AccountModal } from './AccountModal'
 import { App } from './App'
 import { buildCatalogue } from './catalogue-model'
+import { ContentOperations } from './ContentOperations'
 import {
   adminRoute,
   homeRoute,
@@ -119,6 +120,7 @@ export function PlannerRuntime() {
   const [accountSection, setAccountSection] = useState<AccountSection>('profile')
   const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [adminAccessResolved, setAdminAccessResolved] = useState(false)
   const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
 
   useEffect(() => {
@@ -127,7 +129,11 @@ export function PlannerRuntime() {
       if (active) setUser(data.session?.user ?? null)
     })
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (active) setUser(session?.user ?? null)
+      if (active) {
+        setUser(session?.user ?? null)
+        setIsAdmin(false)
+        setAdminAccessResolved(false)
+      }
     })
     return () => {
       active = false
@@ -156,7 +162,10 @@ export function PlannerRuntime() {
       .eq('user_id', user.id)
       .single()
       .then(({ data, error }) => {
-        if (active) setIsAdmin(!error && data?.is_admin === true)
+        if (active) {
+          setIsAdmin(!error && data?.is_admin === true)
+          setAdminAccessResolved(true)
+        }
       })
     return () => { active = false }
   }, [user])
@@ -250,8 +259,25 @@ export function PlannerRuntime() {
     screen = <PlanScreen client={supabase} userId={user.id} subjects={planSubjects} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
   } else if (route.kind === 'rev') {
     screen = <PlannerRevScreen client={supabase} userId={user.id} onOpenPlan={() => navigate(planRoute())} onOpenSubject={(subjectId) => navigate(subjectRoute(subjectId))} />
-  } else if (plannerAdminActive && isAdmin) {
-    screen = <PlannerAdminScreen onBack={() => navigate(adminRoute())} />
+  } else if (route.kind === 'admin') {
+    if (!adminAccessResolved) {
+      screen = <main className="loading-shell">Checking Admin access…</main>
+    } else if (!isAdmin) {
+      screen = (
+        <main className="dashboard screen-dashboard page-screen" aria-labelledby="admin-access-title">
+          <header className="page-heading">
+            <p className="eyebrow">Account</p>
+            <h1 id="admin-access-title">Admin access unavailable</h1>
+            <p>This account does not have permission to open Revision Admin.</p>
+          </header>
+          <button className="primary" onClick={() => navigate(homeRoute())}>Back to Home</button>
+        </main>
+      )
+    } else if (plannerAdminActive) {
+      screen = <PlannerAdminScreen onBack={() => navigate(adminRoute())} />
+    } else {
+      screen = <ContentOperations />
+    }
   } else {
     screen = <App />
   }
