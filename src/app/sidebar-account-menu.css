@@ -124,38 +124,6 @@
   color: var(--color-text);
 }
 
-.runtime-account-details,
-.runtime-account-settings {
-  display: grid;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.runtime-account-details > div {
-  display: grid;
-  gap: 4px;
-  padding: 12px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  background: var(--color-surface-soft);
-}
-
-.runtime-account-details span,
-.runtime-account-settings p {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 12px;
-  font-weight: 650;
-}
-
-.runtime-account-details strong {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  color: var(--color-text);
-  font-size: 14px;
-  font-weight: 650;
-}
-
 @media (max-width: 960px) {
   .runtime-account-popover {
     display: none;
