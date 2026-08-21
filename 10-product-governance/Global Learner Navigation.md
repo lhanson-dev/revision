@@ -1,6 +1,6 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.5  
+**Status:** Active authority — v0.6  
 **Owner:** Founder  
 **Effective date:** 2026-08-21  
 **Purpose:** Define the governed global learner navigation model and persistent REV access pattern across desktop, tablet and mobile.
@@ -11,7 +11,7 @@ This document is the specific product authority for global learner navigation an
 
 Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or the responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
 
-This v0.5 decision explicitly supersedes the earlier requirement for a five-item persistent tablet/mobile bottom navigation bar. That earlier treatment must not be implemented as the current learner navigation model.
+This v0.6 model retains the v0.5 decision that explicitly superseded the earlier requirement for a five-item persistent tablet/mobile bottom navigation bar. That earlier treatment must not be implemented as the current learner navigation model.
 
 This decision does not change the academic hierarchy, the contextual Learn / Practice / Exam Prep / Progress structure, or the requirement that REV preserves and uses relevant learner context.
 
@@ -105,9 +105,15 @@ Opening the top-left menu reveals a left-side drawer over the current screen. Th
 
 The active destination is clearly indicated without relying on colour alone.
 
-The lower part of the same drawer contains account utilities:
+The lower part of the drawer uses the same progressive-disclosure principle as desktop account access. When the drawer first opens, account utilities are **collapsed by default**. Only one compact learner account control is shown, containing:
 
-- learner avatar/initial, name and account identity;
+- learner avatar/initial; and
+- learner name.
+
+Selecting that learner account control expands the account utilities inline. Selecting it again collapses them. The resting learner control should remain compact and should not expose email or a stack of account links until the learner deliberately opens it.
+
+The expanded account utilities contain:
+
 - Profile;
 - Settings;
 - Admin only when the authenticated user has database-governed administrator permission;
@@ -116,7 +122,7 @@ The lower part of the same drawer contains account utilities:
 
 Ask REV is not duplicated as an ordinary drawer destination because its persistent bottom action already provides global access.
 
-The drawer closes after navigation, on its close control, on Escape, or when the learner selects the backdrop. Opening it must not create horizontal page scrolling or leave the underlying page as a competing interaction layer.
+The drawer closes after navigation, on its close control, on Escape, or when the learner selects the backdrop. Reopening the drawer begins again with learner account utilities collapsed. Opening it must not create horizontal page scrolling or leave the underlying page as a competing interaction layer.
 
 ### Persistent Ask REV dock
 
@@ -181,6 +187,7 @@ All navigation uses the approved Revision Brand System.
 - two-line top-left menu control with a minimum 44×44px touch target;
 - left-side drawer using approved surface, border, radius/elevation and focus treatments;
 - Home, Plan, Progress and Subjects remain recognisable and flat inside the drawer;
+- one compact learner account row at the bottom of the drawer, with account utilities hidden until that row is selected;
 - persistent bottom Ask REV dock uses Living E with restrained halo/state treatment;
 - the dock is visually prominent without becoming neon, sci-fi or decorative AI theatre;
 - light and dark mode preserve the same structure; and
@@ -198,6 +205,7 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 - Do not make REV a separate assistant relationship at different product levels.
 - Do not require a learner to leave their current task merely to ask REV a contextual question.
 - Do not duplicate Ask REV in the mobile drawer merely because the drawer has space.
+- Do not expose the tablet/mobile account utility stack by default when the drawer first opens; use the compact learner account control as progressive disclosure.
 - Do not duplicate Profile and Settings as permanent desktop rail rows.
 - Do not attach Profile or Settings to the right screen edge as though they are Ask REV.
 - Do not expose Admin unless the authenticated user has governed administrator permission.
@@ -206,4 +214,4 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 
 ## Documentation impact
 
-This v0.5 model is aligned in the current `Information Architecture.md`, `Visual Brand System.md` and learner-shell technical documentation. Responsive implementation and browser assurance must remain aligned with this authority.
+This v0.6 model is aligned in the learner-shell technical documentation. `Information Architecture.md` already defines account utilities as secondary disclosure and therefore does not require a structural IA change for this refinement. Responsive implementation and browser assurance must remain aligned with this authority.
