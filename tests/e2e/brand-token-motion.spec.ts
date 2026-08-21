@@ -116,11 +116,7 @@ async function readMotionSnapshot(page: Page, state: MotionState) {
 }
 
 async function openAskRev(page: Page) {
-  if ((page.viewportSize()?.width ?? 0) <= 960) {
-    await page.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: 'Ask REV' }).click()
-  } else {
-    await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
-  }
+  await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
