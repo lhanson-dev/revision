@@ -194,6 +194,20 @@ export function PlannerRuntime() {
     }
   }, [accountMenuOpen])
 
+  useEffect(() => {
+    if (!menuOpen) return
+    const previousOverflow = document.body.style.overflow
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [menuOpen])
+
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const subjectsActive = routeBelongsToSubjects(route)
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
@@ -230,10 +244,6 @@ export function PlannerRuntime() {
     setAccountMenuOpen(false)
     setAccountModalOpen(false)
     setMenuOpen(true)
-  }
-
-  function toggleTheme() {
-    setTheme((current) => current === 'light' ? 'dark' : 'light')
   }
 
   async function updateLearnerFirstName(firstName: string) {
@@ -323,19 +333,18 @@ export function PlannerRuntime() {
       </aside>
 
       <header className="mobile-topbar runtime-mobile-topbar">
-        <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <button className="burger-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span><span></span></button>
+        <button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button>
+        <button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
       </header>
 
       <div className="runtime-screen">{screen}</div>
 
-      <nav className="bottom-nav runtime-bottom-nav" aria-label="Mobile navigation">
-        <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
-        <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
-        <button className="runtime-rev-button" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>REV</span></button>
-        <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
-        <button className={subjectsActive ? 'active' : ''} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
-      </nav>
+      {route.kind !== 'admin' && route.kind !== 'rev' && !revPanelOpen && (
+        <button className="runtime-mobile-ask-rev-dock" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog">
+          <RevPresence size="nav" state="resting" decorative />
+          <span>Ask REV</span>
+        </button>
+      )}
 
       {revPanelOpen && (
         <>
@@ -365,20 +374,36 @@ export function PlannerRuntime() {
 
       {menuOpen && (
         <>
-          <button className="menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
-          <aside className="menu-drawer runtime-menu-drawer open" aria-label="Account and additional links">
-            <div className="drawer-head"><div><p className="eyebrow">Account</p><h2>{learner}</h2><p>{user.email}</p></div><button className="drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
-            <nav className="drawer-links">
-              <button onClick={() => openAccountModal('profile')}>Profile <span>→</span></button>
-              <button onClick={() => openAccountModal('settings')}>Settings <span>→</span></button>
-              <button onClick={() => navigate(planRoute())}>My plan <span>→</span></button>
-              <button onClick={() => navigate(subjectsRoute())}>My subjects <span>→</span></button>
-              <button onClick={() => navigate(progressRoute())}>My progress <span>→</span></button>
-              <button onClick={() => openRev()}>Ask REV <span>→</span></button>
-              {isAdmin && <button onClick={() => navigate(adminRoute())}>Admin <span>→</span></button>}
+          <button className="runtime-mobile-menu-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)}></button>
+          <aside className="runtime-mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+            <header className="runtime-mobile-drawer-head">
+              <button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
+              <button className="runtime-mobile-drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button>
+            </header>
+
+            <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
+              <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
+              <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
+              <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
+              <button aria-current={subjectsActive ? 'page' : undefined} onClick={() => navigate(subjectsRoute())}><NavIcon name="subjects" /><span>Subjects</span></button>
             </nav>
-            <button className="theme-toggle drawer-theme-toggle" onClick={toggleTheme}>{theme === 'light' ? 'Use dark mode' : 'Use light mode'}</button>
-            <button className="signout-button" onClick={signOut}>Sign out</button>
+
+            <div className="runtime-mobile-drawer-spacer"></div>
+
+            <section className="runtime-mobile-drawer-account" aria-label="Account">
+              <div className="runtime-mobile-drawer-user">
+                <span className="account-avatar">{learner.charAt(0).toUpperCase()}</span>
+                <span><strong>{learner}</strong><small>{user.email}</small></span>
+              </div>
+              <button onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
+              <button onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
+              {isAdmin && <button onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
+              <div className="runtime-mobile-upgrade" aria-disabled="true">
+                <NavIcon name="upgrade" />
+                <span><span>Upgrade plan</span><small>Coming soon</small></span>
+              </div>
+              <button className="runtime-mobile-logout" onClick={signOut}><NavIcon name="logout" /><span>Log out</span></button>
+            </section>
           </aside>
         </>
       )}
