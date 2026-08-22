@@ -31,6 +31,19 @@ Do not use a final status such as `working`, `continuing`, `in progress` or equi
 
 For efficiency, a short Founder follow-up such as `continue`, `status`, `done?` or equivalent after a `WAITING ON EXTERNAL SYSTEM` state is sufficient instruction to resume. The agent must re-read the current external evidence and continue the authorised workflow without asking the Founder to restate the task.
 
+## Operating principle — enterprise-standard startup
+
+Revision should operate with startup speed and enterprise-grade production discipline.
+
+- **Work fast, but do not buy speed by weakening production controls.** Required authority checks, assurance, security, data protection, release gates, Founder approval and production verification must not be skipped merely to move faster.
+- **Use proportionate assurance rather than maximum ceremony.** Low-risk work should move quickly; higher-risk work should receive deeper assurance according to blast radius and coupling.
+- **Fail closed when production safety is uncertain.** If a required production condition, approval, integration state or assurance result is unknown, do not infer success in order to release.
+- **Keep the Founder focused on decisions, not mechanics.** Branch management, integration, CI sequencing, conflict handling and evidence bookkeeping are engineering responsibilities unless they expose a substantive product/governance decision.
+- **Continuously improve the delivery system.** Repeated friction, near misses, defects, avoidable manual work, stale-state problems or assurance gaps should trigger a proportionate process/tooling improvement proposal. Improvements may reduce unnecessary ceremony, but must preserve or strengthen production safety.
+- **Govern material process changes.** An agent may identify and propose improvements autonomously, but material changes to the operating model, approval boundaries or production controls must be documented and approved through the governed repository workflow.
+
+The objective is not zero change risk; it is rapid delivery with explicit, evidence-backed control of production risk.
+
 ## Canonical `main` and parallel delivery
 
 Revision uses a trunk-based development model:
