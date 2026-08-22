@@ -23,6 +23,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
+- Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
@@ -107,6 +108,7 @@ Use this file to find the governing source before substantive work.
 - REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
 - Interface system implementation / UI primitive migration → `docs/technical/Interface System Implementation.md`
 - Interface-system operating standard / enterprise consistency guardrails → `docs/technical/Interface System Operating Standard.md`
+- Interface component registry / reusable components, icons and assets → `docs/technical/Interface System Component Registry.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
