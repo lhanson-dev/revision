@@ -1,6 +1,6 @@
 # Revision Interface System Implementation
 
-**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation implemented by PR #116 candidate  
+**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation live; B3 Subjects/course migration in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -20,18 +20,21 @@ The governed learner application remains:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
-B2/B2.5 do not create a new runtime, route, service or persistence model.
+B2/B2.5/B3 do not create a new runtime, service or persistence model.
 
 Canonical learner-wide destinations relevant to this migration remain:
 
 - Plan: `#/plan` → `PlannerRuntime` → `PlanScreen`;
-- Progress: `#/progress` → `PlannerRuntime` → compatibility `App` → `renderGlobalProgress()`.
+- Progress: `#/progress` → `PlannerRuntime` → compatibility `App` → `renderGlobalProgress()`;
+- Subjects: `#/subjects` → `PlannerRuntime` → compatibility `App` → `renderSubjects()`;
+- Subject Home: subject route → compatibility `App` → `renderSubjectHome()`;
+- Course/specification: course/module route → compatibility `App` → course/module renderer.
 
-Progress remains canonical even though its current renderer is delegated through the compatibility `App`. Interface migration does not require a large component extraction merely for styling.
+Progress and Subjects/course remain canonical even where their current renderer is delegated through compatibility `App`. Interface migration does not require a large component extraction merely for styling.
 
 ## Implementation stack
 
-The production interface system now has five explicit layers:
+The production interface system has five explicit layers:
 
 1. **Normative visual/UX authority** — numbered governance documents.
 2. **Foundation roles** — `src/app/brand-tokens.css`.
@@ -122,7 +125,7 @@ Both theme sources live in the same component structure; runtime `data-theme` pl
 
 ### First proof consumer
 
-`PlanScreen` is the first learner page to move from CSS-class-only primitive consumption to the reusable React registry. It now uses shared PageHeader, Surface, Status, Empty/Loading, Button and Field components.
+`PlanScreen` is the first learner page to move from CSS-class-only primitive consumption to the reusable React registry. It uses shared PageHeader, Surface, Status, Empty/Loading, Button and Field components.
 
 The planner calculation, reason codes, assessments, availability, persistence, activity events, labels and navigation behaviour are unchanged.
 
@@ -136,11 +139,11 @@ The planner calculation, reason codes, assessments, availability, persistence, a
 
 **Live.** Established central responsive typography/icon roles and migrated Plan/Progress visual composition onto the governed page/surface/control/theme grammar. Production was verified on merge commit `609fc1247afa32d7d70fb32a87316dc1ce8939b7` with durable `revision/path-to-live = success`.
 
-## B2.5 current candidate state
+## B2.5 current production state
 
-**Implemented on PR #116 branch; not live until Founder-approved merge and successful production evidence.**
+**Live.** PR #116 merged to `main` as merge commit `2369b33fa35414556096d0287100c1df8dbec8d7` after exact-head Revision CI #689 passed on `5a1e18ad39fdd9f2ee1088a63abc1475404094e0`.
 
-B2.5 provides the reusable component/icon/asset foundation required before B3:
+B2.5 provides the reusable component/icon/asset foundation required for B3 and later migrations:
 
 - React component registry;
 - controlled icon registry;
@@ -149,6 +152,27 @@ B2.5 provides the reusable component/icon/asset foundation required before B3:
 - Plan proof adoption;
 - component semantic/render tests; and
 - expanded governance assurance for tokens, local palette drift, registry exports, icon rules and canonical asset references.
+
+## B3 current implementation state
+
+**In progress on governed branch.** B3 migrates Subjects, Subject Home and course/specification presentation while preserving current catalogue, routing, evidence, content-placement and progress semantics.
+
+`src/app/interface-subjects-course.css` is the bounded migration layer. It consumes only central semantic roles for colour, typography, spacing, radius, elevation, controls, focus and responsive behaviour. It deliberately loads after legacy feature CSS so migrated canonical surfaces use the new interface grammar without prematurely deleting compatibility rules still needed elsewhere.
+
+B3 includes:
+
+- Subjects catalogue and subject cards;
+- Subject Home hierarchy;
+- course/specification overview surfaces;
+- course/component navigation;
+- REV recommendation feature surfaces;
+- topic/specification-area presentation;
+- light/dark parity;
+- phone/tablet/desktop responsive behaviour;
+- keyboard focus treatment; and
+- reduced-motion treatment.
+
+Detailed implementation scope is recorded in `docs/technical/Interface System B3 Subjects and Course Migration.md`.
 
 ## Migration rules
 
@@ -168,8 +192,8 @@ A surface group is migrated only when:
 
 - **B1 — foundation/account/overlays:** live.
 - **B2 — Plan and Progress:** live.
-- **B2.5 — reusable component/icon/asset foundation:** PR #116 candidate; required before B3.
-- **B3 — Subjects, Subject Home, course/specification:** may begin only after B2.5 is live.
+- **B2.5 — reusable component/icon/asset foundation:** live via PR #116.
+- **B3 — Subjects, Subject Home, course/specification:** in progress.
 - **B4 — Learn and Practice:** focused work, answer/feedback and progressive disclosure patterns.
 - **B5 — Exam Prep / exam experience:** Exam/Performance family and governed pause/stop/timed interactions.
 - **B6 — Admin:** same foundations/components at appropriate operational density.
@@ -196,22 +220,22 @@ This is a coherence requirement, not a requirement that every page use the same 
 
 ## Assurance
 
-B2.5 remains Level 3 / high risk because it changes a shared runtime implementation layer and refactors a primary learner surface onto reusable components.
+B3 remains material interface work because it migrates multiple learner routes and shared legacy selectors, but it does not change educational or persistence semantics.
 
 Required assurance includes:
 
 - typecheck;
 - lint;
-- unit tests including `src/app/ui/ui-components.test.tsx`;
-- interface-system governance tests in `scripts/assurance/interface-system-governance.test.mjs`;
+- unit tests;
+- interface-system governance tests in `scripts/assurance/interface-system-governance.test.mjs` including the B3 layer;
 - production build;
-- existing Plan/Progress responsive browser assurance across phone/tablet/desktop;
+- Subjects/Subject Home/course responsive browser assurance across phone/tablet/desktop;
 - light/dark semantic-role assurance;
 - applicable accessibility coverage; and
 - production smoke/path-to-live after merge.
 
 ## Documentation impact
 
-B2.5 implements existing Visual Brand System and Product UX authority rather than changing normative visual/product direction. No ADR is required because canonical runtime, routes and architecture boundaries remain unchanged.
+B2.5 and B3 implement existing Visual Brand System and Product UX authority rather than changing normative visual/product direction. No ADR is required because canonical runtime, routes and architecture boundaries remain unchanged.
 
-The Operating Standard, Component Registry, Brand System Production Readiness and INDEX are maintained with the implementation. Historical audits/research remain unchanged.
+The Operating Standard, Component Registry, Brand System Production Readiness, B3 migration record and INDEX are maintained with implementation. Historical audits/research remain unchanged.

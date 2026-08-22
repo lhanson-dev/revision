@@ -1,0 +1,323 @@
+/* Revision Interface System — B3 Subjects, Subject Home and course/specification surfaces. */
+
+.planner-runtime .page-screen {
+  color: var(--color-text);
+}
+
+.planner-runtime .page-heading,
+.planner-runtime .subject-page-heading {
+  max-width: 760px;
+}
+
+.planner-runtime .page-heading h1,
+.planner-runtime .subject-page-heading h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-h1-size);
+  font-weight: var(--type-h1-weight);
+  line-height: var(--type-h1-line);
+  letter-spacing: -.03em;
+}
+
+.planner-runtime .page-heading > p:last-child,
+.planner-runtime .subject-page-heading p:last-child {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .breadcrumbs {
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .breadcrumbs button {
+  min-height: var(--control-height-compact);
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-compact);
+  background: transparent;
+  color: var(--color-accent-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-body-s-size);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.planner-runtime .breadcrumbs button:hover,
+.planner-runtime .breadcrumbs button:focus-visible {
+  background: var(--color-surface-soft);
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .subject-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.planner-runtime .subject-card,
+.planner-runtime .subject-card-large,
+.planner-runtime .course-card,
+.planner-runtime .topic-list-grid article {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.planner-runtime .subject-card,
+.planner-runtime .subject-card-large {
+  border-radius: var(--radius-surface);
+  padding: var(--space-6);
+}
+
+.planner-runtime .subject-card:hover,
+.planner-runtime .subject-card:focus-within,
+.planner-runtime .subject-card-large:hover,
+.planner-runtime .subject-card-large:focus-within,
+.planner-runtime .course-card:hover,
+.planner-runtime .course-card:focus-within {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 32%, var(--color-border));
+  box-shadow: var(--shadow-raised);
+}
+
+.planner-runtime .subject-mark,
+.planner-runtime .subject-mark-large {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 20%, var(--color-border));
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  color: var(--color-accent-text);
+  font-family: var(--font-family-product);
+  font-weight: 700;
+}
+
+.planner-runtime .subject-mark-large {
+  width: 64px;
+  height: 64px;
+  font-size: var(--type-h2-size);
+}
+
+.planner-runtime .subject-copy h2,
+.planner-runtime .subject-copy h3,
+.planner-runtime .course-card h3 {
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+}
+
+.planner-runtime .subject-copy h2 {
+  margin: var(--space-2) 0 var(--space-1);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+}
+
+.planner-runtime .subject-copy h3,
+.planner-runtime .course-card h3 {
+  margin: var(--space-2) 0 var(--space-1);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+}
+
+.planner-runtime .subject-copy p,
+.planner-runtime .course-card p,
+.planner-runtime .quiet-note {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .tag {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .subject-rev,
+.planner-runtime .paper-recommendation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-8);
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 22%, var(--color-border));
+  border-radius: var(--radius-feature);
+  background: color-mix(in srgb, var(--color-surface) 92%, var(--brand-soft-aqua));
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.planner-runtime .subject-rev-orb {
+  display: none;
+}
+
+.planner-runtime .subject-rev h2,
+.planner-runtime .paper-recommendation h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  letter-spacing: -.02em;
+}
+
+.planner-runtime .subject-rev p,
+.planner-runtime .paper-recommendation p {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .course-card {
+  border-radius: var(--radius-surface);
+  padding: var(--space-6);
+}
+
+.planner-runtime .course-nav {
+  position: sticky;
+  top: 73px;
+  z-index: 45;
+  display: flex;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-6);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--menu-radius);
+  background: color-mix(in srgb, var(--color-surface-elevated) 94%, transparent);
+  box-shadow: var(--shadow-raised);
+  backdrop-filter: blur(var(--overlay-backdrop-blur));
+  overflow-x: auto;
+}
+
+.planner-runtime .course-nav button {
+  min-height: var(--control-height-standard);
+  flex: 0 0 auto;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-product);
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  line-height: var(--type-button-line);
+  cursor: pointer;
+}
+
+.planner-runtime .course-nav button:hover,
+.planner-runtime .course-nav button:focus-visible {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .course-nav button.active {
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+}
+
+.planner-runtime .topic-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.planner-runtime .topic-list-grid article {
+  border-radius: var(--radius-control);
+  padding: var(--space-4);
+}
+
+.planner-runtime .topic-list-grid strong {
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .topic-list-grid p {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .primary,
+.planner-runtime .secondary {
+  min-height: var(--control-height-standard);
+  border-radius: var(--radius-control);
+  font-family: var(--font-family-product);
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  line-height: var(--type-button-line);
+}
+
+.planner-runtime .primary {
+  border: 1px solid transparent;
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.planner-runtime .secondary {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .primary:focus-visible,
+.planner-runtime .secondary:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 960px) {
+  .planner-runtime .subject-rev,
+  .planner-runtime .paper-recommendation {
+    grid-template-columns: 1fr;
+    padding: var(--space-6);
+  }
+
+  .planner-runtime .topic-list-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .subject-page-heading {
+    align-items: flex-start;
+  }
+
+  .planner-runtime .subject-mark-large {
+    width: 56px;
+    height: 56px;
+  }
+
+  .planner-runtime .subject-card,
+  .planner-runtime .subject-card-large {
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .topic-list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .course-nav {
+    top: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .subject-card,
+  .planner-runtime .subject-card-large,
+  .planner-runtime .course-card,
+  .planner-runtime .course-nav button {
+    transition: none;
+  }
+}

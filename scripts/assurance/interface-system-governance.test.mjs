@@ -5,6 +5,7 @@ const brandTokens = readFileSync(new URL('../../src/app/brand-tokens.css', impor
 const interfaceSystem = readFileSync(new URL('../../src/app/interface-system.css', import.meta.url), 'utf8')
 const interfaceComponents = readFileSync(new URL('../../src/app/ui/ui-components.css', import.meta.url), 'utf8')
 const interfacePlanProgress = readFileSync(new URL('../../src/app/interface-plan-progress.css', import.meta.url), 'utf8')
+const interfaceSubjectsCourse = readFileSync(new URL('../../src/app/interface-subjects-course.css', import.meta.url), 'utf8')
 const componentIndex = readFileSync(new URL('../../src/app/ui/index.ts', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
 const brandAssetHelper = readFileSync(new URL('../../src/app/ui/BrandAsset.tsx', import.meta.url), 'utf8')
@@ -14,7 +15,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress]
+const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -61,10 +62,30 @@ describe('Revision Interface System governance', () => {
     expect(interfaceComponents).toContain('stroke-width: var(--icon-stroke-standard);')
     expect(interfaceComponents).toContain('.planner-runtime[data-theme="dark"] .ui-brand-asset__image--dark')
     expect(interfacePlanProgress).toContain('font-size: var(--type-h1-size);')
+    expect(interfaceSubjectsCourse).toContain('font-size: var(--type-h1-size);')
+    expect(interfaceSubjectsCourse).toContain('background: var(--color-surface);')
+    expect(interfaceSubjectsCourse).toContain('border-radius: var(--radius-feature);')
 
     for (const css of migratedInterfaceLayers) {
       expect(css).not.toMatch(/font-family:\s*Manrope/i)
     }
+  })
+
+  it('keeps B3 subject and course migration on semantic interface roles', () => {
+    for (const selector of [
+      '.planner-runtime .subject-card',
+      '.planner-runtime .subject-rev',
+      '.planner-runtime .course-card',
+      '.planner-runtime .course-nav',
+      '.planner-runtime .topic-list-grid',
+    ]) {
+      expect(interfaceSubjectsCourse).toContain(selector)
+    }
+    expect(interfaceSubjectsCourse).toContain('var(--color-action)')
+    expect(interfaceSubjectsCourse).toContain('var(--color-action-text)')
+    expect(interfaceSubjectsCourse).toContain('var(--focus-ring)')
+    expect(interfaceSubjectsCourse).toContain('@media (max-width: 620px)')
+    expect(interfaceSubjectsCourse).toContain('@media (prefers-reduced-motion: reduce)')
   })
 
   it('publishes the required reusable component registry before B3', () => {

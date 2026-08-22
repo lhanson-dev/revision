@@ -26,6 +26,7 @@ import './app/contextual-navigation.css'
 import './app/interface-system.css'
 import './app/ui/ui-components.css'
 import './app/interface-plan-progress.css'
+import './app/interface-subjects-course.css'
 
 const root = document.getElementById('root')
 
