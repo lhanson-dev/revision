@@ -23,6 +23,7 @@ import {
   type ModuleLearningState,
 } from './catalogue-model'
 import { buildPlannerSnapshot } from './planner-model'
+import { Button, EmptyState, LoadingState, PageHeader, SelectField, Status, Surface, TextField } from './ui'
 
 const availableAdapters = listAvailableContentAdapters()
 const plannerCatalogue = buildCatalogue(availableAdapters)
@@ -225,19 +226,21 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
 
   return (
     <main className="dashboard page-screen planner-screen interface-plan-screen" aria-labelledby="plan-page-title">
-      <header className="page-heading planner-heading ui-page-header">
-        <p className="eyebrow">Your adaptive revision programme</p>
-        <h1 id="plan-page-title">Plan</h1>
-        <p>Your plan will change as you revise, your evidence changes and assessments get closer. You do not need to manually move missed tasks around.</p>
-      </header>
+      <PageHeader
+        className="page-heading planner-heading"
+        titleId="plan-page-title"
+        eyebrow="Your adaptive revision programme"
+        title="Plan"
+        description="Your plan will change as you revise, your evidence changes and assessments get closer. You do not need to manually move missed tasks around."
+      />
 
-      {message && <p className="planner-message ui-status ui-status--info" role="status" aria-live="polite">{message}</p>}
+      {message && <Status className="planner-message" tone="info" aria-live="polite">{message}</Status>}
 
       {loading ? (
-        <section className="planner-panel ui-surface-standard" aria-live="polite" aria-busy="true"><p>Loading your current plan…</p></section>
+        <LoadingState className="planner-panel">Loading your current plan…</LoadingState>
       ) : (
         <>
-          <section className="planner-panel planner-today ui-surface-standard" aria-labelledby="today-plan-title">
+          <Surface className="planner-panel planner-today" aria-labelledby="today-plan-title">
             <div className="planner-panel-heading">
               <div>
                 <p className="eyebrow">Today</p>
@@ -246,15 +249,15 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
               {snapshot && <span className="planner-state">{snapshot.capacityState === 'prioritising' ? 'Prioritising' : 'Current plan'}</span>}
             </div>
 
-            {!availability && <div className="planner-empty"><h3>Set your realistic availability</h3><p>Revision needs to know roughly how much time you normally have so it does not create an impossible plan.</p></div>}
-            {availability && assessments.length === 0 && <div className="planner-empty"><h3>Add an assessment</h3><p>Once Revision knows what you are preparing for, it can start balancing your time.</p></div>}
-            {availability && assessments.length > 0 && !snapshot && <div className="planner-empty"><h3>Building the evidence picture</h3><p>Your dates and available time are saved. Complete some scored revision activity and Revision will become more specific about what deserves attention first.</p></div>}
+            {!availability && <EmptyState className="planner-empty" title="Set your realistic availability" description="Revision needs to know roughly how much time you normally have so it does not create an impossible plan." />}
+            {availability && assessments.length === 0 && <EmptyState className="planner-empty" title="Add an assessment" description="Once Revision knows what you are preparing for, it can start balancing your time." />}
+            {availability && assessments.length > 0 && !snapshot && <EmptyState className="planner-empty" title="Building the evidence picture" description="Your dates and available time are saved. Complete some scored revision activity and Revision will become more specific about what deserves attention first." />}
 
             {snapshot?.capacityState === 'prioritising' && (
-              <div className="planner-priority-note ui-surface-quiet">
+              <Surface as="div" variant="quiet" padded={false} className="planner-priority-note">
                 <strong>Making the time you have count</strong>
                 <p>There is not enough realistic capacity to cover every useful area before the current assessments. Revision is prioritising the work with the strongest evidence of need. You can still choose differently.</p>
-              </div>
+              </Surface>
             )}
 
             {snapshot && snapshot.today.length === 0 && <p className="muted">There is no useful planner item to add today. Your wider plan will keep checking as evidence and dates change.</p>}
@@ -271,15 +274,15 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
                         <p>{activityLabel(item.activityType)} · about {item.estimatedMinutes} minutes</p>
                         <ul className="planner-reasons">{reasons.map((reason) => <li key={reason}>{reasonLabel(reason)}</li>)}</ul>
                       </div>
-                      {onOpenSubject && <button className="ui-button ui-button--primary" type="button" onClick={() => void handleStart(item)}>Start</button>}
+                      {onOpenSubject && <Button onClick={() => void handleStart(item)}>Start</Button>}
                     </li>
                   )
                 })}
               </ol>
             )}
-          </section>
+          </Surface>
 
-          <section className="planner-panel ui-surface-standard" aria-labelledby="plan-outlook-title">
+          <Surface className="planner-panel" aria-labelledby="plan-outlook-title">
             <div className="planner-panel-heading">
               <div>
                 <p className="eyebrow">Current outlook</p>
@@ -288,10 +291,7 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
               <span className="planner-state">Adapts as you work</span>
             </div>
             {upcoming.length === 0 ? (
-              <div className="planner-empty">
-                <h3>Add your first assessment</h3>
-                <p>Revision needs a date and subject before it can balance your remaining time.</p>
-              </div>
+              <EmptyState className="planner-empty" title="Add your first assessment" description="Revision needs a date and subject before it can balance your remaining time." />
             ) : (
               <ol className="planner-assessments">
                 {upcoming.map((assessment) => {
@@ -308,71 +308,50 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
                         <h3>{assessment.title}</h3>
                         <p>{subject?.name ?? assessment.subjectId}{assessment.relativeImportance === 'high' ? ' · Higher priority' : ''}</p>
                       </div>
-                      <button className="ui-button ui-button--tertiary ui-button--compact" type="button" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</button>
+                      <Button variant="tertiary" size="compact" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</Button>
                     </li>
                   )
                 })}
               </ol>
             )}
-          </section>
+          </Surface>
 
           <div className="planner-setup-grid">
-            <section className="planner-panel ui-surface-standard" aria-labelledby="availability-title">
+            <Surface className="planner-panel" aria-labelledby="availability-title">
               <p className="eyebrow">Realistic capacity</p>
               <h2 id="availability-title">How much time is normally available?</h2>
               <p className="muted">This is not a target. It helps Revision avoid creating an impossible plan.</p>
               <div className="planner-field-grid">
-                <label>
-                  Weekday minutes
-                  <input className="ui-field" type="number" min={0} max={1440} step={5} value={weekdayMinutes} onChange={(event) => setWeekdayMinutes(Number(event.target.value))} />
-                </label>
-                <label>
-                  Weekend minutes
-                  <input className="ui-field" type="number" min={0} max={1440} step={5} value={weekendMinutes} onChange={(event) => setWeekendMinutes(Number(event.target.value))} />
-                </label>
+                <TextField label="Weekday minutes" type="number" min={0} max={1440} step={5} value={weekdayMinutes} onChange={(event) => setWeekdayMinutes(Number(event.target.value))} />
+                <TextField label="Weekend minutes" type="number" min={0} max={1440} step={5} value={weekendMinutes} onChange={(event) => setWeekendMinutes(Number(event.target.value))} />
               </div>
-              <button className="ui-button ui-button--primary" type="button" disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Update availability' : 'Save availability'}</button>
-            </section>
+              <Button disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Update availability' : 'Save availability'}</Button>
+            </Surface>
 
-            <section className="planner-panel ui-surface-standard" aria-labelledby="assessment-add-title">
+            <Surface className="planner-panel" aria-labelledby="assessment-add-title">
               <p className="eyebrow">Assessment</p>
               <h2 id="assessment-add-title">Add something you are preparing for</h2>
               <form className="planner-form" onSubmit={handleAddAssessment}>
-                <label>
-                  Subject
-                  <select className="ui-field" value={subjectId} required onChange={(event) => setSubjectId(event.target.value)}>
-                    {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
-                  </select>
-                </label>
-                <label>
-                  What is it?
-                  <input className="ui-field" value={title} required maxLength={120} placeholder="e.g. Business Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
-                </label>
+                <SelectField label="Subject" value={subjectId} required onChange={(event) => setSubjectId(event.target.value)}>
+                  {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
+                </SelectField>
+                <TextField label="What is it?" value={title} required maxLength={120} placeholder="e.g. Business Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
                 <div className="planner-field-grid">
-                  <label>
-                    Type
-                    <select className="ui-field" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
-                      <option value="topic_test">Topic test</option>
-                      <option value="mock">Mock</option>
-                      <option value="public_exam">Public exam</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label>
-                    Date
-                    <input className="ui-field" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
-                  </label>
+                  <SelectField label="Type" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
+                    <option value="topic_test">Topic test</option>
+                    <option value="mock">Mock</option>
+                    <option value="public_exam">Public exam</option>
+                    <option value="other">Other</option>
+                  </SelectField>
+                  <TextField label="Date" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
                 </div>
-                <label>
-                  Importance
-                  <select className="ui-field" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
-                    <option value="normal">Normal</option>
-                    <option value="high">Higher priority</option>
-                  </select>
-                </label>
-                <button className="ui-button ui-button--primary" type="submit" disabled={saving || subjects.length === 0}>Add assessment</button>
+                <SelectField label="Importance" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
+                  <option value="normal">Normal</option>
+                  <option value="high">Higher priority</option>
+                </SelectField>
+                <Button type="submit" disabled={saving || subjects.length === 0}>Add assessment</Button>
               </form>
-            </section>
+            </Surface>
           </div>
         </>
       )}
