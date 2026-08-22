@@ -50,7 +50,7 @@ For each PR approaching merge:
 - preserve newer cumulative `main` content plus the PR's intended delta; and
 - run the required assurance against the final integration candidate.
 
-A repository-native merge queue is preferable on a sufficiently busy repository because it can test queued PRs against the latest base automatically. Where that capability is unavailable, Revision applies the equivalent integration check explicitly.
+A repository-native merge queue is preferable on a sufficiently busy repository because it can test queued PRs against the latest base automatically. At the time this standard was updated, Revision is hosted in an individual-owned GitHub repository and GitHub's native merge queue is not available for that ownership model. Revision therefore uses the explicit current-`main` integration fallback until repository ownership/capability changes.
 
 Governance does **not** require that only one PR may be review-ready at a time. Merges themselves are ordered because each successful merge creates the next canonical `main` state.
 
