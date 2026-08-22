@@ -56,14 +56,16 @@ For any PR whose production path is enforced by the Revision release-lineage ver
 5. re-read the PR conversation and verify that exact-head approval evidence is present and readable; and
 6. merge only if the PR head still equals the approved/evidenced SHA.
 
-The current release-verifier marker is:
+The current release-verifier marker is exactly:
 
 ```text
 revision-founder-approval:v1
 head_sha: <40-character exact PR head SHA>
 ```
 
-The marker is a durable record of an approval that has already been explicitly given; it is not permission for an AI agent to invent, infer, broaden or self-grant approval. A merged PR, passing CI, prior approval of a different head, or approval of a related PR must never be converted into a marker by inference.
+For this release gate, **equivalent prose is not equivalent evidence**. A comment such as `Founder approval recorded for PR #X at head ...`, a quoted chat instruction, a summary of the approval, or any other alternative wording does not satisfy the machine-readable marker contract. The executing agent must write the exact marker above as a top-level PR conversation comment and then re-read that exact comment before calling merge.
+
+The marker is a durable record of an approval that has already been explicitly given; it is not permission for an AI agent to invent, infer, broaden or self-grant approval. A merged PR, passing CI, prior approval of a different head, approval of a related PR, or a malformed/prose approval-record comment must never be converted into a compliant marker retrospectively.
 
 If the PR head changes after Founder approval or after the marker is written, stop and obtain renewed explicit Founder approval for the new exact head before merge.
 

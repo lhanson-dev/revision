@@ -10,7 +10,7 @@
 7. Do not rewrite historical evidence.
 8. Work on branches for governed changes.
 9. Use PRs.
-10. **Do not merge any PR without explicit Founder approval for that specific merge. For a release-governed PR, `Approve merge PR #X` is one Founder action: the executing agent must persist and verify the required exact-head GitHub approval evidence before calling merge, without asking the Founder for a second approval or bookkeeping action. Calling merge before that evidence is durably verified is a governance breach.**
+10. **Do not merge any PR without explicit Founder approval for that specific merge. For a release-governed PR, `Approve merge PR #X` is one Founder action: the executing agent must persist and verify the required exact-head GitHub approval evidence before calling merge, without asking the Founder for a second approval or bookkeeping action. Where the release verifier specifies a machine-readable marker, that exact marker format is mandatory; prose summaries or alternative approval-record wording are not substitutes. Calling merge before the exact required evidence is durably verified is a governance breach.**
 11. Do not rely on chat memory when current repository authority can be inspected.
 12. Do not knowingly leave governing or technical documentation stale after a material decision or implementation change.
 13. **Before implementation work, resolve and record the canonical user-facing route, runtime and entry point. Do not infer the target from a convenient filename or duplicate migration surface.**

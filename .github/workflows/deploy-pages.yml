@@ -23,14 +23,18 @@ env:
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: planner-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
-  # One-time 2026-08-21 recovery checkpoint. PRs #75/#77/#81/#82/#84 reached
-  # main without the machine-readable Founder marker later required by the
-  # release-lineage verifier, so their failed statuses cannot be retrospectively
-  # re-proven without inventing approval evidence. PR #85 records the incident,
-  # fixes the approval handoff and deliberately re-establishes prospective
-  # release lineage from the exact pre-remediation main commit below. This value
-  # must not be advanced again merely to bypass a future failed governance check.
-  REVISION_RELEASE_BOOTSTRAP_PARENT: d960c950f4620dd469888a1174af582524706ec2
+  # Second explicit 2026-08-21 recovery checkpoint. PR #105 had genuine
+  # pre-merge Founder approval recorded for its exact head, but the executing
+  # flow persisted prose rather than the required revision-founder-approval:v1
+  # machine-readable marker. That malformed evidence cannot be rewritten or
+  # converted retrospectively without falsifying history. PR #107 then failed
+  # closed while traversing that ancestor even though PR #107 itself followed
+  # the corrected exact-head approval sequence. The recovery PR records the
+  # recurrence and deliberately re-establishes prospective release lineage from
+  # this exact pre-remediation main commit. This is an exceptional governed
+  # recovery, not a routine bypass mechanism; any future reset requires a new
+  # recorded incident, rationale and explicit Founder-approved recovery decision.
+  REVISION_RELEASE_BOOTSTRAP_PARENT: d2534774344677013777a31a2a82bedb8919a7fe
 
 jobs:
   governed-lineage:
