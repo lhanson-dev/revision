@@ -1,7 +1,7 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** First recovery completed; second recovery proposed after approval-marker recurrence on 2026-08-21  
-**Date:** 2026-08-21
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109  
+**Date:** 2026-08-22
 
 ## Purpose
 
@@ -77,38 +77,44 @@ PR #107 later followed the corrected merge sequence for its own exact head and m
 
 Production run `32534598367` failed at governed release lineage while traversing PR #105. Backend readiness, build, deployment and production smoke were skipped, and durable `revision/path-to-live = failure` was published for the PR #107 merge commit.
 
-### Proposed second recovery anchor
+### Second recovery anchor
 
-ADR-0015 proposes a second exceptional reset using the exact current pre-remediation `main` commit:
+ADR-0015 approved a second exceptional reset using the exact pre-remediation `main` commit:
 
 ```text
 REVISION_RELEASE_BOOTSTRAP_PARENT=d2534774344677013777a31a2a82bedb8919a7fe
 ```
 
-This does not assert that PR #105 had a compliant machine-readable marker and does not rewrite its historical approval record. It treats the current repository state as a newly approved prospective trust root only if the recovery PR itself receives explicit Founder approval and completes every current release control.
+This does not assert that PR #105 had a compliant machine-readable marker and does not rewrite its historical approval record. It establishes a newly approved prospective trust root through a separately governed recovery PR.
 
-### Required recovery-PR invariant
+### Recovery-PR invariant
 
-Before the recovery PR may merge:
+PR #109 satisfied the required invariant:
 
-1. its first parent/base must remain exactly `d2534774344677013777a31a2a82bedb8919a7fe` unless a new analysis deliberately reconciles later `main` changes;
-2. its latest exact-head Revision CI must complete successfully;
-3. the Founder must explicitly approve that specific recovery PR merge;
-4. the exact two-line `revision-founder-approval:v1` marker must be persisted for that head;
-5. the marker must be re-read and verified;
-6. the PR head must remain unchanged; and
-7. only then may that exact head merge.
+1. base/first parent remained `d2534774344677013777a31a2a82bedb8919a7fe`;
+2. exact head `3c775eafc4a837a7ad2f712176d39816cf11d886` passed Revision CI #634;
+3. the Founder explicitly approved PR #109;
+4. exact marker comment `5376828120` was persisted for that head;
+5. the marker was re-read and verified;
+6. the PR head remained unchanged; and
+7. only that exact head was merged.
 
-### Closure evidence
+### Post-merge verification
 
-DEF-2026-005 remains open until the recovery merge has current evidence of:
+PR #109 merged as:
 
-- governed lineage success;
-- production backend readiness;
-- production build;
-- Pages deployment;
-- production smoke; and
-- durable `revision/path-to-live = success`.
+`acfaaf59abce40c03a2f8cd1313bfc90e7b93577`
+
+GitHub Pages run `32541072920` completed successfully across every required stage:
+
+1. governed release lineage;
+2. production backend readiness;
+3. production build;
+4. GitHub Pages deployment;
+5. production smoke; and
+6. durable `revision/path-to-live = success` publication for the exact merge commit.
+
+That satisfied the closure condition for DEF-2026-005 and restored the prospective governed production chain while preserving PR #105 and PR #107 historical evidence unchanged.
 
 `audits/Path-to-Live Approval Marker Recurrence 2026-08-21.md` preserves the incident evidence.
 
