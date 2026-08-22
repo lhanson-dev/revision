@@ -72,8 +72,8 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
 
   return (
-    <main className="dashboard screen-dashboard page-screen" aria-labelledby="progress-page-title">
-      <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="progress-page-title">Progress</h1><p>This view covers only the courses in your active Revision programme. Course membership itself is not progress evidence.</p></header>
+    <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
+      <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="global-progress-title">Progress</h1><p>This view covers only the courses in your active Revision programme. Course membership itself is not progress evidence.</p></header>
 
       {error && <Status tone="warning">{error}</Status>}
       {programme.unknownCourseIds.length > 0 && <Status tone="warning">A saved course no longer resolves to the published catalogue. Its historical evidence is preserved, but it is excluded from this active programme view.</Status>}
@@ -97,7 +97,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
                 const scoredStates = item.states.filter((state) => state.readiness.score !== null)
                 const averageReadiness = scoredStates.length === 0 ? null : Math.round(scoredStates.reduce((sum, state) => sum + (state.readiness.score ?? 0), 0) / scoredStates.length)
                 return (
-                  <article className="course-card" key={item.courseId}>
+                  <article className="course-card global-progress-card" key={item.courseId}>
                     <div><span className="tag">{evidenced} / {topics} topics evidenced</span><h3>{item.label}</h3><p>{averageReadiness === null ? 'Readiness is still building from varied evidence.' : `${averageReadiness}% current supported readiness across the available course/component evidence.`}</p></div>
                     <Button onClick={() => onOpenCourseProgress(item.courseId)}>Open course progress</Button>
                   </article>
