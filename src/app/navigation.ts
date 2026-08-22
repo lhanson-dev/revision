@@ -1,5 +1,6 @@
 export type PaperSection = 'overview' | 'learn' | 'practice' | 'exam-prep' | 'progress'
 export type CourseSection = PaperSection
+export type AdminSection = 'users' | 'activity' | 'health' | 'assurance' | 'content' | 'planner'
 
 export type AppRoute =
   | { kind: 'home' }
@@ -11,7 +12,7 @@ export type AppRoute =
   | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection }
   | { kind: 'progress' }
   | { kind: 'rev' }
-  | { kind: 'admin' }
+  | { kind: 'admin'; section?: AdminSection }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
 export const planRoute = (): AppRoute => ({ kind: 'plan' })
@@ -41,7 +42,7 @@ export const learnerModuleRoute = (courseId: string, moduleId: string, section: 
 
 export const progressRoute = (): AppRoute => ({ kind: 'progress' })
 export const revRoute = (): AppRoute => ({ kind: 'rev' })
-export const adminRoute = (): AppRoute => ({ kind: 'admin' })
+export const adminRoute = (section?: AdminSection): AppRoute => section ? ({ kind: 'admin', section }) : ({ kind: 'admin' })
 
 const clean = (value: string) => encodeURIComponent(value)
 
@@ -59,7 +60,7 @@ export function routeHash(route: AppRoute) {
     }
     case 'progress': return '#/progress'
     case 'rev': return '#/rev'
-    case 'admin': return '#/admin'
+    case 'admin': return route.section ? `#/admin/${route.section}` : '#/admin'
   }
 }
 
@@ -72,13 +73,21 @@ function validSection(value: string): value is PaperSection {
   return ['overview', 'learn', 'practice', 'exam-prep', 'progress'].includes(value)
 }
 
+function validAdminSection(value: string): value is AdminSection {
+  return ['users', 'activity', 'health', 'assurance', 'content', 'planner'].includes(value)
+}
+
 export function parseRoute(hash: string): AppRoute {
   if (!hash || hash === '#' || hash === '#/' || hash === '#/home') return homeRoute()
   if (hash === '#/plan') return planRoute()
   if (hash === '#/courses' || hash === '#/subjects') return coursesRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()
-  if (hash === '#/admin' || hash.startsWith('#/admin/')) return adminRoute()
+  if (hash === '#/admin') return adminRoute()
+  if (hash.startsWith('#/admin/')) {
+    const section = hash.replace(/^#\/admin\//, '').split('/')[0]
+    return validAdminSection(section) ? adminRoute(section) : adminRoute()
+  }
 
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
 
