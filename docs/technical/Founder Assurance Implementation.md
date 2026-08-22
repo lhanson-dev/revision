@@ -1,6 +1,6 @@
 # Founder Assurance Implementation
 
-**Status:** Current `main` includes governed coverage/defect projection, authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, fail-closed path-to-live enforcement with durable commit-level evidence, risk-based assurance planning and repository secret/config scanning.
+**Status:** Current `main` includes governed coverage/defect projection, authenticated persistence/reload assurance, protected Edge authorization integration, automated accessibility assurance, fail-closed path-to-live enforcement with durable commit-level evidence, risk-based assurance planning and repository secret/config scanning. Recovery 3 adds a pre-merge Founder approval status gate when merged.
 
 ## Purpose
 
@@ -104,6 +104,20 @@ Missing evidence is `Unknown`; a known failed required stage is `Attention neede
 
 PR #66 introduced protected correlation. PR #67 added machine-readable risk classification and secret/config assurance. PR #68 then made production deployment itself enforce governed lineage before backend readiness and publish a durable commit-level release result.
 
+### Pre-merge Founder approval status
+
+Recovery 3 adds a trusted default-branch workflow and evaluator documented in `docs/technical/Founder Approval Gate.md`. The workflow publishes:
+
+`revision/founder-approval`
+
+on the exact PR head.
+
+The status is `success` only when the latest exact-head Revision CI has completed successfully and a valid exact Founder marker for that same head was created at or after CI completion. Missing CI, running CI, missing marker, prose-only approval or an early marker remain non-success. A completed unsuccessful latest CI produces failure.
+
+The status does not grant approval. It makes already-required evidence machine-visible before merge so separate/concurrent workstreams cannot safely merge by relying only on procedural memory.
+
+Once the workflow is live on `main`, the AI/release operating rules require executing agents to verify `revision/founder-approval = success` immediately before ordinary release-governed merges. Repository-level required-check enforcement is a separate GitHub configuration control and must not be represented as active for this status until independently verified.
+
 ### Durable commit-level release evidence
 
 The release workflow publishes:
@@ -123,6 +137,8 @@ The workflow writes `pending` when the release attempt begins. After governed li
 The first implementation required the immediately previous `main` commit to have `revision/path-to-live = success`. That was stricter than the governing Release & Deployment Standard and created a recovery deadlock: once a governed release failed, every later governed release failed at lineage before it could reach backend readiness, build or deployment.
 
 The corrected implementation keeps the release path fail-closed but distinguishes **governed-but-unreleased** commits from ungoverned ancestry by re-verifying the PR/CI/Founder evidence for each terminally failed ancestor. This is an implementation correction, not a relaxation of Founder approval, CI, backend readiness, production smoke or branch-governance requirements.
+
+Exceptional bootstrap recovery checkpoints are recorded separately in `docs/technical/Release Lineage Recovery Checkpoint.md` and the associated ADRs. They do not rewrite historical approval evidence.
 
 ### First observed governed production lineage
 
@@ -158,7 +174,7 @@ See `docs/technical/Risk-Based Assurance Plan Implementation.md`.
 
 ### GitHub branch protection
 
-GitHub `main` is now protected by an active ruleset configured by the Founder on 2026-08-19. The configured rule set requires:
+GitHub `main` is protected by an active ruleset configured by the Founder on 2026-08-19. The configured rule set was established to require:
 
 - a pull request before merge;
 - the three Revision CI jobs — `Assurance plan and secret scan`, `Foundation quality`, and `Database, RLS and protected service assurance`;
@@ -172,7 +188,9 @@ After the ruleset was created, the GitHub branch API independently changed from 
 
 The connected GitHub capability does not expose the ruleset's internal rule list. The assurance evidence therefore deliberately distinguishes API-verifiable protected state from the specific Founder-configured UI selections rather than falsely claiming the connector independently enumerated those rules.
 
-Together with PR #68's proven fail-closed production release chain, repository protection closes the PTL-05 defence-in-depth gap. An administrator with sufficient GitHub authority could still deliberately change repository settings or workflows, so protection does not remove the need for governed change discipline or Founder approval.
+Recovery 3 introduces `revision/founder-approval` as an additional machine-readable merge control. The workflow can publish that status once merged, but this document does **not** claim that the external GitHub ruleset already requires it. Adding/verifying that required-check setting is a separate repository-administration hardening action.
+
+Together with the fail-closed production release chain, repository protection provides defence in depth. An administrator with sufficient GitHub authority could still deliberately change repository settings or workflows, so protection does not remove the need for governed change discipline or Founder approval.
 
 ### Supabase leaked-password protection
 
@@ -190,6 +208,7 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Remaining boundaries
 
+- `revision/founder-approval` repository-level required-check enforcement must be independently configured/verified after the Recovery 3 workflow is live; workflow existence alone is not branch-protection enforcement.
 - Supabase managed leaked-password protection remains a visible Pro-plan launch/upgrade control, not a closed advisor finding.
 - Real production sign-in transaction assurance remains separate from isolated CI authentication.
 - Full exam save/result lifecycle assurance remains separate from the current Practice/Progress persistence path.
@@ -197,4 +216,4 @@ Founder Assurance may show only evidence that exists. Planned tests do not count
 
 ## Documentation impact
 
-The release-lineage recovery correction changes implementation truth only. It keeps the active Release & Deployment Standard unchanged, updates this technical implementation record, and adds executable regression coverage for governed recovery and fail-closed ancestry. Historical audits/incidents are not rewritten.
+Recovery 3 changes both normative release behaviour and technical implementation truth. The governed change therefore updates the Release & Deployment Standard and AI repository rules, adds the Founder Approval Gate implementation record and executable tests/workflow, updates the release-recovery checkpoint, records DEF-2026-006 and preserves the incident as historical evidence. Historical approval comments and failed release statuses are not rewritten.
