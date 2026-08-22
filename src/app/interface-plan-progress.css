@@ -24,9 +24,9 @@
 .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
   margin: 0;
   color: var(--color-text);
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 44px;
+  font-size: var(--type-h1-size);
+  font-weight: var(--type-h1-weight);
+  line-height: var(--type-h1-line);
   letter-spacing: -.035em;
 }
 
@@ -35,8 +35,9 @@
   max-width: 720px;
   margin: var(--space-1) 0 0;
   color: var(--color-text-secondary);
-  font-size: 18px;
-  line-height: 28px;
+  font-size: var(--type-body-l-size);
+  font-weight: var(--type-body-l-weight);
+  line-height: var(--type-body-l-line);
 }
 
 /* Plan composition. */
@@ -70,9 +71,9 @@
 .interface-plan-screen .planner-panel > h2 {
   margin: 0;
   color: var(--color-text);
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 36px;
+  font-size: var(--type-h2-size);
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line);
   letter-spacing: -.025em;
 }
 
@@ -83,8 +84,9 @@
   border-radius: var(--radius-pill);
   background: var(--color-surface-soft);
   color: var(--color-accent-text);
-  font-size: 13px;
-  font-weight: 650;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-line);
 }
 
 .interface-plan-screen .planner-empty {
@@ -103,8 +105,9 @@
 
 .interface-plan-screen .planner-empty h3 {
   color: var(--color-text);
-  font-size: 18px;
-  line-height: 26px;
+  font-size: var(--type-h4-size);
+  font-weight: var(--type-h4-weight);
+  line-height: var(--type-h4-line);
 }
 
 .interface-plan-screen .planner-empty p,
@@ -157,9 +160,9 @@
 .interface-plan-screen .planner-panel label {
   gap: var(--space-2);
   color: var(--color-text);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 18px;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-line);
 }
 
 .interface-plan-screen .ui-field {
@@ -169,7 +172,8 @@
   border-radius: var(--radius-control);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 16px;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
 }
 
 .interface-plan-screen .ui-button {
@@ -197,9 +201,9 @@
 
 .planner-runtime main[aria-labelledby="global-progress-title"] .section-heading h2 {
   color: var(--color-text);
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 36px;
+  font-size: var(--type-h2-size);
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line);
   letter-spacing: -.025em;
 }
 
@@ -226,7 +230,8 @@
 .planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview strong {
   color: var(--color-text);
   font-size: 30px;
-  font-weight: 700;
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line);
 }
 
 .planner-runtime main[aria-labelledby="global-progress-title"] > .subject-list {
@@ -245,9 +250,9 @@
 
 .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-copy h2 {
   color: var(--color-text);
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 30px;
+  font-size: var(--type-h3-size);
+  font-weight: var(--type-h3-weight);
+  line-height: var(--type-h3-line);
   letter-spacing: -.02em;
 }
 
@@ -261,9 +266,10 @@
   border-radius: var(--radius-control);
   background: var(--color-action);
   color: var(--color-action-text);
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 20px;
+  font-family: var(--font-family-product);
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  line-height: var(--type-button-line);
   box-shadow: none;
 }
 
@@ -319,15 +325,13 @@
 @media (max-width: 620px) {
   .ui-page-header h1,
   .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
-    font-size: 30px;
-    line-height: 38px;
     letter-spacing: -.025em;
   }
 
   .ui-page-header > p:last-child,
   .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading > p:last-child {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-line);
   }
 
   .interface-plan-screen .planner-panel,
