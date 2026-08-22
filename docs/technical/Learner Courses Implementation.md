@@ -1,7 +1,9 @@
 # Learner Courses Implementation
 
-**Status:** implementation in progress  
+**Status:** implementation candidate complete; exact-head assurance and production backend enablement pending  
 **Feature:** FI-020 — Learner Courses and Course Membership  
+**Lifecycle:** In Progress  
+**Implementation PR:** #130  
 **Canonical runtime:** `/app/` → `src/main.tsx` → `src/app/PlannerRuntime.tsx`  
 **Authority:** `10-product-governance/Global Learner Navigation.md`, `10-product-governance/Information Architecture.md`, `10-product-governance/Core User Journeys.md`, `10-product-governance/Adaptive Revision Planning.md`
 
@@ -99,25 +101,42 @@ The GitHub Pages workflow does **not** execute production Supabase migrations.
 
 FI-020 advances `revision_release_readiness()` to contract `courses-v1`, which includes `learner_courses` and `learner_course_events`, and `.github/workflows/deploy-pages.yml` expects that contract before building/deploying the frontend.
 
-Therefore production deployment will fail closed until the governed FI-020 migration has been applied and verified on the production Supabase project. The migration must be applied only after branch database/CI assurance has passed and before the Founder-approved implementation merge is released.
+Therefore production deployment will fail closed until the governed FI-020 migration has been applied and verified on the production Supabase project. The migration is applied only after exact-head branch database/CI assurance passes and before the Founder-approved implementation merge is released.
 
-## Assurance requirements
+The readiness function remains `SECURITY INVOKER`; extending the contract must not recreate the previously closed elevated-execution defect.
 
-Before merge, prove at minimum:
+## Implemented assurance
 
-- migration replays cleanly in isolated Supabase;
-- authenticated learner can select/insert/delete own membership only;
-- anonymous and cross-user membership access is denied;
-- duplicate membership is prevented;
-- course events are own-row insert/select only;
-- bounded existing-user seed is deterministic;
-- canonical Courses routes and legacy compatibility work;
-- Home/Plan/Progress/REV never use a non-member course;
-- Courses page Add/Remove/reload works;
-- responsive navigation uses Courses and saved-course expansion;
-- light/dark/responsive Interface System assurance remains green; and
-- production backend readiness reports `courses-v1` before the app is allowed to deploy.
+The PR carries repeatable assurance for:
+
+- migration replay in isolated Supabase;
+- authenticated owner-only membership RLS and explicit browser grants;
+- anonymous and cross-user membership denial;
+- composite-key duplicate prevention;
+- own-row course-event insert/select with update/delete denied;
+- `courses-v1` readiness and `SECURITY INVOKER` security mode;
+- authenticated learner-course service round-trip and cross-user rejection;
+- canonical Courses routes and legacy subject-route normalisation;
+- active-programme filtering in learner-programme/planner tests;
+- responsive global navigation using Courses and saved-course expansion; and
+- a database-backed browser journey covering new-learner empty state → Add Course → reload → Practice evidence → Remove Course → evidence retained → reload → re-add.
+
+Exact-head CI remains dynamic evidence and must be green for the final PR head before merge readiness is declared.
+
+## Production completion boundary
+
+FI-020 is **not Live** merely because implementation exists on PR #130 or because branch CI passes.
+
+Before the PR may be presented for Founder merge approval:
+
+1. final exact-head CI must pass;
+2. current `main` must be revalidated/integrated as required;
+3. the forward-safe FI-020 production database migration must be applied;
+4. production `revision_release_readiness()` must independently report `contract: courses-v1` and `ready: true`; and
+5. the PR documentation/assurance/lifecycle record must describe the same candidate state.
+
+After explicit Founder approval and merge, the resulting `main` revision must still pass governed release-lineage, backend readiness, Pages deployment, production smoke and durable `revision/path-to-live` evidence before FI-020 can move from **In Progress** to **Live**.
 
 ## Documentation impact
 
-This document describes implementation truth while FI-020 is in progress. README, Target System Architecture, assurance registers and lifecycle records must be aligned before the implementation PR is declared merge-ready. Historical audit evidence remains historical and is not rewritten.
+README, Target System Architecture, Production Backend Readiness Gate, Assurance Coverage Register and INDEX are aligned on this implementation branch. Temporary branch-only scope/status/CI-trigger files have been removed. The canonical product lifecycle records must state **In Progress** while PR #130 remains unmerged; historical Design Acceptance evidence remains historical and is not rewritten.
