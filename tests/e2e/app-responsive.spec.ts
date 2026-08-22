@@ -317,10 +317,20 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await expect(asCourseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
   await expect(aLevelCourseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
 
-  const contextualCourses = page.getByRole('group', { name: 'Courses navigation' })
-  await expect(contextualCourses.getByRole('button', { name: 'All courses' })).toBeVisible()
-  await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
-  await expect(contextualCourses.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    const contextualCourses = drawer.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'All courses' })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+    await drawer.getByRole('button', { name: 'Close menu' }).click()
+    await expect(drawer).toHaveCount(0)
+  } else {
+    const contextualCourses = page.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'All courses' })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  }
   await expectNoPageOverflow(page)
 
   await asCourseCard.getByRole('button', { name: 'Open course' }).click()
@@ -333,7 +343,16 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await expect(asCourseNav.getByRole('button', { name: 'Practice' })).toBeVisible()
   await expect(asCourseNav.getByRole('button', { name: 'Exam Prep' })).toBeVisible()
   await expect(asCourseNav.getByRole('button', { name: 'Progress' })).toBeVisible()
-  await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business Learn' })).toBeVisible()
+
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    const contextualCourses = drawer.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business Learn' })).toBeVisible()
+    await drawer.getByRole('button', { name: 'Close menu' }).click()
+    await expect(drawer).toHaveCount(0)
+  } else {
+    await expect(page.getByRole('group', { name: 'Courses navigation' }).getByRole('button', { name: 'AQA AS Business Learn' })).toBeVisible()
+  }
 
   await asCourseNav.getByRole('button', { name: 'Learn' }).click()
   await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
