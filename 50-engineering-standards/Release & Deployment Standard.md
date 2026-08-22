@@ -21,6 +21,8 @@ supersedes: null
 - Only validated production build artifacts may be deployed.
 - CI selects assurance depth using change risk, with critical shared areas escalating automatically.
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
+- **Revision operates with startup pace and enterprise-grade production discipline: speed must come from automation, proportionate assurance and clear ownership, not from bypassing required controls.**
+- **When a required production condition, approval, integration state or assurance result is unknown, release must fail closed rather than assume success.**
 - **`main` is the single canonical integrated product state. Governed work reaches production only through a PR-based integration path.**
 - **Revision supports multiple concurrent branches and PRs. Branches do not need continuous rebasing during active work, but every merge candidate must be validated in combination with the then-current `main` before merge.**
 - Explicit Founder approval remains required for every merge to `main`.
@@ -65,6 +67,16 @@ If `main` advances after approval but before merge:
 - if conflict resolution or any other change alters the PR delta materially, return to the Founder with the changed proposal and obtain renewed approval.
 
 This distinction preserves the Founder production gate without making the Founder responsible for branch-management mechanics.
+
+## Continuous delivery improvement
+
+The delivery system itself is subject to continuous improvement.
+
+- Repeated CI churn, stale-branch problems, near misses, release defects, avoidable manual steps or unclear ownership should be treated as signals to improve tooling or governance.
+- Improvement proposals should favour automation, simpler controls and shorter feedback loops where those changes preserve or strengthen production safety.
+- Process should be proportionate to risk; enterprise-grade does not mean maximum ceremony for every change.
+- Material changes to approval boundaries, production controls or governance still require documented Founder-approved change before they become authoritative.
+- Historical incidents and audits remain evidence; they are not rewritten merely because the process later improves.
 
 ## Repository enforcement target
 
