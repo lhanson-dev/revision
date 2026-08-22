@@ -3,6 +3,8 @@ import { expect, test, type Locator, type Page } from '@playwright/test'
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000124'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 function isResponsiveLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
@@ -58,6 +60,19 @@ async function seedSession(page: Page) {
 
   await page.route('**/rest/v1/profiles**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify({ is_admin: false }) })
+  })
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
 
   for (const endpoint of [
@@ -190,13 +205,9 @@ test('dark theme is coherent across the complete learner application and account
   await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
   await auditRuntime(page, 'Progress')
 
-  await clickNavigation(page, 'Subjects')
-  await expect(page.getByRole('heading', { name: 'Subjects', exact: true })).toBeVisible()
-  await auditRuntime(page, 'Subjects')
-
-  await clickNavigation(page, 'Business')
-  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
-  await auditRuntime(page, 'Subject')
+  await clickNavigation(page, 'Courses')
+  await expect(page.getByRole('heading', { name: 'Courses', exact: true })).toBeVisible()
+  await auditRuntime(page, 'Courses')
 
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
