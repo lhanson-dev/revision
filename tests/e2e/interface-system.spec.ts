@@ -163,4 +163,53 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   await expect(appearance).toHaveClass(/ui-segmented-control/)
   await expect(appearance.getByRole('button', { name: 'Light' })).toHaveClass(/ui-button/)
   await expect(appearance.getByRole('button', { name: 'Dark' })).toHaveClass(/ui-button/)
+
+  const lightStyles = await modal.evaluate((element) => {
+    const runtimeElement = element.closest('.planner-runtime')
+    const modalStyle = getComputedStyle(element)
+    const runtimeStyle = runtimeElement ? getComputedStyle(runtimeElement) : null
+    return {
+      background: modalStyle.backgroundColor,
+      color: modalStyle.color,
+      expectedBackground: runtimeStyle?.getPropertyValue('--color-surface-elevated').trim() ?? '',
+      expectedColor: runtimeStyle?.getPropertyValue('--color-text').trim() ?? '',
+    }
+  })
+
+  await appearance.getByRole('button', { name: 'Dark' }).click()
+  await expect(runtime).toHaveAttribute('data-theme', 'dark')
+
+  const darkStyles = await modal.evaluate((element) => {
+    const runtimeElement = element.closest('.planner-runtime')
+    const modalStyle = getComputedStyle(element)
+    const runtimeStyle = runtimeElement ? getComputedStyle(runtimeElement) : null
+    return {
+      background: modalStyle.backgroundColor,
+      color: modalStyle.color,
+      expectedBackground: runtimeStyle?.getPropertyValue('--color-surface-elevated').trim() ?? '',
+      expectedColor: runtimeStyle?.getPropertyValue('--color-text').trim() ?? '',
+    }
+  })
+
+  expect(darkStyles.background).not.toBe(lightStyles.background)
+  expect(darkStyles.color).not.toBe(lightStyles.color)
+  expect(darkStyles.expectedBackground).not.toBe(lightStyles.expectedBackground)
+  expect(darkStyles.expectedColor).not.toBe(lightStyles.expectedColor)
+
+  const fieldStyles = await firstName.evaluate((element) => {
+    const runtimeElement = element.closest('.planner-runtime')
+    const fieldStyle = getComputedStyle(element)
+    const runtimeStyle = runtimeElement ? getComputedStyle(runtimeElement) : null
+    return {
+      background: fieldStyle.backgroundColor,
+      color: fieldStyle.color,
+      expectedSurface: runtimeStyle?.getPropertyValue('--color-surface').trim() ?? '',
+      expectedText: runtimeStyle?.getPropertyValue('--color-text').trim() ?? '',
+    }
+  })
+
+  expect(fieldStyles.background).not.toBe('rgb(255, 255, 255)')
+  expect(fieldStyles.color).not.toBe('rgb(29, 39, 51)')
+  expect(fieldStyles.expectedSurface).toBeTruthy()
+  expect(fieldStyles.expectedText).toBeTruthy()
 })
