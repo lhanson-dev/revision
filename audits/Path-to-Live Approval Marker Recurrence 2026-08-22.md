@@ -1,7 +1,7 @@
 # Path-to-Live Approval Marker Recurrence — 2026-08-22
 
 **Type:** Incident / assurance evidence  
-**Status:** Open pending governed recovery  
+**Status:** Closed on Recovery 3 production evidence  
 **Affected control:** PTL-02 / PTL-03 — governed merge evidence and production path-to-live
 
 ## Summary
@@ -42,7 +42,7 @@ Current governance deliberately treats prose and the exact machine-readable mark
 
 ## Classification
 
-**P1.** The governed path from approved `main` to production is blocked while an older known-good production deployment remains available. The release verifier correctly failed closed and prevented an unproven production release.
+**P1.** At detection time, the governed path from approved `main` to production was blocked while an older known-good production deployment remained available. The release verifier correctly failed closed and prevented an unproven production release.
 
 ## Root cause
 
@@ -52,23 +52,31 @@ The post-merge verifier protected PROD but could not prevent the repository merg
 
 ## Recovery approach
 
-ADR-0016 proposes:
+ADR-0016 approved:
 
 1. a third exceptional bootstrap recovery checkpoint rooted at the exact failed pre-remediation `main` commit `ad112f426b7f8430ddb03f2b0979e2706cb59c38`;
 2. preservation of all historical PR comments and failed release statuses;
 3. full CI, explicit Founder merge approval and exact marker verification for the recovery PR; and
 4. a new pre-merge `revision/founder-approval` commit-status gate tied to exact-head CI and marker evidence.
 
-## Closure criteria
+## Closure evidence
 
-The incident is not closed on merge alone. Closure requires:
+Recovery 3 completed through PR #112:
 
-- the recovery PR to satisfy its exact-head/current-main integration controls;
-- governed release lineage to pass;
-- production backend readiness to pass;
-- production build and Pages deployment to pass;
-- production smoke to pass;
-- durable `revision/path-to-live = success` on the recovery merge commit; and
-- the new pre-merge Founder approval status workflow to be present on `main` for prospective PRs.
+- final PR head: `c2d94210aa48b0e5b078b730d812857b77448989`;
+- Revision CI: #658 — successful;
+- exact Founder approval marker comment: `5379367930`, created after CI and re-read before merge;
+- merge commit: `62d75df280ac0ba5b0df72916b9394ecb8de75b5`;
+- production run: `32562931908`;
+- governed release lineage: success;
+- production backend readiness: success;
+- production build: success;
+- GitHub Pages deployment: success;
+- production smoke: success;
+- durable `revision/path-to-live`: success.
 
-Repository-level configuration making that status a required branch check is a further hardening action where GitHub settings support it; lack of that setting must remain explicit rather than being represented as already enforced.
+The `revision/founder-approval` pre-merge workflow introduced by PR #112 is present on `main` and therefore applies prospectively to subsequent release-governed PRs.
+
+All incident closure criteria are satisfied. DEF-2026-006 can be closed on this production evidence rather than on merge alone.
+
+Repository-level configuration making the new status a required branch check remains a further hardening action where GitHub settings support it. That setting is not represented as enabled unless independently verified.
