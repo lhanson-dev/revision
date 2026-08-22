@@ -4,24 +4,6 @@ const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000124'
 
-const forbiddenDarkBackgrounds = new Set([
-  'rgb(255, 255, 255)',
-  'rgb(241, 248, 244)',
-  'rgb(243, 246, 249)',
-  'rgb(250, 251, 252)',
-  'rgb(237, 242, 245)',
-])
-
-const forbiddenLegacyText = new Set([
-  'rgb(29, 39, 51)',
-  'rgb(16, 36, 61)',
-  'rgb(31, 41, 55)',
-  'rgb(51, 65, 85)',
-  'rgb(55, 65, 81)',
-  'rgb(71, 85, 105)',
-  'rgb(100, 116, 139)',
-])
-
 function isResponsiveLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
 }
