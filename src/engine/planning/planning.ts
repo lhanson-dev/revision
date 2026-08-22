@@ -16,6 +16,7 @@ export type PlannerCapacityState = 'normal' | 'prioritising'
 export interface PlannerCandidate {
   id: string
   subjectId: string
+  courseId?: string
   assessmentId: string
   topicId: string
   activityType: string
@@ -45,6 +46,7 @@ export interface PlannerItem {
   recommendationId: string
   candidateId: string
   subjectId: string
+  courseId?: string
   assessmentId: string
   topicId: string
   activityType: string
@@ -126,7 +128,7 @@ function usefulCandidate(candidate: RankedPlannerCandidate) {
 }
 
 function recommendationId(candidate: PlannerCandidate) {
-  return `planner-v1:${candidate.assessmentId}:${candidate.topicId}:${candidate.activityType}`
+  return `planner-v1:${candidate.assessmentId}:${candidate.courseId ?? candidate.subjectId}:${candidate.topicId}:${candidate.activityType}`
 }
 
 export function buildAdaptivePlan(
@@ -160,6 +162,7 @@ export function buildAdaptivePlan(
       recommendationId: recommendationId(candidate),
       candidateId: candidate.id,
       subjectId: candidate.subjectId,
+      courseId: candidate.courseId,
       assessmentId: candidate.assessmentId,
       topicId: candidate.topicId,
       activityType: candidate.activityType,
