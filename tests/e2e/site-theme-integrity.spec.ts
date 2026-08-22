@@ -136,6 +136,40 @@ async function assertNoLegacyThemeLeaks(root: Locator, label: string) {
   expect(findings, `${label} theme leaks:\n${findings.join('\n')}`).toEqual([])
 }
 
+async function assertSemanticSurface(locator: Locator, token: string, label: string) {
+  const values = await locator.evaluate((element, tokenName) => {
+    const probe = document.createElement('div')
+    probe.style.position = 'fixed'
+    probe.style.visibility = 'hidden'
+    probe.style.background = `var(${tokenName})`
+    element.appendChild(probe)
+    const expected = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return {
+      actual: getComputedStyle(element).backgroundColor,
+      expected,
+    }
+  }, token)
+  expect(values.actual, `${label} must resolve ${token}, not a legacy or light-only surface`).toBe(values.expected)
+}
+
+async function assertSemanticText(locator: Locator, token: string, label: string) {
+  const values = await locator.evaluate((element, tokenName) => {
+    const probe = document.createElement('span')
+    probe.style.position = 'fixed'
+    probe.style.visibility = 'hidden'
+    probe.style.color = `var(${tokenName})`
+    element.appendChild(probe)
+    const expected = getComputedStyle(probe).color
+    probe.remove()
+    return {
+      actual: getComputedStyle(element).color,
+      expected,
+    }
+  }, token)
+  expect(values.actual, `${label} must resolve ${token}`).toBe(values.expected)
+}
+
 async function auditRuntime(page: Page, label: string) {
   const runtime = page.locator('.planner-runtime')
   await expect(runtime).toHaveAttribute('data-theme', 'dark')
@@ -174,7 +208,13 @@ test('dark theme is coherent across the complete learner application and account
 
   await clickNavigation(page, 'AQA AS Business Practice')
   await expect(page.getByRole('heading', { name: /Practice · AQA AS Business/ })).toBeVisible()
-  await auditRuntime(page, 'Practice')
+  const recommendation = page.locator('.focused-practice .recommendation-card')
+  await expect(recommendation, 'Practice must exercise the visible REV recommends state').toBeVisible()
+  await expect(recommendation.getByText('REV recommends', { exact: true })).toBeVisible()
+  await assertSemanticSurface(recommendation, '--color-surface-soft', 'Practice REV recommends card')
+  await assertSemanticText(recommendation.getByRole('heading').first(), '--color-text', 'Practice REV recommends heading')
+  await assertSemanticText(recommendation.getByText('REV recommends', { exact: true }), '--color-accent-text', 'Practice REV recommends eyebrow')
+  await auditRuntime(page, 'Practice with REV recommendation')
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: /Exam technique · AQA AS Business/ })).toBeVisible()
