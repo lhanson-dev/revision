@@ -29,6 +29,7 @@ import './app/interface-plan-progress.css'
 import './app/interface-subjects-course.css'
 import './app/interface-learn-practice.css'
 import './app/interface-exam-experience.css'
+import './app/interface-admin.css'
 
 const root = document.getElementById('root')
 
