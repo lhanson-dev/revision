@@ -21,12 +21,12 @@ supersedes: null
 - Only validated production build artifacts may be deployed.
 - CI selects assurance depth using change risk, with critical shared areas escalating automatically.
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
-- **`main` is the single canonical integration baseline. A PR must include the latest `main` as an ancestor before it enters final exact-head assurance or Founder merge approval.**
-- **Parallel branches may be developed concurrently, but final integration is serialized: one PR occupies the merge gate at a time, and the next ready PR refreshes against the `main` produced by the preceding merge.**
+- **`main` is the single canonical integrated product state. Governed work reaches production only through a PR-based integration path.**
+- **Revision supports multiple concurrent branches and PRs. Branches do not need continuous rebasing during active work, but every merge candidate must be validated in combination with the then-current `main` before merge.**
 - Explicit Founder approval remains required for every merge to `main`.
-- **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that merge. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that exact-head evidence before merge. The Founder must not be asked to repeat approval or perform a separate release-registration step.**
-- **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence and must not be substituted or converted retrospectively after merge.**
-- **If `main` advances after the PR was refreshed, assured or approved, the PR must be refreshed onto the new canonical baseline. The new exact head requires fresh applicable assurance and renewed Founder merge approval.**
+- **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that proposed production change. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that evidence before merge. The Founder must not be asked to perform Git bookkeeping.**
+- **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence.**
+- **A purely mechanical refresh from newer `main` may retain the existing Founder approval only when the PR delta is demonstrably unchanged, no substantive conflict resolution occurred and fresh required assurance passes. A material change to the PR delta requires renewed Founder approval.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
@@ -34,30 +34,60 @@ supersedes: null
 - Database migrations should be forward-safe and backward-compatible where practical.
 - One production environment is sufficient until an additional environment has a demonstrated operational benefit.
 
-## Canonical integration and merge-queue rule
+## Trunk-based integration model
 
-Revision supports concurrent delivery without accepting competing integration baselines.
+Revision uses short-lived branches around one protected trunk: `main`.
 
-- Governed branches start from the then-current approved `main`.
-- Active branches do not need continuous refresh merely because unrelated work merges.
-- When a PR is otherwise ready to become merge-ready, it enters the final integration gate and is refreshed onto the latest `main`.
-- Any overlapping shared file must be resolved to preserve the current `main` state plus the PR's intended delta. This applies particularly to knowledge indexes, governance registers, package manifests, shared routing/configuration, database migrations and other cumulative files.
-- A refresh that changes the PR head invalidates earlier exact-head CI and any earlier merge approval.
-- Only one PR should occupy the final integration gate at a time. Other completed PRs wait outside the gate instead of repeatedly chasing a moving `main`.
-- Immediately before merge, the executing agent must confirm that the approved PR head still contains the current `main` as an ancestor.
+Multiple feature, defect, governance and maintenance PRs may be developed and become ready concurrently. The repository/integration process, not the Founder, is responsible for safely ordering merges.
 
-This is the default manual merge queue until a separately governed automated merge queue is introduced. Technical mergeability alone does not satisfy the canonical-baseline rule.
+For each PR approaching merge:
+
+- establish the current `main` state;
+- validate the proposed PR change together with current `main`;
+- use a native merge queue when repository ownership/plan and governed workflow support one;
+- otherwise update/rebase/merge current `main` into the PR branch before final merge assurance;
+- deliberately resolve any shared-file or behavioural overlap;
+- preserve newer cumulative `main` content plus the PR's intended delta; and
+- run the required assurance against the final integration candidate.
+
+A repository-native merge queue is preferable on a sufficiently busy repository because it can test queued PRs against the latest base automatically. Where that capability is unavailable, Revision applies the equivalent integration check explicitly.
+
+Governance does **not** require that only one PR may be review-ready at a time. Merges themselves are ordered because each successful merge creates the next canonical `main` state.
+
+## Founder approval and integration refresh
+
+Founder approval is approval of the specific PR change proposed for production.
+
+If `main` advances after approval but before merge:
+
+- revalidate the PR with the new `main`;
+- if this is a conflict-free/mechanical baseline refresh and the PR delta remains materially unchanged, rerun assurance and regenerate the required exact-head approval evidence without requiring the Founder to approve the same unchanged work again;
+- if conflict resolution or any other change alters the PR delta materially, return to the Founder with the changed proposal and obtain renewed approval.
+
+This distinction preserves the Founder production gate without making the Founder responsible for branch-management mechanics.
+
+## Repository enforcement target
+
+Where GitHub supports the relevant controls, `main` should be protected so that:
+
+- changes arrive through pull requests;
+- required Revision CI/status checks pass before merge;
+- force pushes and deletion are blocked;
+- the governed merge path cannot be silently bypassed; and
+- the merge candidate is integrated with current `main` before acceptance.
+
+If repository-level enforcement is not available for a control, the operating agent must perform the equivalent governed verification explicitly and record the evidence.
 
 ## Path-to-live evidence chain
 Revision treats path-to-live as a chain of separately evidenced stages rather than one green status:
 
 1. **Change classification** — determine the change risk and affected journeys/controls.
-2. **Change assurance before integration** — complete the implementation/documentation work and proportionate branch-level checks required to make the PR otherwise ready.
-3. **Canonical-main integration** — refresh the PR onto the latest `main`, deliberately resolve any overlap/conflict and prove the refreshed head contains that `main` baseline.
-4. **Exact-head assurance** — required Revision CI for the refreshed proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
-5. **Founder gate** — explicit approval is recorded for that specific refreshed PR head. The operating agent persists and verifies the required exact-head GitHub evidence as part of carrying out the approved merge; this is not a second Founder action.
-6. **Pre-merge baseline recheck** — confirm `main` has not advanced since the approved head was refreshed. If it has, return to canonical-main integration and repeat exact-head assurance and Founder approval on the new head.
-7. **Merge** — the approved, durably evidenced and current-main-baselined head is merged into `main`.
+2. **Branch assurance** — complete implementation/documentation work and proportionate checks required to make the PR ready for final integration.
+3. **Current-main integration** — validate the proposed change in combination with the then-current `main`, resolving overlap deliberately.
+4. **Final assurance** — required Revision CI/checks for the final integration candidate pass at the proportionate depth defined by the Testing & Assurance Standard.
+5. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence as part of carrying out that approval.
+6. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above.
+7. **Merge** — the approved and validated change is merged into `main`.
 8. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
 9. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
 10. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
