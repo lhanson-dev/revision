@@ -48,13 +48,15 @@ Migration `supabase/migrations/20260822193800_add_learner_courses.sql` creates:
 - `created_at timestamptz`;
 - primary key `(user_id, course_id)` preventing duplicate membership.
 
-The client receives only `select`, `insert` and `delete`. RLS requires `(select auth.uid()) = user_id` for authenticated learners. Anonymous access is revoked.
+The browser client receives only `select`, `insert` and `delete`. RLS requires `(select auth.uid()) = user_id` for authenticated learners. Anonymous access is revoked.
+
+The protected server-side `service_role` receives **read-only `select`** access so authorised operations/assurance can inspect programme state without creating a second service-level mutation path. FI-020 does not grant `service_role` insert, update or delete on learner-course membership.
 
 ### `public.learner_course_events`
 
 A bounded telemetry table records FI-020 adoption/assurance events such as Add Course opened, course added/removed, course opened and catalogue-integrity exceptions. It is not learning evidence.
 
-Learners may insert/select only their own event rows. They cannot update/delete telemetry through the client.
+Learners may insert/select only their own event rows. They cannot update/delete telemetry through the client. Protected server-side operations receive read-only `select` access for aggregate/assurance inspection and no FI-020 service-role mutation grants.
 
 ## Existing-user compatibility
 
@@ -112,6 +114,7 @@ The PR carries repeatable assurance for:
 - migration replay in isolated Supabase;
 - authenticated owner-only membership RLS and explicit browser grants;
 - anonymous and cross-user membership denial;
+- protected service-role read access with no FI-020 service-role insert/update/delete grants;
 - composite-key duplicate prevention;
 - own-row course-event insert/select with update/delete denied;
 - `courses-v1` readiness and `SECURITY INVOKER` security mode;
@@ -139,4 +142,4 @@ After explicit Founder approval and merge, the resulting `main` revision must st
 
 ## Documentation impact
 
-README, Target System Architecture, Production Backend Readiness Gate, Assurance Coverage Register and INDEX are aligned on this implementation branch. Temporary branch-only scope/status/CI-trigger files have been removed. The canonical product lifecycle records must state **In Progress** while PR #130 remains unmerged; historical Design Acceptance evidence remains historical and is not rewritten.
+README, Target System Architecture, Production Backend Readiness Gate, Assurance Coverage Register and INDEX are aligned on this implementation branch. This document additionally records the least-privilege service-role read boundary discovered and corrected during final browser-backed assurance. Temporary branch-only scope/status/CI-trigger files have been removed. The canonical product lifecycle records state **In Progress** while PR #130 remains unmerged; historical Design Acceptance evidence remains historical and is not rewritten.
