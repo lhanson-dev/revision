@@ -1,0 +1,678 @@
+/*
+ * Interface System B4 — Learn and Practice migration.
+ *
+ * This layer deliberately loads after legacy app.css and the B3 migration layer.
+ * It translates the canonical FocusedLearningWorkspace onto central semantic roles
+ * without changing learning content, evidence, readiness, persistence or routing.
+ */
+
+.planner-runtime .focused-workspace {
+  margin-top: var(--space-5);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: none;
+  font-family: var(--font-family-product);
+}
+
+.planner-runtime .focused-workspace .workspace-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  align-items: end;
+  gap: var(--space-8);
+}
+
+.planner-runtime .focused-workspace .workspace-heading > div {
+  min-width: 0;
+}
+
+.planner-runtime .focused-workspace .workspace-heading h2 {
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+  letter-spacing: normal;
+}
+
+.planner-runtime .focused-workspace .workspace-heading .muted {
+  max-width: 720px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .focused-workspace .eyebrow {
+  margin: 0;
+  color: var(--color-accent-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+  letter-spacing: .06em;
+}
+
+.planner-runtime .focused-workspace .topic-picker {
+  min-width: 0;
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .focused-workspace .topic-picker select {
+  display: block;
+  width: 100%;
+  min-height: var(--field-height-standard);
+  margin-top: var(--space-2);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  transition:
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .focused-workspace .topic-picker select:hover {
+  border-color: color-mix(in srgb, var(--color-text-secondary) 44%, var(--color-border));
+}
+
+.planner-runtime .focused-workspace .topic-picker select:focus-visible {
+  outline: none;
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+
+/*
+ * Activity choice stays available but visually secondary to the working task.
+ * Only the selected activity is rendered by FocusedLearningWorkspace, so the
+ * working surface itself remains the primary focus and detail is disclosed on demand.
+ */
+.planner-runtime .focused-workspace .mode-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.planner-runtime .focused-workspace .mode-tabs button {
+  flex: 0 0 auto;
+  min-height: var(--control-height-compact);
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-compact);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  transition:
+    background var(--motion-fast) var(--motion-ease-standard),
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    color var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .focused-workspace .mode-tabs button:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-workspace .mode-tabs button.active {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-raised);
+}
+
+.planner-runtime .focused-workspace .mode-tabs button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .focused-workspace .practice-card,
+.planner-runtime .focused-workspace .learn-panel {
+  margin-top: var(--space-8);
+  padding: 0;
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-learn .learn-panel {
+  max-width: 760px;
+}
+
+.planner-runtime .focused-practice .practice-card {
+  max-width: 820px;
+}
+
+.planner-runtime .focused-practice .learn-panel,
+.planner-runtime .focused-exam-prep .learn-panel {
+  max-width: 1100px;
+}
+
+.planner-runtime .focused-workspace .practice-card > h3,
+.planner-runtime .focused-workspace .learn-panel > h3,
+.planner-runtime .focused-workspace .written-practice > h3,
+.planner-runtime .focused-workspace .practice-box > h3 {
+  margin: var(--space-3) 0 var(--space-5);
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  font-weight: var(--type-h3-weight);
+  letter-spacing: normal;
+}
+
+.planner-runtime .focused-workspace .practice-meta,
+.planner-runtime .focused-workspace .small-note {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: var(--type-caption-weight);
+}
+
+.planner-runtime .focused-workspace .activity-kind {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  align-items: start;
+  margin: 0 0 var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .focused-workspace .activity-kind strong {
+  color: var(--color-text);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .focused-workspace .activity-kind.scored {
+  border-color: color-mix(in srgb, var(--status-info-fg) 28%, var(--color-border));
+  background: color-mix(in srgb, var(--status-info-fg) 7%, var(--color-surface));
+}
+
+.planner-runtime .focused-workspace .activity-kind.scored strong {
+  color: var(--status-info-fg);
+}
+
+/* Learn is a reading workspace, not a card dashboard. */
+.planner-runtime .focused-learn .section-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.planner-runtime .focused-workspace .learn-section,
+.planner-runtime .focused-workspace .link-list article,
+.planner-runtime .focused-workspace .practice-box,
+.planner-runtime .focused-workspace .written-practice,
+.planner-runtime .focused-workspace .case-material {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.planner-runtime .focused-workspace .learn-section,
+.planner-runtime .focused-workspace .link-list article {
+  padding: var(--space-5) var(--space-6);
+}
+
+.planner-runtime .focused-workspace .learn-section h4,
+.planner-runtime .focused-workspace .technique-card h4 {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  font-weight: var(--type-h4-weight);
+}
+
+.planner-runtime .focused-workspace .learn-section ul,
+.planner-runtime .focused-workspace .answer-panel ul,
+.planner-runtime .focused-workspace .technique-steps {
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .focused-workspace .learn-section li + li,
+.planner-runtime .focused-workspace .answer-panel li + li,
+.planner-runtime .focused-workspace .technique-steps li + li {
+  margin-top: var(--space-2);
+}
+
+.planner-runtime .focused-workspace .link-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.planner-runtime .focused-workspace .link-list article strong,
+.planner-runtime .focused-workspace .rating-prompt,
+.planner-runtime .focused-workspace .answer-label,
+.planner-runtime .focused-workspace .ao-grid label,
+.planner-runtime .focused-workspace .mark-total {
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-workspace .link-list article p,
+.planner-runtime .focused-workspace .case-material,
+.planner-runtime .focused-workspace .exam-context,
+.planner-runtime .focused-workspace .result-explanation span,
+.planner-runtime .focused-workspace .next-step span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+/* Reveal / answer / feedback states use bounded semantic surfaces. */
+.planner-runtime .focused-workspace .answer-panel {
+  margin: var(--space-5) 0;
+  padding: var(--space-5);
+  border: 1px solid color-mix(in srgb, var(--color-action) 28%, var(--color-border));
+  border-left: var(--space-1) solid var(--color-action);
+  border-radius: var(--radius-compact);
+  background: color-mix(in srgb, var(--color-action) 7%, var(--color-surface));
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .focused-workspace .answer-panel strong {
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-workspace .next-step,
+.planner-runtime .focused-workspace .result-explanation {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-left: var(--space-1) solid var(--color-inverse-action);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .focused-workspace .result-explanation {
+  border-left-color: var(--status-success-fg);
+  background: color-mix(in srgb, var(--status-success-fg) 8%, var(--color-surface));
+}
+
+.planner-runtime .focused-workspace .result-explanation strong {
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .focused-workspace .option-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+}
+
+.planner-runtime .focused-workspace .option-list label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  min-height: var(--field-height-standard);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    background var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .focused-workspace .option-list label:hover {
+  border-color: color-mix(in srgb, var(--color-text-secondary) 44%, var(--color-border));
+}
+
+.planner-runtime .focused-workspace .option-list label:focus-within {
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .focused-workspace .option-list label.correct {
+  border-color: color-mix(in srgb, var(--status-success-fg) 58%, var(--color-border));
+  background: color-mix(in srgb, var(--status-success-fg) 10%, var(--color-surface));
+}
+
+.planner-runtime .focused-workspace .option-list label.incorrect {
+  border-color: color-mix(in srgb, var(--status-error-fg) 58%, var(--color-border));
+  background: color-mix(in srgb, var(--status-error-fg) 10%, var(--color-surface));
+}
+
+.planner-runtime .focused-workspace .option-list input {
+  inline-size: var(--space-5);
+  block-size: var(--space-5);
+  margin: var(--space-1) 0 0;
+  accent-color: var(--color-action);
+}
+
+.planner-runtime .focused-workspace .rating-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.planner-runtime .focused-workspace .rating-actions button,
+.planner-runtime .focused-workspace .primary,
+.planner-runtime .focused-workspace .secondary {
+  min-height: var(--control-height-standard);
+  border-radius: var(--radius-control);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  transition:
+    transform var(--motion-fast) var(--motion-ease-standard),
+    background var(--motion-fast) var(--motion-ease-standard),
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .focused-workspace .primary {
+  padding: 0 var(--space-5);
+  border: 1px solid var(--color-action);
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.planner-runtime .focused-workspace .secondary,
+.planner-runtime .focused-workspace .rating-actions button {
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-workspace .primary:hover:not(:disabled),
+.planner-runtime .focused-workspace .secondary:hover:not(:disabled),
+.planner-runtime .focused-workspace .rating-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-raised);
+}
+
+.planner-runtime .focused-workspace .primary:focus-visible,
+.planner-runtime .focused-workspace .secondary:focus-visible,
+.planner-runtime .focused-workspace .rating-actions button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .focused-workspace button:disabled,
+.planner-runtime .focused-workspace textarea:disabled,
+.planner-runtime .focused-workspace input:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+.planner-runtime .focused-workspace .practice-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.planner-runtime .focused-workspace .practice-box,
+.planner-runtime .focused-workspace .written-practice,
+.planner-runtime .focused-workspace .case-material {
+  padding: var(--space-6);
+}
+
+.planner-runtime .focused-workspace .case-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.planner-runtime .focused-workspace .fact-chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+.planner-runtime .focused-workspace .fact-chips span {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: var(--type-caption-weight);
+}
+
+.planner-runtime .focused-workspace .answer-label {
+  display: block;
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .focused-workspace .answer-label textarea {
+  display: block;
+  width: 100%;
+  min-height: 180px;
+  margin: var(--space-2) 0 var(--space-4);
+  padding: var(--space-4);
+  resize: vertical;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  transition:
+    border-color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .focused-workspace .answer-label textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .focused-workspace .answer-label textarea:focus-visible,
+.planner-runtime .focused-workspace .ao-grid input:focus-visible {
+  outline: none;
+  border-color: var(--color-action);
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .focused-workspace .exam-context,
+.planner-runtime .focused-workspace .self-mark-panel {
+  margin-bottom: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .focused-workspace .exam-context {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.planner-runtime .focused-workspace .ao-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.planner-runtime .focused-workspace .ao-grid label {
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .focused-workspace .ao-grid label span {
+  color: var(--color-text-secondary);
+  font-weight: var(--type-caption-weight);
+}
+
+.planner-runtime .focused-workspace .ao-grid input {
+  display: block;
+  width: 100%;
+  min-height: var(--control-height-standard);
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+}
+
+.planner-runtime .focused-workspace .mark-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.planner-runtime .focused-workspace .mark-total strong {
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+}
+
+.planner-runtime .focused-workspace .technique-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.planner-runtime .focused-workspace .technique-card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-workspace .technique-tip {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .focused-workspace .error {
+  margin-top: var(--space-4);
+  color: var(--status-error-fg);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .focused-workspace > .muted[aria-live="polite"] {
+  margin-top: var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+@media (max-width: 900px) {
+  .planner-runtime .focused-workspace .workspace-heading {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: var(--space-5);
+  }
+
+  .planner-runtime .focused-workspace .case-layout,
+  .planner-runtime .focused-workspace .technique-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .focused-workspace .ao-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .focused-workspace {
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .focused-workspace .mode-tabs {
+    margin-right: calc(var(--space-5) * -1);
+    margin-left: calc(var(--space-5) * -1);
+    padding-inline: var(--space-5);
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .planner-runtime .focused-workspace .activity-kind,
+  .planner-runtime .focused-workspace .next-step,
+  .planner-runtime .focused-workspace .result-explanation {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .focused-workspace .rating-actions,
+  .planner-runtime .focused-workspace .practice-split,
+  .planner-runtime .focused-workspace .ao-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .focused-workspace .practice-box,
+  .planner-runtime .focused-workspace .written-practice,
+  .planner-runtime .focused-workspace .case-material,
+  .planner-runtime .focused-workspace .technique-card {
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .focused-workspace .exam-context {
+    max-height: none;
+  }
+
+  .planner-runtime .focused-workspace .mark-total {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .focused-workspace .topic-picker select,
+  .planner-runtime .focused-workspace .mode-tabs button,
+  .planner-runtime .focused-workspace .option-list label,
+  .planner-runtime .focused-workspace .rating-actions button,
+  .planner-runtime .focused-workspace .primary,
+  .planner-runtime .focused-workspace .secondary,
+  .planner-runtime .focused-workspace .answer-label textarea {
+    transition: none;
+  }
+
+  .planner-runtime .focused-workspace .primary:hover:not(:disabled),
+  .planner-runtime .focused-workspace .secondary:hover:not(:disabled),
+  .planner-runtime .focused-workspace .rating-actions button:hover:not(:disabled) {
+    transform: none;
+  }
+}
