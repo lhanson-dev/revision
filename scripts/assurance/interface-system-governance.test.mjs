@@ -6,6 +6,7 @@ const interfaceSystem = readFileSync(new URL('../../src/app/interface-system.css
 const interfaceComponents = readFileSync(new URL('../../src/app/ui/ui-components.css', import.meta.url), 'utf8')
 const interfacePlanProgress = readFileSync(new URL('../../src/app/interface-plan-progress.css', import.meta.url), 'utf8')
 const interfaceSubjectsCourse = readFileSync(new URL('../../src/app/interface-subjects-course.css', import.meta.url), 'utf8')
+const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
 const componentIndex = readFileSync(new URL('../../src/app/ui/index.ts', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
 const brandAssetHelper = readFileSync(new URL('../../src/app/ui/BrandAsset.tsx', import.meta.url), 'utf8')
@@ -15,7 +16,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse]
+const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -65,6 +66,10 @@ describe('Revision Interface System governance', () => {
     expect(interfaceSubjectsCourse).toContain('font-size: var(--type-h1-size);')
     expect(interfaceSubjectsCourse).toContain('background: var(--color-surface);')
     expect(interfaceSubjectsCourse).toContain('border-radius: var(--radius-feature);')
+    expect(interfaceLearnPractice).toContain('font-family: var(--font-family-product);')
+    expect(interfaceLearnPractice).toContain('font-size: var(--type-h2-size);')
+    expect(interfaceLearnPractice).toContain('background: var(--color-surface);')
+    expect(interfaceLearnPractice).toContain('border-radius: var(--radius-surface);')
 
     for (const css of migratedInterfaceLayers) {
       expect(css).not.toMatch(/font-family:\s*Manrope/i)
@@ -86,6 +91,25 @@ describe('Revision Interface System governance', () => {
     expect(interfaceSubjectsCourse).toContain('var(--focus-ring)')
     expect(interfaceSubjectsCourse).toContain('@media (max-width: 620px)')
     expect(interfaceSubjectsCourse).toContain('@media (prefers-reduced-motion: reduce)')
+  })
+
+  it('keeps B4 Learn and Practice focused-work patterns on semantic interface roles', () => {
+    for (const selector of [
+      '.planner-runtime .focused-workspace',
+      '.planner-runtime .focused-workspace .mode-tabs',
+      '.planner-runtime .focused-workspace .answer-panel',
+      '.planner-runtime .focused-workspace .option-list label.correct',
+      '.planner-runtime .focused-workspace .answer-label textarea',
+    ]) {
+      expect(interfaceLearnPractice).toContain(selector)
+    }
+    expect(interfaceLearnPractice).toContain('var(--color-action)')
+    expect(interfaceLearnPractice).toContain('var(--status-success-fg)')
+    expect(interfaceLearnPractice).toContain('var(--status-error-fg)')
+    expect(interfaceLearnPractice).toContain('var(--status-info-fg)')
+    expect(interfaceLearnPractice).toContain('var(--focus-ring)')
+    expect(interfaceLearnPractice).toContain('@media (max-width: 620px)')
+    expect(interfaceLearnPractice).toContain('@media (prefers-reduced-motion: reduce)')
   })
 
   it('publishes the required reusable component registry before B3', () => {
