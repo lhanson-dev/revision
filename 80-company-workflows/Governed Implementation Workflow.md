@@ -42,6 +42,8 @@ While work is active:
 - do not continuously rebase every branch solely because `main` moved; and
 - do not allow an older branch copy of a shared file to overwrite newer `main` content.
 
+The Founder does not manage branch mechanics. The executing agent or engineering team is responsible for branch freshness, integration, conflict resolution, CI and merge evidence. The Founder is responsible for product/governance decisions and the explicit approval that a reviewed PR change may enter production.
+
 ## Final integration before merge
 
 When a PR is otherwise complete and is being prepared for production merge:
@@ -51,7 +53,7 @@ When a PR is otherwise complete and is being prepared for production merge:
 3. **Review overlap.** If both the PR and newer `main` changed the same responsibility or shared file, resolve the combined state deliberately.
 4. **Preserve cumulative truth.** Shared indexes, registers, manifests, routes, config and migrations must become `latest main + intended PR delta`, never `old branch version wins`.
 5. **Run final assurance.** The integration candidate must pass the required risk-proportionate CI/assurance.
-6. **Summarise for Founder approval.** Before production merge, present what the PR changes, material impact, assurance evidence, documentation impact, risks and any substantive conflict resolution.
+6. **Summarise for Founder approval.** Before production merge, present what the PR changes, material impact, assurance evidence, documentation impact, risks and any substantive conflict resolution in language that allows a non-developer Founder to make an informed decision.
 7. **Obtain explicit Founder merge approval.** The Founder approves the proposed change entering production; branch mechanics remain an engineering responsibility.
 
 There is no governance rule limiting Revision to one review-ready PR at a time. Actual merges are necessarily ordered because each successful merge changes `main`; the next merge candidate must therefore be checked against the resulting current `main` before it merges.
