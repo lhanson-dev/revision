@@ -1,0 +1,195 @@
+/* Revision Interface System — B2.5 reusable component anatomy. */
+
+.ui-page-header {
+  width: min(100%, 760px);
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-8);
+}
+
+.ui-page-header .eyebrow {
+  margin: 0;
+}
+
+.ui-page-header h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-h1-size);
+  font-weight: var(--type-h1-weight);
+  line-height: var(--type-h1-line);
+  letter-spacing: -.035em;
+}
+
+.ui-page-header > p:last-of-type {
+  max-width: 720px;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-l-size);
+  font-weight: var(--type-body-l-weight);
+  line-height: var(--type-body-l-line);
+}
+
+.ui-surface-component {
+  padding: var(--space-6);
+}
+
+.ui-empty-state,
+.ui-loading-state {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.ui-loading-state {
+  border-style: solid;
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+}
+
+.ui-empty-state h3,
+.ui-empty-state p,
+.ui-loading-state p {
+  margin: 0;
+}
+
+.ui-empty-state h3 {
+  font-size: var(--type-h4-size);
+  font-weight: var(--type-h4-weight);
+  line-height: var(--type-h4-line);
+}
+
+.ui-empty-state p,
+.ui-loading-state p {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.ui-empty-state__action {
+  margin-top: var(--space-2);
+}
+
+.ui-field-group {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-text);
+}
+
+.ui-field-label {
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-line);
+}
+
+.ui-field-support {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.ui-field--error {
+  border-color: var(--status-error-fg);
+}
+
+.ui-field-support--error {
+  color: var(--status-error-fg);
+}
+
+.ui-icon {
+  width: var(--icon-size-standard);
+  height: var(--icon-size-standard);
+  flex: 0 0 auto;
+  stroke-width: var(--icon-stroke-standard);
+}
+
+.ui-icon--inline {
+  width: var(--icon-size-inline);
+  height: var(--icon-size-inline);
+}
+
+.ui-icon--compact {
+  width: var(--icon-size-compact);
+  height: var(--icon-size-compact);
+}
+
+.ui-icon--large {
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+}
+
+.ui-status__content {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.ui-status__label {
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-line);
+}
+
+.ui-status__message {
+  color: inherit;
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.ui-modal-shell,
+.ui-drawer-shell,
+.ui-popover-shell {
+  position: relative;
+}
+
+.ui-brand-asset {
+  display: inline-grid;
+  align-items: center;
+}
+
+.ui-brand-asset__image {
+  grid-area: 1 / 1;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ui-brand-asset__image--dark {
+  visibility: hidden;
+}
+
+.planner-runtime[data-theme="dark"] .ui-brand-asset__image--light {
+  visibility: hidden;
+}
+
+.planner-runtime[data-theme="dark"] .ui-brand-asset__image--dark {
+  visibility: visible;
+}
+
+@media (max-width: 960px) {
+  .ui-page-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .ui-surface-component {
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 620px) {
+  .ui-page-header h1 {
+    letter-spacing: -.025em;
+  }
+
+  .ui-page-header > p:last-of-type {
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-line);
+  }
+
+  .ui-surface-component {
+    padding: var(--space-4);
+  }
+}

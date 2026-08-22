@@ -1,17 +1,18 @@
 # Revision Interface System Implementation
 
-**Status:** Increment B1 foundation live; Increment B2 Plan/Progress migration implemented by this increment; B2.5 foundation hardening required before B3  
+**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation implemented by PR #116 candidate  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
-**Scope:** current learner-runtime interface primitives, migration rules and bounded rollout sequence; this document does not redefine brand or product authority
+**Component registry:** `docs/technical/Interface System Component Registry.md`  
+**Scope:** current learner-runtime interface foundations, reusable components and bounded migration sequence; this document does not redefine brand or product authority
 
 ## Purpose
 
-Turn the approved Revision Brand System into a dependable production interface layer so new features inherit a coherent visual and interaction language instead of creating local cards, buttons, modals, menus, fields, radii, shadows, typography rules or motion rules.
+Turn the approved Revision Brand System into a dependable production interface layer so new features inherit a coherent visual and interaction language instead of creating local fonts, colours, cards, buttons, modals, menus, fields, radii, shadows, icons or theme rules.
 
-The goal is not to imitate another product's visual identity. Revision may take interaction-quality cues from polished conversational products such as ChatGPT — restrained surfaces, predictable overlays, progressive disclosure, stable geometry, quiet motion and strong responsive behaviour — while continuing to use Revision's own Calm Teal palette, Manrope typography, Living E, rounded-line iconography and learner experience principles.
+Revision may take interaction-quality cues from polished conversational products such as ChatGPT — restrained surfaces, predictable overlays, progressive disclosure, stable geometry, quiet motion and strong responsive behaviour — while retaining Revision's own Calm Teal palette, Manrope typography, Living E and learner experience principles.
 
-Enterprise consistency is an implementation requirement, not a visual preference. Shared foundations must be central, reusable and testable; page composition is the flexible layer.
+Enterprise consistency is an implementation requirement. Shared foundations and reusable anatomy are central; feature composition is the flexible layer.
 
 ## Canonical runtime
 
@@ -19,273 +20,198 @@ The governed learner application remains:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
-The interface-system layer is loaded by `src/main.tsx` after compatibility/feature styles so migrated primitives can provide the final governed treatment while older surfaces are moved in bounded increments.
+B2/B2.5 do not create a new runtime, route, service or persistence model.
 
-This is an implementation consolidation inside the approved `app` boundary. It does not create a new runtime, route, service or persistence model.
+Canonical learner-wide destinations relevant to this migration remain:
 
-### B2 canonical surfaces
+- Plan: `#/plan` → `PlannerRuntime` → `PlanScreen`;
+- Progress: `#/progress` → `PlannerRuntime` → compatibility `App` → `renderGlobalProgress()`.
 
-Increment B2 keeps the existing canonical routes and runtime ownership unchanged:
+Progress remains canonical even though its current renderer is delegated through the compatibility `App`. Interface migration does not require a large component extraction merely for styling.
 
-- **Plan:** `#/plan` → `PlannerRuntime` → `PlanScreen`;
-- **Progress:** `#/progress` → `PlannerRuntime` → compatibility `App` → `renderGlobalProgress()`.
+## Implementation stack
 
-Progress remains a canonical learner destination even though its current rendering is still delegated through `App`. B2 deliberately does not extract or restructure that large compatibility component merely to satisfy a visual migration. Instead, the canonical Progress route is migrated at the final composition/style layer using tightly scoped selectors and central roles. Any later runtime/component consolidation must be separately justified and must preserve evidence semantics and route behaviour.
+The production interface system now has five explicit layers:
 
-## Implementation model
-
-The production interface system follows the four-level Brand System model:
-
-1. **Foundation roles** — central CSS custom properties in `src/app/brand-tokens.css`.
-2. **Reusable primitives/components** — production classes in `src/app/interface-system.css`, with the reusable React component registry established during B2.5.
-3. **Surface families** — composition of primitives into Standard, Quiet, Interactive, Feature, Status, REV and other governed surface families.
-4. **Feature composition** — page-specific layout and educational interaction may vary without redefining the lower levels.
+1. **Normative visual/UX authority** — numbered governance documents.
+2. **Foundation roles** — `src/app/brand-tokens.css`.
+3. **Shared CSS primitives** — `src/app/interface-system.css`.
+4. **Reusable React component layer** — `src/app/ui/` with shared anatomy in `src/app/ui/ui-components.css`.
+5. **Feature composition** — bounded feature/page CSS and product-specific markup/logic.
 
 Feature CSS may own layout and genuinely feature-specific composition. It must not create a parallel design system.
 
-`src/app/interface-plan-progress.css` is the bounded B2 composition layer. It consumes the central roles and B1 primitives and is intentionally scoped to Plan and Progress. It introduces no new design-token namespace.
-
 ## Central foundation roles
 
-`brand-tokens.css` is the implementation single source for reusable learner-runtime roles including:
+`brand-tokens.css` is the single implementation source for reusable learner-runtime roles including:
 
 - Calm Teal and neutral foundations;
 - light/dark semantic colour roles;
 - semantic status roles;
 - Manrope font-family role;
-- approved responsive typography roles from Display XL through Caption;
-- radius and elevation families;
+- approved responsive type roles from Display XL through Caption;
+- radius/elevation families;
 - governed 4px spacing rhythm;
-- compact / standard / large control heights;
-- standard field, icon-button and recurring icon sizes/stroke roles;
-- shared interaction durations/easing;
-- overlay backdrop, blur and radius;
-- menu/menu-item radii; and
-- common focus-ring treatment.
+- compact/standard/large control heights;
+- standard field/icon-button/icon sizes and stroke role;
+- motion/easing;
+- overlay/focus roles; and
+- REV-derived roles.
 
-New shared components must consume these roles. Migrated interface layers must not create page-local colour palettes or type scales. Do not create a second token namespace inside a feature stylesheet.
+New shared components consume these roles. Migrated interface layers must not create page-local palettes or type scales.
 
-## Primitive contract
+## Shared CSS primitive contract
 
-Increment B1 establishes the following reusable production classes.
+`interface-system.css` supplies:
 
-### Surfaces
+- Standard, Quiet, Interactive, Feature and Floating surfaces;
+- overlay surface/backdrop treatment;
+- Primary, Strong, Secondary, Tertiary, Destructive, Compact and Large button rules;
+- standard icon-button treatment;
+- menu/menu-item grammar;
+- field anatomy;
+- segmented controls;
+- Success/Warning/Error/Information statuses; and
+- reduced-motion treatment.
 
-- `.ui-surface-standard` — ordinary content grouping.
-- `.ui-surface-quiet` — lower-priority supporting context.
-- `.ui-surface-interactive` — actionable/selectable grouping with restrained hover/focus elevation.
-- `.ui-surface-feature` — exceptional feature/editorial treatment.
-- `.ui-floating-surface` — popovers and compact floating menus.
+Compatibility selectors remain only for still-unmigrated live consumers and are retired in B7 after zero-live-consumer assurance.
 
-### Overlays
+## B2.5 reusable React layer
 
-- `.ui-overlay-backdrop` — shared dim/blur layer.
-- `.ui-overlay-surface` — modal/overlay frame treatment.
+`src/app/ui/index.ts` is the public component import boundary. The initial registry contains:
 
-Placement, dimensions and internal layout remain feature responsibilities. Surface treatment does not.
+- `PageHeader`;
+- `Surface`;
+- `Button` / `IconButton`;
+- `TextField` / `SelectField`;
+- `Status`;
+- `EmptyState` / `LoadingState`;
+- `ModalShell` / `DrawerShell` / `PopoverShell`;
+- `Menu` / `MenuItem`;
+- `SegmentedControl`;
+- `Icon`; and
+- `BrandAsset`.
 
-### Controls
+`src/app/ui/ui-components.css` owns shared component anatomy but consumes the existing token/primitive system. It contains no separate light/dark palette.
 
-- `.ui-button` with `--primary`, `--strong`, `--secondary`, `--tertiary`, `--destructive`, `--compact` and `--large` variants.
-- `.ui-icon-button` — standard 44×44 icon/close action.
-- `.ui-menu` and `.ui-menu-item` — recurring menu/progressive-disclosure pattern.
-- `.ui-field` — standard learner field anatomy.
-- `.ui-segmented-control` — bounded segmented selection container.
+### Controlled icon source
 
-### Feedback
+`src/app/ui/Icon.tsx` is the single general-purpose rounded-line product icon registry established by B2.5.
 
-- `.ui-status` with Success, Warning, Error and Information variants using the governed semantic roles.
+The registry:
 
-## Increment B1 migrated reference surfaces
+- renders inline SVG with `currentColor`;
+- uses central icon sizes/stroke role;
+- uses rounded caps/joins;
+- keeps product icons semantically neutral until used by their containing control/content; and
+- deliberately excludes the Living E because the Living E is identity, not a generic UI icon.
 
-The Profile/Settings account workspace is the first explicit adopter of the primitive classes:
+A missing recurring icon should be added here with assurance rather than imported ad hoc from a second library.
 
-- account backdrop → shared overlay backdrop;
-- account modal frame → shared overlay surface;
-- account section navigation → shared menu/menu-item primitives;
-- modal close action → shared icon-button primitive;
-- editable first-name field → shared field primitive;
-- save action → shared primary button primitive;
-- appearance selector → shared segmented-control/button primitives; and
-- profile identity panel → shared Quiet surface family.
+### Canonical runtime identity assets
 
-Existing canonical overlay surfaces are also bridged onto the same foundation roles so the visual grammar is immediately consistent while their markup migrates in later bounded work:
+`src/app/ui/BrandAsset.tsx` binds runtime use to approved assets already registered in `assets/brand/manifest.json`.
 
-- desktop account popover;
-- tablet/mobile navigation drawer and backdrop; and
-- contextual Ask REV overlay/backdrop.
+Current helper variants cover:
 
-The bridge is transitional. New code should use explicit `.ui-*` primitives rather than adding another compatibility selector.
+- primary Revision wordmark light/dark exports;
+- Living E Resting light/dark exports; and
+- Living E navigation light/dark exports.
 
-## Increment B2 migrated surfaces
+Both theme sources live in the same component structure; runtime `data-theme` plus central CSS selects the visible treatment. Pages do not invent local identity artwork or local dark-mode asset rules.
 
-B2 applies the interface grammar to the two learner-wide planning/evidence surfaces without changing their product behaviour.
+### First proof consumer
 
-### Plan
+`PlanScreen` is the first learner page to move from CSS-class-only primitive consumption to the reusable React registry. It now uses shared PageHeader, Surface, Status, Empty/Loading, Button and Field components.
 
-`PlanScreen` now explicitly consumes the B1 primitives:
+The planner calculation, reason codes, assessments, availability, persistence, activity events, labels and navigation behaviour are unchanged.
 
-- page title/intro use the B2 shared page-header rhythm and central typography roles;
-- ordinary planner groupings use Standard surfaces;
-- constrained-capacity guidance uses a Quiet surface;
-- load/save/error-information messaging uses shared Status treatment;
-- learner actions use Primary/Tertiary button primitives;
-- availability and assessment inputs/selects use the shared 48px Field primitive; and
-- loading and empty states use calm, bounded supporting treatments rather than generic card/shadow styling.
+## B1 and B2 current production state
 
-The planner calculation, reason codes, assessments, availability, persistence, activity events and navigation behaviour are unchanged.
+### B1 — foundation/account/overlay grammar
 
-### Progress
-
-Global Progress keeps its existing evidence calculations and canonical `#/progress` route. The B2 composition layer:
-
-- applies the same central page-header/type rhythm as Plan;
-- removes redundant outer card treatment from section wrappers so the page is not a stack of nested cards;
-- renders evidence-summary tiles and subject summaries as flat Standard surfaces with central radii, borders and theme roles;
-- aligns the existing subject action to the shared Primary control contract;
-- treats the no-activity state as a Quiet supporting state;
-- aligns contextual progress-load errors with the semantic Error surface; and
-- preserves existing evidence, readiness, confidence and recent-activity language.
-
-The legacy Progress markup is not rewritten merely for styling. This keeps B2 bounded and avoids coupling a visual migration to a large compatibility-component refactor.
-
-### Control/state boundary
-
-Plan and Progress do not currently contain a product-justified segmented-control interaction, so B2 does not invent one simply to exercise the primitive. Segmented controls remain available from B1 for surfaces that genuinely need bounded mutually exclusive selection.
-
-B2 covers only states that exist truthfully in the current implementation: Plan loading/information/empty states, Progress no-activity state, and existing contextual progress error state. It does not fabricate a separate Progress loading model or alter the evidence-loading contract.
-
-## Migration rules
-
-For a surface group to be considered migrated:
-
-1. colour, typography, border, radius, elevation, spacing, control sizing and standard motion must use central roles or interface primitives/components;
-2. new local hard-coded design values require a documented reason tied to feature-specific composition, not convenience;
-3. interaction states must include keyboard focus and cannot depend on hover alone;
-4. light and dark mode must use the same semantic roles and component structure rather than page-specific theme values;
-5. reduced-motion behaviour must remain valid;
-6. responsive behaviour must preserve the same hierarchy rather than merely shrink desktop UI;
-7. recurring icons and identity assets must come from controlled shared sources;
-8. legacy compatibility aliases may remain only where unmigrated live consumers still exist; and
-9. migration must not change educational logic, evidence semantics, entitlement behaviour or learner data contracts unless separately governed.
-
-`docs/technical/Interface System Operating Standard.md` is the detailed enterprise implementation gate for these rules.
-
-## Bounded rollout sequence
-
-The interface system should be migrated in small governed increments so Revision remains usable and regressions are attributable.
-
-### B1 — foundation, account and overlay grammar
-
-**Implemented and live.**
-
-- central spacing/control/motion/overlay roles;
-- reusable surface/control/feedback primitives;
-- Profile/Settings modal explicit adoption;
-- overlay/popover/drawer compatibility bridge;
-- targeted responsive browser assurance; and
-- technical migration contract.
+**Live.** Established central spacing/control/motion/overlay roles, shared primitive CSS, account workspace adoption and overlay compatibility bridge.
 
 ### B2 — Plan and Progress
 
-**Implemented by this increment.**
+**Live.** Established central responsive typography/icon roles and migrated Plan/Progress visual composition onto the governed page/surface/control/theme grammar. Production was verified on merge commit `609fc1247afa32d7d70fb32a87316dc1ce8939b7` with durable `revision/path-to-live = success`.
 
-- shared Plan/Progress page-header rhythm;
-- central responsive typography roles added to `brand-tokens.css` and consumed by the shared interface layer;
-- Plan explicit adoption of Standard/Quiet/Status surfaces, Primary/Tertiary buttons and shared fields;
-- global Progress flat Standard-surface composition with redundant outer cards removed;
-- truthful loading/empty/error treatments using shared semantic roles;
-- first-class light/dark treatment from central semantic roles;
-- phone/tablet/desktop responsive assurance;
-- interface-system governance tests that prevent migrated layers from defining local colour palettes and verify central typography roles; and
-- no planner, evidence, readiness, entitlement, persistence or route changes.
+## B2.5 current candidate state
 
-### B2.5 — foundation hardening before B3
+**Implemented on PR #116 branch; not live until Founder-approved merge and successful production evidence.**
 
-**Required next; no wider page-family migration should start before this is complete.**
+B2.5 provides the reusable component/icon/asset foundation required before B3:
 
-- establish a small reusable React component registry under `src/app/ui/` for recurring page/field/action/status/overlay anatomy;
-- establish one controlled rounded-line icon registry/wrapper using the approved icon roles;
-- provide approved runtime identity-asset helpers where theme/size selection is needed rather than redrawing assets;
-- provide a contributor/reference surface or equivalent examples sufficient to choose the correct existing component before creating a new variant;
-- expand CI/test guardrails for token/theme/component consistency; and
-- confirm light/dark behaviour is role/component driven rather than page patched.
+- React component registry;
+- controlled icon registry;
+- theme-paired canonical identity helper;
+- contributor component reference;
+- Plan proof adoption;
+- component semantic/render tests; and
+- expanded governance assurance for tokens, local palette drift, registry exports, icon rules and canonical asset references.
 
-### B3 — Subjects, Subject Home and course/specification pages
+## Migration rules
 
-- interactive subject/course surfaces;
-- contextual hierarchy visual alignment;
-- course-section controls; and
-- subject accent rules without decorative card proliferation.
+A surface group is migrated only when:
 
-### B4 — Learn and Practice
+1. colour, typography, border, radius, elevation, spacing, control sizing and standard motion use central roles/components;
+2. new local hard-coded design values have a documented feature-specific reason;
+3. interaction states include keyboard focus and do not depend on hover alone;
+4. light/dark use the same semantic roles and component structure;
+5. reduced motion remains valid;
+6. phone/tablet/desktop preserve hierarchy;
+7. recurring icons and identity assets use controlled shared sources;
+8. compatibility aliases remain only for unmigrated live consumers; and
+9. educational logic, evidence, entitlement and learner data contracts do not change unless separately governed.
 
-- focused working surface;
-- activity/answer/feedback/status patterns;
-- field and choice controls;
-- result explanation and next-action treatment; and
-- progressive disclosure of secondary learning detail.
+## Bounded rollout
 
-### B5 — Exam Prep and exam experience
-
-- retain the distinct Exam/Performance surface family;
-- standardise controls, confirmations and feedback without making timed work feel like an ordinary dashboard; and
-- protect pause/stop/full-screen interaction requirements where governed.
-
-### B6 — Admin
-
-- reuse the same foundation/primitive/component grammar at higher information density;
-- keep learner visual identity recognisable without forcing learner-page composition onto operational workflows.
-
-### B7 — compatibility retirement
-
-After all live consumers have migrated:
-
-- repository-search old aliases and local visual constants;
-- remove only aliases with zero live consumers;
-- collapse redundant feature CSS;
-- update production-readiness documentation; and
-- retain historical audit/decision evidence unchanged.
+- **B1 — foundation/account/overlays:** live.
+- **B2 — Plan and Progress:** live.
+- **B2.5 — reusable component/icon/asset foundation:** PR #116 candidate; required before B3.
+- **B3 — Subjects, Subject Home, course/specification:** may begin only after B2.5 is live.
+- **B4 — Learn and Practice:** focused work, answer/feedback and progressive disclosure patterns.
+- **B5 — Exam Prep / exam experience:** Exam/Performance family and governed pause/stop/timed interactions.
+- **B6 — Admin:** same foundations/components at appropriate operational density.
+- **B7 — compatibility retirement:** remove aliases/redundant feature CSS only after repository search and regression prove zero live dependency.
 
 ## Quality gate for future UI PRs
 
-Every material learner-interface PR should explicitly check:
+Every material interface PR checks:
 
 - typography role;
 - spacing rhythm;
 - surface family;
-- radius/elevation role;
-- shared control/component;
-- icon treatment/source;
+- radius/elevation;
+- reusable component/control;
+- icon source;
 - canonical asset usage where applicable;
 - light/dark behaviour;
 - phone/tablet/desktop behaviour;
 - keyboard/focus/accessibility;
-- loading, empty, error and disabled states where applicable; and
-- motion/reduced-motion behaviour.
+- loading/empty/error/disabled/saving states where relevant; and
+- motion/reduced motion.
 
-This is a design-system coherence check, not a requirement to make every screen visually identical.
+This is a coherence requirement, not a requirement that every page use the same composition.
 
-## Assurance classification
+## Assurance
 
-Because the interface layer is loaded across the shared learner runtime and B2 changes two primary learner destinations, B2 is **Level 3 / high risk** under the Testing & Assurance Standard even though intended behaviour is visual-only.
+B2.5 remains Level 3 / high risk because it changes a shared runtime implementation layer and refactors a primary learner surface onto reusable components.
 
 Required assurance includes:
 
 - typecheck;
 - lint;
-- unit tests, including interface-system governance checks;
+- unit tests including `src/app/ui/ui-components.test.tsx`;
+- interface-system governance tests in `scripts/assurance/interface-system-governance.test.mjs`;
 - production build;
-- targeted B2 interface checks in `tests/e2e/interface-plan-progress.spec.ts`;
-- full relevant responsive learner regression across phone/tablet/desktop;
-- light/dark semantic-surface checks;
-- automated accessibility coverage already declared for affected journeys; and
-- production smoke after merge.
-
-Database/security behaviour is not changed by B2, but the repository's risk-classified CI may still run the existing database/RLS/protected-service suite because the shared learner runtime is affected.
+- existing Plan/Progress responsive browser assurance across phone/tablet/desktop;
+- light/dark semantic-role assurance;
+- applicable accessibility coverage; and
+- production smoke/path-to-live after merge.
 
 ## Documentation impact
 
-B1 and B2 implement existing Brand System, Product UX, planner and claims/evidence authority rather than changing normative product or visual direction. No ADR is required because canonical routes, runtime ownership and architectural boundaries are unchanged.
+B2.5 implements existing Visual Brand System and Product UX authority rather than changing normative visual/product direction. No ADR is required because canonical runtime, routes and architecture boundaries remain unchanged.
 
-`Brand System Production Readiness.md` reflects B2 progress. `Interface System Operating Standard.md` operationalises the enterprise consistency requirements and is indexed from `INDEX.md`. Historical audits/research remain unchanged.
+The Operating Standard, Component Registry, Brand System Production Readiness and INDEX are maintained with the implementation. Historical audits/research remain unchanged.
