@@ -42,6 +42,7 @@ Use this file to find the governing source before substantive work.
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
+- Assisted exam-answer marking / FI-007 MVP, learner experience and marking allowance rules → `10-product-governance/Assisted Exam Answer Marking.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
