@@ -82,7 +82,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 14px 0;
-  border-bottom: 1px solid var(--color-border, rgba(16, 43, 49, 0.12));
+  border-bottom: 1px solid var(--color-border);
 }
 
 .courses-add-item:last-child {
