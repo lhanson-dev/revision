@@ -187,7 +187,7 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Exam Prep expanded paper')
 
   await clickNavigation(page, 'AQA AS Business Progress')
-  await expect(page.getByRole('heading', { name: /Progress/ }).first()).toBeVisible()
+  await expect(page.locator('.course-nav button.active')).toHaveText('Progress')
   await auditRuntime(page, 'Course progress')
 
   await page.goto(`${appPath}#/rev`)
