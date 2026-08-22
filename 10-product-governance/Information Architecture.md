@@ -297,7 +297,9 @@ The information architecture should:
 
 ## FI-020 readiness boundary
 
-The Founder approved the Courses direction during Design Acceptance Review on 2026-08-22. Material implementation remains subject to FI-020 completing the governed Definition of Ready and receiving explicit human `Analyse → Ready` approval.
+FI-020 completed the governed Definition of Ready and received explicit Founder `Analyse → Ready` approval on 2026-08-22.
+
+Material production implementation may begin only after this v1.0 authority change is integrated into current approved `main`, and must then follow the Governed Implementation Workflow.
 
 ## Documentation impact
 
