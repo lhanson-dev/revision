@@ -1,7 +1,8 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.6  
-**Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.
+**Status:** Draft authority candidate — v0.7 proposal pending governed merge  
+**Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.  
+**FI-020 alignment:** Founder-approved 2026-08-22. `Courses` replaces `Subjects` as the learner-facing academic destination; Subject remains academic/catalogue metadata rather than a required everyday navigation hop.
 
 ## Journey principles
 
@@ -12,24 +13,27 @@
 - Keep REV central to guidance, explanation and encouragement.
 - Allow students to override recommendations and choose their own focus.
 - Adapt recommendations as new evidence appears.
-- Compare priorities across subjects before narrowing into subject-specific work.
+- Compare priorities across the learner's active courses before narrowing into focused work.
 - Use focused course/paper sections rather than presenting all learning tools on one long page.
 - Shift the balance of activity as exams approach.
 - Keep parent and teacher experiences separate from the student's everyday flow.
 - Keep the primary journey concise while allowing deeper information through progressive disclosure.
+- Treat the learner's persisted active course set as programme context; do not treat the whole published catalogue as though the learner studies it.
 
 ## Journey 1 — New student setup and first useful action
 
 A new student should not be asked to configure the entire product before receiving value.
 
-Minimum setup should establish the context needed for accurate guidance, including:
+Minimum setup should establish the supported course context needed for accurate guidance, including as applicable:
 
 1. qualification level;
-2. subject;
+2. subject or curriculum area;
 3. exam board/specification; and
-4. relevant paper, component or course context where needed.
+4. relevant paper/component context where needed.
 
-Once this is known, Revision should move quickly towards a useful first action.
+These choices establish a **saved learner course**. They are catalogue-discovery steps, not permanent global navigation levels.
+
+Once enough course context is known, Revision should move quickly towards a useful first action.
 
 Setup should be presented in short, clear steps rather than a dense form. The system can then learn more about the student progressively through diagnostics, activity and results rather than front-loading excessive setup.
 
@@ -37,11 +41,11 @@ Account creation and data collection should introduce no more friction than is g
 
 ### Intended flow
 
-Select qualification/subject → select exam board/specification → select relevant paper/component/course where needed → establish enough baseline context → receive a useful recommended action → complete activity → receive feedback → update student model.
+Select supported course context → save course to learner programme → establish enough baseline context → receive a useful recommended action → complete activity → receive feedback → update student model.
 
 Authentication may occur before or during this path according to implementation and commercial needs, but it should not become a long configuration barrier before value is clear.
 
-The setup model must support adding further subjects later without redesigning the learner Home or treating the first subject as the permanent default context.
+The setup model must support adding further courses later through **Courses → Add Course** without redesigning Home or treating the first course as the permanent default context.
 
 ## Journey 2 — Returning student
 
@@ -51,46 +55,62 @@ The default returning experience should answer three questions immediately:
 - What matters most now?
 - What should I do next?
 
-REV should be prominent on Home and should interpret the learner's wider revision picture rather than assuming the learner wants to continue whichever paper happened to be used last.
+REV should be prominent on Home and should interpret the learner's active course set and wider revision evidence rather than assuming the learner wants to continue whichever paper happened to be used last.
 
 A typical returning journey may be:
 
 > REV: Business would be the best use of your time today. Shall I take you there?
 
-Student accepts → Business Home opens → REV narrows its guidance to Business → student enters the relevant course/paper Overview → REV or the learner selects Learn, Practice, Exam Prep or Progress → student starts focused work.
+Student accepts → relevant saved Business course opens → REV narrows its guidance to that course → learner selects Learn, Practice, Exam Prep or Progress → learner starts focused work.
+
+Where the learner studies more than one Business course/specification, Revision must identify the intended course clearly rather than treating the subject name alone as sufficient identity.
 
 The learner should not need to interpret complex analytics before they can begin useful work.
 
-If only one subject is currently enrolled, Home may naturally recommend within that subject, but the structure and language should remain ready for multiple subjects.
+If only one course is currently active, Home may naturally recommend within it, but the structure and language must remain ready for multiple courses.
 
 ## Journey 3 — Student-led revision
 
 Students must remain free to choose their own focus.
 
-If the student wants to revise a particular subject, they should be able to choose Subjects from the global navigation and enter that Subject Home directly.
+If the student wants to work on a particular qualification/specification, they choose **Courses** from global navigation. The Courses page shows their saved courses and a clear **Add Course** action.
 
-Within the subject, they should be able to browse their course/specification and paper/component structure. Selecting a course, paper or component should normally open an Overview rather than a long page containing every learning tool.
+Selecting a saved course opens its Overview directly rather than forcing the learner through a Subject Home first.
 
-From that context the learner should be able to choose the focused section that matches their intent:
+From that course context the learner can choose the focused section that matches their intent:
 
 - **Learn** — understand or revisit content;
 - **Practice** — retrieve, test and apply knowledge;
 - **Exam Prep** — prepare for real exam performance; or
 - **Progress** — understand how they are doing within that context.
 
+Where the qualification genuinely has component/paper-specific content, the course may expose the applicable paper/component path without changing Courses into an always-expanded site tree.
+
 A typical self-directed path is:
 
-Home or Subjects → Subject Home → course/specification → paper/component where applicable → Overview → focused section → topic/area/activity.
+Home or Courses → saved course → Overview → focused section → paper/component where applicable → topic/area/activity.
 
-The learner may also enter through a topic and then switch between Learn, Practice, Exam Prep or Progress without losing the topic context.
+The learner may also enter through a topic and then switch between Learn, Practice, Exam Prep or Progress without losing the relevant academic context.
 
-Revision may still provide useful context, such as noting that another subject or topic is currently a higher priority, but guidance must not become a locked path.
+Revision may still note that another active course or topic is currently a higher priority, but guidance must not become a locked path.
 
-Student-led activity should still feed into the wider coverage, mastery and readiness model.
+Student-led activity should still feed the wider coverage, mastery and readiness model.
+
+### Add / remove course
+
+The Courses page is also the learner's explicit programme-management surface.
+
+A learner can:
+
+- choose **Add Course** to browse/search the published supported catalogue and save another course;
+- remove an active course through a secondary confirmed action when their programme changes or a mistake needs correcting; and
+- re-add a previously removed course later.
+
+Adding or removing membership changes active programme scope; it does not itself create, delete or reinterpret learning evidence. Removing a course must preserve historic learning evidence and attempts.
 
 ## Journey 4 — Ongoing guided revision
 
-Revision should continuously use the student's wider evidence to determine appropriate next actions.
+Revision should continuously use the learner's wider evidence across **active saved courses** to determine appropriate next actions.
 
 Recommendations should consider the bigger picture rather than reacting excessively to one weak result. Evidence should be interpreted in context of:
 
@@ -98,19 +118,19 @@ Recommendations should consider the bigger picture rather than reacting excessiv
 - recent performance;
 - specification coverage;
 - relative weaknesses;
-- competing subject priorities;
+- competing course/subject priorities;
 - available time; and
 - upcoming exam context.
 
-Guidance should narrow progressively rather than forcing a global learner to choose an activity before subject context is established.
+At learner-wide scope, Revision must not recommend work from a published course that is not in the learner's active saved course set.
 
-A recommendation may therefore operate in stages:
+Guidance should narrow progressively:
 
-1. identify the subject that most deserves attention;
-2. once the learner enters that Subject Home, identify the most useful course/paper/component focus;
-3. within that context, identify whether the learner most needs Learn, Practice, Exam Prep or a Progress review;
+1. identify the active course that most deserves attention;
+2. identify the most useful course/paper/component scope where necessary;
+3. identify whether the learner most needs Learn, Practice, Exam Prep or a Progress review;
 4. recommend the appropriate topic/activity within that focused section; and
-5. use the resulting evidence to update the wider student model.
+5. use the resulting evidence to update the wider learner model.
 
 REV should explain why a recommendation matters where useful.
 
@@ -122,9 +142,9 @@ When the learner wants to understand or revisit content, the journey should rema
 
 A typical journey is:
 
-Subject Home → course/paper/component → Learn → topic/specification area → explanation, notes, worked example or other learning material.
+Saved course → Learn → paper/component where applicable → topic/specification area → explanation, notes, worked example or other learning material.
 
-The learner should be able to move from Learn into an appropriate Practice activity without losing the current subject/topic context.
+The learner should be able to move from Learn into an appropriate Practice activity without losing the current course/topic context.
 
 REV should be available to explain the selected material and may recommend the next useful practice step when appropriate.
 
@@ -134,7 +154,7 @@ Practice should help the learner retrieve knowledge, apply it and learn from fee
 
 A typical journey is:
 
-Subject Home or course/paper Overview → Practice → activity type → topic/area where relevant → activity → feedback → next action.
+Saved course Overview or recommendation → Practice → activity type → topic/area where relevant → activity → feedback → next action.
 
 Practice may include flashcards, quick checks, quizzes, topic tests, case/application work and exam-style questions.
 
@@ -156,7 +176,7 @@ REV should be available in the context of the current assessment or feedback whe
 
 As an exam approaches, Revision should progressively shift the balance of activity towards exam performance.
 
-Exam Prep is a focused section within the relevant course/paper/component and should include:
+Exam Prep is a focused section within the relevant saved course/paper/component and should include:
 
 - weak-area exam-question work;
 - targeted exam questions;
@@ -168,11 +188,11 @@ Exam Prep is a focused section within the relevant course/paper/component and sh
 
 A typical journey is:
 
-Home or Subject Home recommendation → course/paper/component → Exam Prep → appropriate timed/question/paper/simulator activity → feedback → readiness update.
+Home/REV/Plan recommendation or saved course → Exam Prep → appropriate timed/question/paper/simulator activity → feedback → readiness update.
 
-Exam-preparation activity should remain attached to the relevant subject/course/paper/component rather than becoming an ambiguous global destination.
+Exam-preparation activity should remain attached to the relevant course/paper/component rather than becoming an ambiguous global destination.
 
-REV may recommend Exam Prep from Home, Subject Home or course/paper Overview when exam timing and evidence justify it.
+REV may recommend Exam Prep from Home or course Overview when exam timing and evidence justify it.
 
 The system should continue to address gaps in knowledge while increasingly testing whether the student can apply that knowledge under realistic exam conditions.
 
@@ -182,26 +202,30 @@ Progress exists at both learner-wide and contextual levels and should use one un
 
 A global journey is:
 
-Progress → all-subject overview → chosen subject → course/specification → paper/component → topic.
+Progress → active programme overview → chosen saved course → paper/component where applicable → topic.
+
+Subject grouping may be used where it helps comprehension, but it must not imply that every published course under that subject belongs to the learner.
 
 A contextual journey is:
 
-Subject Home or course/paper Overview → Progress → coverage / understanding / readiness / weak areas → direct next action.
+Saved course Overview → Progress → coverage / understanding / readiness / weak areas → direct next action.
 
 The learner should be able to understand what a progress signal means and what useful action follows from it. Progress should not become a disconnected analytics dashboard.
 
-Where a signal suggests action, Revision may offer a direct route into the relevant Learn, Practice or Exam Prep section while preserving the selected academic context.
+Where a signal suggests action, Revision may offer a direct route into the relevant Learn, Practice or Exam Prep section while preserving the selected course context.
 
 ## Journey 9 — REV conversation
 
 REV is one ongoing assistant relationship with context that changes as the learner moves through the product.
 
-- On Home or the dedicated REV area, REV can reason across the learner's whole revision programme.
-- On Subject Home, REV treats that subject as the immediate working context while retaining the wider picture.
-- On a course/paper Overview, REV can reason about the selected academic scope and recommend the most useful focused section.
+- On Home or the dedicated REV area, REV can reason across the learner's **active saved course set**, plan, progress and activity.
+- On a saved course Overview, REV treats that course as the immediate working context while retaining the wider programme picture.
+- On a paper/component Overview, REV can reason about that narrower academic scope.
 - Inside Learn, Practice, Exam Prep, Progress or a topic/activity, REV can use the current section, content and feedback as additional context.
 
 The learner should not feel that they are starting a different tutor conversation at every level. Context should narrow naturally while the relationship remains continuous.
+
+REV may explain or help a learner find a supported course, but FI-020 does not require REV to add or remove course membership conversationally. Programme membership changes remain explicit learner actions.
 
 ## Journey 10 — Parent / payer / supporter support
 
@@ -238,7 +262,7 @@ A linked Paid parent/supporter should be able to understand at a high level whet
 - engaging with Revision;
 - making progress overall;
 - broadly on track where evidence supports that judgement;
-- showing a subject or area where attention may be useful; and
+- showing a course/subject or area where attention may be useful; and
 - approaching important known assessments or exams.
 
 The basic Paid journey should answer a simple parent question:
@@ -247,7 +271,7 @@ The basic Paid journey should answer a simple parent question:
 
 A typical path is:
 
-Parent/supporter sign in → linked learner → parent dashboard → high-level engagement and progress → simple subject overview → any useful support prompt.
+Parent/supporter sign in → linked learner → parent dashboard → high-level engagement and progress → simple programme overview → any useful support prompt.
 
 Billing/subscription management should be shown to the same adult only where that authenticated person is also the billing customer/payer.
 
@@ -255,7 +279,7 @@ Billing/subscription management should be shown to the same adult only where tha
 
 Premium may provide richer interpretation from the same approved parent-visible evidence boundary, including:
 
-- subject-level trends;
+- course/subject-level trends;
 - changing priorities;
 - progress/readiness trajectory with appropriate uncertainty;
 - clearer explanation of why an area may need attention;
@@ -291,8 +315,8 @@ Teacher functionality should not redefine Revision into a school learning-manage
 The initial learner product should prioritise:
 
 1. new student setup and first useful action;
-2. returning learner-wide guidance;
-3. Subject Home and student-led subject navigation;
+2. returning learner-wide guidance across the active saved course set;
+3. Courses and student-led direct course navigation, including Add/Remove Course;
 4. focused course/paper Overview, Learn, Practice, Exam Prep and Progress sections;
 5. guided topic/activity work and transitions between sections;
 6. assessment and feedback;
