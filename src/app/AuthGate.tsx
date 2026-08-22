@@ -3,9 +3,18 @@ import { loadAuthCapabilities } from '../services/auth/auth-capabilities'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
 
 type AuthMode = 'sign-in' | 'create-account'
+type ThemeName = 'light' | 'dark'
 
 type AuthGateProps = {
   children: ReactNode
+}
+
+const themeStorageKey = 'revision:theme'
+
+function currentTheme(): ThemeName {
+  const saved = window.localStorage.getItem(themeStorageKey)
+  if (saved === 'light' || saved === 'dark') return saved
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 export function AuthGate({ children }: AuthGateProps) {
@@ -21,6 +30,7 @@ export function AuthGate({ children }: AuthGateProps) {
   const [recoveryMode, setRecoveryMode] = useState(() => window.location.hash.includes('type=recovery'))
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [authTheme, setAuthTheme] = useState<ThemeName>(() => currentTheme())
 
   useEffect(() => {
     let active = true
@@ -33,6 +43,7 @@ export function AuthGate({ children }: AuthGateProps) {
       if (!active) return
       setHasSession(Boolean(data.session))
       setAuthReady(true)
+      if (!data.session) setAuthTheme(currentTheme())
     })
 
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
@@ -40,6 +51,7 @@ export function AuthGate({ children }: AuthGateProps) {
       if (event === 'PASSWORD_RECOVERY') setRecoveryMode(true)
       setHasSession(Boolean(session))
       setAuthReady(true)
+      if (!session) setAuthTheme(currentTheme())
     })
 
     return () => {
@@ -158,11 +170,11 @@ export function AuthGate({ children }: AuthGateProps) {
     setBusy(false)
   }
 
-  if (!authReady) return <main className="loading-shell">Loading Revision…</main>
+  if (!authReady) return <main className="loading-shell" data-theme={authTheme}>Loading Revision…</main>
 
   if (recoveryMode && hasSession) {
     return (
-      <main className="auth-shell">
+      <main className="auth-shell" data-theme={authTheme}>
         <div className="auth-brand" aria-label="Revision">Revision<span aria-hidden="true">✦</span></div>
         <section className="auth-card" aria-labelledby="reset-password-heading">
           <p className="eyebrow">Account recovery</p>
@@ -184,7 +196,7 @@ export function AuthGate({ children }: AuthGateProps) {
   const creatingAccount = mode === 'create-account'
 
   return (
-    <main className="auth-shell">
+    <main className="auth-shell" data-theme={authTheme}>
       <div className="auth-brand" aria-label="Revision">Revision<span aria-hidden="true">✦</span></div>
       <section className="auth-card auth-entry-card" aria-labelledby="auth-heading">
         <p className="eyebrow">Your revision, your next step</p>
