@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(48);
+select plan(46);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -101,14 +101,13 @@ select ok(has_table_privilege('authenticated', 'public.learner_course_events', '
 select ok(not has_table_privilege('authenticated', 'public.learner_course_events', 'update'), 'learner course events are not updateable by browser roles');
 select ok(not has_table_privilege('authenticated', 'public.learner_course_events', 'delete'), 'learner course events are not deletable by browser roles');
 
-select like(
+select ok(
   (
     select pg_get_constraintdef(oid)
     from pg_constraint
     where conrelid = 'public.learner_courses'::regclass
       and contype = 'p'
-  ),
-  '%(user_id, course_id)%',
+  ) like '%PRIMARY KEY (user_id, course_id)%',
   'learner course membership primary key is duplicate-safe across user and course'
 );
 
