@@ -1,0 +1,610 @@
+/*
+ * Interface System B5 — Exam Prep / exam experience migration.
+ *
+ * This layer deliberately loads after legacy exam.css and B4. It translates the
+ * canonical ExamSimulator and Exam Prep surfaces onto central semantic roles while
+ * preserving exam content, evidence semantics, self-marking and timer behaviour.
+ */
+
+.planner-runtime .exam-simulator {
+  margin-top: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: none;
+  font-family: var(--font-family-product);
+}
+
+.planner-runtime .exam-simulator h2 {
+  margin: var(--space-1) 0 var(--space-3);
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+}
+
+.planner-runtime .exam-simulator h3 {
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  font-weight: var(--type-h3-weight);
+}
+
+.planner-runtime .exam-simulator .intro,
+.planner-runtime .exam-simulator > p,
+.planner-runtime .exam-simulator .muted {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .exam-launch {
+  max-width: 920px;
+}
+
+.planner-runtime .exam-launch .inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.planner-runtime .exam-launch .primary,
+.planner-runtime .exam-launch .secondary,
+.planner-runtime .exam-results .secondary,
+.planner-runtime .exam-nav-actions .primary,
+.planner-runtime .exam-nav-actions .secondary,
+.planner-runtime .exam-submit-summary .primary {
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-control);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+}
+
+.planner-runtime .exam-launch .primary,
+.planner-runtime .exam-nav-actions .primary,
+.planner-runtime .exam-submit-summary .primary {
+  border: 1px solid var(--color-action);
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.planner-runtime .exam-launch .secondary,
+.planner-runtime .exam-results .secondary,
+.planner-runtime .exam-nav-actions .secondary {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .exam-launch button:focus-visible,
+.planner-runtime .exam-results button:focus-visible,
+.planner-runtime .exam-session button:focus-visible,
+.planner-runtime .exam-interruption button:focus-visible,
+.planner-runtime .exam-session textarea:focus-visible,
+.planner-runtime .exam-session input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Timed work becomes a dedicated full-viewport performance surface. */
+.planner-runtime .exam-session-page {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow-y: auto;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+}
+
+.planner-runtime .exam-session-page .exam-session {
+  min-height: 100vh;
+  margin: 0;
+  padding: var(--space-8) clamp(var(--space-5), 4vw, var(--space-16)) var(--space-12);
+  border: 0;
+  border-radius: 0;
+  background: var(--color-bg);
+  box-shadow: none;
+}
+
+.planner-runtime .exam-session-obscured {
+  filter: blur(18px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.planner-runtime .exam-sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  margin: calc(var(--space-8) * -1) calc(clamp(var(--space-5), 4vw, var(--space-16)) * -1) var(--space-8);
+  padding: var(--space-3) clamp(var(--space-5), 4vw, var(--space-16));
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.planner-runtime .exam-sticky-bar > div:first-child {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.planner-runtime .exam-sticky-bar strong {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  font-weight: var(--type-h4-weight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planner-runtime .exam-sticky-bar span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .exam-session-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+}
+
+.planner-runtime .exam-control {
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .exam-control-stop {
+  border-color: color-mix(in srgb, var(--status-error-fg) 42%, var(--color-border));
+  color: var(--status-error-fg);
+}
+
+.planner-runtime .timer {
+  flex: 0 0 auto;
+  min-width: 96px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  font-weight: var(--type-h4-weight);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.planner-runtime .timer.warning {
+  background: var(--status-error-fg);
+  color: var(--color-inverse-action-text);
+}
+
+.planner-runtime .exam-case,
+.planner-runtime .submitted-answer,
+.planner-runtime .mark-guidance,
+.planner-runtime .exam-results .ao-results article {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.planner-runtime .exam-case {
+  margin-bottom: var(--space-5);
+}
+
+.planner-runtime .exam-case summary {
+  min-height: var(--control-height-standard);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .exam-case summary:focus-visible {
+  outline: none;
+  box-shadow: inset var(--focus-ring);
+}
+
+.planner-runtime .exam-case > div {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 0 var(--space-4) var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .question-nav {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-1);
+  scrollbar-width: thin;
+}
+
+.planner-runtime .question-nav button {
+  flex: 0 0 auto;
+  min-width: 52px;
+  min-height: var(--field-height-standard);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .question-nav button.active {
+  border-color: var(--color-inverse-action);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+}
+
+.planner-runtime .question-nav button span {
+  display: block;
+  margin-top: var(--space-1);
+  color: inherit;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  opacity: .78;
+}
+
+.planner-runtime .exam-question-sheet {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.planner-runtime .exam-question-sheet .answer-label {
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .exam-question-sheet .answer-label textarea {
+  width: 100%;
+  min-height: 280px;
+  margin: var(--space-2) 0 var(--space-5);
+  padding: var(--space-4);
+  resize: vertical;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .exam-nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.planner-runtime .submitted-answer,
+.planner-runtime .mark-guidance {
+  margin: var(--space-4) 0;
+  padding: var(--space-4);
+}
+
+.planner-runtime .submitted-answer p,
+.planner-runtime .mark-guidance ul {
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .ao-marker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-5) 0;
+}
+
+.planner-runtime .ao-marker-grid label {
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .ao-marker-grid label span {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .ao-marker-grid input {
+  width: 100%;
+  min-height: var(--field-height-standard);
+  margin-top: var(--space-2);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+}
+
+.planner-runtime .exam-submit-summary {
+  position: sticky;
+  bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-floating);
+}
+
+.planner-runtime .exam-submit-summary span {
+  margin-right: auto;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+/* Exam results remain calm evidence, not celebratory gamification. */
+.planner-runtime .exam-results {
+  max-width: 900px;
+}
+
+.planner-runtime .exam-score {
+  margin: var(--space-5) 0;
+  color: var(--color-text);
+  font-size: var(--type-display-l-size);
+  line-height: var(--type-display-l-line);
+  font-weight: var(--type-display-l-weight);
+  letter-spacing: -.03em;
+}
+
+.planner-runtime .exam-score span {
+  color: var(--color-accent-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  letter-spacing: normal;
+}
+
+.planner-runtime .ao-results {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-5) 0;
+}
+
+.planner-runtime .ao-results article {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+}
+
+.planner-runtime .ao-results article strong {
+  color: var(--color-text);
+}
+
+.planner-runtime .ao-results article span {
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  font-weight: var(--type-h3-weight);
+}
+
+.planner-runtime .ao-results article small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+/* Pause/stop deliberately take over the viewport and block the exam underneath. */
+.planner-runtime .exam-interruption {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--overlay-backdrop);
+  backdrop-filter: blur(8px);
+}
+
+.planner-runtime .exam-interruption-card {
+  width: min(540px, 100%);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-feature);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+  text-align: center;
+}
+
+.planner-runtime .exam-interruption-card h2 {
+  margin: var(--space-1) 0 var(--space-3);
+  color: var(--color-text);
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line);
+  font-weight: var(--type-h1-weight);
+}
+
+.planner-runtime .exam-interruption-card p:not(.eyebrow) {
+  max-width: 42ch;
+  margin: 0 auto var(--space-6);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .exam-pause-card {
+  padding-block: var(--space-10);
+}
+
+.planner-runtime .exam-resume-button {
+  display: inline-grid;
+  place-items: center;
+  gap: var(--space-2);
+  min-width: 220px;
+  min-height: 112px;
+  padding: var(--space-5) var(--space-8);
+  border: 1px solid var(--color-inverse-action);
+  border-radius: var(--radius-surface);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .exam-resume-button span {
+  color: inherit;
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+}
+
+.planner-runtime .exam-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.planner-runtime .exam-confirm-actions .danger {
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-5);
+  border: 1px solid var(--status-error-fg);
+  border-radius: var(--radius-control);
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .exam-confirm-actions .primary {
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-5);
+  border: 1px solid var(--color-action);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .exam-simulator {
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .exam-session-page .exam-session {
+    padding: var(--space-5) var(--space-4) var(--space-10);
+  }
+
+  .planner-runtime .exam-sticky-bar {
+    align-items: flex-start;
+    margin: calc(var(--space-5) * -1) calc(var(--space-4) * -1) var(--space-5);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .planner-runtime .exam-sticky-bar > div:first-child span {
+    display: none;
+  }
+
+  .planner-runtime .exam-session-controls {
+    gap: var(--space-1);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .planner-runtime .exam-control {
+    min-height: var(--control-height-standard);
+    padding: 0 var(--space-3);
+    font-size: var(--type-label-size);
+  }
+
+  .planner-runtime .timer {
+    min-width: 80px;
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-line);
+  }
+
+  .planner-runtime .exam-case > div {
+    max-height: none;
+  }
+
+  .planner-runtime .ao-marker-grid,
+  .planner-runtime .ao-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planner-runtime .exam-nav-actions,
+  .planner-runtime .exam-confirm-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .exam-submit-summary {
+    align-items: stretch;
+    flex-direction: column;
+    bottom: var(--space-2);
+  }
+
+  .planner-runtime .exam-submit-summary span {
+    margin-right: 0;
+  }
+
+  .planner-runtime .exam-interruption {
+    padding: var(--space-4);
+  }
+
+  .planner-runtime .exam-interruption-card {
+    padding: var(--space-6) var(--space-5);
+  }
+}
+
+@media (min-width: 621px) and (max-width: 1024px) {
+  .planner-runtime .ao-marker-grid,
+  .planner-runtime .ao-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .exam-simulator *,
+  .planner-runtime .exam-interruption * {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
