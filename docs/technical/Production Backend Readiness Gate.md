@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain, and `main` has active repository protection. FI-020 extends the required backend contract to `courses-v1`; production verification of that extension is a pre-release requirement for PR #130.  
+**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain, and `main` has active repository protection. FI-020 `courses-v1` is now enabled and independently verified in production; PR #130 still requires final exact-head CI after production-ledger reconciliation before merge readiness.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -132,22 +132,32 @@ PR #63 reconciled the repository filename to that production migration-ledger ve
 
 ### FI-020 `courses-v1` extension
 
-Migration `20260822193800_add_learner_courses.sql` adds:
+Production applied FI-020 on 2026-08-22 using two forward migrations whose repository filenames now match the production ledger:
+
+- `20260822215525_add_learner_courses.sql` — creates `public.learner_courses` and `public.learner_course_events`, performs the bounded existing-user seed and advances `revision_release_readiness()` to `courses-v1`;
+- `20260822215631_restrict_learner_course_service_role.sql` — removes broad Supabase production default table privileges inherited by `service_role` and explicitly restores `SELECT` only on both FI-020 tables.
+
+The first migration adds:
 
 - `public.learner_courses` — authenticated learner-owned active course membership; and
 - `public.learner_course_events` — bounded FI-020 course-management/assurance telemetry.
 
-The same forward migration replaces the readiness function with the `courses-v1` contract and adds capability-presence checks for both tables while preserving the existing planner/Admin checks.
+The readiness function remains **SECURITY INVOKER**. FI-020 database assurance checks that property so extending the release contract cannot silently reintroduce the previously closed elevated-execution defect.
 
-The replacement function must remain **SECURITY INVOKER**. FI-020 database assurance explicitly checks that property so extending the release contract cannot silently reintroduce the previously closed elevated-execution defect.
-
-Before PR #130 is merge-ready, the FI-020 migration must be applied to the production Supabase project and the public readiness RPC must be independently verified to return:
+Independent production verification after both migrations confirmed:
 
 - `contract: "courses-v1"`;
-- `ready: true`; and
-- true capability flags for the learner-course tables as well as the existing required capabilities.
+- `ready: true` with all required capability flags true;
+- RLS enabled on both learner-course tables;
+- `revision_release_readiness()` remains `SECURITY INVOKER`;
+- authenticated explicit privileges are `SELECT, INSERT, DELETE` on `learner_courses` and `SELECT, INSERT` on `learner_course_events`;
+- `service_role` explicit privileges are `SELECT` only on both FI-020 tables;
+- all 3 users that existed at migration time received exactly the two intended Business course memberships (6 rows total); and
+- there were no unexpected seeded course IDs.
 
-Applying this forward-safe database capability before the frontend merge is deliberate: the current `main` frontend does not depend on the new tables, while the new frontend is prohibited from deploying until the new contract exists.
+Supabase Security Advisor reported no new FI-020-specific finding. The project still carries the separate pre-existing Auth warning that leaked-password protection is disabled.
+
+Applying this forward-safe database capability before the frontend merge is deliberate: current `main` does not depend on the new tables, while the FI-020 frontend is prohibited from deploying unless `courses-v1` is present.
 
 ## Required Edge Functions
 
@@ -214,4 +224,4 @@ This is the first complete observed production lineage under the durable commit-
 
 PR #62 reconciled repository migration history to the production `supabase_migrations.schema_migrations` ledger and restored the original `create_revision_progress` migration from SQL retained by production. PR #63 completed reconciliation for the readiness-hardening migration after Supabase assigned its applied version.
 
-Historical applied migrations remain unchanged. FI-020 is a new forward-only migration and must be recorded in the production migration ledger using its governed migration version when applied.
+FI-020 follows the same rule: the provisional pre-application filename was removed after Supabase assigned the production versions, and the repository now records the exact applied ledger sequence `20260822215525_add_learner_courses.sql` then `20260822215631_restrict_learner_course_service_role.sql`. Historical applied migrations remain unchanged.
