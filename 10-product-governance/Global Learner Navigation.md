@@ -306,9 +306,9 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 
 ## FI-020 implementation boundary
 
-The Founder-approved v0.8 product direction is defined here, but material production implementation remains subject to FI-020 completing the governed Definition of Ready and receiving explicit human `Analyse → Ready` approval.
+FI-020 completed the governed Definition of Ready and received explicit Founder `Analyse → Ready` approval on 2026-08-22.
 
-The implementation must establish persisted authenticated learner-course membership, a truthful Add/Remove Course experience, programme-scope filtering and safe compatibility for legacy subject-first deep links before Courses can be treated as fully delivered.
+Material production implementation may begin only after this approved v0.8 authority change is integrated into current `main`, and must then follow the Governed Implementation Workflow. Implementation must establish persisted authenticated learner-course membership, a truthful Add/Remove Course experience, programme-scope filtering and safe compatibility for legacy subject-first deep links before Courses can be treated as fully delivered.
 
 ## Documentation impact
 
