@@ -1,6 +1,6 @@
 # Revision Interface System Implementation
 
-**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation live; B3 Subjects/course live; B4 Learn/Practice live; B5 Exam Prep/exam experience live; B6 Admin in progress  
+**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation live; B3 Subjects/course live; B4 Learn/Practice live; B5 Exam Prep/exam experience live; B6 Admin live; pre-B7 theme integrity hardening in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -20,15 +20,7 @@ The governed application remains:
 
 The interface migration does not create a second runtime, persistence model or service architecture.
 
-Relevant destinations include:
-
-- Plan: `#/plan` → `PlannerRuntime` → `PlanScreen`;
-- Progress: `#/progress` → `PlannerRuntime` → compatibility `App`;
-- Subjects and course/component routes → compatibility `App`;
-- contextual Learn/Practice → `FocusedLearningWorkspace`;
-- contextual Exam Prep → `FocusedLearningWorkspace` + `ExamSimulator`;
-- timed exam session → `ExamSimulator` full-viewport state inside the canonical runtime;
-- Admin: role-gated `#/admin` and Admin detail routes inside the same runtime.
+Relevant destinations include Plan, Progress, Subjects/course, contextual Learn/Practice, contextual Exam Prep, timed full-paper sessions and the role-gated Admin routes. Compatibility rendering inside the canonical runtime remains temporary and is retired only in B7 after zero-live-consumer assurance.
 
 ## Implementation layers
 
@@ -37,105 +29,48 @@ Relevant destinations include:
 3. **Shared CSS primitives** — `src/app/interface-system.css`.
 4. **Reusable React component layer** — `src/app/ui/` with shared anatomy in `src/app/ui/ui-components.css`.
 5. **Feature/channel composition** — bounded migration styles and product-specific markup/logic.
+6. **Temporary pre-B7 theme-integrity bridge** — `src/app/interface-theme-integrity.css`, loaded last while literal legacy theme values still exist.
 
 Feature styles may own genuine composition. They must not create a parallel design system.
 
 ## Central foundation contract
 
-`brand-tokens.css` is the implementation source for reusable roles including:
-
-- Calm Teal and neutral foundations;
-- light/dark semantic colours;
-- semantic Success / Warning / Error / Information roles;
-- Manrope type roles;
-- 4px spacing rhythm;
-- radius/elevation families;
-- compact/standard/large control heights;
-- standard fields and icon sizes;
-- focus, motion and overlay roles; and
-- REV-derived roles.
+`brand-tokens.css` is the implementation source for reusable roles including Calm Teal and neutral foundations, light/dark semantic colours, semantic Success / Warning / Error / Information roles, Manrope type roles, the 4px spacing rhythm, radius/elevation families, compact/standard/large controls, standard fields/icons, focus, motion, overlays and REV-derived roles.
 
 Migrated interface layers consume these roles instead of declaring page-local palettes or type scales.
 
-## Shared primitive/component contract
-
-`interface-system.css`, `src/app/ui/ui-components.css` and `src/app/ui/index.ts` provide the shared implementation grammar for surfaces, buttons, fields, overlays, menus, statuses, controls, icons and canonical brand assets.
-
-The public React registry includes PageHeader, Surface, Button, IconButton, TextField, SelectField, Status, EmptyState, LoadingState, ModalShell, DrawerShell, PopoverShell, Menu, MenuItem, SegmentedControl, Icon and BrandAsset.
-
-The controlled icon registry uses `currentColor`, rounded stroke treatment and central icon roles. The Living E remains identity rather than a generic product icon.
-
-Compatibility selectors remain only for still-live legacy consumers and are retired in B7 after zero-live-consumer assurance.
-
 ## Production migration state
 
-### B1 — foundation/account/overlays
+- **B1 — foundation/account/overlays:** live.
+- **B2 — Plan and Progress:** live; production verified on merge commit `609fc1247afa32d7d70fb32a87316dc1ce8939b7`.
+- **B2.5 — reusable component/icon/asset foundation:** live via PR #116 / merge `2369b33fa35414556096d0287100c1df8dbec8d7`.
+- **B3 — Subjects, Subject Home and course/specification:** live via PR #118 / merge `d44cdd85c1a175c1bc595527a0b50d98f90a9cee`.
+- **B4 — Learn and Practice:** live via PR #119 / merge `41a61d3e276df8635c41f57c4e57329cc39725d7`.
+- **B5 — Exam Prep / exam experience:** live via PR #121 / merge `3fcafc5b6abf65c15b8edf1899dbdb8fb404167f`, with Revision CI #707 and `revision/path-to-live = success`.
+- **B6 — Admin:** live via PR #122 / merge `e10aed1e05ca173e8e87e75b1b3d909d4c39451d`, with Revision CI #709 and `revision/path-to-live = success`.
+- **Pre-B7 theme integrity:** in progress on governed branch; fixes remaining light/dark compatibility leaks before deletion work begins.
+- **B7 — compatibility retirement:** not started; remove aliases/redundant legacy CSS only after repository search and regression prove zero live dependency.
 
-**Live.** Established central roles, primitive CSS, account treatment and overlay grammar.
+## Why the pre-B7 theme integrity pass is required
 
-### B2 — Plan and Progress
+B1–B6 deliberately did not delete old CSS. Repository inspection after B6 found that the central theme tokens translate correctly, but legacy files such as `app.css` still contain literal light-mode values including white field/surface backgrounds, fixed dark text, light-only secondary controls and fixed semantic surfaces.
 
-**Live.** Production verified on merge commit `609fc1247afa32d7d70fb32a87316dc1ce8939b7` with durable `revision/path-to-live = success`.
+The bounded B3–B6 layers override the main migrated surfaces, but uncovered descendants or fallback states can still inherit those literal values when the runtime switches to dark mode. That creates the observed failure mode where some text or controls become difficult or impossible to read.
 
-### B2.5 — reusable component/icon/asset foundation
+`src/app/interface-theme-integrity.css` is therefore a temporary final compatibility layer. It:
 
-**Live.** PR #116 merged as `2369b33fa35414556096d0287100c1df8dbec8d7` after exact-head Revision CI #689 passed.
+- contains no local hex/RGB/RGBA palette;
+- maps remaining live headings, secondary text and metadata onto `--color-text` / `--color-text-secondary`;
+- maps remaining ordinary surfaces and form controls onto central surface/border roles;
+- maps placeholders and disabled controls onto theme-aware secondary roles;
+- maps success/warning/error states onto central semantic roles;
+- explicitly hardens Admin, Founder Assurance and table descendants;
+- enables `color-scheme: dark` in dark runtime mode for browser-native affordances; and
+- loads after B6 so literal compatibility declarations cannot win the cascade.
 
-### B3 — Subjects, Subject Home and course/specification
+This bridge is deliberately removed or absorbed during B7 once the legacy sources that made it necessary are safely retired.
 
-**Live.** PR #118 merged as `d44cdd85c1a175c1bc595527a0b50d98f90a9cee` with successful post-merge path-to-live evidence.
-
-`src/app/interface-subjects-course.css` is the bounded B3 layer.
-
-### B4 — Learn and Practice
-
-**Live.** PR #119 merged as `41a61d3e276df8635c41f57c4e57329cc39725d7` after exact-head CI #702 and Founder approval-gate success; post-merge path-to-live succeeded.
-
-`src/app/interface-learn-practice.css` is the bounded B4 layer.
-
-### B5 — Exam Prep / exam experience
-
-**Live.** PR #121 merged as `3fcafc5b6abf65c15b8edf1899dbdb8fb404167f` after exact-head Revision CI #707 passed on `317063817d4b6585309f8a0557103aaa1658eb23`, the Founder approval gate succeeded, and post-merge `revision/path-to-live` succeeded.
-
-`src/app/interface-exam-experience.css` is the bounded B5 layer. It preserves the established full-page timed exam, pause, stop-confirm, self-marking and evidence contracts while translating presentation onto the Exam / Performance family.
-
-Detailed production evidence is recorded in `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`.
-
-## B6 current implementation state
-
-**In progress on governed branch.** B6 migrates the protected Admin/operations surfaces onto the Brand System's Admin profile without changing operational meaning, authorization or backend contracts.
-
-The canonical Admin surfaces remain role-gated views inside the same application runtime:
-
-- `#/admin`;
-- `#/admin/users`;
-- `#/admin/activity`;
-- `#/admin/health`;
-- `#/admin/assurance`;
-- `#/admin/content`; and
-- planner-specific Admin assurance where exposed.
-
-`src/app/interface-admin.css` is the bounded B6 layer. It deliberately loads after legacy Admin styles so it can translate current live surfaces onto central roles while B7 retains responsibility for deleting redundant compatibility CSS.
-
-B6 covers:
-
-- Admin page hierarchy and section navigation;
-- operational health/status presentation;
-- high-level metric and evidence summaries;
-- Needs attention and operational panels;
-- first-class tables with compact density and sticky headings;
-- trends and definition lists;
-- Content Operations forms and feedback;
-- Founder Assurance summary and coverage presentation;
-- Planner Assurance presentation;
-- light/dark parity;
-- responsive phone/tablet/desktop layouts;
-- keyboard-visible focus; and
-- reduced-motion handling.
-
-B6 follows the Brand System's Admin rules: functional and restrained; dense where the job requires it; tables remain tables; compact 36px controls are allowed in appropriate desktop operational contexts; semantic colours retain their governed meanings; Unknown is never styled as Healthy; destructive actions retain Error semantics; and Living E halo is not used decoratively.
-
-Detailed implementation and assurance scope is recorded in `docs/technical/Interface System B6 Admin Migration.md`.
+Detailed rationale and assurance are recorded in `docs/technical/Interface Theme Integrity Pre-B7.md`.
 
 ## Migration rules
 
@@ -151,59 +86,22 @@ A surface group is migrated only when:
 8. compatibility remains only where a live consumer still requires it; and
 9. product behaviour, evidence, entitlement and learner/admin data contracts do not change unless separately governed.
 
-## Bounded rollout
-
-- **B1 — foundation/account/overlays:** live.
-- **B2 — Plan and Progress:** live.
-- **B2.5 — reusable component/icon/asset foundation:** live via PR #116.
-- **B3 — Subjects, Subject Home, course/specification:** live via PR #118.
-- **B4 — Learn and Practice:** live via PR #119.
-- **B5 — Exam Prep / exam experience:** live via PR #121.
-- **B6 — Admin:** in progress; same foundations at appropriate operational density.
-- **B7 — compatibility retirement:** remove aliases and redundant legacy feature CSS only after repository search and regression prove zero live dependency.
-
 ## Quality gate
 
-Every material interface PR checks:
+Every material interface PR checks typography, spacing, surface family, radius/elevation, reusable component/control use, icon/asset source where applicable, light/dark behaviour, phone/tablet/desktop behaviour, keyboard/focus/accessibility, loading/empty/error/disabled/saving states where relevant, and motion/reduced motion.
 
-- typography role;
-- spacing rhythm;
-- surface family;
-- radius/elevation;
-- reusable component/control;
-- icon/asset source where applicable;
-- light/dark behaviour;
-- phone/tablet/desktop behaviour;
-- keyboard/focus/accessibility;
-- loading/empty/error/disabled/saving states where relevant; and
-- motion/reduced motion.
+The pre-B7 theme-integrity pass additionally requires:
 
-B6 additionally checks Admin-specific table density/overflow, operational status truthfulness, Content Operations form states and Founder Assurance evidence semantics.
-
-## B6 assurance
-
-Required assurance includes:
-
-- typecheck;
-- lint;
-- unit/component tests;
-- Interface System governance tests including the B6 Admin layer;
-- no-local-palette assurance;
-- production build;
-- existing Admin operations browser journey assurance;
-- responsive Admin assurance across supported projects;
-- light/dark semantic-role assurance;
-- table overflow/sticky-heading regression checks;
-- keyboard/focus/accessibility coverage;
-- Content Operations form-state regression assurance;
-- Founder Assurance truthfulness regression assurance;
-- protected Admin/database service assurance from the normal CI suite; and
-- current-main integration before merge.
-
-After merge, B6 becomes Live only when the resulting merge commit has durable `revision/path-to-live = success`.
+- static assurance that the integrity layer contains no local palette;
+- static assurance that required semantic foreground/background/status roles are present;
+- import-order assurance proving the bridge loads after B6;
+- browser assurance that switches the live account/runtime from light to dark;
+- computed-style checks proving overlay and field foreground/background values actually change with the theme rather than remaining legacy light values;
+- responsive browser assurance; and
+- the normal production build, database/RLS and protected-service regression suite.
 
 ## Documentation impact
 
-B6 implements existing Visual Brand System and Interface System authority rather than changing normative product direction. It does not alter canonical runtime, routes, authorization, metrics, evidence semantics or backend boundaries, so no normative authority amendment or ADR is required.
+B6 is now production-live and this document records the post-B6 theme-integrity checkpoint before B7. The change implements already-approved dual-theme Visual Brand System authority; it does not alter product behaviour, routes, authorization, metrics, evidence semantics or backend boundaries. No normative authority amendment or ADR is required.
 
-This implementation record, B5 production record, B6 migration record and `INDEX.md` are maintained with the implementation. The Interface System Component Registry requires no amendment because B6 introduces no new public reusable component, icon source or identity asset. Historical evidence remains unchanged.
+Historical evidence remains unchanged. B7 should begin only from a `main` where this hardening has passed governed merge and production verification.
