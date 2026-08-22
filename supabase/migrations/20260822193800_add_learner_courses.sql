@@ -88,12 +88,13 @@ comment on table public.learner_course_events is
 
 -- Move the deployment readiness contract forward with FI-020. The Pages deployment
 -- must fail closed if the frontend is about to rely on learner-course persistence but
--- production has not yet received this migration.
+-- production has not yet received this migration. Keep the existing SECURITY INVOKER
+-- boundary because the RPC exposes only non-sensitive capability-presence booleans.
 create or replace function public.revision_release_readiness()
 returns jsonb
 language sql
 stable
-security definer
+security invoker
 set search_path = pg_catalog, public
 as $$
 select jsonb_build_object(
@@ -128,7 +129,7 @@ select jsonb_build_object(
 $$;
 
 comment on function public.revision_release_readiness() is
-  'Public, non-sensitive release-readiness contract used by deployment automation to verify required Revision database capabilities before publishing a new frontend. It exposes only boolean capability presence and a contract identifier.';
+  'Public, non-sensitive release-readiness contract used by deployment automation. Runs as SECURITY INVOKER and exposes only boolean capability presence plus a contract identifier.';
 
 revoke all on function public.revision_release_readiness() from public;
 grant execute on function public.revision_release_readiness() to anon, authenticated;
