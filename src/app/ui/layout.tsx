@@ -41,7 +41,7 @@ export function Surface({ as = 'section', variant = 'standard', padded = true, c
   return <Component className={classNames(surfaceClasses[variant], padded && 'ui-surface-component', className)} {...props} />
 }
 
-export interface EmptyStateProps extends HTMLAttributes<HTMLDivElement> {
+export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode
   description: ReactNode
   action?: ReactNode
