@@ -4,7 +4,7 @@
 Any material implementation change to Revision code, routes, UI, persistence, deployment or technical behaviour.
 
 ## Purpose
-Prevent implementation work from being applied to the wrong runtime, route, component or migration surface, prevent material product features entering development before the product definition is genuinely ready, and ensure parallel work converges through one canonical `main` integration baseline.
+Prevent implementation work from being applied to the wrong runtime, route, component or migration surface, prevent material product features entering development before the product definition is genuinely ready, and ensure parallel work converges safely through one canonical `main` integration baseline.
 
 ## Feature-readiness precondition
 
@@ -27,24 +27,49 @@ Before editing implementation files:
 6. **Surface conflicts.** If authority, technical documentation, deployment configuration and implementation disagree about the canonical target, stop and resolve the conflict before writing code.
 7. **Confirm deployment path.** For changes intended for production, verify how the changed files reach the production route and what smoke test proves that route changed.
 8. **Confirm approved scope.** For feature development, compare the intended implementation with the Ready definition, including MVP exclusions, Free/Paid/Premium behaviour, evidence semantics, risk controls, measurement and assurance. Material scope changes return to proportionate product analysis and, where they invalidate the approved Definition of Ready, require renewed human readiness approval.
-9. **Branch from current `main` and use a PR.** The governed branch must start from the then-current approved `main`. The PR must record the target route/runtime and evidence used to identify it.
+9. **Branch from current `main` and use a PR.** Governed work should use a short-lived branch created from the then-current approved `main`. The PR must record the target route/runtime and evidence used to identify it.
 
-## Parallel work and final integration gate
+## Parallel work and integration
 
-Revision may have multiple active feature, defect, maintenance and governance branches at the same time. They do not become alternative versions of the product: only approved `main` is canonical integration truth.
+Revision may have multiple active feature, defect, maintenance and governance branches and PRs at the same time. This is expected and should be handled in the same way as a multi-developer product team.
 
-To support safe parallel delivery without constant branch churn:
+Only `main` is canonical integrated product truth. Branches are temporary working states.
 
-1. Branches begin from current `main`.
-2. While work is active, a branch may temporarily fall behind as unrelated work merges. It does not need continuous rebasing merely to remain active.
-3. When the PR is otherwise complete and ready to enter merge-readiness assurance, perform a **final integration-baseline refresh** against the latest `main`.
-4. The refreshed PR head must contain the latest `main` as an ancestor before exact-head CI and before Founder merge approval is requested.
-5. For files changed by both the PR and newer `main`, resolve the final combined state deliberately. Shared knowledge/index/register/configuration files must retain newer `main` content plus the PR's intended addition; an old branch copy must never overwrite newer canonical content.
-6. Any refresh changes the exact PR head and therefore invalidates earlier exact-head CI and any earlier merge approval. Rerun the required assurance on the refreshed head.
-7. Only one PR should occupy the final integration/merge gate at a time. Other ready PRs wait outside that gate; after the active PR merges, they refresh once against the newly updated `main`.
-8. Immediately before merge, re-read `main`. If it has advanced since the approved head was refreshed, the PR must leave the gate, refresh again, rerun exact-head assurance and obtain renewed Founder approval.
+While work is active:
 
-This is Revision's default manual merge-queue behaviour. A future automated GitHub merge queue may replace the manual serialization only through a governed change that preserves the same canonical-main, exact-head assurance and Founder approval invariants.
+- branches may temporarily fall behind as unrelated work merges;
+- multiple PRs may be open, reviewed and technically ready at the same time;
+- do not continuously rebase every branch solely because `main` moved; and
+- do not allow an older branch copy of a shared file to overwrite newer `main` content.
+
+## Final integration before merge
+
+When a PR is otherwise complete and is being prepared for production merge:
+
+1. **Read current `main`.** Establish the latest canonical integration state.
+2. **Integrate/test with current `main`.** Use a native repository merge queue when available and governed; otherwise bring current `main` into the PR branch through an appropriate merge/rebase/update before final merge assurance.
+3. **Review overlap.** If both the PR and newer `main` changed the same responsibility or shared file, resolve the combined state deliberately.
+4. **Preserve cumulative truth.** Shared indexes, registers, manifests, routes, config and migrations must become `latest main + intended PR delta`, never `old branch version wins`.
+5. **Run final assurance.** The integration candidate must pass the required risk-proportionate CI/assurance.
+6. **Summarise for Founder approval.** Before production merge, present what the PR changes, material impact, assurance evidence, documentation impact, risks and any substantive conflict resolution.
+7. **Obtain explicit Founder merge approval.** The Founder approves the proposed change entering production; branch mechanics remain an engineering responsibility.
+
+There is no governance rule limiting Revision to one review-ready PR at a time. Actual merges are necessarily ordered because each successful merge changes `main`; the next merge candidate must therefore be checked against the resulting current `main` before it merges.
+
+## Approval continuity across a mechanical `main` refresh
+
+If `main` changes after Founder approval but before merge, refresh/revalidate the PR.
+
+The previous Founder approval may be carried forward only when the refresh is demonstrably mechanical:
+
+- only newer `main` is incorporated;
+- no substantive conflict-resolution decision is required;
+- the intended PR delta remains materially unchanged; and
+- final assurance passes against the refreshed integration candidate.
+
+In that case the executing agent may update the exact-head approval evidence without asking the Founder to repeat approval for unchanged work.
+
+If the PR delta, product behaviour, authority, schema, route, security position, release behaviour or other material effect changes, renewed Founder approval is required.
 
 ## Lifecycle update
 
@@ -66,7 +91,7 @@ Every implementation PR must state:
 - how the implementation reflects the approved MVP and Free/Paid/Premium behaviour where applicable;
 - how the required measurement/assurance instrumentation is implemented;
 - how tests or production smoke demonstrate the intended route is affected; and
-- the `main` baseline used for final merge-readiness assurance.
+- the final integration evidence used to show compatibility with current `main` before merge.
 
 ## Stop conditions
 Stop and surface to the Founder if:
@@ -78,11 +103,11 @@ Stop and surface to the Founder if:
 - a change would redefine the canonical product surface through code alone;
 - deployment configuration would publish a different surface from the one being changed;
 - a migration/compatibility route risks being mistaken for the governed product; or
-- a final integration refresh exposes a substantive authority, product, schema, route, lifecycle or implementation conflict that cannot be resolved mechanically without changing approved scope.
+- final integration with current `main` exposes a substantive authority, product, schema, route, lifecycle or implementation conflict that cannot be resolved without changing approved scope.
 
 ## Completion check
 Implementation is not complete until code, technical documentation, deployment configuration, product/entitlement behaviour, measurement/assurance and production-route evidence all describe the same current system.
 
-The PR is not merge-ready until its exact head has been assured against the latest `main` integration baseline required by the repository rules.
+The PR is not merge-ready until its proposed production change has been successfully validated with the current `main` integration state using the governed repository mechanism.
 
 `Live` is a production-evidence state, not a synonym for merged.
