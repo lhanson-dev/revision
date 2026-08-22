@@ -1,19 +1,124 @@
-.auth-entry-card { width: min(460px, 100%); }
+.loading-shell,
+.auth-shell {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+}
+
+.auth-shell {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-6);
+  padding: var(--space-6);
+}
+
+.loading-shell {
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+}
+
+.auth-brand {
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+  letter-spacing: -.03em;
+}
+
+.auth-brand span {
+  margin-left: var(--space-2);
+  color: var(--color-action);
+}
+
+.auth-card,
+.auth-entry-card {
+  width: min(460px, 100%);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-floating);
+}
+
+.auth-card .eyebrow {
+  color: var(--color-accent-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.auth-card h1 {
+  margin: var(--space-2) 0 var(--space-4);
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line);
+  font-weight: var(--type-h1-weight);
+  letter-spacing: -.03em;
+}
+
+.auth-card .intro,
+.auth-card .message,
+.auth-switch,
+.auth-divider {
+  color: var(--color-text-secondary);
+}
+
+.auth-card .intro {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.auth-card label {
+  display: block;
+  margin-top: var(--space-4);
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.auth-card input {
+  display: block;
+  width: 100%;
+  min-height: var(--field-height-standard);
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.auth-card input:focus-visible,
+.auth-provider-button:focus-visible,
+.auth-recovery-link:focus-visible,
+.auth-switch button:focus-visible,
+.auth-wide-action:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
 
 .auth-provider-button {
   width: 100%;
-  min-height: 48px;
-  margin-top: 20px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: #fff;
-  color: var(--navy);
-  font-weight: 800;
+  min-height: var(--field-height-standard);
+  margin-top: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--type-button-weight);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .auth-provider-button:disabled,
@@ -23,41 +128,53 @@
 .google-mark {
   width: 24px;
   height: 24px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
   display: inline-grid;
   place-items: center;
-  font-size: 13px;
-  font-weight: 900;
+  color: var(--color-text);
+  font-size: var(--type-caption-size);
+  font-weight: 700;
 }
 
 .auth-divider {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 18px 0 4px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
+  gap: var(--space-3);
+  margin: var(--space-5) 0 var(--space-1);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: var(--type-caption-weight);
   text-transform: uppercase;
   letter-spacing: .06em;
 }
 
 .auth-divider::before,
-.auth-divider::after { content: ''; height: 1px; flex: 1; background: var(--line); }
+.auth-divider::after { content: ''; height: 1px; flex: 1; background: var(--color-border); }
 
 .auth-email-form { display: grid; gap: 0; }
-.auth-wide-action { width: 100%; margin-top: 18px; }
+.auth-wide-action {
+  width: 100%;
+  min-height: var(--control-height-standard);
+  margin-top: var(--space-5);
+  border: 1px solid var(--color-action);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+}
 
 .auth-recovery-link {
   justify-self: start;
-  min-height: 40px;
-  margin-top: 8px;
+  min-height: var(--control-height-standard);
+  margin-top: var(--space-2);
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--navy);
-  font-weight: 800;
+  color: var(--color-accent-text);
+  font-weight: var(--type-button-weight);
   cursor: pointer;
 }
 
@@ -65,26 +182,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: var(--space-2);
   flex-wrap: wrap;
-  margin-top: 22px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 14px;
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
 }
 
 .auth-switch button {
-  min-height: 40px;
+  min-height: var(--control-height-standard);
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--navy);
-  font-weight: 900;
+  color: var(--color-accent-text);
+  font-weight: var(--type-button-weight);
   cursor: pointer;
 }
 
+.auth-card .message {
+  min-height: 22px;
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
 @media (max-width: 480px) {
-  .auth-entry-card { padding: 24px 20px; }
+  .auth-shell { padding: var(--space-4); }
+  .auth-card,
+  .auth-entry-card { padding: var(--space-6) var(--space-5); }
   .auth-provider-button { min-height: 50px; }
 }
