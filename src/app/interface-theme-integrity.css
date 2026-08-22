@@ -194,9 +194,3 @@
 .planner-runtime .runtime-rev-panel-body {
   scrollbar-color: var(--color-text-secondary) var(--color-surface-soft);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .planner-runtime * {
-    transition-color: none;
-  }
-}
