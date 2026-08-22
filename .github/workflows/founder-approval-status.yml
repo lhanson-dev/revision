@@ -6,6 +6,9 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
   issue_comment:
     types: [created, edited]
+  workflow_run:
+    workflows: [Revision CI]
+    types: [completed]
 
 permissions:
   actions: read
@@ -17,7 +20,7 @@ permissions:
 jobs:
   founder-approval-status:
     name: Founder approval status
-    if: ${{ github.event_name == 'pull_request_target' || github.event.issue.pull_request }}
+    if: ${{ github.event_name == 'pull_request_target' || (github.event_name == 'issue_comment' && github.event.issue.pull_request) || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.pull_requests[0]) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -33,6 +36,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
-          REVISION_PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
-          REVISION_APPROVAL_TARGET_URL: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number || github.event.issue.number }}
+          REVISION_PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || github.event.workflow_run.pull_requests[0].number }}
+          REVISION_APPROVAL_TARGET_URL: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number || github.event.issue.number || github.event.workflow_run.pull_requests[0].number }}
         run: node scripts/assurance/founder-approval-status.mjs
