@@ -1,4 +1,4 @@
-import { useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type HTMLAttributes } from 'react'
+import { useId, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from 'react'
 import { classNames } from './classNames'
 
 export type ButtonVariant = 'primary' | 'strong' | 'secondary' | 'tertiary' | 'destructive'
@@ -39,7 +39,7 @@ interface FieldSupportProps {
   groupClassName?: string
 }
 
-export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement>, FieldSupportProps {}
+export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & FieldSupportProps
 
 export function TextField({ label, hint, error, groupClassName, id, className, ...props }: TextFieldProps) {
   const generatedId = useId()
@@ -53,16 +53,16 @@ export function TextField({ label, hint, error, groupClassName, id, className, .
       <input
         {...props}
         id={controlId}
-        className={classNames('ui-field', error && 'ui-field--error', className)}
+        className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
         aria-describedby={describedBy}
         aria-invalid={error ? true : props['aria-invalid']}
       />
-      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', error && 'ui-field-support--error')}>{error ?? hint}</span>}
+      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
     </label>
   )
 }
 
-export interface SelectFieldProps extends SelectHTMLAttributes<HTMLSelectElement>, FieldSupportProps {}
+export type SelectFieldProps = SelectHTMLAttributes<HTMLSelectElement> & FieldSupportProps
 
 export function SelectField({ label, hint, error, groupClassName, id, className, children, ...props }: SelectFieldProps) {
   const generatedId = useId()
@@ -76,13 +76,13 @@ export function SelectField({ label, hint, error, groupClassName, id, className,
       <select
         {...props}
         id={controlId}
-        className={classNames('ui-field', error && 'ui-field--error', className)}
+        className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
         aria-describedby={describedBy}
         aria-invalid={error ? true : props['aria-invalid']}
       >
         {children}
       </select>
-      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', error && 'ui-field-support--error')}>{error ?? hint}</span>}
+      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
     </label>
   )
 }
