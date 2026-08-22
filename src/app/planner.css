@@ -111,10 +111,13 @@
   font-weight: 650;
 }
 
-.planner-form input,
-.planner-form select,
-.planner-panel input,
-.planner-panel select {
+/* Legacy planner control styling remains only for controls that have not yet
+ * migrated to the shared Interface System. Shared .ui-field controls own their
+ * anatomy and light/dark theme behaviour centrally. */
+.planner-form input:not(.ui-field),
+.planner-form select:not(.ui-field),
+.planner-panel input:not(.ui-field),
+.planner-panel select:not(.ui-field) {
   width: 100%;
   min-height: 2.75rem;
   padding: 0.65rem 0.75rem;
