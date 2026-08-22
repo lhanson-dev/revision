@@ -102,7 +102,7 @@ test.describe('database-backed learner persistence', () => {
 
     const { data: retainedEvidence, error: retainedEvidenceError } = await admin
       .from('learning_evidence')
-      .select('id')
+      .select('evidence_id')
       .eq('user_id', user.id)
     expect(retainedEvidenceError).toBeNull()
     expect(retainedEvidence?.length).toBe(1)
