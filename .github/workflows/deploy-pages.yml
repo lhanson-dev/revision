@@ -21,7 +21,7 @@ concurrency:
 env:
   SUPABASE_URL: https://xwwhshpmeogswxfjtpvq.supabase.co
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
-  EXPECTED_BACKEND_CONTRACT: planner-v1
+  EXPECTED_BACKEND_CONTRACT: courses-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
   # Third explicit 2026-08-22 recovery checkpoint. PR #106 had genuine
   # Founder approval recorded for its exact head, but the executing flow again
