@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(46);
+select plan(54);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -100,6 +100,15 @@ select ok(has_table_privilege('authenticated', 'public.learner_course_events', '
 select ok(has_table_privilege('authenticated', 'public.learner_course_events', 'insert'), 'authenticated can insert own learner course events subject to RLS');
 select ok(not has_table_privilege('authenticated', 'public.learner_course_events', 'update'), 'learner course events are not updateable by browser roles');
 select ok(not has_table_privilege('authenticated', 'public.learner_course_events', 'delete'), 'learner course events are not deletable by browser roles');
+
+select ok(has_table_privilege('service_role', 'public.learner_courses', 'select'), 'service role can read learner course membership for protected operations');
+select ok(not has_table_privilege('service_role', 'public.learner_courses', 'insert'), 'service role is not granted learner course insert through FI-020');
+select ok(not has_table_privilege('service_role', 'public.learner_courses', 'update'), 'service role is not granted learner course update through FI-020');
+select ok(not has_table_privilege('service_role', 'public.learner_courses', 'delete'), 'service role is not granted learner course delete through FI-020');
+select ok(has_table_privilege('service_role', 'public.learner_course_events', 'select'), 'service role can read learner course events for protected assurance');
+select ok(not has_table_privilege('service_role', 'public.learner_course_events', 'insert'), 'service role is not granted learner course event insert through FI-020');
+select ok(not has_table_privilege('service_role', 'public.learner_course_events', 'update'), 'service role is not granted learner course event update through FI-020');
+select ok(not has_table_privilege('service_role', 'public.learner_course_events', 'delete'), 'service role is not granted learner course event delete through FI-020');
 
 select ok(
   (
