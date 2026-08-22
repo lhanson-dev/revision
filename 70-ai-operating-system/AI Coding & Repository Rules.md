@@ -82,6 +82,8 @@ Where GitHub supports the controls for the repository, `main` should enforce:
 - protection against bypassing the governed merge path; and
 - integration with current `main` before merge, preferably through a native merge queue when the repository ownership/plan supports it.
 
+At the time this rule was adopted, Revision is hosted in an individual-owned GitHub repository, for which GitHub's native merge queue is not available. The current operating fallback is therefore protected-branch/PR controls plus explicit current-`main` integration and final assurance before merge. If repository ownership or GitHub capability changes later, adopting a native merge queue is an engineering-process improvement rather than a change to the Founder approval principle, provided the same safeguards remain intact.
+
 If the platform cannot enforce a control automatically, the executing agent must apply the equivalent governed check explicitly. Platform limitations must not silently weaken Founder approval or production assurance.
 
 ## Feature-readiness rule
