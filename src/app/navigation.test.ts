@@ -45,12 +45,15 @@ describe('learner navigation model', () => {
     expect(routeHash(legacyIndex)).toBe('#/courses')
   })
 
-  it('keeps protected Admin detail hashes inside the Admin route', () => {
+  it('preserves protected Admin detail hashes instead of normalising them to the Admin root', () => {
     expect(parseRoute('#/admin')).toEqual(adminRoute())
-    expect(parseRoute('#/admin/users')).toEqual(adminRoute())
-    expect(parseRoute('#/admin/activity')).toEqual(adminRoute())
-    expect(parseRoute('#/admin/health')).toEqual(adminRoute())
-    expect(parseRoute('#/admin/content')).toEqual(adminRoute())
+    expect(parseRoute('#/admin/users')).toEqual(adminRoute('users'))
+    expect(parseRoute('#/admin/activity')).toEqual(adminRoute('activity'))
+    expect(parseRoute('#/admin/health')).toEqual(adminRoute('health'))
+    expect(parseRoute('#/admin/assurance')).toEqual(adminRoute('assurance'))
+    expect(parseRoute('#/admin/content')).toEqual(adminRoute('content'))
+    expect(parseRoute('#/admin/planner')).toEqual(adminRoute('planner'))
+    expect(routeHash(adminRoute('users'))).toBe('#/admin/users')
   })
 
   it('falls back to Home for an unknown hash', () => {
