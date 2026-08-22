@@ -1,0 +1,133 @@
+.courses-screen {
+  display: grid;
+  gap: var(--space-5, 20px);
+}
+
+.courses-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5, 20px);
+}
+
+.courses-heading > div {
+  min-width: 0;
+}
+
+.courses-grid {
+  display: grid;
+  gap: var(--space-4, 16px);
+}
+
+.courses-programme-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5, 20px);
+}
+
+.courses-programme-card-copy {
+  min-width: 0;
+}
+
+.courses-programme-card-copy h2 {
+  margin: 8px 0;
+}
+
+.courses-programme-card-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+}
+
+.courses-empty {
+  min-height: 240px;
+}
+
+.courses-modal {
+  position: fixed;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(80vh, 760px);
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  padding: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+.courses-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.courses-modal-head h2,
+.courses-remove-modal h2 {
+  margin: 4px 0 0;
+}
+
+.courses-add-list {
+  display: grid;
+  gap: 10px;
+}
+
+.courses-add-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border, rgba(16, 43, 49, 0.12));
+}
+
+.courses-add-item:last-child {
+  border-bottom: 0;
+}
+
+.courses-add-item div {
+  display: grid;
+  gap: 4px;
+}
+
+.courses-add-item span {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.courses-remove-modal {
+  width: min(520px, calc(100vw - 32px));
+}
+
+@media (max-width: 720px) {
+  .courses-heading,
+  .courses-programme-card,
+  .courses-add-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .courses-heading > .ui-button,
+  .courses-programme-card-actions .ui-button,
+  .courses-add-item .ui-button {
+    width: 100%;
+  }
+
+  .courses-programme-card-actions {
+    display: grid;
+  }
+
+  .courses-modal {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-height: 88vh;
+    transform: none;
+    border-radius: 24px 24px 0 0;
+  }
+}
