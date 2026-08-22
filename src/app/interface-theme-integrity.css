@@ -220,7 +220,7 @@
 }
 
 .planner-runtime .evidence-dot {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-border);
   background: var(--color-surface);
 }
 
