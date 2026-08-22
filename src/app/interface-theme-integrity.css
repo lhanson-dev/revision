@@ -1,0 +1,196 @@
+/*
+ * Pre-B7 theme integrity layer.
+ *
+ * B1-B6 deliberately left legacy CSS in place until compatibility retirement.
+ * Some legacy selectors still carry literal light-mode foreground/background
+ * values. This final compatibility layer translates remaining live text, form,
+ * status and supporting surfaces onto the central semantic theme roles without
+ * deleting legacy styles before B7 proves zero live dependency.
+ */
+
+.planner-runtime {
+  color: var(--color-text);
+}
+
+.planner-runtime[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Global legacy typography that can otherwise retain app.css light values. */
+.planner-runtime h1,
+.planner-runtime h2,
+.planner-runtime h3,
+.planner-runtime h4,
+.planner-runtime .rating-prompt,
+.planner-runtime .answer-label,
+.planner-runtime .topic-picker,
+.planner-runtime .activity-kind strong,
+.planner-runtime .link-list article strong,
+.planner-runtime .next-step strong,
+.planner-runtime .mark-total,
+.planner-runtime .result-explanation strong,
+.planner-runtime .readiness-number {
+  color: var(--color-text);
+}
+
+.planner-runtime .intro,
+.planner-runtime .muted,
+.planner-runtime .message,
+.planner-runtime .practice-meta,
+.planner-runtime .activity-list span,
+.planner-runtime .activity-list time,
+.planner-runtime .small-note,
+.planner-runtime .quiet-note,
+.planner-runtime .next-step span,
+.planner-runtime .result-explanation span,
+.planner-runtime .learn-section ul,
+.planner-runtime .link-list article p,
+.planner-runtime .case-material,
+.planner-runtime .exam-context {
+  color: var(--color-text-secondary);
+}
+
+/* Legacy ordinary surfaces that still exist beneath migrated composition. */
+.planner-runtime .course-card,
+.planner-runtime .learning-workspace,
+.planner-runtime .progress-grid > section,
+.planner-runtime .learn-section,
+.planner-runtime .link-list article,
+.planner-runtime .practice-box,
+.planner-runtime .written-practice,
+.planner-runtime .case-material,
+.planner-runtime .self-mark-panel,
+.planner-runtime .exam-context,
+.planner-runtime .option-list label {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .activity-kind,
+.planner-runtime .next-step,
+.planner-runtime .fact-chips span {
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+}
+
+/* Form controls must always translate both foreground and surface together. */
+.planner-runtime .topic-picker select,
+.planner-runtime .answer-label textarea,
+.planner-runtime .ao-grid input,
+.planner-runtime .content-operations-form input,
+.planner-runtime .content-operations-form textarea {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  caret-color: var(--color-text);
+}
+
+.planner-runtime .topic-picker select:disabled,
+.planner-runtime .answer-label textarea:disabled,
+.planner-runtime .ao-grid input:disabled,
+.planner-runtime .content-operations-form input:disabled,
+.planner-runtime .content-operations-form textarea:disabled {
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime input::placeholder,
+.planner-runtime textarea::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
+
+/* Compatibility controls must not keep light-only fills. */
+.planner-runtime .secondary,
+.planner-runtime .secondary-link,
+.planner-runtime .rating-actions button,
+.planner-runtime .mode-tabs button:not(.active) {
+  border-color: var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.planner-runtime .mode-tabs button.active {
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+}
+
+.planner-runtime .primary {
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+/* Semantic states retain meaning in both themes instead of inheriting legacy light colours. */
+.planner-runtime .activity-kind.scored,
+.planner-runtime .answer-panel,
+.planner-runtime .result-explanation,
+.planner-runtime .option-list label.correct,
+.planner-runtime .admin-clear,
+.planner-runtime .admin-success,
+.planner-runtime .content-operations-success {
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .option-list label.correct {
+  border-color: color-mix(in srgb, var(--status-success-fg) 42%, var(--color-border));
+}
+
+.planner-runtime .option-list label.incorrect,
+.planner-runtime .content-operations-error {
+  border-color: color-mix(in srgb, var(--status-error-fg) 42%, var(--color-border));
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+}
+
+.planner-runtime .admin-warning {
+  border-color: color-mix(in srgb, var(--status-warning-fg) 36%, var(--color-border));
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+}
+
+.planner-runtime .error {
+  color: var(--status-error-fg);
+}
+
+/* Admin/assurance text descendants need an explicit semantic reset because
+ * their pre-B6 styles contained literal light-theme colours. */
+.planner-runtime .admin-operations,
+.planner-runtime .founder-assurance,
+.planner-runtime .planner-admin {
+  color: var(--color-text);
+}
+
+.planner-runtime .admin-operations :is(h1, h2, h3, h4, strong, dt, dd),
+.planner-runtime .founder-assurance :is(h1, h2, h3, h4, strong, dt, dd),
+.planner-runtime .planner-admin :is(h1, h2, h3, h4, strong, dt, dd) {
+  color: inherit;
+}
+
+.planner-runtime .admin-table th,
+.planner-runtime .admin-table td,
+.planner-runtime .assurance-table th,
+.planner-runtime .assurance-table td {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.planner-runtime .admin-table th,
+.planner-runtime .assurance-table th,
+.planner-runtime .admin-table td span,
+.planner-runtime .assurance-table td span {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .admin-table thead th,
+.planner-runtime .assurance-table thead th {
+  background: var(--color-surface-elevated);
+}
+
+/* Keep native/scrolling surfaces visually coherent when the theme switches. */
+.planner-runtime .admin-table-wrap,
+.planner-runtime .exam-context,
+.planner-runtime .runtime-rev-panel-body {
+  scrollbar-color: var(--color-text-secondary) var(--color-surface-soft);
+}
