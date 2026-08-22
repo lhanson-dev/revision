@@ -4,20 +4,41 @@ export type CourseSection = PaperSection
 export type AppRoute =
   | { kind: 'home' }
   | { kind: 'plan' }
+  | { kind: 'courses' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
   | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection }
-  | { kind: 'module'; subjectId: string; moduleId: string; section: PaperSection }
+  | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection }
   | { kind: 'progress' }
   | { kind: 'rev' }
   | { kind: 'admin' }
 
 export const homeRoute = (): AppRoute => ({ kind: 'home' })
 export const planRoute = (): AppRoute => ({ kind: 'plan' })
+export const coursesRoute = (): AppRoute => ({ kind: 'courses' })
+
+// Compatibility constructors retained while old subject-first links are migrated.
+// routeHash() always emits the governed Courses route family.
 export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
 export const subjectRoute = (subjectId: string): AppRoute => ({ kind: 'subject', subjectId })
 export const courseRoute = (subjectId: string, courseId: string, section: CourseSection = 'overview'): AppRoute => ({ kind: 'course', subjectId, courseId, section })
-export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, moduleId, section })
+export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, courseId: '', moduleId, section })
+
+export const learnerCourseRoute = (courseId: string, section: CourseSection = 'overview'): AppRoute => ({
+  kind: 'course',
+  subjectId: '',
+  courseId,
+  section,
+})
+
+export const learnerModuleRoute = (courseId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({
+  kind: 'module',
+  subjectId: '',
+  courseId,
+  moduleId,
+  section,
+})
+
 export const progressRoute = (): AppRoute => ({ kind: 'progress' })
 export const revRoute = (): AppRoute => ({ kind: 'rev' })
 export const adminRoute = (): AppRoute => ({ kind: 'admin' })
@@ -28,10 +49,14 @@ export function routeHash(route: AppRoute) {
   switch (route.kind) {
     case 'home': return '#/home'
     case 'plan': return '#/plan'
-    case 'subjects': return '#/subjects'
-    case 'subject': return `#/subjects/${clean(route.subjectId)}`
-    case 'course': return `#/subjects/${clean(route.subjectId)}/courses/${clean(route.courseId)}/${route.section}`
-    case 'module': return `#/subjects/${clean(route.subjectId)}/modules/${clean(route.moduleId)}/${route.section}`
+    case 'courses':
+    case 'subjects':
+    case 'subject': return '#/courses'
+    case 'course': return `#/courses/${clean(route.courseId)}/${route.section}`
+    case 'module': {
+      if (route.courseId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/${route.section}`
+      return '#/courses'
+    }
     case 'progress': return '#/progress'
     case 'rev': return '#/rev'
     case 'admin': return '#/admin'
@@ -50,15 +75,32 @@ function validSection(value: string): value is PaperSection {
 export function parseRoute(hash: string): AppRoute {
   if (!hash || hash === '#' || hash === '#/' || hash === '#/home') return homeRoute()
   if (hash === '#/plan') return planRoute()
-  if (hash === '#/subjects') return subjectsRoute()
+  if (hash === '#/courses' || hash === '#/subjects') return coursesRoute()
   if (hash === '#/progress') return progressRoute()
   if (hash === '#/rev') return revRoute()
   if (hash === '#/admin' || hash.startsWith('#/admin/')) return adminRoute()
 
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
+
+  if (parts[0] === 'courses' && parts.length === 3) {
+    const courseId = decode(parts[1])
+    const section = parts[2]
+    if (courseId && validSection(section)) return learnerCourseRoute(courseId, section)
+  }
+
+  if (parts[0] === 'courses' && parts[2] === 'components' && parts.length === 5) {
+    const courseId = decode(parts[1])
+    const moduleId = decode(parts[3])
+    const section = parts[4]
+    if (courseId && moduleId && validSection(section)) return learnerModuleRoute(courseId, moduleId, section)
+  }
+
+  // FI-020 compatibility inputs. These parse into the same route kinds but routeHash()
+  // emits the canonical Courses route so the shell can replace the old URL without
+  // breaking existing bookmarks or planner/REV links.
   if (parts[0] === 'subjects' && parts.length === 2) {
     const subjectId = decode(parts[1])
-    return subjectId ? subjectRoute(subjectId) : homeRoute()
+    return subjectId ? subjectRoute(subjectId) : coursesRoute()
   }
   if (parts[0] === 'subjects' && parts[2] === 'courses' && parts.length === 5) {
     const subjectId = decode(parts[1])
@@ -83,9 +125,12 @@ export function parseRoute(hash: string): AppRoute {
   return homeRoute()
 }
 
-export function routeBelongsToSubjects(route: AppRoute) {
-  return route.kind === 'subjects' || route.kind === 'subject' || route.kind === 'course' || route.kind === 'module'
+export function routeBelongsToCourses(route: AppRoute) {
+  return route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject' || route.kind === 'course' || route.kind === 'module'
 }
+
+// Compatibility alias for code that has not yet been migrated in this branch.
+export const routeBelongsToSubjects = routeBelongsToCourses
 
 export function sameRoute(left: AppRoute, right: AppRoute) {
   return routeHash(left) === routeHash(right)

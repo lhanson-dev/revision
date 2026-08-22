@@ -993,14 +993,15 @@ Would require evidence/claims review, content and assessment governance, marketi
 
 ## FI-020 — Learner Courses and Course Membership
 
-**Status:** Ready  
+**Status:** In Progress  
 **Captured:** 2026-08-22  
 **Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
 **Approved direction:** `Courses` replaces `Subjects` as the fourth learner-wide destination; Courses shows the authenticated learner's saved course set and provides Add Course; the active Courses branch exposes those saved courses directly.  
 **Analysis record:** `10-product-governance/backlog/FI-020 Learner Courses and Course Membership Analysis.md`  
-**Authority change:** `10-product-governance/Global Learner Navigation.md` v0.8 and `10-product-governance/Information Architecture.md` v1.0 proposal in PR #129  
-**Lifecycle evidence:** Founder approved the product direction on 2026-08-22 (`New → To Do`), analysis completed all applicable Definition-of-Ready criteria with no blockers, and the Founder explicitly approved `Analyse → Ready` on 2026-08-22. Governed implementation begins only after the approved authority/readiness change is integrated into current `main`.  
-**Current assessment:** Ready for implementation; persistence is foundational learner programme context and is not tier-gated.
+**Authority change:** `10-product-governance/Global Learner Navigation.md` v0.8 and `10-product-governance/Information Architecture.md` v1.0 were integrated through PR #129.  
+**Lifecycle evidence:** Founder approved the product direction on 2026-08-22 (`New → To Do`), analysis completed all applicable Definition-of-Ready criteria with no blockers, and the Founder explicitly approved `Analyse → Ready` on 2026-08-22. PR #129 then merged the approved authority/readiness state into `main` as `1b2967e262086ba90898fb7b9a60cfa883f9dd16`. Governed implementation subsequently began on PR #130, recording `Ready → In Progress`.  
+**Implementation evidence:** PR #130 on `feature/fi-020-learner-courses-implementation`; canonical `/app/` runtime; `docs/technical/Learner Courses Implementation.md`; forward migration `20260822193800_add_learner_courses.sql`; `courses-v1` production-readiness contract candidate.  
+**Current assessment:** Approved MVP is implemented on the governed branch and remains In Progress while exact-head assurance, production backend enablement, Founder merge approval and production path-to-live evidence are outstanding. Persistence remains foundational learner programme context and is not tier-gated.
 
 ### Approved MVP
 
@@ -1022,6 +1023,8 @@ Would require evidence/claims review, content and assessment governance, marketi
 
 Course identity and course management are foundational product truth for **Free, Paid and Premium**. FI-020 does not introduce course-count paywalls or an upgrade mechanism.
 
-### Promotion / implementation impact
+### Implementation / production boundary
 
-PR #129 promotes the approved navigation/IA direction and records readiness. After that authority is merged, implementation must follow the Governed Implementation Workflow, update the canonical `/app/` runtime, persist learner-course membership with strict user ownership/RLS, migrate route and programme scope safely, update technical documentation/assurance, and prove production behaviour before FI-020 may become Live.
+PR #130 implements the Founder-approved Ready scope in the canonical learner runtime and aligns persistence, routing, active-programme filtering, measurement, technical documentation and cross-layer assurance. The production database must expose the forward-safe `courses-v1` readiness contract before the frontend candidate may be released.
+
+FI-020 remains **In Progress** until PR #130 receives its own explicit Founder merge approval, merges through the governed current-`main` path, and the resulting production revision passes backend readiness, deployment, smoke and durable `revision/path-to-live` evidence. Only then may this register move FI-020 to **Live**.

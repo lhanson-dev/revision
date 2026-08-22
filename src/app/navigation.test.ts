@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { adminRoute, courseRoute, homeRoute, moduleRoute, parseRoute, planRoute, progressRoute, routeBelongsToSubjects, routeHash, subjectRoute } from './navigation'
+import {
+  adminRoute,
+  coursesRoute,
+  homeRoute,
+  learnerCourseRoute,
+  learnerModuleRoute,
+  parseRoute,
+  planRoute,
+  progressRoute,
+  routeBelongsToCourses,
+  routeHash,
+} from './navigation'
 
 describe('learner navigation model', () => {
   it('maps the governed Plan destination to a reloadable hash route', () => {
@@ -7,16 +18,31 @@ describe('learner navigation model', () => {
     expect(parseRoute('#/plan')).toEqual(planRoute())
   })
 
-  it('maps course learning scopes to reloadable hash routes', () => {
-    const business = courseRoute('business', 'aqa:aqa-a-level:7132', 'exam-prep')
-    expect(routeHash(business)).toBe('#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
-    expect(parseRoute(routeHash(business))).toEqual(business)
+  it('uses Courses as the canonical learner index', () => {
+    expect(routeHash(coursesRoute())).toBe('#/courses')
+    expect(parseRoute('#/courses')).toEqual(coursesRoute())
   })
 
-  it('keeps module routes for genuinely component-specific content and compatibility', () => {
-    const spanish = moduleRoute('spanish', 'spanish-aqa-a-level-paper-1', 'exam-prep')
-    expect(routeHash(spanish)).toBe('#/subjects/spanish/modules/spanish-aqa-a-level-paper-1/exam-prep')
-    expect(parseRoute(routeHash(spanish))).toEqual(spanish)
+  it('addresses course learning scopes without a subject URL hop', () => {
+    const route = learnerCourseRoute('aqa:aqa-a-level:7132', 'exam-prep')
+    expect(routeHash(route)).toBe('#/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
+    expect(parseRoute(routeHash(route))).toEqual(route)
+    expect(routeBelongsToCourses(route)).toBe(true)
+  })
+
+  it('keeps component-specific content beneath the owning course', () => {
+    const route = learnerModuleRoute('aqa:aqa-as:7131', 'business-aqa-as-paper-2', 'exam-prep')
+    expect(routeHash(route)).toBe('#/courses/aqa%3Aaqa-as%3A7131/components/business-aqa-as-paper-2/exam-prep')
+    expect(parseRoute(routeHash(route))).toEqual(route)
+  })
+
+  it('accepts legacy Subjects links but emits the Courses route family', () => {
+    const legacyCourse = parseRoute('#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
+    expect(legacyCourse.kind).toBe('course')
+    expect(routeHash(legacyCourse)).toBe('#/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
+
+    const legacyIndex = parseRoute('#/subjects')
+    expect(routeHash(legacyIndex)).toBe('#/courses')
   })
 
   it('keeps protected Admin detail hashes inside the Admin route', () => {
@@ -31,15 +57,14 @@ describe('learner navigation model', () => {
     expect(parseRoute('#/not-a-real-route')).toEqual(homeRoute())
   })
 
-  it('keeps subject, course and module screens inside the Subjects global context', () => {
-    expect(routeBelongsToSubjects(subjectRoute('business'))).toBe(true)
-    expect(routeBelongsToSubjects(courseRoute('business', 'aqa:aqa-a-level:7132', 'progress'))).toBe(true)
-    expect(routeBelongsToSubjects(moduleRoute('business', 'business-aqa-as-paper-2', 'progress'))).toBe(true)
-    expect(routeBelongsToSubjects(planRoute())).toBe(false)
-    expect(routeBelongsToSubjects(progressRoute())).toBe(false)
+  it('does not classify Plan or global Progress as Courses context', () => {
+    expect(routeBelongsToCourses(planRoute())).toBe(false)
+    expect(routeBelongsToCourses(progressRoute())).toBe(false)
   })
 
   it('keeps the short-lived Business Paper 2 hashes compatible', () => {
-    expect(parseRoute('#/subjects/business/aqa-as/paper-2/learn')).toEqual(moduleRoute('business', 'business-aqa-as-paper-2', 'learn'))
+    const legacy = parseRoute('#/subjects/business/aqa-as/paper-2/learn')
+    expect(legacy.kind).toBe('module')
+    expect(routeHash(legacy)).toBe('#/courses')
   })
 })

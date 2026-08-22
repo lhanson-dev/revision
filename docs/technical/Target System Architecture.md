@@ -1,15 +1,17 @@
 # Target System Architecture
 
-Status: Approved target, learner cutover complete.
+Status: Approved target, learner cutover complete; FI-020 learner-course projection implemented on the current feature branch pending governed production release.
 
 ## Current state
-Revision's governed learner product is the React application at `/app/`. Supabase Auth and structured learning evidence are live. The previous static learner runtime and legacy `subjects/` routes are retired from production.
+Revision's governed learner product is the React application at `/app/`. Supabase Auth, structured learning evidence and adaptive-planner persistence are live. The previous static learner runtime and legacy static `subjects/` pages are retired from production.
 
 Until a public marketing/editorial site is introduced, the repository root `/` contains only a lightweight redirect into `/app/`.
 
-The React runtime presents the governed learner hierarchy as distinct client-side screens: global Home / Subjects / Progress / REV, then Subject Home and contextual course/paper sections such as Overview / Learn / Practice / Exam Prep / Progress.
+The React runtime presents the governed learner hierarchy as distinct client-side screens. Global learner destinations are Home / Plan / Progress / Courses. Ask REV is a persistent global action rather than a peer destination. Courses projects the authenticated learner's saved active courses directly; only the selected course expands its applicable Overview / Learn / Practice / Exam Prep / Progress sections.
 
-The learner shell is catalogue driven. Published content packs are discovered at build time and provide the subject, qualification, paper/component and capability metadata used to construct those screens. Shared React navigation no longer enumerates Business or Paper 2 as application-level route constants.
+Subject remains academic/catalogue metadata and may organise Add Course discovery, but it is not a required everyday navigation hop.
+
+The learner shell is catalogue driven. Published content packs are discovered at build time and provide subject, qualification, paper/component and capability metadata. Stable course identities are derived from that catalogue. Persisted learner-course membership then filters the supported published catalogue into the learner's active programme.
 
 ## Target state
 
@@ -21,21 +23,29 @@ SEO marketing/content web at /
 Authenticated learner product at /app/
    |
 React catalogue-driven application shell
-   |-- app: generic routes/screens/components
-   |-- engine: learning/recall/assessment/progress/recommendations/exam
-   |-- services: auth/progress/platform integrations
+   |-- app: generic routes/screens/components, Courses and active-programme projection
+   |-- engine: learning/recall/assessment/progress/recommendations/exam/planning
+   |-- services: auth/course-membership/progress/platform integrations
    |
 automatically discovered, versioned content packs (TypeScript + Zod validation)
    |
-Supabase Auth + canonical progress data
+Published supported course catalogue
+   |
+authenticated learner-course membership
+   |
+active learner programme
+   |
+Supabase Auth + learner-owned programme/progress/planner data
 ```
 
 ## Permanent route boundary
 - `/` and public content routes are reserved for the future crawlable marketing and editorial website.
 - Until that website exists, `/` may redirect to `/app/`; it must not contain a competing learner runtime.
 - `/app/` is the permanent authenticated learner-product boundary.
-- Learner routes/screens, including Home, Subjects, Subject Home, course/paper study, assessments, exams, progress, REV and account journeys, live beneath `/app/`.
-- The current GitHub Pages implementation uses hash routes beneath `/app/` for reloadable client-side learner screens because Pages does not provide a general SPA deep-route rewrite. Routes use catalogue identities, for example `#/subjects/:subjectId/modules/:moduleId/:section`.
+- Learner routes/screens, including Home, Plan, Progress, Courses, course/component study, assessments, exams, Ask REV and account journeys, live beneath `/app/`.
+- The current GitHub Pages implementation uses hash routes beneath `/app/` for reloadable client-side learner screens because Pages does not provide a general SPA deep-route rewrite.
+- Canonical learner-facing academic routes are `#/courses`, `#/courses/:courseId/:section` and, where component-specific learning genuinely applies, `#/courses/:courseId/components/:moduleId/:section`.
+- Previous `#/subjects/...` hashes are compatibility inputs only. The runtime normalises compatible subject-first routes to the canonical Courses route family.
 - Hash routing is a hosting implementation choice and may change without moving the permanent `/app/` boundary.
 - Marketing pages may link into `/app/`, but authenticated learner application state must not be coupled to public-page rendering.
 - The public marketing rendering/hosting strategy may evolve independently to support SEO, static generation or server rendering without relocating the learner product.
@@ -47,22 +57,24 @@ The React application preserves the governed separation between global and conte
 ```text
 /app/
   Home
-  Subjects
-    Subject Home
-      Course / specification
-        Paper / component where applicable
-          Overview
-          Learn
-          Practice
-          Exam Prep
-          Progress
+  Plan
   Progress
-  REV
+  Courses
+    Saved Course / specification
+      Overview
+      Learn
+      Practice where available
+      Exam Prep where available
+        Paper / component where applicable
+      Progress
+  Ask REV (persistent global action)
 ```
 
 Academic structures vary by specification. The runtime must not hard-code every future subject into Business's numbered-paper model. Focused sections are experience sections applied where meaningful; topics/specification areas remain cross-cutting content/evidence entities.
 
-## Content catalogue architecture
+Subject remains part of the underlying academic hierarchy and catalogue identity. The learner-facing navigation projection deliberately starts at the learner's saved course set.
+
+## Content catalogue and learner-programme architecture
 
 ### Discovery
 
@@ -72,30 +84,71 @@ The registry validates the registration surface structurally by requiring a defa
 
 ### Publication state
 
-Only content packs with `manifest.status === 'available'` enter the current learner catalogue. `preview` and `planned` packs remain registered content but are not addressable through the learner shell.
+Only content packs with `manifest.status === 'available'` enter the supported learner catalogue. `preview` and `planned` packs remain registered content but are not addressable through learner study or Add Course.
 
-### Generic learner projection
+### Generic catalogue projection
 
 `src/app/catalogue-model.ts` projects available adapters into:
 
-- subjects;
-- courses/specifications;
+- subjects as academic/catalogue metadata;
+- stable courses/specifications;
 - papers/components;
 - supported focused sections;
-- per-module evidence/readiness state; and
-- deterministic cross-module priority.
+- per-module/course evidence/readiness state; and
+- deterministic priority inputs.
 
-The generic route model in `src/app/navigation.ts` uses subject and module identities rather than one route union per subject/paper. Adding an ordinary content pack therefore does not require adding a new React route constant.
+Course identity is stable and explicit enough to persist independently of the currently rendered navigation tree.
+
+### Learner-course membership projection
+
+FI-020 adds persisted learner-owned programme context through `public.learner_courses` and the corresponding learner-course service.
+
+Conceptually:
+
+```text
+available content packs
+    → supported published catalogue
+    → stable catalogue course IDs
+    + learner_courses(user_id, course_id)
+    → active learner programme
+```
+
+`src/app/learner-programme.ts` resolves saved course IDs against the current published catalogue. Unknown IDs do not silently map to another course; they are excluded from new study/recommendation actions while historical evidence remains untouched and an integrity condition can be surfaced.
+
+The active learner programme scopes:
+
+- Home recommendations;
+- adaptive Plan candidates and assessment choice;
+- global Progress aggregation;
+- learner-wide REV context; and
+- contextual Courses navigation.
+
+A published course is therefore not equivalent to a learner course.
+
+### Existing-user transition
+
+Before FI-020, the pilot runtime treated all currently published Business courses as part of every authenticated learner's programme. The FI-020 migration performs a bounded one-time seed for users who already exist when the migration runs, using the exact two course identities exposed by that pilot runtime:
+
+- `aqa:aqa-a-level:7132`;
+- `aqa:aqa-as:7131`.
+
+Future users and future published courses are not automatically enrolled.
 
 ### Evidence scope
 
-The current learner shell loads structured learning evidence for every available content module. Module readiness remains calculated independently using the shared readiness engine. Home/REV and global Progress can then compare or aggregate those module states without merging subject scoring models into one misleading score.
+Learning evidence remains independent of course membership. Membership is programme context, not mastery/readiness evidence.
 
-### Current pilot enrolment boundary
+Removing a course removes it from active learner-wide planning/navigation/recommendation scope but does not delete learning evidence or exam attempts. Re-adding the course can make that historical evidence relevant again subject to the normal evidence recency/confidence rules.
 
-There is not yet a persisted learner-to-course enrolment table/service. During the current pilot, all `available` packs are treated as the authenticated learner's catalogue.
+Shared-syllabus courses aggregate evidence across their paper/module identities at course level while preserving paper identity for paper-specific exam attempts.
 
-Future per-user enrolment must be implemented as a filtering layer between the published catalogue and learner projection. It must not require subject knowledge in the shared engine or a return to hard-coded React routes.
+## Persistence and security boundary
+
+`public.learner_courses` stores `(user_id, course_id, created_at)` with duplicate prevention through the composite primary key. Browser roles receive only the minimum required select/insert/delete capability, and authenticated RLS restricts access to rows owned by `(select auth.uid()) = user_id`.
+
+`public.learner_course_events` stores bounded FI-020 course-management/assurance telemetry separately from learning evidence. Learners may insert/select only their own event rows and cannot mutate historical telemetry through update/delete browser grants.
+
+The code-driven catalogue means `course_id` is an application-level reference rather than a database foreign key to a course table. Runtime and assurance therefore validate persisted course IDs against the published catalogue.
 
 ## Production deployment
 - GitHub Pages remains the current production host while Revision proves the product.
@@ -103,12 +156,24 @@ Future per-user enrolment must be implemented as a filtering layer between the p
 - The production workflow installs dependencies, runs the production build, uploads `dist/` as the Pages artifact, then deploys that exact artifact to the `github-pages` environment.
 - Vite content discovery therefore occurs as part of the same governed production build that creates the learner artifact.
 - The workflow may add the lightweight root redirect to the artifact, but it must not republish the retired static learner runtime.
-- Post-deploy smoke must confirm `/` points to `/app/`, `/app/` references a built `/revision/assets/*.js` asset and does not reference `/src/main.tsx`, and retired learner routes remain unavailable.
+- Post-deploy smoke must confirm `/` points to `/app/`, `/app/` references a built `/revision/assets/*.js` asset and does not reference `/src/main.tsx`, and retired static learner routes remain unavailable.
 - The repository's Pages publishing source is GitHub Actions/custom workflow rather than legacy branch/Jekyll publishing.
 - Deployment success is a release gate. A green PR build without a successful production artifact deployment is not sufficient.
+
+### Backend-readiness dependency
+
+The frontend does not execute production Supabase migrations. A frontend release that depends on new database/server capabilities must therefore fail closed until production has them.
+
+FI-020 advances `public.revision_release_readiness()` to contract `courses-v1`. The contract requires the existing planner/backend capabilities plus `learner_courses` and `learner_course_events`. `.github/workflows/deploy-pages.yml` expects the same contract before it builds/publishes the FI-020 frontend.
+
+The readiness RPC remains `SECURITY INVOKER`; adding FI-020 must not reintroduce unnecessary elevated execution.
 
 ## Operational layer
 GitHub Actions provides risk-based assurance, builds and deployment. A protected Admin/Operations view surfaces system health, real-user usage, learning-system health and actionable issues.
 
+FI-020 course events and integrity handling provide bounded operational evidence for course setup. Membership telemetry is not learning evidence and must not be interpreted as educational progress.
+
 ## Migration principle
 The learner runtime migration is complete. Future learner implementation work targets the canonical `/app/` React runtime. Compatibility, experimental or public routes must not be treated as alternative learner implementations.
+
+Within the authenticated runtime, subject-first hashes are now compatibility inputs rather than the canonical learner route model. Future course-related implementation must preserve `published catalogue ≠ active learner programme` as an architectural invariant.
