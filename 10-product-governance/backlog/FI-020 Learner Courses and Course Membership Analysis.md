@@ -1,12 +1,12 @@
 # FI-020 — Learner Courses and Course Membership Analysis
 
 **Document type:** product feature analysis  
-**Authority:** non-authoritative until promoted into approved product authority  
-**Lifecycle status:** Analyse  
+**Authority:** non-authoritative supporting analysis; approved product direction is promoted through the linked product authorities  
+**Lifecycle status:** Ready  
 **Captured:** 2026-08-22  
 **Owner:** Product / Founder  
 **Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
-**Founder decision evidence:** On 2026-08-22, during Design Acceptance Review Group A, the Founder approved replacing the global `Subjects` destination with `Courses`, showing the learner's own courses beneath Courses in contextual navigation, showing those courses on the Courses page, and providing an `Add Course` action. This records the human decision that the capability belongs in Revision (`New → To Do`). Active analysis began immediately (`To Do → Analyse`).
+**Founder decision evidence:** On 2026-08-22, during Design Acceptance Review Group A, the Founder approved replacing the global `Subjects` destination with `Courses`, showing the learner's own courses beneath Courses in contextual navigation, showing those courses on the Courses page, and providing an `Add Course` action. This recorded the human decision that the capability belongs in Revision (`New → To Do`). Active analysis then began (`To Do → Analyse`). On 2026-08-22 the Founder explicitly approved FI-020 after the complete Definition-of-Ready assessment, recording `Analyse → Ready` and authorising governed implementation once the approved authority change is integrated into `main`.
 
 ## 1. Student problem and target user — PASS
 
@@ -389,7 +389,7 @@ Historical Design Acceptance evidence must be appended/superseded, not rewritten
 
 ## 16. Blocking decisions resolved — NONE
 
-The following product choices are resolved for the recommended MVP:
+The following product choices are resolved for the approved MVP:
 
 - global label is **Courses**, not My Courses;
 - Courses replaces Subjects as the fourth global destination rather than being added as a fifth;
@@ -407,11 +407,13 @@ The following product choices are resolved for the recommended MVP:
 
 No fundamental product, commercial, evidence/trust or technical decision remains that development would need to invent.
 
-## 17. Human Definition-of-Ready approval — REQUIRED
+## 17. Human Definition-of-Ready approval — APPROVED
 
-AI/Product assessment: all applicable Definition-of-Ready criteria above are satisfied on the recommended scope.
+On 2026-08-22 the Founder explicitly approved FI-020 after the Product/AI readiness assessment had passed every applicable criterion and reported no blocking decisions.
 
-The feature must remain **Analyse** until the Founder explicitly approves `Analyse → Ready`. Production implementation must not begin before that approval.
+This records the human `Analyse → Ready` lifecycle transition required by `80-company-workflows/Feature Definition and Measurement Workflow.md` and `70-ai-operating-system/AI Agent Constitution.md`.
+
+FI-020 is therefore authorised for governed implementation after the approved normative authority change is merged into current `main`. This approval does **not** approve PR #129 for merge and does not remove the repository-wide requirement for explicit Founder approval of each merge.
 
 ## Readiness summary
 
@@ -431,6 +433,6 @@ The feature must remain **Analyse** until the Founder explicitly approves `Analy
 - Test / assurance approach — **PASS**
 - Documentation / authority impact — **PASS**
 - Blocking decisions — **NONE**
-- Human Ready approval — **REQUIRED**
+- Human Ready approval — **APPROVED 2026-08-22**
 
-**Product recommendation:** approve FI-020 `Analyse → Ready`, then implement the navigation, persistence, Add/Remove Course experience, programme-scope filtering and compatibility migration as one governed feature delivery sequence.
+**Next governed step:** integrate the approved authority/readiness record through PR #129, then begin FI-020 implementation from current approved `main` under the Governed Implementation Workflow.
