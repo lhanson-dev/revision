@@ -24,6 +24,7 @@ import './app/profile-edit.css'
 import './app/mobile-navigation.css'
 import './app/contextual-navigation.css'
 import './app/interface-system.css'
+import './app/interface-plan-progress.css'
 
 const root = document.getElementById('root')
 
