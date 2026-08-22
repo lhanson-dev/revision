@@ -9,6 +9,8 @@ const interfaceSubjectsCourse = readFileSync(new URL('../../src/app/interface-su
 const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
 const interfaceExamExperience = readFileSync(new URL('../../src/app/interface-exam-experience.css', import.meta.url), 'utf8')
 const interfaceAdmin = readFileSync(new URL('../../src/app/interface-admin.css', import.meta.url), 'utf8')
+const interfaceThemeIntegrity = readFileSync(new URL('../../src/app/interface-theme-integrity.css', import.meta.url), 'utf8')
+const mainEntry = readFileSync(new URL('../../src/main.tsx', import.meta.url), 'utf8')
 const examSimulator = readFileSync(new URL('../../src/app/ExamSimulator.tsx', import.meta.url), 'utf8')
 const componentIndex = readFileSync(new URL('../../src/app/ui/index.ts', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
@@ -19,7 +21,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience, interfaceAdmin]
+const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience, interfaceAdmin, interfaceThemeIntegrity]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -170,6 +172,21 @@ describe('Revision Interface System governance', () => {
     expect(interfaceAdmin).toContain('position: sticky;')
     expect(interfaceAdmin).toContain('@media (max-width: 620px)')
     expect(interfaceAdmin).toContain('@media (prefers-reduced-motion: reduce)')
+  })
+
+  it('keeps remaining pre-B7 compatibility text and surfaces theme-safe', () => {
+    expect(interfaceThemeIntegrity).toContain('.planner-runtime[data-theme="dark"]')
+    expect(interfaceThemeIntegrity).toContain('color-scheme: dark;')
+    expect(interfaceThemeIntegrity).toContain('.planner-runtime .learn-section ul')
+    expect(interfaceThemeIntegrity).toContain('.planner-runtime .content-operations-form input')
+    expect(interfaceThemeIntegrity).toContain('.planner-runtime .admin-table thead th')
+    expect(interfaceThemeIntegrity).toContain('background: var(--color-surface);')
+    expect(interfaceThemeIntegrity).toContain('color: var(--color-text);')
+    expect(interfaceThemeIntegrity).toContain('color: var(--color-text-secondary);')
+    expect(interfaceThemeIntegrity).toContain('var(--status-success-bg)')
+    expect(interfaceThemeIntegrity).toContain('var(--status-warning-bg)')
+    expect(interfaceThemeIntegrity).toContain('var(--status-error-bg)')
+    expect(mainEntry.indexOf("./app/interface-theme-integrity.css")).toBeGreaterThan(mainEntry.indexOf("./app/interface-admin.css"))
   })
 
   it('publishes the required reusable component registry before B3', () => {
