@@ -188,6 +188,55 @@
   background: var(--color-surface-elevated);
 }
 
+/* Course hierarchy compatibility: hierarchy.css still contains literal white
+ * cards and indigo text that were not covered by the original pre-B7 scan. */
+.planner-runtime .section-choice,
+.planner-runtime .cross-section-next,
+.planner-runtime .global-progress-card,
+.planner-runtime .exam-paper-card,
+.planner-runtime .paper-exam-content {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .section-choice strong,
+.planner-runtime .cross-section-next strong,
+.planner-runtime .global-progress-copy h2,
+.planner-runtime .exam-paper-card summary h3 {
+  color: var(--color-text);
+}
+
+.planner-runtime .section-choice > span:last-child,
+.planner-runtime .cross-section-next span,
+.planner-runtime .global-progress-copy p,
+.planner-runtime .exam-paper-card summary p {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .section-choice .section-icon {
+  background: var(--color-surface-soft);
+  color: var(--color-accent-text);
+}
+
+.planner-runtime .evidence-dot {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.planner-runtime .evidence-dot.has-evidence {
+  border-color: var(--brand-primary-teal);
+  background: var(--brand-primary-teal);
+}
+
+.planner-runtime .exam-paper-card summary > span:last-child {
+  color: var(--color-accent-text);
+}
+
+.planner-runtime .exam-paper-card[open] summary {
+  border-color: var(--color-border);
+}
+
 /* Keep native/scrolling surfaces visually coherent when the theme switches. */
 .planner-runtime .admin-table-wrap,
 .planner-runtime .exam-context,
