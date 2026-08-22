@@ -1,6 +1,6 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 in review  
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112  
 **Date:** 2026-08-22
 
 ## Purpose
@@ -138,7 +138,7 @@ Production run `32561748699` then failed closed while traversing the PR #106 anc
 
 ### Third recovery anchor
 
-ADR-0016 proposes the third exceptional prospective trust root:
+ADR-0016 approved the third exceptional prospective trust root:
 
 ```text
 REVISION_RELEASE_BOOTSTRAP_PARENT=ad112f426b7f8430ddb03f2b0979e2706cb59c38
@@ -148,33 +148,35 @@ This exact SHA is the failed pre-remediation `main` commit from PR #111. It is n
 
 ### Recovery-PR invariant
 
-The Recovery 3 PR must satisfy:
+PR #112 satisfied the required invariant:
 
-1. current-main integration under the active trunk-based governance;
-2. successful required Revision CI on its final integration candidate;
-3. explicit Founder approval of the recovery PR, which also accepts ADR-0016;
-4. exact machine-readable Founder marker persisted for the final head after CI;
-5. marker re-read and verified before merge;
-6. only the evidenced head merged;
-7. governed release lineage passes using the Recovery 3 anchor;
-8. production backend readiness, build, Pages deployment and production smoke pass; and
-9. durable `revision/path-to-live = success` is published before Recovery 3 is represented as complete.
+1. current-main integration remained exact against `ad112f426b7f8430ddb03f2b0979e2706cb59c38` with the branch 0 behind `main`;
+2. final head `c2d94210aa48b0e5b078b730d812857b77448989` passed Revision CI #658;
+3. the Founder explicitly approved Recovery 3 and PR #112;
+4. exact machine-readable Founder marker comment `5379367930` was persisted for the final head after CI;
+5. the marker was re-read and verified before merge;
+6. only the evidenced head was merged as `62d75df280ac0ba5b0df72916b9394ecb8de75b5`;
+7. governed release lineage passed using the Recovery 3 anchor;
+8. production backend readiness, build, Pages deployment and production smoke all passed; and
+9. durable `revision/path-to-live = success` was published for the recovery merge commit.
 
 ### Prevention control included in Recovery 3
 
-Because this is another recurrence after procedural hardening, Recovery 3 adds a technically evaluated pre-merge commit status:
+Because this was another recurrence after procedural hardening, Recovery 3 added a technically evaluated pre-merge commit status:
 
 `revision/founder-approval`
 
 The trusted default-branch workflow verifies that the current PR head has both successful exact-head Revision CI and the exact Founder marker created at or after that CI. Prose approval remains insufficient, and a new PR head is evaluated independently.
 
-The workflow is documented in `docs/technical/Founder Approval Gate.md`. Once it is live on `main`, operating agents must treat `revision/founder-approval = success` as a mandatory pre-merge condition. Where GitHub repository settings support required status checks, the status should also be configured as a repository-enforced required check.
+The workflow is documented in `docs/technical/Founder Approval Gate.md` and is now live on `main`. Operating agents must treat `revision/founder-approval = success` as a mandatory pre-merge condition for subsequent release-governed PRs. Where GitHub repository settings support required status checks, the status should also be configured as a repository-enforced required check.
 
 ### Outcome
 
-Pending. Recovery 3 remains in review until its governed PR reaches successful production path-to-live evidence. DEF-2026-006 remains open until that evidence exists.
+Recovery 3 completed successfully through PR #112. Merge commit `62d75df280ac0ba5b0df72916b9394ecb8de75b5` completed GitHub Pages run `32562931908` with governed release lineage, production backend readiness, build, Pages deployment, production smoke and durable `revision/path-to-live = success`.
 
-`audits/Path-to-Live Approval Marker Recurrence 2026-08-22.md` preserves the incident evidence.
+That satisfies the closure condition for DEF-2026-006 and re-establishes the prospective governed release chain while preserving PR #106 and PR #111 historical evidence unchanged.
+
+`audits/Path-to-Live Approval Marker Recurrence 2026-08-22.md` preserves the incident evidence and closure record.
 
 ## Guardrail
 
