@@ -3,6 +3,7 @@ import { createClient, type SupabaseClient, type User } from '@supabase/supabase
 
 const integrationEnabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const supabaseUrl = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
+const publishableKey = process.env.SUPABASE_ANON_KEY ?? ''
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
 const appPath = '/revision/app/'
 const asCourseId = 'aqa:aqa-as:7131'
@@ -11,12 +12,13 @@ test.describe('database-backed learner persistence', () => {
   test.skip(!integrationEnabled, 'Runs only against the isolated Supabase CI stack')
 
   let admin: SupabaseClient
+  let learner: SupabaseClient
   let user: User
   let email: string
   let password: string
 
   test.beforeAll(async () => {
-    if (!serviceRoleKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for browser database integration assurance')
+    if (!serviceRoleKey || !publishableKey) throw new Error('Supabase service-role and publishable keys are required for browser database integration assurance')
 
     admin = createClient(supabaseUrl, serviceRoleKey, {
       auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
@@ -26,9 +28,16 @@ test.describe('database-backed learner persistence', () => {
     const { data, error } = await admin.auth.admin.createUser({ email, password, email_confirm: true })
     if (error || !data.user) throw new Error(`Could not create browser integration user: ${error?.message ?? 'missing user'}`)
     user = data.user
+
+    learner = createClient(supabaseUrl, publishableKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    })
+    const { error: signInError } = await learner.auth.signInWithPassword({ email, password })
+    if (signInError) throw new Error(`Could not authenticate browser integration learner: ${signInError.message}`)
   })
 
   test.afterAll(async () => {
+    await learner?.auth.signOut()
     if (user?.id) await admin?.auth.admin.deleteUser(user.id)
   })
 
@@ -54,10 +63,9 @@ test.describe('database-backed learner persistence', () => {
     const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
     await expect(asCourseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
 
-    const { data: firstMemberships, error: firstMembershipError } = await admin
+    const { data: firstMemberships, error: firstMembershipError } = await learner
       .from('learner_courses')
       .select('course_id')
-      .eq('user_id', user.id)
     expect(firstMembershipError).toBeNull()
     expect(firstMemberships).toEqual([{ course_id: asCourseId }])
 
@@ -93,17 +101,15 @@ test.describe('database-backed learner persistence', () => {
     await removeDialog.getByRole('button', { name: 'Remove course' }).click()
     await expect(page.getByRole('heading', { name: 'Add your first course' })).toBeVisible()
 
-    const { data: removedMemberships, error: removedMembershipError } = await admin
+    const { data: removedMemberships, error: removedMembershipError } = await learner
       .from('learner_courses')
       .select('course_id')
-      .eq('user_id', user.id)
     expect(removedMembershipError).toBeNull()
     expect(removedMemberships).toEqual([])
 
-    const { data: retainedEvidence, error: retainedEvidenceError } = await admin
+    const { data: retainedEvidence, error: retainedEvidenceError } = await learner
       .from('learning_evidence')
       .select('evidence_id')
-      .eq('user_id', user.id)
     expect(retainedEvidenceError).toBeNull()
     expect(retainedEvidence?.length).toBe(1)
 
