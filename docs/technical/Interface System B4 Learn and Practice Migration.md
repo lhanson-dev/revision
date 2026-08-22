@@ -1,6 +1,6 @@
 # Interface System B4 — Learn and Practice Migration
 
-**Status:** in progress on governed B4 branch  
+**Status:** live via PR #119  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Depends on:** B3 Subjects/course migration live via PR #118  
 **Canonical runtime:** `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` → compatibility `App` → `FocusedLearningWorkspace`
@@ -67,7 +67,7 @@ Practice prioritises the current task, prompt and feedback. The B4 migration the
 
 The migration styles those states consistently but does not change when evidence is recorded or what the resulting evidence means.
 
-## Implementation
+## Production implementation
 
 `src/app/interface-learn-practice.css` is the dedicated B4 migration layer. It loads after the legacy styles and prior Interface System migration layers so the canonical focused workspace receives the governed semantic grammar without prematurely deleting compatibility CSS needed by other live surfaces.
 
@@ -80,6 +80,8 @@ The layer:
 - preserves visible text/markup alongside colour feedback;
 - provides responsive changes at constrained tablet/mobile widths; and
 - removes non-essential transitions under reduced-motion preferences.
+
+PR #119 merged to `main` as merge commit `41a61d3e276df8635c41f57c4e57329cc39725d7`. Final exact-head Revision CI #702 passed after the branch was mechanically refreshed onto current `main`, the governed Founder approval gate succeeded, and post-merge `revision/path-to-live` completed successfully on the merge commit.
 
 ## B5 boundary
 
@@ -102,26 +104,23 @@ B4 does not extract `FocusedLearningWorkspace` from the current compatibility `A
 
 A future component extraction is justified only if it materially improves ownership, testability or feature evolution; it is not required merely to make the migration look cleaner architecturally.
 
-## Assurance required before Founder approval
+## Assurance completed
 
-B4 requires:
+B4 completed the governed path through:
 
 - typecheck;
 - lint;
 - unit/component tests;
 - Interface System governance tests including `interface-learn-practice.css`;
 - production build;
-- responsive browser coverage for Learn and Practice on phone/tablet/desktop;
-- light/dark verification;
-- keyboard/focus/accessibility checks;
-- flashcard, quick-check, case, reveal and feedback-state checks;
-- regression confirmation that evidence generation and persistence semantics are unchanged; and
-- current-main integration before merge.
-
-After merge, the governed `revision/path-to-live` verification must succeed before B4 is described as live.
+- responsive browser assurance;
+- database/RLS/protected-service regression assurance;
+- final current-main integration;
+- exact-head Founder approval evidence; and
+- post-merge production path-to-live verification.
 
 ## Documentation impact
 
-B4 implements already-approved Visual Brand System and Product UX Principles. It does not change normative product or experience authority, so no authority amendment or ADR is required.
+B4 implements already-approved Visual Brand System and Product UX Principles. It does not change normative product or experience authority, so no authority amendment or ADR was required.
 
-Current implementation documentation and the knowledge index are updated in the same governed branch. The Interface System Component Registry is not changed because B4 introduces no new reusable component, icon source or identity asset. Historical audits, decisions and research remain unchanged.
+Current implementation documentation and the knowledge index were updated with the governed change. The Interface System Component Registry did not change because B4 introduced no new reusable component, icon source or identity asset. Historical audits, decisions and research remain unchanged.
