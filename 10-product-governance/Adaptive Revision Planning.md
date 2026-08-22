@@ -1,14 +1,14 @@
 # Adaptive Revision Planning
 
-**Status:** Draft authority candidate — v0.2  
+**Status:** Draft authority candidate — v0.3 proposal pending governed merge  
 **Owner:** Product  
-**Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress and learner choice.  
-**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19.  
+**Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
+**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22.  
 **Authority relationship:** This is the specific product authority for adaptive planning. Global navigation mechanics are governed more specifically by `Global Learner Navigation.md`; this document remains authoritative for planner behaviour and the way REV explains and negotiates the plan.
 
 ## Product outcome
 
-Revision should turn assessment dates, realistic available time and evolving learning evidence into a continuously adapting revision programme.
+Revision should turn assessment dates, realistic available time, the learner's active saved courses and evolving learning evidence into a continuously adapting revision programme.
 
 The learner should normally be able to answer:
 
@@ -16,7 +16,7 @@ The learner should normally be able to answer:
 - Why is Revision recommending it?
 - What does the wider plan currently look like?
 - What happens if I choose something different?
-- How am I doing across all my subjects?
+- How am I doing across my active courses?
 
 The plan is Revision's current best forecast, not a fixed timetable or a debt ledger.
 
@@ -30,7 +30,7 @@ The product should remove planning burden without removing learner agency.
 
 Planning may use, where known and relevant:
 
-- subject, qualification, specification and assessment scope;
+- the learner's active saved course set, including subject, qualification, specification and assessment scope;
 - assessment date and relative importance;
 - realistic normal weekday and weekend revision capacity;
 - individual availability exceptions;
@@ -41,7 +41,9 @@ Planning may use, where known and relevant:
 - recent revision activity and reliable completion evidence;
 - meaningful self-reported external revision;
 - the learner's deliberate short-term priorities; and
-- competing needs across other subjects and assessments.
+- competing needs across other active courses and assessments.
+
+At learner-wide scope, the planner must not treat every published catalogue course as part of the learner's programme. FI-020 course membership is programme context, not learning evidence.
 
 A learner must not be forced through a large diagnostic before the planner can become useful. Revision may begin with incomplete evidence, say when its picture is limited, and personalise progressively as stronger evidence is created.
 
@@ -81,7 +83,7 @@ Exact weighting and thresholds are evidence and implementation questions, but th
 - remaining useful workload;
 - realistic remaining capacity;
 - recent activity and actual learner choices; and
-- competing subject priorities.
+- competing active-course priorities.
 
 Internal weighting must not be presented as false-precision learner scores.
 
@@ -102,6 +104,8 @@ A recommendation should have one or more human-understandable reasons. Appropria
 
 Revision may explain **mark opportunity** where this is grounded in known assessment structure. It must not promise that a task will produce a specific number of extra marks unless evidence and claims governance genuinely support that precision.
 
+A learner-wide recommendation must resolve to an active saved course. Removing a course from the learner's programme prevents it from influencing new learner-wide recommendations without deleting historical evidence.
+
 ## 6. Today and the wider plan
 
 Home owns the immediate question: **What should I do now?**
@@ -111,7 +115,7 @@ Home should include:
 - REV's concise learner-wide recommendation or guidance; and
 - a smaller **Today's plan** summary that shows the current day's planned workload and links to Plan.
 
-Plan is a primary learner destination and shows the wider adaptive programme.
+Plan is a primary learner destination and shows the wider adaptive programme across the learner's active courses.
 
 The Plan experience should default to a chronological model rather than a traditional calendar grid:
 
@@ -130,6 +134,7 @@ The planner should recalculate when meaningful information changes and perform a
 
 Meaningful triggers include:
 
+- a course being added to or removed from the learner's active programme;
 - new learning or assessment evidence;
 - reliable completion or meaningful engagement evidence;
 - assessment date, scope or importance changes;
@@ -183,9 +188,9 @@ REV should also support natural conversations such as:
 
 REV should listen, discuss and advise rather than blindly accept or refuse.
 
-A learner preference may legitimately change short-term allocation and sequencing. For example, a heavier week in one subject may be reasonable if another subject is currently stronger and can be brought forward later.
+A learner preference may legitimately change short-term allocation and sequencing. For example, a heavier week in one active course may be reasonable if another is currently stronger and can be brought forward later.
 
-Before applying a material preference, REV should explain relevant whole-programme consequences. The learner should remain able to see how the choice affects competing subjects, assessments, coverage and remaining capacity.
+Before applying a material preference, REV should explain relevant whole-programme consequences. The learner should remain able to see how the choice affects competing active courses, assessments, coverage and remaining capacity.
 
 > **REV listens and adapts, but keeps the whole picture visible.**
 
@@ -203,7 +208,7 @@ The planner should shift from broad coverage to maximising the value of the rema
 - high-value gaps with realistic improvement potential;
 - exam-readiness activity when the assessment is close;
 - work supported by stronger evidence of need; and
-- a sensible balance across competing assessments.
+- a sensible balance across competing assessments and active courses.
 
 It should deprioritise already-strong material, low-value repetition and superficial coverage where those uses of time are less valuable.
 
@@ -223,13 +228,13 @@ REV is a living, context-aware coaching presence, not a menu of AI functions and
 
 The ordinary access pattern is persistent **Ask REV** from the learner's current screen. Opening Ask REV should feel closer to **How can I help?** than to a dashboard or blank generic chatbot.
 
-REV may use approved context including the current plan, assessments, recent activity, progress evidence, confidence, current subject/topic, current activity or feedback and bounded conversational context.
+REV may use approved context including the learner's active saved courses, current plan, assessments, recent activity, progress evidence, confidence, current course/subject/topic, current activity or feedback and bounded conversational context.
 
 It should use context quietly. It should not recite everything it knows about the learner.
 
 Suggested prompts may be dynamic conversation starters, but natural text/conversation remains primary.
 
-Opening Ask REV from Home, Plan, Progress, Subjects or an activity should preserve the current context so the learner does not need to explain where they came from. Desktop should normally preserve the underlying screen while a substantial conversation panel opens; tablet/mobile should use an appropriate sheet or overlay. A full REV workspace may still be offered for longer conversations.
+Opening Ask REV from Home, Plan, Progress, Courses or an activity should preserve the current context so the learner does not need to explain where they came from. Desktop should normally preserve the underlying screen while a substantial conversation panel opens; tablet/mobile should use an appropriate sheet or overlay. A full REV workspace may still be offered for longer conversations.
 
 ## 13. Proactive support and notifications
 
@@ -247,19 +252,19 @@ Email should normally be lower-frequency and suited to broader-value communicati
 
 The governed learner-wide destinations are:
 
-**Home | Plan | Progress | Subjects**
+**Home | Plan | Progress | Courses**
 
 The persistent global learner action is **Ask REV**.
 
-On desktop, the four destinations and Ask REV are exposed through the governed left learner rail, with Ask REV receiving the strongest branded emphasis.
+On desktop, the four destinations and the prominent Ask REV action are exposed through the governed left learner rail. When Courses is active, the learner's saved courses appear directly beneath it and only the selected course expands into its applicable focused sections.
 
-On tablet/mobile, the persistent bottom bar retains the five visible positions **Home | Plan | REV | Progress | Subjects**, but the centre REV control is an Ask REV action rather than a peer destination.
+On tablet/mobile, there is **no persistent multi-item bottom navigation bar**. The learner uses the governed top-left menu/drawer for Home, Plan, Progress and Courses, while the persistent bottom **Ask REV** dock remains the only persistent bottom learner action.
 
 The REV treatment must remain accessible, calm and purposeful rather than decorative AI theatre.
 
 Home remains the default signed-in destination.
 
-Profile, account, settings, help, subject management, privacy and similar utilities remain secondary to the learner-wide jobs. Desktop may expose Profile and Settings at the bottom of the rail; mobile/tablet use the secondary menu.
+Profile, settings, subscription/account utilities, help and privacy remain secondary to the learner-wide jobs and follow the progressive-disclosure account model governed by `Global Learner Navigation.md`.
 
 ## 15. MVP boundary
 
@@ -269,7 +274,7 @@ The first implementation must prove the core adaptive loop rather than every pos
 
 - add and edit assessments with date, type and simple scope;
 - capture realistic normal availability and date exceptions;
-- deterministic cross-subject priority calculation;
+- deterministic cross-course priority calculation across the learner's active programme;
 - today's recommendation and today's plan on Home;
 - dedicated Plan page with adaptive chronological view;
 - event-triggered replanning plus quiet daily reconciliation;
@@ -280,9 +285,11 @@ The first implementation must prove the core adaptive loop rather than every pos
 - lightweight external revision reconciliation;
 - insufficient-capacity / priority-mode behaviour;
 - persistent context-aware Ask REV entry and planning explanation;
-- desktop left-rail learner navigation plus tablet/mobile bottom navigation;
+- desktop left-rail navigation plus tablet/mobile menu/drawer and persistent Ask REV dock;
 - minimum viable product analytics and Founder/Admin health signals; and
 - accessible loading, empty, unavailable, low-evidence and error states.
+
+FI-020 learner-course membership is foundational programme context for these planner behaviours and must be used once that feature is implemented; the planner must not fall back to treating the complete published catalogue as the learner's programme.
 
 ### Deliberately not an MVP dependency
 
@@ -301,10 +308,13 @@ These may be developed later if evidence supports them.
 
 Packaging must preserve a genuinely useful Free experience while giving paid tiers materially stronger value. Exact prices, final plan names and entitlement mechanics remain governed through commercial/subscription authority.
 
+Learner course membership itself is foundational product truth and is **not** tier-gated by FI-020.
+
 ### Free — prove the core value
 
 Recommended Free capability:
 
+- manage supported active courses;
 - add assessments and basic availability;
 - receive a useful today recommendation;
 - basic adaptive planning;
@@ -318,7 +328,7 @@ Free must be capable of helping a learner make real revision progress. It must n
 
 Recommended Level 1 value:
 
-- full multi-subject / multi-assessment adaptive planning;
+- full multi-course / multi-assessment adaptive planning;
 - full week and wider-plan visibility;
 - richer evidence-led prioritisation;
 - full automatic replanning;
@@ -382,11 +392,12 @@ Time spent alone is not learning evidence.
 
 Monitor:
 
+- recommendations/plans referencing courses outside the learner's active set;
 - impossible or pathological plans;
 - repeated plan churn;
 - false completion;
 - unexplained recommendation changes;
-- recommendation concentration that starves another subject without an understandable reason;
+- recommendation concentration that starves another active course without an understandable reason;
 - notification opt-out / complaint patterns;
 - excessive AI cost;
 - accessibility failures; and
@@ -399,12 +410,13 @@ Admin should answer:
 - Is the planner operational and generating plans successfully?
 - How many eligible learners have active plans?
 - Are today's plans actionable?
+- Are recommendations restricted to each learner's active course set?
 - Are recommendations being started and completed?
 - How often do learners deliberately choose something else?
 - Why is the engine replanning?
 - How often is priority mode triggered?
 - Are there overloaded/impossible plan states?
-- Are recommendations concentrated unexpectedly by subject/topic?
+- Are recommendations concentrated unexpectedly by course/subject/topic?
 - Are there scheduler/recalculation failures?
 - Are plan engagement and learning evidence moving together or diverging?
 - What is planner/REV cost to serve?
@@ -419,10 +431,11 @@ Implementation must comply with the existing evidence, claims, privacy and safeg
 
 Specific requirements include:
 
+- treat learner-course membership as private learner programme context and enforce authenticated ownership;
 - collect scheduling and behaviour data only where it creates clear product value;
 - make communication preferences controllable;
 - treat REV conversations as private student data;
-- never convert activity time or self-report directly into mastery/readiness proof;
+- never convert course membership, activity time or self-report directly into mastery/readiness proof;
 - ensure claim strength matches evidence strength;
 - avoid manipulative urgency, shame and dark patterns;
 - keep the full planner and navigation operable by keyboard and assistive technology;
