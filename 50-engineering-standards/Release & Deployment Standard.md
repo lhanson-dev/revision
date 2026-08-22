@@ -4,10 +4,10 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.6"
+version: "0.7"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-21"
+last_reviewed: "2026-08-22"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["CI/CD and deployment", "path-to-live assurance"]
@@ -21,9 +21,12 @@ supersedes: null
 - Only validated production build artifacts may be deployed.
 - CI selects assurance depth using change risk, with critical shared areas escalating automatically.
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
+- **`main` is the single canonical integration baseline. A PR must include the latest `main` as an ancestor before it enters final exact-head assurance or Founder merge approval.**
+- **Parallel branches may be developed concurrently, but final integration is serialized: one PR occupies the merge gate at a time, and the next ready PR refreshes against the `main` produced by the preceding merge.**
 - Explicit Founder approval remains required for every merge to `main`.
 - **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that merge. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that exact-head evidence before merge. The Founder must not be asked to repeat approval or perform a separate release-registration step.**
 - **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence and must not be substituted or converted retrospectively after merge.**
+- **If `main` advances after the PR was refreshed, assured or approved, the PR must be refreshed onto the new canonical baseline. The new exact head requires fresh applicable assurance and renewed Founder merge approval.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
@@ -31,17 +34,34 @@ supersedes: null
 - Database migrations should be forward-safe and backward-compatible where practical.
 - One production environment is sufficient until an additional environment has a demonstrated operational benefit.
 
+## Canonical integration and merge-queue rule
+
+Revision supports concurrent delivery without accepting competing integration baselines.
+
+- Governed branches start from the then-current approved `main`.
+- Active branches do not need continuous refresh merely because unrelated work merges.
+- When a PR is otherwise ready to become merge-ready, it enters the final integration gate and is refreshed onto the latest `main`.
+- Any overlapping shared file must be resolved to preserve the current `main` state plus the PR's intended delta. This applies particularly to knowledge indexes, governance registers, package manifests, shared routing/configuration, database migrations and other cumulative files.
+- A refresh that changes the PR head invalidates earlier exact-head CI and any earlier merge approval.
+- Only one PR should occupy the final integration gate at a time. Other completed PRs wait outside the gate instead of repeatedly chasing a moving `main`.
+- Immediately before merge, the executing agent must confirm that the approved PR head still contains the current `main` as an ancestor.
+
+This is the default manual merge queue until a separately governed automated merge queue is introduced. Technical mergeability alone does not satisfy the canonical-baseline rule.
+
 ## Path-to-live evidence chain
 Revision treats path-to-live as a chain of separately evidenced stages rather than one green status:
 
 1. **Change classification** — determine the change risk and affected journeys/controls.
-2. **Change assurance** — required PR CI for the exact proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
-3. **Founder gate** — explicit approval is recorded for that specific PR. The operating agent persists and verifies the required exact-head GitHub evidence as part of carrying out the approved merge; this is not a second Founder action.
-4. **Merge** — the approved and durably evidenced head is merged into `main`.
-5. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
-6. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
-7. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
-8. **Operational observation** — production availability/health evidence remains current after deployment.
+2. **Change assurance before integration** — complete the implementation/documentation work and proportionate branch-level checks required to make the PR otherwise ready.
+3. **Canonical-main integration** — refresh the PR onto the latest `main`, deliberately resolve any overlap/conflict and prove the refreshed head contains that `main` baseline.
+4. **Exact-head assurance** — required Revision CI for the refreshed proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
+5. **Founder gate** — explicit approval is recorded for that specific refreshed PR head. The operating agent persists and verifies the required exact-head GitHub evidence as part of carrying out the approved merge; this is not a second Founder action.
+6. **Pre-merge baseline recheck** — confirm `main` has not advanced since the approved head was refreshed. If it has, return to canonical-main integration and repeat exact-head assurance and Founder approval on the new head.
+7. **Merge** — the approved, durably evidenced and current-main-baselined head is merged into `main`.
+8. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
+9. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
+10. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
+11. **Operational observation** — production availability/health evidence remains current after deployment.
 
 Admin may summarise the path as Healthy only when the required current stages are green for the production commit being reported. Missing or stale stage evidence is Unknown; a known failed required stage is Attention needed.
 
