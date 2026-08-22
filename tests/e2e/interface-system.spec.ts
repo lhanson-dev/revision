@@ -196,7 +196,11 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   expect(darkStyles.expectedBackground).not.toBe(lightStyles.expectedBackground)
   expect(darkStyles.expectedColor).not.toBe(lightStyles.expectedColor)
 
-  const fieldStyles = await firstName.evaluate((element) => {
+  await modal.getByRole('button', { name: 'Profile' }).click()
+  const darkFirstName = modal.getByRole('textbox', { name: /First name/ })
+  await expect(darkFirstName).toBeVisible()
+
+  const fieldStyles = await darkFirstName.evaluate((element) => {
     const runtimeElement = element.closest('.planner-runtime')
     const fieldStyle = getComputedStyle(element)
     const runtimeStyle = runtimeElement ? getComputedStyle(runtimeElement) : null
