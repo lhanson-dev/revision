@@ -1,10 +1,10 @@
 .exam-paper-card{display:block;padding:0;overflow:hidden}
-.exam-paper-card summary{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px;cursor:pointer;list-style:none}
+.exam-paper-card summary{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px;cursor:pointer;list-style:none;color:var(--color-text)}
 .exam-paper-card summary::-webkit-details-marker{display:none}
-.exam-paper-card summary>span:last-child{flex:0 0 auto;color:var(--indigo);font-size:24px;font-weight:800;transition:transform .18s ease}
+.exam-paper-card summary>span:last-child{flex:0 0 auto;color:var(--color-accent-text);font-size:24px;font-weight:800;transition:transform .18s ease}
 .exam-paper-card[open] summary>span:last-child{transform:rotate(45deg)}
-.exam-paper-card[open] summary{border-bottom:1px solid var(--line)}
-.paper-exam-content{display:grid;gap:18px;padding:22px;background:var(--surface-soft)}
+.exam-paper-card[open] summary{border-bottom:1px solid var(--color-border)}
+.paper-exam-content{display:grid;gap:18px;padding:22px;background:var(--color-surface-soft);color:var(--color-text)}
 .paper-exam-content .exam-simulator-section{margin:0}
 
 @media(max-width:620px){
