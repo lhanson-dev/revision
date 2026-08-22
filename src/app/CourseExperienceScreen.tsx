@@ -78,10 +78,7 @@ export function CourseExperienceScreen({
 
   useEffect(() => {
     let current = true
-    if (!resolved || !active) {
-      setLoading(false)
-      return () => { current = false }
-    }
+    if (!resolved || !active) return () => { current = false }
     const store = createSupabaseEvidenceStore(client)
     Promise.all(resolved.course.modules.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
       .then((items) => {
