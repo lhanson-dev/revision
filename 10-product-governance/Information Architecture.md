@@ -1,6 +1,6 @@
 # Information Architecture
 
-**Status:** Draft authority candidate — v0.9  
+**Status:** Draft authority candidate — v1.0 proposal pending governed merge  
 **Purpose:** Define the top-level structure and scalable learner hierarchy of the Revision student experience.
 
 ## Principle
@@ -12,12 +12,12 @@ The student should not need to understand the product's internal complexity. The
 - understand what matters now;
 - see and shape their wider revision plan;
 - get intelligent support from REV from wherever they are;
-- understand progress across subjects; and
-- choose their own subject or activity when they want to.
+- understand progress across their programme; and
+- go directly to a course or activity they want to work on.
 
-Learning, practice and exam-preparation tools remain contextual to the relevant subject, course, paper/component or topic rather than competing as global destinations.
+Learning, practice and exam-preparation tools remain contextual to the relevant course, paper/component or topic rather than competing as global destinations.
 
-Navigation should remain recognisable and relatively flat **at global scope**, while the active academic branch may expand progressively to show the learner's current parent, sibling and child pages. Avoid unrelated branches being expanded at the same time, duplicate entry points and unnecessary menu complexity.
+Navigation should remain recognisable and relatively flat at global scope, while the active course branch may expand progressively. Avoid duplicate entry points, unnecessary menu complexity and making learners navigate through academic metadata they do not need for the current job.
 
 ## Primary global navigation
 
@@ -26,73 +26,69 @@ The learner-wide destinations are:
 1. **Home**
 2. **Plan**
 3. **Progress**
-4. **Subjects**
+4. **Courses**
 
 The persistent learner-wide action is:
 
 - **Ask REV**
 
-REV is therefore not primarily a peer destination alongside the four learner-wide destinations. It is an ongoing intelligent-coach relationship that should remain available from any learner screen. A full REV workspace may still exist for extended conversation, but ordinary access should not require the learner to navigate away from the work they are doing.
+REV is therefore not primarily a peer destination alongside the four learner-wide destinations. It is an ongoing intelligent-coach relationship available from any learner screen.
 
-The structure reflects the product's intended experience: orient to today, understand the wider plan, understand the evidence picture, choose work directly, or ask the intelligent coach for help at any point.
+Courses is the learner-led route into the qualifications/specifications they actually study. It represents the authenticated learner's saved course set rather than the complete published Revision catalogue.
 
-Practice and Exam Prep remain core product capabilities, but they are contextual capabilities within a selected subject/course rather than global destinations.
+Practice and Exam Prep remain core capabilities within a selected course/component rather than global destinations.
 
-Account, profile, settings, plan/subscription management, help, privacy, subject management and similar utilities remain secondary. Desktop uses one compact authenticated account control at the bottom of the persistent learner rail; tablet/mobile use the slide-out secondary navigation/account drawer.
+Account, profile, settings, plan/subscription management, help, privacy and similar utilities remain secondary. Detailed responsive and contextual-expansion behaviour is governed by `Global Learner Navigation.md`.
 
-Detailed responsive and contextual-expansion behaviour is governed by `Global Learner Navigation.md`.
+## Academic hierarchy versus learner navigation
 
-## Learner hierarchy
+Revision must preserve the official academic structure where it matters while projecting a simpler learner-facing navigation model.
 
-Revision should support a learner with multiple subjects and multiple assessment components even when the live content catalogue is narrower.
+The underlying academic/content hierarchy remains:
 
-The academic hierarchy is:
+```text
+Subject
+└── Course / specification
+    └── Paper / component where applicable
+        └── Topic / specification area
+            └── Learning, practice or exam-preparation activity
+                └── Evidence and feedback
+```
+
+Subject therefore remains important metadata and a valid grouping for course discovery, catalogue organisation, reporting and official specification context.
+
+The everyday learner navigation projection is deliberately flatter:
 
 ```text
 Learner
-└── Subject
-    └── Course / specification
-        └── Paper / component where applicable
-            └── Topic / specification area
-                └── Learning, practice or exam-preparation activity
-                    └── Evidence and feedback
+└── Courses
+    ├── saved course
+    │   ├── Overview
+    │   ├── Learn
+    │   ├── Practice where available
+    │   ├── Exam Prep where available
+    │   └── Progress
+    └── saved course
 ```
 
-The experience hierarchy within a selected course, paper or component is:
+The learner does not need to navigate through Subject Home to reach a course already in their programme.
 
-```text
-Course / paper / component
-├── Overview
-├── Learn
-├── Practice
-├── Exam Prep
-└── Progress
-```
+Where a qualification genuinely has component-specific learning rather than one shared course-level learning scope, the course may expose the relevant paper/component structure before focused sections.
 
-These focused sections should not normally be collapsed into one long all-purpose page merely because that is easier to implement.
+Topics/specification areas are shared academic identities across Learn, Practice, Exam Prep and Progress rather than duplicated entities.
 
-Topics and specification areas are shared academic identities across Learn, Practice, Exam Prep and Progress rather than duplicated entities.
+## Learner course membership
 
-Not every qualification must expose every level. Revision should preserve the official structure where it matters without forcing all subjects into one paper model.
+A published course and a learner's course are different concepts:
 
-### Navigation projection of the hierarchy
+- **Published course** — supported content exists in Revision.
+- **Learner course membership** — the authenticated learner has explicitly added that course to their active Revision programme.
 
-The left learner navigation may project the currently active academic path without turning every academic object into a permanent global destination.
+Course membership is programme context, not learning evidence.
 
-When Subjects is active, the contextual path is:
+The learner's active course set is used to scope learner-wide Home recommendations, Plan, global Progress and REV programme context. Revision must not treat every published course as belonging to every learner.
 
-```text
-Subjects
-├── All subjects
-├── learner subject
-│   └── course/specification
-│       └── applicable focused sections
-└── learner subject
-```
-
-The selected subject expands to its courses. The selected course/component expands to the focused sections that genuinely apply. Unselected branches remain collapsed.
-
-The subject entries should represent the learner's current Revision programme. Until a dedicated persisted subject-enrolment model exists, the current published learner catalogue may act as the programme set; future enrolment/subject-management filtering should not require a different navigation architecture.
+Removing a course from the active set must not delete historical evidence or attempts. Re-adding a course may reconnect existing historical evidence subject to normal evidence quality/recency rules.
 
 ## Home
 
@@ -100,22 +96,13 @@ Home is the default signed-in destination and should answer:
 
 > **What matters now, and what should I do today?**
 
-Home operates at learner-wide scope.
+Home operates at learner-wide scope and may consider the learner's active courses, current plan, assessment timing, evidence, coverage, recent activity, relative weaknesses, learner choices and realistic available time.
 
-Its strongest element should be concise REV guidance based on the wider learner picture. That guidance may consider enrolled subjects, current plan, assessment timing, evidence, coverage, recent activity, relative weaknesses, learner choices and realistic available time.
+Home must not recommend work from a published course that is not in the learner's active course set.
 
-Home should also contain a smaller **Today's plan** summary that shows the current day's intended workload and links directly to Plan.
+Its strongest element should be concise REV guidance. A smaller **Today's plan** summary may show the current day's intended workload and link directly to Plan.
 
-The REV guidance and Today's plan card are complementary:
-
-- REV explains the most useful focus and why;
-- Today's plan makes the practical workload visible.
-
-Home may include a prominent `Ask REV anything…` input as part of the opening composition. That Home input does not replace the persistent Ask REV action elsewhere in the shell.
-
-Home may include a small number of quiet supporting signals, but must not become a dense dashboard or activity feed.
-
-The learner remains free to ignore the recommendation and choose work through Subjects or Plan, or ask REV for a different approach.
+Home may include a prominent `Ask REV anything…` input as part of the opening composition. The learner remains free to ignore recommendations and choose work through Courses or Plan.
 
 ## Plan
 
@@ -125,58 +112,31 @@ Plan is a primary global destination and answers:
 
 Plan is governed in detail by `Adaptive Revision Planning.md`.
 
-The default view should be chronological and adaptive rather than a traditional fixed calendar grid:
+The programme scope must be based on the learner's active courses rather than the complete published catalogue. If the learner has no active courses, Plan must not fabricate a meaningful study programme; it should direct the learner to establish Courses first.
 
-- Today;
-- next few days;
-- later this week; and
-- upcoming assessments / broader priorities.
-
-The plan is Revision's current forecast, not a commitment. Precision should reduce further into the future and the adaptive nature of the plan should be obvious.
-
-Plan should make it possible to understand:
-
-- what Revision currently recommends;
-- why important priorities exist;
-- upcoming assessments;
-- current availability assumptions;
-- significant plan changes;
-- whether Revision is currently prioritising because time is constrained; and
-- the implications of deliberate learner preferences.
-
-Plan should not become a generic calendar, homework manager or manual task-rescheduling system.
+The default view should remain chronological and adaptive rather than a traditional fixed calendar grid.
 
 ## REV
 
 REV is the ongoing intelligent-coach relationship and a persistent global action.
 
-Opening Ask REV should feel context-aware and ready to respond rather than like a blank generic chatbot or a dashboard of AI functions.
+At learner-wide scope, REV may use:
 
-REV may operate at several scopes:
+- active saved courses;
+- current plan;
+- progress/activity/evidence;
+- upcoming assessments; and
+- other governed learner context.
 
-### Global REV
-
-On Home, Plan, global Progress and the expanded REV workspace, REV can use the learner's wider subjects, plan, progress, activity and assessment context.
-
-### Subject-scoped REV
-
-On Subject Home, the selected subject becomes the immediate working context while the wider programme remains available.
-
-### Activity-context REV
-
-Within a course/paper section, topic, activity or feedback view, REV may use that context to explain, coach or recommend the next useful action.
+Within a selected course/component/topic/activity, REV narrows to that immediate context while retaining appropriate wider learner context.
 
 These are contextual scopes of one assistant relationship, not separate assistants.
 
-Selecting Ask REV should preserve relevant context so the learner does not need to explain where they came from. On desktop this should normally open a substantial contextual side panel; tablet/mobile should use an appropriate overlay or sheet. A route to an expanded/full REV workspace may be available for longer conversations.
-
-On tablet/mobile the persistent Ask REV access point is a bottom-anchored action dock, not a peer item in a multi-item bottom navigation bar.
-
-REV should support natural planning conversations, including learner preferences that temporarily reshape the plan, while keeping wider consequences visible.
+REV must not infer that a learner studies a course merely because that course is published in Revision.
 
 ## Progress
 
-Progress is a global destination that helps the student understand the bigger picture across subjects.
+Progress is a global destination that helps the student understand the bigger picture across their active courses.
 
 It answers:
 
@@ -185,48 +145,50 @@ It answers:
 It should support progressive drill-down:
 
 ```text
-All subjects → Subject → Course/specification → Paper/component → Topic
+All active courses → Course/specification → Paper/component → Topic
 ```
 
-Global and contextual Progress views use the same underlying evidence model.
+Subject may still appear as useful grouping/metadata where multiple courses make that clearer, but the learner-facing primary set is active courses.
 
-Progress should distinguish coverage, understanding/mastery and exam readiness and may also show subjective confidence where appropriately governed.
+Global and contextual Progress views use the same underlying evidence model. Progress should distinguish coverage, understanding/mastery and exam readiness and should prioritise meaning over dashboard density.
 
-Progress should prioritise meaning over dashboard density: explain what a signal means, how strong the evidence is where material, and what useful action follows.
+## Courses
 
-## Subjects
+Courses is the learner-led route and answers:
 
-Subjects is the learner-led route and answers:
+> **What course do I want to work on?**
 
-> **What do I want to work on?**
+Selecting Courses opens a page showing the learner's saved/active courses and a clear **Add Course** action.
 
-Students must be able to switch between enrolled/current-programme subjects easily.
+Each course should be identifiable using the minimum context needed to avoid ambiguity, for example subject, qualification/level, exam board and specification code.
 
-Selecting Subjects exposes an `All subjects` page plus the learner's current subject set in the contextual navigation. Selecting a subject opens a Subject Home rather than dropping immediately into a single activity or paper, and expands that subject in navigation to expose its courses/specifications.
+### Add Course
 
-### Subject Home
+Add Course lets the learner browse/search the published supported catalogue and explicitly add a course to their active Revision programme.
 
-Subject Home answers:
+Course discovery may use the underlying academic hierarchy:
 
-> **What should I work on in this subject?**
+```text
+Subject → qualification/level → exam board → specification/course
+```
 
-It may include:
+That hierarchy is useful for finding the right course but does not become the permanent global navigation path.
 
-- course/specification and exam-board context;
-- relevant paper/component structure;
-- subject-level progress and coverage;
-- weaknesses or under-covered areas;
-- recent subject activity;
-- REV guidance scoped to the subject; and
-- routes into the relevant course, paper or component.
+Adding a course updates the learner's active programme and makes the course available to Courses navigation, Plan, Progress, Home recommendations and REV programme context.
 
-The learner can choose work directly even where Revision currently recommends something else.
+### Remove Course
+
+The learner must be able to remove a course from their active programme so mistakes and genuine programme changes can be corrected.
+
+Removal requires a clear confirmation, removes the course from active programme scope and navigation, and does not delete historical learning evidence.
+
+### Empty state
+
+A learner with no active courses sees a calm explanation and Add Course as the primary next action. Other programme-wide surfaces should fail safely rather than pretending a full published catalogue is the learner's programme.
 
 ## Course / specification and paper / component
 
-Within a subject, the learner should be able to browse the official course/specification structure and see topic-by-topic coverage and progress.
-
-A course, paper or component Home should be an overview and launch point, not the place where every learning capability is rendered in full.
+A selected course opens its Overview directly rather than requiring Subject Home first.
 
 Where enough depth exists, the standard focused sections are:
 
@@ -262,32 +224,19 @@ This is a drill-down of the same global evidence model, not a separate progress 
 
 Learn, Practice, Exam Prep and contextual Progress should normally be distinct navigable sections or focused screen states where the academic context has meaningful depth.
 
-Implementation may use routes, tabs or another accessible pattern, but the learner must understand where they are and move between sections without scrolling through unrelated capabilities.
+The selected course/component may expose its applicable focused sections in contextual navigation. That does not make those sections learner-wide destinations.
 
-The selected course/component may expose its applicable focused sections in the contextual left navigation. That does **not** make Learn, Practice, Exam Prep or contextual Progress learner-wide destinations.
-
-Deep-linking or equivalent addressability should be preserved where practical so REV and Plan can take the learner directly into relevant work.
+Deep-linking/addressability should be preserved so REV and Plan can take the learner directly into relevant work.
 
 ## Topic behaviour
 
-Topics are cross-cutting academic entities.
-
-For example:
-
-```text
-Paper 2 → Learn → Marketing
-Paper 2 → Practice → Flashcards → Marketing
-Paper 2 → Practice → Exam questions → Marketing
-Paper 2 → Progress → Marketing
-```
-
-These routes should resolve to the same underlying topic/specification identity and evidence model.
+Topics are cross-cutting academic entities. A topic reached through Learn, Practice, Exam Prep or Progress should resolve to the same underlying topic/specification identity and evidence model.
 
 ## Navigation model
 
 ### Desktop
 
-Desktop uses a persistent left learner rail rather than a top primary navigation bar.
+Desktop uses a persistent left learner rail.
 
 The top area exposes:
 
@@ -296,49 +245,34 @@ The top area exposes:
 - Home;
 - Plan;
 - Progress; and
-- Subjects.
+- Courses.
 
-The bottom area exposes one compact authenticated account control showing avatar/initial and learner name. Selecting it opens the compact Profile / Settings / Upgrade / Log out menu, with Admin added only for authorised administrators.
+When Courses is active, the rail shows the learner's saved courses directly beneath it. The selected course expands into its applicable focused sections. Other courses remain collapsed.
 
-Until FI-002 has completed the governed feature lifecycle and a real plan-comparison/upgrade route exists, an `Upgrade plan` preview must remain clearly unavailable/forthcoming.
-
-When Subjects is active, the rail expands only the current academic branch: `All subjects` and subject siblings are visible; the selected subject exposes its courses; and the selected course/component exposes its applicable focused sections. Parent rows remain navigable to their own overview/home pages.
+The bottom area exposes one compact authenticated account control. Account behaviour is governed by `Global Learner Navigation.md`.
 
 ### Tablet and mobile
 
 Tablet and mobile use:
 
-- a compact top bar with a **two-line menu control at the top left** and REV identity;
-- a slide-out **left navigation drawer** for Home, Plan, Progress and Subjects;
+- a compact top bar with a two-line menu control and REV identity;
+- a slide-out left navigation drawer for Home, Plan, Progress and Courses;
+- contextual saved-course expansion inside the active Courses branch;
 - account utilities in the lower part of that drawer; and
 - a persistent bottom-anchored **Ask REV** action dock as the only persistent bottom learner action.
 
-The drawer keeps the four learner-wide destinations immediately recognisable. When the current route belongs to Subjects, it also projects the same route-scoped academic branch used on desktop. This contextual expansion is progressive disclosure, not an always-open full-site tree.
+Profile, Settings, Upgrade, permission-gated Admin and Log out remain separate account/utility jobs.
 
-Profile, Settings, Upgrade, permission-gated Admin and Log out remain clearly separate as account/utility jobs.
+## Course routing and compatibility
 
-The Ask REV dock is global assistant access rather than a fifth navigation destination. It should remain reachable while scrolling, respect safe areas and leave sufficient content clearance so it does not obscure learner actions.
+The canonical learner-facing route should reflect the governed language rather than preserving `Subjects` in the URL indefinitely.
 
-Contextual course/paper navigation must remain easy to use on small screens without colliding with the persistent Ask REV dock.
+The target canonical pattern is:
 
-## Secondary menu / drawer
+- `#/courses` for the learner course index; and
+- course-scoped routes beneath `#/courses/...` for course and component work.
 
-The responsive drawer may contain secondary utilities including as applicable:
-
-- profile;
-- account;
-- settings;
-- current plan / plan comparison / upgrade when that commercial capability is governed and available;
-- notification preferences;
-- subject management;
-- help;
-- privacy/data controls;
-- log out/sign out; and
-- permission-gated Admin.
-
-Ask REV should not be duplicated as a drawer item when the persistent dock is present.
-
-Parent and teacher experiences remain separate role-specific journeys when developed.
+Existing `#/subjects/...` routes may remain as compatibility inputs during migration so bookmarks and existing Plan/REV links continue to resolve, but they are not the future product vocabulary or canonical route family.
 
 ## Design guardrails
 
@@ -348,15 +282,25 @@ The information architecture should:
 - make Today's plan visible without turning Home into the full planner;
 - make Plan a genuine primary job;
 - make Ask REV distinctive, contextual and available from any learner screen;
-- keep the wider learner picture available while preserving student choice;
-- support fast switching between multiple subjects;
-- preserve official specification structure;
+- make the learner's own courses directly reachable;
+- distinguish published catalogue availability from active learner membership;
+- preserve official subject/specification structure in the academic model without forcing unnecessary navigation hops;
 - use focused learning/practice/exam-prep/progress sections where depth justifies them;
 - avoid duplicate topic identities across learning modes;
-- keep global navigation flat and recognisable when no contextual academic branch is active;
-- expand only the selected academic branch rather than every subject/course;
+- keep global navigation flat and recognisable when Courses is not active;
+- expand only the selected course into its focused sections;
 - prevent the desktop rail and responsive drawer becoming dumping grounds;
 - avoid excessive dashboard density;
 - use progressive disclosure for secondary detail;
 - remain fully usable on mobile and with assistive technology; and
 - allow future subjects, courses and components to be added without redesigning the global structure.
+
+## FI-020 readiness boundary
+
+FI-020 completed the governed Definition of Ready and received explicit Founder `Analyse → Ready` approval on 2026-08-22.
+
+Material production implementation may begin only after this v1.0 authority change is integrated into current approved `main`, and must then follow the Governed Implementation Workflow.
+
+## Documentation impact
+
+This v1.0 proposal must remain aligned with `Global Learner Navigation.md`, `Adaptive Revision Planning.md`, applicable core journeys, the learner-course persistence model, canonical route/runtime technical documentation and responsive/browser assurance. Historical audits and earlier route evidence remain historical rather than being rewritten.
