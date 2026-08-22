@@ -988,3 +988,40 @@ Explore forecast-style practice papers designed from specification coverage, kno
 ### Promotion impact
 
 Would require evidence/claims review, content and assessment governance, marketing claims approval, legal/trust review and clear learner-facing provenance.
+
+---
+
+## FI-020 — Learner Courses and Course Membership
+
+**Status:** Ready  
+**Captured:** 2026-08-22  
+**Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
+**Approved direction:** `Courses` replaces `Subjects` as the fourth learner-wide destination; Courses shows the authenticated learner's saved course set and provides Add Course; the active Courses branch exposes those saved courses directly.  
+**Analysis record:** `10-product-governance/backlog/FI-020 Learner Courses and Course Membership Analysis.md`  
+**Authority change:** `10-product-governance/Global Learner Navigation.md` v0.8 and `10-product-governance/Information Architecture.md` v1.0 proposal in PR #129  
+**Lifecycle evidence:** Founder approved the product direction on 2026-08-22 (`New → To Do`), analysis completed all applicable Definition-of-Ready criteria with no blockers, and the Founder explicitly approved `Analyse → Ready` on 2026-08-22. Governed implementation begins only after the approved authority/readiness change is integrated into current `main`.  
+**Current assessment:** Ready for implementation; persistence is foundational learner programme context and is not tier-gated.
+
+### Approved MVP
+
+- learner-wide navigation is **Home / Plan / Progress / Courses**;
+- Courses page displays only the learner's active/saved supported courses;
+- Courses page provides a clear **Add Course** action;
+- active Courses navigation lists the learner's saved courses directly;
+- only the selected course expands into applicable Overview / Learn / Practice / Exam Prep / Progress sections;
+- Subject remains academic/catalogue metadata and may organise Add Course discovery but is not a required everyday learner navigation hop;
+- authenticated course membership is persisted and duplicate-safe;
+- learners can remove a course with confirmation;
+- removing membership never deletes historic learning evidence;
+- Home, Plan, global Progress and learner-wide REV context use only active learner courses;
+- existing learners receive a bounded compatibility transition rather than unexpectedly losing current programme access;
+- canonical learner-facing course routing moves to `#/courses`, with prior subject-first deep links retained as compatibility inputs during migration; and
+- unavailable saved course IDs fail safely and surface as integrity exceptions rather than silently mapping to other content.
+
+### Commercial boundary
+
+Course identity and course management are foundational product truth for **Free, Paid and Premium**. FI-020 does not introduce course-count paywalls or an upgrade mechanism.
+
+### Promotion / implementation impact
+
+PR #129 promotes the approved navigation/IA direction and records readiness. After that authority is merged, implementation must follow the Governed Implementation Workflow, update the canonical `/app/` runtime, persist learner-course membership with strict user ownership/RLS, migrate route and programme scope safely, update technical documentation/assurance, and prove production behaviour before FI-020 may become Live.
