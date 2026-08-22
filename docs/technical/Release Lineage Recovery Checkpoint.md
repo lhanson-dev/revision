@@ -1,6 +1,6 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109  
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 in review  
 **Date:** 2026-08-22
 
 ## Purpose
@@ -118,8 +118,66 @@ That satisfied the closure condition for DEF-2026-005 and restored the prospecti
 
 `audits/Path-to-Live Approval Marker Recurrence 2026-08-21.md` preserves the incident evidence.
 
+## Recovery 3 — approval-marker recurrence after PR #106
+
+### Trigger
+
+PR #106 merged exact head:
+
+`21f173f4d8cd16d5d528697a3851e9a3d687b9a1`
+
+as merge commit:
+
+`29cefc2afd8d0949876fee31298e747ec1ff70f8`
+
+The PR conversation contains genuine Founder approval, including comment `5378444745`, but the record is prose rather than the required exact machine-readable marker. That historical evidence is deliberately left unchanged.
+
+PR #111 later followed the correct merge sequence for its own exact head `889675eb6e301ef917f05f95cde154a514e391df`: Revision CI #652 passed, exact marker comment `5379218979` was persisted and verified, and the exact head merged as `ad112f426b7f8430ddb03f2b0979e2706cb59c38`.
+
+Production run `32561748699` then failed closed while traversing the PR #106 ancestor. Backend readiness, build, Pages deployment and production smoke were skipped, so the prior known-good production deployment remained in place.
+
+### Third recovery anchor
+
+ADR-0016 proposes the third exceptional prospective trust root:
+
+```text
+REVISION_RELEASE_BOOTSTRAP_PARENT=ad112f426b7f8430ddb03f2b0979e2706cb59c38
+```
+
+This exact SHA is the failed pre-remediation `main` commit from PR #111. It is not a declaration that PR #106 complied with the marker contract and does not rewrite any historical path-to-live evidence.
+
+### Recovery-PR invariant
+
+The Recovery 3 PR must satisfy:
+
+1. current-main integration under the active trunk-based governance;
+2. successful required Revision CI on its final integration candidate;
+3. explicit Founder approval of the recovery PR, which also accepts ADR-0016;
+4. exact machine-readable Founder marker persisted for the final head after CI;
+5. marker re-read and verified before merge;
+6. only the evidenced head merged;
+7. governed release lineage passes using the Recovery 3 anchor;
+8. production backend readiness, build, Pages deployment and production smoke pass; and
+9. durable `revision/path-to-live = success` is published before Recovery 3 is represented as complete.
+
+### Prevention control included in Recovery 3
+
+Because this is another recurrence after procedural hardening, Recovery 3 adds a technically evaluated pre-merge commit status:
+
+`revision/founder-approval`
+
+The trusted default-branch workflow verifies that the current PR head has both successful exact-head Revision CI and the exact Founder marker created at or after that CI. Prose approval remains insufficient, and a new PR head is evaluated independently.
+
+The workflow is documented in `docs/technical/Founder Approval Gate.md`. Once it is live on `main`, operating agents must treat `revision/founder-approval = success` as a mandatory pre-merge condition. Where GitHub repository settings support required status checks, the status should also be configured as a repository-enforced required check.
+
+### Outcome
+
+Pending. Recovery 3 remains in review until its governed PR reaches successful production path-to-live evidence. DEF-2026-006 remains open until that evidence exists.
+
+`audits/Path-to-Live Approval Marker Recurrence 2026-08-22.md` preserves the incident evidence.
+
 ## Guardrail
 
 Do not advance the bootstrap parent as a routine way to clear failed lineage. Every recovery reset requires a new governed decision, explicit rationale and Founder approval. Historical comments/statuses must not be edited to manufacture compliance.
 
-If malformed approval evidence recurs after this hardening, Revision should move from procedural reinforcement to a technically enforced pre-merge approval-status mechanism where the repository/tooling allows it.
+Recovery 3 moves beyond procedural wording by adding a machine-readable pre-merge Founder approval status. Future approval-evidence incidents should first be treated as failures of technical enforcement/configuration and investigated at that layer rather than answered with another routine bootstrap reset.
