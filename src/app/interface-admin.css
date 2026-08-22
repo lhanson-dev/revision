@@ -1,0 +1,741 @@
+.planner-runtime .admin-operations,
+.planner-runtime .founder-assurance {
+  font-family: var(--font-family-product);
+  color: var(--color-text);
+}
+
+.planner-runtime .admin-operations {
+  width: min(100%, 1280px);
+  max-width: none;
+  gap: var(--space-6);
+}
+
+.planner-runtime .admin-page-heading {
+  align-items: flex-end;
+  gap: var(--space-6);
+  margin: 0;
+}
+
+.planner-runtime .admin-page-heading > div {
+  max-width: 780px;
+}
+
+.planner-runtime .admin-page-heading .eyebrow,
+.planner-runtime .admin-panel .eyebrow,
+.planner-runtime .admin-health-banner .eyebrow,
+.planner-runtime .founder-assurance .eyebrow {
+  margin: 0 0 var(--space-2);
+  color: var(--color-accent-text);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+
+.planner-runtime .admin-page-heading h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line);
+  font-weight: var(--type-h1-weight);
+}
+
+.planner-runtime .admin-page-heading p:not(.eyebrow) {
+  margin: var(--space-2) 0 0;
+  max-width: 72ch;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .admin-refresh,
+.planner-runtime .admin-page-heading .secondary,
+.planner-runtime .planner-admin .inline-actions .secondary {
+  min-height: var(--control-height-compact);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  box-shadow: none;
+}
+
+.planner-runtime .admin-refresh:hover:not(:disabled),
+.planner-runtime .admin-page-heading .secondary:hover:not(:disabled),
+.planner-runtime .planner-admin .inline-actions .secondary:hover:not(:disabled) {
+  background: var(--color-surface-soft);
+  border-color: color-mix(in srgb, var(--color-text) 28%, var(--color-border));
+}
+
+.planner-runtime .admin-refresh:focus-visible,
+.planner-runtime .admin-page-heading .secondary:focus-visible,
+.planner-runtime .planner-admin .inline-actions .secondary:focus-visible,
+.planner-runtime .admin-subnav button:focus-visible,
+.planner-runtime .admin-stat-card:focus-visible,
+.planner-runtime .admin-table a:focus-visible,
+.planner-runtime .admin-operations button:focus-visible,
+.planner-runtime .admin-operations input:focus-visible,
+.planner-runtime .admin-operations textarea:focus-visible,
+.planner-runtime .admin-operations select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .admin-subnav {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  scrollbar-width: thin;
+}
+
+.planner-runtime .admin-subnav button {
+  flex: 0 0 auto;
+  min-height: var(--control-height-compact);
+  padding: 0 var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-compact);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+  box-shadow: none;
+  transition: background var(--motion-fast) var(--motion-ease-standard), border-color var(--motion-fast) var(--motion-ease-standard), color var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .admin-subnav button:hover {
+  background: color-mix(in srgb, var(--color-surface) 74%, transparent);
+  color: var(--color-text);
+}
+
+.planner-runtime .admin-subnav button.active {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: inset 0 -2px 0 var(--color-action);
+}
+
+.planner-runtime .admin-health-banner,
+.planner-runtime .admin-panel,
+.planner-runtime .admin-static-stat,
+.planner-runtime .admin-stat-card,
+.planner-runtime .content-operations-panel,
+.planner-runtime .assurance-summary-card,
+.planner-runtime .admin-health-item {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.planner-runtime .admin-health-banner {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-surface);
+}
+
+.planner-runtime .admin-health-banner h2,
+.planner-runtime .admin-panel h2,
+.planner-runtime .founder-assurance h2 {
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  font-weight: var(--type-h2-weight);
+}
+
+.planner-runtime .admin-health-banner h2 {
+  margin: 0;
+}
+
+.planner-runtime .admin-health-banner p:not(.eyebrow),
+.planner-runtime .admin-panel p,
+.planner-runtime .admin-health-item p,
+.planner-runtime .founder-assurance p {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .admin-status,
+.planner-runtime .assurance-coverage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.planner-runtime .admin-status {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.planner-runtime .admin-status.healthy,
+.planner-runtime .assurance-health.healthy,
+.planner-runtime .assurance-coverage-badge.covered {
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .admin-status.healthy,
+.planner-runtime .assurance-coverage-badge.covered {
+  background: var(--status-success-bg);
+  border-color: color-mix(in srgb, var(--status-success-fg) 22%, transparent);
+}
+
+.planner-runtime .admin-status.attention-needed,
+.planner-runtime .assurance-health.attention-needed,
+.planner-runtime .assurance-coverage-badge.partial {
+  color: var(--status-warning-fg);
+}
+
+.planner-runtime .admin-status.attention-needed,
+.planner-runtime .assurance-coverage-badge.partial {
+  background: var(--status-warning-bg);
+  border-color: color-mix(in srgb, var(--status-warning-fg) 22%, transparent);
+}
+
+.planner-runtime .admin-status.unknown,
+.planner-runtime .assurance-health.unknown,
+.planner-runtime .assurance-coverage-badge.unknown {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .admin-status.unknown,
+.planner-runtime .assurance-coverage-badge.unknown {
+  background: var(--color-surface-soft);
+  border-color: var(--color-border);
+}
+
+.planner-runtime .assurance-coverage-badge.uncovered {
+  background: var(--status-error-bg);
+  border-color: color-mix(in srgb, var(--status-error-fg) 22%, transparent);
+  color: var(--status-error-fg);
+}
+
+.planner-runtime .admin-status > span {
+  width: var(--space-2);
+  height: var(--space-2);
+}
+
+.planner-runtime .admin-stat-grid {
+  gap: var(--space-3);
+}
+
+.planner-runtime .admin-stat-card,
+.planner-runtime .admin-static-stat {
+  min-height: 142px;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border-radius: var(--radius-surface);
+}
+
+.planner-runtime .admin-stat-card {
+  color: var(--color-text);
+  transition: transform var(--motion-fast) var(--motion-ease-standard), border-color var(--motion-fast) var(--motion-ease-standard), background var(--motion-fast) var(--motion-ease-standard);
+}
+
+.planner-runtime .admin-stat-card:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--color-text) 24%, var(--color-border));
+  background: var(--color-surface-elevated);
+}
+
+.planner-runtime .admin-stat-card small,
+.planner-runtime .admin-static-stat small,
+.planner-runtime .admin-content-summary small,
+.planner-runtime .assurance-summary-card small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: 600;
+}
+
+.planner-runtime .admin-stat-card strong,
+.planner-runtime .admin-static-stat strong {
+  color: var(--color-text);
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line);
+  font-weight: var(--type-h1-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.planner-runtime .admin-stat-card span,
+.planner-runtime .admin-static-stat span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .admin-date-stat {
+  font-size: var(--type-h4-size) !important;
+  line-height: var(--type-h4-line) !important;
+}
+
+.planner-runtime .admin-dashboard-grid,
+.planner-runtime .admin-detail-grid {
+  gap: var(--space-4);
+}
+
+.planner-runtime .admin-panel,
+.planner-runtime .content-operations-panel {
+  padding: var(--space-5);
+  border-radius: var(--radius-surface);
+}
+
+.planner-runtime .admin-panel h2,
+.planner-runtime .admin-panel h3 {
+  margin-top: 0;
+}
+
+.planner-runtime .admin-panel h3,
+.planner-runtime .content-operations-panel h2,
+.planner-runtime .content-operations-panel h3 {
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  font-weight: var(--type-h3-weight);
+}
+
+.planner-runtime .admin-clear,
+.planner-runtime .admin-success,
+.planner-runtime .content-operations-success {
+  border: 1px solid color-mix(in srgb, var(--status-success-fg) 20%, transparent);
+  border-radius: var(--radius-compact);
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .admin-warning,
+.planner-runtime .planner-admin-unknown {
+  border: 1px solid color-mix(in srgb, var(--status-warning-fg) 22%, transparent);
+  border-radius: var(--radius-compact);
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+}
+
+.planner-runtime .content-operations-error {
+  border: 1px solid color-mix(in srgb, var(--status-error-fg) 22%, transparent);
+  border-radius: var(--radius-compact);
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+}
+
+.planner-runtime .admin-clear p,
+.planner-runtime .admin-success p,
+.planner-runtime .admin-warning p,
+.planner-runtime .content-operations-error,
+.planner-runtime .content-operations-success {
+  color: inherit;
+}
+
+.planner-runtime .admin-attention-item,
+.planner-runtime .admin-job-item,
+.planner-runtime .admin-health-item {
+  gap: var(--space-4);
+  border-color: var(--color-border);
+}
+
+.planner-runtime .admin-attention-item,
+.planner-runtime .admin-job-item {
+  padding: var(--space-4) 0;
+}
+
+.planner-runtime .admin-attention-item p,
+.planner-runtime .admin-job-item small,
+.planner-runtime .admin-health-item p,
+.planner-runtime .admin-health-item small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .admin-attention-item small,
+.planner-runtime .admin-job-blocker {
+  color: var(--status-warning-fg) !important;
+}
+
+.planner-runtime .admin-content-summary {
+  gap: var(--space-3);
+  margin: var(--space-4) 0 var(--space-5);
+}
+
+.planner-runtime .admin-content-summary > div {
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .admin-content-summary strong {
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  font-weight: var(--type-h3-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.planner-runtime .admin-definition-list {
+  margin: var(--space-4) 0 0;
+}
+
+.planner-runtime .admin-definition-list > div {
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-color: var(--color-border);
+}
+
+.planner-runtime .admin-definition-list dt {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  font-weight: 500;
+}
+
+.planner-runtime .admin-definition-list dd {
+  color: var(--color-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  font-weight: var(--type-h4-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.planner-runtime .admin-trend {
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.planner-runtime .admin-trend-row {
+  grid-template-columns: 72px minmax(0, 1fr) 40px;
+  gap: var(--space-3);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .admin-trend-row time {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .admin-trend-track {
+  height: var(--space-2);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .admin-trend-track span {
+  background: var(--color-action);
+}
+
+.planner-runtime .admin-table-wrap {
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-compact);
+  background: var(--color-surface);
+}
+
+.planner-runtime .admin-table {
+  width: 100%;
+  min-width: 680px;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--color-text);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .admin-table th,
+.planner-runtime .admin-table td {
+  padding: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.planner-runtime .admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-top: 0;
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: 600;
+}
+
+.planner-runtime .admin-table tbody tr:hover td {
+  background: color-mix(in srgb, var(--color-surface-soft) 72%, transparent);
+}
+
+.planner-runtime .admin-table td strong,
+.planner-runtime .admin-table td span {
+  color: inherit;
+}
+
+.planner-runtime .admin-health-list {
+  gap: var(--space-3);
+}
+
+.planner-runtime .admin-health-item {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-compact);
+}
+
+.planner-runtime .admin-health-item h2 {
+  color: var(--color-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  font-weight: var(--type-h4-weight);
+}
+
+.planner-runtime .content-operations-form {
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.planner-runtime .content-operations-form label {
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .content-operations-form label > span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  font-weight: 500;
+}
+
+.planner-runtime .content-operations-form input,
+.planner-runtime .content-operations-form textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  box-shadow: none;
+}
+
+.planner-runtime .content-operations-form input {
+  min-height: var(--field-height-standard);
+  padding: 0 var(--space-3);
+}
+
+.planner-runtime .content-operations-form textarea {
+  min-height: 120px;
+  padding: var(--space-3);
+  resize: vertical;
+}
+
+.planner-runtime .content-operations-form input::placeholder,
+.planner-runtime .content-operations-form textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .content-operations-form input:focus-visible,
+.planner-runtime .content-operations-form textarea:focus-visible {
+  border-color: var(--color-action);
+}
+
+.planner-runtime .content-operations-form .primary,
+.planner-runtime .admin-panel .primary {
+  min-height: var(--control-height-standard);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: var(--type-button-weight);
+  box-shadow: none;
+}
+
+.planner-runtime .admin-panel .text-link,
+.planner-runtime .admin-health-banner .text-link,
+.planner-runtime .admin-attention-item .text-link {
+  min-height: var(--control-height-compact);
+  border-radius: var(--radius-control);
+  color: var(--color-accent-text);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-line);
+  font-weight: var(--type-label-weight);
+}
+
+.planner-runtime .founder-assurance {
+  gap: var(--space-5);
+}
+
+.planner-runtime .assurance-summary-grid {
+  gap: var(--space-3);
+}
+
+.planner-runtime .assurance-summary-card {
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-compact);
+}
+
+.planner-runtime .assurance-summary-card strong {
+  color: var(--color-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  font-weight: var(--type-h4-weight);
+}
+
+.planner-runtime .assurance-summary-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .assurance-table td:first-child,
+.planner-runtime .assurance-table td:nth-child(4),
+.planner-runtime .assurance-table td:nth-child(5) {
+  min-width: 220px;
+}
+
+.planner-runtime .quiet-note {
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+@media (max-width: 960px) {
+  .planner-runtime .admin-operations {
+    width: 100%;
+  }
+
+  .planner-runtime .admin-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planner-runtime .admin-health-banner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .planner-runtime .admin-health-banner .text-link {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .planner-runtime .assurance-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .admin-operations {
+    gap: var(--space-5);
+  }
+
+  .planner-runtime .admin-page-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .planner-runtime .admin-refresh,
+  .planner-runtime .admin-page-heading .secondary,
+  .planner-runtime .planner-admin .inline-actions,
+  .planner-runtime .planner-admin .inline-actions .secondary {
+    width: 100%;
+  }
+
+  .planner-runtime .planner-admin .inline-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .admin-subnav {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    overflow: visible;
+  }
+
+  .planner-runtime .admin-subnav button {
+    width: 100%;
+    min-height: var(--control-height-standard);
+    text-align: left;
+  }
+
+  .planner-runtime .admin-stat-grid,
+  .planner-runtime .admin-dashboard-grid,
+  .planner-runtime .admin-detail-grid,
+  .planner-runtime .admin-content-summary,
+  .planner-runtime .assurance-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-runtime .admin-stat-card,
+  .planner-runtime .admin-static-stat {
+    min-height: 124px;
+  }
+
+  .planner-runtime .admin-health-banner {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .admin-health-banner .text-link {
+    grid-column: auto;
+  }
+
+  .planner-runtime .admin-attention-item,
+  .planner-runtime .admin-job-item,
+  .planner-runtime .admin-health-item {
+    flex-direction: column;
+  }
+
+  .planner-runtime .admin-health-item .admin-status {
+    align-self: flex-start;
+  }
+
+  .planner-runtime .admin-panel,
+  .planner-runtime .content-operations-panel {
+    padding: var(--space-4);
+  }
+
+  .planner-runtime .admin-definition-list > div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .planner-runtime .admin-trend-row {
+    grid-template-columns: 60px minmax(0, 1fr) 32px;
+    gap: var(--space-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .admin-subnav button,
+  .planner-runtime .admin-stat-card {
+    transition: none;
+  }
+
+  .planner-runtime .admin-stat-card:hover {
+    transform: none;
+  }
+}
