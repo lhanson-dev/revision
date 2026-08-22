@@ -99,11 +99,9 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [importance, setImportance] = useState<AssessmentImportance>('normal')
   const [weekdayMinutes, setWeekdayMinutes] = useState(45)
   const [weekendMinutes, setWeekendMinutes] = useState(90)
-
-  useEffect(() => {
-    if (programme.some((item) => item.course.id === courseId)) return
-    setCourseId(programme[0]?.course.id ?? '')
-  }, [courseId, programme])
+  const selectedCourseId = programme.some((item) => item.course.id === courseId)
+    ? courseId
+    : programme[0]?.course.id ?? ''
 
   useEffect(() => {
     let active = true
@@ -178,7 +176,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
   async function handleAddAssessment(event: React.FormEvent) {
     event.preventDefault()
-    const selected = programme.find((item) => item.course.id === courseId)
+    const selected = programme.find((item) => item.course.id === selectedCourseId)
     if (!selected) {
       setMessage('Choose one of your active courses first.')
       return
@@ -330,7 +328,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
               <p className="eyebrow">Assessment</p>
               <h2 id="assessment-add-title">Add something you are preparing for</h2>
               <form className="planner-form" onSubmit={handleAddAssessment}>
-                <SelectField label="Course" value={courseId} required onChange={(event) => setCourseId(event.target.value)}>
+                <SelectField label="Course" value={selectedCourseId} required onChange={(event) => setCourseId(event.target.value)}>
                   {programme.map((item) => <option key={item.course.id} value={item.course.id}>{item.label}</option>)}
                 </SelectField>
                 <TextField label="What is it?" value={title} required maxLength={120} placeholder="e.g. Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
