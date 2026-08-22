@@ -1,0 +1,38 @@
+name: Founder Approval Status
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, ready_for_review]
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  actions: read
+  contents: read
+  issues: read
+  pull-requests: read
+  statuses: write
+
+jobs:
+  founder-approval-status:
+    name: Founder approval status
+    if: ${{ github.event_name == 'pull_request_target' || github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout trusted default-branch gate
+        uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Publish exact-head Founder approval status
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
+          REVISION_PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
+          REVISION_APPROVAL_TARGET_URL: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number || github.event.issue.number }}
+        run: node scripts/assurance/founder-approval-status.mjs
