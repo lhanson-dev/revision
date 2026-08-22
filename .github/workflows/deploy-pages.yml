@@ -23,18 +23,16 @@ env:
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: planner-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
-  # Second explicit 2026-08-21 recovery checkpoint. PR #105 had genuine
-  # pre-merge Founder approval recorded for its exact head, but the executing
-  # flow persisted prose rather than the required revision-founder-approval:v1
-  # machine-readable marker. That malformed evidence cannot be rewritten or
-  # converted retrospectively without falsifying history. PR #107 then failed
-  # closed while traversing that ancestor even though PR #107 itself followed
-  # the corrected exact-head approval sequence. The recovery PR records the
-  # recurrence and deliberately re-establishes prospective release lineage from
-  # this exact pre-remediation main commit. This is an exceptional governed
-  # recovery, not a routine bypass mechanism; any future reset requires a new
-  # recorded incident, rationale and explicit Founder-approved recovery decision.
-  REVISION_RELEASE_BOOTSTRAP_PARENT: d2534774344677013777a31a2a82bedb8919a7fe
+  # Third explicit 2026-08-22 recovery checkpoint. PR #106 had genuine
+  # Founder approval recorded for its exact head, but the executing flow again
+  # persisted prose instead of the mandatory revision-founder-approval:v1
+  # machine-readable marker. Later governed merges therefore failed closed while
+  # traversing PR #106. Historical approval evidence must not be rewritten or
+  # backfilled. ADR-0016 records this exceptional recovery and the accompanying
+  # pre-merge Founder approval status gate. The exact failed pre-remediation main
+  # commit below is the new prospective trust root. Any future reset still
+  # requires a new incident, rationale and explicit Founder-approved decision.
+  REVISION_RELEASE_BOOTSTRAP_PARENT: ad112f426b7f8430ddb03f2b0979e2706cb59c38
 
 jobs:
   governed-lineage:
