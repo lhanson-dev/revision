@@ -183,6 +183,7 @@ test('admin operations dashboard shows high-level evidence and drills into detai
   await expect(page.getByText('DEF-2026-002')).toHaveCount(0)
   await expect(page.getByText('DEF-2026-003')).toHaveCount(0)
   await expect(page.getByText('DEF-2026-004')).toHaveCount(0)
+  await expect(page.getByText('DEF-2026-005')).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Critical journeys' })).toBeVisible()
   await expect(page.getByText('JRN-04')).toBeVisible()
   await expect(page.getByText('DATA-01')).toBeVisible()

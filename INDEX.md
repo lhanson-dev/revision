@@ -20,13 +20,15 @@ Use this file to find the governing source before substantive work.
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
+- Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
+- Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0014-stripe-subscription-billing-architecture.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0015-second-release-lineage-recovery-checkpoint.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -40,6 +42,7 @@ Use this file to find the governing source before substantive work.
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
+- Assisted exam-answer marking / FI-007 MVP, learner experience and marking allowance rules → `10-product-governance/Assisted Exam Answer Marking.md`
 - Core user journeys → `10-product-governance/Core User Journeys.md`
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
@@ -96,8 +99,10 @@ Use this file to find the governing source before substantive work.
 - Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
+- Release-lineage recovery checkpoints → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
+- Interface system implementation / UI primitive migration → `docs/technical/Interface System Implementation.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
