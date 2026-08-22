@@ -4,10 +4,10 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.6"
+version: "0.7"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-21"
+last_reviewed: "2026-08-22"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["CI/CD and deployment", "path-to-live assurance"]
@@ -21,9 +21,14 @@ supersedes: null
 - Only validated production build artifacts may be deployed.
 - CI selects assurance depth using change risk, with critical shared areas escalating automatically.
 - The test set should be proportionate: low-risk changes should not automatically incur full end-to-end regression; high-risk/shared changes must run the relevant broader suite.
+- **Revision operates with startup pace and enterprise-grade production discipline: speed must come from automation, proportionate assurance and clear ownership, not from bypassing required controls.**
+- **When a required production condition, approval, integration state or assurance result is unknown, release must fail closed rather than assume success.**
+- **`main` is the single canonical integrated product state. Governed work reaches production only through a PR-based integration path.**
+- **Revision supports multiple concurrent branches and PRs. Branches do not need continuous rebasing during active work, but every merge candidate must be validated in combination with the then-current `main` before merge.**
 - Explicit Founder approval remains required for every merge to `main`.
-- **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that merge. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that exact-head evidence before merge. The Founder must not be asked to repeat approval or perform a separate release-registration step.**
-- **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence and must not be substituted or converted retrospectively after merge.**
+- **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that proposed production change. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that evidence before merge. The Founder must not be asked to perform Git bookkeeping.**
+- **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence.**
+- **A purely mechanical refresh from newer `main` may retain the existing Founder approval only when the PR delta is demonstrably unchanged, no substantive conflict resolution occurred and fresh required assurance passes. A material change to the PR delta requires renewed Founder approval.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
@@ -31,17 +36,74 @@ supersedes: null
 - Database migrations should be forward-safe and backward-compatible where practical.
 - One production environment is sufficient until an additional environment has a demonstrated operational benefit.
 
+## Trunk-based integration model
+
+Revision uses short-lived branches around one protected trunk: `main`.
+
+Multiple feature, defect, governance and maintenance PRs may be developed and become ready concurrently. The repository/integration process, not the Founder, is responsible for safely ordering merges.
+
+For each PR approaching merge:
+
+- establish the current `main` state;
+- validate the proposed PR change together with current `main`;
+- use a native merge queue when repository ownership/plan and governed workflow support one;
+- otherwise update/rebase/merge current `main` into the PR branch before final merge assurance;
+- deliberately resolve any shared-file or behavioural overlap;
+- preserve newer cumulative `main` content plus the PR's intended delta; and
+- run the required assurance against the final integration candidate.
+
+A repository-native merge queue is preferable on a sufficiently busy repository because it can test queued PRs against the latest base automatically. At the time this standard was updated, Revision is hosted in an individual-owned GitHub repository and GitHub's native merge queue is not available for that ownership model. Revision therefore uses the explicit current-`main` integration fallback until repository ownership/capability changes.
+
+Governance does **not** require that only one PR may be review-ready at a time. Merges themselves are ordered because each successful merge creates the next canonical `main` state.
+
+## Founder approval and integration refresh
+
+Founder approval is approval of the specific PR change proposed for production.
+
+If `main` advances after approval but before merge:
+
+- revalidate the PR with the new `main`;
+- if this is a conflict-free/mechanical baseline refresh and the PR delta remains materially unchanged, rerun assurance and regenerate the required exact-head approval evidence without requiring the Founder to approve the same unchanged work again;
+- if conflict resolution or any other change alters the PR delta materially, return to the Founder with the changed proposal and obtain renewed approval.
+
+This distinction preserves the Founder production gate without making the Founder responsible for branch-management mechanics.
+
+## Continuous delivery improvement
+
+The delivery system itself is subject to continuous improvement.
+
+- Repeated CI churn, stale-branch problems, near misses, release defects, avoidable manual steps or unclear ownership should be treated as signals to improve tooling or governance.
+- Improvement proposals should favour automation, simpler controls and shorter feedback loops where those changes preserve or strengthen production safety.
+- Process should be proportionate to risk; enterprise-grade does not mean maximum ceremony for every change.
+- Material changes to approval boundaries, production controls or governance still require documented Founder-approved change before they become authoritative.
+- Historical incidents and audits remain evidence; they are not rewritten merely because the process later improves.
+
+## Repository enforcement target
+
+Where GitHub supports the relevant controls, `main` should be protected so that:
+
+- changes arrive through pull requests;
+- required Revision CI/status checks pass before merge;
+- force pushes and deletion are blocked;
+- the governed merge path cannot be silently bypassed; and
+- the merge candidate is integrated with current `main` before acceptance.
+
+If repository-level enforcement is not available for a control, the operating agent must perform the equivalent governed verification explicitly and record the evidence.
+
 ## Path-to-live evidence chain
 Revision treats path-to-live as a chain of separately evidenced stages rather than one green status:
 
 1. **Change classification** — determine the change risk and affected journeys/controls.
-2. **Change assurance** — required PR CI for the exact proposed head passes at the proportionate depth defined by the Testing & Assurance Standard.
-3. **Founder gate** — explicit approval is recorded for that specific PR. The operating agent persists and verifies the required exact-head GitHub evidence as part of carrying out the approved merge; this is not a second Founder action.
-4. **Merge** — the approved and durably evidenced head is merged into `main`.
-5. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
-6. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
-7. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
-8. **Operational observation** — production availability/health evidence remains current after deployment.
+2. **Branch assurance** — complete implementation/documentation work and proportionate checks required to make the PR ready for final integration.
+3. **Current-main integration** — validate the proposed change in combination with the then-current `main`, resolving overlap deliberately.
+4. **Final assurance** — required Revision CI/checks for the final integration candidate pass at the proportionate depth defined by the Testing & Assurance Standard.
+5. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence as part of carrying out that approval.
+6. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above.
+7. **Merge** — the approved and validated change is merged into `main`.
+8. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
+9. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
+10. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
+11. **Operational observation** — production availability/health evidence remains current after deployment.
 
 Admin may summarise the path as Healthy only when the required current stages are green for the production commit being reported. Missing or stale stage evidence is Unknown; a known failed required stage is Attention needed.
 

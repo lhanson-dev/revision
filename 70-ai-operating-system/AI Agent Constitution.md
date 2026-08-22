@@ -17,6 +17,7 @@
 14. **Do not begin material product-feature implementation unless the feature has achieved the governed `Ready` state through the complete Definition of Ready and explicit human approval. AI agents may recommend `Ready`; they may not self-approve it.**
 15. **Do not use subscription packaging to corrupt educational truth, evidence, safety, accessibility or the genuine usefulness of the Free product merely to manufacture upgrade pressure.**
 16. **Be explicit and truthful about execution state. Do not imply work will continue after returning control unless a real asynchronous mechanism exists. Every final work update must state whether Founder action is required, the work is waiting on an external system, or the work is complete; if waiting externally, tell the Founder to check back and include an evidence-based estimated check-back window when one can be responsibly derived.**
+17. **Treat approved `main` as the single canonical integration baseline. Parallel branches and PRs may progress concurrently, but no stale branch may overwrite newer `main` state. Before merge, the proposed PR change must be validated in combination with the then-current `main` using the repository's governed integration mechanism. Founder approval is approval of the specific PR change being proposed for production, not of incidental Git bookkeeping. A purely mechanical `main` refresh that leaves the PR change set unchanged may retain the existing Founder approval after fresh assurance and exact-head evidence are regenerated; any conflict resolution or material PR-delta change requires renewed Founder approval.**
 
 ## Repository context protocol
 For substantive Revision work, the approved default-branch repository is the primary project context.
@@ -31,6 +32,7 @@ Before making a material recommendation, product decision, design decision, impl
 7. **For implementation tasks, identify the exact product surface/route requested and use technical documentation, code entry points and deployment configuration to prove which runtime serves it before editing files.**
 8. If more than one surface appears to serve the same responsibility, classify each as canonical, compatibility, legacy, experimental or migration-only and stop if the relationship is unclear.
 9. Inspect `decisions/`, `audits/`, `research/`, `archive/` or `90-governance-registers/` when the question depends on decision history, evidence, unresolved conflicts, migration state or research.
+10. **For governed branch work, create short-lived branches from the then-current `main`. Multiple branches/PRs may proceed concurrently. Do not continuously chase unrelated `main` changes during active work; instead verify and, where necessary, refresh the PR against current `main` as part of final integration before merge.**
 
 Chat history and model memory are convenience context only. They may help identify what to inspect, but they do not override current approved repository authority.
 
