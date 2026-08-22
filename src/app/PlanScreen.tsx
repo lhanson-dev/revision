@@ -224,20 +224,20 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
   }
 
   return (
-    <main className="dashboard page-screen planner-screen" aria-labelledby="plan-page-title">
-      <header className="page-heading planner-heading">
+    <main className="dashboard page-screen planner-screen interface-plan-screen" aria-labelledby="plan-page-title">
+      <header className="page-heading planner-heading ui-page-header">
         <p className="eyebrow">Your adaptive revision programme</p>
         <h1 id="plan-page-title">Plan</h1>
         <p>Your plan will change as you revise, your evidence changes and assessments get closer. You do not need to manually move missed tasks around.</p>
       </header>
 
-      {message && <p className="planner-message" aria-live="polite">{message}</p>}
+      {message && <p className="planner-message ui-status ui-status--info" role="status" aria-live="polite">{message}</p>}
 
       {loading ? (
-        <section className="planner-panel"><p>Loading your current plan…</p></section>
+        <section className="planner-panel ui-surface-standard" aria-live="polite" aria-busy="true"><p>Loading your current plan…</p></section>
       ) : (
         <>
-          <section className="planner-panel planner-today" aria-labelledby="today-plan-title">
+          <section className="planner-panel planner-today ui-surface-standard" aria-labelledby="today-plan-title">
             <div className="planner-panel-heading">
               <div>
                 <p className="eyebrow">Today</p>
@@ -251,7 +251,7 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
             {availability && assessments.length > 0 && !snapshot && <div className="planner-empty"><h3>Building the evidence picture</h3><p>Your dates and available time are saved. Complete some scored revision activity and Revision will become more specific about what deserves attention first.</p></div>}
 
             {snapshot?.capacityState === 'prioritising' && (
-              <div className="planner-priority-note">
+              <div className="planner-priority-note ui-surface-quiet">
                 <strong>Making the time you have count</strong>
                 <p>There is not enough realistic capacity to cover every useful area before the current assessments. Revision is prioritising the work with the strongest evidence of need. You can still choose differently.</p>
               </div>
@@ -271,7 +271,7 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
                         <p>{activityLabel(item.activityType)} · about {item.estimatedMinutes} minutes</p>
                         <ul className="planner-reasons">{reasons.map((reason) => <li key={reason}>{reasonLabel(reason)}</li>)}</ul>
                       </div>
-                      {onOpenSubject && <button className="primary" type="button" onClick={() => void handleStart(item)}>Start</button>}
+                      {onOpenSubject && <button className="ui-button ui-button--primary" type="button" onClick={() => void handleStart(item)}>Start</button>}
                     </li>
                   )
                 })}
@@ -279,7 +279,7 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
             )}
           </section>
 
-          <section className="planner-panel" aria-labelledby="plan-outlook-title">
+          <section className="planner-panel ui-surface-standard" aria-labelledby="plan-outlook-title">
             <div className="planner-panel-heading">
               <div>
                 <p className="eyebrow">Current outlook</p>
@@ -308,7 +308,7 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
                         <h3>{assessment.title}</h3>
                         <p>{subject?.name ?? assessment.subjectId}{assessment.relativeImportance === 'high' ? ' · Higher priority' : ''}</p>
                       </div>
-                      <button className="text-link" type="button" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</button>
+                      <button className="ui-button ui-button--tertiary ui-button--compact" type="button" disabled={saving} onClick={() => void handleRemoveAssessment(assessment.assessmentId)}>Remove</button>
                     </li>
                   )
                 })}
@@ -317,41 +317,41 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
           </section>
 
           <div className="planner-setup-grid">
-            <section className="planner-panel" aria-labelledby="availability-title">
+            <section className="planner-panel ui-surface-standard" aria-labelledby="availability-title">
               <p className="eyebrow">Realistic capacity</p>
               <h2 id="availability-title">How much time is normally available?</h2>
               <p className="muted">This is not a target. It helps Revision avoid creating an impossible plan.</p>
               <div className="planner-field-grid">
                 <label>
                   Weekday minutes
-                  <input type="number" min={0} max={1440} step={5} value={weekdayMinutes} onChange={(event) => setWeekdayMinutes(Number(event.target.value))} />
+                  <input className="ui-field" type="number" min={0} max={1440} step={5} value={weekdayMinutes} onChange={(event) => setWeekdayMinutes(Number(event.target.value))} />
                 </label>
                 <label>
                   Weekend minutes
-                  <input type="number" min={0} max={1440} step={5} value={weekendMinutes} onChange={(event) => setWeekendMinutes(Number(event.target.value))} />
+                  <input className="ui-field" type="number" min={0} max={1440} step={5} value={weekendMinutes} onChange={(event) => setWeekendMinutes(Number(event.target.value))} />
                 </label>
               </div>
-              <button className="primary" type="button" disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Update availability' : 'Save availability'}</button>
+              <button className="ui-button ui-button--primary" type="button" disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Update availability' : 'Save availability'}</button>
             </section>
 
-            <section className="planner-panel" aria-labelledby="assessment-add-title">
+            <section className="planner-panel ui-surface-standard" aria-labelledby="assessment-add-title">
               <p className="eyebrow">Assessment</p>
               <h2 id="assessment-add-title">Add something you are preparing for</h2>
               <form className="planner-form" onSubmit={handleAddAssessment}>
                 <label>
                   Subject
-                  <select value={subjectId} required onChange={(event) => setSubjectId(event.target.value)}>
+                  <select className="ui-field" value={subjectId} required onChange={(event) => setSubjectId(event.target.value)}>
                     {subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}
                   </select>
                 </label>
                 <label>
                   What is it?
-                  <input value={title} required maxLength={120} placeholder="e.g. Business Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
+                  <input className="ui-field" value={title} required maxLength={120} placeholder="e.g. Business Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
                 </label>
                 <div className="planner-field-grid">
                   <label>
                     Type
-                    <select value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
+                    <select className="ui-field" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
                       <option value="topic_test">Topic test</option>
                       <option value="mock">Mock</option>
                       <option value="public_exam">Public exam</option>
@@ -360,17 +360,17 @@ export function PlanScreen({ client, userId, subjects, onOpenSubject }: PlanScre
                   </label>
                   <label>
                     Date
-                    <input type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
+                    <input className="ui-field" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
                   </label>
                 </div>
                 <label>
                   Importance
-                  <select value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
+                  <select className="ui-field" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
                     <option value="normal">Normal</option>
                     <option value="high">Higher priority</option>
                   </select>
                 </label>
-                <button className="primary" type="submit" disabled={saving || subjects.length === 0}>Add assessment</button>
+                <button className="ui-button ui-button--primary" type="submit" disabled={saving || subjects.length === 0}>Add assessment</button>
               </form>
             </section>
           </div>
