@@ -74,6 +74,28 @@
   color: var(--color-text-secondary);
 }
 
+/* Practice REV recommendation is a Guidance surface. Keep it explicit in the
+ * final compatibility layer so legacy recommendation-card styling cannot win
+ * the cascade in either theme. */
+.planner-runtime .focused-practice .recommendation-card {
+  border-color: color-mix(in srgb, var(--color-action) 24%, var(--color-border));
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-practice .recommendation-card h3,
+.planner-runtime .focused-practice .recommendation-card strong {
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-practice .recommendation-card p {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .focused-practice .recommendation-card .eyebrow {
+  color: var(--color-accent-text);
+}
+
 /* Form controls must always translate both foreground and surface together. */
 .planner-runtime .topic-picker select,
 .planner-runtime .answer-label textarea,
