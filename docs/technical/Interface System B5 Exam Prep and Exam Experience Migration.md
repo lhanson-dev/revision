@@ -1,34 +1,40 @@
 # Interface System B5 — Exam Prep and Exam Experience Migration
 
-**Status:** in progress on governed B5 branch  
+**Status:** live in production via PR #121  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Depends on:** B4 Learn/Practice live via PR #119  
 **Canonical runtime:** `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` → compatibility `App` → contextual Exam Prep → `ExamSimulator`
+
+## Production evidence
+
+PR #121 merged to `main` as merge commit `3fcafc5b6abf65c15b8edf1899dbdb8fb404167f` after exact-head Revision CI #707 completed successfully on `317063817d4b6585309f8a0557103aaa1658eb23` and the governed Founder approval gate reached success. Post-merge `revision/path-to-live` completed successfully on the merge commit.
+
+B5 is therefore production-live rather than merely merged.
 
 ## Purpose
 
 Migrate the canonical Exam Prep and Exam Simulator experience onto the approved Revision Interface System while preserving exam content, evidence semantics, self-assessment rules, persistence and established timed-session behaviour.
 
-B5 treats exam work as a deliberately different surface family from ordinary Learn/Practice. The learner should feel that starting a timed paper enters a focused exam environment rather than opening another card inside the normal application page.
+B5 treats exam work as a deliberately different surface family from ordinary Learn/Practice. Starting a timed paper enters a focused exam environment rather than another ordinary application card.
 
-## Existing product behaviour confirmed before implementation
+## Existing product behaviour preserved
 
-Current `main` already implements the core exam-session behaviours previously requested by the Founder:
+The migration retained the established exam-session contract:
 
 - contextual Exam Prep within the relevant course/paper;
 - targeted one-question practice;
 - full-paper timed practice;
 - starting the timed paper opens a fixed full-viewport exam session;
 - the timer runs only while the writing session is active;
-- Pause opens a modal interruption, obscures/blocks the paper and suspends the timer until Continue exam;
+- Pause obscures/blocks the paper and suspends the timer until Continue exam;
 - Stop exam opens an `Are you sure?` confirmation before discarding the unsaved attempt;
 - finished writing moves into self-marking rather than revealing marking guidance during the timed attempt;
-- saved evidence is explicitly self-assessed and confidence-limited; and
+- saved evidence remains explicitly self-assessed and confidence-limited; and
 - results explain the evidence boundary and a useful next step.
 
-B5 therefore does not create a new Exam Simulator feature or redefine marking policy. It migrates the existing capability onto the governed Exam/Performance visual family and adds assurance that the existing interruption/timer contract remains intact.
+B5 did not create a new Exam Simulator feature or redefine marking policy.
 
-## Scope
+## Scope delivered
 
 B5 covers:
 
@@ -46,125 +52,76 @@ B5 covers:
 - stop-confirm interruption;
 - timer warning state;
 - light/dark parity;
-- phone/tablet/desktop responsive behaviour, including exam-oriented tablet layouts;
+- phone/tablet/desktop responsive behaviour;
 - keyboard-visible focus treatment; and
 - reduced-motion behaviour.
 
-B5 does **not** change:
-
-- exam content or mark allocations;
-- assessment-objective definitions;
-- self-assessment confidence weighting;
-- evidence persistence contracts;
-- recommendation/readiness algorithms;
-- entitlement rules;
-- AI/assisted marking policy; or
-- the canonical learner runtime.
+B5 does not change exam content, mark allocations, assessment-objective definitions, evidence confidence weighting, persistence contracts, recommendation/readiness algorithms, entitlement rules, assisted-marking policy or the canonical runtime.
 
 ## Exam / Performance visual family
 
-The Brand System defines timed work, marks, paper readiness and performance evidence as the **Exam / Performance** family.
+The production implementation uses the Brand System's **Exam / Performance** family:
 
-The B5 migration therefore uses:
-
-- calm Deep-Teal/Graphite semantic anchors through central theme roles;
+- calm semantic Deep-Teal/Graphite anchors through central theme roles;
 - standard/quiet surfaces for case material and marking evidence;
 - a dedicated full-page writing environment for timed sessions;
 - persistent but restrained timing/status controls;
-- semantic Error treatment only for the destructive stop action and late-timer warning;
+- semantic Error treatment for destructive stop and late-timer warning states;
 - strong information hierarchy without gamified celebration; and
 - the same component/token grammar in light and dark modes.
 
-No exam-specific local palette, type scale, icon library or second theme is introduced.
+No exam-specific local palette, type scale, icon library or second theme was introduced.
 
 ## Pause contract
-
-Pause is an interruption state, not merely a timer toggle.
 
 While paused:
 
 - the timer does not decrement;
-- the exam content is visually obscured;
-- pointer interaction with the exam is blocked;
+- exam content is visually obscured;
+- pointer interaction is blocked;
 - the interruption is modal and body scrolling is locked;
-- the learner receives one dominant Continue exam action; and
-- elapsed pause time is excluded from the recorded active exam duration.
-
-The learner must not be able to use Pause as a way to continue reading or writing while the clock is stopped.
+- one dominant Continue exam action is shown; and
+- elapsed pause time is excluded from recorded active exam duration.
 
 ## Stop contract
 
-Stop exam is deliberately harder to trigger than Pause.
-
 Selecting Stop exam:
 
-- pauses the running session while the confirmation is open;
+- pauses the running session while confirmation is open;
 - obscures the exam beneath the modal interruption;
 - explains that the unsaved attempt will be discarded;
-- requires an explicit destructive confirmation to stop; and
+- requires explicit destructive confirmation; and
 - provides a prominent Continue exam recovery action.
 
-Cancelling/continuing resumes the same attempt and excludes the confirmation interruption from active elapsed time.
+Continuing resumes the same attempt and excludes the interruption from active elapsed time.
 
 ## Timer and completion semantics
 
-The timer is performance support, not engagement gamification.
-
 - normal time uses the inverse semantic action surface;
-- the final ten minutes use the semantic error/warning treatment already represented by the simulator state;
-- time reaching zero ends the writing phase and moves into self-marking;
+- the final ten minutes use the semantic warning/error treatment represented by simulator state;
+- time reaching zero ends writing and moves into self-marking;
 - Pause/Stop-confirm suspend timer decrement;
 - self-marking does not continue the writing timer; and
-- recorded duration excludes paused interruption time and remains bounded by the official paper duration.
+- recorded duration excludes paused interruption time and remains bounded by official paper duration.
 
 ## Compatibility boundary
 
-The canonical Exam Prep route is still rendered through compatibility `App` inside `PlannerRuntime`. B5 does not extract the full course/paper renderer simply for structural purity.
-
-The timed `ExamSimulator` full-viewport takeover is canonical user-facing behaviour within that route. It is not a second application runtime or an experimental route.
+The canonical Exam Prep route remains rendered through compatibility `App` inside `PlannerRuntime`. The timed `ExamSimulator` full-viewport takeover is canonical user-facing behaviour within that route, not a second application runtime.
 
 Compatibility retirement remains B7 after zero-live-consumer assurance.
 
 ## Implementation
 
-`src/app/interface-exam-experience.css` is the bounded B5 migration layer. It loads after B4 and legacy `exam.css`, translating the canonical exam surfaces onto central semantic roles while leaving legacy styling available for any still-unmigrated consumers until B7.
+`src/app/interface-exam-experience.css` is the bounded B5 migration layer. It loads after B4 and legacy `exam.css` and consumes central semantic colour, typography, spacing, radius, control, focus, elevation and overlay roles.
 
-The layer:
+The layer contains no local hex, RGB or RGBA palette values and preserves responsive and reduced-motion behaviour.
 
-- contains no local hex, RGB or RGBA palette values;
-- consumes semantic light/dark colour roles from `brand-tokens.css`;
-- consumes approved typography, spacing, radius, control, focus, elevation and overlay roles;
-- preserves the dedicated full-viewport exam-session structure;
-- gives pause/stop modal interruptions governed overlay treatment;
-- uses the semantic error foreground/surface for destructive confirmation and timer-warning treatment;
-- maintains standard 44px minimum controls and 48px input targets where applicable;
-- supports responsive mobile/tablet/desktop exam layouts; and
-- disables non-essential transition behaviour under reduced-motion preferences.
+## Assurance completed
 
-## Assurance required before Founder merge approval
+Final exact-head Revision CI #707 passed the governed quality suite, including typecheck, lint, unit tests, production build, responsive browser assurance, database/RLS assurance, authenticated persistence/reload, protected Edge Function authorization and database-backed browser persistence/reload.
 
-B5 requires:
-
-- exact canonical route/runtime confirmation;
-- typecheck;
-- lint;
-- unit/component tests;
-- Interface System governance assurance including `interface-exam-experience.css`;
-- production build;
-- responsive browser assurance for Exam Prep and timed/full-paper work on phone/tablet/desktop;
-- light/dark verification;
-- Pause assurance proving timer suspension and obscured/blocked exam content;
-- Continue assurance proving the same attempt resumes;
-- Stop exam confirmation and cancellation assurance;
-- timer-expiry → self-marking transition assurance;
-- keyboard/focus/accessibility checks for exam controls and modal interruption states;
-- persistence/evidence regression confirmation; and
-- current-main integration before merge.
-
-After merge, `revision/path-to-live` must succeed on the merge commit before B5 is described as live.
+The exact Founder approval marker and `revision/founder-approval = success` were verified before merge. Production release lineage then completed with durable `revision/path-to-live = success` on merge commit `3fcafc5b6abf65c15b8edf1899dbdb8fb404167f`.
 
 ## Documentation impact
 
-B5 implements existing approved product journey and Brand/UX authority. The existing Exam Simulator behaviour already satisfies the previously requested pause/stop/full-session product direction, so no new product authority or feature-lifecycle promotion is required for this migration.
-
-This technical record, the Interface System implementation status, B4 production status and `INDEX.md` are updated with the governed change. No ADR is required because canonical runtime, persistence, evidence architecture and service boundaries remain unchanged. Historical audits/research are not rewritten.
+B5 implemented existing approved product journey and Brand/UX authority. No ADR or normative product-authority change was required because canonical runtime, persistence, evidence architecture and service boundaries remained unchanged. Historical audits/research remain unchanged.

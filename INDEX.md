@@ -26,6 +26,7 @@ Use this file to find the governing source before substantive work.
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
 - Learn/Practice focused-work Interface System migration → `docs/technical/Interface System B4 Learn and Practice Migration.md`
 - Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
+- Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
@@ -113,6 +114,7 @@ Use this file to find the governing source before substantive work.
 - Interface component registry / reusable components, icons and assets → `docs/technical/Interface System Component Registry.md`
 - B4 Learn/Practice Interface System migration → `docs/technical/Interface System B4 Learn and Practice Migration.md`
 - B5 Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
+- B6 Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`

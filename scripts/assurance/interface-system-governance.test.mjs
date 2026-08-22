@@ -8,6 +8,7 @@ const interfacePlanProgress = readFileSync(new URL('../../src/app/interface-plan
 const interfaceSubjectsCourse = readFileSync(new URL('../../src/app/interface-subjects-course.css', import.meta.url), 'utf8')
 const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
 const interfaceExamExperience = readFileSync(new URL('../../src/app/interface-exam-experience.css', import.meta.url), 'utf8')
+const interfaceAdmin = readFileSync(new URL('../../src/app/interface-admin.css', import.meta.url), 'utf8')
 const examSimulator = readFileSync(new URL('../../src/app/ExamSimulator.tsx', import.meta.url), 'utf8')
 const componentIndex = readFileSync(new URL('../../src/app/ui/index.ts', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
@@ -18,7 +19,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience]
+const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience, interfaceAdmin]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -76,6 +77,10 @@ describe('Revision Interface System governance', () => {
     expect(interfaceExamExperience).toContain('font-size: var(--type-h2-size);')
     expect(interfaceExamExperience).toContain('background: var(--color-surface);')
     expect(interfaceExamExperience).toContain('border-radius: var(--radius-surface);')
+    expect(interfaceAdmin).toContain('font-family: var(--font-family-product);')
+    expect(interfaceAdmin).toContain('font-size: var(--type-body-s-size);')
+    expect(interfaceAdmin).toContain('background: var(--color-surface);')
+    expect(interfaceAdmin).toContain('border-radius: var(--radius-compact);')
 
     for (const css of migratedInterfaceLayers) {
       expect(css).not.toMatch(/font-family:\s*Manrope/i)
@@ -142,6 +147,29 @@ describe('Revision Interface System governance', () => {
     expect(examSimulator).toContain('if (!started || finishedWriting || sessionOverlay) return')
     expect(examSimulator).toContain('Your exam is hidden while paused. The timer will continue only when you resume.')
     expect(examSimulator).toContain('Stopping will end this attempt and discard the answers from this unsaved exam.')
+  })
+
+  it('keeps B6 Admin on the governed dense operational grammar', () => {
+    for (const selector of [
+      '.planner-runtime .admin-operations',
+      '.planner-runtime .admin-subnav',
+      '.planner-runtime .admin-stat-card',
+      '.planner-runtime .admin-table-wrap',
+      '.planner-runtime .admin-table thead th',
+      '.planner-runtime .content-operations-form input',
+      '.planner-runtime .assurance-summary-card',
+      '.planner-runtime .assurance-coverage-badge.uncovered',
+    ]) {
+      expect(interfaceAdmin).toContain(selector)
+    }
+    expect(interfaceAdmin).toContain('var(--control-height-compact)')
+    expect(interfaceAdmin).toContain('var(--status-success-fg)')
+    expect(interfaceAdmin).toContain('var(--status-warning-fg)')
+    expect(interfaceAdmin).toContain('var(--status-error-fg)')
+    expect(interfaceAdmin).toContain('var(--focus-ring)')
+    expect(interfaceAdmin).toContain('position: sticky;')
+    expect(interfaceAdmin).toContain('@media (max-width: 620px)')
+    expect(interfaceAdmin).toContain('@media (prefers-reduced-motion: reduce)')
   })
 
   it('publishes the required reusable component registry before B3', () => {
