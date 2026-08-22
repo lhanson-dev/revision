@@ -34,13 +34,24 @@ function dayDifference(from: Date, toDate: string) {
   return Math.ceil((target - start) / 86_400_000)
 }
 
+export function courseIdForLearningState(state: ModuleLearningState) {
+  if (state.course) return state.course.id
+  const manifest = state.adapter.manifest
+  return `${manifest.examBoard.id}:${manifest.qualification.id}:${manifest.specificationCode}`
+}
+
 function stateForAssessment(states: readonly ModuleLearningState[], assessment: RevisionAssessment) {
-  return states.find((state) => {
-    if (state.adapter.manifest.subject.id !== assessment.subjectId) return false
-    if (assessment.courseId && state.course?.id === assessment.courseId) return true
-    if (assessment.moduleId && state.adapter.manifest.id === assessment.moduleId) return true
-    return !assessment.courseId && !assessment.moduleId
-  }) ?? states.find((state) => state.adapter.manifest.subject.id === assessment.subjectId)
+  const subjectStates = states.filter((state) => state.adapter.manifest.subject.id === assessment.subjectId)
+  if (assessment.courseId) {
+    return subjectStates.find((state) => courseIdForLearningState(state) === assessment.courseId)
+  }
+  if (assessment.moduleId) {
+    return subjectStates.find((state) => state.adapter.manifest.id === assessment.moduleId)
+  }
+
+  // Pre-FI-020 assessments could be subject-only. Use them only when the active
+  // programme resolves that subject to one unambiguous course/component state.
+  return subjectStates.length === 1 ? subjectStates[0] : undefined
 }
 
 function recentlyCompletedTopic(state: ModuleLearningState, topicId: string, now: Date) {
@@ -117,6 +128,7 @@ export function plannerCandidatesFromLearningState(
 
     const state = stateForAssessment(states, assessment)
     if (!state) return []
+    const courseId = courseIdForLearningState(state)
     const topicIds = scopeTopicIds(assessment, state)
     const courseCoverage = state.topicCount === 0 ? 1 : state.evidencedTopics / state.topicCount
 
@@ -129,8 +141,9 @@ export function plannerCandidatesFromLearningState(
         : Math.max(summary.evidenceStrength, confidenceStrength(state.readiness.confidence) * 0.5)
 
       return {
-        id: `${assessment.assessmentId}:${topicId}:${activityType}`,
+        id: `${assessment.assessmentId}:${courseId}:${topicId}:${activityType}`,
         subjectId: assessment.subjectId,
+        courseId,
         assessmentId: assessment.assessmentId,
         topicId,
         activityType,
