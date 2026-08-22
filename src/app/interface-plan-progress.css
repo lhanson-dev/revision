@@ -1,0 +1,361 @@
+/*
+ * Revision Interface System — Increment B2: Plan and Progress.
+ *
+ * This bounded migration module consumes the central Brand System roles and the
+ * B1 interface primitives. It owns Plan/Progress composition only; it does not
+ * introduce a second token namespace or change planner/evidence behaviour.
+ */
+
+/* Shared B2 page-header rhythm. */
+.ui-page-header,
+.planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading {
+  width: min(100%, 760px);
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-8);
+}
+
+.ui-page-header .eyebrow,
+.planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading .eyebrow {
+  margin: 0;
+}
+
+.ui-page-header h1,
+.planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: -.035em;
+}
+
+.ui-page-header > p:last-child,
+.planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading > p:last-child {
+  max-width: 720px;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+/* Plan composition. */
+.interface-plan-screen {
+  gap: var(--space-6);
+}
+
+.interface-plan-screen .planner-message {
+  margin: 0;
+}
+
+.interface-plan-screen .planner-panel {
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-color: var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.interface-plan-screen .planner-today {
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 24%, var(--color-border));
+  background: color-mix(in srgb, var(--color-surface) 90%, var(--brand-soft-aqua));
+}
+
+.interface-plan-screen .planner-panel-heading {
+  gap: var(--space-4);
+}
+
+.interface-plan-screen .planner-panel-heading h2,
+.interface-plan-screen .planner-panel > h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -.025em;
+}
+
+.interface-plan-screen .planner-state {
+  min-height: var(--control-height-compact);
+  padding: 0 var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 24%, var(--color-border));
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+  color: var(--color-accent-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.interface-plan-screen .planner-empty {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+}
+
+.interface-plan-screen .planner-empty h3,
+.interface-plan-screen .planner-empty p {
+  margin: 0;
+}
+
+.interface-plan-screen .planner-empty h3 {
+  color: var(--color-text);
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.interface-plan-screen .planner-empty p,
+.interface-plan-screen .planner-assessment-copy p,
+.interface-plan-screen .planner-date-block span,
+.interface-plan-screen .planner-today-list p,
+.interface-plan-screen .planner-reasons {
+  color: var(--color-text-secondary);
+}
+
+.interface-plan-screen .planner-priority-note {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+}
+
+.interface-plan-screen .planner-priority-note strong {
+  color: var(--color-text);
+}
+
+.interface-plan-screen .planner-priority-note p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.interface-plan-screen .planner-today-list,
+.interface-plan-screen .planner-assessments {
+  gap: 0;
+}
+
+.interface-plan-screen .planner-today-list > li,
+.interface-plan-screen .planner-assessments > li {
+  border-color: var(--color-border);
+}
+
+.interface-plan-screen .planner-today-list > li:first-child,
+.interface-plan-screen .planner-assessments > li:first-child {
+  border-top: 0;
+}
+
+.interface-plan-screen .planner-field-grid,
+.interface-plan-screen .planner-form {
+  gap: var(--space-3);
+}
+
+.interface-plan-screen .planner-form label,
+.interface-plan-screen .planner-panel label {
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.interface-plan-screen .ui-field {
+  min-height: var(--field-height-standard);
+  padding: 0 var(--space-3);
+  border-color: var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 16px;
+}
+
+.interface-plan-screen .ui-button {
+  justify-self: start;
+}
+
+/* Global Progress composition. Progress remains delegated through App while B2
+ * standardises the canonical #/progress surface without changing evidence logic. */
+.planner-runtime main[aria-labelledby="global-progress-title"] {
+  color: var(--color-text);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] > .home-section {
+  margin-top: var(--space-6);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .section-heading {
+  margin-bottom: var(--space-4);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .section-heading h2 {
+  color: var(--color-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+  letter-spacing: -.025em;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview {
+  gap: var(--space-3);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview small,
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview p,
+.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-copy p,
+.planner-runtime main[aria-labelledby="global-progress-title"] .activity-list span,
+.planner-runtime main[aria-labelledby="global-progress-title"] .activity-list time {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview strong {
+  color: var(--color-text);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] > .subject-list {
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card {
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  box-shadow: none;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-copy h2 {
+  color: var(--color-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -.02em;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
+  min-height: var(--control-height-standard);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 20px;
+  box-shadow: none;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .activity-list {
+  margin-top: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] .activity-list li {
+  padding: var(--space-4) var(--space-5);
+  border-color: var(--color-border);
+}
+
+.planner-runtime main[aria-labelledby="global-progress-title"] section[aria-labelledby="global-recent-title"] > .muted {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+}
+
+/* Existing contextual Progress states inherit the same feedback grammar. */
+.planner-runtime .contextual-progress .error {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--status-error-fg) 24%, transparent);
+  border-radius: var(--radius-control);
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+}
+
+@media (max-width: 960px) {
+  .ui-page-header,
+  .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .interface-plan-screen .planner-panel,
+  .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card {
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 620px) {
+  .ui-page-header h1,
+  .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
+    font-size: 30px;
+    line-height: 38px;
+    letter-spacing: -.025em;
+  }
+
+  .ui-page-header > p:last-child,
+  .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading > p:last-child {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .interface-plan-screen .planner-panel,
+  .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card,
+  .planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview article {
+    padding: var(--space-4);
+  }
+
+  .interface-plan-screen .planner-today-list > li > .ui-button,
+  .interface-plan-screen .planner-form > .ui-button,
+  .interface-plan-screen .planner-panel > .ui-button,
+  .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
+    width: 100%;
+  }
+
+  .planner-runtime main[aria-labelledby="global-progress-title"] .activity-list li {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+  }
+
+  .planner-runtime main[aria-labelledby="global-progress-title"] .activity-list time {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
+    transition: none;
+  }
+}
