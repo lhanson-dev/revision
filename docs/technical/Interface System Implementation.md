@@ -1,6 +1,6 @@
 # Revision Interface System Implementation
 
-**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation live; B3 Subjects/course migration in progress  
+**Status:** B1 foundation live; B2 Plan/Progress live; B2.5 reusable component foundation live; B3 Subjects/course live; B4 Learn/Practice in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -20,7 +20,7 @@ The governed learner application remains:
 
 `/revision/app/` → `app/index.html` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
-B2/B2.5/B3 do not create a new runtime, service or persistence model.
+B2/B2.5/B3/B4 do not create a new runtime, service or persistence model.
 
 Canonical learner-wide destinations relevant to this migration remain:
 
@@ -28,9 +28,10 @@ Canonical learner-wide destinations relevant to this migration remain:
 - Progress: `#/progress` → `PlannerRuntime` → compatibility `App` → `renderGlobalProgress()`;
 - Subjects: `#/subjects` → `PlannerRuntime` → compatibility `App` → `renderSubjects()`;
 - Subject Home: subject route → compatibility `App` → `renderSubjectHome()`;
-- Course/specification: course/module route → compatibility `App` → course/module renderer.
+- Course/specification: course/module route → compatibility `App` → course/module renderer;
+- contextual Learn/Practice: course/component section route → compatibility `App` → `FocusedLearningWorkspace`.
 
-Progress and Subjects/course remain canonical even where their current renderer is delegated through compatibility `App`. Interface migration does not require a large component extraction merely for styling.
+Progress, Subjects/course and focused Learn/Practice remain canonical even where their current renderer is delegated through compatibility `App`. Interface migration does not require a large component extraction merely for styling.
 
 ## Implementation stack
 
@@ -153,11 +154,11 @@ B2.5 provides the reusable component/icon/asset foundation required for B3 and l
 - component semantic/render tests; and
 - expanded governance assurance for tokens, local palette drift, registry exports, icon rules and canonical asset references.
 
-## B3 current implementation state
+## B3 current production state
 
-**In progress on governed branch.** B3 migrates Subjects, Subject Home and course/specification presentation while preserving current catalogue, routing, evidence, content-placement and progress semantics.
+**Live.** PR #118 merged to `main` as merge commit `d44cdd85c1a175c1bc595527a0b50d98f90a9cee`; the post-merge `revision/path-to-live` verification completed successfully on that merge commit.
 
-`src/app/interface-subjects-course.css` is the bounded migration layer. It consumes only central semantic roles for colour, typography, spacing, radius, elevation, controls, focus and responsive behaviour. It deliberately loads after legacy feature CSS so migrated canonical surfaces use the new interface grammar without prematurely deleting compatibility rules still needed elsewhere.
+`src/app/interface-subjects-course.css` is the bounded B3 migration layer. It consumes only central semantic roles for colour, typography, spacing, radius, elevation, controls, focus and responsive behaviour while preserving catalogue, routing, evidence, content-placement and progress semantics.
 
 B3 includes:
 
@@ -172,7 +173,30 @@ B3 includes:
 - keyboard focus treatment; and
 - reduced-motion treatment.
 
-Detailed implementation scope is recorded in `docs/technical/Interface System B3 Subjects and Course Migration.md`.
+Detailed implementation scope and production status are recorded in `docs/technical/Interface System B3 Subjects and Course Migration.md`.
+
+## B4 current implementation state
+
+**In progress on governed branch.** B4 migrates the canonical `FocusedLearningWorkspace` Learn and Practice experience onto the Interface System without changing content, evidence, readiness, persistence or routing semantics.
+
+`src/app/interface-learn-practice.css` is the bounded B4 migration layer and deliberately loads after legacy feature CSS and B3. It uses central semantic roles for colour, typography, spacing, radii, controls, feedback status, focus and responsive behaviour rather than introducing a second learning-workspace design system.
+
+B4 establishes:
+
+- a focused reading hierarchy for Learn rather than a dashboard-like card grid;
+- secondary activity selection so the current learning/practice task remains dominant;
+- governed topic selector, control and input presentation;
+- progressive reveal treatment for answers, marking guidance, formula/model-answer reveals and feedback;
+- semantic correct/incorrect/result states that do not depend on colour alone in the underlying markup;
+- responsive phone/tablet/desktop composition;
+- keyboard-visible focus treatment; and
+- reduced-motion handling.
+
+The existing progressive-disclosure state machine in `FocusedLearningWorkspace.tsx` remains unchanged. B4 is primarily a presentation migration, not a rewrite of learning or evidence logic.
+
+B5 retains ownership of the Exam Prep/exam-performance family and timed exam interactions. Shared workspace descendants may inherit B4 token translation where they use the same component, but B4 does not declare the Exam Prep experience migrated.
+
+Detailed implementation scope is recorded in `docs/technical/Interface System B4 Learn and Practice Migration.md`.
 
 ## Migration rules
 
@@ -193,8 +217,8 @@ A surface group is migrated only when:
 - **B1 — foundation/account/overlays:** live.
 - **B2 — Plan and Progress:** live.
 - **B2.5 — reusable component/icon/asset foundation:** live via PR #116.
-- **B3 — Subjects, Subject Home, course/specification:** in progress.
-- **B4 — Learn and Practice:** focused work, answer/feedback and progressive disclosure patterns.
+- **B3 — Subjects, Subject Home, course/specification:** live via PR #118.
+- **B4 — Learn and Practice:** in progress; focused work, answer/feedback and progressive disclosure patterns.
 - **B5 — Exam Prep / exam experience:** Exam/Performance family and governed pause/stop/timed interactions.
 - **B6 — Admin:** same foundations/components at appropriate operational density.
 - **B7 — compatibility retirement:** remove aliases/redundant feature CSS only after repository search and regression prove zero live dependency.
@@ -220,22 +244,24 @@ This is a coherence requirement, not a requirement that every page use the same 
 
 ## Assurance
 
-B3 remains material interface work because it migrates multiple learner routes and shared legacy selectors, but it does not change educational or persistence semantics.
+B4 is material interface work because it changes the primary working experience for learner Learn/Practice surfaces, but it does not change educational or persistence semantics.
 
 Required assurance includes:
 
 - typecheck;
 - lint;
 - unit tests;
-- interface-system governance tests in `scripts/assurance/interface-system-governance.test.mjs` including the B3 layer;
+- interface-system governance tests in `scripts/assurance/interface-system-governance.test.mjs` including the B4 layer;
 - production build;
-- Subjects/Subject Home/course responsive browser assurance across phone/tablet/desktop;
+- Learn/Practice responsive browser assurance across phone/tablet/desktop;
 - light/dark semantic-role assurance;
-- applicable accessibility coverage; and
+- answer/reveal/feedback interaction-state checks;
+- keyboard/focus/accessibility coverage;
+- regression confirmation that learning evidence and persistence semantics are unchanged; and
 - production smoke/path-to-live after merge.
 
 ## Documentation impact
 
-B2.5 and B3 implement existing Visual Brand System and Product UX authority rather than changing normative visual/product direction. No ADR is required because canonical runtime, routes and architecture boundaries remain unchanged.
+B4 implements existing Visual Brand System and Product UX authority rather than changing normative visual/product direction. No ADR is required because canonical runtime, routes, educational contracts and architecture boundaries remain unchanged.
 
-The Operating Standard, Component Registry, Brand System Production Readiness, B3 migration record and INDEX are maintained with implementation. Historical audits/research remain unchanged.
+This implementation record, the B3 production-state record, the B4 migration record and `INDEX.md` are maintained with the implementation. The Interface System Component Registry requires no amendment because B4 introduces no new reusable component or icon source. Historical audits/research remain unchanged.
