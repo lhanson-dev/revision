@@ -1,6 +1,6 @@
 # Founder Approval Gate
 
-**Status:** Target implementation in Recovery 3 PR; active when merged to `main`  
+**Status:** Active on `main`; Recovery 3 production verification complete  
 **Date:** 2026-08-22
 
 ## Purpose
@@ -79,7 +79,7 @@ The status does not grant approval. It reports whether repository evidence prove
 
 ## Merge-time operating rule
 
-Once this workflow is active on `main`, a release-governed merge must not be executed unless the current PR head has:
+For every release-governed PR after Recovery 3, merge must not be executed unless the current PR head has:
 
 - required Revision assurance success;
 - current-main integration evidence required by governance;
@@ -96,8 +96,8 @@ At the time this control was designed, repository metadata showed required statu
 
 Until that repository setting is enabled and verified, operating agents must still treat the status as mandatory. Post-merge release lineage remains fail-closed independently, so a missed pre-merge check cannot silently reach PROD.
 
-## Recovery 3 rollout boundary
+## Recovery 3 rollout completion
 
-The Recovery 3 PR itself cannot depend on this workflow as a default-branch pre-merge trigger because the workflow does not exist on `main` until that PR merges. Recovery 3 therefore continues to use the existing exact marker + CI + release-lineage controls for its own merge.
+PR #112 introduced the gate and merged exact head `c2d94210aa48b0e5b078b730d812857b77448989` after Revision CI #658 and exact Founder marker comment `5379367930` were verified. The merge commit `62d75df280ac0ba5b0df72916b9394ecb8de75b5` completed production run `32562931908` with governed release lineage, backend readiness, build, Pages deployment, production smoke and durable `revision/path-to-live = success`.
 
-After Recovery 3 reaches production and the workflow exists on `main`, the new status gate applies prospectively to subsequent PRs.
+The workflow is therefore live on `main` and applies prospectively to subsequent release-governed PRs. Repository-level required-check enforcement remains a separate hardening action and must not be represented as enabled until independently verified.
