@@ -12,15 +12,16 @@ Its signed-in Home is led by **REV**, Revision's non-human intelligent study-gui
 
 The adaptive planner uses deterministic, testable logic rather than an AI-model call to calculate priorities. It combines assessment dates, realistic learner availability, specification/topic coverage, existing learning/readiness evidence and bounded learner planning preferences. REV explains and discusses those priorities but does not replace the planner calculation.
 
-Global learner navigation is:
+The learner-wide destinations are:
 
 - Home
 - Plan
-- REV
 - Progress
 - Subjects
 
-On mobile the same five destinations remain persistently available in bottom navigation, with REV in the centre and given modest visual prominence. Profile, account, Admin and other utilities remain secondary rather than taking a learner navigation slot.
+**Ask REV** is a persistent global action rather than a peer destination. Desktop uses a persistent left rail with prominent Ask REV access above the four learner-wide destinations. Tablet and mobile use a compact top bar with a two-line menu control, a left-side navigation drawer and a persistent bottom Ask REV dock as the only persistent bottom learner action. Profile, Settings, Admin where authorised, upgrade access where governed, and logout remain secondary account utilities rather than learner navigation slots.
+
+When the learner is inside Subjects, the active academic branch may expand contextually so the current subject, course/specification and focused section remain clear without turning the global navigation into an always-expanded sitemap.
 
 ### Adaptive Plan
 
@@ -40,7 +41,7 @@ The plan is a current forecast, not a fixed timetable or task-debt ledger. Misse
 
 ### REV and the planner
 
-The dedicated REV destination opens contextually with the current planner picture rather than as a menu of AI features. A learner can question the recommendation or ask to change the short-term balance, for example by focusing more heavily on one subject for a week. REV explains relevant cross-subject consequences before a bounded planning preference is applied.
+The expanded REV workspace opens contextually with the current planner picture rather than as a menu of AI features. A learner can question the recommendation or ask to change the short-term balance, for example by focusing more heavily on one subject for a week. REV explains relevant cross-subject consequences before a bounded planning preference is applied.
 
 Planning preference is planning context only. It does not improve objective progress, mastery or readiness by itself.
 
@@ -72,6 +73,7 @@ See:
 
 - `10-product-governance/Adaptive Revision Planning.md` — governing adaptive planner and REV/planner behaviour.
 - `10-product-governance/Information Architecture.md` — governing learner hierarchy and primary navigation.
+- `10-product-governance/Global Learner Navigation.md` — governing global navigation, contextual academic expansion and persistent Ask REV behaviour.
 - `10-product-governance/Course Content and Assessment Component Placement.md` — authority for shared course learning versus paper/component Exam Prep.
 - `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
 - `docs/technical/Adaptive Revision Planner Implementation.md` — current FI-001 technical design and implementation boundary.
