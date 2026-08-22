@@ -7,6 +7,7 @@ const authEntry = readFileSync(new URL('../../src/app/auth-entry.css', import.me
 const themeIntegrity = readFileSync(new URL('../../src/app/interface-theme-integrity.css', import.meta.url), 'utf8')
 
 const semanticLayers = [
+  'brand-tokens.css',
   'auth-entry.css',
   'guidance.css',
   'interface-system.css',
