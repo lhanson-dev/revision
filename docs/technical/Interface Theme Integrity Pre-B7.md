@@ -15,6 +15,8 @@ A further production review identified that Practice and Exam Prep still contain
 
 This proves that selector-specific browser checks are insufficient as the primary theme-integrity control. The required control is site-wide: all live theme-capable surfaces must be classified, shared active styling must use semantic roles, and browser assurance must inspect the rendered application rather than only selected cards.
 
+The unauthenticated `AuthGate` surface is part of the same site contract. Sign-in, account creation, loading and password-recovery surfaces now consume the same central theme tokens and stored/system theme selection as the authenticated application instead of remaining on a separate light-only styling path.
+
 This follow-up does not retire compatibility CSS. B7 remains responsible for retirement after zero-live-consumer assurance.
 
 ## Implementation
@@ -33,6 +35,8 @@ This follow-up does not retire compatibility CSS. B7 remains responsible for ret
 
 The file no longer carries its former local white/light-green/slate palette.
 
+`src/app/auth-entry.css` is likewise migrated onto semantic roles. `src/app/brand-tokens.css` now exposes the same theme foundations to `.auth-shell` and `.loading-shell`, and `AuthGate` resolves the existing `revision:theme` preference (falling back to the operating-system colour scheme) before rendering signed-out or recovery UI.
+
 ## Site-wide assurance model
 
 Theme integrity is now protected by two complementary automated controls.
@@ -41,11 +45,11 @@ Theme integrity is now protected by two complementary automated controls.
 
 `scripts/assurance/site-theme-integrity.test.mjs`:
 
-- requires shared `guidance.css` to contain no local hex/RGB/RGBA palette;
-- verifies its use of central semantic surface/text/action/border roles;
+- requires shared `guidance.css` and `auth-entry.css` to contain no local hex/RGB/RGBA palette;
+- verifies their use of central semantic surface/text/action/border roles;
 - enumerates every stylesheet loaded by the canonical runtime;
 - requires every loaded stylesheet to be either a governed semantic layer or explicitly classified compatibility debt; and
-- verifies the final compatibility integrity layer remains last in the semantic cascade.
+- verifies the final compatibility integrity layer remains last in the authenticated semantic cascade.
 
 This prevents a new unclassified page stylesheet or a new local palette from silently entering the runtime.
 
@@ -69,7 +73,9 @@ This prevents a new unclassified page stylesheet or a new local palette from sil
 
 The sweep examines visible descendants, not only top-level cards. It fails if known legacy light-only backgrounds or legacy dark/slate text values reappear in the dark runtime. This directly covers the class of defect that escaped PRs #123 and #124, including child text selectors inside recommendation and technique surfaces.
 
-Admin/Founder Assurance and authentication remain separately owned by their existing browser suites and are included in the site-wide coverage model. The next assurance increment must apply the same rendered-theme audit helper to those suites rather than treating the learner route sweep as sufficient by itself.
+`tests/e2e/admin-theme-integrity.spec.ts` applies the same rendered descendant audit across Admin dashboard, Users, Activity, System Health, Founder Assurance and Content Operations.
+
+`tests/e2e/auth-entry.spec.ts` now verifies Dark-mode sign-in and account creation against the central theme contract and scans those rendered descendants for the same legacy light/background and text leaks. Password recovery shares the same `auth-shell`/`auth-card` implementation and token boundary.
 
 ## Existing targeted assurance retained
 
@@ -77,7 +83,8 @@ The earlier route-specific checks remain useful as focused diagnostics:
 
 - `tests/e2e/interface-system.spec.ts` validates Account theme switching and semantic overlay/field roles;
 - `tests/e2e/course-dark-theme.spec.ts` validates course Overview and Exam Prep paper semantic roles;
-- B4/B5/browser suites continue to exercise Practice and Exam behaviour; and
+- B4/B5/browser suites continue to exercise Practice and Exam behaviour;
+- Admin behaviour remains covered separately from its theme-integrity sweep; and
 - responsive assurance runs across representative phone, tablet and desktop projects.
 
 The site-wide sweep supplements these tests; it does not replace targeted behavioural assurance.
