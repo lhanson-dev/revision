@@ -46,11 +46,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
 
   useEffect(() => {
     let active = true
-    if (adapters.length === 0) {
-      setEvidence([])
-      setLoading(false)
-      return () => { active = false }
-    }
+    if (adapters.length === 0) return () => { active = false }
     const store = createSupabaseEvidenceStore(client)
     Promise.all(adapters.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
       .then((items) => {
@@ -73,7 +69,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const evidencedTopics = allStates.reduce((sum, state) => sum + state.evidencedTopics, 0)
   const readinessAvailable = allStates.filter((state) => state.readiness.score !== null).length
 
-  if (loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
+  if (adapters.length > 0 && loading) return <LoadingState className="page-screen">Loading progress across your active courses…</LoadingState>
 
   return (
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="progress-page-title">
