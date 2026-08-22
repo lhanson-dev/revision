@@ -67,6 +67,12 @@ revoke all on table public.learner_course_events from authenticated;
 grant select, insert, delete on table public.learner_courses to authenticated;
 grant select, insert on table public.learner_course_events to authenticated;
 
+-- Protected server-side operations use service_role only after their own authorization
+-- boundary. They need read access for aggregate/assurance inspection, but FI-020 does not
+-- grant service_role a separate application-level mutation surface on these tables.
+grant select on table public.learner_courses to service_role;
+grant select on table public.learner_course_events to service_role;
+
 -- Bounded FI-020 compatibility transition.
 -- Before persisted membership existed, the production runtime treated both currently
 -- published Business courses as part of every authenticated learner's programme.
