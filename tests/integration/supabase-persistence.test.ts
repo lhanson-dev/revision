@@ -5,6 +5,12 @@ import type { LearningEvidence } from '../../src/engine/evidence/evidence'
 import { createModuleLearningState } from '../../src/app/catalogue-model'
 import { buildPlannerSnapshot } from '../../src/app/planner-model'
 import {
+  addLearnerCourse,
+  loadLearnerCourses,
+  recordLearnerCourseEvent,
+  removeLearnerCourse,
+} from '../../src/services/courses/learner-course-service'
+import {
   createSupabaseEvidenceStore,
   loadLearningEvidence,
   recordLearningEvidence,
@@ -22,6 +28,7 @@ const integrationEnabled = process.env.REVISION_SUPABASE_INTEGRATION === '1'
 const supabaseUrl = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
 const anonKey = process.env.SUPABASE_ANON_KEY ?? ''
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
+const asCourseId = 'aqa:aqa-as:7131'
 
 const suite = describe.skipIf(!integrationEnabled)
 
@@ -69,6 +76,39 @@ suite('isolated Supabase persistence assurance', () => {
     await learnerB?.client.auth.signOut()
     if (learnerA?.user.id) await admin?.auth.admin.deleteUser(learnerA.user.id)
     if (learnerB?.user.id) await admin?.auth.admin.deleteUser(learnerB.user.id)
+  })
+
+  it('persists and reloads learner course membership through the authenticated service boundary', async () => {
+    // Synthetic users are created after migration replay and therefore must not receive
+    // the bounded compatibility seed reserved for users who existed at migration time.
+    expect(await loadLearnerCourses(learnerA.client, learnerA.user.id)).toEqual([])
+
+    const added = await addLearnerCourse(learnerA.client, learnerA.user.id, asCourseId)
+    expect(added.userId).toBe(learnerA.user.id)
+    expect(added.courseId).toBe(asCourseId)
+    expect(await loadLearnerCourses(learnerA.client, learnerA.user.id)).toContainEqual(added)
+
+    await expect(addLearnerCourse(learnerA.client, learnerA.user.id, asCourseId))
+      .rejects.toThrow('That course is already in your programme.')
+
+    // RLS hides learner A rows from learner B even if B supplies A's user id.
+    expect(await loadLearnerCourses(learnerB.client, learnerA.user.id)).toEqual([])
+    await expect(addLearnerCourse(learnerB.client, learnerA.user.id, 'aqa:aqa-a-level:7132'))
+      .rejects.toThrow('Could not add that course')
+
+    await recordLearnerCourseEvent(learnerA.client, learnerA.user.id, 'course_added', asCourseId, { integration: true })
+    const { data: ownEvents, error: ownEventsError } = await learnerA.client
+      .from('learner_course_events')
+      .select('event_type, course_id')
+      .eq('user_id', learnerA.user.id)
+    expect(ownEventsError).toBeNull()
+    expect(ownEvents).toContainEqual({ event_type: 'course_added', course_id: asCourseId })
+
+    await expect(recordLearnerCourseEvent(learnerB.client, learnerA.user.id, 'course_removed', asCourseId))
+      .rejects.toThrow('Could not record course activity')
+
+    await removeLearnerCourse(learnerA.client, learnerA.user.id, asCourseId)
+    expect(await loadLearnerCourses(learnerA.client, learnerA.user.id)).toEqual([])
   })
 
   it('persists and reloads validated learning evidence through the authenticated Data API', async () => {
