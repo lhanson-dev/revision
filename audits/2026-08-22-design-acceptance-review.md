@@ -50,7 +50,7 @@ Current `PlannerRuntime.tsx` implements:
 - collapsed account utilities until the learner opens the account control; and
 - persistent bottom Ask REV dock as the only persistent bottom learner action.
 
-**Assessment:** conforming implementation evidence.
+**Assessment:** structurally conforming implementation evidence. Founder review below identifies a visual-conformance defect in the desktop Ask REV treatment.
 
 ### DAR-02 — README navigation description is stale
 
@@ -77,6 +77,50 @@ PR #126 has now merged and production path-to-live is successful.
 **Assessment:** documentation defect affecting current implementation truth.
 
 **Action:** reconcile the readiness matrix and sequence to current `main`.
+
+## Founder review findings — Group A: Shell and global hierarchy
+
+### DAR-A01 — Desktop Ask REV treatment is materially under-emphasised
+
+Founder observation: the desktop Ask REV control looks like an ordinary button, uses a diamond/star glyph and does not read as Revision's key always-available help action.
+
+The active navigation authority already requires desktop Ask REV to receive the strongest branded emphasis. The Visual Brand System establishes the Living E / three horizontal bars as REV's core identity and explicitly rejects substituting unrelated iconography for REV presence.
+
+Current implementation uses a `✦` glyph before `Ask REV`, while the mobile Ask REV dock already uses `RevPresence` / the Living E.
+
+**Assessment:** **Change required — implementation defect against existing authority.** No new product/brand decision is required to correct it.
+
+**Remediation direction:**
+
+- replace the diamond/star glyph with the approved Living E / three-line REV presence;
+- give desktop Ask REV materially stronger visual hierarchy than ordinary navigation destinations while remaining calm rather than neon or sci-fi;
+- preserve the explicit `Ask REV` label;
+- use the existing central semantic tokens and REV component rather than a local palette/icon treatment; and
+- assure light/dark, focus, reduced-motion and responsive behaviour.
+
+### DAR-A02 — Founder proposes direct `My Courses` access
+
+Founder observation: learners should be able to get straight to their courses instead of having to navigate through Subjects first.
+
+The desired outcome — faster access to the learner's active courses — is credible. However, the literal proposal of a new permanent `My Courses` peer link conflicts with active `Global Learner Navigation.md` v0.7 and `Information Architecture.md`, which deliberately define four global destinations and warn against duplicate entry points / unnecessary menu complexity.
+
+**Assessment:** **Founder decision required — proposed authority change, not an implementation defect.**
+
+The design review should not add a fifth peer destination automatically. A stronger solution may be to preserve a flat global model while making current courses directly reachable from the Subjects entry (for example, an immediate `My courses` view/child or a re-scoped Subjects entry) rather than maintaining both `Subjects` and `My Courses` as competing global concepts.
+
+No production navigation implementation should change until the Founder approves the intended authority direction.
+
+### DAR-A03 — Founder proposes current subscription tier beneath learner name
+
+Founder observation: the compact learner account control should show the learner's subscription level beneath their name, using `Free`, `Paid` or `Premium` as working labels for now.
+
+FI-002 product policy already requires current-plan visibility and defines the conceptual Free / Paid / Premium ladder. Customer-facing paid-tier names remain unresolved, and the approved billing architecture explicitly records that production subscription state is not yet implemented while FI-002 remains `Analyse`.
+
+**Assessment:** **Direction aligned, implementation blocked by FI-002 readiness/truth source.**
+
+Recommended design requirement for FI-002: once a truthful entitlement/subscription projection exists, the compact account identity treatment should expose the current learner tier directly beneath the learner name. The UI must consume actual entitlement state and must not hard-code or simulate a paid tier before the commercial system exists. Working conceptual labels may remain Free / Paid / Premium until customer-facing names are separately approved.
+
+Because the active navigation authority currently defines the compact account control as avatar/initial + learner name only, making the tier line a permanent shell requirement should be incorporated into the applicable navigation/FI-002 authority before production implementation.
 
 ## Founder visual acceptance matrix
 
@@ -125,11 +169,11 @@ For each review group, record one of:
 
 Any material new design direction discovered during acceptance must be treated as a proposed authority change rather than silently encoded into implementation.
 
-## Initial review state
+## Current review state
 
 | Group | State | Notes |
 | --- | --- | --- |
-| A — Shell and global hierarchy | **Ready for Founder review** | Static implementation conforms to v0.7 navigation authority. |
+| A — Shell and global hierarchy | **Change required** | Ask REV desktop treatment is a confirmed implementation defect. `My Courses` and account-tier placement require Founder/governance decisions before implementation. |
 | B — Home / Plan / global Progress | **Ready for Founder review** | Migration live; visual acceptance still required. |
 | C — Subjects and course hierarchy | **Ready for Founder review** | Migration live; visual acceptance still required. |
 | D — Learn and Practice | **Ready for Founder review** | PR #126 closes the known Practice dark-theme defect and path-to-live is successful. |
@@ -140,14 +184,15 @@ Any material new design direction discovered during acceptance must be treated a
 
 ## Documentation-impact check
 
-This review exposes stale current-state documentation but no conflict in active product/brand authority.
+This review exposes stale current-state documentation plus two proposed changes that cross active authority boundaries.
 
-This branch should therefore:
+This review branch should therefore:
 
 - correct `README.md` navigation implementation truth;
 - update `docs/technical/Interface System Implementation.md` with PR #126 production completion;
 - update `docs/technical/Interface Theme Integrity Pre-B7.md` with PR #126 production completion;
-- reconcile `docs/technical/Brand System Production Readiness.md` to B1–B6 + pre-B7 current state; and
+- reconcile `docs/technical/Brand System Production Readiness.md` to B1–B6 + pre-B7 current state;
+- record the Group A Founder findings without treating unapproved proposals as authority; and
 - preserve historical audits and earlier PR evidence unchanged.
 
-No normative authority, ADR, product behaviour, routes, data model, entitlement, educational evidence semantics or production code should change merely to start this review.
+The Ask REV remediation is an implementation correction under existing authority and should be handled on its own governed defect branch/PR. Any permanent `My Courses` global-navigation change requires an approved navigation-authority amendment. The current-tier account-line requirement should be incorporated into FI-002/navigation authority before production implementation and must wait for a truthful subscription/entitlement source rather than simulating paid state.
