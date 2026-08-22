@@ -1,79 +1,105 @@
 # Interface Theme Integrity — Pre-B7
 
-**Status:** production baseline live via PR #123; course-page defect follow-up in progress  
-**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `docs/technical/Interface System Operating Standard.md`  
+**Status:** production baseline live via PR #124; site-wide integrity follow-up in progress  
+**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0, `50-engineering-standards/Testing & Assurance Standard.md` and `docs/technical/Interface System Operating Standard.md`  
 **Canonical runtime:** `/revision/app/` → `src/main.tsx` → `AuthGate` → `PlannerRuntime`  
-**Purpose:** close light/dark visual gaps before compatibility retirement
+**Purpose:** close light/dark visual gaps and make site-wide theme regressions automatically detectable before compatibility retirement
 
 ## Why this pass exists
 
 B1–B6 intentionally retained legacy CSS until B7 can prove zero live dependency before deletion. The central `brand-tokens.css` theme roles correctly translate between light and dark modes, but several older compatibility styles still contain literal light-mode foregrounds and backgrounds.
 
-Examples in legacy `app.css` and `hierarchy.css` include white field/surface backgrounds, dark fixed body text, light-only secondary controls, fixed success/error surfaces, white course hierarchy cards and legacy indigo course accents. The bounded B3–B6 migration layers override the primary migrated surfaces, but an uncovered descendant or fallback selector can still leak a light-only value into dark mode.
+The first production hardening pass shipped through PR #123 / merge `0d0331255929c4f0e3687ab41fe24b3c2723a227`. Founder production review then identified remaining course-page defects. PR #124 / merge `66e9213ac3e4b3815e27039fb7c264fafd1496bd` corrected course Overview and Exam Prep paper surfaces and is production-live with `revision/path-to-live = success`.
 
-The first production hardening pass shipped through PR #123 / merge `0d0331255929c4f0e3687ab41fe24b3c2723a227` with `revision/path-to-live = success`. Founder production review then identified remaining course-page defects, proving that the initial browser assurance did not exercise the course hierarchy deeply enough.
+A further production review identified that Practice and Exam Prep still contained wrong dark-mode styling. The root cause is broader than those two screens: `guidance.css` remained a live shared stylesheet with light-only recommendation/technique surfaces and fixed slate text. Descendant selectors could therefore override otherwise-correct semantic B4/B5 parent styling.
 
-This follow-up closes that route-specific gap before B7. It does not retire compatibility CSS.
+This proves that selector-specific browser checks are insufficient as the primary theme-integrity control. The required control is site-wide: all live theme-capable surfaces must be classified, shared active styling must use semantic roles, and browser assurance must inspect the rendered application rather than only selected cards.
+
+The unauthenticated `AuthGate` surface is part of the same site contract. Sign-in, account creation, loading and password-recovery surfaces now consume the same central theme tokens and stored/system theme selection as the authenticated application instead of remaining on a separate light-only styling path.
+
+This follow-up does not retire compatibility CSS. B7 remains responsible for retirement after zero-live-consumer assurance.
 
 ## Implementation
 
-`src/app/interface-theme-integrity.css` loads after all migrated Interface System layers.
+`src/app/interface-theme-integrity.css` remains the final compatibility layer after all migrated Interface System layers.
 
-It translates remaining live compatibility selectors onto central semantic roles for:
+`src/app/guidance.css` is now treated as active shared interface styling rather than unclassified legacy presentation. Its Practice recommendation and Exam Prep technique surfaces use central semantic roles for:
 
-- ordinary and secondary text;
-- headings and legacy metadata;
-- ordinary supporting surfaces;
-- fields, selects and textareas;
-- placeholder and disabled text;
-- primary, secondary and tab controls;
-- success, warning and error states;
-- Admin and Founder Assurance text/table descendants;
-- table heading surfaces;
-- course section-choice cards, icons and evidence dots;
-- course cross-section next-step and progress cards;
-- Exam Prep paper cards and nested paper content; and
-- scrollbars where the browser supports themed scrollbar colours.
+- surface and quiet-surface backgrounds;
+- primary and secondary text;
+- borders;
+- action/accent treatment;
+- typography roles;
+- spacing and radius roles; and
+- technique guidance callouts.
 
-`src/app/course-exam.css` also now uses the central semantic text, accent, border and surface roles directly for the paper expander and nested paper content instead of the legacy `--indigo`, `--line` and `--surface-soft` aliases.
+The file no longer carries its former local white/light-green/slate palette.
 
-The integrity layer contains no local hex/RGB/RGBA palette and does not define a third theme. Both light and dark continue to come from `brand-tokens.css`.
+`src/app/auth-entry.css` is likewise migrated onto semantic roles. `src/app/brand-tokens.css` now exposes the same theme foundations to `.auth-shell` and `.loading-shell`, and `AuthGate` resolves the existing `revision:theme` preference (falling back to the operating-system colour scheme) before rendering signed-out or recovery UI.
 
-Dark mode also declares `color-scheme: dark` on the canonical runtime so browser-native form affordances are consistent with the active theme.
+## Site-wide assurance model
 
-## Assurance
+Theme integrity is now protected by two complementary automated controls.
 
-The Interface System governance test treats the integrity layer as a migrated semantic layer and verifies no local palette and the required semantic role usage.
+### 1. Static style-governance gate
 
-The general browser Interface System test performs a real theme switch through Account Settings and checks computed styles on the live runtime, overlay and fields.
+`scripts/assurance/site-theme-integrity.test.mjs`:
 
-The course defect follow-up adds `tests/e2e/course-dark-theme.spec.ts`. It boots the canonical learner runtime directly in Dark mode and navigates through:
+- requires shared `guidance.css` and `auth-entry.css` to contain no local hex/RGB/RGBA palette;
+- verifies their use of central semantic surface/text/action/border roles;
+- enumerates every stylesheet loaded by the canonical runtime;
+- requires every loaded stylesheet to be either a governed semantic layer or explicitly classified compatibility debt; and
+- verifies the final compatibility integrity layer remains last in the authenticated semantic cascade.
 
-**Subjects → Business → AQA AS Business → Overview → Exam Prep**
+This prevents a new unclassified page stylesheet or a new local palette from silently entering the runtime.
 
-It verifies actual computed styles for:
+### 2. Browser-wide rendered integrity sweep
 
-- course Overview section-choice surfaces;
-- course section-icon accent text;
-- Exam Prep paper-card surfaces;
-- the paper expander accent;
-- expanded paper-content surfaces; and
-- the nested Exam Simulator surface.
+`tests/e2e/site-theme-integrity.spec.ts` boots the canonical application directly in Dark mode and audits the rendered DOM across the principal live learner/application surfaces:
 
-The test resolves the semantic tokens in the running browser and compares rendered values against them, so a future return to literal white or incompatible accent colour fails assurance.
+- Home;
+- Plan;
+- Progress;
+- Subjects;
+- Subject Home;
+- course Overview;
+- Learn;
+- Practice;
+- Exam Prep;
+- expanded Exam Prep paper content;
+- course Progress;
+- REV; and
+- Account Profile / Settings overlays.
 
-Normal Revision CI remains required, including responsive browser assurance, production build, database/RLS and protected-service regression assurance.
+The sweep examines visible descendants, not only top-level cards. It fails if known legacy light-only backgrounds or legacy dark/slate text values reappear in the dark runtime. This directly covers the class of defect that escaped PRs #123 and #124, including child text selectors inside recommendation and technique surfaces.
+
+`tests/e2e/admin-theme-integrity.spec.ts` applies the same rendered descendant audit across Admin dashboard, Users, Activity, System Health, Founder Assurance and Content Operations.
+
+`tests/e2e/auth-entry.spec.ts` now verifies Dark-mode sign-in and account creation against the central theme contract and scans those rendered descendants for the same legacy light/background and text leaks. Password recovery shares the same `auth-shell`/`auth-card` implementation and token boundary.
+
+## Existing targeted assurance retained
+
+The earlier route-specific checks remain useful as focused diagnostics:
+
+- `tests/e2e/interface-system.spec.ts` validates Account theme switching and semantic overlay/field roles;
+- `tests/e2e/course-dark-theme.spec.ts` validates course Overview and Exam Prep paper semantic roles;
+- B4/B5/browser suites continue to exercise Practice and Exam behaviour;
+- Admin behaviour remains covered separately from its theme-integrity sweep; and
+- responsive assurance runs across representative phone, tablet and desktop projects.
+
+The site-wide sweep supplements these tests; it does not replace targeted behavioural assurance.
 
 ## Production evidence
 
 - B6 Admin: PR #122 / merge `e10aed1e05ca173e8e87e75b1b3d909d4c39451d` / `revision/path-to-live = success`.
 - Initial pre-B7 theme hardening: PR #123 / merge `0d0331255929c4f0e3687ab41fe24b3c2723a227` / `revision/path-to-live = success`.
-- Course-page follow-up: governed defect branch `fix/course-dark-mode-defects`; production evidence pending PR assurance, Founder approval and merge.
+- Course-page dark-mode follow-up: PR #124 / merge `66e9213ac3e4b3815e27039fb7c264fafd1496bd` / `revision/path-to-live = success`.
+- Site-wide integrity follow-up: governed branch `fix/site-wide-theme-integrity`; production evidence pending exact-head assurance, Founder approval, merge and path-to-live verification.
 
 ## Documentation impact
 
-This is implementation hardening of already-approved dual-theme visual authority. No normative product/brand authority change or ADR is required.
+This is implementation and assurance hardening of already-approved dual-theme visual authority and the existing Testing & Assurance Standard. No normative product/brand authority change or ADR is required.
 
-The technical checkpoint is updated because the production defect exposed an assurance gap in the earlier pass. Historical evidence is unchanged: PR #123 remains recorded as the first production hardening pass, while this follow-up records the additional defect and assurance required before B7.
+The technical checkpoint is updated because repeated production findings exposed an assurance-design gap: broad theme correctness must be proved by site-wide rendered inspection plus static style classification, not inferred from selected component checks.
 
-B7 must not start compatibility deletion until this course-page follow-up is merged and production-verified, then its repository-wide dependency scan must run against the resulting `main`.
+Historical PR evidence is unchanged. B7 must not begin compatibility deletion until this site-wide follow-up is merged and production-verified, then its zero-live-consumer dependency scan must run against the resulting `main`.

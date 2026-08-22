@@ -1,4 +1,6 @@
-.planner-runtime {
+.planner-runtime,
+.auth-shell,
+.loading-shell {
   /* Canonical Calm Teal foundations. */
   --brand-deep-teal: #0f2f36;
   --brand-primary-teal: #2bb6a3;
@@ -161,7 +163,9 @@
   --white: var(--color-surface);
 }
 
-.planner-runtime[data-theme="dark"] {
+.planner-runtime[data-theme="dark"],
+.auth-shell[data-theme="dark"],
+.loading-shell[data-theme="dark"] {
   --color-bg: #0f2024;
   --color-surface: #13272b;
   --color-surface-elevated: #173136;
@@ -178,12 +182,14 @@
   --ink-soft: #c9dcda;
   --rev-halo-core: rgba(43, 182, 163, .30);
   --rev-halo-mid: rgba(43, 182, 163, .14);
-  --rev-halo-outer: rgba(43, 182, 163, .11);
-  --rev-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+  --rev-halo-outer: rgba(43, 182, 163, .18);
+  --rev-shadow: 0 22px 58px rgba(0, 0, 0, .24);
 }
 
 @media (max-width: 620px) {
-  .planner-runtime {
+  .planner-runtime,
+  .auth-shell,
+  .loading-shell {
     --type-display-xl-size: 40px;
     --type-display-xl-line: 48px;
     --type-display-l-size: 34px;
@@ -192,7 +198,5 @@
     --type-h1-line: 38px;
     --type-h2-size: 26px;
     --type-h2-line: 34px;
-    --type-h3-size: 20px;
-    --type-h3-line: 28px;
   }
 }

@@ -36,6 +36,7 @@
 }
 
 .planner-runtime .breadcrumbs button {
+  min-width: var(--control-height-compact);
   min-height: var(--control-height-compact);
   padding: 0 var(--space-2);
   border: 0;
