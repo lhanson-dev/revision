@@ -59,14 +59,19 @@ The status is `failure` when the latest exact-head Revision CI has completed uns
 
 - PR open/reopen;
 - PR head synchronization/change;
-- PR ready-for-review transition; and
-- PR conversation comments being created or edited.
+- PR ready-for-review transition;
+- PR conversation comments being created or edited; and
+- completion of a pull-request-triggered `Revision CI` workflow run.
 
-A head change therefore causes the new head to be evaluated independently. An old head's approval cannot make the new head green.
+The CI-completion trigger is important even when the PR SHA is unchanged: a rerun can become the latest exact-head CI and therefore change whether previously recorded approval evidence is still valid. The gate must recalculate rather than leave a stale success status in place.
+
+A head change causes the new head to be evaluated independently. An old head's approval cannot make the new head green.
 
 ## Security boundary
 
-The workflow uses `pull_request_target` only to run trusted code checked out from `main`; it does not execute code from an untrusted PR head.
+The workflow uses `pull_request_target`, `issue_comment` and `workflow_run` only to run trusted code checked out from `main`; it does not execute code from an untrusted PR head.
+
+For `workflow_run`, only pull-request-triggered Revision CI runs with an associated PR are evaluated. Push runs do not become approval evidence.
 
 The workflow has read-only repository/PR/Actions permissions plus `statuses: write` solely to publish the gate status.
 
@@ -81,15 +86,15 @@ Once this workflow is active on `main`, a release-governed merge must not be exe
 - the exact Founder marker; and
 - `revision/founder-approval = success`.
 
-The executing agent must re-read the PR head and status immediately before merge.
+The executing agent must re-read the PR head, latest exact-head CI and status immediately before merge.
 
 ## Repository-level enforcement
 
 The strongest steady-state configuration is for GitHub branch protection/rules to require the Founder approval status and relevant Revision CI checks before `main` can accept a merge.
 
-At the time this control was designed, repository metadata showed required status-check enforcement was not active. The workflow therefore provides the machine-readable status immediately, while repository-level required-check configuration remains a separate administrative hardening step where supported by the repository settings/API.
+At the time this control was designed, repository metadata showed required status-check enforcement was not independently enumerable through the connected capability. The workflow therefore provides the machine-readable status immediately, while repository-level required-check configuration remains a separate administrative hardening step that must be verified rather than assumed.
 
-Until that repository setting is enabled, operating agents must still treat the status as mandatory. Post-merge release lineage remains fail-closed independently, so a missed pre-merge check cannot silently reach PROD.
+Until that repository setting is enabled and verified, operating agents must still treat the status as mandatory. Post-merge release lineage remains fail-closed independently, so a missed pre-merge check cannot silently reach PROD.
 
 ## Recovery 3 rollout boundary
 
