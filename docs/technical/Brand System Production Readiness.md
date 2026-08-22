@@ -1,6 +1,6 @@
 # Brand System Production Readiness
 
-**Status:** identity/token foundations ready; B1, B2 and B2.5 live; B3 Subjects/course migration in progress  
+**Status:** identity/token foundations ready; B1–B6 Interface System migration live; pre-B7 theme integrity live through PR #126; B7 compatibility retirement not started  
 **Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 plus `20-brand-and-experience/Identity Asset Usage Rules.md` v1.0  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
@@ -58,32 +58,35 @@ The approved/current direction includes:
 | Runtime canonical identity helper | `src/app/ui/BrandAsset.tsx` | **Implemented/live via PR #116** | Use approved theme-paired assets |
 | Contributor component reference | `docs/technical/Interface System Component Registry.md` | **Established/live** | Maintain when public component contract changes |
 | Interface operating standard | `docs/technical/Interface System Operating Standard.md` | **Established** | Apply to every migrated surface |
-| Automated design-system governance | `scripts/assurance/interface-system-governance.test.mjs` | **Established/expanding** | B3 adds subject/course drift protection |
+| Automated design-system governance | Interface-system + site-theme assurance scripts | **Established/live** | Keep recurring roles and material conditional states protected |
 | Component semantic tests | `src/app/ui/ui-components.test.tsx` | **Implemented/live** | Protect component anatomy/semantics |
-| Account workspace | B1 primitive consumer | **Migrated/live** | Move onto wrappers when relevant, not for churn alone |
+| Account workspace / overlays | B1 primitive consumer + later theme-integrity coverage | **Migrated/live** | Preserve shared overlay/account grammar |
 | Plan | B2 visual migration; B2.5 React component proof consumer | **Migrated/live** | Preserve planner behaviour |
 | Global Progress | B2 token/surface composition | **Migrated/live** | Preserve evidence/readiness semantics |
-| Subjects / Subject Home | B3 `interface-subjects-course.css` | **Migration in progress** | Complete responsive/light-dark assurance |
-| Course/specification overview | B3 `interface-subjects-course.css` | **Migration in progress** | Complete responsive/light-dark assurance |
-| Learn / Practice | legacy/mixed styling remains | **Future B4** | Use hardened foundations/components |
-| Exam Prep / exam experience | legacy/mixed styling remains | **Future B5** | Apply exam/performance family and governed pause/stop behaviour |
-| Admin | shared foundations not yet fully migrated | **Future B6** | Reuse same system at appropriate density |
-| Compatibility aliases | bounded legacy bridge | **Intentional debt** | Retire in B7 only after zero-live-consumer evidence |
+| Subjects / Subject Home | B3 via PR #118 | **Migrated/live** | Preserve contextual hierarchy and active-state clarity |
+| Course/specification overview | B3 via PR #118; dark-theme follow-up PR #124 | **Migrated/live** | Preserve course hierarchy and semantic theme roles |
+| Learn / Practice | B4 via PR #119; site/theme follow-ups #125–#126 | **Migrated/live** | Preserve focused learning/task hierarchy and explicit conditional-state assurance |
+| Exam Prep / exam experience | B5 via PR #121; dark-theme follow-ups #124–#125 | **Migrated/live** | Preserve calm exam/performance grammar and pause/stop interaction contract |
+| Admin | B6 via PR #122; site-wide theme coverage PR #125 | **Migrated/live** | Preserve operational density and truthful status semantics |
+| Pre-B7 theme-integrity bridge | PRs #123–#126; final merge `6a40afc95dabd55d0a76a758ea722d5108c571ea` has `revision/path-to-live = success` | **Complete/live** | Retain until B7 proves legacy sources can be removed safely |
+| Compatibility aliases / legacy CSS | bounded legacy bridge still present | **Intentional debt** | Retire in B7 only after zero-live-consumer evidence |
+| Holistic Design Acceptance | `audits/2026-08-22-design-acceptance-review.md` | **Review in progress** | Founder reviews representative live surfaces; this is not a normative B7 gate unless separately governed |
 | Social/video editable masters | governed families exist; editable masters do not | **Deferred** | Create after principal product grammar stabilises |
 
-## B2.5 production evidence
+## Migration evidence
 
-PR #116 is no longer a candidate. It merged to `main` as `2369b33fa35414556096d0287100c1df8dbec8d7` after Revision CI #689 passed on exact PR head `5a1e18ad39fdd9f2ee1088a63abc1475404094e0`.
+The bounded Interface System migration is production-live through B6:
 
-That merge established the reusable component/icon/asset foundation required before B3.
+- B1 established shared interface foundations and account/overlay grammar.
+- B2 migrated Plan and Progress.
+- B2.5 established reusable React components, controlled icons and identity helpers through PR #116.
+- B3 migrated Subjects, Subject Home and course surfaces through PR #118.
+- B4 migrated Learn and Practice through PR #119.
+- B5 migrated Exam Prep and timed exam experience through PR #121.
+- B6 migrated Admin through PR #122.
+- PRs #123–#126 then closed observed light/dark compatibility leaks without beginning B7 deletion work.
 
-## B3 implementation direction
-
-B3 covers Subjects, Subject Home and course/specification presentation. The dedicated migration layer is `src/app/interface-subjects-course.css`.
-
-It uses the same semantic tokens and component grammar as the earlier migration rather than creating a subject-specific theme. The current compatibility renderer remains inside the canonical runtime; structural extraction is not required merely to restyle the surface and compatibility retirement remains B7.
-
-Detailed scope and assurance are recorded in `docs/technical/Interface System B3 Subjects and Course Migration.md`.
+The final pre-B7 follow-up, PR #126, passed Revision CI #722 at exact head `d800a06b3aa8c53562eceacb42a86fa0802de9b6`, merged as `6a40afc95dabd55d0a76a758ea722d5108c571ea`, and has `revision/path-to-live = success`.
 
 ## Canonical identity package
 
@@ -130,6 +133,8 @@ Ordinary interface components consume roles such as `--color-bg`, `--color-surfa
 
 Identity artwork whose approved export differs by theme is consumed through `BrandAsset`; feature pages do not implement local identity/theme switching.
 
+The temporary `interface-theme-integrity.css` bridge remains loaded last while compatibility CSS still exists. It is not a second design system; it translates remaining live compatibility descendants onto the same semantic roles until B7 can remove the underlying legacy sources safely.
+
 ## Production sequence
 
 1. **Canonical identity assets — complete.**
@@ -137,26 +142,35 @@ Identity artwork whose approved export differs by theme is consumed through `Bra
 3. **B1 shared primitive/account/overlay foundation — live.**
 4. **B2 Plan/Progress migration + central typography/icon roles — live.**
 5. **B2.5 reusable component/icon/asset hardening — live via PR #116.**
-6. **B3 Subjects/Subject Home/course migration — in progress.**
-7. **B4–B6 remaining bounded page-family migration.**
-8. **B7 compatibility retirement.** Remove aliases/redundant feature CSS only after zero-live-consumer assurance.
-9. **Cross-channel editable masters.** Produce when principal interface grammar is stable.
+6. **B3 Subjects/Subject Home/course migration — live via PR #118.**
+7. **B4 Learn/Practice migration — live via PR #119.**
+8. **B5 Exam Prep/exam experience migration — live via PR #121.**
+9. **B6 Admin migration — live via PR #122.**
+10. **Pre-B7 light/dark integrity hardening — live through PR #126.**
+11. **B7 compatibility retirement — not started.** Remove aliases/redundant legacy CSS only after zero-live-consumer assurance from the then-current `main`.
+12. **Cross-channel editable masters — deferred.** Produce when principal interface grammar is stable and channel work requires them.
+
+A holistic Design Acceptance Review may assess the production result before or alongside the next technical increment. Unless separately promoted through governance, it is a point-in-time Founder review rather than an automatic release/B7 prerequisite.
 
 ## Assurance
 
-Every migration increment must preserve the central source-of-truth model and include risk-appropriate assurance. For B3 this includes:
+Every material interface change must preserve the central source-of-truth model and include risk-appropriate assurance. Current recurring expectations include:
 
 - typecheck and lint;
 - unit/component tests;
 - production build;
-- interface-system governance assurance including `interface-subjects-course.css`;
-- Subjects/Subject Home/course phone/tablet/desktop regression;
+- Interface System/static style governance;
+- representative phone/tablet/desktop browser regression;
 - light/dark semantic-surface checks;
-- keyboard/focus and applicable accessibility coverage; and
+- explicit rendered-state checks for materially conditional states where needed;
+- keyboard/focus and applicable accessibility coverage;
+- normal database/RLS/protected-service regression where the runtime surface depends on them; and
 - governed production smoke/path-to-live after merge.
+
+Automation demonstrates objective implementation contracts. It does not replace human visual acceptance of hierarchy, density, coherence and product feel.
 
 ## Documentation impact
 
-B2.5 and B3 implement the existing Visual Brand System, Identity Asset Usage Rules and Product UX Principles. They do not change approved brand direction or product behaviour, so no normative authority change or ADR is required.
+This document is reconciled to the current production state through PR #126. It does not change approved brand direction, product behaviour, B7 deletion rules or the canonical runtime. No normative authority update or ADR is required.
 
-Current implementation records are updated with each governed migration. Historical brand research/audits remain historical and are not rewritten.
+Historical brand research and audits remain historical and are not rewritten.
