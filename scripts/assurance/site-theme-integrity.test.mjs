@@ -56,6 +56,13 @@ describe('site-wide theme integrity governance', () => {
     expect(authEntry).toContain('var(--field-height-standard)')
   })
 
+  it('protects the rendered Practice REV recommendation as an explicit Guidance surface', () => {
+    expect(themeIntegrity).toContain('.planner-runtime .focused-practice .recommendation-card')
+    expect(themeIntegrity).toContain('background: var(--color-surface-soft);')
+    expect(themeIntegrity).toContain('.planner-runtime .focused-practice .recommendation-card .eyebrow')
+    expect(themeIntegrity).toContain('color: var(--color-accent-text);')
+  })
+
   it('classifies every stylesheet loaded by the canonical runtime as semantic or known compatibility debt', () => {
     const imports = [...mainEntry.matchAll(/import '\.\/app\/(.+\.css)'/g)].map((match) => match[1])
     expect(imports.length).toBeGreaterThan(0)
