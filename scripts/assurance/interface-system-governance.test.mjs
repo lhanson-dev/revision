@@ -7,6 +7,8 @@ const interfaceComponents = readFileSync(new URL('../../src/app/ui/ui-components
 const interfacePlanProgress = readFileSync(new URL('../../src/app/interface-plan-progress.css', import.meta.url), 'utf8')
 const interfaceSubjectsCourse = readFileSync(new URL('../../src/app/interface-subjects-course.css', import.meta.url), 'utf8')
 const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
+const interfaceExamExperience = readFileSync(new URL('../../src/app/interface-exam-experience.css', import.meta.url), 'utf8')
+const examSimulator = readFileSync(new URL('../../src/app/ExamSimulator.tsx', import.meta.url), 'utf8')
 const componentIndex = readFileSync(new URL('../../src/app/ui/index.ts', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
 const brandAssetHelper = readFileSync(new URL('../../src/app/ui/BrandAsset.tsx', import.meta.url), 'utf8')
@@ -16,7 +18,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice]
+const migratedInterfaceLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -70,6 +72,10 @@ describe('Revision Interface System governance', () => {
     expect(interfaceLearnPractice).toContain('font-size: var(--type-h2-size);')
     expect(interfaceLearnPractice).toContain('background: var(--color-surface);')
     expect(interfaceLearnPractice).toContain('border-radius: var(--radius-surface);')
+    expect(interfaceExamExperience).toContain('font-family: var(--font-family-product);')
+    expect(interfaceExamExperience).toContain('font-size: var(--type-h2-size);')
+    expect(interfaceExamExperience).toContain('background: var(--color-surface);')
+    expect(interfaceExamExperience).toContain('border-radius: var(--radius-surface);')
 
     for (const css of migratedInterfaceLayers) {
       expect(css).not.toMatch(/font-family:\s*Manrope/i)
@@ -110,6 +116,32 @@ describe('Revision Interface System governance', () => {
     expect(interfaceLearnPractice).toContain('var(--focus-ring)')
     expect(interfaceLearnPractice).toContain('@media (max-width: 620px)')
     expect(interfaceLearnPractice).toContain('@media (prefers-reduced-motion: reduce)')
+  })
+
+  it('keeps B5 Exam Prep and timed-session patterns on the governed Exam/Performance family', () => {
+    for (const selector of [
+      '.planner-runtime .exam-simulator',
+      '.planner-runtime .exam-session-page',
+      '.planner-runtime .exam-sticky-bar',
+      '.planner-runtime .timer.warning',
+      '.planner-runtime .exam-interruption',
+      '.planner-runtime .exam-resume-button',
+      '.planner-runtime .exam-confirm-actions .danger',
+    ]) {
+      expect(interfaceExamExperience).toContain(selector)
+    }
+    expect(interfaceExamExperience).toContain('var(--color-inverse-action)')
+    expect(interfaceExamExperience).toContain('var(--status-error-fg)')
+    expect(interfaceExamExperience).toContain('var(--overlay-backdrop)')
+    expect(interfaceExamExperience).toContain('var(--focus-ring)')
+    expect(interfaceExamExperience).toContain('@media (max-width: 620px)')
+    expect(interfaceExamExperience).toContain('@media (prefers-reduced-motion: reduce)')
+
+    expect(examSimulator).toContain("beginInterruption('paused')")
+    expect(examSimulator).toContain("beginInterruption('stop-confirm')")
+    expect(examSimulator).toContain('if (!started || finishedWriting || sessionOverlay) return')
+    expect(examSimulator).toContain('Your exam is hidden while paused. The timer will continue only when you resume.')
+    expect(examSimulator).toContain('Stopping will end this attempt and discard the answers from this unsaved exam.')
   })
 
   it('publishes the required reusable component registry before B3', () => {
