@@ -4,7 +4,7 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.7"
+version: "0.8"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-22"
@@ -28,6 +28,7 @@ supersedes: null
 - Explicit Founder approval remains required for every merge to `main`.
 - **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that proposed production change. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that evidence before merge. The Founder must not be asked to perform Git bookkeeping.**
 - **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence.**
+- **Once the trusted `revision/founder-approval` gate is available on `main`, a release-governed PR must not be merged unless that status is `success` for the current exact PR head. The status reports valid CI/approval evidence; it does not create or substitute for Founder approval.**
 - **A purely mechanical refresh from newer `main` may retain the existing Founder approval only when the PR delta is demonstrably unchanged, no substantive conflict resolution occurred and fresh required assurance passes. A material change to the PR delta requires renewed Founder approval.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
@@ -68,6 +69,23 @@ If `main` advances after approval but before merge:
 
 This distinction preserves the Founder production gate without making the Founder responsible for branch-management mechanics.
 
+### Founder approval status gate
+
+`docs/technical/Founder Approval Gate.md` defines the pre-merge commit status:
+
+`revision/founder-approval`
+
+For an ordinary release-governed PR after the gate workflow is live on `main`, merge-time evidence must include:
+
+1. successful required Revision assurance for the current integration candidate;
+2. explicit Founder approval for the PR change;
+3. the exact machine-readable Founder marker for the current PR head, created at or after the latest exact-head CI; and
+4. `revision/founder-approval = success` on that same head.
+
+A head change requires the status to be re-evaluated. An old head's success is never evidence for a new head.
+
+The Recovery 3 PR that introduces this workflow is a bootstrap exception only in the narrow sense that the new default-branch workflow cannot evaluate that same PR before it exists on `main`. Recovery 3 must still satisfy the pre-existing exact-head CI, Founder marker and post-merge release-lineage controls in full.
+
 ## Continuous delivery improvement
 
 The delivery system itself is subject to continuous improvement.
@@ -84,11 +102,12 @@ Where GitHub supports the relevant controls, `main` should be protected so that:
 
 - changes arrive through pull requests;
 - required Revision CI/status checks pass before merge;
+- `revision/founder-approval` is a required status check once the gate is live;
 - force pushes and deletion are blocked;
 - the governed merge path cannot be silently bypassed; and
 - the merge candidate is integrated with current `main` before acceptance.
 
-If repository-level enforcement is not available for a control, the operating agent must perform the equivalent governed verification explicitly and record the evidence.
+If repository-level enforcement is not available for a control, the operating agent must perform the equivalent governed verification explicitly and record the evidence. Repository settings must never be represented as enforcing a check unless that enforcement has actually been verified.
 
 ## Path-to-live evidence chain
 Revision treats path-to-live as a chain of separately evidenced stages rather than one green status:
@@ -97,8 +116,8 @@ Revision treats path-to-live as a chain of separately evidenced stages rather th
 2. **Branch assurance** — complete implementation/documentation work and proportionate checks required to make the PR ready for final integration.
 3. **Current-main integration** — validate the proposed change in combination with the then-current `main`, resolving overlap deliberately.
 4. **Final assurance** — required Revision CI/checks for the final integration candidate pass at the proportionate depth defined by the Testing & Assurance Standard.
-5. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence as part of carrying out that approval.
-6. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above.
+5. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence and, once available, verifies `revision/founder-approval = success` for the exact head.
+6. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above and re-establish all head-specific evidence.
 7. **Merge** — the approved and validated change is merged into `main`.
 8. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
 9. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
