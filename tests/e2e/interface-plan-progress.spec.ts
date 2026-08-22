@@ -142,21 +142,21 @@ test('B2 gives Plan and Progress the shared interface grammar without changing t
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)
-  await expect(page.getByRole('heading', { name: 'Progress' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Current evidence' })).toBeVisible()
   await expect(page.getByText('No scored activity yet.', { exact: true })).toBeVisible()
 
-  const progressSection = page.locator('main[aria-labelledby="global-progress-title"] > .home-section').first()
+  const progressSection = page.locator('main[aria-labelledby="progress-page-title"] > .home-section').first()
   await expect(progressSection).toHaveCSS('border-top-width', '0px')
   await expect(progressSection).toHaveCSS('box-shadow', 'none')
   await expect(progressSection).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
 
-  const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
+  const summaryTile = page.locator('main[aria-labelledby="progress-page-title"] .progress-overview article').first()
   await expect(summaryTile).toHaveCSS('border-radius', '20px')
   await expect(summaryTile).toHaveCSS('background-color', 'rgb(255, 255, 255)')
   await expect(summaryTile).toHaveCSS('box-shadow', 'none')
 
-  const subjectCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
+  const subjectCard = page.locator('main[aria-labelledby="progress-page-title"] .global-progress-card').first()
   await expect(subjectCard).toHaveCSS('border-radius', '20px')
   await expect(subjectCard).toHaveCSS('box-shadow', 'none')
 
@@ -191,11 +191,11 @@ test('B2 Plan and Progress consume dark-theme semantic surfaces rather than hard
   await expect(weekdayField).toHaveCSS('color', 'rgb(230, 242, 239)')
 
   await page.goto(`${appPath}#/progress`)
-  const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
+  const summaryTile = page.locator('main[aria-labelledby="progress-page-title"] .progress-overview article').first()
   await expect(summaryTile).toHaveCSS('background-color', 'rgb(19, 39, 43)')
   await expect(summaryTile).toHaveCSS('border-radius', '20px')
 
-  const subjectCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
+  const subjectCard = page.locator('main[aria-labelledby="progress-page-title"] .global-progress-card').first()
   await expect(subjectCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
   await expect(subjectCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)
