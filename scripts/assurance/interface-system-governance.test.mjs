@@ -36,7 +36,7 @@ describe('Revision Interface System governance', () => {
     expectToken('control-height-standard', '44px')
     expectToken('field-height-standard', '48px')
     expectToken('icon-size-standard', '24px')
-    expectToken('icon-stroke-standard', '2')
+    expectToken('icon-stroke-standard', '2px')
 
     expect(brandTokens).toContain('.planner-runtime[data-theme="dark"]')
     expect(brandTokens).toContain('--color-bg: #0f2024;')
