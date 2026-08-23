@@ -103,7 +103,7 @@ The ruleset targets the default branch (`main`) with no bypass actors. It requir
 
 Operating-agent convention alone is not sufficient evidence of prevention. Repository settings must not be represented as enforcing the gate unless that enforcement has been independently verified.
 
-The post-merge release-lineage verifier remains an independent backstop. It protects Production if a merge-boundary control fails, but a successful fail-closed production backstop is not a substitute for preventing an unevidanced merge into canonical `main`.
+The post-merge release-lineage verifier remains an independent backstop. It protects Production if a merge-boundary control fails, but a successful fail-closed production backstop is not a substitute for preventing an unevidenced merge into canonical `main`.
 
 ## Recovery 3 rollout completion
 
