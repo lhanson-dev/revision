@@ -582,90 +582,65 @@ If promoted, review and update at minimum:
 
 ---
 
-## FI-006 — Initial Subject Diagnostic and Periodic Knowledge Check-in
+## FI-006 — Initial Course Starting Check / Periodic Knowledge Check-in
 
-**Status:** To Do  
+**Status:** Ready  
 **Captured:** 2026-08-19  
 **Capability fit:** Understand; Guide; Practise and Test; Progress and Readiness  
-**Authority context:** Baseline/diagnostic assessment is already part of the approved Understand capability. This item defines the concrete first-subject/check-in experience and evidence-strength rules.  
+**Approved MVP authority:** `10-product-governance/Product System Model.md` v0.5 and `40-evidence-and-trust/Claims and Progress Governance.md` v0.2 as proposed on PR #156  
+**Analysis record:** `10-product-governance/backlog/FI-006 Initial Course Starting Check Analysis.md`  
 **History:** Re-entered from superseded PR #57 during foundation stabilisation; renumbered because FI-004 is already allocated.  
-**Initial assessment:** High strategic value for early personalisation; implementation must prevent broad shallow evidence from overstating mastery or progress
+**Lifecycle evidence:** Existing approved Understand capability established `To Do`; Definition-of-Ready analysis completed on 2026-08-24; Founder explicitly approved `Analyse → Ready` on 2026-08-24 with `Approve FI-006 Ready`. PR #156 records that approval and the required authority changes.  
+**Current assessment:** Human-approved Ready for governed implementation once PR #156 integrates the Ready/authority state into approved `main`; implementation has not started.
 
-### Student problem
+### Approved MVP
 
-When a student first starts a subject, Revision may know the qualification and specification but still know very little about what that learner personally understands. Early recommendations can therefore be too generic.
+When a Student has added a supported course and Revision has little or no meaningful course-specific evidence, offer a short low-stakes starting check to improve the first recommendation without pretending to diagnose the whole course.
 
-A short broad diagnostic can improve the starting picture, but it cannot justify strong mastery or readiness claims from one or two sampled answers.
+The MVP:
 
-### Proposed capability
-
-When a learner starts a subject for the first time, offer a short broad diagnostic that samples important areas across the relevant specification and produces provisional signals for prioritisation.
-
-A likely flow is:
-
-`start subject → confirm academic context → explain quick diagnostic → complete broad sample → simple starting summary → useful next action`
-
-The diagnostic should be short enough not to become an onboarding barrier. If it is skipped or incomplete, Revision must degrade gracefully and build its learner model from later evidence rather than inventing a baseline.
+- normally uses five short assured multiple-choice questions from five distinct high-level course topics, broadly spread over canonical course order;
+- uses fewer questions where fewer distinct eligible topics exist rather than padding the check with repeated shallow questions;
+- retains explicit **starting-check / directional evidence provenance** rather than storing the answers as indistinguishable ordinary Practice evidence;
+- shows no learner-facing diagnostic percentage, mastery label or readiness score;
+- treats a correct sampled answer only as that item being answered correctly, not proof of topic strength;
+- treats an incorrect sampled answer as a provisional reason to investigate that area, not a durable weakness label;
+- uses deterministic, testable first-recommendation selection;
+- lets partial, skipped, interrupted or no-eligible-question states fall back safely to a deterministic useful course activity rather than generic Home;
+- keeps REV explanatory rather than scoring-critical; and
+- is foundational across Free, Paid and Premium.
 
 ### Evidence-strength rule
 
-**Diagnostic evidence may influence prioritisation before it is strong enough to support strong progress claims.**
+**Starting-check evidence may influence what Revision recommends investigating first, but it must not by itself create or increase coverage, understanding/mastery/proficiency, readiness, grade or on-track claims.**
 
-The evidence model must distinguish between:
+Starting-check evidence must not count toward ordinary readiness thresholds. Later normal Learn, Practice and exam evidence may confirm, weaken or overturn the initial directional signal.
 
-- directional diagnostic evidence — useful for choosing what to investigate or prioritise next;
-- corroborated understanding evidence — repeated/deeper evidence capable of supporting stronger understanding claims; and
-- exam-readiness evidence — exam-relevant evidence capable of supporting readiness judgements.
+### Deterministic first recommendation
 
-A small number of correct diagnostic answers must not automatically mark a topic proficient, mastered, complete or exam-ready. One incorrect sampled answer must not permanently label a learner weak. Later, stronger evidence must be able to confirm, weaken or overturn the initial signal.
+For MVP:
 
-### Progress protection
+1. consider sampled topics answered incorrectly;
+2. where one or more exist, choose the earliest such topic in canonical course order;
+3. otherwise choose the earliest eligible course topic without stronger normal evidence, falling back to the earliest eligible course topic;
+4. route directly into a supported useful starter activity for that topic; and
+5. explain the result as an early starting point, not a judgement of ability.
 
-The diagnostic must not artificially inflate headline progress merely because it touches many topics quickly.
+### Deliberate exclusions
 
-In particular:
+- periodic/repeated check-ins;
+- adaptive computerised testing;
+- AI-generated diagnostic questions;
+- comprehensive syllabus diagnosis;
+- learner-facing diagnostic score/percentage;
+- mastery/proficiency labels from the check;
+- grade prediction;
+- confidence self-rating; and
+- a separate diagnostic question-authoring pipeline.
 
-- a sampled answer does not automatically mean the whole topic is covered;
-- one or two correct answers do not establish mastery;
-- broad diagnostic success must not create a disproportionate progress jump;
-- evidence strength/confidence must be represented behind the scenes;
-- later stronger evidence supersedes provisional diagnostic signals where appropriate; and
-- learner-facing language remains cautious while diagnostic evidence dominates.
+### Implementation boundary
 
-### Periodic check-ins
-
-Revision may later repeat a broad diagnostic as a check-in when it is useful to refresh the learner picture.
-
-Useful triggers may include stale evidence, a long gap in the subject, a material revision-plan change or an important approaching assessment. Check-ins should not run on an arbitrary frequent schedule.
-
-Repeated shallow quizzes must not mechanically accumulate into false mastery. Evidence quality, breadth, recency and corroboration matter more than raw attempt count.
-
-### REV role
-
-REV may explain provisional strengths and focus areas constructively, while making clear that Revision is still learning about the student. REV must not make definitive statements about ability from a small diagnostic sample.
-
-### Dependencies / questions to assess
-
-- specification-to-question mapping and diagnostic question-bank coverage;
-- sampling strategy and initial diagnostic length;
-- evidence-strength/confidence model;
-- contribution to recommendation scoring without progress inflation;
-- check-in triggers and recency handling;
-- handling skipped/guessed/low-confidence answers where relevant;
-- accessible mobile completion;
-- analytics showing whether the diagnostic improves recommendation quality; and
-- explicit consistency with `40-evidence-and-trust/Claims and Progress Governance.md`.
-
-### Promotion / implementation impact
-
-Before material implementation, review/update at minimum:
-
-- `10-product-governance/Core User Journeys.md`;
-- `10-product-governance/Product System Model.md`;
-- `40-evidence-and-trust/Claims and Progress Governance.md` where more explicit diagnostic evidence rules are needed;
-- applicable assessment/content standards;
-- technical documentation for the evidence model and diagnostic engine; and
-- assurance coverage proving shallow diagnostic evidence cannot falsely create mastery, proficiency or readiness states.
+FI-006 is **Ready**, not `In Progress`. Production implementation must follow the Governed Implementation Workflow from then-current approved `main`, update evidence/readiness technical documentation and assurance coverage, and prove that directional starting-check evidence cannot enter normal coverage/mastery/readiness calculations. Because the feature touches shared educational evidence/readiness behaviour, implementation is Level 3 — High risk under the Testing & Assurance Standard.
 
 ---
 

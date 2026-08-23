@@ -1,6 +1,6 @@
 # Claims and Progress Governance
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define what Revision may and may not claim about student progress, understanding, mastery, exam readiness, estimated grades and whether a student is on track.
 
 ## Core principle
@@ -120,7 +120,34 @@ Revision should use weaker language where the evidence is early, narrow or incon
 
 Passive signals such as time spent, pages opened or videos watched may provide context but should not carry the same evidential weight as demonstrated answers and exam performance.
 
-## 9. Exam readiness requires exam-relevant evidence
+## 9. Starting-check evidence is directional, not progress
+
+When Revision has little or no Student-specific evidence for a newly added course, a short starting check may be used to improve the first recommendation.
+
+Starting-check observations are a deliberately weak **directional evidence** class. They must retain explicit provenance and must not become indistinguishable from ordinary scored Practice evidence merely because the underlying question format is the same.
+
+Starting-check evidence may:
+
+- identify a sampled topic worth investigating first;
+- influence the immediate first recommendation; and
+- support cautious explanatory language that Revision is still learning about the Student.
+
+Starting-check evidence must **not by itself**:
+
+- mark a topic covered;
+- establish understanding, proficiency or mastery;
+- create or increase a readiness score;
+- count toward the minimum evidence threshold for readiness;
+- create an estimated grade or on-track claim; or
+- permanently label a Student strong or weak.
+
+One correct sampled answer proves only that the Student answered that sampled item correctly. One incorrect sampled answer is a provisional reason to investigate, not proof of a broad weakness.
+
+Later normal Learn, Practice and exam evidence may confirm, weaken or overturn the initial signal and should dominate later judgements according to the normal evidence-quality and recency rules.
+
+Automated assurance must prove that starting-check evidence is excluded from ordinary coverage, mastery and readiness calculations.
+
+## 10. Exam readiness requires exam-relevant evidence
 
 Exam readiness is not the same as understanding a subject.
 
@@ -136,7 +163,7 @@ Exam-readiness claims should therefore increasingly depend on evidence such as:
 
 As the exam approaches, exam-relevant evidence should become more important in readiness judgements than passive coverage or low-pressure learning activity.
 
-## 10. Forecasts are guidance, not destiny
+## 11. Forecasts are guidance, not destiny
 
 Any forecast of future performance must remain revisable as new evidence appears.
 

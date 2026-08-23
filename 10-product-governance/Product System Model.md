@@ -1,6 +1,6 @@
 # Product System Model
 
-**Status:** Draft authority candidate — v0.4  
+**Status:** Draft authority candidate — v0.5  
 **Purpose:** Define the core model by which Revision understands a student, recommends activity and updates guidance over time.
 
 ## Core model
@@ -51,6 +51,36 @@ The model may use evidence from activities including:
 - other validated learning interactions introduced later.
 
 Assessment should not only produce a score. Where practical it should provide feedback that helps the student understand mistakes and improve.
+
+## Directional starting-check evidence
+
+When Revision has little or no Student-specific evidence for a newly added course, it may use a deliberately short **starting check** to improve the first recommendation.
+
+Starting-check answers are a distinct, low-strength evidence class. They may provide a **directional signal** about what is worth investigating or revising first, but they are not equivalent to ordinary scored Practice evidence.
+
+A starting-check answer may:
+
+- influence the immediate first recommendation;
+- identify a sampled area that is worth investigating next;
+- provide context for a cautious explanation of why Revision chose that starting point; and
+- remain available for later calibration of the starting-check feature.
+
+Starting-check evidence must **not by itself**:
+
+- mark a topic as covered;
+- establish understanding, proficiency or mastery;
+- create or increase a readiness score;
+- count towards the minimum evidence threshold for readiness;
+- create an estimated-grade or on-track claim; or
+- permanently label a Student as strong or weak in a topic.
+
+A correct answer means only that the Student answered that sampled item correctly. An incorrect answer is a provisional reason to investigate that sampled area, not proof of a broad weakness.
+
+Implementation must preserve explicit starting-check provenance so these observations cannot become indistinguishable from ordinary Practice evidence merely because the question format is the same.
+
+Later normal learning, Practice and exam evidence may confirm, weaken or overturn the initial directional signal. Once stronger evidence exists, normal evidence and recency rules govern subsequent recommendations.
+
+The initial starting-check selection and recommendation logic should be deterministic and testable rather than delegated to an LLM.
 
 ## Activity completion and reconciliation
 
