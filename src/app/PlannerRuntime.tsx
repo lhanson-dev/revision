@@ -317,7 +317,13 @@ export function PlannerRuntime() {
 
       {revPanelOpen && programmeResolved && !programmeError && <>
         <OverlayBackdrop className="runtime-rev-backdrop" label="Close Ask REV" onClick={() => setRevPanelOpen(false)} />
-        <DrawerShell className="runtime-rev-panel" label="Ask REV" onDismiss={() => setRevPanelOpen(false)} initialFocusSelector=".planner-rev-input input">
+        <DrawerShell
+          className="runtime-rev-panel"
+          label="Ask REV"
+          onDismiss={() => setRevPanelOpen(false)}
+          initialFocusSelector=".planner-rev-input input"
+          returnFocusSelector=".runtime-ask-rev, .runtime-mobile-ask-rev-dock"
+        >
           <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={() => setRevPanelOpen(false)}><Icon name="close" size="compact" /></IconButton></div></header>
           <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} /></div>
         </DrawerShell>
