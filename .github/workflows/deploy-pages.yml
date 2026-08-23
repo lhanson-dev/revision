@@ -23,16 +23,16 @@ env:
   SUPABASE_PUBLISHABLE_KEY: sb_publishable_N4uw63Yo5_dHLo04C5Tw_g_o8OMXTmG
   EXPECTED_BACKEND_CONTRACT: courses-v1
   REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
-  # Third explicit 2026-08-22 recovery checkpoint. PR #106 had genuine
-  # Founder approval recorded for its exact head, but the executing flow again
-  # persisted prose instead of the mandatory revision-founder-approval:v1
-  # machine-readable marker. Later governed merges therefore failed closed while
-  # traversing PR #106. Historical approval evidence must not be rewritten or
-  # backfilled. ADR-0016 records this exceptional recovery and the accompanying
-  # pre-merge Founder approval status gate. The exact failed pre-remediation main
-  # commit below is the new prospective trust root. Any future reset still
-  # requires a new incident, rationale and explicit Founder-approved decision.
-  REVISION_RELEASE_BOOTSTRAP_PARENT: ad112f426b7f8430ddb03f2b0979e2706cb59c38
+  # Fourth explicit 2026-08-23 recovery checkpoint. PR #139 merged with
+  # revision/founder-approval still pending and no exact machine-readable
+  # Founder marker on the PR conversation. Its merge commit, and later PRs #149
+  # and #138, therefore failed closed during governed release-lineage checks.
+  # Historical approval/release evidence must not be rewritten or backfilled.
+  # ADR-0018 records this exceptional prospective recovery. The exact failed
+  # pre-remediation main commit below is the new trust root. This reset does not
+  # claim that PR #139 satisfied the approval contract. Repository-level
+  # enforcement of revision/founder-approval remains a required hardening action.
+  REVISION_RELEASE_BOOTSTRAP_PARENT: 8ed308ad39a9f585a2a578be396a0161df011a8b
 
 jobs:
   governed-lineage:

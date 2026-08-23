@@ -1,7 +1,7 @@
 # Founder Approval Gate
 
-**Status:** Active on `main`; Recovery 3 production verification complete  
-**Date:** 2026-08-22
+**Status:** Active on `main`; Recovery 4 merge-boundary hardening proposed via PR #151  
+**Date:** 2026-08-23
 
 ## Purpose
 
@@ -12,7 +12,8 @@ This control supplements rather than replaces:
 - explicit Founder approval for the specific PR merge;
 - current-main integration checks;
 - Revision CI;
-- the exact two-line GitHub marker; and
+- the exact two-line GitHub marker;
+- enforced prevention of merge while the gate is not successful; and
 - post-merge governed release-lineage verification.
 
 ## Commit status
@@ -88,16 +89,30 @@ For every release-governed PR after Recovery 3, merge must not be executed unles
 
 The executing agent must re-read the PR head, latest exact-head CI and status immediately before merge.
 
+Recovery 4 does not weaken this rule. The Recovery 4 PR must itself meet the same exact-head Founder gate before merge.
+
 ## Repository-level enforcement
 
-The strongest steady-state configuration is for GitHub branch protection/rules to require the Founder approval status and relevant Revision CI checks before `main` can accept a merge.
+After DEF-2026-007, the status is not only an operating-agent check. The merge boundary must fail closed when `revision/founder-approval` is not successful.
 
-At the time this control was designed, repository metadata showed required status-check enforcement was not independently enumerable through the connected capability. The workflow therefore provides the machine-readable status immediately, while repository-level required-check configuration remains a separate administrative hardening step that must be verified rather than assumed.
+Where GitHub exposes required-status enforcement for `main`, repository protection/rules must require `revision/founder-approval` before a merge can be accepted. Where that repository-native enforcement is not available, an equivalent independently enforced fail-closed merge control is required.
 
-Until that repository setting is enabled and verified, operating agents must still treat the status as mandatory. Post-merge release lineage remains fail-closed independently, so a missed pre-merge check cannot silently reach PROD.
+Operating-agent convention alone is no longer sufficient evidence of prevention. Repository settings must not be represented as enforcing the gate until that enforcement has been independently verified.
+
+The post-merge release-lineage verifier remains an independent backstop. It protects Production if a merge-boundary control fails, but a successful fail-closed production backstop is not a substitute for preventing an unevidenced merge into canonical `main`.
 
 ## Recovery 3 rollout completion
 
 PR #112 introduced the gate and merged exact head `c2d94210aa48b0e5b078b730d812857b77448989` after Revision CI #658 and exact Founder marker comment `5379367930` were verified. The merge commit `62d75df280ac0ba5b0df72916b9394ecb8de75b5` completed production run `32562931908` with governed release lineage, backend readiness, build, Pages deployment, production smoke and durable `revision/path-to-live = success`.
 
-The workflow is therefore live on `main` and applies prospectively to subsequent release-governed PRs. Repository-level required-check enforcement remains a separate hardening action and must not be represented as enabled until independently verified.
+The workflow is therefore live on `main` and correctly evaluates each prospective exact PR head.
+
+## Recovery 4 incident and hardening
+
+PR #139 showed the remaining gap. Its exact head `8a514a91b41a36da24c0606b000143d74d62e1df` passed Revision CI #871, but `revision/founder-approval` remained `pending` and the PR conversation contained no exact machine-readable Founder marker. The status gate therefore identified the PR as not ready, yet the merge still entered `main` as `22c6d40295cbeb012b12895538318e3601f62ab9`.
+
+The production release verifier then failed closed, and later PR #149 and PR #138 inherited the broken release lineage. PR #138 itself had correctly satisfied its own exact-head CI, explicit Founder approval, exact marker and successful Founder status before merge; its production run still stopped while traversing the older PR #139 ancestor.
+
+ADR-0018 and PR #151 define Recovery 4. The recovery preserves all historical PR #139 evidence unchanged, establishes a prospective release trust root from failed current `main`, and elevates merge-boundary enforcement from a desirable repository hardening step to a required control.
+
+DEF-2026-007 must not close merely because Recovery 4 restores a green Production release. Closure also requires independent evidence that `revision/founder-approval` is enforced at the merge boundary, or that an equivalent fail-closed merge control is live.
