@@ -12,6 +12,7 @@
   justify-content: center;
   gap: 10px;
   padding: 6px 16px;
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--brand-deep-teal) 14%, transparent);
   border-radius: var(--radius-control);
   background: var(--color-action);
@@ -47,11 +48,25 @@
   filter: none;
 }
 
+.runtime-ask-rev > span:last-child,
+.runtime-mobile-ask-rev-dock > span:last-child {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  font-size: var(--type-body-size);
+  line-height: 1;
+  text-align: center;
+}
+
 /*
  * A Primary Teal CTA needs an inverse compact identity treatment. The bars stay
  * crisp white while a restrained surrounding halo and whole-mark breathe make
- * resting REV feel awake and ready. Resting never animates bars independently;
- * semantic bar motion remains reserved for genuine REV activity states.
+ * resting REV feel awake and ready. The full halo is deliberately contained
+ * inside the 40px presence so it remains visible without spilling past the CTA.
+ * Resting never animates bars independently; semantic bar motion remains
+ * reserved for genuine REV activity states.
  */
 .runtime-ask-rev .rev-presence-nav,
 .runtime-mobile-ask-rev-dock .rev-presence-nav {
@@ -60,7 +75,7 @@
 
 .runtime-ask-rev .rev-halo,
 .runtime-mobile-ask-rev-dock .rev-halo {
-  inset: -12%;
+  inset: 4%;
   opacity: .7;
   background: radial-gradient(
     circle at 50% 50%,
@@ -76,6 +91,7 @@
 .runtime-mobile-ask-rev-dock .rev-halo::before,
 .runtime-ask-rev .rev-halo::after,
 .runtime-mobile-ask-rev-dock .rev-halo::after {
+  inset: 0;
   background: radial-gradient(
     circle,
     transparent 42%,
@@ -129,6 +145,10 @@
     padding: 8px 18px;
     border-radius: 18px;
     box-shadow: var(--shadow-floating);
+  }
+
+  .runtime-mobile-ask-rev-dock > span:last-child {
+    font-size: var(--type-body-l-size);
   }
 
   .runtime-mobile-ask-rev-dock:focus-visible {

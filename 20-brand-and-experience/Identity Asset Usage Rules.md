@@ -4,13 +4,13 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.2"
+version: "1.3"
 owner: "Founder"
 effective_date: "2026-08-23"
 last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
-source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "app icon framing", "favicon treatment", "identity asset safe areas"]
+source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
 depends_on: ["Revision Brand System"]
 supersedes: null
 ---
@@ -143,6 +143,7 @@ On **Primary Teal or another saturated brand-filled control surface where the no
 - use a light neutral treatment for the three bars, with **Neutral 0 / `#FFFFFF`** as the canonical product-control implementation;
 - keep the surrounding action label on its normal governed foreground token, including Graphite Ink on Primary Teal where required for text contrast;
 - retain a restrained soft halo when the control represents persistent REV presence, keeping that halo around the mark rather than allowing bloom to soften the bar edges;
+- at compact control scale, keep the **entire visible halo inside the control surface** so the Living E reads as an intentional contained presence rather than glow leaking beyond the control boundary;
 - simplify halo detail only where the available size genuinely cannot retain a crisp three-bar mark;
 - do not add neon bloom, outline, gradient, shadow or decorative effects merely to manufacture contrast; and
 - return to the normal Living E treatment on surfaces where the canonical Primary Teal bars remain clearly separated from the background.
@@ -159,10 +160,13 @@ The control must use:
 - the same explicit `Ask REV` label;
 - the inverse-on-brand Living E defined above;
 - a restrained visible halo plus the approved low-amplitude Resting behaviour while REV is available but not actively processing;
+- the complete compact halo contained inside the CTA boundary at every animation point;
+- the Living E and `Ask REV` label vertically centred to the same control midpoint, with the pair centred as one visual group rather than relying on text baseline alignment;
+- a stronger responsive label size on tablet/mobile where the larger persistent dock requires it, without changing the wording or creating a different CTA identity;
 - the same underlying identity geometry and visual grammar at every breakpoint; and
 - responsive dimensions, placement and safe-area spacing appropriate to desktop rail, tablet and mobile layouts.
 
-Breakpoint changes may resize or reposition the CTA, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the bars must stay crisp and recognition-critical while the halo and whole-mark movement provide the sense that REV is awake and ready.
+Breakpoint changes may resize or reposition the CTA and may increase the label type scale for the larger tablet/mobile dock, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the bars must stay crisp and recognition-critical while the halo and whole-mark movement provide the sense that REV is awake and ready.
 
 ## Prohibited treatments
 
@@ -171,6 +175,7 @@ Do not:
 - change the spacing between the three E bars;
 - replace the rounded bar ends with square ends;
 - recolour the bars with semantic Success, Warning or Error colours;
+- allow a compact product-control halo to bleed beyond its owning CTA surface;
 - add gradients, heavy neon effects, particles, text or decorative symbols that compete with the Living E;
 - animate individual bars during Resting in a way that implies listening, thinking or processing;
 - put the full `REVISION` wordmark inside the app icon;
@@ -179,4 +184,4 @@ Do not:
 
 ## Documentation impact
 
-Version 1.2 retains the v1.1 inverse-on-brand Living E and responsive Ask REV CTA, but replaces the temporary no-halo compact treatment with a governed **living Resting presence**: visible soft halo, slow ambient breathing and optional low-amplitude whole-mark movement without semantic bar animation. Production implementation and technical documentation must distinguish this ambient Resting behaviour from genuine Listening, Thinking and Responding states. The app-icon and favicon rules remain unchanged.
+Version 1.3 retains the v1.2 living Resting presence and inverse-on-brand Living E, and tightens the persistent Ask REV CTA finish: the complete compact glow must remain inside the CTA boundary, the Living E and label share one centred vertical midpoint, and the tablet/mobile dock may use a stronger responsive label size while remaining the same CTA identity. The app-icon, favicon and semantic REV-state rules remain unchanged.

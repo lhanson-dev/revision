@@ -93,7 +93,7 @@ async function seedSession(page: Page) {
   })
 }
 
-test('Ask REV uses one crisp living high-contrast CTA treatment across breakpoints', async ({ page }) => {
+test('Ask REV uses one contained, centred living high-contrast CTA across breakpoints', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey CTA,\s*what shall we do today\?/ })).toBeVisible()
@@ -112,29 +112,57 @@ test('Ask REV uses one crisp living high-contrast CTA treatment across breakpoin
 
   const appearance = await askRev.evaluate((element) => {
     const control = getComputedStyle(element)
+    const controlRect = element.getBoundingClientRect()
     const presence = element.querySelector('.rev-presence-nav')
     const bar = element.querySelector('.rev-e-bar')
     const halo = element.querySelector('.rev-halo')
     const mark = element.querySelector('.rev-living-e')
+    const label = element.querySelector(':scope > span:last-child')
     const presenceStyle = presence ? getComputedStyle(presence) : null
     const barStyle = bar ? getComputedStyle(bar) : null
     const haloStyle = halo ? getComputedStyle(halo) : null
+    const haloBeforeStyle = halo ? getComputedStyle(halo, '::before') : null
+    const haloAfterStyle = halo ? getComputedStyle(halo, '::after') : null
     const markStyle = mark ? getComputedStyle(mark) : null
+    const labelStyle = label ? getComputedStyle(label) : null
+    const presenceRect = presence?.getBoundingClientRect()
+    const haloRect = halo?.getBoundingClientRect()
+    const labelRect = label?.getBoundingClientRect()
+    const groupLeft = presenceRect && labelRect ? Math.min(presenceRect.left, labelRect.left) : 0
+    const groupRight = presenceRect && labelRect ? Math.max(presenceRect.right, labelRect.right) : 0
+    const groupCenter = (groupLeft + groupRight) / 2
     return {
       background: control.backgroundColor,
       color: control.color,
       minHeight: Number.parseFloat(control.minHeight),
       borderRadius: control.borderRadius,
       backdropFilter: control.backdropFilter,
+      overflow: control.overflow,
       presenceWidth: presenceStyle?.width ?? '',
       barFill: barStyle?.fill ?? '',
       haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
       haloAnimation: haloStyle?.animationName ?? '',
       haloDuration: haloStyle?.animationDuration ?? '',
       haloIterations: haloStyle?.animationIterationCount ?? '',
+      haloBeforeTop: haloBeforeStyle?.top ?? '',
+      haloAfterTop: haloAfterStyle?.top ?? '',
       markAnimation: markStyle?.animationName ?? '',
       markDuration: markStyle?.animationDuration ?? '',
       markIterations: markStyle?.animationIterationCount ?? '',
+      labelFontSize: labelStyle?.fontSize ?? '',
+      labelHeight: labelRect?.height ?? 0,
+      verticalCenterDelta: presenceRect && labelRect
+        ? Math.abs((presenceRect.top + presenceRect.height / 2) - (labelRect.top + labelRect.height / 2))
+        : Number.POSITIVE_INFINITY,
+      groupCenterDelta: presenceRect && labelRect
+        ? Math.abs(groupCenter - (controlRect.left + controlRect.width / 2))
+        : Number.POSITIVE_INFINITY,
+      haloContained: haloRect
+        ? haloRect.top >= controlRect.top - 0.5
+          && haloRect.right <= controlRect.right + 0.5
+          && haloRect.bottom <= controlRect.bottom + 0.5
+          && haloRect.left >= controlRect.left - 0.5
+        : false,
     }
   })
 
@@ -145,18 +173,27 @@ test('Ask REV uses one crisp living high-contrast CTA treatment across breakpoin
   expect(appearance.haloAnimation).toBe('revCtaRestingBreathe')
   expect(appearance.haloDuration).toBe('5.8s')
   expect(appearance.haloIterations).toBe('infinite')
+  expect(appearance.haloBeforeTop).toBe('0px')
+  expect(appearance.haloAfterTop).toBe('0px')
   expect(appearance.markAnimation).toBe('revCtaRestingMark')
   expect(appearance.markDuration).toBe('5.8s')
   expect(appearance.markIterations).toBe('infinite')
   expect(appearance.backdropFilter).toBe('none')
+  expect(appearance.overflow).toBe('hidden')
   expect(appearance.presenceWidth).toBe('40px')
+  expect(appearance.haloContained).toBe(true)
+  expect(appearance.labelHeight).toBe(40)
+  expect(appearance.verticalCenterDelta).toBeLessThanOrEqual(0.5)
+  expect(appearance.groupCenterDelta).toBeLessThanOrEqual(1)
 
   if (isResponsiveLayout(page)) {
     expect(appearance.minHeight).toBeGreaterThanOrEqual(58)
     expect(appearance.borderRadius).toBe('18px')
+    expect(appearance.labelFontSize).toBe('18px')
   } else {
     expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
     expect(appearance.borderRadius).toBe('14px')
+    expect(appearance.labelFontSize).toBe('16px')
   }
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
