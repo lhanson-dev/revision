@@ -150,6 +150,22 @@ Shared-syllabus courses aggregate evidence across their paper/module identities 
 
 The code-driven catalogue means `course_id` is an application-level reference rather than a database foreign key to a course table. Runtime and assurance therefore validate persisted course IDs against the published catalogue.
 
+## Path-to-live environment topology
+
+Revision keeps one canonical source repository and one canonical integrated product state while adding two non-production review environments with different jobs:
+
+- **Prototype** — disposable concept work derived from current `main`, using synthetic/demo data to resolve experience uncertainty before production implementation;
+- **Staging** — the exact final current-main-integrated implementation candidate after required assurance, used for browser validation before Founder production approval; and
+- **Production** — the live product deployed from Founder-approved `main` only.
+
+The approved target hosting boundary is `lhanson-dev/revision` as the sole source/governance repository plus `lhanson-dev/revision-nonprod` as generated/static hosting space for Prototype and Staging only. The non-production repository must not become an independent source codebase, product authority or development branch model.
+
+Prototype artifacts are not promoted into Staging. Once a concept is agreed, the real change is implemented in a governed PR from the then-current `main`; Staging is then rebuilt from the exact final integrated PR candidate.
+
+The non-production hosting repository and workflows are not yet implemented. Until they are introduced by follow-on governed PRs, the existing Production deployment remains the only operational deployment path.
+
+See `docs/technical/Path to Live Environments.md` and `decisions/ADR-0017-prototype-staging-production-path-to-live.md` for the detailed target and rationale.
+
 ## Production deployment
 - GitHub Pages remains the current production host while Revision proves the product.
 - `main` is the production source of truth, but Pages publishes the **built Vite artifact**, not raw TypeScript/source files from the repository tree.
