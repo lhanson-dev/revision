@@ -82,14 +82,6 @@ jobs:
       - name: Responsive browser assurance
         timeout-minutes: 10
         run: npm run test:e2e
-      - name: Upload design acceptance captures
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: design-acceptance-captures-${{ github.run_id }}
-          path: design-captures
-          if-no-files-found: ignore
-          retention-days: 7
 
   database-assurance:
     name: Database, RLS and protected service assurance
