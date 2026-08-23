@@ -227,6 +227,35 @@
   color: var(--color-inverse-action-text);
 }
 
+.planner-runtime .section-choice {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.planner-runtime .section-choice strong {
+  color: var(--color-text);
+}
+
+.planner-runtime .section-choice > span:last-child {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .section-choice .section-icon {
+  background: var(--color-surface-soft);
+  color: var(--color-accent-text);
+}
+
+.planner-runtime .evidence-dot {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+.planner-runtime .evidence-dot.has-evidence {
+  border-color: var(--brand-primary-teal);
+  background: var(--brand-primary-teal);
+}
+
 .planner-runtime .topic-list-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
