@@ -126,7 +126,9 @@
     flex-direction: column;
     overflow: auto;
     padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom));
+    border: 0;
     border-right: 1px solid var(--color-border);
+    border-radius: 0;
     background: var(--color-surface-elevated);
     color: var(--color-text);
     box-shadow: var(--shadow-overlay);

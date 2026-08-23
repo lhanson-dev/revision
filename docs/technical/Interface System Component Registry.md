@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 implementation reference; B7 shell icon ownership consolidation in progress  
+**Status:** B2.5 reusable foundation live; B7 overlay/focus ownership consolidation in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -19,12 +19,15 @@ Feature code should normally import shared UI from:
 import {
   BrandAsset,
   Button,
+  DrawerShell,
   EmptyState,
   Icon,
   IconButton,
   LoadingState,
   Menu,
   MenuItem,
+  ModalShell,
+  OverlayBackdrop,
   PageHeader,
   SelectField,
   Status,
@@ -49,12 +52,32 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `Status` | Semantic feedback | Success, Warning, Error, Information | decorative coloured callouts; status without visible semantic text |
 | `EmptyState` | Truthful absence / next-step support | title, description, optional action | manufactured upgrade friction or generic filler |
 | `LoadingState` | Bounded loading feedback | custom loading text | hiding long-running work without state explanation |
-| `ModalShell` | Modal dialog frame | labelled/labelled-by dialog | page navigation or ordinary content grouping |
-| `DrawerShell` | Responsive drawer frame | labelled/labelled-by dialog | desktop sidebar composition |
+| `ModalShell` | Modal dialog interaction/surface frame | label or labelled-by; `onDismiss`; optional initial/return-focus selectors | page navigation or ordinary content grouping |
+| `DrawerShell` | Responsive/contextual drawer interaction/surface frame | label or labelled-by; `onDismiss`; optional initial/return-focus selectors | persistent desktop sidebar composition |
+| `OverlayBackdrop` | Pointer-dismiss backdrop paired with a modal/drawer | accessible label; consumer-owned click dismissal | keyboard focus target or replacement for the dialog shell |
 | `PopoverShell` | Compact floating contextual surface | labelled/labelled-by | full task flows that need a modal/page |
 | `Menu` / `MenuItem` | Recurring menu/progressive disclosure | current-page state | dense unrelated button groups |
 | `Icon` | Controlled rounded-line product icon | inline/compact/standard/large | Living E identity, emoji controls or page-local icon libraries |
 | `BrandAsset` | Canonical Revision identity asset selection | wordmark, Living E resting, Living E nav | redrawing or approximating identity marks |
+
+## Shared modal/drawer interaction contract
+
+`ModalShell` and `DrawerShell` own the reusable keyboard/focus behaviour for modal work. Consumers provide placement/composition and, where necessary, selectors for the most useful initial and stable return-focus targets.
+
+When mounted, the shared contract:
+
+- moves initial focus inside the dialog;
+- contains forward and reverse `Tab` navigation;
+- redirects escaped programmatic focus back into the active dialog;
+- makes background branches `inert`;
+- locks body scrolling;
+- invokes `onDismiss` for `Escape` where the consumer allows dismissal;
+- restores focus after close, including responsive trigger replacement through `returnFocusSelector`; and
+- respects active-dialog stacking so one closing overlay cannot steal focus from another newly opened overlay.
+
+Feature code must not add a second focus trap, body-scroll lock or Escape listener around a shared modal/drawer. `OverlayBackdrop` is deliberately outside keyboard tab order; keyboard dismissal belongs to the shell contract.
+
+The shared shells do not own screen placement. A feature may compose a centred modal, edge drawer or contextual panel through its feature CSS while preserving the common interaction contract.
 
 ## Surface selection
 
@@ -104,11 +127,13 @@ If a recurring icon is missing, add it to the registry and assurance rather than
 
 ### B7 learner-shell ownership
 
-The canonical `PlannerRuntime` shell consumes the public `Icon` registry for recurring learner navigation and account jobs rather than maintaining a shell-local SVG family. The controlled registry includes the shell jobs for Home, Plan, Progress, Courses, Profile/user, Settings, Admin, Upgrade plan and Log out.
+The canonical `PlannerRuntime` shell consumes the public `Icon` registry for recurring learner navigation and account jobs rather than maintaining a shell-local SVG family. The controlled registry includes the shell jobs for Home, Plan, Progress, Courses, Profile/user, Settings, Admin, Upgrade plan, Log out, close and chevron-right controls.
 
-The shell may retain composition-specific sizing through its `nav-icon` class, but the drawing, stroke language and reusable icon identity are owned centrally by `src/app/ui/Icon.tsx`.
+The shell may retain composition-specific sizing through its `nav-icon` or overlay classes, but reusable drawing, stroke language and control anatomy are centrally owned.
 
-This B7 increment addresses recurring shell navigation/account icons only. The shell's local REV wordmark reconstruction, text close glyphs and other recurring control glyphs remain separate B7 ownership work and are not silently treated as resolved by the icon migration.
+B7.3 additionally moves Ask REV and the mobile navigation drawer onto `DrawerShell`/`OverlayBackdrop`, removes their local focus/scroll/Escape ownership, and replaces their raw close/chevron glyphs with controlled `Icon`/`IconButton` treatments. `AccountModal` and Exam Pause/Stop consume the same modal focus contract so modal behaviour is no longer fragmented by feature.
+
+The shell-local `RevWordmark()` reconstruction and any remaining copied common control anatomy/glyphs are still separate B7.4 work. B7.3 must not be treated as closing those items.
 
 ## Canonical identity assets
 
@@ -161,6 +186,8 @@ B2.5 is protected by:
 - the normal risk-classified Revision CI and path-to-live controls.
 
 B7 shell-icon ownership additionally has a static fail-closed contract in `scripts/assurance/b7-shell-icon-ownership.test.mjs` that prevents the canonical shell from reintroducing its local SVG icon family and verifies the required shell jobs remain registered centrally.
+
+B7.3 overlay/focus ownership is additionally protected by `tests/e2e/overlay-focus.spec.ts`, which exercises initial focus, Tab/Shift+Tab containment, Escape, inert background isolation, focus return and exam-interruption continuity across the configured phone/tablet/desktop projects.
 
 ## Extension rule
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { ModalShell } from './ui'
 
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 type Marks = Record<AoKey, number>
@@ -82,13 +83,6 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     }, 1000)
     return () => window.clearInterval(interval)
   }, [started, finishedWriting, sessionOverlay])
-
-  useEffect(() => {
-    if (!started || !sessionOverlay) return
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = previousOverflow }
-  }, [started, sessionOverlay])
 
   const totals = useMemo(() => {
     const ao = Object.fromEntries(aoKeys.map((key) => [key, { awarded: 0, available: 0 }])) as ExamResult['ao']
@@ -380,27 +374,27 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
       </section>
 
       {sessionOverlay === 'paused' && (
-        <div className="exam-interruption" role="dialog" aria-modal="true" aria-labelledby="exam-paused-title">
-          <div className="exam-interruption-card exam-pause-card">
+        <div className="exam-interruption">
+          <ModalShell className="exam-interruption-card exam-pause-card" labelledBy="exam-paused-title" onDismiss={resumeExam} initialFocusSelector=".exam-resume-button">
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
-            <button className="exam-resume-button" type="button" autoFocus onClick={resumeExam}>▶<span>Continue exam</span></button>
-          </div>
+            <button className="exam-resume-button" type="button" onClick={resumeExam}>▶<span>Continue exam</span></button>
+          </ModalShell>
         </div>
       )}
 
       {sessionOverlay === 'stop-confirm' && (
-        <div className="exam-interruption" role="dialog" aria-modal="true" aria-labelledby="stop-exam-title">
-          <div className="exam-interruption-card">
+        <div className="exam-interruption">
+          <ModalShell className="exam-interruption-card" labelledBy="stop-exam-title" onDismiss={resumeExam} initialFocusSelector=".exam-confirm-actions .primary">
             <p className="eyebrow">Stop exam?</p>
             <h2 id="stop-exam-title">Are you sure?</h2>
             <p>Stopping will end this attempt and discard the answers from this unsaved exam.</p>
             <div className="exam-confirm-actions">
               <button className="danger" type="button" onClick={stopExam}>Yes, stop exam</button>
-              <button className="primary" type="button" autoFocus onClick={resumeExam}>Continue exam</button>
+              <button className="primary" type="button" onClick={resumeExam}>Continue exam</button>
             </div>
-          </div>
+          </ModalShell>
         </div>
       )}
     </div>

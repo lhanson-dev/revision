@@ -139,8 +139,9 @@
   line-height: var(--type-body-s-line);
 }
 
-.ui-modal-shell,
-.ui-drawer-shell,
+/* Overlay shells intentionally do not own placement. Modal/drawer consumers keep
+ * feature or channel composition while the shared shell owns interaction and
+ * surface semantics. Popovers retain relative positioning for local anchoring. */
 .ui-popover-shell {
   position: relative;
 }
