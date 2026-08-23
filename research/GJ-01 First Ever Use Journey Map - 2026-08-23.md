@@ -34,15 +34,17 @@ This journey does not maintain a separate internal `learner` label for the same 
 
 ## Authority impact
 
-Current active `Authentication Experience.md` defines the default new-user path as Google or first name + email + password → Create account and then continuing into the current study application. It does not currently require a post-registration Student / Parent / Teacher selector and uses older `learner` terminology.
+The previously active `Authentication Experience.md` v0.2 defined account creation but did not require a post-registration Student / Parent / Teacher selector and used older `learner` terminology.
 
-The Founder decisions on 23 August 2026 introduce proposed product-authority changes:
+The Founder decisions on 23 August 2026 establish the intended product direction:
 
-> After registration, a new account must establish whether the user is a Student, Parent or Teacher so Revision can determine the correct post-registration experience. Student is the only complete viable product experience initially.
+> After registration, a new account must establish whether the user is a Student, Parent or Teacher so Revision can determine the correct post-registration experience.
+
+> Student is the only enabled initial experience. Parent and Teacher remain visible but unavailable and are clearly marked `Coming soon`.
 
 > Student is the canonical term for the Revision user of the study product. Revision should not use `learner` internally and `student` externally for the same entity.
 
-This analysis records the intended journey but does not itself amend normative authority. The authority changes must be promoted before implementation.
+This analysis remains non-normative. The accompanying governed authority change must be approved and merged before implementation relies on it.
 
 # Proposed happy-path screen journey
 
@@ -77,19 +79,23 @@ Selecting Student:
 2. routes directly into first-course setup; and
 3. does not ask unnecessary additional profile questions.
 
-### Parent — visible but not yet a complete product experience
+### Parent — visible, unavailable, Coming soon
 
-Parent should be visible so the product architecture and user expectation recognise that Revision is intended to support parents in future.
+Parent remains visible so the product architecture and user expectation recognise that Revision is intended to support parents in future.
 
-The initial treatment must be explicit that the Parent experience is not currently available. It must not silently route a Parent into a Student account or imply that selecting Parent grants Student-data access.
+For the initial product, Parent is not selectable and is clearly marked **Coming soon**. It must not silently route a Parent into a Student account or imply that Parent functionality or Student-data access currently exists.
 
-Exact launch treatment — disabled option, `Coming soon` state, or a bounded registered holding experience — should be decided before implementation.
+### Teacher — visible, unavailable, Coming soon
 
-### Teacher — visible but not yet a complete product experience
+Teacher likewise remains visible as a future experience but is not selectable in the initial product and is clearly marked **Coming soon**.
 
-Teacher should likewise be visible as a future experience but must not imply that classroom/school functionality currently exists.
+The presentation should not imply that classroom, school, class-management or Student-data permissions currently exist.
 
-Exact launch treatment should be consistent with Parent unless a material product reason justifies a different treatment.
+### Unavailable-state interaction
+
+Parent and Teacher should remain clearly visible as first-class future Revision experiences while being unmistakably unavailable.
+
+The unavailable state must not rely on colour alone. It should be semantically non-selectable/disabled and accessible to keyboard and assistive-technology users.
 
 ## Recommended interaction principle
 
@@ -105,7 +111,7 @@ Discovery
 Create account
    ↓
 Choose experience
-Student | Parent (not yet available) | Teacher (not yet available)
+Student | Parent — Coming soon | Teacher — Coming soon
    ↓
 Student
    ↓
@@ -138,13 +144,13 @@ Reason: the account must establish which product experience it should enter inst
 
 **Decision:** Yes.
 
-Parent and Teacher remain visible future product directions, but the initial journey continues only through Student.
+Parent and Teacher remain visible future product directions, but only Student can be selected in the initial product.
 
 ## D3 — Experience selection is not a permission model
 
 **Decision:** Yes.
 
-The selector establishes experience context. Payer, linked-supporter, Student-data and future teacher permissions continue to require their own governed relationship/authorization models.
+The selector establishes experience context. Payer, linked-supporter, Student-data and future Teacher permissions continue to require their own governed relationship/authorization models.
 
 ## D4 — Student is the canonical product term
 
@@ -163,6 +169,12 @@ It provides enough early evidence to demonstrate Revision's `understand → guid
 **Working recommendation:** Yes.
 
 Additional courses can be added later. First use should not become full programme administration.
+
+## D7 — Parent and Teacher launch treatment
+
+**Decision:** Show both options, mark each **Coming soon**, and do not allow either to be selected initially.
+
+Reason: Revision should make its three core experience types explicit from the start without pretending unfinished Parent or Teacher products are available.
 
 # What this journey deliberately does not ask during first use
 
@@ -197,7 +209,10 @@ Only after that content/action contract is agreed should the journey be turned i
 Once implemented, GJ-01 should become a critical browser regression journey mapped to NS-01–NS-04. Assurance should prove at minimum that:
 
 - new account creation can continue into experience selection;
-- Student routes to Student onboarding;
+- Student, Parent and Teacher are all visible on the selection screen;
+- Student is selectable and routes to Student onboarding;
+- Parent and Teacher are visibly marked `Coming soon` and cannot be selected;
+- unavailable-state meaning is accessible and does not rely on colour alone;
 - experience context persists rather than being re-asked on every session;
 - course identity is established correctly;
 - the Student can reach and complete the starting activity;
@@ -206,10 +221,8 @@ Once implemented, GJ-01 should become a critical browser regression journey mapp
 - context is preserved into Home/next recommendation; and
 - the critical journey remains usable on representative phone, tablet and desktop viewports with the required accessibility baseline.
 
-Parent/Teacher unavailable-state assurance belongs to the later alternatives/recovery pass until those experiences become active product journeys.
-
 # Documentation impact
 
-This is analysis only. No production implementation or feature lifecycle state changes.
+This journey file remains analysis only and does not itself grant implementation approval.
 
-Before implementation, the post-registration experience-selection and Student terminology decisions require governed updates to relevant normative product/experience authority, including `Authentication Experience.md`, `Target Audience and Personas.md`, `Core User Journeys.md`, Information Architecture/navigation, FI-002 account/supporter authority and future teacher scope. Implementation would then need matching technical documentation, persistence/routing rules, domain terminology and assurance coverage.
+The immediate normative dependency is the governed Authentication Experience update defining Student / Parent / Teacher routing and the Parent/Teacher `Coming soon` state. Broader Student terminology alignment across remaining product/experience authority, technical documentation, persistence/routing rules, analytics and assurance remains deliberate follow-up before implementation where those sources govern the same Student entity.
