@@ -4,10 +4,10 @@ document_id: "revision-product-ux-principles"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.4"
+version: "0.5"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-20"
+last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["learner experience principles"]
@@ -21,8 +21,69 @@ Every important learner screen should have a clear hierarchy. The student should
 
 Do not make the learner decode a dense dashboard, deep menu or long introduction before they can start.
 
+## Don't make me think
+Revision should minimise interpretation work that stands between a learner's intent and useful action.
+
+On a material learner screen, the learner should be able to understand within seconds:
+
+- where they are;
+- what this screen is for;
+- what matters most now; and
+- what useful action they can take next.
+
+Do not rely on the learner to infer hierarchy from several equally prominent cards, buttons or metrics. If the intended next action matters, make it visually and verbally obvious.
+
+Clarity does not require removing learner control. A recommended path may be strongly prioritised while legitimate alternatives remain available as secondary actions.
+
+## One screen, one dominant job
+Every material screen should have one dominant product job within its user journey.
+
+Before designing or materially revising a screen, identify:
+
+- the user's immediate goal;
+- the job the screen must perform;
+- the information needed to make the next decision;
+- the primary call to action;
+- legitimate secondary actions; and
+- the success condition and next state.
+
+If several unrelated actions all appear primary, the hierarchy is unresolved.
+
+## Design journeys, not isolated pages
+A screen is part of an end-to-end user journey. Its quality cannot be judged only as a static page.
+
+Experience design must consider:
+
+- how the user arrived;
+- what context Revision already knows;
+- what the user is trying to achieve;
+- what information or decision is required now;
+- what should happen next; and
+- whether the transition preserves momentum and context.
+
+Avoid forcing the learner back through navigation, setup or repeated explanation when Revision can take them directly to the next useful state.
+
+## Consistency without sameness
+Revision should feel like one coherent product without making every screen look structurally identical.
+
+Shared typography, colour roles, spacing, controls, icons, assets, accessibility and interaction patterns come from the approved Interface System. Page composition, information density and visual rhythm should reflect the job of the experience.
+
+For example:
+
+- Home should orient and create momentum;
+- Learn should prioritise reading, explanation and comprehension;
+- Practice should prioritise the task, response and feedback;
+- Plan should prioritise choices and commitments;
+- Progress should prioritise interpretation and next action;
+- Exam Prep and Exam Simulator should feel focused and performance-oriented; and
+- Admin may use higher information density while retaining the same foundations.
+
+Do not create visual variety through local design-system forks. Do not create consistency by turning every experience into the same grid of bordered cards.
+
 ## Explain before asking
 Every section or exercise must briefly explain what it is, why it matters and what the learner is aiming to achieve.
+
+Explanatory copy should not become a barrier before obvious actions. Give the learner the minimum orientation needed to act confidently, then provide deeper explanation progressively where useful.
 
 ## Explain after measuring
 Every result, score, readiness indicator or recommendation must explain in simple language:
@@ -49,6 +110,8 @@ Collect information progressively where possible. Do not ask the student to conf
 
 ## Completion rule
 A learner-facing capability is not complete merely because it functions technically. It is complete only when its purpose, expected outcome, result and next action can be understood without technical knowledge.
+
+A screen is not complete merely because it conforms to visual tokens. It must also perform its intended journey job with clear content hierarchy and an obvious next action.
 
 ## Responsive and mobile-first experience
 Revision is a multi-device learner product. Core learner journeys must be fully usable on mobile phones, tablets and laptop/desktop screens.
@@ -122,3 +185,5 @@ Do not use addictive mechanics, manipulative countdowns, forced sharing or visua
 - Prefer useful guidance over dashboards full of unexplained numbers.
 - Keep secondary detail available without competing with the main action.
 - Avoid experiences that feel childish, institutional or needlessly formal.
+- Optimise journeys for seconds-to-understanding and seconds-to-useful-action.
+- Use the shared design system for coherence, not as a reason to make different product jobs look the same.
