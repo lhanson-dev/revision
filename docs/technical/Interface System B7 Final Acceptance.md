@@ -30,7 +30,9 @@ B7.5 does not create a second runtime, route model, data model, evidence model, 
 
 Its remaining material jobs are moved to their owning semantic/feature layers. In particular, the Practice `REV recommends` Guidance surface is explicitly governed in `interface-learn-practice.css` rather than depending on a final catch-all selector.
 
-Assurance fails closed if the deleted file or runtime import returns.
+Exact-head Revision CI #858 then proved the dependency scan was doing useful work: after the catch-all was removed, Course Overview `.section-choice` and `.evidence-dot` surfaces rendered literal white in Dark mode across phone, tablet and desktop. That was a real retained bridge dependency, not a screenshot-baseline issue. B7.5 moves those roles into `interface-subjects-course.css`, where the B3 course family owns semantic surface, text, icon and evidence-dot theme treatment. The final static acceptance contract now fails closed if that ownership disappears.
+
+Assurance fails closed if the deleted bridge or runtime import returns.
 
 ### Focused Learn / Practice common control ownership
 
@@ -77,7 +79,7 @@ The final catch-all theme bridge is retired. The following loaded sources remain
 | `app.css` | canonical learner screen structural markup still shared by several pre-journey layouts | retain transitional structure; do not use for new foundation values; decompose only with the owning journey refactor |
 | `exam.css` | Exam Prep / ExamSimulator legacy structural markup beneath the B5 semantic layer | retain live structure until exam journey refactor; B5 owns semantic visual contract |
 | `rev-home.css` | Home and REV feature composition | retain as current feature composition; not a compatibility bridge |
-| `hierarchy.css` | shared current page/content hierarchy relationships | retain while live; central tokens remain value authority |
+| `hierarchy.css` | shared current page/content hierarchy relationships | retain while live; central tokens remain value authority; B3 now explicitly overrides live Course Overview semantic roles that previously depended on the retired catch-all |
 | `course-exam.css` | course Exam Prep paper/component composition | retain as current course/exam composition |
 | `content-operations.css` | Content Operations job/form layout | retain Admin feature composition; common controls now use shared components |
 | `admin-operations-responsive.css` | Admin responsive/density layout | retain Admin-specific responsive composition |
@@ -106,7 +108,7 @@ The original `audits/2026-08-23-design-acceptance-review.md` remains historical 
 | DAR-001 / DAR-002 | recurring learner-shell icons moved to controlled registry in B7.2; remaining recurring glyphs consolidated in B7.4 |
 | DAR-003 | Light/Dark breadth protected by semantic rendered sweeps plus the B7.5 screenshot matrix |
 | DAR-004 | B7.5 adds a bounded 18-state durable screenshot regression set |
-| DAR-005 | final `interface-theme-integrity.css` bridge deleted; retained sources inventoried above |
+| DAR-005 | final `interface-theme-integrity.css` bridge deleted; retained sources inventoried above; CI #858 exposed and B7.5 relocated a real Course Overview bridge dependency into the B3 semantic layer |
 | DAR-006 | B7 technical records, registry, operating standard and index reconciled in B7.5 |
 | DAR-007 | authentication uses canonical `BrandAsset` via B7.1 |
 | DAR-008 | shell/account/auth recurring identity, icon and overlay jobs use shared component ownership through B7.1–B7.4 |
@@ -152,7 +154,7 @@ GitHub Actions retains `test-results` and snapshot evidence for inspection. Base
 
 B7.5 adds or extends:
 
-- `scripts/assurance/b7-final-acceptance.test.mjs` — fail-closed final ownership/composition/screenshot-matrix contract;
+- `scripts/assurance/b7-final-acceptance.test.mjs` — fail-closed final ownership/composition/screenshot-matrix contract, including Course Overview semantic theme ownership after bridge retirement;
 - `scripts/assurance/site-theme-integrity.test.mjs` — post-bridge stylesheet classification and bridge-return prevention;
 - `scripts/assurance/interface-system-governance.test.mjs` — post-B7 shared registry/theme/composition rules;
 - `src/app/ui/ui-components.test.tsx` — shared textarea semantics;
