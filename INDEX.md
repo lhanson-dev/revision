@@ -96,6 +96,7 @@ Use this file to find the governing source before substantive work.
 - AI rules and approval boundaries → `70-ai-operating-system/`
 - Product feature definition, measurement and packaging → `80-company-workflows/Feature Definition and Measurement Workflow.md`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
+- Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
 - Minimal Content Operations Admin amendment → `80-company-workflows/Content Operations Admin v0.1 Amendment.md`
@@ -126,8 +127,8 @@ Use this file to find the governing source before substantive work.
 - B6 Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
 - Pre-B7 interface theme integrity checkpoint → `docs/technical/Interface Theme Integrity Pre-B7.md`
 - B7 learner-shell recurring icon consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
-- B7 shared overlay/focus ownership consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
-- B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
+- B7 shared overlay/focus consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
+- B7 canonical identity and recurring glyph consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - B7 final compatibility retirement / visual acceptance → `docs/technical/Interface System B7 Final Acceptance.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
