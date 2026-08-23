@@ -83,6 +83,18 @@ Revision should not force an extra selection when the information already suppli
 
 Only one course is required before first value. Additional courses are added later through normal course management.
 
+### Course-ready composition
+
+The course-ready state should use a clear page hierarchy rather than splitting the screen into two equally weighted panels.
+
+- **`Business is ready.`** is the page-level title and spans the top of the content area.
+- The exact course identity remains immediately visible with the title, for example `AQA A-level Business` and `AQA · 7132`.
+- Beneath the title, the next-step content forms one simple action row.
+- The left side explains **`Now let’s work out where to start.`** and why the short starting check will make the first recommendation more useful.
+- The right side carries the dominant **`Find my starting point`** CTA.
+- On tablet and phone widths, the explanation and CTA may stack vertically, with the CTA remaining prominent and easy to tap.
+- Do not return to an equal split-card composition that makes the course confirmation and next action compete for hierarchy.
+
 ## Starting-check principles
 
 The starting check remains part of the accepted primary happy path.
@@ -147,6 +159,7 @@ The screens should remain visually coherent without becoming identical card grid
 
 - account selection should feel like a deliberate product-routing choice, with compact comparison on phone/tablet rather than oversized cards;
 - course setup should feel focused and progressive;
+- the course-ready state should use one page-level confirmation followed by one obvious next-step row rather than two competing panels;
 - the starting check should prioritise the question and progress through the short task;
 - the recommendation should feel intelligently interpreted rather than analytically dense;
 - Learn should prioritise comprehension and the response/feedback loop; and
