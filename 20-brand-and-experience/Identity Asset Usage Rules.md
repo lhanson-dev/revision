@@ -4,13 +4,13 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.1"
+version: "1.2"
 owner: "Founder"
 effective_date: "2026-08-23"
 last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
-source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Ask REV CTA identity treatment", "app icon framing", "favicon treatment", "identity asset safe areas"]
+source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "app icon framing", "favicon treatment", "identity asset safe areas"]
 depends_on: ["Revision Brand System"]
 supersedes: null
 ---
@@ -69,6 +69,22 @@ Keep at least **1e of clear space outside the visible outer halo** on all sides.
 
 The halo is part of the identity treatment. It may be simplified at compact sizes, but the three horizontal bars must remain visually centred and recognisable.
 
+## Resting presence
+
+**Resting is a living visual state, not a dormant logo treatment.** Where REV is presented as an interactive presence — including the learner Home hero, the persistent Ask REV CTA and an idle REV conversation presence — it should look calm, available and ready to be interacted with even when the learner has not yet acted.
+
+The approved resting treatment is:
+
+- a soft atmospheric halo that remains visibly present around the Living E;
+- a slow, low-amplitude looping halo breathe;
+- optional very small whole-mark drift or scale movement where the size and context can support it;
+- the three bars moving only as one mark in Resting, preserving their canonical geometry and spacing; and
+- a static but still visible halo when reduced-motion preferences are enabled.
+
+Resting motion is ambient identity behaviour only. It must **not** mimic Listening, Thinking or Responding, must not imply that a model request or background task is running, and must not behave like a progress indicator. Independent bar equalisation, sequencing or processing-style movement is reserved for genuine semantic REV states.
+
+The resting presence should be noticeable enough that REV feels awake, but never becomes a neon pulse, attention alarm or continuous distraction.
+
 ## Primary app icon framing
 
 The canonical Revision app icon uses the Living E, not the full wordmark.
@@ -126,8 +142,9 @@ On **Primary Teal or another saturated brand-filled control surface where the no
 - preserve the canonical three-bar geometry and spacing exactly;
 - use a light neutral treatment for the three bars, with **Neutral 0 / `#FFFFFF`** as the canonical product-control implementation;
 - keep the surrounding action label on its normal governed foreground token, including Graphite Ink on Primary Teal where required for text contrast;
-- simplify or remove the soft halo at compact control sizes when the halo reduces edge clarity or makes the mark appear blurred;
-- do not add glow, outline, gradient, shadow or decorative effects merely to manufacture contrast; and
+- retain a restrained soft halo when the control represents persistent REV presence, keeping that halo around the mark rather than allowing bloom to soften the bar edges;
+- simplify halo detail only where the available size genuinely cannot retain a crisp three-bar mark;
+- do not add neon bloom, outline, gradient, shadow or decorative effects merely to manufacture contrast; and
 - return to the normal Living E treatment on surfaces where the canonical Primary Teal bars remain clearly separated from the background.
 
 The inverse treatment is a colour/surface adaptation of the same Living E, not a new logo or mascot.
@@ -141,10 +158,11 @@ The control must use:
 - the same Primary Teal CTA surface family;
 - the same explicit `Ask REV` label;
 - the inverse-on-brand Living E defined above;
+- a restrained visible halo plus the approved low-amplitude Resting behaviour while REV is available but not actively processing;
 - the same underlying identity geometry and visual grammar at every breakpoint; and
 - responsive dimensions, placement and safe-area spacing appropriate to desktop rail, tablet and mobile layouts.
 
-Breakpoint changes may resize or reposition the CTA, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the three bars take priority over halo detail so the mark remains crisp and immediately recognisable.
+Breakpoint changes may resize or reposition the CTA, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the bars must stay crisp and recognition-critical while the halo and whole-mark movement provide the sense that REV is awake and ready.
 
 ## Prohibited treatments
 
@@ -153,11 +171,12 @@ Do not:
 - change the spacing between the three E bars;
 - replace the rounded bar ends with square ends;
 - recolour the bars with semantic Success, Warning or Error colours;
-- add gradients, neon effects, particles, text or decorative symbols that compete with the Living E;
+- add gradients, heavy neon effects, particles, text or decorative symbols that compete with the Living E;
+- animate individual bars during Resting in a way that implies listening, thinking or processing;
 - put the full `REVISION` wordmark inside the app icon;
 - create hand-tuned icon sizes by redrawing the mark; or
 - use a rounded-corner master that risks double-masking on platforms.
 
 ## Documentation impact
 
-Version 1.1 adds the surface-adaptive inverse Living E and establishes Ask REV as one responsive CTA identity pattern across desktop, tablet and mobile. Production implementation and technical documentation must use this rule rather than defining local breakpoint-specific REV treatments. The app-icon and favicon rules remain unchanged.
+Version 1.2 retains the v1.1 inverse-on-brand Living E and responsive Ask REV CTA, but replaces the temporary no-halo compact treatment with a governed **living Resting presence**: visible soft halo, slow ambient breathing and optional low-amplitude whole-mark movement without semantic bar animation. Production implementation and technical documentation must distinguish this ambient Resting behaviour from genuine Listening, Thinking and Responding states. The app-icon and favicon rules remain unchanged.

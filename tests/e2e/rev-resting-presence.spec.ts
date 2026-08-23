@@ -2,12 +2,8 @@ import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
-const userId = '00000000-0000-4000-8000-000000000128'
+const userId = '00000000-0000-4000-8000-000000000129'
 const courseId = 'aqa:aqa-as:7131'
-
-function isResponsiveLayout(page: Page) {
-  return (page.viewportSize()?.width ?? 0) <= 960
-}
 
 async function seedSession(page: Page) {
   await page.addInitScript(({ key, id }) => {
@@ -24,14 +20,14 @@ async function seedSession(page: Page) {
         id,
         aud: 'authenticated',
         role: 'authenticated',
-        email: 'ask-rev-cta-test@revision.invalid',
-        email_confirmed_at: '2026-08-23T07:30:00.000Z',
+        email: 'rev-resting-presence@revision.invalid',
+        email_confirmed_at: '2026-08-23T09:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
-        user_metadata: { first_name: 'CTA' },
+        user_metadata: { first_name: 'Presence' },
         identities: [],
-        created_at: '2026-08-23T07:30:00.000Z',
-        updated_at: '2026-08-23T07:30:00.000Z',
+        created_at: '2026-08-23T09:00:00.000Z',
+        updated_at: '2026-08-23T09:00:00.000Z',
       },
     }))
   }, { key: storageKey, id: userId })
@@ -44,14 +40,14 @@ async function seedSession(page: Page) {
         id: userId,
         aud: 'authenticated',
         role: 'authenticated',
-        email: 'ask-rev-cta-test@revision.invalid',
-        email_confirmed_at: '2026-08-23T07:30:00.000Z',
+        email: 'rev-resting-presence@revision.invalid',
+        email_confirmed_at: '2026-08-23T09:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
-        user_metadata: { first_name: 'CTA' },
+        user_metadata: { first_name: 'Presence' },
         identities: [],
-        created_at: '2026-08-23T07:30:00.000Z',
-        updated_at: '2026-08-23T07:30:00.000Z',
+        created_at: '2026-08-23T09:00:00.000Z',
+        updated_at: '2026-08-23T09:00:00.000Z',
       }),
     })
   })
@@ -68,7 +64,7 @@ async function seedSession(page: Page) {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify([{ user_id: userId, course_id: courseId, created_at: '2026-08-23T07:30:00.000Z' }]),
+      body: JSON.stringify([{ user_id: userId, course_id: courseId, created_at: '2026-08-23T09:00:00.000Z' }]),
     })
   })
 
@@ -93,85 +89,73 @@ async function seedSession(page: Page) {
   })
 }
 
-test('Ask REV uses one crisp living high-contrast CTA treatment across breakpoints', async ({ page }) => {
+test('Home REV visibly breathes while resting without pretending to process', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey CTA,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Presence,\s*what shall we do today\?/ })).toBeVisible()
 
-  const askRev = page.getByRole('button', { name: 'Ask REV', exact: true })
-  await expect(askRev).toBeVisible()
-  await expect(askRev.locator('.rev-presence-nav')).toHaveCount(1)
-  await expect(askRev.locator('.rev-living-e .rev-e-bar')).toHaveCount(3)
-  await expect(askRev).not.toContainText('✦')
+  const presence = page.locator('.living-home-hero .rev-presence-hero')
+  await expect(presence).toHaveAttribute('data-state', 'resting')
 
-  if (isResponsiveLayout(page)) {
-    await expect(askRev).toHaveClass(/runtime-mobile-ask-rev-dock/)
-  } else {
-    await expect(askRev).toHaveClass(/runtime-ask-rev/)
-  }
-
-  const appearance = await askRev.evaluate((element) => {
-    const control = getComputedStyle(element)
-    const presence = element.querySelector('.rev-presence-nav')
-    const bar = element.querySelector('.rev-e-bar')
+  const resting = await presence.evaluate((element) => {
     const halo = element.querySelector('.rev-halo')
     const mark = element.querySelector('.rev-living-e')
-    const presenceStyle = presence ? getComputedStyle(presence) : null
-    const barStyle = bar ? getComputedStyle(bar) : null
+    const firstBar = element.querySelector('.rev-e-bar-one')
     const haloStyle = halo ? getComputedStyle(halo) : null
     const markStyle = mark ? getComputedStyle(mark) : null
+    const barStyle = firstBar ? getComputedStyle(firstBar) : null
     return {
-      background: control.backgroundColor,
-      color: control.color,
-      minHeight: Number.parseFloat(control.minHeight),
-      borderRadius: control.borderRadius,
-      backdropFilter: control.backdropFilter,
-      presenceWidth: presenceStyle?.width ?? '',
-      barFill: barStyle?.fill ?? '',
-      haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
       haloAnimation: haloStyle?.animationName ?? '',
       haloDuration: haloStyle?.animationDuration ?? '',
       haloIterations: haloStyle?.animationIterationCount ?? '',
+      haloFilter: haloStyle?.filter ?? '',
       markAnimation: markStyle?.animationName ?? '',
       markDuration: markStyle?.animationDuration ?? '',
       markIterations: markStyle?.animationIterationCount ?? '',
+      barAnimation: barStyle?.animationName ?? '',
     }
   })
 
-  expect(appearance.background).toBe('rgb(43, 182, 163)')
-  expect(appearance.color).toBe('rgb(19, 32, 38)')
-  expect(appearance.barFill).toBe('rgb(255, 255, 255)')
-  expect(appearance.haloOpacity).toBeGreaterThan(0.5)
-  expect(appearance.haloAnimation).toBe('revCtaRestingBreathe')
-  expect(appearance.haloDuration).toBe('5.8s')
-  expect(appearance.haloIterations).toBe('infinite')
-  expect(appearance.markAnimation).toBe('revCtaRestingMark')
-  expect(appearance.markDuration).toBe('5.8s')
-  expect(appearance.markIterations).toBe('infinite')
-  expect(appearance.backdropFilter).toBe('none')
-  expect(appearance.presenceWidth).toBe('40px')
+  expect(resting.haloAnimation).toBe('revHomeRestingHalo')
+  expect(resting.haloDuration).toBe('6.4s')
+  expect(resting.haloIterations).toBe('infinite')
+  expect(resting.haloFilter).not.toBe('none')
+  expect(resting.markAnimation).toBe('revHomeRestingMark')
+  expect(resting.markDuration).toBe('6.4s')
+  expect(resting.markIterations).toBe('infinite')
+  expect(resting.barAnimation).toBe('none')
 
-  if (isResponsiveLayout(page)) {
-    expect(appearance.minHeight).toBeGreaterThanOrEqual(58)
-    expect(appearance.borderRadius).toBe('18px')
-  } else {
-    expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
-    expect(appearance.borderRadius).toBe('14px')
-  }
+  const prompt = page.getByLabel('Ask REV anything')
+  await prompt.focus()
+  await expect(presence).toHaveAttribute('data-state', 'listening')
+
+  const listening = await presence.evaluate((element) => {
+    const halo = element.querySelector('.rev-halo')
+    const firstBar = element.querySelector('.rev-e-bar-one')
+    return {
+      haloAnimation: halo ? getComputedStyle(halo).animationName : '',
+      barAnimation: firstBar ? getComputedStyle(firstBar).animationName : '',
+    }
+  })
+  expect(listening.haloAnimation).toBe('revHaloListen')
+  expect(listening.barAnimation).toBe('revListenA')
+
+  await prompt.blur()
+  await expect(presence).toHaveAttribute('data-state', 'resting')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const reducedMotion = await askRev.evaluate((element) => {
+  const reduced = await presence.evaluate((element) => {
     const halo = element.querySelector('.rev-halo')
     const mark = element.querySelector('.rev-living-e')
     const haloStyle = halo ? getComputedStyle(halo) : null
     const markStyle = mark ? getComputedStyle(mark) : null
     return {
-      haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
       haloAnimation: haloStyle?.animationName ?? '',
+      haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
       markAnimation: markStyle?.animationName ?? '',
     }
   })
-  expect(reducedMotion.haloOpacity).toBeGreaterThan(0.5)
-  expect(reducedMotion.haloAnimation).toBe('none')
-  expect(reducedMotion.markAnimation).toBe('none')
+  expect(reduced.haloAnimation).toBe('none')
+  expect(reduced.markAnimation).toBe('none')
+  expect(reduced.haloOpacity).toBeGreaterThan(0.5)
 })

@@ -19,6 +19,7 @@ const semanticLayers = [
   'interface-admin.css',
   'courses.css',
   'ask-rev-cta.css',
+  'rev-resting-presence.css',
   'interface-theme-integrity.css',
 ]
 
