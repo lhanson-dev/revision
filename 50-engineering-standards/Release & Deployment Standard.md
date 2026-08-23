@@ -4,14 +4,14 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.9"
+version: "1.0"
 owner: "Founder"
 effective_date: "2026-08-17"
 last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["CI/CD and deployment", "path-to-live assurance"]
-depends_on: ["ADR-0007", "ADR-0009", "ADR-0017"]
+depends_on: ["ADR-0007", "ADR-0009", "ADR-0017", "ADR-0018"]
 supersedes: null
 ---
 # Release & Deployment Standard
@@ -29,6 +29,7 @@ supersedes: null
 - **A Founder instruction such as `Approve merge PR #X` is the complete human approval action for that proposed production change. Where release lineage requires machine-readable GitHub evidence, the executing agent owns persisting and verifying that evidence before merge. The Founder must not be asked to perform Git bookkeeping.**
 - **Where the release verifier specifies an exact machine-readable approval marker, that exact marker format is part of the release contract. Prose summaries, quoted approvals or alternative approval-record comments are not equivalent evidence.**
 - **Once the trusted `revision/founder-approval` gate is available on `main`, a release-governed PR must not be merged unless that status is `success` for the current exact PR head. The status reports valid CI/approval evidence; it does not create or substitute for Founder approval.**
+- **After Recovery 4, ordinary release-governed merges must not resume until GitHub repository-level enforcement is independently verified to require successful Revision CI and `revision/founder-approval = success` for the current candidate. If the platform cannot provide that hard barrier, a Founder-approved alternative hard enforcement mechanism is required before ordinary merges resume.**
 - **A purely mechanical refresh from newer `main` may retain the existing Founder approval only when the PR delta is demonstrably unchanged, no substantive conflict resolution occurred and fresh required assurance passes. A material change to the PR delta requires renewed Founder approval.**
 - A merge to `main` triggers automated production build/deployment.
 - **Where the frontend depends on separately deployed database or backend capabilities, production deployment must fail closed until an automated backend-readiness gate confirms the required production contract is present.**
@@ -138,7 +139,17 @@ For an ordinary release-governed PR after the gate workflow is live on `main`, m
 
 A head change requires the status to be re-evaluated. An old head's success is never evidence for a new head.
 
-The Recovery 3 PR that introduces this workflow is a bootstrap exception only in the narrow sense that the new default-branch workflow cannot evaluate that same PR before it exists on `main`. Recovery 3 must still satisfy the pre-existing exact-head CI, Founder marker and post-merge release-lineage controls in full.
+Recovery 3 introduced the status workflow. Recovery 4 records that PR #139 was merged while the status correctly remained `pending`, proving that the status alone was not a hard barrier while repository required-check enforcement was off.
+
+### Recovery 4 hard-enforcement hold
+
+After Recovery 4 merges, no ordinary release-governed PR may merge until actual GitHub repository state has been verified to require both the relevant Revision CI check(s) and `revision/founder-approval = success` for the current PR head.
+
+This is a production-control hold, not a recommendation. Workflow files, documentation and a visible status are insufficient evidence of enforcement. The repository setting itself must be verified.
+
+If GitHub cannot provide the required barrier for the current repository plan/ownership model, ordinary merges remain blocked until a different hard enforcement mechanism is explicitly designed, documented and Founder-approved. A return to advisory-only agent discipline is not an acceptable fallback after the fourth recurrence.
+
+The Recovery 4 PR is the narrow exceptional recovery that establishes the new prospective lineage anchor and records this enforcement hold. It still requires successful exact-head CI, explicit Founder approval, exact machine-readable approval evidence, `revision/founder-approval = success`, exact-head merge and full post-merge Production evidence.
 
 ## Continuous delivery improvement
 
@@ -152,16 +163,18 @@ The delivery system itself is subject to continuous improvement.
 
 ## Repository enforcement target
 
-Where GitHub supports the relevant controls, `main` should be protected so that:
+`main` must enforce, through GitHub repository settings or a separately approved hard technical equivalent:
 
 - changes arrive through pull requests;
 - required Revision CI/status checks pass before merge;
-- `revision/founder-approval` is a required status check once the gate is live;
+- `revision/founder-approval` is a required status check;
 - force pushes and deletion are blocked;
 - the governed merge path cannot be silently bypassed; and
 - the merge candidate is integrated with current `main` before acceptance.
 
-If repository-level enforcement is not available for a control, the operating agent must perform the equivalent governed verification explicitly and record the evidence. Repository settings must never be represented as enforcing a check unless that enforcement has actually been verified.
+Repository settings must never be represented as enforcing a check unless that enforcement has actually been verified from GitHub state.
+
+As of the Recovery 4 incident investigation on 23 August 2026, branch metadata reported required-status-check enforcement as `off`, with no required contexts/checks. That state is not compliant for ordinary merges after Recovery 4.
 
 ## Path-to-live evidence chain
 Revision treats path-to-live as a chain of separately evidenced stages rather than one green status:
@@ -173,11 +186,12 @@ Revision treats path-to-live as a chain of separately evidenced stages rather th
 5. **Staging candidate review** — once the Staging workflow is live and required for the change class, deploy the exact final current-main-integrated candidate to Staging with candidate provenance and validate it in the browser before production approval.
 6. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence and, once available, verifies `revision/founder-approval = success` for the exact head.
 7. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above and re-establish all head-specific evidence, including Staging evidence where required.
-8. **Merge** — the approved and validated change is merged into `main`.
-9. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
-10. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
-11. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
-12. **Operational observation** — production availability/health evidence remains current after deployment.
+8. **Hard merge enforcement** — for ordinary PRs after Recovery 4, repository-level required-check enforcement must be verified active before merge is permitted.
+9. **Merge** — the approved and validated change is merged into `main`.
+10. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
+11. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
+12. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
+13. **Operational observation** — production availability/health evidence remains current after deployment.
 
 Admin may summarise the path as Healthy only when the required current stages are green for the production commit being reported. Missing or stale stage evidence is Unknown; a known failed required stage is Attention needed.
 
