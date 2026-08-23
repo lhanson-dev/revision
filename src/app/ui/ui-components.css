@@ -161,11 +161,11 @@
   visibility: hidden;
 }
 
-.planner-runtime[data-theme="dark"] .ui-brand-asset__image--light {
+[data-theme="dark"] .ui-brand-asset__image--light {
   visibility: hidden;
 }
 
-.planner-runtime[data-theme="dark"] .ui-brand-asset__image--dark {
+[data-theme="dark"] .ui-brand-asset__image--dark {
   visibility: visible;
 }
 
