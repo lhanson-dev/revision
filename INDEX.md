@@ -15,6 +15,7 @@ Use this file to find the governing source before substantive work.
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
 - Security → `50-engineering-standards/Security Standard.md`
 - Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
+- Prototype / Staging / Production path-to-live topology → `docs/technical/Path to Live Environments.md`
 - Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
 - Founder approval pre-merge status gate → `docs/technical/Founder Approval Gate.md`
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
@@ -40,7 +41,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0016-third-release-lineage-recovery-and-founder-approval-gate.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0017-prototype-staging-production-path-to-live.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -108,6 +109,7 @@ Use this file to find the governing source before substantive work.
 
 ## Current implementation and history
 - Current/target implementation documentation → `docs/technical/`
+- Prototype / Staging / Production path-to-live target → `docs/technical/Path to Live Environments.md`
 - Production backend readiness gate → `docs/technical/Production Backend Readiness Gate.md`
 - Founder approval pre-merge status gate → `docs/technical/Founder Approval Gate.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
