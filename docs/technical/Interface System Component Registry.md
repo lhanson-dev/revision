@@ -40,7 +40,7 @@ Use the relative path appropriate to the feature location. Do not import interna
 | Component | Approved job | Variants / options | Do not use it for |
 | --- | --- | --- | --- |
 | `PageHeader` | Standard learner/product page title hierarchy | eyebrow, title, description, optional children | feature hero/REV expression that genuinely needs the Feature family |
-| `Surface` | Named content grouping | Standard, Quiet, Interactive, Feature and Floating; optional padding | wrapping every paragraph or inventing dashboard density |
+| `Surface` | Named content grouping | Standard, Quiet, Interactive, Feature, Floating; optional padding | wrapping every paragraph or inventing dashboard density |
 | `Button` | Shared learner/admin actions | Primary, Strong, Secondary, Tertiary, Destructive; Compact/Standard/Large | links that are not actions or one-off local button styling |
 | `IconButton` | 44×44 icon-only action | accessible label required | unlabeled controls or decorative icons |
 | `TextField` | Labelled input anatomy | hint/error support; native input props | placeholder-only forms |
