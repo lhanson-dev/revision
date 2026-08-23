@@ -153,7 +153,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
     const safe = Number.isFinite(value) ? Math.max(0, Math.min(available, Math.trunc(value))) : 0
     setMarks((current) => ({
       ...current,
-      [question.id]: { ...(currentMarks), [key]: safe },
+      [question.id]: { ...(current[question.id] ?? emptyMarks()), [key]: safe },
     }))
   }
 
