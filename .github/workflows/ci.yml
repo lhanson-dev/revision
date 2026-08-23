@@ -82,6 +82,16 @@ jobs:
       - name: Responsive browser assurance
         timeout-minutes: 10
         run: npm run test:e2e
+      - name: Upload interface visual regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: interface-visual-regression-${{ github.run_id }}
+          path: |
+            test-results
+            tests/e2e/interface-visual-regression.spec.ts-snapshots
+          if-no-files-found: ignore
+          retention-days: 30
 
   database-assurance:
     name: Database, RLS and protected service assurance
