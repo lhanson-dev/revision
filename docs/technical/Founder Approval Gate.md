@@ -1,7 +1,7 @@
 # Founder Approval Gate
 
-**Status:** Active on `main`; Recovery 3 production verification complete  
-**Date:** 2026-08-22
+**Status:** Active on `main`; advisory status worked for PR #139 but repository-level enforcement was not active; Recovery 4 hardening pending  
+**Date:** 2026-08-23
 
 ## Purpose
 
@@ -12,7 +12,8 @@ This control supplements rather than replaces:
 - explicit Founder approval for the specific PR merge;
 - current-main integration checks;
 - Revision CI;
-- the exact two-line GitHub marker; and
+- the exact two-line GitHub marker;
+- verified repository-level merge enforcement; and
 - post-merge governed release-lineage verification.
 
 ## Commit status
@@ -79,7 +80,7 @@ The status does not grant approval. It reports whether repository evidence prove
 
 ## Merge-time operating rule
 
-For every release-governed PR after Recovery 3, merge must not be executed unless the current PR head has:
+For every release-governed PR, merge must not be executed unless the current PR head has:
 
 - required Revision assurance success;
 - current-main integration evidence required by governance;
@@ -88,16 +89,38 @@ For every release-governed PR after Recovery 3, merge must not be executed unles
 
 The executing agent must re-read the PR head, latest exact-head CI and status immediately before merge.
 
+After Recovery 4, ordinary release-governed merges also require verified repository-level enforcement of the required Revision CI and `revision/founder-approval` checks. Agent-side verification remains necessary but is no longer accepted as the sole merge barrier.
+
+## Recovery 4 enforcement incident
+
+PR #139 exact head `8a514a91b41a36da24c0606b000143d74d62e1df` completed Revision CI #871 successfully. The trusted gate nevertheless remained correctly:
+
+`revision/founder-approval = pending`
+
+because the PR conversation contained no exact machine-readable Founder marker.
+
+PR #139 was still merged as `22c6d40295cbeb012b12895538318e3601f62ab9`.
+
+This is important evidence: the status evaluator did **not** falsely report success. The failure was that the pending status was not mechanically required as a merge condition and the executing merge path did not honour the operating rule.
+
+PR #149 later followed the correct sequence for its own head, but Production run `32658623030` failed closed while traversing PR #139. No new Production artifact was deployed.
+
 ## Repository-level enforcement
 
-The strongest steady-state configuration is for GitHub branch protection/rules to require the Founder approval status and relevant Revision CI checks before `main` can accept a merge.
+The strongest steady-state configuration is now mandatory after Recovery 4: GitHub branch protection/rules, or a separately Founder-approved hard technical equivalent, must prevent an ordinary merge unless the current candidate has the required Revision CI success and:
 
-At the time this control was designed, repository metadata showed required status-check enforcement was not independently enumerable through the connected capability. The workflow therefore provides the machine-readable status immediately, while repository-level required-check configuration remains a separate administrative hardening step that must be verified rather than assumed.
+`revision/founder-approval = success`
 
-Until that repository setting is enabled and verified, operating agents must still treat the status as mandatory. Post-merge release lineage remains fail-closed independently, so a missed pre-merge check cannot silently reach PROD.
+At the Recovery 4 investigation point, GitHub branch metadata reported required-status-check enforcement level `off` and no required contexts/checks. That state is not sufficient for ordinary merges after Recovery 4.
 
-## Recovery 3 rollout completion
+Workflow presence, a visible commit status and documentation do not prove repository enforcement. Actual GitHub repository state must be independently verified.
+
+If the current repository plan/ownership model cannot provide required-status enforcement, ordinary merges remain blocked until an alternative hard mechanism is explicitly governed. The system must not silently fall back to the advisory-only operating rule that PR #139 bypassed.
+
+The post-merge release-lineage verifier remains independent and mandatory even after the hard pre-merge barrier is active.
+
+## Recovery 3 rollout history
 
 PR #112 introduced the gate and merged exact head `c2d94210aa48b0e5b078b730d812857b77448989` after Revision CI #658 and exact Founder marker comment `5379367930` were verified. The merge commit `62d75df280ac0ba5b0df72916b9394ecb8de75b5` completed production run `32562931908` with governed release lineage, backend readiness, build, Pages deployment, production smoke and durable `revision/path-to-live = success`.
 
-The workflow is therefore live on `main` and applies prospectively to subsequent release-governed PRs. Repository-level required-check enforcement remains a separate hardening action and must not be represented as enabled until independently verified.
+Recovery 3 therefore proved that the status workflow could operate correctly. Recovery 4 records the separate lesson that correct status calculation is not enough unless merge enforcement is hard rather than advisory.
