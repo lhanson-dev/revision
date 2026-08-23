@@ -1,6 +1,6 @@
 # Revision Interface System — B7 Final Acceptance
 
-**Status:** B7.5 implementation and reviewed visual baselines complete on PR #148; final exact-head comparison CI, current-main check and Founder-approved merge still required  
+**Status:** Complete and live via PR #148; exact-head Revision CI #869 and governed production run `32656318718` succeeded  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `50-engineering-standards/Testing & Assurance Standard.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Parent task:** Issue #137 — Task 1: Complete B7 foundation cleanup  
@@ -10,7 +10,7 @@
 
 Close the final Interface System migration increment without turning foundation cleanup into a journey redesign.
 
-B7.5 must prove that the canonical `/revision/app/` runtime no longer depends on a final compatibility stylesheet to hide competing visual ownership, that remaining common control jobs use the public shared system, that the blocking Design Acceptance composition defects are resolved, and that representative Light/Dark compositions are protected by durable browser screenshots.
+B7.5 proves that the canonical `/revision/app/` runtime no longer depends on a final compatibility stylesheet to hide competing visual ownership, that remaining common control jobs use the public shared system, that the blocking Design Acceptance composition defects are resolved, and that representative Light/Dark compositions are protected by durable browser screenshots.
 
 Historical Design Acceptance evidence is not rewritten. A new point-in-time acceptance rerun records the post-B7 state.
 
@@ -152,11 +152,13 @@ The original `audits/2026-08-23-design-acceptance-review.md` remains historical 
 
 The set is deliberately bounded. It protects high-value composition, wrapping, theme parity and responsive shell relationships without creating a screenshot for every route/state combination.
 
-Revision CI #864 (`32655418540`) rendered the final candidate set after the bridge dependency fixes. All non-screenshot functional, accessibility, responsive and theme assurance in that run passed; its only deterministic failures were the 18 deliberately missing baseline files. One existing desktop REV-motion case failed its first attempt and passed its configured retry, so the final exact-head run remains responsible for proving that suite cleanly enough for acceptance.
+Revision CI #864 (`32655418540`) rendered the final candidate set after the bridge dependency fixes. All non-screenshot functional, accessibility, responsive and theme assurance in that run passed; its only deterministic failures were the 18 deliberately missing baseline files. One existing desktop REV-motion case failed its first attempt and passed its configured retry.
 
 The 18 #864 images were visually inspected as Light/Dark pairs across phone, tablet and desktop. No separate composition/theme blocker was identified: ordinary mobile/tablet learner states retained the Ask REV dock with usable content clearance, while timed exam states were isolated from the global dock.
 
 The reviewed evidence came from artifact `interface-visual-regression-32655418540` (artifact ID `9497347227`, SHA-256 `bcd816e9461c8c396fa10ba1680459413a296392ff64b79de0bb3caa2abaaa33`). Those exact 18 native PNGs are committed under `tests/e2e/interface-visual-regression.spec.ts-snapshots/`. Future missing or changed snapshots fail Playwright rather than updating automatically.
+
+Final exact-head Revision CI #869 subsequently passed with the committed screenshot comparisons green.
 
 ## Automated assurance
 
@@ -173,9 +175,9 @@ Existing phone/tablet/desktop, theme, accessibility, overlay/focus, persistence,
 
 ## Documentation impact
 
-B7.5 implements existing brand, UX and engineering authority. No normative authority amendment and no ADR are required unless final validation exposes a genuine policy conflict rather than implementation drift.
+B7.5 implements existing brand, UX and engineering authority. No normative authority amendment and no ADR are required for the final cleanup itself.
 
-This PR updates current technical truth in:
+The B7.5 change updated current technical truth in:
 
 - this final B7 record;
 - `Interface System Implementation.md`;
@@ -184,10 +186,18 @@ This PR updates current technical truth in:
 - the pre-B7 theme-integrity checkpoint with a retirement disposition; and
 - `INDEX.md`.
 
-A new post-B7 point-in-time Design Acceptance rerun is added under `audits/`. The 23 August pre-B7 audit is not rewritten.
+A new post-B7 point-in-time Design Acceptance rerun was added under `audits/`. The 23 August pre-B7 audit was not rewritten.
 
 ## Completion and Issue #137
 
-This record does not by itself close B7.
+B7 foundation cleanup is complete and live.
 
-Issue #137 is complete only after the final exact PR head passes Revision CI including committed screenshot comparisons, the branch remains current with `main`, Founder approval is recorded for that exact head, PR #148 is merged, and `revision/path-to-live` succeeds on the merge.
+Completion evidence:
+
+- B7.5 PR #148 merged from exact approved head `344eb64ae6e98c50e03844e8fb4f60a48c74ca55`;
+- final merge commit on `main`: `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`;
+- exact-head Revision CI #869 succeeded, including committed screenshot comparisons;
+- governed production run `32656318718` succeeded across release lineage, backend readiness, build, GitHub Pages deployment and production smoke; and
+- durable `revision/path-to-live = success` was published on the merge commit.
+
+Issue #137 is closed as completed. Further journey-led work builds from this accepted shared foundation rather than reopening foundation ownership by default.
