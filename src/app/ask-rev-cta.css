@@ -55,6 +55,7 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  font-size: var(--type-body-size);
   line-height: 1;
   text-align: center;
 }
@@ -144,6 +145,9 @@
     padding: 8px 18px;
     border-radius: 18px;
     box-shadow: var(--shadow-floating);
+  }
+
+  .runtime-mobile-ask-rev-dock > span:last-child {
     font-size: var(--type-body-l-size);
   }
 
