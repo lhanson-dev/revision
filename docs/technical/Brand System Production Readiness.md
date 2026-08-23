@@ -1,10 +1,11 @@
 # Brand System Production Readiness
 
-**Status:** identity/token foundations ready; B1, B2 and B2.5 live; B3 Subjects/course migration in progress  
-**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 plus `20-brand-and-experience/Identity Asset Usage Rules.md` v1.0  
+**Status:** identity/token/component foundations live; B1–B6 and B7.1–B7.4 live; B7.5 final Interface System acceptance pending exact-head assurance and Founder-approved merge  
+**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 plus `20-brand-and-experience/Identity Asset Usage Rules.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
-**Scope:** canonical assets, production implementation foundations and migration sequencing; this document does not redefine brand authority
+**Final B7 record:** `docs/technical/Interface System B7 Final Acceptance.md`  
+**Scope:** canonical assets, production implementation foundations and migration/readiness state; this document does not redefine brand authority
 
 ## Purpose
 
@@ -12,7 +13,7 @@ Track the controlled move from the approved Revision Brand System into productio
 
 Revision has an explicit enterprise design-system chain:
 
-`Visual Brand System → brand tokens → shared CSS primitives → reusable React components/icons/assets → feature composition`
+`Visual Brand System → brand tokens → shared CSS primitives → reusable React components/icons/assets → semantic surface layers → feature composition`
 
 Learner, Admin and future marketing surfaces reuse this chain rather than add page-local design systems.
 
@@ -38,52 +39,62 @@ The approved/current direction includes:
 - reusable component anatomy under `src/app/ui/`;
 - controlled rounded-line product icon registry;
 - theme-paired runtime identity helpers;
-- phone/tablet/desktop responsive assurance; and
-- reduced-motion and accessibility rules preserved through migration.
+- shared modal/drawer focus and inertness contract;
+- phone/tablet/desktop responsive assurance;
+- reduced-motion and accessibility rules;
+- fail-closed component/icon/asset ownership assurance; and
+- bounded Light/Dark screenshot regression for high-value canonical states.
 
 ## Readiness matrix
 
-| Area | Current evidence | Status | Next action |
+| Area | Current evidence | Status | Ongoing rule |
 | --- | --- | --- | --- |
-| Primary Revision wordmark | Canonical master + light/dark/mono exports under `assets/brand/` | **Ready** | Consume through canonical helper/package |
-| Wordmark usage | `Identity Asset Usage Rules.md` | **Ready** | Preserve clear space/minimum size |
-| REV / Living E vector master | Canonical master + resting/nav/mono exports | **Ready** | Keep identity separate from generic icons |
-| App/browser identity | App-icon master + favicon exports | **Ready** | Generate future platform derivatives from master |
-| Manrope provenance | Runtime source + OFL provenance record | **Ready** | Keep current if delivery changes |
-| Runtime design tokens | `src/app/brand-tokens.css` | **Implemented/live** | Remain single implementation source for reusable values |
-| Shared CSS primitives | `src/app/interface-system.css` | **Implemented/live** | Extend centrally only for proven recurring jobs |
-| Reusable React components | `src/app/ui/index.ts` | **Implemented/live via PR #116** | Reuse for new/extracted components |
-| Shared component anatomy | `src/app/ui/ui-components.css` | **Implemented/live via PR #116** | Keep token-driven; no page palette/theme fork |
-| Controlled product icon registry | `src/app/ui/Icon.tsx` | **Implemented/live via PR #116** | Add recurring icons centrally with assurance |
-| Runtime canonical identity helper | `src/app/ui/BrandAsset.tsx` | **Implemented/live via PR #116** | Use approved theme-paired assets |
-| Contributor component reference | `docs/technical/Interface System Component Registry.md` | **Established/live** | Maintain when public component contract changes |
-| Interface operating standard | `docs/technical/Interface System Operating Standard.md` | **Established** | Apply to every migrated surface |
-| Automated design-system governance | `scripts/assurance/interface-system-governance.test.mjs` | **Established/expanding** | B3 adds subject/course drift protection |
-| Component semantic tests | `src/app/ui/ui-components.test.tsx` | **Implemented/live** | Protect component anatomy/semantics |
-| Account workspace | B1 primitive consumer | **Migrated/live** | Move onto wrappers when relevant, not for churn alone |
-| Plan | B2 visual migration; B2.5 React component proof consumer | **Migrated/live** | Preserve planner behaviour |
-| Global Progress | B2 token/surface composition | **Migrated/live** | Preserve evidence/readiness semantics |
-| Subjects / Subject Home | B3 `interface-subjects-course.css` | **Migration in progress** | Complete responsive/light-dark assurance |
-| Course/specification overview | B3 `interface-subjects-course.css` | **Migration in progress** | Complete responsive/light-dark assurance |
-| Learn / Practice | legacy/mixed styling remains | **Future B4** | Use hardened foundations/components |
-| Exam Prep / exam experience | legacy/mixed styling remains | **Future B5** | Apply exam/performance family and governed pause/stop behaviour |
-| Admin | shared foundations not yet fully migrated | **Future B6** | Reuse same system at appropriate density |
-| Compatibility aliases | bounded legacy bridge | **Intentional debt** | Retire in B7 only after zero-live-consumer evidence |
-| Social/video editable masters | governed families exist; editable masters do not | **Deferred** | Create after principal product grammar stabilises |
+| Primary Revision wordmark | canonical master + Light/Dark/mono exports | **Ready/live** | consume through canonical helper/package |
+| Wordmark usage | `Identity Asset Usage Rules.md` | **Ready/live** | preserve clear space/minimum size |
+| REV / Living E vector master | canonical master + resting/nav/mono exports | **Ready/live** | keep identity separate from generic icons |
+| App/browser identity | app-icon master + favicon exports | **Ready/live** | generate future derivatives from master |
+| Manrope provenance | runtime source + OFL provenance record | **Ready/live** | retain provenance if delivery changes |
+| Runtime design tokens | `src/app/brand-tokens.css` | **Implemented/live** | remain single implementation source for reusable values |
+| Shared CSS primitives | `src/app/interface-system.css` | **Implemented/live** | extend centrally only for proven recurring jobs |
+| Reusable React components | `src/app/ui/index.ts` | **Implemented/live** | reuse before local recreation |
+| Shared component anatomy | `src/app/ui/ui-components.css` | **Implemented/live** | token-driven; no page palette/theme fork |
+| Controlled product icon registry | `src/app/ui/Icon.tsx` | **Implemented/live** | add recurring icons centrally with assurance |
+| Runtime canonical identity helper | `src/app/ui/BrandAsset.tsx` | **Implemented/live** | use approved theme-paired assets |
+| Contributor component reference | `Interface System Component Registry.md` | **Established/live** | maintain when public contract changes |
+| Interface operating standard | `Interface System Operating Standard.md` | **Established/live** | apply to every interface change |
+| Automated design-system governance | Interface/B7 assurance scripts | **Established/live** | fail closed on ownership/theme regressions |
+| Component semantic tests | `src/app/ui/ui-components.test.tsx` | **Implemented/live** | protect component anatomy/semantics |
+| Authentication identity | PR #140 | **Consolidated/live** | canonical assets only |
+| Learner shell recurring icons | PR #142 | **Consolidated/live** | shared Icon registry only |
+| Overlay/focus ownership | PR #144 | **Consolidated/live** | shared ModalShell/DrawerShell contract |
+| Shell/Home/Account recurring identity/glyphs | PR #147 | **Consolidated/live** | no local identity/generic glyph families |
+| Plan / Progress | B2 + B2.5 | **Migrated/live** | preserve planner/evidence semantics |
+| Courses / course overview | B3 | **Migrated/live** | preserve product/course hierarchy |
+| Learn / Practice | B4 + B7.5 common-control/reading correction | **Migrated; final B7 acceptance candidate** | shared common controls; job-specific composition |
+| Exam Prep / timed exam | B5 + B7.3/B7.5 | **Migrated; final B7 acceptance candidate** | shared focus; timed viewport suppresses global dock |
+| Admin | B6 + B7.5 common-control consolidation | **Migrated; final B7 acceptance candidate** | shared common controls; dense operational composition retained |
+| Final theme compatibility bridge | `interface-theme-integrity.css` | **Retired by B7.5 candidate** | must not return; fix theme at owning layer |
+| Retained feature styles | B7.5 named-consumer inventory | **Deliberately retained where live** | structural composition only; no parallel foundation |
+| Visual regression | 18-state fixed-clock Playwright matrix | **B7.5 acceptance gate** | inspect/commit baselines; changes fail CI |
+| Social/video editable masters | governed families exist; editable masters do not | **Deferred** | create when cross-channel production requires them |
 
-## B2.5 production evidence
+## Migration evidence
 
-PR #116 is no longer a candidate. It merged to `main` as `2369b33fa35414556096d0287100c1df8dbec8d7` after Revision CI #689 passed on exact PR head `5a1e18ad39fdd9f2ee1088a63abc1475404094e0`.
+The interface migration is no longer at B3. The production sequence is:
 
-That merge established the reusable component/icon/asset foundation required before B3.
+1. **Canonical identity assets — complete.**
+2. **Token and REV-motion foundation — live.**
+3. **B1 shared primitive/account/overlay foundation — live.**
+4. **B2 Plan/Progress migration — live.**
+5. **B2.5 reusable component/icon/asset hardening — live via PR #116 / merge `2369b33fa35414556096d0287100c1df8dbec8d7`.**
+6. **B3 Courses/course migration — live via PR #118.**
+7. **B4 Learn/Practice — live via PR #119.**
+8. **B5 Exam Prep / exam experience — live via PR #121.**
+9. **B6 Admin — live via PR #122.**
+10. **B7.1–B7.4 identity/icon/overlay ownership consolidation — live via PRs #140, #142, #144 and #147.**
+11. **B7.5 final compatibility retirement / visual acceptance — PR #148 candidate; exact-head CI, screenshot evidence, Founder approval and path-to-live still required.**
 
-## B3 implementation direction
-
-B3 covers Subjects, Subject Home and course/specification presentation. The dedicated migration layer is `src/app/interface-subjects-course.css`.
-
-It uses the same semantic tokens and component grammar as the earlier migration rather than creating a subject-specific theme. The current compatibility renderer remains inside the canonical runtime; structural extraction is not required merely to restyle the surface and compatibility retirement remains B7.
-
-Detailed scope and assurance are recorded in `docs/technical/Interface System B3 Subjects and Course Migration.md`.
+Detailed B7.5 consumer inventory, Design Acceptance dispositions and visual matrix are recorded in `docs/technical/Interface System B7 Final Acceptance.md`.
 
 ## Canonical identity package
 
@@ -130,33 +141,25 @@ Ordinary interface components consume roles such as `--color-bg`, `--color-surfa
 
 Identity artwork whose approved export differs by theme is consumed through `BrandAsset`; feature pages do not implement local identity/theme switching.
 
-## Production sequence
-
-1. **Canonical identity assets — complete.**
-2. **Token and REV-motion foundation — live.**
-3. **B1 shared primitive/account/overlay foundation — live.**
-4. **B2 Plan/Progress migration + central typography/icon roles — live.**
-5. **B2.5 reusable component/icon/asset hardening — live via PR #116.**
-6. **B3 Subjects/Subject Home/course migration — in progress.**
-7. **B4–B6 remaining bounded page-family migration.**
-8. **B7 compatibility retirement.** Remove aliases/redundant feature CSS only after zero-live-consumer assurance.
-9. **Cross-channel editable masters.** Produce when principal interface grammar is stable.
+B7.5 removes the final theme-integrity catch-all layer. Future theme defects must be corrected in the token/shared/semantic feature owner rather than by adding another final override.
 
 ## Assurance
 
-Every migration increment must preserve the central source-of-truth model and include risk-appropriate assurance. For B3 this includes:
+Every material interface increment preserves the central source-of-truth model and includes risk-appropriate assurance. Current controls include:
 
 - typecheck and lint;
 - unit/component tests;
 - production build;
-- interface-system governance assurance including `interface-subjects-course.css`;
-- Subjects/Subject Home/course phone/tablet/desktop regression;
-- light/dark semantic-surface checks;
-- keyboard/focus and applicable accessibility coverage; and
+- interface-system and B7 governance assurance;
+- phone/tablet/desktop browser regression;
+- semantic Light/Dark rendered checks;
+- bounded 18-state Light/Dark screenshot regression;
+- keyboard/focus/accessibility coverage;
+- persistent-dock overlap/timed-exam suppression checks; and
 - governed production smoke/path-to-live after merge.
 
 ## Documentation impact
 
-B2.5 and B3 implement the existing Visual Brand System, Identity Asset Usage Rules and Product UX Principles. They do not change approved brand direction or product behaviour, so no normative authority change or ADR is required.
+The migration implements existing Visual Brand System, Identity Asset Usage Rules and Product UX Principles. B7.5 does not change approved brand direction or product behaviour, so no normative authority change or ADR is required.
 
-Current implementation records are updated with each governed migration. Historical brand research/audits remain historical and are not rewritten.
+Current implementation/readiness records are reconciled in PR #148. Historical brand research and Design Acceptance audits remain historical; B7.5 adds separate current evidence rather than rewriting them.
