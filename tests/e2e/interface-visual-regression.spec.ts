@@ -161,7 +161,7 @@ async function openState(page: Page, state: VisualState) {
 }
 
 for (const visualCase of cases) {
-  test(`${visualCase.state} ${visualCase.theme} visual contract`, async ({ page }, testInfo) => {
+  test(`${visualCase.project} ${visualCase.state} ${visualCase.theme} visual contract`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== visualCase.project, `Captured only in the ${visualCase.project} canonical viewport.`)
     await seedSession(page, visualCase.theme, visualCase.state === 'admin')
     await openState(page, visualCase.state)
