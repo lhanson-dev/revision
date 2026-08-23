@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 implementation reference  
+**Status:** B2.5 implementation reference; B7 shell icon ownership consolidation in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -102,6 +102,14 @@ Do not replace accessible native behaviour merely to make a control visually unu
 
 If a recurring icon is missing, add it to the registry and assurance rather than adding a separate icon source to a page.
 
+### B7 learner-shell ownership
+
+The canonical `PlannerRuntime` shell consumes the public `Icon` registry for recurring learner navigation and account jobs rather than maintaining a shell-local SVG family. The controlled registry includes the shell jobs for Home, Plan, Progress, Courses, Profile/user, Settings, Admin, Upgrade plan and Log out.
+
+The shell may retain composition-specific sizing through its `nav-icon` class, but the drawing, stroke language and reusable icon identity are owned centrally by `src/app/ui/Icon.tsx`.
+
+This B7 increment addresses recurring shell navigation/account icons only. The shell's local REV wordmark reconstruction, text close glyphs and other recurring control glyphs remain separate B7 ownership work and are not silently treated as resolved by the icon migration.
+
 ## Canonical identity assets
 
 `BrandAsset` consumes theme-paired files from the canonical `assets/brand/` package. Current helpers cover:
@@ -151,6 +159,8 @@ B2.5 is protected by:
 - enterprise token/component/icon/asset checks in `scripts/assurance/interface-system-governance.test.mjs`;
 - existing Plan/Progress phone/tablet/desktop browser assurance; and
 - the normal risk-classified Revision CI and path-to-live controls.
+
+B7 shell-icon ownership additionally has a static fail-closed contract in `scripts/assurance/b7-shell-icon-ownership.test.mjs` that prevents the canonical shell from reintroducing its local SVG icon family and verifies the required shell jobs remain registered centrally.
 
 ## Extension rule
 

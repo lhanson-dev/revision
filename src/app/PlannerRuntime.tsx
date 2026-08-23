@@ -37,38 +37,13 @@ import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
 import { RevPresence } from './RevPresence'
-import { Status } from './ui'
+import { Icon, Status } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const themeStorageKey = 'revision:theme'
 
-type NavIconName = 'home' | 'plan' | 'progress' | 'courses' | 'profile' | 'settings' | 'admin' | 'upgrade' | 'logout'
 type ThemeName = 'light' | 'dark'
 type AccountSection = 'profile' | 'settings'
-
-function NavIcon({ name }: { name: NavIconName }) {
-  const commonProps = {
-    className: 'nav-icon',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 2,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true,
-    focusable: false,
-  }
-
-  if (name === 'home') return <svg {...commonProps}><path d="M3.5 10.5 12 3.5l8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-5v-6h-4v6H5a1.5 1.5 0 0 1-1.5-1.5z" /></svg>
-  if (name === 'plan') return <svg {...commonProps}><rect x="3" y="5" width="18" height="16" rx="2.5" /><path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 4-4" /></svg>
-  if (name === 'progress') return <svg {...commonProps}><path d="M4 19V5M4 19h17M7 15l4-4 3 2 5-6" /><path d="M16 7h3v3" /></svg>
-  if (name === 'courses') return <svg {...commonProps}><path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" /></svg>
-  if (name === 'profile') return <svg {...commonProps}><circle cx="12" cy="8" r="3.5" /><path d="M5 21c.7-4.3 3.1-6.5 7-6.5s6.3 2.2 7 6.5" /></svg>
-  if (name === 'settings') return <svg {...commonProps}><circle cx="12" cy="12" r="3.2" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z" /></svg>
-  if (name === 'admin') return <svg {...commonProps}><path d="M12 3.5 19 6v5.2c0 4.5-2.7 7.7-7 9.3-4.3-1.6-7-4.8-7-9.3V6z" /><path d="M9.5 12.2 11 13.7l3.7-3.7" /></svg>
-  if (name === 'upgrade') return <svg {...commonProps}><path d="M5 19 19 5M10 5h9v9" /><path d="M5 8v11h11" /></svg>
-  return <svg {...commonProps}><path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10" /><path d="M14 8l4 4-4 4M18 12H9" /></svg>
-}
 
 function RevWordmark() {
   return <span className="rev-wordmark" aria-hidden="true"><span>R</span><span className="rev-wordmark-e"><i></i><i></i><i></i></span><span>V</span></span>
@@ -324,20 +299,20 @@ export function PlannerRuntime() {
         <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
         <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
         <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
-          <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
-          <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
-          <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
-          <button className={coursesActive ? 'active' : ''} onClick={() => navigate(coursesRoute())}><NavIcon name="courses" /><span>Courses</span></button>
+          <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
+          <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
+          <button className={route.kind === 'progress' ? 'active' : ''} onClick={() => navigate(progressRoute())}><Icon name="progress" className="nav-icon" /><span>Progress</span></button>
+          <button className={coursesActive ? 'active' : ''} onClick={() => navigate(coursesRoute())}><Icon name="courses" className="nav-icon" /><span>Courses</span></button>
           {coursesActive && programmeResolved && !programmeError && <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} />}
         </nav>
         <div className="runtime-sidebar-account">
           {accountMenuOpen && <div className="runtime-account-popover" role="menu" aria-label="Profile menu">
-            <button role="menuitem" onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
-            <button role="menuitem" onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
-            {isAdmin && <button role="menuitem" onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
-            <div className="runtime-account-menu-disabled" role="menuitem" aria-disabled="true"><NavIcon name="upgrade" /><span className="runtime-account-menu-copy"><span>Upgrade plan</span><small>Coming soon</small></span></div>
+            <button role="menuitem" onClick={() => openAccountModal('profile')}><Icon name="user" className="nav-icon" /><span>Profile</span></button>
+            <button role="menuitem" onClick={() => openAccountModal('settings')}><Icon name="settings" className="nav-icon" /><span>Settings</span></button>
+            {isAdmin && <button role="menuitem" onClick={() => navigate(adminRoute())}><Icon name="admin" className="nav-icon" /><span>Admin</span></button>}
+            <div className="runtime-account-menu-disabled" role="menuitem" aria-disabled="true"><Icon name="upgrade" className="nav-icon" /><span className="runtime-account-menu-copy"><span>Upgrade plan</span><small>Coming soon</small></span></div>
             <div className="runtime-account-menu-separator" role="separator"></div>
-            <button className="runtime-account-logout" role="menuitem" onClick={signOut}><NavIcon name="logout" /><span>Log out</span></button>
+            <button className="runtime-account-logout" role="menuitem" onClick={signOut}><Icon name="logout" className="nav-icon" /><span>Log out</span></button>
           </div>}
           <button className="runtime-sidebar-user" onClick={() => setAccountMenuOpen((open) => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} aria-label={`${learner} account menu`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-sidebar-user-name">{learner}</span></button>
         </div>
@@ -356,21 +331,21 @@ export function PlannerRuntime() {
       {menuOpen && <><button className="runtime-mobile-menu-backdrop" aria-label="Close menu" onClick={closeMobileMenu}></button><aside className="runtime-mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
         <header className="runtime-mobile-drawer-head"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button><button className="runtime-mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close menu">×</button></header>
         <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
-          <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
-          <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
-          <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><NavIcon name="progress" /><span>Progress</span></button>
-          <button aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><NavIcon name="courses" /><span>Courses</span></button>
+          <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
+          <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
+          <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><Icon name="progress" className="nav-icon" /><span>Progress</span></button>
+          <button aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><Icon name="courses" className="nav-icon" /><span>Courses</span></button>
           {coursesActive && programmeResolved && !programmeError && <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} />}
         </nav>
         <div className="runtime-mobile-drawer-spacer"></div>
         <section className="runtime-mobile-drawer-account" aria-label="Account">
           <button className="runtime-mobile-drawer-user" onClick={() => setMobileAccountOpen((open) => !open)} aria-expanded={mobileAccountOpen} aria-controls="runtime-mobile-account-links" aria-label={`${learner} account options`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-mobile-drawer-user-name"><strong>{learner}</strong></span><span className="runtime-mobile-account-chevron" aria-hidden="true">›</span></button>
           <div id="runtime-mobile-account-links" className="runtime-mobile-account-links" hidden={!mobileAccountOpen}>
-            <button onClick={() => openAccountModal('profile')}><NavIcon name="profile" /><span>Profile</span></button>
-            <button onClick={() => openAccountModal('settings')}><NavIcon name="settings" /><span>Settings</span></button>
-            {isAdmin && <button onClick={() => navigate(adminRoute())}><NavIcon name="admin" /><span>Admin</span></button>}
-            <div className="runtime-mobile-upgrade" aria-disabled="true"><NavIcon name="upgrade" /><span><span>Upgrade plan</span><small>Coming soon</small></span></div>
-            <button className="runtime-mobile-logout" onClick={signOut}><NavIcon name="logout" /><span>Log out</span></button>
+            <button onClick={() => openAccountModal('profile')}><Icon name="user" className="nav-icon" /><span>Profile</span></button>
+            <button onClick={() => openAccountModal('settings')}><Icon name="settings" className="nav-icon" /><span>Settings</span></button>
+            {isAdmin && <button onClick={() => navigate(adminRoute())}><Icon name="admin" className="nav-icon" /><span>Admin</span></button>}
+            <div className="runtime-mobile-upgrade" aria-disabled="true"><Icon name="upgrade" className="nav-icon" /><span><span>Upgrade plan</span><small>Coming soon</small></span></div>
+            <button className="runtime-mobile-logout" onClick={signOut}><Icon name="logout" className="nav-icon" /><span>Log out</span></button>
           </div>
         </section>
       </aside></>}
