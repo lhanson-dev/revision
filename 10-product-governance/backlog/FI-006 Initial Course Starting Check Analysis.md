@@ -481,6 +481,6 @@ FI-006 is `Ready`. Integrate the Ready/lifecycle and normative authority state t
 
 ## Documentation-impact check
 
-The FI-006 product/evidence intent is now fully defined for the MVP and the required normative authority changes are included on PR #156. The canonical feature backlog must be updated on this branch to record `Ready` before the PR is merge-ready.
+The FI-006 product/evidence intent is now fully defined for the MVP, the required normative authority changes are included on PR #156, and the canonical feature backlog on this branch records `Ready` with the Founder approval evidence.
 
 No production code or technical implementation documentation changes belong in this analysis/readiness PR.
