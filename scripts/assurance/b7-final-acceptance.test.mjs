@@ -6,6 +6,7 @@ const mainEntry = read('../../src/main.tsx')
 const focusedWorkspace = read('../../src/app/FocusedLearningWorkspace.tsx')
 const contentOperations = read('../../src/app/ContentOperations.tsx')
 const learnPractice = read('../../src/app/interface-learn-practice.css')
+const subjectsCourse = read('../../src/app/interface-subjects-course.css')
 const mobileNavigation = read('../../src/app/mobile-navigation.css')
 const componentIndex = read('../../src/app/ui/index.ts')
 const visualRegression = read('../../tests/e2e/interface-visual-regression.spec.ts')
@@ -18,6 +19,22 @@ describe('B7 final Interface System acceptance contract', () => {
   it('keeps the retired catch-all theme bridge out of the canonical runtime', () => {
     expect(mainEntry).not.toContain('interface-theme-integrity.css')
     expect(existsSync(retiredThemeBridge)).toBe(false)
+  })
+
+  it('keeps Course Overview theme ownership in the B3 semantic layer after bridge retirement', () => {
+    for (const selector of [
+      '.planner-runtime .section-choice',
+      '.planner-runtime .section-choice .section-icon',
+      '.planner-runtime .evidence-dot',
+      '.planner-runtime .evidence-dot.has-evidence',
+    ]) {
+      expect(subjectsCourse).toContain(selector)
+    }
+    expect(subjectsCourse).toContain('background: var(--color-surface);')
+    expect(subjectsCourse).toContain('color: var(--color-text);')
+    expect(subjectsCourse).toContain('background: var(--color-surface-soft);')
+    expect(subjectsCourse).toContain('color: var(--color-accent-text);')
+    expect(subjectsCourse).toContain('background: var(--brand-primary-teal);')
   })
 
   it('keeps Focused Learn and Practice common controls on the public shared registry', () => {
