@@ -2,13 +2,12 @@
  * Canonical Ask REV CTA treatment.
  *
  * Desktop rail and tablet/mobile dock use the same branded control grammar.
- * Responsive layout files continue to own placement and available width; this
- * file owns the visual treatment and compact inverse Living E treatment.
+ * Responsive layout files continue to own visibility, placement and available
+ * width; this file owns visual treatment and compact inverse Living E styling.
  */
 .runtime-ask-rev,
 .runtime-mobile-ask-rev-dock {
   min-height: 52px;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
