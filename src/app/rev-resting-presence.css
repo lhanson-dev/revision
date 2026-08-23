@@ -1,0 +1,52 @@
+/*
+ * Expressive Resting presence for high-emphasis REV surfaces.
+ *
+ * The base Living E state system remains in living-e.css. This semantic layer
+ * strengthens only the idle Home hero treatment so REV feels awake and ready
+ * without borrowing Listening/Thinking/Responding bar motion.
+ */
+.living-home-hero .rev-presence-hero[data-state="resting"] .rev-halo {
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--brand-primary-teal) 22%, transparent));
+  animation: revHomeRestingHalo 6.4s ease-in-out infinite;
+}
+
+.living-home-hero .rev-presence-hero[data-state="resting"] .rev-halo::after {
+  opacity: .84;
+  animation: revHomeRestingOuter 6.4s ease-in-out infinite;
+}
+
+.living-home-hero .rev-presence-hero[data-state="resting"] .rev-living-e {
+  transform-origin: center;
+  animation: revHomeRestingMark 6.4s ease-in-out infinite;
+}
+
+@keyframes revHomeRestingHalo {
+  0%, 100% { transform: scale(.96) rotate(-1.2deg); opacity: .7; }
+  44% { transform: scale(1.075) rotate(.8deg); opacity: 1; }
+  72% { transform: scale(1.02) rotate(1.1deg); opacity: .88; }
+}
+
+@keyframes revHomeRestingOuter {
+  0%, 100% { transform: scale(.98); opacity: .56; }
+  44% { transform: scale(1.06); opacity: .92; }
+  72% { transform: scale(1.02); opacity: .74; }
+}
+
+@keyframes revHomeRestingMark {
+  0%, 100% { transform: translateY(2px) scale(.992); }
+  44% { transform: translateY(-2px) scale(1.018); }
+  72% { transform: translateY(0) scale(1.006); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .living-home-hero .rev-presence-hero[data-state="resting"] .rev-halo,
+  .living-home-hero .rev-presence-hero[data-state="resting"] .rev-halo::after,
+  .living-home-hero .rev-presence-hero[data-state="resting"] .rev-living-e {
+    animation: none !important;
+    transform: none;
+  }
+
+  .living-home-hero .rev-presence-hero[data-state="resting"] .rev-halo {
+    opacity: .88;
+  }
+}
