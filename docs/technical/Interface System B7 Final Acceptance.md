@@ -1,6 +1,6 @@
 # Revision Interface System — B7 Final Acceptance
 
-**Status:** B7.5 implementation candidate on PR #148; exact-head visual/CI acceptance and Founder-approved merge still required  
+**Status:** B7.5 implementation and reviewed visual baselines complete on PR #148; final exact-head comparison CI, current-main check and Founder-approved merge still required  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `50-engineering-standards/Testing & Assurance Standard.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Parent task:** Issue #137 — Task 1: Complete B7 foundation cleanup  
@@ -30,9 +30,13 @@ B7.5 does not create a second runtime, route model, data model, evidence model, 
 
 Its remaining material jobs are moved to their owning semantic/feature layers. In particular, the Practice `REV recommends` Guidance surface is explicitly governed in `interface-learn-practice.css` rather than depending on a final catch-all selector.
 
-Exact-head Revision CI #858 then proved the dependency scan was doing useful work: after the catch-all was removed, Course Overview `.section-choice` and `.evidence-dot` surfaces rendered literal white in Dark mode across phone, tablet and desktop. That was a real retained bridge dependency, not a screenshot-baseline issue. B7.5 moves those roles into `interface-subjects-course.css`, where the B3 course family owns semantic surface, text, icon and evidence-dot theme treatment. The final static acceptance contract now fails closed if that ownership disappears.
+The fail-closed retirement runs exposed real dependencies rather than allowing the deleted bridge to be declared unused prematurely:
 
-Assurance fails closed if the deleted bridge or runtime import returns.
+- Revision CI #858 found Course Overview `.section-choice` and `.evidence-dot` surfaces rendering literal white in Dark mode across phone, tablet and desktop. Those semantic roles now live in `interface-subjects-course.css`.
+- Revision CI #861 found `cross-section-next` still using a literal white background from retained `hierarchy.css`. That retained owner now consumes `--color-surface` directly.
+- The same #861 run showed `.paper-exam-content` resolving to `--color-surface-soft`. That was already the intentional `course-exam.css` owner contract; the previous browser assertion had encoded the old bridge-masked `--color-surface` result. The assertion now verifies `--color-surface-soft` rather than forcing the retired override back into the implementation.
+
+Static B7 assurance protects all three ownership decisions and fails if the deleted bridge or runtime import returns.
 
 ### Focused Learn / Practice common control ownership
 
@@ -79,8 +83,8 @@ The final catch-all theme bridge is retired. The following loaded sources remain
 | `app.css` | canonical learner screen structural markup still shared by several pre-journey layouts | retain transitional structure; do not use for new foundation values; decompose only with the owning journey refactor |
 | `exam.css` | Exam Prep / ExamSimulator legacy structural markup beneath the B5 semantic layer | retain live structure until exam journey refactor; B5 owns semantic visual contract |
 | `rev-home.css` | Home and REV feature composition | retain as current feature composition; not a compatibility bridge |
-| `hierarchy.css` | shared current page/content hierarchy relationships | retain while live; central tokens remain value authority; B3 now explicitly overrides live Course Overview semantic roles that previously depended on the retired catch-all |
-| `course-exam.css` | course Exam Prep paper/component composition | retain as current course/exam composition |
+| `hierarchy.css` | shared current page/content hierarchy relationships | retain while live; central tokens remain value authority; `cross-section-next` now owns a semantic surface role directly rather than relying on the retired catch-all |
+| `course-exam.css` | course Exam Prep paper/component composition | retain current composition; `.paper-exam-content` intentionally owns `--color-surface-soft` |
 | `content-operations.css` | Content Operations job/form layout | retain Admin feature composition; common controls now use shared components |
 | `admin-operations-responsive.css` | Admin responsive/density layout | retain Admin-specific responsive composition |
 | `planner.css` | planner-specific structural/form relationships still consumed by Plan | retain transitional planner composition; shared tokens/components own recurring foundations |
@@ -107,8 +111,8 @@ The original `audits/2026-08-23-design-acceptance-review.md` remains historical 
 | --- | --- |
 | DAR-001 / DAR-002 | recurring learner-shell icons moved to controlled registry in B7.2; remaining recurring glyphs consolidated in B7.4 |
 | DAR-003 | Light/Dark breadth protected by semantic rendered sweeps plus the B7.5 screenshot matrix |
-| DAR-004 | B7.5 adds a bounded 18-state durable screenshot regression set |
-| DAR-005 | final `interface-theme-integrity.css` bridge deleted; retained sources inventoried above; CI #858 exposed and B7.5 relocated a real Course Overview bridge dependency into the B3 semantic layer |
+| DAR-004 | B7.5 adds a bounded 18-state durable screenshot regression set with reviewed committed baselines |
+| DAR-005 | final `interface-theme-integrity.css` bridge deleted; retained sources inventoried; CI #858/#861 exposed and relocated remaining real dependencies rather than masking them |
 | DAR-006 | B7 technical records, registry, operating standard and index reconciled in B7.5 |
 | DAR-007 | authentication uses canonical `BrandAsset` via B7.1 |
 | DAR-008 | shell/account/auth recurring identity, icon and overlay jobs use shared component ownership through B7.1–B7.4 |
@@ -148,18 +152,22 @@ The original `audits/2026-08-23-design-acceptance-review.md` remains historical 
 
 The set is deliberately bounded. It protects high-value composition, wrapping, theme parity and responsive shell relationships without creating a screenshot for every route/state combination.
 
-GitHub Actions retains `test-results` and snapshot evidence for inspection. Baselines are accepted only after the rendered images are reviewed; missing or changed baselines fail Playwright rather than silently updating themselves.
+Revision CI #864 (`32655418540`) rendered the final candidate set after the bridge dependency fixes. All non-screenshot functional, accessibility, responsive and theme assurance in that run passed; its only deterministic failures were the 18 deliberately missing baseline files. One existing desktop REV-motion case failed its first attempt and passed its configured retry, so the final exact-head run remains responsible for proving that suite cleanly enough for acceptance.
+
+The 18 #864 images were visually inspected as Light/Dark pairs across phone, tablet and desktop. No separate composition/theme blocker was identified: ordinary mobile/tablet learner states retained the Ask REV dock with usable content clearance, while timed exam states were isolated from the global dock.
+
+The reviewed evidence came from artifact `interface-visual-regression-32655418540` (artifact ID `9497347227`, SHA-256 `bcd816e9461c8c396fa10ba1680459413a296392ff64b79de0bb3caa2abaaa33`). Those exact 18 native PNGs are committed under `tests/e2e/interface-visual-regression.spec.ts-snapshots/`. Future missing or changed snapshots fail Playwright rather than updating automatically.
 
 ## Automated assurance
 
 B7.5 adds or extends:
 
-- `scripts/assurance/b7-final-acceptance.test.mjs` — fail-closed final ownership/composition/screenshot-matrix contract, including Course Overview semantic theme ownership after bridge retirement;
+- `scripts/assurance/b7-final-acceptance.test.mjs` — fail-closed final ownership/composition/screenshot-matrix contract, including Course Overview, retained hierarchy and Exam Prep semantic theme ownership after bridge retirement;
 - `scripts/assurance/site-theme-integrity.test.mjs` — post-bridge stylesheet classification and bridge-return prevention;
 - `scripts/assurance/interface-system-governance.test.mjs` — post-B7 shared registry/theme/composition rules;
 - `src/app/ui/ui-components.test.tsx` — shared textarea semantics;
 - `tests/e2e/b7-final-acceptance.spec.ts` — dock clearance and timed-exam suppression; and
-- `tests/e2e/interface-visual-regression.spec.ts` — 18-state Light/Dark screenshot regression.
+- `tests/e2e/interface-visual-regression.spec.ts` plus its 18 reviewed native PNG baselines — durable Light/Dark composition regression.
 
 Existing phone/tablet/desktop, theme, accessibility, overlay/focus, persistence, database/RLS and protected-service assurance remains part of the normal risk-classified Revision CI.
 
@@ -182,4 +190,4 @@ A new post-B7 point-in-time Design Acceptance rerun is added under `audits/`. Th
 
 This record does not by itself close B7.
 
-Issue #137 is complete only after the final exact PR head passes Revision CI including committed screenshot comparisons, the branch remains current with `main`, the visual evidence has been inspected, Founder approval is recorded for that exact head, PR #148 is merged, and `revision/path-to-live` succeeds on the merge.
+Issue #137 is complete only after the final exact PR head passes Revision CI including committed screenshot comparisons, the branch remains current with `main`, Founder approval is recorded for that exact head, PR #148 is merged, and `revision/path-to-live` succeeds on the merge.
