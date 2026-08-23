@@ -15,25 +15,6 @@ type AccountModalProps = {
   onClose: () => void
 }
 
-function AccountSectionIcon({ name }: { name: AccountSection }) {
-  const commonProps = {
-    className: 'runtime-account-modal-icon',
-    viewBox: '0 0 24 24',
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 1.9,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-    'aria-hidden': true,
-  }
-
-  if (name === 'profile') {
-    return <svg {...commonProps}><circle cx="12" cy="8" r="3.5" /><path d="M5 21c.7-4.3 3.1-6.5 7-6.5s6.3 2.2 7 6.5" /></svg>
-  }
-
-  return <svg {...commonProps}><circle cx="12" cy="12" r="3.2" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1z" /></svg>
-}
-
 export function AccountModal({
   learnerName,
   email,
@@ -97,11 +78,11 @@ export function AccountModal({
           </div>
           <nav className="ui-menu" aria-label="Account sections">
             <button className={`ui-menu-item ${section === 'profile' ? 'active' : ''}`} onClick={() => onSectionChange('profile')} aria-current={section === 'profile' ? 'page' : undefined}>
-              <AccountSectionIcon name="profile" />
+              <Icon name="user" className="runtime-account-modal-icon" />
               <span>Profile</span>
             </button>
             <button className={`ui-menu-item ${section === 'settings' ? 'active' : ''}`} onClick={() => onSectionChange('settings')} aria-current={section === 'settings' ? 'page' : undefined}>
-              <AccountSectionIcon name="settings" />
+              <Icon name="settings" className="runtime-account-modal-icon" />
               <span>Settings</span>
             </button>
           </nav>

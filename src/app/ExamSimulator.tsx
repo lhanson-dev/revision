@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Exam } from '../../content/schema'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSelfAssessedExamQuestionEvidence } from './practice-evidence'
-import { ModalShell } from './ui'
+import { Icon, ModalShell } from './ui'
 
 type AoKey = 'ao1' | 'ao2' | 'ao3' | 'ao4'
 type Marks = Record<AoKey, number>
@@ -379,7 +379,7 @@ export function ExamSimulator({ exam, moduleId, saving, saveError, onRecordEvide
             <p className="eyebrow">Timer paused</p>
             <h2 id="exam-paused-title">Exam paused</h2>
             <p>Your exam is hidden while paused. The timer will continue only when you resume.</p>
-            <button className="exam-resume-button" type="button" onClick={resumeExam}>▶<span>Continue exam</span></button>
+            <button className="exam-resume-button" type="button" onClick={resumeExam}><Icon name="play" size="compact" /><span>Continue exam</span></button>
           </ModalShell>
         </div>
       )}

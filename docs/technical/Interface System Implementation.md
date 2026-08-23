@@ -51,8 +51,9 @@ Migrated interface layers consume these roles instead of declaring page-local pa
 - **Pre-B7 theme integrity:** live as the temporary compatibility safety layer while legacy declarations remain.
 - **B7.1 — authentication identity ownership:** live via PR #140 / merge `e1bda1840201f125aea7dbee29e9ef247314fce6`.
 - **B7.2 — learner-shell recurring icon ownership:** live via PR #142 / merge `c6994cbcaf2e7764945a8807d586dbf3f947e925`.
-- **B7.3 — shared overlay/focus ownership:** implemented on the current governed branch; pending PR validation and Founder-approved merge.
-- **B7.4 / B7.5:** not complete; shell-local identity/common-control ownership and final compatibility retirement/acceptance remain outstanding.
+- **B7.3 — shared overlay/focus ownership:** live via PR #144 / merge `61222411576003c96c1954a8f6fae7e6e6898f8e`, with `revision/path-to-live = success`.
+- **B7.4 — identity and recurring glyph ownership:** implemented on the current governed branch; pending PR assurance and Founder-approved merge.
+- **Final B7 acceptance:** not complete; broader copied component anatomy, known Design Acceptance composition defects and final compatibility/theme-bridge retirement remain outstanding.
 
 Issue #137 therefore remains open until the complete B7 acceptance gate is satisfied.
 
@@ -71,35 +72,31 @@ Repository inspection after B6 found that the central theme tokens translated co
 - enables `color-scheme: dark` in dark runtime mode for browser-native affordances; and
 - loads after the migrated interface layers so literal compatibility declarations cannot win the cascade.
 
-This bridge is reduced or removed only during B7.5 after consumer inventory and regression prove that deletion is safe. Detailed rationale and assurance remain recorded in `docs/technical/Interface Theme Integrity Pre-B7.md`.
+This bridge is reduced or removed only during the final B7 compatibility pass after consumer inventory and regression prove that deletion is safe. Detailed rationale and assurance remain recorded in `docs/technical/Interface Theme Integrity Pre-B7.md`.
 
 ## B7.3 shared overlay/focus contract
 
-B7.3 moves modal/drawer keyboard and focus ownership into `src/app/ui/overlays.tsx` rather than allowing each feature to build a partial contract.
+B7.3 moved modal/drawer keyboard and focus ownership into `src/app/ui/overlays.tsx` rather than allowing each feature to build a partial contract.
 
-`ModalShell` and `DrawerShell` now centrally own:
+`ModalShell` and `DrawerShell` centrally own initial focus, Tab containment, focus redirection, background `inert` isolation, body scroll locking, governed Escape dismissal, focus restoration and active-dialog stacking.
 
-- initial focus;
-- forward/reverse Tab containment;
-- focus redirection if focus escapes programmatically;
-- background `inert` isolation;
-- body scroll locking;
-- `Escape` dismissal through consumer `onDismiss`;
-- focus restoration, including responsive cases where the original launcher DOM node is replaced; and
-- active-dialog stacking so overlay transitions do not steal focus.
+The migrated B7.3 consumers are contextual Ask REV, mobile learner navigation, Account settings and ExamSimulator Pause/Stop interruption dialogs. Detailed scope and assurance are recorded in `docs/technical/Interface System B7 Overlay Focus Consolidation.md`.
 
-Feature/channel composition still owns placement. The reusable component stylesheet therefore no longer imposes `position: relative` on modal/drawer shells.
+## B7.4 identity and recurring glyph ownership
 
-The migrated B7.3 consumers are:
+B7.4 removes the remaining clearly reusable identity/control drawings in the learner shell, Home, Account and the touched Exam interruption without redesigning their journeys.
 
-- contextual Ask REV drawer;
-- mobile learner navigation drawer;
-- Account settings modal; and
-- ExamSimulator Pause/Stop interruption dialogs.
+The bounded changes are:
 
-The Ask REV/mobile/account close controls and mobile account chevron touched by this increment use the controlled `Icon`/`IconButton` system. The shell-local `RevWordmark()` and remaining identity/common-control cleanup are intentionally left for B7.4.
+- `PlannerRuntime` no longer reconstructs REV from text plus local E bars. Desktop sidebar, mobile top bar and mobile drawer use the canonical theme-paired `BrandAsset` wordmark at the governed 160px digital minimum.
+- `AccountModal` no longer maintains local Profile/Settings SVG drawings; it consumes the shared `user` and `settings` icon jobs.
+- Home no longer uses raw text arrows/chevrons or a decorative star/arrow halo as alternate REV/control marks. Reusable actions consume `Icon`, while REV recommendation identity consumes `RevPresence`.
+- The Exam pause Continue action no longer uses the Unicode `▶` glyph; it consumes the new controlled `play` icon.
+- `Icon` adds the reusable `arrow-up` and `play` jobs using the same currentColor/rounded-line contract as the existing registry.
 
-Detailed scope and assurance are recorded in `docs/technical/Interface System B7 Overlay Focus Consolidation.md`.
+This is implementation of existing Visual Brand System and Identity Asset Usage Rules. It does not change navigation, planner calculations, recommendation logic, exam timing, evidence, persistence, authorization, entitlement or backend contracts.
+
+Detailed scope and exclusions are recorded in `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`.
 
 ## Migration rules
 
@@ -119,22 +116,14 @@ A surface group is migrated only when:
 
 Every material interface PR checks typography, spacing, surface family, radius/elevation, reusable component/control use, icon/asset source where applicable, light/dark behaviour, phone/tablet/desktop behaviour, keyboard/focus/accessibility, loading/empty/error/disabled/saving states where relevant, and motion/reduced motion.
 
-B7.3 additionally requires browser proof that shared overlays provide:
+B7.3 additionally requires browser proof that shared overlays provide correct initial focus, Tab/Shift+Tab containment, governed Escape behaviour, background inertness, body scroll locking, focus return and unchanged active-exam continuity.
 
-- correct initial focus;
-- `Tab` and `Shift+Tab` containment;
-- governed `Escape` behaviour;
-- background inertness;
-- body scroll locking;
-- focus return; and
-- unchanged active-exam continuity for Pause/Stop interruptions.
+B7.4 additionally requires fail-closed static proof that the retired shell wordmark reconstruction, Account section SVG family, Home raw recurring glyphs/alternate REV mark and Exam Unicode resume glyph cannot return unnoticed. Because Home and the shared learner shell are touched, the normal responsive browser regression and production build remain required before merge readiness.
 
-Because B7.3 changes shared learner runtime/interface behaviour, it is treated as Level 3 High risk under `50-engineering-standards/Testing & Assurance Standard.md`: relevant lower-level checks, full relevant critical-journey regression, the responsive browser suite and production build must pass before merge readiness.
-
-B7.5 will add the bounded Light/Dark screenshot regression set and rerun Design Acceptance before Issue #137 can close.
+The final B7 acceptance pass must still add/confirm the bounded Light/Dark screenshot regression set, reconcile every retained compatibility consumer and rerun Design Acceptance before Issue #137 can close.
 
 ## Documentation impact
 
-B7.3 implements existing accessibility, brand and navigation authority; it does not change routes, authorization, metrics, evidence semantics, backend boundaries or product scope. No normative authority amendment or ADR is required.
+B7.4 implements existing brand/identity/interface authority; it does not change normative product or brand policy, so no authority amendment or ADR is required.
 
-The component registry, B7.3 technical record and Knowledge Index are updated in the same governed change. Historical audits remain unchanged as point-in-time evidence.
+The component registry, B7.4 technical record, this implementation record and `INDEX.md` are maintained in the same governed change. Historical audits remain unchanged as point-in-time evidence.
