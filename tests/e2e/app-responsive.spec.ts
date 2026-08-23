@@ -2,6 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
+const syntheticUserId = '00000000-0000-4000-8000-000000000001'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
+const asCourseId = 'aqa:aqa-as:7131'
 
 async function expectNoPageOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
@@ -15,8 +18,9 @@ function isMobileLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
 }
 
-async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } = {}) {
-  const userId = '00000000-0000-4000-8000-000000000001'
+async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean; courseIds?: string[] } = {}) {
+  const userId = syntheticUserId
+  const courseIds = options.courseIds ?? [aLevelCourseId, asCourseId]
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -72,6 +76,17 @@ async function seedSyntheticSession(page: Page, options: { isAdmin?: boolean } =
     })
   })
 
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    const rows = courseIds.map((courseId, index) => ({
+      user_id: userId,
+      course_id: courseId,
+      created_at: `2026-08-22T18:00:0${index}.000Z`,
+    }))
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(rows) })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })
@@ -121,7 +136,7 @@ async function expandMobileAccount(drawer: ReturnType<Page['getByRole']>) {
   return accountTrigger
 }
 
-async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' | 'Progress' | 'Subjects') {
+async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' | 'Progress' | 'Courses') {
   if (isMobileLayout(page)) {
     const drawer = await openMobileDrawer(page)
     await drawer.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: destination, exact: true }).click()
@@ -158,7 +173,7 @@ test('sign-in experience remains usable without horizontal page scrolling', asyn
   await expectNoPageOverflow(page)
 })
 
-test('authenticated learner hierarchy keeps persistent Ask REV and shared learning hierarchy usable', async ({ page }) => {
+test('authenticated learner hierarchy keeps persistent Ask REV and saved-course learning hierarchy usable', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
@@ -187,7 +202,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(mobileNav.getByRole('button', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
     await expect(mobileNav.getByRole('button', { name: 'Plan', exact: true })).toBeVisible()
     await expect(mobileNav.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
-    await expect(mobileNav.getByRole('button', { name: 'Subjects', exact: true })).toBeVisible()
+    await expect(mobileNav.getByRole('button', { name: 'Courses', exact: true })).toBeVisible()
 
     const accountTrigger = drawer.getByRole('button', { name: 'Synthetic account options' })
     const accountLinks = drawer.locator('#runtime-mobile-account-links')
@@ -222,7 +237,7 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
     await expect(primaryNav.getByRole('button', { name: 'Home', exact: true })).toHaveClass(/active/)
     await expect(primaryNav.getByRole('button', { name: 'Plan', exact: true })).toBeVisible()
     await expect(primaryNav.getByRole('button', { name: 'Progress', exact: true })).toBeVisible()
-    await expect(primaryNav.getByRole('button', { name: 'Subjects', exact: true })).toBeVisible()
+    await expect(primaryNav.getByRole('button', { name: 'Courses', exact: true })).toBeVisible()
     await expect(page.getByRole('complementary', { name: 'Learner navigation' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Ask REV', exact: true })).toBeVisible()
 
@@ -294,22 +309,32 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expect(page.getByRole('dialog', { name: 'Ask REV' }).getByRole('heading', { name: 'How can I help?' })).toBeVisible()
   await page.getByRole('dialog', { name: 'Ask REV' }).getByRole('button', { name: 'Close Ask REV' }).click()
 
-  await clickGlobalDestination(page, 'Subjects')
-  await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
-  const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
-  await businessCard.getByRole('button', { name: /Open Business/ }).click()
-
-  await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What should I work on in Business?' })).toBeVisible()
-
-  const asCourseCard = page.getByLabel('AQA AS Business')
-  const aLevelCourseCard = page.getByLabel('AQA A-level Business')
+  await clickGlobalDestination(page, 'Courses')
+  await expect(page.getByRole('heading', { name: 'Courses' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Add Course' })).toBeVisible()
+  const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
+  const aLevelCourseCard = page.locator('.course-card').filter({ hasText: 'AQA A-level Business' }).first()
   await expect(asCourseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
   await expect(aLevelCourseCard.getByRole('button', { name: 'Open course' })).toBeVisible()
-  await expect(aLevelCourseCard.getByRole('button', { name: /Open Paper/ })).toHaveCount(0)
+
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    const contextualCourses = drawer.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'All courses' })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+    await drawer.getByRole('button', { name: 'Close menu' }).click()
+    await expect(drawer).toHaveCount(0)
+  } else {
+    const contextualCourses = page.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'All courses' })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
+    await expect(contextualCourses.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  }
   await expectNoPageOverflow(page)
 
   await asCourseCard.getByRole('button', { name: 'Open course' }).click()
+  await expect(page).toHaveURL(new RegExp(`#\/courses\/${encodeURIComponent(asCourseId)}\/overview$`))
   const asCourseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
   await expect(asCourseNav).toBeVisible()
   await expect(asCourseNav.getByRole('button')).toHaveCount(5)
@@ -318,6 +343,16 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expect(asCourseNav.getByRole('button', { name: 'Practice' })).toBeVisible()
   await expect(asCourseNav.getByRole('button', { name: 'Exam Prep' })).toBeVisible()
   await expect(asCourseNav.getByRole('button', { name: 'Progress' })).toBeVisible()
+
+  if (isMobileLayout(page)) {
+    const drawer = await openMobileDrawer(page)
+    const contextualCourses = drawer.getByRole('group', { name: 'Courses navigation' })
+    await expect(contextualCourses.getByRole('button', { name: 'AQA AS Business Learn' })).toBeVisible()
+    await drawer.getByRole('button', { name: 'Close menu' }).click()
+    await expect(drawer).toHaveCount(0)
+  } else {
+    await expect(page.getByRole('group', { name: 'Courses navigation' }).getByRole('button', { name: 'AQA AS Business Learn' })).toBeVisible()
+  }
 
   await asCourseNav.getByRole('button', { name: 'Learn' }).click()
   await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
@@ -350,7 +385,9 @@ test('authenticated learner hierarchy keeps persistent Ask REV and shared learni
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/subjects/business`)
-  await page.getByLabel('AQA A-level Business').getByRole('button', { name: 'Open course' }).click()
+  await expect(page).toHaveURL(/#\/courses$/)
+  const legacyAlevelCard = page.locator('.course-card').filter({ hasText: 'AQA A-level Business' }).first()
+  await legacyAlevelCard.getByRole('button', { name: 'Open course' }).click()
   const aLevelNav = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
   await aLevelNav.getByRole('button', { name: 'Exam Prep' }).click()
   await expect(page.getByRole('heading', { name: 'Choose a paper' })).toBeVisible()

@@ -17,6 +17,7 @@ const semanticLayers = [
   'interface-learn-practice.css',
   'interface-exam-experience.css',
   'interface-admin.css',
+  'courses.css',
   'interface-theme-integrity.css',
 ]
 

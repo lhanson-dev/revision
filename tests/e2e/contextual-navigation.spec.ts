@@ -3,6 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000101'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 function isResponsiveLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
@@ -62,6 +64,19 @@ async function seedSession(page: Page) {
       body: JSON.stringify({ is_admin: false }),
     })
   })
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
 
   for (const endpoint of [
     'learning_evidence',
@@ -108,55 +123,47 @@ async function clickNavigation(page: Page, label: string) {
   }
 }
 
-test('Subjects expands only the active academic branch from subject to course sections', async ({ page }) => {
+test('Courses expands saved courses and only the active course into focused sections', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
   let nav = await navigation(page)
-  await expect(nav.getByRole('group', { name: 'Subjects navigation' })).toHaveCount(0)
+  await expect(nav.getByRole('group', { name: 'Courses navigation' })).toHaveCount(0)
   await closeResponsiveNavigation(page)
 
-  await clickNavigation(page, 'Subjects')
-  await expect(page.getByRole('heading', { name: 'Subjects', exact: true })).toBeVisible()
+  await clickNavigation(page, 'Courses')
+  await expect(page.getByRole('heading', { name: 'Courses', exact: true })).toBeVisible()
 
   nav = await navigation(page)
-  let subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
-  await expect(subjectsTree).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'All subjects', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'Business', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveCount(0)
-  await closeResponsiveNavigation(page)
-
-  await clickNavigation(page, 'Business')
-  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
-
-  nav = await navigation(page)
-  subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
-  await expect(subjectsTree.getByRole('button', { name: 'Business', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: /Business Learn$/ })).toHaveCount(0)
+  let coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
+  await expect(coursesTree).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'All courses', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: /Business Learn$/ })).toHaveCount(0)
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
 
   nav = await navigation(page)
-  subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Overview', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Practice', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Exam Prep', exact: true })).toBeVisible()
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Progress', exact: true })).toBeVisible()
+  coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Overview', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Practice', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Exam Prep', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Progress', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business Overview', exact: true })).toHaveCount(0)
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business Learn')
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
 
   nav = await navigation(page)
-  subjectsTree = nav.getByRole('group', { name: 'Subjects navigation' })
-  await expect(subjectsTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(subjectsTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business Learn', exact: true })).toHaveCount(0)
 })

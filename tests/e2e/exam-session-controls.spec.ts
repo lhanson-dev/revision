@@ -2,6 +2,8 @@ import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 async function seedSyntheticSession(page: Page) {
   const userId = '00000000-0000-4000-8000-000000000001'
@@ -47,6 +49,15 @@ async function seedSyntheticSession(page: Page) {
       }),
     })
   })
+  await page.route('**/rest/v1/learner_courses**', async (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify([
+      { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+      { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+    ]),
+  }))
+  await page.route('**/rest/v1/learner_course_events**', async (route) => route.fulfill({ status: 201, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/learning_evidence**', async (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
   await page.route('**/rest/v1/profiles**', async (route) => route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify({ is_admin: false }) }))
   await page.route('**/rest/v1/revision_assessments**', async (route) => route.fulfill({ status: 200, contentType: 'application/json', body: '[]' }))
@@ -57,10 +68,9 @@ async function seedSyntheticSession(page: Page) {
 }
 
 async function openAsPaper2Exam(page: Page) {
-  await page.goto(`${appPath}#/subjects`)
-  const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
-  await businessCard.getByRole('button', { name: /Open Business/ }).click()
-  await page.getByLabel('AQA AS Business').getByRole('button', { name: 'Open course' }).click()
+  await page.goto(`${appPath}#/courses`)
+  const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
+  await asCourseCard.getByRole('button', { name: 'Open course' }).click()
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
   const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' })
   await paper.locator('summary').click()

@@ -3,6 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const themeKey = 'revision:theme'
 const appPath = '/revision/app/'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 async function seedSyntheticSession(page: Page) {
   const userId = '00000000-0000-4000-8000-000000000001'
@@ -35,6 +37,19 @@ async function seedSyntheticSession(page: Page) {
     }
   }, { key: storageKey, id: userId, preferredThemeKey: themeKey })
 
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
   await page.route('**/rest/v1/learning_evidence**', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   })

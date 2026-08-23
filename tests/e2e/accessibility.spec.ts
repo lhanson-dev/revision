@@ -3,6 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 const wcagTags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
 async function seedSyntheticSession(page: Page) {
@@ -33,6 +35,19 @@ async function seedSyntheticSession(page: Page) {
     }))
   }, { key: storageKey, id: userId })
 
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
   for (const path of [
     'learning_evidence',
     'revision_assessments',
@@ -78,7 +93,7 @@ async function openMobileDrawer(page: Page) {
   return drawer
 }
 
-async function navigateGlobally(page: Page, destination: 'Plan' | 'Progress' | 'Subjects') {
+async function navigateGlobally(page: Page, destination: 'Plan' | 'Progress' | 'Courses') {
   if (isMobileLayout(page)) {
     const drawer = await openMobileDrawer(page)
     await drawer.getByRole('navigation', { name: 'Mobile navigation' }).getByRole('button', { name: destination, exact: true }).click()
@@ -116,20 +131,17 @@ test('global Home, Plan and Ask REV surfaces meet the automated WCAG A/AA baseli
   await expectWcagBaseline(page, 'Ask REV')
 })
 
-test('critical subject, learning, practice, exam and progress journey meets the automated WCAG A/AA baseline', async ({ page }) => {
+test('critical course, learning, practice, exam and progress journey meets the automated WCAG A/AA baseline', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
 
-  await navigateGlobally(page, 'Subjects')
-  await expect(page.getByRole('heading', { name: 'Subjects' })).toBeVisible()
-  await expectWcagBaseline(page, 'Subjects')
+  await navigateGlobally(page, 'Courses')
+  await expect(page.getByRole('heading', { name: 'Courses' })).toBeVisible()
+  await expectWcagBaseline(page, 'Courses')
 
-  const businessCard = page.locator('.subject-card').filter({ hasText: 'Business' }).first()
-  await businessCard.getByRole('button', { name: /Open Business/ }).click()
-  await expect(page.getByRole('heading', { name: 'Business', exact: true })).toBeVisible()
-  await expectWcagBaseline(page, 'Business subject home')
-
-  await page.getByLabel('AQA AS Business').getByRole('button', { name: 'Open course' }).click()
+  const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
+  await asCourseCard.getByRole('button', { name: 'Open course' }).click()
+  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
   const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
   await expect(courseNav).toBeVisible()
   await expectWcagBaseline(page, 'AQA AS Business course overview')
@@ -158,7 +170,7 @@ test('critical subject, learning, practice, exam and progress journey meets the 
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
   await expectWcagBaseline(page, 'Timed exam')
 
-  await page.goto(`${appPath}#/subjects/business/courses/aqa%3Aaqa-as%3A7131/progress`)
+  await page.goto(`${appPath}#/courses/aqa%3Aaqa-as%3A7131/progress`)
   await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
   await expectWcagBaseline(page, 'Course Progress')
 

@@ -1,6 +1,7 @@
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { assessPaperReadiness, recommendNextActivity, type ReadinessResult, type RevisionRecommendation } from '../engine/readiness/readiness'
+export type { CourseSection } from './navigation'
 
 export type CatalogueCourse = {
   id: string
