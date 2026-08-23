@@ -93,7 +93,7 @@ async function seedSession(page: Page) {
   })
 }
 
-test('Ask REV uses one crisp high-contrast CTA treatment across breakpoints', async ({ page }) => {
+test('Ask REV uses one crisp living high-contrast CTA treatment across breakpoints', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey CTA,\s*what shall we do today\?/ })).toBeVisible()
@@ -115,9 +115,11 @@ test('Ask REV uses one crisp high-contrast CTA treatment across breakpoints', as
     const presence = element.querySelector('.rev-presence-nav')
     const bar = element.querySelector('.rev-e-bar')
     const halo = element.querySelector('.rev-halo')
+    const mark = element.querySelector('.rev-living-e')
     const presenceStyle = presence ? getComputedStyle(presence) : null
     const barStyle = bar ? getComputedStyle(bar) : null
     const haloStyle = halo ? getComputedStyle(halo) : null
+    const markStyle = mark ? getComputedStyle(mark) : null
     return {
       background: control.backgroundColor,
       color: control.color,
@@ -126,16 +128,26 @@ test('Ask REV uses one crisp high-contrast CTA treatment across breakpoints', as
       backdropFilter: control.backdropFilter,
       presenceWidth: presenceStyle?.width ?? '',
       barFill: barStyle?.fill ?? '',
-      haloOpacity: haloStyle?.opacity ?? '',
+      haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
       haloAnimation: haloStyle?.animationName ?? '',
+      haloDuration: haloStyle?.animationDuration ?? '',
+      haloIterations: haloStyle?.animationIterationCount ?? '',
+      markAnimation: markStyle?.animationName ?? '',
+      markDuration: markStyle?.animationDuration ?? '',
+      markIterations: markStyle?.animationIterationCount ?? '',
     }
   })
 
   expect(appearance.background).toBe('rgb(43, 182, 163)')
   expect(appearance.color).toBe('rgb(19, 32, 38)')
   expect(appearance.barFill).toBe('rgb(255, 255, 255)')
-  expect(appearance.haloOpacity).toBe('0')
-  expect(appearance.haloAnimation).toBe('none')
+  expect(appearance.haloOpacity).toBeGreaterThan(0.5)
+  expect(appearance.haloAnimation).toBe('revCtaRestingBreathe')
+  expect(appearance.haloDuration).toBe('5.8s')
+  expect(appearance.haloIterations).toBe('infinite')
+  expect(appearance.markAnimation).toBe('revCtaRestingMark')
+  expect(appearance.markDuration).toBe('5.8s')
+  expect(appearance.markIterations).toBe('infinite')
   expect(appearance.backdropFilter).toBe('none')
   expect(appearance.presenceWidth).toBe('40px')
 
@@ -146,4 +158,20 @@ test('Ask REV uses one crisp high-contrast CTA treatment across breakpoints', as
     expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
     expect(appearance.borderRadius).toBe('14px')
   }
+
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const reducedMotion = await askRev.evaluate((element) => {
+    const halo = element.querySelector('.rev-halo')
+    const mark = element.querySelector('.rev-living-e')
+    const haloStyle = halo ? getComputedStyle(halo) : null
+    const markStyle = mark ? getComputedStyle(mark) : null
+    return {
+      haloOpacity: Number.parseFloat(haloStyle?.opacity ?? '0'),
+      haloAnimation: haloStyle?.animationName ?? '',
+      markAnimation: markStyle?.animationName ?? '',
+    }
+  })
+  expect(reducedMotion.haloOpacity).toBeGreaterThan(0.5)
+  expect(reducedMotion.haloAnimation).toBe('none')
+  expect(reducedMotion.markAnimation).toBe('none')
 })
