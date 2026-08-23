@@ -52,7 +52,7 @@ The experience choice must be presented on a dedicated post-registration screen 
 
 Do **not** use a generic dropdown or select field for this decision. The choice is important enough to be immediately visible and understandable without opening another control.
 
-Each card should make the experience type and its availability obvious at a glance. Where an experience is enabled, activating its card records that primary experience type on the account and moves the user directly into the next stage of that experience's onboarding.
+Each card should make the experience type and its availability obvious at a glance. Where an experience is enabled, activating its card records that primary experience type on the account and moves the user directly into the next stage of that experience's onboarding. The selector therefore occurs after account creation and before entry into the relevant product dashboard or normal product shell.
 
 The card treatment must use the approved Revision Interface System and Visual Brand System rather than introducing a one-off local component style. The three choices should feel deliberate and well-designed without becoming decorative or visually noisy.
 
@@ -179,7 +179,7 @@ Recovery must not silently change primary experience type, Student/payer/support
 - Keep required account data minimal.
 - Keep the post-registration experience selector to Student / Parent / Teacher rather than turning it into a profile questionnaire.
 - Present Student / Parent / Teacher as three visible card-style experience choices rather than a dropdown.
-- Activating an enabled experience card must record that primary experience type and route directly into that experience's onboarding.
+- Activating an enabled experience card must record that primary experience type and route directly into that experience's onboarding before the normal product dashboard/shell.
 - Keep Student as the only enabled initial experience; show Parent and Teacher clearly as **Coming soon** until separately governed launch readiness is achieved.
 - Do not ask a social-login user to repeat profile data that the trusted provider has already supplied and Revision can safely use.
 - Do not make social login mandatory.
