@@ -31,6 +31,7 @@ Use this file to find the governing source before substantive work.
 - Pre-B7 light/dark compatibility integrity hardening → `docs/technical/Interface Theme Integrity Pre-B7.md`
 - B7 learner-shell recurring icon ownership consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
 - B7 shared overlay/focus ownership consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
+- B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
@@ -123,6 +124,7 @@ Use this file to find the governing source before substantive work.
 - Pre-B7 interface theme integrity checkpoint → `docs/technical/Interface Theme Integrity Pre-B7.md`
 - B7 learner-shell recurring icon consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
 - B7 shared overlay/focus ownership consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
+- B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
