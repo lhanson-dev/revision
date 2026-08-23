@@ -322,7 +322,7 @@ export function PlannerRuntime() {
 
       <aside className="runtime-sidebar" aria-label="Learner navigation">
         <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
-        <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><span aria-hidden="true">✦</span>Ask REV</button>
+        <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
         <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
           <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><NavIcon name="home" /><span>Home</span></button>
           <button className={route.kind === 'plan' ? 'active' : ''} onClick={() => navigate(planRoute())}><NavIcon name="plan" /><span>Plan</span></button>
