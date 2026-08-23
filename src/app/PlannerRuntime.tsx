@@ -37,17 +37,13 @@ import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
 import { RevPresence } from './RevPresence'
-import { DrawerShell, Icon, IconButton, OverlayBackdrop, Status } from './ui'
+import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Status } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const themeStorageKey = 'revision:theme'
 
 type ThemeName = 'light' | 'dark'
 type AccountSection = 'profile' | 'settings'
-
-function RevWordmark() {
-  return <span className="rev-wordmark" aria-hidden="true"><span>R</span><span className="rev-wordmark-e"><i></i><i></i><i></i></span><span>V</span></span>
-}
 
 function initialTheme(): ThemeName {
   const saved = window.localStorage.getItem(themeStorageKey)
@@ -287,7 +283,7 @@ export function PlannerRuntime() {
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
 
       <aside className="runtime-sidebar" aria-label="Learner navigation">
-        <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button>
+        <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" /></button>
         <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
         <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
           <button className={route.kind === 'home' ? 'active' : ''} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
@@ -309,7 +305,7 @@ export function PlannerRuntime() {
         </div>
       </aside>
 
-      <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button></header>
+      <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" /></button></header>
 
       <div className="runtime-screen">{screen}</div>
 
@@ -334,7 +330,7 @@ export function PlannerRuntime() {
       {menuOpen && <>
         <OverlayBackdrop className="runtime-mobile-menu-backdrop" label="Close menu" onClick={closeMobileMenu} />
         <DrawerShell className="runtime-mobile-drawer" label="Navigation menu" onDismiss={closeMobileMenu} initialFocusSelector=".runtime-mobile-drawer-close">
-          <header className="runtime-mobile-drawer-head"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button><IconButton className="runtime-mobile-drawer-close" label="Close menu" onClick={closeMobileMenu}><Icon name="close" size="compact" /></IconButton></header>
+          <header className="runtime-mobile-drawer-head"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" /></button><IconButton className="runtime-mobile-drawer-close" label="Close menu" onClick={closeMobileMenu}><Icon name="close" size="compact" /></IconButton></header>
           <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
             <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
             <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
