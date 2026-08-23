@@ -1,6 +1,6 @@
 # Revision Interface System Operating Standard
 
-**Status:** active technical implementation standard; B1–B7 shared foundation implemented, with B7.5 final acceptance pending exact-head assurance and Founder-approved merge  
+**Status:** active technical implementation standard; B1–B7 shared foundation live and B7.5 final acceptance complete  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Applies to:** learner application, Admin and future marketing/product surfaces that consume the shared product interface system  
 **Purpose:** make visual consistency enforceable in implementation rather than dependent on individual page design judgement
@@ -216,7 +216,7 @@ Enforcement should expand when the shared contract expands; it must not become a
 - **B5 — Exam Prep / Exam Simulator:** live.
 - **B6 — Admin:** live.
 - **B7.1–B7.4 — identity/icon/overlay/component ownership consolidation:** live.
-- **B7.5 — final compatibility/theme-bridge retirement and visual acceptance:** implemented on PR #148 candidate; final exact-head assurance and Founder-approved merge required.
+- **B7.5 — final compatibility/theme-bridge retirement and visual acceptance:** live via PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`; exact-head CI #869 and governed production run `32656318718` succeeded.
 
 Further journey-led work should build from the completed shared foundation rather than reopen parallel foundation ownership.
 
@@ -239,4 +239,4 @@ The default response to a page-level styling problem is **reuse or extend the sh
 
 This standard operationalises existing Visual Brand System and Product UX authority. The B7 changes update implementation structure and assurance, not approved brand/product behaviour.
 
-The component registry, current implementation record and B7 final acceptance record are maintained in the same governed PR. Historical research/audits are not rewritten.
+The component registry, current implementation record and B7 final acceptance record are maintained as current technical truth. Historical research/audits are not rewritten.
