@@ -62,6 +62,19 @@ Activating an enabled experience card records that account type and moves direct
 
 Unavailable meaning must not rely on colour alone and must be available to keyboard and assistive-technology users.
 
+### Responsive account-card treatment
+
+The three account types must remain understandable as one choice set on constrained screens rather than becoming three oversized feature cards.
+
+- Desktop may use the more spacious three-card composition where the viewport supports it.
+- At tablet and phone widths the three cards become **compact stacked rows** rather than tall blocks.
+- The account-type **icon sits on the same line as the title**.
+- Each card keeps only one short supporting line beneath the title.
+- **Student** keeps its clear Continue affordance at the trailing edge.
+- **Parent** and **Teacher** keep a visible trailing **Coming soon** state rather than consuming an additional content row.
+- At common phone and tablet sizes, all three choices should be visible together in the initial viewport without requiring large vertical scrolling solely to compare account types.
+- Responsive compaction must preserve touch-target size, readable text, keyboard focus and the explicit unavailable semantics.
+
 ## First-course interaction
 
 First-course setup is progressive and should ask only for information required to resolve the exact supported course, for example qualification, subject and exam board.
@@ -107,16 +120,19 @@ Home should therefore orient and create momentum rather than present an empty se
 
 ## Founder prototype review
 
-The clickable prototype representing this contract was reviewed by the Founder on 23 August 2026 and accepted subject to Dark-mode and mobile checks.
+The clickable prototype representing this contract was reviewed by the Founder on 23 August 2026 and accepted subject to Dark-mode and responsive checks.
 
-Those checks were completed before this contract was recorded:
+The initial checks and subsequent responsive refinement established that:
 
 - Light and Dark theme transitions were exercised through the real prototype toggle;
 - Dark mode was corrected so the application background and inherited text/surface tokens switch with the theme rather than leaving a light outer canvas;
 - the full click-through completed successfully in both Light and Dark modes;
-- all eight post-signup screens were checked at representative **390px** and **360px** phone widths;
-- there was **no horizontal overflow** on any checked screen;
-- the account cards stack cleanly on mobile;
+- all eight post-signup screens were checked at representative **390px** and **360px** phone widths with no horizontal overflow;
+- following Founder feedback that the account-type cards were too tall on mobile/tablet, the selector was compacted into shallow stacked rows with the icon and title on one line;
+- the refined account selector was browser-checked at **360×640**, **390×844** and **768×1024**;
+- Student, Parent and Teacher are all visible together within those checked initial viewports;
+- the checked responsive selector has no horizontal overflow;
+- Dark mode on the refined selector resolves to the governed dark background (`#0F2024`) and primary text (`#E6F2EF`) token values;
 - longer Learn content remains vertically scrollable without sideways scrolling;
 - the prototype-only banner no longer obstructs the mobile top bar; and
 - the duplicate prototype/Home identity treatment was removed from the Home state.
@@ -129,7 +145,7 @@ Use the approved Revision Calm Teal visual system, Manrope typography, shared In
 
 The screens should remain visually coherent without becoming identical card grids:
 
-- account selection should feel like a deliberate product-routing choice;
+- account selection should feel like a deliberate product-routing choice, with compact comparison on phone/tablet rather than oversized cards;
 - course setup should feel focused and progressive;
 - the starting check should prioritise the question and progress through the short task;
 - the recommendation should feel intelligently interpreted rather than analytically dense;
