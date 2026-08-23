@@ -33,7 +33,6 @@ import './app/interface-exam-experience.css'
 import './app/interface-admin.css'
 import './app/ask-rev-cta.css'
 import './app/rev-resting-presence.css'
-import './app/interface-theme-integrity.css'
 
 const root = document.getElementById('root')
 

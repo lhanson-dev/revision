@@ -126,6 +126,20 @@ async function themeStyles(locator: Locator, kind: 'surface' | 'accent') {
   }, kind)
 }
 
+async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft') {
+  return locator.evaluate((element, requestedRole) => {
+    const style = getComputedStyle(element)
+    const probe = document.createElement('span')
+    probe.style.position = 'fixed'
+    probe.style.pointerEvents = 'none'
+    probe.style.backgroundColor = `var(${requestedRole})`
+    element.appendChild(probe)
+    const result = { actual: style.backgroundColor, expected: getComputedStyle(probe).backgroundColor }
+    probe.remove()
+    return result
+  }, role)
+}
+
 test('course overview and exam prep use semantic dark surfaces and readable accents', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
@@ -164,7 +178,7 @@ test('course overview and exam prep use semantic dark surfaces and readable acce
   await paperCard.locator('summary').click()
   const paperContent = paperCard.locator('.paper-exam-content')
   await expect(paperContent).toBeVisible()
-  const paperContentSurface = await themeStyles(paperContent, 'surface')
+  const paperContentSurface = await backgroundRoleStyles(paperContent, '--color-surface-soft')
   expect(paperContentSurface.actual).toBe(paperContentSurface.expected)
   expect(paperContentSurface.actual).not.toBe('rgb(255, 255, 255)')
 

@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { BrandAsset, brandAssetSources } from './BrandAsset'
-import { Button, SelectField, TextField } from './controls'
+import { Button, SelectField, TextAreaField, TextField } from './controls'
 import { Status } from './feedback'
 import { Icon } from './Icon'
 import { EmptyState, PageHeader, Surface } from './layout'
@@ -28,6 +28,7 @@ describe('Revision reusable interface components', () => {
       <>
         <Button variant="secondary" size="large">Continue</Button>
         <TextField label="Assessment name" hint="Use the name shown on your timetable." defaultValue="Mock" />
+        <TextAreaField label="Draft answer" hint="Write the answer before comparing guidance." defaultValue="Draft" />
         <SelectField label="Importance" error="Choose an importance level." defaultValue="normal">
           <option value="normal">Normal</option>
         </SelectField>
@@ -37,6 +38,8 @@ describe('Revision reusable interface components', () => {
     expect(markup).toContain('ui-button ui-button--secondary ui-button--large')
     expect(markup).toContain('class="ui-field-label">Assessment name')
     expect(markup).toContain('class="ui-field-support">Use the name shown on your timetable.')
+    expect(markup).toContain('ui-field ui-field--textarea')
+    expect(markup).toContain('class="ui-field-support">Write the answer before comparing guidance.')
     expect(markup).toContain('ui-field ui-field--error')
     expect(markup).toContain('aria-invalid="true"')
   })

@@ -91,6 +91,12 @@
   line-height: var(--type-body-s-line);
 }
 
+.ui-field--textarea {
+  min-height: 160px;
+  padding-block: var(--space-3);
+  resize: vertical;
+}
+
 .ui-field--error {
   border-color: var(--status-error-fg);
 }
