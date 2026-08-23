@@ -21,16 +21,7 @@
 }
 
 .auth-brand {
-  color: var(--color-text);
-  font-size: var(--type-h2-size);
-  line-height: var(--type-h2-line);
-  font-weight: var(--type-h2-weight);
-  letter-spacing: -.03em;
-}
-
-.auth-brand span {
-  margin-left: var(--space-2);
-  color: var(--color-action);
+  width: min(190px, 48vw);
 }
 
 .auth-card,
@@ -209,6 +200,7 @@
 
 @media (max-width: 480px) {
   .auth-shell { padding: var(--space-4); }
+  .auth-brand { width: min(168px, 52vw); }
   .auth-card,
   .auth-entry-card { padding: var(--space-6) var(--space-5); }
   .auth-provider-button { min-height: 50px; }
