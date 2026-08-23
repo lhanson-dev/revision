@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type MutableRefObject } from 'react'
+import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type RefObject } from 'react'
 import { classNames } from './classNames'
 
 const focusableSelector = [
@@ -85,10 +85,15 @@ function lockBodyScroll() {
   }
 }
 
+function firstAvailableMatch(selector: string) {
+  return Array.from(document.querySelectorAll<HTMLElement>(selector)).find(isAvailableForFocus) ?? null
+}
+
 function useDialogFocusContract(
-  dialogRef: MutableRefObject<HTMLDivElement | null>,
+  dialogRef: RefObject<HTMLDivElement | null>,
   onDismiss: (() => void) | undefined,
   initialFocusSelector: string | undefined,
+  returnFocusSelector: string | undefined,
 ) {
   const onDismissRef = useRef(onDismiss)
 
@@ -169,9 +174,15 @@ function useDialogFocusContract(
 
       releaseBackground()
       releaseScroll()
-      if (previousFocus?.isConnected) focusElement(previousFocus)
+
+      window.requestAnimationFrame(() => {
+        if (activeDialogStack.length > 0) return
+        const selectedReturnTarget = returnFocusSelector ? firstAvailableMatch(returnFocusSelector) : null
+        const returnTarget = selectedReturnTarget ?? previousFocus
+        if (returnTarget?.isConnected && isAvailableForFocus(returnTarget)) focusElement(returnTarget)
+      })
     }
-  }, [dialogRef, initialFocusSelector])
+  }, [dialogRef, initialFocusSelector, returnFocusSelector])
 }
 
 export interface OverlayBackdropProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -196,6 +207,7 @@ export interface DialogShellProps extends HTMLAttributes<HTMLDivElement> {
   labelledBy?: string
   onDismiss?: () => void
   initialFocusSelector?: string
+  returnFocusSelector?: string
 }
 
 function DialogShell({
@@ -203,12 +215,13 @@ function DialogShell({
   labelledBy,
   onDismiss,
   initialFocusSelector,
+  returnFocusSelector,
   className,
   shellClassName,
   ...props
 }: DialogShellProps & { shellClassName: string }) {
   const dialogRef = useRef<HTMLDivElement>(null)
-  useDialogFocusContract(dialogRef, onDismiss, initialFocusSelector)
+  useDialogFocusContract(dialogRef, onDismiss, initialFocusSelector, returnFocusSelector)
 
   return (
     <div
@@ -232,7 +245,7 @@ export function DrawerShell(props: DialogShellProps) {
   return <DialogShell {...props} shellClassName="ui-drawer-shell" />
 }
 
-export function PopoverShell({ label, labelledBy, className, ...props }: DialogShellProps) {
+export function PopoverShell({ label, labelledBy, onDismiss: _onDismiss, initialFocusSelector: _initialFocusSelector, returnFocusSelector: _returnFocusSelector, className, ...props }: DialogShellProps) {
   return (
     <div
       role="dialog"
