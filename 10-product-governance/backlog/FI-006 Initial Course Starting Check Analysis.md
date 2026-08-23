@@ -3,18 +3,23 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-006  
-**Lifecycle state:** Analyse  
+**Lifecycle state:** Ready  
 **Analysis started:** 2026-08-24  
+**Ready approved:** 2026-08-24  
 **Owner:** Product / Founder  
-**Implementation status:** Not started — material production implementation is prohibited until explicit human-approved `Ready` status.
+**Implementation status:** Not started — FI-006 is human-approved `Ready`; governed implementation may begin only from approved `main` and moves the feature to `In Progress` when production implementation actually starts.
 
 ## Lifecycle evidence
 
-FI-006 is already `To Do` because baseline/diagnostic assessment is part of Revision's approved Understand capability and the Founder previously confirmed that an initial broad knowledge check belongs in the product.
+FI-006 was already `To Do` because baseline/diagnostic assessment is part of Revision's approved Understand capability and the Founder previously confirmed that an initial broad knowledge check belongs in the product.
 
-On 24 August 2026 the Founder instructed the agent to continue the GJ-01 implementation-readiness work. FI-021 identifies FI-006 as the critical evidence dependency for the accepted Student first-use journey. Active Definition-of-Ready analysis therefore begins here and FI-006 moves `To Do → Analyse`.
+On 24 August 2026 the Founder instructed the agent to continue the GJ-01 implementation-readiness work. FI-021 identifies FI-006 as the critical evidence dependency for the accepted Student first-use journey. Active Definition-of-Ready analysis therefore began and FI-006 moved `To Do → Analyse`.
 
-This does **not** constitute `Analyse → Ready` approval and does not permit production implementation.
+The complete applicable Definition-of-Ready assessment below passed, the required FI-006 normative promotions were included on PR #156, and the Founder then gave the explicit human approval command:
+
+> `Approve FI-006 Ready`
+
+That records the governed `Analyse → Ready` decision. The approval permits FI-006 to proceed to governed development once this Ready/authority state is integrated into approved `main`; it is not merge approval for PR #156 and does not itself move FI-006 to `In Progress`.
 
 ## Governing context
 
@@ -124,7 +129,7 @@ Required explanation:
 
 The starting recommendation remains guidance. The Student may choose another area after seeing the recommendation.
 
-## 5. Evidence / intelligence model — PASS subject to normative promotion in this PR
+## 5. Evidence / intelligence model — PASS
 
 ### New evidence class: directional starting-check evidence
 
@@ -389,18 +394,20 @@ and separately:
 
 Because evidence/readiness is shared, regress normal Practice, Progress/readiness and recommendation journeys so existing ordinary evidence continues to behave unchanged.
 
-## 15. Documentation and authority impact — PASS subject to governed changes in this PR / FI-021
+## 15. Documentation and authority impact — PASS
 
 ### FI-006 normative promotion
 
-Before FI-006 may become Ready, update:
+PR #156 includes the required FI-006 normative promotion:
 
-- `10-product-governance/Product System Model.md` — recognise directional starting-check evidence and its permitted influence;
-- `40-evidence-and-trust/Claims and Progress Governance.md` — explicitly prohibit starting-check evidence from creating mastery/readiness/coverage claims by itself.
+- `10-product-governance/Product System Model.md` — recognises directional starting-check evidence and its permitted influence;
+- `40-evidence-and-trust/Claims and Progress Governance.md` — explicitly prohibits starting-check evidence from creating mastery/readiness/coverage claims by itself.
+
+Those authority changes must be integrated into approved `main` before FI-006 production implementation begins.
 
 ### FI-021 journey promotion
 
-The precise successful-signup → course → starting check → first useful work sequence belongs to FI-021/GJ-01 and should be promoted into `10-product-governance/Core User Journeys.md` on the onboarding readiness branch rather than duplicated here.
+The precise successful-signup → course → starting check → first useful work sequence belongs to FI-021/GJ-01 and is being promoted into `10-product-governance/Core User Journeys.md` on PR #155 rather than duplicated here.
 
 ### Implementation documentation later
 
@@ -438,19 +445,23 @@ For MVP:
 
 This deterministic tie-break avoids hidden AI judgement and is straightforward to assure. Future evidence may immediately reprioritise the Student after the first useful activity.
 
-## 17. Human Definition-of-Ready approval — PENDING
+## 17. Human Definition-of-Ready approval — GRANTED
 
-An AI agent may recommend FI-006 `Ready` after the normative authority changes are complete and the exact PR has passed appropriate documentation assurance. It may not self-approve `Analyse → Ready`.
+On 24 August 2026, after the complete Definition-of-Ready assessment and FI-006 authority changes were presented, the Founder explicitly approved:
+
+> `Approve FI-006 Ready`
+
+FI-006 is therefore human-approved **Ready**. This approval is permission to proceed to governed development on the approved scope once the Ready/authority state is integrated into `main`; it is not approval to merge PR #156 and it does not by itself indicate that implementation has started.
 
 ---
 
-# Preliminary Definition-of-Ready decision
+# Definition-of-Ready decision
 
 - Student problem — **PASS**
 - Strategic case — **PASS**
 - User value — **PASS**
 - Experience — **PASS**
-- Evidence / intelligence — **PASS subject to normative promotion**
+- Evidence / intelligence — **PASS**
 - REV role — **PASS**
 - MVP boundary — **PASS**
 - Free / Paid / Premium — **PASS**
@@ -460,16 +471,16 @@ An AI agent may recommend FI-006 `Ready` after the normative authority changes a
 - Risk / trust / accessibility — **PASS**
 - Technical feasibility — **PASS**
 - Test / assurance approach — **PASS**
-- Documentation / authority impact — **PASS subject to governed changes**
+- Documentation / authority impact — **PASS**
 - Blocking decisions — **NONE**
-- Human Definition-of-Ready approval — **NOT YET GRANTED**
+- Human Definition-of-Ready approval — **GRANTED 2026-08-24**
 
 ## Product Manager recommendation
 
-Complete the two normative promotions identified above, update the canonical backlog to `Analyse`, then present FI-006 for explicit Founder `Ready` approval. Do **not** start production implementation before that approval is recorded.
+FI-006 is `Ready`. Integrate the Ready/lifecycle and normative authority state through PR #156 before starting production implementation. Once that merge is approved and verified on `main`, the next governed step is a small implementation PR that moves FI-006 to `In Progress` only when implementation actually begins.
 
 ## Documentation-impact check
 
-This analysis changes product/evidence intent beyond the existing generic diagnostic backlog description by explicitly defining the directional evidence class, MVP boundary, deterministic first-recommendation rule and evidence-protection contract. Therefore normative authority changes are required before Ready.
+The FI-006 product/evidence intent is now fully defined for the MVP and the required normative authority changes are included on PR #156. The canonical feature backlog must be updated on this branch to record `Ready` before the PR is merge-ready.
 
-No production code or technical implementation documentation should be changed during this analysis increment.
+No production code or technical implementation documentation changes belong in this analysis/readiness PR.
