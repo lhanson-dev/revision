@@ -44,6 +44,17 @@ The post-merge release verifier then failed closed as designed. No new productio
 
 The release-lineage error stated that previous main commit `22c6d40295cbeb012b12895538318e3601f62ab9` could not be proven as a governed merge because PR #139 had no Founder approval marker for exact head `8a514a91b41a36da24c0606b000143d74d62e1df`.
 
+### Merge-boundary configuration evidence
+
+After the PR #138 release failure, connected GitHub branch metadata for current `main` reported:
+
+- branch `protected: true` at the top-level metadata flag;
+- nested protection `enabled: false`;
+- required-status-check `enforcement_level: off`; and
+- no required status contexts/checks.
+
+This does not provide evidence that `revision/founder-approval` is enforced at the repository merge boundary. The connected capability does not expose a mutation for branch/ruleset protection, so this incident response cannot truthfully claim that repository-level enforcement has been enabled from this workflow.
+
 ## Impact
 
 - The governed production release path is blocked.
@@ -57,7 +68,7 @@ This matches the established P1 path-to-live severity pattern: production deploy
 
 The machine-readable pre-merge status gate detected the missing approval evidence correctly, but repository/merge execution did not prevent a merge while that status was `pending`.
 
-This is therefore not primarily a release-verifier defect. It is a failure to enforce the existing pre-merge control at the merge boundary.
+The observed branch metadata is consistent with required status-check enforcement not being active at the merge boundary. This is therefore not primarily a release-verifier defect. It is a failure to enforce the existing pre-merge control at the merge boundary.
 
 ## Recovery direction
 
@@ -67,7 +78,9 @@ ADR-0018 proposes Recovery 4:
 2. establish a new prospective release-lineage trust root from failed current `main` commit `8ed308ad39a9f585a2a578be396a0161df011a8b`;
 3. require the Recovery 4 PR itself to satisfy exact-head CI, explicit Founder approval, exact marker evidence and `revision/founder-approval = success` before merge;
 4. require full post-merge lineage, backend readiness, build, deploy and production smoke success; and
-5. independently harden/verify repository-level enforcement so `revision/founder-approval` is required before future `main` merges where GitHub supports it.
+5. independently harden/verify repository-level enforcement so `revision/founder-approval` is required before future `main` merges where GitHub supports it, or implement an equivalent independently enforced fail-closed merge control.
+
+Recovery 4 can restore the prospective production lineage, but DEF-2026-007 must remain open until the merge-boundary prevention requirement is separately evidenced.
 
 ## Historical evidence rule
 
