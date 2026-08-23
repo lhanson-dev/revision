@@ -1,6 +1,6 @@
 # GJ-01 — Student Onboarding Screen Contract
 
-**Status:** Founder-reviewed journey-design input — accepted 23 August 2026; not production implementation  
+**Status:** Founder-reviewed journey-design input — accepted and design-locked 23 August 2026; not production implementation  
 **Golden journey:** GJ-01 — First Ever Use → First Useful Revision  
 **Scope:** successful account creation → Student Home  
 **Out of scope:** public marketing/landing site and redesign of the existing signup screen  
@@ -43,7 +43,7 @@ The new Student must not be dropped directly onto an empty or generic dashboard 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | **Choose account type** | Tell Revision which experience is mine | Route the account into the correct product experience | Student is available; Parent and Teacher are future experiences | **Student card** | None in the primary path | Minimal/resting presence only | Student type persists → first-course setup |
 | **Add first course** | Tell Revision what I study | Establish one exact supported course with minimal setup | I only need one course to start; I can add the rest later | **Add this course** | None in the primary path | Briefly explain that course context makes recommendations relevant | Exact supported course saved → course-ready state |
-| **Course ready** | Understand why Revision is asking me questions next | Bridge setup into useful personalisation | My course is ready; a short check will improve the first recommendation | **Find my starting point** | `Skip for now` belongs to the later alternatives/recovery pass | Explain purpose, not conduct a conversation | Student enters quick starting check |
+| **Course ready** | Understand that my course was added and why Revision is asking me questions next | Confirm success, then bridge setup into useful personalisation | My course was added successfully; a short check will improve the first recommendation | **Find my starting point** | `Skip for now` belongs to the later alternatives/recovery pass | Explain purpose, not conduct a conversation | Student enters quick starting check |
 | **Quick starting check** | Give enough early evidence to begin intelligently | Collect a deliberately small evidence sample without presenting a high-stakes diagnostic | This is short and does not judge my whole course | **Answer / Continue** | None in the primary path | Quiet contextual guidance only | Small evidence set exists → early interpretation |
 | **Starting recommendation** | Know where to begin | Turn limited evidence into a cautious, actionable first recommendation | This is an early signal, not a mastery/readiness judgement | **Start revision** | **Choose something else** | Explain why this was recommended and acknowledge uncertainty | Route directly into exact useful work |
 | **First useful revision** | Actually revise something | Deliver useful learning/practice rather than another navigation step | I am now doing the work Revision recommended | **Complete / Check answer** | Contextual help where appropriate | Available in context without taking over the task | Useful activity completed; evidence created |
@@ -87,7 +87,10 @@ Only one course is required before first value. Additional courses are added lat
 
 The course-ready state should use a clear page hierarchy rather than splitting the screen into two equally weighted panels.
 
-- **`Business is ready.`** is the page-level title and spans the top of the content area.
+- The top of the screen is a restrained, explicit **success state**: an accessible success tick/icon with **`Course added`**.
+- Success meaning must not rely on colour alone; the text confirmation remains present for visual and assistive-technology users.
+- The success cue should feel positive and reassuring without becoming celebratory, gamified or visually noisy.
+- **`Business is ready.`** remains the dominant page-level title and spans the top of the content area beneath the success confirmation.
 - The exact course identity remains immediately visible with the title, for example `AQA A-level Business` and `AQA · 7132`.
 - Beneath the title, the next-step content forms one simple action row.
 - The left side explains **`Now let’s work out where to start.`** and why the short starting check will make the first recommendation more useful.
@@ -132,9 +135,9 @@ Home should therefore orient and create momentum rather than present an empty se
 
 ## Founder prototype review
 
-The clickable prototype representing this contract was reviewed by the Founder on 23 August 2026 and accepted subject to Dark-mode and responsive checks.
+The clickable prototype representing this contract was reviewed iteratively by the Founder on 23 August 2026 and is now design-locked for the GJ-01 primary happy path.
 
-The initial checks and subsequent responsive refinement established that:
+The completed prototype review and responsive refinement established that:
 
 - Light and Dark theme transitions were exercised through the real prototype toggle;
 - Dark mode was corrected so the application background and inherited text/surface tokens switch with the theme rather than leaving a light outer canvas;
@@ -145,6 +148,8 @@ The initial checks and subsequent responsive refinement established that:
 - Student, Parent and Teacher are all visible together within those checked initial viewports;
 - the checked responsive selector has no horizontal overflow;
 - Dark mode on the refined selector resolves to the governed dark background (`#0F2024`) and primary text (`#E6F2EF`) token values;
+- the Course-ready state was simplified from competing panels into one page-level confirmation followed by one explanation/action row;
+- the Course-ready confirmation now uses an accessible tick + `Course added` success cue while keeping `Business is ready.` as the dominant title;
 - longer Learn content remains vertically scrollable without sideways scrolling;
 - the prototype-only banner no longer obstructs the mobile top bar; and
 - the duplicate prototype/Home identity treatment was removed from the Home state.
@@ -159,7 +164,7 @@ The screens should remain visually coherent without becoming identical card grid
 
 - account selection should feel like a deliberate product-routing choice, with compact comparison on phone/tablet rather than oversized cards;
 - course setup should feel focused and progressive;
-- the course-ready state should use one page-level confirmation followed by one obvious next-step row rather than two competing panels;
+- the course-ready state should use one positive success confirmation, one page-level title and one obvious next-step row rather than competing panels;
 - the starting check should prioritise the question and progress through the short task;
 - the recommendation should feel intelligently interpreted rather than analytically dense;
 - Learn should prioritise comprehension and the response/feedback loop; and
