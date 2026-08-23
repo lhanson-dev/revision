@@ -156,6 +156,12 @@ The completed prototype review and responsive refinement established that:
 
 The approved experience must continue to satisfy Revision's responsive and WCAG 2.2 AA baseline during implementation; prototype checks are design validation, not production accessibility certification.
 
+## Design-lock boundary
+
+The GJ-01 primary happy path described in this document is now the accepted design input for the next governed implementation-definition stage. Later implementation should not casually reinterpret the journey, screen jobs or hierarchy during coding.
+
+A future change to the accepted journey order, account-type interaction, first-course setup, starting-check purpose, recommendation-to-work transition, Course-ready hierarchy or Home-entry principle should be treated as a deliberate design/product change and documented accordingly rather than appearing as incidental implementation drift.
+
 ## Visual direction
 
 Use the approved Revision Calm Teal visual system, Manrope typography, shared Interface System foundations and Light/Dark themes.
