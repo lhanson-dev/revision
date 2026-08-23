@@ -6,7 +6,7 @@
 
 Describe how the approved Calm Teal, Manrope and Living E visual system is implemented in the canonical signed-in learner runtime.
 
-Normative visual authority remains `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Identity Asset Usage Rules.md` v1.2. This document records implementation truth only.
+Normative visual authority remains `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Identity Asset Usage Rules.md` v1.3. This document records implementation truth only.
 
 ## Canonical runtime
 
@@ -109,14 +109,18 @@ The shared CTA contract is:
 - Primary Teal action surface using the existing `--color-action` role;
 - Graphite action label using the existing `--color-action-text` role;
 - the same explicit `Ask REV` label at every breakpoint;
-- the same compact Living E geometry at every breakpoint;
+- the same compact 40px Living E presence at every breakpoint;
 - **Neutral 0 / white bars** when the Living E sits on the Primary Teal CTA, implementing the governed inverse-on-brand identity treatment;
 - a restrained white/Soft Aqua halo around the bars rather than bloom over them, so the E stays crisp;
+- the complete halo contained inside the 40px presence and the control clipped to its own surface as a defensive boundary, so the glow never spills past the CTA edge;
 - a 5.8s low-amplitude Resting loop for halo breathing plus very small whole-mark drift/scale;
-- no independent bar animation while Resting; and
-- responsive height, floating depth, width and safe-area placement where the tablet/mobile dock requires them.
+- no independent bar animation while Resting;
+- a 40px centred label line box paired with the 40px Living E presence so the mark and text share the same vertical midpoint and the pair is centred as one flex group; and
+- responsive height, typography, floating depth, width and safe-area placement where the tablet/mobile dock requires them.
 
-Desktop uses a 52px minimum CTA height in the persistent left rail. Tablet/mobile retain the existing bounded dock placement and width behaviour, with a 58px minimum height and floating depth appropriate to a persistent bottom action. These are responsive size adaptations of one CTA design, not separate identities.
+The contained halo implementation uses a 4% inset inside the 40px presence, zero external pseudo-element inset and the existing maximum 1.08 Resting scale. That combination preserves the whole visible glow inside the presence even at the largest point in the animation instead of relying on clipping to hide overflow.
+
+Desktop uses a 52px minimum CTA height in the persistent left rail and retains the governed 15px button type role. Tablet/mobile retain the existing bounded dock placement and width behaviour, with a 58px minimum height, floating depth and the existing **Body Large / 18px** type-size role for a stronger persistent action label. These are responsive size adaptations of one CTA design, not separate identities.
 
 When reduced motion is requested, the CTA keeps the inverse white bars and a visible static halo but removes the Resting animation.
 
@@ -176,7 +180,7 @@ Desktop uses a persistent left rail containing:
 
 Tablet/mobile do not use the retired five-item persistent bottom navigation. They use the governed top bar + drawer pattern and retain Ask REV as the only persistent bottom learner action.
 
-The tablet/mobile Ask REV dock uses the same CTA visual contract as desktop while adapting its width, floating depth and safe-area spacing to the viewport. The control is hidden while the contextual REV layer is already open and on surfaces excluded by the learner-shell navigation rules.
+The tablet/mobile Ask REV dock uses the same CTA visual contract as desktop while adapting its width, floating depth, 18px label treatment and safe-area spacing to the viewport. The control is hidden while the contextual REV layer is already open and on surfaces excluded by the learner-shell navigation rules.
 
 The top-left runtime brand uses the same three-bar E construction so the wordmark, hero, conversation and navigation share one visual identity.
 
@@ -186,7 +190,7 @@ The top-left runtime brand uses the same three-bar E construction so the wordmar
 
 `src/app/living-e-accessibility.css` also consumes central role tokens for accessible accent text, selected navigation/tab treatments and high-contrast tag presentation instead of defining a separate teal-text palette.
 
-`src/app/ask-rev-cta.css` is intentionally narrow: it owns only the shared persistent Ask REV CTA visual treatment, inverse compact Living E treatment and CTA-specific Resting motion. It does not redefine breakpoint visibility/placement, Home, the REV conversation workspace, ordinary navigation icons or general button primitives.
+`src/app/ask-rev-cta.css` is intentionally narrow: it owns only the shared persistent Ask REV CTA visual treatment, inverse compact Living E treatment, surface-contained halo, CTA label alignment/typography and CTA-specific Resting motion. It does not redefine breakpoint visibility/placement, Home, the REV conversation workspace, ordinary navigation icons or general button primitives.
 
 `src/app/rev-resting-presence.css` is also intentionally narrow: it owns only the stronger high-emphasis Resting presentation on the learner Home hero. It does not alter semantic Listening/Thinking/Responding motion or general Living E geometry.
 
@@ -206,10 +210,14 @@ Other imported learner styles may still consume the temporary compatibility alia
 - the Living E is present with all three bars and the obsolete `✦` glyph cannot return;
 - the CTA uses the canonical Primary Teal surface and Graphite label;
 - the Living E bars use the inverse Neutral 0 treatment;
-- the compact halo remains visibly present around the crisp bars;
+- the compact halo remains visibly present around the crisp bars and its animated bounds stay inside the control;
+- the CTA surface owns overflow defensively and the halo pseudo-elements no longer extend beyond their halo box;
 - the 5.8s Resting halo and whole-mark animations are active under normal motion preferences;
 - reduced-motion removes the loop while preserving the visible static halo;
-- the same 40px compact mark treatment is used across breakpoints; and
+- the same 40px compact mark treatment is used across breakpoints;
+- the direct label uses a matching 40px centred line box and remains vertically centred with the Living E;
+- the combined Living E + label group remains centred in the CTA;
+- tablet/mobile use the stronger 18px label size while desktop retains the 15px button role; and
 - desktop vs tablet/mobile minimum height/radius adaptations remain within the governed responsive pattern.
 
 `tests/e2e/rev-resting-presence.spec.ts` verifies the learner Home hero specifically:
@@ -227,7 +235,7 @@ The normal repository CI remains the path-to-live gate for typecheck, lint, unit
 - `src/app/brand-tokens.css` — central Calm Teal, theme-role, semantic, radius/depth and transitional compatibility tokens.
 - `src/app/RevPresence.tsx` — reusable Living E visual component and semantic state contract.
 - `src/app/living-e.css` — base Living E motion, Home layout, REV conversation surface and responsive visual overrides consuming central roles.
-- `src/app/ask-rev-cta.css` — canonical responsive Ask REV CTA visual contract, inverse-on-brand compact Living E and CTA Resting presence.
+- `src/app/ask-rev-cta.css` — canonical responsive Ask REV CTA visual contract, inverse-on-brand compact Living E, contained halo, centred responsive label treatment and CTA Resting presence.
 - `src/app/rev-resting-presence.css` — stronger high-emphasis Resting presence for the learner Home hero.
 - `src/app/living-e-accessibility.css` — accessible role-based accent and selected-state treatments.
 - `src/app/PlannerRuntime.tsx` — learner shell owner that renders the desktop Ask REV control and tablet/mobile dock.
@@ -236,9 +244,9 @@ The normal repository CI remains the path-to-live gate for typecheck, lint, unit
 - `app/index.html` — Manrope webfont loading with fallbacks.
 - `tests/e2e/app-responsive.spec.ts` — responsive learner-shell journey assurance.
 - `tests/e2e/brand-token-motion.spec.ts` — exact theme-token, base motion and reduced-motion assurance.
-- `tests/e2e/ask-rev-cta.spec.ts` — targeted cross-breakpoint Ask REV CTA visual/motion assurance.
+- `tests/e2e/ask-rev-cta.spec.ts` — targeted cross-breakpoint Ask REV CTA visual/motion/alignment assurance.
 - `tests/e2e/rev-resting-presence.spec.ts` — targeted Home Resting presence and semantic-state assurance.
 
 ## Documentation impact
 
-The Resting-presence refinement changes the specific identity-usage rule and current runtime implementation, so `Identity Asset Usage Rules.md` v1.2 and this technical description are updated together. The broader Visual Brand System already defines the Living E as a soft-halo identity with **Resting — calm and ready**, so no higher-level brand-system amendment is required. No learner destination, route, REV conversation capability, entitlement rule or evidence semantic changes. Historical Design Acceptance evidence remains unchanged.
+The CTA finishing refinement changes the specific identity-usage rule and current runtime implementation, so `Identity Asset Usage Rules.md` v1.3 and this technical description are updated together. The broader Visual Brand System already defines the Living E as a soft-halo identity with **Resting — calm and ready**, so no higher-level brand-system amendment is required. No learner destination, route, REV conversation capability, entitlement rule or evidence semantic changes. Historical Design Acceptance evidence remains unchanged.
