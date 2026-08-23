@@ -193,7 +193,7 @@ test('Ask REV uses one contained, centred living high-contrast CTA across breakp
   } else {
     expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
     expect(appearance.borderRadius).toBe('14px')
-    expect(appearance.labelFontSize).toBe('15px')
+    expect(appearance.labelFontSize).toBe('16px')
   }
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
