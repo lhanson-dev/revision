@@ -3,11 +3,13 @@ import type { ModuleLearningState } from './catalogue-model'
 import { buildPlannerSnapshot, plannerCandidatesFromLearningState, plannerDaysFromAvailability } from './planner-model'
 import type { RevisionAssessment, RevisionAvailabilityProfile, RevisionPlanningPreference } from '../services/planning/planner-service'
 
+const activeCourseId = 'aqa:aqa-as:7131'
+
 const assessment: RevisionAssessment = {
   assessmentId: 'assessment-1',
   userId: 'user-1',
   subjectId: 'business',
-  courseId: null,
+  courseId: activeCourseId,
   moduleId: null,
   assessmentType: 'mock',
   title: 'Business mock',
@@ -23,27 +25,39 @@ const topics = [
   { id: 'marketing', shortTitle: 'Marketing' },
 ]
 
-const state = {
-  adapter: {
-    manifest: { subject: { id: 'business', name: 'Business' } },
-    listTopics: () => topics,
-    listQuestions: () => [{ id: 'q1' }],
-    listFlashcards: () => [{ id: 'f1' }],
-  },
-  evidence: [],
-  readiness: {
-    score: null,
-    confidence: 'insufficient',
-    evidenceCount: 0,
-  },
-  recommendation: {
-    topicId: 'operations',
-    activity: 'quick-check',
-  },
-  recommendationTopic: { id: 'operations', shortTitle: 'Operations' },
-  evidencedTopics: 0,
-  topicCount: topics.length,
-} as unknown as ModuleLearningState
+function stateFor(courseId = activeCourseId) {
+  const [, qualificationId, specificationCode] = courseId.split(':')
+  return {
+    adapter: {
+      manifest: {
+        id: `module-${specificationCode}`,
+        subject: { id: 'business', name: 'Business' },
+        examBoard: { id: 'aqa', name: 'AQA' },
+        qualification: { id: qualificationId, name: qualificationId },
+        specificationCode,
+      },
+      listTopics: () => topics,
+      listQuestions: () => [{ id: 'q1' }],
+      listFlashcards: () => [{ id: 'f1' }],
+      getTopic: (topicId: string) => topics.find((topic) => topic.id === topicId),
+    },
+    evidence: [],
+    readiness: {
+      score: null,
+      confidence: 'insufficient',
+      evidenceCount: 0,
+    },
+    recommendation: {
+      topicId: 'operations',
+      activity: 'quick-check',
+    },
+    recommendationTopic: { id: 'operations', shortTitle: 'Operations' },
+    evidencedTopics: 0,
+    topicCount: topics.length,
+  } as unknown as ModuleLearningState
+}
+
+const state = stateFor()
 
 const availability: RevisionAvailabilityProfile = {
   userId: 'user-1',
@@ -53,7 +67,7 @@ const availability: RevisionAvailabilityProfile = {
 }
 
 describe('planner model bridge', () => {
-  it('turns the assessment scope into topic-level work candidates rather than one synthetic task', () => {
+  it('turns the assessment scope into topic-level course work candidates rather than one synthetic task', () => {
     const now = new Date('2026-08-19T09:00:00')
     const candidates = plannerCandidatesFromLearningState([state], [assessment], [], now)
 
@@ -61,6 +75,7 @@ describe('planner model bridge', () => {
     expect(candidates.map((candidate) => candidate.topicId)).toEqual(['operations', 'finance', 'marketing'])
     expect(candidates[0]).toMatchObject({
       subjectId: 'business',
+      courseId: activeCourseId,
       assessmentId: 'assessment-1',
       topicId: 'operations',
       activityType: 'quick-check',
@@ -69,6 +84,27 @@ describe('planner model bridge', () => {
       understanding: null,
       readiness: null,
     })
+  })
+
+  it('does not create candidates for an assessment outside the active course state', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const outsideCourse = { ...assessment, courseId: 'aqa:aqa-a-level:7132' }
+    expect(plannerCandidatesFromLearningState([state], [outsideCourse], [], now)).toEqual([])
+  })
+
+  it('fails safely for an ambiguous legacy subject-only assessment', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const legacy = { ...assessment, courseId: null }
+    const secondCourseState = stateFor('aqa:aqa-a-level:7132')
+    expect(plannerCandidatesFromLearningState([state, secondCourseState], [legacy], [], now)).toEqual([])
+  })
+
+  it('still accepts an unambiguous legacy subject-only assessment', () => {
+    const now = new Date('2026-08-19T09:00:00')
+    const legacy = { ...assessment, courseId: null }
+    const candidates = plannerCandidatesFromLearningState([state], [legacy], [], now)
+    expect(candidates.length).toBeGreaterThan(0)
+    expect(candidates.every((candidate) => candidate.courseId === activeCourseId)).toBe(true)
   })
 
   it('respects explicit topic scope without forcing the learner through a giant topic list', () => {
@@ -129,6 +165,7 @@ describe('planner model bridge', () => {
     expect(snapshot?.today.length).toBeGreaterThan(0)
     expect(snapshot?.today[0]).toMatchObject({
       subjectId: 'business',
+      courseId: activeCourseId,
       topicId: 'finance',
       activityType: 'quick-check',
     })

@@ -3,6 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000112'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 async function expectNoPageOverflow(page: Page) {
   const dimensions = await page.evaluate(() => ({
@@ -67,6 +69,19 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light') {
       body: JSON.stringify({ is_admin: false }),
     })
   })
+  await page.route('**/rest/v1/learner_courses**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-22T18:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-22T18:00:01.000Z' },
+      ]),
+    })
+  })
+  await page.route('**/rest/v1/learner_course_events**', async (route) => {
+    await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  })
 
   for (const endpoint of [
     'learning_evidence',
@@ -127,9 +142,12 @@ test('B2 gives Plan and Progress the shared interface grammar without changing t
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)
-  await expect(page.getByRole('heading', { name: 'Progress' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Current evidence' })).toBeVisible()
-  await expect(page.getByText('No scored activity yet.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Progress', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Progress by course' })).toBeVisible()
+
+  const scoredActivities = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').filter({ hasText: 'Scored activities' })
+  await expect(scoredActivities).toBeVisible()
+  await expect(scoredActivities.locator('strong')).toHaveText('0')
 
   const progressSection = page.locator('main[aria-labelledby="global-progress-title"] > .home-section').first()
   await expect(progressSection).toHaveCSS('border-top-width', '0px')
@@ -141,18 +159,16 @@ test('B2 gives Plan and Progress the shared interface grammar without changing t
   await expect(summaryTile).toHaveCSS('background-color', 'rgb(255, 255, 255)')
   await expect(summaryTile).toHaveCSS('box-shadow', 'none')
 
-  const subjectCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
-  await expect(subjectCard).toHaveCSS('border-radius', '20px')
-  await expect(subjectCard).toHaveCSS('box-shadow', 'none')
+  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
+  await expect(courseCard).toHaveCSS('border-radius', '20px')
+  await expect(courseCard).toHaveCSS('box-shadow', 'none')
 
-  const progressAction = subjectCard.getByRole('button').first()
+  const progressAction = courseCard.getByRole('button', { name: 'Open course progress' })
+  await expect(progressAction).toHaveClass(/ui-button--primary/)
   await expect(progressAction).toHaveCSS('min-height', '44px')
   await expect(progressAction).toHaveCSS('border-radius', '14px')
   await expect(progressAction).toHaveCSS('background-color', 'rgb(43, 182, 163)')
   await expect(progressAction).toHaveCSS('color', 'rgb(19, 32, 38)')
-
-  const progressEmpty = page.getByText('No scored activity yet.', { exact: true })
-  await expect(progressEmpty).toHaveCSS('background-color', 'rgb(241, 250, 248)')
   await expectNoPageOverflow(page)
 })
 
@@ -180,8 +196,9 @@ test('B2 Plan and Progress consume dark-theme semantic surfaces rather than hard
   await expect(summaryTile).toHaveCSS('background-color', 'rgb(19, 39, 43)')
   await expect(summaryTile).toHaveCSS('border-radius', '20px')
 
-  const subjectCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
-  await expect(subjectCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
-  await expect(subjectCard).toHaveCSS('box-shadow', 'none')
+  const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
+  await expect(courseCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
+  await expect(courseCard).toHaveCSS('border-radius', '20px')
+  await expect(courseCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)
 })

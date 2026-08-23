@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain, and `main` now has active repository protection.  
+**Status:** Production backend contract, governed release-lineage preflight and durable `revision/path-to-live` commit status are enabled and have been observed successfully in production. PTL-03 is Covered from the first complete governed release chain, and `main` has active repository protection. FI-020 `courses-v1` is now enabled and independently verified in production; PR #130 still requires final exact-head CI after production-ledger reconciliation before merge readiness.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -57,7 +57,7 @@ After the bootstrap release, every deployed `main` revision must descend directl
 
 This means a direct push that somehow bypassed repository policy still cannot deploy under the unchanged governed workflow: it has no associated governed PR/approval lineage, the preflight fails, and the release status remains non-successful. The failed revision also prevents the next release from silently carrying it forward because the prior-release chain check fails closed until deliberately remediated.
 
-Repository protection now provides an additional preventive layer before this release control. On 2026-08-19 the Founder configured an active `main` ruleset requiring a pull request, the three Revision CI jobs, conversation resolution and an up-to-date branch before merge, with deletion restricted, force pushes blocked and no bypass list. The GitHub branch API independently reports `protected:true` for `main`.
+Repository protection provides an additional preventive layer before this release control. On 2026-08-19 the Founder configured an active `main` ruleset requiring a pull request, the three Revision CI jobs, conversation resolution and an up-to-date branch before merge, with deletion restricted, force pushes blocked and no bypass list. The GitHub branch API independently reports `protected:true` for `main`.
 
 The connected GitHub capability does not expose the ruleset's internal rule list, so the specific rule selections are recorded as Founder-configured UI evidence while protected state remains independently API-verifiable. Repository protection and the release-chain gate are complementary controls; neither removes the requirement for explicit Founder approval and governed change discipline.
 
@@ -91,18 +91,20 @@ The workflow requests only the GitHub permissions required for the control: repo
 
 After governed lineage succeeds, `.github/workflows/deploy-pages.yml` runs `Production backend readiness`.
 
-The gate currently verifies:
+The FI-020 release candidate requires the gate to verify:
 
 1. `public.revision_release_readiness()` exists and is callable with the public publishable key;
-2. the returned contract identifier is exactly `planner-v1`;
-3. the contract reports all current required database capabilities as present, including protected Admin aggregate RPCs; and
+2. the returned contract identifier is exactly `courses-v1`;
+3. the contract reports all required database capabilities as present, including the existing learner/evidence/planner/Admin capabilities plus `learner_courses` and `learner_course_events`; and
 4. the protected `admin-operations` and `planner-operations` Edge Functions are deployed and each rejects an unauthenticated request with `401`.
 
 Any missing function, contract mismatch, missing schema capability, missing Edge Function or unexpected authentication behaviour fails the workflow before a new Pages artifact is built or deployed.
 
+The workflow contract and database contract must advance together. A frontend change must never assume that because a migration exists in Git it has also been applied to production.
+
 ## Database contract
 
-The production migration ledger records `20260819154143_add_release_backend_readiness.sql`, defining the deliberately narrow public RPC:
+The deliberately narrow public RPC is:
 
 `public.revision_release_readiness()`
 
@@ -114,9 +116,11 @@ It exposes only:
 
 It does not expose learner data, migration history, credentials or operational secrets.
 
-The initial `planner-v1` contract verifies the current learner/profile/evidence tables, FI-001 planner tables, `admin_operations_metrics()` and `admin_planner_metrics()` required by the deployed runtime.
+### `planner-v1` production baseline
 
-Production verification on 2026-08-19 confirmed the RPC is present and returns `ready: true` with all `planner-v1` database capability checks true.
+Migration `20260819154143_add_release_backend_readiness.sql` introduced the initial `planner-v1` contract. It verifies learner/profile/evidence tables, FI-001 planner tables, `admin_operations_metrics()` and `admin_planner_metrics()` required by the deployed runtime.
+
+Production verification on 2026-08-19 confirmed the RPC returned `ready: true` with all `planner-v1` capability checks true.
 
 The original applied readiness migration created the RPC as `SECURITY DEFINER`. Supabase Security Advisor identified that elevated execution was unnecessary for a non-sensitive function callable by `anon` and `authenticated`.
 
@@ -126,7 +130,34 @@ PR #62 introduced a forward-only hardening migration rather than rewriting histo
 
 PR #63 reconciled the repository filename to that production migration-ledger version. Production verification on 2026-08-19 confirmed `revision_release_readiness()` is `SECURITY INVOKER`, and the previous Security Advisor warning for this function is closed.
 
-The isolated database assurance suite also verifies the final RPC remains `SECURITY INVOKER`, so repository replay and production state agree on this control.
+### FI-020 `courses-v1` extension
+
+Production applied FI-020 on 2026-08-22 using two forward migrations whose repository filenames now match the production ledger:
+
+- `20260822215525_add_learner_courses.sql` — creates `public.learner_courses` and `public.learner_course_events`, performs the bounded existing-user seed and advances `revision_release_readiness()` to `courses-v1`;
+- `20260822215631_restrict_learner_course_service_role.sql` — removes broad Supabase production default table privileges inherited by `service_role` and explicitly restores `SELECT` only on both FI-020 tables.
+
+The first migration adds:
+
+- `public.learner_courses` — authenticated learner-owned active course membership; and
+- `public.learner_course_events` — bounded FI-020 course-management/assurance telemetry.
+
+The readiness function remains **SECURITY INVOKER**. FI-020 database assurance checks that property so extending the release contract cannot silently reintroduce the previously closed elevated-execution defect.
+
+Independent production verification after both migrations confirmed:
+
+- `contract: "courses-v1"`;
+- `ready: true` with all required capability flags true;
+- RLS enabled on both learner-course tables;
+- `revision_release_readiness()` remains `SECURITY INVOKER`;
+- authenticated explicit privileges are `SELECT, INSERT, DELETE` on `learner_courses` and `SELECT, INSERT` on `learner_course_events`;
+- `service_role` explicit privileges are `SELECT` only on both FI-020 tables;
+- all 3 users that existed at migration time received exactly the two intended Business course memberships (6 rows total); and
+- there were no unexpected seeded course IDs.
+
+Supabase Security Advisor reported no new FI-020-specific finding. The project still carries the separate pre-existing Auth warning that leaked-password protection is disabled.
+
+Applying this forward-safe database capability before the frontend merge is deliberate: current `main` does not depend on the new tables, while the FI-020 frontend is prohibited from deploying unless `courses-v1` is present.
 
 ## Required Edge Functions
 
@@ -181,7 +212,7 @@ PR #68 merged as:
 
 `2f4eb8f9166ca658ae19a8b72400e26488d5c16a`
 
-Production release run `32304142083` then completed successfully across governed lineage, production backend readiness, build, GitHub Pages deployment, production smoke and durable status publication.
+Production release run `32304142083` then completed successfully across governed lineage, production backend readiness, build, Pages deployment, production smoke and durable status publication.
 
 The exact merge commit was independently observed with:
 
@@ -193,4 +224,4 @@ This is the first complete observed production lineage under the durable commit-
 
 PR #62 reconciled repository migration history to the production `supabase_migrations.schema_migrations` ledger and restored the original `create_revision_progress` migration from SQL retained by production. PR #63 completed reconciliation for the readiness-hardening migration after Supabase assigned its applied version.
 
-The current repository migration filename and production ledger both use `20260819162037_harden_release_readiness_security.sql`. Historical applied migrations remain unchanged.
+FI-020 follows the same rule: the provisional pre-application filename was removed after Supabase assigned the production versions, and the repository now records the exact applied ledger sequence `20260822215525_add_learner_courses.sql` then `20260822215631_restrict_learner_course_service_role.sql`. Historical applied migrations remain unchanged.

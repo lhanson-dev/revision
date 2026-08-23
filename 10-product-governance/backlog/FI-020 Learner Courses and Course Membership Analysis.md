@@ -2,11 +2,11 @@
 
 **Document type:** product feature analysis  
 **Authority:** non-authoritative supporting analysis; approved product direction is promoted through the linked product authorities  
-**Lifecycle status:** Ready  
+**Lifecycle status:** In Progress  
 **Captured:** 2026-08-22  
 **Owner:** Product / Founder  
 **Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
-**Founder decision evidence:** On 2026-08-22, during Design Acceptance Review Group A, the Founder approved replacing the global `Subjects` destination with `Courses`, showing the learner's own courses beneath Courses in contextual navigation, showing those courses on the Courses page, and providing an `Add Course` action. This recorded the human decision that the capability belongs in Revision (`New → To Do`). Active analysis then began (`To Do → Analyse`). On 2026-08-22 the Founder explicitly approved FI-020 after the complete Definition-of-Ready assessment, recording `Analyse → Ready` and authorising governed implementation once the approved authority change is integrated into `main`.
+**Founder decision evidence:** On 2026-08-22, during Design Acceptance Review Group A, the Founder approved replacing the global `Subjects` destination with `Courses`, showing the learner's own courses beneath Courses in contextual navigation, showing those courses on the Courses page, and providing an `Add Course` action. This recorded the human decision that the capability belongs in Revision (`New → To Do`). Active analysis then began (`To Do → Analyse`). On 2026-08-22 the Founder explicitly approved FI-020 after the complete Definition-of-Ready assessment, recording `Analyse → Ready`. PR #129 then integrated the approved authority/readiness change into `main` as `1b2967e262086ba90898fb7b9a60cfa883f9dd16`. Governed production implementation subsequently began on PR #130, moving FI-020 from `Ready → In Progress` without changing the Founder-approved MVP boundary.
 
 ## 1. Student problem and target user — PASS
 
@@ -413,7 +413,15 @@ On 2026-08-22 the Founder explicitly approved FI-020 after the Product/AI readin
 
 This records the human `Analyse → Ready` lifecycle transition required by `80-company-workflows/Feature Definition and Measurement Workflow.md` and `70-ai-operating-system/AI Agent Constitution.md`.
 
-FI-020 is therefore authorised for governed implementation after the approved normative authority change is merged into current `main`. This approval does **not** approve PR #129 for merge and does not remove the repository-wide requirement for explicit Founder approval of each merge.
+FI-020 was therefore authorised for governed implementation after the approved normative authority change was merged into current `main`. That approval did **not** approve PR #129 for merge and did not remove the repository-wide requirement for explicit Founder approval of each merge.
+
+## 18. Implementation progression — IN PROGRESS
+
+PR #129 was subsequently Founder-approved and merged to `main` as `1b2967e262086ba90898fb7b9a60cfa883f9dd16`. Governed implementation then began on branch `feature/fi-020-learner-courses-implementation` through PR #130.
+
+The implementation candidate now covers the approved MVP boundary, including persisted learner-owned course membership, Add/Remove Course, Courses navigation/routing, active-programme filtering, bounded existing-user transition, integrity handling, measurement events, release-readiness contract changes and cross-layer assurance.
+
+The feature remains **In Progress**, not Live. Completion still requires final exact-head branch assurance, production enablement and verification of the `courses-v1` backend contract, explicit Founder approval for merge of PR #130, governed merge to current `main`, and successful production deployment/smoke/path-to-live evidence for the resulting production revision.
 
 ## Readiness summary
 
@@ -434,5 +442,6 @@ FI-020 is therefore authorised for governed implementation after the approved no
 - Documentation / authority impact — **PASS**
 - Blocking decisions — **NONE**
 - Human Ready approval — **APPROVED 2026-08-22**
+- Implementation lifecycle — **IN PROGRESS via PR #130**
 
-**Next governed step:** integrate the approved authority/readiness record through PR #129, then begin FI-020 implementation from current approved `main` under the Governed Implementation Workflow.
+**Next governed step:** complete final exact-head PR #130 assurance, enable and independently verify the production `courses-v1` backend contract, then present the unchanged implementation candidate for explicit Founder merge approval. FI-020 may move to Live only after the merged production revision passes the governed deployment, smoke and durable path-to-live chain.
