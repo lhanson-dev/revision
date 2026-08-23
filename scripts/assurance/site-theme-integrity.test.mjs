@@ -1,10 +1,11 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 const mainEntry = readFileSync(new URL('../../src/main.tsx', import.meta.url), 'utf8')
 const guidance = readFileSync(new URL('../../src/app/guidance.css', import.meta.url), 'utf8')
 const authEntry = readFileSync(new URL('../../src/app/auth-entry.css', import.meta.url), 'utf8')
-const themeIntegrity = readFileSync(new URL('../../src/app/interface-theme-integrity.css', import.meta.url), 'utf8')
+const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
+const retiredThemeBridge = new URL('../../src/app/interface-theme-integrity.css', import.meta.url)
 
 const semanticLayers = [
   'brand-tokens.css',
@@ -20,10 +21,12 @@ const semanticLayers = [
   'courses.css',
   'ask-rev-cta.css',
   'rev-resting-presence.css',
-  'interface-theme-integrity.css',
 ]
 
-const classifiedLegacyThemeDebt = new Set([
+/* These are retained feature/composition sources, not a final catch-all theme bridge.
+ * Their live consumers and retirement decisions are recorded in the B7 final
+ * acceptance technical record. */
+const retainedFeatureSources = new Set([
   'app.css',
   'exam.css',
   'rev-home.css',
@@ -59,29 +62,27 @@ describe('site-wide theme integrity governance', () => {
     expect(authEntry).toContain('var(--field-height-standard)')
   })
 
-  it('protects the rendered Practice REV recommendation as an explicit Guidance surface', () => {
-    expect(themeIntegrity).toContain('.planner-runtime .focused-practice .recommendation-card')
-    expect(themeIntegrity).toContain('background: var(--color-surface-soft);')
-    expect(themeIntegrity).toContain('.planner-runtime .focused-practice .recommendation-card .eyebrow')
-    expect(themeIntegrity).toContain('color: var(--color-accent-text);')
+  it('keeps the rendered Practice REV recommendation in its owning semantic feature layer', () => {
+    expect(interfaceLearnPractice).toContain('.planner-runtime .focused-practice .recommendation-card')
+    expect(interfaceLearnPractice).toContain('background: var(--color-surface-soft);')
+    expect(interfaceLearnPractice).toContain('.planner-runtime .focused-practice .recommendation-card .eyebrow')
+    expect(interfaceLearnPractice).toContain('color: var(--color-accent-text);')
   })
 
-  it('classifies every stylesheet loaded by the canonical runtime as semantic or known compatibility debt', () => {
+  it('classifies every stylesheet loaded by the canonical runtime as semantic or deliberately retained feature composition', () => {
     const imports = [...mainEntry.matchAll(/import '\.\/app\/(.+\.css)'/g)].map((match) => match[1])
     expect(imports.length).toBeGreaterThan(0)
 
     for (const stylesheet of imports) {
       expect(
-        semanticLayers.includes(stylesheet) || classifiedLegacyThemeDebt.has(stylesheet),
+        semanticLayers.includes(stylesheet) || retainedFeatureSources.has(stylesheet),
         `Unclassified runtime stylesheet: ${stylesheet}`,
       ).toBe(true)
     }
   })
 
-  it('keeps the final compatibility layer loaded after authenticated semantic feature layers', () => {
-    for (const stylesheet of semanticLayers.filter((name) => name !== 'brand-tokens.css' && name !== 'interface-theme-integrity.css')) {
-      expect(mainEntry.indexOf(`./app/${stylesheet}`)).toBeLessThan(mainEntry.indexOf('./app/interface-theme-integrity.css'))
-    }
-    expect(themeIntegrity).toContain('color-scheme: dark;')
+  it('fails closed if the retired final theme-integrity bridge returns', () => {
+    expect(mainEntry).not.toContain('interface-theme-integrity.css')
+    expect(existsSync(retiredThemeBridge)).toBe(false)
   })
 })
