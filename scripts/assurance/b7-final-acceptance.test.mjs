@@ -7,6 +7,8 @@ const focusedWorkspace = read('../../src/app/FocusedLearningWorkspace.tsx')
 const contentOperations = read('../../src/app/ContentOperations.tsx')
 const learnPractice = read('../../src/app/interface-learn-practice.css')
 const subjectsCourse = read('../../src/app/interface-subjects-course.css')
+const hierarchy = read('../../src/app/hierarchy.css')
+const courseExam = read('../../src/app/course-exam.css')
 const mobileNavigation = read('../../src/app/mobile-navigation.css')
 const componentIndex = read('../../src/app/ui/index.ts')
 const visualRegression = read('../../tests/e2e/interface-visual-regression.spec.ts')
@@ -35,6 +37,13 @@ describe('B7 final Interface System acceptance contract', () => {
     expect(subjectsCourse).toContain('background: var(--color-surface-soft);')
     expect(subjectsCourse).toContain('color: var(--color-accent-text);')
     expect(subjectsCourse).toContain('background: var(--brand-primary-teal);')
+  })
+
+  it('keeps retained course hierarchy and Exam Prep surfaces on their intended semantic theme roles', () => {
+    expect(hierarchy).toContain('.cross-section-next{')
+    expect(hierarchy).toContain('background:var(--color-surface)')
+    expect(courseExam).toContain('.paper-exam-content{')
+    expect(courseExam).toContain('background:var(--color-surface-soft)')
   })
 
   it('keeps Focused Learn and Practice common controls on the public shared registry', () => {
