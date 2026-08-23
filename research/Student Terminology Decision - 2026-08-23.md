@@ -69,10 +69,19 @@ Before implementation of the new Student/Parent/Teacher routing model, the gover
 3. update active journey and information-architecture language;
 4. update technical documentation and code/domain terms where they represent the same Student entity;
 5. preserve compatibility where changing stored schema, routes or API contracts immediately would create unnecessary migration risk;
-6. document any temporary technical compatibility names explicitly rather than treating them as a second vocabulary; and
+6. document any temporary technical compatibility identifiers explicitly rather than treating them as a second vocabulary; and
 7. update assurance/analytics naming as implementation migrates.
 
 A temporary compatibility identifier may remain in code or persistence only when changing it safely requires a deliberate migration. It must not be treated as the preferred domain term for new work.
+
+## Scenario-ID decision
+
+The journey catalogue was still new enough to remove the old terminology from its identifiers safely:
+
+- `NL` / `NL-XX` has been replaced by **`NS` / `NS-XX` — New Student**;
+- `RT` / `RT-XX` has been replaced by **`RS` / `RS-XX` — Returning Student**.
+
+These IDs should now be treated as the stable scenario identifiers for future prototypes, implementation PRs, analytics and regression assurance.
 
 ## Journey-programme effect
 
@@ -84,7 +93,7 @@ From this decision onward, new journey analysis should use:
 - **Student choice / Student agency** where referring to the Revision user; and
 - **Student experience** rather than learner experience.
 
-Existing research in PR #139 that predates this decision should be normalised to Student before the analysis is treated as complete.
+The active analysis files in PR #139 have been normalised to this terminology. The earlier screen-first analysis has been reduced to the still-useful design principles and marked as supporting analysis rather than retaining a large parallel vocabulary.
 
 ## Documentation impact
 
