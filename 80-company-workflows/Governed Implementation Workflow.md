@@ -81,6 +81,22 @@ A branch existing, a prototype, a technical spike or preparatory documentation a
 
 A feature moves from `In Progress` to `Live` only when production evidence confirms the intended capability is available on the canonical production runtime.
 
+## Founder production release summary
+
+Once the production path is confirmed green for the merged change, the executing agent must provide a concise Founder-facing release-note summary in the same completion update.
+
+The summary must be written primarily in plain, non-technical language and should state:
+
+- what changed in the product, operation, governance or assurance;
+- what was improved, fixed or made safer/clearer;
+- which users, journeys or internal operations are affected;
+- whether the release has no user-facing product change; and
+- any material follow-up, limitation or deliberately excluded scope the Founder should know about.
+
+Technical identifiers such as PR number, merge SHA and deployment run may be included separately for traceability, but must not be the only explanation of the release.
+
+This summary is **post-production reporting only**. It must not introduce another approval, release gate, deployment dependency, waiting period or manual step before path-to-live can complete.
+
 ## Required implementation record
 Every implementation PR must state:
 
@@ -113,3 +129,5 @@ Implementation is not complete until code, technical documentation, deployment c
 The PR is not merge-ready until its proposed production change has been successfully validated with the current `main` integration state using the governed repository mechanism.
 
 `Live` is a production-evidence state, not a synonym for merged.
+
+After `Live` is confirmed, the Founder-facing production release summary above is required as part of the completion communication but is not itself a condition of production readiness or deployment success.
