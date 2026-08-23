@@ -4,13 +4,13 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
-effective_date: "2026-08-21"
-last_reviewed: "2026-08-21"
+effective_date: "2026-08-23"
+last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
-source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "app icon framing", "favicon treatment", "identity asset safe areas"]
+source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Ask REV CTA identity treatment", "app icon framing", "favicon treatment", "identity asset safe areas"]
 depends_on: ["Revision Brand System"]
 supersedes: null
 ---
@@ -18,7 +18,7 @@ supersedes: null
 
 ## Purpose
 
-Define the production usage rules that the Revision Brand System requires for the canonical full Revision wordmark, standalone Living E and app/browser icon framing.
+Define the production usage rules that the Revision Brand System requires for the canonical full Revision wordmark, standalone Living E, branded product-control treatment and app/browser icon framing.
 
 These rules specialise the approved Brand System. They do not change the approved Manrope, Calm Teal, Living E or light/dark identity direction.
 
@@ -117,6 +117,35 @@ The primary app icon is the Deep Teal + Primary Teal treatment above.
 
 A platform may require monochrome, tinted or adaptive variants. Those variants must be derived from the same Living E geometry and must not replace the canonical primary icon without deliberate brand review.
 
+### Product-control inverse treatment
+
+The Living E is an identity mark rather than a generic UI icon. Its colour treatment may therefore adapt independently from the surrounding control label when necessary to keep the identity recognisable.
+
+On **Primary Teal or another saturated brand-filled control surface where the normal Primary Teal bars would visually merge into the background**, use the approved **inverse-on-brand Living E**:
+
+- preserve the canonical three-bar geometry and spacing exactly;
+- use a light neutral treatment for the three bars, with **Neutral 0 / `#FFFFFF`** as the canonical product-control implementation;
+- keep the surrounding action label on its normal governed foreground token, including Graphite Ink on Primary Teal where required for text contrast;
+- simplify or remove the soft halo at compact control sizes when the halo reduces edge clarity or makes the mark appear blurred;
+- do not add glow, outline, gradient, shadow or decorative effects merely to manufacture contrast; and
+- return to the normal Living E treatment on surfaces where the canonical Primary Teal bars remain clearly separated from the background.
+
+The inverse treatment is a colour/surface adaptation of the same Living E, not a new logo or mascot.
+
+### Ask REV CTA
+
+Persistent **Ask REV** is one branded CTA pattern across desktop, tablet and mobile learner shells.
+
+The control must use:
+
+- the same Primary Teal CTA surface family;
+- the same explicit `Ask REV` label;
+- the inverse-on-brand Living E defined above;
+- the same underlying identity geometry and visual grammar at every breakpoint; and
+- responsive dimensions, placement and safe-area spacing appropriate to desktop rail, tablet and mobile layouts.
+
+Breakpoint changes may resize or reposition the CTA, but must not create separate desktop, tablet and mobile Ask REV identities. At compact CTA scale, the three bars take priority over halo detail so the mark remains crisp and immediately recognisable.
+
 ## Prohibited treatments
 
 Do not:
@@ -131,4 +160,4 @@ Do not:
 
 ## Documentation impact
 
-These rules close the Brand System's previously open clear-space, minimum-size and app/browser framing requirements. Production assets and technical readiness documentation must reference this authority. Historical Brand Studio boards remain evidence of the design process and are not rewritten.
+Version 1.1 adds the surface-adaptive inverse Living E and establishes Ask REV as one responsive CTA identity pattern across desktop, tablet and mobile. Production implementation and technical documentation must use this rule rather than defining local breakpoint-specific REV treatments. The app-icon and favicon rules remain unchanged.

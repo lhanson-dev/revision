@@ -18,6 +18,7 @@ const semanticLayers = [
   'interface-exam-experience.css',
   'interface-admin.css',
   'courses.css',
+  'ask-rev-cta.css',
   'interface-theme-integrity.css',
 ]
 
@@ -77,7 +78,7 @@ describe('site-wide theme integrity governance', () => {
   })
 
   it('keeps the final compatibility layer loaded after authenticated semantic feature layers', () => {
-    for (const stylesheet of semanticLayers.filter((name) => name.startsWith('interface-') && name !== 'interface-theme-integrity.css')) {
+    for (const stylesheet of semanticLayers.filter((name) => name !== 'brand-tokens.css' && name !== 'interface-theme-integrity.css')) {
       expect(mainEntry.indexOf(`./app/${stylesheet}`)).toBeLessThan(mainEntry.indexOf('./app/interface-theme-integrity.css'))
     }
     expect(themeIntegrity).toContain('color-scheme: dark;')

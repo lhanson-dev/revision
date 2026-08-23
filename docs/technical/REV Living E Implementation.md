@@ -6,7 +6,7 @@
 
 Describe how the approved Calm Teal, Manrope and Living E visual system is implemented in the canonical signed-in learner runtime.
 
-Normative visual authority remains `20-brand-and-experience/Visual Brand System.md` v0.9 and `20-brand-and-experience/Identity Asset Usage Rules.md` v1.0. This document records implementation truth only.
+Normative visual authority remains `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Identity Asset Usage Rules.md` v1.1. This document records implementation truth only.
 
 ## Canonical runtime
 
@@ -96,6 +96,26 @@ Motion does not represent response percentage, elapsed time or remaining time.
 
 `prefers-reduced-motion: reduce` disables the Living E animations while preserving the static mark and non-motion text/status cues.
 
+## Ask REV CTA implementation
+
+Persistent Ask REV uses one visual contract across desktop, tablet and mobile rather than separate breakpoint-specific identity treatments.
+
+`src/app/ask-rev-cta.css` is a classified semantic runtime layer. It is loaded after the existing learner-shell layout styles and before the final `interface-theme-integrity.css` compatibility layer. It owns Ask REV CTA appearance and compact inverse Living E styling, while the existing responsive layout files continue to own breakpoint visibility, placement and available width. The final compatibility layer remains last in the cascade and does not redefine Ask REV.
+
+The shared CTA contract is:
+
+- Primary Teal action surface using the existing `--color-action` role;
+- Graphite action label using the existing `--color-action-text` role;
+- the same explicit `Ask REV` label at every breakpoint;
+- the same compact Living E geometry at every breakpoint;
+- **Neutral 0 / white bars** when the Living E sits on the Primary Teal CTA, implementing the governed inverse-on-brand identity treatment;
+- no compact halo animation or bloom inside the CTA, because the three bars are the recognition-critical geometry and render more crisply without the soft halo at this size; and
+- responsive height, floating depth, width and safe-area placement where the tablet/mobile dock requires them.
+
+Desktop uses a 52px minimum CTA height in the persistent left rail. Tablet/mobile retain the existing bounded dock placement and width behaviour, with a 58px minimum height and floating depth appropriate to a persistent bottom action. These are responsive size adaptations of one CTA design, not separate identities.
+
+The generic `RevPresence` nav treatment remains available for other compact navigation contexts. The Ask REV CTA applies its inverse/sizing treatment contextually so normal Living E uses are not recoloured globally.
+
 ## Home implementation
 
 `src/app/PlannerHomeScreen.tsx` implements Home as a conversation-first surface.
@@ -107,7 +127,7 @@ The opening viewport is deliberately spacious and contains, in order:
 3. the REV input; and
 4. a quiet status / route into the wider workspace.
 
-Planner recommendations, subject/resource routes and progress information remain available below the opening surface rather than competing with REV above the fold.
+Planner recommendations, course/resource routes and progress information remain available below the opening surface rather than competing with REV above the fold.
 
 The Home input stores a submitted prompt temporarily in session storage under `revision:rev-draft` and opens the governed REV route. `PlannerRevScreen` reads that draft into its conversation input and removes the temporary value. This preserves the learner's text without inventing an AI response on Home or duplicating REV conversation logic.
 
@@ -126,15 +146,20 @@ The current deterministic planning conversation remains unchanged in authority a
 
 ## Responsive navigation
 
-Desktop retains the governed five destinations:
+The canonical learner shell is owned by `PlannerRuntime`.
 
-- Home
-- Plan
-- REV
-- Progress
-- Subjects
+Desktop uses a persistent left rail containing:
 
-Mobile/tablet retain the fixed five-item bottom navigation. The centre REV destination renders the compact Living E.
+- REV identity;
+- the branded Ask REV CTA;
+- Home;
+- Plan;
+- Progress; and
+- Courses, with route-scoped contextual course expansion where applicable.
+
+Tablet/mobile do not use the retired five-item persistent bottom navigation. They use the governed top bar + drawer pattern and retain Ask REV as the only persistent bottom learner action.
+
+The tablet/mobile Ask REV dock uses the same CTA visual contract as desktop while adapting its width, floating depth and safe-area spacing to the viewport. The control is hidden while the contextual REV layer is already open and on surfaces excluded by the learner-shell navigation rules.
 
 The top-left runtime brand uses the same three-bar E construction so the wordmark, hero, conversation and navigation share one visual identity.
 
@@ -144,19 +169,25 @@ The top-left runtime brand uses the same three-bar E construction so the wordmar
 
 `src/app/living-e-accessibility.css` also consumes central role tokens for accessible accent text, selected navigation/tab treatments and high-contrast tag presentation instead of defining a separate teal-text palette.
 
+`src/app/ask-rev-cta.css` is intentionally narrow: it owns only the shared persistent Ask REV CTA visual treatment and inverse compact Living E treatment. It does not redefine breakpoint visibility/placement, Home, the REV conversation workspace, ordinary navigation icons or general button primitives. `scripts/assurance/site-theme-integrity.test.mjs` classifies it as a semantic runtime layer rather than compatibility debt.
+
 Other imported learner styles may still consume the temporary compatibility aliases or contain local values. Those surfaces are intentionally deferred to the bounded Increment B learner-surface migration rather than being changed in a big-bang rewrite.
 
 ## Assurance
 
-`tests/e2e/app-responsive.spec.ts` verifies the Home greeting/input, Living E hero and conversation instances, mobile centre-navigation treatment, responsive five-destination hierarchy and absence of horizontal page overflow while continuing through Plan, REV, Subjects, course, practice and exam-prep journeys.
+`tests/e2e/app-responsive.spec.ts` verifies the canonical learner shell and responsive critical journeys across the representative phone, tablet and desktop projects.
 
-`tests/e2e/brand-token-motion.spec.ts` adds targeted Increment A assurance across the phone, tablet and desktop Playwright projects. It verifies:
+`tests/e2e/brand-token-motion.spec.ts` verifies the light/dark theme roles, Primary Teal action foreground contract, Living E state timings and reduced-motion behaviour.
 
-- the light canvas and corrected dark canvas are driven by the central theme roles;
-- Primary Teal actions use governed Graphite action text;
-- exact Resting / Listening / Thinking / Responding / Completed motion timings and loop/one-shot behaviour;
-- focusing the real REV conversation input produces the genuine `listening` state; and
-- reduced-motion removes REV animation.
+`tests/e2e/ask-rev-cta.spec.ts` adds targeted responsive assurance for the persistent Ask REV CTA. Across phone, tablet and desktop it verifies:
+
+- exactly one visible Ask REV control for the active breakpoint;
+- the Living E is present with all three bars and the obsolete `✦` glyph cannot return;
+- the CTA uses the canonical Primary Teal surface and Graphite label;
+- the Living E bars use the inverse Neutral 0 treatment;
+- the compact CTA halo is suppressed rather than blurred;
+- the same 40px compact mark treatment is used across breakpoints; and
+- desktop vs tablet/mobile minimum height/radius adaptations remain within the governed responsive pattern.
 
 The normal repository CI remains the path-to-live gate for typecheck, lint, unit tests, production build, responsive browser assurance and database/protected-service assurance.
 
@@ -165,16 +196,16 @@ The normal repository CI remains the path-to-live gate for typecheck, lint, unit
 - `src/app/brand-tokens.css` — central Calm Teal, theme-role, semantic, radius/depth and transitional compatibility tokens.
 - `src/app/RevPresence.tsx` — reusable Living E visual component and semantic state contract.
 - `src/app/living-e.css` — Living E motion, Home layout, REV conversation surface and responsive visual overrides consuming central roles.
+- `src/app/ask-rev-cta.css` — canonical responsive Ask REV CTA visual contract and inverse-on-brand compact Living E treatment.
 - `src/app/living-e-accessibility.css` — accessible role-based accent and selected-state treatments.
-- `src/app/PlannerRuntime.tsx` — theme state, wordmark, desktop utilities and mobile/tablet centre REV navigation.
+- `src/app/PlannerRuntime.tsx` — learner shell owner that renders the desktop Ask REV control and tablet/mobile dock.
 - `src/app/PlannerHomeScreen.tsx` — conversation-first Home and prompt handoff into REV.
 - `src/app/PlannerRevScreen.tsx` — Living E conversation treatment and genuine UI-state mapping.
 - `app/index.html` — Manrope webfont loading with fallbacks.
-- `tests/e2e/app-responsive.spec.ts` — responsive visual/navigation journey assurance.
+- `tests/e2e/app-responsive.spec.ts` — responsive learner-shell journey assurance.
 - `tests/e2e/brand-token-motion.spec.ts` — exact theme-token, motion and reduced-motion assurance.
+- `tests/e2e/ask-rev-cta.spec.ts` — targeted cross-breakpoint Ask REV CTA visual assurance.
 
 ## Documentation impact
 
-Increment A changes current runtime implementation only. It does not change the normative Brand System, product journeys, evidence semantics or entitlement behaviour.
-
-`docs/technical/Brand Tokens and REV Motion Implementation Plan.md` remains the sequencing source for the later Increment B learner-surface migration and Increment C compatibility-alias removal.
+The Ask REV refinement changes the specific identity-usage rule and current runtime implementation, so `Identity Asset Usage Rules.md` v1.1 and this technical description are updated together. No learner destination, route, REV conversation behaviour, entitlement rule or evidence semantic changes. Historical Design Acceptance evidence remains unchanged.

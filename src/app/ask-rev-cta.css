@@ -1,0 +1,97 @@
+/*
+ * Canonical Ask REV CTA treatment.
+ *
+ * Desktop rail and tablet/mobile dock use the same branded control grammar.
+ * Responsive layout files continue to own visibility, placement and available
+ * width; this file owns visual treatment and compact inverse Living E styling.
+ */
+.runtime-ask-rev,
+.runtime-mobile-ask-rev-dock {
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border: 1px solid color-mix(in srgb, var(--brand-deep-teal) 14%, transparent);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-text);
+  box-shadow: var(--shadow-raised);
+  font-size: var(--type-button-size);
+  line-height: var(--type-button-line);
+  font-weight: 750;
+  cursor: pointer;
+  filter: none;
+  backdrop-filter: none;
+  transition:
+    background-color var(--motion-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-fast) var(--motion-ease-standard),
+    transform var(--motion-fast) var(--motion-ease-standard);
+}
+
+.runtime-ask-rev:hover,
+.runtime-mobile-ask-rev-dock:hover {
+  background: color-mix(in srgb, var(--color-action) 92%, var(--brand-deep-teal));
+  filter: none;
+}
+
+.runtime-ask-rev:active,
+.runtime-mobile-ask-rev-dock:active {
+  transform: translateY(1px);
+}
+
+.runtime-ask-rev:focus-visible,
+.runtime-mobile-ask-rev-dock:focus-visible {
+  background: var(--color-action);
+  box-shadow: var(--shadow-raised), var(--focus-ring);
+  filter: none;
+}
+
+/*
+ * A Primary Teal CTA needs an inverse compact identity treatment. The normal
+ * nav Living E uses Primary Teal bars, which visually merge into this surface.
+ * At CTA scale the halo is deliberately removed: the three bars are the
+ * recognition-critical geometry and render more crisply without soft bloom.
+ */
+.runtime-ask-rev .rev-presence-nav,
+.runtime-mobile-ask-rev-dock .rev-presence-nav {
+  --rev-size: 40px;
+}
+
+.runtime-ask-rev .rev-halo,
+.runtime-mobile-ask-rev-dock .rev-halo {
+  opacity: 0;
+  background: none;
+  animation: none !important;
+}
+
+.runtime-ask-rev .rev-living-e,
+.runtime-mobile-ask-rev-dock .rev-living-e {
+  width: 72%;
+  filter: none;
+}
+
+.runtime-ask-rev .rev-e-bar,
+.runtime-mobile-ask-rev-dock .rev-e-bar {
+  fill: var(--neutral-0);
+}
+
+@media (max-width: 960px) {
+  .runtime-mobile-ask-rev-dock {
+    min-height: 58px;
+    padding: 8px 18px;
+    border-radius: 18px;
+    box-shadow: var(--shadow-floating);
+  }
+
+  .runtime-mobile-ask-rev-dock:focus-visible {
+    box-shadow: var(--shadow-floating), var(--focus-ring);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runtime-ask-rev,
+  .runtime-mobile-ask-rev-dock {
+    transition: none;
+  }
+}
