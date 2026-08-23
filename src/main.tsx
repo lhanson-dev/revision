@@ -32,6 +32,7 @@ import './app/interface-learn-practice.css'
 import './app/interface-exam-experience.css'
 import './app/interface-admin.css'
 import './app/interface-theme-integrity.css'
+import './app/ask-rev-cta.css'
 
 const root = document.getElementById('root')
 
