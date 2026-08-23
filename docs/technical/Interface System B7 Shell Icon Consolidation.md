@@ -1,6 +1,6 @@
 # Interface System B7 — Learner Shell Icon Consolidation
 
-**Status:** Proposed on governed branch; not live until PR merge and production verification  
+**Status:** B7.2 bounded implementation record; production state is established by the governed PR release evidence  
 **Task:** Issue #137 — Complete B7 foundation cleanup  
 **Canonical runtime:** `/revision/app/` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
