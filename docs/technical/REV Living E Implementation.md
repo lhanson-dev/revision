@@ -120,7 +120,7 @@ The shared CTA contract is:
 
 The contained halo implementation uses a 4% inset inside the 40px presence, zero external pseudo-element inset and the existing maximum 1.08 Resting scale. That combination preserves the whole visible glow inside the presence even at the largest point in the animation instead of relying on clipping to hide overflow.
 
-Desktop uses a 52px minimum CTA height in the persistent left rail and retains the governed 15px button type role. Tablet/mobile retain the existing bounded dock placement and width behaviour, with a 58px minimum height, floating depth and the existing **Body Large / 18px** type-size role for a stronger persistent action label. These are responsive size adaptations of one CTA design, not separate identities.
+Desktop uses a 52px minimum CTA height in the persistent left rail and an explicit **Body / 16px** label role. Tablet/mobile retain the existing bounded dock placement and width behaviour, with a 58px minimum height, floating depth and the existing **Body Large / 18px** label role for a stronger persistent action. These are responsive size adaptations of one CTA design, not separate identities.
 
 When reduced motion is requested, the CTA keeps the inverse white bars and a visible static halo but removes the Resting animation.
 
@@ -217,7 +217,7 @@ Other imported learner styles may still consume the temporary compatibility alia
 - the same 40px compact mark treatment is used across breakpoints;
 - the direct label uses a matching 40px centred line box and remains vertically centred with the Living E;
 - the combined Living E + label group remains centred in the CTA;
-- tablet/mobile use the stronger 18px label size while desktop retains the 15px button role; and
+- tablet/mobile use the stronger 18px label size while desktop uses the explicit 16px Body role; and
 - desktop vs tablet/mobile minimum height/radius adaptations remain within the governed responsive pattern.
 
 `tests/e2e/rev-resting-presence.spec.ts` verifies the learner Home hero specifically:
