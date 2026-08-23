@@ -1,21 +1,38 @@
 # Authentication Implementation
 
-Status: Implemented on `main`; Google OAuth enabled in production Supabase Auth on 2026-08-19. PR #66 adds isolated browser-auth assurance configuration without changing production defaults.
+Status: Implemented on `main`; Google OAuth enabled in production Supabase Auth on 2026-08-19. B7.1 authentication identity consolidation is proposed on the current governed branch.
 
 ## Canonical surface
 
 Revision authentication is served by the canonical learner runtime at `/app/`.
 
-`src/main.tsx` wraps the learner `App` in `src/app/AuthGate.tsx`. `AuthGate` is the canonical unauthenticated entry experience and owns:
+`src/main.tsx` wraps `src/app/PlannerRuntime.tsx` in `src/app/AuthGate.tsx`. `AuthGate` is the canonical unauthenticated entry experience and owns:
 
 - session detection before the learner application is rendered;
 - sign-in vs create-account mode;
 - email/password sign-in;
 - email account creation with `first_name` user metadata;
 - Google OAuth initiation when the provider is enabled;
-- password-reset request and recovery completion.
+- password-reset request and recovery completion; and
+- the unauthenticated light/dark theme boundary used by the shared Interface System.
 
-The existing authentication branch inside `src/app/App.tsx` remains a compatibility fallback during this slice because `App` still subscribes to Supabase auth for sign-out/session changes. It is not a second user-facing entry point. A later cleanup may remove the duplicate unauthenticated rendering logic once the outer gate has proved stable.
+The existing authentication branch inside `src/app/App.tsx` remains compatibility code while `App` continues to participate in legacy internal rendering paths. It is not a second user-facing entry point and must not become one. B7 compatibility retirement should remove duplicate unauthenticated ownership once zero live dependency is proved.
+
+## Authentication identity ownership
+
+Authentication uses the canonical Revision identity package rather than reconstructing the brand in page markup.
+
+`AuthGate` consumes:
+
+```text
+BrandAsset asset="wordmark"
+```
+
+through the public `src/app/ui/` Interface System registry. The light/dark exports come from the canonical brand asset package registered under `assets/brand/manifest.json`.
+
+The shared BrandAsset anatomy responds to any enclosing `data-theme="dark"` boundary, so the same component works for both the unauthenticated `AuthGate` shell and the authenticated learner runtime. Authentication must not reintroduce live-text wordmarks, decorative `✦` identity substitutes or page-local light/dark asset switching.
+
+This closes the authentication-specific ownership problem identified as DAR-007 in the 23 August 2026 Design Acceptance Review. Shell/navigation identity and icon consolidation remain separate B7 increments so this change stays bounded.
 
 ## Public Supabase configuration
 
@@ -72,6 +89,8 @@ The repository does not contain the Google OAuth client secret.
 
 Forgot-password requests use the canonical `/app/` URL as the recovery redirect. `AuthGate` listens for the Supabase `PASSWORD_RECOVERY` auth event and presents the new-password form in the same application.
 
+Recovery uses the same canonical Revision wordmark and theme boundary as sign-in/account creation rather than maintaining separate identity markup.
+
 ## Assurance
 
 Authentication changes require at least:
@@ -81,6 +100,8 @@ Authentication changes require at least:
 - responsive browser assurance for sign-in and create-account modes;
 - verification that First name appears only where required;
 - verification that Google is shown only when the provider is enabled;
+- verification that authentication consumes the canonical wordmark and does not reconstruct Revision identity locally;
+- verification that the correct light/dark wordmark export is the visible asset for the current authentication theme;
 - regression assurance that an existing authenticated learner still reaches the ordinary `/app/` hierarchy;
 - verification that an authenticated learner can update their own first-name metadata and see the revised learner-facing name; and
 - verification that profile editing cannot alter database-owned administrator classification.
@@ -90,3 +111,7 @@ PR #66 additionally uses synthetic Auth users inside the isolated Supabase CI st
 Provider enablement must still be verified against live Supabase Auth configuration before Google can be considered production-ready. Production verification on 2026-08-19 confirmed the live Google login path is operational.
 
 Supabase Security Advisor currently reports leaked-password protection disabled. That project-level Auth setting remains an external production hardening action until deliberately enabled and reverified; isolated CI assurance does not close that warning.
+
+## B7 documentation impact
+
+This bounded B7.1 increment changes implementation ownership rather than authentication behaviour. It updates this technical implementation record in the same branch. No normative authentication/product/brand authority change or ADR is required because the approved Visual Brand System and Interface System already require canonical asset use. The historical Design Acceptance Review remains unchanged.
