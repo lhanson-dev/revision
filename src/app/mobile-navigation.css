@@ -105,6 +105,12 @@
     flex: 0 0 auto;
   }
 
+  /* Active timed work owns the full learner viewport. Global tutor access returns
+   * after the learner leaves the timed exam state. */
+  .planner-runtime:has(.exam-session-page) > .runtime-mobile-ask-rev-dock {
+    display: none;
+  }
+
   .runtime-mobile-menu-backdrop {
     position: fixed;
     inset: 0;
