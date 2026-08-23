@@ -194,7 +194,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
       <section className="planner-home-primary-grid" aria-label="Today’s recommendation and plan">
         <article className="planner-home-recommendation">
           <div className="planner-home-recommendation-copy">
-            <p className="planner-home-recommendation-label"><RevPresence size="compact" state="resting" decorative /> <span>REV recommends</span></p>
+            <div className="planner-home-recommendation-label"><RevPresence size="compact" state="resting" decorative /> <span>REV recommends</span></div>
             <h2>{recommendationTitle}</h2>
             <p>{guidance}</p>
             <div className="planner-home-recommendation-actions">
