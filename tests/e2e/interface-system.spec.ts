@@ -150,6 +150,14 @@ test('shared interface primitives provide one account and overlay grammar', asyn
   expect(durationToMs(roles.fastMotion)).toBe(160)
   expect(roles.overlayRadius).toBe('24px')
 
+  if (!isResponsiveLayout(page)) {
+    const askRev = page.getByRole('button', { name: 'Ask REV', exact: true })
+    await expect(askRev).toBeVisible()
+    await expect(askRev.locator('.rev-presence-nav')).toHaveCount(1)
+    await expect(askRev.locator('.rev-living-e .rev-e-bar')).toHaveCount(3)
+    await expect(askRev).not.toContainText('✦')
+  }
+
   await openProfile(page)
 
   const modal = page.getByRole('dialog', { name: 'Account settings' })
