@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 reusable foundation live; B7.1–B7.4 ownership consolidation live; B7.5 final component/compatibility acceptance pending exact-head assurance and merge  
+**Status:** B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -50,7 +50,7 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `IconButton` | 44×44 icon-only action | accessible label required | unlabeled controls or decorative icons |
 | `TextField` | Labelled single-line input anatomy | hint/error support; native input props | placeholder-only forms |
 | `TextAreaField` | Labelled multiline text-entry anatomy | hint/error support; native textarea props | specialist editors whose semantics differ from ordinary text entry |
-| `SelectField` | Labelled native select anatomy | hint/error support; native select props | bespoke selection UI where a native select is sufficient |
+| `SelectField` | Labelled native select anatomy | hint/error support; native input props | bespoke selection UI where a native select is sufficient |
 | `SegmentedControl` | Bounded mutually exclusive selection | labelled group containing shared buttons | navigation or arbitrary collections of actions |
 | `Status` | Semantic feedback | Success, Warning, Error, Information | decorative coloured callouts; status without visible semantic text |
 | `EmptyState` | Truthful absence / next-step support | title, description, optional action | manufactured upgrade friction or generic filler |
@@ -234,6 +234,8 @@ The shared system is protected by:
 - normal risk-classified Revision CI/path-to-live controls.
 
 B7 shell icon/identity ownership additionally has fail-closed static contracts in `b7-shell-icon-ownership.test.mjs` and `b7-identity-glyph-ownership.test.mjs`.
+
+B7.5 final acceptance was production-verified through PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`, exact-head Revision CI #869 and governed production run `32656318718`.
 
 ## Extension rule
 
