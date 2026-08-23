@@ -1,7 +1,7 @@
 # Revision Interface System Implementation
 
-**Status:** B1–B6 live; B7.1–B7.4 live; B7.5 final acceptance implemented on PR #148 candidate, pending exact-head assurance and Founder-approved merge  
-**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.4  
+**Status:** B1–B7 live; B7.5 final acceptance complete via PR #148 and production-verified  
+**Authority:** `20-brand-and-experience/Visual Brand System.md` v1.0 and `20-brand-and-experience/Product UX Principles.md` v0.5  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Component registry:** `docs/technical/Interface System Component Registry.md`  
 **Final B7 record:** `docs/technical/Interface System B7 Final Acceptance.md`  
@@ -58,9 +58,9 @@ The public React registry under `src/app/ui/` supplies recurring structure inclu
 - **B7.2 — learner-shell recurring icon ownership:** live via PR #142 / merge `c6994cbcaf2e7764945a8807d586dbf3f947e925`.
 - **B7.3 — shared overlay/focus ownership:** live via PR #144 / merge `61222411576003c96c1954a8f6fae7e6e6898f8e`.
 - **B7.4 — canonical identity and recurring glyph ownership:** live via PR #147 / merge `7ac52d0702dca1bc11e87eede36bf0159947ca39`.
-- **B7.5 — final compatibility retirement / visual acceptance:** implemented on PR #148 candidate; final exact-head screenshot/CI evidence and Founder-approved merge remain required.
+- **B7.5 — final compatibility retirement / visual acceptance:** live via PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`; exact-head Revision CI #869 and governed production run `32656318718` succeeded.
 
-Issue #137 remains open until PR #148 is merged and its path-to-live succeeds.
+Issue #137 is closed as completed. The canonical Interface System foundation is the baseline for subsequent journey-led work.
 
 ## B7 shared overlay/focus contract
 
@@ -136,8 +136,10 @@ B7 final acceptance additionally requires:
 - full exact-head Revision CI; and
 - current-main integration before Founder approval.
 
+Those completion conditions were satisfied by PR #148 and its governed production release.
+
 ## Documentation impact
 
-B7 implements existing brand, identity, UX, accessibility and Interface System authority. No normative authority amendment or ADR is required for the final cleanup itself.
+B7 implements existing brand, identity, UX, accessibility and Interface System authority. No normative authority amendment or ADR was required for the final cleanup itself.
 
-The component registry, operating standard, B7 technical records, this implementation record and `INDEX.md` are maintained in the same governed change. The original Design Acceptance audit remains historical point-in-time evidence; B7.5 adds a separate acceptance rerun.
+The component registry, operating standard, B7 technical records, this implementation record and `INDEX.md` are maintained as current implementation truth. The original Design Acceptance audit remains historical point-in-time evidence; B7.5 added a separate acceptance rerun.

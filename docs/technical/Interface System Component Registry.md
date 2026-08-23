@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 reusable foundation live; B7.1–B7.4 ownership consolidation live; B7.5 final component/compatibility acceptance pending exact-head assurance and merge  
+**Status:** B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -234,6 +234,8 @@ The shared system is protected by:
 - normal risk-classified Revision CI/path-to-live controls.
 
 B7 shell icon/identity ownership additionally has fail-closed static contracts in `b7-shell-icon-ownership.test.mjs` and `b7-identity-glyph-ownership.test.mjs`.
+
+B7.5 final acceptance was production-verified through PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`, exact-head Revision CI #869 and governed production run `32656318718`.
 
 ## Extension rule
 
