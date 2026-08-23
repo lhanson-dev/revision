@@ -100,7 +100,7 @@ Motion does not represent response percentage, elapsed time or remaining time.
 
 Persistent Ask REV uses one visual contract across desktop, tablet and mobile rather than separate breakpoint-specific identity treatments.
 
-`src/app/ask-rev-cta.css` is loaded after the existing learner-shell and Interface System compatibility styles so it is the final owner of the Ask REV CTA visual treatment. Existing layout files continue to own where the control is placed and how much width is available.
+`src/app/ask-rev-cta.css` is a classified semantic runtime layer. It is loaded after the existing learner-shell layout styles and before the final `interface-theme-integrity.css` compatibility layer. It owns Ask REV CTA appearance and compact inverse Living E styling, while the existing responsive layout files continue to own breakpoint visibility, placement and available width. The final compatibility layer remains last in the cascade and does not redefine Ask REV.
 
 The shared CTA contract is:
 
@@ -169,7 +169,7 @@ The top-left runtime brand uses the same three-bar E construction so the wordmar
 
 `src/app/living-e-accessibility.css` also consumes central role tokens for accessible accent text, selected navigation/tab treatments and high-contrast tag presentation instead of defining a separate teal-text palette.
 
-`src/app/ask-rev-cta.css` is intentionally narrow: it owns only the shared persistent Ask REV CTA visual treatment and inverse compact Living E treatment. It does not redefine Home, the REV conversation workspace, ordinary navigation icons or general button primitives.
+`src/app/ask-rev-cta.css` is intentionally narrow: it owns only the shared persistent Ask REV CTA visual treatment and inverse compact Living E treatment. It does not redefine breakpoint visibility/placement, Home, the REV conversation workspace, ordinary navigation icons or general button primitives. `scripts/assurance/site-theme-integrity.test.mjs` classifies it as a semantic runtime layer rather than compatibility debt.
 
 Other imported learner styles may still consume the temporary compatibility aliases or contain local values. Those surfaces are intentionally deferred to the bounded Increment B learner-surface migration rather than being changed in a big-bang rewrite.
 
