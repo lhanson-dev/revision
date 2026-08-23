@@ -1,7 +1,7 @@
 # Release Lineage Recovery Checkpoint
 
-**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112  
-**Date:** 2026-08-22
+**Status:** Recovery 1 completed via PR #85; Recovery 2 completed via PR #109; Recovery 3 completed via PR #112; Recovery 4 in review  
+**Date:** 2026-08-23
 
 ## Purpose
 
@@ -168,18 +168,86 @@ Because this was another recurrence after procedural hardening, Recovery 3 added
 
 The trusted default-branch workflow verifies that the current PR head has both successful exact-head Revision CI and the exact Founder marker created at or after that CI. Prose approval remains insufficient, and a new PR head is evaluated independently.
 
-The workflow is documented in `docs/technical/Founder Approval Gate.md` and is now live on `main`. Operating agents must treat `revision/founder-approval = success` as a mandatory pre-merge condition for subsequent release-governed PRs. Where GitHub repository settings support required status checks, the status should also be configured as a repository-enforced required check.
+The workflow is documented in `docs/technical/Founder Approval Gate.md` and is live on `main`.
 
 ### Outcome
 
 Recovery 3 completed successfully through PR #112. Merge commit `62d75df280ac0ba5b0df72916b9394ecb8de75b5` completed GitHub Pages run `32562931908` with governed release lineage, production backend readiness, build, Pages deployment, production smoke and durable `revision/path-to-live = success`.
 
-That satisfies the closure condition for DEF-2026-006 and re-establishes the prospective governed release chain while preserving PR #106 and PR #111 historical evidence unchanged.
+That satisfied the closure condition for DEF-2026-006 and re-established the prospective governed release chain while preserving PR #106 and PR #111 historical evidence unchanged.
 
 `audits/Path-to-Live Approval Marker Recurrence 2026-08-22.md` preserves the incident evidence and closure record.
+
+## Recovery 4 — advisory approval gate bypass after PR #139
+
+### Trigger
+
+PR #139 exact head:
+
+`8a514a91b41a36da24c0606b000143d74d62e1df`
+
+completed Revision CI #871 successfully. The trusted Recovery 3 status evaluator correctly left:
+
+`revision/founder-approval = pending`
+
+because the GitHub PR conversation contained no exact machine-readable Founder approval marker.
+
+PR #139 was nevertheless merged as:
+
+`22c6d40295cbeb012b12895538318e3601f62ab9`
+
+This is materially different from Recoveries 1–3: the status evaluator itself was not wrong or missing. The merge path bypassed a correctly pending status because repository-level required-check enforcement was not active.
+
+PR #149 then followed the correct exact-head sequence for its own head `e959e17a1f7865772b26a61ba3d5f0036d573278`: Revision CI #873 passed, exact marker comment `5387770459` was persisted, `revision/founder-approval` reached `success`, and the exact head merged as `e21903e580facdc36f2f676582e48ff0df88d3f7`.
+
+Production run `32658623030` failed closed while traversing PR #139. Backend readiness, build, Pages deployment and production smoke were skipped. The previous known-good Production artifact remained live.
+
+### Fourth recovery anchor
+
+ADR-0018 approves the fourth exceptional prospective trust root:
+
+```text
+REVISION_RELEASE_BOOTSTRAP_PARENT=e21903e580facdc36f2f676582e48ff0df88d3f7
+```
+
+This is the exact failed pre-remediation `main` commit from PR #149. It is not a declaration that PR #139 had compliant approval evidence and does not rewrite PR #139 or PR #149 history.
+
+### Recovery-PR invariant
+
+Recovery 4 must satisfy all of the following before release continuity is considered restored:
+
+1. the recovery branch starts from exact failed `main` `e21903e580facdc36f2f676582e48ff0df88d3f7`, subject only to deliberate current-main reconciliation if `main` advances;
+2. final exact-head Revision CI passes;
+3. the Founder explicitly approves the Recovery 4 PR merge;
+4. the exact machine-readable Founder marker is persisted after the latest exact-head CI;
+5. the marker is re-read and verified;
+6. `revision/founder-approval = success` is verified for the same exact head;
+7. only that evidenced head is merged;
+8. governed release lineage passes using the Recovery 4 anchor;
+9. production backend readiness, build, Pages deployment and production smoke all pass; and
+10. durable `revision/path-to-live = success` is published for the Recovery 4 merge commit.
+
+### Hard-enforcement requirement introduced by Recovery 4
+
+The Recovery 4 investigation verified that current branch metadata reported required-status-check enforcement as `off`, with no required status contexts/checks, while PR #139 had a correctly pending approval status.
+
+After Recovery 4 merges, ordinary release-governed merges are therefore blocked until actual GitHub repository state is independently verified to require at minimum:
+
+- successful Revision CI for the candidate; and
+- `revision/founder-approval = success` for the current exact PR head.
+
+If the current GitHub plan/ownership model cannot provide that hard barrier, an explicitly Founder-approved alternative hard enforcement mechanism is required before ordinary merges resume. Advisory-only agent discipline is no longer an acceptable fallback.
+
+The post-merge release-lineage verifier remains mandatory as an independent fail-closed control even after the hard pre-merge barrier is active.
+
+### Historical evidence
+
+PR #139 must remain unchanged. No retrospective exact marker may be added to convert the historical merge into compliant evidence.
+
+`audits/Path-to-Live Approval Enforcement Failure 2026-08-23.md` preserves the incident evidence. DEF-2026-007 remains open until both successful Recovery 4 Production evidence and verified hard pre-merge enforcement are recorded.
 
 ## Guardrail
 
 Do not advance the bootstrap parent as a routine way to clear failed lineage. Every recovery reset requires a new governed decision, explicit rationale and Founder approval. Historical comments/statuses must not be edited to manufacture compliance.
 
-Recovery 3 moves beyond procedural wording by adding a machine-readable pre-merge Founder approval status. Future approval-evidence incidents should first be treated as failures of technical enforcement/configuration and investigated at that layer rather than answered with another routine bootstrap reset.
+Recovery 4 confirms that machine-readable status calculation alone is insufficient when the merge platform does not enforce that status. Future release-control design must prefer hard, independently verifiable barriers over advisory instructions once a repeated bypass has been demonstrated.
