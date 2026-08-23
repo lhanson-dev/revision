@@ -83,7 +83,13 @@ export function AccountModal({
   return (
     <>
       <OverlayBackdrop className="runtime-account-modal-backdrop" label="Close account window" onClick={onClose} />
-      <ModalShell className="runtime-account-modal" label="Account settings" onDismiss={onClose} initialFocusSelector=".runtime-account-modal-close">
+      <ModalShell
+        className="runtime-account-modal"
+        label="Account settings"
+        onDismiss={onClose}
+        initialFocusSelector=".runtime-account-modal-close"
+        returnFocusSelector=".runtime-sidebar-user, .runtime-mobile-menu-button"
+      >
         <aside className="runtime-account-modal-nav">
           <div className="runtime-account-modal-identity">
             <span className="runtime-account-modal-avatar" aria-hidden="true">{learnerName.charAt(0).toUpperCase()}</span>
