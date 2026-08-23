@@ -1,6 +1,6 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 reusable foundation live; B7 overlay/focus ownership consolidation in progress  
+**Status:** B2.5 reusable foundation live; B7 identity/glyph ownership consolidation in progress  
 **Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
@@ -123,17 +123,25 @@ Do not replace accessible native behaviour merely to make a control visually unu
 - remain semantically labelled by their containing control or by an explicit `title` when the icon itself conveys information; and
 - do not include the Living E.
 
-If a recurring icon is missing, add it to the registry and assurance rather than adding a separate icon source to a page.
+If a recurring icon is missing, add it to the registry and assurance rather than adding a separate icon source to a page. B7.4 adds controlled `arrow-up` and `play` jobs so the Home REV submit action and Exam resume action no longer use text/Unicode glyphs.
 
-### B7 learner-shell ownership
+### B7 learner-shell and recurring ownership
 
 The canonical `PlannerRuntime` shell consumes the public `Icon` registry for recurring learner navigation and account jobs rather than maintaining a shell-local SVG family. The controlled registry includes the shell jobs for Home, Plan, Progress, Courses, Profile/user, Settings, Admin, Upgrade plan, Log out, close and chevron-right controls.
 
 The shell may retain composition-specific sizing through its `nav-icon` or overlay classes, but reusable drawing, stroke language and control anatomy are centrally owned.
 
-B7.3 additionally moves Ask REV and the mobile navigation drawer onto `DrawerShell`/`OverlayBackdrop`, removes their local focus/scroll/Escape ownership, and replaces their raw close/chevron glyphs with controlled `Icon`/`IconButton` treatments. `AccountModal` and Exam Pause/Stop consume the same modal focus contract so modal behaviour is no longer fragmented by feature.
+B7.3 moved Ask REV and the mobile navigation drawer onto `DrawerShell`/`OverlayBackdrop`, removed their local focus/scroll/Escape ownership, and replaced their raw close/chevron glyphs with controlled `Icon`/`IconButton` treatments. `AccountModal` and Exam Pause/Stop consume the same modal focus contract so modal behaviour is no longer fragmented by feature.
 
-The shell-local `RevWordmark()` reconstruction and any remaining copied common control anatomy/glyphs are still separate B7.4 work. B7.3 must not be treated as closing those items.
+B7.4 completes the current bounded identity/glyph consolidation by:
+
+- replacing the shell-local `RevWordmark()` reconstruction with the canonical theme-paired `BrandAsset` wordmark in desktop, mobile top-bar and mobile-drawer identity positions;
+- removing `AccountModal`'s local Profile/Settings SVG family in favour of shared `user` and `settings` icons;
+- replacing Home's raw submit/chevron/arrow control glyphs with shared `Icon` jobs;
+- replacing Home's alternate arrow-in-REV-halo recommendation mark and decorative star with the governed `RevPresence` treatment; and
+- replacing the Exam pause/resume Unicode play glyph with the controlled `play` icon.
+
+Domain/activity-specific task markers are not silently reclassified as general navigation icons by this increment. Broader copied Learn/Admin component anatomy and final legacy/compatibility CSS retirement remain separate B7 acceptance work.
 
 ## Canonical identity assets
 
@@ -144,6 +152,8 @@ The shell-local `RevWordmark()` reconstruction and any remaining copied common c
 - Living E navigation treatment.
 
 Both light and dark sources are present in the same component structure. Theme translation is controlled by the runtime `data-theme` state and shared component CSS; pages do not choose a separate local dark asset rule.
+
+The canonical learner shell now uses this helper for its full Revision wordmark instead of reconstructing REV from text and locally drawn E bars. The shell renders the approved wordmark at the governed 160px digital minimum.
 
 The brand manifest remains the canonical lifecycle/provenance record. A new identity asset must enter that package/manifest before the helper treats it as approved.
 
@@ -185,9 +195,11 @@ B2.5 is protected by:
 - existing Plan/Progress phone/tablet/desktop browser assurance; and
 - the normal risk-classified Revision CI and path-to-live controls.
 
-B7 shell-icon ownership additionally has a static fail-closed contract in `scripts/assurance/b7-shell-icon-ownership.test.mjs` that prevents the canonical shell from reintroducing its local SVG icon family and verifies the required shell jobs remain registered centrally.
+B7 shell icon/identity ownership additionally has a static fail-closed contract in `scripts/assurance/b7-shell-icon-ownership.test.mjs` that prevents the canonical shell from reintroducing local SVG navigation icons or the local `RevWordmark()` reconstruction and verifies the required shared sources remain in use.
 
 B7.3 overlay/focus ownership is additionally protected by `tests/e2e/overlay-focus.spec.ts`, which exercises initial focus, Tab/Shift+Tab containment, Escape, inert background isolation, focus return and exam-interruption continuity across the configured phone/tablet/desktop projects.
+
+B7.4 recurring identity/glyph ownership is protected by `scripts/assurance/b7-identity-glyph-ownership.test.mjs`, which fails closed if Account recreates its section SVG family, Home restores the retired raw REV/control glyphs, Exam restores the Unicode play symbol, or the new shared icon jobs disappear.
 
 ## Extension rule
 
