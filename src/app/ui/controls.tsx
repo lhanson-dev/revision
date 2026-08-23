@@ -1,4 +1,4 @@
-import { useId, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from 'react'
+import { useId, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import { classNames } from './classNames'
 
 export type ButtonVariant = 'primary' | 'strong' | 'secondary' | 'tertiary' | 'destructive'
@@ -39,13 +39,20 @@ interface FieldSupportProps {
   groupClassName?: string
 }
 
+function fieldSupportId(controlId: string, hint?: ReactNode, error?: ReactNode) {
+  return hint || error ? `${controlId}-support` : undefined
+}
+
+function describedBy(existing: string | undefined, supportId: string | undefined) {
+  return [existing, supportId].filter(Boolean).join(' ') || undefined
+}
+
 export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & FieldSupportProps
 
 export function TextField({ label, hint, error, groupClassName, id, className, ...props }: TextFieldProps) {
   const generatedId = useId()
   const controlId = id ?? generatedId
-  const supportId = hint || error ? `${controlId}-support` : undefined
-  const describedBy = [props['aria-describedby'], supportId].filter(Boolean).join(' ') || undefined
+  const supportId = fieldSupportId(controlId, hint, error)
 
   return (
     <label className={classNames('ui-field-group', groupClassName)} htmlFor={controlId}>
@@ -54,7 +61,29 @@ export function TextField({ label, hint, error, groupClassName, id, className, .
         {...props}
         id={controlId}
         className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
-        aria-describedby={describedBy}
+        aria-describedby={describedBy(props['aria-describedby'], supportId)}
+        aria-invalid={error ? true : props['aria-invalid']}
+      />
+      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
+    </label>
+  )
+}
+
+export type TextAreaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & FieldSupportProps
+
+export function TextAreaField({ label, hint, error, groupClassName, id, className, ...props }: TextAreaFieldProps) {
+  const generatedId = useId()
+  const controlId = id ?? generatedId
+  const supportId = fieldSupportId(controlId, hint, error)
+
+  return (
+    <label className={classNames('ui-field-group', groupClassName)} htmlFor={controlId}>
+      <span className="ui-field-label">{label}</span>
+      <textarea
+        {...props}
+        id={controlId}
+        className={classNames('ui-field', 'ui-field--textarea', Boolean(error) && 'ui-field--error', className)}
+        aria-describedby={describedBy(props['aria-describedby'], supportId)}
         aria-invalid={error ? true : props['aria-invalid']}
       />
       {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
@@ -67,8 +96,7 @@ export type SelectFieldProps = SelectHTMLAttributes<HTMLSelectElement> & FieldSu
 export function SelectField({ label, hint, error, groupClassName, id, className, children, ...props }: SelectFieldProps) {
   const generatedId = useId()
   const controlId = id ?? generatedId
-  const supportId = hint || error ? `${controlId}-support` : undefined
-  const describedBy = [props['aria-describedby'], supportId].filter(Boolean).join(' ') || undefined
+  const supportId = fieldSupportId(controlId, hint, error)
 
   return (
     <label className={classNames('ui-field-group', groupClassName)} htmlFor={controlId}>
@@ -77,7 +105,7 @@ export function SelectField({ label, hint, error, groupClassName, id, className,
         {...props}
         id={controlId}
         className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
-        aria-describedby={describedBy}
+        aria-describedby={describedBy(props['aria-describedby'], supportId)}
         aria-invalid={error ? true : props['aria-invalid']}
       >
         {children}

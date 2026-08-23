@@ -53,10 +53,31 @@ When a PR is otherwise complete and is being prepared for production merge:
 3. **Review overlap.** If both the PR and newer `main` changed the same responsibility or shared file, resolve the combined state deliberately.
 4. **Preserve cumulative truth.** Shared indexes, registers, manifests, routes, config and migrations must become `latest main + intended PR delta`, never `old branch version wins`.
 5. **Run final assurance.** The integration candidate must pass the required risk-proportionate CI/assurance.
-6. **Summarise for Founder approval.** Before production merge, present what the PR changes, material impact, assurance evidence, documentation impact, risks and any substantive conflict resolution in language that allows a non-developer Founder to make an informed decision.
+6. **Provide the Founder merge approval summary.** Use the mandatory plain-language approval-summary contract below so the Founder can understand exactly what will enter production before approving it.
 7. **Obtain explicit Founder merge approval.** The Founder approves the proposed change entering production; branch mechanics remain an engineering responsibility.
 
 There is no governance rule limiting Revision to one review-ready PR at a time. Actual merges are necessarily ordered because each successful merge changes `main`; the next merge candidate must therefore be checked against the resulting current `main` before it merges.
+
+## Founder merge approval summary
+
+Before asking the Founder to approve a PR merge, the executing agent must provide a concise, decision-oriented summary in plain, non-technical language.
+
+The summary must make clear:
+
+- **what is being approved** — what will actually change if this PR is merged;
+- **why it matters** — the problem solved, improvement made or risk reduced;
+- **who or what is affected** — learners, Admin, internal operations, governance or infrastructure, including an explicit statement when there is no user-facing product change;
+- **material risk or behaviour change** — anything the Founder should understand before authorising production entry;
+- **what is deliberately not included** — important exclusions, limitations or follow-up work where relevant; and
+- **readiness** — that the required assurance is green and documentation is aligned, or any remaining condition that prevents approval.
+
+Keep the summary short enough to understand quickly. Do not make the Founder reconstruct the purpose of the merge from PR titles, commit messages, CI identifiers, file lists or technical implementation detail. Technical identifiers may be included separately for traceability, but they do not replace the plain-language explanation.
+
+The explicit approval command, for example `Approve merge PR #123`, must be presented **after** the summary. The Founder should therefore be able to read the explanation and know exactly what authorising that command means.
+
+If the PR changes materially after the summary, provide a refreshed summary. Renewed Founder approval is required where the material PR delta changed under the approval-continuity rules below.
+
+This is an informed-decision communication requirement. It does not create a second approval, additional release gate or extra deployment step.
 
 ## Approval continuity across a mechanical `main` refresh
 

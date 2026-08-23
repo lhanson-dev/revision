@@ -20,6 +20,17 @@ async function expectNoPageOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
+async function assertCanonicalWordmark(page: Page, theme: 'light' | 'dark') {
+  const brand = page.locator('.auth-brand[data-brand-asset="wordmark"]')
+  await expect(brand).toBeVisible()
+  await expect(brand).not.toContainText('✦')
+
+  const images = brand.locator('.ui-brand-asset__image')
+  await expect(images).toHaveCount(2)
+  const visibility = await images.evaluateAll((elements) => elements.map((element) => getComputedStyle(element).visibility))
+  expect(visibility).toEqual(theme === 'dark' ? ['hidden', 'visible'] : ['visible', 'hidden'])
+}
+
 async function assertNoLegacyDarkThemeLeaks(root: Locator, label: string) {
   const findings = await root.locator('*').evaluateAll((elements) => {
     const badBackgrounds = new Set([
@@ -57,11 +68,12 @@ async function assertNoLegacyDarkThemeLeaks(root: Locator, label: string) {
   expect(findings, `${label} theme leaks:\n${findings.join('\n')}`).toEqual([])
 }
 
-test('sign in keeps the primary path clear and exposes Google only when enabled', async ({ page }) => {
+test('sign in keeps the primary path clear and uses the canonical Revision identity', async ({ page }) => {
   await stubAuthSettings(page, true)
   await page.goto(appPath)
 
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
+  await assertCanonicalWordmark(page, 'light')
   await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
   await expect(page.getByLabel('Email')).toBeVisible()
   await expect(page.getByLabel('Password')).toBeVisible()
@@ -98,7 +110,7 @@ test('Google sign in is hidden rather than broken when the provider is not confi
   await expectNoPageOverflow(page)
 })
 
-test('sign in and account creation use the central dark theme without legacy light surfaces', async ({ page }) => {
+test('sign in and account creation use the canonical dark identity and central dark theme', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('revision:theme', 'dark'))
   await stubAuthSettings(page, true)
   await page.goto(appPath)
@@ -106,6 +118,7 @@ test('sign in and account creation use the central dark theme without legacy lig
   const authShell = page.locator('.auth-shell')
   await expect(authShell).toHaveAttribute('data-theme', 'dark')
   await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible()
+  await assertCanonicalWordmark(page, 'dark')
   await assertNoLegacyDarkThemeLeaks(authShell, 'Sign in')
 
   const card = page.locator('.auth-card')
@@ -125,5 +138,6 @@ test('sign in and account creation use the central dark theme without legacy lig
 
   await page.getByRole('button', { name: 'Create account' }).click()
   await expect(page.getByRole('heading', { name: 'Create your account' })).toBeVisible()
+  await assertCanonicalWordmark(page, 'dark')
   await assertNoLegacyDarkThemeLeaks(authShell, 'Create account')
 })

@@ -50,7 +50,7 @@
 .focused-workspace .mode-tabs{min-width:0;max-width:100%;margin-bottom:20px}
 .focused-workspace .option-list label span{min-width:0;overflow-wrap:anywhere}
 .exam-simulator-section{min-width:0;max-width:100%;margin-top:0}
-.cross-section-next{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.cross-section-next{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;border:1px solid var(--line);border-radius:20px;background:var(--color-surface)}
 .cross-section-next>div{display:grid;gap:4px}
 .cross-section-next strong{color:var(--ink);font-size:18px}
 .cross-section-next span{color:var(--muted);font-size:13px;line-height:1.45}

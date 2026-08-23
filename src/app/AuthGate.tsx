@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { loadAuthCapabilities } from '../services/auth/auth-capabilities'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
+import { BrandAsset } from './ui'
 
 type AuthMode = 'sign-in' | 'create-account'
 type ThemeName = 'light' | 'dark'
@@ -175,7 +176,7 @@ export function AuthGate({ children }: AuthGateProps) {
   if (recoveryMode && hasSession) {
     return (
       <main className="auth-shell" data-theme={authTheme}>
-        <div className="auth-brand" aria-label="Revision">Revision<span aria-hidden="true">✦</span></div>
+        <BrandAsset asset="wordmark" className="auth-brand" alt="Revision" />
         <section className="auth-card" aria-labelledby="reset-password-heading">
           <p className="eyebrow">Account recovery</p>
           <h1 id="reset-password-heading">Set a new password</h1>
@@ -197,7 +198,7 @@ export function AuthGate({ children }: AuthGateProps) {
 
   return (
     <main className="auth-shell" data-theme={authTheme}>
-      <div className="auth-brand" aria-label="Revision">Revision<span aria-hidden="true">✦</span></div>
+      <BrandAsset asset="wordmark" className="auth-brand" alt="Revision" />
       <section className="auth-card auth-entry-card" aria-labelledby="auth-heading">
         <p className="eyebrow">Your revision, your next step</p>
         <h1 id="auth-heading">{creatingAccount ? 'Create your account' : 'Sign in'}</h1>

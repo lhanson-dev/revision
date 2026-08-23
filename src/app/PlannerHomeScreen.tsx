@@ -7,6 +7,7 @@ import { createCourseLearningState, createModuleLearningState, type ModuleLearni
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import { RevPresence, type RevPresenceState } from './RevPresence'
+import { Icon } from './ui'
 
 interface PlannerHomeScreenProps {
   client: SupabaseClient
@@ -185,7 +186,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
               onBlur={() => setRevState('resting')}
               onChange={(event) => setPrompt(event.target.value)}
             />
-            <button className="living-home-send" type="submit" aria-label="Send to REV">↑</button>
+            <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
           </form>
         </div>
       </section>
@@ -193,7 +194,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
       <section className="planner-home-primary-grid" aria-label="Today’s recommendation and plan">
         <article className="planner-home-recommendation">
           <div className="planner-home-recommendation-copy">
-            <p className="planner-home-recommendation-label"><span aria-hidden="true">✦</span> REV recommends</p>
+            <div className="planner-home-recommendation-label"><RevPresence size="compact" state="resting" decorative /> <span>REV recommends</span></div>
             <h2>{recommendationTitle}</h2>
             <p>{guidance}</p>
             <div className="planner-home-recommendation-actions">
@@ -204,14 +205,14 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
               ) : (
                 <button className="primary" onClick={onOpenPlan}>{setup?.assessments.length ? 'Complete plan setup' : 'Set up my plan'}</button>
               )}
-              <button className="planner-home-why" onClick={() => openRevWithDraft(topItem ? `Why is ${topCourseLabel} my top recommendation today?` : 'What do you need from me before you can recommend what to revise?')}>Why this? <span aria-hidden="true">›</span></button>
+              <button className="planner-home-why" onClick={() => openRevWithDraft(topItem ? `Why is ${topCourseLabel} my top recommendation today?` : 'What do you need from me before you can recommend what to revise?')}>Why this? <Icon name="chevron-right" size="inline" /></button>
             </div>
           </div>
-          <div className="planner-home-recommendation-mark" aria-hidden="true"><span>↗</span></div>
+          <RevPresence size="nav" state="resting" decorative className="planner-home-recommendation-presence" />
         </article>
 
         <aside className="planner-home-today" aria-labelledby="planner-home-today-title">
-          <div className="planner-home-today-head"><h2 id="planner-home-today-title">Today’s plan</h2><button className="planner-home-view-plan" onClick={onOpenPlan}>View full plan <span aria-hidden="true">→</span></button></div>
+          <div className="planner-home-today-head"><h2 id="planner-home-today-title">Today’s plan</h2><button className="planner-home-view-plan" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button></div>
           {programme.length === 0 && <p className="planner-home-today-empty">Add a course first. Revision will not fabricate a plan from courses you have not selected.</p>}
           {programme.length > 0 && !snapshot && <p className="planner-home-today-empty">{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
           {snapshot && snapshot.today.length === 0 && <p className="planner-home-today-empty">No planner activity needs to be pushed forward right now.</p>}
@@ -223,7 +224,7 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
                     <span className="planner-home-item-icon" aria-hidden="true">{item.activityType === 'quick-check' ? '✓' : item.activityType === 'flashcards' ? '□' : '◫'}</span>
                     <span className="planner-home-item-copy"><strong>{programmeCourseLabel(programme, item.courseId, item.subjectId)} — {itemTopicLabel(item, learningStates)}</strong><small>{activityLabel(item.activityType)}</small></span>
                     <span className="planner-home-item-time">{item.estimatedMinutes} min</span>
-                    <span className="planner-home-item-arrow" aria-hidden="true">›</span>
+                    <Icon name="chevron-right" size="compact" className="planner-home-item-arrow" />
                   </button>
                 </li>
               ))}

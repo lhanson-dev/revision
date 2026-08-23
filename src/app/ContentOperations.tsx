@@ -4,6 +4,7 @@ import { getContentAdapter, listAvailableContentAdapters } from '../engine/conte
 import { supabase } from '../services/supabase/browser-client'
 import { buildCatalogue } from './catalogue-model'
 import { FounderAssurance, founderAssuranceSummary } from './FounderAssurance'
+import { Button, TextAreaField, TextField } from './ui'
 
 type IntakeResponse = {
   jobId: string
@@ -239,9 +240,9 @@ export function ContentOperations() {
             <h1 id={titleId}>{title}</h1>
             <p>{copy}</p>
           </div>
-          <button className="secondary admin-refresh" onClick={() => void loadSnapshot()} disabled={loadingSnapshot}>
+          <Button variant="secondary" size="compact" className="secondary admin-refresh" onClick={() => void loadSnapshot()} disabled={loadingSnapshot}>
             {loadingSnapshot ? 'Refreshing…' : 'Refresh'}
-          </button>
+          </Button>
         </header>
         <AdminSubnav view={view} />
         {snapshotError ? <div className="admin-warning" role="status"><strong>Live operations data unavailable</strong><p>{snapshotError}</p></div> : null}
@@ -263,9 +264,9 @@ export function ContentOperations() {
             <h1 id="admin-dashboard-title">Revision Operations</h1>
             <p>High-level operational health, learner activity and content-production status. Drill into a section when you need the evidence behind a number.</p>
           </div>
-          <button className="secondary admin-refresh" onClick={() => void loadSnapshot()} disabled={loadingSnapshot}>
+          <Button variant="secondary" size="compact" className="secondary admin-refresh" onClick={() => void loadSnapshot()} disabled={loadingSnapshot}>
             {loadingSnapshot ? 'Refreshing…' : 'Refresh'}
-          </button>
+          </Button>
         </header>
         <AdminSubnav view="dashboard" />
         {snapshotError ? <div className="admin-warning" role="status"><strong>Live operations data unavailable</strong><p>{snapshotError}</p></div> : null}
@@ -334,7 +335,7 @@ export function ContentOperations() {
             </div>
             <h3>Add course</h3>
             <p className="muted">Start a governed Content Factory job from an official awarding-body URL.</p>
-            <button className="primary" onClick={() => navigateAdmin('content')}>Open Content Operations</button>
+            <Button className="primary" onClick={() => navigateAdmin('content')}>Open Content Operations</Button>
           </section>
         </div>
       </main>
@@ -427,18 +428,27 @@ export function ContentOperations() {
             <h2 id="add-course-title">Add course</h2>
             <p className="muted">Start with the official course or specification page. Optional instructions are only for genuine scope or course constraints.</p>
             <form className="content-operations-form" onSubmit={addCourse}>
-              <label>
-                Official awarding-body URL
-                <input type="url" inputMode="url" placeholder="https://www.aqa.org.uk/..." required value={officialUrl} onChange={(event) => setOfficialUrl(event.target.value)} />
-                <span>Use an official awarding-body page, not a third-party revision site.</span>
-              </label>
-              <label>
-                Optional instruction
-                <textarea rows={4} maxLength={2000} placeholder="For example: include the complete course and all compulsory papers." value={notes} onChange={(event) => setNotes(event.target.value)} />
-              </label>
+              <TextField
+                label="Official awarding-body URL"
+                type="url"
+                inputMode="url"
+                placeholder="https://www.aqa.org.uk/..."
+                required
+                value={officialUrl}
+                onChange={(event) => setOfficialUrl(event.target.value)}
+                hint="Use an official awarding-body page, not a third-party revision site."
+              />
+              <TextAreaField
+                label="Optional instruction"
+                rows={4}
+                maxLength={2000}
+                placeholder="For example: include the complete course and all compulsory papers."
+                value={notes}
+                onChange={(event) => setNotes(event.target.value)}
+              />
               {submitError ? <p className="content-operations-error" role="alert">{submitError}</p> : null}
               {createdJob ? <div className="content-operations-success" role="status"><strong>Course job created.</strong><span>Job {createdJob.jobId} · GitHub issue #{createdJob.issueNumber}</span><a href={createdJob.issueUrl} target="_blank" rel="noreferrer">Open job record</a></div> : null}
-              <button className="primary" type="submit" disabled={submitting}>{submitting ? 'Creating course job…' : 'Add course'}</button>
+              <Button className="primary" type="submit" disabled={submitting}>{submitting ? 'Creating course job…' : 'Add course'}</Button>
             </form>
           </section>
 

@@ -1,46 +1,256 @@
-import type { ButtonHTMLAttributes, HTMLAttributes } from 'react'
+import { useEffect, useRef, type ButtonHTMLAttributes, type HTMLAttributes, type RefObject } from 'react'
 import { classNames } from './classNames'
+
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ')
+
+const activeDialogStack: HTMLElement[] = []
+const inertOwners = new Map<HTMLElement, { count: number; wasInert: boolean }>()
+let scrollLockCount = 0
+let previousBodyOverflow = ''
+
+function isAvailableForFocus(element: HTMLElement) {
+  if (element.closest('[hidden], [inert], [aria-hidden="true"]')) return false
+  return element.getClientRects().length > 0
+}
+
+function focusableElements(root: HTMLElement) {
+  return Array.from(root.querySelectorAll<HTMLElement>(focusableSelector)).filter(isAvailableForFocus)
+}
+
+function focusElement(element: HTMLElement) {
+  element.focus({ preventScroll: true })
+}
+
+function retainInert(element: HTMLElement) {
+  const existing = inertOwners.get(element)
+  if (existing) {
+    existing.count += 1
+    element.setAttribute('inert', '')
+    return
+  }
+
+  inertOwners.set(element, { count: 1, wasInert: element.hasAttribute('inert') })
+  element.setAttribute('inert', '')
+}
+
+function releaseInert(element: HTMLElement) {
+  const existing = inertOwners.get(element)
+  if (!existing) return
+  existing.count -= 1
+  if (existing.count > 0) return
+
+  if (!existing.wasInert) element.removeAttribute('inert')
+  inertOwners.delete(element)
+}
+
+function inertBackground(dialog: HTMLElement) {
+  const retained: HTMLElement[] = []
+  let branch: HTMLElement = dialog
+  let parent = dialog.parentElement
+
+  while (parent) {
+    Array.from(parent.children).forEach((child) => {
+      if (!(child instanceof HTMLElement) || child === branch || child.hasAttribute('data-ui-overlay-backdrop')) return
+      retainInert(child)
+      retained.push(child)
+    })
+
+    if (parent === document.body) break
+    branch = parent
+    parent = parent.parentElement
+  }
+
+  return () => {
+    retained.reverse().forEach(releaseInert)
+  }
+}
+
+function lockBodyScroll() {
+  if (scrollLockCount === 0) {
+    previousBodyOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+  }
+  scrollLockCount += 1
+
+  return () => {
+    scrollLockCount = Math.max(0, scrollLockCount - 1)
+    if (scrollLockCount === 0) document.body.style.overflow = previousBodyOverflow
+  }
+}
+
+function firstAvailableMatch(selector: string) {
+  return Array.from(document.querySelectorAll<HTMLElement>(selector)).find(isAvailableForFocus) ?? null
+}
+
+function useDialogFocusContract(
+  dialogRef: RefObject<HTMLDivElement | null>,
+  onDismiss: (() => void) | undefined,
+  initialFocusSelector: string | undefined,
+  returnFocusSelector: string | undefined,
+) {
+  const onDismissRef = useRef(onDismiss)
+
+  useEffect(() => {
+    onDismissRef.current = onDismiss
+  }, [onDismiss])
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const releaseBackground = inertBackground(dialog)
+    const releaseScroll = lockBodyScroll()
+    activeDialogStack.push(dialog)
+
+    const preferredInitialFocus = () => {
+      const requested = initialFocusSelector
+        ? dialog.querySelector<HTMLElement>(initialFocusSelector)
+        : dialog.querySelector<HTMLElement>('[data-ui-overlay-initial-focus]')
+      if (requested && isAvailableForFocus(requested)) return requested
+      return focusableElements(dialog)[0] ?? dialog
+    }
+
+    focusElement(preferredInitialFocus())
+
+    const isTopDialog = () => activeDialogStack[activeDialogStack.length - 1] === dialog
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isTopDialog()) return
+
+      if (event.key === 'Escape' && onDismissRef.current) {
+        event.preventDefault()
+        event.stopPropagation()
+        onDismissRef.current()
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const focusable = focusableElements(dialog)
+      if (focusable.length === 0) {
+        event.preventDefault()
+        focusElement(dialog)
+        return
+      }
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      const activeElement = document.activeElement
+
+      if (!(activeElement instanceof Node) || !dialog.contains(activeElement)) {
+        event.preventDefault()
+        focusElement(event.shiftKey ? last : first)
+      } else if (event.shiftKey && activeElement === first) {
+        event.preventDefault()
+        focusElement(last)
+      } else if (!event.shiftKey && activeElement === last) {
+        event.preventDefault()
+        focusElement(first)
+      }
+    }
+
+    const handleFocusIn = (event: FocusEvent) => {
+      if (!isTopDialog() || !(event.target instanceof Node) || dialog.contains(event.target)) return
+      focusElement(preferredInitialFocus())
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('focusin', handleFocusIn)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('focusin', handleFocusIn)
+
+      const stackIndex = activeDialogStack.lastIndexOf(dialog)
+      if (stackIndex >= 0) activeDialogStack.splice(stackIndex, 1)
+
+      releaseBackground()
+      releaseScroll()
+
+      window.requestAnimationFrame(() => {
+        if (activeDialogStack.length > 0) return
+        const selectedReturnTarget = returnFocusSelector ? firstAvailableMatch(returnFocusSelector) : null
+        const returnTarget = selectedReturnTarget ?? previousFocus
+        if (returnTarget?.isConnected && isAvailableForFocus(returnTarget)) focusElement(returnTarget)
+      })
+    }
+  }, [dialogRef, initialFocusSelector, returnFocusSelector])
+}
 
 export interface OverlayBackdropProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string
 }
 
-export function OverlayBackdrop({ label = 'Close', className, type = 'button', ...props }: OverlayBackdropProps) {
-  return <button type={type} aria-label={label} className={classNames('ui-overlay-backdrop', className)} {...props} />
+export function OverlayBackdrop({ label = 'Close', className, type = 'button', tabIndex = -1, ...props }: OverlayBackdropProps) {
+  return (
+    <button
+      {...props}
+      type={type}
+      tabIndex={tabIndex}
+      aria-label={label}
+      data-ui-overlay-backdrop=""
+      className={classNames('ui-overlay-backdrop', className)}
+    />
+  )
 }
 
-interface DialogShellProps extends HTMLAttributes<HTMLDivElement> {
+interface LabelledShellProps extends HTMLAttributes<HTMLDivElement> {
   label?: string
   labelledBy?: string
 }
 
-export function ModalShell({ label, labelledBy, className, ...props }: DialogShellProps) {
+export interface DialogShellProps extends LabelledShellProps {
+  onDismiss?: () => void
+  initialFocusSelector?: string
+  returnFocusSelector?: string
+}
+
+function DialogShell({
+  label,
+  labelledBy,
+  onDismiss,
+  initialFocusSelector,
+  returnFocusSelector,
+  className,
+  shellClassName,
+  ...props
+}: DialogShellProps & { shellClassName: string }) {
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useDialogFocusContract(dialogRef, onDismiss, initialFocusSelector, returnFocusSelector)
+
   return (
     <div
+      {...props}
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label={label}
       aria-labelledby={labelledBy}
-      className={classNames('ui-overlay-surface', 'ui-modal-shell', className)}
-      {...props}
+      tabIndex={props.tabIndex ?? -1}
+      className={classNames('ui-overlay-surface', shellClassName, className)}
     />
   )
 }
 
-export function DrawerShell({ label, labelledBy, className, ...props }: DialogShellProps) {
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={label}
-      aria-labelledby={labelledBy}
-      className={classNames('ui-overlay-surface', 'ui-drawer-shell', className)}
-      {...props}
-    />
-  )
+export function ModalShell(props: DialogShellProps) {
+  return <DialogShell {...props} shellClassName="ui-modal-shell" />
 }
 
-export function PopoverShell({ label, labelledBy, className, ...props }: DialogShellProps) {
+export function DrawerShell(props: DialogShellProps) {
+  return <DialogShell {...props} shellClassName="ui-drawer-shell" />
+}
+
+export type PopoverShellProps = LabelledShellProps
+
+export function PopoverShell({ label, labelledBy, className, ...props }: PopoverShellProps) {
   return (
     <div
       role="dialog"

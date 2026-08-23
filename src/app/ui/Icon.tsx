@@ -6,12 +6,18 @@ export type IconName =
   | 'plan'
   | 'progress'
   | 'subjects'
+  | 'courses'
   | 'menu'
   | 'close'
   | 'chevron-right'
   | 'arrow-right'
+  | 'arrow-up'
+  | 'play'
   | 'user'
   | 'settings'
+  | 'admin'
+  | 'upgrade'
+  | 'logout'
   | 'sun'
   | 'moon'
   | 'monitor'
@@ -29,12 +35,18 @@ const drawings: Record<IconName, ReactNode> = {
   plan: <><rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M8 3v4M16 3v4M3.5 9.5h17" /><path d="m9 14 2 2 4-4" /></>,
   progress: <><path d="M4 20V10M10 20V5M16 20v-8M22 20V3" /><path d="M2 20h20" /></>,
   subjects: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3H6.5A2.5 2.5 0 0 0 4 20.5Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H14v18a3 3 0 0 1 3-3h.5a2.5 2.5 0 0 1 2.5 2.5Z" /></>,
+  courses: <path d="M4 5.5c3.3 0 5.8.7 8 2v12c-2.2-1.3-4.7-2-8-2zM20 5.5c-3.3 0-5.8.7-8 2v12c2.2-1.3 4.7-2 8-2z" />,
   menu: <><path d="M4 8h16M4 16h16" /></>,
   close: <><path d="m6 6 12 12M18 6 6 18" /></>,
   'chevron-right': <path d="m9 5 7 7-7 7" />,
   'arrow-right': <><path d="M4 12h15M14 7l5 5-5 5" /></>,
+  'arrow-up': <><path d="M12 20V5M7 10l5-5 5 5" /></>,
+  play: <path d="m8 5 11 7-11 7z" />,
   user: <><circle cx="12" cy="8" r="4" /><path d="M4.5 21a7.5 7.5 0 0 1 15 0" /></>,
   settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.06.06-2.78 2.78-.06-.06A1.8 1.8 0 0 0 15 19.4a1.8 1.8 0 0 0-1.1 1.65V21h-3.8v-.08A1.8 1.8 0 0 0 9 19.27a1.8 1.8 0 0 0-1.98.36l-.06.06-2.78-2.78.06-.06A1.8 1.8 0 0 0 4.6 15a1.8 1.8 0 0 0-1.65-1.1H3v-3.8h.08A1.8 1.8 0 0 0 4.73 9a1.8 1.8 0 0 0-.36-1.98l-.06-.06 2.78-2.78.06.06A1.8 1.8 0 0 0 9 4.6a1.8 1.8 0 0 0 1.1-1.65V3h3.8v.08A1.8 1.8 0 0 0 15 4.73a1.8 1.8 0 0 0 1.98-.36l.06-.06 2.78 2.78-.06.06A1.8 1.8 0 0 0 19.4 9a1.8 1.8 0 0 0 1.65 1.1H21v3.8h-.08A1.8 1.8 0 0 0 19.4 15Z" /></>,
+  admin: <><path d="M12 3.5 19 6v5.2c0 4.5-2.7 7.7-7 9.3-4.3-1.6-7-4.8-7-9.3V6z" /><path d="M9.5 12.2 11 13.7l3.7-3.7" /></>,
+  upgrade: <><path d="M5 19 19 5M10 5h9v9" /><path d="M5 8v11h11" /></>,
+  logout: <><path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10" /><path d="M14 8l4 4-4 4M18 12H9" /></>,
   sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></>,
   moon: <path d="M20.5 14.1A8.5 8.5 0 0 1 9.9 3.5 8.5 8.5 0 1 0 20.5 14.1Z" />,
   monitor: <><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></>,

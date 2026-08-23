@@ -3,6 +3,7 @@ import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
+import { Button, SegmentedControl, SelectField, TextAreaField } from './ui'
 
 export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
 
@@ -244,11 +245,9 @@ export function FocusedLearningWorkspace({
           <h2 id={`focused-${section}-heading`}>{copy.title}</h2>
           <p className="muted">{copy.intro}</p>
         </div>
-        <label className="topic-picker">Topic
-          <select value={topicId} onChange={(event) => changeTopic(event.target.value)}>
-            {topics.map((item) => <option key={item.id} value={item.id}>{item.shortTitle}</option>)}
-          </select>
-        </label>
+        <SelectField groupClassName="topic-picker" label="Topic" value={topicId} onChange={(event) => changeTopic(event.target.value)}>
+          {topics.map((item) => <option key={item.id} value={item.id}>{item.shortTitle}</option>)}
+        </SelectField>
       </div>
 
       {section === 'practice' && recommendation && recommendationTopic && availableModes.includes(recommendation.activity) && (
@@ -260,15 +259,25 @@ export function FocusedLearningWorkspace({
             <p className="recommendation-evidence"><strong>Evidence used:</strong> {recommendation.evidenceSummary}</p>
             <p className="muted"><strong>Confidence limitation:</strong> {recommendation.limitation}</p>
           </div>
-          <button className="primary" onClick={startRecommendation}>Start recommended activity</button>
+          <Button className="primary" onClick={startRecommendation}>Start recommended activity</Button>
         </aside>
       )}
 
-      <div className="mode-tabs" role="tablist" aria-label={`${copy.title} activities`}>
+      <SegmentedControl className="mode-tabs" role="tablist" label={`${copy.title} activities`}>
         {availableModes.map((item) => (
-          <button key={item} className={effectiveMode === item ? 'active' : ''} onClick={() => changeMode(item)} role="tab" aria-selected={effectiveMode === item}>{modeLabels[item]}</button>
+          <Button
+            key={item}
+            variant={effectiveMode === item ? 'secondary' : 'tertiary'}
+            size="compact"
+            className={effectiveMode === item ? 'active' : ''}
+            onClick={() => changeMode(item)}
+            role="tab"
+            aria-selected={effectiveMode === item}
+          >
+            {modeLabels[item]}
+          </Button>
         ))}
-      </div>
+      </SegmentedControl>
 
       {effectiveMode === 'learn' && topic && (
         <div className="learn-panel">
@@ -308,15 +317,15 @@ export function FocusedLearningWorkspace({
           <div className="practice-meta">Card {(cardIndex % cards.length) + 1} of {cards.length}</div>
           <h3>{card.prompt}</h3>
           {!showAnswer ? (
-            <button className="primary" onClick={() => setShowAnswer(true)}>Show answer</button>
+            <Button className="primary" onClick={() => setShowAnswer(true)}>Show answer</Button>
           ) : (
             <>
               <div className="answer-panel"><strong>Answer</strong><p>{card.answer}</p></div>
               <p className="rating-prompt">How well did you know it?</p>
               <div className="rating-actions">
-                <button disabled={saving} onClick={() => rateFlashcard(0)}>Not yet</button>
-                <button disabled={saving} onClick={() => rateFlashcard(1)}>Nearly</button>
-                <button disabled={saving} onClick={() => rateFlashcard(2)}>Knew it</button>
+                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(0)}>Not yet</Button>
+                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(1)}>Nearly</Button>
+                <Button variant="secondary" disabled={saving} onClick={() => rateFlashcard(2)}>Knew it</Button>
               </div>
             </>
           )}
@@ -337,11 +346,11 @@ export function FocusedLearningWorkspace({
             ))}
           </div>
           {!checked ? (
-            <button className="primary" disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</button>
+            <Button className="primary" disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button>
           ) : (
             <>
               <div className="answer-panel" aria-live="polite"><strong>{selectedOption === question.correctOption ? 'Correct' : 'Not quite'}</strong><p>{question.explanation}</p></div>
-              <button className="primary" onClick={nextQuestion}>Next question</button>
+              <Button className="primary" onClick={nextQuestion}>Next question</Button>
             </>
           )}
         </div>
@@ -359,16 +368,14 @@ export function FocusedLearningWorkspace({
             <article className="written-practice">
               <div className="practice-meta">Question {(caseQuestionIndex % caseStudy.questions.length) + 1} of {caseStudy.questions.length}</div>
               <h3>{caseQuestion.prompt}</h3>
-              <label className="answer-label">Draft your answer
-                <textarea rows={9} value={caseDraft} onChange={(event) => setCaseDraft(event.target.value)} placeholder="Use the case evidence and build a clear chain of reasoning." />
-              </label>
+              <TextAreaField groupClassName="answer-label" label="Draft your answer" rows={9} value={caseDraft} onChange={(event) => setCaseDraft(event.target.value)} placeholder="Use the case evidence and build a clear chain of reasoning." />
               {!showCaseGuidance ? (
-                <button className="primary" disabled={!caseDraft.trim()} onClick={() => setShowCaseGuidance(true)}>Compare with guidance</button>
+                <Button className="primary" disabled={!caseDraft.trim()} onClick={() => setShowCaseGuidance(true)}>Compare with guidance</Button>
               ) : (
                 <>
                   <div className="answer-panel"><strong>What a strong answer should do</strong><p>{caseQuestion.guidance}</p></div>
                   <div className="next-step"><strong>What should I improve?</strong><span>Compare your answer with the guidance. Look for missing case evidence, weak chains of reasoning, or a judgement that is not conditional enough.</span></div>
-                  <button className="primary" onClick={nextCaseQuestion}>Next case question</button>
+                  <Button className="primary" onClick={nextCaseQuestion}>Next case question</Button>
                 </>
               )}
             </article>
@@ -383,12 +390,10 @@ export function FocusedLearningWorkspace({
           <article className="written-practice exam-practice">
             <div className="practice-meta">{exam.title} · Question {(examQuestionIndex % exam.questions.length) + 1} of {exam.questions.length} · {examQuestion.marks} marks · {adapter.getTopic(examQuestion.topic)?.shortTitle ?? examQuestion.topic}</div>
             <h3>{examQuestion.prompt}</h3>
-            <label className="answer-label">Write your answer
-              <textarea rows={12} value={examDraft} disabled={examRecorded} onChange={(event) => setExamDraft(event.target.value)} placeholder="Answer as you would in the exam. Use the case where relevant and show calculations." />
-            </label>
+            <TextAreaField groupClassName="answer-label" label="Write your answer" rows={12} value={examDraft} disabled={examRecorded} onChange={(event) => setExamDraft(event.target.value)} placeholder="Answer as you would in the exam. Use the case where relevant and show calculations." />
             <p className="muted small-note">Your written draft stays on this screen only. Revision saves the marks you record, not the text of this answer.</p>
             {!showMarkingGuidance ? (
-              <button className="primary" disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</button>
+              <Button className="primary" disabled={!examDraft.trim()} onClick={() => setShowMarkingGuidance(true)}>Show marking guidance</Button>
             ) : (
               <>
                 <div className="answer-panel">
@@ -410,11 +415,11 @@ export function FocusedLearningWorkspace({
                   <div className="mark-total"><span>Your self-assessed mark</span><strong>{examTotalAwarded} / {examQuestion.marks}</strong></div>
                 </div>
                 {!examRecorded ? (
-                  <button className="primary" disabled={saving} onClick={recordExamQuestion}>Record this result</button>
+                  <Button className="primary" disabled={saving} onClick={recordExamQuestion}>Record this result</Button>
                 ) : (
                   <>
                     <div className="result-explanation" aria-live="polite"><strong>Result recorded: {examTotalAwarded} / {examQuestion.marks}</strong><span>This is exam evidence, but because you marked it yourself Revision limits the confidence it can claim. Use the guidance above to identify what to improve next.</span></div>
-                    <button className="primary" onClick={nextExamQuestion}>Next exam question</button>
+                    <Button className="primary" onClick={nextExamQuestion}>Next exam question</Button>
                   </>
                 )}
               </>
@@ -432,8 +437,8 @@ export function FocusedLearningWorkspace({
                 <div className="practice-meta">Formula {(formulaIndex % formulas.length) + 1} of {formulas.length}</div>
                 <h3>{formula.name}</h3>
                 <p className="muted">Write the formula from memory before revealing it.</p>
-                {showFormula ? <div className="answer-panel"><strong>Formula</strong><p>{formula.expression}</p></div> : <button className="secondary" onClick={() => setShowFormula(true)}>Reveal formula</button>}
-                {showFormula && <button className="primary" onClick={nextFormula}>Next formula</button>}
+                {showFormula ? <div className="answer-panel"><strong>Formula</strong><p>{formula.expression}</p></div> : <Button variant="secondary" className="secondary" onClick={() => setShowFormula(true)}>Reveal formula</Button>}
+                {showFormula && <Button className="primary" onClick={nextFormula}>Next formula</Button>}
               </article>
             )}
             {drill && (
@@ -441,8 +446,8 @@ export function FocusedLearningWorkspace({
                 <div className="practice-meta">Data drill {(drillIndex % drills.length) + 1} of {drills.length}</div>
                 <h3>{drill.title}</h3>
                 <p>{drill.prompt}</p>
-                {showDrillAnswer ? <div className="answer-panel"><strong>Model answer</strong><p>{drill.answer}</p></div> : <button className="secondary" onClick={() => setShowDrillAnswer(true)}>Show model answer</button>}
-                {showDrillAnswer && <button className="primary" onClick={nextDrill}>Next data drill</button>}
+                {showDrillAnswer ? <div className="answer-panel"><strong>Model answer</strong><p>{drill.answer}</p></div> : <Button variant="secondary" className="secondary" onClick={() => setShowDrillAnswer(true)}>Show model answer</Button>}
+                {showDrillAnswer && <Button className="primary" onClick={nextDrill}>Next data drill</Button>}
               </article>
             )}
           </div>
