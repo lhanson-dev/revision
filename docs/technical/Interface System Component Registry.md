@@ -50,7 +50,7 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `IconButton` | 44×44 icon-only action | accessible label required | unlabeled controls or decorative icons |
 | `TextField` | Labelled single-line input anatomy | hint/error support; native input props | placeholder-only forms |
 | `TextAreaField` | Labelled multiline text-entry anatomy | hint/error support; native textarea props | specialist editors whose semantics differ from ordinary text entry |
-| `SelectField` | Labelled native select anatomy | hint/error support; native input props | bespoke selection UI where a native select is sufficient |
+| `SelectField` | Labelled native select anatomy | hint/error support; native select props | bespoke selection UI where a native select is sufficient |
 | `SegmentedControl` | Bounded mutually exclusive selection | labelled group containing shared buttons | navigation or arbitrary collections of actions |
 | `Status` | Semantic feedback | Success, Warning, Error, Information | decorative coloured callouts; status without visible semantic text |
 | `EmptyState` | Truthful absence / next-step support | title, description, optional action | manufactured upgrade friction or generic filler |
