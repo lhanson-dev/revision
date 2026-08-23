@@ -1,6 +1,6 @@
 # Claims and Progress Governance
 
-**Status:** Draft authority candidate — v0.1  
+**Status:** Draft authority candidate — v0.2  
 **Purpose:** Define what Revision may and may not claim about student progress, understanding, mastery, exam readiness, estimated grades and whether a student is on track.
 
 ## Core principle
@@ -79,7 +79,30 @@ A single successful quiz may increase confidence in the student's understanding,
 
 The exact thresholds and weighting are an evidence and implementation question and must be validated rather than invented solely for UI convenience.
 
-## 6. Progress indicators may move down
+## 6. Starting-check evidence is directional, not a progress claim
+
+A short first-course starting check may use demonstrated answers to improve the Student's first recommendation before Revision has enough normal learning evidence.
+
+Because the check deliberately samples only a small part of the course, its answers are **directional starting-check evidence** rather than ordinary scored Practice evidence for progress/readiness purposes.
+
+Starting-check evidence may influence which area Revision recommends investigating first. It must not by itself:
+
+- mark a topic covered;
+- establish understanding, proficiency or mastery;
+- create or increase a readiness score;
+- count towards the evidence threshold required to expose a readiness score;
+- create an estimated-grade or on-track judgement; or
+- justify broad strong/weak labels about the Student.
+
+A correct starting-check answer means only that the Student answered that sampled item correctly. An incorrect answer may justify cautious language such as **"this may be a useful place to start"**, but must not be presented as proof that the Student is broadly weak in that topic.
+
+Starting-check provenance must remain distinguishable from ordinary Practice evidence in the evidence model. Reusing the same multiple-choice question format does not make the resulting evidence equivalent.
+
+Later normal learning, Practice and exam evidence may confirm, weaken or overturn the initial signal. Stronger later evidence must take precedence over the provisional starting-check interpretation.
+
+The Student should not receive a percentage or other summary from the short starting check that visually implies comprehensive course attainment.
+
+## 7. Progress indicators may move down
 
 Revision must be allowed to revise earlier judgements when new evidence justifies doing so.
 
@@ -89,7 +112,7 @@ This should be explained constructively rather than presented as punishment or a
 
 The explanation should focus on what new evidence changed the picture and what the student can do next.
 
-## 7. Important claims must be explained in plain English
+## 8. Important claims must be explained in plain English
 
 Whenever Revision presents a material judgement such as:
 
@@ -112,7 +135,7 @@ the student should be able to understand in simple, plain English:
 
 The system should prefer explanations such as "Your readiness increased because your last three topic tests were strong and you improved on your latest timed paper" over unexplained scores, percentages or status changes.
 
-## 8. Evidence strength should match claim strength
+## 9. Evidence strength should match claim strength
 
 Stronger claims require stronger evidence.
 
@@ -120,7 +143,9 @@ Revision should use weaker language where the evidence is early, narrow or incon
 
 Passive signals such as time spent, pages opened or videos watched may provide context but should not carry the same evidential weight as demonstrated answers and exam performance.
 
-## 9. Exam readiness requires exam-relevant evidence
+Directional starting-check evidence sits below normal corroborated Practice evidence for claim purposes. Its purpose is early prioritisation, not early certainty.
+
+## 10. Exam readiness requires exam-relevant evidence
 
 Exam readiness is not the same as understanding a subject.
 
@@ -136,7 +161,7 @@ Exam-readiness claims should therefore increasingly depend on evidence such as:
 
 As the exam approaches, exam-relevant evidence should become more important in readiness judgements than passive coverage or low-pressure learning activity.
 
-## 10. Forecasts are guidance, not destiny
+## 11. Forecasts are guidance, not destiny
 
 Any forecast of future performance must remain revisable as new evidence appears.
 
@@ -155,3 +180,4 @@ Before presenting a progress or outcome claim, Revision should be able to answer
 5. Can the student understand in plain English why the judgement exists or changed?
 6. Does the claim avoid implying certainty about an uncertain future exam result?
 7. Does it provide a useful next action?
+8. If starting-check evidence contributed, is the language still explicitly provisional and protected from mastery/readiness inflation?
