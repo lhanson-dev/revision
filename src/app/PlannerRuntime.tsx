@@ -37,7 +37,7 @@ import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
 import { RevPresence } from './RevPresence'
-import { Icon, Status } from './ui'
+import { DrawerShell, Icon, IconButton, OverlayBackdrop, Status } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const themeStorageKey = 'revision:theme'
@@ -184,15 +184,6 @@ export function PlannerRuntime() {
     return () => { document.removeEventListener('pointerdown', closeOnPointerDown); document.removeEventListener('keydown', closeOnEscape) }
   }, [accountMenuOpen])
 
-  useEffect(() => {
-    if (!menuOpen) return
-    const previousOverflow = document.body.style.overflow
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') { setMenuOpen(false); setMobileAccountOpen(false) } }
-    document.body.style.overflow = 'hidden'
-    document.addEventListener('keydown', closeOnEscape)
-    return () => { document.body.style.overflow = previousOverflow; document.removeEventListener('keydown', closeOnEscape) }
-  }, [menuOpen])
-
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const coursesActive = routeBelongsToCourses(route)
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
@@ -324,31 +315,40 @@ export function PlannerRuntime() {
 
       {route.kind !== 'admin' && route.kind !== 'rev' && !revPanelOpen && <button className="runtime-mobile-ask-rev-dock" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>}
 
-      {revPanelOpen && programmeResolved && !programmeError && <><button className="runtime-rev-backdrop" aria-label="Close Ask REV" onClick={() => setRevPanelOpen(false)}></button><aside className="runtime-rev-panel" role="dialog" aria-modal="true" aria-label="Ask REV"><header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><button onClick={() => setRevPanelOpen(false)} aria-label="Close Ask REV">×</button></div></header><div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} /></div></aside></>}
+      {revPanelOpen && programmeResolved && !programmeError && <>
+        <OverlayBackdrop className="runtime-rev-backdrop" label="Close Ask REV" onClick={() => setRevPanelOpen(false)} />
+        <DrawerShell className="runtime-rev-panel" label="Ask REV" onDismiss={() => setRevPanelOpen(false)} initialFocusSelector=".planner-rev-input input">
+          <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={() => setRevPanelOpen(false)}><Icon name="close" size="compact" /></IconButton></div></header>
+          <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} /></div>
+        </DrawerShell>
+      </>}
 
       {accountModalOpen && <AccountModal learnerName={learner} email={user.email} section={accountSection} theme={theme} onSectionChange={setAccountSection} onThemeChange={setTheme} onNameChange={updateLearnerFirstName} onClose={() => setAccountModalOpen(false)} />}
 
-      {menuOpen && <><button className="runtime-mobile-menu-backdrop" aria-label="Close menu" onClick={closeMobileMenu}></button><aside className="runtime-mobile-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
-        <header className="runtime-mobile-drawer-head"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button><button className="runtime-mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close menu">×</button></header>
-        <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
-          <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
-          <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
-          <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><Icon name="progress" className="nav-icon" /><span>Progress</span></button>
-          <button aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><Icon name="courses" className="nav-icon" /><span>Courses</span></button>
-          {coursesActive && programmeResolved && !programmeError && <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} />}
-        </nav>
-        <div className="runtime-mobile-drawer-spacer"></div>
-        <section className="runtime-mobile-drawer-account" aria-label="Account">
-          <button className="runtime-mobile-drawer-user" onClick={() => setMobileAccountOpen((open) => !open)} aria-expanded={mobileAccountOpen} aria-controls="runtime-mobile-account-links" aria-label={`${learner} account options`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-mobile-drawer-user-name"><strong>{learner}</strong></span><span className="runtime-mobile-account-chevron" aria-hidden="true">›</span></button>
-          <div id="runtime-mobile-account-links" className="runtime-mobile-account-links" hidden={!mobileAccountOpen}>
-            <button onClick={() => openAccountModal('profile')}><Icon name="user" className="nav-icon" /><span>Profile</span></button>
-            <button onClick={() => openAccountModal('settings')}><Icon name="settings" className="nav-icon" /><span>Settings</span></button>
-            {isAdmin && <button onClick={() => navigate(adminRoute())}><Icon name="admin" className="nav-icon" /><span>Admin</span></button>}
-            <div className="runtime-mobile-upgrade" aria-disabled="true"><Icon name="upgrade" className="nav-icon" /><span><span>Upgrade plan</span><small>Coming soon</small></span></div>
-            <button className="runtime-mobile-logout" onClick={signOut}><Icon name="logout" className="nav-icon" /><span>Log out</span></button>
-          </div>
-        </section>
-      </aside></>}
+      {menuOpen && <>
+        <OverlayBackdrop className="runtime-mobile-menu-backdrop" label="Close menu" onClick={closeMobileMenu} />
+        <DrawerShell className="runtime-mobile-drawer" label="Navigation menu" onDismiss={closeMobileMenu} initialFocusSelector=".runtime-mobile-drawer-close">
+          <header className="runtime-mobile-drawer-head"><button className="brand-button" onClick={() => navigate(homeRoute())} aria-label="REV home"><RevWordmark /></button><IconButton className="runtime-mobile-drawer-close" label="Close menu" onClick={closeMobileMenu}><Icon name="close" size="compact" /></IconButton></header>
+          <nav className="runtime-mobile-drawer-nav" aria-label="Mobile navigation">
+            <button aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" className="nav-icon" /><span>Home</span></button>
+            <button aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" className="nav-icon" /><span>Plan</span></button>
+            <button aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><Icon name="progress" className="nav-icon" /><span>Progress</span></button>
+            <button aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><Icon name="courses" className="nav-icon" /><span>Courses</span></button>
+            {coursesActive && programmeResolved && !programmeError && <ContextualLearnerNavigation route={route} courses={programme} onNavigate={navigate} onOpenCourse={(courseId) => openCourse(courseId, 'global_navigation')} />}
+          </nav>
+          <div className="runtime-mobile-drawer-spacer"></div>
+          <section className="runtime-mobile-drawer-account" aria-label="Account">
+            <button className="runtime-mobile-drawer-user" onClick={() => setMobileAccountOpen((open) => !open)} aria-expanded={mobileAccountOpen} aria-controls="runtime-mobile-account-links" aria-label={`${learner} account options`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-mobile-drawer-user-name"><strong>{learner}</strong></span><Icon name="chevron-right" size="compact" className="runtime-mobile-account-chevron" /></button>
+            <div id="runtime-mobile-account-links" className="runtime-mobile-account-links" hidden={!mobileAccountOpen}>
+              <button onClick={() => openAccountModal('profile')}><Icon name="user" className="nav-icon" /><span>Profile</span></button>
+              <button onClick={() => openAccountModal('settings')}><Icon name="settings" className="nav-icon" /><span>Settings</span></button>
+              {isAdmin && <button onClick={() => navigate(adminRoute())}><Icon name="admin" className="nav-icon" /><span>Admin</span></button>}
+              <div className="runtime-mobile-upgrade" aria-disabled="true"><Icon name="upgrade" className="nav-icon" /><span><span>Upgrade plan</span><small>Coming soon</small></span></div>
+              <button className="runtime-mobile-logout" onClick={signOut}><Icon name="logout" className="nav-icon" /><span>Log out</span></button>
+            </div>
+          </section>
+        </DrawerShell>
+      </>}
     </div>
   )
 }
