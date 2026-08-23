@@ -4,14 +4,14 @@ document_id: "revision-release-deployment"
 document_type: "standard"
 authority: "engineering"
 status: "active"
-version: "0.8"
+version: "0.9"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-22"
+last_reviewed: "2026-08-23"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["CI/CD and deployment", "path-to-live assurance"]
-depends_on: ["ADR-0007", "ADR-0009"]
+depends_on: ["ADR-0007", "ADR-0009", "ADR-0017"]
 supersedes: null
 ---
 # Release & Deployment Standard
@@ -35,7 +35,59 @@ supersedes: null
 - Critical post-deployment journeys must be smoke-tested automatically where the change can affect them.
 - Application rollback defaults to revert/redeploy.
 - Database migrations should be forward-safe and backward-compatible where practical.
-- One production environment is sufficient until an additional environment has a demonstrated operational benefit.
+- **Revision has one Production application environment and one production Supabase project. Prototype and Staging are approved non-production application review environments with distinct purposes; they do not create additional production sources of truth or production backends.**
+
+## Environment model
+
+Revision uses one canonical source repository and three application review/deployment environments:
+
+### Prototype
+
+Prototype is disposable exploration derived from the then-current `main` baseline.
+
+It exists to resolve journey, screen-purpose, CTA, hierarchy, content and interaction uncertainty quickly before production implementation.
+
+Prototype rules:
+
+- prototype work uses short-lived branches in `lhanson-dev/revision`;
+- materially new prototype work starts from current `main`;
+- prototype data is synthetic/demo data, never genuine learner data;
+- prototype approval is concept approval, not governed Definition-of-Ready approval;
+- a prototype may be used during `Analyse` to resolve uncertainty;
+- prototype code/artifacts are not promoted or copied into Staging or Production; and
+- after concept agreement, the production change is implemented properly through a governed implementation PR based on the then-current `main`.
+
+### Staging
+
+Staging is the browser-review surface for the exact engineered release candidate.
+
+Staging rules:
+
+- Staging is built from the final implementation PR head after integration/revalidation with the then-current `main`;
+- required risk-proportionate CI/assurance for that exact candidate must pass before it is represented as the release candidate;
+- Staging uses deliberately isolated synthetic/test data and must not cause test activity to be interpreted as live learner evidence, metrics or production health;
+- candidate provenance, including exact commit/head identity, should be visible or durably recorded where practical;
+- a changed PR head invalidates older Staging evidence for that candidate; and
+- Staging is not a long-lived source branch and has no independent product authority.
+
+### Production
+
+Production is the live product deployed from Founder-approved `revision/main` only.
+
+Prototype and Staging may never deploy directly to the Production Pages environment. Staging review does not replace Founder approval, exact-head approval evidence, production backend readiness, production deployment, smoke or release-lineage controls.
+
+### Hosting boundary
+
+The approved target topology is:
+
+- `lhanson-dev/revision` — canonical source, governance, test and release repository; and
+- `lhanson-dev/revision-nonprod` — generated/static non-production hosting space for `/prototype/<name>/` and `/staging/` only.
+
+`revision-nonprod` must contain no competing governance, independent application source, product authority or development lifecycle. It is a disposable deployment target generated from `revision`.
+
+The non-production hosting repository and workflows are not yet implemented. Until the governed implementation lands, the existing Production workflow remains the only operational deployment path and absence of Staging must not block otherwise-governed releases. Once the Staging workflow is deliberately activated on `main`, its required use and assurance become part of the live path-to-production contract.
+
+See `docs/technical/Path to Live Environments.md` for the target technical topology and implementation boundary.
 
 ## Trunk-based integration model
 
@@ -68,6 +120,8 @@ If `main` advances after approval but before merge:
 - if conflict resolution or any other change alters the PR delta materially, return to the Founder with the changed proposal and obtain renewed approval.
 
 This distinction preserves the Founder production gate without making the Founder responsible for branch-management mechanics.
+
+Where Staging is live, a head refresh also makes the old Staging build stale. A purely mechanical refresh may preserve the existing Founder approval under the rule above, but the exact refreshed candidate must still be rebuilt/revalidated in Staging when Staging is a required path-to-live stage.
 
 ### Founder approval status gate
 
@@ -116,17 +170,18 @@ Revision treats path-to-live as a chain of separately evidenced stages rather th
 2. **Branch assurance** — complete implementation/documentation work and proportionate checks required to make the PR ready for final integration.
 3. **Current-main integration** — validate the proposed change in combination with the then-current `main`, resolving overlap deliberately.
 4. **Final assurance** — required Revision CI/checks for the final integration candidate pass at the proportionate depth defined by the Testing & Assurance Standard.
-5. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence and, once available, verifies `revision/founder-approval = success` for the exact head.
-6. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above and re-establish all head-specific evidence.
-7. **Merge** — the approved and validated change is merged into `main`.
-8. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
-9. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
-10. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
-11. **Operational observation** — production availability/health evidence remains current after deployment.
+5. **Staging candidate review** — once the Staging workflow is live and required for the change class, deploy the exact final current-main-integrated candidate to Staging with candidate provenance and validate it in the browser before production approval.
+6. **Founder gate** — explicit approval exists for the PR change proposed for production. The operating agent persists/verifies required GitHub evidence and, once available, verifies `revision/founder-approval = success` for the exact head.
+7. **Pre-merge revalidation** — if `main` changed after approval, apply the mechanical-refresh versus material-change rule above and re-establish all head-specific evidence, including Staging evidence where required.
+8. **Merge** — the approved and validated change is merged into `main`.
+9. **Backend readiness** — where the release depends on database migrations, Edge Functions or other separately deployed backend capabilities, the production readiness contract is checked before a new frontend artifact may be published.
+10. **Production build/deploy** — the intended `main` commit is built and deployed successfully only after any required backend-readiness gate passes.
+11. **Production smoke** — affected critical deployed checks pass against the canonical live surface.
+12. **Operational observation** — production availability/health evidence remains current after deployment.
 
 Admin may summarise the path as Healthy only when the required current stages are green for the production commit being reported. Missing or stale stage evidence is Unknown; a known failed required stage is Attention needed.
 
-A successful PR CI run must never be displayed as proof that production is healthy. A successful deployment without its required smoke evidence must not be displayed as complete path-to-live assurance.
+A successful PR CI run or Staging deployment must never be displayed as proof that Production is healthy. A successful production deployment without its required smoke evidence must not be displayed as complete path-to-live assurance.
 
 ## Risk-proportionate execution
 Path-to-live must preserve confidence without creating unnecessary delivery cost.
@@ -142,6 +197,8 @@ When test selection is automated, the workflow must make the selected risk level
 
 ## Production identity
 Where practical, operational evidence should expose the production commit/revision being checked so the Founder can tell whether CI, deployment and smoke refer to the same code lineage.
+
+Staging evidence should similarly identify the exact PR/head it represents so that Founder review is traceable to the candidate proposed for merge.
 
 ## Database/backend enablement
 Static frontend deployment does not prove separately deployed database migrations, Edge Functions or server-side secrets/configuration are healthy. Where a feature depends on those components, path-to-live assurance must include explicit deployment/readiness evidence for them before the feature is represented as operationally Healthy.
