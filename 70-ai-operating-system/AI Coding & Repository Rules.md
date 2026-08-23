@@ -3,7 +3,7 @@
 ## Workflow
 For material product features:
 
-Read authority → confirm governed feature state → complete analysis/Definition of Ready → explicit human `Ready` approval → resolve canonical route/runtime → short-lived branch from current `main` → implement → test/assure → document → PR → validate/integrate against current `main` → final assurance → Founder merge approval → persist and verify required GitHub approval evidence → verify Founder approval status → merge → verify production → mark `Live` only from production evidence.
+Read authority → confirm governed feature state → complete analysis/Definition of Ready → explicit human `Ready` approval → resolve canonical route/runtime → short-lived branch from current `main` → implement → test/assure → document → PR → validate/integrate against current `main` → final assurance → Founder merge approval → persist and verify required GitHub approval evidence → verify Founder approval status → verify required repository merge enforcement → merge → verify production → mark `Live` only from production evidence.
 
 For defects, maintenance and other non-feature implementation, apply the relevant authority and Governed Implementation Workflow without inventing a feature lifecycle record unnecessarily.
 
@@ -67,6 +67,7 @@ Before a PR may merge to `main`:
 5. **Run required assurance on the integration candidate.** Required checks must prove the proposed change still works with current `main`.
 6. **Present the Founder with the actual proposed production change.** The merge-readiness summary must explain what changed, impact, assurance, documentation impact, material risks and any conflict resolution.
 7. **Obtain explicit Founder approval for the specific PR merge.** The Founder is approving the proposed product/company/technical change, not Git mechanics.
+8. **Verify the hard merge barrier where required.** After Recovery 4, an ordinary release-governed PR must not merge until actual repository state proves that Revision CI and `revision/founder-approval` are enforced as required checks, or an explicitly governed alternative hard enforcement mechanism is active.
 
 Multiple PRs may be simultaneously ready for review/approval. Git integration is necessarily ordered because `main` changes one merge at a time, but governance must not create an artificial rule that only one PR may be review-ready.
 
@@ -87,18 +88,20 @@ Renewed explicit Founder approval is mandatory if the refresh changes the propos
 
 ## Repository enforcement target
 
-Where GitHub supports the controls for the repository, `main` should enforce:
+After Recovery 4, `main` must enforce through verified GitHub repository settings or a separately Founder-approved hard technical equivalent:
 
 - pull-request-based changes;
 - required Revision CI/status checks before merge;
-- the trusted `revision/founder-approval` status as a required check once available on `main`;
+- the trusted `revision/founder-approval` status as a required check;
 - no force-push/delete of `main`;
 - protection against bypassing the governed merge path; and
 - integration with current `main` before merge, preferably through a native merge queue when the repository ownership/plan supports it.
 
-At the time this rule was adopted, Revision is hosted in an individual-owned GitHub repository, for which GitHub's native merge queue is not available. The current operating fallback is therefore protected-branch/PR controls plus explicit current-`main` integration and final assurance before merge. If repository ownership or GitHub capability changes later, adopting a native merge queue is an engineering-process improvement rather than a change to the Founder approval principle, provided the same safeguards remain intact.
+At the time this rule was first adopted, Revision was hosted in an individual-owned GitHub repository, for which GitHub's native merge queue was not available. The current operating fallback therefore continues to use explicit current-`main` integration and final assurance, but **advisory-only approval status is no longer an acceptable merge barrier after Recovery 4**.
 
-If the platform cannot enforce a control automatically, the executing agent must apply the equivalent governed check explicitly. Platform limitations must not silently weaken Founder approval or production assurance. Repository settings must not be represented as enforcing a check unless that enforcement has been verified.
+The Recovery 4 investigation verified that PR #139 merged while `revision/founder-approval` was `pending`, and current branch metadata reported required-status enforcement as `off`. That state must be treated as a blocking control gap for ordinary merges after Recovery 4.
+
+Repository settings must not be represented as enforcing a check unless the setting has been independently verified from actual GitHub state. If the platform cannot provide the required hard barrier, stop ordinary merges and surface the need for an explicitly governed alternative rather than silently weakening the control.
 
 ## Founder approval status rule
 
@@ -119,7 +122,9 @@ For the current exact PR head, success means the trusted gate has verified:
 
 The executing agent must re-read the current head and current `revision/founder-approval` status immediately before merge. A status attached to an older head is irrelevant. If a head change occurs, the gate must be re-established for the new head.
 
-The Recovery 3 PR that first introduces this workflow cannot use the new default-branch status for its own pre-merge verification because trusted workflow code is not available on `main` until that PR merges. That one recovery PR remains subject to every pre-existing exact-head CI, exact marker and post-merge lineage control. This bootstrap limitation does not apply to later PRs.
+Recovery 3 introduced this status. PR #139 later proved that the evaluator could correctly remain `pending` and still be bypassed when GitHub did not enforce that status as a required merge check. Recovery 4 therefore adds a separate hard-enforcement requirement: for ordinary PRs after Recovery 4, a green status is necessary but merge is still prohibited until repository-level enforcement is verified active.
+
+The Recovery 4 PR is a narrow recovery exception to the new repository-enforcement hold because it is the PR that restores the broken prospective lineage and records the hold. It is not exempt from exact-head CI, exact Founder marker, `revision/founder-approval = success`, exact-head merge or post-merge Production verification.
 
 ## Feature-readiness rule
 
@@ -144,8 +149,9 @@ For any PR whose production path is enforced by the Revision release-lineage ver
 3. confirm the Founder's approval still applies to the PR change set under the final integration rule above;
 4. persist the machine-readable approval evidence required by the current release verifier to the GitHub PR conversation;
 5. re-read the PR conversation and verify that exact-head approval evidence is present and readable;
-6. once the Founder approval status workflow is live on `main`, verify `revision/founder-approval = success` on the same exact head; and
-7. merge only if the PR head still equals the evidenced SHA and the canonical-main integration check still passes.
+6. verify `revision/founder-approval = success` on the same exact head;
+7. for ordinary PRs after Recovery 4, verify actual repository state enforces the required Revision CI and `revision/founder-approval` checks before merge; and
+8. merge only if the PR head still equals the evidenced SHA and the canonical-main integration check still passes.
 
 The current release-verifier marker is exactly:
 
@@ -158,6 +164,6 @@ For this release gate, **equivalent prose is not equivalent evidence**. A commen
 
 The marker is a durable record of an approval that has already been explicitly given; it is not permission for an AI agent to invent, infer, broaden or self-grant approval. A merged PR, passing CI, prior approval of a different substantive change, approval of a related PR, or a malformed/prose approval-record comment must never be converted into a compliant marker retrospectively.
 
-If the PR head changes because of new PR-authored work or substantive conflict resolution after Founder approval, stop and obtain renewed explicit Founder approval. If the head changes only through a proven mechanical baseline refresh with unchanged PR delta, the existing approval may be carried forward as defined above and the marker regenerated for the refreshed head after fresh assurance. In either case, any head-specific `revision/founder-approval` status must be re-established for the final head before merge once the gate is live.
+If the PR head changes because of new PR-authored work or substantive conflict resolution after Founder approval, stop and obtain renewed explicit Founder approval. If the head changes only through a proven mechanical baseline refresh with unchanged PR delta, the existing approval may be carried forward as defined above and the marker regenerated for the refreshed head after fresh assurance. In either case, any head-specific `revision/founder-approval` status must be re-established for the final head before merge.
 
 After merge, the agent must inspect the resulting production path-to-live evidence. A merge is not operationally complete until the required release stages have succeeded or a failure has been surfaced and tracked. `Live` remains a production-evidence state, never a synonym for merged.
