@@ -48,10 +48,10 @@
 }
 
 /*
- * A Primary Teal CTA needs an inverse compact identity treatment. The normal
- * nav Living E uses Primary Teal bars, which visually merge into this surface.
- * At CTA scale the halo is deliberately removed: the three bars are the
- * recognition-critical geometry and render more crisply without soft bloom.
+ * A Primary Teal CTA needs an inverse compact identity treatment. The bars stay
+ * crisp white while a restrained surrounding halo and whole-mark breathe make
+ * resting REV feel awake and ready. Resting never animates bars independently;
+ * semantic bar motion remains reserved for genuine REV activity states.
  */
 .runtime-ask-rev .rev-presence-nav,
 .runtime-mobile-ask-rev-dock .rev-presence-nav {
@@ -60,20 +60,67 @@
 
 .runtime-ask-rev .rev-halo,
 .runtime-mobile-ask-rev-dock .rev-halo {
-  opacity: 0;
-  background: none;
-  animation: none !important;
+  inset: -12%;
+  opacity: .7;
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--neutral-0) 34%, transparent) 0 14%,
+    color-mix(in srgb, var(--brand-soft-aqua) 34%, transparent) 34%,
+    color-mix(in srgb, var(--neutral-0) 14%, transparent) 54%,
+    transparent 72%
+  );
+  filter: none;
+}
+
+.runtime-ask-rev .rev-halo::before,
+.runtime-mobile-ask-rev-dock .rev-halo::before,
+.runtime-ask-rev .rev-halo::after,
+.runtime-mobile-ask-rev-dock .rev-halo::after {
+  background: radial-gradient(
+    circle,
+    transparent 42%,
+    color-mix(in srgb, var(--neutral-0) 24%, transparent) 63%,
+    transparent 75%
+  );
+}
+
+.runtime-ask-rev .rev-halo::after,
+.runtime-mobile-ask-rev-dock .rev-halo::after {
+  opacity: .6;
+}
+
+.runtime-ask-rev .rev-presence-nav[data-state="resting"] .rev-halo,
+.runtime-mobile-ask-rev-dock .rev-presence-nav[data-state="resting"] .rev-halo {
+  animation: revCtaRestingBreathe 5.8s ease-in-out infinite;
 }
 
 .runtime-ask-rev .rev-living-e,
 .runtime-mobile-ask-rev-dock .rev-living-e {
   width: 72%;
   filter: none;
+  transform-origin: center;
+}
+
+.runtime-ask-rev .rev-presence-nav[data-state="resting"] .rev-living-e,
+.runtime-mobile-ask-rev-dock .rev-presence-nav[data-state="resting"] .rev-living-e {
+  animation: revCtaRestingMark 5.8s ease-in-out infinite;
 }
 
 .runtime-ask-rev .rev-e-bar,
 .runtime-mobile-ask-rev-dock .rev-e-bar {
   fill: var(--neutral-0);
+}
+
+@keyframes revCtaRestingBreathe {
+  0%, 100% { transform: scale(.94); opacity: .56; }
+  45% { transform: scale(1.08); opacity: .9; }
+  72% { transform: scale(1.02); opacity: .76; }
+}
+
+@keyframes revCtaRestingMark {
+  0%, 100% { transform: translateY(1px) scale(.99); }
+  45% { transform: translateY(-1px) scale(1.015); }
+  72% { transform: translateY(0) scale(1.005); }
 }
 
 @media (max-width: 960px) {
@@ -93,5 +140,18 @@
   .runtime-ask-rev,
   .runtime-mobile-ask-rev-dock {
     transition: none;
+  }
+
+  .runtime-ask-rev .rev-presence-nav[data-state="resting"] .rev-halo,
+  .runtime-mobile-ask-rev-dock .rev-presence-nav[data-state="resting"] .rev-halo,
+  .runtime-ask-rev .rev-presence-nav[data-state="resting"] .rev-living-e,
+  .runtime-mobile-ask-rev-dock .rev-presence-nav[data-state="resting"] .rev-living-e {
+    animation: none !important;
+    transform: none;
+  }
+
+  .runtime-ask-rev .rev-halo,
+  .runtime-mobile-ask-rev-dock .rev-halo {
+    opacity: .7;
   }
 }
