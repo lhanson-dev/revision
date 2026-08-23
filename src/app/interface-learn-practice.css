@@ -209,11 +209,31 @@
   color: var(--status-info-fg);
 }
 
-/* Learn is a reading workspace, not a card dashboard. */
+/* Practice REV recommendation is a Guidance surface owned by the B4 layer. */
+.planner-runtime .focused-practice .recommendation-card {
+  border-color: color-mix(in srgb, var(--color-action) 24%, var(--color-border));
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-practice .recommendation-card h3,
+.planner-runtime .focused-practice .recommendation-card strong {
+  color: var(--color-text);
+}
+
+.planner-runtime .focused-practice .recommendation-card p {
+  color: var(--color-text-secondary);
+}
+
+.planner-runtime .focused-practice .recommendation-card .eyebrow {
+  color: var(--color-accent-text);
+}
+
+/* Learn is a reading workspace, not a nested-card dashboard. */
 .planner-runtime .focused-learn .section-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: 0;
 }
 
 .planner-runtime .focused-workspace .learn-section,
@@ -231,6 +251,17 @@
 .planner-runtime .focused-workspace .learn-section,
 .planner-runtime .focused-workspace .link-list article {
   padding: var(--space-5) var(--space-6);
+}
+
+.planner-runtime .focused-learn .learn-section {
+  padding: var(--space-5) 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.planner-runtime .focused-learn .learn-section + .learn-section {
+  border-top: 1px solid var(--color-border);
 }
 
 .planner-runtime .focused-workspace .learn-section h4,
