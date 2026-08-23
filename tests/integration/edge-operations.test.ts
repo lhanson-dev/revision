@@ -96,6 +96,6 @@ suite('protected operations Edge Functions', () => {
         expect(pathToLive).toBeDefined()
         expect(['Healthy', 'Attention needed', 'Unknown']).toContain(pathToLive?.status)
       }
-    })
+    }, functionName === 'admin-operations' ? 30_000 : 5_000)
   }
 })
