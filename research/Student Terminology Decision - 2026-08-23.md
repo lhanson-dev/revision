@@ -12,17 +12,7 @@ The canonical product term is:
 
 > **Student**
 
-This applies consistently across future:
-
-- product governance;
-- user journeys and scenario names;
-- information architecture;
-- account and experience-type modelling;
-- UI copy and content;
-- technical documentation;
-- code/domain naming where it represents the Revision Student account or Student experience;
-- analytics and assurance terminology; and
-- operational/Admin terminology where referring to Revision Students.
+This applies consistently across future product governance, journeys, information architecture, account modelling, UI copy, technical documentation, code/domain naming, analytics, assurance and Admin terminology where the entity is a Revision Student.
 
 ## Three core experience types
 
@@ -85,13 +75,7 @@ These IDs should now be treated as the stable scenario identifiers for future pr
 
 ## Journey-programme effect
 
-From this decision onward, new journey analysis should use:
-
-- **New Student** rather than New Learner;
-- **Returning Student** rather than Returning Learner;
-- **Student programme** rather than learner programme;
-- **Student choice / Student agency** where referring to the Revision user; and
-- **Student experience** rather than learner experience.
+From this decision onward, new journey analysis should use **New Student**, **Returning Student**, **Student programme**, **Student choice / Student agency** and **Student experience**.
 
 The active analysis files in PR #139 have been normalised to this terminology. The earlier screen-first analysis has been reduced to the still-useful design principles and marked as supporting analysis rather than retaining a large parallel vocabulary.
 
