@@ -202,9 +202,12 @@ export function OverlayBackdrop({ label = 'Close', className, type = 'button', t
   )
 }
 
-export interface DialogShellProps extends HTMLAttributes<HTMLDivElement> {
+interface LabelledShellProps extends HTMLAttributes<HTMLDivElement> {
   label?: string
   labelledBy?: string
+}
+
+export interface DialogShellProps extends LabelledShellProps {
   onDismiss?: () => void
   initialFocusSelector?: string
   returnFocusSelector?: string
@@ -245,7 +248,9 @@ export function DrawerShell(props: DialogShellProps) {
   return <DialogShell {...props} shellClassName="ui-drawer-shell" />
 }
 
-export function PopoverShell({ label, labelledBy, onDismiss: _onDismiss, initialFocusSelector: _initialFocusSelector, returnFocusSelector: _returnFocusSelector, className, ...props }: DialogShellProps) {
+export type PopoverShellProps = LabelledShellProps
+
+export function PopoverShell({ label, labelledBy, className, ...props }: PopoverShellProps) {
   return (
     <div
       role="dialog"
