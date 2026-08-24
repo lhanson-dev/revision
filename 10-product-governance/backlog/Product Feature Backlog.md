@@ -1003,3 +1003,30 @@ Course identity and course management are foundational product truth for **Free,
 PR #130 implements the Founder-approved Ready scope in the canonical learner runtime and aligns persistence, routing, active-programme filtering, measurement, technical documentation and cross-layer assurance. The production database must expose the forward-safe `courses-v1` readiness contract before the frontend candidate may be released.
 
 FI-020 remains **In Progress** until PR #130 receives its own explicit Founder merge approval, merges through the governed current-`main` path, and the resulting production revision passes backend readiness, deployment, smoke and durable `revision/path-to-live` evidence. Only then may this register move FI-020 to **Live**.
+
+---
+
+## FI-021 — Student First-Use Onboarding / GJ-01
+
+**Status:** Analyse  
+**Captured:** 2026-08-23  
+**Capability fit:** Understand; Guide; Learn; Practise and Test  
+**Approved direction:** Founder-reviewed GJ-01 takes a newly registered Student from primary-experience selection through one exact saved course, a cautious starting signal, a useful first activity and feedback before meaningful Student Home. PR #155 promotes this sequence into `10-product-governance/Core User Journeys.md`.  
+**Analysis record:** `10-product-governance/backlog/FI-021 Student First-Use Onboarding Analysis.md`  
+**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria now pass with no blocking decisions; explicit Founder `Analyse → Ready` approval remains pending.  
+**Current assessment:** Definition of Ready complete; Product recommends FI-021 `Analyse → Ready`. No production implementation may begin until the explicit human Ready decision is recorded.
+
+### Ready-scope summary
+
+- post-auth Student / Parent / Teacher primary-experience routing with only Student enabled initially;
+- durable Student experience/onboarding completion state with bounded existing-account bypass;
+- one exact supported saved course using FI-020 learner-course membership, not a parallel onboarding course model;
+- FI-006 short starting check using directional evidence that cannot create coverage/mastery/readiness/grade claims by itself;
+- deterministic first recommendation and skip/partial/no-question fallback into useful course work rather than generic Home;
+- direct route to an exact supported Learn/Practice activity, useful feedback and then meaningful Student Home;
+- foundational behaviour across Free, Paid and Premium with no onboarding paywall or conversion mechanism; and
+- bounded journey telemetry, Founder assurance, responsive/accessibility requirements and cross-layer test expectations.
+
+### Implementation boundary
+
+FI-021 remains **Analyse** until the Founder explicitly approves `Analyse → Ready`. After that approval is durably recorded in the analysis and this register, governed implementation may begin from then-current approved `main`; the feature moves to `In Progress` only when production implementation actually starts.
