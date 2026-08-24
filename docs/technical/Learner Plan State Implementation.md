@@ -1,7 +1,7 @@
 # Learner Plan State Implementation
 
 **Feature:** FI-022 — Learner Plan State Foundation  
-**Status:** Production backend dependency enabled and verified on 2026-08-24; governed application/release completion remains pending PR #159 merge and `revision/path-to-live` success  
+**Status:** Live in production from 2026-08-24 after PR #159 merged and the exact production revision passed backend readiness, Pages deployment, production smoke and durable `revision/path-to-live`  
 **Canonical learner surface:** `/revision/app/`  
 **Canonical runtime:** `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx`
 
@@ -118,6 +118,8 @@ Production verification established:
 
 No synthetic verification user or assignment was retained because the checks were rolled back.
 
+PR #159 merged exact head `b197f82f9a805ac407cc944e3a4914f37e8234a6` into `main` as `df7d9b520fec60d4b804c49dfc2c441498f37b99`. Production workflow run `32755286006` then passed governed release lineage, the `plan-state-v1` backend contract and protected-function checks, production build, GitHub Pages deployment, canonical production smoke and durable `revision/path-to-live = success` for that exact merge commit.
+
 ## Supabase advisor review
 
 Post-change Security Advisor reported no new FI-022 warning-level vulnerability. It reports:
@@ -131,15 +133,15 @@ Performance Advisor reports informational unindexed-foreign-key suggestions for 
 
 ## Production backend readiness
 
-FI-022 advances `public.revision_release_readiness()` from `courses-v1` to `plan-state-v1`. The contract now additionally requires:
+FI-022 advances `public.revision_release_readiness()` from `courses-v1` to `plan-state-v1`. The contract additionally requires:
 
 - `public.learner_plan_state`;
 - `public.learner_plan_assignment_events`; and
 - `public.assign_learner_plan(uuid,text,uuid)`.
 
-The Pages backend-readiness job also probes `learner-plan-operations` alongside `admin-operations` and `planner-operations`. Each protected function must reject an unauthenticated POST with HTTP 401 before release proceeds.
+The Pages backend-readiness job probes `learner-plan-operations` alongside `admin-operations` and `planner-operations`. Each protected function must reject an unauthenticated POST with HTTP 401 before release proceeds.
 
-The new database and function capability is deliberately enabled before the PR merge so the release candidate can fail closed against the exact backend it requires. Until PR #159 merges, the currently deployed `main` workflow still expects the prior contract, so this is a deliberately narrow backend-ahead release window and unrelated production merges should not be introduced into it.
+The database/function capability was enabled and verified before the application merge, then the exact merged production revision successfully passed the required backend-readiness gate before Pages deployment. The temporary backend-ahead release window is therefore closed.
 
 ## Assurance
 
@@ -155,7 +157,7 @@ Automated evidence includes:
 - existing full typecheck, lint, unit, build and responsive browser regression; and
 - production backend-readiness gating for both the database contract and required protected functions.
 
-Revision CI #938 passed on PR #159 before production enablement. Final documentation/ledger reconciliation creates a new exact head and therefore requires a fresh exact-head CI before merge approval can be requested.
+Final exact-head Revision CI #940 passed on `b197f82f9a805ac407cc944e3a4914f37e8234a6` before Founder-approved merge. The resulting merge commit `df7d9b520fec60d4b804c49dfc2c441498f37b99` then passed the complete production path-to-live chain in workflow run `32755286006`.
 
 ## Deliberate exclusions
 
