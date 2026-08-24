@@ -20,6 +20,8 @@ export type StartingPointRecommendation = {
   reason: StartingPointReason
 }
 
+type StartingCheckContent = Pick<LearningContentAdapter, 'listTopics' | 'listQuestions'>
+
 function evenlySpacedIndexes(total: number, count: number): number[] {
   if (count <= 0 || total <= 0) return []
   if (count >= total) return Array.from({ length: total }, (_, index) => index)
@@ -35,7 +37,7 @@ function evenlySpacedIndexes(total: number, count: number): number[] {
  * topic order. At most one question is selected per topic.
  */
 export function selectStartingCheckQuestions(
-  content: LearningContentAdapter,
+  content: StartingCheckContent,
   limit = STARTING_CHECK_QUESTION_LIMIT,
 ): MultipleChoiceQuestion[] {
   if (!Number.isInteger(limit) || limit < 0) {
