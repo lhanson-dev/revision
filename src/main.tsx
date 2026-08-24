@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthGate } from './app/AuthGate'
+import { FirstUseGate } from './app/FirstUseGate'
 import { PlannerRuntime } from './app/PlannerRuntime'
 import './app/brand-tokens.css'
 import './app/app.css'
 import './app/auth-entry.css'
+import './app/first-use.css'
 import './app/guidance.css'
 import './app/exam.css'
 import './app/rev-home.css'
@@ -43,7 +45,9 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <AuthGate>
-      <PlannerRuntime />
+      <FirstUseGate>
+        <PlannerRuntime />
+      </FirstUseGate>
     </AuthGate>
   </StrictMode>,
 )
