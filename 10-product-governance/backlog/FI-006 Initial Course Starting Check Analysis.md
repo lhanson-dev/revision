@@ -477,12 +477,16 @@ FI-006 is therefore human-approved **Ready**. This approval is permission to pro
 - Blocking decisions — **NONE**
 - Human Definition-of-Ready approval — **GRANTED 2026-08-24**
 
-## Product Manager recommendation
+## Product Manager recommendation at Ready approval
 
-FI-006 is `Ready`. Integrate the Ready/lifecycle and normative authority state through PR #156 before starting production implementation. Once that merge is approved and verified on `main`, the next governed step is a small implementation PR that moves FI-006 to `In Progress` only when implementation actually begins.
+FI-006 was `Ready` at this decision point. The governed next step was to integrate the Ready/lifecycle and normative authority state through PR #156 before starting production implementation, then move FI-006 to `In Progress` only when implementation actually began.
+
+### Current implementation status
+
+That governed next step has now occurred. FI-006 is currently `In Progress` on PR #161; the historical Ready decision and approval evidence above remain unchanged.
 
 ## Documentation-impact check
 
-The FI-006 product/evidence intent is now fully defined for the MVP, the required normative authority changes are included on PR #156, and the canonical feature backlog on this branch records `Ready` with the Founder approval evidence.
+At the Ready decision, the FI-006 product/evidence intent was fully defined for the MVP, the required normative authority changes were included on PR #156, and the feature working record captured the human-approved `Ready` decision.
 
-No production code or technical implementation documentation changes belong in this analysis/readiness PR.
+PR #161 now records the current lifecycle as `In Progress` and carries the production code plus technical implementation documentation for the starting-check evidence foundation. This working-record edit changes lifecycle status only; it does not rewrite the historical Ready approval evidence.
