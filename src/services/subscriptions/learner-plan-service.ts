@@ -42,6 +42,7 @@ export async function loadLearnerPlanContext(
   return resolveLearnerPlanTier((data as { tier?: unknown }).tier)
 }
 
-export function hasCurrentCoreStudentAccess(_context: LearnerPlanContext): true {
+export function hasCurrentCoreStudentAccess(context: LearnerPlanContext): true {
+  void context
   return true
 }

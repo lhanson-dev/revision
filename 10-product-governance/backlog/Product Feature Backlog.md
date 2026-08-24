@@ -1035,13 +1035,13 @@ FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only f
 
 ## FI-022 — Learner Plan State Foundation
 
-**Status:** Ready  
+**Status:** In Progress  
 **Captured:** 2026-08-24  
 **Capability fit:** Commercial/account foundation; cross-cutting learner plan context  
-**Proposed authority:** `10-product-governance/Pre-Commercial Subscription Foundation.md`  
+**Approved authority:** `10-product-governance/Pre-Commercial Subscription Foundation.md`  
 **Analysis record:** `10-product-governance/backlog/FI-022 Learner Plan State Foundation Analysis.md`  
-**Lifecycle evidence:** Founder direction on 2026-08-24 explicitly established `New → To Do` for the bounded pre-commercial foundation and active Definition-of-Ready analysis began immediately. The complete Definition-of-Ready assessment passed with no blocking decisions, and on 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`.  
-**Current assessment:** Human-approved **Ready** for governed implementation of the bounded learner-plan foundation. Production implementation has not started; FI-022 moves to `In Progress` only when governed implementation actually begins from then-current approved `main` after this Ready package is integrated.
+**Lifecycle evidence:** Founder direction on 2026-08-24 established `New → To Do`; active Definition-of-Ready analysis moved FI-022 to `Analyse`; the complete assessment passed with no blockers; and the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`. PR #157 integrated that Ready authority/lifecycle package into approved `main` as `477f49133be9a7d027bc0e25ae03be19e3cf254d` with successful production path-to-live evidence. On 2026-08-24 governed implementation then began from that exact approved `main` on PR #159 / `feature/fi-022-learner-plan-state-foundation`, establishing `Ready → In Progress`.  
+**Current assessment:** **In Progress** on PR #159. The approved bounded plan-state foundation is being implemented with durable plan identity, protected manual assignment, central all-access resolution and Level-3 database/security assurance. FI-022 is not `Live` until production evidence confirms the merged capability and governed path-to-live.
 
 ### Approved bounded foundation
 
@@ -1059,6 +1059,6 @@ FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only f
 
 FI-022 does not include Stripe, checkout/payment collection, invoices/customer portal, real paid contracts, payer/supporter linking, Parent subscription views, paywalls, upgrade prompts, differentiated allowances, cancellation/renewal/failed-payment/refund lifecycle or final customer-facing tier names. Those remain FI-002 responsibilities.
 
-### Lifecycle boundary
+### Implementation / production boundary
 
-FI-022 is **Ready**, not `In Progress`. The Founder-approved Ready scope may be implemented only after this authority/lifecycle package is integrated into approved `main`; implementation must then begin on a separate governed branch from then-current `main`. No production code, database migration, Supabase schema or Admin runtime implementation is part of PR #157.
+FI-022 is **In Progress**, not `Live`. PR #159 must remain within the Founder-approved Ready scope, complete exact-head Level-3 assurance, enable and verify the forward-safe production backend dependency, receive its own explicit Founder merge approval, merge through then-current `main`, and pass the resulting production backend-readiness, deployment, smoke and durable `revision/path-to-live` chain before production completion can be asserted.
