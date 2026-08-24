@@ -3,12 +3,18 @@ create table if not exists public.account_experience_state (
   primary_experience text not null,
   onboarding_stage text not null default 'course',
   onboarding_completed_at timestamptz,
+  starter_topic_id text,
+  starter_activity text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint account_experience_state_primary_experience_check
     check (primary_experience = 'student'),
   constraint account_experience_state_stage_check
     check (onboarding_stage in ('course', 'course_ready', 'starting_check', 'recommendation', 'activity', 'feedback', 'complete')),
+  constraint account_experience_state_starter_activity_check
+    check (starter_activity is null or starter_activity in ('flashcard', 'quick-check')),
+  constraint account_experience_state_starter_pair_check
+    check ((starter_topic_id is null) = (starter_activity is null)),
   constraint account_experience_state_completion_check
     check (
       (onboarding_stage = 'complete' and onboarding_completed_at is not null)
@@ -39,6 +45,8 @@ create policy "Students can establish their own initial experience"
     and primary_experience = 'student'
     and onboarding_stage = 'course'
     and onboarding_completed_at is null
+    and starter_topic_id is null
+    and starter_activity is null
   );
 
 create policy "Students can update their own first-use state"
@@ -56,6 +64,8 @@ insert into public.account_experience_state (
   primary_experience,
   onboarding_stage,
   onboarding_completed_at,
+  starter_topic_id,
+  starter_activity,
   created_at,
   updated_at
 )
@@ -64,6 +74,8 @@ select
   'student',
   'complete',
   now(),
+  null,
+  null,
   now(),
   now()
 from auth.users as users
