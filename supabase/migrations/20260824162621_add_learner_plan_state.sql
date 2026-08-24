@@ -71,14 +71,7 @@ create or replace function public.assign_learner_plan(
   p_tier text,
   p_assigned_by uuid
 )
-returns table (
-  user_id uuid,
-  tier text,
-  assignment_source text,
-  assigned_by uuid,
-  created_at timestamptz,
-  updated_at timestamptz
-)
+returns setof public.learner_plan_state
 language plpgsql
 security invoker
 set search_path = pg_catalog, public
@@ -136,12 +129,7 @@ begin
   );
 
   return query
-  select state.user_id,
-         state.tier,
-         state.assignment_source,
-         state.assigned_by,
-         state.created_at,
-         state.updated_at
+  select state.*
   from public.learner_plan_state as state
   where state.user_id = p_user_id;
 end;
