@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js'
+import { loadLearnerPlanContext } from '../../src/services/subscriptions/learner-plan-service'
 
 const integrationEnabled = process.env.REVISION_EDGE_INTEGRATION === '1'
 const supabaseUrl = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
@@ -26,7 +27,7 @@ async function createSyntheticUser(admin: SupabaseClient, label: string) {
   return { user: data.user, client, accessToken: signIn.session.access_token }
 }
 
-async function invoke(functionName: string, accessToken?: string) {
+async function invoke(functionName: string, accessToken?: string, body: Record<string, unknown> = {}) {
   const headers: Record<string, string> = {
     apikey: anonKey,
     'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ async function invoke(functionName: string, accessToken?: string) {
   return fetch(`${supabaseUrl}/functions/v1/${functionName}`, {
     method: 'POST',
     headers,
-    body: '{}',
+    body: JSON.stringify(body),
   })
 }
 
@@ -72,7 +73,7 @@ suite('protected operations Edge Functions', () => {
     if (founder?.user.id) await admin?.auth.admin.deleteUser(founder.user.id)
   })
 
-  for (const functionName of ['admin-operations', 'planner-operations']) {
+  for (const functionName of ['admin-operations', 'planner-operations', 'learner-plan-operations']) {
     it(`${functionName} rejects unauthenticated requests`, async () => {
       const response = await invoke(functionName)
       expect(response.status).toBe(401)
@@ -89,6 +90,7 @@ suite('protected operations Edge Functions', () => {
       const payload = await response.json() as {
         generatedAt?: unknown
         health?: { checks?: Array<{ id?: string; status?: string }> }
+        plans?: { byTier?: { free?: number; paid?: number; premium?: number } }
       }
       expect(payload.generatedAt).toEqual(expect.any(String))
       if (functionName === 'admin-operations') {
@@ -96,6 +98,67 @@ suite('protected operations Edge Functions', () => {
         expect(pathToLive).toBeDefined()
         expect(['Healthy', 'Attention needed', 'Unknown']).toContain(pathToLive?.status)
       }
+      if (functionName === 'learner-plan-operations') {
+        expect(payload.plans?.byTier?.free).toEqual(expect.any(Number))
+      }
     }, functionName === 'admin-operations' ? 30_000 : 5_000)
   }
+
+  it('defaults learner plan state, blocks self-upgrade and records protected Admin assignment', async () => {
+    const initial = await loadLearnerPlanContext(ordinary.client, ordinary.user.id)
+    expect(initial).toEqual({
+      tier: 'free',
+      capabilitySet: 'current_core_student_access',
+      integrity: 'valid',
+    })
+
+    const { data: crossUserPlans, error: crossUserReadError } = await ordinary.client
+      .from('learner_plan_state')
+      .select('user_id,tier')
+      .eq('user_id', founder.user.id)
+    expect(crossUserReadError).toBeNull()
+    expect(crossUserPlans).toEqual([])
+
+    const { error: selfUpdateError } = await ordinary.client
+      .from('learner_plan_state')
+      .update({ tier: 'premium' })
+      .eq('user_id', ordinary.user.id)
+    expect(selfUpdateError).not.toBeNull()
+
+    const response = await invoke('learner-plan-operations', founder.accessToken, {
+      action: 'assign',
+      targetUserId: ordinary.user.id,
+      tier: 'paid',
+    })
+    expect(response.status).toBe(200)
+    const payload = await response.json() as {
+      assignment?: { userId?: string; tier?: string; assignmentSource?: string; assignedBy?: string }
+    }
+    expect(payload.assignment).toMatchObject({
+      userId: ordinary.user.id,
+      tier: 'paid',
+      assignmentSource: 'admin_manual',
+      assignedBy: founder.user.id,
+    })
+
+    const reloaded = await loadLearnerPlanContext(ordinary.client, ordinary.user.id)
+    expect(reloaded).toEqual({
+      tier: 'paid',
+      capabilitySet: 'current_core_student_access',
+      integrity: 'valid',
+    })
+
+    const { data: events, error: eventsError } = await admin
+      .from('learner_plan_assignment_events')
+      .select('previous_tier,tier,assigned_by')
+      .eq('user_id', ordinary.user.id)
+      .order('occurred_at', { ascending: false })
+      .limit(1)
+    expect(eventsError).toBeNull()
+    expect(events?.[0]).toEqual({
+      previous_tier: 'free',
+      tier: 'paid',
+      assigned_by: founder.user.id,
+    })
+  })
 })

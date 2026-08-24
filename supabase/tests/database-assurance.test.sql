@@ -238,12 +238,12 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'courses-v1',
-  'release readiness advertises the FI-020 courses-v1 contract'
+  'plan-state-v1',
+  'release readiness advertises the current plan-state-v1 contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,
-  'release readiness reports all courses-v1 database capabilities present after migration replay'
+  'release readiness reports all current database capabilities present after migration replay'
 );
 
 select ok(has_function_privilege('anon', 'public.revision_release_readiness()', 'execute'), 'publishable/anonymous role can read the non-sensitive release readiness contract');
