@@ -10,6 +10,7 @@ const retiredThemeBridge = new URL('../../src/app/interface-theme-integrity.css'
 const semanticLayers = [
   'brand-tokens.css',
   'auth-entry.css',
+  'first-use.css',
   'guidance.css',
   'interface-system.css',
   'ui/ui-components.css',
