@@ -1,6 +1,7 @@
 .planner-runtime,
 .auth-shell,
-.loading-shell {
+.loading-shell,
+.first-use-shell {
   /* Canonical Calm Teal foundations. */
   --brand-deep-teal: #0f2f36;
   --brand-primary-teal: #2bb6a3;
@@ -165,7 +166,8 @@
 
 .planner-runtime[data-theme="dark"],
 .auth-shell[data-theme="dark"],
-.loading-shell[data-theme="dark"] {
+.loading-shell[data-theme="dark"],
+.first-use-shell[data-theme="dark"] {
   --color-bg: #0f2024;
   --color-surface: #13272b;
   --color-surface-elevated: #173136;
@@ -189,7 +191,8 @@
 @media (max-width: 620px) {
   .planner-runtime,
   .auth-shell,
-  .loading-shell {
+  .loading-shell,
+  .first-use-shell {
     --type-display-xl-size: 40px;
     --type-display-xl-line: 48px;
     --type-display-l-size: 34px;
