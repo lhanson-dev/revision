@@ -1035,15 +1035,15 @@ FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only f
 
 ## FI-022 — Learner Plan State Foundation
 
-**Status:** Analyse  
+**Status:** Ready  
 **Captured:** 2026-08-24  
 **Capability fit:** Commercial/account foundation; cross-cutting learner plan context  
 **Proposed authority:** `10-product-governance/Pre-Commercial Subscription Foundation.md`  
 **Analysis record:** `10-product-governance/backlog/FI-022 Learner Plan State Foundation Analysis.md`  
-**Lifecycle evidence:** Founder direction on 2026-08-24 explicitly established `New → To Do` for the bounded pre-commercial foundation and active Definition-of-Ready analysis began immediately, so FI-022 is in `Analyse`. The Founder has not yet approved `Analyse → Ready`.  
-**Current assessment:** Definition-of-Ready analysis is complete with no blocking product decisions for the bounded foundation. Human Ready approval is still required before any production implementation may begin.
+**Lifecycle evidence:** Founder direction on 2026-08-24 explicitly established `New → To Do` for the bounded pre-commercial foundation and active Definition-of-Ready analysis began immediately. The complete Definition-of-Ready assessment passed with no blocking decisions, and on 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`.  
+**Current assessment:** Human-approved **Ready** for governed implementation of the bounded learner-plan foundation. Production implementation has not started; FI-022 moves to `In Progress` only when governed implementation actually begins from then-current approved `main` after this Ready package is integrated.
 
-### Proposed bounded foundation
+### Approved bounded foundation
 
 - durable Student plan state: `free | paid | premium`;
 - every new Student defaults to Free automatically;
@@ -1061,4 +1061,4 @@ FI-022 does not include Stripe, checkout/payment collection, invoices/customer p
 
 ### Lifecycle boundary
 
-FI-022 is **Analyse**, not `Ready`. The complete analysis recommends `Analyse → Ready`, but that transition requires explicit Founder approval. No production code, database migration, Supabase schema or Admin runtime implementation may begin until that human approval is recorded and the resulting Ready package is governed through the repository process.
+FI-022 is **Ready**, not `In Progress`. The Founder-approved Ready scope may be implemented only after this authority/lifecycle package is integrated into approved `main`; implementation must then begin on a separate governed branch from then-current `main`. No production code, database migration, Supabase schema or Admin runtime implementation is part of PR #157.
