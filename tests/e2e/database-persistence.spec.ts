@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js'
+import {
+  completeStudentFirstUse,
+  establishStudentExperience,
+} from '../../src/services/onboarding/student-first-use-service'
 
 const integrationEnabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const supabaseUrl = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
@@ -36,20 +40,11 @@ test.describe('database-backed learner persistence', () => {
     if (signInError) throw new Error(`Could not authenticate browser integration learner: ${signInError.message}`)
 
     // This scenario validates ordinary FI-020 course/evidence persistence rather
-    // than GJ-01. Establish its synthetic learner through the same owner-scoped
-    // browser permission boundary used by the product; service_role deliberately
-    // has no table grant on account_experience_state.
-    const completedAt = new Date().toISOString()
-    const { error: experienceError } = await learner.from('account_experience_state').insert({
-      user_id: user.id,
-      primary_experience: 'student',
-      onboarding_stage: 'complete',
-      onboarding_completed_at: completedAt,
-      starter_topic_id: null,
-      starter_activity: null,
-      updated_at: completedAt,
-    })
-    if (experienceError) throw new Error(`Could not establish browser integration learner: ${experienceError.message}`)
+    // than GJ-01. Establish and complete its synthetic Student through the same
+    // owner-scoped service path as the product instead of bypassing the initial
+    // state policy with a privileged or one-step fixture write.
+    await establishStudentExperience(learner, user.id)
+    await completeStudentFirstUse(learner, user.id)
   })
 
   test.afterAll(async () => {
