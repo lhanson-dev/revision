@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthGate } from './app/AuthGate'
-import { FirstUseGate } from './app/FirstUseGate'
+import { FirstUseBoundary } from './app/FirstUseBoundary'
 import { PlannerRuntime } from './app/PlannerRuntime'
 import './app/brand-tokens.css'
 import './app/app.css'
@@ -45,9 +45,9 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <AuthGate>
-      <FirstUseGate>
+      <FirstUseBoundary>
         <PlannerRuntime />
-      </FirstUseGate>
+      </FirstUseBoundary>
     </AuthGate>
   </StrictMode>,
 )
