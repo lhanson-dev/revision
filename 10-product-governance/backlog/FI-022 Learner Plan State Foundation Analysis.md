@@ -267,8 +267,10 @@ FI-022 should be treated as a cross-layer account/authorization change. Required
 
 - create `10-product-governance/Pre-Commercial Subscription Foundation.md` as the normative temporary sequencing rule;
 - create this FI-022 analysis record;
-- add FI-022 to the canonical Product Feature Backlog; and
-- index the new authority.
+- index the new authority; and
+- record FI-022 in the canonical Product Feature Backlog when this branch is integrated with the then-current `main` lifecycle register.
+
+PR #155 currently also changes the end of `Product Feature Backlog.md` to record FI-021. To avoid manufacturing a parallel-register conflict solely from concurrent governance work, this analysis branch deliberately leaves that shared register untouched until final integration. Before FI-022 can be merged as Ready, the branch must be refreshed against then-current `main` and the canonical backlog must record the approved FI-022 lifecycle state alongside FI-021 rather than overwriting it.
 
 ### Implementation package later
 
@@ -300,7 +302,7 @@ The existing Stripe target ADR/architecture and Pricing and Billing Policy remai
 - Risk / trust / accessibility — **PASS**; authorization, commercial-semantics, GJ-01 and educational-truth controls defined
 - Technical feasibility — **PASS**; canonical runtime, Auth, Admin boundary and database responsibility identified
 - Test / assurance approach — **PASS**; database/RLS/admin/default/persistence/fallback assurance defined
-- Documentation / authority impact — **PASS**; normative sequencing change and implementation-document obligations identified
+- Documentation / authority impact — **PASS subject to final integration bookkeeping**; normative sequencing authority is defined and the shared backlog update is deliberately deferred to the current-main integration point so concurrent FI-021 state is preserved
 - Blocking decisions — **NONE** for the bounded FI-022 scope
 - Human Definition-of-Ready approval — **NOT YET GRANTED**
 
@@ -310,8 +312,10 @@ The existing Stripe target ADR/architecture and Pricing and Billing Policy remai
 
 The feature is intentionally small enough that development should not have to decide product behaviour. The critical rules are explicit: new Students are Free, every tier gets full core access during testing, only a protected Admin path may manually reassign tier, and real commercial differentiation remains FI-002 work.
 
-The remaining lifecycle gate is explicit Founder approval of FI-022 Ready. That approval would permit a later governed implementation branch; it would not approve a PR merge or begin implementation by itself.
+The remaining lifecycle gate is explicit Founder approval of FI-022 Ready. That approval would permit a later governed implementation branch once the Ready authority/register state is integrated into approved `main`; it would not approve a PR merge or begin implementation by itself.
 
 ## Documentation-impact check
 
 This analysis deliberately proposes a new normative pre-commercial sequencing authority because the Founder direction changes what Revision should implement now compared with the broader existing FI-002 MVP description. It does not change approved launch pricing, the future Stripe target, educational truth, GJ-01, or historical FI-002 decisions.
+
+The canonical Product Feature Backlog update is intentionally deferred to final branch integration because concurrent PR #155 owns the current end-of-register FI-021 addition. This avoids stale-branch overwrite and is an explicit application of the current-main integration rule, not an omitted documentation impact.
