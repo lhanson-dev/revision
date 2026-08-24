@@ -3,11 +3,12 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-021  
-**Lifecycle state:** Analyse — complete; Ready decision pending explicit Founder approval  
+**Lifecycle state:** Ready  
 **Analysis started:** 2026-08-23  
 **Readiness refreshed:** 2026-08-24 against approved `main` `c8b746f09c477846b1627a80ba6565d58d6e87df`  
+**Ready approved:** 2026-08-24  
 **Owner:** Product / Founder  
-**Implementation status:** Not started — material production implementation is prohibited until explicit human-approved `Ready` status.
+**Implementation status:** Not started — FI-021 is human-approved `Ready`; governed implementation may begin only from approved `main` and moves the feature to `In Progress` when production implementation actually starts.
 
 ## Lifecycle evidence
 
@@ -17,7 +18,11 @@ After that merge, Product recommended creating and analysing FI-021 Student Firs
 
 PR #156 subsequently completed and integrated the FI-006 Definition of Ready on 24 August 2026. Approved `main` now contains the directional starting-check evidence contract, deterministic recommendation rule and skip/partial/no-question fallback required by FI-021.
 
-This refresh therefore closes the remaining FI-021 product blockers and brings FI-021 to its own independent `Analyse → Ready` decision. The human Ready gate remains outstanding and cannot be inferred.
+The refreshed FI-021 analysis then closed all remaining product blockers and presented the complete Definition-of-Ready decision. On 24 August 2026 the Founder explicitly approved:
+
+> `Approve FI-021 Ready`
+
+That records the governed `Analyse → Ready` transition. It permits FI-021 to proceed to governed development on the approved scope once implementation begins from approved `main`. It is not merge approval for PR #155 and does not itself move FI-021 to `In Progress`.
 
 ## Governing context
 
@@ -368,7 +373,7 @@ This readiness PR performs the normative/product-management work required before
 
 - `10-product-governance/Core User Journeys.md` v0.8 promotes GJ-01 from design evidence into normative product direction;
 - this analysis record captures the complete FI-021 Definition of Ready against current `main`; and
-- `10-product-governance/backlog/Product Feature Backlog.md` registers FI-021 and its current lifecycle/Ready-decision state.
+- `10-product-governance/backlog/Product Feature Backlog.md` registers FI-021 and its Ready lifecycle state.
 
 No production code changes belong in this PR.
 
@@ -396,9 +401,13 @@ The previous blockers are resolved:
 
 No fundamental product, commercial, evidence, trust or experience decision remains for development to invent.
 
-## Human Definition-of-Ready approval — PENDING
+## Human Definition-of-Ready approval — GRANTED
 
-The complete applicable Definition of Ready now passes, but `Analyse → Ready` requires explicit human approval. AI may recommend the transition but may not self-approve it.
+On 24 August 2026, after the complete Definition-of-Ready assessment was presented, the Founder explicitly approved:
+
+> `Approve FI-021 Ready`
+
+FI-021 is therefore human-approved **Ready**. The approval permits governed implementation of the approved scope from approved `main`; it is not merge approval for PR #155 and does not itself indicate that implementation has started.
 
 ---
 
@@ -420,14 +429,12 @@ The complete applicable Definition of Ready now passes, but `Analyse → Ready` 
 - Test / assurance approach — **PASS**
 - Documentation / authority impact — **PASS**
 - Blocking decisions — **NONE**
-- Human Definition-of-Ready approval — **PENDING**
+- Human Definition-of-Ready approval — **GRANTED 2026-08-24**
 
 ## Product Manager recommendation
 
-**Recommend FI-021 `Analyse → Ready`.**
-
-The scope is sufficiently defined to begin governed implementation without reopening a fundamental product decision. Implementation must still wait for the explicit Founder Ready approval, and any material change to the approved product/evidence boundary must return through proportionate product governance rather than being invented in code.
+FI-021 is **Ready**. The next governed step is implementation from then-current approved `main`, with the feature moving to `In Progress` only when production implementation actually begins. PR #155 still requires its own explicit Founder merge approval before the Ready authority/lifecycle package can enter `main`.
 
 ## Documentation-impact check
 
-This refresh updates normative GJ-01 authority and the canonical feature lifecycle register in the same governed PR. No technical implementation documentation is changed because production implementation has not started. Historical design/research evidence is preserved unchanged.
+The FI-021 product definition is complete, GJ-01 authority is included on PR #155, the explicit Founder Ready decision is recorded here, and the canonical feature register must record the same Ready state. No production code or technical implementation documentation belongs in this readiness PR; historical design/research evidence remains unchanged.
