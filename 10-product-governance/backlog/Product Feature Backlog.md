@@ -1035,13 +1035,13 @@ FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only f
 
 ## FI-022 — Learner Plan State Foundation
 
-**Status:** In Progress  
+**Status:** Live  
 **Captured:** 2026-08-24  
 **Capability fit:** Commercial/account foundation; cross-cutting learner plan context  
 **Approved authority:** `10-product-governance/Pre-Commercial Subscription Foundation.md`  
 **Analysis record:** `10-product-governance/backlog/FI-022 Learner Plan State Foundation Analysis.md`  
-**Lifecycle evidence:** Founder direction on 2026-08-24 established `New → To Do`; active Definition-of-Ready analysis moved FI-022 to `Analyse`; the complete assessment passed with no blockers; and the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`. PR #157 integrated that Ready authority/lifecycle package into approved `main` as `477f49133be9a7d027bc0e25ae03be19e3cf254d` with successful production path-to-live evidence. On 2026-08-24 governed implementation then began from that exact approved `main` on PR #159 / `feature/fi-022-learner-plan-state-foundation`, establishing `Ready → In Progress`.  
-**Current assessment:** **In Progress** on PR #159. The approved bounded plan-state foundation is being implemented with durable plan identity, protected manual assignment, central all-access resolution and Level-3 database/security assurance. FI-022 is not `Live` until production evidence confirms the merged capability and governed path-to-live.
+**Lifecycle evidence:** Founder direction on 2026-08-24 established `New → To Do`; active Definition-of-Ready analysis moved FI-022 to `Analyse`; the complete assessment passed with no blockers; and the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`. PR #157 integrated that Ready authority/lifecycle package into approved `main` as `477f49133be9a7d027bc0e25ae03be19e3cf254d`. Governed implementation then began from that exact approved `main` on PR #159, establishing `Ready → In Progress`. The Founder explicitly approved merge of PR #159 on 2026-08-24; exact head `b197f82f9a805ac407cc944e3a4914f37e8234a6` passed Revision CI #940 and the Founder Approval Gate, and PR #159 merged as `df7d9b520fec60d4b804c49dfc2c441498f37b99`. Production workflow run `32755286006` then passed governed release lineage, `plan-state-v1` backend readiness, build, GitHub Pages deployment, production smoke and durable `revision/path-to-live = success`, establishing `In Progress → Live`.  
+**Current assessment:** **Live**. The bounded pre-commercial learner-plan foundation is operational in production with durable plan identity, automatic Free defaulting, protected manual assignment, auditable provenance, central all-access resolution and Level-3 database/security assurance. Real commercial entitlements and billing remain deliberately deferred to FI-002.
 
 ### Approved bounded foundation
 
@@ -1059,6 +1059,6 @@ FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only f
 
 FI-022 does not include Stripe, checkout/payment collection, invoices/customer portal, real paid contracts, payer/supporter linking, Parent subscription views, paywalls, upgrade prompts, differentiated allowances, cancellation/renewal/failed-payment/refund lifecycle or final customer-facing tier names. Those remain FI-002 responsibilities.
 
-### Implementation / production boundary
+### Production state
 
-FI-022 is **In Progress**, not `Live`. PR #159 must remain within the Founder-approved Ready scope, complete exact-head Level-3 assurance, enable and verify the forward-safe production backend dependency, receive its own explicit Founder merge approval, merge through then-current `main`, and pass the resulting production backend-readiness, deployment, smoke and durable `revision/path-to-live` chain before production completion can be asserted.
+FI-022 is **Live** on the canonical production runtime. Production Supabase exposes the `plan-state-v1` readiness contract and the protected `learner-plan-operations` function, while the merged application revision `df7d9b520fec60d4b804c49dfc2c441498f37b99` has successful backend-readiness, Pages deployment, production-smoke and durable path-to-live evidence. Future material changes to this foundation must follow the governed feature/change workflow; differentiated paid access remains an FI-002 change rather than an FI-022 extension by implication.
