@@ -209,7 +209,7 @@ async function expectNoPageOverflow(page: Page) {
 }
 
 async function chooseStudentAndAddAlevelBusiness(page: Page) {
-  await page.getByRole('button', { name: /Student/ }).click()
+  await page.getByRole('button', { name: /^Student\b/ }).click()
   await expect(page.getByRole('heading', { name: 'Add your first course' })).toBeVisible()
   await page.getByLabel('Qualification').selectOption({ label: 'AQA A-level' })
   await expect(page.getByText('Business', { exact: true })).toBeVisible()
@@ -290,9 +290,9 @@ test('account choice remains compact, accessible and themed across supported vie
   await expect(choices).toHaveCount(3)
   for (let index = 0; index < 3; index += 1) await expect(choices.nth(index)).toBeVisible()
 
-  await expect(page.getByRole('button', { name: /Student/ })).toBeEnabled()
-  await expect(page.getByRole('button', { name: /Parent/ })).toBeDisabled()
-  await expect(page.getByRole('button', { name: /Teacher/ })).toBeDisabled()
+  await expect(page.getByRole('button', { name: /^Student\b/ })).toBeEnabled()
+  await expect(page.getByRole('button', { name: /^Parent\b/ })).toBeDisabled()
+  await expect(page.getByRole('button', { name: /^Teacher\b/ })).toBeDisabled()
   await expect(page.getByText('Coming soon', { exact: true })).toHaveCount(2)
   await expectNoPageOverflow(page)
 
