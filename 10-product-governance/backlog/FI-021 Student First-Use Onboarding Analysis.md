@@ -3,12 +3,12 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-021  
-**Lifecycle state:** Ready  
+**Lifecycle state:** In Progress  
 **Analysis started:** 2026-08-23  
 **Readiness refreshed:** 2026-08-24 against approved `main` `c8b746f09c477846b1627a80ba6565d58d6e87df`  
 **Ready approved:** 2026-08-24  
 **Owner:** Product / Founder  
-**Implementation status:** Not started — FI-021 is human-approved `Ready`; governed implementation may begin only from approved `main` and moves the feature to `In Progress` when production implementation actually starts.
+**Implementation status:** In progress — governed production implementation began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163 (`feature/fi-021-student-first-use`).
 
 ## Lifecycle evidence
 
@@ -23,6 +23,8 @@ The refreshed FI-021 analysis then closed all remaining product blockers and pre
 > `Approve FI-021 Ready`
 
 That records the governed `Analyse → Ready` transition. It permits FI-021 to proceed to governed development on the approved scope once implementation begins from approved `main`. It is not merge approval for PR #155 and does not itself move FI-021 to `In Progress`.
+
+After FI-006's production foundation was merged and completed path-to-live on PR #161, the Founder instructed the agent to continue the original GJ-01 implementation task. Governed FI-021 production implementation then began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163. That is the governed `Ready → In Progress` transition. It does not alter the historical Ready approval and is not merge approval for PR #163.
 
 ## Governing context
 
@@ -44,7 +46,7 @@ Research remains implementation input rather than normative authority. PR #155 p
 
 The canonical learner entry remains `/app/`.
 
-Current implementation evidence on approved `main` confirms:
+The approved implementation baseline before FI-021 confirmed:
 
 - `/app/` → `src/main.tsx` → `src/app/AuthGate.tsx` → `src/app/PlannerRuntime.tsx` is the canonical learner runtime;
 - `AuthGate.tsx` owns authentication/session admission and currently admits an authenticated session into the learner runtime;
@@ -52,7 +54,7 @@ Current implementation evidence on approved `main` confirms:
 - FI-020 provides persisted authenticated learner-course membership using the canonical course identity and Courses runtime; and
 - learner-course programme state is separate from learning evidence.
 
-FI-021 must therefore add its post-auth first-use gate at the canonical `/app/` boundary. It must not create a second learner runtime, onboarding-only course model or parallel course identity.
+FI-021 therefore adds its post-auth first-use gate at the canonical `/app/` boundary. PR #163 implements `/app/ → main.tsx → AuthGate → FirstUseBoundary → FirstUseGate → PlannerRuntime`, retaining one normal learner runtime and reusing FI-020 course identity plus FI-006/ordinary evidence boundaries rather than creating parallel models.
 
 ## Student problem — PASS
 
@@ -369,25 +371,13 @@ After release verify, using synthetic/non-sensitive data where possible:
 
 ## Documentation and authority impact — PASS
 
-This readiness PR performs the normative/product-management work required before implementation:
+The readiness work performed the normative/product-management work required before implementation:
 
 - `10-product-governance/Core User Journeys.md` v0.8 promotes GJ-01 from design evidence into normative product direction;
-- this analysis record captures the complete FI-021 Definition of Ready against current `main`; and
-- `10-product-governance/backlog/Product Feature Backlog.md` registers FI-021 and its Ready lifecycle state.
+- this analysis record captures the complete FI-021 Definition of Ready against the then-current `main`; and
+- `10-product-governance/backlog/Product Feature Backlog.md` registered FI-021 and its Ready lifecycle state.
 
-No production code changes belong in this PR.
-
-When implementation starts, update as applicable:
-
-- `docs/technical/Authentication Implementation.md` — post-auth experience/onboarding gate;
-- a dedicated Student onboarding implementation record if the state machine/persistence warrants one;
-- `docs/technical/Target System Architecture.md` — durable account-experience/onboarding state if material;
-- `docs/technical/Production Backend Readiness Gate.md` — release contract if a new database capability is introduced;
-- `90-governance-registers/Assurance Coverage Register.md` — GJ-01 assurance;
-- `INDEX.md` — if a new canonical technical record is introduced; and
-- FI-021 lifecycle/register evidence as implementation moves to `In Progress` and later `Live`.
-
-Historical research/audits remain historical and must not be rewritten as implementation truth.
+PR #163 now performs production implementation. It must keep this working record and the feature backlog aligned to `In Progress`, add technical implementation documentation, and update assurance/register evidence only when repeatable tests prove the relevant coverage. Historical research/audits remain historical and are not rewritten as implementation truth.
 
 ## Blocking decisions resolved — PASS
 
@@ -407,7 +397,7 @@ On 24 August 2026, after the complete Definition-of-Ready assessment was present
 
 > `Approve FI-021 Ready`
 
-FI-021 is therefore human-approved **Ready**. The approval permits governed implementation of the approved scope from approved `main`; it is not merge approval for PR #155 and does not itself indicate that implementation has started.
+FI-021 was therefore human-approved **Ready**. That approval permitted governed implementation of the approved scope from approved `main`; it was not merge approval for PR #155 and did not by itself indicate that implementation had started.
 
 ---
 
@@ -431,10 +421,14 @@ FI-021 is therefore human-approved **Ready**. The approval permits governed impl
 - Blocking decisions — **NONE**
 - Human Definition-of-Ready approval — **GRANTED 2026-08-24**
 
-## Product Manager recommendation
+## Product Manager recommendation at Ready approval
 
-FI-021 is **Ready**. The next governed step is implementation from then-current approved `main`, with the feature moving to `In Progress` only when production implementation actually begins. PR #155 still requires its own explicit Founder merge approval before the Ready authority/lifecycle package can enter `main`.
+FI-021 was **Ready**. The governed next step was implementation from then-current approved `main`, with the feature moving to `In Progress` only when production implementation actually began. That historical Ready decision remains unchanged.
+
+## Current implementation status
+
+FI-021 is now **In Progress** on PR #163 (`feature/fi-021-student-first-use`), started from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04`. This records lifecycle truth only; it is not a claim that the feature is merge-ready, deployed or Live.
 
 ## Documentation-impact check
 
-The FI-021 product definition is complete, GJ-01 authority is included on PR #155, the explicit Founder Ready decision is recorded here, and the canonical feature register must record the same Ready state. No production code or technical implementation documentation belongs in this readiness PR; historical design/research evidence remains unchanged.
+The FI-021 product definition and historical Founder Ready decision remain unchanged. PR #163 records the current `In Progress` lifecycle, carries the production implementation and adds `docs/technical/Student First-Use Onboarding Implementation.md`. Normative GJ-01 authority is unchanged because the implementation follows the already-approved journey. Historical design/research evidence remains unchanged.
