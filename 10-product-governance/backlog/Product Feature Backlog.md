@@ -1029,4 +1029,36 @@ FI-020 remains **In Progress** until PR #130 receives its own explicit Founder m
 
 ### Implementation boundary
 
-FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only from then-current approved `main` and must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries. PR #155 still requires its own explicit Founder merge approval before this Ready authority/lifecycle package enters `main`.
+FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only from then-current approved `main` and must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries. PR #155 merged the Ready authority/lifecycle package into `main` on 2026-08-24 as `1b0c315b8d890d5a76b6d0a89f3b749bb128823c`.
+
+---
+
+## FI-022 — Learner Plan State Foundation
+
+**Status:** Ready  
+**Captured:** 2026-08-24  
+**Capability fit:** Commercial/account foundation; cross-cutting learner plan context  
+**Proposed authority:** `10-product-governance/Pre-Commercial Subscription Foundation.md`  
+**Analysis record:** `10-product-governance/backlog/FI-022 Learner Plan State Foundation Analysis.md`  
+**Lifecycle evidence:** Founder direction on 2026-08-24 explicitly established `New → To Do` for the bounded pre-commercial foundation and active Definition-of-Ready analysis began immediately. The complete Definition-of-Ready assessment passed with no blocking decisions, and on 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-022 Ready`.  
+**Current assessment:** Human-approved **Ready** for governed implementation of the bounded learner-plan foundation. Production implementation has not started; FI-022 moves to `In Progress` only when governed implementation actually begins from then-current approved `main` after this Ready package is integrated.
+
+### Approved bounded foundation
+
+- durable Student plan state: `free | paid | premium`;
+- every new Student defaults to Free automatically;
+- existing Students receive a bounded Free compatibility default;
+- a protected Founder/Admin operation can manually assign Free, Paid or Premium for testing;
+- assignment state is durable and auditable;
+- one central plan/entitlement-resolution boundary is used rather than scattered plan-name checks;
+- during core Student-product development, **Free = Paid = Premium = full current core Student access**;
+- missing/invalid plan state fails safely to Free/full-current-core while surfacing an integrity condition; and
+- learner plan state remains separate from educational evidence, Admin authorization, payer identity, supporter permission and primary-experience routing.
+
+### Deliberate exclusions
+
+FI-022 does not include Stripe, checkout/payment collection, invoices/customer portal, real paid contracts, payer/supporter linking, Parent subscription views, paywalls, upgrade prompts, differentiated allowances, cancellation/renewal/failed-payment/refund lifecycle or final customer-facing tier names. Those remain FI-002 responsibilities.
+
+### Lifecycle boundary
+
+FI-022 is **Ready**, not `In Progress`. The Founder-approved Ready scope may be implemented only after this authority/lifecycle package is integrated into approved `main`; implementation must then begin on a separate governed branch from then-current `main`. No production code, database migration, Supabase schema or Admin runtime implementation is part of PR #157.
