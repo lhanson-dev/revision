@@ -131,6 +131,7 @@ jobs:
         run: |
           supabase test db supabase/tests/database-assurance.test.sql
           supabase test db supabase/tests/learner-plan-assurance.test.sql
+          supabase test db supabase/tests/starting-check-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
       - name: Serve protected Edge Functions from repository source
