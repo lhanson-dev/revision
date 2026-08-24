@@ -1,8 +1,9 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.7 proposal pending governed merge  
+**Status:** Draft authority candidate — v0.8 proposal pending governed merge  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.  
-**FI-020 alignment:** Founder-approved 2026-08-22. `Courses` replaces `Subjects` as the learner-facing academic destination; Subject remains academic/catalogue metadata rather than a required everyday navigation hop.
+**FI-020 alignment:** Founder-approved 2026-08-22. `Courses` replaces `Subjects` as the learner-facing academic destination; Subject remains academic/catalogue metadata rather than a required everyday navigation hop.  
+**GJ-01 alignment:** Founder-reviewed 2026-08-23. New Student first use establishes primary experience, one saved course, cautious starting evidence and first useful revision before normal Student Home.
 
 ## Journey principles
 
@@ -20,32 +21,157 @@
 - Keep the primary journey concise while allowing deeper information through progressive disclosure.
 - Treat the learner's persisted active course set as programme context; do not treat the whole published catalogue as though the learner studies it.
 
-## Journey 1 — New student setup and first useful action
+## Journey 1 — New Student setup and first useful action
 
-A new student should not be asked to configure the entire product before receiving value.
+A newly registered Student should not be dropped directly onto an empty or generic Home screen and should not be asked to configure the entire product before receiving value.
 
-Minimum setup should establish the supported course context needed for accurate guidance, including as applicable:
+Revision should establish only enough context to make the first useful recommendation credible, then learn progressively from what the Student actually does.
+
+The governing principle is:
+
+**Tell Revision only enough about you for it to start helping. Then let it learn from your real revision activity.**
+
+### Entry condition
+
+This journey begins after successful account creation for an account that has not already established its primary Revision experience and completed first-use onboarding.
+
+Existing accounts that predate this journey and are already established as Student accounts should not be unexpectedly forced through first-use onboarding when the capability is introduced.
+
+### Step 1 — Choose primary experience
+
+Before normal product onboarding, a newly registered account must establish its primary Revision experience using the governed Student / Parent / Teacher selector in `Authentication Experience.md`.
+
+For the initial product:
+
+- **Student** is enabled;
+- **Parent** remains visible and clearly marked **Coming soon**; and
+- **Teacher** remains visible and clearly marked **Coming soon**.
+
+Selecting Student records the primary experience and moves directly into Student first-use onboarding. Parent/Teacher must not silently fall through into Student.
+
+The selector is a short routing decision, not a persona questionnaire.
+
+### Step 2 — Add one supported course
+
+The Student should establish one exact supported course using the minimum progressive choices required to resolve it, such as:
 
 1. qualification level;
 2. subject or curriculum area;
 3. exam board/specification; and
-4. relevant paper/component context where needed.
+4. relevant course/component choice only where still needed to remove ambiguity.
 
-These choices establish a **saved learner course**. They are catalogue-discovery steps, not permanent global navigation levels.
+These choices establish a **saved learner course** using the same persisted course-membership model as normal Courses management. Onboarding must not create a parallel course model.
 
-Once enough course context is known, Revision should move quickly towards a useful first action.
+Only one course is required before first value. Additional courses are added later through **Courses → Add Course**.
 
-Setup should be presented in short, clear steps rather than a dense form. The system can then learn more about the student progressively through diagnostics, activity and results rather than front-loading excessive setup.
+Once the course is added, Revision should clearly confirm success and explain why the next short check is useful before asking the Student to continue.
 
-Account creation and data collection should introduce no more friction than is genuinely required. Where a piece of information is needed, Revision should explain its purpose in plain language.
+### Step 3 — Find a starting point
 
-### Intended flow
+Revision should offer a short, low-stakes starting check to improve the first recommendation.
 
-Select supported course context → save course to learner programme → establish enough baseline context → receive a useful recommended action → complete activity → receive feedback → update student model.
+The Student must understand that:
 
-Authentication may occur before or during this path according to implementation and commercial needs, but it should not become a long configuration barrier before value is clear.
+- the check is short;
+- it does not judge the whole course;
+- it gives Revision a better place to begin; and
+- Revision will keep adjusting as stronger evidence is created through normal revision.
 
-The setup model must support adding further courses later through **Courses → Add Course** without redesigning Home or treating the first course as the permanent default context.
+Starting-check evidence is governed by `Product System Model.md` and `Claims and Progress Governance.md` as **directional evidence**. It may influence what Revision recommends investigating first, but it must not by itself create coverage, proficiency/mastery, readiness, grade or on-track claims.
+
+The interaction should not present a broad diagnostic percentage or other result that implies comprehensive course attainment from a handful of questions.
+
+### Step 4 — Give a cautious first recommendation
+
+After the starting check, Revision should give a simple, actionable starting recommendation and explain why it is provisional.
+
+The recommendation should answer:
+
+- **Where should I start?**
+- **Why this area?**
+- **What can I do now?**
+
+Where one or more sampled starting-check answers suggest an area worth investigating, the first recommendation may use that directional signal under the governed deterministic selection rule. If the check provides no such signal, Revision should use a deterministic course starter/least-evidenced fallback rather than inventing a weakness.
+
+The Student remains free to choose something else.
+
+### Step 5 — Route directly into useful work
+
+Accepting the recommendation must take the Student directly into the exact supported Learn/Practice activity Revision is recommending.
+
+Do **not** route the Student to a generic subject/course homepage and require them to rediscover the recommended work.
+
+The first-use success condition is useful revision activity, not merely rendering the dashboard or completing setup forms.
+
+### Step 6 — Explain the result and next action
+
+The first useful activity should end with feedback that makes clear:
+
+- what happened;
+- what the Student appeared to understand or find harder, at a strength of language appropriate to the evidence;
+- how the new normal learning evidence changes the picture; and
+- what Revision recommends doing next.
+
+Assessment activity must not terminate at a raw score.
+
+### Step 7 — Enter meaningful Student Home
+
+Normal Student Home should be shown after enough context exists to make it useful in the primary happy path.
+
+By this point Revision should know, at minimum:
+
+- the primary experience is Student;
+- the Student's first name where available from authentication;
+- at least one exact saved course;
+- a deliberately small amount of provisional starting evidence where the check was completed;
+- the first completed useful activity and its normal learning evidence; and
+- a credible next recommendation.
+
+Home should therefore orient and create momentum by showing what matters next and why, rather than presenting onboarding chores or a generic welcome dashboard.
+
+### Skip, partial and recovery behaviour
+
+The starting check must not become a trap or prerequisite for using Revision.
+
+If the Student skips the check, cannot complete it, or the check cannot be offered because eligible assured questions are unavailable, Revision should **degrade gracefully into useful work**:
+
+- do not invent diagnostic answers;
+- do not claim weakness or strength without evidence;
+- choose a deterministic supported course starter activity;
+- route directly into that useful activity rather than generic Home; and
+- allow normal later learning evidence to build the Student model.
+
+Interrupted onboarding should resume safely where practical rather than restarting completed setup unnecessarily.
+
+### Intended GJ-01 flow
+
+`successful account creation → Student experience selected → one supported course saved → starting check offered → cautious first recommendation → exact useful activity → useful feedback → meaningful Student Home`
+
+Where the starting check is skipped or unavailable:
+
+`one supported course saved → deterministic starter activity → useful feedback → meaningful Student Home`
+
+### GJ-01 success condition
+
+The journey is successful when an eligible new Student reaches and completes a genuinely useful first revision activity with the correct course context, receives understandable feedback and can see a credible next action.
+
+Merely creating an account, adding a course or landing on Home does not by itself prove first value.
+
+### Assurance expectations
+
+The implementation should provide scenario-mapped assurance for the primary path plus material alternatives including:
+
+- existing Student bypasses first-use onboarding;
+- new Student account-type selection;
+- first-course persistence;
+- starting-check completion;
+- starting-check skip/partial/interruption;
+- direct recommendation-to-activity routing;
+- first activity feedback;
+- onboarding completion persistence;
+- phone/tablet/desktop responsive behaviour;
+- keyboard/accessibility completion; and
+- Light/Dark theme behaviour.
 
 ## Journey 2 — Returning student
 

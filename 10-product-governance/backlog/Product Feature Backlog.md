@@ -1003,3 +1003,30 @@ Course identity and course management are foundational product truth for **Free,
 PR #130 implements the Founder-approved Ready scope in the canonical learner runtime and aligns persistence, routing, active-programme filtering, measurement, technical documentation and cross-layer assurance. The production database must expose the forward-safe `courses-v1` readiness contract before the frontend candidate may be released.
 
 FI-020 remains **In Progress** until PR #130 receives its own explicit Founder merge approval, merges through the governed current-`main` path, and the resulting production revision passes backend readiness, deployment, smoke and durable `revision/path-to-live` evidence. Only then may this register move FI-020 to **Live**.
+
+---
+
+## FI-021 — Student First-Use Onboarding / GJ-01
+
+**Status:** Ready  
+**Captured:** 2026-08-23  
+**Capability fit:** Understand; Guide; Learn; Practise and Test  
+**Approved direction:** Founder-reviewed GJ-01 takes a newly registered Student from primary-experience selection through one exact saved course, a cautious starting signal, a useful first activity and feedback before meaningful Student Home. PR #155 promotes this sequence into `10-product-governance/Core User Journeys.md`.  
+**Analysis record:** `10-product-governance/backlog/FI-021 Student First-Use Onboarding Analysis.md`  
+**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria passed with no blocking decisions. On 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-021 Ready`.  
+**Current assessment:** Human-approved **Ready** for governed implementation of the approved scope. Production implementation has not started; FI-021 moves to `In Progress` only when governed implementation actually begins from then-current approved `main`.
+
+### Ready-scope summary
+
+- post-auth Student / Parent / Teacher primary-experience routing with only Student enabled initially;
+- durable Student experience/onboarding completion state with bounded existing-account bypass;
+- one exact supported saved course using FI-020 learner-course membership, not a parallel onboarding course model;
+- FI-006 short starting check using directional evidence that cannot create coverage/mastery/readiness/grade claims by itself;
+- deterministic first recommendation and skip/partial/no-question fallback into useful course work rather than generic Home;
+- direct route to an exact supported Learn/Practice activity, useful feedback and then meaningful Student Home;
+- foundational behaviour across Free, Paid and Premium with no onboarding paywall or conversion mechanism; and
+- bounded journey telemetry, Founder assurance, responsive/accessibility requirements and cross-layer test expectations.
+
+### Implementation boundary
+
+FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only from then-current approved `main` and must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries. PR #155 still requires its own explicit Founder merge approval before this Ready authority/lifecycle package enters `main`.
