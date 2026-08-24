@@ -2,12 +2,15 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 export type PrimaryExperience = 'student'
 export type FirstUseStage = 'course' | 'course_ready' | 'starting_check' | 'recommendation' | 'activity' | 'feedback' | 'complete'
+export type FirstUseActivity = 'flashcard' | 'quick-check'
 
 export type AccountExperienceState = {
   userId: string
   primaryExperience: PrimaryExperience
   onboardingStage: FirstUseStage
   onboardingCompletedAt: string | null
+  starterTopicId: string | null
+  starterActivity: FirstUseActivity | null
   createdAt: string
   updatedAt: string
 }
@@ -38,19 +41,28 @@ type AccountExperienceRow = {
   primary_experience: string
   onboarding_stage: string
   onboarding_completed_at: string | null
+  starter_topic_id: string | null
+  starter_activity: string | null
   created_at: string
   updated_at: string
 }
+
+const accountStateColumns = 'user_id, primary_experience, onboarding_stage, onboarding_completed_at, starter_topic_id, starter_activity, created_at, updated_at'
 
 function stateFromRow(row: AccountExperienceRow): AccountExperienceState {
   if (row.primary_experience !== 'student') throw new Error('This account experience is not available yet.')
   const stages: FirstUseStage[] = ['course', 'course_ready', 'starting_check', 'recommendation', 'activity', 'feedback', 'complete']
   if (!stages.includes(row.onboarding_stage as FirstUseStage)) throw new Error('This account has an unsupported onboarding state.')
+  if (row.starter_activity !== null && row.starter_activity !== 'flashcard' && row.starter_activity !== 'quick-check') {
+    throw new Error('This account has an unsupported first activity.')
+  }
   return {
     userId: row.user_id,
     primaryExperience: 'student',
     onboardingStage: row.onboarding_stage as FirstUseStage,
     onboardingCompletedAt: row.onboarding_completed_at,
+    starterTopicId: row.starter_topic_id,
+    starterActivity: row.starter_activity as FirstUseActivity | null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }
@@ -62,7 +74,7 @@ export async function loadAccountExperienceState(
 ): Promise<AccountExperienceState | null> {
   const { data, error } = await client
     .from('account_experience_state')
-    .select('user_id, primary_experience, onboarding_stage, onboarding_completed_at, created_at, updated_at')
+    .select(accountStateColumns)
     .eq('user_id', userId)
     .maybeSingle()
 
@@ -82,9 +94,11 @@ export async function establishStudentExperience(
       primary_experience: 'student',
       onboarding_stage: 'course',
       onboarding_completed_at: null,
+      starter_topic_id: null,
+      starter_activity: null,
       updated_at: now,
     })
-    .select('user_id, primary_experience, onboarding_stage, onboarding_completed_at, created_at, updated_at')
+    .select(accountStateColumns)
     .single()
 
   if (error) {
@@ -106,10 +120,32 @@ export async function setFirstUseStage(
     .from('account_experience_state')
     .update({ onboarding_stage: onboardingStage, updated_at: new Date().toISOString() })
     .eq('user_id', userId)
-    .select('user_id, primary_experience, onboarding_stage, onboarding_completed_at, created_at, updated_at')
+    .select(accountStateColumns)
     .single()
 
   if (error) throw new Error(`Could not save your Revision setup: ${error.message}`)
+  return stateFromRow(data as AccountExperienceRow)
+}
+
+export async function startFirstUseActivity(
+  client: SupabaseClient,
+  userId: string,
+  starterTopicId: string,
+  starterActivity: FirstUseActivity,
+): Promise<AccountExperienceState> {
+  const { data, error } = await client
+    .from('account_experience_state')
+    .update({
+      onboarding_stage: 'activity',
+      starter_topic_id: starterTopicId,
+      starter_activity: starterActivity,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('user_id', userId)
+    .select(accountStateColumns)
+    .single()
+
+  if (error) throw new Error(`Could not start your first revision activity: ${error.message}`)
   return stateFromRow(data as AccountExperienceRow)
 }
 
@@ -122,7 +158,7 @@ export async function completeStudentFirstUse(
     .from('account_experience_state')
     .update({ onboarding_stage: 'complete', onboarding_completed_at: completedAt, updated_at: completedAt })
     .eq('user_id', userId)
-    .select('user_id, primary_experience, onboarding_stage, onboarding_completed_at, created_at, updated_at')
+    .select(accountStateColumns)
     .single()
 
   if (error) throw new Error(`Could not finish your Revision setup: ${error.message}`)
