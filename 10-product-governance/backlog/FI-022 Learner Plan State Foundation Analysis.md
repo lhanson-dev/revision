@@ -3,10 +3,11 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-022  
-**Lifecycle state:** Analyse  
+**Lifecycle state:** Ready  
 **Analysis started:** 2026-08-24  
+**Ready approved:** 2026-08-24  
 **Owner:** Product / Founder  
-**Implementation status:** Not started — material production implementation requires explicit human-approved `Ready` status.
+**Implementation status:** Not started — FI-022 is human-approved `Ready`; production implementation should begin only after this governed Ready package is integrated into approved `main` and a separate implementation branch is created from then-current `main`.
 
 ## Lifecycle evidence
 
@@ -14,9 +15,13 @@ Founder direction on 24 August 2026 established that Revision should build the b
 
 > Revision needs the ability to assign a Student one of three subscriptions at a basic MVP level; new registrations start Free; Free receives everything while the core Student product is tested; real upgrade/billing implementation follows after the core Student product.
 
-This is an explicit human product decision that the bounded foundation belongs in Revision, satisfying `New → To Do`. Active Definition-of-Ready analysis began immediately, so FI-022 is now in `Analyse`.
+This is an explicit human product decision that the bounded foundation belongs in Revision, satisfying `New → To Do`. Active Definition-of-Ready analysis began immediately, moving FI-022 into `Analyse`.
 
-This direction is **not** an `Analyse → Ready` approval. No production code, migration or Supabase schema change may begin until the final Definition-of-Ready assessment is explicitly approved by the Founder.
+The complete Definition-of-Ready assessment then passed with no blocking decisions. On 24 August 2026 the Founder explicitly approved `Analyse → Ready` with the command:
+
+> `Approve FI-022 Ready`
+
+FI-022 is therefore **Ready** for governed implementation of the bounded scope defined in this record and the proposed `Pre-Commercial Subscription Foundation.md`. This Ready approval is not approval to merge PR #157 and is not itself implementation work.
 
 ## Why FI-022 exists separately from FI-002
 
@@ -44,7 +49,7 @@ During this foundation phase, the Student should experience no new commercial fr
 
 The value is primarily enabling infrastructure: Revision can build and test all core Student features against a stable plan context, and later activate differentiated packages without changing the meaning of the Student's account or educational evidence.
 
-## Approved proposed experience
+## Approved experience
 
 ### New Student
 
@@ -268,9 +273,9 @@ FI-022 should be treated as a cross-layer account/authorization change. Required
 - create `10-product-governance/Pre-Commercial Subscription Foundation.md` as the normative temporary sequencing rule;
 - create this FI-022 analysis record;
 - index the new authority; and
-- record FI-022 in the canonical Product Feature Backlog when this branch is integrated with the then-current `main` lifecycle register.
+- record FI-022 as **Ready** in the canonical Product Feature Backlog alongside FI-021.
 
-PR #155 currently also changes the end of `Product Feature Backlog.md` to record FI-021. To avoid manufacturing a parallel-register conflict solely from concurrent governance work, this analysis branch deliberately leaves that shared register untouched until final integration. Before FI-022 can be merged as Ready, the branch must be refreshed against then-current `main` and the canonical backlog must record the approved FI-022 lifecycle state alongside FI-021 rather than overwriting it.
+The branch was refreshed against then-current approved `main` after PR #155 merged, preserving FI-021 and the newer `main` state. The backlog integration bookkeeping is therefore complete for the Ready package.
 
 ### Implementation package later
 
@@ -302,20 +307,20 @@ The existing Stripe target ADR/architecture and Pricing and Billing Policy remai
 - Risk / trust / accessibility — **PASS**; authorization, commercial-semantics, GJ-01 and educational-truth controls defined
 - Technical feasibility — **PASS**; canonical runtime, Auth, Admin boundary and database responsibility identified
 - Test / assurance approach — **PASS**; database/RLS/admin/default/persistence/fallback assurance defined
-- Documentation / authority impact — **PASS subject to final integration bookkeeping**; normative sequencing authority is defined and the shared backlog update is deliberately deferred to the current-main integration point so concurrent FI-021 state is preserved
+- Documentation / authority impact — **PASS**; normative sequencing authority, index and canonical lifecycle register are aligned on the current-main-integrated branch
 - Blocking decisions — **NONE** for the bounded FI-022 scope
-- Human Definition-of-Ready approval — **NOT YET GRANTED**
+- Human Definition-of-Ready approval — **PASS — Founder explicitly approved `Analyse → Ready` on 2026-08-24 with `Approve FI-022 Ready`**
 
-## Product Manager recommendation
+## Product Manager outcome
 
-**Recommend FI-022 `Analyse → Ready`.**
+**FI-022 is human-approved `Ready`.**
 
-The feature is intentionally small enough that development should not have to decide product behaviour. The critical rules are explicit: new Students are Free, every tier gets full core access during testing, only a protected Admin path may manually reassign tier, and real commercial differentiation remains FI-002 work.
+The approved scope is intentionally small enough that development should not have to decide product behaviour. The critical rules are explicit: new Students are Free, every tier gets full core access during testing, only a protected Admin path may manually reassign tier, and real commercial differentiation remains FI-002 work.
 
-The remaining lifecycle gate is explicit Founder approval of FI-022 Ready. That approval would permit a later governed implementation branch once the Ready authority/register state is integrated into approved `main`; it would not approve a PR merge or begin implementation by itself.
+The next governance step is to merge this Ready authority/register package through PR #157 under its own explicit Founder merge approval. Actual implementation should then begin in a separate governed implementation branch from then-current approved `main`, at which point FI-022 moves to `In Progress`.
 
 ## Documentation-impact check
 
 This analysis deliberately proposes a new normative pre-commercial sequencing authority because the Founder direction changes what Revision should implement now compared with the broader existing FI-002 MVP description. It does not change approved launch pricing, the future Stripe target, educational truth, GJ-01, or historical FI-002 decisions.
 
-The canonical Product Feature Backlog update is intentionally deferred to final branch integration because concurrent PR #155 owns the current end-of-register FI-021 addition. This avoids stale-branch overwrite and is an explicit application of the current-main integration rule, not an omitted documentation impact.
+The canonical Product Feature Backlog is now included in this branch and must record FI-022 as Ready before the package merges. Historical evidence remains unchanged; implementation documentation will be updated only when production implementation actually begins.
