@@ -7,7 +7,9 @@ import {
   type StartingCheckObservation,
 } from './starting-check'
 
-function adapter(topicCount: number, topicsWithoutQuestions: number[] = []): LearningContentAdapter {
+type StartingCheckContent = Pick<LearningContentAdapter, 'listTopics' | 'listQuestions'>
+
+function adapter(topicCount: number, topicsWithoutQuestions: number[] = []): StartingCheckContent {
   const topics = Array.from({ length: topicCount }, (_, index) => ({
     id: `topic-${index + 1}`,
     order: index + 1,
@@ -29,7 +31,7 @@ function adapter(topicCount: number, topicsWithoutQuestions: number[] = []): Lea
   return {
     listTopics: () => topics,
     listQuestions: (topicId) => topicId ? questions.filter((question) => question.topic === topicId) : questions,
-  } as LearningContentAdapter
+  }
 }
 
 function evidence(topicId: string): LearningEvidence {
