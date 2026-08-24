@@ -29,12 +29,18 @@ test.describe('database-backed learner persistence', () => {
     if (error || !data.user) throw new Error(`Could not create browser integration user: ${error?.message ?? 'missing user'}`)
     user = data.user
 
+    learner = createClient(supabaseUrl, publishableKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    })
+    const { error: signInError } = await learner.auth.signInWithPassword({ email, password })
+    if (signInError) throw new Error(`Could not authenticate browser integration learner: ${signInError.message}`)
+
     // This scenario validates ordinary FI-020 course/evidence persistence rather
-    // than GJ-01. Mark its synthetic learner as already established so a user
-    // deliberately created after the migration does not masquerade as a new
-    // Student and enter FI-021 onboarding during this separate assurance case.
+    // than GJ-01. Establish its synthetic learner through the same owner-scoped
+    // browser permission boundary used by the product; service_role deliberately
+    // has no table grant on account_experience_state.
     const completedAt = new Date().toISOString()
-    const { error: experienceError } = await admin.from('account_experience_state').insert({
+    const { error: experienceError } = await learner.from('account_experience_state').insert({
       user_id: user.id,
       primary_experience: 'student',
       onboarding_stage: 'complete',
@@ -44,12 +50,6 @@ test.describe('database-backed learner persistence', () => {
       updated_at: completedAt,
     })
     if (experienceError) throw new Error(`Could not establish browser integration learner: ${experienceError.message}`)
-
-    learner = createClient(supabaseUrl, publishableKey, {
-      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-    })
-    const { error: signInError } = await learner.auth.signInWithPassword({ email, password })
-    if (signInError) throw new Error(`Could not authenticate browser integration learner: ${signInError.message}`)
   })
 
   test.afterAll(async () => {
