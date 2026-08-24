@@ -3,11 +3,11 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-006  
-**Lifecycle state:** Ready  
+**Lifecycle state:** In Progress  
 **Analysis started:** 2026-08-24  
 **Ready approved:** 2026-08-24  
 **Owner:** Product / Founder  
-**Implementation status:** Not started — FI-006 is human-approved `Ready`; governed implementation may begin only from approved `main` and moves the feature to `In Progress` when production implementation actually starts.
+**Implementation status:** In progress — governed production implementation began from approved `main` on PR #161 (`feature/fi-006-starting-check-foundation`).
 
 ## Lifecycle evidence
 
@@ -20,6 +20,8 @@ The complete applicable Definition-of-Ready assessment below passed, the require
 > `Approve FI-006 Ready`
 
 That records the governed `Analyse → Ready` decision. The approval permits FI-006 to proceed to governed development once this Ready/authority state is integrated into approved `main`; it is not merge approval for PR #156 and does not itself move FI-006 to `In Progress`.
+
+On 24 August 2026, after the approved FI-006 authority and Ready state had been integrated into `main`, governed production implementation began on PR #161 from approved `main` `c279ff844bdf53ab3c10414860c3f18f5288d833`. FI-006 therefore moved `Ready → In Progress`. This lifecycle update records implementation start only; it does not alter the historical Definition-of-Ready decision or constitute merge approval for PR #161.
 
 ## Governing context
 
