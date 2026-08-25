@@ -1,6 +1,8 @@
 # Content Pack Source and Coverage Template
 
-Use this template for each new subject/paper/component pack. Keep it concise enough to maintain, but complete enough to prove what was sourced, what is covered and what remains uncertain.
+Use this template for each new subject/course/component pack. Keep it concise enough to maintain, but complete enough to prove identity, source rights, coverage, assessment structure and assurance status.
+
+For Content Factory v2 jobs, the same information should also exist in machine-readable structured artifacts so the orchestrator can validate and reuse it.
 
 ## Pack identity
 
@@ -9,96 +11,207 @@ Use this template for each new subject/paper/component pack. Keep it concise eno
 - Exam board / awarding organisation:
 - Specification code:
 - Paper / component / area:
-- Relevant exam series/year (if applicable):
+- Relevant cohort / exam series/year:
 - Pack ID:
 - Repository path:
-- Current status: `planned` / `preview` / `available`
+- Current learner status: `planned` / `preview` / `available`
+- Current factory state:
 - Learner-specific option/text/module if applicable:
 
-## Primary source record
+## Source Licence Register
 
-| Source | Issuer | Type | Version/date | Governs | Checked | Notes / limitations |
-|---|---|---|---|---|---|---|
-| | | | | | | |
+Every material source must have a source-use classification before generative use. Apply `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`.
 
-Use official awarding-organisation material first. Supplementary sources may be recorded below but must not silently redefine curriculum or assessment authority.
+| Source ID | Source / URL | Issuer | Educational role | Version/date | Use class | AI input permitted? | Derived commercial use? | Permission / policy basis | Attribution / restrictions | Checked | Notes / revalidation |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| | | | | | OPEN / REVISION_OWNED / LICENSED / REFERENCE_ONLY / PROHIBITED / UNKNOWN | | | | | | |
 
-## Supplementary source record
+`UNKNOWN` is a blocker. `REFERENCE_ONLY` material must not be supplied as substantial protected prose to downstream generative workers unless a specific licence permits it.
 
-| Source | Publisher | Why used | Checked | Notes / limitations |
-|---|---|---|---|---|
-| | | | | |
+## Board Alignment
 
-## Specification coverage blueprint
+Record approved qualification-specific facts separately from reusable curriculum/subject truth.
 
-| Official requirement / reference | Revision topic / area | Learner needs to know / do | Assessment relevance supported by source | Planned Revision coverage | Status | Notes |
-|---|---|---|---|---|---|---|
-| | | | | Learn / Practice / Exam Prep | Complete / Partial / Deferred / N/A | |
+| Alignment ID | Fact / requirement | Component scope | Marks / duration / weighting if relevant | AO / skill / assessment relevance | Source ref | Verification status | Notes |
+|---|---|---|---|---|---|---|---|
+| | | | | | | Verified / Pending / Blocked | |
+
+## Curriculum / specification coverage blueprint
+
+| Requirement ID | Requirement / skill summary | Revision topic / area | Learner needs to know / do | Component scope | Assessment relevance | Planned Revision coverage | Source / alignment refs | Status | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+| | | | | | | Learn / Practice / Exam Prep / Evidence | | Complete / Partial / Deferred / N/A | |
+
+## Course Knowledge Model references
+
+For each substantial node, record or link the structured representation of:
+
+- stable concept/requirement ID;
+- plain-language concept/skill summary;
+- prerequisites/relationships;
+- formulas or quantitative rules;
+- common misconceptions;
+- application contexts;
+- depth/difficulty indicators;
+- curriculum/source references;
+- Board Alignment/component mappings;
+- valid learner evidence types.
+
+- Course Knowledge Model path/reference:
+- Version/fingerprint:
+
+## Learning Blueprint
+
+Record which modes are educationally appropriate rather than forcing every topic into the same asset set.
+
+| Requirement / cluster | Explanation | Worked example | Flashcards / retrieval | Quick checks | Application / case | Data / calculation | Exam prep | Evidence type | Rationale / notes |
+|---|---|---|---|---|---|---|---|---|---|
+| | | | | | | | | | |
+
+- Learning Blueprint path/reference:
+- Version/fingerprint:
+
+## Assessment Blueprint
+
+Complete where the course/component includes written or exam-style assessment.
+
+- Assessment Blueprint path/reference:
+- Version/fingerprint:
+
+Record or link:
+
+- assessment objectives / skills and weightings;
+- component structure;
+- question/response families;
+- command/cognitive demands;
+- mark/timing constraints;
+- quantitative/synoptic requirements;
+- evidence/evaluation expectations;
+- approved structured assessment source/alignment references.
+
+## Question Family register
+
+| Family ID | Skill / AO profile | Context requirements | Mark range | Response shape | Application / analysis / evaluation expectations | Compatible Marking Pack template | Expert calibration status | Notes |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | | | |
+
+## Marking Pack coverage
+
+Every written item represented as eligible for governed assisted marking must have a Marking Pack.
+
+| Question ID | Question family | Max mark | Concepts / AOs | Marking Pack ref | Anchor/calibration status | Deterministic validation | Independent review | Notes |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | Pass / Fail / N/A | Pass / Fail / Pending | |
+
+A Marking Pack should contain, as applicable, rubric/level logic, application/analysis/evaluation requirements, legitimate alternative reasoning, non-exhaustive indicative content, misconceptions, anchors, diagnostic feedback, improvement actions, ambiguity/confidence rules and provenance/version status.
 
 ## Capability check
 
-For this pack, record what is educationally meaningful rather than forcing every capability to exist.
+Record what is educationally meaningful rather than forcing every capability to exist.
 
 | Capability | Included? | Coverage / rationale |
 |---|---|---|
 | Learn / explanations | | |
 | Topic relationships / connections | | |
+| Worked examples | | |
 | Flashcards / active recall | | |
 | Quick checks / quizzes | | |
 | Application / case practice | | |
 | Data / calculation drills | | |
-| Exam questions | | |
+| Exam-style questions | | |
 | Exam technique | | |
-| Timed/full exam simulator | | |
+| Timed/full exam simulation | | |
+| Structured Marking Packs | | |
 | Progress evidence | | |
 
-## Educational assurance
+## Educational and assessment assurance
 
-- [ ] Exact course/paper/component identity checked against primary authority
-- [ ] Intended specification coverage checked against blueprint
+- [ ] Exact course/component identity checked
+- [ ] Every material source classified for permitted use
+- [ ] No `UNKNOWN` / unresolved source-rights blocker remains
+- [ ] Board Alignment facts verified
+- [ ] Intended curriculum/specification coverage checked against blueprint
+- [ ] Course Knowledge Model / Learning Blueprint complete where v2 applies
 - [ ] Factual content checked
 - [ ] Paper/component timing and marks checked where applicable
-- [ ] Assessment objectives / marking structure checked where applicable
+- [ ] Assessment Blueprint checked where applicable
+- [ ] Question Family constraints checked where applicable
 - [ ] Generated questions are not represented as official past-paper questions
+- [ ] Marking Packs exist for every item represented as markable
 - [ ] Marking guidance is consistent with approved assessment principles
-- [ ] Learner explanations preserve the meaning of the source material
+- [ ] Legitimate alternative reasoning has been considered where judgement is required
+- [ ] Learner explanations preserve underlying educational truth
 - [ ] Known ambiguities or limitations are documented
 - [ ] No material requirement is silently omitted
+- [ ] Independent fresh-context review completed for applicable A2/A3/A4 material
 
 ### Assurance notes
 
 Record material findings, corrections or residual limitations here.
 
-## Structural assurance
+## Structural / deterministic assurance
 
 - [ ] `contentPackSchema` validation passes
 - [ ] Topic/reference integrity tests pass
+- [ ] Coverage completeness checks pass
+- [ ] Arithmetic / formula / unit checks pass where applicable
+- [ ] Answer-key consistency checks pass
 - [ ] Mark totals / manifest metadata checks pass where applicable
+- [ ] AO totals / Assessment Blueprint constraints pass where computable
+- [ ] Marking Pack required-field / cross-reference checks pass
+- [ ] Internal case-data consistency checks pass where computable
 - [ ] Production build discovers the pack
 - [ ] Shared learner shell renders the pack without subject-specific React code
-- [ ] Evidence writes use the correct module/topic IDs
-- [ ] Global Progress recognises the module
-- [ ] REV can include the module in catalogue-level prioritisation
+- [ ] Evidence writes use correct module/topic IDs
+- [ ] Progress / REV catalogue integration remains valid
+
+## Expert review readiness
+
+### Ready for `expert_review_ready`?
+
+- [ ] Yes
+- [ ] No
+- [ ] Not applicable to this production mode
+
+If yes, confirm:
+
+- [ ] all required source, Board Alignment, coverage, knowledge, learning and assessment artifacts are present;
+- [ ] all Marking Packs required for markable written items are complete;
+- [ ] deterministic assurance is green;
+- [ ] no blocking/material independent-review findings remain;
+- [ ] portable expert package is tied to the exact reviewed version/commit;
+- [ ] known limitations are explicit.
+
+- Expert Review Contract / export reference:
+- Exact reviewed version/commit:
+
+## Qualified human review
+
+- Reviewer role / expertise:
+- Review status: `not started` / `pending` / `conditional` / `passed` / `fail-hold`
+- Review record reference:
+- Material findings/remediation reference:
+- Benchmark status:
 
 ## Publication decision
 
-### Ready for `available`?
+### Ready for `available` under applicable pilot/publication authority?
 
 - [ ] Yes
 - [ ] No
 
 ### Intentionally deferred coverage
 
-State anything deliberately excluded from the current pack and why.
+State anything deliberately excluded and why.
 
 ### Known limitations
 
-State any limitation that a learner, reviewer or future content maintainer should know.
+State limitations a learner, reviewer or future maintainer should know.
 
 ### Documentation impact
 
-Record technical/governance documentation updated, or explicitly state why none is required.
+Record normative/technical documentation updated, or explicitly state why none is required.
 
 ### Founder approval
 
-A merge into `main`, including a change that makes a pack `available`, requires explicit Founder approval for that specific PR.
+Every merge into `main`, including any change that makes a pack `available` or changes benchmark/claim status, requires explicit Founder approval for that specific PR.

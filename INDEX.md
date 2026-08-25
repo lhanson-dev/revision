@@ -39,6 +39,7 @@ Use this file to find the governing source before substantive work.
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -85,6 +86,7 @@ Use this file to find the governing source before substantive work.
 
 ## Evidence, engineering and operations
 - Evidence, trust and educational integrity → `40-evidence-and-trust/Evidence Trust and Educational Integrity.md`
+- Educational content source licensing / AI-use / provenance → `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`
 - Privacy and student data principles → `40-evidence-and-trust/Privacy and Student Data Principles.md`
 - Safeguarding standard → `40-evidence-and-trust/Safeguarding Standard.md`
 - Claims and progress governance → `40-evidence-and-trust/Claims and Progress Governance.md`
@@ -104,11 +106,12 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
+- Content Factory v2 automated course build / Marking Packs / expert-review-ready gate → `80-company-workflows/Content Factory v2 Expert Review Ready Amendment.md`
 - Minimal Content Operations Admin amendment → `80-company-workflows/Content Operations Admin v0.1 Amendment.md`
 - Course vs assessment-component classification → `80-company-workflows/Course and Assessment Component Classification Check.md`
 - Official awarding-body URL intake for new courses → `80-company-workflows/Awarding Body URL Content Intake Workflow.md`
-- Learner-content factual / educational accuracy gate → `80-company-workflows/Content Accuracy Assurance Gate.md`
-- New content source / specification coverage template → `80-company-workflows/Content Pack Source and Coverage Template.md`
+- Learner-content factual / educational / assessment accuracy gate → `80-company-workflows/Content Accuracy Assurance Gate.md`
+- New content source / specification coverage / v2 artifact template → `80-company-workflows/Content Pack Source and Coverage Template.md`
 - Existing repository adoption → `80-company-workflows/Existing Repository Adoption Workflow.md`
 - Other repeatable workflows → `80-company-workflows/`
 - Registers/current governance state → `90-governance-registers/`
@@ -141,6 +144,7 @@ Use this file to find the governing source before substantive work.
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
+- Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
