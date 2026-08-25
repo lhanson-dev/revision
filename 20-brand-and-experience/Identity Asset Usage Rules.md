@@ -4,13 +4,13 @@ document_id: "revision-identity-asset-usage-rules"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.3"
+version: "1.4"
 owner: "Founder"
 effective_date: "2026-08-23"
-last_reviewed: "2026-08-23"
+last_reviewed: "2026-08-25"
 review_cadence: "quarterly"
-content_review_status: "reviewed"
-source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
+content_review_status: "founder-approved"
+source_of_truth_for: ["Revision wordmark clear space", "Revision wordmark minimum size", "compact REV product wordmark", "Powered by REV treatment", "Living E clear space", "Living E control-surface contrast", "Living E resting presence", "Ask REV CTA identity treatment", "Ask REV CTA glow containment", "Ask REV CTA responsive typography and alignment", "app icon framing", "favicon treatment", "identity asset safe areas"]
 depends_on: ["Revision Brand System"]
 supersedes: null
 ---
@@ -18,7 +18,7 @@ supersedes: null
 
 ## Purpose
 
-Define the production usage rules that the Revision Brand System requires for the canonical full Revision wordmark, standalone Living E, branded product-control treatment and app/browser icon framing.
+Define the production usage rules that the Revision Brand System requires for the canonical full Revision wordmark, compact REV product wordmark, standalone Living E, branded product-control treatment and app/browser icon framing.
 
 These rules specialise the approved Brand System. They do not change the approved Manrope, Calm Teal, Living E or light/dark identity direction.
 
@@ -30,7 +30,39 @@ The canonical full Revision wordmark geometry is `assets/brand/source/revision-w
 
 The canonical standalone Living E geometry is `assets/brand/source/revision-rev-living-e-master.svg`.
 
-Do not redraw, re-space, stretch, condense, rotate or otherwise reconstruct either identity from memory when a canonical source exists.
+The canonical compact REV product wordmark is a governed UI identity composition rather than a replacement corporate logo asset. Its production implementation is `src/app/RevCompactWordmark.tsx`, using the geometry and typography rules below. It exists so compact product lock-ups such as `Powered by REV` do not reconstruct REV differently on each screen.
+
+Do not redraw, re-space, stretch, condense, rotate or otherwise reconstruct the full Revision wordmark, standalone Living E or compact REV product wordmark from memory when the canonical source/treatment exists.
+
+## Compact REV product wordmark
+
+The compact REV treatment is approved for product UI where the full `REVISION` wordmark is inappropriate but the REV name itself is part of the intended message.
+
+The treatment is:
+
+- uppercase `R` and `V` in Manrope ExtraBold / 800;
+- the `E` represented by the same three-horizontal-bar visual grammar as the Living E;
+- Primary Teal `#2BB6A3` bars;
+- tightly composed as a single `REV` wordmark without changing the three-bar order or rounded ends;
+- light/inverse `R` and `V` when used on the Deep Teal Home hero; and
+- responsive scaling of the entire lock-up as one visual unit.
+
+The compact REV treatment is **not** the full Revision company/product wordmark and must not replace `REVISION` in primary brand ownership locations such as the main shell brand, marketing masthead, app-store identity or legal/company attribution.
+
+### Powered by REV
+
+`Powered by REV` is the approved compact attribution treatment for the Returning Student Home REV hero.
+
+It must:
+
+- use the exact words `Powered by` followed by the governed compact REV product wordmark;
+- place the treatment above the Home greeting as a subordinate identity cue;
+- use a restrained translucent pill/surface on the Deep Teal feature hero;
+- keep `Powered by` visually quieter than `REV`;
+- preserve the compact REV three-bar E treatment rather than substituting plain text `REV`; and
+- remain secondary to the Living E and greeting rather than competing with them.
+
+Do not create alternative `Powered by REV` arrangements locally. New use outside the Returning Student Home hero requires deliberate brand review so the treatment does not become repetitive attribution clutter.
 
 ## Revision wordmark clear space
 
@@ -55,7 +87,7 @@ The full Revision wordmark must not be reproduced below:
 - **160px wide in digital interfaces or raster exports**; or
 - **35mm wide in print**.
 
-Below that size, use an approved compact REV treatment or the standalone Living E rather than compressing or simplifying the full `REVISION` wordmark.
+Below that size, use the approved compact REV treatment or the standalone Living E rather than compressing or simplifying the full `REVISION` wordmark.
 
 Minimum size is measured on the visible wordmark width, not the source artboard width.
 
@@ -76,6 +108,7 @@ The halo is part of the identity treatment. It may be simplified at compact size
 The approved resting treatment is:
 
 - a soft atmospheric halo that remains visibly present around the Living E;
+- on the Returning Student Home Deep Teal hero, a clearly visible near-white/aqua luminous centre that fades softly through aqua into restrained teal rather than reading as a teal-only haze;
 - a slow, low-amplitude looping halo breathe;
 - optional very small whole-mark drift or scale movement where the size and context can support it;
 - the three bars moving only as one mark in Resting, preserving their canonical geometry and spacing; and
@@ -175,6 +208,8 @@ Do not:
 - change the spacing between the three E bars;
 - replace the rounded bar ends with square ends;
 - recolour the bars with semantic Success, Warning or Error colours;
+- create a local alternative to the governed compact REV product wordmark or `Powered by REV` treatment;
+- use the compact REV product wordmark as a replacement for the full `REVISION` brand in primary ownership locations;
 - allow a compact product-control halo to bleed beyond its owning CTA surface;
 - add gradients, heavy neon effects, particles, text or decorative symbols that compete with the Living E;
 - animate individual bars during Resting in a way that implies listening, thinking or processing;
@@ -184,4 +219,4 @@ Do not:
 
 ## Documentation impact
 
-Version 1.3 retains the v1.2 living Resting presence and inverse-on-brand Living E, and tightens the persistent Ask REV CTA finish: the complete compact glow must remain inside the CTA boundary, the Living E and label share one centred vertical midpoint, and the tablet/mobile dock may use a stronger responsive label size while remaining the same CTA identity. The app-icon, favicon and semantic REV-state rules remain unchanged.
+Version 1.4 promotes the Founder-approved compact REV product wordmark and `Powered by REV` Home attribution into governed identity treatment, and clarifies that the Returning Student Home halo must retain a visibly near-white/aqua luminous centre. Version 1.3's persistent Ask REV CTA finish, the app-icon, favicon, Living E and semantic REV-state rules remain otherwise unchanged.
