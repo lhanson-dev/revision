@@ -367,15 +367,6 @@ function requireV2State(jobInput: ContentFactoryJob, state: ContentFactoryJob['s
   return job
 }
 
-function identityFromJob(job: ContentFactoryJob): IdentityResolutionOutput {
-  return identityResolutionOutputSchema.parse({
-    courseIdentity: job.courseIdentity,
-    cohortValidity: job.cohortValidity,
-    components: job.components,
-    unresolvedChoices: job.unresolvedChoices,
-  })
-}
-
 function validateStructuredEvidence(
   evidenceInput: unknown,
   register: SourceLicenceRegister,
