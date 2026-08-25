@@ -16,7 +16,7 @@ Use the following normal lifecycle consistently:
 - **To Do** — explicit human product decision recorded that the feature belongs in Revision, supported by the applicable governed product authority/decision evidence; Definition-of-Ready analysis has not yet started.
 - **Analyse** — active work is underway to challenge, define and prepare the feature to satisfy the complete Definition of Ready.
 - **Ready** — every applicable Definition-of-Ready criterion has passed and explicit human approval to proceed to development has been recorded.
-- **In Progress** — governed implementation has actually started on the approved scope.
+- **In Progress** — governed implementation has actually started on the approved Ready scope.
 - **Live** — production evidence confirms the feature is available on the canonical production runtime.
 
 Exception/disposition states:
