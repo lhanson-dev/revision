@@ -1,6 +1,6 @@
 # Core User Journeys
 
-**Status:** Draft authority candidate — v0.8 proposal pending governed merge  
+**Status:** Active authority — v0.8 merged through PR #155 on 2026-08-24  
 **Purpose:** Define the primary product journeys Revision should support so later information architecture, UX and implementation decisions are anchored in real student use.  
 **FI-020 alignment:** Founder-approved 2026-08-22. `Courses` replaces `Subjects` as the learner-facing academic destination; Subject remains academic/catalogue metadata rather than a required everyday navigation hop.  
 **GJ-01 alignment:** Founder-reviewed 2026-08-23. New Student first use establishes primary experience, one saved course, cautious starting evidence and first useful revision before normal Student Home.
