@@ -20,11 +20,12 @@ describe('B7 identity and recurring glyph ownership', () => {
     expect(plannerHome).not.toContain('↗')
     expect(plannerHome).not.toContain('>→<')
     expect(plannerHome).not.toContain('>›<')
-    expect(plannerHome).toContain('<RevPresence size="compact" state="resting" decorative />')
-    expect(plannerHome).toContain('<RevPresence size="nav" state="resting" decorative className="planner-home-recommendation-presence" />')
+    expect(plannerHome).toContain("<RevPresence state={loading ? 'thinking' : revState} size=\"hero\" />")
+    expect(plannerHome).not.toContain('<RevPresence size="compact"')
+    expect(plannerHome).not.toContain('<RevPresence size="nav"')
     expect(plannerHome).toContain('<Icon name="arrow-up" size="compact" />')
     expect(plannerHome).toContain('<Icon name="arrow-right" size="inline" />')
-    expect(plannerHome).toContain('<Icon name="chevron-right" size="inline" />')
+    expect(plannerHome).toContain('<Icon name="chevron-right" size="compact" />')
   })
 
   it('uses the controlled play glyph for exam resume', () => {
