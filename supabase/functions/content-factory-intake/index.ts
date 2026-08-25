@@ -99,13 +99,20 @@ Deno.serve(async (req) => {
   const timestamp = new Date().toISOString()
   const jobId = `cf-${crypto.randomUUID()}`
   const job = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     jobId,
     officialUrls: [officialUrl.toString()],
     founderInstruction: notes || "Add this course to Revision using the approved content workflow.",
     state: "requested",
     components: [],
     unresolvedChoices: [],
+    sourceRightsStatus: "pending",
+    coverageCompleteness: "pending",
+    questionFamilyRefs: [],
+    markableAssessmentItemIds: [],
+    markingPackCoverage: [],
+    artifactCompatibilityStatus: "pending",
+    knownLimitations: [],
     contentPackRefs: [],
     workUnits: [],
     workerRuns: [],
