@@ -9,6 +9,7 @@ import {
   expertReviewContractSchema,
   expertReviewFindingSchema,
   learningBlueprintSchema,
+  questionFamilySchema,
   sourceLicenceRegisterSchema,
   type ContentFactoryJob,
 } from './schema'
@@ -105,11 +106,12 @@ export const qualifiedExpertReviewSubmissionSchema = z.object({
 
   const openFindings = submission.findings.filter((finding) => finding.disposition === 'open')
   const blocking = openFindings.filter((finding) => finding.severity === 'blocking')
+  const material = openFindings.filter((finding) => finding.severity === 'material')
   if (submission.decision === 'pass' && openFindings.length > 0) {
     context.addIssue({ code: 'custom', path: ['decision'], message: 'A passed expert review cannot retain open findings' })
   }
-  if (submission.decision === 'conditional_pass' && openFindings.length === 0) {
-    context.addIssue({ code: 'custom', path: ['decision'], message: 'A conditional expert review requires at least one open finding' })
+  if (submission.decision === 'conditional_pass' && material.length === 0) {
+    context.addIssue({ code: 'custom', path: ['decision'], message: 'A conditional expert review requires at least one open material finding' })
   }
   if (submission.decision === 'fail' && blocking.length === 0) {
     context.addIssue({ code: 'custom', path: ['decision'], message: 'A failed expert review requires at least one open blocking finding' })
@@ -182,7 +184,7 @@ async function readPackageArtifacts(job: ContentFactoryJob, store: ExpertReviewA
 
   for (const ref of manifest.learningArtifactRefs) artifacts.push({ kind: 'learning', ref, value: learningPracticeArtifactSchema.parse(await store.readJson(ref)) })
   for (const ref of manifest.practiceArtifactRefs) artifacts.push({ kind: 'practice', ref, value: learningPracticeArtifactSchema.parse(await store.readJson(ref)) })
-  for (const ref of manifest.questionFamilyRefs) artifacts.push({ kind: 'question_family', ref, value: await store.readJson(ref) })
+  for (const ref of manifest.questionFamilyRefs) artifacts.push({ kind: 'question_family', ref, value: questionFamilySchema.parse(await store.readJson(ref)) })
   for (const ref of manifest.assessmentItemRefs) artifacts.push({ kind: 'assessment_item', ref, value: assessmentItemArtifactSchema.parse(await store.readJson(ref)) })
   for (const ref of manifest.markingPackRefs) artifacts.push({ kind: 'marking_pack', ref, value: executableMarkingPackSchema.parse(await store.readJson(ref)) })
 
