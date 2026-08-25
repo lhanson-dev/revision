@@ -194,7 +194,7 @@ async function auditRuntime(page: Page, label: string) {
 test('dark theme is coherent across the complete learner application and account surfaces', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Theme,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Theme,\s*what shall we do today\?/ })).toBeVisible()
   await auditRuntime(page, 'Home')
 
   await clickNavigation(page, 'Plan')
