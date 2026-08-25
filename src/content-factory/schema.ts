@@ -4,6 +4,8 @@ const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
 const commitShaSchema = z.string().regex(/^[0-9a-f]{40}$/)
 
+export const contentFactorySchemaVersionSchema = z.union([z.literal(1), z.literal(2)])
+
 export const contentFactoryActiveStateSchema = z.enum([
   'requested',
   'identified',
@@ -13,13 +15,15 @@ export const contentFactoryActiveStateSchema = z.enum([
   'validating',
   'independent_review',
   'remediation',
+  'expert_review_packaging',
+  'expert_review_ready',
+  'human_review',
+  'benchmark_approved',
   'ci_verification',
   'ready_for_founder_merge_approval',
   'merged',
   'deployment_verification',
   'pilot_live',
-  'human_review',
-  'benchmark_approved',
 ])
 
 export const contentFactoryStateSchema = z.union([
@@ -100,6 +104,72 @@ export const sourceRegisterSchema = z.object({
   })
 })
 
+export const sourceUseClassSchema = z.enum([
+  'OPEN',
+  'REVISION_OWNED',
+  'LICENSED',
+  'REFERENCE_ONLY',
+  'PROHIBITED',
+  'UNKNOWN',
+])
+
+export const sourceRightsStatusSchema = z.enum(['pending', 'approved', 'blocked'])
+
+export const sourceLicenceRecordSchema = z.object({
+  id: identifierSchema,
+  issuer: nonEmptyStringSchema,
+  urlOrReference: nonEmptyStringSchema,
+  sourceType: sourceTypeSchema,
+  educationalRole: z.array(nonEmptyStringSchema).min(1),
+  versionOrDate: nonEmptyStringSchema.optional(),
+  useClass: sourceUseClassSchema,
+  permissionBasis: nonEmptyStringSchema,
+  aiInputPermitted: z.boolean(),
+  derivedCommercialUsePermitted: z.boolean(),
+  attributionRequirements: z.array(nonEmptyStringSchema).default([]),
+  restrictions: z.array(nonEmptyStringSchema).default([]),
+  checkedAt: nonEmptyStringSchema,
+  checkerMethod: nonEmptyStringSchema,
+  sourceFingerprint: nonEmptyStringSchema,
+  revalidationConditions: z.array(nonEmptyStringSchema).default([]),
+}).superRefine((source, context) => {
+  if (['PROHIBITED', 'UNKNOWN'].includes(source.useClass) && (source.aiInputPermitted || source.derivedCommercialUsePermitted)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['useClass'],
+      message: `${source.useClass} sources cannot permit AI input or derived commercial use`,
+    })
+  }
+
+  if (source.useClass === 'REFERENCE_ONLY' && source.aiInputPermitted) {
+    context.addIssue({
+      code: 'custom',
+      path: ['aiInputPermitted'],
+      message: 'REFERENCE_ONLY source text cannot enter generative AI context',
+    })
+  }
+})
+
+export const sourceLicenceRegisterSchema = z.object({
+  schemaVersion: z.literal(2),
+  jobId: identifierSchema,
+  fingerprint: nonEmptyStringSchema,
+  checkedAt: nonEmptyStringSchema,
+  sources: z.array(sourceLicenceRecordSchema).min(1),
+}).superRefine((register, context) => {
+  const ids = new Set<string>()
+  register.sources.forEach((source, index) => {
+    if (ids.has(source.id)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['sources', index, 'id'],
+        message: `Duplicate source licence id: ${source.id}`,
+      })
+    }
+    ids.add(source.id)
+  })
+})
+
 export const coverageStatusSchema = z.enum([
   'planned',
   'partial',
@@ -150,6 +220,193 @@ export const coverageMapSchema = z.object({
   })
 })
 
+export const boardAlignmentSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  fingerprint: nonEmptyStringSchema,
+  courseIdentity: courseIdentitySchema,
+  cohortValidity: cohortValiditySchema,
+  components: z.array(courseComponentSchema).min(1),
+  assessmentObjectives: z.array(z.object({
+    id: identifierSchema,
+    name: nonEmptyStringSchema,
+    weightingPercent: z.number().nonnegative().max(100).optional(),
+    sourceRefs: z.array(identifierSchema).min(1),
+  })).default([]),
+  assessmentRequirements: z.array(z.object({
+    id: identifierSchema,
+    summary: nonEmptyStringSchema,
+    componentScope: z.array(identifierSchema).default([]),
+    sourceRefs: z.array(identifierSchema).min(1),
+  })).default([]),
+  sourceRefs: z.array(identifierSchema).min(1),
+  verificationStatus: z.enum(['pending', 'verified', 'blocked']),
+})
+
+export const courseKnowledgeNodeSchema = z.object({
+  id: identifierSchema,
+  kind: z.enum(['concept', 'skill', 'formula']),
+  summary: nonEmptyStringSchema,
+  prerequisiteIds: z.array(identifierSchema).default([]),
+  relatedIds: z.array(identifierSchema).default([]),
+  formulas: z.array(nonEmptyStringSchema).default([]),
+  misconceptions: z.array(nonEmptyStringSchema).default([]),
+  applicationContexts: z.array(nonEmptyStringSchema).default([]),
+  depth: z.enum(['foundational', 'core', 'advanced']).default('core'),
+  sourceRefs: z.array(identifierSchema).min(1),
+  boardAlignmentRefs: z.array(identifierSchema).default([]),
+  evidenceTypes: z.array(nonEmptyStringSchema).min(1),
+})
+
+export const courseKnowledgeModelSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  fingerprint: nonEmptyStringSchema,
+  nodes: z.array(courseKnowledgeNodeSchema).min(1),
+}).superRefine((model, context) => {
+  const ids = new Set(model.nodes.map((node) => node.id))
+  model.nodes.forEach((node, index) => {
+    for (const ref of [...node.prerequisiteIds, ...node.relatedIds]) {
+      if (!ids.has(ref)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['nodes', index],
+          message: `Knowledge node ${node.id} references unknown node ${ref}`,
+        })
+      }
+    }
+  })
+})
+
+export const learningModeSchema = z.enum([
+  'explanation',
+  'worked_example',
+  'retrieval',
+  'flashcard',
+  'short_answer',
+  'application',
+  'quantitative',
+  'exam_practice',
+])
+
+export const learningBlueprintSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  knowledgeModelFingerprint: nonEmptyStringSchema,
+  workUnits: z.array(z.object({
+    id: identifierSchema,
+    title: nonEmptyStringSchema,
+    knowledgeNodeIds: z.array(identifierSchema).min(1),
+    learningModes: z.array(learningModeSchema).min(1),
+    requiredOutputs: z.array(nonEmptyStringSchema).min(1),
+  })).min(1),
+})
+
+export const assessmentBlueprintSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  fingerprint: nonEmptyStringSchema,
+  boardAlignmentFingerprint: nonEmptyStringSchema,
+  assessmentObjectives: z.array(z.object({
+    id: identifierSchema,
+    weightingPercent: z.number().nonnegative().max(100).optional(),
+  })).default([]),
+  components: z.array(z.object({
+    componentId: identifierSchema,
+    questionFamilyIds: z.array(identifierSchema).default([]),
+    markTotal: z.number().int().positive().optional(),
+    timingMinutes: z.number().int().positive().optional(),
+    constraints: z.array(nonEmptyStringSchema).default([]),
+  })).min(1),
+  quantitativeRequirements: z.array(nonEmptyStringSchema).default([]),
+  synopticRequirements: z.array(nonEmptyStringSchema).default([]),
+})
+
+export const questionFamilySchema = z.object({
+  schemaVersion: z.literal(1),
+  id: identifierSchema,
+  title: nonEmptyStringSchema,
+  assessmentObjectiveIds: z.array(identifierSchema).default([]),
+  skillProfile: z.array(nonEmptyStringSchema).min(1),
+  componentScope: z.array(identifierSchema).default([]),
+  markRange: z.object({
+    min: z.number().int().nonnegative(),
+    max: z.number().int().positive(),
+  }).refine((range) => range.max >= range.min, 'Question-family mark range is invalid'),
+  responseShape: nonEmptyStringSchema,
+  contextRequirements: z.array(nonEmptyStringSchema).default([]),
+  applicationRequirements: z.array(nonEmptyStringSchema).default([]),
+  analysisRequirements: z.array(nonEmptyStringSchema).default([]),
+  evaluationRequirements: z.array(nonEmptyStringSchema).default([]),
+  commonFailureModes: z.array(nonEmptyStringSchema).default([]),
+  markingPackTemplateVersion: nonEmptyStringSchema,
+  calibrationStatus: z.enum(['not_calibrated', 'pilot', 'human_calibrated']).default('not_calibrated'),
+})
+
+export const markingPackSchema = z.object({
+  schemaVersion: z.literal(1),
+  id: identifierSchema,
+  questionId: identifierSchema,
+  questionVersion: nonEmptyStringSchema,
+  exactQuestionWording: nonEmptyStringSchema,
+  contextRef: nonEmptyStringSchema.optional(),
+  maxMark: z.number().int().positive(),
+  conceptIds: z.array(identifierSchema).default([]),
+  assessmentObjectiveAllocation: z.array(z.object({
+    objectiveId: identifierSchema,
+    marks: z.number().int().nonnegative().optional(),
+  })).default([]),
+  rubric: z.array(z.object({
+    id: identifierSchema,
+    descriptor: nonEmptyStringSchema,
+    minMark: z.number().int().nonnegative().optional(),
+    maxMark: z.number().int().nonnegative().optional(),
+  })).min(1),
+  applicationRequirements: z.array(nonEmptyStringSchema).default([]),
+  analysisRequirements: z.array(nonEmptyStringSchema).default([]),
+  evaluationRequirements: z.array(nonEmptyStringSchema).default([]),
+  validReasoningRoutes: z.array(nonEmptyStringSchema).default([]),
+  indicativeContent: z.array(nonEmptyStringSchema).default([]),
+  misconceptions: z.array(nonEmptyStringSchema).default([]),
+  anchors: z.array(z.object({
+    id: identifierSchema,
+    responseRef: nonEmptyStringSchema,
+    expectedMarkMin: z.number().int().nonnegative(),
+    expectedMarkMax: z.number().int().nonnegative(),
+    calibrationStatus: z.enum(['synthetic', 'expert_calibrated']),
+  })).default([]),
+  diagnosticFeedbackRules: z.array(nonEmptyStringSchema).default([]),
+  improvementActions: z.array(nonEmptyStringSchema).default([]),
+  ambiguityPolicy: nonEmptyStringSchema,
+  confidencePolicy: nonEmptyStringSchema,
+  questionFamilyId: identifierSchema,
+  assessmentBlueprintFingerprint: nonEmptyStringSchema,
+  sourceRefs: z.array(identifierSchema).default([]),
+  calibrationStatus: z.enum(['not_calibrated', 'pilot', 'human_calibrated']).default('not_calibrated'),
+})
+
+export const expertReviewFindingSchema = z.object({
+  id: identifierSchema,
+  severity: z.enum(['blocking', 'material', 'minor']),
+  type: nonEmptyStringSchema,
+  artifactRef: nonEmptyStringSchema,
+  workUnitId: identifierSchema.optional(),
+  finding: nonEmptyStringSchema,
+  requiredCorrection: nonEmptyStringSchema,
+  disposition: z.enum(['open', 'resolved', 'accepted']),
+})
+
+export const expertReviewContractSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  reviewedCommit: commitShaSchema,
+  packageRef: nonEmptyStringSchema,
+  artifactRefs: z.array(nonEmptyStringSchema).min(1),
+  knownLimitations: z.array(nonEmptyStringSchema),
+  decision: z.enum(['pending', 'pass', 'conditional_pass', 'fail']),
+  findings: z.array(expertReviewFindingSchema).default([]),
+})
+
 export const workUnitSchema = z.object({
   id: identifierSchema,
   title: nonEmptyStringSchema,
@@ -164,11 +421,20 @@ export const workerRunSchema = z.object({
   stage: z.enum([
     'identity',
     'source',
+    'source_rights',
+    'board_alignment',
     'coverage',
+    'knowledge_model',
+    'learning_blueprint',
     'generation',
+    'assessment_blueprint',
+    'question_family',
+    'marking_pack',
     'validation',
     'independent_review',
     'remediation',
+    'expert_review_packaging',
+    'expert_review_import',
     'ci',
     'deployment',
     'human_review',
@@ -200,9 +466,17 @@ export const independentReviewResultSchema = z.object({
 })
 
 export const remediationResultSchema = z.object({
+  trigger: z.enum(['independent_review', 'expert_review']).default('independent_review'),
   status: z.enum(['pending', 'complete']),
   ref: nonEmptyStringSchema.optional(),
   correctedHeadSha: commitShaSchema.optional(),
+})
+
+export const expertReviewPackageResultSchema = z.object({
+  status: z.enum(['pending', 'complete']),
+  packageRef: nonEmptyStringSchema.optional(),
+  contractRef: nonEmptyStringSchema.optional(),
+  reviewedCommit: commitShaSchema.optional(),
 })
 
 export const ciResultSchema = z.object({
@@ -225,6 +499,9 @@ export const deploymentResultSchema = z.object({
 export const humanReviewResultSchema = z.object({
   status: z.enum(['not_required', 'pending', 'pass', 'conditional_pass', 'fail']),
   ref: nonEmptyStringSchema.optional(),
+  reviewedCommit: commitShaSchema.optional(),
+  unresolvedBlocking: z.number().int().nonnegative().default(0),
+  unresolvedMaterial: z.number().int().nonnegative().default(0),
 })
 
 export const blockerSchema = z.object({
@@ -235,8 +512,13 @@ export const blockerSchema = z.object({
   resolvedAt: nonEmptyStringSchema.optional(),
 })
 
+export const markingPackCoverageSchema = z.object({
+  assessmentItemId: identifierSchema,
+  markingPackRef: nonEmptyStringSchema,
+})
+
 export const contentFactoryJobSchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: contentFactorySchemaVersionSchema,
   jobId: identifierSchema,
   officialUrls: z.array(z.string().url()).min(1),
   founderInstruction: nonEmptyStringSchema,
@@ -247,8 +529,20 @@ export const contentFactoryJobSchema = z.object({
   components: z.array(courseComponentSchema).default([]),
   unresolvedChoices: z.array(nonEmptyStringSchema).default([]),
   sourceRegisterRef: nonEmptyStringSchema.optional(),
+  sourceLicenceRegisterRef: nonEmptyStringSchema.optional(),
+  sourceRightsStatus: sourceRightsStatusSchema.default('pending'),
   sourceSetFingerprint: nonEmptyStringSchema.optional(),
   coverageMapRef: nonEmptyStringSchema.optional(),
+  coverageCompleteness: z.enum(['pending', 'complete', 'incomplete']).default('pending'),
+  boardAlignmentRef: nonEmptyStringSchema.optional(),
+  courseKnowledgeModelRef: nonEmptyStringSchema.optional(),
+  learningBlueprintRef: nonEmptyStringSchema.optional(),
+  assessmentBlueprintRef: nonEmptyStringSchema.optional(),
+  questionFamilyRefs: z.array(nonEmptyStringSchema).default([]),
+  markableAssessmentItemIds: z.array(identifierSchema).default([]),
+  markingPackCoverage: z.array(markingPackCoverageSchema).default([]),
+  artifactCompatibilityStatus: z.enum(['pending', 'pass', 'fail']).default('pending'),
+  knownLimitations: z.array(nonEmptyStringSchema).default([]),
   contentPackRefs: z.array(nonEmptyStringSchema).default([]),
   branch: nonEmptyStringSchema.optional(),
   pullRequest: z.number().int().positive().optional(),
@@ -257,6 +551,7 @@ export const contentFactoryJobSchema = z.object({
   validation: validationResultSchema.optional(),
   independentReview: independentReviewResultSchema.optional(),
   remediation: remediationResultSchema.optional(),
+  expertReviewPackage: expertReviewPackageResultSchema.optional(),
   ci: ciResultSchema.optional(),
   merge: mergeRecordSchema.optional(),
   deployment: deploymentResultSchema.optional(),
@@ -286,6 +581,18 @@ export const contentFactoryJobSchema = z.object({
     })
   })
 
+  const markingPackItemIds = new Set<string>()
+  job.markingPackCoverage.forEach((coverage, index) => {
+    if (markingPackItemIds.has(coverage.assessmentItemId)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['markingPackCoverage', index, 'assessmentItemId'],
+        message: `Duplicate Marking Pack coverage for ${coverage.assessmentItemId}`,
+      })
+    }
+    markingPackItemIds.add(coverage.assessmentItemId)
+  })
+
   if (job.state === 'blocked') {
     if (!job.blockedFromState) {
       context.addIssue({ code: 'custom', path: ['blockedFromState'], message: 'Blocked jobs must record the state they were blocked from' })
@@ -298,10 +605,19 @@ export const contentFactoryJobSchema = z.object({
   }
 })
 
+export type ContentFactorySchemaVersion = z.infer<typeof contentFactorySchemaVersionSchema>
 export type ContentFactoryActiveState = z.infer<typeof contentFactoryActiveStateSchema>
 export type ContentFactoryState = z.infer<typeof contentFactoryStateSchema>
 export type CourseIdentity = z.infer<typeof courseIdentitySchema>
 export type SourceRegister = z.infer<typeof sourceRegisterSchema>
+export type SourceLicenceRegister = z.infer<typeof sourceLicenceRegisterSchema>
+export type BoardAlignment = z.infer<typeof boardAlignmentSchema>
+export type CourseKnowledgeModel = z.infer<typeof courseKnowledgeModelSchema>
+export type LearningBlueprint = z.infer<typeof learningBlueprintSchema>
+export type AssessmentBlueprint = z.infer<typeof assessmentBlueprintSchema>
+export type QuestionFamily = z.infer<typeof questionFamilySchema>
+export type MarkingPack = z.infer<typeof markingPackSchema>
+export type ExpertReviewContract = z.infer<typeof expertReviewContractSchema>
 export type CoverageMap = z.infer<typeof coverageMapSchema>
 export type ContentFactoryJob = z.infer<typeof contentFactoryJobSchema>
 export type WorkUnit = z.infer<typeof workUnitSchema>
