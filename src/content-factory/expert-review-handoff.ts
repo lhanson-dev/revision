@@ -305,10 +305,17 @@ export async function importQualifiedExpertReview(input: {
   now: string
 }): Promise<{ job: ContentFactoryJob; submission: QualifiedExpertReviewSubmission; submissionRef: string }> {
   let job = requireImportJob(input.job)
-  const submission = qualifiedExpertReviewSubmissionSchema.parse(input.submission)
   const contract = expertReviewContractSchema.parse(await input.artifactStore.readJson(job.expertReviewPackage!.contractRef!))
   const pack = expertReviewPackageSchema.parse(await input.artifactStore.readJson(job.expertReviewPackage!.packageRef!))
+  const submissionTarget = z.object({
+    findings: z.array(z.object({ id: identifierSchema, artifactRef: nonEmptyStringSchema })).default([]),
+  }).passthrough().parse(input.submission)
+  const knownArtifactRefs = new Set(contract.artifactRefs)
+  for (const finding of submissionTarget.findings) {
+    if (!knownArtifactRefs.has(finding.artifactRef)) throw new Error(`Expert review finding ${finding.id} references artifact outside the exported package`)
+  }
 
+  const submission = qualifiedExpertReviewSubmissionSchema.parse(input.submission)
   if (submission.jobId !== job.jobId || contract.jobId !== job.jobId || pack.jobId !== job.jobId) throw new Error('Expert-review import job ID does not match the packaged course job')
   if (submission.packageRef !== job.expertReviewPackage!.packageRef || contract.packageRef !== submission.packageRef) throw new Error('Expert-review import package reference does not match the exported contract')
   if (submission.reviewedCommit !== job.expertReviewPackage!.reviewedCommit || contract.reviewedCommit !== submission.reviewedCommit || pack.reviewedCommit !== submission.reviewedCommit) {
@@ -317,9 +324,7 @@ export async function importQualifiedExpertReview(input: {
   if (!arraysEqual(submission.artifactRefs, contract.artifactRefs)) throw new Error('Expert-review import artifact references must exactly match the exported contract')
   if (!arraysEqual(submission.knownLimitations, contract.knownLimitations)) throw new Error('Expert-review import known limitations must exactly match the exported contract')
 
-  const knownArtifactRefs = new Set(contract.artifactRefs)
   for (const finding of submission.findings) {
-    if (!knownArtifactRefs.has(finding.artifactRef)) throw new Error(`Expert review finding ${finding.id} references artifact outside the exported package`)
     if (finding.workUnitId && !job.workUnits.some((unit) => unit.id === finding.workUnitId)) {
       throw new Error(`Expert review finding ${finding.id} references unknown work unit ${finding.workUnitId}`)
     }
