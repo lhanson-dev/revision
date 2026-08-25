@@ -449,7 +449,7 @@ describe('Content Factory assessment and Marking Pack factory', () => {
         itemCalls += 1
         throw new Error('assessment item should be reused')
       },
-      generateMarkingPack: async (_input) => {
+      generateMarkingPack: async () => {
         markingCalls += 1
         return success(`marking-pack-resume-${markingCalls}`, markingOutput)
       },
