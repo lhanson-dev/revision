@@ -54,6 +54,7 @@ Use this file to find the governing source before substantive work.
 - Product principles → `10-product-governance/Product Principles.md`
 - Product system model → `10-product-governance/Product System Model.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
+- Returning Student Home hierarchy / REV hero / Today's plan / direct first-task launch → `10-product-governance/Returning Student Home Experience.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
 - Subscription tiers / entitlement policy / purchaser-payer-supporter roles / FI-002 MVP boundary → `10-product-governance/Subscription Plans and Entitlements.md`
 - Pre-commercial learner plan state / default-Free / manual test assignment / temporary all-access rule → `10-product-governance/Pre-Commercial Subscription Foundation.md`
@@ -73,6 +74,7 @@ Use this file to find the governing source before substantive work.
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
+- Subject accent colour mapping / usage / accessibility → `20-brand-and-experience/Subject Accent Colour System.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
 - Other brand/visual authority → `20-brand-and-experience/`
 
@@ -131,7 +133,7 @@ Use this file to find the governing source before substantive work.
 - Pre-B7 interface theme integrity checkpoint → `docs/technical/Interface Theme Integrity Pre-B7.md`
 - B7 learner-shell recurring icon consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
 - B7 shared overlay/focus consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
-- B7 canonical identity and recurring glyph consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
+- B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - B7 final compatibility retirement / visual acceptance → `docs/technical/Interface System B7 Final Acceptance.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
