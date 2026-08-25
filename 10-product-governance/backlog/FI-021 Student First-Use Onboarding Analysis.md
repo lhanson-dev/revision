@@ -3,12 +3,13 @@
 **Document type:** product-management working record  
 **Authority:** non-authoritative Definition-of-Ready analysis  
 **Feature:** FI-021  
-**Lifecycle state:** In Progress  
+**Lifecycle state:** Live  
 **Analysis started:** 2026-08-23  
 **Readiness refreshed:** 2026-08-24 against approved `main` `c8b746f09c477846b1627a80ba6565d58d6e87df`  
 **Ready approved:** 2026-08-24  
+**Live confirmed:** 2026-08-25  
 **Owner:** Product / Founder  
-**Implementation status:** In progress — governed production implementation began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163 (`feature/fi-021-student-first-use`).
+**Implementation status:** Live — PR #163 merged to approved `main` as `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`; post-merge CI and governed production path-to-live completed successfully.
 
 ## Lifecycle evidence
 
@@ -25,6 +26,8 @@ The refreshed FI-021 analysis then closed all remaining product blockers and pre
 That records the governed `Analyse → Ready` transition. It permits FI-021 to proceed to governed development on the approved scope once implementation begins from approved `main`. It is not merge approval for PR #155 and does not itself move FI-021 to `In Progress`.
 
 After FI-006's production foundation was merged and completed path-to-live on PR #161, the Founder instructed the agent to continue the original GJ-01 implementation task. Governed FI-021 production implementation then began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163. That is the governed `Ready → In Progress` transition. It does not alter the historical Ready approval and is not merge approval for PR #163.
+
+On 25 August 2026 the Founder explicitly approved merge of PR #163 with `Approve merge PR #163`. Exact PR head `d8971ed83d49e96106c1eed70eb0e8de97908f8d` had passed Revision CI #966 and the exact-head Founder Approval Gate. PR #163 then merged to `main` as `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`. Post-merge Revision CI #967 completed successfully, and governed deployment run `32815982121` / Pages run #123 passed release lineage, production backend readiness, build, GitHub Pages deployment, production smoke and durable `revision/path-to-live = success`. That production evidence establishes the governed `In Progress → Live` transition.
 
 ## Governing context
 
@@ -377,7 +380,7 @@ The readiness work performed the normative/product-management work required befo
 - this analysis record captures the complete FI-021 Definition of Ready against the then-current `main`; and
 - `10-product-governance/backlog/Product Feature Backlog.md` registered FI-021 and its Ready lifecycle state.
 
-PR #163 now performs production implementation. It must keep this working record and the feature backlog aligned to `In Progress`, add technical implementation documentation, and update assurance/register evidence only when repeatable tests prove the relevant coverage. Historical research/audits remain historical and are not rewritten as implementation truth.
+PR #163 subsequently implemented and released the approved scope. This closeout records `Live` in this working record and the canonical feature backlog, and records repeatable GJ-01 / first-use data-control evidence in `90-governance-registers/Assurance Coverage Register.md`. Historical research/audits remain historical and are not rewritten as implementation truth.
 
 ## Blocking decisions resolved — PASS
 
@@ -427,8 +430,8 @@ FI-021 was **Ready**. The governed next step was implementation from then-curren
 
 ## Current implementation status
 
-FI-021 is now **In Progress** on PR #163 (`feature/fi-021-student-first-use`), started from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04`. This records lifecycle truth only; it is not a claim that the feature is merge-ready, deployed or Live.
+FI-021 is **Live** on the canonical production runtime. PR #163 exact head `d8971ed83d49e96106c1eed70eb0e8de97908f8d` passed Revision CI #966 and the Founder Approval Gate; the PR merged to `main` as `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`; post-merge Revision CI #967 succeeded; and governed deployment run `32815982121` / Pages run #123 completed release lineage, production backend readiness, build, deployment, production smoke and durable `revision/path-to-live = success`.
 
 ## Documentation-impact check
 
-The FI-021 product definition and historical Founder Ready decision remain unchanged. PR #163 records the current `In Progress` lifecycle, carries the production implementation and adds `docs/technical/Student First-Use Onboarding Implementation.md`. Normative GJ-01 authority is unchanged because the implementation follows the already-approved journey. Historical design/research evidence remains unchanged.
+The FI-021 product definition and historical Founder Ready decision remain unchanged. The production implementation follows the already-approved GJ-01, so no normative journey/authentication/UX authority change is required. This closeout aligns the product-management lifecycle and current assurance register with confirmed production evidence. `docs/technical/Student First-Use Onboarding Implementation.md` remains the current implementation record; historical design/research evidence remains unchanged.

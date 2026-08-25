@@ -1008,13 +1008,14 @@ FI-020 remains **In Progress** until PR #130 receives its own explicit Founder m
 
 ## FI-021 — Student First-Use Onboarding / GJ-01
 
-**Status:** In Progress  
+**Status:** Live  
 **Captured:** 2026-08-23  
 **Capability fit:** Understand; Guide; Learn; Practise and Test  
 **Approved direction:** Founder-reviewed GJ-01 takes a newly registered Student from primary-experience selection through one exact saved course, a cautious starting signal, a useful first activity and feedback before meaningful Student Home. PR #155 promotes this sequence into `10-product-governance/Core User Journeys.md`.  
 **Analysis record:** `10-product-governance/backlog/FI-021 Student First-Use Onboarding Analysis.md`  
-**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria passed with no blocking decisions. On 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-021 Ready`. Governed implementation then began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163, establishing `Ready → In Progress` while preserving the prior Ready approval.  
-**Current assessment:** **In Progress** on PR #163. The approved GJ-01 implementation is present on the governed branch and remains In Progress until exact-head assurance, Founder merge approval, merge to current approved `main`, production backend readiness, deployment, smoke and durable path-to-live evidence establish Live status.
+**Implementation evidence:** PR #163; `docs/technical/Student First-Use Onboarding Implementation.md`; exact merged production revision `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`; governed deployment run `32815982121` / Pages run #123.  
+**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria passed with no blocking decisions. On 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-021 Ready`. Governed implementation then began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163, establishing `Ready → In Progress` while preserving the prior Ready approval. On 2026-08-25 the Founder explicitly approved merge of PR #163. Exact PR head `d8971ed83d49e96106c1eed70eb0e8de97908f8d` passed Revision CI #966 and the Founder Approval Gate, PR #163 merged to `main` as `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`, post-merge Revision CI #967 succeeded, and governed deployment run `32815982121` passed release lineage, production backend readiness, build, GitHub Pages deployment, production smoke and durable `revision/path-to-live = success`, establishing `In Progress → Live`.  
+**Current assessment:** **Live** on the canonical production runtime. Eligible new Students are routed through the approved GJ-01 first-use path before normal Home, while established accounts retain the compatibility bypass. The journey remains foundational across Free, Paid and Premium; Parent/Teacher onboarding, subscription conversion and the full REV Tutor remain deliberately outside FI-021.
 
 ### Ready-scope summary
 
@@ -1027,9 +1028,9 @@ FI-020 remains **In Progress** until PR #130 receives its own explicit Founder m
 - foundational behaviour across Free, Paid and Premium with no onboarding paywall or conversion mechanism; and
 - bounded journey telemetry, Founder assurance, responsive/accessibility requirements and cross-layer test expectations.
 
-### Implementation boundary
+### Production state
 
-FI-021 is **In Progress** on PR #163. The implementation must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries, remain foundational across Free/Paid/Premium, and must not move to `Live` until the governed merge and production path-to-live evidence are complete.
+FI-021 is **Live** on the canonical production runtime. Exact-head CI, the Founder approval gate, post-merge CI, production backend readiness, Pages deployment, production smoke and durable path-to-live all succeeded for the merged revision `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`. Future material behaviour changes must follow the governed feature/change workflow and preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries unless those authorities are deliberately changed.
 
 ---
 

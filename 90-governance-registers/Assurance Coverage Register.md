@@ -13,7 +13,7 @@
 - CI/deployment results are dynamic operational evidence and must be read from their current source.
 - Update this register when a material journey/control, required assurance layer or evidence owner changes.
 
-## Current baseline — 2026-08-24
+## Current baseline — 2026-08-25
 
 | ID | Critical journey/control | Risk | Required assurance | Current evidence source | Status | Gap / next step |
 |---|---|---:|---|---|---|---|
@@ -34,12 +34,14 @@
 | JRN-05 | Exam Prep / timed exam start | High | Responsive browser | `tests/e2e/app-responsive.spec.ts` | Covered for navigation/start | Full exam save/result lifecycle remains |
 | JRN-06 | Progress review from persisted learner evidence | High | Browser + persistence | DB browser journey; progress/evidence tests | Covered | Retain reconstruction after course changes |
 | JRN-07 | Adaptive planner setup, prioritisation, capacity and replanning context | High | Unit + browser + persistence | planner tests; Supabase integration; RLS CI | Covered | Retain deterministic reload/replan evidence |
+| JRN-08 | GJ-01 new-Student first use reaches one exact saved course, cautious starting signal, exact useful revision, feedback and meaningful Home; skip/recovery and established-account bypass remain safe | High | Responsive browser + persistence + release lineage | `tests/e2e/student-first-use.spec.ts`; `tests/e2e/database-persistence.spec.ts`; Revision CI; governed Pages release | Covered at browser/persistence layer | A real production signup transaction remains outside automated smoke; retain exact deployed-revision lineage |
 | DATA-01 | Learner learning evidence cannot cross user boundaries | Critical | Database/RLS | `database-assurance.test.sql` | Covered | Retain owner/cross-user assertions |
 | DATA-02 | Learner evidence persists and reloads safely | Critical | Integration + browser | Supabase persistence + DB browser journey | Covered | Retain service/browser round trips |
 | DATA-03 | Admin/test accounts are excluded from learner metrics | High | SQL/integration | Admin metrics logic/verification | Partial | Add broader executable aggregate values where needed |
 | DATA-04 | Planner state is learner-owned and planning context does not become mastery evidence | Critical | Database/RLS + domain | pgTAP; Supabase persistence; planner tests | Covered | Retain context/evidence separation |
 | DATA-05 | Learner course membership/events remain learner-owned programme context and preserve evidence | Critical | Database/RLS + integration + browser | pgTAP; persistence; DB browser; composite PK | Covered | Retain duplicate/cross-user/remove/re-add cases |
 | DATA-06 | Learner plan state defaults safely, remains learner-owned read-only account context and does not become educational evidence | Critical | Database/RLS + domain | `learner-plan-assurance.test.sql`; learner plan resolver tests; production `plan-state-v1` verification | Covered | Before differentiated entitlements, revisit failure/security semantics through FI-002 |
+| DATA-07 | First-use account routing state and funnel events remain owner-scoped, bounded and separate from educational evidence/raw answers | Critical | Database/RLS + persistence | `student-first-use-assurance.test.sql`; database-backed browser persistence; onboarding service tests | Covered | Retain cross-user denial, browser event insert-only and evidence-separation assertions |
 | SEC-01 | Privileged Admin aggregates are not executable by browser roles | Critical | SQL/integration | database assurance | Covered | Retain service-role-only aggregate execution |
 | SEC-02 | Admin operations re-authorise server-side before service-role use | Critical | Integration | `edge-operations.test.ts` | Covered | Retain 401/403/Admin-success boundary |
 | SEC-03 | Privileged credentials stay server-side and public readiness remains least privilege | Critical | Static/config + database | secret scan; SECURITY INVOKER assertions | Covered | Pre-existing leaked-password Auth warning remains separate |
@@ -49,6 +51,14 @@
 | A11Y-01 | Critical learner journeys meet automated accessibility baseline | High | Automated accessibility | axe Playwright suite across phone/tablet/desktop | Covered | Manual/AT review still applies where warranted |
 | DEF-01 | Open P0/P1/P2 defects are durably tracked and surfaced | High | Defect register + Admin integration | `Defect Register.md`; parser/unit; Founder Assurance | Covered | Zero means zero known recorded defects only |
 
+## FI-021 assurance interpretation
+
+PR #163 added Level-3 assurance for the full GJ-01 first-use boundary: Student selection, Parent/Teacher unavailable semantics, canonical first-course persistence, starting-check completion and skip fallback, exact recommendation-to-work routing, ordinary learning-evidence creation, feedback/Home transition, bounded telemetry, responsive Light/Dark behaviour, post-migration account distinction and owner-scoped RLS for first-use state/events.
+
+Exact PR head `d8971ed83d49e96106c1eed70eb0e8de97908f8d` passed Revision CI #966 before Founder approval and merge. PR #163 then merged to `main` as `8ccf0e14c8d88954d6f942a3d2b085971fe21af0`; post-merge Revision CI #967 also completed successfully. Governed deployment run `32815982121` / Pages run #123 passed release lineage, production backend readiness, build, deployment, production smoke and durable `revision/path-to-live = success`.
+
+This supports FI-021 `In Progress → Live` and the JRN-08 / DATA-07 coverage declarations above. It does not upgrade AUTH-01: the automated production smoke proves the canonical deployed revision and release lineage, not a real external email/Google signup transaction.
+
 ## FI-022 assurance interpretation
 
 PR #159 adds a Level-3 assurance boundary for learner plan state. Revision CI #938 passed after migration replay, dedicated plan-state pgTAP tests, protected Edge authorization integration, typecheck/lint/unit/build and browser regression.
@@ -57,7 +67,7 @@ Production backend enablement on 24 August 2026 then established `plan-state-v1`
 
 Security Advisor introduced no warning-level FI-022 vulnerability. Its informational no-policy notice on `learner_plan_assignment_events` reflects intentional deny-all browser access. Performance Advisor's FI-022 foreign-key-index notices are informational at current scale and do not weaken correctness or authorization assurance.
 
-FI-022 remains **In Progress** until PR #159 receives Founder merge approval, merges through current `main`, and the resulting revision passes the governed production release chain. Assurance coverage of the backend control does not by itself change the feature lifecycle to Live.
+FI-022 is **Live**. PR #159 merged as `df7d9b520fec60d4b804c49dfc2c441498f37b99`, and production workflow run `32755286006` passed governed release lineage, `plan-state-v1` backend readiness, build, GitHub Pages deployment, production smoke and durable `revision/path-to-live = success`. Assurance coverage remains current evidence for that live foundation; differentiated entitlement behaviour remains FI-002 scope.
 
 ## Existing qualified gaps
 
