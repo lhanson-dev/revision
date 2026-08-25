@@ -160,6 +160,7 @@ test('central brand roles drive the governed light and dark learner themes', asy
 test('REV motion uses governed timings, genuine listening state and reduced-motion fallback', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
+  await expect(page.locator('.planner-runtime')).toBeVisible()
 
   expect(await readMotionSnapshot(page, 'resting')).toMatchObject({
     haloDuration: '7s',

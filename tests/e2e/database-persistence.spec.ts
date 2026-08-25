@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
 import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js'
+import {
+  completeStudentFirstUse,
+  establishStudentExperience,
+} from '../../src/services/onboarding/student-first-use-service'
 
 const integrationEnabled = process.env.REVISION_BROWSER_DB_INTEGRATION === '1'
 const supabaseUrl = process.env.SUPABASE_URL ?? 'http://127.0.0.1:54321'
@@ -34,6 +38,13 @@ test.describe('database-backed learner persistence', () => {
     })
     const { error: signInError } = await learner.auth.signInWithPassword({ email, password })
     if (signInError) throw new Error(`Could not authenticate browser integration learner: ${signInError.message}`)
+
+    // This scenario validates ordinary FI-020 course/evidence persistence rather
+    // than GJ-01. Establish and complete its synthetic Student through the same
+    // owner-scoped service path as the product instead of bypassing the initial
+    // state policy with a privileged or one-step fixture write.
+    await establishStudentExperience(learner, user.id)
+    await completeStudentFirstUse(learner, user.id)
   })
 
   test.afterAll(async () => {
@@ -49,7 +60,7 @@ test.describe('database-backed learner persistence', () => {
     await expect(page.getByRole('heading', { name: /Hey .*what shall we do today\?/ })).toBeVisible()
 
     // This user is created after the FI-020 migration, so it must not inherit the
-    // bounded existing-user compatibility seed.
+    // bounded existing-user course compatibility seed.
     await page.goto(`${appPath}#/courses`)
     await expect(page.getByRole('heading', { name: 'Courses' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Add your first course' })).toBeVisible()

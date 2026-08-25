@@ -23,6 +23,7 @@ Use this file to find the governing source before substantive work.
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
+- Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
@@ -118,6 +119,7 @@ Use this file to find the governing source before substantive work.
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
 - Release-lineage recovery checkpoints → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
+- Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
 - REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
 - Interface system implementation / UI primitive migration → `docs/technical/Interface System Implementation.md`
