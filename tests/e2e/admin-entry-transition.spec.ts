@@ -94,7 +94,7 @@ async function seedAdminSession(page: Page) {
 test('Admin entry never mounts the legacy blue REV Home hero', async ({ page }) => {
   await seedAdminSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Admin,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Admin,\s*what shall we do today\?/ })).toBeVisible()
 
   await page.evaluate(() => {
     document.documentElement.dataset.legacyRevHeroObserved = 'false'
