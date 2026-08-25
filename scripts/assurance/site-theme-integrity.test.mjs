@@ -5,6 +5,7 @@ const mainEntry = readFileSync(new URL('../../src/main.tsx', import.meta.url), '
 const guidance = readFileSync(new URL('../../src/app/guidance.css', import.meta.url), 'utf8')
 const authEntry = readFileSync(new URL('../../src/app/auth-entry.css', import.meta.url), 'utf8')
 const interfaceLearnPractice = readFileSync(new URL('../../src/app/interface-learn-practice.css', import.meta.url), 'utf8')
+const subjectAccents = readFileSync(new URL('../../src/app/subject-accents.css', import.meta.url), 'utf8')
 const retiredThemeBridge = new URL('../../src/app/interface-theme-integrity.css', import.meta.url)
 
 const semanticLayers = [
@@ -22,11 +23,12 @@ const semanticLayers = [
   'courses.css',
   'ask-rev-cta.css',
   'rev-resting-presence.css',
+  'subject-accents.css',
 ]
 
 /* These are retained feature/composition sources, not a final catch-all theme bridge.
  * Their live consumers and retirement decisions are recorded in the B7 final
- * acceptance technical record. */
+ * acceptance technical record or a later specific implementation record. */
 const retainedFeatureSources = new Set([
   'app.css',
   'exam.css',
@@ -46,6 +48,7 @@ const retainedFeatureSources = new Set([
   'profile-edit.css',
   'mobile-navigation.css',
   'contextual-navigation.css',
+  'returning-home.css',
 ])
 
 describe('site-wide theme integrity governance', () => {
@@ -61,6 +64,15 @@ describe('site-wide theme integrity governance', () => {
     expect(guidance).toContain('var(--color-action)')
     expect(authEntry).toContain('var(--color-action)')
     expect(authEntry).toContain('var(--field-height-standard)')
+  })
+
+  it('keeps governed subject accents semantic rather than page-specific colour literals', () => {
+    expect(subjectAccents).not.toMatch(/#[0-9a-f]{3,8}\b/i)
+    expect(subjectAccents).not.toMatch(/\brgba?\s*\(/i)
+    expect(subjectAccents).toContain('[data-subject-accent="business"]')
+    expect(subjectAccents).toContain('var(--brand-sage)')
+    expect(subjectAccents).toContain('[data-subject-accent="economics"]')
+    expect(subjectAccents).toContain('var(--brand-stone-blue)')
   })
 
   it('keeps the rendered Practice REV recommendation in its owning semantic feature layer', () => {
