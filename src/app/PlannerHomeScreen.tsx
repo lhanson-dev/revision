@@ -41,7 +41,6 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
 
   useEffect(() => {
     let active = true
-    setLoading(true)
     const adapters = adaptersForProgramme(programme)
     const evidenceStore = createSupabaseEvidenceStore(client)
     Promise.all([
@@ -120,6 +119,12 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
 
   function completeFocusedTask() {
     setActiveTask(null)
+    setLoading(true)
+    setRefreshKey((value) => value + 1)
+  }
+
+  function retryHome() {
+    setLoading(true)
     setRefreshKey((value) => value + 1)
   }
 
@@ -187,7 +192,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
           <div className="returning-home-empty">
             <h3>Revision could not refresh today’s evidence.</h3>
             <p>{error}</p>
-            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={() => setRefreshKey((value) => value + 1)}>Try again</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
+            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={retryHome}>Try again</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
           </div>
         )}
 
