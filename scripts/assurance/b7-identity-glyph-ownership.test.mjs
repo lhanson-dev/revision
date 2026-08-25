@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 const accountModal = readFileSync(new URL('../../src/app/AccountModal.tsx', import.meta.url), 'utf8')
 const plannerHome = readFileSync(new URL('../../src/app/PlannerHomeScreen.tsx', import.meta.url), 'utf8')
+const compactRev = readFileSync(new URL('../../src/app/RevCompactWordmark.tsx', import.meta.url), 'utf8')
 const examSimulator = readFileSync(new URL('../../src/app/ExamSimulator.tsx', import.meta.url), 'utf8')
 const iconRegistry = readFileSync(new URL('../../src/app/ui/Icon.tsx', import.meta.url), 'utf8')
 
@@ -14,18 +15,23 @@ describe('B7 identity and recurring glyph ownership', () => {
     expect(accountModal).toContain('<Icon name="settings" className="runtime-account-modal-icon" />')
   })
 
-  it('uses canonical REV presence and controlled Home action glyphs', () => {
+  it('uses canonical REV presence, compact REV identity and controlled Home action glyphs', () => {
     expect(plannerHome).not.toContain('>↑<')
     expect(plannerHome).not.toContain('✦')
     expect(plannerHome).not.toContain('↗')
     expect(plannerHome).not.toContain('>→<')
     expect(plannerHome).not.toContain('>›<')
     expect(plannerHome).toContain("<RevPresence state={loading ? 'thinking' : revState} size=\"hero\" />")
+    expect(plannerHome).toContain('<PoweredByRev />')
     expect(plannerHome).not.toContain('<RevPresence size="compact"')
     expect(plannerHome).not.toContain('<RevPresence size="nav"')
     expect(plannerHome).toContain('<Icon name="arrow-up" size="compact" />')
     expect(plannerHome).toContain('<Icon name="arrow-right" size="inline" />')
     expect(plannerHome).toContain('<Icon name="chevron-right" size="compact" />')
+
+    expect(compactRev).toContain('export function RevCompactWordmark')
+    expect(compactRev).toContain('rev-compact-wordmark-e')
+    expect(compactRev).not.toContain('<svg')
   })
 
   it('uses the controlled play glyph for exam resume', () => {

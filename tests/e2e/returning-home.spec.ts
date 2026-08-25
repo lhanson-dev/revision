@@ -85,6 +85,31 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
+async function expectApprovedHeroFidelity(page: Page) {
+  await expect(page.getByText('Powered by', { exact: true })).toBeVisible()
+  await expect(page.getByRole('img', { name: 'REV' }).filter({ has: page.locator('.rev-compact-wordmark-e') })).toHaveCount(1)
+
+  const hero = page.locator('.returning-home-hero')
+  const prompt = page.locator('.returning-home-hero > .living-home-prompt')
+  const presence = page.locator('.returning-home-hero .rev-presence-hero')
+  const [heroBox, promptBox, presenceBox] = await Promise.all([hero.boundingBox(), prompt.boundingBox(), presence.boundingBox()])
+  expect(heroBox).not.toBeNull()
+  expect(promptBox).not.toBeNull()
+  expect(presenceBox).not.toBeNull()
+  if (!heroBox || !promptBox || !presenceBox) return
+
+  expect(promptBox.x - heroBox.x).toBeLessThanOrEqual(50)
+  expect((heroBox.x + heroBox.width) - (promptBox.x + promptBox.width)).toBeLessThanOrEqual(50)
+
+  const viewportWidth = page.viewportSize()?.width ?? 1200
+  const minimumRevSize = viewportWidth <= 620 ? 170 : viewportWidth <= 960 ? 242 : viewportWidth <= 1160 ? 255 : 320
+  expect(presenceBox.width).toBeGreaterThanOrEqual(minimumRevSize)
+
+  const haloBackground = await page.locator('.returning-home-hero .rev-presence-hero .rev-halo').evaluate((element) => getComputedStyle(element).backgroundImage)
+  expect(haloBackground).toContain('rgba(255, 255, 255, 0.38)')
+  expect(haloBackground).toContain('rgba(230, 251, 244, 0.88)')
+}
+
 test('Returning Home keeps REV first and gives a useful fallback without planner setup', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
@@ -92,6 +117,7 @@ test('Returning Home keeps REV first and gives a useful fallback without planner
   await expect(page.getByRole('heading', { name: 'Hi Synthetic, what shall we do today?' })).toBeVisible()
   await expect(page.getByLabel('Ask REV anything')).toBeVisible()
   await expect(page.locator('.returning-home-hero .rev-presence-hero')).toHaveCount(1)
+  await expectApprovedHeroFidelity(page)
   await expect(page.getByRole('heading', { name: 'Today’s revision plan' })).toBeVisible()
   await expect(page.getByText('Start here', { exact: true })).toBeVisible()
   await expect(page.locator('.returning-home-start-card')).toHaveAttribute('data-subject-accent', 'business')

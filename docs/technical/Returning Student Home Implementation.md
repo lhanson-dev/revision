@@ -1,6 +1,6 @@
 # Returning Student Home Implementation
 
-**Status:** implementation description for PR #167  
+**Status:** current implementation description; fidelity correction in review  
 **Updated:** 2026-08-25
 
 ## Purpose
@@ -12,6 +12,7 @@ For Home composition and Home-specific runtime behaviour, this document supersed
 Normative product/experience authority remains:
 
 - `10-product-governance/Returning Student Home Experience.md`;
+- `20-brand-and-experience/Identity Asset Usage Rules.md`;
 - `20-brand-and-experience/Subject Accent Colour System.md`;
 - `10-product-governance/Adaptive Revision Planning.md`; and
 - `20-brand-and-experience/Product UX Principles.md`.
@@ -30,15 +31,18 @@ The older Home/REV compatibility rendering inside `src/app/App.tsx` is not the c
 
 ## Home hierarchy
 
-`PlannerHomeScreen` now renders one coherent hierarchy:
+`PlannerHomeScreen` renders one coherent hierarchy:
 
 1. large Deep Teal REV hero;
-2. enlarged Living E with the Home-only soft/fuzzy halo treatment;
-3. personalised `Hi {first name}, what shall we do today?` greeting;
-4. `Ask REV anything…` input;
-5. `Today’s revision plan`;
-6. one promoted **Start here** task; and
-7. remaining useful activities, visually subordinate to the first task.
+2. enlarged Living E with a clearly visible white/aqua atmospheric halo;
+3. governed compact `Powered by REV` treatment;
+4. personalised `Hi {first name}, what shall we do today?` greeting;
+5. full-width `Ask REV anything…` input across the bottom of the hero;
+6. `Today’s revision plan`;
+7. one promoted **Start here** task; and
+8. remaining useful activities, visually subordinate to the first task.
+
+The Living E and greeting occupy the hero's upper graphic/copy row. The Ask REV form is deliberately outside that two-column row so it spans the hero's full usable inner width on desktop, tablet and phone, matching the Founder-approved composition.
 
 Home currently ends after the revision plan. It does not render the previous standalone `REV recommends` card, separate `Why this?` action, quick-prompt buttons or speculative lower dashboard modules.
 
@@ -48,18 +52,26 @@ The persistent learner-shell Ask REV action remains independently available on d
 
 The canonical `RevPresence` component and three-bar Living E geometry remain unchanged.
 
-`src/app/returning-home.css` applies a Home-only feature treatment:
+`src/app/returning-home.css` continues to own the base locked Home composition. `src/app/returning-home-fidelity.css` is loaded immediately after it and contains the Founder-directed fidelity corrections made after the first production release exposed visual drift from the approved prototype.
 
-- larger hero scale;
-- Deep Teal feature surface;
-- softer radial halo whose visible falloff begins farther from the bars;
-- restrained white/aqua centre;
-- wider blurred outer glow; and
-- the existing semantic Resting / Listening / Thinking / Responding / Completed motion states.
+The Home-specific treatment now provides:
 
-The treatment is scoped to `.returning-home-hero .rev-presence-hero`, so nav, conversation and other REV usages retain their existing geometry and halo treatment. Reduced-motion behaviour remains owned by the existing Living E accessibility/motion rules.
+- a larger feature-scale Living E than the first production implementation;
+- a Deep Teal feature surface;
+- a clearly luminous near-white/aqua halo centre around the three bars;
+- soft aqua-to-teal falloff with wider blurred outer bloom rather than a teal-only haze;
+- the existing semantic Resting / Listening / Thinking / Responding / Completed motion states; and
+- responsive scaling that keeps REV visually prominent on phone and tablet.
 
-No `Powered by REV` lock-up is rendered because there is currently no approved canonical standalone REV wordmark asset. The implementation does not reconstruct one from memory.
+The halo treatment remains scoped to `.returning-home-hero .rev-presence-hero`, so nav, conversation and other REV usages retain their existing geometry and halo treatment. Reduced-motion behaviour remains owned by the existing Living E accessibility/motion rules, with the Home-specific glow remaining visible when animation is disabled.
+
+## Powered by REV identity treatment
+
+The Returning Student Home now renders the Founder-approved `Powered by REV` treatment above the greeting.
+
+`src/app/RevCompactWordmark.tsx` is the canonical product implementation of the compact REV wordmark defined by `Identity Asset Usage Rules.md`. It uses Manrope ExtraBold `R` and `V` with the governed three-bar E grammar and is composed inside a restrained translucent attribution pill.
+
+This treatment is deliberately scoped to the Home REV feature moment. It does not replace the full canonical `REVISION` wordmark in shell brand ownership locations.
 
 ## Deterministic Home task selection
 
@@ -125,19 +137,25 @@ The hierarchy is invariant across breakpoints:
 
 `REV hero → Today’s revision plan → Start here → remaining activities`
 
-Desktop uses the approved asymmetric two-column plan composition. Tablet reduces the REV graphic column while retaining the hero. Phone stacks the revision plan and keeps REV visually meaningful rather than reducing it to a generic icon.
+Within the REV hero the implementation preserves:
+
+`large Living E + Powered by REV/greeting → full-width Ask REV field`
+
+Desktop uses the approved asymmetric two-column upper hero composition and asymmetric two-column plan composition. Tablet reduces the REV graphic column while retaining the larger feature treatment. Phone keeps the Living E visually meaningful and the Ask REV field remains a full-width row under the compact upper hero layout.
 
 The existing responsive learner shell and persistent bottom Ask REV dock remain authoritative and unchanged.
 
 ## Key files
 
 - `src/app/PlannerHomeScreen.tsx` — canonical Home composition, planner/fallback selection and start behaviour.
+- `src/app/RevCompactWordmark.tsx` — governed compact REV / `Powered by REV` product identity component.
 - `src/app/home-task.ts` — deterministic mapping/fallback task model.
 - `src/app/HomeFocusedActivity.tsx` — one-action flashcard/quick-check focused session using normal evidence persistence.
 - `src/app/subject-accents.ts` — central subject mapping.
 - `src/app/subject-accents.css` — reusable subject visual roles.
-- `src/app/returning-home.css` — locked Home composition and responsive/Light/Dark treatment.
-- `src/main.tsx` — loads Home/subject styles after the existing Interface System layers so the approved specialised Home treatment wins without modifying compatibility surfaces.
+- `src/app/returning-home.css` — base locked Home composition and responsive/Light/Dark treatment.
+- `src/app/returning-home-fidelity.css` — Founder-directed visual fidelity corrections: larger REV, white/aqua bloom, Powered by REV styling and full-width hero input.
+- `src/main.tsx` — loads Home/subject styles and the fidelity layer after the existing Interface System layers.
 
 ## Assurance
 
@@ -151,11 +169,14 @@ The implementation must remain covered by:
 - responsive browser assurance for phone, tablet and desktop;
 - Light/Dark theme assurance;
 - no horizontal overflow;
-- GJ-01 first-use regression assurance; and
-- exact Home interaction assurance for promoted task start and evidence persistence.
+- GJ-01 first-use regression assurance;
+- exact Home interaction assurance for promoted task start and evidence persistence;
+- presence of the governed `Powered by REV` treatment;
+- full-width Home Ask REV layout at responsive viewports; and
+- explicit visual evidence for Living E scale and white/aqua atmospheric halo.
 
-The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) are pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. This makes any pixel-level change to the locked Home fail closed until the visual is deliberately reviewed and re-approved. The wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
+The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) remain pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. Any fidelity correction must deliberately review the newly captured Home images and update only those exact approved digests; the wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
 
 ## Documentation impact
 
-This is a current technical implementation record. It does not rewrite historical GJ-01 evidence or the PR #162 governance decision. `REV Homepage Shell Implementation.md` remains the wider shell document; this file is the more specific current implementation source for Returning Student Home.
+This is a current technical implementation record. It does not rewrite historical GJ-01 evidence, the original prototype or the PR #162 governance decision. `REV Homepage Shell Implementation.md` remains the wider shell document; this file is the more specific current implementation source for Returning Student Home.

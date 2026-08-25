@@ -49,6 +49,7 @@ const retainedFeatureSources = new Set([
   'mobile-navigation.css',
   'contextual-navigation.css',
   'returning-home.css',
+  'returning-home-fidelity.css',
 ])
 
 describe('site-wide theme integrity governance', () => {

@@ -8,6 +8,7 @@ import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { learnerCourseRoute, routeHash } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
+import { PoweredByRev } from './RevCompactWordmark'
 import { RevPresence, type RevPresenceState } from './RevPresence'
 import { Icon } from './ui'
 
@@ -161,22 +162,23 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
             <RevPresence state={loading ? 'thinking' : revState} size="hero" />
           </div>
           <div className="returning-home-hero-copy">
+            <PoweredByRev />
             <h1 id="planner-home-welcome">Hi {learnerName}, what shall we do today?</h1>
             <p className="returning-home-hero-intro">Ask REV anything, or start with the revision plan below.</p>
-            <form className="living-home-prompt" onSubmit={submitPrompt}>
-              <input
-                value={prompt}
-                maxLength={240}
-                placeholder="Ask REV anything…"
-                aria-label="Ask REV anything"
-                onFocus={() => setRevState('listening')}
-                onBlur={() => setRevState('resting')}
-                onChange={(event) => setPrompt(event.target.value)}
-              />
-              <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
-            </form>
           </div>
         </div>
+        <form className="living-home-prompt" onSubmit={submitPrompt}>
+          <input
+            value={prompt}
+            maxLength={240}
+            placeholder="Ask REV anything…"
+            aria-label="Ask REV anything"
+            onFocus={() => setRevState('listening')}
+            onBlur={() => setRevState('resting')}
+            onChange={(event) => setPrompt(event.target.value)}
+          />
+          <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
+        </form>
       </section>
 
       <section className="returning-home-plan" aria-labelledby="returning-home-plan-title">

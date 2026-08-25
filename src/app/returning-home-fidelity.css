@@ -1,0 +1,191 @@
+/* Returning Student Home fidelity corrections — Founder direction 25 Aug 2026. */
+
+.planner-runtime .returning-home-hero {
+  min-height: 438px;
+}
+
+.planner-runtime .returning-home-hero-layout {
+  min-height: 316px;
+  grid-template-columns: 344px minmax(0, 1fr);
+  gap: 42px;
+}
+
+.planner-runtime .returning-home-rev-stage {
+  height: 316px;
+}
+
+.planner-runtime .returning-home-hero .rev-presence-hero {
+  --rev-size: clamp(248px, 25vw, 328px);
+}
+
+/* The approved Home hero uses a visibly white/aqua atmospheric bloom, not a teal-only haze. */
+.planner-runtime .returning-home-hero .rev-presence-hero .rev-halo {
+  inset: 24%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(255, 255, 255, .38) 0 18%,
+    rgba(255, 255, 255, .28) 25%,
+    rgba(230, 251, 244, .88) 38%,
+    rgba(230, 251, 244, .36) 54%,
+    rgba(43, 182, 163, .14) 70%,
+    transparent 90%
+  );
+  opacity: .98;
+  filter: blur(14px);
+}
+
+.planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::before,
+.planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::after {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, .16) 0 24%,
+    rgba(230, 251, 244, .18) 40%,
+    rgba(43, 182, 163, .07) 60%,
+    transparent 84%
+  );
+}
+
+.planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::before {
+  inset: -42%;
+  opacity: .72;
+  filter: blur(22px);
+}
+
+.planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::after {
+  inset: -74%;
+  opacity: .42;
+  filter: blur(36px);
+}
+
+/* Founder-approved compact identity treatment used only as a REV feature lock-up. */
+.powered-by-rev {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+  padding: 7px 11px 7px 12px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .055);
+  color: rgba(255, 255, 255, .68);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.rev-compact-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--neutral-0);
+  font-family: Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.07em;
+  line-height: 1;
+}
+
+.rev-compact-wordmark-e {
+  width: 16px;
+  display: grid;
+  gap: 2px;
+  margin: 0 1px;
+}
+
+.rev-compact-wordmark-e i {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-primary-teal);
+}
+
+/* Ask REV is a full-width bottom row of the hero, matching the approved composition. */
+.planner-runtime .returning-home-hero > .living-home-prompt {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media (max-width: 1160px) and (min-width: 961px) {
+  .planner-runtime .returning-home-hero-layout {
+    grid-template-columns: 266px minmax(0, 1fr);
+    gap: 26px;
+  }
+
+  .planner-runtime .returning-home-rev-stage {
+    height: 270px;
+  }
+
+  .planner-runtime .returning-home-hero .rev-presence-hero {
+    --rev-size: 260px;
+  }
+}
+
+@media (max-width: 960px) {
+  .planner-runtime .returning-home-hero-layout {
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .planner-runtime .returning-home-rev-stage {
+    height: 258px;
+  }
+
+  .planner-runtime .returning-home-hero .rev-presence-hero {
+    --rev-size: 248px;
+  }
+
+  .planner-runtime .returning-home-hero > .living-home-prompt {
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .returning-home-hero-layout {
+    grid-template-columns: 148px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .planner-runtime .returning-home-rev-stage {
+    height: 176px;
+  }
+
+  .planner-runtime .returning-home-hero .rev-presence-hero {
+    --rev-size: 176px;
+  }
+
+  .powered-by-rev {
+    gap: 7px;
+    margin-bottom: 9px;
+    padding: 6px 9px 6px 10px;
+    font-size: 11px;
+  }
+
+  .rev-compact-wordmark {
+    font-size: 16px;
+  }
+
+  .rev-compact-wordmark-e {
+    width: 13px;
+    gap: 2px;
+  }
+
+  .rev-compact-wordmark-e i {
+    height: 2.5px;
+  }
+
+  .planner-runtime .returning-home-hero > .living-home-prompt {
+    margin-top: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .returning-home-hero .rev-presence-hero .rev-halo,
+  .planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::before,
+  .planner-runtime .returning-home-hero .rev-presence-hero .rev-halo::after {
+    filter: blur(14px);
+  }
+}

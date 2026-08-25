@@ -32,17 +32,17 @@ const cases: ReadonlyArray<VisualCase> = [
 ]
 
 /**
- * Founder-approved Returning Student Home visual baseline captured from the
- * canonical Linux browser assurance after the locked Home implementation.
- * Home uses an exact digest because the approved redesign intentionally
- * replaces the previous PNG snapshots. Other surfaces retain the established
- * pixel-diff snapshot contract below.
+ * Founder-directed Returning Student Home fidelity baseline captured from the
+ * canonical Linux browser assurance after the corrected Home implementation.
+ * The four Home captures were manually inspected for Powered by REV, the
+ * stronger white/aqua halo, larger REV scale and full-width bottom Ask REV row
+ * before pinning. Other surfaces retain the established pixel-diff contract.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
-  'phone:light': '4093ffbf9599be41dd5ee0a95a03fc5aa74242feb61597664dfe24784cef2fd9',
-  'phone:dark': '87164d3139d1522614470619d1b1e35bbe9c401cf1c3faffa1eb98ac391fc534',
-  'desktop:light': 'd4da2e28b6e9285c4694a48839dfc00809941825bea56f7adc933d0b24ad117d',
-  'desktop:dark': '7f9b5a60f4abda46c7a6da1cea278e9368e92599cf9d43a27d0ac0b1709925e9',
+  'phone:light': '4694f69d434c93fb38898c49bd07a12ab3ad3c868acec2c437228600c838fe09',
+  'phone:dark': 'bbbd497afd73781340db983ba80f10b680bdf4005dd9733235f3db2af02da396',
+  'desktop:light': '02fec44dfee9baefc5264b340f0d136a0c5e060ad2f90989693dc743fe6d78d9',
+  'desktop:dark': 'cd7ec87330c04abf603ef05c6855dd481056bcb8010510d28b0f4f5a90844831',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
