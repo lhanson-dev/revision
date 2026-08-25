@@ -250,7 +250,7 @@ test('new Student completes first-use journey through useful revision and meanin
   await expect(page.getByRole('heading', { name: 'You knew that one.' })).toBeVisible()
   await page.getByRole('button', { name: 'Continue' }).click()
 
-  await expect(page.getByRole('heading', { name: /Hey New,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi New,\s*what shall we do today\?/ })).toBeVisible()
   expect(state.memberships.map((item) => item.course_id)).toEqual([aLevelCourseId])
   expect(state.startingEvidence).toHaveLength(5)
   expect(state.learningEvidence).toHaveLength(1)

@@ -8,7 +8,7 @@ The governed learner product is the React application at:
 
 `/revision/app/`
 
-Its signed-in Home is led by **REV**, Revision's non-human intelligent study-guide identity. Home answers the immediate question **What matters today?** and combines REV's concise guidance with a smaller **Today's plan** summary.
+Its signed-in Home is led by **REV**, Revision's non-human intelligent study-guide identity. Home answers the immediate question **What should I do today?** through a prominent REV hero followed directly by **Today’s revision plan**, where one useful first task is promoted and the rest of today’s work remains easy to scan. When full planner setup is incomplete, Home can use the existing deterministic evidence recommendation model rather than blocking useful revision on missing assessment or availability data.
 
 The adaptive planner uses deterministic, testable logic rather than an AI-model call to calculate priorities. It combines assessment dates, realistic learner availability, specification/topic coverage, existing learning/readiness evidence and bounded learner planning preferences. REV explains and discusses those priorities but does not replace the planner calculation.
 
@@ -83,11 +83,14 @@ The repository root `/revision/` remains a lightweight redirect into `/revision/
 
 See:
 
+- `10-product-governance/Returning Student Home Experience.md` — governing Returning Student Home hierarchy and direct first-task launch.
+- `20-brand-and-experience/Subject Accent Colour System.md` — governed subject accent mapping and usage.
 - `10-product-governance/Adaptive Revision Planning.md` — governing adaptive planner and REV/planner behaviour.
 - `10-product-governance/Information Architecture.md` — governing learner hierarchy and primary navigation.
 - `10-product-governance/Global Learner Navigation.md` — governing desktop/responsive global navigation and Ask REV behaviour.
 - `10-product-governance/Course Content and Assessment Component Placement.md` — authority for shared course learning versus paper/component Exam Prep.
 - `20-brand-and-experience/Visual Brand System.md` — governing visual and REV experience authority.
+- `docs/technical/Returning Student Home Implementation.md` — current Home runtime, fallback, subject accents and direct useful-activity implementation.
 - `docs/technical/Learner Courses Implementation.md` — FI-020 learner-course membership, routing and programme-scope implementation.
 - `docs/technical/Adaptive Revision Planner Implementation.md` — current FI-001 technical design and implementation boundary.
 - `docs/technical/Target System Architecture.md` — current/target technical architecture.

@@ -106,7 +106,7 @@ test('mobile Ask REV dock leaves ordinary learner actions reachable without over
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Synthetic/ })).toBeVisible()
 
   const dock = page.locator('.runtime-mobile-ask-rev-dock')
   await expect(dock).toBeVisible()

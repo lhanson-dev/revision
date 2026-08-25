@@ -24,6 +24,7 @@ Use this file to find the governing source before substantive work.
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
+- Returning Student Home / direct useful-activity implementation → `docs/technical/Returning Student Home Implementation.md`
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
@@ -122,7 +123,8 @@ Use this file to find the governing source before substantive work.
 - Release-lineage recovery checkpoints → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
-- REV Home shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
+- Returning Student Home implementation → `docs/technical/Returning Student Home Implementation.md`
+- Wider REV Home / learner shell implementation → `docs/technical/REV Homepage Shell Implementation.md`
 - REV Living E visual implementation → `docs/technical/REV Living E Implementation.md`
 - Interface system implementation / UI primitive migration → `docs/technical/Interface System Implementation.md`
 - Interface-system operating standard / enterprise consistency guardrails → `docs/technical/Interface System Operating Standard.md`

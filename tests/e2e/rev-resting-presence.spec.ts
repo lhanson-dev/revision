@@ -92,7 +92,7 @@ async function seedSession(page: Page) {
 test('Home REV visibly breathes while resting without pretending to process', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Presence,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Presence,\s*what shall we do today\?/ })).toBeVisible()
 
   const presence = page.locator('.living-home-hero .rev-presence-hero')
   await expect(presence).toHaveAttribute('data-state', 'resting')

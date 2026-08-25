@@ -57,7 +57,7 @@ test.describe('database-backed learner persistence', () => {
     await page.getByLabel('Email').fill(email)
     await page.getByLabel('Password').fill(password)
     await page.getByRole('button', { name: 'Sign in' }).click()
-    await expect(page.getByRole('heading', { name: /Hey .*what shall we do today\?/ })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Hi .*what shall we do today\?/ })).toBeVisible()
 
     // This user is created after the FI-020 migration, so it must not inherit the
     // bounded existing-user course compatibility seed.

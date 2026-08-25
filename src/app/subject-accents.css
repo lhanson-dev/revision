@@ -1,0 +1,27 @@
+/*
+ * Governed subject-accent bridge.
+ * Colour remains supplemental: subject names stay visible and activity/status semantics
+ * continue to use their own neutral/functional roles.
+ */
+.planner-runtime [data-subject-accent] {
+  --subject-accent: var(--brand-mist);
+  --subject-accent-soft: color-mix(in srgb, var(--brand-mist) 58%, var(--color-surface));
+  --subject-accent-ink: var(--color-text-secondary);
+}
+
+.planner-runtime [data-subject-accent="business"] {
+  --subject-accent: var(--brand-sage);
+  --subject-accent-soft: color-mix(in srgb, var(--brand-sage) 55%, var(--color-surface));
+  --subject-accent-ink: color-mix(in srgb, var(--brand-deep-teal) 76%, var(--brand-sage));
+}
+
+.planner-runtime [data-subject-accent="economics"] {
+  --subject-accent: var(--brand-stone-blue);
+  --subject-accent-soft: color-mix(in srgb, var(--brand-stone-blue) 56%, var(--color-surface));
+  --subject-accent-ink: color-mix(in srgb, var(--brand-deep-teal) 68%, var(--brand-stone-blue));
+}
+
+.planner-runtime[data-theme="dark"] [data-subject-accent] {
+  --subject-accent-soft: color-mix(in srgb, var(--subject-accent) 18%, var(--color-surface));
+  --subject-accent-ink: color-mix(in srgb, var(--subject-accent) 82%, var(--color-text));
+}

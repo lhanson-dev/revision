@@ -128,7 +128,7 @@ async function openProfile(page: Page) {
 test('shared interface primitives provide one account and overlay grammar', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Interface,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Interface,\s*what shall we do today\?/ })).toBeVisible()
 
   const runtime = page.locator('.planner-runtime')
   const roles = await runtime.evaluate((element) => {

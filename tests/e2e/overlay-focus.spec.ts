@@ -141,7 +141,7 @@ async function openAccountModal(page: Page) {
 test('shared learner overlays own initial focus, containment, inertness, Escape and focus return', async ({ page }) => {
   await seedSyntheticSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hey Synthetic/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hi Synthetic/ })).toBeVisible()
 
   const askRevTrigger = isMobileLayout(page)
     ? page.locator('.runtime-mobile-ask-rev-dock')
