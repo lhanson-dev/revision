@@ -4,34 +4,56 @@
 Any new Revision subject, qualification, specification, paper, component or substantial learning-content pack intended to enter the learner catalogue.
 
 ## Purpose
-Create new educational content quickly enough for an early-stage product while preserving curriculum fidelity, source provenance, assessment accuracy and a repeatable publication gate.
+Create new educational content quickly enough for an early-stage product while preserving curriculum fidelity, source provenance, lawful source use, assessment accuracy and a repeatable publication gate.
 
-This workflow governs the production path from identifying a learner's course through to an `available` content pack. It does not make third-party revision material or AI-generated wording an educational authority.
+This workflow governs the production path from identifying a learner's course through to an `available` content pack. It does not make third-party revision material, public accessibility or AI-generated wording an educational or licensing authority.
+
+For orchestrated production, `Content Factory Operating Model.md` owns operational state. For v2 automation through qualified-expert handoff, `Content Factory v2 Expert Review Ready Amendment.md` adds the Course Knowledge Model, Assessment Blueprint, Question Families, Marking Packs and `expert_review_ready` gate.
 
 ## Governing principles
 
 1. **Identify the exact course before writing content.** Confirm subject, qualification, exam board, specification code and relevant paper/component.
-2. **Use primary educational authority first.** The current official specification/syllabus and official assessment materials are the default source of truth for curriculum scope and assessment structure.
-3. **Build coverage before volume.** Create a specification coverage blueprint before generating large quantities of notes, flashcards or questions.
-4. **Preserve provenance.** Material claims, assessment structure and substantial content areas must remain traceable to the approved sources used to create the pack.
-5. **AI may transform but not invent authority.** AI can structure, explain, generate practice and draft learner-facing wording, but generated content still requires curriculum and factual assurance.
-6. **Active recall and assessment must be deliberate.** A pack is not complete merely because notes exist. Where appropriate it should include learning, retrieval/practice, exam preparation and evidence-generating activities.
-7. **Do not expose unfinished packs as complete.** Use `planned`, `preview` and `available` deliberately.
-8. **Publish through a governed branch and PR.** Every pack entering `available` status requires the normal Founder merge approval.
+2. **Separate educational authority from permission to use a source.** A source can be authoritative without being licensed for AI ingestion, copying, adaptation or commercial reuse.
+3. **Pass the source-rights gate before generative use.** Apply `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`; `UNKNOWN` or material ambiguity blocks downstream generation.
+4. **Build coverage before volume.** Create a structured coverage blueprint before generating large quantities of notes, flashcards or questions.
+5. **Preserve provenance.** Material claims, alignment facts, assessment structure and substantial content areas must remain traceable to approved source records.
+6. **AI may explain, transform and generate only from permitted inputs.** AI does not create curriculum authority or licensing permission.
+7. **Active recall and assessment must be deliberate.** A pack is not complete merely because notes exist.
+8. **Use deterministic checks for deterministic facts.** Arithmetic, references, IDs, mark totals and other mechanically provable rules should not rely only on linguistic review.
+9. **Keep generation and final AI assurance independent.** The same generation context cannot be the final reviewer of its own content.
+10. **Do not expose unfinished packs as complete.** Use `planned`, `preview` and `available` deliberately.
+11. **Publish through a governed branch and PR.** Every merge into `main` requires explicit Founder approval.
+12. **Qualified human review remains the commercial benchmark gate.** `expert_review_ready` means ready to review, not benchmark-approved.
 
-## Source hierarchy for educational content
+## Source authority and source-use model
 
-Use sources in this order unless the subject requires a deliberately approved exception:
+Educational authority and source-use permission are separate decisions.
 
-1. current official specification or syllabus from the awarding organisation;
-2. current official assessment guidance, assessment objectives and paper/component rules;
-3. official specimen papers, past papers, mark schemes and examiner guidance/reports where available and appropriate;
-4. other deliberately approved primary educational sources required by the specification, such as prescribed texts or official source lists;
-5. reputable secondary teaching/revision sources only as supplementary evidence or explanation support.
+### Educational authority order
+Use the strongest current authority appropriate to the claim, normally:
 
-Secondary sources must not silently override the official specification or assessment authority.
+1. open, public-domain or appropriately licensed statutory/regulatory curriculum and qualification authority;
+2. awarding-body material as an identity/alignment authority where permitted by the source-use classification;
+3. other deliberately approved primary educational sources required by the course;
+4. reputable secondary sources only as supplementary evidence or teaching support.
 
-If primary sources conflict, appear outdated, or leave a material ambiguity, stop and resolve the issue before marking the affected content complete.
+Secondary material must not silently override stronger primary authority.
+
+### Source-use classification
+Every material source must be recorded as one of:
+
+- `OPEN`;
+- `REVISION_OWNED`;
+- `LICENSED`;
+- `REFERENCE_ONLY`;
+- `PROHIBITED`;
+- `UNKNOWN` while unresolved.
+
+Only source material whose recorded permission permits the intended operation may enter an AI context. `REFERENCE_ONLY` material may inform a deliberately approved factual/alignment process but substantial protected source prose must not be passed into downstream generative workers unless an explicit licence permits it. `PROHIBITED` and `UNKNOWN` material must not enter generation.
+
+Do not evade a restrictive classification by automatically paraphrasing the source first.
+
+If authoritative sources conflict, appear outdated, or leave a material curriculum, assessment or rights ambiguity, stop and resolve the issue before the affected stage can complete.
 
 ## Stage 1 — Identify the course precisely
 
@@ -39,235 +61,292 @@ Record at minimum:
 
 - subject;
 - qualification level;
-- exam board / awarding organisation;
+- awarding organisation;
 - specification code or identifier;
-- paper/component/area being added;
-- relevant exam series/year if the structure is time-sensitive;
-- learner context where it affects scope, for example a prescribed text or optional module.
+- relevant paper/component/area;
+- cohort/exam-series validity where time-sensitive;
+- compulsory and optional components;
+- learner-specific choices that affect scope.
 
-Do not start full content production from a vague label such as “A-level Spanish” or “GCSE Maths”.
+Do not start full production from a vague label such as “A-level Spanish” or “GCSE Maths”.
 
-## Stage 2 — Create the source record
+## Stage 2 — Create the Source Licence Register
 
-Before content generation, create a short source/provenance record for the pack. It should state:
+Before substantial generation, create the pack/job source record required by the Educational Content Source Licensing and Provenance Standard.
 
-- source title;
-- issuing organisation;
-- source type;
-- version/date where available;
-- URL or repository reference where appropriate;
-- what part of the pack the source governs;
-- date checked;
-- any known limitation or ambiguity.
+For each material source record at minimum:
 
-The record may live alongside the pack or in another deliberately indexed evidence location, but it must travel with the same governed PR when the pack first becomes `available`.
+- source identity/title and issuer;
+- URL/reference and version/date where available;
+- educational role / claim group governed;
+- source-use classification;
+- permission/licence basis or approved reusable policy rule;
+- whether source text may enter AI context;
+- whether derived commercial content may be produced;
+- attribution requirements;
+- restrictions, expiry or revalidation conditions;
+- date checked and checker/method provenance;
+- source fingerprint where practical.
 
-Do not copy large copyrighted source passages into the repository merely to prove provenance. Record the source and derive original learner-facing material.
+Do not copy substantial copyrighted source passages into the repository merely to prove provenance.
 
-## Stage 3 — Build the specification coverage blueprint
+## Stage 3 — Build Board Alignment and coverage before generation
 
-Before writing the full pack, decompose the official specification into a coverage blueprint.
+For v2 jobs, separate reusable subject/curriculum truth from qualification-specific Board Alignment.
 
-For each examinable requirement, record enough information to answer:
+Board Alignment contains approved structured facts such as:
 
-- what official requirement is being covered;
-- which Revision topic/specification area owns it;
-- what knowledge, skill or interpretation the learner needs;
-- how the requirement may be assessed where the source establishes this;
-- which Revision learning/practice/exam-prep elements will cover it;
-- whether coverage is complete, partial, not applicable or intentionally deferred.
+- qualification/specification identity;
+- cohort validity;
+- compulsory/optional components;
+- component scope;
+- marks, duration and weighting where applicable;
+- assessment objectives/skills and other approved assessment requirements;
+- source references and verification status.
 
-The blueprint is the completeness control. A high volume of generated content does not compensate for gaps in specification coverage.
+Then build the structured coverage blueprint.
 
-Where a subject is skills-led, text-led or component-led rather than topic-led, preserve that authentic structure rather than forcing it into the Business Paper model.
+For each examinable requirement/skill, record enough information to answer:
 
-## Stage 4 — Build the typed content pack
+- stable requirement/concept ID;
+- what requirement or skill is in scope;
+- which Revision topic/area owns it;
+- learner knowledge/skill required;
+- component scope;
+- assessment relevance where established;
+- Learn / Practice / Exam Prep / evidence needs;
+- source/alignment references;
+- coverage state: complete, partial, deferred or not applicable.
 
-Create the new pack under `content/**/index.ts` using the current governed content schema.
+Coverage is the completeness contract for downstream generation. Generated volume cannot compensate for missing coverage.
 
-The pack should represent only capabilities that are educationally meaningful for that subject/component. The current schema can support, where applicable:
+Preserve authentic subject structure rather than forcing every course into a Business-shaped topic model.
 
-- manifest and learner explanation;
-- topics/specification areas;
-- learning sections;
-- formulas;
+## Stage 4 — Build the Course Knowledge Model and Learning Blueprint
+
+For v2 production, compile reusable knowledge/skill nodes before large-scale collateral generation. As applicable capture:
+
+- stable concept/requirement ID;
+- plain-language concept/skill summary;
+- prerequisites and relationships;
+- formulas/quantitative rules;
+- common misconceptions;
+- application contexts;
+- depth/difficulty indicators;
+- curriculum/source references;
+- Board Alignment/component mappings;
+- valid learner evidence types.
+
+Then create a Learning Blueprint that deliberately selects appropriate learning modes for each coherent requirement or skill cluster. Do not require identical notes, flashcards and MCQs for every topic when they are educationally inappropriate.
+
+## Stage 5 — Produce the typed learner content
+
+Create the pack under the governed `content/**/index.ts` architecture and current schema.
+
+Where educationally meaningful, the pack may include:
+
+- learner explanation / Learn sections;
 - topic relationships;
-- flashcards;
-- quick-check / multiple-choice questions;
-- case/application practice;
-- data drills;
+- formulas and worked examples;
+- flashcards / retrieval prompts;
+- quick checks / multiple-choice questions;
+- application/case practice;
+- data/calculation drills;
 - exam technique;
-- exam-style questions and simulations.
+- original exam-style questions and simulations;
+- progress/evidence-generating activities.
 
-Do not manufacture empty or artificial content merely to fill every schema capability. If a future subject requires a genuinely different educational structure, treat that as a schema/architecture change rather than distorting the subject.
+Learner-facing explanations, examples, cases, questions, simulations and feedback should normally be Revision-authored from permitted curriculum truth and approved structured alignment facts unless a specific licence deliberately permits another use.
 
-The pack entry point must validate through `contentPackSchema` and default-export the validated pack so the catalogue can discover it automatically.
+Do not manufacture empty capabilities merely to fill a schema.
 
-## Stage 5 — Produce learning and assessment content
+## Stage 6 — Build the Assessment Blueprint, Question Families and Marking Packs
 
-For each substantial specification area, deliberately consider four learner jobs:
+Where the course includes written or exam-style assessment, define the assessment model before generating high-volume questions.
 
-### Learn
-Can the learner understand the required knowledge/skill in plain language, with examples or connections where useful?
+### Assessment Blueprint
+As applicable define:
 
-### Practice
-Can the learner retrieve and apply the material rather than only reread it?
+- assessment objectives/skills and weightings;
+- paper/component structure;
+- question/response families;
+- command/cognitive demands;
+- mark and timing constraints;
+- quantitative/synoptic requirements;
+- evidence/evaluation expectations;
+- rules needed to generate authentic but Revision-owned assessment material.
 
-### Exam Prep
-Where an exam/component exists, can the learner practise the actual style, demands, timing and assessment behaviours supported by the official sources?
+### Question Families
+Use reusable assessment archetypes where valid. Each family may define:
 
-### Progress evidence
-Do the activities create meaningful evidence of understanding or performance, rather than treating a page view as mastery?
+- intended skill/AO profile;
+- context requirements;
+- compatible mark range;
+- expected response shape;
+- application/analysis/evaluation requirements;
+- common failure modes;
+- compatible Marking Pack template;
+- expert-calibration status.
 
-Not every area requires every activity type, but omissions should be deliberate rather than accidental.
+### Original questions and simulations
+Questions, cases and simulations generated by Revision must:
 
-## Stage 6 — Educational and structural assurance
+- test in-scope concepts/skills;
+- be internally coherent;
+- comply with the approved Assessment Blueprint;
+- be labelled original / exam-style / aligned as appropriate;
+- never be represented as official awarding-body questions.
 
-Before a pack can become `available`, perform two separate assurance passes.
+### Marking Packs
+Every written assessment item represented as eligible for governed assisted marking must have a structured Marking Pack appropriate to its assessment model, including as applicable:
 
-### Structural assurance
-CI/schema tests must confirm, as applicable:
+- exact Revision-owned question/context and maximum mark;
+- concepts/requirements and AO/skill allocation;
+- rubric/level descriptors;
+- application, analysis and evaluation requirements;
+- valid reasoning routes and alternative legitimate arguments;
+- non-exhaustive indicative content where judgement is required;
+- misconceptions/invalid reasoning;
+- anchor responses with expected marks/ranges where calibrated;
+- diagnostic feedback and improvement actions;
+- ambiguity/confidence rules;
+- provenance, version and calibration status.
 
-- the pack parses against the current schema;
-- IDs and topic references are valid and unique;
-- manifest topics match actual topic definitions;
-- assessment-objective allocations are internally valid;
-- exam question marks add to the stated paper total;
-- exam duration/total marks agree with manifest metadata;
-- the production build discovers the pack;
-- the shared learner shell renders it without subject-specific application code.
+Protected third-party mark-scheme text must not enter a marking worker unless the Source Licence Register explicitly permits that use.
 
-### Educational assurance
-Review the pack against the approved source record and coverage blueprint for:
+## Stage 7 — Automated educational and structural assurance
 
-- complete intended specification coverage;
-- factual accuracy;
-- correct qualification/paper/component identity;
-- correct assessment structure, timing and marks;
-- accurate use of assessment objectives where applicable;
-- authentic question style without pretending generated questions are official past-paper questions;
-- reasonable marking guidance derived from approved assessment principles;
-- plain-English explanations that do not change the underlying meaning;
-- no unsupported claims, invented curriculum requirements or unverified certainty.
+Before a pack can become `available` or `expert_review_ready`, perform all applicable controls in `Content Accuracy Assurance Gate.md`.
 
-Schema validation is necessary but is not evidence that educational content is correct.
+### Deterministic assurance
+Use code/tests for checks including, where applicable:
 
-The separate `Content Accuracy Assurance Gate.md` is mandatory for materially changed learner-facing content.
+- schema validity;
+- unique IDs and valid references;
+- coverage completeness;
+- formulas, arithmetic, percentages, ratios and units;
+- answer-key consistency;
+- question/section/exam mark totals;
+- stored AO totals;
+- duration/mark metadata;
+- internal consistency of invented case data;
+- required Marking Pack fields and references.
 
-## Stage 7 — Pilot publication gate
+### Independent educational/assessment challenge
+Run a fresh context/worker that did not generate the reviewed material. Review for:
 
-Use content status deliberately:
+- factual and curriculum accuracy;
+- source/alignment fidelity;
+- pedagogical distortion or misleading simplification;
+- authentic assessment demand;
+- invalid assumptions or case data;
+- marking rules that reject legitimate reasoning or teach an incorrect habit;
+- unsupported claims or false certainty.
 
-- `planned` — identified but not ready for learner testing;
-- `preview` — under construction or assurance; excluded from the ordinary pilot learner catalogue;
-- `available` — approved for learner use and eligible for automatic catalogue discovery.
+Return a machine-readable issue register. Blocking/material findings trigger targeted remediation and affected-stage revalidation rather than broad regeneration.
+
+Schema/build success alone is not evidence that educational content is correct.
+
+## Stage 8 — Pilot publication and `expert_review_ready`
+
+Learner publication status remains:
+
+- `planned` — identified but not ready;
+- `preview` — under construction/assurance and excluded from ordinary learner catalogue;
+- `available` — approved for learner use under the publication gate.
 
 For restricted founder/family pilot use, a pack may become `available` when:
 
 - course identity is confirmed;
-- primary sources are recorded;
-- coverage blueprint is complete for the intended scope;
-- structural CI passes;
-- the Content Accuracy Assurance Gate is complete;
-- there are no unresolved blocking/material factual or curriculum findings;
-- any remaining pilot limitation is explicitly recorded;
+- source-use classifications are approved;
+- intended coverage is complete;
+- applicable automated assurance passes;
+- no unresolved blocking/material findings remain;
+- limitations are explicit;
+- CI passes on the exact intended head;
 - explicit Founder approval is given for the PR merge.
 
-A pilot `available` status does **not** by itself mean the pack is approved as a commercial benchmark.
+For Content Factory v2, a job may become `expert_review_ready` only when the conditions in `Content Factory v2 Expert Review Ready Amendment.md` are met, including complete required artifacts, green deterministic assurance, no unresolved blocking/material independent-review findings, complete Marking Packs for markable written items, and an exact-version portable expert package.
 
-## Stage 8 — Post-publication check
+`expert_review_ready` is an operational assurance state, not learner publication status and not benchmark approval.
 
-After deployment, verify that:
+## Stage 9 — Post-publication verification
 
-- the subject/course/paper appears automatically in the canonical `/app/` learner catalogue;
-- the generated Subject Home and focused sections resolve correctly;
-- supported learning capabilities appear and unsupported/empty ones are not misleadingly exposed;
-- evidence records against the correct module/topic IDs;
-- global Progress includes the new module correctly;
-- REV can include the new module in deterministic prioritisation;
+After deployment, verify where applicable that:
+
+- the intended pack appears in the canonical `/app/` catalogue;
+- subject/course/paper projection is correct;
+- supported capabilities appear without misleading empty surfaces;
+- evidence records against correct module/topic IDs;
+- Progress and REV consume the correct catalogue/evidence structure;
 - no subject-specific React route/page was required for an ordinary pack addition.
 
-If adding an ordinary subject requires editing shared React navigation or hard-coding the subject name into the engine, treat that as an architectural defect and stop rather than normalising the exception.
+If an ordinary subject requires hard-coded learner navigation or a legacy route workaround, treat that as an architectural defect.
 
-## Stage 9 — Human subject review and commercial benchmark gate
+## Stage 10 — Qualified expert review and commercial benchmark gate
 
-Before a subject pack is treated as a **commercial teaching benchmark**, relied on for broader public teaching claims, or used as the quality template for scaled content production, it must receive qualified human subject review.
+Before a subject pack is treated as a commercial teaching benchmark, relied on for broader public teaching/marking claims, or used as the quality template for scaled content production, it must receive qualified human subject review.
 
-Create a Human Subject Review Pack using `80-company-workflows/Human Subject Review Pack Template.md`.
+The reviewer must receive a portable review pack tied to the exact reviewed content version. It must include:
 
-The review pack must give the reviewer:
+- reviewer brief and decision instructions;
+- exact course identity and content version/commit;
+- Source Licence Register and source/reference links;
+- Board Alignment and coverage summary;
+- substantive learner-facing content in readable form;
+- substantial cases, questions, simulations and exam technique;
+- Assessment Blueprint and relevant Question Families;
+- Marking Packs and anchor/calibration material in scope;
+- prior automated/adversarial findings that help target risk;
+- known limitations;
+- a structured issue log and PASS / CONDITIONAL PASS / FAIL-HOLD decision.
 
-- exact qualification/specification/component and reviewed commit;
-- all learner-facing Revision content in scope;
-- the source/provenance register and official source links;
-- the coverage blueprint;
-- prior automated/adversarial assurance records and resolved findings;
-- explicit instructions to look for factual, curriculum, pedagogical and assessment defects rather than merely copy-editing;
-- a structured issue register and sign-off form.
+The reviewer should not need GitHub access.
 
-### Portable teacher export
+Do not reproduce substantial protected awarding-body material merely for reviewer convenience. Link/reference authority instead unless the recorded licence permits inclusion.
 
-The reviewer must not need GitHub or Revision administration access for the MVP review process. Before requesting human review, create a single portable PDF (or equivalent deliberately approved format) that can be emailed or shared directly with the reviewer.
+For assessment/marking review, the expert must specifically assess authenticity of demand, mark/rubric logic, legitimate alternative reasoning, misconceptions, anchor judgements and whether Revision marking behaviour would teach incorrect exam habits.
 
-The export must contain:
-
-- the reviewer brief and sign-off instructions;
-- course identity and exact content version/date;
-- official source/reference links and a plain-English explanation of what each source governs;
-- the specification coverage summary;
-- all learner-facing Revision content being approved, presented in readable form rather than source code where practical;
-- all substantial cases, exam simulations, questions, guidance/model-answer material and exam-technique guidance;
-- formulas, quantitative drills, flashcards and quick checks in scope;
-- previous assurance findings that materially help the reviewer target risk;
-- a structured issue log and final PASS / CONDITIONAL PASS / FAIL-HOLD decision section.
-
-Do not reproduce substantial copyrighted awarding-body material inside the export merely for convenience. Link the reviewer to the official source material and identify the sections/resources that must be used as authority.
-
-The generated PDF is an **export of the governed repository content**, not a second editable source of truth. If content changes after export, regenerate it and record the new version/commit before review sign-off.
-
-For a benchmark pack, the human reviewer must inspect all topic/learning coverage, all substantial cases, simulations, exam technique and marking guidance. High-volume atomic items such as flashcards/MCQs may use documented risk-based sampling only under the rules in the Human Subject Review Pack Template.
+Expert findings should be machine-readable so affected work units can be remediated and revalidated without rebuilding unrelated content.
 
 Commercial benchmark approval requires:
 
 - no unresolved blocking/material human-review findings;
-- all required remediation merged and revalidated;
-- the final human review record retained alongside or indexed from the content pack;
-- explicit Founder approval for any PR that promotes the pack to benchmark status or changes product claims on the basis of the review.
+- required remediation and revalidation complete;
+- final human review retained/indexed;
+- explicit Founder approval for any governed PR that promotes benchmark status or changes product claims on that evidence.
 
-A human review is a quality gate, not a claim of perfection. Revision must still preserve traceability, correction and revalidation controls.
+Human review is a quality gate, not a claim of perfection.
 
 ## Minimum PR record for a new pack
 
 Every new-pack PR should state:
 
-- exact subject / qualification / exam board / specification / paper or component;
-- pack ID and repository path;
-- primary sources used;
-- where the coverage blueprint/provenance record lives;
-- current status (`planned`, `preview` or `available`);
-- educational assurance completed and by what method;
+- exact course identity and scope;
+- pack ID/path;
+- Source Licence Register and coverage/Board Alignment references;
+- current learner publication status;
+- applicable automated assurance completed;
 - structural tests/build results;
-- known limitations or intentionally deferred coverage;
-- whether any schema or shared-engine change was required and why;
+- known limitations/deferred coverage;
+- schema/shared-engine changes, if any;
 - documentation impact;
-- canonical learner route/runtime verification where learner behaviour is affected;
-- human subject-review status (`not yet required for restricted pilot`, `pending`, `conditional`, or `passed`) where applicable;
-- portable reviewer-export version/commit where human review is requested.
+- canonical learner route/runtime verification where learner behaviour changes;
+- expert/human review status where applicable;
+- portable review-export version/commit where review is requested.
 
 ## Fast pilot mode
 
-For the Jamie pilot, this workflow should be rigorous but proportionate. We do not need enterprise-scale editorial bureaucracy before testing a second subject.
+For a restricted early pilot, keep the process rigorous but proportionate:
 
-The minimum acceptable pilot path is:
+**Identify → source-rights gate → Board Alignment / coverage → typed pack → Content Accuracy Assurance Gate → CI → preview check → Founder-approved `available` merge → production smoke.**
 
-**Identify → primary sources → coverage blueprint → typed pack → Content Accuracy Assurance Gate → CI → preview check → Founder-approved `available` merge → production smoke.**
+Human subject review remains mandatory before treating a pack as a commercial benchmark or using it to support broader teaching/marking-quality claims.
 
-Human subject review is the final gate before treating that pack as a commercial benchmark or using it to support broader teaching-quality claims. When requested, the reviewer receives a portable PDF rather than repository access.
+Do not skip identity, source-rights verification, coverage mapping or educational assurance in the name of speed.
 
-Do not skip source verification, coverage mapping or educational assurance in the name of speed. Those are the controls that prevent a polished but incorrect revision product.
+## Scaling
 
-## Future scaling
+At scale, use the Content Factory rather than conversational coordination. The system should accumulate reusable subject knowledge models, teaching blueprints, assessment/question-family contracts, Marking Pack templates, deterministic validators, calibrated anchors and source-use policy rules.
 
-As Revision moves beyond a small pilot, this workflow can be extended with named content owners/reviewers, automated coverage metrics, source-version monitoring, reviewer panels, content change logs and withdrawal/revalidation procedures.
-
-**Backlog idea — administration content-review workspace:** consider a future authenticated admin/reviewer area where authorised subject reviewers can inspect a pack, compare it with sources, record issues, approve/reject content and retain sign-off history. This is an administration/content-governance capability, not part of the learner or teacher product experience, and is explicitly out of MVP scope while portable review exports are sufficient.
+Batch/concurrency may be introduced only after single-course repeatability is proven across materially different qualification shapes. Human review should move toward risk-based, high-leverage calibration and representative sampling without removing the benchmark gate.
