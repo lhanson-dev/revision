@@ -323,6 +323,7 @@ function appendWorkerRun(
   stage: WorkerRun['stage'],
   execution: WorkerExecution<unknown>,
   updatedAt: string,
+  refs: { inputRefs?: string[]; outputRefs?: string[] } = {},
 ) {
   const job = contentFactoryJobSchema.parse(jobInput)
   const run = {
@@ -332,8 +333,8 @@ function appendWorkerRun(
     contractVersion: execution.provenance.contractVersion,
     provider: execution.provenance.provider,
     model: execution.provenance.model,
-    inputRefs: [],
-    outputRefs: [],
+    inputRefs: refs.inputRefs ?? [],
+    outputRefs: refs.outputRefs ?? [],
     status: execution.status,
     retryCount: execution.provenance.retryCount ?? 0,
     usageCost: execution.provenance.usageCost,
@@ -360,11 +361,23 @@ function workerFailure(
   })
 }
 
-function requireV2State(jobInput: ContentFactoryJob, state: ContentFactoryJob['state']) {
+function requireV2RunnableJob(jobInput: ContentFactoryJob) {
   const job = contentFactoryJobSchema.parse(jobInput)
   if (job.schemaVersion !== 2) throw new Error('Intake-to-knowledge-model pipeline requires a schema v2 job')
-  if (job.state !== state) throw new Error(`Expected Content Factory job state ${state}, received ${job.state}`)
+  if (job.state === 'blocked') throw new Error('Blocked jobs must be resumed before the intake pipeline can continue')
+  if (!['requested', 'identified', 'sourced', 'mapped'].includes(job.state)) {
+    throw new Error(`Content Factory job state ${job.state} is beyond the intake-to-knowledge-model pipeline`)
+  }
   return job
+}
+
+function identityFromJob(job: ContentFactoryJob): IdentityResolutionOutput {
+  return identityResolutionOutputSchema.parse({
+    courseIdentity: job.courseIdentity,
+    cohortValidity: job.cohortValidity,
+    components: job.components,
+    unresolvedChoices: job.unresolvedChoices,
+  })
 }
 
 function validateStructuredEvidence(
@@ -480,6 +493,20 @@ function validateKnowledgeModel(
   return model
 }
 
+export async function readSourceLicenceRegister(
+  jobInput: ContentFactoryJob,
+  artifactStore: ContentFactoryArtifactStore,
+): Promise<SourceLicenceRegister> {
+  const job = contentFactoryJobSchema.parse(jobInput)
+  if (!job.sourceLicenceRegisterRef) throw new Error('Content Factory job has no Source Licence Register reference')
+  const register = sourceLicenceRegisterSchema.parse(await artifactStore.readJson(job.sourceLicenceRegisterRef))
+  if (register.jobId !== job.jobId) throw new Error('Source Licence Register job ID does not match the Content Factory job')
+  if (job.sourceSetFingerprint && register.fingerprint !== job.sourceSetFingerprint) {
+    throw new Error('Source Licence Register fingerprint does not match the Content Factory job')
+  }
+  return register
+}
+
 export async function runIntakeToKnowledgeModel(input: {
   job: ContentFactoryJob
   workers: IntakeToKnowledgeModelWorkers
@@ -487,98 +514,120 @@ export async function runIntakeToKnowledgeModel(input: {
   sourceRightsRules: SourceRightsPolicyRule[]
   now: string
 }): Promise<ContentFactoryJob> {
-  let job = requireV2State(input.job, 'requested')
+  let job = requireV2RunnableJob(input.job)
+  let identity: IdentityResolutionOutput
 
-  const identityExecution = await input.workers.resolveIdentity({
-    jobId: job.jobId,
-    officialUrls: job.officialUrls,
-    founderInstruction: job.founderInstruction,
-  })
-  if (identityExecution.status !== 'success') return workerFailure(job, 'identity', identityExecution, input.now)
-  const identity = identityResolutionOutputSchema.parse(identityExecution.output)
-  job = appendWorkerRun(job, 'identity', identityExecution, input.now)
-  job = contentFactoryJobSchema.parse({
-    ...job,
-    courseIdentity: identity.courseIdentity,
-    cohortValidity: identity.cohortValidity,
-    components: identity.components,
-    unresolvedChoices: identity.unresolvedChoices,
-    updatedAt: input.now,
-  })
-  if (identity.unresolvedChoices.length > 0) {
-    return blockJob(job, {
-      id: `course-option-resolution-required-${identityExecution.provenance.id}`,
-      reason: `course_option_resolution_required: ${identity.unresolvedChoices.join('; ')}`,
-      createdAt: input.now,
+  if (job.state === 'requested') {
+    const identityExecution = await input.workers.resolveIdentity({
+      jobId: job.jobId,
+      officialUrls: job.officialUrls,
+      founderInstruction: job.founderInstruction,
     })
-  }
-  job = advanceJob(job, 'identified', input.now)
-
-  const sourceExecution = await input.workers.discoverSources({
-    jobId: job.jobId,
-    officialUrls: job.officialUrls,
-    identity,
-  })
-  if (sourceExecution.status !== 'success') return workerFailure(job, 'source', sourceExecution, input.now)
-  const discoveredSources = z.array(discoveredSourceSchema).min(1).parse(sourceExecution.output)
-  job = appendWorkerRun(job, 'source', sourceExecution, input.now)
-
-  const sourceRights = await classifySourcesWithApprovedRules({
-    jobId: job.jobId,
-    sources: discoveredSources,
-    rules: input.sourceRightsRules,
-    checkedAt: input.now,
-  })
-  const registerWrite = await input.artifactStore.writeJson({
-    jobId: job.jobId,
-    kind: 'source_licence_register',
-    fingerprint: sourceRights.register.fingerprint,
-    value: sourceRights.register,
-  })
-  const sourceRightsRunId = `source-rights-${job.workerRuns.length + 1}`
-  job = appendWorkerRun(job, 'source_rights', {
-    status: 'success',
-    output: sourceRights.register,
-    provenance: {
-      id: sourceRightsRunId,
-      contextId: 'deterministic-source-rights-policy-engine',
-      contractVersion: '1',
-    },
-  }, input.now)
-  job = contentFactoryJobSchema.parse({
-    ...job,
-    sourceLicenceRegisterRef: registerWrite.ref,
-    sourceRightsStatus: sourceRights.status,
-    sourceSetFingerprint: sourceRights.register.fingerprint,
-    updatedAt: input.now,
-  })
-  if (sourceRights.status === 'blocked') {
-    return blockJob(job, {
-      id: `source-rights-review-required-${sourceRightsRunId}`,
-      reason: `source_rights_review_required: ${sourceRights.blockingSourceIds.join(', ')}`,
-      createdAt: input.now,
+    if (identityExecution.status !== 'success') return workerFailure(job, 'identity', identityExecution, input.now)
+    identity = identityResolutionOutputSchema.parse(identityExecution.output)
+    job = appendWorkerRun(job, 'identity', identityExecution, input.now, { inputRefs: job.officialUrls })
+    job = contentFactoryJobSchema.parse({
+      ...job,
+      courseIdentity: identity.courseIdentity,
+      cohortValidity: identity.cohortValidity,
+      components: identity.components,
+      unresolvedChoices: identity.unresolvedChoices,
+      updatedAt: input.now,
     })
+    if (identity.unresolvedChoices.length > 0) {
+      return blockJob(job, {
+        id: `course-option-resolution-required-${identityExecution.provenance.id}`,
+        reason: `course_option_resolution_required: ${identity.unresolvedChoices.join('; ')}`,
+        createdAt: input.now,
+      })
+    }
+    job = advanceJob(job, 'identified', input.now)
+  } else {
+    identity = identityFromJob(job)
   }
-  job = advanceJob(job, 'sourced', input.now)
+
+  let sourceLicenceRegister: SourceLicenceRegister
+  if (job.state === 'identified') {
+    const sourceExecution = await input.workers.discoverSources({
+      jobId: job.jobId,
+      officialUrls: job.officialUrls,
+      identity,
+    })
+    if (sourceExecution.status !== 'success') return workerFailure(job, 'source', sourceExecution, input.now)
+    const discoveredSources = z.array(discoveredSourceSchema).min(1).parse(sourceExecution.output)
+    job = appendWorkerRun(job, 'source', sourceExecution, input.now, { inputRefs: job.officialUrls })
+
+    const sourceRights = await classifySourcesWithApprovedRules({
+      jobId: job.jobId,
+      sources: discoveredSources,
+      rules: input.sourceRightsRules,
+      checkedAt: input.now,
+    })
+    sourceLicenceRegister = sourceRights.register
+    const registerWrite = await input.artifactStore.writeJson({
+      jobId: job.jobId,
+      kind: 'source_licence_register',
+      fingerprint: sourceLicenceRegister.fingerprint,
+      value: sourceLicenceRegister,
+    })
+    const sourceRightsRunId = `source-rights-${job.workerRuns.length + 1}`
+    job = appendWorkerRun(job, 'source_rights', {
+      status: 'success',
+      output: sourceLicenceRegister,
+      provenance: {
+        id: sourceRightsRunId,
+        contextId: 'deterministic-source-rights-policy-engine',
+        contractVersion: '1',
+      },
+    }, input.now, { inputRefs: job.officialUrls, outputRefs: [registerWrite.ref] })
+    job = contentFactoryJobSchema.parse({
+      ...job,
+      sourceLicenceRegisterRef: registerWrite.ref,
+      sourceRightsStatus: sourceRights.status,
+      sourceSetFingerprint: sourceLicenceRegister.fingerprint,
+      updatedAt: input.now,
+    })
+    if (sourceRights.status === 'blocked') {
+      return blockJob(job, {
+        id: `source-rights-review-required-${sourceRightsRunId}`,
+        reason: `source_rights_review_required: ${sourceRights.blockingSourceIds.join(', ')}`,
+        createdAt: input.now,
+      })
+    }
+    job = advanceJob(job, 'sourced', input.now)
+  } else {
+    sourceLicenceRegister = await readSourceLicenceRegister(job, input.artifactStore)
+    if (job.sourceRightsStatus !== 'approved') throw new Error('Source rights must be approved before the intake pipeline can continue')
+    if (sourceLicenceRegister.sources.some((source) => source.useClass === 'PROHIBITED' || source.useClass === 'UNKNOWN')) {
+      throw new Error('Approved Content Factory job contains a blocking source-rights classification')
+    }
+  }
+
+  if (job.state === 'mapped' && job.courseKnowledgeModelRef) return job
+  if (job.state !== 'sourced' && job.state !== 'mapped') {
+    throw new Error(`Expected sourced or mapped state before evidence compilation, received ${job.state}`)
+  }
 
   const evidenceExecution = await input.workers.resolveStructuredEvidence({
     jobId: job.jobId,
     officialUrls: job.officialUrls,
     identity,
-    sourceLicenceRegister: sourceRights.register,
+    sourceLicenceRegister,
   })
   if (evidenceExecution.status !== 'success') return workerFailure(job, 'source', evidenceExecution, input.now)
-  const evidence = validateStructuredEvidence(evidenceExecution.output, sourceRights.register)
-  job = appendWorkerRun(job, 'source', evidenceExecution, input.now)
+  const evidence = validateStructuredEvidence(evidenceExecution.output, sourceLicenceRegister)
+  job = appendWorkerRun(job, 'source', evidenceExecution, input.now, {
+    inputRefs: job.sourceLicenceRegisterRef ? [job.sourceLicenceRegisterRef] : [],
+  })
 
   const alignmentExecution = await input.workers.compileBoardAlignment({
     jobId: job.jobId,
     identity,
-    sourceLicenceRegister: sourceRights.register,
+    sourceLicenceRegister,
     facts: evidence.boardAlignmentFacts,
   })
   if (alignmentExecution.status !== 'success') return workerFailure(job, 'board_alignment', alignmentExecution, input.now)
-  const boardAlignment = validateBoardAlignment(alignmentExecution.output, job, sourceRights.register)
+  const boardAlignment = validateBoardAlignment(alignmentExecution.output, job, sourceLicenceRegister)
   const alignmentFingerprint = await fingerprintValue(boardAlignment)
   const alignmentWrite = await input.artifactStore.writeJson({
     jobId: job.jobId,
@@ -586,17 +635,20 @@ export async function runIntakeToKnowledgeModel(input: {
     fingerprint: alignmentFingerprint,
     value: boardAlignment,
   })
-  job = appendWorkerRun(job, 'board_alignment', alignmentExecution, input.now)
+  job = appendWorkerRun(job, 'board_alignment', alignmentExecution, input.now, {
+    inputRefs: job.sourceLicenceRegisterRef ? [job.sourceLicenceRegisterRef] : [],
+    outputRefs: [alignmentWrite.ref],
+  })
 
   const coverageExecution = await input.workers.compileCoverage({
     jobId: job.jobId,
     identity,
-    sourceLicenceRegister: sourceRights.register,
+    sourceLicenceRegister,
     boardAlignment,
     requirements: evidence.curriculumRequirements,
   })
   if (coverageExecution.status !== 'success') return workerFailure(job, 'coverage', coverageExecution, input.now)
-  const coverageMap = validateCoverage(coverageExecution.output, job, sourceRights.register)
+  const coverageMap = validateCoverage(coverageExecution.output, job, sourceLicenceRegister)
   const coverageFingerprint = await fingerprintValue(coverageMap)
   const coverageWrite = await input.artifactStore.writeJson({
     jobId: job.jobId,
@@ -604,25 +656,28 @@ export async function runIntakeToKnowledgeModel(input: {
     fingerprint: coverageFingerprint,
     value: coverageMap,
   })
-  job = appendWorkerRun(job, 'coverage', coverageExecution, input.now)
+  job = appendWorkerRun(job, 'coverage', coverageExecution, input.now, {
+    inputRefs: [alignmentWrite.ref],
+    outputRefs: [coverageWrite.ref],
+  })
   job = contentFactoryJobSchema.parse({
     ...job,
     boardAlignmentRef: alignmentWrite.ref,
     coverageMapRef: coverageWrite.ref,
     updatedAt: input.now,
   })
-  job = advanceJob(job, 'mapped', input.now)
+  if (job.state === 'sourced') job = advanceJob(job, 'mapped', input.now)
 
   const knowledgeExecution = await input.workers.compileKnowledgeModel({
     jobId: job.jobId,
     identity,
-    sourceLicenceRegister: sourceRights.register,
+    sourceLicenceRegister,
     boardAlignment,
     coverageMap,
     requirements: evidence.curriculumRequirements,
   })
   if (knowledgeExecution.status !== 'success') return workerFailure(job, 'knowledge_model', knowledgeExecution, input.now)
-  const knowledgeModel = validateKnowledgeModel(knowledgeExecution.output, job, sourceRights.register, boardAlignment)
+  const knowledgeModel = validateKnowledgeModel(knowledgeExecution.output, job, sourceLicenceRegister, boardAlignment)
   const knowledgeFingerprint = await fingerprintValue(knowledgeModel)
   const knowledgeWrite = await input.artifactStore.writeJson({
     jobId: job.jobId,
@@ -630,20 +685,14 @@ export async function runIntakeToKnowledgeModel(input: {
     fingerprint: knowledgeFingerprint,
     value: knowledgeModel,
   })
-  job = appendWorkerRun(job, 'knowledge_model', knowledgeExecution, input.now)
+  job = appendWorkerRun(job, 'knowledge_model', knowledgeExecution, input.now, {
+    inputRefs: [alignmentWrite.ref, coverageWrite.ref],
+    outputRefs: [knowledgeWrite.ref],
+  })
 
   return contentFactoryJobSchema.parse({
     ...job,
     courseKnowledgeModelRef: knowledgeWrite.ref,
     updatedAt: input.now,
   })
-}
-
-export async function readSourceLicenceRegister(
-  jobInput: ContentFactoryJob,
-  artifactStore: ContentFactoryArtifactStore,
-): Promise<SourceLicenceRegister> {
-  const job = contentFactoryJobSchema.parse(jobInput)
-  if (!job.sourceLicenceRegisterRef) throw new Error('Content Factory job has no Source Licence Register reference')
-  return sourceLicenceRegisterSchema.parse(await artifactStore.readJson(job.sourceLicenceRegisterRef))
 }
