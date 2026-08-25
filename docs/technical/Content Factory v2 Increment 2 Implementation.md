@@ -31,7 +31,8 @@ In particular:
 - `PROHIBITED` and `UNKNOWN` stop the pipeline with `source_rights_review_required`;
 - `REFERENCE_ONLY` sources may support verified structured Board Alignment facts but cannot become generative curriculum authority;
 - curriculum requirements and Course Knowledge Model nodes may reference only `OPEN`, `REVISION_OWNED` or `LICENSED` sources whose recorded derived-commercial-use permission is true;
-- genuine unresolved course options block rather than being guessed.
+- genuine unresolved course options block rather than being guessed; and
+- resumable execution uses the durable job and persisted artifacts rather than chat/session state.
 
 ## New implementation module
 
@@ -42,16 +43,19 @@ In particular:
 - stable SHA-256 fingerprints over canonical structured values;
 - a provider-neutral worker execution/provenance contract;
 - a provider-neutral artifact-store contract;
-- schema validation and cross-artifact/source-rights validation at each stage; and
-- `runIntakeToKnowledgeModel(...)`, which executes the governed front-of-factory sequence.
+- schema validation and cross-artifact/source-rights validation at each stage;
+- durable input/output references on worker-run provenance where artifacts exist; and
+- `runIntakeToKnowledgeModel(...)`, which executes or resumes the governed front-of-factory sequence.
 
 The module is exported from `src/content-factory/index.ts`.
 
 ## Execution sequence
 
-For a schema-v2 job in `requested`:
+For a new schema-v2 job:
 
 ```text
+requested
+  ↓
 identity resolver
   ↓
 resolved identity / cohort / components
@@ -84,6 +88,20 @@ Course Knowledge Model compiler
 ```
 
 The job intentionally remains in `mapped` after the Course Knowledge Model is present. Increment 3 will add the Learning Blueprint and governed work units required before the existing state machine can advance to `generating`.
+
+## Restartability and idempotency
+
+The runner accepts durable schema-v2 jobs at `requested`, `identified`, `sourced` or `mapped`.
+
+- `requested` runs the full sequence;
+- `identified` can retry source discovery/source-rights classification after an authorised blocker is resolved;
+- `sourced` reloads and validates the persisted Source Licence Register before continuing;
+- `mapped` reloads the approved source state and can recover a missing Course Knowledge Model; and
+- `mapped` with an existing Course Knowledge Model returns without creating duplicate worker runs or artifacts.
+
+A blocked job must first be resumed through the existing governed `resumeJob(...)` mechanism. The pipeline does not clear its own course-option or source-rights blocker.
+
+For this increment, recovery from a partially mapped job without a Course Knowledge Model is deliberately conservative: downstream structured evidence / alignment / coverage may be rebuilt before knowledge-model compilation rather than assuming partially completed stage state is reusable. Later dependency-fingerprint work can narrow that reuse further without changing the source-rights contract.
 
 ## Worker safety boundary
 
@@ -134,7 +152,9 @@ The pipeline writes four durable artifact classes through an injected `ContentFa
 - coverage map; and
 - Course Knowledge Model.
 
-The store contract returns repository/job references while the pipeline retains fingerprints in the governed artifacts/job state. A concrete GitHub branch artifact-store adapter remains a later implementation detail; this increment establishes the domain boundary needed to implement it without coupling worker logic to GitHub API calls.
+The store contract returns repository/job references while the pipeline retains fingerprints in the governed artifacts/job state. Persisted Source Licence Registers are re-read and checked against the job ID and source-set fingerprint on resumed execution.
+
+A concrete GitHub branch artifact-store adapter remains a later implementation detail; this increment establishes the domain boundary needed to implement it without coupling worker logic to GitHub API calls.
 
 ## Failure and blocker behaviour
 
@@ -142,7 +162,7 @@ The pipeline records worker provenance in the existing `workerRuns` job history.
 
 Worker failures/infrastructure failures become durable blockers rather than silent retries or discarded failures. Source-rights ambiguity and genuine course choices use explicit blocker reasons. Existing orchestrator resume behaviour remains the recovery mechanism.
 
-The runner does not automatically clear rights/course blockers or infer Founder/legal decisions.
+The runner does not automatically clear rights/course blockers or infer Founder/legal decisions. Worker/schema contract violations remain hard implementation failures for the outer orchestrator to surface; they are not silently converted into educationally valid output.
 
 ## Assurance added
 
@@ -154,6 +174,11 @@ The runner does not automatically clear rights/course blockers or infer Founder/
 - source-rights blocking before downstream mapping;
 - rejection when `REFERENCE_ONLY` material is used as curriculum authority; and
 - course-option blocking rather than automatic guessing.
+
+`src/content-factory/intake-to-knowledge-model-restart.test.ts` additionally proves:
+
+- a durable source-rights blocker can be resolved through `resumeJob(...)` and the pipeline continues from `identified` without conversational state; and
+- re-running a completed mapped job is idempotent and does not duplicate worker runs.
 
 Repository exact-head CI remains the final assurance gate for the PR.
 
@@ -167,7 +192,7 @@ No new browser secret or privileged client path is introduced. The canonical Adm
 
 None. There is no learner-facing product change and no new Admin route in this increment.
 
-The practical improvement is internal: the factory now has executable, source-rights-safe machinery for turning a course request into the structured knowledge foundation required by later content-generation stages.
+The practical improvement is internal: the factory now has executable, source-rights-safe and restartable machinery for turning a course request into the structured knowledge foundation required by later content-generation stages.
 
 ## Deliberate non-scope / next increment
 
