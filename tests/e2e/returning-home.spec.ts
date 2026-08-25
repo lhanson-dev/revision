@@ -102,7 +102,7 @@ async function expectApprovedHeroFidelity(page: Page) {
   expect((heroBox.x + heroBox.width) - (promptBox.x + promptBox.width)).toBeLessThanOrEqual(50)
 
   const viewportWidth = page.viewportSize()?.width ?? 1200
-  const minimumRevSize = viewportWidth <= 620 ? 145 : viewportWidth <= 960 ? 225 : viewportWidth <= 1160 ? 242 : 300
+  const minimumRevSize = viewportWidth <= 620 ? 170 : viewportWidth <= 960 ? 242 : viewportWidth <= 1160 ? 255 : 320
   expect(presenceBox.width).toBeGreaterThanOrEqual(minimumRevSize)
 
   const haloBackground = await page.locator('.returning-home-hero .rev-presence-hero .rev-halo').evaluate((element) => getComputedStyle(element).backgroundImage)
