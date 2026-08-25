@@ -154,6 +154,8 @@ The implementation must remain covered by:
 - GJ-01 first-use regression assurance; and
 - exact Home interaction assurance for promoted task start and evidence persistence.
 
+The four Founder-approved Returning Home visual states (phone/desktop × Light/Dark) are pinned by exact SHA-256 screenshot digests in `tests/e2e/interface-visual-regression.spec.ts`, with the captured image attached to the test result for inspection. This makes any pixel-level change to the locked Home fail closed until the visual is deliberately reviewed and re-approved. The wider Interface System visual suite retains its existing PNG snapshot comparison with the governed 1% pixel-difference tolerance for non-Home surfaces.
+
 ## Documentation impact
 
 This is a current technical implementation record. It does not rewrite historical GJ-01 evidence or the PR #162 governance decision. `REV Homepage Shell Implementation.md` remains the wider shell document; this file is the more specific current implementation source for Returning Student Home.
