@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { expect, test, type Page } from '@playwright/test'
 
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
@@ -7,7 +8,9 @@ const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
 type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
 
-const cases: ReadonlyArray<{ project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }> = [
+type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
+
+const cases: ReadonlyArray<VisualCase> = [
   { project: 'phone', state: 'home', theme: 'light' },
   { project: 'phone', state: 'home', theme: 'dark' },
   { project: 'desktop', state: 'home', theme: 'light' },
@@ -27,6 +30,20 @@ const cases: ReadonlyArray<{ project: 'phone' | 'tablet' | 'desktop'; state: Vis
   { project: 'desktop', state: 'admin', theme: 'light' },
   { project: 'desktop', state: 'admin', theme: 'dark' },
 ]
+
+/**
+ * Founder-approved Returning Student Home visual baseline captured from the
+ * canonical Linux browser assurance after the locked Home implementation.
+ * Home uses an exact digest because the approved redesign intentionally
+ * replaces the previous PNG snapshots. Other surfaces retain the established
+ * pixel-diff snapshot contract below.
+ */
+const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
+  'phone:light': '4093ffbf9599be41dd5ee0a95a03fc5aa74242feb61597664dfe24784cef2fd9',
+  'phone:dark': '87164d3139d1522614470619d1b1e35bbe9c401cf1c3faffa1eb98ac391fc534',
+  'desktop:light': 'd4da2e28b6e9285c4694a48839dfc00809941825bea56f7adc933d0b24ad117d',
+  'desktop:dark': '7f9b5a60f4abda46c7a6da1cea278e9368e92599cf9d43a27d0ac0b1709925e9',
+}
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
   await page.clock.setFixedTime(new Date('2026-08-23T12:00:00.000Z'))
@@ -165,6 +182,19 @@ for (const visualCase of cases) {
     test.skip(testInfo.project.name !== visualCase.project, `Captured only in the ${visualCase.project} canonical viewport.`)
     await seedSession(page, visualCase.theme, visualCase.state === 'admin')
     await openState(page, visualCase.state)
+
+    if (visualCase.state === 'home') {
+      const screenshot = await page.screenshot({
+        animations: 'disabled',
+        caret: 'hide',
+        fullPage: false,
+      })
+      await testInfo.attach(`home-${visualCase.theme}-${visualCase.project}.png`, { body: screenshot, contentType: 'image/png' })
+      const digest = createHash('sha256').update(screenshot).digest('hex')
+      expect(digest).toBe(approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`])
+      return
+    }
+
     await expect(page).toHaveScreenshot(`${visualCase.state}-${visualCase.theme}.png`, {
       animations: 'disabled',
       caret: 'hide',
