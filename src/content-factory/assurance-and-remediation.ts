@@ -291,6 +291,12 @@ function arraysEqual(left: readonly string[], right: readonly string[]) {
   return left.length === right.length && left.every((value, index) => value === right[index])
 }
 
+function setsEqual(left: readonly string[], right: readonly string[]) {
+  const a = new Set(left)
+  const b = new Set(right)
+  return a.size === b.size && [...a].every((value) => b.has(value))
+}
+
 function stableMetadataEqual(left: unknown[], right: unknown[]) {
   return JSON.stringify(left) === JSON.stringify(right)
 }
@@ -416,8 +422,8 @@ function compatibilityProblems(job: ContentFactoryJob, bundle: AssuranceBundle) 
   if (bundle.learningBlueprint.knowledgeModelFingerprint !== bundle.courseKnowledgeModel.fingerprint) problems.push('Learning Blueprint does not match the Course Knowledge Model')
   if (bundle.assessmentBlueprint.boardAlignmentFingerprint !== bundle.boardAlignment.fingerprint) problems.push('Assessment Blueprint does not match Board Alignment')
   if (bundle.manifest.assessmentBlueprintRef !== job.assessmentBlueprintRef) problems.push('Manifest Assessment Blueprint reference mismatch')
-  if (!stableMetadataEqual(bundle.manifest.questionFamilyRefs, job.questionFamilyRefs)) problems.push('Manifest Question Family references do not match the job')
-  if (!stableMetadataEqual(bundle.manifest.markableAssessmentItemIds, job.markableAssessmentItemIds)) problems.push('Manifest markable assessment IDs do not match the job')
+  if (!setsEqual(bundle.manifest.questionFamilyRefs, job.questionFamilyRefs)) problems.push('Manifest Question Family references do not match the job')
+  if (!setsEqual(bundle.manifest.markableAssessmentItemIds, job.markableAssessmentItemIds)) problems.push('Manifest markable assessment IDs do not match the job')
   if (bundle.learningArtifacts.some((entry) => entry.value.artifactType !== 'learning')) problems.push('Learning artifact list contains a non-learning artifact')
   if (bundle.practiceArtifacts.some((entry) => entry.value.artifactType !== 'practice')) problems.push('Practice artifact list contains a non-practice artifact')
   if ([...bundle.learningArtifacts, ...bundle.practiceArtifacts].some((entry) => entry.value.knowledgeModelFingerprint !== bundle.courseKnowledgeModel.fingerprint)) problems.push('Learn/Practice artifact knowledge fingerprint mismatch')
@@ -568,7 +574,7 @@ function minorLimitations(report: IndependentReviewReport) {
 
 function findDependentMarkingPack(bundle: AssuranceBundle, item: AssessmentItemArtifact) {
   const entry = bundle.markingPacks.find((candidate) => candidate.value.questionId === item.id)
-  if (!entry) throw new Error(`Assessment item ${item.id} is missing its dependent Marking Pack`) 
+  if (!entry) throw new Error(`Assessment item ${item.id} is missing its dependent Marking Pack`)
   return entry
 }
 
@@ -607,6 +613,9 @@ function validateCorrectedMarkingPack(original: unknown, corrected: unknown) {
   const stableBefore = [before.schemaVersion, before.id, before.questionId, before.questionVersion, before.exactQuestionWording, before.contextRef, before.maxMark, before.conceptIds, before.questionFamilyId, before.assessmentBlueprintFingerprint, before.sourceRefs, before.questionOrigin, before.indicativeContentPolicy, before.calibrationStatus]
   const stableAfter = [after.schemaVersion, after.id, after.questionId, after.questionVersion, after.exactQuestionWording, after.contextRef, after.maxMark, after.conceptIds, after.questionFamilyId, after.assessmentBlueprintFingerprint, after.sourceRefs, after.questionOrigin, after.indicativeContentPolicy, after.calibrationStatus]
   if (!stableMetadataEqual(stableBefore, stableAfter)) throw new Error(`Marking Pack remediation may not change exact question identity/provenance for ${before.questionId}`)
+  if (after.calibrationStatus === 'not_calibrated' && after.anchors.some((anchor) => anchor.calibrationStatus === 'expert_calibrated')) {
+    throw new Error(`Marking Pack remediation may not invent expert calibration for ${before.questionId}`)
+  }
   return after
 }
 
@@ -628,6 +637,10 @@ function validateDependentPackForCorrectedItem(packInput: unknown, item: Assessm
   const pack = executableMarkingPackSchema.parse(packInput)
   if (pack.id !== original.id || pack.questionId !== item.id || pack.questionVersion !== item.version || pack.exactQuestionWording !== item.questionWording || pack.maxMark !== item.maxMark || pack.questionFamilyId !== item.questionFamilyId || pack.assessmentBlueprintFingerprint !== item.assessmentBlueprintFingerprint || pack.questionOrigin !== 'revision_owned' || pack.indicativeContentPolicy !== 'non_exhaustive') {
     throw new Error(`Dependent Marking Pack remediation does not match corrected assessment item ${item.id}`)
+  }
+  if (pack.calibrationStatus !== original.calibrationStatus) throw new Error(`Dependent Marking Pack remediation may not change calibration status for ${item.id}`)
+  if (pack.calibrationStatus === 'not_calibrated' && pack.anchors.some((anchor) => anchor.calibrationStatus === 'expert_calibrated')) {
+    throw new Error(`Dependent Marking Pack remediation may not invent expert calibration for ${item.id}`)
   }
   if (!arraysEqual(pack.sourceRefs, item.sourceRefs)) throw new Error(`Dependent Marking Pack source references do not match corrected assessment item ${item.id}`)
   const aoMarks = pack.assessmentObjectiveAllocation.map((allocation) => allocation.marks).filter((marks): marks is number => marks !== undefined)
@@ -752,11 +765,13 @@ async function runRemediationCycle(input: {
     if (target.kind === 'learning' || target.kind === 'practice') corrected = validateCorrectedLearningPractice(target.artifact, output.correctedArtifact)
     else if (target.kind === 'marking_pack') corrected = validateCorrectedMarkingPack(target.artifact, output.correctedArtifact)
     else {
-      const correctedItem = validateCorrectedAssessmentItem(target.artifact, output.correctedArtifact, input.bundle)
+      if (target.kind !== 'assessment_item') throw new Error(`Unsupported remediation target kind: ${target.kind}`)
+      const assessmentTarget = target
+      const correctedItem = validateCorrectedAssessmentItem(assessmentTarget.artifact, output.correctedArtifact, input.bundle)
       if (!output.correctedDependentMarkingPack) throw new Error(`Assessment-item remediation for ${correctedItem.id} must also rebuild the dependent Marking Pack`)
-      const correctedPack = validateDependentPackForCorrectedItem(output.correctedDependentMarkingPack, correctedItem, target.dependentMarkingPack)
+      const correctedPack = validateDependentPackForCorrectedItem(output.correctedDependentMarkingPack, correctedItem, assessmentTarget.dependentMarkingPack)
       const packWrite = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'remediated_artifact', fingerprint: await fingerprintValue(correctedPack), value: correctedPack })
-      dependent = { oldRef: target.dependentMarkingPackRef, newRef: packWrite.ref, itemId: correctedItem.id }
+      dependent = { oldRef: assessmentTarget.dependentMarkingPackRef, newRef: packWrite.ref, itemId: correctedItem.id }
       corrected = correctedItem
     }
 
