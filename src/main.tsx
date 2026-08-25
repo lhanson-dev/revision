@@ -37,6 +37,7 @@ import './app/ask-rev-cta.css'
 import './app/rev-resting-presence.css'
 import './app/subject-accents.css'
 import './app/returning-home.css'
+import './app/returning-home-fidelity.css'
 
 const root = document.getElementById('root')
 
