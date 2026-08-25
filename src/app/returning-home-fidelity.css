@@ -5,17 +5,17 @@
 }
 
 .planner-runtime .returning-home-hero-layout {
-  min-height: 310px;
-  grid-template-columns: 330px minmax(0, 1fr);
+  min-height: 316px;
+  grid-template-columns: 344px minmax(0, 1fr);
   gap: 42px;
 }
 
 .planner-runtime .returning-home-rev-stage {
-  height: 300px;
+  height: 316px;
 }
 
 .planner-runtime .returning-home-hero .rev-presence-hero {
-  --rev-size: clamp(232px, 24vw, 308px);
+  --rev-size: clamp(248px, 25vw, 328px);
 }
 
 /* The approved Home hero uses a visibly white/aqua atmospheric bloom, not a teal-only haze. */
@@ -111,8 +111,23 @@
 
 @media (max-width: 1160px) and (min-width: 961px) {
   .planner-runtime .returning-home-hero-layout {
-    grid-template-columns: 250px minmax(0, 1fr);
-    gap: 28px;
+    grid-template-columns: 266px minmax(0, 1fr);
+    gap: 26px;
+  }
+
+  .planner-runtime .returning-home-rev-stage {
+    height: 270px;
+  }
+
+  .planner-runtime .returning-home-hero .rev-presence-hero {
+    --rev-size: 260px;
+  }
+}
+
+@media (max-width: 960px) {
+  .planner-runtime .returning-home-hero-layout {
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: 20px;
   }
 
   .planner-runtime .returning-home-rev-stage {
@@ -122,21 +137,6 @@
   .planner-runtime .returning-home-hero .rev-presence-hero {
     --rev-size: 248px;
   }
-}
-
-@media (max-width: 960px) {
-  .planner-runtime .returning-home-hero-layout {
-    grid-template-columns: 225px minmax(0, 1fr);
-    gap: 24px;
-  }
-
-  .planner-runtime .returning-home-rev-stage {
-    height: 242px;
-  }
-
-  .planner-runtime .returning-home-hero .rev-presence-hero {
-    --rev-size: 230px;
-  }
 
   .planner-runtime .returning-home-hero > .living-home-prompt {
     margin-top: 18px;
@@ -145,16 +145,16 @@
 
 @media (max-width: 620px) {
   .planner-runtime .returning-home-hero-layout {
-    grid-template-columns: 138px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 148px minmax(0, 1fr);
+    gap: 8px;
   }
 
   .planner-runtime .returning-home-rev-stage {
-    height: 158px;
+    height: 176px;
   }
 
   .planner-runtime .returning-home-hero .rev-presence-hero {
-    --rev-size: 150px;
+    --rev-size: 176px;
   }
 
   .powered-by-rev {
