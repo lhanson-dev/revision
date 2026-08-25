@@ -1008,13 +1008,13 @@ FI-020 remains **In Progress** until PR #130 receives its own explicit Founder m
 
 ## FI-021 — Student First-Use Onboarding / GJ-01
 
-**Status:** Ready  
+**Status:** In Progress  
 **Captured:** 2026-08-23  
 **Capability fit:** Understand; Guide; Learn; Practise and Test  
 **Approved direction:** Founder-reviewed GJ-01 takes a newly registered Student from primary-experience selection through one exact saved course, a cautious starting signal, a useful first activity and feedback before meaningful Student Home. PR #155 promotes this sequence into `10-product-governance/Core User Journeys.md`.  
 **Analysis record:** `10-product-governance/backlog/FI-021 Student First-Use Onboarding Analysis.md`  
-**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria passed with no blocking decisions. On 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-021 Ready`.  
-**Current assessment:** Human-approved **Ready** for governed implementation of the approved scope. Production implementation has not started; FI-021 moves to `In Progress` only when governed implementation actually begins from then-current approved `main`.
+**Lifecycle evidence:** Founder instruction after PR #154 records `New → To Do → Analyse`. The Definition-of-Ready analysis was refreshed against approved `main` on 2026-08-24 after PR #156 integrated FI-006's human-approved starting-check evidence contract. All substantive readiness criteria passed with no blocking decisions. On 2026-08-24 the Founder explicitly approved `Analyse → Ready` with `Approve FI-021 Ready`. Governed implementation then began from approved `main` `4ad4d1d632d0fb7ee8a752c0ebff7335d5de5c04` on PR #163, establishing `Ready → In Progress` while preserving the prior Ready approval.  
+**Current assessment:** **In Progress** on PR #163. The approved GJ-01 implementation is present on the governed branch and remains In Progress until exact-head assurance, Founder merge approval, merge to current approved `main`, production backend readiness, deployment, smoke and durable path-to-live evidence establish Live status.
 
 ### Ready-scope summary
 
@@ -1029,7 +1029,7 @@ FI-020 remains **In Progress** until PR #130 receives its own explicit Founder m
 
 ### Implementation boundary
 
-FI-021 is **Ready**, not `In Progress`. Governed implementation may begin only from then-current approved `main` and must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries. PR #155 merged the Ready authority/lifecycle package into `main` on 2026-08-24 as `1b0c315b8d890d5a76b6d0a89f3b749bb128823c`.
+FI-021 is **In Progress** on PR #163. The implementation must preserve the approved GJ-01, FI-020 course-persistence and FI-006 evidence boundaries, remain foundational across Free/Paid/Premium, and must not move to `Live` until the governed merge and production path-to-live evidence are complete.
 
 ---
 
