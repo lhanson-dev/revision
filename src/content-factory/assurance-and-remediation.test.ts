@@ -355,7 +355,7 @@ class PassWorkers implements AssuranceAndRemediationWorkers {
     })
   }
 
-  async remediate() {
+  async remediate(): Promise<WorkerExecution<unknown>> {
     this.remediationCalls += 1
     throw new Error('Remediation should not run for a pass case')
   }
