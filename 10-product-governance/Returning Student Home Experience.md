@@ -4,13 +4,13 @@ document_id: "revision-returning-student-home-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
 effective_date: "2026-08-24"
-last_reviewed: "2026-08-24"
+last_reviewed: "2026-08-25"
 content_review_status: "founder-approved"
 source_of_truth_for: ["returning Student Home hierarchy", "Returning Student Home screen-purpose contract", "Home REV hero", "Today's revision plan composition", "Home recommendation launch behaviour"]
-depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Visual Brand System", "Global Learner Navigation"]
+depends_on: ["Core User Journeys", "Information Architecture", "Adaptive Revision Planning", "Product UX Principles", "Visual Brand System", "Global Learner Navigation", "Identity Asset Usage Rules"]
 supersedes: ["Core User Journeys returning-student example requiring course-open then mode selection", "Information Architecture Home clause describing Today's plan as necessarily smaller than REV guidance", "Adaptive Revision Planning clause describing Today's plan as necessarily smaller than the Home recommendation"]
 ---
 # Returning Student Home Experience
@@ -20,6 +20,8 @@ supersedes: ["Core User Journeys returning-student example requiring course-open
 Define the Founder-approved screen contract and composition for the default returning Student Home experience.
 
 This authority specialises the general Home and Returning Student rules in `Core User Journeys.md`, `Information Architecture.md` and `Adaptive Revision Planning.md`. Where those documents describe an older Returning Student path or require Today's plan to be visually smaller than the recommendation, this document is the more specific current authority.
+
+Version 1.1 records the Founder fidelity correction of 25 August 2026 after the first production implementation did not fully reproduce the approved Home prototype. The correction is deliberately narrow: it restores the approved `Powered by REV` treatment, strengthens the visible white/aqua Living E bloom, increases the REV feature scale and restores the Ask REV field as a full-width bottom row of the hero.
 
 ## Journey
 
@@ -54,15 +56,17 @@ REV is the major feature moment at the top of Home.
 
 The hero must:
 
-- give the Living E substantial scale and breathing room;
-- use the approved soft, atmospheric Living E halo and genuine semantic state motion;
-- preserve Light and Dark quality;
+- give the Living E substantial feature scale and breathing room rather than treating it as a large icon;
+- keep the Living E visibly larger than the first production implementation, while scaling proportionately across desktop, tablet and phone;
+- use the approved soft atmospheric halo with a clearly visible near-white/aqua luminous centre around the Living E, fading softly into teal rather than reading as a teal-only haze;
+- use genuine semantic state motion and preserve Light and Dark quality;
+- render the approved compact `Powered by REV` identity treatment above the greeting;
 - present a personalised greeting such as `Hi {first name}, what shall we do today?`;
-- provide the main `Ask REV anything…` input;
+- provide the main `Ask REV anything…` input as a full-width row along the bottom of the hero, spanning the hero's usable inner width beneath the graphic/copy row;
 - avoid decorative prompt-button clutter beneath the input by default; and
 - avoid visible idle-status copy such as `REV is ready` where the visual presence already communicates availability.
 
-REV may use a compact approved identity lock-up such as `Powered by REV` only where a canonical governed identity treatment exists. Production must not invent an ad-hoc wordmark asset.
+The `Powered by REV` treatment must use the governed compact REV identity treatment in `Identity Asset Usage Rules.md`. Production must not improvise a different REV lock-up locally.
 
 REV is visually prominent without becoming sci-fi, neon or a mascot.
 
@@ -111,12 +115,17 @@ The hierarchy is identical across desktop, tablet and phone:
 
 `REV hero → Today's revision plan → promoted first task → remaining planned activities`
 
+Within the REV hero, the responsive composition preserves:
+
+`large Living E + Powered by REV/greeting → full-width Ask REV field beneath`
+
 Desktop may place the first task and remaining activities side-by-side. Tablet/phone may stack them, with the promoted first task first.
 
 On constrained screens:
 
 - REV remains a meaningful hero rather than collapsing into a generic icon;
-- the Ask REV field remains easy to reach;
+- the Living E remains visually prominent, with the glow still clearly visible;
+- the Ask REV field remains a full-width hero row and easy to reach;
 - the first task and primary CTA remain visible without excessive scrolling;
 - remaining activities follow in plan order; and
 - the governed persistent Ask REV mobile/tablet action remains available.
@@ -146,6 +155,9 @@ Implementation should cover at minimum:
 - direct promoted-task-to-exact-activity routing;
 - full Plan route;
 - genuine REV resting/listening/thinking/responding states;
+- presence of the governed `Powered by REV` treatment;
+- full-width hero Ask REV field at phone, tablet and desktop;
+- Living E feature scale and visible white/aqua atmospheric halo;
 - reduced motion;
 - Light and Dark;
 - phone, tablet and desktop hierarchy;
@@ -154,4 +166,4 @@ Implementation should cover at minimum:
 
 ## Documentation impact
 
-This authority records the Founder-approved Returning Student Home design direction agreed 24 August 2026. Implementation must update the current Home technical documentation when production behaviour changes. Historical GJ-01 design/research evidence remains historical and must not be rewritten.
+Version 1.1 records the Founder-approved fidelity correction agreed 25 August 2026. Implementation must update the current Home technical documentation and visual assurance baseline when production behaviour changes. Historical GJ-01 design/research evidence and the original prototype remain historical/research evidence and must not be rewritten.
