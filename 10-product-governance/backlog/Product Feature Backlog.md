@@ -16,7 +16,7 @@ Use the following normal lifecycle consistently:
 - **To Do** — explicit human product decision recorded that the feature belongs in Revision, supported by the applicable governed product authority/decision evidence; Definition-of-Ready analysis has not yet started.
 - **Analyse** — active work is underway to challenge, define and prepare the feature to satisfy the complete Definition of Ready.
 - **Ready** — every applicable Definition-of-Ready criterion has passed and explicit human approval to proceed to development has been recorded.
-- **In Progress** — governed implementation has actually started on the approved Ready scope.
+- **In Progress** — governed implementation has actually started on the approved scope.
 - **Live** — production evidence confirms the feature is available on the canonical production runtime.
 
 Exception/disposition states:
@@ -254,7 +254,8 @@ Review and update at minimum:
 **Captured:** 2026-08-19  
 **Capability fit:** Understand; Guide; Learn; Practise and Test; Prepare for the Exam; Progress and Readiness  
 **Authority context:** REV / the AI tutor is already approved as a core part of Revision's product system and first serious product version. This backlog item captures the fuller product capability required to realise that approved direction rather than proposing whether an AI tutor should exist.  
-**Initial assessment:** Very high strategic value; central differentiator; likely major retention and premium-value driver; implementation must be cost-controlled and evidence-grounded
+**Research / feasibility evidence:** `research/FI-003 REV AI Technical Feasibility - 2026-08-25.md`  
+**Initial assessment:** Very high strategic value; central differentiator; likely major retention and premium-value driver; implementation must be cost-controlled and evidence-grounded. Technical feasibility is assessed as high within the existing React + Supabase architecture, but no provider/model is approved. The leading candidate pattern is a protected REV orchestration layer, selective curriculum/learner-context retrieval, deterministic Revision intelligence where possible, bounded memory, safeguarding, cost metering and evaluated model routing rather than a fixed "GPT-4 for everything" design. FI-003 remains `To Do`; this research does not itself start Definition-of-Ready analysis.
 
 ### Student problem
 
