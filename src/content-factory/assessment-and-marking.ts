@@ -66,16 +66,8 @@ export const assessmentItemArtifactSchema = assessmentItemWorkerOutputSchema.ext
 })
 
 export const markingPackWorkerOutputSchema = z.object({
-  assessmentObjectiveAllocation: z.array(z.object({
-    objectiveId: identifierSchema,
-    marks: z.number().int().nonnegative(),
-  })).default([]),
-  rubric: z.array(z.object({
-    id: identifierSchema,
-    descriptor: nonEmptyStringSchema,
-    minMark: z.number().int().nonnegative().optional(),
-    maxMark: z.number().int().nonnegative().optional(),
-  })).min(1),
+  assessmentObjectiveAllocation: z.array(z.object({ objectiveId: identifierSchema, marks: z.number().int().nonnegative() })).default([]),
+  rubric: z.array(z.object({ id: identifierSchema, descriptor: nonEmptyStringSchema, minMark: z.number().int().nonnegative().optional(), maxMark: z.number().int().nonnegative().optional() })).min(1),
   applicationRequirements: z.array(nonEmptyStringSchema).default([]),
   analysisRequirements: z.array(nonEmptyStringSchema).default([]),
   evaluationRequirements: z.array(nonEmptyStringSchema).default([]),
@@ -98,12 +90,7 @@ export const courseContentPackManifestSchema = z.object({
   artifactType: z.literal('course_content_pack_manifest'),
   jobId: identifierSchema,
   publicationStatus: z.literal('factory_generated_unassured'),
-  courseIdentity: z.object({
-    subject: nonEmptyStringSchema,
-    qualification: nonEmptyStringSchema,
-    awardingBody: nonEmptyStringSchema,
-    specificationId: nonEmptyStringSchema,
-  }),
+  courseIdentity: z.object({ subject: nonEmptyStringSchema, qualification: nonEmptyStringSchema, awardingBody: nonEmptyStringSchema, specificationId: nonEmptyStringSchema }),
   boardAlignmentFingerprint: nonEmptyStringSchema,
   knowledgeModelFingerprint: nonEmptyStringSchema,
   learningBlueprintRef: nonEmptyStringSchema,
@@ -120,6 +107,10 @@ export type ExecutableAssessmentBlueprint = z.infer<typeof executableAssessmentB
 export type AssessmentItemArtifact = z.infer<typeof assessmentItemArtifactSchema>
 export type ExecutableMarkingPack = z.infer<typeof executableMarkingPackSchema>
 export type AssessmentArtifactKind = 'assessment_blueprint' | 'question_family' | 'assessment_item' | 'marking_pack' | 'course_content_pack'
+
+type SafeKnowledgeNode = ReturnType<typeof safeKnowledgeNodeInput>
+type SafeExamPrepRequirement = ReturnType<typeof safeExamPrepRequirement>
+type AssessmentTarget = { familyId: string; componentId: string }
 
 export interface AssessmentArtifactStore {
   writeJson(input: { jobId: string; kind: AssessmentArtifactKind; fingerprint: string; value: unknown }): Promise<{ ref: string }>
@@ -149,6 +140,7 @@ export interface AssessmentAndMarkingWorkers {
     courseIdentity: NonNullable<ContentFactoryJob['courseIdentity']>
     assessmentBlueprint: ExecutableAssessmentBlueprint
     questionFamily: QuestionFamily
+    targetComponentId: string
     knowledgeNodes: SafeKnowledgeNode[]
     examPrepRequirements: SafeExamPrepRequirement[]
   }): Promise<WorkerExecution<unknown>>
@@ -162,13 +154,10 @@ export interface AssessmentAndMarkingWorkers {
   }): Promise<WorkerExecution<unknown>>
 }
 
-type SafeKnowledgeNode = ReturnType<typeof safeKnowledgeNodeInput>
-type SafeExamPrepRequirement = ReturnType<typeof safeExamPrepRequirement>
-
 export const contentFactoryAssessmentWorkerContracts = {
   assessmentBlueprint: { workerId: 'content-factory.assessment-blueprint', contractVersion: '1', sourceInput: 'structured-board-alignment-plus-course-knowledge-model-facts-only' },
   questionFamily: { workerId: 'content-factory.question-family', contractVersion: '1', sourceInput: 'assessment-blueprint-plus-course-knowledge-model-facts-only' },
-  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '1', sourceInput: 'question-family-plus-course-knowledge-model-facts-only' },
+  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '1', sourceInput: 'question-family-plus-target-component-and-course-knowledge-model-facts-only' },
   markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '1', sourceInput: 'revision-owned-question-plus-assessment-contracts-and-course-knowledge-model-facts-only' },
 } as const
 
@@ -285,6 +274,14 @@ function expectedFamilyIds(blueprint: ExecutableAssessmentBlueprint) {
   return [...new Set(blueprint.components.flatMap((component) => component.questionFamilyIds))]
 }
 
+function assessmentTargets(blueprint: ExecutableAssessmentBlueprint): AssessmentTarget[] {
+  return blueprint.components.flatMap((component) => component.questionFamilyIds.map((familyId) => ({ familyId, componentId: component.componentId })))
+}
+
+function targetKey(target: AssessmentTarget) {
+  return `${target.familyId}:${target.componentId}`
+}
+
 function validateQuestionFamily(input: unknown, expectedFamilyId: string, blueprint: ExecutableAssessmentBlueprint): QuestionFamily {
   const family = questionFamilySchema.parse(input)
   if (family.id !== expectedFamilyId) throw new Error(`Question Family output must use requested id ${expectedFamilyId}`)
@@ -303,9 +300,10 @@ function sourceRefsForItem(nodes: CourseKnowledgeModel['nodes'], boardAlignment:
   return [...new Set([...nodes.flatMap((node) => node.sourceRefs), ...boardAlignment.sourceRefs])].sort()
 }
 
-function validateAssessmentItem(input: unknown, job: ContentFactoryJob, family: QuestionFamily, blueprint: ExecutableAssessmentBlueprint, coverage: CoverageMap, model: CourseKnowledgeModel, boardAlignment: BoardAlignment): AssessmentItemArtifact {
+function validateAssessmentItem(input: unknown, job: ContentFactoryJob, target: AssessmentTarget, family: QuestionFamily, blueprint: ExecutableAssessmentBlueprint, coverage: CoverageMap, model: CourseKnowledgeModel, boardAlignment: BoardAlignment): AssessmentItemArtifact {
   const output = assessmentItemWorkerOutputSchema.parse(input)
-  if (output.questionFamilyId !== family.id) throw new Error(`Assessment item ${output.id} must match Question Family ${family.id}`)
+  if (output.questionFamilyId !== target.familyId || output.questionFamilyId !== family.id) throw new Error(`Assessment item ${output.id} must match Question Family ${family.id}`)
+  if (output.componentId !== target.componentId) throw new Error(`Assessment item ${output.id} must target component ${target.componentId}`)
   if (!family.componentScope.includes(output.componentId)) throw new Error(`Assessment item ${output.id} uses a component outside its Question Family`)
   if (output.maxMark < family.markRange.min || output.maxMark > family.markRange.max) throw new Error(`Assessment item ${output.id} mark allocation is outside Question Family ${family.id} range`)
   if (family.contextRequirements.length > 0 && !output.context) throw new Error(`Assessment item ${output.id} requires an original Revision-owned context`)
@@ -397,8 +395,9 @@ async function persistedAssessmentItems(job: ContentFactoryJob, store: Assessmen
     try { value = await store.readJson(ref) } catch { continue }
     const parsed = assessmentItemArtifactSchema.safeParse(value)
     if (!parsed.success || parsed.data.jobId !== job.jobId || parsed.data.assessmentBlueprintFingerprint !== blueprint.fingerprint) continue
-    if (result.has(parsed.data.questionFamilyId)) throw new Error(`More than one persisted assessment item exists for Question Family ${parsed.data.questionFamilyId}`)
-    result.set(parsed.data.questionFamilyId, { ref, item: parsed.data })
+    const key = targetKey({ familyId: parsed.data.questionFamilyId, componentId: parsed.data.componentId })
+    if (result.has(key)) throw new Error(`More than one persisted assessment item exists for ${key}`)
+    result.set(key, { ref, item: parsed.data })
   }
   return result
 }
@@ -487,22 +486,24 @@ export async function runAssessmentAndMarkingFactory(input: { job: ContentFactor
     job = contentFactoryJobSchema.parse({ ...job, questionFamilyRefs: [...job.questionFamilyRefs, ...outputRefs], updatedAt: input.now })
   }
 
+  const targets = assessmentTargets(blueprint)
   const items = await persistedAssessmentItems(job, input.artifactStore, blueprint)
-  for (const familyId of familyIds) {
-    if (items.has(familyId)) continue
-    const familyRecord = families.get(familyId)!
-    const execution = await input.workers.generateAssessmentItem({ jobId: job.jobId, courseIdentity: job.courseIdentity!, assessmentBlueprint: blueprint, questionFamily: familyRecord.family, knowledgeNodes: safeNodes, examPrepRequirements: examRequirements })
+  for (const target of targets) {
+    const key = targetKey(target)
+    if (items.has(key)) continue
+    const familyRecord = families.get(target.familyId)!
+    const execution = await input.workers.generateAssessmentItem({ jobId: job.jobId, courseIdentity: job.courseIdentity!, assessmentBlueprint: blueprint, questionFamily: familyRecord.family, targetComponentId: target.componentId, knowledgeNodes: safeNodes, examPrepRequirements: examRequirements })
     if (execution.status !== 'success') return workerFailure(job, execution, input.now, 'generation')
-    const item = validateAssessmentItem(execution.output, job, familyRecord.family, blueprint, coverage, model, boardAlignment)
+    const item = validateAssessmentItem(execution.output, job, target, familyRecord.family, blueprint, coverage, model, boardAlignment)
     const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'assessment_item', fingerprint: await fingerprintValue(item), value: item })
-    job = appendWorkerRun(job, 'generation', execution, input.now, { inputRefs: [job.assessmentBlueprintRef!, familyRecord.ref, job.courseKnowledgeModelRef!, job.coverageMapRef!], outputRefs: [write.ref] })
-    items.set(familyId, { ref: write.ref, item })
+    job = appendWorkerRun(job, 'generation', execution, input.now, { inputRefs: [job.assessmentBlueprintRef!, familyRecord.ref, job.courseKnowledgeModelRef!, job.coverageMapRef!, `component:${target.componentId}`], outputRefs: [write.ref] })
+    items.set(key, { ref: write.ref, item })
   }
 
   const markingPackRefs: string[] = []
-  for (const familyId of familyIds) {
-    const familyRecord = families.get(familyId)!
-    const itemRecord = items.get(familyId)!
+  for (const target of targets) {
+    const familyRecord = families.get(target.familyId)!
+    const itemRecord = items.get(targetKey(target))!
     const existing = await persistedMarkingPack(job, input.artifactStore, itemRecord.item, familyRecord.family, blueprint)
     if (existing) { markingPackRefs.push(existing.ref); continue }
     const execution = await input.workers.generateMarkingPack({ jobId: job.jobId, courseIdentity: job.courseIdentity!, assessmentBlueprint: blueprint, questionFamily: familyRecord.family, assessmentItem: safeAssessmentItemInput(itemRecord.item), knowledgeNodes: itemNodes(model, itemRecord.item).map(safeKnowledgeNodeInput) })
@@ -514,14 +515,14 @@ export async function runAssessmentAndMarkingFactory(input: { job: ContentFactor
     markingPackRefs.push(write.ref)
   }
 
-  const markableItemIds = familyIds.map((familyId) => items.get(familyId)!.item.id)
-  if (new Set(markableItemIds).size !== markableItemIds.length) throw new Error('Assessment item IDs must be unique across Question Families')
+  const markableItemIds = targets.map((target) => items.get(targetKey(target))!.item.id)
+  if (new Set(markableItemIds).size !== markableItemIds.length) throw new Error('Assessment item IDs must be unique across component Question Family targets')
   job = contentFactoryJobSchema.parse({ ...job, markableAssessmentItemIds: markableItemIds, updatedAt: input.now })
 
   const { learningRefs, practiceRefs } = await learningPracticeRefs(job, input.artifactStore)
   let manifest = await existingManifest(job, input.artifactStore, blueprint, model)
   if (!manifest) {
-    manifest = courseContentPackManifestSchema.parse({ schemaVersion: 1, artifactType: 'course_content_pack_manifest', jobId: job.jobId, publicationStatus: 'factory_generated_unassured', courseIdentity: job.courseIdentity!, boardAlignmentFingerprint: boardAlignment.fingerprint, knowledgeModelFingerprint: model.fingerprint, learningBlueprintRef: job.learningBlueprintRef!, learningArtifactRefs: learningRefs, practiceArtifactRefs: practiceRefs, assessmentBlueprintRef: job.assessmentBlueprintRef!, questionFamilyRefs: familyIds.map((familyId) => families.get(familyId)!.ref), assessmentItemRefs: familyIds.map((familyId) => items.get(familyId)!.ref), markingPackRefs, markableAssessmentItemIds: markableItemIds })
+    manifest = courseContentPackManifestSchema.parse({ schemaVersion: 1, artifactType: 'course_content_pack_manifest', jobId: job.jobId, publicationStatus: 'factory_generated_unassured', courseIdentity: job.courseIdentity!, boardAlignmentFingerprint: boardAlignment.fingerprint, knowledgeModelFingerprint: model.fingerprint, learningBlueprintRef: job.learningBlueprintRef!, learningArtifactRefs: learningRefs, practiceArtifactRefs: practiceRefs, assessmentBlueprintRef: job.assessmentBlueprintRef!, questionFamilyRefs: familyIds.map((familyId) => families.get(familyId)!.ref), assessmentItemRefs: targets.map((target) => items.get(targetKey(target))!.ref), markingPackRefs, markableAssessmentItemIds: markableItemIds })
     const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'course_content_pack', fingerprint: await fingerprintValue(manifest), value: manifest })
     job = contentFactoryJobSchema.parse({ ...job, contentPackRefs: [...job.contentPackRefs, write.ref], updatedAt: input.now })
   }
