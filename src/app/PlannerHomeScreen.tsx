@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerItem, PlannerReasonCode } from '../engine/planning/planning'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
+import { fallbackHomeTasks, homeActivityLabel, tasksFromPlanner, type HomeTask } from './home-task'
+import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
-import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
+import { learnerCourseRoute, routeHash } from './navigation'
+import { buildPlannerSnapshot } from './planner-model'
 import { RevPresence, type RevPresenceState } from './RevPresence'
 import { Icon } from './ui'
 
@@ -20,53 +22,26 @@ interface PlannerHomeScreenProps {
   onOpenCourse: (courseId: string) => void
 }
 
-function reasonLabel(reason: PlannerReasonCode) {
-  switch (reason) {
-    case 'ASSESSMENT_SOON': return 'the assessment is getting closer'
-    case 'HIGH_IMPORTANCE_ASSESSMENT': return 'this is one of your higher-priority assessments'
-    case 'LOW_EVIDENCE': return 'I do not have much evidence in this area yet'
-    case 'WEAK_EVIDENCE': return 'recent evidence suggests this needs more work'
-    case 'UNDER_COVERED': return 'this area has less evidence coverage'
-    case 'EXAM_PRACTICE_DUE': return 'exam-style practice is becoming more useful now'
-    case 'HIGH_MARK_OPPORTUNITY': return 'this has a larger known mark opportunity'
-    case 'ALREADY_STRONG': return 'you already have stronger evidence here'
-    case 'LEARNER_PRIORITY': return 'you asked me to give this more attention'
-    case 'COMPETING_PRIORITY': return 'I am balancing this with another important priority'
-    case 'CAPACITY_CONSTRAINED': return 'the available time is tight, so I am focusing on the highest-value work'
-  }
+function planSummary(tasks: readonly HomeTask[]) {
+  const minutes = tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0)
+  if (tasks.length === 0) return 'A useful next step will appear here as Revision learns more.'
+  return `${minutes} minutes · ${tasks.length} focused ${tasks.length === 1 ? 'activity' : 'activities'}`
 }
 
-function activityLabel(activity: string) {
-  if (activity === 'exam-question') return 'Exam practice'
-  if (activity === 'quick-check') return 'Quick quiz'
-  if (activity === 'flashcards') return 'Flashcards'
-  return 'Revision activity'
-}
-
-function itemTopicLabel(item: PlannerItem, states: readonly ModuleLearningState[]) {
-  const state = states.find((candidate) => {
-    if (item.courseId && courseIdForLearningState(candidate) !== item.courseId) return false
-    return candidate.adapter.getTopic(item.topicId)
-  })
-  return state?.adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId
-}
-
-function programmeCourseLabel(programme: readonly LearnerProgrammeCourse[], courseId: string | undefined, subjectId: string) {
-  if (courseId) return programme.find((item) => item.course.id === courseId)?.label ?? subjectId
-  const matches = programme.filter((item) => item.subject.id === subjectId)
-  return matches.length === 1 ? matches[0]?.label ?? subjectId : matches[0]?.subject.name ?? subjectId
-}
-
-export function PlannerHomeScreen({ client, userId, learnerName, programme, onOpenPlan, onOpenRev, onOpenCourses, onOpenCourse }: PlannerHomeScreenProps) {
+export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
+  const { client, userId, learnerName, programme, onOpenPlan, onOpenRev, onOpenCourses } = props
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
   const [prompt, setPrompt] = useState('')
   const [revState, setRevState] = useState<RevPresenceState>('resting')
+  const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     let active = true
+    setLoading(true)
     const adapters = adaptersForProgramme(programme)
     const evidenceStore = createSupabaseEvidenceStore(client)
     Promise.all([
@@ -86,49 +61,66 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
         setError('')
       })
       .catch((caught: unknown) => {
-        if (active) setError(caught instanceof Error ? caught.message : 'Could not load today’s plan.')
+        if (active) setError(caught instanceof Error ? caught.message : 'Could not load today’s revision plan.')
       })
       .finally(() => {
         if (active) setLoading(false)
       })
     return () => { active = false }
-  }, [client, programme, userId])
+  }, [client, programme, refreshKey, userId])
 
   const snapshot = useMemo(() => setup
     ? buildPlannerSnapshot(learningStates, setup.assessments, setup.availability, setup.exceptions, setup.preferences)
     : null,
   [learningStates, setup])
 
-  const topItem = snapshot?.today[0]
-  const topReason = topItem?.reasons.find((reason) => reason !== 'CAPACITY_CONSTRAINED' && reason !== 'ALREADY_STRONG')
-  const topic = topItem ? itemTopicLabel(topItem, learningStates) : null
-  const topCourseLabel = topItem ? programmeCourseLabel(programme, topItem.courseId, topItem.subjectId) : null
+  const plannerTasks = useMemo(
+    () => snapshot ? tasksFromPlanner(snapshot.today, learningStates, programme) : [],
+    [learningStates, programme, snapshot],
+  )
+  const fallbackTasks = useMemo(
+    () => fallbackHomeTasks(learningStates, programme),
+    [learningStates, programme],
+  )
+  const tasks = plannerTasks.length > 0 ? plannerTasks : fallbackTasks
+  const firstTask = tasks[0] ?? null
+  const laterTasks = tasks.slice(1, 3)
 
-  async function startItem(item: PlannerItem) {
+  async function recordTaskStart(task: HomeTask) {
+    if (!task.plannerItem) return
     try {
       await recordPlannerActivityEvent(client, userId, {
-        recommendationId: item.recommendationId,
+        recommendationId: task.plannerItem.recommendationId,
         eventType: 'started',
-        subjectId: item.subjectId,
-        topicId: item.topicId,
-        activityType: item.activityType,
+        subjectId: task.plannerItem.subjectId,
+        topicId: task.plannerItem.topicId,
+        activityType: task.plannerItem.activityType,
         metadata: {
           plannerVersion: 1,
           source: 'home',
           capacityState: snapshot?.capacityState ?? 'unknown',
-          courseId: item.courseId ?? null,
+          courseId: task.plannerItem.courseId ?? null,
         },
       })
     } catch {
       // Activity logging must never block a learner from starting useful revision.
     }
-    if (item.courseId) onOpenCourse(item.courseId)
-    else onOpenCourses()
   }
 
-  function openRevWithDraft(text: string) {
-    window.sessionStorage.setItem('revision:rev-draft', text)
-    onOpenRev()
+  async function startTask(task: HomeTask) {
+    await recordTaskStart(task)
+    if (task.activityType === 'exam-question') {
+      // Shared-course planner items do not yet carry a paper identity. Route to the
+      // exact governed Exam Prep surface rather than pretending a paper was selected.
+      window.location.hash = routeHash(learnerCourseRoute(task.courseId, 'exam-prep'))
+      return
+    }
+    setActiveTask(task)
+  }
+
+  function completeFocusedTask() {
+    setActiveTask(null)
+    setRefreshKey((value) => value + 1)
   }
 
   function submitPrompt(event: FormEvent<HTMLFormElement>) {
@@ -144,93 +136,112 @@ export function PlannerHomeScreen({ client, userId, learnerName, programme, onOp
     onOpenRev()
   }
 
-  const guidance = loading
-    ? 'REV is checking your current plan and evidence.'
-    : error
-      ? 'I cannot read the planner state right now. You can still open Courses or Plan while I recover.'
-      : programme.length === 0
-        ? 'Add a course so I know what belongs in your Revision programme. I will not recommend work from the published catalogue until you choose it.'
-        : !setup?.availability
-          ? 'Tell me roughly how much revision time is realistically available and I can start balancing the work around your assessments.'
-          : setup.assessments.length === 0
-            ? 'Add an assessment and I can start turning dates, available time and your learning evidence into a useful plan.'
-            : !snapshot
-              ? 'I know your dates and available time. I need an unambiguous active course plus enough scored revision evidence before I can be specific about what should come first.'
-              : snapshot.capacityState === 'prioritising' && topItem
-                ? `Time is tight, so I’m prioritising ${topCourseLabel} · ${topic}. ${topReason ? `The main reason is that ${reasonLabel(topReason)}.` : ''}`
-                : topItem
-                  ? `${topic ? `${topic} needs attention. ` : ''}${topReason ? `That’s because ${reasonLabel(topReason)}.` : 'This is the strongest next step from your current plan and evidence.'}`
-                  : 'Your plan is up to date. There is no useful planner item I need to push to the front right now.'
-
-  const recommendationTitle = topItem
-    ? `${topCourseLabel} is the best use of your time today`
-    : loading
-      ? 'REV is working out what matters most today'
-      : programme.length === 0
-        ? 'Start by adding the courses you actually study'
-        : 'REV is ready to build your next recommendation'
+  if (activeTask) {
+    return (
+      <HomeFocusedActivity
+        client={client}
+        userId={userId}
+        task={activeTask}
+        onBack={() => setActiveTask(null)}
+        onFinish={completeFocusedTask}
+      />
+    )
+  }
 
   return (
-    <main className="dashboard screen-dashboard planner-home living-home" aria-label="Home">
-      <section className="living-home-hero" aria-labelledby="planner-home-welcome">
-        <div className="living-home-hero-inner">
-          <RevPresence state={loading ? 'thinking' : revState} size="hero" />
-          <h1 id="planner-home-welcome">Hey {learnerName},<br />what shall we do today?</h1>
-          <form className="living-home-prompt" onSubmit={submitPrompt}>
-            <input
-              value={prompt}
-              maxLength={240}
-              placeholder="Ask REV anything…"
-              aria-label="Ask REV anything"
-              onFocus={() => setRevState('listening')}
-              onBlur={() => setRevState('resting')}
-              onChange={(event) => setPrompt(event.target.value)}
-            />
-            <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
-          </form>
+    <main className="dashboard screen-dashboard living-home returning-home" aria-label="Home">
+      <section className="living-home-hero returning-home-hero" aria-labelledby="planner-home-welcome">
+        <div className="returning-home-hero-layout">
+          <div className="returning-home-rev-stage">
+            <RevPresence state={loading ? 'thinking' : revState} size="hero" />
+          </div>
+          <div className="returning-home-hero-copy">
+            <h1 id="planner-home-welcome">Hi {learnerName}, what shall we do today?</h1>
+            <p className="returning-home-hero-intro">Ask REV anything, or start with the revision plan below.</p>
+            <form className="living-home-prompt" onSubmit={submitPrompt}>
+              <input
+                value={prompt}
+                maxLength={240}
+                placeholder="Ask REV anything…"
+                aria-label="Ask REV anything"
+                onFocus={() => setRevState('listening')}
+                onBlur={() => setRevState('resting')}
+                onChange={(event) => setPrompt(event.target.value)}
+              />
+              <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
+            </form>
+          </div>
         </div>
       </section>
 
-      <section className="planner-home-primary-grid" aria-label="Today’s recommendation and plan">
-        <article className="planner-home-recommendation">
-          <div className="planner-home-recommendation-copy">
-            <div className="planner-home-recommendation-label"><RevPresence size="compact" state="resting" decorative /> <span>REV recommends</span></div>
-            <h2>{recommendationTitle}</h2>
-            <p>{guidance}</p>
-            <div className="planner-home-recommendation-actions">
-              {topItem ? (
-                <button className="primary" onClick={() => void startItem(topItem)}>Start {topItem.estimatedMinutes} min session</button>
-              ) : programme.length === 0 ? (
-                <button className="primary" onClick={onOpenCourses}>Add a course</button>
-              ) : (
-                <button className="primary" onClick={onOpenPlan}>{setup?.assessments.length ? 'Complete plan setup' : 'Set up my plan'}</button>
-              )}
-              <button className="planner-home-why" onClick={() => openRevWithDraft(topItem ? `Why is ${topCourseLabel} my top recommendation today?` : 'What do you need from me before you can recommend what to revise?')}>Why this? <Icon name="chevron-right" size="inline" /></button>
-            </div>
+      <section className="returning-home-plan" aria-labelledby="returning-home-plan-title">
+        <header className="returning-home-plan-head">
+          <div>
+            <h2 id="returning-home-plan-title">Today’s revision plan</h2>
+            <p>{loading ? 'Working out the most useful place to start…' : planSummary(tasks)}</p>
           </div>
-          <RevPresence size="nav" state="resting" decorative className="planner-home-recommendation-presence" />
-        </article>
+          <button className="returning-home-view-plan" type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
+        </header>
 
-        <aside className="planner-home-today" aria-labelledby="planner-home-today-title">
-          <div className="planner-home-today-head"><h2 id="planner-home-today-title">Today’s plan</h2><button className="planner-home-view-plan" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button></div>
-          {programme.length === 0 && <p className="planner-home-today-empty">Add a course first. Revision will not fabricate a plan from courses you have not selected.</p>}
-          {programme.length > 0 && !snapshot && <p className="planner-home-today-empty">{error || 'Open Plan to add the information REV needs to guide today’s work.'}</p>}
-          {snapshot && snapshot.today.length === 0 && <p className="planner-home-today-empty">No planner activity needs to be pushed forward right now.</p>}
-          {snapshot && snapshot.today.length > 0 && (
-            <ol className="planner-home-items">
-              {snapshot.today.slice(0, 3).map((item) => (
-                <li key={item.recommendationId}>
-                  <button onClick={() => void startItem(item)}>
-                    <span className="planner-home-item-icon" aria-hidden="true">{item.activityType === 'quick-check' ? '✓' : item.activityType === 'flashcards' ? '□' : '◫'}</span>
-                    <span className="planner-home-item-copy"><strong>{programmeCourseLabel(programme, item.courseId, item.subjectId)} — {itemTopicLabel(item, learningStates)}</strong><small>{activityLabel(item.activityType)}</small></span>
-                    <span className="planner-home-item-time">{item.estimatedMinutes} min</span>
-                    <Icon name="chevron-right" size="compact" className="planner-home-item-arrow" />
-                  </button>
-                </li>
-              ))}
-            </ol>
-          )}
-        </aside>
+        {error && (
+          <div className="returning-home-empty">
+            <h3>Revision could not refresh today’s evidence.</h3>
+            <p>{error}</p>
+            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={() => setRefreshKey((value) => value + 1)}>Try again</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
+          </div>
+        )}
+
+        {!error && !loading && programme.length === 0 && (
+          <div className="returning-home-empty">
+            <h3>Add a course to get your first useful recommendation.</h3>
+            <p>Revision only plans from the courses you actually study. It will not invent work from the wider catalogue.</p>
+            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenCourses}>Add a course</button></div>
+          </div>
+        )}
+
+        {!error && !loading && programme.length > 0 && !firstTask && (
+          <div className="returning-home-empty">
+            <h3>Your courses are ready, but there is not a supported activity to push forward yet.</h3>
+            <p>Open Plan or Courses to choose useful work. Revision will keep the recommendation evidence-based rather than manufacture a priority.</p>
+            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenPlan}>Open Plan</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
+          </div>
+        )}
+
+        {!error && !loading && firstTask && (
+          <div className="returning-home-plan-grid">
+            <article className="returning-home-start-card" data-subject-accent={firstTask.subjectAccent}>
+              <div className="returning-home-card-top">
+                <span className="home-subject-chip">{firstTask.subjectName}</span>
+                <span className="returning-home-start-label">Start here</span>
+              </div>
+              <h3>{firstTask.topicLabel}</h3>
+              <p className="returning-home-course-name">{firstTask.courseLabel}</p>
+              <div className="returning-home-task-meta"><span>{homeActivityLabel(firstTask.activityType)}</span><span>{firstTask.estimatedMinutes} min</span></div>
+              <p className="returning-home-reason">{firstTask.reason}</p>
+              <button className="returning-home-start-action" type="button" onClick={() => void startTask(firstTask)}>Start {firstTask.estimatedMinutes} min</button>
+            </article>
+
+            <aside className="returning-home-later" aria-label="Remaining revision activities today">
+              <h3>{laterTasks.length > 0 ? 'Then today' : 'Today'}</h3>
+              {laterTasks.length === 0 ? (
+                <p className="returning-home-reason">This is the only useful activity Revision needs to put in front of you right now.</p>
+              ) : (
+                <ol className="returning-home-task-list">
+                  {laterTasks.map((task) => (
+                    <li className="returning-home-task-row" key={task.id} data-subject-accent={task.subjectAccent}>
+                      <button type="button" onClick={() => void startTask(task)} aria-label={`Start ${task.topicLabel}, ${task.subjectName}`}>
+                        <span className="returning-home-task-accent" aria-hidden="true" />
+                        <span className="returning-home-task-copy"><strong>{task.topicLabel}</strong><small>{task.subjectName} · {homeActivityLabel(task.activityType)}</small></span>
+                        <span className="returning-home-task-time">{task.estimatedMinutes} min</span>
+                        <Icon name="chevron-right" size="compact" />
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </aside>
+          </div>
+        )}
       </section>
     </main>
   )
