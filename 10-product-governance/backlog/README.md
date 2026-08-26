@@ -36,6 +36,10 @@ This mapping keeps the major strategic bets visible without inventing duplicate 
 - `Product Feature Backlog.md` — canonical inventory of product feature ideas and their current product-management status.
 - `Personalised Revision Intelligence Strategy Mapping.md` — current product-management mapping from the governing strategy to existing backlog feature ownership and sequencing; non-authoritative and lifecycle-preserving.
 
+## Opportunity catalogues
+
+- `AI-Generated Visual Learning Content Opportunities.md` — candidate AI-generated visual representation patterns for future learner content, REV explanations and Content Factory production. This is an opportunity catalogue, not approved product behaviour or an implementation commitment.
+
 ## Canonical lifecycle
 
 Material product features use the normal lifecycle:
