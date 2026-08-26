@@ -74,7 +74,7 @@ This routing is provisional. A cheaper route should replace a more expensive rou
 
 ## Bootstrap spend guard
 
-The live workflow sets `CONTENT_FACTORY_MAX_SPEND_USD=20` for the initial course run, consistent with `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
+The live workflow sets `CONTENT_FACTORY_MAX_SPEND_USD=20` for the initial course run, consistent with `60-business-operations/Bootstrap Content and AI Testing Budget Policy.md`.
 
 The OpenAI adapter:
 
@@ -157,7 +157,7 @@ The real paid workflow is deliberately not run from an unapproved feature branch
 This increment:
 
 - adds the live adapter and pilot implementation;
-- adds the bootstrap production-cost authority;
+- adds the canonical bootstrap content-production and pre-launch AI testing budget authority;
 - corrects the stale status label on the already Founder-approved educational source-licensing standard;
 - updates `INDEX.md` for the new authority/implementation record; and
 - should update Issue #169 when the PR is opened and again when live proof evidence exists.
