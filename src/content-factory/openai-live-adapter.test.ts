@@ -10,7 +10,13 @@ const route = {
   maxOutputTokens: 1_000,
 }
 
-function responseBody(output: unknown, usage = { input_tokens: 1_000, output_tokens: 500, input_tokens_details: { cached_tokens: 200 } }) {
+type TestUsage = {
+  input_tokens: number
+  output_tokens: number
+  input_tokens_details?: { cached_tokens?: number; cache_write_tokens?: number }
+}
+
+function responseBody(output: unknown, usage: TestUsage = { input_tokens: 1_000, output_tokens: 500, input_tokens_details: { cached_tokens: 200 } }) {
   return {
     status: 'completed',
     output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify(output) }] }],
