@@ -1,0 +1,51 @@
+name: Content Factory Live Pilot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: content-factory-live-pilot
+  cancel-in-progress: false
+
+jobs:
+  live-pilot:
+    name: AQA AS Business 7131 live adapter proof
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout approved main
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Run rights-safe live adapter pilot
+        env:
+          CONTENT_FACTORY_LIVE_PILOT: '1'
+          CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
+          CONTENT_FACTORY_REVIEW_MODEL: gpt-5.6-sol
+        run: npx vitest run src/content-factory/live-pilot.integration.test.ts --reporter=verbose
+
+      - name: Upload live pilot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-live-pilot-${{ github.sha }}
+          path: .artifacts/content-factory-live-pilot/
+          if-no-files-found: warn
+          retention-days: 30
