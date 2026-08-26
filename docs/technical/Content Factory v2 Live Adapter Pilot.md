@@ -1,0 +1,177 @@
+# Content Factory v2 Live Adapter Pilot
+
+**Implementation status:** branch implementation pending governed merge and live proof  
+**Date:** 26 August 2026  
+**Canonical runtime:** trusted GitHub Actions workflow on approved `main`; no browser/client model credential path
+
+## Purpose
+
+Close the remaining operational proof boundary after structural Increment 7 by demonstrating that a real course can traverse the production Content Factory contracts with:
+
+- live rights-safe source/licence preflight;
+- real external model/provider calls;
+- real provider/model provenance;
+- bounded retries and output size;
+- hard per-course AI spend control;
+- deterministic assurance;
+- fresh-context independent model review; and
+- a portable exact-version `expert_review_ready` package.
+
+This pilot is evidence generation. It does **not** publish learner content, approve a course benchmark, remove qualified-human review, merge code or create awarding-body endorsement.
+
+## Pilot course
+
+Initial course: **AQA AS Business 7131**, outgoing 2026 cohort.
+
+The course is deliberately useful for the first real proof because current Revision already retains durable course-structure and retrospective coverage evidence. The live pilot creates a new v2 factory package rather than treating the existing published pack as automatically admissible or benchmark-approved.
+
+## Source-rights architecture
+
+### AQA
+
+AQA specification/assessment pages remain `REFERENCE_ONLY`.
+
+The pilot may use deliberately curated structured Board Alignment facts such as course identity, paper structure, marks, timing and assessment-objective mapping. AQA source prose, past-paper questions and mark-scheme text are not supplied to OpenAI workers.
+
+### Open curriculum/subject evidence
+
+The pilot uses sources only where the live preflight and approved source rule support the intended use. Current pilot sources include:
+
+- Department for Education Business subject-content publication on GOV.UK under the applicable Open Government Licence basis;
+- Ofqual assessment-objective publication on GOV.UK under the applicable Open Government Licence basis; and
+- a LibreTexts Business Fundamentals resource currently marked CC BY 4.0, subject to its live licence/terms preflight and third-party-material restrictions.
+
+The live preflight fails closed if required licence markers or expected source conditions are no longer present.
+
+OpenStax is deliberately **not** used as an AI-input source for this pilot. During implementation review, its current page was found to carry a separate generative-AI ingestion restriction despite the underlying book's Creative Commons label. This demonstrates why the Source Licence Register checks current terms and intended AI use rather than relying on a headline content licence alone.
+
+## Provider boundary
+
+The first replaceable provider adapter uses OpenAI's Responses API from a trusted server-side workflow.
+
+The adapter:
+
+- sends only structured worker payloads;
+- sets provider storage off for the request;
+- uses structured JSON output contracts;
+- records provider/model/retry/cost provenance;
+- bounds retries;
+- bounds output tokens;
+- treats provider refusal/schema failure as a failed worker run;
+- maintains fresh independent-review context; and
+- does not expose `OPENAI_API_KEY` to the learner/browser runtime.
+
+Model names and route pricing are implementation configuration, not educational authority. They must be revalidated against current provider documentation immediately before a live run when material pricing/capability assumptions matter.
+
+## Initial route
+
+Current pilot configuration:
+
+- routine generation/synthesis: configurable generation route, initially `gpt-5.6-terra`;
+- independent educational/assessment review: separate configurable review route, initially `gpt-5.6-sol`.
+
+This routing is provisional. A cheaper route should replace a more expensive route only when representative quality/assurance evidence supports the change.
+
+## Bootstrap spend guard
+
+The live workflow sets `CONTENT_FACTORY_MAX_SPEND_USD=20` for the initial course run, consistent with `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
+
+The OpenAI adapter:
+
+1. calculates observed cost from provider token usage where available;
+2. applies configured long-context/cache-write pricing adjustments;
+3. maintains a conservative internal budget consumption value;
+4. estimates the next request's maximum cost using request size, configured maximum output tokens and conservative input pricing; and
+5. refuses to send the next provider call if that reservation could breach the configured course ceiling.
+
+If provider usage is unknown after a request has been sent, the adapter conservatively reserves the estimated maximum attempt cost for budget control. This may make the internal guard stricter than the final provider invoice, which is preferable to runaway spend during bootstrap calibration.
+
+A spend-ceiling stop is a failed/incomplete course run. It does not permit partial publication.
+
+## Live workflow
+
+`.github/workflows/content-factory-live-pilot.yml` is manual-only and runs only on `refs/heads/main`.
+
+Required runtime secret:
+
+- `OPENAI_API_KEY`
+
+The workflow:
+
+1. checks out approved `main`;
+2. installs from the repository lockfile;
+3. runs the live-pilot integration test with the exact `github.sha` as the content head;
+4. performs live source/licence preflight before model generation;
+5. executes the v2 pipeline through `expert_review_ready` if all gates pass;
+6. creates a durable Content Factory GitHub Issue for the resulting job;
+7. records a summary on initiative Issue #169; and
+8. uploads the full machine-readable pilot evidence as a GitHub Actions artifact.
+
+If the provider secret is absent, the workflow creates a configuration-blocker issue and stops before model execution.
+
+## Pilot evidence
+
+The evidence bundle retains:
+
+- exact repository/content head;
+- durable job state;
+- Source Licence Register and generated artifacts;
+- provider/model route by worker;
+- observed model usage cost;
+- configured per-course spend ceiling;
+- retry counts;
+- human-intervention count/reasons;
+- deterministic-assurance result;
+- independent-review result/findings;
+- expert-review package; and
+- known measurement/operational limitations.
+
+The live run is successful only when the job reaches `expert_review_ready` and real provider provenance is present.
+
+## Remediation boundary
+
+The current domain factory supports targeted remediation, but the first live workflow must not fabricate a new Git commit or pretend an in-memory correction is a governed course version.
+
+If independent review exposes a blocking/material issue that requires content correction and exact-version revalidation, the pilot should fail/stop and the correction should proceed through the normal governed repository/version path before rerunning. A later operational increment may automate that branch/version persistence once it is proven safely.
+
+## Assurance
+
+Branch assurance must cover:
+
+- TypeScript compilation;
+- lint;
+- existing unit/regression tests;
+- OpenAI structured-output request contract;
+- cost calculation;
+- bounded retries;
+- pre-call spend-ceiling refusal;
+- provider/schema failure behaviour;
+- source-rights policy classification;
+- live-preflight fail-closed behaviour; and
+- standard repository browser/database/protected-service assurance.
+
+The real paid workflow is deliberately not run from an unapproved feature branch. First merge this capability through the normal Founder gate, then dispatch the pilot from approved `main`.
+
+## Documentation impact
+
+This increment:
+
+- adds the live adapter and pilot implementation;
+- adds the bootstrap production-cost authority;
+- corrects the stale status label on the already Founder-approved educational source-licensing standard;
+- updates `INDEX.md` for the new authority/implementation record; and
+- should update Issue #169 when the PR is opened and again when live proof evidence exists.
+
+No historical audit/evidence record is rewritten.
+
+## Deliberate exclusions
+
+This increment does not:
+
+- publish the generated course to learners;
+- claim the live output is benchmark-approved;
+- replace qualified subject-expert review;
+- create an in-browser reviewer portal;
+- automate merge/publication;
+- implement broad batch/concurrency scale; or
+- change learner subscription/REV allowances.
