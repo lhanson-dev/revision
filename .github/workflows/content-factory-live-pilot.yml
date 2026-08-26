@@ -34,6 +34,7 @@ jobs:
         env:
           CONTENT_FACTORY_LIVE_PILOT: '1'
           CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
+          CONTENT_FACTORY_MAX_SPEND_USD: '20'
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
