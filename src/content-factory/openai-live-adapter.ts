@@ -26,11 +26,32 @@ import {
   type AssuranceAndRemediationWorkers,
 } from './assurance-and-remediation'
 
+const providerIdentifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
+const providerNonEmptyStringSchema = z.string().min(1)
+
+const independentReviewProviderFindingSchema = z.object({
+  id: providerIdentifierSchema,
+  severity: z.enum(['blocking', 'material', 'minor', 'no_issue']),
+  issueType: providerNonEmptyStringSchema,
+  artifactRef: providerNonEmptyStringSchema,
+  evidence: z.array(providerNonEmptyStringSchema).min(1),
+  finding: providerNonEmptyStringSchema,
+  recommendedCorrection: providerNonEmptyStringSchema,
+  resolutionStatus: z.enum(['open', 'resolved', 'not_applicable']),
+}).superRefine((finding, context) => {
+  if (finding.severity === 'no_issue' && finding.resolutionStatus !== 'not_applicable') {
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'No-issue entries must be not_applicable' })
+  }
+  if (finding.severity !== 'no_issue' && finding.resolutionStatus !== 'open') {
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'Independent reviewer findings must enter the register as open' })
+  }
+})
+
 const independentReviewWorkerOutputSchema = z.object({
   reviewedCommit: z.string().regex(/^[0-9a-f]{40}$/),
   contentFingerprint: z.string().min(1),
   decision: z.enum(['pass', 'conditional_pass', 'fail_hold']),
-  findings: z.array(independentReviewFindingSchema).default([]),
+  findings: z.array(independentReviewProviderFindingSchema).default([]),
 })
 
 const questionFamilyWorkerOutputSchema = z.object({
@@ -340,12 +361,18 @@ function sameSet(left: string[], right: string[]) {
   return a.length === b.length && a.every((value, index) => value === b[index])
 }
 
+function reviewWorkUnitId(value: unknown) {
+  if (typeof value !== 'object' || value === null) return undefined
+  const workUnitId = (value as { workUnitId?: unknown }).workUnitId
+  return typeof workUnitId === 'string' && workUnitId.length > 0 ? workUnitId : undefined
+}
+
 function reviewArtifactIndex(input: Parameters<AssuranceAndRemediationWorkers['independentReview']>[0], resolver?: (value: unknown) => string | undefined) {
   if (!resolver) return []
-  const entries: Array<{ artifactRef: string; artifactType: string; value: unknown }> = []
-  const add = (artifactType: string, value: unknown) => {
+  const entries: Array<{ artifactRef: string; artifactType: string; workUnitId?: string; value: unknown }> = []
+  const add = (artifactType: string, value: unknown, workUnitId?: string) => {
     const artifactRef = resolver(value)
-    if (artifactRef) entries.push({ artifactRef, artifactType, value })
+    if (artifactRef) entries.push({ artifactRef, artifactType, ...(workUnitId ? { workUnitId } : {}), value })
   }
   add('board_alignment', input.boardAlignment)
   add('coverage_map', input.coverageMap)
@@ -353,8 +380,8 @@ function reviewArtifactIndex(input: Parameters<AssuranceAndRemediationWorkers['i
   add('learning_blueprint', input.learningBlueprint)
   add('assessment_blueprint', input.assessmentBlueprint)
   input.questionFamilies.forEach((value) => add('question_family', value))
-  input.learningArtifacts.forEach((value) => add('learning', value))
-  input.practiceArtifacts.forEach((value) => add('practice', value))
+  input.learningArtifacts.forEach((value) => add('learning', value, reviewWorkUnitId(value)))
+  input.practiceArtifacts.forEach((value) => add('practice', value, reviewWorkUnitId(value)))
   input.assessmentItems.forEach((value) => add('assessment_item', value))
   input.markingPacks.forEach((value) => add('marking_pack', value))
   return entries
@@ -498,14 +525,24 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
 
     async independentReview(input) {
       const artifactIndex = reviewArtifactIndex(input, config.resolveArtifactRef)
-      return client.run({
+      const execution = await client.run({
         workerId: 'content-factory.independent-review',
         contractVersion: '1',
         routeKind: 'independent_review',
         outputSchema: independentReviewWorkerOutputSchema,
-        instructions: 'Act as a fresh-context adversarial educational and assessment reviewer, not a proofreader. Challenge factual accuracy, curriculum/coverage completeness, pedagogy, question authenticity, internal calculation consistency, AO/marking-pack logic, ambiguity and whether feedback would help a student improve. Respect source-rights metadata: REFERENCE_ONLY material is alignment evidence, not generative source text. Use artifactRef values only from artifactIndex. Blocking/material findings require fail_hold; minor-only findings require conditional_pass; no open findings permits pass. Do not waive defects merely to complete the pilot.',
+        instructions: 'Act as a fresh-context adversarial educational and assessment reviewer, not a proofreader. Challenge factual accuracy, curriculum/coverage completeness, pedagogy, question authenticity, internal calculation consistency, AO/marking-pack logic, ambiguity and whether feedback would help a student improve. Respect source-rights metadata: REFERENCE_ONLY material is alignment evidence, not generative source text. Use artifactRef values only from artifactIndex. Do not return workUnitId; Revision derives work-unit scope deterministically from the referenced artifact when one exists. Blocking/material findings require fail_hold; minor-only findings require conditional_pass; no open findings permits pass. Do not waive defects merely to complete the pilot.',
         payload: { ...input, artifactIndex },
       })
+      if (execution.status !== 'success') return execution
+      const output = independentReviewWorkerOutputSchema.parse(execution.output)
+      const workUnitsByArtifactRef = new Map(artifactIndex
+        .filter((entry): entry is typeof entry & { workUnitId: string } => typeof entry.workUnitId === 'string')
+        .map((entry) => [entry.artifactRef, entry.workUnitId]))
+      const findings = output.findings.map((finding) => {
+        const workUnitId = workUnitsByArtifactRef.get(finding.artifactRef)
+        return independentReviewFindingSchema.parse(workUnitId ? { ...finding, workUnitId } : finding)
+      })
+      return { ...execution, output: { ...output, findings } }
     },
 
     async remediate(input) {
