@@ -54,12 +54,16 @@ The adapter:
 - sends only structured worker payloads;
 - sets provider storage off for the request;
 - uses structured JSON output contracts;
+- requires the provider-facing structured-output schema to have a top-level JSON object;
+- wraps list-like domain outputs in an object envelope for the provider and unwraps them before returning them to the Content Factory domain layer;
 - records provider/model/retry/cost provenance;
 - bounds retries;
 - bounds output tokens;
 - treats provider refusal/schema failure as a failed worker run;
 - maintains fresh independent-review context; and
 - does not expose `OPENAI_API_KEY` to the learner/browser runtime.
+
+For Question Family generation specifically, the domain contract remains a list of Question Families. The OpenAI boundary requests `{ "questionFamilies": [...] }`, validates that envelope, and returns the inner list to the existing assessment factory. Provider compatibility therefore does not alter the governed Question Family domain meaning or downstream contracts.
 
 Model names and route pricing are implementation configuration, not educational authority. They must be revalidated against current provider documentation immediately before a live run when material pricing/capability assumptions matter.
 
@@ -147,7 +151,7 @@ Branch assurance must cover:
 - TypeScript compilation;
 - lint;
 - existing unit/regression tests;
-- OpenAI structured-output request contract;
+- OpenAI structured-output request contract, including the top-level object requirement for list-like worker outputs;
 - cost calculation;
 - bounded retries;
 - pre-call spend-ceiling refusal;
@@ -161,7 +165,7 @@ The real paid workflow is deliberately not run from an unapproved feature branch
 
 ## Documentation impact
 
-The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
+The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
 
 No historical audit/evidence record is rewritten.
 

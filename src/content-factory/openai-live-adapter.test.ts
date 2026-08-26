@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
-import { OpenAIStructuredWorkerClient } from './openai-live-adapter'
+import { createOpenAIModelAssistedWorkers, OpenAIStructuredWorkerClient } from './openai-live-adapter'
 
 const route = {
   model: 'test-model',
@@ -62,6 +62,84 @@ describe('OpenAIStructuredWorkerClient', () => {
     expect(result.provenance.model).toBe('test-model')
     expect(result.provenance.retryCount).toBe(0)
     expect(result.provenance.usageCost).toBeCloseTo(0.00764, 8)
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('uses a provider-compatible object envelope for Question Family arrays and unwraps the domain output', async () => {
+    const questionFamily = {
+      schemaVersion: 1 as const,
+      id: 'extended-evaluation',
+      title: 'Contextual extended evaluation',
+      assessmentObjectiveIds: ['ao1', 'ao2'],
+      skillProfile: ['application', 'analysis', 'evaluation'],
+      componentScope: ['paper-1'],
+      markRange: { min: 10, max: 10 },
+      responseShape: 'Extended written response with contextual argument and judgement.',
+      contextRequirements: ['A plausible Revision-owned business context is required.'],
+      applicationRequirements: ['Apply reasoning to the named business context.'],
+      analysisRequirements: ['Develop linked consequences rather than assert effects.'],
+      evaluationRequirements: ['Reach a supported judgement that recognises conditions or trade-offs.'],
+      commonFailureModes: ['Generic theory without context', 'Unsupported judgement'],
+      markingPackTemplateVersion: '1',
+      calibrationStatus: 'not_calibrated' as const,
+    }
+
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as {
+        text: { format: { schema: { type?: string; properties?: Record<string, { type?: string }> } } }
+      }
+      expect(body.text.format.schema.type).toBe('object')
+      expect(body.text.format.schema.properties?.questionFamilies?.type).toBe('array')
+      return new Response(JSON.stringify(responseBody({ questionFamilies: [questionFamily] }, { input_tokens: 100, output_tokens: 100 })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }) as typeof fetch
+
+    const workers = createOpenAIModelAssistedWorkers({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+    })
+
+    const result = await workers.generateQuestionFamilies({
+      jobId: 'cf-business',
+      courseIdentity: {
+        subject: 'Business',
+        qualification: 'AS Level',
+        awardingBody: 'AQA',
+        specificationId: '7131',
+      },
+      assessmentBlueprint: {
+        schemaVersion: 1,
+        jobId: 'cf-business',
+        fingerprint: 'assessment-blueprint-v1',
+        boardAlignmentFingerprint: 'board-alignment-v1',
+        assessmentObjectives: [
+          { id: 'ao1', weightingPercent: 50 },
+          { id: 'ao2', weightingPercent: 50 },
+        ],
+        components: [
+          {
+            componentId: 'paper-1',
+            questionFamilyIds: ['extended-evaluation'],
+            markTotal: 80,
+            timingMinutes: 90,
+            constraints: [],
+          },
+        ],
+        quantitativeRequirements: [],
+        synopticRequirements: [],
+        commandDemands: [],
+        evidenceExpectations: [],
+      },
+      requestedFamilyIds: ['extended-evaluation'],
+      knowledgeNodes: [],
+      examPrepRequirements: [],
+    })
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(result.output).toEqual([questionFamily])
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
