@@ -38,6 +38,11 @@ export interface OpenAIModelRoute {
   inputUsdPerMillion: number
   cachedInputUsdPerMillion: number
   outputUsdPerMillion: number
+  cacheWriteMultiplier?: number
+  longContextThresholdTokens?: number
+  longContextInputMultiplier?: number
+  longContextOutputMultiplier?: number
+  reasoningEffort?: 'none' | 'low' | 'medium' | 'high' | 'xhigh' | 'max'
 }
 
 export interface OpenAIContentFactoryAdapterConfig {
@@ -69,7 +74,10 @@ type RouteKind = 'generation' | 'independent_review'
 type ResponseUsage = {
   input_tokens?: number
   output_tokens?: number
-  input_tokens_details?: { cached_tokens?: number }
+  input_tokens_details?: {
+    cached_tokens?: number
+    cache_write_tokens?: number
+  }
 }
 
 type ResponsesApiBody = {
@@ -85,8 +93,8 @@ type ResponsesApiBody = {
 
 function compactJsonSchema(schema: z.ZodType): Record<string, unknown> {
   const converted = z.toJSONSchema(schema) as Record<string, unknown>
-  const { $schema: _ignored, ...rest } = converted
-  return rest
+  delete converted.$schema
+  return converted
 }
 
 function sanitizedName(workerId: string) {
@@ -111,11 +119,17 @@ function usageCost(usage: ResponseUsage | undefined, route: OpenAIModelRoute) {
   const inputTokens = Math.max(0, usage.input_tokens ?? 0)
   const outputTokens = Math.max(0, usage.output_tokens ?? 0)
   const cachedTokens = Math.min(inputTokens, Math.max(0, usage.input_tokens_details?.cached_tokens ?? 0))
-  const uncachedTokens = inputTokens - cachedTokens
+  const cacheWriteTokens = Math.min(inputTokens - cachedTokens, Math.max(0, usage.input_tokens_details?.cache_write_tokens ?? 0))
+  const uncachedTokens = inputTokens - cachedTokens - cacheWriteTokens
+  const isLongContext = inputTokens > (route.longContextThresholdTokens ?? 272_000)
+  const inputMultiplier = isLongContext ? (route.longContextInputMultiplier ?? 2) : 1
+  const outputMultiplier = isLongContext ? (route.longContextOutputMultiplier ?? 1.5) : 1
+  const cacheWriteMultiplier = route.cacheWriteMultiplier ?? 1.25
   const cost = (
-    uncachedTokens * route.inputUsdPerMillion
-    + cachedTokens * route.cachedInputUsdPerMillion
-    + outputTokens * route.outputUsdPerMillion
+    uncachedTokens * route.inputUsdPerMillion * inputMultiplier
+    + cachedTokens * route.cachedInputUsdPerMillion * inputMultiplier
+    + cacheWriteTokens * route.inputUsdPerMillion * inputMultiplier * cacheWriteMultiplier
+    + outputTokens * route.outputUsdPerMillion * outputMultiplier
   ) / 1_000_000
   return Number(cost.toFixed(8))
 }
@@ -165,6 +179,9 @@ export class OpenAIStructuredWorkerClient {
           },
           body: JSON.stringify({
             model: route.model,
+            store: false,
+            prompt_cache_options: { mode: 'explicit' },
+            reasoning: { context: 'current_turn', effort: route.reasoningEffort ?? 'medium' },
             instructions: [
               'You are a bounded worker inside Revision Content Factory v2.',
               'Use only the structured facts supplied in the payload. Do not browse, quote or reconstruct awarding-body source prose.',
