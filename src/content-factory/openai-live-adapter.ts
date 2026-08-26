@@ -43,12 +43,14 @@ export interface OpenAIModelRoute {
   longContextInputMultiplier?: number
   longContextOutputMultiplier?: number
   reasoningEffort?: 'none' | 'low' | 'medium' | 'high' | 'xhigh' | 'max'
+  maxOutputTokens?: number
 }
 
 export interface OpenAIContentFactoryAdapterConfig {
   apiKey: string
   generation: OpenAIModelRoute
   independentReview: OpenAIModelRoute
+  maxSpendUsd?: number
   endpoint?: string
   maxRetries?: number
   fetchImpl?: typeof fetch
@@ -134,6 +136,21 @@ function usageCost(usage: ResponseUsage | undefined, route: OpenAIModelRoute) {
   return Number(cost.toFixed(8))
 }
 
+function estimateMaxCallCost(requestBody: unknown, route: OpenAIModelRoute) {
+  // Deliberately conservative: structured JSON commonly tokenises more efficiently than
+  // three characters/token, so using three avoids relying on optimistic estimates.
+  const estimatedInputTokens = Math.ceil(JSON.stringify(requestBody).length / 3)
+  const maxOutputTokens = route.maxOutputTokens ?? 8_000
+  const isLongContext = estimatedInputTokens > (route.longContextThresholdTokens ?? 272_000)
+  const inputMultiplier = isLongContext ? (route.longContextInputMultiplier ?? 2) : 1
+  const outputMultiplier = isLongContext ? (route.longContextOutputMultiplier ?? 1.5) : 1
+  const conservativeInputRate = route.inputUsdPerMillion * Math.max(1, route.cacheWriteMultiplier ?? 1.25)
+  return Number((
+    estimatedInputTokens * conservativeInputRate * inputMultiplier
+    + maxOutputTokens * route.outputUsdPerMillion * outputMultiplier
+  ) / 1_000_000)
+}
+
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'unknown provider error'
 }
@@ -147,13 +164,23 @@ export class OpenAIStructuredWorkerClient {
   private readonly maxRetries: number
   private readonly fetchImpl: typeof fetch
   private readonly sleep: (milliseconds: number) => Promise<void>
+  private readonly maxSpendUsd?: number
+  private budgetConsumedUsd = 0
 
   constructor(private readonly config: OpenAIContentFactoryAdapterConfig) {
     if (!config.apiKey.trim()) throw new Error('OpenAI API key is required for the live Content Factory adapter')
+    if (config.maxSpendUsd !== undefined && (!Number.isFinite(config.maxSpendUsd) || config.maxSpendUsd <= 0)) {
+      throw new Error('OpenAI live Content Factory maxSpendUsd must be a positive finite number')
+    }
     this.endpoint = config.endpoint ?? 'https://api.openai.com/v1/responses'
     this.maxRetries = config.maxRetries ?? 2
     this.fetchImpl = config.fetchImpl ?? fetch
     this.sleep = config.sleep ?? defaultSleep
+    this.maxSpendUsd = config.maxSpendUsd
+  }
+
+  budgetSnapshot() {
+    return { maxSpendUsd: this.maxSpendUsd, conservativeConsumedUsd: Number(this.budgetConsumedUsd.toFixed(8)) }
   }
 
   async run(input: {
@@ -169,7 +196,40 @@ export class OpenAIStructuredWorkerClient {
     const contextId = `openai-${input.workerId}-${globalThis.crypto.randomUUID()}`
     let retryCount = 0
 
+    const requestBody = {
+      model: route.model,
+      store: false,
+      prompt_cache_options: { mode: 'explicit' },
+      reasoning: { context: 'current_turn', effort: route.reasoningEffort ?? 'medium' },
+      max_output_tokens: route.maxOutputTokens ?? 8_000,
+      instructions: [
+        'You are a bounded worker inside Revision Content Factory v2.',
+        'Use only the structured facts supplied in the payload. Do not browse, quote or reconstruct awarding-body source prose.',
+        'Never claim that Revision-authored content is official, endorsed, examiner-produced or human-calibrated.',
+        'Return only data matching the requested JSON schema. Keep identifiers lowercase and machine-safe.',
+        input.instructions,
+      ].join('\n'),
+      input: JSON.stringify(input.payload),
+      text: {
+        format: {
+          type: 'json_schema',
+          name: sanitizedName(input.workerId),
+          strict: false,
+          schema: compactJsonSchema(input.outputSchema),
+        },
+      },
+    }
+    const conservativeAttemptCostUsd = estimateMaxCallCost(requestBody, route)
+
     while (retryCount <= this.maxRetries) {
+      if (this.maxSpendUsd !== undefined && this.budgetConsumedUsd + conservativeAttemptCostUsd > this.maxSpendUsd) {
+        return {
+          status: 'infrastructure_failure',
+          error: `content_factory_spend_ceiling_reached: refusing ${input.workerId}; conservative consumed $${this.budgetConsumedUsd.toFixed(4)} + next-call reserve $${conservativeAttemptCostUsd.toFixed(4)} exceeds $${this.maxSpendUsd.toFixed(2)} ceiling`,
+          provenance: { id: runId, contextId, contractVersion: input.contractVersion, provider: 'openai', model: route.model, retryCount },
+        }
+      }
+
       try {
         const response = await this.fetchImpl(this.endpoint, {
           method: 'POST',
@@ -177,36 +237,21 @@ export class OpenAIStructuredWorkerClient {
             Authorization: `Bearer ${this.config.apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            model: route.model,
-            store: false,
-            prompt_cache_options: { mode: 'explicit' },
-            reasoning: { context: 'current_turn', effort: route.reasoningEffort ?? 'medium' },
-            instructions: [
-              'You are a bounded worker inside Revision Content Factory v2.',
-              'Use only the structured facts supplied in the payload. Do not browse, quote or reconstruct awarding-body source prose.',
-              'Never claim that Revision-authored content is official, endorsed, examiner-produced or human-calibrated.',
-              'Return only data matching the requested JSON schema. Keep identifiers lowercase and machine-safe.',
-              input.instructions,
-            ].join('\n'),
-            input: JSON.stringify(input.payload),
-            text: {
-              format: {
-                type: 'json_schema',
-                name: sanitizedName(input.workerId),
-                strict: false,
-                schema: compactJsonSchema(input.outputSchema),
-              },
-            },
-          }),
+          body: JSON.stringify(requestBody),
         })
 
         let body: ResponsesApiBody
         try {
           body = await response.json() as ResponsesApiBody
         } catch {
+          // A request was sent but provider usage is unknowable. Reserve the conservative
+          // estimate so repeated malformed/infrastructure responses cannot bypass the cap.
+          this.budgetConsumedUsd += conservativeAttemptCostUsd
           throw new Error(`OpenAI returned non-JSON response with HTTP ${response.status}`)
         }
+
+        const observedCost = usageCost(body.usage, route)
+        this.budgetConsumedUsd += observedCost ?? conservativeAttemptCostUsd
 
         if (!response.ok) {
           const providerMessage = body.error?.message ? `: ${body.error.message.slice(0, 300)}` : ''
@@ -219,7 +264,7 @@ export class OpenAIStructuredWorkerClient {
           return {
             status: retryable ? 'infrastructure_failure' : 'failure',
             error: `OpenAI request failed with HTTP ${response.status}${providerMessage}`,
-            provenance: { id: runId, contextId, contractVersion: input.contractVersion, provider: 'openai', model: route.model, retryCount },
+            provenance: { id: runId, contextId, contractVersion: input.contractVersion, provider: 'openai', model: route.model, retryCount, usageCost: observedCost },
           }
         }
 
@@ -227,7 +272,7 @@ export class OpenAIStructuredWorkerClient {
           return {
             status: 'infrastructure_failure',
             error: `OpenAI response status was ${body.status}`,
-            provenance: { id: runId, contextId, contractVersion: input.contractVersion, provider: 'openai', model: route.model, retryCount, usageCost: usageCost(body.usage, route) },
+            provenance: { id: runId, contextId, contractVersion: input.contractVersion, provider: 'openai', model: route.model, retryCount, usageCost: observedCost },
           }
         }
 
@@ -243,7 +288,7 @@ export class OpenAIStructuredWorkerClient {
             provider: 'openai',
             model: route.model,
             retryCount,
-            usageCost: usageCost(body.usage, route),
+            usageCost: observedCost,
           },
         }
       } catch (error) {
