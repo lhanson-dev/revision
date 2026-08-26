@@ -95,7 +95,7 @@ Use this file to find the governing source before substantive work.
 - Engineering standards → `50-engineering-standards/`
 - Subscription launch pricing / billing cadence / trial baseline / price presentation → `60-business-operations/Pricing and Billing Policy.md`
 - AI/REV variable-cost envelopes / cost-weighted allowance principle / commercial AI cost guardrails → `60-business-operations/AI Cost and Allowance Policy.md`
-- Content Factory bootstrap course-production cost / quality-first spend guardrails → `60-business-operations/Content Factory Bootstrap Cost Strategy.md`
+- Bootstrap Content Factory production cost / Founder-family AI testing spend / quality-first cost trade-offs → `60-business-operations/Bootstrap Content and AI Testing Budget Policy.md`
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 - Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
