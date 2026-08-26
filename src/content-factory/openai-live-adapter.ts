@@ -37,6 +37,14 @@ const questionFamilyWorkerOutputSchema = z.object({
   questionFamilies: z.array(questionFamilySchema).min(1),
 })
 
+const assessmentItemProviderOutputSchema = assessmentItemWorkerOutputSchema.omit({
+  componentId: true,
+  questionFamilyId: true,
+  requirementIds: true,
+  format: true,
+  maxMark: true,
+})
+
 export interface OpenAIModelRoute {
   model: string
   inputUsdPerMillion: number
@@ -458,14 +466,23 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
         workerId: 'content-factory.assessment-item',
         contractVersion: '1',
         routeKind: 'generation',
-        outputSchema: assessmentItemWorkerOutputSchema,
-        instructions: 'Create one original Revision-owned exam-style question for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question. Set componentId and questionFamilyId exactly. Use only supplied requirementIds and knowledgeNodeIds. If targetPolicy is supplied, use exactly its requirementIds, maxMark and format. Context, when required, must be an original fictional business scenario with internally consistent data.',
+        outputSchema: policy ? assessmentItemProviderOutputSchema : assessmentItemWorkerOutputSchema,
+        instructions: policy
+          ? 'Create one original Revision-owned exam-style question for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question. Use the supplied targetPolicy requirementIds, maxMark and format to shape the question, but do not return those governed target fields; Revision injects them deterministically after provider validation. Use only supplied knowledgeNodeIds. Context, when required, must be an original fictional business scenario with internally consistent data.'
+          : 'Create one original Revision-owned exam-style question for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question. Set componentId and questionFamilyId exactly. Use only supplied requirementIds and knowledgeNodeIds. Context, when required, must be an original fictional business scenario with internally consistent data.',
         payload: { ...input, targetPolicy: policy },
       })
       if (execution.status !== 'success' || !policy) return execution
-      const item = assessmentItemWorkerOutputSchema.parse(execution.output)
-      if (!sameSet(item.requirementIds, policy.requirementIds) || item.maxMark !== policy.maxMark || item.format !== policy.format) return downgradeSuccess(execution, `Assessment item ${item.id} did not preserve its governed pilot target policy`)
-      return execution
+      const generated = assessmentItemProviderOutputSchema.parse(execution.output)
+      const item = assessmentItemWorkerOutputSchema.parse({
+        ...generated,
+        componentId: input.targetComponentId,
+        questionFamilyId: input.questionFamily.id,
+        requirementIds: policy.requirementIds,
+        maxMark: policy.maxMark,
+        format: policy.format,
+      })
+      return { ...execution, output: item }
     },
 
     async generateMarkingPack(input) {
