@@ -426,7 +426,7 @@ export async function preflightAqaAsBusiness7131Sources(fetchImpl: typeof fetch 
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.libreTextsTerms, ['content can be downloaded or copied', 'licensing of the material'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.specification, ['as business', '7131', '2026'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.assessment, ['10 multiple choice questions', 'short answer questions', 'two data response stimuli', 'one compulsory case study', '80 marks'])
-  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.subjectContent, ['what is business', 'different business forms', 'sole traders', 'social enterprises', 'financial management'])
+  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.subjectContent, ['what is business', 'marketing management', 'financial management'])
 }
 
 export class LivePilotArtifactStore {
