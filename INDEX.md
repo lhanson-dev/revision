@@ -50,12 +50,13 @@ Use this file to find the governing source before substantive work.
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
 - Mission, vision and purpose → `00-company-foundation/Mission Vision and Purpose.md`
+- Product strategic thesis / Personalised Revision Intelligence / bootstrap allocation and sequencing → `00-company-foundation/Product Strategy.md`
 - Strategic positioning → `00-company-foundation/Strategic Positioning.md`
 - Target audience and personas → `10-product-governance/Target Audience and Personas.md`
 - Student problem definition → `10-product-governance/Student Problem Definition.md`
 - Product promise → `10-product-governance/Product Promise.md`
 - Product principles → `10-product-governance/Product Principles.md`
-- Product system model → `10-product-governance/Product System Model.md`
+- Product system model / structured learner intelligence / Weakness Repair / adaptive recall foundations → `10-product-governance/Product System Model.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Returning Student Home hierarchy / REV hero / Today's plan / direct first-task launch → `10-product-governance/Returning Student Home Experience.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
@@ -68,7 +69,8 @@ Use this file to find the governing source before substantive work.
 - Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
-- Product backlog folder rules → `10-product-governance/backlog/README.md`
+- Personalised Revision Intelligence strategy-to-feature mapping / strategic execution spine → `10-product-governance/backlog/Personalised Revision Intelligence Strategy Mapping.md` (non-authoritative lifecycle mapping)
+- Product backlog folder rules / strategic-anchor requirement → `10-product-governance/backlog/README.md`
 - Other Founder/strategy authority → `00-company-foundation/`
 - Product behaviour/scope/audience/journeys → `10-product-governance/`
 

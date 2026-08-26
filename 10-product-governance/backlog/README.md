@@ -4,8 +4,27 @@ This subdirectory contains Revision's **non-authoritative product backlog and pr
 
 It sits inside the product domain so that product-management agents and humans have one clear place to find candidate features, but its contents are **not approved product behaviour** unless explicitly promoted into the approved product authority at the root of `10-product-governance/` or otherwise supported by the appropriate governed decision/authority evidence.
 
+## Strategic anchor — Personalised Revision Intelligence
+
+The governing product strategy is `00-company-foundation/Product Strategy.md`.
+
+Its core strategic rule is:
+
+> **Revision should know the student better after every useful interaction.**
+
+The product should use reliable learner evidence and legitimate planning context to make later teaching, practice, feedback, exam preparation and recommendations more useful.
+
+Before prioritising or analysing a material backlog feature, read the strategy and ask whether the feature strengthens the connected learner-intelligence loop rather than merely matching a competitor feature or creating another isolated tool.
+
+The product-management mapping from the strategy to existing feature ownership is:
+
+- `Personalised Revision Intelligence Strategy Mapping.md`
+
+This mapping keeps the major strategic bets visible without inventing duplicate feature IDs or bypassing lifecycle approval. In particular, the current strategy maps structured contextual REV to FI-003, evidence-linked exam marking to FI-007, adaptive recall to FI-009, and the Weakness Repair loop across FI-010 and FI-011.
+
 ## Boundary
 
+- `00-company-foundation/Product Strategy.md` → governing strategic product thesis and allocation rules.
 - `10-product-governance/*.md` at the root → approved or draft product authority, as identified by each document's status.
 - `10-product-governance/backlog/` → candidate ideas, lifecycle state, prioritisation inputs and product-management records. Backlog state reflects governed decisions but does not replace normative authority.
 - code and `docs/technical/` → current implementation/live truth.
@@ -15,6 +34,7 @@ It sits inside the product domain so that product-management agents and humans h
 ## Canonical backlog
 
 - `Product Feature Backlog.md` — canonical inventory of product feature ideas and their current product-management status.
+- `Personalised Revision Intelligence Strategy Mapping.md` — current product-management mapping from the governing strategy to existing backlog feature ownership and sequencing; non-authoritative and lifecycle-preserving.
 
 ## Canonical lifecycle
 
@@ -50,11 +70,21 @@ By default the Founder provides these approvals unless a future governance chang
 
 An AI agent may assess, recommend and prepare the governing changes, but may not self-approve either boundary.
 
+Adoption of a product strategy does not automatically promote every mapped candidate feature. Existing feature lifecycle states remain unchanged until their own governed approval boundary is deliberately crossed.
+
 ## Definition-of-Ready boundary
 
 A feature must not enter material implementation while it is `New`, `To Do` or `Analyse`.
 
 `Ready` requires the complete criteria in `80-company-workflows/Feature Definition and Measurement Workflow.md`, including product problem/value, strategic case, intended experience, evidence semantics, REV role, MVP boundary, **Free / Paid / Premium value ladder**, upgrade/conversion hypothesis, measurement, Founder/Admin assurance, risk/trust/accessibility, technical feasibility, test/assurance approach, documentation impact and explicit human approval.
+
+For strategy-mapped features, the strategic case should explicitly explain:
+
+- how the feature improves the connected learner-intelligence loop;
+- what reliable learner evidence or context it consumes and produces;
+- how its outputs improve later support or recommendations where applicable;
+- whether a deterministic mechanism can achieve the outcome more simply than generative AI; and
+- why its bootstrap opportunity cost is justified relative to strengthening the core loop.
 
 The commercial rule is not permission to degrade the free experience. Free must provide genuine standalone value; Paid and Premium should create stronger, discoverable value that earns upgrade desire without manipulative or anxiety-exploiting mechanics.
 
@@ -73,5 +103,7 @@ The standard AI interaction is intentionally short:
 - `Start FI-XXX`
 - `Continue FI-XXX`
 - `Status FI-XXX`
+
+For mapped Personalised Revision Intelligence features, those commands should cause the agent to read both the canonical feature entry and `Personalised Revision Intelligence Strategy Mapping.md` before substantive product definition.
 
 The detailed behaviour behind those commands is governed by the Feature Definition and Measurement Workflow. The repository, not chat history, is the persistent record of lifecycle state and decisions.
