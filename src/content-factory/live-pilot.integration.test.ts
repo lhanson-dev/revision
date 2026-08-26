@@ -7,6 +7,7 @@ const runtime = globalThis as typeof globalThis & { process?: { env?: Record<str
 const env = runtime.process?.env ?? {}
 const liveEnabled = env.CONTENT_FACTORY_LIVE_PILOT === '1'
 const evidenceDirectory = '.artifacts/content-factory-live-pilot'
+const livePilotTestTimeoutMs = 30 * 60 * 1000
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -183,5 +184,5 @@ describe('Content Factory v2 live adapter pilot', () => {
     if (!result.report.reachedExpertReviewReady) {
       throw new Error(`Live pilot did not reach expert_review_ready; state=${result.job.state}; blockers=${result.job.blockers.map((blocker) => blocker.reason).join(' | ')}`)
     }
-  })
+  }, livePilotTestTimeoutMs)
 })
