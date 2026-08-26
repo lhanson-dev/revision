@@ -65,6 +65,8 @@ The adapter:
 
 For Question Family generation specifically, the domain contract remains a list of Question Families. The OpenAI boundary requests `{ "questionFamilies": [...] }`, validates that envelope, and returns the inner list to the existing assessment factory. Provider compatibility therefore does not alter the governed Question Family domain meaning or downstream contracts.
 
+For assessment-item generation with a governed target policy, deterministic target fields are not delegated to the model. The provider-facing output schema omits `componentId`, `questionFamilyId`, `requirementIds`, `maxMark` and `format`; the policy still appears in the structured input so the model can shape the question appropriately. After the creative provider output validates, the adapter injects those exact target values from the resolved component, Question Family and approved pilot policy, then validates the complete unchanged assessment-item domain schema. Provider drift therefore cannot invent a new format, mark allocation or target identity, while genuinely creative/schema-invalid question content still fails closed.
+
 Model names and route pricing are implementation configuration, not educational authority. They must be revalidated against current provider documentation immediately before a live run when material pricing/capability assumptions matter.
 
 ## Initial route
@@ -152,6 +154,7 @@ Branch assurance must cover:
 - lint;
 - existing unit/regression tests;
 - OpenAI structured-output request contract, including the top-level object requirement for list-like worker outputs;
+- deterministic injection and full-domain validation of governed assessment-item target fields;
 - cost calculation;
 - bounded retries;
 - pre-call spend-ceiling refusal;
@@ -165,7 +168,7 @@ The real paid workflow is deliberately not run from an unapproved feature branch
 
 ## Documentation impact
 
-The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
+The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs and deterministic ownership of governed assessment-item target fields. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
 
 No historical audit/evidence record is rewritten.
 
