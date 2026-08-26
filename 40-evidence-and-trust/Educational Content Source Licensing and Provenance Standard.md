@@ -1,6 +1,6 @@
 # Educational Content Source Licensing and Provenance Standard
 
-**Status:** Proposed authority for Content Factory v2  
+**Status:** Founder-approved authority for Content Factory v2 — approved 25 August 2026  
 **Owner:** Founder / Content / Trust  
 **Purpose:** Define which educational sources Revision may use, how those sources may enter AI-assisted production, and what provenance must be retained before learner content is generated.
 

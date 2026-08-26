@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
+- Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -96,6 +97,7 @@ Use this file to find the governing source before substantive work.
 - Engineering standards → `50-engineering-standards/`
 - Subscription launch pricing / billing cadence / trial baseline / price presentation → `60-business-operations/Pricing and Billing Policy.md`
 - AI/REV variable-cost envelopes / cost-weighted allowance principle / commercial AI cost guardrails → `60-business-operations/AI Cost and Allowance Policy.md`
+- Content Factory bootstrap course-production cost / quality-first spend guardrails → `60-business-operations/Content Factory Bootstrap Cost Strategy.md`
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 - Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
@@ -147,6 +149,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
+- Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
