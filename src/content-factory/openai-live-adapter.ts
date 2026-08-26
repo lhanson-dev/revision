@@ -26,7 +26,26 @@ import {
   type AssuranceAndRemediationWorkers,
 } from './assurance-and-remediation'
 
-const independentReviewProviderFindingSchema = independentReviewFindingSchema.omit({ workUnitId: true })
+const providerIdentifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
+const providerNonEmptyStringSchema = z.string().min(1)
+
+const independentReviewProviderFindingSchema = z.object({
+  id: providerIdentifierSchema,
+  severity: z.enum(['blocking', 'material', 'minor', 'no_issue']),
+  issueType: providerNonEmptyStringSchema,
+  artifactRef: providerNonEmptyStringSchema,
+  evidence: z.array(providerNonEmptyStringSchema).min(1),
+  finding: providerNonEmptyStringSchema,
+  recommendedCorrection: providerNonEmptyStringSchema,
+  resolutionStatus: z.enum(['open', 'resolved', 'not_applicable']),
+}).superRefine((finding, context) => {
+  if (finding.severity === 'no_issue' && finding.resolutionStatus !== 'not_applicable') {
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'No-issue entries must be not_applicable' })
+  }
+  if (finding.severity !== 'no_issue' && finding.resolutionStatus !== 'open') {
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'Independent reviewer findings must enter the register as open' })
+  }
+})
 
 const independentReviewWorkerOutputSchema = z.object({
   reviewedCommit: z.string().regex(/^[0-9a-f]{40}$/),
