@@ -14,6 +14,14 @@ function requiredEnv(name: string) {
   return value
 }
 
+function positiveNumberEnv(name: string, fallback: number) {
+  const raw = env[name]?.trim()
+  if (!raw) return fallback
+  const value = Number(raw)
+  if (!Number.isFinite(value) || value <= 0) throw new Error(`invalid_positive_number_runtime_config:${name}`)
+  return value
+}
+
 function githubHeaders(token: string) {
   return {
     Accept: 'application/vnd.github+json',
@@ -92,6 +100,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       throw new Error(`provider_secret_missing_or_runtime_config_missing:${missing.join(',')}`)
     }
     const apiKey = requiredEnv('OPENAI_API_KEY')
+    const maxSpendUsd = positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 20)
     const now = new Date().toISOString()
     const jobId = `aqa-as-business-7131-live-${headSha.slice(0, 12)}-${Date.now()}`
 
@@ -101,6 +110,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       now,
       openAI: {
         apiKey,
+        maxSpendUsd,
         generation: {
           model: env.CONTENT_FACTORY_GENERATION_MODEL?.trim() || 'gpt-5.6-terra',
           inputUsdPerMillion: 2,
@@ -111,6 +121,7 @@ describe('Content Factory v2 live adapter pilot', () => {
           longContextInputMultiplier: 2,
           longContextOutputMultiplier: 1.5,
           reasoningEffort: 'medium',
+          maxOutputTokens: 8_000,
         },
         independentReview: {
           model: env.CONTENT_FACTORY_REVIEW_MODEL?.trim() || 'gpt-5.6-sol',
@@ -122,6 +133,7 @@ describe('Content Factory v2 live adapter pilot', () => {
           longContextInputMultiplier: 2,
           longContextOutputMultiplier: 1.5,
           reasoningEffort: 'high',
+          maxOutputTokens: 12_000,
         },
         maxRetries: 2,
       },
@@ -135,6 +147,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       recordedAt: new Date().toISOString(),
       repository: repo,
       contentHeadSha: headSha,
+      configuredMaxSpendUsd: maxSpendUsd,
       jobIssueNumber: durable.issueNumber,
       job: result.job,
       report: result.report,
@@ -153,6 +166,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       `- Final state: \`${result.job.state}\``,
       `- Reached expert_review_ready: **${result.report.reachedExpertReviewReady ? 'yes' : 'no'}**`,
       `- Observed model cost: **$${result.report.observedUsageCost.toFixed(4)}**`,
+      `- Configured per-course ceiling: **$${maxSpendUsd.toFixed(2)}**`,
       `- Total retries: **${result.report.totalRetries}**`,
       `- Human interventions: **${result.report.humanInterventionCount}**`,
       `- Provider routes: ${routes || 'none'}`,
@@ -164,6 +178,7 @@ describe('Content Factory v2 live adapter pilot', () => {
     expect(result.report.reachedExpertReviewReady).toBe(true)
     expect(result.job.state).toBe('expert_review_ready')
     expect(result.report.providerRoutes.some((route) => route.provider === 'openai')).toBe(true)
+    expect(result.report.observedUsageCost).toBeLessThanOrEqual(maxSpendUsd)
     expect(result.report.unpricedWorkerRunCount).toBeGreaterThanOrEqual(0)
     if (!result.report.reachedExpertReviewReady) {
       throw new Error(`Live pilot did not reach expert_review_ready; state=${result.job.state}; blockers=${result.job.blockers.map((blocker) => blocker.reason).join(' | ')}`)
