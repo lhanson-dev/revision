@@ -7,6 +7,7 @@ const route = {
   inputUsdPerMillion: 2,
   cachedInputUsdPerMillion: 0.2,
   outputUsdPerMillion: 12,
+  maxOutputTokens: 1_000,
 }
 
 function responseBody(output: unknown, usage = { input_tokens: 1_000, output_tokens: 500, input_tokens_details: { cached_tokens: 200 } }) {
@@ -25,9 +26,11 @@ describe('OpenAIStructuredWorkerClient', () => {
         model: string
         instructions: string
         input: string
+        max_output_tokens: number
         text: { format: { type: string; name: string; strict: boolean; schema: Record<string, unknown> } }
       }
       expect(body.model).toBe('test-model')
+      expect(body.max_output_tokens).toBe(1_000)
       expect(body.text.format.type).toBe('json_schema')
       expect(body.text.format.strict).toBe(false)
       expect(body.instructions).toContain('Do not browse, quote or reconstruct awarding-body source prose')
@@ -98,5 +101,32 @@ describe('OpenAIStructuredWorkerClient', () => {
     expect(result.status).toBe('infrastructure_failure')
     if (result.status === 'success') throw new Error('Expected schema failure')
     expect(result.error).toMatch(/invalid|expected/i)
+  })
+
+  it('refuses a provider call before spend can breach the configured course ceiling', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({ answer: 'ok' })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const client = new OpenAIStructuredWorkerClient({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+      maxSpendUsd: 0.0001,
+    })
+
+    const result = await client.run({
+      workerId: 'content-factory.budget-test',
+      contractVersion: '1',
+      routeKind: 'generation',
+      outputSchema: z.object({ answer: z.literal('ok') }),
+      instructions: 'Return the test object.',
+      payload: { safeFact: true },
+    })
+
+    expect(result.status).toBe('infrastructure_failure')
+    if (result.status === 'success') throw new Error('Expected budget ceiling failure')
+    expect(result.error).toContain('content_factory_spend_ceiling_reached')
+    expect(fetchImpl).not.toHaveBeenCalled()
+    expect(client.budgetSnapshot().maxSpendUsd).toBe(0.0001)
   })
 })
