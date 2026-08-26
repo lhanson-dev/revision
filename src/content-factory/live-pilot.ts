@@ -29,100 +29,103 @@ export const AQA_AS_BUSINESS_7131_URLS = {
   subjectContent: 'https://www.aqa.org.uk/subjects/business/as-level/business-7131/specification/subject-content',
   dfeSubjectContent: 'https://www.gov.uk/government/publications/gce-as-and-a-level-for-business',
   ofqualAssessmentObjectives: 'https://www.gov.uk/government/publications/assessment-objectives-ancient-languages-geography-and-mfl/gcse-as-and-a-level-assessment-objectives',
-  openStaxBusiness2018: 'https://openstax.org/details/books/introduction-business',
+  libreTextsBusiness: 'https://biz.libretexts.org/Courses/Cosumnes_River_College/Bus_300%3A_Business_Fundamentals_%28Brown%29',
+  libreTextsTerms: 'https://libretexts.org/terms-conditions',
 } as const
+
+const permittedCurriculumSources = ['dfe-business-subject-content', 'libretexts-business-fundamentals']
 
 const pilotRequirements: CurriculumRequirementInput[] = [
   {
     requirementId: 'business-foundations',
-    summary: 'Explain why businesses exist, objectives and profit, ownership and legal forms, shareholder interests, and how competition and the external environment affect business decisions.',
-    skillsOrKnowledge: ['business purpose and objectives', 'profit and cost/revenue relationships', 'ownership and liability', 'shareholders', 'external influences'],
+    summary: 'Explain why businesses exist, objectives and profit, ownership and legal forms, stakeholder interests, and how competition and the external environment affect business decisions.',
+    skillsOrKnowledge: ['business purpose and objectives', 'profit and cost/revenue relationships', 'ownership and liability', 'stakeholders', 'external influences'],
     componentScope: [], revisionArea: 'Business foundations', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'leadership-and-management',
     summary: 'Compare management and leadership, leadership styles and their suitability, and how organisational context affects leadership choices.',
     skillsOrKnowledge: ['management', 'leadership', 'leadership styles', 'organisational context'],
     componentScope: [], revisionArea: 'Managers and leaders', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'decision-making-and-stakeholders',
     summary: 'Use qualitative and quantitative evidence to make and justify business decisions under risk and uncertainty, including stakeholder interests and trade-offs.',
     skillsOrKnowledge: ['decision making', 'risk and uncertainty', 'qualitative and quantitative evidence', 'stakeholders', 'opportunity cost'],
     componentScope: [], revisionArea: 'Decision making', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'marketing-research',
     summary: 'Use marketing objectives and research evidence, distinguish primary and secondary and qualitative and quantitative data, and judge the usefulness and limitations of samples and data relationships.',
     skillsOrKnowledge: ['marketing objectives', 'market research', 'data types', 'sampling', 'data interpretation'],
     componentScope: [], revisionArea: 'Marketing research', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'marketing-demand-and-positioning',
     summary: 'Analyse customer needs, segmentation, targeting, positioning and demand responsiveness, including the business implications of price and income elasticity.',
     skillsOrKnowledge: ['customer needs', 'segmentation', 'targeting', 'positioning', 'price elasticity', 'income elasticity'],
     componentScope: [], revisionArea: 'Markets and demand', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'marketing-mix-and-digital',
     summary: 'Evaluate coordinated product, price, promotion and distribution choices, product life-cycle decisions, branding and the effects of digital channels on marketing.',
     skillsOrKnowledge: ['marketing mix', 'product life cycle', 'pricing', 'promotion', 'distribution', 'branding', 'digital marketing'],
     componentScope: [], revisionArea: 'Marketing decisions', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'operations-performance',
     summary: 'Analyse operational objectives and performance using productivity, capacity, unit-cost and efficiency evidence, and judge labour- versus capital-intensive choices.',
     skillsOrKnowledge: ['operations objectives', 'productivity', 'capacity utilisation', 'unit costs', 'efficiency', 'labour and capital intensity'],
     componentScope: [], revisionArea: 'Operations performance', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'operations-quality-and-supply',
     summary: 'Evaluate quality management, inventory and lean approaches, technology, supplier relationships, supply chains and outsourcing in operational decisions.',
     skillsOrKnowledge: ['quality', 'inventory', 'lean operations', 'technology', 'suppliers', 'supply chain', 'outsourcing'],
     componentScope: [], revisionArea: 'Operations decisions', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'finance-profit-cash-budgeting',
     summary: 'Distinguish profit from cash, use revenue and cost information, construct and interpret budgets and cash-flow forecasts, and explain causes and consequences of cash-flow problems.',
     skillsOrKnowledge: ['revenue and costs', 'profit', 'cash flow', 'budgets', 'variance', 'cash-flow forecasting'],
     componentScope: [], revisionArea: 'Financial performance', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'finance-analysis-and-funding',
     summary: 'Use contribution, break-even and profitability evidence, evaluate internal and external finance options, and recommend actions to improve financial performance.',
     skillsOrKnowledge: ['contribution', 'break-even', 'margin of safety', 'profitability ratios', 'sources of finance', 'financial improvement'],
     componentScope: [], revisionArea: 'Financial decisions', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'people-performance-and-structure',
     summary: 'Analyse human-resource objectives and performance, organisational design and workforce choices using measures such as labour productivity and labour turnover.',
     skillsOrKnowledge: ['HR objectives', 'workforce performance', 'labour productivity', 'labour turnover', 'organisational design', 'workforce planning'],
     componentScope: [], revisionArea: 'People and organisation', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'motivation-and-employee-relations',
     summary: 'Evaluate financial and non-financial motivation, employee involvement, leadership and workplace relationships, including the effects of different approaches on performance.',
     skillsOrKnowledge: ['motivation', 'financial and non-financial incentives', 'employee involvement', 'employee relations', 'leadership'],
     componentScope: [], revisionArea: 'Motivation and relations', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
   {
     requirementId: 'quantitative-business-skills',
     summary: 'Calculate and interpret ratios, averages, percentages and changes, graphical and index information, costs, revenue, profit and break-even, and combine numerical and non-numerical evidence to support decisions.',
     skillsOrKnowledge: ['ratios', 'averages', 'percentages', 'graphs', 'index numbers', 'cost revenue profit', 'break-even', 'decision evidence'],
     componentScope: [], revisionArea: 'Quantitative skills', learnRequired: true, practiceRequired: true, examPrepRequired: true,
-    sourceRefs: ['dfe-business-subject-content', 'openstax-business-2018'],
+    sourceRefs: permittedCurriculumSources,
   },
 ]
 
@@ -158,12 +161,12 @@ export const AQA_AS_BUSINESS_7131_SOURCE_RIGHTS_RULES: SourceRightsPolicyRule[] 
     revalidationConditions: ['Assessment-objective publication or licence wording changes.'],
   },
   {
-    id: 'openstax-business-2018-cc-by', issuer: 'OpenStax', hostnames: ['openstax.org'], sourceTypes: ['secondary_supplement'], useClass: 'OPEN',
-    permissionBasis: 'Introduction to Business first edition, published 2018, is specifically identified by OpenStax as Creative Commons Attribution 4.0; live preflight pins the old edition and licence marker.',
+    id: 'libretexts-business-cc-by-4', issuer: 'LibreTexts', hostnames: ['biz.libretexts.org'], sourceTypes: ['secondary_supplement'], useClass: 'OPEN',
+    permissionBasis: 'Business Fundamentals (Brown) is marked CC BY 4.0 by LibreTexts; current LibreTexts terms state content may be copied consistently with the material licence. Live preflight verifies both markers before the source is admitted.',
     aiInputPermitted: true, derivedCommercialUsePermitted: true,
-    attributionRequirements: ['Attribute OpenStax Introduction to Business and retain the CC BY 4.0 attribution required for reused material.'],
-    restrictions: ['Use the 2018 first edition only; do not silently substitute a later edition with different terms.'],
-    revalidationConditions: ['Edition URL, publication metadata or licence wording changes.'],
+    attributionRequirements: ['Attribute Business Fundamentals (Brown), Cornelius Brown and Hannah Wong / LibreTexts, under CC BY 4.0, and preserve attribution for any separately noted material actually reused.'],
+    restrictions: ['Do not ingest or reproduce third-party material separately marked under a different licence; this pilot passes only manually curated structured facts to the model.'],
+    revalidationConditions: ['Resource licence, detailed licensing, LibreTexts terms or source composition changes.'],
   },
   {
     id: 'aqa-reference-only-alignment', issuer: 'AQA', hostnames: ['www.aqa.org.uk'], sourceTypes: ['specification', 'assessment', 'subject_content'], useClass: 'REFERENCE_ONLY',
@@ -204,9 +207,10 @@ async function checkedText(fetchImpl: typeof fetch, url: string, markers: string
 }
 
 export async function preflightAqaAsBusiness7131Sources(fetchImpl: typeof fetch = fetch) {
-  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.dfeSubjectContent, ['gce as and a level business', 'open government licence'])
+  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.dfeSubjectContent, ['gce as and a level', 'business', 'open government licence'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.ofqualAssessmentObjectives, ['assessment objectives', 'business', 'open government licence'])
-  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.openStaxBusiness2018, ['sep 19, 2018', 'creative commons attribution'])
+  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.libreTextsBusiness, ['business fundamentals', 'cc by 4.0', 'marketing', 'accounting and finance', 'operations', 'human resources'])
+  await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.libreTextsTerms, ['content can be downloaded or copied', 'licensing of the material'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.specification, ['as business', '7131', '2026'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.assessment, ['paper 1', 'paper 2', '80 marks'])
   await checkedText(fetchImpl, AQA_AS_BUSINESS_7131_URLS.subjectContent, ['what is business', 'marketing management', 'financial management'])
@@ -278,9 +282,9 @@ async function buildAssessmentBlueprint(jobId: string, boardAlignmentFingerprint
     assessmentObjectives: [{ id: 'ao1' }, { id: 'ao2' }, { id: 'ao3' }, { id: 'ao4' }],
     components: [
       { componentId: 'paper-1', questionFamilyIds: ['paper1-knowledge-10', 'paper1-data-30', 'paper1-evaluation-40'], markTotal: 80, timingMinutes: 90, constraints: ['10 + 30 + 40 marks = 80', 'combine short response and data-response demands'] },
-      { componentId: 'paper-2', questionFamilyIds: ['paper2-application-20', 'paper2-analysis-30', 'paper2-evaluation-30'], markTotal: 80, timingMinutes: 90, constraints: ['20 + 30 + 30 marks = 80', 'all questions share one original Revision-owned business case context in spirit without copying AQA material'] },
+      { componentId: 'paper-2', questionFamilyIds: ['paper2-application-20', 'paper2-analysis-30', 'paper2-evaluation-30'], markTotal: 80, timingMinutes: 90, constraints: ['20 + 30 + 30 marks = 80', 'use original Revision-owned case contexts without copying awarding-body material'] },
     ],
-    quantitativeRequirements: ['Include quantitative interpretation and calculation demand in both the learning/practice package and assessment set.'],
+    quantitativeRequirements: ['Include quantitative interpretation and calculation demand in the learning/practice package and generated assessment set.'],
     synopticRequirements: ['Assess connections between functional areas and require contextual business judgement.'],
     commandDemands: [
       { command: 'calculate', cognitiveDemand: 'apply structured quantitative methods accurately', componentScope: ['paper-1', 'paper-2'] },
@@ -321,12 +325,16 @@ export function createAqaAsBusiness7131LivePilotWorkers(input: {
       try {
         await preflightAqaAsBusiness7131Sources(fetchImpl)
       } catch (error) {
-        return { status: 'infrastructure_failure', error: error instanceof Error ? error.message : 'live source preflight failed', provenance: { id: `pilot-source-${jobId}`, contextId: `deterministic-pilot-source-${jobId}`, contractVersion: '1', provider: 'revision-live-source-preflight' } }
+        return {
+          status: 'infrastructure_failure',
+          error: error instanceof Error ? error.message : 'live source preflight failed',
+          provenance: { id: `pilot-source-${jobId}`, contextId: `deterministic-pilot-source-${jobId}`, contractVersion: '1', provider: 'revision-live-source-preflight' },
+        }
       }
       return deterministicExecution([
         { id: 'dfe-business-subject-content', url: AQA_AS_BUSINESS_7131_URLS.dfeSubjectContent, title: 'GCE AS and A level subject content for business', issuer: 'Department for Education', sourceType: 'subject_content', educationalRole: ['permitted common AS Business curriculum truth', 'quantitative skills'], versionOrDate: 'DFE-00358-2014' },
         { id: 'ofqual-business-assessment-objectives', url: AQA_AS_BUSINESS_7131_URLS.ofqualAssessmentObjectives, title: 'GCSE, AS and A level assessment objectives — Business', issuer: 'Ofqual', sourceType: 'assessment_objectives', educationalRole: ['permitted assessment-objective truth'] },
-        { id: 'openstax-business-2018', url: AQA_AS_BUSINESS_7131_URLS.openStaxBusiness2018, title: 'Introduction to Business', issuer: 'OpenStax', sourceType: 'secondary_supplement', educationalRole: ['permitted reusable business subject explanation and examples'], versionOrDate: '2018 first edition; ISBN 978-1-947172-55-5' },
+        { id: 'libretexts-business-fundamentals', url: AQA_AS_BUSINESS_7131_URLS.libreTextsBusiness, title: 'Bus 300: Business Fundamentals (Brown)', issuer: 'LibreTexts', sourceType: 'secondary_supplement', educationalRole: ['permitted reusable business subject explanation and cross-checking'], versionOrDate: 'current CC BY 4.0 resource; preflight checked at run time' },
         { id: 'aqa-7131-specification', url: AQA_AS_BUSINESS_7131_URLS.specification, title: 'AQA AS Business 7131 specification', issuer: 'AQA', sourceType: 'specification', educationalRole: ['course identity', 'cohort alignment'] },
         { id: 'aqa-7131-assessment', url: AQA_AS_BUSINESS_7131_URLS.assessment, title: 'AQA AS Business 7131 specification at a glance', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['component and assessment-format alignment'] },
         { id: 'aqa-7131-subject-content', url: AQA_AS_BUSINESS_7131_URLS.subjectContent, title: 'AQA AS Business 7131 subject content', issuer: 'AQA', sourceType: 'subject_content', educationalRole: ['structured section-level curriculum alignment only'] },
@@ -372,7 +380,11 @@ export function createAqaAsBusiness7131LivePilotWorkers(input: {
     },
     async compileAssessmentBlueprint({ jobId, components }) {
       if (components.length !== 2 || !components.some((component) => component.id === 'paper-1') || !components.some((component) => component.id === 'paper-2')) {
-        return { status: 'failure', error: 'AQA AS Business live pilot expected exact Paper 1 and Paper 2 component structure', provenance: { id: `pilot-assessment-blueprint-${jobId}`, contextId: `deterministic-pilot-assessment-blueprint-${jobId}`, contractVersion: '1', provider: 'revision-deterministic' } }
+        return {
+          status: 'failure',
+          error: 'AQA AS Business live pilot expected exact Paper 1 and Paper 2 component structure',
+          provenance: { id: `pilot-assessment-blueprint-${jobId}`, contextId: `deterministic-pilot-assessment-blueprint-${jobId}`, contractVersion: '1', provider: 'revision-deterministic' },
+        }
       }
       const boardAlignmentFingerprint = await fingerprintValue({ jobId, profile: 'aqa-as-business-7131-2026-v1' })
       return deterministicExecution(await buildAssessmentBlueprint(jobId, boardAlignmentFingerprint), `pilot-assessment-blueprint-${jobId}`)
@@ -406,7 +418,11 @@ export async function runAqaAsBusiness7131LivePilot(input: {
     now: input.now,
     proofMode: 'live_adapter',
     maxRemediationCycles: 0,
-    limitations: ['Live pilot is an internal Content Factory proof and does not publish learner content.', 'AQA sources remain REFERENCE_ONLY; generative workers receive only controlled structured alignment facts, not AQA source prose.'],
+    limitations: [
+      'Live pilot is an internal Content Factory proof and does not publish learner content.',
+      'AQA sources remain REFERENCE_ONLY; generative workers receive only controlled structured alignment facts, never AQA source prose.',
+      'The secondary CC BY source is admitted only after live licence/terms preflight and only manually curated structured facts are passed downstream.',
+    ],
   })
   return { ...result, artifactStore }
 }
