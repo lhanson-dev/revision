@@ -19,16 +19,19 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout approved main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24.18.0'
           cache: npm
 
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
       - name: Install dependencies from lockfile
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Run rights-safe live adapter pilot
         env:
