@@ -56,6 +56,7 @@ The adapter:
 - uses structured JSON output contracts;
 - requires the provider-facing structured-output schema to have a top-level JSON object;
 - wraps list-like domain outputs in an object envelope for the provider and unwraps them before returning them to the Content Factory domain layer;
+- keeps governed target/scope metadata under deterministic Revision ownership where the model does not need discretion;
 - records provider/model/retry/cost provenance;
 - bounds retries;
 - bounds output tokens;
@@ -66,6 +67,8 @@ The adapter:
 For Question Family generation specifically, the domain contract remains a list of Question Families. The OpenAI boundary requests `{ "questionFamilies": [...] }`, validates that envelope, and returns the inner list to the existing assessment factory. Provider compatibility therefore does not alter the governed Question Family domain meaning or downstream contracts.
 
 For assessment-item generation with a governed target policy, deterministic target fields are not delegated to the model. The provider-facing output schema omits `componentId`, `questionFamilyId`, `requirementIds`, `maxMark` and `format`; the policy still appears in the structured input so the model can shape the question appropriately. After the creative provider output validates, the adapter injects those exact target values from the resolved component, Question Family and approved pilot policy, then validates the complete unchanged assessment-item domain schema. Provider drift therefore cannot invent a new format, mark allocation or target identity, while genuinely creative/schema-invalid question content still fails closed.
+
+For independent review, the provider-facing finding schema omits `workUnitId`. The reviewer must anchor every finding to an `artifactRef` from the supplied artifact index. Revision derives `workUnitId` only when the referenced stored learning/practice artifact already carries a governed work-unit identity. Assessment-level findings, including assessment-item or Marking Pack findings that do not belong to a single learning/practice work unit, remain legitimately unscoped. A model-returned synthetic value such as `assessment-set` is therefore discarded rather than being allowed to create a new work-unit identity. Unknown artifact references and any invalid final domain output still fail closed in the assurance layer.
 
 Model names and route pricing are implementation configuration, not educational authority. They must be revalidated against current provider documentation immediately before a live run when material pricing/capability assumptions matter.
 
@@ -155,6 +158,7 @@ Branch assurance must cover:
 - existing unit/regression tests;
 - OpenAI structured-output request contract, including the top-level object requirement for list-like worker outputs;
 - deterministic injection and full-domain validation of governed assessment-item target fields;
+- deterministic independent-review work-unit scope derivation from referenced learning/practice artifacts, including rejection of model-invented scope;
 - cost calculation;
 - bounded retries;
 - pre-call spend-ceiling refusal;
@@ -168,7 +172,7 @@ The real paid workflow is deliberately not run from an unapproved feature branch
 
 ## Documentation impact
 
-The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs and deterministic ownership of governed assessment-item target fields. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
+The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs, deterministic ownership of governed assessment-item target fields, and deterministic ownership of optional independent-review work-unit scope. These are implementation-boundary clarifications; they do not change the approved Content Factory v2 domain authority or its fail-closed assurance gates. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
 
 No historical audit/evidence record is rewritten.
 
