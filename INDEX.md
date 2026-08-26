@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
+- Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -94,6 +95,7 @@ Use this file to find the governing source before substantive work.
 - Engineering standards → `50-engineering-standards/`
 - Subscription launch pricing / billing cadence / trial baseline / price presentation → `60-business-operations/Pricing and Billing Policy.md`
 - AI/REV variable-cost envelopes / cost-weighted allowance principle / commercial AI cost guardrails → `60-business-operations/AI Cost and Allowance Policy.md`
+- Content Factory bootstrap course-production cost / quality-first spend guardrails → `60-business-operations/Content Factory Bootstrap Cost Strategy.md`
 - Product KPI and measurement framework → `60-business-operations/Product KPI Framework.md`
 - Commercial, KPI and operations authority → `60-business-operations/`
 - Current critical journey/control assurance coverage → `90-governance-registers/Assurance Coverage Register.md`
@@ -137,14 +139,15 @@ Use this file to find the governing source before substantive work.
 - B6 Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
 - Pre-B7 interface theme integrity checkpoint → `docs/technical/Interface Theme Integrity Pre-B7.md`
 - B7 learner-shell recurring icon consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
-- B7 shared overlay/focus consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
-- B7 canonical identity and recurring glyph consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
+- B7 shared overlay/focus ownership consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
+- B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - B7 final compatibility retirement / visual acceptance → `docs/technical/Interface System B7 Final Acceptance.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
+- Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
