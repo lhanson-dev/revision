@@ -1,6 +1,6 @@
 # Content Factory v2 — Expert Review Ready Amendment
 
-**Status:** Proposed Founder authority amendment  
+**Status:** Founder-approved authority amendment — approved 25 August 2026  
 **Owner:** Founder / Product / Content Operations  
 **Purpose:** Extend the approved Content Factory so an ordinary course request can be automated from intake through a complete, independently assured package that is ready for qualified subject-expert verification.
 
