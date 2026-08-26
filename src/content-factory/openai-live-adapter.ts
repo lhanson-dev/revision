@@ -33,6 +33,10 @@ const independentReviewWorkerOutputSchema = z.object({
   findings: z.array(independentReviewFindingSchema).default([]),
 })
 
+const questionFamilyWorkerOutputSchema = z.object({
+  questionFamilies: z.array(questionFamilySchema).min(1),
+})
+
 export interface OpenAIModelRoute {
   model: string
   inputUsdPerMillion: number
@@ -431,12 +435,12 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
         workerId: 'content-factory.question-family',
         contractVersion: '1',
         routeKind: 'generation',
-        outputSchema: z.array(questionFamilySchema).min(1),
-        instructions: 'Return exactly one reusable Question Family for every requestedFamilyId and no others. Reuse structured assessment demands without copying any awarding-body question or mark-scheme wording. If familyPolicies are supplied, obey their component, exact mark range, AO IDs, response shape and context requirement. Keep calibrationStatus not_calibrated and markingPackTemplateVersion="1".',
+        outputSchema: questionFamilyWorkerOutputSchema,
+        instructions: 'Return one object with a questionFamilies array containing exactly one reusable Question Family for every requestedFamilyId and no others. Reuse structured assessment demands without copying any awarding-body question or mark-scheme wording. If familyPolicies are supplied, obey their component, exact mark range, AO IDs, response shape and context requirement. Keep calibrationStatus not_calibrated and markingPackTemplateVersion="1".',
         payload: { ...input, familyPolicies: policies },
       })
       if (execution.status !== 'success') return execution
-      const families = z.array(questionFamilySchema).parse(execution.output)
+      const families = questionFamilyWorkerOutputSchema.parse(execution.output).questionFamilies
       if (!sameSet(families.map((family) => family.id), input.requestedFamilyIds)) return downgradeSuccess(execution, 'Question Family output did not match the exact requested IDs')
       for (const family of families) {
         const policy = config.questionFamilyPolicies?.[family.id]
@@ -445,7 +449,7 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
           return downgradeSuccess(execution, `Question Family ${family.id} did not preserve its governed pilot policy`)
         }
       }
-      return execution
+      return { ...execution, output: families }
     },
 
     async generateAssessmentItem(input) {
