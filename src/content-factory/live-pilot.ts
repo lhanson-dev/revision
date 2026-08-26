@@ -575,8 +575,7 @@ export function createAqaAsBusiness7131LivePilotWorkers(input: {
       const command = assessmentItemCommandPolicy[item.questionFamilyId] ?? item.command
       if (fixedContext) return { ...execution, output: assessmentItemWorkerOutputSchema.parse({ ...item, command, context: fixedContext }) }
       if (policy && !policy.contextRequired) {
-        const { context: _generatedContext, ...withoutContext } = item
-        return { ...execution, output: assessmentItemWorkerOutputSchema.parse({ ...withoutContext, command }) }
+        return { ...execution, output: assessmentItemWorkerOutputSchema.parse({ ...item, command, context: undefined }) }
       }
       return { ...execution, output: assessmentItemWorkerOutputSchema.parse({ ...item, command }) }
     },
