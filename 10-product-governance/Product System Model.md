@@ -1,6 +1,6 @@
 # Product System Model
 
-**Status:** Draft authority candidate — v0.5  
+**Status:** Draft authority candidate — v0.6  
 **Purpose:** Define the core model by which Revision understands a student, recommends activity and updates guidance over time.
 
 ## Core model
@@ -23,6 +23,30 @@ The system should optimise from reality rather than try to preserve an obsolete 
 
 Adaptive revision planning is governed in detail by `Adaptive Revision Planning.md`.
 
+The governing strategic objective is that useful interactions compound: **Revision should know the student better after every useful interaction**, where the interaction produces reliable educational evidence or legitimate planning/context information. The system must not collect or infer learner state merely to satisfy this slogan; evidence quality, provenance and privacy remain controlling boundaries.
+
+## Connected intelligence model
+
+Revision's product system should combine four connected forms of intelligence:
+
+### Curriculum intelligence
+
+The system understands the applicable qualification, exam board, specification structure, course/component relationships, governed content and assessment context.
+
+### Learner intelligence
+
+The system maintains a structured, evidence-aware picture of what the learner has covered, what they currently appear to understand, where evidence is weak or stale, recurring misconceptions or mistake patterns where supported, and relevant planning/preferences context.
+
+### Exam intelligence
+
+The system distinguishes knowing content from applying it effectively in exam-style conditions. Written answers, assessment objectives, timing, realistic exam questions, paper/component context and validated marking evidence may contribute to the learner's exam-readiness picture where the evidence rules permit.
+
+### Planning intelligence
+
+The system combines curriculum need, learner evidence, exam timing, realistic available time and bounded preferences to recommend the most useful next action.
+
+These forms of intelligence should reinforce one another rather than create separate product silos.
+
 ## Three distinct dimensions
 
 Revision should not collapse all progress into one score. It should distinguish at least three dimensions:
@@ -37,6 +61,34 @@ What does the available evidence suggest the student currently understands and c
 Can the student apply that knowledge effectively in exam-style conditions, including realistic questions, timing and mark expectations?
 
 These dimensions are related but not interchangeable. A student can have covered a topic without mastering it, or understand content without yet demonstrating exam readiness.
+
+## Structured learner memory
+
+Revision should preserve useful educational context as structured learner state rather than treating an unlimited conversation transcript as the learner model.
+
+Structured learner memory may include, subject to the applicable evidence, privacy and product rules:
+
+- active courses, qualification and exam-board context;
+- specification/topic structure relevant to the learner;
+- coverage state;
+- understanding/mastery evidence with provenance, recency and confidence;
+- exam-readiness evidence with provenance, recency and confidence;
+- repeated misconception or error patterns where supported by sufficient evidence;
+- evidence that may be stale or worth checking again;
+- recent meaningful assessment feedback;
+- relevant upcoming assessments and current plan priorities;
+- bounded learner preferences that improve support; and
+- concise conversation context needed for immediate continuity where appropriate.
+
+Different memory classes must retain their meaning. For example:
+
+- learner preference is not mastery evidence;
+- a conversation statement is not automatically an objective fact;
+- a single wrong answer is not automatically a durable misconception;
+- self-reported outside revision may inform planning but does not create objective readiness; and
+- starting-check evidence remains low-strength directional evidence under its separate rules.
+
+Structured learner memory should be permissioned, inspectable or explainable where appropriate, data-minimised and governed by Revision's privacy and safeguarding rules.
 
 ## Evidence sources
 
@@ -100,6 +152,43 @@ Reconciliation must be lightweight, skippable where appropriate and designed to 
 
 External self-report is planning/context evidence and must not directly create objective mastery or readiness claims.
 
+## Weakness Repair
+
+When reliable evidence exposes a meaningful weakness or recurring misconception, Revision should prefer improvement over passive labelling.
+
+Where the applicable activity and evidence support it, the desired loop is:
+
+**detect → explain → repair → retest → update the evidence → decide what matters next.**
+
+This means:
+
+- feedback should explain the educational meaning of the result before overwhelming the learner with detail;
+- the learner should be offered a direct route into an appropriate explanation, worked example, recall activity, related practice or exam-style retry;
+- repair activity should generate its own evidence rather than automatically clearing the weakness because content was viewed;
+- subsequent evidence may confirm improvement, show that the issue remains, or reveal that the original interpretation was too strong; and
+- the wider learner model and future recommendations should update accordingly.
+
+Revision must not create punitive mistake lists, overreact to isolated errors or claim a weakness is permanently fixed from one successful retry.
+
+## Evidence recency and adaptive recall
+
+Understanding can become uncertain over time. Where supported by evidence rules, Revision should be able to distinguish strong recent evidence from older or stale evidence and use that distinction when deciding whether recall is worthwhile.
+
+Adaptive recall should integrate with the wider planner rather than become a competing flashcard schedule.
+
+A future retrieval system may consider factors such as:
+
+- previous recall performance;
+- evidence recency and confidence;
+- topic importance and specification coverage;
+- exam proximity;
+- existing strengths and weaknesses; and
+- competing priorities across the learner's programme.
+
+The desired outcome is not endless repetition. It is to resurface knowledge when checking it again is a useful use of limited revision time.
+
+Self-rated recall remains weaker evidence than objective scored evidence unless separately validated and governed otherwise.
+
 ## Context over reaction
 
 Recommendations must consider the bigger picture rather than overreacting to a single event.
@@ -153,20 +242,22 @@ Revision may suggest that additional study time would materially help when genui
 
 Revision should be proactive enough to explain why an action matters.
 
-Recommendations should be understandable rather than opaque. REV should be able to explain material reasons such as limited evidence, demonstrated weakness, assessment proximity, known exam weighting/mark opportunity, already-strong material or a realistic improvement opportunity.
+Recommendations should be understandable rather than opaque. REV should be able to explain material reasons such as limited evidence, demonstrated weakness, stale evidence worth checking, assessment proximity, known exam weighting/mark opportunity, already-strong material or a realistic improvement opportunity.
 
 The product must not expose false-precision internal priority scores or promise precise additional marks unless evidence and claims authority support such a claim.
 
 ## AI tutor role
 
-The AI tutor should use the student's broader revision state to provide personalised support and guidance.
+The AI tutor should use the student's broader structured revision state to provide personalised support and guidance.
 
 It should be able to:
 
 - recommend useful next actions;
 - explain why an area deserves attention;
 - answer questions in the context of the student's subject and specification;
+- adapt explanations using relevant evidence about what the learner currently appears to understand;
 - help interpret assessment feedback;
+- help move from a detected weakness into an appropriate repair activity;
 - explain important plan changes;
 - discuss learner preferences and negotiate short-term priorities;
 - encourage the student when progress is good;
@@ -174,6 +265,8 @@ It should be able to:
 - help the student stay calm and focused on what is most useful now.
 
 The AI tutor should not calculate the deterministic planner priority order itself.
+
+REV should use structured learner state and bounded relevant context rather than depend on replaying unlimited raw conversation history. Conversation can create candidate context or preferences where appropriate, but conversational claims must not silently become objective educational evidence.
 
 The tutor should not manufacture urgency from isolated weak evidence or imply failure because a previous recommendation was not followed.
 
@@ -191,6 +284,8 @@ Student choices should not be treated as product failure simply because the syst
 
 ## Desired outcome
 
-The system model succeeds when the complexity of balancing subjects, coverage, evidence, exam dates, available time, learner preferences and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
+The system model succeeds when the complexity of balancing subjects, coverage, understanding, forgetting risk, misconceptions, exam readiness, exam dates, available time, learner preferences and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
 
 **What is the most useful thing for me to do next, and why?**
+
+The governing strategic context for this system model is `00-company-foundation/Product Strategy.md`.
