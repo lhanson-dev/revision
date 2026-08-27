@@ -36,6 +36,7 @@ function responseBody(output: unknown) {
 }
 
 const practiceModes = ['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'] as const
+type LearnMode = 'explanation' | 'worked_example'
 
 describe('Content Factory provider contract hardening', () => {
   it('enforces all 31 non-empty Practice-mode combinations at the provider schema boundary', async () => {
@@ -119,7 +120,7 @@ describe('Content Factory provider contract hardening', () => {
   })
 
   it('derives strict Learn schemas from the exact selected modes and injects identifiers deterministically', async () => {
-    const learnModeSets: string[][] = [
+    const learnModeSets: LearnMode[][] = [
       ['explanation'],
       ['worked_example'],
       ['explanation', 'worked_example'],
