@@ -2,6 +2,11 @@ name: Content Factory Live Pilot
 
 on:
   workflow_dispatch:
+    inputs:
+      resume_job_issue_number:
+        description: 'Optional existing Content Factory job issue number to resume on the exact same main commit'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -38,6 +43,7 @@ jobs:
           CONTENT_FACTORY_LIVE_PILOT: '1'
           CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '20'
+          CONTENT_FACTORY_RESUME_JOB_ISSUE_NUMBER: ${{ inputs.resume_job_issue_number }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
