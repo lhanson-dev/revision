@@ -30,7 +30,6 @@ import {
 const providerIdentifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const providerNonEmptyStringSchema = z.string().min(1)
 const practiceModeValues = ['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'] as const
-const practiceModeSet = new Set<string>(practiceModeValues)
 type PracticeMode = typeof practiceModeValues[number]
 
 const independentReviewProviderFindingSchema = z.object({
@@ -70,25 +69,25 @@ const assessmentItemProviderOutputSchema = assessmentItemWorkerOutputSchema.omit
   maxMark: true,
 })
 
-const providerMisconceptionSchema = z.object({
+const providerMisconceptionSchema = z.strictObject({
   misconception: providerNonEmptyStringSchema,
   correction: providerNonEmptyStringSchema,
 })
 
-const providerLearningSectionSchema = z.object({
+const providerLearningSectionSchema = z.strictObject({
   title: providerNonEmptyStringSchema,
   explanation: providerNonEmptyStringSchema,
   keyPoints: z.array(providerNonEmptyStringSchema).min(1),
 })
 
-const providerWorkedExampleSchema = z.object({
+const providerWorkedExampleSchema = z.strictObject({
   title: providerNonEmptyStringSchema,
   setup: providerNonEmptyStringSchema,
   steps: z.array(providerNonEmptyStringSchema).min(1),
   conclusion: providerNonEmptyStringSchema,
 })
 
-const providerPracticeActivitySchema = z.object({
+const providerPracticeActivitySchema = z.strictObject({
   prompt: providerNonEmptyStringSchema,
   expectedResponse: providerNonEmptyStringSchema,
   explanation: providerNonEmptyStringSchema,
@@ -102,7 +101,7 @@ function selectedPracticeModes(unit: ExecutableLearningWorkUnit): PracticeMode[]
 }
 
 function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
-  const base = z.object({
+  const base = z.strictObject({
     title: providerNonEmptyStringSchema,
     introduction: providerNonEmptyStringSchema,
     misconceptions: z.array(providerMisconceptionSchema),
@@ -151,10 +150,10 @@ function practiceProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
   if (selected.length === 0) throw new Error(`Practice work unit ${unit.id} selected no provider practice mode`)
   const activityShape: Record<string, z.ZodArray<typeof providerPracticeActivitySchema>> = {}
   for (const mode of selected) activityShape[mode] = z.array(providerPracticeActivitySchema).min(1)
-  return z.object({
+  return z.strictObject({
     title: providerNonEmptyStringSchema,
     instructions: providerNonEmptyStringSchema,
-    activitiesByMode: z.object(activityShape),
+    activitiesByMode: z.strictObject(activityShape),
   })
 }
 
