@@ -43,7 +43,10 @@ describe('structured assessment integrity', () => {
   })
 
   it('does not let a calculate-only question claim interpretation demand', () => {
-    const subquestion = { ...calculationSubquestion(), responseDemands: ['calculation', 'interpretation'] as const }
+    const subquestion: AssessmentSubquestion = {
+      ...calculationSubquestion(),
+      responseDemands: ['calculation', 'interpretation'],
+    }
     expect(() => validateStructuredAssessment({
       itemId: 'case-1', maxMark: 4, governedRequirementIds: ['finance-analysis'], subquestions: [subquestion],
     })).toThrow(/command does not ask for rewarded demand interpretation/)
