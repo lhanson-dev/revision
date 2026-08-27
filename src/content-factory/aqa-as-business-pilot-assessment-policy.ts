@@ -4,6 +4,7 @@ import {
 } from './live-pilot'
 
 const paper2FamilyId = 'paper2-case-study-80'
+const clarification = 'The supermarket contract has a selling price of GBP 3.40 per pack. The stated GBP 1.70 outsourcing figure is the total variable cost per outsourced supermarket pack.'
 
 export function applyAqaAsBusiness7131PilotAssessmentIntegrityPolicy() {
   const policy = AQA_AS_BUSINESS_7131_ASSESSMENT_ITEM_POLICIES[paper2FamilyId]
@@ -21,7 +22,7 @@ export function applyAqaAsBusiness7131PilotAssessmentIntegrityPolicy() {
   if (!context) throw new Error('AQA AS Business pilot is missing the Revision-owned RefillWorks Paper 2 context')
   AQA_AS_BUSINESS_7131_FIXED_ASSESSMENT_CONTEXTS[paper2FamilyId] = {
     ...context,
-    body: `${context.body} The supermarket contract has a selling price of GBP 3.40 per pack. The stated GBP 1.70 outsourcing figure is the total variable cost per outsourced supermarket pack.`,
+    body: context.body.includes(clarification) ? context.body : `${context.body} ${clarification}`,
     dataPoints: context.dataPoints.map((point) => {
       if (point.label === 'Current selling price') {
         return { ...point, label: 'Supermarket-contract selling price' }
