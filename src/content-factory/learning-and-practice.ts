@@ -15,6 +15,10 @@ import {
   type WorkerExecution,
   type WorkerExecutionProvenance,
 } from './intake-to-knowledge-model'
+import {
+  requiredTeachingPointsForRequirements,
+  validateTeachingPointEvidence,
+} from './teaching-point-integrity'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -23,6 +27,10 @@ const learnModeSchema = z.enum(['explanation', 'worked_example'])
 const practiceModeSchema = z.enum(['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'])
 const learningPracticeModeSchema = z.union([learnModeSchema, practiceModeSchema])
 const requiredOutputSchema = z.enum(['learning', 'practice'])
+const teachingPointEvidenceSchema = z.object({
+  teachingPoint: nonEmptyStringSchema,
+  evidence: nonEmptyStringSchema,
+})
 
 export const executableLearningWorkUnitSchema = z.object({
   id: identifierSchema,
@@ -67,6 +75,7 @@ export const learningCollateralWorkerOutputSchema = z.object({
     correction: nonEmptyStringSchema,
   })).default([]),
   nextAction: nonEmptyStringSchema,
+  coverageEvidence: z.array(teachingPointEvidenceSchema).min(1),
 })
 
 const practiceActivitySchema = z.object({
@@ -82,6 +91,7 @@ export const practiceCollateralWorkerOutputSchema = z.object({
   title: nonEmptyStringSchema,
   instructions: nonEmptyStringSchema,
   activities: z.array(practiceActivitySchema).min(1),
+  coverageEvidence: z.array(teachingPointEvidenceSchema).min(1),
 })
 
 export const learningCollateralArtifactSchema = z.object({
@@ -167,6 +177,7 @@ export interface LearningPracticeWorkers {
     courseIdentity: NonNullable<ContentFactoryJob['courseIdentity']>
     workUnit: ExecutableLearningWorkUnit
     knowledgeModelFingerprint: string
+    requiredTeachingPoints: string[]
     knowledgeNodes: Array<{
       id: string
       kind: CourseKnowledgeModel['nodes'][number]['kind']
@@ -183,6 +194,7 @@ export interface LearningPracticeWorkers {
     courseIdentity: NonNullable<ContentFactoryJob['courseIdentity']>
     workUnit: ExecutableLearningWorkUnit
     knowledgeModelFingerprint: string
+    requiredTeachingPoints: string[]
     knowledgeNodes: Array<{
       id: string
       kind: CourseKnowledgeModel['nodes'][number]['kind']
@@ -204,13 +216,13 @@ export const contentFactoryLearningPracticeWorkerContracts = {
   },
   learningCollateral: {
     workerId: 'content-factory.learning-collateral',
-    contractVersion: '1',
-    sourceInput: 'learning-blueprint-plus-course-knowledge-model-derived-facts-only',
+    contractVersion: '3',
+    sourceInput: 'learning-blueprint-plus-course-knowledge-model-derived-facts-plus-required-teaching-points',
   },
   practiceCollateral: {
     workerId: 'content-factory.practice-collateral',
-    contractVersion: '1',
-    sourceInput: 'learning-blueprint-plus-course-knowledge-model-derived-facts-only',
+    contractVersion: '3',
+    sourceInput: 'learning-blueprint-plus-course-knowledge-model-derived-facts-plus-required-teaching-points',
   },
 } as const
 
@@ -416,6 +428,7 @@ function sourceRefsForNodes(nodes: CourseKnowledgeModel['nodes']) {
 function validateLearningOutput(
   outputInput: unknown,
   unit: ExecutableLearningWorkUnit,
+  requiredTeachingPoints: string[],
 ) {
   const output = learningCollateralWorkerOutputSchema.parse(outputInput)
   const modes = new Set(unit.learningModes)
@@ -431,12 +444,26 @@ function validateLearningOutput(
   if (!modes.has('worked_example') && output.workedExamples.length > 0) {
     throw new Error(`Learning work unit ${unit.id} generated worked examples that were not selected by the Learning Blueprint`)
   }
+  validateTeachingPointEvidence({
+    requiredTeachingPoints,
+    evidence: output.coverageEvidence,
+    searchableContent: {
+      title: output.title,
+      introduction: output.introduction,
+      sections: output.sections,
+      workedExamples: output.workedExamples,
+      misconceptions: output.misconceptions,
+      nextAction: output.nextAction,
+    },
+    artifactLabel: `Learning work unit ${unit.id}`,
+  })
   return output
 }
 
 function validatePracticeOutput(
   outputInput: unknown,
   unit: ExecutableLearningWorkUnit,
+  requiredTeachingPoints: string[],
 ) {
   const output = practiceCollateralWorkerOutputSchema.parse(outputInput)
   const plannedModes = new Set(unit.learningModes.filter((mode) => practiceModeSchema.safeParse(mode).success))
@@ -452,6 +479,16 @@ function validatePracticeOutput(
       throw new Error(`Practice work unit ${unit.id} generated unplanned mode ${activity.mode}`)
     }
   }
+  validateTeachingPointEvidence({
+    requiredTeachingPoints,
+    evidence: output.coverageEvidence,
+    searchableContent: {
+      title: output.title,
+      instructions: output.instructions,
+      activities: output.activities,
+    },
+    artifactLabel: `Practice work unit ${unit.id}`,
+  })
   return output
 }
 
@@ -599,6 +636,7 @@ export async function runLearningAndPracticeFactory(input: {
     const nodes = knowledgeNodesForUnit(model, unit)
     const safeNodes = nodes.map(safeKnowledgeNodeInput)
     const sourceRefs = sourceRefsForNodes(nodes)
+    const requiredTeachingPoints = requiredTeachingPointsForRequirements(coverage, unit.requirementIds)
 
     if (needsLearning) {
       const execution = await input.workers.generateLearningCollateral({
@@ -606,10 +644,11 @@ export async function runLearningAndPracticeFactory(input: {
         courseIdentity: job.courseIdentity!,
         workUnit: unit,
         knowledgeModelFingerprint: model.fingerprint,
+        requiredTeachingPoints,
         knowledgeNodes: safeNodes,
       })
       if (execution.status !== 'success') return workerFailure(job, execution, input.now, 'generation')
-      const content = validateLearningOutput(execution.output, unit)
+      const content = validateLearningOutput(execution.output, unit, requiredTeachingPoints)
       const artifact = learningCollateralArtifactSchema.parse({
         schemaVersion: 1,
         artifactType: 'learning',
@@ -628,7 +667,7 @@ export async function runLearningAndPracticeFactory(input: {
         value: artifact,
       })
       job = appendWorkerRun(job, 'generation', execution, input.now, {
-        inputRefs: [job.courseKnowledgeModelRef!, job.learningBlueprintRef!, `work-unit:${unit.id}`],
+        inputRefs: [job.courseKnowledgeModelRef!, job.learningBlueprintRef!, job.coverageMapRef!, `work-unit:${unit.id}`],
         outputRefs: [write.ref],
       })
       job = contentFactoryJobSchema.parse({
@@ -646,10 +685,11 @@ export async function runLearningAndPracticeFactory(input: {
         courseIdentity: job.courseIdentity!,
         workUnit: unit,
         knowledgeModelFingerprint: model.fingerprint,
+        requiredTeachingPoints,
         knowledgeNodes: safeNodes,
       })
       if (execution.status !== 'success') return workerFailure(job, execution, input.now, 'generation')
-      const content = validatePracticeOutput(execution.output, unit)
+      const content = validatePracticeOutput(execution.output, unit, requiredTeachingPoints)
       const artifact = practiceCollateralArtifactSchema.parse({
         schemaVersion: 1,
         artifactType: 'practice',
@@ -668,7 +708,7 @@ export async function runLearningAndPracticeFactory(input: {
         value: artifact,
       })
       job = appendWorkerRun(job, 'generation', execution, input.now, {
-        inputRefs: [job.courseKnowledgeModelRef!, job.learningBlueprintRef!, `work-unit:${unit.id}`],
+        inputRefs: [job.courseKnowledgeModelRef!, job.learningBlueprintRef!, job.coverageMapRef!, `work-unit:${unit.id}`],
         outputRefs: [write.ref],
       })
       job = contentFactoryJobSchema.parse({

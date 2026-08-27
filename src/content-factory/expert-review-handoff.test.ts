@@ -158,6 +158,10 @@ const learningArtifact = {
     workedExamples: [],
     misconceptions: [],
     nextAction: 'Apply market share to a business decision.',
+    coverageEvidence: [
+      { teachingPoint: 'market share', evidence: 'Market share compares a business with the market.' },
+      { teachingPoint: 'application', evidence: 'Apply market share to a business decision.' },
+    ],
   },
 }
 
@@ -173,6 +177,10 @@ const practiceArtifact = {
     title: 'Practice market share',
     instructions: 'Apply the concept.',
     activities: [{ id: 'apply', mode: 'application' as const, prompt: 'Why might market share matter?', expectedResponse: 'It can indicate competitive position.', explanation: 'The measure compares business sales with total market sales.', improvementAction: 'Link the measure to a decision.' }],
+    coverageEvidence: [
+      { teachingPoint: 'market share', evidence: 'Why might market share matter?' },
+      { teachingPoint: 'application', evidence: 'Apply the concept.' },
+    ],
   },
 }
 

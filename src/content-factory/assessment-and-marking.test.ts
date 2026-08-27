@@ -165,10 +165,15 @@ const learningArtifact = {
   content: {
     title: 'Market share',
     introduction: 'Market share helps compare a business with its market.',
-    sections: [{ id: 'meaning', title: 'What it means', explanation: 'It is the proportion of market sales made by one business.', keyPoints: ['It is a percentage'] }],
+    sections: [{ id: 'meaning', title: 'What it means', explanation: 'It is the proportion of market sales made by one business.', keyPoints: ['It is a percentage', 'Application means using the measure in a named business context.', 'Evaluation weighs the usefulness of market share against other objectives.'] }],
     workedExamples: [],
     misconceptions: [],
     nextAction: 'Apply the idea to a business decision.',
+    coverageEvidence: [
+      { teachingPoint: 'market share', evidence: 'It is the proportion of market sales made by one business.' },
+      { teachingPoint: 'application', evidence: 'Application means using the measure in a named business context.' },
+      { teachingPoint: 'evaluation', evidence: 'Evaluation weighs the usefulness of market share against other objectives.' },
+    ],
   },
 }
 
@@ -182,8 +187,13 @@ const practiceArtifact = {
   sourceRefs: ['open-curriculum'],
   content: {
     title: 'Practice market share',
-    instructions: 'Apply the idea.',
-    activities: [{ id: 'apply', mode: 'application' as const, prompt: 'Why might market share matter?', expectedResponse: 'It can indicate competitive position.', explanation: 'It compares sales with the total market.', improvementAction: 'Link the measure to a business decision.' }],
+    instructions: 'Apply the idea and evaluate what the measure does and does not show.',
+    activities: [{ id: 'apply', mode: 'application' as const, prompt: 'Why might market share matter?', expectedResponse: 'Market share can indicate competitive position.', explanation: 'Application uses market share in a specific business decision, while evaluation asks whether it should outweigh profit or cash objectives.', improvementAction: 'Link the measure to a business decision and weigh it against another objective.' }],
+    coverageEvidence: [
+      { teachingPoint: 'market share', evidence: 'Market share can indicate competitive position.' },
+      { teachingPoint: 'application', evidence: 'Application uses market share in a specific business decision, while evaluation asks whether it should outweigh profit or cash objectives.' },
+      { teachingPoint: 'evaluation', evidence: 'evaluation asks whether it should outweigh profit or cash objectives.' },
+    ],
   },
 }
 

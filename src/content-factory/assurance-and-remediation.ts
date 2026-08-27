@@ -14,6 +14,11 @@ import {
 import { fingerprintValue, type WorkerExecution } from './intake-to-knowledge-model'
 import { learningPracticeArtifactSchema } from './learning-and-practice'
 import {
+  finaliseCoverageMap,
+  finalCoverageProblems,
+  type CoverageEvidenceRef,
+} from './coverage-finalization'
+import {
   assessmentItemArtifactSchema,
   courseContentPackManifestSchema,
   executableAssessmentBlueprintSchema,
@@ -129,6 +134,7 @@ export type DeterministicValidationReport = z.infer<typeof deterministicValidati
 export type IndependentReviewFinding = z.infer<typeof independentReviewFindingSchema>
 export type IndependentReviewReport = z.infer<typeof independentReviewReportSchema>
 export type AssuranceArtifactKind =
+  | 'coverage_map'
   | 'validation_report'
   | 'independent_review_report'
   | 'remediated_artifact'
@@ -364,6 +370,54 @@ async function readBundle(job: ContentFactoryJob, store: AssuranceArtifactStore)
 
 type AssuranceBundle = Awaited<ReturnType<typeof readBundle>>
 
+function coverageEvidence(job: ContentFactoryJob, bundle: AssuranceBundle): CoverageEvidenceRef[] {
+  const workUnitRequirements = new Map(job.workUnits.map((unit) => [unit.id, unit.requirementIds]))
+  return [
+    ...bundle.learningArtifacts.map((entry) => ({
+      ref: entry.ref,
+      requirementIds: workUnitRequirements.get(entry.value.workUnitId) ?? [],
+      kind: 'learning' as const,
+    })),
+    ...bundle.practiceArtifacts.map((entry) => ({
+      ref: entry.ref,
+      requirementIds: workUnitRequirements.get(entry.value.workUnitId) ?? [],
+      kind: 'practice' as const,
+    })),
+    ...bundle.assessmentItems.map((entry) => ({
+      ref: entry.ref,
+      requirementIds: entry.value.requirementIds,
+      kind: 'assessment_item' as const,
+    })),
+  ]
+}
+
+async function finaliseCoverageForAssurance(
+  jobInput: ContentFactoryJob,
+  bundleInput: AssuranceBundle,
+  store: AssuranceArtifactStore,
+) {
+  const evidence = coverageEvidence(jobInput, bundleInput)
+  const finalised = finaliseCoverageMap({ coverageMap: bundleInput.coverageMap, evidence })
+  if (JSON.stringify(finalised) === JSON.stringify(bundleInput.coverageMap)) {
+    return { job: jobInput, bundle: bundleInput }
+  }
+
+  const write = await store.writeJson({
+    jobId: jobInput.jobId,
+    kind: 'coverage_map',
+    fingerprint: await fingerprintValue(finalised),
+    value: finalised,
+  })
+  const job = contentFactoryJobSchema.parse({ ...jobInput, coverageMapRef: write.ref })
+  const artifacts = new Map(bundleInput.artifacts)
+  artifacts.delete(jobInput.coverageMapRef!)
+  artifacts.set(write.ref, { kind: 'coverage_map', ref: write.ref, value: finalised })
+  return {
+    job,
+    bundle: { ...bundleInput, coverageMap: finalised, artifacts },
+  }
+}
+
 async function bundleFingerprint(bundle: AssuranceBundle) {
   return fingerprintValue({
     manifest: bundle.manifest,
@@ -392,25 +446,7 @@ function check(
 }
 
 function coverageProblems(job: ContentFactoryJob, bundle: AssuranceBundle) {
-  const learningRefs = new Set(bundle.manifest.learningArtifactRefs)
-  const practiceRefs = new Set(bundle.manifest.practiceArtifactRefs)
-  const itemRequirements = new Set(bundle.assessmentItems.flatMap((entry) => entry.value.requirementIds))
-  const problems: string[] = []
-
-  for (const requirement of bundle.coverageMap.requirements) {
-    if (['deferred', 'not_applicable'].includes(requirement.coverageStatus)) continue
-    const units = job.workUnits.filter((unit) => unit.requirementIds.includes(requirement.requirementId))
-    if (requirement.learnRequired && !units.some((unit) => unit.outputRefs.some((ref) => learningRefs.has(ref)))) {
-      problems.push(`${requirement.requirementId}: missing required Learn artifact`)
-    }
-    if (requirement.practiceRequired && !units.some((unit) => unit.outputRefs.some((ref) => practiceRefs.has(ref)))) {
-      problems.push(`${requirement.requirementId}: missing required Practice artifact`)
-    }
-    if (requirement.examPrepRequired && !itemRequirements.has(requirement.requirementId)) {
-      problems.push(`${requirement.requirementId}: missing required exam-practice assessment item`)
-    }
-  }
-  return problems
+  return finalCoverageProblems({ coverageMap: bundle.coverageMap, evidence: coverageEvidence(job, bundle) })
 }
 
 function compatibilityProblems(job: ContentFactoryJob, bundle: AssuranceBundle) {
@@ -491,7 +527,7 @@ async function deterministicValidation(job: ContentFactoryJob, bundle: Assurance
 
   const checks = [
     check('source-rights', rightsProblems.length === 0 ? 'pass' : 'fail', rightsProblems.length === 0 ? 'All material source-use records remain admissible for this assurance stage.' : rightsProblems.join('; '), [job.sourceLicenceRegisterRef!], rightsProblems),
-    check('coverage-completeness', coverage.length === 0 ? 'pass' : 'fail', coverage.length === 0 ? 'Every non-deferred requirement has all required Learn, Practice and Exam Prep evidence.' : coverage.join('; '), [job.coverageMapRef!, bundle.manifestRef], coverage),
+    check('coverage-completeness', coverage.length === 0 ? 'pass' : 'fail', coverage.length === 0 ? 'The canonical final Coverage Map is complete and its contentRefs exactly match generated Learn, Practice and Exam Prep evidence.' : coverage.join('; '), [job.coverageMapRef!, bundle.manifestRef], coverage),
     check('artifact-compatibility', compatibility.length === 0 ? 'pass' : 'fail', compatibility.length === 0 ? 'Version, job and fingerprint relationships are internally compatible.' : compatibility.join('; '), [bundle.manifestRef], compatibility),
     check('assessment-marking-integrity', assessment.length === 0 ? 'pass' : 'fail', assessment.length === 0 ? 'Assessment items, Question Families and Marking Packs are cross-consistent.' : assessment.join('; '), [...bundle.manifest.assessmentItemRefs, ...bundle.manifest.markingPackRefs], assessment),
     check('structured-calculation-integrity', calculation.length === 0 ? 'pass' : 'fail', calculation.length === 0 ? 'Structured calculation items are linked to formula rules and have non-duplicated data labels.' : calculation.join('; '), bundle.manifest.assessmentItemRefs, calculation, calculation.length === 0 ? 'informational' : 'material'),
@@ -849,9 +885,12 @@ export async function runAssuranceAndRemediationFactory(input: {
   const maxRemediationCycles = input.maxRemediationCycles ?? 3
 
   while (true) {
-    const bundle = await readBundle(job, input.artifactStore)
+    let bundle = await readBundle(job, input.artifactStore)
 
     if (job.state === 'validating') {
+      const finalised = await finaliseCoverageForAssurance(job, bundle, input.artifactStore)
+      job = finalised.job
+      bundle = finalised.bundle
       const report = await deterministicValidation(job, bundle, currentHeadSha, input.now)
       const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'validation_report', fingerprint: await fingerprintValue(report), value: report })
       job = contentFactoryJobSchema.parse({

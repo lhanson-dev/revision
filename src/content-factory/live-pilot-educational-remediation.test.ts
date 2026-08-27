@@ -184,12 +184,14 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body)) as { input: string }
       const payload = JSON.parse(body.input) as {
+        requiredTeachingPoints: string[]
         knowledgeNodes: Array<{ summary: string; misconceptions: string[]; applicationContexts: string[] }>
       }
       const finance = payload.knowledgeNodes[0]!
       expect(finance.summary).toContain('delayed payment changes cash timing, not the sales-revenue amount')
       expect(finance.misconceptions).toContain('Delayed customer payment reduces sales revenue rather than delaying cash receipts.')
       expect(finance.applicationContexts.join(' ')).toContain('sales-revenue variance caused by price or volume')
+      expect(payload.requiredTeachingPoints).toEqual(['revenue versus cash timing'])
 
       return new Response(JSON.stringify(responseBody({
         title: 'Revenue, profit and cash practice',
@@ -202,6 +204,10 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
             improvementAction: 'Check whether a variance concerns sales activity or payment timing.',
           }],
         },
+        coverageEvidence: [{
+          teachingPoint: 'revenue versus cash timing',
+          evidence: 'Revenue and cash receipts are different measures.',
+        }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
@@ -220,6 +226,7 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
         componentIds: [],
       },
       knowledgeModelFingerprint: 'knowledge-v2',
+      requiredTeachingPoints: ['revenue versus cash timing'],
       knowledgeNodes: [{
         id: 'finance-profit-cash-budgeting',
         kind: 'concept',

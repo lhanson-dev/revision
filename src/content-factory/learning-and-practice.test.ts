@@ -184,7 +184,7 @@ const learningOutput = {
       id: 'scarcity-explained',
       title: 'Why scarcity creates choice',
       explanation: 'Finite resources cannot satisfy every possible want at the same time.',
-      keyPoints: ['Choices use resources', 'Choosing one option means giving up another'],
+      keyPoints: ['Choices use resources', 'Opportunity cost is the next-best alternative given up when a choice is made.'],
     },
   ],
   workedExamples: [],
@@ -195,6 +195,10 @@ const learningOutput = {
     },
   ],
   nextAction: 'Test the idea by applying it to a real choice.',
+  coverageEvidence: [
+    { teachingPoint: 'scarcity', evidence: 'Scarcity is the permanent economic problem of finite resources relative to wants.' },
+    { teachingPoint: 'opportunity cost', evidence: 'Opportunity cost is the next-best alternative given up when a choice is made.' },
+  ],
 }
 
 const practiceOutput = {
@@ -217,6 +221,10 @@ const practiceOutput = {
       explanation: 'Opportunity cost is the next-best alternative given up when a choice is made.',
       improvementAction: 'Name the specific forgone alternative rather than saying only that money was spent.',
     },
+  ],
+  coverageEvidence: [
+    { teachingPoint: 'scarcity', evidence: 'Resources are finite relative to wants, so choices are necessary.' },
+    { teachingPoint: 'opportunity cost', evidence: 'Opportunity cost is the next-best alternative given up when a choice is made.' },
   ],
 }
 
@@ -261,6 +269,7 @@ describe('Content Factory Learning Blueprint and collateral factory', () => {
 
     expect(plannerInput?.knowledgeNodes[0]).not.toHaveProperty('sourceRefs')
     expect(learningInput?.knowledgeNodes[0]).not.toHaveProperty('sourceRefs')
+    expect(learningInput?.requiredTeachingPoints).toEqual(['scarcity', 'opportunity cost'])
 
     const artifacts = await Promise.all(result.workUnits[0].outputRefs.map((ref) => store.readJson(ref)))
     const parsed = artifacts.map((artifact) => learningPracticeArtifactSchema.parse(artifact))
@@ -290,6 +299,36 @@ describe('Content Factory Learning Blueprint and collateral factory', () => {
       }),
       now,
     })).rejects.toThrow(/Shared multi-component requirement scarcity must remain course-scoped/)
+  })
+
+  it('rejects learning collateral that claims but does not evidence every required teaching point', async () => {
+    await expect(runLearningAndPracticeFactory({
+      job: mappedJob(),
+      artifactStore: seedStore(),
+      workers: workers({
+        generateLearningCollateral: async () => success('learning-run', {
+          ...learningOutput,
+          coverageEvidence: learningOutput.coverageEvidence.filter((entry) => entry.teachingPoint !== 'opportunity cost'),
+        }),
+      }),
+      now,
+    })).rejects.toThrow(/missing required teaching-point evidence: opportunity cost/)
+  })
+
+  it('rejects teaching-point evidence that is not an exact excerpt from learner content', async () => {
+    await expect(runLearningAndPracticeFactory({
+      job: mappedJob(),
+      artifactStore: seedStore(),
+      workers: workers({
+        generateLearningCollateral: async () => success('learning-run', {
+          ...learningOutput,
+          coverageEvidence: learningOutput.coverageEvidence.map((entry) => entry.teachingPoint === 'opportunity cost'
+            ? { ...entry, evidence: 'Opportunity cost is fully covered somewhere in this lesson.' }
+            : entry),
+        }),
+      }),
+      now,
+    })).rejects.toThrow(/not an exact excerpt from the generated learner content/)
   })
 
   it('rejects practice output that introduces an unplanned mode', async () => {

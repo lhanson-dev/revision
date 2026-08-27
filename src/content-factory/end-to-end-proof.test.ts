@@ -263,7 +263,7 @@ function shapeWorkers(shape: ShapeFixture): ContentFactoryEndToEndWorkers {
         componentIds: requirement.learningScope === 'component' ? requirement.componentScope : [],
       })),
     }),
-    generateLearningCollateral: async ({ workUnit }) => success('learning', {
+    generateLearningCollateral: async ({ workUnit, requiredTeachingPoints }) => success('learning', {
       title: workUnit.title,
       introduction: `Introduction to ${workUnit.title}`,
       sections: workUnit.learningModes.includes('explanation')
@@ -274,8 +274,12 @@ function shapeWorkers(shape: ShapeFixture): ContentFactoryEndToEndWorkers {
         : [],
       misconceptions: [{ misconception: `Weak understanding of ${workUnit.title}`, correction: `Correct understanding of ${workUnit.title}` }],
       nextAction: `Practise ${workUnit.title}`,
+      coverageEvidence: requiredTeachingPoints.map((teachingPoint) => ({
+        teachingPoint,
+        evidence: `Introduction to ${workUnit.title}`,
+      })),
     }),
-    generatePracticeCollateral: async ({ workUnit }) => {
+    generatePracticeCollateral: async ({ workUnit, requiredTeachingPoints }) => {
       const modes = workUnit.learningModes.filter((mode) => ['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'].includes(mode))
       return success('practice', {
         title: `Practice ${workUnit.title}`,
@@ -287,6 +291,10 @@ function shapeWorkers(shape: ShapeFixture): ContentFactoryEndToEndWorkers {
           expectedResponse: `A valid response about ${workUnit.title}`,
           explanation: `Why the response demonstrates ${workUnit.title}`,
           improvementAction: `Revisit the key point for ${workUnit.title}`,
+        })),
+        coverageEvidence: requiredTeachingPoints.map((teachingPoint) => ({
+          teachingPoint,
+          evidence: `Practice ${workUnit.title}`,
         })),
       })
     },
