@@ -25,6 +25,23 @@ Initial course: **AQA AS Business 7131**, outgoing 2026 cohort.
 
 The course is deliberately useful for the first real proof because current Revision already retains durable course-structure and retrospective coverage evidence. The live pilot creates a new v2 factory package rather than treating the existing published pack as automatically admissible or benchmark-approved.
 
+## Pilot #6 educational-remediation controls
+
+Pilot #6 was the first live run to complete the production generation path, deterministic assurance and a schema-valid fresh-context independent educational review. The reviewer correctly returned `fail_hold` rather than allowing weak content to reach `expert_review_ready`. Durable evidence remains in the workflow artifact and job Issue #189; this technical record does not rewrite that historical evidence.
+
+The remediation implemented after Pilot #6 addresses causes rather than memorising the generated answers:
+
+- the AQA 7131 Board Alignment now carries the structured component-shape facts needed by this pilot: Paper 1 Section A is 10 one-mark multiple-choice questions, Section B is short-answer work, Section C contains two data-response stimuli, and Paper 2 is one compulsory shared case study;
+- the deterministic pilot Assessment Blueprint instantiates that shape as four Paper 1 families normalised to `10 + 20 + 25 + 25 = 80` marks and one 80-mark Paper 2 shared-case family;
+- Question Family component, mark, AO-set, response-shape and high-level cognitive-demand metadata are normalised from governed pilot policy before assessment generation rather than left to provider drift;
+- data-response and case-study instantiations receive Revision-owned fixed scenario facts before generation, and the final assessment artifact receives those exact scenario facts deterministically, so model-invented loan terms, contradictory capacity baselines or conflicting outsourcing costs cannot replace the governed case data;
+- the Paper 2 pilot uses one RefillWorks case context for the whole 80-mark linked question set rather than unrelated case contexts;
+- finance and quantitative knowledge supplied downstream explicitly separates sales revenue from the timing of customer cash receipts and identifies the opposite statement as a misconception;
+- business-foundations inputs explicitly require comparison of multiple relevant business forms and ownership trade-offs rather than allowing a sole-trader-only treatment; and
+- assessment-generation guardrails distinguish analysis from evaluation and forbid recommendation language where the selected family carries no evaluation demand.
+
+These are pilot implementation controls under the already-approved Content Factory accuracy contract. They do not make the generated content authoritative and do not waive fresh-context independent review. A new paid run is required after this remediation merges to prove whether the new generated package clears assurance.
+
 ## Source-rights architecture
 
 ### AQA
@@ -67,6 +84,8 @@ The adapter:
 For Question Family generation specifically, the domain contract remains a list of Question Families. The OpenAI boundary requests `{ "questionFamilies": [...] }`, validates that envelope, and returns the inner list to the existing assessment factory. Provider compatibility therefore does not alter the governed Question Family domain meaning or downstream contracts.
 
 For assessment-item generation with a governed target policy, deterministic target fields are not delegated to the model. The provider-facing output schema omits `componentId`, `questionFamilyId`, `requirementIds`, `maxMark` and `format`; the policy still appears in the structured input so the model can shape the question appropriately. After the creative provider output validates, the adapter injects those exact target values from the resolved component, Question Family and approved pilot policy, then validates the complete unchanged assessment-item domain schema. Provider drift therefore cannot invent a new format, mark allocation or target identity, while genuinely creative/schema-invalid question content still fails closed.
+
+The AQA Business pilot adds a further instantiation boundary for scenario facts. Fixed Revision-owned data-response/case-study contexts are supplied as structured generation constraints and then re-injected deterministically into the final assessment artifact. This does not make question wording deterministic; it ensures that creative question wording is grounded in a stable, auditable scenario rather than being allowed to replace the source-of-truth case data.
 
 For independent review, the provider-facing finding schema omits `workUnitId`. The reviewer must anchor every finding to an `artifactRef` from the supplied artifact index. Revision derives `workUnitId` only when the referenced stored learning/practice artifact already carries a governed work-unit identity. Assessment-level findings, including assessment-item or Marking Pack findings that do not belong to a single learning/practice work unit, remain legitimately unscoped. A model-returned synthetic value such as `assessment-set` is therefore discarded rather than being allowed to create a new work-unit identity. Unknown artifact references and any invalid final domain output still fail closed in the assurance layer.
 
@@ -149,6 +168,8 @@ The current domain factory supports targeted remediation, but the first live wor
 
 If independent review exposes a blocking/material issue that requires content correction and exact-version revalidation, the pilot should fail/stop and the correction should proceed through the normal governed repository/version path before rerunning. A later operational increment may automate that branch/version persistence once it is proven safely.
 
+Pilot #6 exercised this boundary correctly. Its material findings were retained as historical evidence, and the next attempt is being prepared through a governed repository remediation rather than mutating the failed run or silently regenerating until a pass appears.
+
 ## Assurance
 
 Branch assurance must cover:
@@ -159,6 +180,9 @@ Branch assurance must cover:
 - OpenAI structured-output request contract, including the top-level object requirement for list-like worker outputs;
 - deterministic injection and full-domain validation of governed assessment-item target fields;
 - deterministic independent-review work-unit scope derivation from referenced learning/practice artifacts, including rejection of model-invented scope;
+- AQA Business pilot assessment-shape regression: Paper 1 MCQ/short-answer/two-data-response structure and one shared Paper 2 case-study family;
+- deterministic ownership of fixed pilot case/data facts at the assessment-item boundary;
+- propagation of the revenue-versus-cash misconception correction into Learn/Practice generation context;
 - cost calculation;
 - bounded retries;
 - pre-call spend-ceiling refusal;
@@ -172,7 +196,9 @@ The real paid workflow is deliberately not run from an unapproved feature branch
 
 ## Documentation impact
 
-The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs, deterministic ownership of governed assessment-item target fields, and deterministic ownership of optional independent-review work-unit scope. These are implementation-boundary clarifications; they do not change the approved Content Factory v2 domain authority or its fail-closed assurance gates. Live proof results belong in durable workflow evidence and Issue #169 rather than being rewritten into this implementation description.
+The live-adapter capability and bootstrap production-cost authority are already on `main`. This technical record describes the current operational boundary and runtime guard, including the provider-compatible object envelope required for list-like structured outputs, deterministic ownership of governed assessment-item target fields, deterministic ownership of optional independent-review work-unit scope, and the AQA Business pilot's post-Pilot-#6 assessment/content guardrails. These are implementation corrections under the existing Content Factory v2 and Content Accuracy Assurance authorities; they do not change the approved domain authority or its fail-closed assurance gates.
+
+Historical Pilot #6 evidence remains in its workflow artifact, Issue #189 and Initiative #169. It is not rewritten to imply the failed package passed.
 
 No historical audit/evidence record is rewritten.
 

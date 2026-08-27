@@ -17,7 +17,7 @@ function sourcePage(url: string) {
   if (url === AQA_AS_BUSINESS_7131_URLS.libreTextsBusiness) return 'Bus 300 Business Fundamentals. CC BY 4.0. Marketing. Accounting and Finance. Operations. Human Resources.'
   if (url === AQA_AS_BUSINESS_7131_URLS.libreTextsTerms) return 'Content can be downloaded or copied consistent with the licensing of the material.'
   if (url === AQA_AS_BUSINESS_7131_URLS.specification) return 'AQA AS Business 7131 specification for 2026.'
-  if (url === AQA_AS_BUSINESS_7131_URLS.assessment) return 'Paper 1 and Paper 2. 80 marks each.'
+  if (url === AQA_AS_BUSINESS_7131_URLS.assessment) return 'Paper 1 and Paper 2. 10 multiple choice questions. Short answer questions. Two data response stimuli. One compulsory case study. 80 marks each.'
   if (url === AQA_AS_BUSINESS_7131_URLS.subjectContent) return 'What is business? Marketing management. Financial management.'
   return 'unexpected source'
 }
