@@ -6,6 +6,7 @@ import {
   markingPackWorkerOutputSchema,
 } from './assessment-and-marking'
 import {
+  assessmentResponseDemandCommandContractText,
   validateStructuredAssessment,
   validateStructuredMarkingGuidance,
 } from './assessment-integrity'
@@ -38,13 +39,15 @@ function contractFailure(
   }
 }
 
+const responseDemandCommandContract = assessmentResponseDemandCommandContractText()
+
 const structuredAssessmentInstruction = [
   'Return a non-empty subquestions array that makes every individual mark-bearing task explicit.',
   'The subquestion maxMark values must sum exactly to the governed item maxMark.',
   'Across subquestions, requirementIds must cover every governed target requirement and no others.',
   'Each subquestion coverageEvidence entry must use an exact excerpt from that subquestion wording showing where the requirement is genuinely assessed.',
-  'responseDemands must describe only what the command and wording actually ask the student to do; a calculate-only task must not claim interpretation, analysis or evaluation demand.',
-  'Whenever responseDemands includes calculation, the learner-facing command or wording must explicitly ask for that calculation using calculate, work out or determine.',
+  'responseDemands must describe only what the command and wording actually ask the student to do; do not declare a demand merely because a student might use that skill while reaching the answer.',
+  `For every responseDemand, the learner-facing command or wording must contain at least one compatible command term from this exact deterministic contract: ${responseDemandCommandContract}.`,
   'For a multiple-choice question that genuinely requires calculation, include both selection and calculation responseDemands and phrase the learner-facing task so the learner is explicitly asked to calculate, work out or determine the result before selecting the option; if the task only asks the learner to choose an answer, declare selection only.',
   'questionWording must contain each subquestion wording verbatim so the structured contract and learner-visible paper cannot drift apart.',
   'For every selection/MCQ subquestion provide exactly four distinct options A-D with exactly one correct answer; every incorrect option must include a distinct plausible misconceptionBasis explaining why a prepared learner might choose it.',
