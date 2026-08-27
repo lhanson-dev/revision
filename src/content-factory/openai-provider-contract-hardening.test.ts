@@ -55,6 +55,7 @@ describe('Content Factory provider contract hardening', () => {
       expect(body.instructions.toLowerCase()).not.toContain('business context')
       expect(body.instructions).toContain('subject-authentic')
       expect(body.instructions).toContain('coverageEvidence')
+      expect(body.instructions).toContain('structured location')
 
       const schema = body.text.format.schema as {
         properties?: {
@@ -83,7 +84,10 @@ describe('Content Factory provider contract hardening', () => {
         title: 'Algebra practice',
         instructions: 'Complete the planned practice.',
         activitiesByMode,
-        coverageEvidence: [{ teachingPoint: 'collect like terms', evidence: `${selected[0]} prompt for collect like terms` }],
+        coverageEvidence: [{
+          teachingPoint: 'collect like terms',
+          location: { mode: selected[0], activityIndex: 1, field: 'prompt' },
+        }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
@@ -117,12 +121,18 @@ describe('Content Factory provider contract hardening', () => {
 
       expect(result.status).toBe('success')
       if (result.status !== 'success') throw new Error(result.error)
-      const output = result.output as { activities: Array<{ id: string; mode: string }>; coverageEvidence: unknown[] }
+      const output = result.output as {
+        activities: Array<{ id: string; mode: string }>
+        coverageEvidence: Array<{ teachingPoint: string; evidence: string }>
+      }
+      expect(result.provenance.contractVersion).toBe('4')
       expect(output.activities.map((activity) => activity.mode)).toEqual(selected)
       expect(output.activities.map((activity) => activity.id)).toEqual(
         selected.map((mode) => `algebra-practice-${mask}-${mode}-1`),
       )
-      expect(output.coverageEvidence).toHaveLength(1)
+      expect(output.coverageEvidence).toEqual([
+        { teachingPoint: 'collect like terms', evidence: `${selected[0]} prompt for collect like terms` },
+      ])
     }
 
     expect(fetchImpl).toHaveBeenCalledTimes(31)
@@ -149,12 +159,15 @@ describe('Content Factory provider contract hardening', () => {
       expect(body.instructions.toLowerCase()).not.toContain('business contexts')
       expect(body.instructions).toContain('subject-authentic')
       expect(body.instructions).toContain('coverageEvidence')
+      expect(body.instructions).toContain('structured location')
       const properties = body.text.format.schema.properties ?? {}
       expect('sections' in properties).toBe(selected.includes('explanation'))
       expect('workedExamples' in properties).toBe(selected.includes('worked_example'))
       expect(properties).toHaveProperty('coverageEvidence')
 
-      const evidence = selected.includes('explanation') ? 'Only like terms combine.' : 'Identify like terms.'
+      const location = selected.includes('explanation')
+        ? { area: 'section_explanation', itemIndex: 1, detailIndex: 1 }
+        : { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 }
       return new Response(JSON.stringify(responseBody({
         title: 'Algebra',
         introduction: 'Understand the structure before applying it.',
@@ -166,7 +179,7 @@ describe('Content Factory provider contract hardening', () => {
         } : {}),
         misconceptions: [{ misconception: 'All terms can be combined.', correction: 'Only like terms combine.' }],
         nextAction: 'Try a mixed example.',
-        coverageEvidence: [{ teachingPoint: 'collect like terms', evidence }],
+        coverageEvidence: [{ teachingPoint: 'collect like terms', location }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
@@ -203,15 +216,18 @@ describe('Content Factory provider contract hardening', () => {
       const output = result.output as {
         sections: Array<{ id: string }>
         workedExamples: Array<{ id: string }>
-        coverageEvidence: unknown[]
+        coverageEvidence: Array<{ evidence: string }>
       }
+      expect(result.provenance.contractVersion).toBe('4')
       expect(output.sections.map((section) => section.id)).toEqual(
         modes.includes('explanation') ? [`${unitId}-section-1`] : [],
       )
       expect(output.workedExamples.map((example) => example.id)).toEqual(
         modes.includes('worked_example') ? [`${unitId}-worked-example-1`] : [],
       )
-      expect(output.coverageEvidence).toHaveLength(1)
+      expect(output.coverageEvidence[0]?.evidence).toBe(
+        modes.includes('explanation') ? 'Only like terms combine.' : 'Identify like terms.',
+      )
     }
   })
 
@@ -233,7 +249,10 @@ describe('Content Factory provider contract hardening', () => {
           improvementAction: 'Improve',
         }],
       },
-      coverageEvidence: [{ teachingPoint: 'collect like terms', evidence: 'Prompt' }],
+      coverageEvidence: [{
+        teachingPoint: 'collect like terms',
+        location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' },
+      }],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
 
     const workers = createOpenAIModelAssistedWorkers({

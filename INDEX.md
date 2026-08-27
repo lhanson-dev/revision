@@ -45,6 +45,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory durable resume / checkpoint reuse / cumulative course spend → `docs/technical/Content Factory Durable Resume and Spend.md`
 - Content Factory Pilot #9 learning / teaching-point / final Coverage Map remediation → `docs/technical/Content Factory Pilot 9 Learning and Coverage Remediation.md`
 - Content Factory Pilot #9 structured assessment / command-mark / coverage / MCQ remediation → `docs/technical/Content Factory Pilot 9 Assessment Integrity Remediation.md`
+- Content Factory Pilot #10 deterministic coverage-evidence locator remediation → `docs/technical/Content Factory Pilot 10 Coverage Evidence Locator Remediation.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -158,6 +159,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory durable resume / checkpoint reuse / cumulative course spend → `docs/technical/Content Factory Durable Resume and Spend.md`
 - Content Factory Pilot #9 learning / teaching-point / final Coverage Map remediation → `docs/technical/Content Factory Pilot 9 Learning and Coverage Remediation.md`
 - Content Factory Pilot #9 structured assessment / command-mark / coverage / MCQ remediation → `docs/technical/Content Factory Pilot 9 Assessment Integrity Remediation.md`
+- Content Factory Pilot #10 deterministic coverage-evidence locator remediation → `docs/technical/Content Factory Pilot 10 Coverage Evidence Locator Remediation.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`

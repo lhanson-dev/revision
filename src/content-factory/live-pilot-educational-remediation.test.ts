@@ -234,7 +234,7 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
         },
         coverageEvidence: [{
           teachingPoint: 'revenue versus cash timing',
-          evidence: 'Revenue and cash receipts are different measures.',
+          location: { mode: 'short_answer', activityIndex: 1, field: 'explanation' },
         }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
