@@ -9,12 +9,11 @@ import {
   type LearningPracticeWorkers,
 } from './learning-and-practice'
 
-const learnModeValues = ['explanation', 'worked_example'] as const
 const practiceModeValues = ['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'] as const
 
 type LearningBlueprintPlannerInput = Parameters<LearningPracticeWorkers['planLearningBlueprint']>[0]
 type RequiredOutput = 'learning' | 'practice'
-type LearningMode = typeof learnModeValues[number] | typeof practiceModeValues[number]
+type LearningMode = 'explanation' | 'worked_example' | typeof practiceModeValues[number]
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'unknown Learning Blueprint compilation error'
