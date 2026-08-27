@@ -41,6 +41,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
+- Content Factory provider-contract hardening / Pilot #7 reliability correction → `docs/technical/Content Factory Provider Contract Hardening.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -150,6 +151,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
+- Content Factory provider-contract hardening / Pilot #7 reliability correction → `docs/technical/Content Factory Provider Contract Hardening.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
