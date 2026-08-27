@@ -99,6 +99,33 @@ function validAssessmentOutput() {
   }
 }
 
+function invalidCalculationSelectionOutput() {
+  const wording = 'Which option shows the contribution per unit from the supplied figures?'
+  return {
+    id: 'finance-mcq-item',
+    version: '1',
+    title: 'Contribution selection',
+    knowledgeNodeIds: ['contribution'],
+    command: 'Select',
+    questionWording: wording,
+    subquestions: [{
+      id: 'q1',
+      command: 'Select',
+      wording,
+      maxMark: 8,
+      requirementIds: ['finance-analysis'],
+      responseDemands: ['selection', 'calculation'],
+      coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
+      options: [
+        { label: 'A', text: 'GBP 2', correct: false, misconceptionBasis: 'Subtracts the values in the wrong order.' },
+        { label: 'B', text: 'GBP 3', correct: true },
+        { label: 'C', text: 'GBP 5', correct: false, misconceptionBasis: 'Adds selling price and variable cost.' },
+        { label: 'D', text: 'GBP 8', correct: false, misconceptionBasis: 'Uses the total figures without calculating a per-unit contribution.' },
+      ],
+    }],
+  }
+}
+
 function config(fetchImpl: typeof fetch) {
   return {
     apiKey: 'test-secret',
@@ -118,6 +145,8 @@ describe('OpenAI assessment integrity compiler', () => {
       const body = JSON.parse(String(init?.body)) as { input: string }
       const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string }; assessmentBlueprint: { evidenceExpectations: string[] } }
       expect(payload.questionFamily.responseShape).toContain('non-empty subquestions array')
+      expect(payload.questionFamily.responseShape).toContain('calculate, work out or determine')
+      expect(payload.questionFamily.responseShape).toContain('multiple-choice question that genuinely requires calculation')
       expect(payload.assessmentBlueprint.evidenceExpectations.join(' ')).toContain('misconceptionBasis')
       return new Response(JSON.stringify(responseBody(validAssessmentOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
@@ -129,6 +158,7 @@ describe('OpenAI assessment integrity compiler', () => {
     })
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
+    expect(result.provenance.contractVersion).toBe('2')
     expect((result.output as { subquestions: unknown[] }).subquestions).toHaveLength(2)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
@@ -143,7 +173,23 @@ describe('OpenAI assessment integrity compiler', () => {
       targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
     })
     expect(result.status).toBe('failure')
+    expect(result.provenance.contractVersion).toBe('2')
     if (result.status === 'failure') expect(result.error).toContain('assessment_item_compilation')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the fail-closed calculation-demand guard for selection wording that does not ask for calculation', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
+      invalidCalculationSelectionOutput(),
+    )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
+    const result = await workers.generateAssessmentItem({
+      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
+      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
+    })
+    expect(result.status).toBe('failure')
+    expect(result.provenance.contractVersion).toBe('2')
+    if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 })

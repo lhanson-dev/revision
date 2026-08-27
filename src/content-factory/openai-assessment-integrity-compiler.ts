@@ -13,9 +13,17 @@ import type {
   OpenAIContentFactoryAdapterConfig,
   OpenAIModelAssistedWorkers,
 } from './openai-provider-adapter'
+import type { WorkerExecution } from './intake-to-knowledge-model'
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'unknown assessment-integrity compilation error'
+}
+
+function withContractVersion(execution: WorkerExecution<unknown>, contractVersion: string): WorkerExecution<unknown> {
+  return {
+    ...execution,
+    provenance: { ...execution.provenance, contractVersion },
+  }
 }
 
 function contractFailure(
@@ -36,6 +44,8 @@ const structuredAssessmentInstruction = [
   'Across subquestions, requirementIds must cover every governed target requirement and no others.',
   'Each subquestion coverageEvidence entry must use an exact excerpt from that subquestion wording showing where the requirement is genuinely assessed.',
   'responseDemands must describe only what the command and wording actually ask the student to do; a calculate-only task must not claim interpretation, analysis or evaluation demand.',
+  'Whenever responseDemands includes calculation, the learner-facing command or wording must explicitly ask for that calculation using calculate, work out or determine.',
+  'For a multiple-choice question that genuinely requires calculation, include both selection and calculation responseDemands and phrase the learner-facing task so the learner is explicitly asked to calculate, work out or determine the result before selecting the option; if the task only asks the learner to choose an answer, declare selection only.',
   'questionWording must contain each subquestion wording verbatim so the structured contract and learner-visible paper cannot drift apart.',
   'For every selection/MCQ subquestion provide exactly four distinct options A-D with exactly one correct answer; every incorrect option must include a distinct plausible misconceptionBasis explaining why a prepared learner might choose it.',
 ].join(' ')
@@ -67,7 +77,7 @@ export function createOpenAIModelAssistedWorkers(
           evidenceExpectations: [...input.assessmentBlueprint.evidenceExpectations, structuredAssessmentInstruction],
         },
       } : input
-      const execution = await workers.generateAssessmentItem(hardenedInput)
+      const execution = withContractVersion(await workers.generateAssessmentItem(hardenedInput), '2')
       if (execution.status !== 'success' || !policy) return execution
       try {
         const item = assessmentItemWorkerOutputSchema.parse(execution.output)
@@ -97,7 +107,7 @@ export function createOpenAIModelAssistedWorkers(
           evidenceExpectations: [...input.assessmentBlueprint.evidenceExpectations, structuredMarkingInstruction],
         },
       } : input
-      const execution = await workers.generateMarkingPack(hardenedInput)
+      const execution = withContractVersion(await workers.generateMarkingPack(hardenedInput), '2')
       if (execution.status !== 'success' || !hasStructuredSubquestions) return execution
       try {
         const pack = markingPackWorkerOutputSchema.parse(execution.output)
