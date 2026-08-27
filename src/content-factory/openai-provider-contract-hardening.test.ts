@@ -119,11 +119,11 @@ describe('Content Factory provider contract hardening', () => {
   })
 
   it('derives strict Learn schemas from the exact selected modes and injects identifiers deterministically', async () => {
-    const learnModeSets = [
+    const learnModeSets: string[][] = [
       ['explanation'],
       ['worked_example'],
       ['explanation', 'worked_example'],
-    ] as const
+    ]
     let callIndex = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const selected = learnModeSets[callIndex]
@@ -171,7 +171,7 @@ describe('Content Factory provider contract hardening', () => {
           title: 'Algebra',
           requirementIds: ['algebra'],
           knowledgeNodeIds: ['algebra'],
-          learningModes: [...modes],
+          learningModes: modes,
           requiredOutputs: ['learning'],
           scope: 'course',
           componentIds: [],
