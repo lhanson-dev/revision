@@ -194,14 +194,14 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
       return new Response(JSON.stringify(responseBody({
         title: 'Revenue, profit and cash practice',
         instructions: 'Keep revenue and cash timing separate.',
-        activities: [{
-          id: 'revenue-cash-1',
-          mode: 'short_answer',
-          prompt: 'Explain why a late customer payment does not by itself reduce sales revenue already earned.',
-          expectedResponse: 'The sale creates revenue; late payment delays the cash receipt.',
-          explanation: 'Revenue and cash receipts are different measures.',
-          improvementAction: 'Check whether a variance concerns sales activity or payment timing.',
-        }],
+        activitiesByMode: {
+          short_answer: [{
+            prompt: 'Explain why a late customer payment does not by itself reduce sales revenue already earned.',
+            expectedResponse: 'The sale creates revenue; late payment delays the cash receipt.',
+            explanation: 'Revenue and cash receipts are different measures.',
+            improvementAction: 'Check whether a variance concerns sales activity or payment timing.',
+          }],
+        },
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
