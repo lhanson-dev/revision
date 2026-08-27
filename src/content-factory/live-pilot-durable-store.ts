@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import { z } from 'zod'
 import type { ContentFactoryEndToEndArtifactKind, ContentFactoryEndToEndWorkers } from './end-to-end-proof'
 import { fingerprintValue, type WorkerExecution } from './intake-to-knowledge-model'
@@ -35,6 +34,23 @@ type LoadedRecord = {
 
 function recordMapKey(recordType: CheckpointRecordType, key: string) {
   return `${recordType}\u0000${key}`
+}
+
+function encodeUtf8Base64(value: string) {
+  const bytes = new TextEncoder().encode(value)
+  let binary = ''
+  const chunkSize = 16_384
+  for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(offset, Math.min(bytes.length, offset + chunkSize)))
+  }
+  return globalThis.btoa(binary)
+}
+
+function decodeUtf8Base64(value: string) {
+  const binary = globalThis.atob(value)
+  const bytes = new Uint8Array(binary.length)
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index)
+  return new TextDecoder().decode(bytes)
 }
 
 function encodeChunk(input: z.infer<typeof checkpointChunkSchema>) {
@@ -99,7 +115,7 @@ export class DurableIssueCheckpointBlobStore {
       if (ordered.some((part) => !part)) continue
       try {
         const base64 = ordered.map((part) => part!.payloadBase64).join('')
-        const value = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8')) as unknown
+        const value = JSON.parse(decodeUtf8Base64(base64)) as unknown
         const lastCommentId = Math.max(...ordered.map((part) => part!.commentId))
         const mapKey = recordMapKey(group.recordType, group.key)
         const current = this.records.get(mapKey)
@@ -134,7 +150,7 @@ export class DurableIssueCheckpointBlobStore {
     }
 
     const serialized = JSON.stringify(value)
-    const base64 = Buffer.from(serialized, 'utf-8').toString('base64')
+    const base64 = encodeUtf8Base64(serialized)
     const chunks = base64.match(new RegExp(`.{1,${checkpointChunkSize}}`, 'g')) ?? ['']
     const recordId = `${recordType}-${(await fingerprintValue({ key, serialized })).slice(0, 24)}`
     let lastCommentId = 0
@@ -159,8 +175,8 @@ export class DurableIssueCheckpointBlobStore {
 }
 
 export class DurableLivePilotArtifactStore extends LivePilotArtifactStore {
-  private readonly values = new Map<string, unknown>()
-  private readonly refsByValue = new Map<string, string>()
+  private readonly durableValues = new Map<string, unknown>()
+  private readonly durableRefsByValue = new Map<string, string>()
 
   private constructor(private readonly blobs: DurableIssueCheckpointBlobStore) {
     super()
@@ -171,15 +187,15 @@ export class DurableLivePilotArtifactStore extends LivePilotArtifactStore {
     for (const record of blobs.values('artifact')) {
       const parsed = z.object({ ref: z.string().min(1), value: z.unknown() }).safeParse(record.value)
       if (!parsed.success) continue
-      store.values.set(parsed.data.ref, parsed.data.value)
-      store.refsByValue.set(JSON.stringify(parsed.data.value), parsed.data.ref)
+      store.durableValues.set(parsed.data.ref, parsed.data.value)
+      store.durableRefsByValue.set(JSON.stringify(parsed.data.value), parsed.data.ref)
     }
     return store
   }
 
   override async writeJson(input: { jobId: string; kind: ContentFactoryEndToEndArtifactKind; fingerprint: string; value: unknown }) {
     const ref = `pilot-artifact:${input.jobId}:${input.kind}:${input.fingerprint.slice(0, 32)}`
-    const existing = this.values.get(ref)
+    const existing = this.durableValues.get(ref)
     if (existing !== undefined) {
       if (JSON.stringify(existing) !== JSON.stringify(input.value)) {
         throw new Error(`Durable artifact fingerprint collision for ${ref}`)
@@ -196,22 +212,22 @@ export class DurableLivePilotArtifactStore extends LivePilotArtifactStore {
       fingerprint: input.fingerprint,
       value,
     })
-    this.values.set(ref, value)
-    this.refsByValue.set(JSON.stringify(value), ref)
+    this.durableValues.set(ref, value)
+    this.durableRefsByValue.set(JSON.stringify(value), ref)
     return { ref }
   }
 
   override async readJson(ref: string) {
-    if (!this.values.has(ref)) throw new Error(`Unknown durable live-pilot artifact reference: ${ref}`)
-    return structuredClone(this.values.get(ref))
+    if (!this.durableValues.has(ref)) throw new Error(`Unknown durable live-pilot artifact reference: ${ref}`)
+    return structuredClone(this.durableValues.get(ref))
   }
 
   override findRef(value: unknown) {
-    return this.refsByValue.get(JSON.stringify(value))
+    return this.durableRefsByValue.get(JSON.stringify(value))
   }
 
   override exportArtifacts() {
-    return [...this.values.entries()].map(([ref, value]) => ({ ref, value: structuredClone(value) }))
+    return [...this.durableValues.entries()].map(([ref, value]) => ({ ref, value: structuredClone(value) }))
   }
 }
 
@@ -474,7 +490,7 @@ export function createDurableBudgetFetch(input: {
     try {
       response = await fetchImpl(resource, init)
     } catch (error) {
-      await input.ledger.settle(callId, 0, label)
+      // Keep the durable reservation open: a transport exception does not prove the provider was never charged.
       throw error
     }
 
