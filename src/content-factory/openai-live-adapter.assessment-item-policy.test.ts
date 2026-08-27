@@ -24,6 +24,7 @@ describe('OpenAI assessment-item governed target boundary', () => {
       maxMark: 10,
       format: 'mixed' as const,
     }
+    const questionWording = 'A new business is choosing an ownership structure. Analyse one factor the owners should consider when making this decision.'
 
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body)) as {
@@ -52,7 +53,16 @@ describe('OpenAI assessment-item governed target boundary', () => {
         title: 'Business ownership and stakeholder decisions',
         knowledgeNodeIds: ['business-foundations'],
         command: 'analyse',
-        questionWording: 'A new business is choosing an ownership structure. Analyse one factor the owners should consider when making this decision.',
+        questionWording,
+        subquestions: [{
+          id: 'q1',
+          command: 'Analyse',
+          wording: questionWording,
+          maxMark: 10,
+          requirementIds: ['business-foundations'],
+          responseDemands: ['analysis'],
+          coverageEvidence: [{ requirementId: 'business-foundations', evidence: 'ownership structure' }],
+        }],
         componentId: 'provider-invented-component',
         questionFamilyId: 'provider-invented-family',
         requirementIds: ['provider-invented-requirement'],
