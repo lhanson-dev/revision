@@ -3,12 +3,12 @@ title: "Course Overview Experience"
 document_id: "revision-course-overview-experience"
 document_type: "domain-authority"
 authority: "product-governance"
-status: "active"
+status: "proposed"
 version: "1.0"
 owner: "Founder"
-effective_date: "2026-08-27"
+effective_date: null
 last_reviewed: "2026-08-27"
-content_review_status: "founder-approved"
+content_review_status: "founder-approved-pending-merge"
 source_of_truth_for: ["saved Course Overview hierarchy", "Course Overview screen-purpose contract", "course REV header", "course sub-navigation", "Course Overview next-step composition", "Course Overview exam countdown", "Course Overview progress summary"]
 depends_on: ["Core User Journeys", "Information Architecture", "Global Learner Navigation", "Product UX Principles", "Subject Accent Colour System", "Claims and Progress Governance", "Course Content and Assessment Component Placement"]
 supersedes: ["Course Overview implementation composition that presents duplicate mode cards and a full topic-evidence grid before the learner reaches focused sections"]
@@ -65,7 +65,7 @@ The header contains:
 
 The Ask REV field is part of the course header because REV should understand that the learner is currently working within this course. The learner should not need to restate the course context.
 
-The header should use the approved subject accent as restrained recognition support while preserving Primary Teal for REV/brand/action meaning. Subject colour must not become a full-page semantic colour system or replace text identity. Business therefore uses the governed Business Sage accent rather than an invented local colour. 
+The header should use the approved subject accent as restrained recognition support while preserving Primary Teal for REV/brand/action meaning. Subject colour must not become a full-page semantic colour system or replace text identity. Business therefore uses the governed Business Sage accent rather than an invented local colour.
 
 ## 2. Course sub-navigation
 
@@ -274,6 +274,8 @@ Implementation should prove at minimum:
 
 ## Documentation impact
 
-This v1.0 authority records the Founder-approved Course Overview content structure agreed on 27 August 2026. Production implementation must update the canonical Course Overview runtime, route/activity-addressing where required for exact activity launch, relevant technical documentation and browser/visual assurance in a subsequent governed implementation change.
+This v1.0 proposal records the Founder-approved Course Overview content structure agreed on 27 August 2026 and becomes active product authority only after the governed PR is merged into approved `main`.
+
+A subsequent governed implementation change must update the canonical Course Overview runtime, route/activity-addressing where required for exact activity launch, relevant technical documentation and browser/visual assurance.
 
 Historical prototypes, screenshots and prior implementation evidence remain historical/current-state evidence and must not be rewritten to imply they already matched this approved hierarchy.
