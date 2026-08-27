@@ -126,6 +126,33 @@ function invalidCalculationSelectionOutput() {
   }
 }
 
+function invalidInterpretationOutput() {
+  const wording = 'Which option shows the capacity utilisation figure from the supplied data?'
+  return {
+    id: 'refillworks-capacity-choice-case-study',
+    version: '1',
+    title: 'Capacity utilisation choice',
+    knowledgeNodeIds: ['contribution'],
+    command: 'Select',
+    questionWording: wording,
+    subquestions: [{
+      id: 'q1',
+      command: 'Select',
+      wording,
+      maxMark: 8,
+      requirementIds: ['finance-analysis'],
+      responseDemands: ['selection', 'interpretation'],
+      coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'capacity utilisation figure' }],
+      options: [
+        { label: 'A', text: '40%', correct: false, misconceptionBasis: 'Reverses the utilisation ratio.' },
+        { label: 'B', text: '60%', correct: true },
+        { label: 'C', text: '100%', correct: false, misconceptionBasis: 'Assumes all capacity is automatically used.' },
+        { label: 'D', text: '160%', correct: false, misconceptionBasis: 'Uses capacity as the numerator without normalising.' },
+      ],
+    }],
+  }
+}
+
 function config(fetchImpl: typeof fetch) {
   return {
     apiKey: 'test-secret',
@@ -144,9 +171,16 @@ describe('OpenAI assessment integrity compiler', () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body)) as { input: string }
       const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string }; assessmentBlueprint: { evidenceExpectations: string[] } }
-      expect(payload.questionFamily.responseShape).toContain('non-empty subquestions array')
-      expect(payload.questionFamily.responseShape).toContain('calculate, work out or determine')
-      expect(payload.questionFamily.responseShape).toContain('multiple-choice question that genuinely requires calculation')
+      const responseShape = payload.questionFamily.responseShape
+      expect(responseShape).toContain('non-empty subquestions array')
+      expect(responseShape).toContain('selection: select, choose, which')
+      expect(responseShape).toContain('knowledge: state, identify, define, give, outline, explain, analyse, analyze, evaluate, assess, justify, recommend')
+      expect(responseShape).toContain('application: apply, explain, analyse, analyze, evaluate, assess, justify, recommend, calculate')
+      expect(responseShape).toContain('calculation: calculate, work out, determine')
+      expect(responseShape).toContain('interpretation: interpret, comment, explain, analyse, analyze')
+      expect(responseShape).toContain('analysis: analyse, analyze, explain')
+      expect(responseShape).toContain('evaluation: evaluate, assess, justify, recommend')
+      expect(responseShape).toContain('multiple-choice question that genuinely requires calculation')
       expect(payload.assessmentBlueprint.evidenceExpectations.join(' ')).toContain('misconceptionBasis')
       return new Response(JSON.stringify(responseBody(validAssessmentOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
@@ -190,6 +224,21 @@ describe('OpenAI assessment integrity compiler', () => {
     expect(result.status).toBe('failure')
     expect(result.provenance.contractVersion).toBe('2')
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the fail-closed interpretation guard for Pilot 12 style selection wording', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
+      invalidInterpretationOutput(),
+    )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
+    const result = await workers.generateAssessmentItem({
+      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
+      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
+    })
+    expect(result.status).toBe('failure')
+    expect(result.provenance.contractVersion).toBe('2')
+    if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 })
