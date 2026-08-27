@@ -27,6 +27,8 @@ const knowledgeNodes = [{
   evidenceTypes: ['worked reasoning'],
 }]
 
+const requiredTeachingPoints = ['collect like terms']
+
 function responseBody(output: unknown) {
   return {
     status: 'completed',
@@ -46,21 +48,25 @@ describe('Content Factory provider contract hardening', () => {
         instructions: string
         text: { format: { strict: boolean; schema: Record<string, unknown> } }
       }
-      const input = JSON.parse(body.input) as { workUnit: { learningModes: string[] } }
+      const input = JSON.parse(body.input) as { workUnit: { learningModes: string[] }; requiredTeachingPoints: string[] }
       const selected = practiceModes.filter((mode) => input.workUnit.learningModes.includes(mode))
+      expect(input.requiredTeachingPoints).toEqual(requiredTeachingPoints)
       expect(body.text.format.strict).toBe(true)
       expect(body.instructions.toLowerCase()).not.toContain('business context')
       expect(body.instructions).toContain('subject-authentic')
+      expect(body.instructions).toContain('coverageEvidence')
 
       const schema = body.text.format.schema as {
         properties?: {
           activitiesByMode?: {
             properties?: Record<string, { items?: { properties?: Record<string, unknown> } }>
           }
+          coverageEvidence?: unknown
         }
       }
       const modeProperties = schema.properties?.activitiesByMode?.properties ?? {}
       expect(Object.keys(modeProperties).sort()).toEqual([...selected].sort())
+      expect(schema.properties).toHaveProperty('coverageEvidence')
       for (const mode of selected) {
         const activityProperties = modeProperties[mode]?.items?.properties ?? {}
         expect(activityProperties).not.toHaveProperty('mode')
@@ -68,7 +74,7 @@ describe('Content Factory provider contract hardening', () => {
       }
 
       const activitiesByMode = Object.fromEntries(selected.map((mode) => [mode, [{
-        prompt: `${mode} prompt`,
+        prompt: `${mode} prompt for collect like terms`,
         expectedResponse: `${mode} answer`,
         explanation: `${mode} explanation`,
         improvementAction: `${mode} improvement`,
@@ -77,6 +83,7 @@ describe('Content Factory provider contract hardening', () => {
         title: 'Algebra practice',
         instructions: 'Complete the planned practice.',
         activitiesByMode,
+        coverageEvidence: [{ teachingPoint: 'collect like terms', evidence: `${selected[0]} prompt for collect like terms` }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
@@ -104,16 +111,18 @@ describe('Content Factory provider contract hardening', () => {
           componentIds: [],
         },
         knowledgeModelFingerprint: 'knowledge-model-v1',
+        requiredTeachingPoints,
         knowledgeNodes,
       })
 
       expect(result.status).toBe('success')
       if (result.status !== 'success') throw new Error(result.error)
-      const output = result.output as { activities: Array<{ id: string; mode: string }> }
+      const output = result.output as { activities: Array<{ id: string; mode: string }>; coverageEvidence: unknown[] }
       expect(output.activities.map((activity) => activity.mode)).toEqual(selected)
       expect(output.activities.map((activity) => activity.id)).toEqual(
         selected.map((mode) => `algebra-practice-${mask}-${mode}-1`),
       )
+      expect(output.coverageEvidence).toHaveLength(1)
     }
 
     expect(fetchImpl).toHaveBeenCalledTimes(31)
@@ -130,16 +139,22 @@ describe('Content Factory provider contract hardening', () => {
       const selected = learnModeSets[callIndex]
       callIndex += 1
       const body = JSON.parse(String(init?.body)) as {
+        input: string
         instructions: string
         text: { format: { strict: boolean; schema: { properties?: Record<string, unknown> } } }
       }
+      const input = JSON.parse(body.input) as { requiredTeachingPoints: string[] }
+      expect(input.requiredTeachingPoints).toEqual(requiredTeachingPoints)
       expect(body.text.format.strict).toBe(true)
       expect(body.instructions.toLowerCase()).not.toContain('business contexts')
       expect(body.instructions).toContain('subject-authentic')
+      expect(body.instructions).toContain('coverageEvidence')
       const properties = body.text.format.schema.properties ?? {}
       expect('sections' in properties).toBe(selected.includes('explanation'))
       expect('workedExamples' in properties).toBe(selected.includes('worked_example'))
+      expect(properties).toHaveProperty('coverageEvidence')
 
+      const evidence = selected.includes('explanation') ? 'Only like terms combine.' : 'Identify like terms.'
       return new Response(JSON.stringify(responseBody({
         title: 'Algebra',
         introduction: 'Understand the structure before applying it.',
@@ -151,6 +166,7 @@ describe('Content Factory provider contract hardening', () => {
         } : {}),
         misconceptions: [{ misconception: 'All terms can be combined.', correction: 'Only like terms combine.' }],
         nextAction: 'Try a mixed example.',
+        coverageEvidence: [{ teachingPoint: 'collect like terms', evidence }],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
@@ -178,6 +194,7 @@ describe('Content Factory provider contract hardening', () => {
           componentIds: [],
         },
         knowledgeModelFingerprint: 'knowledge-model-v1',
+        requiredTeachingPoints,
         knowledgeNodes,
       })
 
@@ -186,6 +203,7 @@ describe('Content Factory provider contract hardening', () => {
       const output = result.output as {
         sections: Array<{ id: string }>
         workedExamples: Array<{ id: string }>
+        coverageEvidence: unknown[]
       }
       expect(output.sections.map((section) => section.id)).toEqual(
         modes.includes('explanation') ? [`${unitId}-section-1`] : [],
@@ -193,6 +211,7 @@ describe('Content Factory provider contract hardening', () => {
       expect(output.workedExamples.map((example) => example.id)).toEqual(
         modes.includes('worked_example') ? [`${unitId}-worked-example-1`] : [],
       )
+      expect(output.coverageEvidence).toHaveLength(1)
     }
   })
 
@@ -214,6 +233,7 @@ describe('Content Factory provider contract hardening', () => {
           improvementAction: 'Improve',
         }],
       },
+      coverageEvidence: [{ teachingPoint: 'collect like terms', evidence: 'Prompt' }],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
 
     const workers = createOpenAIModelAssistedWorkers({
@@ -238,6 +258,7 @@ describe('Content Factory provider contract hardening', () => {
         componentIds: [],
       },
       knowledgeModelFingerprint: 'knowledge-model-v1',
+      requiredTeachingPoints,
       knowledgeNodes,
     })
 
