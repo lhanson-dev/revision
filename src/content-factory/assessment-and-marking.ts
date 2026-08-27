@@ -17,6 +17,12 @@ import {
 } from './schema'
 import { fingerprintValue, type WorkerExecution } from './intake-to-knowledge-model'
 import { learningPracticeArtifactSchema } from './learning-and-practice'
+import {
+  assessmentSubquestionSchema,
+  markingSubquestionGuidanceSchema,
+  validateStructuredAssessment,
+  validateStructuredMarkingGuidance,
+} from './assessment-integrity'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -42,6 +48,7 @@ export const assessmentItemWorkerOutputSchema = z.object({
   command: nonEmptyStringSchema,
   maxMark: z.number().int().positive(),
   questionWording: nonEmptyStringSchema,
+  subquestions: z.array(assessmentSubquestionSchema).default([]),
   context: z.object({
     id: identifierSchema,
     title: nonEmptyStringSchema,
@@ -67,6 +74,7 @@ export const assessmentItemArtifactSchema = assessmentItemWorkerOutputSchema.ext
 
 export const markingPackWorkerOutputSchema = z.object({
   assessmentObjectiveAllocation: z.array(z.object({ objectiveId: identifierSchema, marks: z.number().int().nonnegative() })).default([]),
+  subquestionGuidance: z.array(markingSubquestionGuidanceSchema).default([]),
   rubric: z.array(z.object({ id: identifierSchema, descriptor: nonEmptyStringSchema, minMark: z.number().int().nonnegative().optional(), maxMark: z.number().int().nonnegative().optional() })).min(1),
   applicationRequirements: z.array(nonEmptyStringSchema).default([]),
   analysisRequirements: z.array(nonEmptyStringSchema).default([]),
@@ -83,6 +91,7 @@ export const markingPackWorkerOutputSchema = z.object({
 export const executableMarkingPackSchema = markingPackSchema.extend({
   questionOrigin: z.literal('revision_owned'),
   indicativeContentPolicy: z.literal('non_exhaustive'),
+  subquestionGuidance: z.array(markingSubquestionGuidanceSchema).default([]),
 })
 
 export const courseContentPackManifestSchema = z.object({
@@ -157,8 +166,8 @@ export interface AssessmentAndMarkingWorkers {
 export const contentFactoryAssessmentWorkerContracts = {
   assessmentBlueprint: { workerId: 'content-factory.assessment-blueprint', contractVersion: '1', sourceInput: 'structured-board-alignment-plus-course-knowledge-model-facts-only' },
   questionFamily: { workerId: 'content-factory.question-family', contractVersion: '1', sourceInput: 'assessment-blueprint-plus-course-knowledge-model-facts-only' },
-  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '1', sourceInput: 'question-family-plus-target-component-and-course-knowledge-model-facts-only' },
-  markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '1', sourceInput: 'revision-owned-question-plus-assessment-contracts-and-course-knowledge-model-facts-only' },
+  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '2', sourceInput: 'question-family-plus-target-component-course-knowledge-model-and-structured-subquestion-facts-only' },
+  markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '2', sourceInput: 'revision-owned-structured-question-plus-assessment-contracts-and-course-knowledge-model-facts-only' },
 } as const
 
 function appendWorkerRun(jobInput: ContentFactoryJob, stage: WorkerRun['stage'], execution: WorkerExecution<unknown>, updatedAt: string, refs: { inputRefs?: string[]; outputRefs?: string[] } = {}) {
@@ -316,6 +325,20 @@ function validateAssessmentItem(input: unknown, job: ContentFactoryJob, target: 
     if (requirement.componentScope.length > 0 && !requirement.componentScope.includes(output.componentId)) throw new Error(`Assessment item ${output.id} component is outside requirement ${requirementId} scope`)
   }
 
+  if (output.subquestions.length > 0) {
+    validateStructuredAssessment({
+      itemId: output.id,
+      maxMark: output.maxMark,
+      governedRequirementIds: output.requirementIds,
+      subquestions: output.subquestions,
+    })
+    const rendered = output.questionWording.toLowerCase().replace(/\s+/g, ' ')
+    for (const subquestion of output.subquestions) {
+      const wording = subquestion.wording.toLowerCase().replace(/\s+/g, ' ').trim()
+      if (!rendered.includes(wording)) throw new Error(`Assessment item ${output.id} questionWording must contain subquestion ${subquestion.id} verbatim`)
+    }
+  }
+
   const nodeMap = new Map(model.nodes.map((node) => [node.id, node]))
   const nodes = output.knowledgeNodeIds.map((nodeId) => {
     const node = nodeMap.get(nodeId)
@@ -326,8 +349,8 @@ function validateAssessmentItem(input: unknown, job: ContentFactoryJob, target: 
 }
 
 function safeAssessmentItemInput(item: AssessmentItemArtifact) {
-  const { id, version, title, componentId, questionFamilyId, requirementIds, knowledgeNodeIds, format, command, maxMark, questionWording, context } = item
-  return { id, version, title, componentId, questionFamilyId, requirementIds, knowledgeNodeIds, format, command, maxMark, questionWording, context }
+  const { id, version, title, componentId, questionFamilyId, requirementIds, knowledgeNodeIds, format, command, maxMark, questionWording, subquestions, context } = item
+  return { id, version, title, componentId, questionFamilyId, requirementIds, knowledgeNodeIds, format, command, maxMark, questionWording, subquestions, context }
 }
 
 function validateMarkingPack(input: unknown, item: AssessmentItemArtifact, family: QuestionFamily, blueprint: ExecutableAssessmentBlueprint): ExecutableMarkingPack {
@@ -343,6 +366,15 @@ function validateMarkingPack(input: unknown, item: AssessmentItemArtifact, famil
   if (family.applicationRequirements.length > 0 && output.applicationRequirements.length === 0) throw new Error(`Marking Pack for ${item.id} must preserve the Question Family application demand`)
   if (family.analysisRequirements.length > 0 && output.analysisRequirements.length === 0) throw new Error(`Marking Pack for ${item.id} must preserve the Question Family analysis demand`)
   if (family.evaluationRequirements.length > 0 && output.evaluationRequirements.length === 0) throw new Error(`Marking Pack for ${item.id} must preserve the Question Family evaluation demand`)
+  if (item.subquestions.length > 0) {
+    validateStructuredMarkingGuidance({
+      itemId: item.id,
+      subquestions: item.subquestions,
+      guidance: output.subquestionGuidance,
+      allowedObjectiveIds: familyObjectives,
+      overallObjectiveAllocation: output.assessmentObjectiveAllocation,
+    })
+  }
 
   const pack = executableMarkingPackSchema.parse({
     schemaVersion: 1,
@@ -354,6 +386,7 @@ function validateMarkingPack(input: unknown, item: AssessmentItemArtifact, famil
     maxMark: item.maxMark,
     conceptIds: item.knowledgeNodeIds,
     assessmentObjectiveAllocation: output.assessmentObjectiveAllocation,
+    subquestionGuidance: output.subquestionGuidance,
     rubric: output.rubric,
     applicationRequirements: output.applicationRequirements,
     analysisRequirements: output.analysisRequirements,

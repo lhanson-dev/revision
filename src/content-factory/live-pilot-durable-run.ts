@@ -16,6 +16,7 @@ import {
   AQA_AS_BUSINESS_7131_SOURCE_RIGHTS_RULES,
   AQA_AS_BUSINESS_7131_URLS,
 } from './live-pilot'
+import { applyAqaAsBusiness7131PilotAssessmentIntegrityPolicy } from './aqa-as-business-pilot-assessment-policy'
 
 export const AQA_AS_BUSINESS_7131_LIVE_PILOT_FOUNDER_INSTRUCTION = 'Run the governed rights-safe live adapter pilot for AQA AS Business 7131, 2026 examination cohort, through expert_review_ready without publishing learner content.'
 
@@ -74,6 +75,13 @@ export async function runDurableAqaAsBusiness7131LivePilot(input: {
 }> {
   let job = contentFactoryJobSchema.parse(input.job)
   let expertPackage: ExpertReviewPackage | undefined
+
+  // Apply the Revision-owned Pilot #9 assessment corrections before any paid
+  // assessment worker can read the pilot policy/context objects. The objects are
+  // also referenced by already-created live worker configs, so this remains
+  // effective for durable workflow runs without moving Business-specific facts
+  // into the generic provider adapter.
+  applyAqaAsBusiness7131PilotAssessmentIntegrityPolicy()
 
   const checkpoint = async () => {
     job = contentFactoryJobSchema.parse(job)

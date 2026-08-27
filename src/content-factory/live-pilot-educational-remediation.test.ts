@@ -94,6 +94,46 @@ const assessmentBlueprint = {
   evidenceExpectations: [],
 }
 
+function paper2StructuredProviderOutput() {
+  const requirementIds = AQA_AS_BUSINESS_7131_ASSESSMENT_ITEM_POLICIES['paper2-case-study-80']!.requirementIds
+  const marks = [4, 6, 10, 10, 20, 10, 20]
+  const commands = ['Explain', 'Explain', 'Analyse', 'Analyse', 'Evaluate', 'Analyse', 'Evaluate'] as const
+  const groups = Array.from({ length: marks.length }, () => [] as string[])
+  requirementIds.forEach((requirementId, index) => groups[index % groups.length]!.push(requirementId))
+  const subquestions = groups.map((group, index) => {
+    const labels = group.map((requirementId) => requirementId.replaceAll('-', ' '))
+    const command = commands[index]!
+    const wording = `${command} how the RefillWorks case relates to ${labels.join(' and ')}.`
+    return {
+      id: `q${index + 1}`,
+      command,
+      wording,
+      maxMark: marks[index]!,
+      requirementIds: group,
+      responseDemands: command === 'Evaluate' ? ['evaluation', 'application'] : command === 'Analyse' ? ['analysis', 'application'] : ['knowledge', 'application'],
+      coverageEvidence: group.map((requirementId, requirementIndex) => ({
+        requirementId,
+        evidence: labels[requirementIndex]!,
+      })),
+    }
+  })
+  return {
+    id: 'paper2-case-study-80-item',
+    version: '1',
+    title: 'A coherent growth decision',
+    knowledgeNodeIds: ['business-foundations'],
+    command: 'analyse',
+    questionWording: subquestions.map((subquestion, index) => `${index + 1}. ${subquestion.wording} [${subquestion.maxMark}]`).join('\n'),
+    subquestions,
+    context: {
+      id: 'provider-invented-context',
+      title: 'Provider invented context',
+      body: 'This must not escape the deterministic pilot boundary.',
+      dataPoints: [{ label: 'Invented loan', value: '999999', unit: 'GBP' }],
+    },
+  }
+}
+
 describe('AQA AS Business Pilot #6 educational remediation', () => {
   it('encodes the governed Paper 1 section mix and a single Paper 2 case study before generation', async () => {
     const workers = testWorkers(vi.fn() as unknown as typeof fetch)
@@ -136,20 +176,7 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
       expect(payload.questionFamily.responseShape).toContain('approximately seven linked subquestions')
       expect(payload.questionFamily.responseShape).toContain('Do not introduce a second business')
 
-      return new Response(JSON.stringify(responseBody({
-        id: 'paper2-case-study-80-item',
-        version: '1',
-        title: 'A coherent growth decision',
-        knowledgeNodeIds: ['business-foundations'],
-        command: 'analyse',
-        questionWording: 'Use the supplied RefillWorks case to answer the linked questions.',
-        context: {
-          id: 'provider-invented-context',
-          title: 'Provider invented context',
-          body: 'This must not escape the deterministic pilot boundary.',
-          dataPoints: [{ label: 'Invented loan', value: '999999', unit: 'GBP' }],
-        },
-      })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      return new Response(JSON.stringify(responseBody(paper2StructuredProviderOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
     const workers = testWorkers(fetchImpl)
@@ -174,9 +201,10 @@ describe('AQA AS Business Pilot #6 educational remediation', () => {
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    const output = result.output as { context?: unknown; command: string }
+    const output = result.output as { context?: unknown; command: string; subquestions: unknown[] }
     expect(output.context).toEqual(AQA_AS_BUSINESS_7131_FIXED_ASSESSMENT_CONTEXTS['paper2-case-study-80'])
     expect(output.command).toBe('mixed case study')
+    expect(output.subquestions).toHaveLength(7)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
