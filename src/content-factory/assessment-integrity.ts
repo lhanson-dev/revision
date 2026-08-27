@@ -13,6 +13,18 @@ export const assessmentResponseDemandSchema = z.enum([
   'evaluation',
 ])
 
+export type AssessmentResponseDemand = z.infer<typeof assessmentResponseDemandSchema>
+
+export const assessmentResponseDemandCommandEvidence = {
+  selection: ['select', 'choose', 'which'],
+  knowledge: ['state', 'identify', 'define', 'give', 'outline', 'explain', 'analyse', 'analyze', 'evaluate', 'assess', 'justify', 'recommend'],
+  application: ['apply', 'explain', 'analyse', 'analyze', 'evaluate', 'assess', 'justify', 'recommend', 'calculate'],
+  calculation: ['calculate', 'work out', 'determine'],
+  interpretation: ['interpret', 'comment', 'explain', 'analyse', 'analyze'],
+  analysis: ['analyse', 'analyze', 'explain'],
+  evaluation: ['evaluate', 'assess', 'justify', 'recommend'],
+} as const satisfies Record<AssessmentResponseDemand, readonly string[]>
+
 export const assessmentOptionSchema = z.object({
   label: z.enum(['A', 'B', 'C', 'D']),
   text: nonEmptyStringSchema,
@@ -58,15 +70,20 @@ function sameSet(left: Iterable<string>, right: Iterable<string>) {
   return a.size === b.size && [...a].every((value) => b.has(value))
 }
 
-function commandSupportsDemand(commandInput: string, demand: z.infer<typeof assessmentResponseDemandSchema>) {
+function regexEscape(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+export function assessmentCommandSupportsDemand(commandInput: string, demand: AssessmentResponseDemand) {
   const command = normalise(commandInput)
-  if (demand === 'selection') return /\b(select|choose|which)\b/.test(command)
-  if (demand === 'knowledge') return /\b(state|identify|define|give|outline|explain|analyse|analyze|evaluate|assess|justify|recommend)\b/.test(command)
-  if (demand === 'application') return /\b(apply|explain|analyse|analyze|evaluate|assess|justify|recommend|calculate)\b/.test(command)
-  if (demand === 'calculation') return /\b(calculate|work out|determine)\b/.test(command)
-  if (demand === 'interpretation') return /\b(interpret|comment|explain|analyse|analyze)\b/.test(command)
-  if (demand === 'analysis') return /\b(analyse|analyze|explain)\b/.test(command)
-  return /\b(evaluate|assess|justify|recommend)\b/.test(command)
+  const alternatives = assessmentResponseDemandCommandEvidence[demand].map(regexEscape).join('|')
+  return new RegExp(`\\b(?:${alternatives})\\b`).test(command)
+}
+
+export function assessmentResponseDemandCommandContractText() {
+  return (Object.entries(assessmentResponseDemandCommandEvidence) as Array<[AssessmentResponseDemand, readonly string[]]>)
+    .map(([demand, commands]) => `${demand}: ${commands.join(', ')}`)
+    .join('; ')
 }
 
 function validateMcqOptions(subquestion: AssessmentSubquestion, label: string) {
@@ -99,7 +116,7 @@ export function validateStructuredAssessment(input: {
   const claimedRequirements = new Set<string>()
   for (const subquestion of subquestions) {
     const label = `Assessment item ${input.itemId} subquestion ${subquestion.id}`
-    for (const demand of subquestion.responseDemands) if (!commandSupportsDemand(`${subquestion.command} ${subquestion.wording}`, demand)) {
+    for (const demand of subquestion.responseDemands) if (!assessmentCommandSupportsDemand(`${subquestion.command} ${subquestion.wording}`, demand)) {
       throw new Error(`${label} command does not ask for rewarded demand ${demand}`)
     }
     validateMcqOptions(subquestion, label)
