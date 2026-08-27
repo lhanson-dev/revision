@@ -169,9 +169,10 @@ describe('OpenAIStructuredWorkerClient', () => {
     expect(sleep).toHaveBeenCalledTimes(1)
   })
 
-  it('fails closed when provider output violates the worker schema', async () => {
+  it('fails closed without retrying when completed provider output violates the worker contract', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({ answer: 'wrong' })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
-    const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, maxRetries: 0 })
+    const sleep = vi.fn(async () => undefined)
+    const client = new OpenAIStructuredWorkerClient({ apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, sleep, maxRetries: 2 })
 
     const result = await client.run({
       workerId: 'content-factory.schema-test',
@@ -182,9 +183,11 @@ describe('OpenAIStructuredWorkerClient', () => {
       payload: { safeFact: true },
     })
 
-    expect(result.status).toBe('infrastructure_failure')
+    expect(result.status).toBe('failure')
     if (result.status === 'success') throw new Error('Expected schema failure')
-    expect(result.error).toMatch(/invalid|expected/i)
+    expect(result.error).toContain('provider_contract_failure')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(sleep).not.toHaveBeenCalled()
   })
 
   it('refuses a provider call before spend can breach the configured course ceiling', async () => {
