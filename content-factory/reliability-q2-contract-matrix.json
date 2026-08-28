@@ -3,7 +3,7 @@
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "status": "in_progress",
   "scope": "course_agnostic",
-  "baseMainSha": "dff54ca9f22e4e574535a3ac7f7d8287c8204f90",
+  "baseMainSha": "6648a9f8e49b8260ded9fc92ac8288472c8ea4ed",
   "boundaries": [
     {
       "worker": "course_knowledge_model",
@@ -85,21 +85,24 @@
     },
     {
       "worker": "assessment_blueprint",
-      "status": "gap_identified",
+      "status": "evidence_mapped",
       "evidence": [
+        "src/content-factory/q2-assessment-blueprint-contract.test.ts",
+        "src/content-factory/openai-assessment-blueprint-compiler.ts",
         "src/content-factory/assessment-and-marking.test.ts",
         "src/content-factory/reliability-contract-inventory.test.ts"
       ],
       "coverage": [
-        "provider-free factory evidence binds the Assessment Blueprint to current Board Alignment and downstream generation",
-        "Q1 ownership inventory classifies component marks, timings and AO weightings as deterministic Board Alignment facts",
-        "factory validation exercises governed component and assessment-artifact compatibility"
+        "language-shaped direct provider contract accepts valid first-pass output with exactly one provider call",
+        "structurally malformed Blueprint output fails closed without provider retry",
+        "component IDs must exactly cover governed components with unique Question Family IDs",
+        "component mark totals and timings must match governed Board Alignment facts",
+        "assessment-objective IDs and weightings must exactly match governed facts",
+        "command-demand component references must be unique and resolve to governed components",
+        "job and deterministic Blueprint fingerprint bindings fail closed when mismatched",
+        "factory integration still validates the persisted Board Alignment fingerprint before downstream generation"
       ],
-      "gaps": [
-        "add a direct model-assisted Assessment Blueprint provider-contract valid first-pass case with one provider call",
-        "add direct inconsistent component mark, timing or AO weighting failure coverage",
-        "add direct unknown component or malformed command-demand reference failure coverage"
-      ]
+      "gaps": []
     },
     {
       "worker": "question_family_generation",
