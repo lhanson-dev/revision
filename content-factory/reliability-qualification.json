@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Paid end-to-end live pilots are paused after Confirmation Pilot #16 exposed material educational and assessment-integrity findings. The remediation changes qualified generation and marking behaviour, so the corrected implementation must pass provider-free reliability requalification on approved main before another paid confirmation pilot.",
+  "status": "qualified",
+  "reason": "Post-Pilot-16 provider-free Q1-Q6 reliability requalification is complete on approved main after the Pilot #16 remediation. A fresh paid end-to-end run is eligible only as a governed confirmation pilot and remains subject to source-rights, spend, educational assurance, expert review and publication controls.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 16,
@@ -17,6 +17,26 @@
     "Q5-restart-reuse-dependency-invalidation",
     "Q6-repeated-qualification-stability"
   ],
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "qualificationEvidenceMainSha": "3f6493be1424e281f26a8f0e14855c26ed9a999e",
+    "requalificationRecord": "content-factory/reliability-post-pilot16-requalification.json",
+    "verificationMode": "exact_head_ci",
+    "providerCallsUsed": false,
+    "passedGates": [
+      "Q1-worker-contract-inventory",
+      "Q2-provider-free-contract-matrix",
+      "Q3-subject-shape-matrix",
+      "Q4-deterministic-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-qualification-stability"
+    ],
+    "q6RepetitionCount": 3,
+    "nextPaidRunClass": "confirmation_pilot",
+    "limitations": [
+      "Reliability qualification is not educational correctness or publication approval.",
+      "The confirmation pilot must still obey source-rights, spend, deterministic validation, independent review, expert review and publication governance.",
+      "This eligibility state does not itself execute provider calls or publish learner content."
+    ]
+  },
+  "livePilotEligible": true
 }

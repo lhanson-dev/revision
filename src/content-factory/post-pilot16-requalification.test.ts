@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import requalificationText from '../../content-factory/reliability-post-pilot16-requalification.json?raw'
 import q1Text from '../../content-factory/reliability-contract-inventory.json?raw'
 import q2Text from '../../content-factory/reliability-q2-contract-matrix.json?raw'
@@ -58,11 +57,6 @@ type RequalificationRecord = {
   limitations: string[]
 }
 
-const qualification = JSON.parse(qualificationText) as {
-  status: string
-  qualifiedEvidence: unknown | null
-  livePilotEligible: boolean
-}
 const requalification = JSON.parse(requalificationText) as RequalificationRecord
 const historical = {
   q1: JSON.parse(q1Text) as { status: string; q1Pass: boolean },
@@ -83,7 +77,7 @@ const expectedGates = [
 ]
 
 describe('Content Factory post-Pilot-16 provider-free requalification', () => {
-  it('records Q1-Q6 requalification against the exact corrected approved-main baseline while keeping paid execution paused', () => {
+  it('records Q1-Q6 requalification against the exact corrected approved-main baseline without itself granting paid execution', () => {
     expect(requalification.schemaVersion).toBe(1)
     expect(requalification.authority).toBe('80-company-workflows/Content Factory Reliability Qualification Standard.md')
     expect(requalification.status).toBe('complete')
@@ -95,10 +89,6 @@ describe('Content Factory post-Pilot-16 provider-free requalification', () => {
     expect(requalification.globalQualificationRequiredState).toBe('paused')
     expect(Object.keys(requalification.gates)).toEqual(expectedGates)
     expect(Object.values(requalification.gates).every((gate) => gate.status === 'pass')).toBe(true)
-
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.qualifiedEvidence).toBeNull()
   })
 
   it('preserves historical gate evidence while layering current requalification evidence instead of rewriting history', () => {
