@@ -1,8 +1,9 @@
 # Content Factory Pilot 16 Remediation
 
-**Status:** implementation remediation in governed PR  
+**Status:** remediation merged; provider-free requalification in progress  
 **Trigger:** Confirmation Pilot #16 / workflow run `33214478392` / durable job Issue `#226`  
-**Failed implementation head:** `47c30e95c49c1951d0dd31c48b63a1d15506529f`
+**Failed implementation head:** `47c30e95c49c1951d0dd31c48b63a1d15506529f`  
+**Remediation main:** `9f4d86dbeaca5a6fac13884bf8b161964a68ec88`
 
 ## Outcome of Pilot #16
 
@@ -20,7 +21,7 @@ Pilot output contained:
 
 `percentage change (%) = new value - original value / original value × 100`
 
-The generated-output integrity compiler now canonicalises this known mathematical representation to:
+The generated-output integrity compiler canonicalises this known mathematical representation to:
 
 `percentage change (%) = ((new value - original value) / original value) × 100`
 
@@ -28,29 +29,35 @@ This is deterministic representation correction rather than a second generative 
 
 ### 2. MCQ answer-key pattern
 
-All ten Pilot #16 MCQs placed the correct answer at option A. The new generic integrity compiler deterministically reorders already-generated option objects across multi-question MCQ sets so correct positions are distributed A–D while preserving the correct answer text and distractor content.
+All ten Pilot #16 MCQs placed the correct answer at option A. The generic integrity compiler deterministically reorders already-generated option objects across multi-question MCQ sets so correct positions are distributed A–D while preserving the correct answer text and distractor content.
 
-A provider-free regression proves that a ten-question all-A candidate is rejected as biased and that deterministic rebalancing produces a non-patterned four-position distribution without changing answer content.
+A provider-free regression proves that a ten-question all-A candidate is rejected as biased and that deterministic rebalancing produces a four-position distribution without changing answer content.
 
 ### 3. Unstated assessment premises
 
 The Pilot #16 UrbanFuel short-answer item asked the learner to treat a survey as quantitative without establishing its response format in the stimulus.
 
-Assessment generation now receives a reusable integrity instruction: classifications, sampling claims, numerical baselines, time horizons and other factual premises required by a question must be established by the learner-facing wording or supplied context rather than presupposed.
+Assessment generation receives a reusable integrity instruction: classifications, sampling claims, numerical baselines, time horizons and other factual premises required by a question must be established by the learner-facing wording or supplied context rather than presupposed.
 
-The AQA Business short-answer family adds the same rule explicitly for research/data classification and sampling context.
+The AQA Business short-answer family additionally carries course-specific research/data context because that is part of the pilot's assessment shape; it plugs into the generic assessment contract rather than redefining it.
 
 ### 4. Practice prompt/answer contradiction
 
 A cash-flow activity asked the learner to identify the month with a deficit even though all calculated closing balances were positive and its expected response correctly said no deficit occurred.
 
-The generated-output integrity compiler now repairs this deterministic prompt/answer presupposition mismatch by changing the definite prompt into a conditional question: determine whether a deficit occurs and identify/action it only if one does. Exact coverage evidence is updated with the same deterministic text correction.
+The first remediation implementation used an exact cash-flow phrase mutation. Provider-free requalification identified that as too Business-shaped for a generic worker boundary. It has therefore been replaced by a generic generation guardrail carried in the Practice provider payload:
+
+- every prompt must be internally consistent with its own expected response and explanation;
+- the task must not presuppose a result, state, category, data property or problem contradicted by the generated answer;
+- when the learner is meant to determine whether a condition exists, the task must be phrased conditionally rather than asserting the condition.
+
+This preserves generative educational judgement while making the contract course-agnostic. Independent review remains the fail-closed educational backstop if a semantic contradiction survives generation.
 
 ### 5. RefillWorks option scope and financial horizon
 
 The Pilot #16 case data admitted a material hybrid option: use 18,000 packs of existing spare annual capacity and outsource the remaining 6,000 packs. The generated item nevertheless framed automation versus outsourcing as the decision and did not give a sufficient time horizon for comparing one-off automation cost with recurring contribution effects.
 
-The AQA Business pilot policy now makes three alternatives explicit:
+The AQA Business pilot policy makes three alternatives explicit:
 
 - automation;
 - full outsourcing;
@@ -64,7 +71,7 @@ These are Business-case facts plugged into the existing generic assessment contr
 
 The Pilot #16 RefillWorks Marking Pack carried detailed level descriptors only for the 28-mark evaluation part, leaving 52 marks without operational point/level award logic.
 
-The generated-output integrity compiler now requires every structured subquestion to have one or more local rubric entries, identified by the exact subquestion ID prefix, whose numeric bands collectively cover every integer mark from zero to that subquestion maximum.
+The generated-output integrity compiler requires every structured subquestion to have one or more local rubric entries, identified by the exact subquestion ID prefix, whose numeric bands collectively cover every integer mark from zero to that subquestion maximum.
 
 Additional checks require:
 
@@ -77,11 +84,31 @@ If the first Marking Pack is otherwise structurally valid but fails this determi
 
 A Learn worked-example step ended with an isolated Malayalam token after an otherwise English sentence.
 
-The integrity compiler removes only an isolated trailing token made entirely from a non-Latin letter script when the preceding string contains Latin-script learner text. The same correction is applied to matching exact coverage evidence. This is deliberately narrow and does not globally prohibit non-Latin content, preserving language/prescribed-text course compatibility.
+The first remediation implementation removed an isolated trailing non-Latin token from otherwise Latin learner text. Provider-free requalification demonstrated that this could also remove legitimate target-language material in a language or prescribed-text course, so that mutation has been removed.
+
+The generic Learn provider payload now carries two paired requirements:
+
+- do not append unrelated fragments, stray tokens or accidental text in another writing system;
+- preserve legitimate target-language, transliterated, quoted or prescribed-text wording when the course genuinely requires it, and never delete valid learner content merely because its script differs from surrounding text.
+
+A direct provider-free regression uses legitimate non-Latin target-language text and proves it is preserved exactly through the live-adapter contract. Independent review remains responsible for judging whether mixed-script content is educationally intentional rather than relying on a blind script heuristic.
+
+## Requalification defect and durable invalidation
+
+The post-Pilot-16 provider-free requalification deliberately challenged the remediation against the course-agnostic design rule. It exposed the two unsafe subject-shaped mutations described above before another paid run.
+
+The correction advances only the changed durable semantic assumptions:
+
+- `generateLearningCollateral` → `3+output-integrity-v2`;
+- `generatePracticeCollateral` → `3+output-integrity-v2`.
+
+This prevents compatible-cache logic from reusing pre-v2 Learn or Practice outputs across the change. Unrelated identity, source, coverage and independent assessment-generation work remains reusable where its dependency closure has not changed.
+
+The machine-readable requalification layer is `content-factory/reliability-post-pilot16-requalification.json`.
 
 ## Reliability status
 
-This remediation changes generated-output quality assumptions after Q7. The machine-readable reliability status is therefore re-paused on the branch:
+The machine-readable global reliability status on approved `main` remains:
 
 - `status: paused`;
 - `qualifiedEvidence: null`;
@@ -89,16 +116,24 @@ This remediation changes generated-output quality assumptions after Q7. The mach
 
 The pause is bound to Pilot #16 run `33214478392`, Issue `#226` and failed implementation head `47c30e95c49c1951d0dd31c48b63a1d15506529f`.
 
-A fresh paid pilot is prohibited until the corrected implementation passes provider-free reliability requalification on approved `main` and a separate governed qualification-status transition restores eligibility.
+A fresh paid pilot remains prohibited until the corrected implementation passes provider-free Q1–Q6 requalification through exact-head assurance on approved `main` and a separate governed qualification-status transition restores eligibility.
 
 ## Assurance expectation
 
-The remediation PR must pass the normal exact-head Revision CI suite, including the new provider-free Pilot #16 defect-class regressions and the existing Q1–Q6 reliability suites. No paid model call is required to validate this PR.
+The requalification change must pass the normal exact-head Revision CI suite. That suite includes:
 
-After merge, provider-free requalification must be recorded against the corrected approved `main` before the next paid confirmation pilot is dispatched.
+- the original Q1 and Q2 provider-free contract evidence;
+- the post-Pilot-16 output-integrity regressions;
+- all five Q3 subject shapes;
+- the full Q4 deterministic remediation simulation;
+- Q5 restart/reuse/dependency invalidation using the current semantic worker policy;
+- three complete Q6 stability repetitions;
+- the fail-closed global paid-pilot preflight while status remains paused.
+
+No paid model call is required or permitted to prove this requalification.
 
 ## Documentation impact
 
-This is implementation/current-state evidence under the existing Content Factory Operating Model, Content Accuracy Assurance Gate and Reliability Qualification Standard. No normative authority changes are introduced.
+This remains implementation/current-state evidence under the existing Content Factory Operating Model, Content Accuracy Assurance Gate and Reliability Qualification Standard. No normative authority change is introduced.
 
-Historical Pilot #16 evidence is not modified. Issue `#226` remains the durable fail-hold record for the exact failed course build.
+The Reliability Qualification Harness is updated with the new current requalification layer. `INDEX.md` does not require a new pointer because the indexed harness remains the current technical source of truth. Historical Pilot #16 evidence is not modified. Issue `#226` remains the durable fail-hold record for the exact failed course build.
