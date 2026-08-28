@@ -153,6 +153,56 @@ function invalidInterpretationOutput() {
   }
 }
 
+function pilot14InvalidOutput() {
+  const q1 = 'Calculate the contribution per unit using the supplied selling price and variable cost.'
+  const q2 = 'State one consequence of the result for the business decision.'
+  return {
+    id: 'northstar-meals-financial-workforce-decision',
+    version: '1',
+    title: 'Financial workforce decision',
+    knowledgeNodeIds: ['contribution'],
+    command: 'mixed',
+    questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
+    subquestions: [
+      {
+        id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
+        requirementIds: ['finance-analysis'], responseDemands: ['calculation', 'application'],
+        coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
+      },
+      {
+        id: 'q2', command: 'State', wording: q2, maxMark: 4,
+        requirementIds: ['finance-analysis'], responseDemands: ['knowledge', 'interpretation'],
+        coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'consequence of the result' }],
+      },
+    ],
+  }
+}
+
+function pilot14RepairedOutput() {
+  const q1 = 'Calculate the contribution per unit using the supplied selling price and variable cost.'
+  const q2 = 'Explain what the result suggests for the business decision.'
+  return {
+    id: 'northstar-meals-financial-workforce-decision',
+    version: '1',
+    title: 'Financial workforce decision',
+    knowledgeNodeIds: ['contribution'],
+    command: 'mixed',
+    questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
+    subquestions: [
+      {
+        id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
+        requirementIds: ['finance-analysis'], responseDemands: ['calculation', 'application'],
+        coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
+      },
+      {
+        id: 'q2', command: 'Explain', wording: q2, maxMark: 4,
+        requirementIds: ['finance-analysis'], responseDemands: ['interpretation', 'analysis'],
+        coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'result suggests' }],
+      },
+    ],
+  }
+}
+
 function config(fetchImpl: typeof fetch) {
   return {
     apiKey: 'test-secret',
@@ -192,12 +242,13 @@ describe('OpenAI assessment integrity compiler', () => {
     })
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('2')
+    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.retryCount).toBe(0)
     expect((result.output as { subquestions: unknown[] }).subquestions).toHaveLength(2)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('turns a completed but unstructured provider response into a terminal contract failure without retrying', async () => {
+  it('makes one targeted repair attempt for a completed but unstructured provider response, then fails closed if still invalid', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({
       ...validAssessmentOutput(), subquestions: [],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
@@ -207,12 +258,13 @@ describe('OpenAI assessment integrity compiler', () => {
       targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
     })
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('2')
-    if (result.status === 'failure') expect(result.error).toContain('assessment_item_compilation')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.retryCount).toBe(1)
+    if (result.status === 'failure') expect(result.error).toContain('assessment_item_compilation_after_targeted_repair')
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
-  it('keeps the fail-closed calculation-demand guard for selection wording that does not ask for calculation', async () => {
+  it('keeps the fail-closed calculation-demand guard after one targeted repair attempt', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
       invalidCalculationSelectionOutput(),
     )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
@@ -222,12 +274,13 @@ describe('OpenAI assessment integrity compiler', () => {
       targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
     })
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('2')
+    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
-  it('keeps the fail-closed interpretation guard for Pilot 12 style selection wording', async () => {
+  it('keeps the fail-closed interpretation guard for Pilot 12 style selection wording after one targeted repair attempt', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
       invalidInterpretationOutput(),
     )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
@@ -237,8 +290,38 @@ describe('OpenAI assessment integrity compiler', () => {
       targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
     })
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('2')
+    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+  })
+
+  it('repairs a Pilot 14 style response-demand mismatch once using the exact deterministic validation error', async () => {
+    let call = 0
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      call += 1
+      const body = JSON.parse(String(init?.body)) as { input: string }
+      const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string } }
+      if (call === 1) {
+        return new Response(JSON.stringify(responseBody(pilot14InvalidOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }
+      expect(payload.questionFamily.responseShape).toContain('TARGETED CONTRACT REPAIR REQUIRED')
+      expect(payload.questionFamily.responseShape).toContain('command does not ask for rewarded demand interpretation')
+      return new Response(JSON.stringify(responseBody(pilot14RepairedOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }) as typeof fetch
+
+    const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
+    const result = await workers.generateAssessmentItem({
+      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
+      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
+    })
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.retryCount).toBe(1)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }
+    expect(repaired.id).toBe('northstar-meals-financial-workforce-decision')
+    expect(repaired.subquestions[1]).toMatchObject({ id: 'q2', command: 'Explain', responseDemands: ['interpretation', 'analysis'] })
   })
 })
