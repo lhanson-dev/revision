@@ -3,7 +3,7 @@
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "status": "in_progress",
   "scope": "course_agnostic",
-  "baseMainSha": "f37e8cf9d2471582026093367ecac5ccaf474754",
+  "baseMainSha": "85bfac90901238c38ad724fc3048abce5c441b6c",
   "boundaries": [
     {
       "worker": "practice_generation",
@@ -26,8 +26,23 @@
     },
     {
       "worker": "marking_pack_generation",
-      "status": "pending_remediation",
-      "q1BlockerId": "Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC"
+      "status": "remediation_evidenced",
+      "q1BlockerId": "Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC",
+      "evidence": [
+        "src/content-factory/openai-assessment-integrity-compiler.ts",
+        "src/content-factory/q2-marking-pack-ao-contract.test.ts",
+        "src/content-factory/assessment-integrity.ts"
+      ],
+      "coverage": [
+        "structured provider contract forbids model-authored aggregate AO arithmetic",
+        "Revision derives aggregate AO allocation from validated subquestion guidance",
+        "each subquestion AO allocation must total its governed mark value",
+        "unknown assessment objectives remain fail closed",
+        "provider-authored structured aggregate fails closed",
+        "valid structured output uses one provider call",
+        "unstructured marking guidance retains its existing non-duplicated AO allocation contract"
+      ],
+      "rootCause": "Structured Marking Packs asked the provider to author both subquestion AO allocations and the aggregate allocation, then mechanically checked both. The structured compiler now requires an empty aggregate placeholder and deterministically derives the final aggregate from validated subquestion allocations before downstream factory validation."
     },
     { "worker": "course_knowledge_model", "status": "pending_matrix" },
     { "worker": "learning_blueprint", "status": "pending_matrix" },
