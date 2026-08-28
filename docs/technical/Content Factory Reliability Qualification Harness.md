@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `85bfac90901238c38ad724fc3048abce5c441b6c`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence, but Q2 remains incomplete across the wider worker matrix and no qualification PASS is claimed.
+Production-verified `main` before this Q2 increment is `587b6bd6e28fbcaddb5f3acf73b056b8a55288b9`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The remaining Q2 worker boundaries have now been mapped to existing provider-free evidence and explicit gaps, but Q2 remains incomplete and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -47,7 +47,7 @@ There is no workflow input or environment-variable bypass. Paid pilots remain in
 
 Every mechanically checked representation is classified under the governed ownership vocabulary: generative judgement, deterministic derivation, bounded locator/reference, targeted repair eligible, or fail closed.
 
-Q1 remains recorded as `complete_with_blockers`, not PASS, until the machine-readable inventory is deliberately reconciled against completed Q2 evidence. Q2 remediation evidence is tracked separately in `content-factory/reliability-q2-contract-matrix.json` while the full provider-free matrix is still incomplete.
+Q1 remains recorded as `complete_with_blockers`, not PASS, until the machine-readable inventory is deliberately reconciled against completed Q2 evidence. Q2 remediation and evidence-mapping progress is tracked separately in `content-factory/reliability-q2-contract-matrix.json` while the full provider-free matrix is still incomplete.
 
 ## Q2 provider-free contract matrix
 
@@ -55,7 +55,16 @@ The Q2 machine-readable progress record is:
 
 `content-factory/reliability-q2-contract-matrix.json`
 
-Q2 must eventually cover every material worker boundary with valid and adversarial provider-free cases required by the Reliability Qualification Standard. The current short increments close identified generic defect classes without pretending that the whole Q2 gate has passed.
+The matrix is now a complete boundary map rather than a list of `pending_matrix` placeholders. Every Q1 worker boundary appears exactly once and records:
+
+- current evidence paths;
+- the provider-free behaviours those tests already prove;
+- any remaining Q2 adversarial gaps;
+- whether the boundary is remediation-evidenced, evidence-mapped, or has an explicit gap.
+
+`src/content-factory/q2-contract-matrix.test.ts` machine-enforces that the matrix covers the same worker set as Q1, contains no placeholder state, carries evidence and coverage for every boundary, and cannot claim Q2 PASS or paid-pilot eligibility while any gap remains.
+
+This evidence mapping is intentionally conservative. Existing pipeline or integration tests are not treated as direct provider-contract evidence when they only use mocked workers. A boundary is therefore left as `gap_identified` when the Reliability Qualification Standard still requires a direct malformed/missing/reference adversarial case even though broader orchestration evidence already exists.
 
 ### Practice evidence-path remediation
 
@@ -112,19 +121,25 @@ A provider that tries to supply structured aggregate AO arithmetic now fails clo
 
 Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts`. The synthetic fixture is science-shaped to reinforce that the correction is not Business-specific.
 
-## Existing provider-contract evidence reused by Q2
+## Q2 evidence mapping result
 
-The provider-free suite already contains useful generic evidence that Q2 can reuse rather than duplicate, including:
+The evidence review found three groups.
 
-- strict Practice schemas for all 31 non-empty combinations of the five Practice modes;
-- deterministic injection of activity IDs and modes;
-- bounded Learn/Practice evidence locators;
-- fail-closed invalid locator behaviour;
-- assessment response-demand validation with one bounded repair path;
-- failure after the permitted repair;
-- independent-review structured-contract tests.
+**Already remediation-evidenced:** Practice generation and structured Marking Pack generation. Their two Q1 defect classes have direct generic regressions and no remaining mapped Q2 gap for the affected contract.
 
-The next Q2 work is to inventory these tests against the exact remaining worker boundaries and add missing adversarial cases. Paid whole-course probing remains paused.
+**Existing evidence mapped without a current gap:** Learning Blueprint, Learn generation, assessment-item generation, deterministic validation, and expert-review package assembly. Their applicable deterministic/provider-free behaviours are already exercised by the existing mathematics/economics/generic contract or deterministic orchestration suites.
+
+**Explicit direct-contract gaps remain:** Course Knowledge Model, Assessment Blueprint, Question Family generation, independent review, and remediation. These boundaries have useful pipeline evidence, but not yet the full isolated direct-provider adversarial coverage required to close Q2. The machine-readable matrix records the exact missing cases rather than treating mocked-worker integration tests as sufficient.
+
+The most important missing classes are:
+
+- direct Course Knowledge Model malformed/missing/unknown-reference provider failures;
+- direct Assessment Blueprint mismatched deterministic Board Alignment facts and invalid references;
+- direct Question Family missing/duplicate/unexpected IDs, component/objective references and mark-range bounds on a non-Business fixture;
+- independent-review malformed/missing/unknown artifact-reference cases on a non-Business fixture;
+- direct remediation contract scope, malformed output and unknown-target failures.
+
+The next Q2 increments should close these five explicit gap groups in small provider-free PRs. No paid whole-course probing is needed to do so.
 
 ## Subject-shape matrix — Q3
 
@@ -150,6 +165,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This Q2 increment changes implementation truth, not the normative Reliability Qualification Standard. The active standard already requires deterministic ownership of mechanically derivable mark/AO totals and course-agnostic provider-free qualification.
+This Q2 increment changes qualification implementation/evidence bookkeeping, not the normative Reliability Qualification Standard. The active standard already requires every material boundary to have course-agnostic provider-free contract evidence and prohibits a PASS claim while required adversarial cases remain missing.
 
-This increment therefore updates the structured Marking Pack compiler, provider-free regression evidence, the Q2 machine-readable progress record, and this technical harness. It deliberately does not change the normative standard, historical pilot evidence, the overall qualification status, or paid-pilot eligibility.
+This increment therefore updates the Q2 machine-readable progress record, adds a test that enforces its boundary/gap semantics, and updates this technical harness. It deliberately does not change the normative standard, the Q1 historical inventory yet, historical pilot evidence, the overall reliability qualification status, or paid-pilot eligibility.
