@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "paused",
+  "reason": "Paid end-to-end live pilots are paused after Pilot #15 pending course-agnostic Content Factory reliability qualification.",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "triggerEvidence": {
+    "pilot": 15,
+    "workflowRunId": 33149356421,
+    "jobIssueNumber": 209,
+    "mainSha": "7df79c28ae0f72610cbb28f9c01f366f85aa2c0d"
+  },
+  "requiredGates": [
+    "Q1-worker-contract-inventory",
+    "Q2-provider-free-contract-matrix",
+    "Q3-subject-shape-matrix",
+    "Q4-deterministic-pipeline-simulation",
+    "Q5-restart-reuse-dependency-invalidation",
+    "Q6-repeated-qualification-stability"
+  ],
+  "qualifiedEvidence": null,
+  "livePilotEligible": false
+}
