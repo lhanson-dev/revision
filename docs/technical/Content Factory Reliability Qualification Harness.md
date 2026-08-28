@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `dff54ca9f22e4e574535a3ac7f7d8287c8204f90`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Course Knowledge Model gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
+Production-verified `main` before this Q2 increment is `6648a9f8e49b8260ded9fc92ac8288472c8ea4ed`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Assessment Blueprint gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -63,29 +63,31 @@ This evidence mapping is intentionally conservative. Existing pipeline or integr
 
 ### Course Knowledge Model direct contract
 
-The Course Knowledge Model gap is now closed at the direct model-assisted compiler boundary.
+The Course Knowledge Model gap is closed at the direct model-assisted compiler boundary.
 
-The base provider schema already enforced the required structural fields and unknown prerequisite/related-node references, while the downstream intake pipeline enforced source-rights and Board Alignment compatibility. The direct adapter, however, could still report a provider execution as successful before downstream orchestration rejected a duplicated node identity, invented source/alignment reference or wrong job binding.
+The direct adapter validates the exact job binding, unique knowledge-node IDs, source references against governed curriculum sources, and Board Alignment references against the supplied component/objective/assessment-requirement IDs before returning provider success.
 
-The final model-assisted worker factory now layers `openai-course-knowledge-compiler.ts` over the existing assessment and Learning Blueprint hardening. For successful provider output it validates, before returning success:
+Provider-free regression evidence is in `src/content-factory/q2-course-knowledge-contract.test.ts` using a science-shaped fixture. This is a generic contract change and does not depend on a Business course.
 
-- the exact Content Factory job binding;
-- unique knowledge-node IDs;
-- unique source and Board Alignment references within each node;
-- source references against the governed curriculum sources supplied to the worker, with requirement-specific source scope for requirement-owned nodes;
-- Board Alignment references against the exact component, assessment-objective and assessment-requirement IDs supplied to the worker.
+### Assessment Blueprint direct contract
 
-The compiler does not replace educational authorship. Summaries, formulas, misconceptions, contexts, depth and evidence types remain model-authored judgement inside the governed schema. The change only moves mechanically knowable identity/reference checks to the direct worker boundary so invalid output fails immediately rather than being treated as a successful provider execution first.
+The Assessment Blueprint gap is now closed at the direct model-assisted compiler boundary.
 
-Provider-free regression evidence is in `src/content-factory/q2-course-knowledge-contract.test.ts`. The fixture is science-shaped and proves:
+The existing provider schema constrains the Blueprint shape and downstream factory validation binds persisted output to the exact Board Alignment artifact. This increment adds direct boundary validation before provider success is accepted for the mechanically checkable fields supplied to the worker:
 
-- valid first-pass output uses exactly one provider call;
-- a malformed node fails closed without retry;
-- duplicate node IDs fail closed;
-- invented source or Board Alignment references fail closed;
-- an incorrect job binding fails closed.
+- exact Content Factory job binding;
+- deterministic Blueprint fingerprint derived from governed component, objective and assessment-requirement inputs;
+- exact component coverage with unique component IDs;
+- at least one unique Question Family ID per component;
+- component mark totals and timings matching governed component facts;
+- exact assessment-objective IDs and governed weightings;
+- command-demand component references resolving only to governed components, without duplicate references.
 
-This is a generic contract change and does not depend on a Business course.
+The provider retains generative judgement over Question Family planning, component constraints, command/cognitive-demand design, quantitative and synoptic planning, and evidence expectations. The compiler does not introduce subject-specific assumptions.
+
+Provider-free regression evidence is in `src/content-factory/q2-assessment-blueprint-contract.test.ts`. The fixture is language-shaped and proves valid first-pass output uses exactly one provider call; malformed output, mark/timing drift, AO-weighting drift, invalid command-demand references and deterministic binding mismatches all fail closed without provider retry.
+
+The persisted Board Alignment fingerprint remains independently validated by the assessment factory before downstream Question Family and item generation, so the direct compiler and downstream artifact binding remain separate controls.
 
 ### Practice evidence-path remediation
 
@@ -109,11 +111,10 @@ Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.te
 
 ## Q2 evidence mapping result
 
-After this increment, Course Knowledge Model joins Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
+After this increment, Course Knowledge Model and Assessment Blueprint join Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
 
-Four explicit direct-contract gap groups remain:
+Three explicit direct-contract gap groups remain:
 
-- Assessment Blueprint deterministic Board Alignment facts and invalid references;
 - Question Family missing/duplicate/unexpected IDs, component/objective references and mark-range bounds on a non-Business fixture;
 - independent-review malformed/missing/unknown artifact-reference cases on a non-Business fixture;
 - direct remediation contract scope, malformed output and unknown-target failures.
@@ -144,6 +145,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This increment changes implementation truth at the Course Knowledge Model provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the standard already requires course-agnostic provider-free fail-closed reference validation.
+This increment changes implementation truth at the Assessment Blueprint provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation and fail-closed handling of inconsistent totals and cross-references.
 
 The implementation, direct provider-free regression, Q2 machine-readable matrix and this technical harness are updated together. Historical pilot evidence, the overall reliability qualification status, paid-pilot eligibility and the Q1 historical inventory are deliberately unchanged.
