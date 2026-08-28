@@ -99,7 +99,7 @@
     "every required subject shape runs through the same runRequestedContentFactoryToExpertReviewReady contract-integration pipeline",
     "every fixture reaches expert_review_ready without external provider calls",
     "all controlled worker executions report zero usage cost and zero retries",
-    "Learn and Practice work units retain the fixture-specific governed learning modes",
+    "fixture-specific governed learning modes are exercised by the shared Learning and Practice contracts",
     "assessment and Marking Pack coverage completes for every generated markable item",
     "no fixture requires human intervention or Business-specific pipeline branching"
   ],
