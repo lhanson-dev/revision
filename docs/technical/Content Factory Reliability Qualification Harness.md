@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `5ee7efab4e1460fcbb901c389ba9e4e64a8c1dd8`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Question Family gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
+Production-verified `main` before this Q2 increment is `7ee043db47c341e58847468ba8509a6e5d6adcc6`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct independent-review gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -64,19 +64,28 @@ The provider retains generative judgement over Question Family planning, compone
 
 ### Question Family direct contract
 
-The Question Family gap is now closed at the direct model-assisted compiler boundary.
+The Question Family gap is closed at the direct model-assisted compiler boundary.
 
-The provider remains responsible for educational assessment-family design: title, skill profile, response shape, context requirements, application/analysis/evaluation demands and common failure modes. Revision directly validates the mechanically governed references and bounds before a successful provider execution is accepted:
-
-- provider output contains exactly the requested Question Family IDs, with no missing, duplicate or unexpected family;
-- each family component scope exactly matches where that family is placed in the Assessment Blueprint;
-- component references cannot be duplicated or invented;
-- assessment-objective references must resolve to the Blueprint objective set and cannot be duplicated;
-- family maximum marks cannot exceed the governed total for any component in its Blueprint scope.
+The provider remains responsible for educational assessment-family design: title, skill profile, response shape, context requirements, application/analysis/evaluation demands and common failure modes. Revision directly validates the mechanically governed references and bounds before a successful provider execution is accepted.
 
 Provider-free regression evidence is in `src/content-factory/q2-question-family-contract.test.ts`. The fixture is humanities-shaped and proves valid first-pass output uses exactly one provider call; malformed output, missing/duplicate/unexpected IDs, invalid component scope, unknown objective references and excessive mark ranges fail closed without provider retry.
 
-This is a generic provider boundary and does not encode Business-specific family policy. Existing optional pilot policies remain separate from the reusable contract.
+### Independent review direct contract
+
+The independent-review gap is now closed at the direct model-assisted compiler boundary.
+
+The reviewer remains responsible for fresh-context educational and assessment judgement. Revision owns the mechanically governed review binding and scope:
+
+- `workUnitId` is not provider-authored; Revision derives it from the referenced governed artifact when that artifact belongs to a work unit;
+- every finding must carry the required structured evidence and correction fields;
+- finding identifiers must be unique;
+- each finding `artifactRef` must resolve to the exact governed artifact index supplied for review;
+- `reviewedCommit` and `contentFingerprint` must exactly match the governed review input;
+- blocking/material findings require `fail_hold`, and open minor findings cannot be reported as `pass`.
+
+Provider-free regression evidence is in `src/content-factory/q2-independent-review-contract.test.ts` using a History-shaped fixture. It proves a valid first-pass review uses exactly one provider call and derives the work-unit scope deterministically. Missing evidence, unknown artifact references, duplicate finding IDs, review-binding drift and understated decision metadata all fail closed without provider retry.
+
+The existing assurance pipeline continues to persist the validated independent-review report before any remediation step, preserving separation between review judgement and correction.
 
 ### Practice evidence-path remediation
 
@@ -94,14 +103,13 @@ Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.te
 
 ## Q2 evidence mapping result
 
-After this increment, Course Knowledge Model, Assessment Blueprint and Question Family generation join Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
+After this increment, Course Knowledge Model, Assessment Blueprint, Question Family generation and independent review join Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
 
-Two explicit direct-contract gap groups remain:
+One explicit direct-contract gap group remains:
 
-- independent-review malformed/missing/unknown artifact-reference cases on a non-Business fixture;
 - direct remediation contract scope, malformed output and unknown-target failures.
 
-These should be closed in further small provider-free PRs. No paid whole-course probing is needed.
+That final Q2 direct-contract gap should be closed in one further small provider-free PR. No paid whole-course probing is needed.
 
 ## Subject-shape matrix — Q3
 
@@ -127,6 +135,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This increment changes implementation truth at the Question Family provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation, exact references and fail-closed cross-reference handling.
+This increment changes implementation truth at the independent-review provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation, exact references, independent-review separation and fail-closed handling of malformed or inconsistent provider output.
 
 The implementation, direct provider-free regression, Q2 machine-readable matrix and this technical harness are updated together. Historical pilot evidence, the overall reliability qualification status, paid-pilot eligibility and the Q1 historical inventory are deliberately unchanged.
