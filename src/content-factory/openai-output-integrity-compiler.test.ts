@@ -1,12 +1,27 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   canonicaliseKnownMathematicalFormulas,
-  cleanTrailingLearnerLanguageContamination,
+  createOpenAIModelAssistedWorkers,
   rebalanceMcqCorrectAnswerPositions,
-  repairPracticePromptPresuppositions,
   validateMcqCorrectAnswerDistribution,
   validateOperationalRubricCoverage,
 } from './openai-output-integrity-compiler'
+
+const route = {
+  model: 'test-model',
+  inputUsdPerMillion: 2,
+  cachedInputUsdPerMillion: 0.2,
+  outputUsdPerMillion: 12,
+  maxOutputTokens: 2_000,
+}
+
+function responseBody(output: unknown) {
+  return {
+    status: 'completed',
+    output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify(output) }] }],
+    usage: { input_tokens: 100, output_tokens: 100 },
+  }
+}
 
 function mcqSubquestion(index: number) {
   const id = `q${index + 1}`
@@ -41,6 +56,74 @@ function assessmentItem(subquestions: unknown[]) {
     maxMark: subquestions.reduce<number>((sum, entry) => sum + Number((entry as { maxMark: number }).maxMark), 0),
     questionWording: 'Complete all subquestions.',
     subquestions,
+  }
+}
+
+function learningInput() {
+  return {
+    jobId: 'language-job',
+    courseIdentity: {
+      subject: 'Synthetic Language and Text',
+      qualification: 'Synthetic Language Certificate',
+      awardingBody: 'Test Board',
+      specificationId: 'language-1',
+    },
+    workUnit: {
+      id: 'language-analysis',
+      title: 'Language analysis',
+      requirementIds: ['language-analysis'],
+      knowledgeNodeIds: ['language-analysis'],
+      learningModes: ['explanation'] as const,
+      requiredOutputs: ['learning'] as const,
+      scope: 'course' as const,
+      componentIds: [],
+    },
+    knowledgeModelFingerprint: 'knowledge-v1',
+    requiredTeachingPoints: ['recognise a target-language greeting'],
+    knowledgeNodes: [{
+      id: 'language-analysis',
+      kind: 'concept' as const,
+      summary: 'Recognise and analyse language choices.',
+      formulas: [],
+      misconceptions: [],
+      applicationContexts: ['multilingual text'],
+      depth: 'core' as const,
+      evidenceTypes: ['textual analysis'],
+    }],
+  }
+}
+
+function practiceInput() {
+  return {
+    jobId: 'generic-practice-job',
+    courseIdentity: {
+      subject: 'Synthetic Science',
+      qualification: 'Synthetic Certificate',
+      awardingBody: 'Test Board',
+      specificationId: 'science-1',
+    },
+    workUnit: {
+      id: 'condition-check',
+      title: 'Condition check',
+      requirementIds: ['condition-check'],
+      knowledgeNodeIds: ['condition-check'],
+      learningModes: ['retrieval'] as const,
+      requiredOutputs: ['practice'] as const,
+      scope: 'course' as const,
+      componentIds: [],
+    },
+    knowledgeModelFingerprint: 'knowledge-v1',
+    requiredTeachingPoints: ['determine whether a condition is met'],
+    knowledgeNodes: [{
+      id: 'condition-check',
+      kind: 'concept' as const,
+      summary: 'Determine whether evidence supports a stated condition.',
+      formulas: [],
+      misconceptions: [],
+      applicationContexts: ['generic evidence set'],
+      depth: 'core' as const,
+      evidenceTypes: ['reasoning'],
+    }],
   }
 }
 
@@ -81,51 +164,90 @@ describe('post-Pilot-16 output integrity', () => {
     )
   })
 
-  it('repairs a cash-forecast prompt that presupposes a deficit contradicted by its expected answer', () => {
-    const output = repairPracticePromptPresuppositions({
-      title: 'Cash-flow practice',
-      instructions: 'Calculate carefully.',
-      activities: [{
-        id: 'cash-1',
-        mode: 'quantitative',
-        prompt: 'Calculate closing balances for April, May and June. Identify the month with a cash deficit and state one suitable action before that month.',
-        expectedResponse: 'April £2,000; May £6,000; June £3,500. There is no cash deficit in these months.',
-        explanation: 'All closing balances remain positive.',
-        improvementAction: 'Check the opening balance and net cash flow each month.',
-      }],
-      coverageEvidence: [{
-        teachingPoint: 'Interpret cash-flow forecasts.',
-        evidence: 'Calculate closing balances for April, May and June. Identify the month with a cash deficit and state one suitable action before that month.',
-      }],
-    })
+  it('preserves legitimate target-language script while carrying a generic anti-contamination guardrail', async () => {
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: string }
+      const input = JSON.parse(body.input) as { outputIntegrityGuidance?: string }
+      expect(input.outputIntegrityGuidance).toContain('Preserve legitimate target-language')
+      expect(input.outputIntegrityGuidance).toContain('never delete or rewrite valid learner content')
 
-    expect(output.activities[0].prompt).toContain('Determine whether any month has a cash deficit')
-    expect(output.activities[0].prompt).toContain('If one does')
-    expect(output.coverageEvidence[0].evidence).toBe(output.activities[0].prompt)
+      return new Response(JSON.stringify(responseBody({
+        title: 'Target-language greeting',
+        introduction: 'Analyse the supplied multilingual example.',
+        sections: [{
+          title: 'Greeting',
+          explanation: 'The target-language form should be preserved exactly.',
+          keyPoints: ['Recognise the greeting Привет'],
+        }],
+        misconceptions: [],
+        nextAction: 'Compare the greeting with another example.',
+        coverageEvidence: [{
+          teachingPoint: 'recognise a target-language greeting',
+          location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 },
+        }],
+      })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }) as typeof fetch
+
+    const result = await createOpenAIModelAssistedWorkers({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+    }).generateLearningCollateral(learningInput())
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    const output = result.output as {
+      sections: Array<{ keyPoints: string[] }>
+      coverageEvidence: Array<{ evidence: string }>
+    }
+    expect(output.sections[0].keyPoints[0]).toBe('Recognise the greeting Привет')
+    expect(output.coverageEvidence[0].evidence).toBe('Recognise the greeting Привет')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('removes an isolated trailing non-Latin contamination token while preserving evidence equality', () => {
-    const output = cleanTrailingLearnerLanguageContamination({
-      title: 'Organisational structures',
-      introduction: 'Learn how structure affects accountability.',
-      sections: [],
-      workedExamples: [{
-        id: 'example-1',
-        title: 'Worked example',
-        setup: 'A business changes its reporting lines.',
-        steps: ['Compare the before and after structure. തൊഴില'],
-        conclusion: 'Clearer accountability can improve decisions.',
-      }],
-      misconceptions: [],
-      nextAction: 'Practise applying the idea.',
-      coverageEvidence: [{
-        teachingPoint: 'Explain how structure affects accountability.',
-        evidence: 'Compare the before and after structure. തൊഴില',
-      }],
-    })
+  it('uses a course-agnostic prompt/answer consistency guardrail rather than a Business-shaped phrase repair', async () => {
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body)) as { input: string }
+      const input = JSON.parse(body.input) as { outputIntegrityGuidance?: string }
+      expect(input.outputIntegrityGuidance).toContain('internally consistent with its own expectedResponse')
+      expect(input.outputIntegrityGuidance).toContain('phrase the task conditionally')
+      expect(input.outputIntegrityGuidance?.toLowerCase()).not.toContain('cash deficit')
+      expect(input.outputIntegrityGuidance?.toLowerCase()).not.toContain('business')
 
-    expect(output.workedExamples[0].steps[0]).toBe('Compare the before and after structure.')
-    expect(output.coverageEvidence[0].evidence).toBe('Compare the before and after structure.')
+      return new Response(JSON.stringify(responseBody({
+        title: 'Evidence check',
+        instructions: 'Use the supplied evidence.',
+        activitiesByMode: {
+          retrieval: [{
+            prompt: 'Determine whether the stated condition is met. If it is, identify the supporting evidence.',
+            expectedResponse: 'The condition is not met by the supplied evidence.',
+            explanation: 'The available evidence does not establish the condition.',
+            improvementAction: 'Check what the evidence actually establishes before assuming the result.',
+          }],
+        },
+        coverageEvidence: [{
+          teachingPoint: 'determine whether a condition is met',
+          location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' },
+        }],
+      })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }) as typeof fetch
+
+    const result = await createOpenAIModelAssistedWorkers({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+    }).generatePracticeCollateral(practiceInput())
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    const output = result.output as { activities: Array<{ prompt: string; expectedResponse: string }> }
+    expect(output.activities[0].prompt).toContain('Determine whether')
+    expect(output.activities[0].expectedResponse).toContain('not met')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
   it('requires operational rubric coverage for every structured subquestion', () => {
