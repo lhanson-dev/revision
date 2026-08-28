@@ -26,14 +26,31 @@ type WorkerBoundary = {
   mechanicalFields: MechanicalField[]
 }
 
+type Blocker = {
+  id: string
+  worker: string
+  nextGate?: string
+  requiredResolution?: string
+}
+
+type ResolvedBlocker = {
+  id: string
+  worker: string
+  resolutionGate: string
+  resolution: string
+  evidence: string[]
+}
+
 type Inventory = {
   schemaVersion: number
   status: string
+  q1Pass: boolean
   reviewedAgainstMainSha: string
   allowedOwnership: Ownership[]
   requiredWorkerBoundaries: string[]
   workers: WorkerBoundary[]
-  blockers: Array<{ id: string; worker: string; nextGate: string; requiredResolution: string }>
+  blockers: Blocker[]
+  resolvedBlockers: ResolvedBlocker[]
 }
 
 const inventory = JSON.parse(inventoryText) as Inventory
@@ -79,41 +96,58 @@ describe('Content Factory Q1 reliability contract inventory', () => {
     }
   })
 
-  it('keeps blockers explicit and prevents the inventory from falsely claiming Q1 pass', () => {
+  it('allows Q1 PASS only when no current blocker remains', () => {
     const fieldBlockers = inventory.workers.flatMap((boundary) =>
       boundary.mechanicalFields
         .filter((field) => field.currentCompliance === 'blocker')
         .map((field) => ({ id: field.blockerId!, worker: boundary.worker })),
     )
-    expect(fieldBlockers.length).toBeGreaterThan(0)
+
     expect(new Set(inventory.blockers.map((blocker) => blocker.id))).toEqual(new Set(fieldBlockers.map((blocker) => blocker.id)))
-    for (const blocker of inventory.blockers) {
-      expect(fieldBlockers).toContainEqual({ id: blocker.id, worker: blocker.worker })
-      expect(blocker.nextGate).toBe('Q2-provider-free-contract-matrix')
-      expect(blocker.requiredResolution.trim().length).toBeGreaterThan(0)
+
+    if (fieldBlockers.length > 0) {
+      expect(inventory.q1Pass).toBe(false)
+      expect(inventory.status).toBe('complete_with_blockers')
+    } else {
+      expect(inventory.blockers).toEqual([])
+      expect(inventory.q1Pass).toBe(true)
+      expect(inventory.status).toBe('complete')
     }
-    expect(inventory.status).toBe('complete_with_blockers')
   })
 
-  it('locks the known generic reliability classes into the inventory', () => {
+  it('records provider-free evidence for both previously known generic blocker classes', () => {
+    const resolvedIds = new Set(inventory.resolvedBlockers.map((blocker) => blocker.id))
+    expect(resolvedIds).toEqual(new Set([
+      'Q1-PRACTICE-EVIDENCE-PATH',
+      'Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC',
+    ]))
+
+    for (const resolved of inventory.resolvedBlockers) {
+      expect(resolved.resolutionGate).toBe('Q2-provider-free-contract-matrix')
+      expect(resolved.resolution.trim().length).toBeGreaterThan(0)
+      expect(resolved.evidence.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('locks the remediated ownership classes into the current inventory', () => {
     const practice = worker('practice_generation')
     const practiceEvidence = practice.mechanicalFields.find((field) => field.fieldClass === 'teaching-point coverage evidence')
     expect(practiceEvidence?.ownership).toBe('bounded_locator_reference')
-    expect(practiceEvidence?.currentCompliance).toBe('blocker')
+    expect(practiceEvidence?.currentCompliance).toBe('compliant')
 
     const markingPack = worker('marking_pack_generation')
     const aggregateAo = markingPack.mechanicalFields.find((field) => field.fieldClass === 'aggregate assessment-objective totals')
     expect(aggregateAo?.ownership).toBe('deterministically_derived')
-    expect(aggregateAo?.currentCompliance).toBe('blocker')
+    expect(aggregateAo?.currentCompliance).toBe('compliant')
 
     const assessment = worker('assessment_item_generation')
     const responseDemand = assessment.mechanicalFields.find((field) => field.fieldClass === 'response demand versus learner-facing command wording')
     expect(responseDemand?.ownership).toBe('targeted_repair_eligible')
   })
 
-  it('is tied to a concrete reviewed main commit rather than a subject-specific course', () => {
-    expect(inventory.schemaVersion).toBe(2)
-    expect(inventory.reviewedAgainstMainSha).toMatch(/^[0-9a-f]{40}$/)
+  it('is tied to the exact reviewed main commit rather than a subject-specific course', () => {
+    expect(inventory.schemaVersion).toBe(3)
+    expect(inventory.reviewedAgainstMainSha).toBe('0e9e7bb7c85ddbc72965a056a84c5d2c864e0659')
     expect(inventoryText.toLowerCase()).not.toContain('business-specific')
     expect(inventoryText).not.toContain('aqa-as-business-7131')
   })
