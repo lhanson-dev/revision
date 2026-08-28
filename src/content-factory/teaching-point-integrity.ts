@@ -25,6 +25,13 @@ function normalise(value: string) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase()
 }
 
+function stringLeaves(value: unknown): string[] {
+  if (typeof value === 'string') return [value]
+  if (Array.isArray(value)) return value.flatMap(stringLeaves)
+  if (value && typeof value === 'object') return Object.values(value).flatMap(stringLeaves)
+  return []
+}
+
 export function validateTeachingPointEvidence(input: {
   requiredTeachingPoints: string[]
   evidence: TeachingPointEvidence[]
@@ -46,12 +53,12 @@ export function validateTeachingPointEvidence(input: {
   if (missing.length > 0) throw new Error(`${input.artifactLabel} is missing required teaching-point evidence: ${missing.join('; ')}`)
   if (unexpected.length > 0) throw new Error(`${input.artifactLabel} returned evidence for unassigned teaching points: ${unexpected.map((entry) => entry.teachingPoint).join('; ')}`)
 
-  const searchable = normalise(JSON.stringify(input.searchableContent))
+  const searchableStrings = stringLeaves(input.searchableContent).map(normalise)
   for (const point of required) {
     const entry = evidenceByPoint.get(normalise(point))!
     const excerpt = normalise(entry.evidence)
     if (excerpt.length < 8) throw new Error(`${input.artifactLabel} evidence for ${point} is too short to be auditable`)
-    if (!searchable.includes(excerpt)) {
+    if (!searchableStrings.some((value) => value.includes(excerpt))) {
       throw new Error(`${input.artifactLabel} evidence for ${point} is not an exact excerpt from the generated learner content`)
     }
   }
