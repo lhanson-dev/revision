@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "course_agnostic_subject_shapes",
+  "baseMainSha": "d71d175ccef06fbfa9a9197de32e721578e69852",
+  "pipelineHarness": "src/content-factory/end-to-end-proof.ts",
+  "fixtureHarness": "src/content-factory/q3-subject-shape-fixtures.ts",
+  "requiredShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "shapes": [
+    {
+      "shape": "quantitative_business_economics",
+      "fixtureId": "quantitative-economics",
+      "status": "pass",
+      "characteristics": [
+        "formula-driven requirement",
+        "quantitative practice",
+        "numeric assessment context",
+        "single compulsory component"
+      ],
+      "evidence": [
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/end-to-end-proof.ts"
+      ]
+    },
+    {
+      "shape": "mathematics",
+      "fixtureId": "mathematics",
+      "status": "pass",
+      "characteristics": [
+        "formula-driven requirement",
+        "quantitative practice",
+        "context-free calculation",
+        "single compulsory component"
+      ],
+      "evidence": [
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/end-to-end-proof.ts"
+      ]
+    },
+    {
+      "shape": "science",
+      "fixtureId": "science",
+      "status": "pass",
+      "characteristics": [
+        "formula and conceptual requirements",
+        "mixed course/component learning scope",
+        "experimental observation context",
+        "two compulsory components"
+      ],
+      "evidence": [
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/end-to-end-proof.ts"
+      ]
+    },
+    {
+      "shape": "essay_humanities",
+      "fixtureId": "humanities",
+      "status": "pass",
+      "characteristics": [
+        "non-quantitative concept",
+        "retrieval and application practice",
+        "synthetic source context",
+        "extended written response"
+      ],
+      "evidence": [
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/end-to-end-proof.ts"
+      ]
+    },
+    {
+      "shape": "language_prescribed_text",
+      "fixtureId": "language-text",
+      "status": "pass",
+      "characteristics": [
+        "non-quantitative text analysis",
+        "flashcard and application practice",
+        "synthetic extract rather than business scenario",
+        "shared family across two components"
+      ],
+      "evidence": [
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/end-to-end-proof.ts"
+      ]
+    }
+  ],
+  "harnessAssertions": [
+    "every required subject shape runs through the same runRequestedContentFactoryToExpertReviewReady contract-integration pipeline",
+    "every fixture reaches expert_review_ready without external provider calls",
+    "all controlled worker executions report zero usage cost and zero retries",
+    "Learn and Practice work units retain the fixture-specific governed learning modes",
+    "assessment and Marking Pack coverage completes for every generated markable item",
+    "no fixture requires human intervention or Business-specific pipeline branching"
+  ],
+  "limitations": [
+    "Synthetic fixtures prove process compatibility, not factual or educational correctness.",
+    "Controlled injected workers make no external source or model-provider calls, so Q3 does not prove live-adapter behaviour.",
+    "Q4 remains required for explicit deterministic transition, remediation, dependent-invalidation and no-publication simulation evidence."
+  ],
+  "q3Pass": true,
+  "paidPilotEligible": false
+}
