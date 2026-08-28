@@ -3,27 +3,27 @@
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "status": "in_progress",
   "scope": "course_agnostic",
-  "baseMainSha": "587b6bd6e28fbcaddb5f3acf73b056b8a55288b9",
+  "baseMainSha": "dff54ca9f22e4e574535a3ac7f7d8287c8204f90",
   "boundaries": [
     {
       "worker": "course_knowledge_model",
-      "status": "gap_identified",
+      "status": "evidence_mapped",
       "evidence": [
+        "src/content-factory/q2-course-knowledge-contract.test.ts",
+        "src/content-factory/openai-course-knowledge-compiler.ts",
         "src/content-factory/intake-to-knowledge-model.test.ts",
         "src/content-factory/reliability-contract-inventory.test.ts"
       ],
       "coverage": [
-        "economics-shaped provider-free pipeline reaches mapped state with a Course Knowledge Model",
-        "unknown source-rights authority fails closed before knowledge generation",
-        "REFERENCE_ONLY source misuse as curriculum authority fails closed",
-        "unresolved course choices block rather than being guessed",
-        "Q1 ownership inventory classifies knowledge identity bindings as deterministic and unknown references as fail closed"
+        "science-shaped direct provider contract accepts valid first-pass output with exactly one provider call",
+        "structurally malformed knowledge-node output fails closed without a provider retry",
+        "duplicate knowledge-node identifiers fail closed",
+        "invented or duplicated source references fail closed against governed curriculum sources",
+        "unknown Board Alignment references fail closed against supplied alignment IDs",
+        "provider output with the wrong Content Factory job binding fails closed",
+        "economics-shaped provider-free pipeline still exercises source-rights and mapped-state integration"
       ],
-      "gaps": [
-        "add a direct model-assisted Course Knowledge Model provider-contract test for valid first-pass output with one provider call",
-        "add direct malformed or missing knowledge-node field failure coverage",
-        "add direct unknown or duplicate node/source reference failure coverage"
-      ]
+      "gaps": []
     },
     {
       "worker": "learning_blueprint",

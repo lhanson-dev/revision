@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `587b6bd6e28fbcaddb5f3acf73b056b8a55288b9`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The remaining Q2 worker boundaries have now been mapped to existing provider-free evidence and explicit gaps, but Q2 remains incomplete and no qualification PASS is claimed.
+Production-verified `main` before this Q2 increment is `dff54ca9f22e4e574535a3ac7f7d8287c8204f90`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Course Knowledge Model gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -55,16 +55,37 @@ The Q2 machine-readable progress record is:
 
 `content-factory/reliability-q2-contract-matrix.json`
 
-The matrix is now a complete boundary map rather than a list of `pending_matrix` placeholders. Every Q1 worker boundary appears exactly once and records:
-
-- current evidence paths;
-- the provider-free behaviours those tests already prove;
-- any remaining Q2 adversarial gaps;
-- whether the boundary is remediation-evidenced, evidence-mapped, or has an explicit gap.
+The matrix is a complete boundary map rather than a list of `pending_matrix` placeholders. Every Q1 worker boundary appears exactly once and records current evidence, proven provider-free behaviour and any remaining adversarial gap.
 
 `src/content-factory/q2-contract-matrix.test.ts` machine-enforces that the matrix covers the same worker set as Q1, contains no placeholder state, carries evidence and coverage for every boundary, and cannot claim Q2 PASS or paid-pilot eligibility while any gap remains.
 
-This evidence mapping is intentionally conservative. Existing pipeline or integration tests are not treated as direct provider-contract evidence when they only use mocked workers. A boundary is therefore left as `gap_identified` when the Reliability Qualification Standard still requires a direct malformed/missing/reference adversarial case even though broader orchestration evidence already exists.
+This evidence mapping is intentionally conservative. Existing pipeline or integration tests are not treated as direct provider-contract evidence when they only use mocked workers.
+
+### Course Knowledge Model direct contract
+
+The Course Knowledge Model gap is now closed at the direct model-assisted compiler boundary.
+
+The base provider schema already enforced the required structural fields and unknown prerequisite/related-node references, while the downstream intake pipeline enforced source-rights and Board Alignment compatibility. The direct adapter, however, could still report a provider execution as successful before downstream orchestration rejected a duplicated node identity, invented source/alignment reference or wrong job binding.
+
+The final model-assisted worker factory now layers `openai-course-knowledge-compiler.ts` over the existing assessment and Learning Blueprint hardening. For successful provider output it validates, before returning success:
+
+- the exact Content Factory job binding;
+- unique knowledge-node IDs;
+- unique source and Board Alignment references within each node;
+- source references against the governed curriculum sources supplied to the worker, with requirement-specific source scope for requirement-owned nodes;
+- Board Alignment references against the exact component, assessment-objective and assessment-requirement IDs supplied to the worker.
+
+The compiler does not replace educational authorship. Summaries, formulas, misconceptions, contexts, depth and evidence types remain model-authored judgement inside the governed schema. The change only moves mechanically knowable identity/reference checks to the direct worker boundary so invalid output fails immediately rather than being treated as a successful provider execution first.
+
+Provider-free regression evidence is in `src/content-factory/q2-course-knowledge-contract.test.ts`. The fixture is science-shaped and proves:
+
+- valid first-pass output uses exactly one provider call;
+- a malformed node fails closed without retry;
+- duplicate node IDs fail closed;
+- invented source or Board Alignment references fail closed;
+- an incorrect job binding fails closed.
+
+This is a generic contract change and does not depend on a Business course.
 
 ### Practice evidence-path remediation
 
@@ -74,72 +95,30 @@ The bounded locator path itself was correct:
 
 `provider Practice location → mode + one-based activity index + allowed field → Revision resolves exact generated string`
 
-The downstream teaching-point validator then searched for that string inside:
+The downstream teaching-point validator then searched for that string inside `JSON.stringify(searchableContent)`, which escaped learner strings containing JSON-sensitive characters. The validator now recursively inspects actual generated string leaves and therefore validates the learner representation rather than a serialized transport representation.
 
-`JSON.stringify(searchableContent)`
-
-That introduced a representation mismatch. Valid generated strings containing JSON-sensitive characters, including quotation marks and line breaks, are escaped by serialization. A locator-resolved exact string could therefore be rejected even though it came directly from the generated learner-content field.
-
-The validator now recursively inspects the actual string leaves in generated content and checks the evidence excerpt against those strings. It no longer treats a serialized JSON transport representation as learner content.
-
-This is course-agnostic and applies equally to Learn and Practice content. It also prevents an apparent excerpt being manufactured by concatenation across separate fields.
-
-Provider-free regression evidence covers:
-
-- all five supported Practice modes: retrieval, flashcard, short answer, application and quantitative;
-- all four bounded evidence fields: prompt, expected response, explanation and improvement action;
-- exact strings containing quotes and line breaks;
-- invalid activity indexes;
-- invalid modes and fields;
-- paraphrased evidence rejection;
-- no fuzzy matching;
-- existing adapter tests covering all 31 non-empty Practice-mode combinations and one provider call for valid output.
-
-The synthetic fixtures are intentionally generic and make no claim about educational subject accuracy.
+Provider-free regression evidence covers all five supported Practice modes, all four bounded evidence fields, exact strings containing quotes and line breaks, invalid locations, paraphrase rejection, no fuzzy matching and one provider call for valid adapter output.
 
 ### Marking Pack aggregate AO remediation
 
-The Q1 blocker `Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` is now remediated at the structured provider/compiler boundary.
+The Q1 blocker `Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` is remediated at the structured provider/compiler boundary.
 
-Previously, a structured Marking Pack could ask the model to author both:
+For structured items, the Marking Pack provider leaves top-level `assessmentObjectiveAllocation` empty. Educational AO allocation judgement remains at subquestion level; Revision validates each subquestion and deterministically derives the aggregate allocation before downstream validation. Provider-authored structured aggregate arithmetic fails closed. Unstructured Marking Packs retain their existing aggregate contract where no lower-level deterministic representation exists.
 
-- AO allocations for each subquestion; and
-- the aggregate AO allocation for the whole assessment item.
-
-Revision then mechanically checked the aggregate even though it could be calculated from the already-generated subquestion allocations. That was duplicated model authorship of deterministic arithmetic.
-
-For structured items, the Marking Pack compiler contract now requires the provider to leave top-level `assessmentObjectiveAllocation` empty. The provider retains genuine educational judgement at the subquestion level: which permitted assessment objectives receive which marks. Revision then:
-
-1. validates that every subquestion is guided exactly once;
-2. validates each guidance mark value against the governed subquestion;
-3. validates rewarded demands against the learner-facing task;
-4. validates each subquestion AO allocation totals its exact mark value and uses only permitted objectives;
-5. sums those validated allocations deterministically into the final aggregate AO allocation;
-6. passes that Revision-derived aggregate into downstream Marking Pack validation and assembly.
-
-A provider that tries to supply structured aggregate AO arithmetic now fails closed instead of competing with Revision's deterministic derivation. Valid structured output still uses one provider call. Unstructured Marking Packs retain their existing aggregate allocation contract because there is no lower-level subquestion representation from which the educational allocation can be derived without losing judgement.
-
-Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts`. The synthetic fixture is science-shaped to reinforce that the correction is not Business-specific.
+Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts` using a science-shaped fixture.
 
 ## Q2 evidence mapping result
 
-The evidence review found three groups.
+After this increment, Course Knowledge Model joins Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
 
-**Already remediation-evidenced:** Practice generation and structured Marking Pack generation. Their two Q1 defect classes have direct generic regressions and no remaining mapped Q2 gap for the affected contract.
+Four explicit direct-contract gap groups remain:
 
-**Existing evidence mapped without a current gap:** Learning Blueprint, Learn generation, assessment-item generation, deterministic validation, and expert-review package assembly. Their applicable deterministic/provider-free behaviours are already exercised by the existing mathematics/economics/generic contract or deterministic orchestration suites.
-
-**Explicit direct-contract gaps remain:** Course Knowledge Model, Assessment Blueprint, Question Family generation, independent review, and remediation. These boundaries have useful pipeline evidence, but not yet the full isolated direct-provider adversarial coverage required to close Q2. The machine-readable matrix records the exact missing cases rather than treating mocked-worker integration tests as sufficient.
-
-The most important missing classes are:
-
-- direct Course Knowledge Model malformed/missing/unknown-reference provider failures;
-- direct Assessment Blueprint mismatched deterministic Board Alignment facts and invalid references;
-- direct Question Family missing/duplicate/unexpected IDs, component/objective references and mark-range bounds on a non-Business fixture;
+- Assessment Blueprint deterministic Board Alignment facts and invalid references;
+- Question Family missing/duplicate/unexpected IDs, component/objective references and mark-range bounds on a non-Business fixture;
 - independent-review malformed/missing/unknown artifact-reference cases on a non-Business fixture;
 - direct remediation contract scope, malformed output and unknown-target failures.
 
-The next Q2 increments should close these five explicit gap groups in small provider-free PRs. No paid whole-course probing is needed to do so.
+These should be closed in further small provider-free PRs. No paid whole-course probing is needed.
 
 ## Subject-shape matrix — Q3
 
@@ -165,6 +144,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This Q2 increment changes qualification implementation/evidence bookkeeping, not the normative Reliability Qualification Standard. The active standard already requires every material boundary to have course-agnostic provider-free contract evidence and prohibits a PASS claim while required adversarial cases remain missing.
+This increment changes implementation truth at the Course Knowledge Model provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the standard already requires course-agnostic provider-free fail-closed reference validation.
 
-This increment therefore updates the Q2 machine-readable progress record, adds a test that enforces its boundary/gap semantics, and updates this technical harness. It deliberately does not change the normative standard, the Q1 historical inventory yet, historical pilot evidence, the overall reliability qualification status, or paid-pilot eligibility.
+The implementation, direct provider-free regression, Q2 machine-readable matrix and this technical harness are updated together. Historical pilot evidence, the overall reliability qualification status, paid-pilot eligibility and the Q1 historical inventory are deliberately unchanged.
