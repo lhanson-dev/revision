@@ -3,7 +3,7 @@
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "status": "in_progress",
   "scope": "course_agnostic",
-  "baseMainSha": "5ee7efab4e1460fcbb901c389ba9e4e64a8c1dd8",
+  "baseMainSha": "7ee043db47c341e58847468ba8509a6e5d6adcc6",
   "boundaries": [
     {
       "worker": "course_knowledge_model",
@@ -74,10 +74,10 @@
     },
     {
       "worker": "independent_review",
-      "status": "gap_identified",
-      "evidence": ["src/content-factory/openai-live-adapter-independent-review.test.ts", "src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
-      "coverage": ["direct provider contract removes model discretion over workUnitId and derives scope from referenced artifacts", "valid direct review uses one provider call", "provider-free assurance pipeline persists review decisions and findings before remediation"],
-      "gaps": ["add a non-Business direct independent-review fixture", "add malformed or missing finding/reference provider-contract failure coverage", "add unknown artifact-reference fail-closed coverage"]
+      "status": "evidence_mapped",
+      "evidence": ["src/content-factory/q2-independent-review-contract.test.ts", "src/content-factory/openai-independent-review-compiler.ts", "src/content-factory/openai-live-adapter-independent-review.test.ts", "src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["humanities-shaped direct provider contract accepts valid first-pass output with exactly one provider call", "provider output cannot author workUnitId; Revision derives work-unit scope from the referenced governed artifact", "malformed findings with missing required evidence fail closed without provider retry", "duplicate finding identifiers fail closed", "finding artifact references must resolve to the exact governed review artifact index", "reviewed commit and content fingerprint remain bound to governed compiler input", "blocking/material and minor finding decisions are checked against governed review semantics", "provider-free assurance pipeline continues to persist review decisions and findings before remediation"],
+      "gaps": []
     },
     {
       "worker": "remediation",
