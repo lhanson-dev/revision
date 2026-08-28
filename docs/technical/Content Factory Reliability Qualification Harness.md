@@ -4,9 +4,19 @@
 
 Course-agnostic Content Factory reliability qualification is active. Paid end-to-end live pilots remain paused by `content-factory/reliability-qualification.json`.
 
-The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
+The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 completion increment is `90344fc18fbbb3e517f5e9b38c8a68443295dbdc`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes have provider-free Q2 remediation evidence. The Q2 boundary map is now complete on this branch: every material worker boundary is either evidence-mapped or remediation-evidenced with no open Q2 contract gap. This is a Q2 PASS claim only; it is not an overall reliability qualification PASS and does not make paid pilots eligible.
+Approved `main` reviewed for this Q1 reconciliation is `0e9e7bb7c85ddbc72965a056a84c5d2c864e0659`, which includes the completed Q2 provider-free contract matrix from PR #219.
+
+Current gate position:
+
+- **Q1 — PASS:** the worker-contract ownership inventory is complete and its two previously identified generic blockers have provider-free remediation evidence.
+- **Q2 — PASS:** every material worker boundary is evidence-mapped or remediation-evidenced with no open Q2 contract gap.
+- **Q3–Q6 — not yet complete.**
+- **Overall qualification — paused.**
+- **Paid confirmation pilot — not eligible.**
+
+Q1 and Q2 PASS do not authorize another paid pilot. Only after Q1–Q6 pass may a separate governed, Founder-approved qualification PR change the overall machine-readable status to `qualified` and `livePilotEligible: true`.
 
 ## Why the calibration method changed
 
@@ -26,136 +36,133 @@ Approved `main` contains a fail-closed preflight before any paid live-pilot mode
 
 `workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
 
-There is no workflow input or environment-variable bypass. Paid pilots remain ineligible until Q1–Q6 pass and a Founder-approved qualification PR changes the machine-readable overall status to `qualified`.
+There is no workflow input or environment-variable bypass. Paid pilots remain ineligible while `content-factory/reliability-qualification.json` is `paused`.
 
-## Course-agnostic worker inventory
+## Q1 — worker-contract inventory
 
-`content-factory/reliability-contract-inventory.json` inventories the material generic boundaries for Course Knowledge Model, Learning Blueprint, Learn generation, Practice generation, Assessment Blueprint, Question Family generation, assessment-item generation, Marking Pack generation, deterministic validation, independent review, remediation and expert-review package assembly.
+`content-factory/reliability-contract-inventory.json` inventories the generic material boundaries for:
+
+- Course Knowledge Model;
+- Learning Blueprint;
+- Learn generation;
+- Practice generation;
+- Assessment Blueprint;
+- Question Family generation;
+- assessment-item generation;
+- Marking Pack generation;
+- deterministic validation;
+- independent review;
+- remediation;
+- expert-review package assembly.
 
 Every mechanically checked representation is classified under the governed ownership vocabulary: generative judgement, deterministic derivation, bounded locator/reference, targeted repair eligible, or fail closed.
 
-Q1 remains recorded as `complete_with_blockers`, not PASS, until the machine-readable inventory is deliberately reconciled against the completed Q2 evidence. That reconciliation is intentionally not folded into this final Q2 direct-contract increment.
+The inventory now records `status: complete` and `q1Pass: true` against approved `main` `0e9e7bb7c85ddbc72965a056a84c5d2c864e0659`. Current blockers are empty. The two previously identified blocker IDs remain retained as `resolvedBlockers` with their provider-free evidence so the reconciliation is auditable rather than erased.
 
-## Q2 provider-free contract matrix
+### Q1-PRACTICE-EVIDENCE-PATH — resolved
 
-The Q2 machine-readable record is `content-factory/reliability-q2-contract-matrix.json`.
+The Practice evidence contract remains a bounded locator/reference contract. The provider identifies a supported Practice mode, one-based activity index and allowed evidence field; Revision resolves the exact generated string.
 
-Every Q1 worker boundary appears exactly once and records direct or supporting provider-free evidence and proven behaviour. The matrix now has no `gap_identified` boundary and records `q2Pass: true` while deliberately keeping `paidPilotEligible: false`.
+The defect was downstream representation handling: exact-evidence validation searched `JSON.stringify(searchableContent)`, so quotes and line breaks could be escaped differently from the already-resolved exact learner-content string. Validation now recursively inspects actual generated string leaves.
 
-`src/content-factory/q2-contract-matrix.test.ts` machine-enforces that the matrix covers the same worker set as Q1, contains no placeholder state, carries evidence and coverage for every boundary, and can claim Q2 PASS only when every boundary is complete and gap-free. It separately prevents Q2 completion from being confused with overall paid-pilot eligibility.
+Provider-free evidence in `src/content-factory/q2-practice-evidence-contract.test.ts` proves:
 
-This evidence mapping is intentionally conservative. Existing pipeline or integration tests are not treated as direct provider-contract evidence when they only use mocked workers.
+- all five supported Practice modes;
+- all four bounded evidence fields;
+- invalid mode/index/field fails closed;
+- paraphrased evidence fails closed;
+- quoted and multiline exact evidence survives downstream validation.
 
-### Course Knowledge Model direct contract
+This closes the Q1 ownership blocker without changing the ownership classification.
 
-The Course Knowledge Model gap is closed at the direct model-assisted compiler boundary.
+### Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC — resolved
 
-The direct adapter validates the exact job binding, unique knowledge-node IDs, source references against governed curriculum sources, and Board Alignment references against the supplied component/objective/assessment-requirement IDs before returning provider success.
+Structured Marking Packs no longer ask the provider to author an aggregate AO allocation that Revision can derive from the lower-level validated subquestion allocations.
 
-Provider-free regression evidence is in `src/content-factory/q2-course-knowledge-contract.test.ts` using a science-shaped fixture. This is a generic contract change and does not depend on a Business course.
+For structured items:
 
-### Assessment Blueprint direct contract
+- educational AO-allocation judgement remains at subquestion level;
+- each subquestion allocation must reconcile to its governed marks and known objectives;
+- Revision deterministically derives the aggregate AO allocation;
+- provider-authored structured aggregate arithmetic fails closed.
 
-The Assessment Blueprint gap is closed at the direct model-assisted compiler boundary.
+Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts` and the structured compiler path in `src/content-factory/openai-assessment-integrity-compiler.ts`.
 
-The direct compiler validates exact job and deterministic Blueprint fingerprint bindings, exact component coverage, unique Question Family IDs, component marks and timings, exact assessment-objective IDs and weightings, and governed command-demand component references before provider success is accepted.
+Unstructured Marking Packs retain the existing aggregate contract where there is no lower-level structured representation from which to derive the total.
 
-The provider retains generative judgement over Question Family planning, component constraints, command/cognitive-demand design, quantitative and synoptic planning, and evidence expectations. Provider-free regression evidence is in `src/content-factory/q2-assessment-blueprint-contract.test.ts` using a language-shaped fixture.
+This closes the duplicated deterministic-authorship blocker while preserving educational judgement where it belongs.
 
-### Question Family direct contract
+## Q2 — provider-free contract matrix
 
-The Question Family gap is closed at the direct model-assisted compiler boundary.
+The Q2 machine-readable record is `content-factory/reliability-q2-contract-matrix.json` and records `q2Pass: true` with `paidPilotEligible: false`.
 
-The provider remains responsible for educational assessment-family design: title, skill profile, response shape, context requirements, application/analysis/evaluation demands and common failure modes. Revision directly validates the mechanically governed references and bounds before a successful provider execution is accepted.
+All Q1 worker boundaries appear exactly once. The matrix records direct or supporting provider-free evidence for valid first-pass behaviour, malformed output, invalid or duplicate references, bounded locators, exact-evidence handling, totals/cross-references, demand mismatch and targeted repair where applicable.
 
-Provider-free regression evidence is in `src/content-factory/q2-question-family-contract.test.ts`. The fixture is humanities-shaped and proves valid first-pass output uses exactly one provider call; malformed output, missing/duplicate/unexpected IDs, invalid component scope, unknown objective references and excessive mark ranges fail closed without provider retry.
+The completed direct provider boundaries include:
 
-### Independent review direct contract
+- Course Knowledge Model contract compilation;
+- Learning Blueprint compilation;
+- Learn and Practice generation evidence contracts;
+- Assessment Blueprint compilation;
+- Question Family compilation;
+- assessment-item integrity and bounded repair;
+- structured Marking Pack AO derivation;
+- independent-review binding and decision semantics;
+- targeted remediation exact-scope validation;
+- deterministic validation and expert-review package assembly.
 
-The independent-review gap is closed at the direct model-assisted compiler boundary.
+Valid direct provider outputs are proven not to require an unnecessary extra provider call. Malformed or mechanically invalid responses fail closed at the earliest knowable boundary.
 
-The reviewer remains responsible for fresh-context educational and assessment judgement. Revision owns the mechanically governed review binding and scope:
+## Q3 — subject-shape matrix
 
-- `workUnitId` is not provider-authored; Revision derives it from the referenced governed artifact when that artifact belongs to a work unit;
-- every finding must carry the required structured evidence and correction fields;
-- finding identifiers must be unique;
-- each finding `artifactRef` must resolve to the exact governed artifact index supplied for review;
-- `reviewedCommit` and `contentFingerprint` must exactly match the governed review input;
-- blocking/material findings require `fail_hold`, and open minor findings cannot be reported as `pass`.
+Next, the same generic contract/pipeline harness must be exercised across fixtures representing:
 
-Provider-free regression evidence is in `src/content-factory/q2-independent-review-contract.test.ts` using a History-shaped fixture. It proves a valid first-pass review uses exactly one provider call and derives the work-unit scope deterministically. Missing evidence, unknown artifact references, duplicate finding IDs, review-binding drift and understated decision metadata all fail closed without provider retry.
+- quantitative/business/economics;
+- mathematics;
+- science;
+- essay/humanities;
+- language or prescribed-text content.
 
-The existing assurance pipeline continues to persist the validated independent-review report before any remediation step, preserving separation between review judgement and correction.
+The fixtures prove process compatibility only. They do not constitute educational correctness evidence.
 
-### Targeted remediation direct contract
-
-The final Q2 direct-contract gap is closed by `src/content-factory/openai-remediation-compiler.ts` and `src/content-factory/q2-remediation-contract.test.ts`.
-
-The provider remains responsible for the educational correction itself, but Revision now validates the mechanically governed remediation boundary before a successful provider execution is accepted by the live adapter:
-
-- the resolved finding IDs must exactly equal the findings assigned to the target;
-- assigned finding artifact references must match the exact governed remediation target;
-- Learn and Practice corrections cannot change immutable work-unit, knowledge-model or source provenance;
-- Learn and Practice corrections cannot invent a dependent Marking Pack;
-- Marking Pack corrections preserve governed question identity, provenance and calibration constraints;
-- assessment-item corrections preserve governed identity/provenance and must carry the exact dependent Marking Pack scope required by the corrected question;
-- malformed or scope-expanding provider output is converted to a provider-contract failure without a provider retry.
-
-The direct provider-free fixture is mathematics-shaped. A valid targeted correction uses exactly one provider call; malformed output, an unassigned finding, a finding bound to another artifact, changed work-unit identity and invented dependent scope fail closed.
-
-The downstream assurance/remediation orchestration remains authoritative for bundle-wide relationships, versioning, persistence, revalidation and independent re-review. The direct compiler therefore closes the earliest mechanically knowable provider-boundary failures without duplicating the full orchestration layer.
-
-### Practice evidence-path remediation
-
-The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` was reproduced at the reusable validation boundary. The downstream teaching-point validator now recursively inspects actual generated string leaves rather than a JSON-serialized transport representation, preserving exact learner-content evidence through quotes and line breaks.
-
-Provider-free regression evidence covers all five supported Practice modes, all four bounded evidence fields, invalid locations, paraphrase rejection and one provider call for valid adapter output.
-
-### Marking Pack aggregate AO remediation
-
-The Q1 blocker `Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` is remediated at the structured provider/compiler boundary.
-
-For structured items, educational AO allocation judgement remains at subquestion level; Revision validates each subquestion and deterministically derives the aggregate allocation before downstream validation. Provider-authored structured aggregate arithmetic fails closed. Unstructured Marking Packs retain their existing aggregate contract where no lower-level deterministic representation exists.
-
-Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts` using a science-shaped fixture.
-
-## Q2 result
-
-Q2 is complete on this branch. All twelve governed worker boundaries are represented in the matrix, no Q2 contract gap remains, and the matrix records `q2Pass: true`.
-
-This does **not** authorize another paid pilot. The overall reliability qualification remains paused because:
-
-- Q1 must be deliberately reconciled against the two completed Q2 blocker remediations;
-- Q3 subject-shape matrix remains to be completed;
-- Q4 deterministic full-pipeline simulation remains to be completed;
-- Q5 restart/reuse/dependency-aware invalidation remains to be completed;
-- Q6 repeated qualification stability remains to be completed;
-- only after Q1–Q6 pass may a separate governed qualification PR set `content-factory/reliability-qualification.json` to `qualified` and enable the paid confirmation pilot.
-
-## Subject-shape matrix — Q3
-
-The same generic contracts must next be exercised across quantitative/business/economics, mathematics, science, essay/humanities, and language or prescribed-text fixtures. Those fixtures prove process compatibility only, not educational correctness.
-
-## Deterministic pipeline simulation — Q4
+## Q4 — deterministic pipeline simulation
 
 A provider-free complete simulation must traverse:
 
 `requested → identified → sourced → mapped → generating → validating → independent_review → remediation when applicable → expert_review_ready`
 
-It must prove strict validation, smallest-scope remediation, dependent invalidation, independent-review separation, expert-review packaging and no learner publication.
+It must prove every stage transition, intended deterministic validation, smallest-scope remediation, dependent invalidation, independent-review separation, expert-review package assembly and no learner publication side effect.
 
-## Restart, reuse and invalidation — Q5
+## Q5 — restart, reuse and dependency-aware invalidation
 
-Qualification must prove dependency-aware reuse so that unrelated successful work is not regenerated after a local contract or implementation change. Practice changes must not automatically invalidate unrelated Learn or Course Knowledge Model artifacts; assessment changes must not regenerate unrelated teaching content; source/coverage changes must invalidate genuine dependants; spend and retry provenance must remain truthful.
+Qualification must prove that local interruption, correction or worker-contract change does not regenerate unaffected successful work.
 
-## Repeated stability — Q6
+Evidence must cover reuse of unchanged completed executions, dependency-aware invalidation, source/coverage invalidation, and truthful spend/retry provenance after reuse or remediation.
 
-A single synthetic green run is insufficient. Final qualification evidence must state the exact implementation head, commands, fixtures, worker coverage, repetition count, restart/reuse scenarios and known limitations.
+## Q6 — repeated qualification stability
 
-Only then may a governed PR set `content-factory/reliability-qualification.json` to `qualified` and `livePilotEligible: true`.
+A single green deterministic run is insufficient. Final evidence must record repeated subject-shape and pipeline passes on the same implementation head, including the repetition count, fixtures, worker coverage, restart/reuse scenarios and known limitations.
+
+## Overall qualification and paid confirmation
+
+`content-factory/reliability-qualification.json` deliberately remains unchanged:
+
+- `status: paused`;
+- `qualifiedEvidence: null`;
+- `livePilotEligible: false`.
+
+After Q3–Q6 also pass, a separate governed qualification PR may set the overall status to `qualified`. That PR requires exact-head assurance and explicit Founder approval before another paid end-to-end course run is permitted.
+
+The next paid run will be a confirmation pilot, not the primary debugging mechanism.
 
 ## Documentation impact
 
-This increment changes implementation truth at the targeted-remediation provider boundary and completes the Q2 machine-readable evidence record. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation, exact references, smallest-scope remediation and fail-closed handling of malformed or inconsistent provider output.
+This reconciliation changes current qualification evidence, not normative policy or production runtime behaviour.
 
-The implementation, direct provider-free regression, production compatibility export, Q2 machine-readable matrix and this technical harness are updated together. Historical pilot evidence, the overall reliability qualification status, paid-pilot eligibility and the Q1 historical inventory are deliberately unchanged. No authority index change is required because no normative source-of-truth location or precedence has changed.
+Updated together:
+
+- the Q1 machine-readable worker-contract inventory;
+- the Q1 inventory regression test;
+- this technical qualification record.
+
+No change is required to the active Reliability Qualification Standard because it already defines the applicable ownership and Q1/Q2 gate rules. No `INDEX.md` change is required because no source-of-truth location or precedence changes. Historical Pilot #10–#15 evidence is unchanged. The overall reliability status and paid-pilot eligibility remain deliberately paused.
