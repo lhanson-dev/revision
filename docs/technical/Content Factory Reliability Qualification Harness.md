@@ -2,234 +2,138 @@
 
 ## Status
 
-Course-agnostic Content Factory reliability qualification is active on approved `main`. Paid end-to-end live pilots remain paused.
+Course-agnostic Content Factory reliability qualification is active. Paid end-to-end live pilots remain paused by `content-factory/reliability-qualification.json`.
 
-This document is current implementation truth. The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`.
+The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Q1 worker-contract ownership inventory has now been completed against production-verified `main` commit `15737d04f769264dd986bede2d909e228bc408d3`. The inventory is complete enough to expose current ownership and blockers, but **Q1 is not PASS** because two generic contract blockers remain. Q2 is the next remediation/qualification gate.
+Production-verified `main` before this Q2 increment is `f37e8cf9d2471582026093367ecac5ccaf474754`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Q2 is being delivered as short, provider-free increments rather than another paid whole-course probe.
 
 ## Why the calibration method changed
 
 Pilot #15 ran from approved `main` commit `7df79c28ae0f72610cbb28f9c01f366f85aa2c0d` as workflow run `33149356421` and durable Issue `#209`.
 
-It stopped from `mapped` before normal generation progression with:
+It stopped from `mapped` with:
 
 `Practice work unit marketing-research evidence for data interpretation is not an exact excerpt from the generated learner content`
 
-The run had only reached the Course Knowledge Model plus deterministic intake/source/coverage stages. No Question Families, markable assessment items or Marking Packs had been produced. The first Course Knowledge Model provider call cost `$0.053106`; the workflow stopped before the later stages that previous pilots had reached.
+Pilot #10 had already moved Learn and Practice exact evidence to bounded locators resolved deterministically by Revision. Reappearance of the failure class demonstrated that repeated whole-course paid pilots were lower-value evidence than systematic provider-free qualification.
 
-The significance is systemic rather than Business-specific. Pilot #10 had already documented the same class of failure: generated educational content can be valid while a second model-authored representation of exact evidence drifts. Pilot #10 therefore moved Learn and Practice evidence to bounded locators resolved deterministically by Revision. Pilot #15 proves that this intended ownership is still not reliable across the currently exercised Practice path.
+Historical pilot evidence remains unchanged.
 
-Repeated whole-course paid runs are therefore no longer the primary debugging mechanism.
+## Live-pilot boundary
 
-## Current implementation boundary
-
-Approved `main` now contains a fail-closed preflight before the live-pilot model call:
+Approved `main` contains a fail-closed preflight before any paid live-pilot model call:
 
 `workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
 
-The preflight reads:
+There is no workflow input or environment-variable bypass. Paid pilots remain ineligible until Q1–Q6 pass and a Founder-approved qualification PR changes the machine-readable status to `qualified`.
 
-`content-factory/reliability-qualification.json`
+## Course-agnostic worker inventory
 
-The current status is intentionally:
+`content-factory/reliability-contract-inventory.json` inventories the material generic boundaries for:
 
-`paused`
-
-and `livePilotEligible` is `false`.
-
-There is no workflow input or environment-variable bypass. Re-enabling the paid pilot requires a governed change to the repository qualification evidence and normal Founder-approved merge.
-
-## Course-agnostic qualification architecture
-
-The reliability work is organised by reusable worker boundary rather than by named course examples.
-
-The qualification harness covers:
-
-1. Course Knowledge Model / structured course facts;
-2. Learning Blueprint planning;
+1. Course Knowledge Model;
+2. Learning Blueprint;
 3. Learn generation;
 4. Practice generation;
-5. Assessment Blueprint planning;
+5. Assessment Blueprint;
 6. Question Family generation;
 7. assessment-item generation;
 8. Marking Pack generation;
 9. deterministic validation;
 10. independent review;
 11. remediation;
-12. expert-review package assembly;
-13. orchestrator restart/reuse/dependency invalidation in Q5.
+12. expert-review package assembly.
 
-The machine-readable inventory is:
+Every mechanically checked representation is classified under the governed ownership vocabulary: generative judgement, deterministic derivation, bounded locator/reference, targeted repair eligible, or fail closed.
 
-`content-factory/reliability-contract-inventory.json`
+Q1 remains recorded as `complete_with_blockers`, not PASS. Q2 remediation evidence is tracked separately in `content-factory/reliability-q2-contract-matrix.json` until the complete provider-free matrix is ready to reconcile the inventory and gate state.
 
-Its schema v2 inventory is test-enforced and tied to the exact reviewed `main` commit. Every governed material worker boundary must be present exactly once, must be generic, must identify implementation evidence, and must classify each inventoried mechanically checked representation using the five governed ownership classes.
+## Q2 provider-free contract matrix
 
-## Q1 — completed ownership audit, not yet PASS
+The Q2 machine-readable progress record is:
 
-Q1 reviewed the actual current implementation rather than reconstructing contract intent from pilot history.
+`content-factory/reliability-q2-contract-matrix.json`
 
-The audit confirms the intended generic ownership model for the main reliability-sensitive representations:
+Q2 must eventually cover every material worker boundary with valid and adversarial provider-free cases required by the Reliability Qualification Standard. This increment deliberately closes one generic defect class only; it does not mark Q2 PASS.
 
-- exact Learn evidence → bounded locator/reference resolved by Revision;
-- exact Practice evidence → bounded locator/reference resolved by Revision;
-- job, artifact, fingerprint and immutable cross-reference metadata → deterministic derivation where Revision already owns the source values;
-- unknown/out-of-scope requirement, component, node, family and artifact references → fail closed;
-- assessment response-demand versus learner-facing command mismatch → strict deterministic validation plus one bounded targeted repair where the intended educational demand is linguistic;
-- expert-review package composition and exact-version assurance bindings → deterministic derivation / fail closed;
-- educational explanations, questions, marking judgement, independent-review findings and remediated educational content → generative judgement subject to downstream assurance.
+### Practice evidence-path remediation
 
-Two generic blockers prevent Q1 from being marked PASS:
+The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` has now been reproduced at the reusable validation boundary.
 
-### Q1-PRACTICE-EVIDENCE-PATH
+The bounded locator path itself was correct:
 
-`src/content-factory/provider-coverage-evidence.ts` contains the intended generic Practice locator resolver: mode + one-based activity index + one of `prompt`, `expectedResponse`, `explanation` or `improvementAction` resolves to the exact generated learner-content string.
+`provider Practice location → mode + one-based activity index + allowed field → Revision resolves exact generated string`
 
-Pilot #15 nevertheless reached the exact-evidence mismatch class. Q2 must therefore exercise the **actual adapter/compiler path**, across every supported Practice mode, to find the path that bypasses the resolver or creates an incompatible representation. This is not a Business-specific content fix.
+The downstream teaching-point validator then searched for that string inside:
 
-### Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC
+`JSON.stringify(searchableContent)`
 
-`validateMarkingPack` still parses and validates provider-authored `assessmentObjectiveAllocation`, including checking that its aggregate marks total equals the assessment-item maximum, before final pack assembly. Where structured subquestion guidance already provides the underlying allocations, this is duplicated model-authored arithmetic.
+That introduced a representation mismatch. Valid generated strings containing JSON-sensitive characters, including quotation marks and line breaks, are escaped by serialization. A locator-resolved exact string could therefore be rejected even though it came directly from the generated learner-content field.
 
-The governed target ownership is deterministic derivation from validated structured guidance. Q2 must remove the duplicated aggregate authorship or derive it before the aggregate checks, while retaining strict validation of genuine educational allocation choices.
+The validator now recursively inspects the actual string leaves in generated content and checks the evidence excerpt against those strings. It no longer treats a serialized JSON transport representation as learner content.
 
-These blockers are deliberately machine-readable in the inventory. The inventory status is therefore `complete_with_blockers`, not `pass` or `qualified`.
+This is course-agnostic and applies equally to Learn and Practice content. It also prevents an apparent excerpt being manufactured by concatenation across separate fields.
 
-## Mechanical ownership audit
+Provider-free regression evidence covers:
 
-The audit question for every provider field is:
+- all five supported Practice modes: retrieval, flashcard, short answer, application and quantitative;
+- all four bounded evidence fields: prompt, expected response, explanation and improvement action;
+- exact strings containing quotes and line breaks;
+- invalid activity indexes;
+- invalid modes and fields;
+- paraphrased evidence rejection;
+- no fuzzy matching;
+- existing adapter tests covering all 31 non-empty Practice-mode combinations and one provider call for valid output.
 
-**Why is the model authoring this value if Revision subsequently checks it mechanically?**
+The synthetic fixtures are intentionally generic and make no claim about educational subject accuracy.
 
-Each field is classified as:
+### Remaining Q1 blocker: Marking Pack aggregate AO arithmetic
 
-- generative judgement;
-- deterministically derived;
-- bounded locator/reference;
-- targeted repair eligible;
-- fail closed.
+`Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` remains unresolved in this increment.
 
-The objective is not to remove useful model judgement. It is to remove duplicated model authorship of clerical representations that Revision can derive without educational loss.
+Current Marking Pack validation still accepts provider-authored aggregate `assessmentObjectiveAllocation` and checks the aggregate arithmetic. Where structured subquestion guidance already contains the underlying allocations, Revision should derive the aggregate deterministically and validate genuine educational allocation choices at the lower-level guidance boundary.
 
-## Q1 regression enforcement
+That remediation is the next short Q2 increment. It must preserve strict mark/AO reconciliation and must not weaken the Content Accuracy Assurance Gate.
 
-`src/content-factory/reliability-contract-inventory.test.ts` prevents the inventory from silently degrading by asserting that:
+## Existing provider-contract evidence reused by Q2
 
-- every governed material worker boundary appears exactly once;
-- all boundaries are generic rather than course-specific;
-- every boundary has implementation evidence and at least one classified mechanical representation;
-- only the five governed ownership classes are used;
-- every blocker is explicit both at field level and in the top-level blocker register;
-- the inventory cannot claim Q1 completion without retaining known generic Practice-evidence and Marking-Pack-arithmetic blockers;
-- assessment response-demand ownership remains `targeted_repair_eligible` rather than being silently weakened or reclassified.
+The provider-free suite already contains useful generic evidence that Q2 can reuse rather than duplicate, including:
 
-This is the contract-test foundation for Q2. It does not substitute for Q2 adversarial provider-response tests.
+- strict Practice schemas for all 31 non-empty combinations of the five Practice modes;
+- deterministic injection of activity IDs and modes;
+- bounded Learn/Practice evidence locators;
+- fail-closed invalid locator behaviour;
+- assessment response-demand validation with one bounded repair path;
+- failure after the permitted repair;
+- independent-review structured-contract tests.
 
-## Provider-free contract matrix — Q2
+Q2 will inventory these tests against the exact worker matrix and add missing adversarial cases instead of rewriting working assurance.
 
-Before any paid confirmation pilot, provider-free tests must exercise every material generic worker contract with valid and adversarial responses.
+## Subject-shape matrix — Q3
 
-The matrix includes:
+After Q2, the same generic contracts must be exercised across quantitative/business/economics, mathematics, science, essay/humanities, and language or prescribed-text fixtures. Those fixtures prove process compatibility only, not educational correctness.
 
-- valid first-pass response;
-- malformed structured response;
-- missing/duplicate references;
-- invalid locator/index/field references;
-- paraphrased exact evidence;
-- inconsistent totals;
-- assessment demand/metadata mismatch;
-- permitted targeted-repair success;
-- targeted-repair failure;
-- true fail-closed educational defects;
-- proof that valid output does not create an unnecessary extra provider call.
+## Deterministic pipeline simulation — Q4
 
-Q2 starts with the two blockers exposed by Q1, then expands across the full worker inventory. Historical pilot wording must not be invented when rejected provider output was not retained. Synthetic regressions represent the defect class and are labelled as such.
+A provider-free complete simulation must traverse:
 
-## Subject-shape matrix
+`requested → identified → sourced → mapped → generating → validating → independent_review → remediation when applicable → expert_review_ready`
 
-The same contracts must be exercised with provider-free fixtures representing materially different qualification shapes:
+It must prove strict validation, smallest-scope remediation, dependent invalidation, independent-review separation, expert-review packaging and no learner publication.
 
-- quantitative/business/economics;
-- mathematics;
-- science;
-- essay/humanities;
-- language or prescribed-text.
+## Restart, reuse and invalidation — Q5
 
-These fixtures prove process/schema compatibility only. They do not claim educational correctness or replace subject-specific source/assurance work.
+Qualification must prove dependency-aware reuse so that unrelated successful work is not regenerated after a local contract or implementation change. Practice changes must not automatically invalidate unrelated Learn or Course Knowledge Model artifacts; assessment changes must not regenerate unrelated teaching content; source/coverage changes must invalidate genuine dependants; spend and retry provenance must remain truthful.
 
-No worker implementation may assume a Business-shaped structure unless the governing generic contract explicitly allows a subject-specific plugin at that boundary.
+## Repeated stability — Q6
 
-## Deterministic pipeline simulation
+A single synthetic green run is insufficient. Final qualification evidence must state the exact implementation head, commands, fixtures, worker coverage, repetition count, restart/reuse scenarios and known limitations.
 
-A complete synthetic/stored-response course simulation must exercise the real orchestrator and validators without external provider calls through:
-
-`requested → identified → sourced → mapped → generating → validating → independent_review → remediation if required → expert_review_ready`
-
-The simulation must prove that the same implementation paths used by live workers can:
-
-- resolve deterministic metadata;
-- retain strict educational validation;
-- remediate the smallest affected unit;
-- assemble the expert-review package;
-- avoid learner publication;
-- fail closed on unrecoverable contract defects.
-
-## Restart, reuse and invalidation qualification
-
-The existing durable cache currently keys reuse to implementation head in ways that make a fresh implementation SHA a broad invalidation boundary. That was safe during early calibration but is too coarse for a mature stateful pipeline.
-
-Reliability qualification must introduce or prove dependency-aware semantic fingerprints so that:
-
-- unchanged upstream source/coverage artifacts remain reusable when an unrelated downstream compiler changes;
-- a Practice compiler change invalidates affected Practice outputs and true dependants, not unrelated Learn or Course Knowledge Model outputs;
-- an assessment compiler change invalidates assessment/Marking Pack/review dependants without regenerating unrelated teaching content;
-- source or coverage changes invalidate the genuinely affected downstream graph;
-- provider-contract changes invalidate outputs whose quality assumptions depend on that contract;
-- cumulative spend and retry provenance remain truthful across reuse.
-
-This is essential to making the Content Factory genuinely stateful rather than repeatedly starting a whole course from zero.
-
-## Repeated stability gate
-
-A single synthetic green run is not sufficient.
-
-The final qualification record must state:
-
-- exact implementation head;
-- exact test/harness commands;
-- subject-shape fixtures exercised;
-- worker contracts covered;
-- repeated full-pipeline simulation count;
-- restart/reuse scenarios covered;
-- known limitations;
-- whether every Q1–Q6 gate in the governing standard passed.
-
-Only then may `content-factory/reliability-qualification.json` be changed to `qualified` and `livePilotEligible: true` in a Founder-approved PR.
-
-## Paid confirmation pilot
-
-The first paid run after qualification is a confirmation pilot, not a discovery mechanism.
-
-It must still:
-
-- use approved `main`;
-- apply source-rights controls;
-- use the governed course spend ceiling;
-- preserve independent educational review;
-- remain unpublished through `expert_review_ready`;
-- retain full durable evidence.
-
-A failure after qualification must be classified against the generic contract inventory first. A named course example may provide evidence, but the remediation must address the reusable process unless the requirement is genuinely subject-specific.
+Only then may a governed PR set `content-factory/reliability-qualification.json` to `qualified` and `livePilotEligible: true`.
 
 ## Documentation impact
 
-This Q1 increment changes implementation evidence, not the normative Reliability Qualification Standard. The existing authority already requires the ownership inventory and course-agnostic process.
+This Q2 increment changes implementation truth, not the normative reliability standard. The existing standard already requires exact evidence to use bounded locators and provider-free adversarial qualification.
 
-This increment therefore updates:
-
-- the machine-readable generic contract inventory;
-- test enforcement of that inventory;
-- this technical qualification record.
-
-`content-factory/reliability-qualification.json` remains `paused`; Q1 is not represented as PASS while the two generic blockers remain. Historical Pilot #15 / Issue #209 remains unchanged. Future qualification work must append evidence rather than rewriting prior pilot records.
+This increment therefore updates the implementation validator, provider-free regressions, the Q2 machine-readable progress record, and this technical harness. It deliberately does not change the normative standard, historical Pilot #15 evidence, the overall qualification status, or paid-pilot eligibility.
