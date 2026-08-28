@@ -101,4 +101,53 @@ describe('structured assessment integrity', () => {
       }],
     })).toThrow(/rewards unasked demand analysis/)
   })
+
+  it('derives aggregate AO totals from validated subquestion guidance instead of trusting duplicated provider arithmetic', () => {
+    const first: AssessmentSubquestion = {
+      ...calculationSubquestion(),
+      id: 'q1',
+      maxMark: 2,
+    }
+    const second: AssessmentSubquestion = {
+      id: 'q2',
+      command: 'Explain',
+      wording: 'Explain one effect of the contribution result on the business decision.',
+      maxMark: 2,
+      requirementIds: ['finance-analysis'],
+      responseDemands: ['application', 'analysis'],
+      coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'effect of the contribution result' }],
+    }
+    const aggregate = [
+      { objectiveId: 'ao2', marks: 1 },
+      { objectiveId: 'ao3', marks: 3 },
+    ]
+
+    expect(validateStructuredMarkingGuidance({
+      itemId: 'case-ao-total',
+      subquestions: [first, second],
+      allowedObjectiveIds: ['ao2', 'ao3'],
+      overallObjectiveAllocation: aggregate,
+      guidance: [
+        {
+          subquestionId: 'q1',
+          maxMark: 2,
+          rewardedDemands: ['calculation', 'application'],
+          assessmentObjectiveAllocation: [{ objectiveId: 'ao2', marks: 2 }],
+          answerRequirements: ['Accurate calculation.'],
+        },
+        {
+          subquestionId: 'q2',
+          maxMark: 2,
+          rewardedDemands: ['application', 'analysis'],
+          assessmentObjectiveAllocation: [{ objectiveId: 'ao3', marks: 2 }],
+          answerRequirements: ['Applied analysis of the decision effect.'],
+        },
+      ],
+    })).toHaveLength(2)
+
+    expect(aggregate).toEqual([
+      { objectiveId: 'ao2', marks: 2 },
+      { objectiveId: 'ao3', marks: 2 },
+    ])
+  })
 })
