@@ -108,8 +108,8 @@ describe('Content Factory Q4 deterministic full-pipeline simulation', () => {
     expect(learningReplacement?.dependentOldRef).toBeUndefined()
     expect(learningReplacement?.dependentNewRef).toBeUndefined()
 
-    const originalLearningRef = result.store.refs('learning')[0]
-    const originalPracticeRef = result.store.refs('practice')[0]
+    const originalLearningRef = result.store.refs('learning_collateral')[0]
+    const originalPracticeRef = result.store.refs('practice_collateral')[0]
     const originalAssessmentRef = result.store.refs('assessment_item')[0]
     const originalMarkingPackRef = result.store.refs('marking_pack')[0]
     const originalQuestionFamilyRef = result.store.refs('question_family')[0]
