@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "post_pilot_16_provider_free_requalification",
+  "reviewedImplementationMainSha": "9f4d86dbeaca5a6fac13884bf8b161964a68ec88",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "purpose": "Provider-free requalification of the corrected Content Factory after Confirmation Pilot #16 and PR #227 changed generated-output and durable-reuse quality assumptions. This record does not itself restore paid-pilot eligibility; a separate governed qualification-status transition remains required.",
+  "qualificationDefectFoundDuringRequalification": {
+    "status": "resolved_in_candidate",
+    "finding": "The initial Pilot #16 remediation used a generic post-generation script cleaner that could delete legitimate target-language text and an exact cash-flow phrase repair that was too Business-shaped for a generic worker boundary.",
+    "resolution": "Replace both mutations with course-agnostic generation guardrails: preserve legitimate target-language or prescribed-text wording, reject unrelated contamination through generation/review rather than blind deletion, and require prompt/expected-response presupposition consistency without naming a Business-specific condition. Advance Learn and Practice durable semantic versions so pre-change outputs cannot be reused across the correction.",
+    "evidence": [
+      "src/content-factory/openai-output-integrity-compiler.ts",
+      "src/content-factory/openai-output-integrity-compiler.test.ts",
+      "src/content-factory/durable-worker-dependencies.ts"
+    ]
+  },
+  "gates": {
+    "Q1-worker-contract-inventory": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
+      "currentEvidence": [
+        "src/content-factory/reliability-contract-inventory.test.ts",
+        "src/content-factory/openai-output-integrity-compiler.ts",
+        "src/content-factory/openai-output-integrity-compiler.test.ts",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/post-pilot16-requalification.test.ts"
+      ],
+      "ownershipExtensions": [
+        {
+          "worker": "course_knowledge_model",
+          "fieldClass": "known mechanically unambiguous formula representation",
+          "ownership": "deterministically_derived",
+          "evidence": "canonicaliseKnownMathematicalFormulas"
+        },
+        {
+          "worker": "learn_generation",
+          "fieldClass": "learner-language coherence and target-language preservation",
+          "ownership": "generative_judgement",
+          "evidence": "course-agnostic outputIntegrityGuidance plus independent review; no blind script deletion"
+        },
+        {
+          "worker": "practice_generation",
+          "fieldClass": "prompt and expected-response presupposition consistency",
+          "ownership": "generative_judgement",
+          "evidence": "course-agnostic outputIntegrityGuidance plus independent review; no Business-specific phrase mutation"
+        },
+        {
+          "worker": "assessment_item_generation",
+          "fieldClass": "multi-question MCQ correct-option position distribution",
+          "ownership": "deterministically_derived",
+          "evidence": "rebalanceMcqCorrectAnswerPositions plus validateMcqCorrectAnswerDistribution"
+        },
+        {
+          "worker": "marking_pack_generation",
+          "fieldClass": "operational per-subquestion rubric coverage",
+          "ownership": "targeted_repair_eligible",
+          "evidence": "validateOperationalRubricCoverage with one bounded repair then fail closed"
+        }
+      ]
+    },
+    "Q2-provider-free-contract-matrix": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q2-contract-matrix.json",
+      "currentEvidence": [
+        "src/content-factory/openai-output-integrity-compiler.test.ts",
+        "src/content-factory/openai-provider-contract-hardening.test.ts",
+        "src/content-factory/q2-course-knowledge-contract.test.ts",
+        "src/content-factory/q2-practice-evidence-contract.test.ts",
+        "src/content-factory/openai-assessment-integrity-compiler.test.ts",
+        "src/content-factory/q2-marking-pack-ao-contract.test.ts",
+        "src/content-factory/post-pilot16-requalification.test.ts"
+      ],
+      "currentCoverage": [
+        "known malformed percentage-change representation is canonicalised deterministically while unrelated formulas are retained",
+        "legitimate target-language script is preserved and generic learner-language guardrails prohibit unrelated contamination without blind deletion",
+        "Practice generation receives a generic prompt/expected-response consistency guardrail with no Business-specific phrase repair",
+        "biased multi-question MCQ answer positions are rebalanced deterministically without changing answer or distractor content",
+        "assessment premise sufficiency is carried as a generic generation contract",
+        "operational Marking Pack coverage is required for every structured subquestion with one bounded validator-directed repair before fail closed",
+        "valid outputs do not receive unnecessary extra provider calls"
+      ]
+    },
+    "Q3-subject-shape-matrix": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q3-subject-shape-matrix.json",
+      "currentEvidence": [
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/openai-output-integrity-compiler.test.ts"
+      ],
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "crossSubjectRegression": "The language/prescribed-text shape is complemented by a direct live-adapter contract regression proving that legitimate non-Latin target-language text is preserved."
+    },
+    "Q4-deterministic-pipeline-simulation": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q4-deterministic-pipeline-simulation.json",
+      "currentEvidence": [
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts"
+      ],
+      "providerCallsUsed": false
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q5-restart-reuse-invalidation.json",
+      "currentEvidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-durable-resume.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/post-pilot16-requalification.test.ts"
+      ],
+      "currentSemanticVersions": {
+        "generateLearningCollateral": "3+output-integrity-v2",
+        "generatePracticeCollateral": "3+output-integrity-v2"
+      },
+      "invalidationRule": "Pre-v2 Learn/Practice outputs are not dependency-compatible with the course-agnostic guardrail contract. Unrelated identity, source, coverage and independent assessment-generation work remains reusable where its dependency closure is unchanged.",
+      "providerCallsUsed": false
+    },
+    "Q6-repeated-qualification-stability": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q6-repeated-stability.json",
+      "currentEvidence": [
+        "src/content-factory/q6-repeated-qualification-fixture.ts",
+        "src/content-factory/q6-repeated-qualification-stability.test.ts"
+      ],
+      "repetitionCount": 3,
+      "subjectShapePipelineRuns": 15,
+      "deterministicPipelineRuns": 3,
+      "restartReuseScenarioSets": 3,
+      "providerCallsUsed": false
+    }
+  },
+  "limitations": [
+    "Provider-free reliability requalification proves process and contract behaviour, not factual or educational correctness.",
+    "The requalification does not prove live external-provider behaviour or awarding-body endorsement.",
+    "The global qualification record remains paused and the live-pilot preflight must continue to fail before any external model call.",
+    "Restoring qualified/livePilotEligible requires a separate governed status PR after this requalification is merged to approved main."
+  ]
+}
