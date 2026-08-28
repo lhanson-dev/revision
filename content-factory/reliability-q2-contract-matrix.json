@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "in_progress",
+  "scope": "course_agnostic",
+  "baseMainSha": "f37e8cf9d2471582026093367ecac5ccaf474754",
+  "boundaries": [
+    {
+      "worker": "practice_generation",
+      "status": "remediation_evidenced",
+      "q1BlockerId": "Q1-PRACTICE-EVIDENCE-PATH",
+      "evidence": [
+        "src/content-factory/q2-practice-evidence-contract.test.ts",
+        "src/content-factory/openai-provider-contract-hardening.test.ts",
+        "src/content-factory/teaching-point-integrity.test.ts"
+      ],
+      "coverage": [
+        "all five supported Practice modes",
+        "all four bounded evidence fields",
+        "invalid mode/index/field fails closed",
+        "paraphrased evidence fails closed",
+        "quoted and multiline exact evidence survives downstream validation",
+        "valid adapter output uses one provider call in existing provider-free adapter tests"
+      ],
+      "rootCause": "Downstream exact-evidence validation searched JSON.stringify(searchableContent), so JSON escaping could make a locator-resolved exact generated string appear absent. Validation now searches actual generated string leaves instead of serialized JSON."
+    },
+    {
+      "worker": "marking_pack_generation",
+      "status": "pending_remediation",
+      "q1BlockerId": "Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC"
+    },
+    { "worker": "course_knowledge_model", "status": "pending_matrix" },
+    { "worker": "learning_blueprint", "status": "pending_matrix" },
+    { "worker": "learn_generation", "status": "pending_matrix" },
+    { "worker": "assessment_blueprint", "status": "pending_matrix" },
+    { "worker": "question_family_generation", "status": "pending_matrix" },
+    { "worker": "assessment_item_generation", "status": "pending_matrix" },
+    { "worker": "deterministic_validation", "status": "pending_matrix" },
+    { "worker": "independent_review", "status": "pending_matrix" },
+    { "worker": "remediation", "status": "pending_matrix" },
+    { "worker": "expert_review_package_assembly", "status": "pending_matrix" }
+  ],
+  "q2Pass": false,
+  "paidPilotEligible": false
+}
