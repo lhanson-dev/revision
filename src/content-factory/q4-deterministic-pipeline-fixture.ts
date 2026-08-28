@@ -5,7 +5,7 @@ import {
   type ContentFactoryEndToEndWorkers,
 } from './end-to-end-proof'
 import type { SourceRightsPolicyRule, WorkerExecution } from './intake-to-knowledge-model'
-import { learningPracticeArtifactSchema } from './learning-and-practice'
+import { learningCollateralArtifactSchema } from './learning-and-practice'
 import {
   assessmentItemArtifactSchema,
   courseContentPackManifestSchema,
@@ -397,7 +397,7 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
       })
 
       if (reviewCalls === 1) {
-        const learningRef = store.refs('learning')[0]
+        const learningRef = store.refs('learning_collateral')[0]
         const assessmentItemRef = store.refs('assessment_item')[0]
         if (!learningRef || !assessmentItemRef) throw new Error('Q4 review requires generated learning and assessment references')
         return success('independent-review', {
@@ -447,7 +447,7 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
       })
 
       if (input.target.kind === 'learning') {
-        const original = learningPracticeArtifactSchema.parse(input.target.artifact)
+        const original = learningCollateralArtifactSchema.parse(input.target.artifact)
         return success('remediation-learning', {
           correctedArtifact: {
             ...original,
