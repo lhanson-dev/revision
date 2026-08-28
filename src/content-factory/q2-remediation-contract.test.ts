@@ -143,6 +143,21 @@ describe('Q2 remediation direct provider contract', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
+  it('fails closed when an assigned finding references a different target artifact', async () => {
+    const input = remediationInput()
+    input.findings[0].artifactRef = 'fixture:maths:learning:not-the-governed-target'
+    const { workers, fetchImpl } = workersFor({
+      correctedArtifact: correctedLearning(),
+      resolvedFindingIds: ['missing-method-step'],
+      resolutionNotes: ['Attempted correction against a mismatched target reference.'],
+    })
+
+    const result = await workers.remediate(input)
+    expect(result.status).toBe('failure')
+    if (result.status === 'failure') expect(result.error).toContain('outside governed remediation target')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
   it('fails closed when the provider expands the correction beyond governed target identity', async () => {
     const input = remediationInput()
     const { workers, fetchImpl } = workersFor({
