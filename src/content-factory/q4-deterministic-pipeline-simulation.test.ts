@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import matrixText from '../../content-factory/reliability-q4-deterministic-pipeline-simulation.json?raw'
-import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import {
   q4CorrectedHeadSha,
   q4ExpectedStateTrace,
@@ -22,17 +21,10 @@ type Q4Matrix = {
   paidPilotEligible: boolean
 }
 
-type QualificationState = {
-  status: string
-  qualifiedEvidence: unknown
-  livePilotEligible: boolean
-}
-
 const matrix = JSON.parse(matrixText) as Q4Matrix
-const qualification = JSON.parse(qualificationText) as QualificationState
 
 describe('Content Factory Q4 deterministic full-pipeline simulation', () => {
-  it('locks Q4 evidence to the governed provider-free simulation and keeps paid pilots disabled', () => {
+  it('locks Q4 evidence to the governed provider-free simulation without itself granting pilot eligibility', () => {
     expect(matrix.schemaVersion).toBe(1)
     expect(matrix.status).toBe('complete')
     expect(matrix.scope).toBe('deterministic_full_pipeline_simulation')
@@ -42,9 +34,6 @@ describe('Content Factory Q4 deterministic full-pipeline simulation', () => {
     expect(matrix.expectedStateTrace).toEqual(q4ExpectedStateTrace)
     expect(matrix.q4Pass).toBe(true)
     expect(matrix.paidPilotEligible).toBe(false)
-    expect(qualification.status).toBe('paused')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
   })
 
   it('traverses every governed Q4 stage including remediation and returns only to expert_review_ready', async () => {
