@@ -125,7 +125,13 @@ function markingOutput(overrides: Record<string, unknown> = {}) {
         answerRequirements: ['Explain a scientifically valid reason for the difference.'],
       },
     ],
-    rubric: [{ id: 'all-marks', descriptor: 'Credit valid science and reasoning up to the available marks.', minMark: 0, maxMark: 8 }],
+    rubric: [
+      { id: 'q1-zero', descriptor: 'No creditworthy method or answer.', minMark: 0, maxMark: 0 },
+      { id: 'q1-method', descriptor: 'Some correct method or working; allow consequential follow-through where the process is valid.', minMark: 1, maxMark: 2 },
+      { id: 'q1-accuracy', descriptor: 'Correct method with an accurate final answer, applying consequential-error treatment where appropriate.', minMark: 3, maxMark: 4 },
+      { id: 'q2-low', descriptor: 'Limited but relevant scientific explanation.', minMark: 0, maxMark: 2 },
+      { id: 'q2-developed', descriptor: 'Developed causal scientific explanation applied to the supplied context.', minMark: 3, maxMark: 4 },
+    ],
     applicationRequirements: ['Use the supplied scientific context.'],
     analysisRequirements: ['Develop a causal explanation.'],
     evaluationRequirements: [],
@@ -157,6 +163,7 @@ describe('Q2 structured Marking Pack AO ownership', () => {
       const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string }; assessmentBlueprint: { evidenceExpectations: string[] } }
       expect(payload.questionFamily.responseShape).toContain('top-level assessmentObjectiveAllocation to an empty array')
       expect(payload.questionFamily.responseShape).toContain('Revision derives the overall AO allocation deterministically')
+      expect(payload.questionFamily.responseShape).toContain('rubric must operationalise mark award for every structured subquestion')
       expect(payload.assessmentBlueprint.evidenceExpectations.join(' ')).toContain('do not duplicate that arithmetic')
       return new Response(JSON.stringify(responseBody(markingOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
