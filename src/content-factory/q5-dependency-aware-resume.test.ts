@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
 import q5RecordText from '../../content-factory/reliability-q5-restart-reuse-invalidation.json?raw'
-import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import { createRequestedJob } from './orchestrator'
 import type { ContentFactoryJob } from './schema'
 import type { WorkerExecution } from './intake-to-knowledge-model'
@@ -34,14 +33,7 @@ type Q5Record = {
   scenarios: Array<{ id: string; decision: string }>
 }
 
-type QualificationState = {
-  status: string
-  qualifiedEvidence: unknown
-  livePilotEligible: boolean
-}
-
 const q5Record = JSON.parse(q5RecordText) as Q5Record
-const qualification = JSON.parse(qualificationText) as QualificationState
 
 function memoryCommentClient() {
   let id = 0
@@ -127,7 +119,7 @@ function executedOnSecondPass(calls: Map<DurableWorkerMethod, number>) {
 }
 
 describe('Q5 dependency-aware durable restart qualification', () => {
-  it('locks the Q5 PASS record while overall qualification and paid-pilot eligibility remain paused', () => {
+  it('locks the Q5 PASS record without itself granting pilot eligibility', () => {
     expect(q5Record.schemaVersion).toBe(1)
     expect(q5Record.gate).toBe('Q5')
     expect(q5Record.status).toBe('complete')
@@ -136,9 +128,6 @@ describe('Q5 dependency-aware durable restart qualification', () => {
     expect(q5Record.providerCallsUsed).toBe(false)
     expect(q5Record.paidPilotEligible).toBe(false)
     expect(q5Record.scenarios.every((scenario) => scenario.decision === 'pass')).toBe(true)
-    expect(qualification.status).toBe('paused')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
   })
 
   it('covers every durable worker contract with an acyclic semantic dependency closure', () => {

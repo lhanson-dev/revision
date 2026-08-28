@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import q6RecordText from '../../content-factory/reliability-q6-repeated-stability.json?raw'
-import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import { q3SubjectShapeIds } from './q3-subject-shape-fixtures'
 import { q4ExpectedStateTrace } from './q4-deterministic-pipeline-fixture'
 import {
@@ -35,21 +34,14 @@ type Q6Record = {
   limitations: string[]
 }
 
-type QualificationState = {
-  status: string
-  qualifiedEvidence: unknown
-  livePilotEligible: boolean
-}
-
 const q6Record = JSON.parse(q6RecordText) as Q6Record
-const qualification = JSON.parse(qualificationText) as QualificationState
 
 function sorted(values: readonly string[]) {
   return [...values].sort()
 }
 
 describe('Content Factory Q6 repeated qualification stability', () => {
-  it('locks the governed repetition count and keeps overall qualification paused', () => {
+  it('locks the governed repetition count without itself granting pilot eligibility', () => {
     expect(q6Record.schemaVersion).toBe(1)
     expect(q6Record.gate).toBe('Q6')
     expect(q6Record.status).toBe('complete')
@@ -64,9 +56,6 @@ describe('Content Factory Q6 repeated qualification stability', () => {
     expect(q6Record.providerCallsUsed).toBe(false)
     expect(q6Record.q6Pass).toBe(true)
     expect(q6Record.paidPilotEligible).toBe(false)
-    expect(qualification.status).toBe('paused')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
   })
 
   it('passes Q3, Q4 and Q5 three times with stable outcomes and no new contract-class failure', async () => {
@@ -148,7 +137,7 @@ describe('Content Factory Q6 repeated qualification stability', () => {
     expect(new Set(stableOutcomeSignatures).size).toBe(1)
   }, 120_000)
 
-  it('records limitations without confusing provider-free reliability with educational approval or paid-pilot eligibility', () => {
+  it('records limitations without confusing provider-free reliability with educational approval or Q7 eligibility', () => {
     expect(q6Record.assertions.join(' ')).toContain('No new contract-class failure')
     expect(q6Record.limitations.join(' ')).toContain('do not prove educational correctness')
     expect(q6Record.limitations.join(' ')).toContain('does not itself change overall qualification status')
