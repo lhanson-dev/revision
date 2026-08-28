@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   live-pilot:
-    name: AQA AS Business 7131 live adapter proof
+    name: Governed Content Factory live adapter proof
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -37,6 +37,9 @@ jobs:
 
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Verify course-agnostic Content Factory reliability qualification
+        run: node scripts/content-factory-live-pilot-qualification.mjs
 
       - name: Run rights-safe live adapter pilot
         env:
