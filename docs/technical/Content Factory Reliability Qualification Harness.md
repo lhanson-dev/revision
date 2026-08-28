@@ -2,9 +2,11 @@
 
 ## Status
 
-Implementation and qualification plan for the course-agnostic Content Factory reliability reset introduced after live Pilot #15.
+Course-agnostic Content Factory reliability qualification is active on approved `main`. Paid end-to-end live pilots remain paused.
 
 This document is current implementation truth. The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`.
+
+Q1 worker-contract ownership inventory has now been completed against production-verified `main` commit `15737d04f769264dd986bede2d909e228bc408d3`. The inventory is complete enough to expose current ownership and blockers, but **Q1 is not PASS** because two generic contract blockers remain. Q2 is the next remediation/qualification gate.
 
 ## Why the calibration method changed
 
@@ -22,7 +24,7 @@ Repeated whole-course paid runs are therefore no longer the primary debugging me
 
 ## Current implementation boundary
 
-This branch introduces a fail-closed preflight before the live-pilot model call:
+Approved `main` now contains a fail-closed preflight before the live-pilot model call:
 
 `workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
 
@@ -40,26 +42,59 @@ There is no workflow input or environment-variable bypass. Re-enabling the paid 
 
 ## Course-agnostic qualification architecture
 
-The reliability work is organised by reusable worker boundary rather than by named Business examples.
+The reliability work is organised by reusable worker boundary rather than by named course examples.
 
-The qualification harness must cover:
+The qualification harness covers:
 
 1. Course Knowledge Model / structured course facts;
-2. Learn generation;
-3. Practice generation;
-4. assessment design / Question Family boundaries where model-assisted;
-5. assessment-item generation;
-6. Marking Pack generation;
-7. independent review;
-8. remediation;
-9. expert-review package assembly;
-10. orchestrator restart/reuse/dependency invalidation.
+2. Learning Blueprint planning;
+3. Learn generation;
+4. Practice generation;
+5. Assessment Blueprint planning;
+6. Question Family generation;
+7. assessment-item generation;
+8. Marking Pack generation;
+9. deterministic validation;
+10. independent review;
+11. remediation;
+12. expert-review package assembly;
+13. orchestrator restart/reuse/dependency invalidation in Q5.
 
-The machine-readable starting inventory is:
+The machine-readable inventory is:
 
 `content-factory/reliability-contract-inventory.json`
 
-Its current `in_review` / `pending` states are deliberate. The inventory does not claim qualification.
+Its schema v2 inventory is test-enforced and tied to the exact reviewed `main` commit. Every governed material worker boundary must be present exactly once, must be generic, must identify implementation evidence, and must classify each inventoried mechanically checked representation using the five governed ownership classes.
+
+## Q1 — completed ownership audit, not yet PASS
+
+Q1 reviewed the actual current implementation rather than reconstructing contract intent from pilot history.
+
+The audit confirms the intended generic ownership model for the main reliability-sensitive representations:
+
+- exact Learn evidence → bounded locator/reference resolved by Revision;
+- exact Practice evidence → bounded locator/reference resolved by Revision;
+- job, artifact, fingerprint and immutable cross-reference metadata → deterministic derivation where Revision already owns the source values;
+- unknown/out-of-scope requirement, component, node, family and artifact references → fail closed;
+- assessment response-demand versus learner-facing command mismatch → strict deterministic validation plus one bounded targeted repair where the intended educational demand is linguistic;
+- expert-review package composition and exact-version assurance bindings → deterministic derivation / fail closed;
+- educational explanations, questions, marking judgement, independent-review findings and remediated educational content → generative judgement subject to downstream assurance.
+
+Two generic blockers prevent Q1 from being marked PASS:
+
+### Q1-PRACTICE-EVIDENCE-PATH
+
+`src/content-factory/provider-coverage-evidence.ts` contains the intended generic Practice locator resolver: mode + one-based activity index + one of `prompt`, `expectedResponse`, `explanation` or `improvementAction` resolves to the exact generated learner-content string.
+
+Pilot #15 nevertheless reached the exact-evidence mismatch class. Q2 must therefore exercise the **actual adapter/compiler path**, across every supported Practice mode, to find the path that bypasses the resolver or creates an incompatible representation. This is not a Business-specific content fix.
+
+### Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC
+
+`validateMarkingPack` still parses and validates provider-authored `assessmentObjectiveAllocation`, including checking that its aggregate marks total equals the assessment-item maximum, before final pack assembly. Where structured subquestion guidance already provides the underlying allocations, this is duplicated model-authored arithmetic.
+
+The governed target ownership is deterministic derivation from validated structured guidance. Q2 must remove the duplicated aggregate authorship or derive it before the aggregate checks, while retaining strict validation of genuine educational allocation choices.
+
+These blockers are deliberately machine-readable in the inventory. The inventory status is therefore `complete_with_blockers`, not `pass` or `qualified`.
 
 ## Mechanical ownership audit
 
@@ -77,13 +112,21 @@ Each field is classified as:
 
 The objective is not to remove useful model judgement. It is to remove duplicated model authorship of clerical representations that Revision can derive without educational loss.
 
-Examples already identified from live evidence include:
+## Q1 regression enforcement
 
-- exact Learn/Practice evidence excerpts → bounded locator resolved by Revision;
-- Marking Pack aggregate AO totals → deterministically derived from validated subquestion allocations;
-- assessment response-demand/command synchronisation → strict validator plus one bounded targeted repair where the intended educational demand is genuinely linguistic.
+`src/content-factory/reliability-contract-inventory.test.ts` prevents the inventory from silently degrading by asserting that:
 
-## Provider-free contract matrix
+- every governed material worker boundary appears exactly once;
+- all boundaries are generic rather than course-specific;
+- every boundary has implementation evidence and at least one classified mechanical representation;
+- only the five governed ownership classes are used;
+- every blocker is explicit both at field level and in the top-level blocker register;
+- the inventory cannot claim Q1 completion without retaining known generic Practice-evidence and Marking-Pack-arithmetic blockers;
+- assessment response-demand ownership remains `targeted_repair_eligible` rather than being silently weakened or reclassified.
+
+This is the contract-test foundation for Q2. It does not substitute for Q2 adversarial provider-response tests.
+
+## Provider-free contract matrix — Q2
 
 Before any paid confirmation pilot, provider-free tests must exercise every material generic worker contract with valid and adversarial responses.
 
@@ -101,7 +144,7 @@ The matrix includes:
 - true fail-closed educational defects;
 - proof that valid output does not create an unnecessary extra provider call.
 
-Historical pilot wording must not be invented when rejected provider output was not retained. Synthetic regressions represent the defect class and are labelled as such.
+Q2 starts with the two blockers exposed by Q1, then expands across the full worker inventory. Historical pilot wording must not be invented when rejected provider output was not retained. Synthetic regressions represent the defect class and are labelled as such.
 
 ## Subject-shape matrix
 
@@ -181,13 +224,12 @@ A failure after qualification must be classified against the generic contract in
 
 ## Documentation impact
 
-This reliability reset is material process governance, so the branch includes:
+This Q1 increment changes implementation evidence, not the normative Reliability Qualification Standard. The existing authority already requires the ownership inventory and course-agnostic process.
 
-- the new normative Reliability Qualification Standard;
-- this technical implementation/qualification plan;
-- a machine-readable qualification status;
-- a machine-readable generic contract inventory;
-- a fail-closed workflow preflight;
-- regression assurance that the paused state blocks paid execution.
+This increment therefore updates:
 
-Historical Pilot #15 / Issue #209 remains unchanged. Future qualification work must append evidence rather than rewriting prior pilot records.
+- the machine-readable generic contract inventory;
+- test enforcement of that inventory;
+- this technical qualification record.
+
+`content-factory/reliability-qualification.json` remains `paused`; Q1 is not represented as PASS while the two generic blockers remain. Historical Pilot #15 / Issue #209 remains unchanged. Future qualification work must append evidence rather than rewriting prior pilot records.
