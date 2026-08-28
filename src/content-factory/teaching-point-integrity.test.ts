@@ -66,6 +66,35 @@ describe('teaching-point integrity', () => {
     })).toEqual(evidence)
   })
 
+  it('accepts locator-resolved evidence containing quotes and line breaks without JSON-serialization drift', () => {
+    const exactEvidence = 'Compare the stated "result" with the baseline.\nThen explain what the difference means.'
+    const evidence = [{ teachingPoint: 'data interpretation', evidence: exactEvidence }]
+
+    expect(validateTeachingPointEvidence({
+      requiredTeachingPoints: ['data interpretation'],
+      evidence,
+      searchableContent: {
+        activities: [{
+          prompt: exactEvidence,
+          expectedResponse: 'State the comparison and interpret its meaning.',
+        }],
+      },
+      artifactLabel: 'Generic Practice',
+    })).toEqual(evidence)
+  })
+
+  it('does not manufacture an exact excerpt by concatenating separate generated fields', () => {
+    expect(() => validateTeachingPointEvidence({
+      requiredTeachingPoints: ['causal reasoning'],
+      evidence: [{ teachingPoint: 'causal reasoning', evidence: 'Higher demand can raise price when supply is constrained.' }],
+      searchableContent: {
+        prompt: 'Higher demand can raise price',
+        explanation: 'when supply is constrained.',
+      },
+      artifactLabel: 'Generic Practice',
+    })).toThrow(/not an exact excerpt/)
+  })
+
   it('rejects missing, invented and duplicate evidence claims', () => {
     expect(() => validateTeachingPointEvidence({
       requiredTeachingPoints: ['limited liability', 'unlimited liability'],
