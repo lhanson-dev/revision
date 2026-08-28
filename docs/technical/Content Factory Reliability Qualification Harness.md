@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `6648a9f8e49b8260ded9fc92ac8288472c8ea4ed`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Assessment Blueprint gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
+Production-verified `main` before this Q2 increment is `5ee7efab4e1460fcbb901c389ba9e4e64a8c1dd8`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence. The Q2 boundary map is active; this increment closes the direct Question Family gap while Q2 as a whole remains incomplete and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -30,20 +30,7 @@ There is no workflow input or environment-variable bypass. Paid pilots remain in
 
 ## Course-agnostic worker inventory
 
-`content-factory/reliability-contract-inventory.json` inventories the material generic boundaries for:
-
-1. Course Knowledge Model;
-2. Learning Blueprint;
-3. Learn generation;
-4. Practice generation;
-5. Assessment Blueprint;
-6. Question Family generation;
-7. assessment-item generation;
-8. Marking Pack generation;
-9. deterministic validation;
-10. independent review;
-11. remediation;
-12. expert-review package assembly.
+`content-factory/reliability-contract-inventory.json` inventories the material generic boundaries for Course Knowledge Model, Learning Blueprint, Learn generation, Practice generation, Assessment Blueprint, Question Family generation, assessment-item generation, Marking Pack generation, deterministic validation, independent review, remediation and expert-review package assembly.
 
 Every mechanically checked representation is classified under the governed ownership vocabulary: generative judgement, deterministic derivation, bounded locator/reference, targeted repair eligible, or fail closed.
 
@@ -51,9 +38,7 @@ Q1 remains recorded as `complete_with_blockers`, not PASS, until the machine-rea
 
 ## Q2 provider-free contract matrix
 
-The Q2 machine-readable progress record is:
-
-`content-factory/reliability-q2-contract-matrix.json`
+The Q2 machine-readable progress record is `content-factory/reliability-q2-contract-matrix.json`.
 
 The matrix is a complete boundary map rather than a list of `pending_matrix` placeholders. Every Q1 worker boundary appears exactly once and records current evidence, proven provider-free behaviour and any remaining adversarial gap.
 
@@ -71,51 +56,48 @@ Provider-free regression evidence is in `src/content-factory/q2-course-knowledge
 
 ### Assessment Blueprint direct contract
 
-The Assessment Blueprint gap is now closed at the direct model-assisted compiler boundary.
+The Assessment Blueprint gap is closed at the direct model-assisted compiler boundary.
 
-The existing provider schema constrains the Blueprint shape and downstream factory validation binds persisted output to the exact Board Alignment artifact. This increment adds direct boundary validation before provider success is accepted for the mechanically checkable fields supplied to the worker:
+The direct compiler validates exact job and deterministic Blueprint fingerprint bindings, exact component coverage, unique Question Family IDs, component marks and timings, exact assessment-objective IDs and weightings, and governed command-demand component references before provider success is accepted.
 
-- exact Content Factory job binding;
-- deterministic Blueprint fingerprint derived from governed component, objective and assessment-requirement inputs;
-- exact component coverage with unique component IDs;
-- at least one unique Question Family ID per component;
-- component mark totals and timings matching governed component facts;
-- exact assessment-objective IDs and governed weightings;
-- command-demand component references resolving only to governed components, without duplicate references.
+The provider retains generative judgement over Question Family planning, component constraints, command/cognitive-demand design, quantitative and synoptic planning, and evidence expectations. Provider-free regression evidence is in `src/content-factory/q2-assessment-blueprint-contract.test.ts` using a language-shaped fixture.
 
-The provider retains generative judgement over Question Family planning, component constraints, command/cognitive-demand design, quantitative and synoptic planning, and evidence expectations. The compiler does not introduce subject-specific assumptions.
+### Question Family direct contract
 
-Provider-free regression evidence is in `src/content-factory/q2-assessment-blueprint-contract.test.ts`. The fixture is language-shaped and proves valid first-pass output uses exactly one provider call; malformed output, mark/timing drift, AO-weighting drift, invalid command-demand references and deterministic binding mismatches all fail closed without provider retry.
+The Question Family gap is now closed at the direct model-assisted compiler boundary.
 
-The persisted Board Alignment fingerprint remains independently validated by the assessment factory before downstream Question Family and item generation, so the direct compiler and downstream artifact binding remain separate controls.
+The provider remains responsible for educational assessment-family design: title, skill profile, response shape, context requirements, application/analysis/evaluation demands and common failure modes. Revision directly validates the mechanically governed references and bounds before a successful provider execution is accepted:
+
+- provider output contains exactly the requested Question Family IDs, with no missing, duplicate or unexpected family;
+- each family component scope exactly matches where that family is placed in the Assessment Blueprint;
+- component references cannot be duplicated or invented;
+- assessment-objective references must resolve to the Blueprint objective set and cannot be duplicated;
+- family maximum marks cannot exceed the governed total for any component in its Blueprint scope.
+
+Provider-free regression evidence is in `src/content-factory/q2-question-family-contract.test.ts`. The fixture is humanities-shaped and proves valid first-pass output uses exactly one provider call; malformed output, missing/duplicate/unexpected IDs, invalid component scope, unknown objective references and excessive mark ranges fail closed without provider retry.
+
+This is a generic provider boundary and does not encode Business-specific family policy. Existing optional pilot policies remain separate from the reusable contract.
 
 ### Practice evidence-path remediation
 
-The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` has been reproduced at the reusable validation boundary.
+The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` was reproduced at the reusable validation boundary. The downstream teaching-point validator now recursively inspects actual generated string leaves rather than a JSON-serialized transport representation, preserving exact learner-content evidence through quotes and line breaks.
 
-The bounded locator path itself was correct:
-
-`provider Practice location → mode + one-based activity index + allowed field → Revision resolves exact generated string`
-
-The downstream teaching-point validator then searched for that string inside `JSON.stringify(searchableContent)`, which escaped learner strings containing JSON-sensitive characters. The validator now recursively inspects actual generated string leaves and therefore validates the learner representation rather than a serialized transport representation.
-
-Provider-free regression evidence covers all five supported Practice modes, all four bounded evidence fields, exact strings containing quotes and line breaks, invalid locations, paraphrase rejection, no fuzzy matching and one provider call for valid adapter output.
+Provider-free regression evidence covers all five supported Practice modes, all four bounded evidence fields, invalid locations, paraphrase rejection and one provider call for valid adapter output.
 
 ### Marking Pack aggregate AO remediation
 
 The Q1 blocker `Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` is remediated at the structured provider/compiler boundary.
 
-For structured items, the Marking Pack provider leaves top-level `assessmentObjectiveAllocation` empty. Educational AO allocation judgement remains at subquestion level; Revision validates each subquestion and deterministically derives the aggregate allocation before downstream validation. Provider-authored structured aggregate arithmetic fails closed. Unstructured Marking Packs retain their existing aggregate contract where no lower-level deterministic representation exists.
+For structured items, educational AO allocation judgement remains at subquestion level; Revision validates each subquestion and deterministically derives the aggregate allocation before downstream validation. Provider-authored structured aggregate arithmetic fails closed. Unstructured Marking Packs retain their existing aggregate contract where no lower-level deterministic representation exists.
 
 Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts` using a science-shaped fixture.
 
 ## Q2 evidence mapping result
 
-After this increment, Course Knowledge Model and Assessment Blueprint join Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
+After this increment, Course Knowledge Model, Assessment Blueprint and Question Family generation join Learning Blueprint, Learn generation, assessment-item generation, deterministic validation and expert-review package assembly as mapped boundaries with no current Q2 gap. Practice generation and structured Marking Pack generation remain remediation-evidenced.
 
-Three explicit direct-contract gap groups remain:
+Two explicit direct-contract gap groups remain:
 
-- Question Family missing/duplicate/unexpected IDs, component/objective references and mark-range bounds on a non-Business fixture;
 - independent-review malformed/missing/unknown artifact-reference cases on a non-Business fixture;
 - direct remediation contract scope, malformed output and unknown-target failures.
 
@@ -145,6 +127,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This increment changes implementation truth at the Assessment Blueprint provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation and fail-closed handling of inconsistent totals and cross-references.
+This increment changes implementation truth at the Question Family provider boundary and updates the technical qualification evidence. It does not change the normative Reliability Qualification Standard: the active standard already requires course-agnostic provider-free contract validation, exact references and fail-closed cross-reference handling.
 
 The implementation, direct provider-free regression, Q2 machine-readable matrix and this technical harness are updated together. Historical pilot evidence, the overall reliability qualification status, paid-pilot eligibility and the Q1 historical inventory are deliberately unchanged.

@@ -3,231 +3,94 @@
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "status": "in_progress",
   "scope": "course_agnostic",
-  "baseMainSha": "6648a9f8e49b8260ded9fc92ac8288472c8ea4ed",
+  "baseMainSha": "5ee7efab4e1460fcbb901c389ba9e4e64a8c1dd8",
   "boundaries": [
     {
       "worker": "course_knowledge_model",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/q2-course-knowledge-contract.test.ts",
-        "src/content-factory/openai-course-knowledge-compiler.ts",
-        "src/content-factory/intake-to-knowledge-model.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "science-shaped direct provider contract accepts valid first-pass output with exactly one provider call",
-        "structurally malformed knowledge-node output fails closed without a provider retry",
-        "duplicate knowledge-node identifiers fail closed",
-        "invented or duplicated source references fail closed against governed curriculum sources",
-        "unknown Board Alignment references fail closed against supplied alignment IDs",
-        "provider output with the wrong Content Factory job binding fails closed",
-        "economics-shaped provider-free pipeline still exercises source-rights and mapped-state integration"
-      ],
+      "evidence": ["src/content-factory/q2-course-knowledge-contract.test.ts", "src/content-factory/openai-course-knowledge-compiler.ts", "src/content-factory/intake-to-knowledge-model.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["science-shaped direct provider contract accepts valid first-pass output with exactly one provider call", "structurally malformed knowledge-node output fails closed without a provider retry", "duplicate knowledge-node identifiers fail closed", "invented or duplicated source references fail closed against governed curriculum sources", "unknown Board Alignment references fail closed against supplied alignment IDs", "provider output with the wrong Content Factory job binding fails closed", "economics-shaped provider-free pipeline still exercises source-rights and mapped-state integration"],
       "gaps": []
     },
     {
       "worker": "learning_blueprint",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/openai-learning-blueprint-compiler.test.ts",
-        "src/content-factory/learning-and-practice.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "mathematics-shaped direct provider contract uses one call for valid output",
-        "required Learn and Practice outputs are deterministically reconciled without another provider call",
-        "quantitative and retrieval fallbacks are selected from governed inputs rather than subject-specific assumptions",
-        "ungoverned modes are stripped and impossible no-output work units fail once",
-        "shared multi-component requirements cannot be duplicated into component-specific work units",
-        "persisted work-unit output can resume without regenerating already successful collateral"
-      ],
+      "evidence": ["src/content-factory/openai-learning-blueprint-compiler.test.ts", "src/content-factory/learning-and-practice.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["mathematics-shaped direct provider contract uses one call for valid output", "required Learn and Practice outputs are deterministically reconciled without another provider call", "quantitative and retrieval fallbacks are selected from governed inputs rather than subject-specific assumptions", "ungoverned modes are stripped and impossible no-output work units fail once", "shared multi-component requirements cannot be duplicated into component-specific work units", "persisted work-unit output can resume without regenerating already successful collateral"],
       "gaps": []
     },
     {
       "worker": "learn_generation",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/openai-provider-contract-hardening.test.ts",
-        "src/content-factory/openai-provider-evidence-locator.test.ts",
-        "src/content-factory/learning-and-practice.test.ts",
-        "src/content-factory/teaching-point-integrity.test.ts"
-      ],
-      "coverage": [
-        "mathematics-shaped strict Learn schemas cover explanation, worked example and combined modes",
-        "Revision injects Learn artifact identifiers deterministically",
-        "bounded evidence locations resolve to exact generated learner-content strings",
-        "invalid evidence locations fail closed",
-        "missing required teaching-point evidence fails closed",
-        "paraphrased evidence is rejected when an exact generated excerpt is required",
-        "valid direct provider output uses one provider call"
-      ],
+      "evidence": ["src/content-factory/openai-provider-contract-hardening.test.ts", "src/content-factory/openai-provider-evidence-locator.test.ts", "src/content-factory/learning-and-practice.test.ts", "src/content-factory/teaching-point-integrity.test.ts"],
+      "coverage": ["mathematics-shaped strict Learn schemas cover explanation, worked example and combined modes", "Revision injects Learn artifact identifiers deterministically", "bounded evidence locations resolve to exact generated learner-content strings", "invalid evidence locations fail closed", "missing required teaching-point evidence fails closed", "paraphrased evidence is rejected when an exact generated excerpt is required", "valid direct provider output uses one provider call"],
       "gaps": []
     },
     {
       "worker": "practice_generation",
       "status": "remediation_evidenced",
       "q1BlockerId": "Q1-PRACTICE-EVIDENCE-PATH",
-      "evidence": [
-        "src/content-factory/q2-practice-evidence-contract.test.ts",
-        "src/content-factory/openai-provider-contract-hardening.test.ts",
-        "src/content-factory/teaching-point-integrity.test.ts"
-      ],
-      "coverage": [
-        "all five supported Practice modes",
-        "all four bounded evidence fields",
-        "invalid mode/index/field fails closed",
-        "paraphrased evidence fails closed",
-        "quoted and multiline exact evidence survives downstream validation",
-        "valid adapter output uses one provider call in existing provider-free adapter tests"
-      ],
+      "evidence": ["src/content-factory/q2-practice-evidence-contract.test.ts", "src/content-factory/openai-provider-contract-hardening.test.ts", "src/content-factory/teaching-point-integrity.test.ts"],
+      "coverage": ["all five supported Practice modes", "all four bounded evidence fields", "invalid mode/index/field fails closed", "paraphrased evidence fails closed", "quoted and multiline exact evidence survives downstream validation", "valid adapter output uses one provider call in existing provider-free adapter tests"],
       "gaps": [],
       "rootCause": "Downstream exact-evidence validation searched JSON.stringify(searchableContent), so JSON escaping could make a locator-resolved exact generated string appear absent. Validation now searches actual generated string leaves instead of serialized JSON."
     },
     {
       "worker": "assessment_blueprint",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/q2-assessment-blueprint-contract.test.ts",
-        "src/content-factory/openai-assessment-blueprint-compiler.ts",
-        "src/content-factory/assessment-and-marking.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "language-shaped direct provider contract accepts valid first-pass output with exactly one provider call",
-        "structurally malformed Blueprint output fails closed without provider retry",
-        "component IDs must exactly cover governed components with unique Question Family IDs",
-        "component mark totals and timings must match governed Board Alignment facts",
-        "assessment-objective IDs and weightings must exactly match governed facts",
-        "command-demand component references must be unique and resolve to governed components",
-        "job and deterministic Blueprint fingerprint bindings fail closed when mismatched",
-        "factory integration still validates the persisted Board Alignment fingerprint before downstream generation"
-      ],
+      "evidence": ["src/content-factory/q2-assessment-blueprint-contract.test.ts", "src/content-factory/openai-assessment-blueprint-compiler.ts", "src/content-factory/assessment-and-marking.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["language-shaped direct provider contract accepts valid first-pass output with exactly one provider call", "structurally malformed Blueprint output fails closed without provider retry", "component IDs must exactly cover governed components with unique Question Family IDs", "component mark totals and timings must match governed Board Alignment facts", "assessment-objective IDs and weightings must exactly match governed facts", "command-demand component references must be unique and resolve to governed components", "job and deterministic Blueprint fingerprint bindings fail closed when mismatched", "factory integration still validates the persisted Board Alignment fingerprint before downstream generation"],
       "gaps": []
     },
     {
       "worker": "question_family_generation",
-      "status": "gap_identified",
-      "evidence": [
-        "src/content-factory/openai-live-adapter.test.ts",
-        "src/content-factory/assessment-and-marking.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "provider-compatible Question Family array envelope is exercised with one provider call",
-        "factory evidence reuses families across component-specific assessment items",
-        "Q1 inventory requires exact requested IDs, known components/objectives and bounded mark ranges"
-      ],
-      "gaps": [
-        "add a non-Business direct Question Family fixture proving exact requested family identity and one provider call",
-        "add direct missing, duplicate or unexpected family ID failure coverage",
-        "add direct unknown component/objective and excessive mark-range failure coverage"
-      ]
+      "status": "evidence_mapped",
+      "evidence": ["src/content-factory/q2-question-family-contract.test.ts", "src/content-factory/openai-question-family-compiler.ts", "src/content-factory/assessment-and-marking.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["humanities-shaped direct provider contract accepts valid first-pass output with exactly one provider call", "structurally malformed Question Family output fails closed without provider retry", "missing, duplicate or unexpected Question Family IDs fail closed against the exact requested set", "component scope must exactly match the Assessment Blueprint and duplicate component references fail closed", "assessment-objective references must resolve to Blueprint objectives without duplicates", "Question Family maximum marks cannot exceed governed component totals", "factory evidence continues to reuse validated families across component-specific assessment items"],
+      "gaps": []
     },
     {
       "worker": "assessment_item_generation",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/openai-assessment-integrity-compiler.test.ts",
-        "src/content-factory/assessment-integrity.test.ts",
-        "src/content-factory/assessment-and-marking.test.ts"
-      ],
-      "coverage": [
-        "economics-shaped valid structured assessment output uses one provider call",
-        "structured subquestions, governed marks, requirements and learner-facing wording are deterministically validated",
-        "calculation and interpretation demand mismatches fail closed after the single permitted repair",
-        "one targeted repair can succeed when the deterministic response-demand error is repairable",
-        "completed but invalid structured output cannot trigger unbounded repair",
-        "factory assembles provenance and component bindings around validated provider content"
-      ],
+      "evidence": ["src/content-factory/openai-assessment-integrity-compiler.test.ts", "src/content-factory/assessment-integrity.test.ts", "src/content-factory/assessment-and-marking.test.ts"],
+      "coverage": ["economics-shaped valid structured assessment output uses one provider call", "structured subquestions, governed marks, requirements and learner-facing wording are deterministically validated", "calculation and interpretation demand mismatches fail closed after the single permitted repair", "one targeted repair can succeed when the deterministic response-demand error is repairable", "completed but invalid structured output cannot trigger unbounded repair", "factory assembles provenance and component bindings around validated provider content"],
       "gaps": []
     },
     {
       "worker": "marking_pack_generation",
       "status": "remediation_evidenced",
       "q1BlockerId": "Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC",
-      "evidence": [
-        "src/content-factory/openai-assessment-integrity-compiler.ts",
-        "src/content-factory/q2-marking-pack-ao-contract.test.ts",
-        "src/content-factory/assessment-integrity.ts"
-      ],
-      "coverage": [
-        "structured provider contract forbids model-authored aggregate AO arithmetic",
-        "Revision derives aggregate AO allocation from validated subquestion guidance",
-        "each subquestion AO allocation must total its governed mark value",
-        "unknown assessment objectives remain fail closed",
-        "provider-authored structured aggregate fails closed",
-        "valid structured output uses one provider call",
-        "unstructured marking guidance retains its existing non-duplicated AO allocation contract"
-      ],
+      "evidence": ["src/content-factory/openai-assessment-integrity-compiler.ts", "src/content-factory/q2-marking-pack-ao-contract.test.ts", "src/content-factory/assessment-integrity.ts"],
+      "coverage": ["structured provider contract forbids model-authored aggregate AO arithmetic", "Revision derives aggregate AO allocation from validated subquestion guidance", "each subquestion AO allocation must total its governed mark value", "unknown assessment objectives remain fail closed", "provider-authored structured aggregate fails closed", "valid structured output uses one provider call", "unstructured marking guidance retains its existing non-duplicated AO allocation contract"],
       "gaps": [],
       "rootCause": "Structured Marking Packs asked the provider to author both subquestion AO allocations and the aggregate allocation, then mechanically checked both. The structured compiler now requires an empty aggregate placeholder and deterministically derives the final aggregate from validated subquestion allocations before downstream factory validation."
     },
     {
       "worker": "deterministic_validation",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/assurance-and-remediation.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "provider-free assurance runs deterministic validation over persisted content artifacts",
-        "validation decisions and evidence are persisted before independent review",
-        "invalid artifact relationships prevent progression rather than being repaired by a model",
-        "this boundary is deterministic and therefore has no external provider-call requirement"
-      ],
+      "evidence": ["src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["provider-free assurance runs deterministic validation over persisted content artifacts", "validation decisions and evidence are persisted before independent review", "invalid artifact relationships prevent progression rather than being repaired by a model", "this boundary is deterministic and therefore has no external provider-call requirement"],
       "gaps": []
     },
     {
       "worker": "independent_review",
       "status": "gap_identified",
-      "evidence": [
-        "src/content-factory/openai-live-adapter-independent-review.test.ts",
-        "src/content-factory/assurance-and-remediation.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "direct provider contract removes model discretion over workUnitId and derives scope from referenced artifacts",
-        "valid direct review uses one provider call",
-        "provider-free assurance pipeline persists review decisions and findings before remediation"
-      ],
-      "gaps": [
-        "add a non-Business direct independent-review fixture",
-        "add malformed or missing finding/reference provider-contract failure coverage",
-        "add unknown artifact-reference fail-closed coverage"
-      ]
+      "evidence": ["src/content-factory/openai-live-adapter-independent-review.test.ts", "src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["direct provider contract removes model discretion over workUnitId and derives scope from referenced artifacts", "valid direct review uses one provider call", "provider-free assurance pipeline persists review decisions and findings before remediation"],
+      "gaps": ["add a non-Business direct independent-review fixture", "add malformed or missing finding/reference provider-contract failure coverage", "add unknown artifact-reference fail-closed coverage"]
     },
     {
       "worker": "remediation",
       "status": "gap_identified",
-      "evidence": [
-        "src/content-factory/assurance-and-remediation.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "provider-free orchestration targets remediation at review findings rather than replaying the whole course",
-        "corrected artifacts are versioned and revalidated before independent re-review",
-        "remediation failure remains fail closed in the assurance pipeline"
-      ],
-      "gaps": [
-        "add a direct model-assisted remediation provider-contract valid first-pass case with one provider call",
-        "add malformed remediation output and unknown target reference failure coverage",
-        "prove the provider cannot expand remediation beyond the governed affected artifact or work-unit scope"
-      ]
+      "evidence": ["src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["provider-free orchestration targets remediation at review findings rather than replaying the whole course", "corrected artifacts are versioned and revalidated before independent re-review", "remediation failure remains fail closed in the assurance pipeline"],
+      "gaps": ["add a direct model-assisted remediation provider-contract valid first-pass case with one provider call", "add malformed remediation output and unknown target reference failure coverage", "prove the provider cannot expand remediation beyond the governed affected artifact or work-unit scope"]
     },
     {
       "worker": "expert_review_package_assembly",
       "status": "evidence_mapped",
-      "evidence": [
-        "src/content-factory/expert-review-handoff.test.ts",
-        "src/content-factory/expert-review-handoff-contract.test.ts",
-        "src/content-factory/reliability-contract-inventory.test.ts"
-      ],
-      "coverage": [
-        "expert-review package assembly is deterministic and consumes persisted validation and independent-review evidence",
-        "qualified expert-review decision semantics reject states without a governed remediation path",
-        "material open findings are represented explicitly for subsequent correction",
-        "this boundary is deterministic and therefore has no external provider-call requirement"
-      ],
+      "evidence": ["src/content-factory/expert-review-handoff.test.ts", "src/content-factory/expert-review-handoff-contract.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["expert-review package assembly is deterministic and consumes persisted validation and independent-review evidence", "qualified expert-review decision semantics reject states without a governed remediation path", "material open findings are represented explicitly for subsequent correction", "this boundary is deterministic and therefore has no external provider-call requirement"],
       "gaps": []
     }
   ],
