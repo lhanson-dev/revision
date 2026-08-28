@@ -109,10 +109,10 @@ The five governed shapes are:
 For every shape the test proves:
 
 - the same contract-integration pipeline reaches `expert_review_ready`;
-- controlled workers make no external source/model-provider call and report zero usage cost;
-- worker retries remain zero;
+- controlled provider-style fixture executions make no external source/model-provider call, report zero usage cost and require zero retries;
+- any unpriced worker-run record has no provider route and therefore does not represent paid-provider usage;
 - no fixture requires human intervention;
-- fixture-specific governed learning modes survive into the generated work units;
+- fixture-specific governed learning modes are exercised through the shared Learn and Practice generation contracts;
 - every generated markable assessment item receives Marking Pack coverage;
 - expert-review packaging remains bound to the fixture's reviewed commit value.
 
