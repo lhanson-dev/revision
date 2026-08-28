@@ -61,7 +61,8 @@ const structuredMarkingInstruction = [
   'For every structured subquestion return exactly one subquestionGuidance entry.',
   'Preserve each subquestion maxMark exactly.',
   'rewardedDemands may only reward responseDemands explicitly requested by that subquestion.',
-  'Each subquestion AO allocation must total that subquestion maxMark, and the summed subquestion allocations must equal the overall AO allocation.',
+  'Each subquestion AO allocation must total that subquestion maxMark.',
+  'For structured items, set the top-level assessmentObjectiveAllocation to an empty array. Revision derives the overall AO allocation deterministically by summing the validated subquestion allocations; do not duplicate that arithmetic.',
 ].join(' ')
 
 function targetedAssessmentRepairInstruction(error: unknown) {
@@ -160,11 +161,14 @@ export function createOpenAIModelAssistedWorkers(
           evidenceExpectations: [...input.assessmentBlueprint.evidenceExpectations, structuredMarkingInstruction],
         },
       } : input
-      const execution = withContractVersion(await workers.generateMarkingPack(hardenedInput), '2')
+      const execution = withContractVersion(await workers.generateMarkingPack(hardenedInput), '3')
       if (execution.status !== 'success' || !hasStructuredSubquestions) return execution
       try {
         const pack = markingPackWorkerOutputSchema.parse(execution.output)
         if (pack.subquestionGuidance.length === 0) throw new Error('structured assessment returned no subquestion marking guidance')
+        if (pack.assessmentObjectiveAllocation.length !== 0) {
+          throw new Error('structured Marking Pack must leave overall AO allocation empty for deterministic derivation')
+        }
         validateStructuredMarkingGuidance({
           itemId: input.assessmentItem.id,
           subquestions: input.assessmentItem.subquestions,
