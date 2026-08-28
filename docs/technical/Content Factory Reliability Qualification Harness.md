@@ -6,19 +6,20 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records implementation and qualification evidence; it does not replace that authority.
 
-Approved `main` reviewed for this Q4 increment is `50b7d47054f9535c2d3cc62a1063cea35e89adfc`, which includes Q1 reconciliation, the completed Q2 provider-free contract matrix and the merged Q3 subject-shape matrix.
+Approved `main` reviewed for this Q5 increment is `93b6bd9c2bb29d4c2150710eef79becc76525d69`, which includes Q1 reconciliation, the completed Q2 provider-free contract matrix, the merged Q3 subject-shape matrix and the merged Q4 deterministic full-pipeline simulation.
 
 Current gate position on this branch:
 
 - **Q1 — PASS:** worker-contract ownership is inventoried and the two previously identified generic blockers are retained as resolved evidence.
 - **Q2 — PASS:** material provider boundaries have provider-free contract evidence with no open Q2 gap.
 - **Q3 — PASS:** all five governed subject/course shapes use the same controlled contract-integration pipeline to `expert_review_ready`.
-- **Q4 — PASS on this branch:** one complete provider-free course build traverses the governed pipeline, receives material independent-review findings, performs targeted remediation, persists a corrected head, revalidates, independently re-reviews and packages only for expert review.
-- **Q5–Q6 — not yet complete.**
+- **Q4 — PASS:** one complete provider-free course build traverses the governed pipeline, receives material independent-review findings, performs targeted remediation, persists a corrected head, revalidates, independently re-reviews and packages only for expert review.
+- **Q5 — PASS on this branch:** durable restart uses exact-input plus transitive worker-contract dependency fingerprints, reuses unchanged completed executions across compatible heads, invalidates only genuine downstream dependants, preserves cumulative spend/retry provenance and replays the current pipeline rather than trusting stale late-stage state.
+- **Q6 — not yet complete.**
 - **Overall qualification — paused.**
 - **Paid confirmation pilot — not eligible.**
 
-Q1–Q4 PASS do not authorize another paid pilot. Only after Q1–Q6 pass may a separate governed, Founder-approved qualification PR change the overall machine-readable status to `qualified` and `livePilotEligible: true`.
+Q1–Q5 PASS do not authorize another paid pilot. Only after Q1–Q6 pass may a separate governed, Founder-approved qualification PR change the overall machine-readable status to `qualified` and `livePilotEligible: true`.
 
 ## Why the calibration method changed
 
@@ -43,6 +44,8 @@ There is no workflow input or environment-variable bypass. `content-factory/reli
 - `status: paused`;
 - `qualifiedEvidence: null`;
 - `livePilotEligible: false`.
+
+Q5 changes restart semantics behind that gate; it does not weaken or bypass the gate.
 
 ## Q1 — worker-contract inventory
 
@@ -74,18 +77,7 @@ The Q2 machine-readable record is `content-factory/reliability-q2-contract-matri
 
 All Q1 material boundaries are represented. Evidence covers valid first-pass behaviour, malformed output, invalid or duplicate references, bounded locators, exact-evidence handling, totals/cross-references, demand mismatch and targeted repair where applicable.
 
-Direct or deterministic Q2 evidence covers:
-
-- Course Knowledge Model contract compilation;
-- Learning Blueprint compilation;
-- Learn and Practice generation evidence contracts;
-- Assessment Blueprint compilation;
-- Question Family compilation;
-- assessment-item integrity and bounded repair;
-- structured Marking Pack AO derivation;
-- independent-review binding and decision semantics;
-- targeted remediation exact-scope validation;
-- deterministic validation and expert-review package assembly.
+Direct or deterministic Q2 evidence covers Course Knowledge Model, Learning Blueprint, Learn and Practice, Assessment Blueprint, Question Family, assessment-item integrity and bounded repair, structured Marking Pack AO derivation, independent-review binding, targeted remediation, deterministic validation and expert-review package assembly.
 
 Valid provider outputs are proven not to require an unnecessary extra provider call. Mechanically invalid output fails closed at the earliest knowable boundary.
 
@@ -95,11 +87,7 @@ The Q3 machine-readable record is `content-factory/reliability-q3-subject-shape-
 
 The executable fixture harness is `src/content-factory/q3-subject-shape-fixtures.ts`, with regression evidence in `src/content-factory/q3-subject-shape-matrix.test.ts`.
 
-Every Q3 fixture uses the same production contract-integration orchestration entry point:
-
-`runRequestedContentFactoryToExpertReviewReady`
-
-from `src/content-factory/end-to-end-proof.ts`.
+Every Q3 fixture uses the same production contract-integration orchestration entry point, `runRequestedContentFactoryToExpertReviewReady`, from `src/content-factory/end-to-end-proof.ts`.
 
 Only the synthetic course shape and controlled worker outputs vary. Orchestration, schemas, artifact stores, source-rights checks, learning/assessment factories, deterministic validation, independent review and expert-review packaging remain shared.
 
@@ -127,71 +115,79 @@ The simulation records this state trace:
 
 `requested → identified → sourced → mapped → generating → validating → independent_review → remediation → validating → independent_review → expert_review_packaging → expert_review_ready`
 
-The trace is evidenced at the actual guarded worker/artifact boundaries: source discovery can only run after `identified`; structured evidence after `sourced`; Learning Blueprint planning from `mapped`; generation after `generating`; validation-report writes from `validating`; independent-review workers from `independent_review`; remediation workers from `remediation`; and expert-review package writes from `expert_review_packaging`. The final parsed job must be exactly `expert_review_ready`.
+The first generated course pack receives deterministic PASS evidence tied to the initial synthetic head before independent review. Independent review deliberately raises one Learn finding and one assessment-item finding. The Learn repair is bounded to that artifact; the assessment-item repair rebuilds its genuinely dependent Marking Pack. Unaffected Practice and Question Family artifacts remain unchanged.
 
-### Deterministic validation boundary
+The corrected content is persisted as one new synthetic head, deterministically revalidated and independently re-reviewed in a fresh context. Expert-review packaging is bound to the corrected validation and independent-review evidence.
 
-The first generated course pack receives a deterministic PASS tied to the initial synthetic head before independent review is permitted.
-
-The first independent review deliberately returns two material findings:
-
-- one Learn finding tied to the single affected learning work unit;
-- one assessment-item finding requiring clearer exact question wording.
-
-After remediation, the corrected content is persisted as one new synthetic head. Deterministic validation runs again against that corrected head and content fingerprint before a second independent review is allowed.
-
-The test requires two PASS validation reports tied respectively to the initial and corrected heads, with different content fingerprints after the correction.
-
-### Targeted remediation and dependent invalidation
-
-The Learn remediation preserves governed identity/provenance and the required exact evidence string while adding only the bounded clarification. The corresponding Practice artifact is not regenerated or replaced.
-
-The assessment-item remediation preserves governed assessment identity/provenance while changing only the permitted demand wording. Because the Marking Pack is genuinely dependent on exact question wording, the correction also rebuilds that Marking Pack. Unrelated Question Family, Learn/Practice and blueprint artifacts are retained.
-
-The remediation record must therefore contain exactly the two targeted replacements, with a dependent old/new Marking Pack reference only on the assessment-item replacement.
-
-The latest course-content-pack manifest must prove:
-
-- original affected Learn ref replaced;
-- original unaffected Practice ref retained;
-- original assessment-item ref replaced;
-- original dependent Marking Pack ref replaced;
-- original Question Family ref retained.
-
-This is Q4 correctness evidence for the exercised remediation graph. Broader restart/reuse and semantic dependency invalidation remain Q5.
-
-### Independent-review separation
-
-The first and second independent reviews use distinct fresh contexts. The final independent review must be PASS against the corrected head and the exact post-remediation deterministic content fingerprint.
-
-The expert-review package must bind its deterministic-validation and independent-review evidence to the same corrected head.
-
-### No learner-publication side effect
-
-Q4 terminates at `expert_review_ready`.
-
-The latest manifest remains `publicationStatus: factory_generated_unassured`. No expert-review submission is produced, no human-review state is entered, and the simulation does not execute publication CI, merge/deployment or learner-publication transitions.
-
-This proves the reliability simulation itself cannot silently convert generated content into learner-visible content.
-
-### Q4 limitations
-
-Q4 proves provider-free orchestration behaviour, not educational correctness. It does not prove live external adapter behaviour. It does not satisfy Q5 restart/reuse qualification or Q6 repeated-stability qualification.
+The latest manifest remains `publicationStatus: factory_generated_unassured`; no learner-publication transition occurs. Q4 proves provider-free orchestration/remediation behaviour, not educational correctness or live external adapter behaviour.
 
 ## Q5 — restart, reuse and dependency-aware invalidation
 
-Q5 remains required.
+The Q5 machine-readable record is `content-factory/reliability-q5-restart-reuse-invalidation.json` and records `q5Pass: true` with `providerCallsUsed: false` and `paidPilotEligible: false`.
 
-Qualification must prove that interruption, correction or worker-contract change does not regenerate unaffected successful work. Evidence must cover:
+The dependency model is implemented in `src/content-factory/durable-worker-dependencies.ts`. The durable semantic cache and changed-head replay controls are in `src/content-factory/q5-durable-resume.ts`. Provider-free regression evidence is in `src/content-factory/q5-dependency-aware-resume.test.ts`.
 
-- reuse of unchanged completed executions across an allowed resume;
-- dependency-aware invalidation rather than universal implementation-head invalidation;
-- a Practice compiler change not invalidating unrelated Course Knowledge Model or Learn output;
-- an assessment compiler change not invalidating unrelated Learn/Practice output;
-- source/coverage changes invalidating all genuinely affected downstream output;
-- truthful spend/retry provenance after reuse or remediation.
+### Semantic cache identity
 
-Existing durable-resume tests are useful implementation evidence but Q5 requires an explicit governed qualification record tying those behaviours together against the current dependency model.
+The original durable implementation safely keyed worker reuse by:
+
+`method + exact input fingerprint + entire content-head SHA`
+
+and rejected a changed-head spend-ledger resume. That made any implementation-head change a universal semantic invalidation event.
+
+Q5 changes new worker-cache records to:
+
+`method + exact input fingerprint + transitive worker-contract dependency fingerprint`
+
+The original execution head remains provenance but is not the semantic cache key. The dependency fingerprint recursively includes the worker's current contract version and all upstream worker-contract versions on which its output genuinely depends.
+
+### Q5-HEAD-ONLY-REUSE — PASS
+
+A second process on a different Git head, with identical worker inputs and unchanged dependency contracts, reuses every completed semantic worker execution and makes zero new controlled-provider executions.
+
+This proves Git implementation-head identity is no longer a universal invalidation key once semantic dependency evidence exists.
+
+### Q5-PRACTICE-BOUNDARY — PASS
+
+The test simulates a Practice compiler contract-version change. Exactly these semantic executions invalidate:
+
+- `generatePracticeCollateral`;
+- `independentReview`;
+- `remediate`.
+
+Course Knowledge Model, Learn and the independent assessment-generation branch remain reusable.
+
+### Q5-ASSESSMENT-BOUNDARY — PASS
+
+The test simulates an Assessment Blueprint compiler contract-version change. Assessment Blueprint, Question Family, assessment-item, Marking Pack and assurance dependants invalidate. Learn and Practice remain reusable.
+
+### Q5-COVERAGE-PROPAGATION — PASS
+
+The test simulates a Coverage contract-version change. Coverage, Course Knowledge Model, Learning Blueprint, Learn, Practice, assessment generation and assurance dependants invalidate. Identity, source discovery, structured evidence and Board Alignment remain reusable because their contracts do not depend on Coverage.
+
+Exact input fingerprints provide the complementary runtime rule: if source or structured evidence values themselves change, any worker receiving changed input naturally misses the cache even when its contract version is unchanged.
+
+### Q5-PROVENANCE-AND-SPEND — PASS
+
+Cross-head reuse returns the original worker execution record, preserving retry count, provider/model metadata and observed usage cost. Reuse itself does not add another provider spend event.
+
+The course spend ledger remains cumulative across workflow attempts and head changes. The ledger retains the creation head as provenance while changed-head safety is handled by semantic pipeline replay rather than by resetting or duplicating spend.
+
+### Q5-SEMANTIC-REPLAY — PASS
+
+A changed-head resume does not trust an old `generating`, `validating`, `expert_review_ready` or other late-stage position as current. The original governed request identity is reconstructed at `requested` and the current pipeline executes from there. Unchanged provider work is supplied only through the semantic cache.
+
+This ensures current deterministic validation, source-rights checks and orchestration execute under the current approved implementation.
+
+### Legacy checkpoint compatibility
+
+Existing schema-v1 cache entries contain no dependency fingerprint and are therefore not inferred safe across a head change. They remain same-head-only. A successful same-head v1 reuse is migrated to a schema-v2 semantic record; a first cross-head resume from v1-only evidence may regenerate work.
+
+That limitation is deliberate fail-closed behaviour, not a Q5 gap.
+
+### Live workflow position
+
+The manual live-pilot workflow is wired to the dependency-aware resume path, including changed-head semantic replay, cumulative spend and cross-head reuse counts in evidence. However the reliability preflight still runs before any external model call and overall qualification remains paused. Q5 does not execute or authorize a paid pilot.
 
 ## Q6 — repeated qualification stability
 
@@ -199,23 +195,27 @@ Q6 remains required.
 
 A single green deterministic run is insufficient. Final evidence must record repeated Q3 subject-shape and Q4 pipeline passes on the same implementation head, including repetition count, fixtures, worker coverage, restart/reuse scenarios and known limitations.
 
+Q6 must also include the Q5 restart/reuse scenarios in the repeated qualification suite so the dependency-aware invalidation model is demonstrated as stable rather than merely passing once.
+
 ## Overall qualification and paid confirmation
 
 `content-factory/reliability-qualification.json` deliberately remains unchanged.
 
-After Q5 and Q6 also pass, a separate governed qualification PR may set the overall status to `qualified` and `livePilotEligible: true`. That PR requires exact-head assurance and explicit Founder approval before another paid end-to-end course run is permitted.
+After Q6 also passes, a separate governed qualification PR may set the overall status to `qualified` and `livePilotEligible: true`. That PR requires exact-head assurance and explicit Founder approval before another paid end-to-end course run is permitted.
 
 The next paid run will be a confirmation pilot, not the primary debugging mechanism.
 
 ## Documentation impact
 
-This Q4 increment adds current provider-free deterministic pipeline-simulation evidence. It does not change normative policy, learner-facing behaviour, production runtime logic or paid-pilot eligibility.
+This Q5 increment changes current durable-resume implementation behaviour and records provider-free dependency-aware qualification evidence. Updated together:
 
-Updated together:
-
-- `content-factory/reliability-q4-deterministic-pipeline-simulation.json`;
-- `src/content-factory/q4-deterministic-pipeline-fixture.ts`;
-- `src/content-factory/q4-deterministic-pipeline-simulation.test.ts`;
+- `src/content-factory/durable-worker-dependencies.ts`;
+- `src/content-factory/q5-durable-resume.ts`;
+- `src/content-factory/q5-dependency-aware-resume.test.ts`;
+- `src/content-factory/live-pilot.integration.test.ts`;
+- `.github/workflows/content-factory-live-pilot.yml`;
+- `content-factory/reliability-q5-restart-reuse-invalidation.json`;
+- `docs/technical/Content Factory Durable Resume and Spend.md`;
 - this technical qualification record.
 
-No change is required to the active Reliability Qualification Standard because it already defines Q4 and the required stage/remediation/no-publication evidence. No `INDEX.md` change is required because the indexed qualification-harness source of truth remains this document. Historical Pilot #10–#15 evidence remains unchanged. Overall reliability status and paid-pilot eligibility remain deliberately paused.
+No change is required to the active Reliability Qualification Standard because it already defines the Q5 dependency-aware invalidation requirement. No `INDEX.md` change is required because the indexed qualification-harness source of truth remains this document. Historical Pilot #10–#15 evidence remains unchanged. Overall reliability status and paid-pilot eligibility remain deliberately paused.
