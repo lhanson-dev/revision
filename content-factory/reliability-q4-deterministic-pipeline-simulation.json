@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "deterministic_full_pipeline_simulation",
+  "baseMainSha": "50b7d47054f9535c2d3cc62a1063cea35e89adfc",
+  "harness": "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+  "regressionTest": "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+  "expectedStateTrace": [
+    "requested",
+    "identified",
+    "sourced",
+    "mapped",
+    "generating",
+    "validating",
+    "independent_review",
+    "remediation",
+    "validating",
+    "independent_review",
+    "expert_review_packaging",
+    "expert_review_ready"
+  ],
+  "assertions": [
+    "the provider-free course build starts at requested and terminates at expert_review_ready",
+    "deterministic validation passes before the first independent review and reruns against the corrected head after remediation",
+    "the first independent review returns material findings against one Learn work unit and one assessment item",
+    "targeted remediation changes only the affected Learn artifact and assessment item, while the assessment-item correction rebuilds its dependent Marking Pack",
+    "the corrected content is persisted as one new head, revalidated and independently re-reviewed in fresh contexts",
+    "the expert-review package binds the corrected deterministic validation and independent-review evidence to the corrected head",
+    "the latest course-content-pack manifest remains factory_generated_unassured and the simulation performs no expert-review submission or learner-publication transition",
+    "controlled provider executions report zero usage cost and zero retries"
+  ],
+  "limitations": [
+    "Synthetic stored/controlled responses prove deterministic orchestration behaviour, not factual or educational correctness.",
+    "Q4 does not prove restart/reuse semantics; those remain Q5.",
+    "Q4 does not satisfy repeated-stability qualification; that remains Q6.",
+    "Q4 terminates at expert_review_ready and deliberately does not execute human review, publication CI or learner publication."
+  ],
+  "q4Pass": true,
+  "paidPilotEligible": false
+}
