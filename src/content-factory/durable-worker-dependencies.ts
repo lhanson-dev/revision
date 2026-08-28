@@ -30,6 +30,23 @@ export type DurableWorkerDependencyNode = {
 
 export type DurableWorkerDependencyPolicy = Record<DurableWorkerMethod, DurableWorkerDependencyNode>
 
+function integrityVersion(baseVersion: string, revision: string) {
+  return `${baseVersion}+${revision}`
+}
+
+// These semantic versions describe the effective worker boundary used by durable
+// reuse, including deterministic post-provider integrity compilation. Pilot #16
+// changed these five boundaries without changing the underlying domain schemas,
+// so their durable semantic versions must advance to prevent stale cross-head
+// reuse while preserving unrelated completed work.
+const pilot16IntegrityVersions = {
+  courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
+  learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v1'),
+  practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v1'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v1'),
+  markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v1'),
+} as const
+
 export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy = {
   resolveIdentity: {
     contractVersion: contentFactoryIntakeWorkerContracts.identity.contractVersion,
@@ -52,7 +69,7 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['resolveStructuredEvidence', 'compileBoardAlignment'],
   },
   compileKnowledgeModel: {
-    contractVersion: contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion,
+    contractVersion: pilot16IntegrityVersions.courseKnowledgeModel,
     dependsOn: ['resolveStructuredEvidence', 'compileBoardAlignment', 'compileCoverage'],
   },
   planLearningBlueprint: {
@@ -60,11 +77,11 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['compileCoverage', 'compileKnowledgeModel'],
   },
   generateLearningCollateral: {
-    contractVersion: contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion,
+    contractVersion: pilot16IntegrityVersions.learningCollateral,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'planLearningBlueprint'],
   },
   generatePracticeCollateral: {
-    contractVersion: contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion,
+    contractVersion: pilot16IntegrityVersions.practiceCollateral,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'planLearningBlueprint'],
   },
   compileAssessmentBlueprint: {
@@ -76,11 +93,11 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'compileAssessmentBlueprint'],
   },
   generateAssessmentItem: {
-    contractVersion: contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion,
+    contractVersion: pilot16IntegrityVersions.assessmentItem,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'compileAssessmentBlueprint', 'generateQuestionFamilies'],
   },
   generateMarkingPack: {
-    contractVersion: contentFactoryAssessmentWorkerContracts.markingPack.contractVersion,
+    contractVersion: pilot16IntegrityVersions.markingPack,
     dependsOn: ['compileKnowledgeModel', 'compileAssessmentBlueprint', 'generateQuestionFamilies', 'generateAssessmentItem'],
   },
   independentReview: {
