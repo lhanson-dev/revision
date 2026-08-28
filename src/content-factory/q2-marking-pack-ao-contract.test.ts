@@ -66,7 +66,7 @@ const assessmentItem = {
       wording: 'Calculate the energy transferred.',
       maxMark: 4,
       requirementIds: ['energy-transfer'],
-      responseDemands: ['calculation', 'application'] as const,
+      responseDemands: ['calculation', 'application'] as Array<'calculation' | 'application'>,
       coverageEvidence: [{ requirementId: 'energy-transfer', evidence: 'energy transferred' }],
     },
     {
@@ -75,7 +75,7 @@ const assessmentItem = {
       wording: 'Explain one reason the observed transfer is lower than the theoretical value.',
       maxMark: 4,
       requirementIds: ['energy-transfer'],
-      responseDemands: ['analysis', 'application'] as const,
+      responseDemands: ['analysis', 'application'] as Array<'analysis' | 'application'>,
       coverageEvidence: [{ requirementId: 'energy-transfer', evidence: 'observed transfer is lower' }],
     },
   ],
