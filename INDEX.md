@@ -48,6 +48,8 @@ Use this file to find the governing source before substantive work.
 - Content Factory Pilot #10 deterministic coverage-evidence locator remediation → `docs/technical/Content Factory Pilot 10 Coverage Evidence Locator Remediation.md`
 - Content Factory Pilot #11 assessment command/demand provider-contract remediation → `docs/technical/Content Factory Pilot 11 Assessment Command Contract Remediation.md`
 - Content Factory Pilot #12 shared response-demand command-contract remediation → `docs/technical/Content Factory Pilot 12 Response Demand Contract Remediation.md`
+- Content Factory Pilot #13 deterministic Marking Pack AO-total remediation → `docs/technical/Content Factory Pilot 13 Marking Pack AO Total Remediation.md`
+- Content Factory Pilot #14 targeted assessment contract repair → `docs/technical/Content Factory Pilot 14 Targeted Assessment Contract Repair.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
@@ -164,6 +166,8 @@ Use this file to find the governing source before substantive work.
 - Content Factory Pilot #10 deterministic coverage-evidence locator remediation → `docs/technical/Content Factory Pilot 10 Coverage Evidence Locator Remediation.md`
 - Content Factory Pilot #11 assessment command/demand provider-contract remediation → `docs/technical/Content Factory Pilot 11 Assessment Command Contract Remediation.md`
 - Content Factory Pilot #12 shared response-demand command-contract remediation → `docs/technical/Content Factory Pilot 12 Response Demand Contract Remediation.md`
+- Content Factory Pilot #13 deterministic Marking Pack AO-total remediation → `docs/technical/Content Factory Pilot 13 Marking Pack AO Total Remediation.md`
+- Content Factory Pilot #14 targeted assessment contract repair → `docs/technical/Content Factory Pilot 14 Targeted Assessment Contract Repair.md`
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
