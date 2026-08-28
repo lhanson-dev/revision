@@ -4,10 +4,6 @@ import {
   markingPackWorkerOutputSchema,
 } from './assessment-and-marking'
 import {
-  learningCollateralWorkerOutputSchema,
-  practiceCollateralWorkerOutputSchema,
-} from './learning-and-practice'
-import {
   createOpenAIModelAssistedWorkers as createRemediationHardenedWorkers,
 } from './openai-remediation-compiler'
 import type {
@@ -17,6 +13,18 @@ import type {
 import type { WorkerExecution } from './intake-to-knowledge-model'
 
 const optionLabels = ['A', 'B', 'C', 'D'] as const
+
+const learningOutputIntegrityGuidance = [
+  'Keep learner-facing language coherent and intentional.',
+  'Do not append unrelated fragments, stray tokens or accidental text in another writing system.',
+  'Preserve legitimate target-language, transliterated, quoted or prescribed-text wording when the supplied course genuinely requires it; never delete or rewrite valid learner content merely because its script differs from surrounding text.',
+].join(' ')
+
+const practiceOutputIntegrityGuidance = [
+  'Keep every activity prompt internally consistent with its own expectedResponse and explanation.',
+  'Do not presuppose a result, state, category, data property or problem that the generated expectedResponse contradicts.',
+  'When the learner is meant to determine whether a condition exists, phrase the task conditionally rather than asserting that the condition exists.',
+].join(' ')
 
 const assessmentIntegrityInstruction = [
   'Do not make a learner prove or classify a property that the supplied wording or context does not establish.',
@@ -126,89 +134,6 @@ export function validateMcqCorrectAnswerDistribution(providerOutput: unknown) {
   return labels
 }
 
-function expectedResponseDeniesCashDeficit(expectedResponse: string) {
-  return /\b(no cash deficit|no deficit|does not show a cash deficit|none of the months? (?:has|have|shows?|show) a cash deficit)\b/i.test(expectedResponse)
-}
-
-function repairCashDeficitPrompt(prompt: string, expectedResponse: string) {
-  if (!expectedResponseDeniesCashDeficit(expectedResponse)) return prompt
-  const definiteDeficit = /identify the month with a cash deficit and state one suitable action before that month\.?/i
-  if (!definiteDeficit.test(prompt)) return prompt
-  return prompt.replace(
-    definiteDeficit,
-    'Determine whether any month has a cash deficit. If one does, identify it and state one suitable action before that month.',
-  )
-}
-
-export function repairPracticePromptPresuppositions(providerOutput: unknown) {
-  const output = practiceCollateralWorkerOutputSchema.parse(providerOutput)
-  const replacements = new Map<string, string>()
-  const activities = output.activities.map((activity) => {
-    const prompt = repairCashDeficitPrompt(activity.prompt, activity.expectedResponse)
-    if (prompt !== activity.prompt) replacements.set(activity.prompt, prompt)
-    return { ...activity, prompt }
-  })
-  const coverageEvidence = output.coverageEvidence.map((entry) => ({
-    ...entry,
-    evidence: replacements.get(entry.evidence) ?? entry.evidence,
-  }))
-  return practiceCollateralWorkerOutputSchema.parse({ ...output, activities, coverageEvidence })
-}
-
-function hasLatinLetter(value: string) {
-  return /\p{Script=Latin}/u.test(value)
-}
-
-function isAllNonLatinLetters(value: string) {
-  return /\p{Letter}/u.test(value)
-    && !hasLatinLetter(value)
-    && [...value].every((character) => !/\p{Letter}/u.test(character) || !/\p{Script=Latin}/u.test(character))
-}
-
-function cleanTrailingUnexpectedScriptToken(value: string) {
-  const match = value.match(/^(.*?)(\s+)([\p{Letter}\p{Mark}]{2,20})\s*$/u)
-  if (!match || !hasLatinLetter(match[1]) || !isAllNonLatinLetters(match[3])) return value
-  return match[1].trimEnd()
-}
-
-export function cleanTrailingLearnerLanguageContamination(providerOutput: unknown) {
-  const output = learningCollateralWorkerOutputSchema.parse(providerOutput)
-  const clean = cleanTrailingUnexpectedScriptToken
-  const replacements = new Map<string, string>()
-  const remember = (value: string) => {
-    const cleaned = clean(value)
-    if (cleaned !== value) replacements.set(value, cleaned)
-    return cleaned
-  }
-  return learningCollateralWorkerOutputSchema.parse({
-    ...output,
-    title: remember(output.title),
-    introduction: remember(output.introduction),
-    sections: output.sections.map((section) => ({
-      ...section,
-      title: remember(section.title),
-      explanation: remember(section.explanation),
-      keyPoints: section.keyPoints.map(remember),
-    })),
-    workedExamples: output.workedExamples.map((example) => ({
-      ...example,
-      title: remember(example.title),
-      setup: remember(example.setup),
-      steps: example.steps.map(remember),
-      conclusion: remember(example.conclusion),
-    })),
-    misconceptions: output.misconceptions.map((entry) => ({
-      misconception: remember(entry.misconception),
-      correction: remember(entry.correction),
-    })),
-    nextAction: remember(output.nextAction),
-    coverageEvidence: output.coverageEvidence.map((entry) => ({
-      ...entry,
-      evidence: replacements.get(entry.evidence) ?? clean(entry.evidence),
-    })),
-  })
-}
-
 export function validateOperationalRubricCoverage(
   markingPackInput: unknown,
   assessmentItemInput: unknown,
@@ -293,14 +218,12 @@ export function createOpenAIModelAssistedWorkers(
       return { ...execution, output: canonicaliseKnownMathematicalFormulas(execution.output) }
     },
     async generateLearningCollateral(input) {
-      const execution = await workers.generateLearningCollateral(input)
-      if (execution.status !== 'success') return execution
-      return { ...execution, output: cleanTrailingLearnerLanguageContamination(execution.output) }
+      const hardenedInput = { ...input, outputIntegrityGuidance: learningOutputIntegrityGuidance }
+      return workers.generateLearningCollateral(hardenedInput)
     },
     async generatePracticeCollateral(input) {
-      const execution = await workers.generatePracticeCollateral(input)
-      if (execution.status !== 'success') return execution
-      return { ...execution, output: repairPracticePromptPresuppositions(execution.output) }
+      const hardenedInput = { ...input, outputIntegrityGuidance: practiceOutputIntegrityGuidance }
+      return workers.generatePracticeCollateral(hardenedInput)
     },
     async generateAssessmentItem(input) {
       const execution = await workers.generateAssessmentItem(assessmentInputWithIntegrityInstruction(input))
