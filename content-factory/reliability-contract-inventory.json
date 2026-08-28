@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "status": "in_review",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "purpose": "Course-agnostic inventory of Content Factory worker boundaries and mechanically validated representations. No gate is passed merely by appearing in this inventory.",
+  "workers": [
+    {
+      "worker": "course_knowledge_model",
+      "scope": "generic",
+      "reviewStatus": "pending",
+      "mechanicalFields": []
+    },
+    {
+      "worker": "learn_generation",
+      "scope": "generic",
+      "reviewStatus": "pending",
+      "mechanicalFields": [
+        {
+          "fieldClass": "coverage evidence",
+          "ownership": "bounded_locator",
+          "expectedRule": "Provider identifies a bounded generated-content location; Revision resolves the final exact evidence value deterministically."
+        }
+      ]
+    },
+    {
+      "worker": "practice_generation",
+      "scope": "generic",
+      "reviewStatus": "requires_investigation_after_pilot_15",
+      "mechanicalFields": [
+        {
+          "fieldClass": "coverage evidence",
+          "ownership": "bounded_locator",
+          "expectedRule": "Provider identifies mode, activity index and field; Revision resolves the final exact evidence value deterministically.",
+          "knownEvidence": "Pilot #15 showed this expected ownership is not reliable across the currently exercised Practice path."
+        }
+      ]
+    },
+    {
+      "worker": "assessment_item_generation",
+      "scope": "generic",
+      "reviewStatus": "partial",
+      "mechanicalFields": [
+        {
+          "fieldClass": "response demand versus learner-facing command",
+          "ownership": "targeted_repair_eligible",
+          "expectedRule": "Deterministic validation remains strict; one validator-directed repair is allowed where intended educational demand must be made explicit."
+        },
+        {
+          "fieldClass": "marks and governed requirement coverage",
+          "ownership": "fail_closed_or_deterministically_checked",
+          "expectedRule": "No silent normalisation that weakens intended assessment demand."
+        }
+      ]
+    },
+    {
+      "worker": "marking_pack_generation",
+      "scope": "generic",
+      "reviewStatus": "partial",
+      "mechanicalFields": [
+        {
+          "fieldClass": "aggregate AO totals",
+          "ownership": "deterministically_derived",
+          "expectedRule": "Aggregate AO allocation is derived from validated subquestion guidance rather than trusted as duplicated provider arithmetic."
+        }
+      ]
+    },
+    {
+      "worker": "independent_review",
+      "scope": "generic",
+      "reviewStatus": "pending",
+      "mechanicalFields": []
+    },
+    {
+      "worker": "remediation",
+      "scope": "generic",
+      "reviewStatus": "pending",
+      "mechanicalFields": []
+    },
+    {
+      "worker": "expert_review_package_assembly",
+      "scope": "generic",
+      "reviewStatus": "pending",
+      "mechanicalFields": []
+    }
+  ]
+}
