@@ -38,7 +38,7 @@ function assessmentItem(subquestions: unknown[]) {
     knowledgeNodeIds: ['requirement'],
     format: 'mixed' as const,
     command: 'Complete',
-    maxMark: subquestions.reduce((sum, entry) => sum + Number((entry as { maxMark: number }).maxMark), 0),
+    maxMark: subquestions.reduce<number>((sum, entry) => sum + Number((entry as { maxMark: number }).maxMark), 0),
     questionWording: 'Complete all subquestions.',
     subquestions,
   }
