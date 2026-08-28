@@ -27,6 +27,21 @@ function withContractVersion(execution: WorkerExecution<unknown>, contractVersio
   }
 }
 
+function withTargetedRepairAccounting(
+  first: WorkerExecution<unknown>,
+  repair: WorkerExecution<unknown>,
+): WorkerExecution<unknown> {
+  return {
+    ...repair,
+    provenance: {
+      ...repair.provenance,
+      contractVersion: '3',
+      retryCount: (first.provenance.retryCount ?? 0) + (repair.provenance.retryCount ?? 0) + 1,
+      usageCost: (first.provenance.usageCost ?? 0) + (repair.provenance.usageCost ?? 0),
+    },
+  }
+}
+
 function contractFailure(
   execution: Extract<Awaited<ReturnType<OpenAIModelAssistedWorkers['generateAssessmentItem']>>, { status: 'success' }>,
   stage: string,
@@ -51,6 +66,7 @@ const structuredAssessmentInstruction = [
   'For a multiple-choice question that genuinely requires calculation, include both selection and calculation responseDemands and phrase the learner-facing task so the learner is explicitly asked to calculate, work out or determine the result before selecting the option; if the task only asks the learner to choose an answer, declare selection only.',
   'questionWording must contain each subquestion wording verbatim so the structured contract and learner-visible paper cannot drift apart.',
   'For every selection/MCQ subquestion provide exactly four distinct options A-D with exactly one correct answer; every incorrect option must include a distinct plausible misconceptionBasis explaining why a prepared learner might choose it.',
+  'If deterministic validation reports a contract error, a single targeted repair may be requested; preserve valid content and correct only the reported contract mismatch.',
 ].join(' ')
 
 const structuredMarkingInstruction = [
@@ -59,6 +75,32 @@ const structuredMarkingInstruction = [
   'rewardedDemands may only reward responseDemands explicitly requested by that subquestion.',
   'Each subquestion AO allocation must total that subquestion maxMark, and the summed subquestion allocations must equal the overall AO allocation.',
 ].join(' ')
+
+function targetedAssessmentRepairInstruction(error: unknown) {
+  return [
+    'TARGETED CONTRACT REPAIR REQUIRED.',
+    `The completed candidate failed deterministic assessment validation with this exact error: ${errorMessage(error)}`,
+    'Return the complete corrected assessment item.',
+    'Preserve all valid educational content, governed requirements, marks, context and question-family intent.',
+    'Change only what is necessary to make the learner-facing wording, structured subquestions and responseDemands satisfy the deterministic contract.',
+    'Do not remove a genuinely intended assessment demand merely to silence validation; instead make that intended demand explicit in the learner-facing command or wording.',
+  ].join(' ')
+}
+
+function compileAssessmentItem(
+  execution: Extract<Awaited<ReturnType<OpenAIModelAssistedWorkers['generateAssessmentItem']>>, { status: 'success' }>,
+  policy: NonNullable<OpenAIContentFactoryAdapterConfig['assessmentItemPolicies']>[string],
+) {
+  const item = assessmentItemWorkerOutputSchema.parse(execution.output)
+  if (item.subquestions.length === 0) throw new Error('governed assessment item returned no structured subquestions')
+  validateStructuredAssessment({
+    itemId: item.id,
+    maxMark: policy.maxMark,
+    governedRequirementIds: policy.requirementIds,
+    subquestions: item.subquestions,
+  })
+  return item
+}
 
 export function createOpenAIModelAssistedWorkers(
   config: OpenAIContentFactoryAdapterConfig,
@@ -80,20 +122,40 @@ export function createOpenAIModelAssistedWorkers(
           evidenceExpectations: [...input.assessmentBlueprint.evidenceExpectations, structuredAssessmentInstruction],
         },
       } : input
-      const execution = withContractVersion(await workers.generateAssessmentItem(hardenedInput), '2')
-      if (execution.status !== 'success' || !policy) return execution
+      const firstExecution = withContractVersion(await workers.generateAssessmentItem(hardenedInput), '3')
+      if (firstExecution.status !== 'success' || !policy) return firstExecution
+
       try {
-        const item = assessmentItemWorkerOutputSchema.parse(execution.output)
-        if (item.subquestions.length === 0) throw new Error('governed assessment item returned no structured subquestions')
-        validateStructuredAssessment({
-          itemId: item.id,
-          maxMark: policy.maxMark,
-          governedRequirementIds: policy.requirementIds,
-          subquestions: item.subquestions,
-        })
-        return { ...execution, output: item }
-      } catch (error) {
-        return contractFailure(execution, 'assessment_item_compilation', error)
+        const item = compileAssessmentItem(firstExecution, policy)
+        return { ...firstExecution, output: item }
+      } catch (firstError) {
+        const repairInstruction = targetedAssessmentRepairInstruction(firstError)
+        const repairInput = {
+          ...hardenedInput,
+          questionFamily: {
+            ...hardenedInput.questionFamily,
+            responseShape: `${hardenedInput.questionFamily.responseShape} ${repairInstruction}`,
+          },
+          assessmentBlueprint: {
+            ...hardenedInput.assessmentBlueprint,
+            evidenceExpectations: [...hardenedInput.assessmentBlueprint.evidenceExpectations, repairInstruction],
+          },
+        }
+        const repairExecution = withTargetedRepairAccounting(
+          firstExecution,
+          await workers.generateAssessmentItem(repairInput),
+        )
+        if (repairExecution.status !== 'success') return repairExecution
+        try {
+          const repairedItem = compileAssessmentItem(repairExecution, policy)
+          return { ...repairExecution, output: repairedItem }
+        } catch (repairError) {
+          return {
+            status: 'failure',
+            error: `provider_contract_failure: assessment_item_compilation_after_targeted_repair: initial=${errorMessage(firstError)}; repair=${errorMessage(repairError)}`,
+            provenance: repairExecution.provenance,
+          }
+        }
       }
     },
 
