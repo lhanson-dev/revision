@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "gate": "Q6",
+  "status": "complete",
+  "scope": "repeated_qualification_stability",
+  "reviewedAgainstMainSha": "37b0d053cc7c8d5355b2b47f19705c9a3f1ba053",
+  "repetitionCount": 3,
+  "evidence": {
+    "harness": "src/content-factory/q6-repeated-qualification-fixture.ts",
+    "regressionTest": "src/content-factory/q6-repeated-qualification-stability.test.ts",
+    "q3FixtureHarness": "src/content-factory/q3-subject-shape-fixtures.ts",
+    "q4SimulationHarness": "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+    "q5DependencyPolicy": "src/content-factory/durable-worker-dependencies.ts",
+    "q5DurableResume": "src/content-factory/q5-durable-resume.ts"
+  },
+  "repeatedCoverage": {
+    "subjectShapesPerRepetition": 5,
+    "totalSubjectShapePipelineRuns": 15,
+    "deterministicPipelineRuns": 3,
+    "restartReuseScenarioSets": 3,
+    "restartReuseScenariosPerSet": [
+      "head_only_reuse",
+      "practice_contract_invalidation",
+      "assessment_contract_invalidation",
+      "coverage_contract_propagation",
+      "provenance_and_spend",
+      "semantic_replay"
+    ]
+  },
+  "assertions": [
+    "Every repetition runs all five governed Q3 subject shapes through the same provider-free contract-integration path to expert_review_ready.",
+    "Every repetition runs the complete Q4 deterministic remediation simulation with the same governed state trace, two deterministic validation passes, fail-then-pass independent review, targeted remediation and no learner-publication side effect.",
+    "Every repetition runs the Q5 head-only reuse, Practice invalidation, assessment invalidation, Coverage propagation, provenance/spend and semantic replay scenarios.",
+    "The Q5 invalidation sets remain identical across repetitions and continue to preserve unrelated successful worker executions.",
+    "Retry and usage-cost provenance plus cumulative spend remain unchanged when compatible work is reused across heads.",
+    "No external source or model-provider call is made by the Q6 harness.",
+    "No new contract-class failure appears in any repeated Q3, Q4 or Q5 scenario."
+  ],
+  "providerCallsUsed": false,
+  "q6Pass": true,
+  "paidPilotEligible": false,
+  "limitations": [
+    "Three repeated provider-free passes demonstrate deterministic operational stability; they do not prove educational correctness or live external-adapter behaviour.",
+    "Q6 does not itself change overall qualification status or authorize a paid pilot.",
+    "A separate governed Q7 qualification-status PR is still required before the paid confirmation pilot can become eligible."
+  ]
+}
