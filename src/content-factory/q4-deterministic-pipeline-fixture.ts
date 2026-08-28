@@ -42,7 +42,7 @@ type Q4ArtifactKind = ContentFactoryEndToEndArtifactKind
 export type Q4Trace = {
   states: ContentFactoryActiveState[]
   refsByKind: Map<Q4ArtifactKind, string[]>
-  reviewInputs: Array<{ reviewedCommit: string; contentFingerprint: string; deterministicValidationRef?: string }>
+  reviewInputs: Array<{ reviewedCommit: string; contentFingerprint: string; validationDecision: 'pass' | 'fail' }>
   remediationTargets: Array<{ kind: string; artifactRef: string; findingIds: string[] }>
   persistCalls: Array<{ state: ContentFactoryJob['state']; priorHeadSha: string; replacementRefs: string[] }>
 }
@@ -393,10 +393,8 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
       trace.reviewInputs.push({
         reviewedCommit: input.reviewedCommit,
         contentFingerprint: input.contentFingerprint,
-        deterministicValidationRef: input.deterministicValidation.artifactType === 'deterministic_validation_report'
-          ? input.deterministicValidation.deterministicValidationRef
-          : undefined,
-      } as { reviewedCommit: string; contentFingerprint: string; deterministicValidationRef?: string })
+        validationDecision: input.deterministicValidation.decision,
+      })
 
       if (reviewCalls === 1) {
         const learningRef = store.refs('learning')[0]
