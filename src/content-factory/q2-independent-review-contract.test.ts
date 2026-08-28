@@ -201,10 +201,25 @@ describe('Q2 independent-review direct provider contract', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('fails closed on mismatched review binding or decision metadata', async () => {
+  it('fails closed on mismatched reviewed-commit binding', async () => {
     const fixture = reviewInput()
     const { workers, fetchImpl } = workersFor({
       reviewedCommit: 'b'.repeat(40),
+      contentFingerprint: fixture.contentFingerprint,
+      decision: 'pass',
+      findings: [],
+    })
+
+    const result = await workers.independentReview(fixture.input)
+    expect(result.status).toBe('failure')
+    if (result.status === 'failure') expect(result.error).toContain('review commit')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('fails closed when decision metadata understates a material finding', async () => {
+    const fixture = reviewInput()
+    const { workers, fetchImpl } = workersFor({
+      reviewedCommit: fixture.reviewedCommit,
       contentFingerprint: fixture.contentFingerprint,
       decision: 'pass',
       findings: [{
@@ -221,7 +236,7 @@ describe('Q2 independent-review direct provider contract', () => {
 
     const result = await workers.independentReview(fixture.input)
     expect(result.status).toBe('failure')
-    if (result.status === 'failure') expect(result.error).toContain('review commit')
+    if (result.status === 'failure') expect(result.error).toContain('require fail_hold')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 })
