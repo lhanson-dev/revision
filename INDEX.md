@@ -41,6 +41,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
+- Content Factory reliability qualification harness / paid-pilot pause → `docs/technical/Content Factory Reliability Qualification Harness.md`
 - Content Factory provider-contract hardening / Pilot #7 reliability correction → `docs/technical/Content Factory Provider Contract Hardening.md`
 - Content Factory durable resume / checkpoint reuse / cumulative course spend → `docs/technical/Content Factory Durable Resume and Spend.md`
 - Content Factory Pilot #9 learning / teaching-point / final Coverage Map remediation → `docs/technical/Content Factory Pilot 9 Learning and Coverage Remediation.md`
@@ -119,6 +120,7 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
+- Content Factory reliability qualification / paid live-pilot eligibility → `80-company-workflows/Content Factory Reliability Qualification Standard.md`
 - Content Factory v2 automated course build / Marking Packs / expert-review-ready gate → `80-company-workflows/Content Factory v2 Expert Review Ready Amendment.md`
 - Minimal Content Operations Admin amendment → `80-company-workflows/Content Operations Admin v0.1 Amendment.md`
 - Course vs assessment-component classification → `80-company-workflows/Course and Assessment Component Classification Check.md`
@@ -149,7 +151,7 @@ Use this file to find the governing source before substantive work.
 - B5 Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
 - B6 Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
 - Pre-B7 interface theme integrity checkpoint → `docs/technical/Interface Theme Integrity Pre-B7.md`
-- B7 learner-shell recurring icon consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
+- B7 learner-shell recurring icon ownership consolidation → `docs/technical/Interface System B7 Shell Icon Consolidation.md`
 - B7 shared overlay/focus ownership consolidation → `docs/technical/Interface System B7 Overlay Focus Consolidation.md`
 - B7 canonical identity and recurring glyph ownership consolidation → `docs/technical/Interface System B7 Identity and Glyph Consolidation.md`
 - B7 final compatibility retirement / visual acceptance → `docs/technical/Interface System B7 Final Acceptance.md`
@@ -159,6 +161,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
+- Content Factory reliability qualification harness / paid-pilot pause → `docs/technical/Content Factory Reliability Qualification Harness.md`
 - Content Factory provider-contract hardening / Pilot #7 reliability correction → `docs/technical/Content Factory Provider Contract Hardening.md`
 - Content Factory durable resume / checkpoint reuse / cumulative course spend → `docs/technical/Content Factory Durable Resume and Spend.md`
 - Content Factory Pilot #9 learning / teaching-point / final Coverage Map remediation → `docs/technical/Content Factory Pilot 9 Learning and Coverage Remediation.md`
