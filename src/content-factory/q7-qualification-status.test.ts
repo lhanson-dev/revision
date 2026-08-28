@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process'
 import { describe, expect, it } from 'vitest'
 import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import q1Text from '../../content-factory/reliability-contract-inventory.json?raw'
@@ -21,6 +20,11 @@ type QualificationRecord = {
     nextPaidRunClass: string
   } | null
   livePilotEligible: boolean
+}
+
+type RuntimeProcess = {
+  execPath: string
+  cwd: () => string
 }
 
 const qualification = JSON.parse(qualificationText) as QualificationRecord
@@ -81,9 +85,19 @@ describe('Content Factory Q7 qualification status', () => {
     }
   })
 
-  it('is accepted by the same fail-closed preflight that runs before a future live pilot', () => {
-    expect(() => execFileSync(process.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
-      cwd: process.cwd(),
+  it('is accepted by the same fail-closed preflight that runs before a future live pilot', async () => {
+    const moduleName = 'node:child_process'
+    const childProcess = await import(/* @vite-ignore */ moduleName) as {
+      execFileSync: (
+        file: string,
+        args: string[],
+        options: { cwd: string; encoding: string; stdio: string },
+      ) => unknown
+    }
+    const runtimeProcess = (globalThis as unknown as { process: RuntimeProcess }).process
+
+    expect(() => childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
+      cwd: runtimeProcess.cwd(),
       encoding: 'utf8',
       stdio: 'pipe',
     })).not.toThrow()
