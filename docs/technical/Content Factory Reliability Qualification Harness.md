@@ -6,7 +6,7 @@ Course-agnostic Content Factory reliability qualification is active. Paid end-to
 
 The governing rule is `80-company-workflows/Content Factory Reliability Qualification Standard.md`. This document records current implementation and qualification evidence; it does not replace that authority.
 
-Production-verified `main` before this Q2 increment is `f37e8cf9d2471582026093367ecac5ccaf474754`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Q2 is being delivered as short, provider-free increments rather than another paid whole-course probe.
+Production-verified `main` before this Q2 increment is `85bfac90901238c38ad724fc3048abce5c441b6c`. Q1 produced the complete worker-contract ownership inventory and exposed two generic blockers. Both blocker classes now have provider-free Q2 remediation evidence, but Q2 remains incomplete across the wider worker matrix and no qualification PASS is claimed.
 
 ## Why the calibration method changed
 
@@ -47,7 +47,7 @@ There is no workflow input or environment-variable bypass. Paid pilots remain in
 
 Every mechanically checked representation is classified under the governed ownership vocabulary: generative judgement, deterministic derivation, bounded locator/reference, targeted repair eligible, or fail closed.
 
-Q1 remains recorded as `complete_with_blockers`, not PASS. Q2 remediation evidence is tracked separately in `content-factory/reliability-q2-contract-matrix.json` until the complete provider-free matrix is ready to reconcile the inventory and gate state.
+Q1 remains recorded as `complete_with_blockers`, not PASS, until the machine-readable inventory is deliberately reconciled against completed Q2 evidence. Q2 remediation evidence is tracked separately in `content-factory/reliability-q2-contract-matrix.json` while the full provider-free matrix is still incomplete.
 
 ## Q2 provider-free contract matrix
 
@@ -55,11 +55,11 @@ The Q2 machine-readable progress record is:
 
 `content-factory/reliability-q2-contract-matrix.json`
 
-Q2 must eventually cover every material worker boundary with valid and adversarial provider-free cases required by the Reliability Qualification Standard. This increment deliberately closes one generic defect class only; it does not mark Q2 PASS.
+Q2 must eventually cover every material worker boundary with valid and adversarial provider-free cases required by the Reliability Qualification Standard. The current short increments close identified generic defect classes without pretending that the whole Q2 gate has passed.
 
 ### Practice evidence-path remediation
 
-The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` has now been reproduced at the reusable validation boundary.
+The Q1 blocker `Q1-PRACTICE-EVIDENCE-PATH` has been reproduced at the reusable validation boundary.
 
 The bounded locator path itself was correct:
 
@@ -88,13 +88,29 @@ Provider-free regression evidence covers:
 
 The synthetic fixtures are intentionally generic and make no claim about educational subject accuracy.
 
-### Remaining Q1 blocker: Marking Pack aggregate AO arithmetic
+### Marking Pack aggregate AO remediation
 
-`Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` remains unresolved in this increment.
+The Q1 blocker `Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC` is now remediated at the structured provider/compiler boundary.
 
-Current Marking Pack validation still accepts provider-authored aggregate `assessmentObjectiveAllocation` and checks the aggregate arithmetic. Where structured subquestion guidance already contains the underlying allocations, Revision should derive the aggregate deterministically and validate genuine educational allocation choices at the lower-level guidance boundary.
+Previously, a structured Marking Pack could ask the model to author both:
 
-That remediation is the next short Q2 increment. It must preserve strict mark/AO reconciliation and must not weaken the Content Accuracy Assurance Gate.
+- AO allocations for each subquestion; and
+- the aggregate AO allocation for the whole assessment item.
+
+Revision then mechanically checked the aggregate even though it could be calculated from the already-generated subquestion allocations. That was duplicated model authorship of deterministic arithmetic.
+
+For structured items, the Marking Pack compiler contract now requires the provider to leave top-level `assessmentObjectiveAllocation` empty. The provider retains genuine educational judgement at the subquestion level: which permitted assessment objectives receive which marks. Revision then:
+
+1. validates that every subquestion is guided exactly once;
+2. validates each guidance mark value against the governed subquestion;
+3. validates rewarded demands against the learner-facing task;
+4. validates each subquestion AO allocation totals its exact mark value and uses only permitted objectives;
+5. sums those validated allocations deterministically into the final aggregate AO allocation;
+6. passes that Revision-derived aggregate into downstream Marking Pack validation and assembly.
+
+A provider that tries to supply structured aggregate AO arithmetic now fails closed instead of competing with Revision's deterministic derivation. Valid structured output still uses one provider call. Unstructured Marking Packs retain their existing aggregate allocation contract because there is no lower-level subquestion representation from which the educational allocation can be derived without losing judgement.
+
+Provider-free evidence is in `src/content-factory/q2-marking-pack-ao-contract.test.ts`. The synthetic fixture is science-shaped to reinforce that the correction is not Business-specific.
 
 ## Existing provider-contract evidence reused by Q2
 
@@ -108,7 +124,7 @@ The provider-free suite already contains useful generic evidence that Q2 can reu
 - failure after the permitted repair;
 - independent-review structured-contract tests.
 
-Q2 will inventory these tests against the exact worker matrix and add missing adversarial cases instead of rewriting working assurance.
+The next Q2 work is to inventory these tests against the exact remaining worker boundaries and add missing adversarial cases. Paid whole-course probing remains paused.
 
 ## Subject-shape matrix — Q3
 
@@ -134,6 +150,6 @@ Only then may a governed PR set `content-factory/reliability-qualification.json`
 
 ## Documentation impact
 
-This Q2 increment changes implementation truth, not the normative reliability standard. The existing standard already requires exact evidence to use bounded locators and provider-free adversarial qualification.
+This Q2 increment changes implementation truth, not the normative Reliability Qualification Standard. The active standard already requires deterministic ownership of mechanically derivable mark/AO totals and course-agnostic provider-free qualification.
 
-This increment therefore updates the implementation validator, provider-free regressions, the Q2 machine-readable progress record, and this technical harness. It deliberately does not change the normative standard, historical Pilot #15 evidence, the overall qualification status, or paid-pilot eligibility.
+This increment therefore updates the structured Marking Pack compiler, provider-free regression evidence, the Q2 machine-readable progress record, and this technical harness. It deliberately does not change the normative standard, historical pilot evidence, the overall qualification status, or paid-pilot eligibility.
