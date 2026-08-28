@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       resume_job_issue_number:
-        description: 'Optional existing Content Factory job issue number to resume on the exact same main commit'
+        description: 'Optional existing Content Factory job issue number to resume with dependency-aware semantic replay'
         required: false
         type: string
 

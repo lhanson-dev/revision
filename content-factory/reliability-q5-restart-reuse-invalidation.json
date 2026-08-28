@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "gate": "Q5",
+  "status": "complete",
+  "q5Pass": true,
+  "reviewedAgainstMainSha": "93b6bd9c2bb29d4c2150710eef79becc76525d69",
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "purpose": "Provider-free proof that durable Content Factory restart reuses unchanged work and invalidates only semantically dependent worker executions rather than treating Git implementation-head identity as a universal invalidation key.",
+  "scenarios": [
+    {
+      "id": "Q5-HEAD-ONLY-REUSE",
+      "decision": "pass",
+      "expectation": "A Git-head-only change with identical worker inputs and dependency contracts reuses all completed worker executions without provider calls."
+    },
+    {
+      "id": "Q5-PRACTICE-BOUNDARY",
+      "decision": "pass",
+      "expectation": "A Practice compiler contract change invalidates Practice and assurance dependants while retaining Course Knowledge Model, Learn and independent assessment-generation work."
+    },
+    {
+      "id": "Q5-ASSESSMENT-BOUNDARY",
+      "decision": "pass",
+      "expectation": "An Assessment Blueprint compiler contract change invalidates the assessment branch and assurance dependants without invalidating Learn or Practice."
+    },
+    {
+      "id": "Q5-COVERAGE-PROPAGATION",
+      "decision": "pass",
+      "expectation": "A Coverage contract change invalidates Course Knowledge Model and all genuinely coverage-dependent learning, assessment and assurance work while preserving unrelated identity, source discovery, structured evidence and Board Alignment work."
+    },
+    {
+      "id": "Q5-PROVENANCE-AND-SPEND",
+      "decision": "pass",
+      "expectation": "Cross-head reuse preserves original retry and usage-cost provenance and the cumulative course spend ledger does not double-charge reused work."
+    },
+    {
+      "id": "Q5-SEMANTIC-REPLAY",
+      "decision": "pass",
+      "expectation": "A changed-head resume replays the current pipeline from requested while the semantic worker cache supplies only dependency-compatible prior executions."
+    }
+  ],
+  "evidence": [
+    "src/content-factory/durable-worker-dependencies.ts",
+    "src/content-factory/q5-durable-resume.ts",
+    "src/content-factory/q5-dependency-aware-resume.test.ts",
+    "src/content-factory/live-pilot.integration.test.ts",
+    ".github/workflows/content-factory-live-pilot.yml",
+    "docs/technical/Content Factory Durable Resume and Spend.md",
+    "docs/technical/Content Factory Reliability Qualification Harness.md"
+  ],
+  "compatibility": {
+    "legacyCheckpointSchema": 1,
+    "semanticWorkerCacheSchema": 2,
+    "rule": "Legacy schema-v1 worker cache entries remain same-head-only. A same-head reuse can migrate them into semantic schema-v2 cache records; cross-head reuse requires a schema-v2 dependency fingerprint."
+  },
+  "limitations": [
+    "Q5 proves restart, reuse, invalidation and provenance mechanics; it does not prove educational correctness.",
+    "Legacy schema-v1 cache entries are deliberately not inferred safe across a head change and may require one regeneration before semantic reuse is available.",
+    "Q6 repeated qualification stability remains required before overall reliability qualification can change.",
+    "Overall reliability qualification remains paused and paid live-pilot eligibility remains false."
+  ]
+}

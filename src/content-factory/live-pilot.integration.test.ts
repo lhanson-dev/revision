@@ -8,13 +8,16 @@ import {
 } from './live-pilot-durable-run'
 import {
   createDurableBudgetFetch,
-  createDurableCachedWorkers,
-  DurableCourseSpendLedger,
   DurableIssueCheckpointBlobStore,
   DurableLivePilotArtifactStore,
-  DurableWorkerExecutionCache,
   type LivePilotIssueCommentClient,
 } from './live-pilot-durable-store'
+import {
+  createDependencyAwareDurableCachedWorkers,
+  DependencyAwareDurableWorkerExecutionCache,
+  loadDependencyAwareCourseSpendLedger,
+  replayDurableJobForCurrentHead,
+} from './q5-durable-resume'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -190,12 +193,20 @@ describe('Content Factory v2 live adapter pilot', () => {
 
     const blobs = await DurableIssueCheckpointBlobStore.load(jobIssueNumber, issueCommentClient(repo, token))
     const artifactStore = await DurableLivePilotArtifactStore.load(blobs)
-    const ledger = await DurableCourseSpendLedger.loadOrCreate({
+    const ledgerLoad = await loadDependencyAwareCourseSpendLedger({
       blobs,
       jobId: job.jobId,
-      contentHeadSha: headSha,
+      currentContentHeadSha: headSha,
       maxSpendUsd,
     })
+    const ledger = ledgerLoad.ledger
+    if (resumeIssueNumber && ledgerLoad.requiresSemanticReplay) {
+      job = replayDurableJobForCurrentHead({
+        job,
+        createdContentHeadSha: ledgerLoad.createdContentHeadSha,
+        currentContentHeadSha: headSha,
+      })
+    }
     const attempt = await ledger.startAttempt(now)
     const budgetFetch = createDurableBudgetFetch({ ledger, generation, independentReview })
     const baseWorkers = createAqaAsBusiness7131LivePilotWorkers({
@@ -209,8 +220,8 @@ describe('Content Factory v2 live adapter pilot', () => {
       },
       artifactStore,
     })
-    const workerCache = new DurableWorkerExecutionCache(blobs, headSha)
-    const workers = createDurableCachedWorkers(baseWorkers, workerCache)
+    const workerCache = new DependencyAwareDurableWorkerExecutionCache(blobs, headSha)
+    const workers = createDependencyAwareDurableCachedWorkers(baseWorkers, workerCache)
 
     const result = await runDurableAqaAsBusiness7131LivePilot({
       job,
@@ -225,17 +236,20 @@ describe('Content Factory v2 live adapter pilot', () => {
 
     const spend = ledger.snapshot()
     const evidence = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       artifactType: 'content_factory_live_adapter_pilot_evidence',
       recordedAt: new Date().toISOString(),
       repository: repo,
       contentHeadSha: headSha,
+      createdContentHeadSha: ledgerLoad.createdContentHeadSha,
+      semanticReplayAcrossHead: ledgerLoad.requiresSemanticReplay,
       configuredMaxSpendUsd: maxSpendUsd,
       cumulativeCourseSpendUsd: spend.conservativeConsumedUsd,
       remainingCourseBudgetUsd: spend.remainingUsd,
       attempt,
       jobIssueNumber,
       reusedWorkerExecutionCount: workerCache.reusedExecutionCount,
+      reusedWorkerExecutionAcrossHeadCount: workerCache.reusedAcrossHeadCount,
       executedWorkerCount: workerCache.executedWorkerCount,
       job: result.job,
       report: result.report,
@@ -251,11 +265,14 @@ describe('Content Factory v2 live adapter pilot', () => {
       `Content Factory v2 durable live adapter attempt ${attempt} completed.`,
       '',
       `- Job issue: #${jobIssueNumber}`,
-      `- Exact content head: \`${headSha}\``,
+      `- Current content head: \`${headSha}\``,
+      `- Job creation head: \`${ledgerLoad.createdContentHeadSha}\``,
+      `- Dependency-aware replay across head: **${ledgerLoad.requiresSemanticReplay ? 'yes' : 'no'}**`,
       `- Final state: \`${result.job.state}\``,
       `- Reached expert_review_ready: **${result.report.reachedExpertReviewReady ? 'yes' : 'no'}**`,
       `- Cumulative course spend ledger: **$${spend.conservativeConsumedUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
       `- Worker executions reused without provider calls: **${workerCache.reusedExecutionCount}**`,
+      `- Reused across a content-head change: **${workerCache.reusedAcrossHeadCount}**`,
       `- Worker executions performed this attempt: **${workerCache.executedWorkerCount}**`,
       `- Total retries represented in reconstructed job: **${result.report.totalRetries}**`,
       `- Human interventions: **${result.report.humanInterventionCount}**`,
