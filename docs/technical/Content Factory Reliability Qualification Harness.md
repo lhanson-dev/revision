@@ -2,200 +2,165 @@
 
 ## Status
 
-The original course-agnostic reliability qualification completed Q1–Q6 and Q7 on approved `main`, which correctly enabled Confirmation Pilot #16. Pilot #16 ran from approved `main` `47c30e95c49c1951d0dd31c48b63a1d15506529f` as workflow run `33214478392` and durable job Issue `#226`.
+The Content Factory reliability gate is now in its post-Pilot-16 qualification-status transition.
 
-The qualification preflight passed and the paid pipeline reached fresh-context independent educational review. Independent review returned `fail_hold` with material content and assessment-integrity findings, so the course did not reach `expert_review_ready` and no learner content was published.
+The original course-agnostic Q1–Q7 qualification enabled Confirmation Pilot #16 from approved `main` `47c30e95c49c1951d0dd31c48b63a1d15506529f`. Pilot #16 ran as workflow `33214478392` and durable job Issue `#226`. Its qualification preflight passed and the paid pipeline reached fresh-context independent educational review. Independent review returned `fail_hold` with material content and assessment-integrity findings, so the course did not reach `expert_review_ready` and no learner content was published.
 
-PR #227 remediated the seven Pilot #16 findings and merged as approved `main` `9f4d86dbeaca5a6fac13884bf8b161964a68ec88`. Because that remediation changed generation, marking and durable-reuse quality assumptions, global paid-pilot eligibility was deliberately returned to `paused`.
+PR #227 remediated the Pilot #16 defect classes and merged as approved `main` `9f4d86dbeaca5a6fac13884bf8b161964a68ec88`. Because that remediation changed generation, marking and durable-reuse quality assumptions, global paid-pilot eligibility was deliberately returned to `paused`.
 
-The current provider-free requalification layer is:
+PR #228 then completed provider-free requalification and merged as approved `main` `3f6493be1424e281f26a8f0e14855c26ed9a999e`. The current requalification evidence is:
 
 `content-factory/reliability-post-pilot16-requalification.json`
 
-It preserves the original Q1–Q6 JSON records as historical evidence and records the current Q1–Q6 evidence that must pass together through exact-head CI on the corrected implementation. It does not itself restore paid-pilot eligibility.
+That record proves Q1–Q6 on the corrected implementation while deliberately leaving paid-pilot permission false. This separate Q7-style qualification-status change now restores the global machine-readable state to `qualified` only because the requalification evidence is already on approved `main`.
 
-Current gate position:
+Current position:
 
-- **Original Q1–Q6 — historical PASS evidence retained:** the merged machine-readable records remain evidence of the implementation originally qualified.
-- **Pilot #16 remediation — merged:** approved main is `9f4d86dbeaca5a6fac13884bf8b161964a68ec88`.
-- **Post-Pilot-16 Q1–Q6 requalification — current evidence layer:** provider-free contract, subject-shape, deterministic-pipeline, dependency-aware restart and repeated-stability suites are rerun together on the exact candidate head.
-- **Current global qualification — paused:** `content-factory/reliability-qualification.json` remains bound to Pilot #16 fail-hold evidence with `qualifiedEvidence: null` and `livePilotEligible: false`.
-- **Next paid pilot — not eligible:** a separate governed qualification-status transition remains required after requalification is merged to approved `main`.
+- **Pilot #16:** historical `fail_hold` evidence retained unchanged.
+- **Pilot #16 remediation:** merged and approved.
+- **Post-Pilot-16 Q1–Q6 requalification:** merged on approved `main` `3f6493be1424e281f26a8f0e14855c26ed9a999e`.
+- **Global qualification:** `qualified` once this governed status PR is merged.
+- **Next paid run:** eligible only as a fresh confirmation pilot after this status PR receives exact-head assurance and explicit Founder merge approval.
 
-The governing standard is not changed. This document records current implementation and qualification evidence; it does not replace that authority.
+The governing standard is unchanged. This document records current implementation and qualification evidence; it does not replace `80-company-workflows/Content Factory Reliability Qualification Standard.md`.
 
-## Requalification defect discovered before another paid run
+## Post-Pilot-16 requalification result
 
-Provider-free requalification challenged the Pilot #16 remediation against the governing course-agnostic design rule and found two unsafe generic post-generation mutations before another paid course was dispatched:
+Provider-free requalification challenged the first Pilot #16 remediation against the course-agnostic design rule before another paid course was dispatched. It found two unsafe generic post-generation mutations:
 
-1. the Learn cleaner could remove a legitimate trailing non-Latin word from a language or prescribed-text course;
-2. the Practice correction matched an exact cash-flow phrase, making a generic worker boundary Business-shaped.
+1. a Learn cleaner could remove legitimate non-Latin target-language content;
+2. a Practice repair encoded an exact Business/cash-flow phrase at a generic worker boundary.
 
-Those mutations are removed in the requalification candidate. They are replaced by generic provider-payload guardrails:
+PR #228 replaced both with generic generation contracts:
 
-- Learn must avoid unrelated contamination while explicitly preserving legitimate target-language, transliterated, quoted and prescribed-text wording;
-- Practice prompts must remain internally consistent with their own expected response and must phrase uncertain conditions conditionally rather than presupposing the result.
+- Learn must avoid unrelated contamination while preserving legitimate target-language, transliterated, quoted and prescribed-text wording;
+- Practice prompts must remain semantically consistent with their own expected responses and phrase uncertain conditions conditionally rather than presupposing the result.
 
-The semantic ownership is intentionally different from the deterministic formula/MCQ controls: language coherence and prompt/answer consistency remain **generative judgement** with independent educational review as the fail-closed backstop. Revision does not pretend it can deterministically delete or rewrite semantically valid language.
-
-The affected durable semantic versions advance to:
+The affected durable worker semantics advanced to:
 
 - `generateLearningCollateral` → `3+output-integrity-v2`;
 - `generatePracticeCollateral` → `3+output-integrity-v2`.
 
-This prevents pre-v2 outputs from being reused across the correction while preserving unrelated completed work where dependency fingerprints remain compatible.
+This prevents pre-v2 outputs from being reused across the correction while preserving unrelated compatible work.
 
-## Why the calibration method changed
+## Qualification evidence model
 
-Pilot #15 ran from approved `main` commit `7df79c28ae0f72610cbb28f9c01f366f85aa2c0d` as workflow run `33149356421` and durable Issue `#209`.
+Historical qualification records are not rewritten. The evidence model is layered:
 
-It stopped from `mapped` because a Practice exact-evidence check failed. Pilot #10 had already addressed the same broad failure class by moving Learn and Practice exact evidence to bounded locators resolved deterministically by Revision. Its reappearance showed that repeated paid whole-course probing was lower-value evidence than systematic provider-free qualification.
+- original Q1–Q6 JSON records remain historical evidence for the implementation originally qualified;
+- `content-factory/reliability-post-pilot16-requalification.json` records current post-Pilot-16 Q1–Q6 evidence;
+- `content-factory/reliability-qualification.json` is the machine-readable current global eligibility state consumed by the paid live-pilot preflight.
 
-Q1–Q7 then completed through governed PRs. Confirmation Pilot #16 proved that the reliability gate was effective: preflight passed, the live pipeline executed under the spend ceiling, and educational assurance—not metadata drift—became the stopping boundary.
+The global record now binds qualification to approved `main` `3f6493be1424e281f26a8f0e14855c26ed9a999e`, references the post-Pilot-16 requalification record, records all six passed gates, records three Q6 repetitions and classifies the next paid run as `confirmation_pilot`.
 
-Pilot #16 nevertheless exposed material generated-output defects. The response remains the governed pattern: classify reusable defect classes, correct the smallest reusable process boundaries, add provider-free regressions, rerun qualification on the changed implementation, and only then permit another paid confirmation run.
-
-Historical Pilot #10–#16 evidence remains unchanged.
-
-## Live-pilot boundary
-
-The live-pilot workflow remains:
-
-`workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
-
-There is no workflow input or environment-variable bypass.
-
-The current global record remains:
-
-- `status: paused`;
-- `livePilotEligible: false`;
-- `qualifiedEvidence: null`;
-- trigger evidence Pilot `16`, workflow run `33214478392`, durable Issue `#226`, failed prior `main` `47c30e95c49c1951d0dd31c48b63a1d15506529f`;
-- all six Q1–Q6 gates still required before a new Q7 transition.
-
-The pause is deliberate. Neither the remediation merge nor provider-free test success alone authorizes a paid run.
+Pilot #16 remains the trigger evidence for why the second qualification cycle was required. Restoring eligibility does not convert that failed run into a success.
 
 ## Q1 — worker-contract inventory
 
-`content-factory/reliability-contract-inventory.json` remains the original Q1 PASS evidence. The post-Pilot-16 requalification record layers the changed ownership classes without rewriting that historical evidence.
+The original machine-readable inventory remains `content-factory/reliability-contract-inventory.json`. Post-Pilot-16 requalification layers the changed ownership classes without rewriting history.
 
-Current ownership additions are:
+Current ownership additions include:
 
 - known mechanically unambiguous formula representation → **deterministically derived**;
-- learner-language coherence / target-language preservation → **generative judgement**;
+- learner-language coherence and target-language preservation → **generative judgement**;
 - Practice prompt/expected-response semantic consistency → **generative judgement**;
 - multi-question MCQ correct-option distribution → **deterministically derived**;
 - operational per-subquestion Marking Pack rubric coverage → **targeted repair eligible**, with one bounded repair then fail closed.
 
-The original inventory continues to cover Course Knowledge Model, Learning Blueprint, Learn generation, Practice generation, Assessment Blueprint, Question Family generation, assessment-item generation, Marking Pack generation, deterministic validation, independent review, remediation and expert-review package assembly.
-
 ## Q2 — provider-free contract matrix
 
-`content-factory/reliability-q2-contract-matrix.json` remains the original Q2 PASS evidence. The current requalification adds `src/content-factory/openai-output-integrity-compiler.test.ts` and `src/content-factory/post-pilot16-requalification.test.ts` to the provider-free evidence layer.
-
-The added defect-class coverage proves:
+The original Q2 evidence remains `content-factory/reliability-q2-contract-matrix.json`. Current provider-free regressions additionally prove:
 
 - deterministic percentage-change canonicalisation without changing unrelated formulas;
-- preservation of legitimate non-Latin target-language text through the live-adapter worker contract;
-- generic learner-language anti-contamination guidance without blind script deletion;
-- generic Practice prompt/expected-response consistency guidance with no Business-specific phrase mutation;
-- deterministic MCQ correct-position distribution without changing answer/distractor content;
-- generic assessment-premise sufficiency instructions;
-- operational per-subquestion Marking Pack coverage with one bounded repair then fail closed;
-- no unnecessary extra provider call for valid Learn/Practice output.
+- preservation of legitimate non-Latin target-language content;
+- generic anti-contamination guidance without blind script deletion;
+- generic Practice prompt/answer consistency without Business-specific phrase mutation;
+- deterministic MCQ correct-position distribution without changing answer or distractor content;
+- generic assessment-premise sufficiency;
+- operational Marking Pack coverage for structured subquestions with one bounded repair then fail closed;
+- no unnecessary extra provider call for valid output.
 
 ## Q3 — subject-shape matrix
 
-`content-factory/reliability-q3-subject-shape-matrix.json` remains the original Q3 PASS evidence.
+The five required course shapes remain:
 
-Executable evidence remains:
+- quantitative/business/economics;
+- mathematics;
+- science;
+- essay/humanities;
+- language/prescribed-text.
 
-- `src/content-factory/q3-subject-shape-fixtures.ts`;
-- `src/content-factory/q3-subject-shape-matrix.test.ts`;
-- shared orchestration in `src/content-factory/end-to-end-proof.ts`.
+Synthetic fixtures prove process compatibility only. They do not constitute factual, pedagogical or awarding-body approval. Requalification includes a direct adapter-level language regression so the generic integrity layer cannot silently force Latin-only content.
 
-The five governed shapes remain quantitative/business/economics, mathematics, science, essay/humanities and language/prescribed-text. Requalification reruns all five on the corrected implementation and adds a direct adapter-level language regression so the generic integrity layer cannot silently force Latin-only content.
+## Q4 — deterministic pipeline simulation
 
-Synthetic fixtures prove process compatibility only. They are not factual, pedagogical or assessment-quality approval and do not prove live external-provider behaviour.
-
-## Q4 — deterministic full-pipeline simulation
-
-`content-factory/reliability-q4-deterministic-pipeline-simulation.json` remains the original Q4 PASS evidence.
-
-Executable evidence remains:
-
-- `src/content-factory/q4-deterministic-pipeline-fixture.ts`;
-- `src/content-factory/q4-deterministic-pipeline-simulation.test.ts`.
-
-The simulation traverses:
+The provider-free full-pipeline simulation continues to traverse:
 
 `requested → identified → sourced → mapped → generating → validating → independent_review → remediation → validating → independent_review → expert_review_packaging → expert_review_ready`
 
-It proves deterministic validation before review, targeted remediation, correct dependent-stage replacement, fresh independent re-review and no publication side effect. Requalification reruns this simulation on the current candidate head without provider calls.
+It proves deterministic validation at the intended boundary, targeted remediation, dependent-stage invalidation, fresh independent re-review, expert-review package assembly and no publication side effect.
 
 ## Q5 — restart, reuse and dependency-aware invalidation
 
-`content-factory/reliability-q5-restart-reuse-invalidation.json` remains the original Q5 PASS evidence.
-
-Implementation and executable evidence are:
-
-- `src/content-factory/durable-worker-dependencies.ts`;
-- `src/content-factory/q5-durable-resume.ts`;
-- `src/content-factory/q5-dependency-aware-resume.test.ts`;
-- `src/content-factory/post-pilot16-requalification.test.ts`.
-
-Semantic worker-cache records continue to use:
+Semantic worker-cache compatibility continues to use:
 
 `method + exact input fingerprint + transitive worker-contract dependency fingerprint`
 
-rather than treating the Git implementation head as a universal semantic invalidation key.
+rather than Git head alone.
 
-The requalification advances only Learn and Practice integrity semantics to `output-integrity-v2`. Their genuine assurance dependants become incompatible with older cache records; unrelated assessment-generation work remains independent of Learn/Practice in its dependency closure.
+The post-Pilot-16 requalification proves that the Learn/Practice `output-integrity-v2` change invalidates those affected branches and their genuine dependants while unrelated identity, source, coverage and independent assessment-generation work remains reusable when dependency closure is unchanged.
 
-Pilot #16 Issue #226 remains blocked educational evidence and is not resumed across this semantic correction. Any later paid proof must be a fresh course job.
+Pilot #16 Issue #226 remains blocked historical evidence and is not resumed across this semantic correction. The next paid proof must be a fresh course job.
 
 ## Q6 — repeated qualification stability
 
-`content-factory/reliability-q6-repeated-stability.json` remains the original Q6 PASS evidence with `repetitionCount: 3` and `providerCallsUsed: false`.
+Q6 remains three complete provider-free repetitions:
 
-Executable evidence remains:
+- 15 subject-shape runs;
+- three deterministic pipeline simulations;
+- three complete restart/reuse scenario sets.
 
-- `src/content-factory/q6-repeated-qualification-fixture.ts`;
-- `src/content-factory/q6-repeated-qualification-stability.test.ts`;
-- the current Q3, Q4 and Q5 harnesses.
-
-Q6 executes three complete repetitions inside the exact-head qualification suite: 15 subject-shape runs, three deterministic pipeline simulations and three complete restart/reuse scenario sets. Because the fixture imports the current durable dependency policy, requalification exercises the current Learn/Practice semantic versions rather than the historical ones.
-
-Q6 demonstrates operational stability rather than educational correctness or live-provider reliability.
+The post-Pilot-16 requalification executes these against the current durable dependency policy and current generic integrity contracts. Q6 demonstrates operational stability, not educational correctness or live-provider reliability.
 
 ## Q7 — paid confirmation eligibility
 
-The original Q7 transition through PR #225 correctly enabled Confirmation Pilot #16. That historical governed decision is not rewritten.
+The original Q7 transition correctly enabled Confirmation Pilot #16 and remains historical governance evidence.
 
-After Pilot #16, the current status is deliberately paused. Provider-free Q1–Q6 requalification must first be merged to approved `main`. Restoring `qualified` and `livePilotEligible: true` then requires a **separate governed qualification-status PR** with exact-head assurance and Founder approval.
+After Pilot #16, Q7 was intentionally reset by PR #227. PR #228 then re-established Q1–Q6 PASS on approved `main` without granting paid-run permission. This separate governed status transition restores:
 
-The next paid run remains a **confirmation pilot**, not a debugging probe. It must still obey:
+- `status: qualified`;
+- `livePilotEligible: true`;
+- `qualifiedEvidence.qualificationEvidenceMainSha: 3f6493be1424e281f26a8f0e14855c26ed9a999e`;
+- all six Q1–Q6 gates in `qualifiedEvidence.passedGates`;
+- `q6RepetitionCount: 3`;
+- `nextPaidRunClass: confirmation_pilot`.
 
-- approved-source and source-rights rules;
+The live-pilot workflow remains fail closed:
+
+`workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
+
+There is no workflow input or environment-variable bypass. The preflight requires both `status === "qualified"` and `livePilotEligible === true`, requires `qualifiedEvidence`, and rejects any qualified record missing a required passed gate.
+
+The next paid run is therefore eligible only after this status transition is merged to approved `main`. It remains a **confirmation pilot**, not a debugging probe, and must still obey:
+
+- source-rights and approved-source rules;
 - the US$20 per-course spend ceiling and cumulative spend controls;
-- deterministic validation and independent review;
+- deterministic validation;
+- independent educational review;
 - expert/human review authority;
-- content accuracy assurance;
+- the Content Accuracy Assurance Gate;
 - publication governance and no automatic learner publication.
 
-A reliability PASS does not constitute educational correctness, awarding-body endorsement or publication approval.
+Reliability qualification does not constitute educational correctness, awarding-body endorsement or publication approval.
 
 ## Documentation impact
 
-The post-Pilot-16 requalification updates:
+This status transition updates:
 
-- `content-factory/reliability-post-pilot16-requalification.json`;
-- `src/content-factory/openai-output-integrity-compiler.ts` and its provider-free regressions;
-- `src/content-factory/durable-worker-dependencies.ts`;
-- `src/content-factory/post-pilot16-requalification.test.ts`;
-- `docs/technical/Content Factory Pilot 16 Remediation.md`;
+- `content-factory/reliability-qualification.json`;
+- `src/content-factory/q7-qualification-status.test.ts`;
 - this indexed technical qualification record.
 
-No normative authority change is required because the active Reliability Qualification Standard already requires course-agnostic correction, provider-free requalification after changed quality assumptions, dependency-aware invalidation and fail-closed paid eligibility. No `INDEX.md` change is required because this document remains the indexed current technical source for the reliability harness.
+No normative authority or `INDEX.md` change is required. The active Reliability Qualification Standard already defines Q7 as the separate governed transition from Q1–Q6 PASS to paid confirmation eligibility, and this document remains the indexed implementation source for the qualification harness.
 
-Historical Pilot #10–#16 evidence and the original Q1–Q6 records are not rewritten.
+Historical Pilot #10–#16 evidence, Issue #226 and the original Q1–Q6 machine-readable records remain unchanged.
