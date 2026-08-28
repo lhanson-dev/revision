@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Paid end-to-end live pilots are paused after Pilot #15 pending course-agnostic Content Factory reliability qualification.",
+  "status": "qualified",
+  "reason": "Q1-Q6 course-agnostic Content Factory reliability gates are PASS on approved main. The next paid end-to-end run is eligible only as the governed confirmation pilot.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 15,
@@ -17,6 +17,55 @@
     "Q5-restart-reuse-dependency-invalidation",
     "Q6-repeated-qualification-stability"
   ],
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "qualificationEvidenceMainSha": "0a288a6bd7885782fed884d468fa040f337e873a",
+    "passedGates": [
+      "Q1-worker-contract-inventory",
+      "Q2-provider-free-contract-matrix",
+      "Q3-subject-shape-matrix",
+      "Q4-deterministic-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-qualification-stability"
+    ],
+    "gateEvidence": [
+      {
+        "gate": "Q1-worker-contract-inventory",
+        "record": "content-factory/reliability-contract-inventory.json",
+        "decision": "pass"
+      },
+      {
+        "gate": "Q2-provider-free-contract-matrix",
+        "record": "content-factory/reliability-q2-contract-matrix.json",
+        "decision": "pass"
+      },
+      {
+        "gate": "Q3-subject-shape-matrix",
+        "record": "content-factory/reliability-q3-subject-shape-matrix.json",
+        "decision": "pass"
+      },
+      {
+        "gate": "Q4-deterministic-pipeline-simulation",
+        "record": "content-factory/reliability-q4-deterministic-pipeline-simulation.json",
+        "decision": "pass"
+      },
+      {
+        "gate": "Q5-restart-reuse-dependency-invalidation",
+        "record": "content-factory/reliability-q5-restart-reuse-invalidation.json",
+        "decision": "pass"
+      },
+      {
+        "gate": "Q6-repeated-qualification-stability",
+        "record": "content-factory/reliability-q6-repeated-stability.json",
+        "decision": "pass"
+      }
+    ],
+    "q6RepetitionCount": 3,
+    "nextPaidRunClass": "confirmation_pilot",
+    "limitations": [
+      "Reliability qualification does not constitute educational correctness or publication approval.",
+      "The confirmation pilot must still obey source-rights, spend, educational assurance, expert-review and publication governance.",
+      "This status change enables eligibility only; it does not itself execute a paid provider call or publish learner content."
+    ]
+  },
+  "livePilotEligible": true
 }
