@@ -42,18 +42,6 @@ function withTargetedRepairAccounting(
   }
 }
 
-function contractFailure(
-  execution: Extract<Awaited<ReturnType<OpenAIModelAssistedWorkers['generateAssessmentItem']>>, { status: 'success' }>,
-  stage: string,
-  error: unknown,
-) {
-  return {
-    status: 'failure' as const,
-    error: `provider_contract_failure: ${stage}: ${errorMessage(error)}`,
-    provenance: execution.provenance,
-  }
-}
-
 const responseDemandCommandContract = assessmentResponseDemandCommandContractText()
 
 const structuredAssessmentInstruction = [
