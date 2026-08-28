@@ -69,7 +69,6 @@ describe('Content Factory Q3 subject-shape matrix', () => {
     expect(result.report.proofMode).toBe('contract_integration')
     expect(result.report.observedUsageCost).toBe(0)
     expect(result.report.totalRetries).toBe(0)
-    expect(result.report.unpricedWorkerRunCount).toBe(0)
     expect(result.report.humanInterventionCount).toBe(0)
     expect(result.report.workerRunCount).toBeGreaterThan(0)
     expect(result.report.workUnitCount).toBe(fixture.requirements.length)
@@ -79,6 +78,10 @@ describe('Content Factory Q3 subject-shape matrix', () => {
     expect(result.report.providerRoutes[0].provider).toBe('controlled-fixture')
     expect(result.report.providerRoutes[0].model).toBe('q3-subject-shape-v1')
     expect(result.report.providerRoutes[0].observedUsageCost).toBe(0)
+    expect(result.report.providerRoutes[0].unpricedRuns).toBe(0)
+
+    const unpricedRuns = result.job.workerRuns.filter((run) => run.usageCost === undefined)
+    expect(unpricedRuns.every((run) => !run.provider)).toBe(true)
 
     const exercisedModes = new Set(fixture.requirements.flatMap((requirement) => requirement.learningModes))
     expect(exercisedModes.size).toBeGreaterThan(0)
