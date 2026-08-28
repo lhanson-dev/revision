@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
-  "status": "in_progress",
+  "status": "complete",
   "scope": "course_agnostic",
-  "baseMainSha": "7ee043db47c341e58847468ba8509a6e5d6adcc6",
+  "baseMainSha": "90344fc18fbbb3e517f5e9b38c8a68443295dbdc",
   "boundaries": [
     {
       "worker": "course_knowledge_model",
@@ -81,10 +81,10 @@
     },
     {
       "worker": "remediation",
-      "status": "gap_identified",
-      "evidence": ["src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
-      "coverage": ["provider-free orchestration targets remediation at review findings rather than replaying the whole course", "corrected artifacts are versioned and revalidated before independent re-review", "remediation failure remains fail closed in the assurance pipeline"],
-      "gaps": ["add a direct model-assisted remediation provider-contract valid first-pass case with one provider call", "add malformed remediation output and unknown target reference failure coverage", "prove the provider cannot expand remediation beyond the governed affected artifact or work-unit scope"]
+      "status": "evidence_mapped",
+      "evidence": ["src/content-factory/q2-remediation-contract.test.ts", "src/content-factory/openai-remediation-compiler.ts", "src/content-factory/assurance-and-remediation.test.ts", "src/content-factory/reliability-contract-inventory.test.ts"],
+      "coverage": ["mathematics-shaped direct provider contract accepts a valid targeted correction with exactly one provider call", "malformed remediation output fails closed without provider retry", "resolved finding IDs must exactly equal the findings assigned to the governed target", "assigned finding artifact references must match the exact governed remediation target", "learning/practice corrections cannot change immutable work-unit, knowledge-model or source provenance", "learning/practice corrections cannot invent dependent Marking Pack scope", "Marking Pack and assessment-item correction paths preserve governed question identity, provenance and calibration constraints", "provider-free orchestration still versions corrected artifacts and revalidates before independent re-review"],
+      "gaps": []
     },
     {
       "worker": "expert_review_package_assembly",
@@ -94,6 +94,6 @@
       "gaps": []
     }
   ],
-  "q2Pass": false,
+  "q2Pass": true,
   "paidPilotEligible": false
 }

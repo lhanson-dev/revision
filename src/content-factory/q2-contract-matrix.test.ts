@@ -56,19 +56,20 @@ describe('Content Factory Q2 provider-free worker contract matrix', () => {
     }
   })
 
-  it('prevents Q2 or paid-pilot eligibility while any mapped contract gap remains', () => {
+  it('requires every boundary to be completed and gap-free for Q2 PASS', () => {
     const unresolved = q2.boundaries.filter((boundary) => boundary.status === 'gap_identified' || boundary.gaps.length > 0)
-    expect(unresolved.length).toBeGreaterThan(0)
-    expect(q2.status).toBe('in_progress')
-    expect(q2.q2Pass).toBe(false)
-    expect(q2.paidPilotEligible).toBe(false)
+    if (q2.q2Pass) {
+      expect(unresolved).toHaveLength(0)
+      expect(q2.boundaries.every((boundary) => completedStatuses.includes(boundary.status))).toBe(true)
+      expect(q2.status).toBe('complete')
+    } else {
+      expect(unresolved.length).toBeGreaterThan(0)
+      expect(q2.status).toBe('in_progress')
+    }
   })
 
-  it('would require every boundary to be completed and gap-free before a future Q2 pass claim', () => {
-    if (q2.q2Pass) {
-      expect(q2.boundaries.every((boundary) => completedStatuses.includes(boundary.status))).toBe(true)
-      expect(q2.boundaries.every((boundary) => boundary.gaps.length === 0)).toBe(true)
-    }
+  it('does not confuse Q2 completion with overall paid-pilot eligibility', () => {
+    expect(q2.paidPilotEligible).toBe(false)
   })
 
   it('keeps the qualification record course-agnostic rather than binding it to the historical Business pilot job', () => {
