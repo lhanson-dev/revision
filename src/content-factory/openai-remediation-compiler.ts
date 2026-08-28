@@ -31,6 +31,18 @@ function arraysEqual(left: readonly string[], right: readonly string[]) {
   return left.length === right.length && left.every((value, index) => value === right[index])
 }
 
+function assertGovernedTargetScope(input: RemediationInput) {
+  const findingIds = input.findings.map((finding) => finding.id)
+  if (new Set(findingIds).size !== findingIds.length) {
+    throw new Error('Assigned remediation finding IDs must be unique')
+  }
+  for (const finding of input.findings) {
+    if (finding.artifactRef !== input.target.artifactRef) {
+      throw new Error(`Remediation finding ${finding.id} targets ${finding.artifactRef} outside governed remediation target ${input.target.artifactRef}`)
+    }
+  }
+}
+
 function assertExactFindingResolution(output: RemediationOutput, input: RemediationInput) {
   const expected = input.findings.map((finding) => finding.id).sort()
   const actual = [...output.resolvedFindingIds].sort()
@@ -210,6 +222,7 @@ export function compileProviderRemediation(
   input: RemediationInput,
 ): RemediationOutput {
   const output = remediationWorkerOutputSchema.parse(providerOutput)
+  assertGovernedTargetScope(input)
   assertExactFindingResolution(output, input)
 
   const validated = validateLearningPracticeTarget(input, output)
