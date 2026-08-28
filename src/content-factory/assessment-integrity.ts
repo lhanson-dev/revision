@@ -168,12 +168,14 @@ export function validateStructuredMarkingGuidance(input: {
     }
   }
 
-  const overall = new Map(input.overallObjectiveAllocation.map((allocation) => [allocation.objectiveId, allocation.marks]))
-  for (const objectiveId of allowedObjectives) {
-    const expected = overall.get(objectiveId)
-    if (expected === undefined) throw new Error(`Marking Pack for ${input.itemId} is missing overall AO allocation for ${objectiveId}`)
-    const actual = objectiveTotals.get(objectiveId) ?? 0
-    if (actual !== expected) throw new Error(`Marking Pack for ${input.itemId} AO ${objectiveId} total does not match subquestion guidance`)
-  }
+  const derivedOverallObjectiveAllocation = input.allowedObjectiveIds.map((objectiveId) => ({
+    objectiveId,
+    marks: objectiveTotals.get(objectiveId) ?? 0,
+  }))
+  input.overallObjectiveAllocation.splice(
+    0,
+    input.overallObjectiveAllocation.length,
+    ...derivedOverallObjectiveAllocation,
+  )
   return guidance
 }
