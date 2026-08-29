@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "workItem": "V2-E",
   "gate": "Q7",
-  "status": "runner_merged_live_execution_pending",
+  "status": "live_execution_completed_generic_contract_failure",
   "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
   "runnerMergedMainSha": "ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
@@ -38,11 +38,37 @@
     }
   ],
   "sampleIndependence": "Marking Pack samples use deterministic synthetic valid assessment inputs so Q7 Marking Pack coverage does not depend on a preceding live Assessment Item sample succeeding.",
-  "providerCalls": "live_only_after_governed_trigger_on_approved_main",
+  "providerCalls": "completed_on_approved_main",
   "maxSpendUsd": 5,
   "providerRetriesPerRequest": 0,
   "targetedRepairPolicy": "production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.",
   "evidenceArtifactDirectory": ".artifacts/content-factory-live-worker-soak/",
+  "liveExecution": {
+    "mainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+    "workflowRunId": 33265434110,
+    "workflowRunNumber": 16,
+    "artifactId": 9718558827,
+    "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+    "executedSamples": 20,
+    "acceptedSamples": 13,
+    "controlledFailClosedSamples": 7,
+    "knownUsageCostUsd": 0.423906,
+    "targetedRepairsObserved": 9,
+    "classification": "q7_fail_generic_engineering_contract_class"
+  },
+  "affectedQualificationGates": [
+    "Q1-compiler-worker-ownership-inventory",
+    "Q2-historical-failure-replay-corpus",
+    "Q3-adversarial-provider-free-subject-matrix",
+    "Q4-deterministic-full-pipeline-simulation",
+    "Q5-restart-reuse-dependency-invalidation",
+    "Q6-repeated-provider-free-stability"
+  ],
+  "costCeilingReview": {
+    "decision": "retain_usd_5_ceiling",
+    "knownUsageCostUsd": 0.423906,
+    "rationale": "The completed 20-sample soak used 8.47812% of the governed US$5 ceiling, so this evidence does not justify increasing the ceiling."
+  },
   "fullCourseAssembly": false,
   "learnerPublication": false,
   "livePilotEligibilityChanged": false,
