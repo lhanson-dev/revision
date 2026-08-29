@@ -1,7 +1,21 @@
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import corpusText from '../../content-factory/reliability-v2-b-historical-failure-corpus.json?raw'
+import assessmentIntegrityTest from './assessment-integrity.test.ts?raw'
+import coverageFinalizationTest from './coverage-finalization.test.ts?raw'
+import assessmentItemPolicyTest from './openai-live-adapter.assessment-item-policy.test.ts?raw'
+import independentReviewTest from './openai-live-adapter-independent-review.test.ts?raw'
+import liveAdapterTest from './openai-live-adapter.test.ts?raw'
+import assessmentIntegrityCompilerTest from './openai-assessment-integrity-compiler.test.ts?raw'
+import assessmentItemNormalizerTest from './openai-assessment-item-provider-normalizer.test.ts?raw'
+import learningBlueprintCompilerTest from './openai-learning-blueprint-compiler.test.ts?raw'
+import markingPackV2CompilerTest from './openai-marking-pack-v2-compiler.test.ts?raw'
+import outputIntegrityCompilerTest from './openai-output-integrity-compiler.test.ts?raw'
+import providerContractHardeningTest from './openai-provider-contract-hardening.test.ts?raw'
+import providerEvidenceLocatorTest from './openai-provider-evidence-locator.test.ts?raw'
+import postPilot16RequalificationTest from './post-pilot16-requalification.test.ts?raw'
+import postPilot17RequalificationTest from './post-pilot17-requalification.test.ts?raw'
+import q2MarkingPackAoContractTest from './q2-marking-pack-ao-contract.test.ts?raw'
+import teachingPointIntegrityTest from './teaching-point-integrity.test.ts?raw'
 
 type EvidenceKind = 'exact_historical_output' | 'synthetic_reproduction'
 type ExpectedDisposition =
@@ -55,8 +69,26 @@ interface HistoricalFailureCorpus {
 }
 
 const corpus = JSON.parse(corpusText) as HistoricalFailureCorpus
-const repositoryRoot = process.cwd()
 const classById = new Map(corpus.defectClasses.map((defectClass) => [defectClass.id, defectClass]))
+const replaySources: Record<string, string> = {
+  'src/content-factory/assessment-integrity.test.ts': assessmentIntegrityTest,
+  'src/content-factory/coverage-finalization.test.ts': coverageFinalizationTest,
+  'src/content-factory/openai-live-adapter.assessment-item-policy.test.ts': assessmentItemPolicyTest,
+  'src/content-factory/openai-live-adapter-independent-review.test.ts': independentReviewTest,
+  'src/content-factory/openai-live-adapter.test.ts': liveAdapterTest,
+  'src/content-factory/openai-assessment-integrity-compiler.test.ts': assessmentIntegrityCompilerTest,
+  'src/content-factory/openai-assessment-item-provider-normalizer.test.ts': assessmentItemNormalizerTest,
+  'src/content-factory/openai-learning-blueprint-compiler.test.ts': learningBlueprintCompilerTest,
+  'src/content-factory/openai-marking-pack-v2-compiler.test.ts': markingPackV2CompilerTest,
+  'src/content-factory/openai-output-integrity-compiler.test.ts': outputIntegrityCompilerTest,
+  'src/content-factory/openai-provider-contract-hardening.test.ts': providerContractHardeningTest,
+  'src/content-factory/openai-provider-evidence-locator.test.ts': providerEvidenceLocatorTest,
+  'src/content-factory/post-pilot16-requalification.test.ts': postPilot16RequalificationTest,
+  'src/content-factory/post-pilot17-requalification.test.ts': postPilot17RequalificationTest,
+  'src/content-factory/q2-marking-pack-ao-contract.test.ts': q2MarkingPackAoContractTest,
+  'src/content-factory/teaching-point-integrity.test.ts': teachingPointIntegrityTest,
+}
+const retainedExactFixtures: Record<string, string> = {}
 
 describe('Reliability v2-B historical failure replay corpus', () => {
   it('covers Pilots #1-#18 exactly once with exact run/head provenance', () => {
@@ -101,9 +133,8 @@ describe('Reliability v2-B historical failure replay corpus', () => {
 
       for (const replayTest of defectClass.replayTests) {
         expect(replayTest.endsWith('.test.ts')).toBe(true)
-        const replayPath = resolve(repositoryRoot, replayTest)
-        expect(existsSync(replayPath), `${defectClass.id} replay test missing: ${replayTest}`).toBe(true)
-        const source = readFileSync(replayPath, 'utf8')
+        const source = replaySources[replayTest]
+        expect(source, `${defectClass.id} replay test missing from compile-time registry: ${replayTest}`).toBeTruthy()
         expect(source).toMatch(/\b(?:it|test)\s*\(/)
       }
     }
@@ -117,8 +148,8 @@ describe('Reliability v2-B historical failure replay corpus', () => {
       expect(corpus.evidencePolicy.allowedKinds).toContain(defectClass.evidenceKind)
       if (defectClass.evidenceKind === 'exact_historical_output') {
         expect(defectClass.fixturePath).toBeTruthy()
-        const fixturePath = resolve(repositoryRoot, defectClass.fixturePath ?? '__missing_fixture__')
-        expect(existsSync(fixturePath), `${defectClass.id} exact fixture is not retained`).toBe(true)
+        const fixture = retainedExactFixtures[defectClass.fixturePath ?? '__missing_fixture__']
+        expect(fixture, `${defectClass.id} exact fixture is not retained in the compile-time fixture registry`).toBeTruthy()
       } else {
         expect(defectClass.syntheticBasis?.length ?? 0).toBeGreaterThan(30)
       }
