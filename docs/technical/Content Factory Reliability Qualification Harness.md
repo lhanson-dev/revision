@@ -4,7 +4,7 @@
 
 The Content Factory reliability programme remains **paused for full-course live execution after Confirmation Pilot #18**.
 
-Reliability v2 implementation has now progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The remaining reliability work is the bounded live-worker soak (Q7 / V2-E), followed by a separate Q8 eligibility transition (V2-F).
+Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker **runner is now implemented**, but the live soak itself remains pending until this runner is merged and manually executed on approved `main`. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
 
 Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the validator/repair path then in use surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
 
@@ -90,9 +90,9 @@ The matrix covers:
 
 Technical record: `docs/technical/Content Factory Reliability v2-C Adversarial Mutation Matrix.md`.
 
-### V2-D — full provider-free qualification — complete on this evidence path
+### V2-D — full provider-free qualification — complete
 
-Q1–Q6 are re-run on one exact implementation head:
+Q1–Q6 were re-run on one exact implementation head:
 
 - Q1 compiler/worker ownership inventory;
 - Q2 historical failure replay corpus;
@@ -105,23 +105,31 @@ No live provider call belongs in Q1–Q6.
 
 The V2-D machine-readable record is `content-factory/reliability-v2-d-provider-free-qualification.json`; the detailed technical record is `docs/technical/Content Factory Reliability v2-D Provider-Free Qualification.md`.
 
-### V2-E — bounded live worker soak — next
+### V2-E — bounded live worker soak — runner implemented, live execution pending
 
-Only after Q1–Q6 PASS, run Q7 as a separate bounded live-provider reliability exercise.
+Q7 is a separate bounded live-provider reliability exercise after Q1–Q6 PASS.
 
-The soak must:
+The canonical runtime is `.github/workflows/content-factory-live-worker-soak.yml`, executed manually on approved `main`. The workflow runs `src/content-factory/live-worker-soak.integration.test.ts` and does not call the full-course pilot runner.
 
-- use rights-safe synthetic/structured inputs;
-- cover all five subject shapes across the sample set;
-- include at least 20 live worker outputs in total;
-- include multiple samples of assessment-item and Marking Pack generation plus any other boundaries Q1 classifies as high risk;
-- use production compiler/validator/repair code;
-- record every sample result, repair count and cost;
-- stay below the governed US$5 soak ceiling;
-- assemble/publish no real course;
-- fail qualification on any new generic contract class the v2 boundary cannot safely handle.
+The current soak plan uses exactly 20 live worker samples:
 
-Educational-content rejection that is correctly classified and fail-closed is not automatically a reliability failure. A new engineering contract class is.
+- all five governed subject shapes;
+- two Assessment Item samples per shape (10 total);
+- two Marking Pack samples per shape (10 total);
+- production `createOpenAIModelAssistedWorkers` compiler/validator/repair code;
+- deterministic synthetic Marking Pack inputs so Marking Pack coverage remains independent of live Assessment Item success;
+- provider transport retries disabled so a second provider call for one sample represents the production targeted-repair path;
+- provider/model, contract version, sample result, provider-call count, repair count and observed usage cost recorded per sample;
+- hard US$5 shared provider-spend ceiling;
+- no real course assembly and no learner publication.
+
+The runner uploads `.artifacts/content-factory-live-worker-soak/q7-live-worker-soak-<main-sha>.json` as workflow evidence.
+
+A controlled fail-closed output does not automatically mean Q7 fails. The uploaded evidence must distinguish a genuine educational rejection correctly handled by the boundary from a new generic engineering contract class. The workflow is automatically green only when all 20 samples are accepted; any controlled fail-closed output is preserved for classification before Q7 is called PASS.
+
+Machine-readable plan: `content-factory/reliability-v2-e-live-worker-soak-plan.json`.
+
+Technical record: `docs/technical/Content Factory Reliability v2-E Live Worker Soak.md`.
 
 ### V2-F — separate Q8 eligibility transition
 
@@ -156,7 +164,7 @@ If two consecutive post-v2 confirmation-course attempts still expose new generic
 - trigger remains Pilot #18 workflow `33239396439` / Issue `#234`;
 - Q8 remains a separate eligibility transition after Q7.
 
-V2-D therefore permits only the governed next reliability exercise (V2-E/Q7). It does not permit another paid full-course run.
+V2-E therefore creates only the governed Q7 sampling runtime. It does not permit another paid full-course run.
 
 ## Documentation impact
 
@@ -165,4 +173,4 @@ The normative Reliability v2 method remains governed by:
 - `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
 - `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-V2-D updates implementation/evidence documentation and the machine-readable gate-progress record without changing normative authority. Historical pilot and v1 qualification evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
+V2-E adds the live-soak implementation/evidence path and this current technical status without changing normative authority or machine-readable full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
