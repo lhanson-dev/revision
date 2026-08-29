@@ -39,7 +39,8 @@ export function normaliseAssessmentItemOptionalUnits(output: unknown): unknown {
   const dataPoints = context.dataPoints.map((dataPoint) => {
     const point = asRecord(dataPoint)
     if (!point || typeof point.unit !== 'string' || point.unit.trim().length > 0) return dataPoint
-    const { unit: _unit, ...withoutUnit } = point
+    const withoutUnit = { ...point }
+    delete withoutUnit.unit
     changed = true
     return withoutUnit
   })
