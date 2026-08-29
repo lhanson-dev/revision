@@ -2,223 +2,156 @@
 
 ## Status
 
-The Content Factory reliability gate is **qualified after the post-Pilot-17 provider-free Q1–Q6 requalification and this separate Q7 eligibility transition**.
+The Content Factory reliability programme is **paused after Confirmation Pilot #18 pending Reliability v2 implementation and qualification**.
 
-The governed sequence is now:
+Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the current validator/repair path surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
 
-1. post-Pilot-16 Q1–Q6 requalification and a separate Q7 transition made approved `main` `f9a9cde3e98faca3b1e17b5d575d4282677f06cc` eligible for Confirmation Pilot #17;
-2. Pilot #17 ran as workflow `33221401966` with durable job Issue `#230` and failed closed during assessment-item generation because an optional `context.dataPoints[0].unit` was supplied as an empty string;
-3. PR #231 corrected the generic assessment-item provider boundary and merged as approved `main` `d5fe9e8bc2eee82f0236711361739abe129e782a`;
-4. because that correction changed a previously qualified contract boundary, paid execution was deliberately returned to `paused`;
-5. PR #232 merged the fresh provider-free Q1–Q6 requalification evidence onto approved `main` `519aee37d796791cdca302e0d77b0da2c25f1b74`;
-6. this separate Q7 transition changes the global `content-factory/reliability-qualification.json` to `qualified` and `livePilotEligible: true`, binding eligibility to the Q1–Q6 evidence already merged on approved `main`.
+The active governing authority is now `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. Full-course paid pilots must remain disabled until Q1–Q7 v2 evidence is complete and a separate Q8 eligibility PR restores `qualified` status.
 
-The next paid end-to-end run is therefore eligible only as a **fresh confirmation pilot**. Qualification does not imply educational correctness, publication approval or awarding-body endorsement.
+## Pilot #18 historical evidence
 
-The governing authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md`. No normative rule is changed by this status transition.
+Pilot #18 remains historical evidence and is not rewritten:
 
-## Pilot #17 historical evidence
-
-Pilot #17 remains historical evidence and is not rewritten:
-
-- approved content head: `f9a9cde3e98faca3b1e17b5d575d4282677f06cc`;
-- workflow run: `33221401966` / run number `17`;
-- durable job: Issue `#230`;
+- approved content head: `ed3bd4c4a50dd723da38952a41ff9bad084ad68d`;
+- workflow run: `33239396439` / run number `18`;
+- durable job: Issue `#234`;
 - final state: `blocked` from `generating`;
-- exact failure class: `provider_contract_failure` at `context.dataPoints[0].unit`;
-- cumulative observed provider spend: `US$0.670242`;
-- remaining course budget: `US$19.329758`;
-- retries: `0`;
-- human interventions: `0`;
-- executed workers: `37`;
-- reused workers: `0`;
+- failure class: generic `provider_contract_failure` in Marking Pack operational-rubric validation after targeted repair;
+- cumulative provider spend: `US$1.253632`;
+- remaining course budget: `US$18.746368`;
+- executed workers: `45`;
+- successfully persisted Marking Packs before the failing target: `4`;
 - independent educational review was not reached;
+- expert review was not reached;
 - nothing was published.
 
-This was a generic provider-representation contract defect, not an educational `fail_hold` and not an infrastructure/provider-availability incident.
+The key architectural finding is not merely that one generated rubric was wrong. The current `validateOperationalRubricCoverage` path throws at the first failing subquestion. The targeted repair therefore receives only that first diagnostic. If another subquestion contains the same or another repair-eligible defect, it becomes visible only after the repair. That behavior can turn several defects in one generated artifact into sequential live failures.
 
-## Corrected provider boundary
+## Reliability v2 objective
 
-The assessment-item schema defines `context.dataPoints[].unit` as optional. The corrected live provider boundary therefore treats a semantically empty optional representation as absence rather than educational content:
+The factory should behave like a compiler boundary around variable model output:
 
-- `unit: ""` → omit `unit`;
-- whitespace-only `unit` → omit `unit`;
-- omitted `unit` → remain omitted;
-- non-empty units such as `%`, `£`, `kg` and `£000` → preserve exactly;
-- non-string `unit` values → leave untouched so the strict schema rejects them;
-- blank required `label` or `value` → leave untouched so the strict schema rejects them;
-- all other assessment-item content → unchanged.
+`model educational judgement → compiler-owned structure → complete deterministic diagnostics → at most one targeted repair → whole-artifact revalidation → valid artifact or fail closed`
 
-This correction is **deterministically derived normalization** of an optional mechanical representation. It does not invent educational meaning and does not justify another provider call.
+The target is **not** perfect first-pass model output. The target is that normal model variability does not require an engineer to change TypeScript or prompts between ordinary courses.
 
-The normalizer is scoped to the assessment-item structured-output request. Other Content Factory worker responses are not passed through this rule.
+## v2 implementation sequence
 
-## Durable dependency semantics
+Implementation should proceed in short governed PRs against approved `main`.
 
-The changed worker boundary advanced:
+### V2-A — complete-diagnostic validation and compiler ownership
 
-`generateAssessmentItem: 2+output-integrity-v1 → 2+output-integrity-v2`
+Primary objective: remove the known Pilot #18 serial-defect behavior and reduce unnecessary model ownership.
 
-The dependency-aware cache therefore treats pre-v2 assessment-item executions as incompatible with the corrected boundary. Genuine downstream dependants such as Marking Pack generation and independent review are invalidated, while unrelated Learn and Practice outputs remain reusable where their dependency closure is unchanged.
+Required work:
 
-Issue #230 remains a blocked historical job. Provider-contract failures are not part of the operational/infrastructure resume path, so it is not resumed under the corrected implementation.
+- change repair-eligible validators to collect the complete actionable diagnostic set for a parseable artifact rather than throw on the first independent defect;
+- send the complete diagnostic set to the one bounded repair call;
+- revalidate the complete repaired artifact once;
+- retain explicit early stop only where the artifact is structurally unparseable or later validation is genuinely unsafe;
+- review Marking Pack operational rubric structure and move mechanically constructible skeleton/banding responsibility into deterministic/compiler ownership where educational meaning is preserved;
+- update worker semantic versions/dependency invalidation only for genuinely affected outputs.
 
-## Qualification evidence model
+### V2-B — historical failure replay corpus
 
-Historical evidence is layered rather than rewritten:
+Build a permanent corpus for all known contract-class failures from Pilots #1–#18 where durable evidence exists.
 
-- `content-factory/reliability-contract-inventory.json` through `content-factory/reliability-q6-repeated-stability.json` remain the original Q1–Q6 qualification records;
-- `content-factory/reliability-post-pilot16-requalification.json` remains the provider-free evidence for the implementation that enabled Pilot #17;
-- Pilot #16 workflow/Issue #226 remains historical educational `fail_hold` evidence;
-- Pilot #17 workflow `33221401966` / Issue #230 remains historical provider-contract failure evidence;
-- `content-factory/reliability-post-pilot17-requalification.json` is the provider-free Q1–Q6 overlay for corrected approved implementation `d5fe9e8bc2eee82f0236711361739abe129e782a`, merged to approved `main` by PR #232;
-- approved evidence-bearing `main` for the Q7 transition is `519aee37d796791cdca302e0d77b0da2c25f1b74`;
-- `content-factory/reliability-qualification.json` remains the current global paid-pilot eligibility record consumed by the live preflight.
+Evidence classes:
 
-The post-Pilot-17 requalification record deliberately contains:
+- **exact historical output** — replay the durable provider output unchanged through the current boundary;
+- **synthetic reproduction** — where exact output is unavailable, encode the smallest generic reproduction and label it explicitly as synthetic.
 
-- `providerCallsUsed: false`;
-- `paidPilotEligible: false`;
-- `globalQualificationRequiredState: paused`.
+The corpus must preserve original pilot records and prove the current expected outcome for every known defect class.
 
-Those values remain historically and semantically correct. Q1–Q6 prove reliability evidence only. This separate Q7 status transition is the governed permission step that restores paid confirmation eligibility.
+### V2-C — adversarial mutation matrix
 
-## Q1 — worker-contract inventory
+Extend provider-free qualification beyond hand-authored happy-path/one-defect fixtures.
 
-The post-Pilot-17 overlay classifies the changed assessment-item fields using the governed ownership vocabulary:
+The mutation harness should cover, where applicable:
 
-- optional `context.dataPoints[].unit` absence representation → **deterministically derived**;
-- non-empty unit content → **generative judgement**, preserved as provider-authored structured context;
-- required data-point `label` and `value` validity → **fail closed** when structurally invalid.
+- blank/omitted/malformed optional values;
+- duplicated/missing/reordered references;
+- inconsistent totals;
+- overlapping/missing/out-of-range mark bands;
+- multiple calculation subquestions with simultaneous operational-rubric defects;
+- mixed valid and invalid bounded locators;
+- plausible phrasing alternatives;
+- multiple independent repair-eligible defects in one artifact;
+- combinations that must remain fail closed.
 
-No Business-specific or quantitative-course-specific exception is introduced.
+All five governed subject shapes remain required.
 
-Primary executable evidence:
+### V2-D — full provider-free qualification
 
-- `src/content-factory/openai-assessment-item-provider-normalizer.ts`;
-- `src/content-factory/openai-assessment-item-provider-normalizer.test.ts`;
-- `src/content-factory/durable-worker-dependencies.ts`;
-- `src/content-factory/post-pilot17-requalification.test.ts`.
+Re-run Q1–Q6 on one exact implementation head:
 
-## Q2 — provider-free contract matrix
+- Q1 compiler/worker ownership inventory;
+- Q2 historical failure replay corpus;
+- Q3 adversarial provider-free subject matrix;
+- Q4 deterministic full-pipeline simulation;
+- Q5 restart/reuse/dependency invalidation;
+- Q6 repeated stability with varied mutation inputs/seeds rather than only repeating one immutable fixture.
 
-The corrected boundary is challenged provider-free for:
+No live provider call belongs in Q1–Q6.
 
-- omitted optional units;
-- empty optional units;
-- whitespace-only optional units;
-- legitimate `%`, `£`, `kg` and composite display units;
-- blank required values;
-- invalid non-string units;
-- valid first-pass output with no extra provider call;
-- continued deterministic injection of governed assessment target fields outside provider authorship.
+### V2-E — bounded live worker soak
 
-The strict assessment schema remains the authority for genuinely invalid output. Normalization is not a general repair mechanism.
+Only after Q1–Q6 PASS, run Q7 as a separate bounded live-provider reliability exercise.
 
-## Q3 — subject-shape matrix
+The soak must:
 
-The same five governed course shapes remain required:
+- use rights-safe synthetic/structured inputs;
+- cover all five subject shapes across the sample set;
+- include at least 20 live worker outputs in total;
+- include multiple samples of assessment-item and Marking Pack generation plus any other boundaries Q1 classifies as high risk;
+- use production compiler/validator/repair code;
+- record every sample result, repair count and cost;
+- stay below the governed US$5 soak ceiling;
+- assemble/publish no real course;
+- fail qualification on any new generic contract class the v2 boundary cannot safely handle.
 
-- quantitative/business/economics;
-- mathematics;
-- science;
-- essay/humanities;
-- language/prescribed-text.
+Educational-content rejection that is correctly classified and fail-closed is not automatically a reliability failure. A new engineering contract class is.
 
-All five continue through the shared provider-free contract-integration pipeline to `expert_review_ready`.
+### V2-F — separate Q8 eligibility transition
 
-The post-Pilot-17 overlay additionally probes the optional-unit boundary with materially different representations:
-
-- quantitative data with a semantically empty optional unit;
-- a science measurement with a legitimate unit;
-- context-free mathematics with no context object;
-- humanities and language/text contexts with no fabricated unit metadata.
-
-This proves process compatibility only. It does not constitute factual, pedagogical or awarding-body approval.
-
-## Q4 — deterministic pipeline simulation
-
-The full provider-free simulation traverses:
-
-`requested → identified → sourced → mapped → generating → validating → independent_review → remediation when applicable → expert_review_ready`
-
-with no external provider calls and no publication side effect.
-
-The post-Pilot-17 requalification composes that simulation with the corrected assessment boundary by first passing a synthetic assessment response carrying an empty optional unit through `normaliseAssessmentItemOptionalUnits` and the same strict assessment-item worker schema. The resulting normalized item is valid without weakening downstream validation, after which the full deterministic pipeline reaches `expert_review_ready`.
-
-## Q5 — restart, reuse and dependency-aware invalidation
-
-Qualification continues to use:
-
-`method + exact input fingerprint + transitive worker-contract dependency fingerprint`
-
-rather than Git head alone.
-
-The current evidence proves:
-
-- `generateAssessmentItem` uses `2+output-integrity-v2`;
-- the assessment-item dependency closure does not acquire unrelated Learn or Practice dependencies;
-- Marking Pack and independent review do depend on assessment-item output and therefore invalidate when that semantic boundary changes;
-- unchanged compatible work remains reusable;
-- the Q5 durable-resume suite continues to prove truthful spend/retry provenance after reuse.
-
-## Q6 — repeated qualification stability
-
-The governed repetition count is **3**.
-
-The current Q6 suite repeats:
-
-- five subject-shape pipelines per repetition → `15` subject-shape pipeline runs;
-- one deterministic full-pipeline simulation per repetition → `3` deterministic pipeline runs;
-- one complete restart/reuse scenario set per repetition → `3` restart/reuse scenario sets.
-
-The post-Pilot-17 boundary regressions are part of the same exact-head unit/qualification suite. All requalification evidence is provider-free.
-
-A single successful live-provider response is not used as reliability qualification evidence.
-
-## Q7 — paid confirmation eligibility
-
-Q7 remains deliberately separate from Q1–Q6 evidence generation.
-
-The live-pilot execution sequence remains:
-
-`workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
-
-This Q7 transition changes the global record to:
+Only after Q1–Q7 PASS may a separate governed PR restore:
 
 - `status: qualified`;
 - `livePilotEligible: true`;
-- `qualifiedEvidence.qualificationEvidenceMainSha: 519aee37d796791cdca302e0d77b0da2c25f1b74`;
-- `qualifiedEvidence.requalificationRecord: content-factory/reliability-post-pilot17-requalification.json`;
-- `qualifiedEvidence.providerCallsUsed: false`;
-- all Q1–Q6 gates in `passedGates`;
-- Q6 repetition count `3`;
+- evidence binding to the exact v2 qualification head;
 - next paid run class `confirmation_pilot`.
 
-The executable Q7 regression proves the same fail-closed preflight used by the live workflow accepts this state, while the workflow still places the preflight before the paid live-adapter step and exposes no bypass.
+Pilot #19 must not run before that transition merges.
 
-This status transition does **not** execute provider calls. It only makes a future manually initiated paid confirmation pilot eligible to proceed past preflight.
+## Maturity evidence after qualification
 
-A future confirmation pilot remains subject to:
+A successful Pilot #19 would be confirmation evidence, not proof that routine scaling is solved.
 
-- source-rights and provenance controls;
-- the US$20 per-course ceiling;
-- deterministic validation;
-- independent educational review;
-- expert/human review authority;
-- the Content Accuracy Assurance Gate;
-- publication governance.
+The factory becomes mature enough for routine course production only after **three consecutive materially different real courses** reach `expert_review_ready` on their initial full factory run without an engineering/code/worker-contract correction between those course runs.
 
-If another live pilot exposes a new generic reliability defect, the failure remains fail-closed and must be handled under the active Reliability Qualification Standard rather than by repeated unchanged paid reruns.
+Normal educational findings, bounded infrastructure retries and course-specific educational decisions do not break this sequence. A new generic engineering contract class does and resets the sequence after correction/requalification.
+
+If two consecutive post-v2 confirmation-course attempts still expose new generic engineering contract classes, the Reliability Standard requires an architecture review before another full-course attempt rather than continuing a paid debugging loop.
+
+## Current machine-readable state
+
+On the Reliability v2 governance branch, `content-factory/reliability-qualification.json` is intentionally:
+
+- `status: paused`;
+- `qualifiedEvidence: null`;
+- `livePilotEligible: false`;
+- triggered by Pilot #18 workflow `33239396439` / Issue `#234`;
+- requiring Q1–Q7 v2 gates before a separate Q8 eligibility transition.
+
+Until this governance change is merged, approved `main` still contains the previous qualified record. Operationally, another full-course run should not be manually started because Pilot #18 has already invalidated the basis for that status.
 
 ## Documentation impact
 
-This Q7 transition updates current implementation state only:
+Reliability v2 changes the governing reliability method and the bootstrap calibration cost model, so the same governed change updates:
 
-- updates `content-factory/reliability-qualification.json` from paused to qualified with evidence bound to approved `main` `519aee37d796791cdca302e0d77b0da2c25f1b74`;
-- updates `src/content-factory/q7-qualification-status.test.ts` so the actual live-pilot preflight must accept the qualified state and historical Pilot #17 evidence remains unchanged;
-- updates this indexed technical qualification record.
+- `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
+- `60-business-operations/Content Factory Bootstrap Cost Strategy.md`;
+- `content-factory/reliability-qualification.json`;
+- this indexed technical qualification record.
 
-It does **not** alter the active Reliability Qualification Standard, product behaviour, educational authority, live-pilot workflow ordering or historical Pilot #10–#17 evidence.
-
-No `INDEX.md` update is required because this file is already the indexed technical source for the Content Factory reliability qualification harness.
+No historical pilot evidence is rewritten. No learner-facing product behavior changes in this authority/pause PR. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
