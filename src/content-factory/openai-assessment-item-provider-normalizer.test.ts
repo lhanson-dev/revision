@@ -198,14 +198,14 @@ describe('assessment-item provider optional-unit normalization', () => {
   })
 
   it('advances only the assessment-item semantic boundary and genuine downstream dependency closure', () => {
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v2')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
     expect(currentDurableWorkerDependencyPolicy.generateLearningCollateral.contractVersion).toBe('3+output-integrity-v2')
     expect(currentDurableWorkerDependencyPolicy.generatePracticeCollateral.contractVersion).toBe('3+output-integrity-v2')
 
     const markingClosure = durableWorkerDependencyClosure('generateMarkingPack')
     expect(markingClosure).toContainEqual({
       method: 'generateAssessmentItem',
-      contractVersion: '2+output-integrity-v2',
+      contractVersion: '2+output-integrity-v3',
     })
   })
 })
