@@ -102,25 +102,17 @@ function validAssessmentOutput() {
 function invalidCalculationSelectionOutput() {
   const wording = 'Which option shows the contribution per unit from the supplied figures?'
   return {
-    id: 'finance-mcq-item',
-    version: '1',
-    title: 'Contribution selection',
-    knowledgeNodeIds: ['contribution'],
-    command: 'Select',
-    questionWording: wording,
+    id: 'finance-mcq-item', version: '1', title: 'Contribution selection', knowledgeNodeIds: ['contribution'],
+    command: 'Select', questionWording: wording,
     subquestions: [{
-      id: 'q1',
-      command: 'Select',
-      wording,
-      maxMark: 8,
-      requirementIds: ['finance-analysis'],
-      responseDemands: ['selection', 'calculation'],
+      id: 'q1', command: 'Select', wording, maxMark: 8,
+      requirementIds: ['finance-analysis'], responseDemands: ['selection', 'calculation'],
       coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
       options: [
         { label: 'A', text: 'GBP 2', correct: false, misconceptionBasis: 'Subtracts the values in the wrong order.' },
         { label: 'B', text: 'GBP 3', correct: true },
         { label: 'C', text: 'GBP 5', correct: false, misconceptionBasis: 'Adds selling price and variable cost.' },
-        { label: 'D', text: 'GBP 8', correct: false, misconceptionBasis: 'Uses the total figures without calculating a per-unit contribution.' },
+        { label: 'D', text: 'GBP 8', correct: false, misconceptionBasis: 'Uses total figures without a per-unit calculation.' },
       ],
     }],
   }
@@ -129,25 +121,17 @@ function invalidCalculationSelectionOutput() {
 function invalidInterpretationOutput() {
   const wording = 'Which option shows the capacity utilisation figure from the supplied data?'
   return {
-    id: 'refillworks-capacity-choice-case-study',
-    version: '1',
-    title: 'Capacity utilisation choice',
-    knowledgeNodeIds: ['contribution'],
-    command: 'Select',
-    questionWording: wording,
+    id: 'capacity-choice', version: '1', title: 'Capacity utilisation choice', knowledgeNodeIds: ['contribution'],
+    command: 'Select', questionWording: wording,
     subquestions: [{
-      id: 'q1',
-      command: 'Select',
-      wording,
-      maxMark: 8,
-      requirementIds: ['finance-analysis'],
-      responseDemands: ['selection', 'interpretation'],
+      id: 'q1', command: 'Select', wording, maxMark: 8,
+      requirementIds: ['finance-analysis'], responseDemands: ['selection', 'interpretation'],
       coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'capacity utilisation figure' }],
       options: [
         { label: 'A', text: '40%', correct: false, misconceptionBasis: 'Reverses the utilisation ratio.' },
         { label: 'B', text: '60%', correct: true },
-        { label: 'C', text: '100%', correct: false, misconceptionBasis: 'Assumes all capacity is automatically used.' },
-        { label: 'D', text: '160%', correct: false, misconceptionBasis: 'Uses capacity as the numerator without normalising.' },
+        { label: 'C', text: '100%', correct: false, misconceptionBasis: 'Assumes all capacity is used.' },
+        { label: 'D', text: '160%', correct: false, misconceptionBasis: 'Uses the ratio in reverse.' },
       ],
     }],
   }
@@ -157,12 +141,8 @@ function pilot14InvalidOutput() {
   const q1 = 'Calculate the contribution per unit using the supplied selling price and variable cost.'
   const q2 = 'State one consequence of the result for the business decision.'
   return {
-    id: 'northstar-meals-financial-workforce-decision',
-    version: '1',
-    title: 'Financial workforce decision',
-    knowledgeNodeIds: ['contribution'],
-    command: 'mixed',
-    questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
+    id: 'pilot14-item', version: '1', title: 'Financial workforce decision', knowledgeNodeIds: ['contribution'],
+    command: 'mixed', questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
     subquestions: [
       {
         id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
@@ -182,12 +162,8 @@ function pilot14RepairedOutput() {
   const q1 = 'Calculate the contribution per unit using the supplied selling price and variable cost.'
   const q2 = 'Explain what the result suggests for the business decision.'
   return {
-    id: 'northstar-meals-financial-workforce-decision',
-    version: '1',
-    title: 'Financial workforce decision',
-    knowledgeNodeIds: ['contribution'],
-    command: 'mixed',
-    questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
+    id: 'pilot14-item', version: '1', title: 'Financial workforce decision', knowledgeNodeIds: ['contribution'],
+    command: 'mixed', questionWording: `1. ${q1} [4]\n2. ${q2} [4]`,
     subquestions: [
       {
         id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
@@ -205,44 +181,38 @@ function pilot14RepairedOutput() {
 
 function config(fetchImpl: typeof fetch) {
   return {
-    apiKey: 'test-secret',
-    generation: route,
-    independentReview: route,
-    fetchImpl,
-    maxRetries: 2,
+    apiKey: 'test-secret', generation: route, independentReview: route, fetchImpl, maxRetries: 2,
     assessmentItemPolicies: {
       'data-response': { requirementIds: ['finance-analysis'], maxMark: 8, format: 'mixed' as const },
     },
   }
 }
 
+function assessmentInput() {
+  return {
+    jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
+    targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
+  }
+}
+
 describe('OpenAI assessment integrity compiler', () => {
   it('requires configured assessment policies to produce auditable structured subquestions', async () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as { input: string }
-      const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string }; assessmentBlueprint: { evidenceExpectations: string[] } }
-      const responseShape = payload.questionFamily.responseShape
-      expect(responseShape).toContain('non-empty subquestions array')
-      expect(responseShape).toContain('selection: select, choose, which')
-      expect(responseShape).toContain('knowledge: state, identify, define, give, outline, explain, analyse, analyze, evaluate, assess, justify, recommend')
-      expect(responseShape).toContain('application: apply, explain, analyse, analyze, evaluate, assess, justify, recommend, calculate')
-      expect(responseShape).toContain('calculation: calculate, work out, determine')
-      expect(responseShape).toContain('interpretation: interpret, comment, explain, analyse, analyze')
-      expect(responseShape).toContain('analysis: analyse, analyze, explain')
-      expect(responseShape).toContain('evaluation: evaluate, assess, justify, recommend')
-      expect(responseShape).toContain('multiple-choice question that genuinely requires calculation')
-      expect(payload.assessmentBlueprint.evidenceExpectations.join(' ')).toContain('misconceptionBasis')
+      const body = JSON.parse(String(init?.body)) as { instructions: string; input: string }
+      const payload = JSON.parse(body.input) as { targetPolicy: { requirementIds: string[]; maxMark: number; format: string } }
+      expect(body.instructions).toContain('Every subquestion must include maxMark, requirementIds, responseDemands and coverageEvidence.')
+      expect(body.instructions).toContain('Subquestion maxMark values must sum exactly to targetPolicy.maxMark.')
+      expect(body.instructions).toContain('coverageEvidence entry must use an exact excerpt')
+      expect(body.instructions).toContain('selection/MCQ tasks provide exactly four distinct options A-D')
+      expect(payload.targetPolicy).toEqual({ requirementIds: ['finance-analysis'], maxMark: 8, format: 'mixed' })
       return new Response(JSON.stringify(responseBody(validAssessmentOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateAssessmentItem({
-      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
-      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
-    })
+    const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(result.provenance.retryCount).toBe(0)
     expect((result.output as { subquestions: unknown[] }).subquestions).toHaveLength(2)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
@@ -253,44 +223,35 @@ describe('OpenAI assessment integrity compiler', () => {
       ...validAssessmentOutput(), subquestions: [],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateAssessmentItem({
-      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
-      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
-    })
+    const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(result.provenance.retryCount).toBe(1)
-    if (result.status === 'failure') expect(result.error).toContain('assessment_item_compilation_after_targeted_repair')
+    if (result.status === 'failure') expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
   it('keeps the fail-closed calculation-demand guard after one targeted repair attempt', async () => {
-    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
-      invalidCalculationSelectionOutput(),
-    )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidCalculationSelectionOutput())), {
+      status: 200, headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateAssessmentItem({
-      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
-      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
-    })
+    const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
   it('keeps the fail-closed interpretation guard for Pilot 12 style selection wording after one targeted repair attempt', async () => {
-    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(
-      invalidInterpretationOutput(),
-    )), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidInterpretationOutput())), {
+      status: 200, headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateAssessmentItem({
-      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
-      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
-    })
+    const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -300,28 +261,28 @@ describe('OpenAI assessment integrity compiler', () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
-      const body = JSON.parse(String(init?.body)) as { input: string }
-      const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string } }
+      const body = JSON.parse(String(init?.body)) as { instructions: string; input: string }
       if (call === 1) {
         return new Response(JSON.stringify(responseBody(pilot14InvalidOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
-      expect(payload.questionFamily.responseShape).toContain('TARGETED CONTRACT REPAIR REQUIRED')
-      expect(payload.questionFamily.responseShape).toContain('command does not ask for rewarded demand interpretation')
+      expect(body.instructions).toContain('TARGETED ASSESSMENT ITEM REPAIR REQUIRED')
+      expect(body.instructions).toContain('command does not ask for rewarded demand interpretation')
+      const payload = JSON.parse(body.input) as { repairDiagnostics: Array<{ code: string; message: string }> }
+      expect(payload.repairDiagnostics).toEqual(expect.arrayContaining([
+        expect.objectContaining({ code: 'ASSESSMENT_STRUCTURED_CONTRACT_INVALID' }),
+      ]))
       return new Response(JSON.stringify(responseBody(pilot14RepairedOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateAssessmentItem({
-      jobId: 'assessment-job', courseIdentity, assessmentBlueprint: blueprint, questionFamily: family,
-      targetComponentId: 'paper-1', knowledgeNodes, examPrepRequirements,
-    })
+    const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('3')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }
-    expect(repaired.id).toBe('northstar-meals-financial-workforce-decision')
+    expect(repaired.id).toBe('pilot14-item')
     expect(repaired.subquestions[1]).toMatchObject({ id: 'q2', command: 'Explain', responseDemands: ['interpretation', 'analysis'] })
   })
 })
