@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-B",
+  "title": "Content Factory Reliability v2 historical failure replay corpus",
+  "status": "implemented_pending_same_head_assurance",
+  "baseMainSha": "a74ee15ddc0d958b05d12b3cb8e16b8f29dec346",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "technicalSequence": "docs/technical/Content Factory Reliability Qualification Harness.md",
+  "historicalRecordsRewritten": false,
+  "q2Passed": false,
+  "overallReliabilityV2Passed": false,
+  "evidencePolicy": {
+    "allowedKinds": [
+      "exact_historical_output",
+      "synthetic_reproduction"
+    ],
+    "exactHistoricalOutputRule": "Use only when the raw failed provider output is durably retained and replayed unchanged.",
+    "syntheticReproductionRule": "Use the smallest generic reproduction when the raw failed provider output is unavailable; bind it to durable run/error/remediation evidence and label it synthetic.",
+    "currentExactHistoricalOutputClaims": 0,
+    "note": "This corpus makes no exact-historical-output claim for a failed provider candidate. Existing durable evidence proves failure classes, errors and remediations, but the raw failed model candidate is not used as a fixture here. Any later promotion to exact_historical_output requires a retained raw fixture path and unchanged replay evidence."
+  },
+  "defectClasses": [
+    {
+      "id": "question_family_provider_object_envelope",
+      "firstSeenPilot": 3,
+      "summary": "Question Family list output used a provider-incompatible top-level array schema instead of an object envelope.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_provider_schema_failure_record",
+      "historicalSources": ["workflow:32944865512", "issue:183", "pr:184"],
+      "syntheticBasis": "Replay the provider-facing Question Family contract and require a top-level object containing questionFamilies while preserving list-shaped domain output.",
+      "expectedDisposition": "schema_prevented",
+      "replayTests": ["src/content-factory/openai-live-adapter.test.ts"]
+    },
+    {
+      "id": "assessment_item_governed_target_ownership",
+      "firstSeenPilot": 4,
+      "summary": "Assessment Item provider output could drift on deterministic target fields, including an out-of-enum format.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_failure_class_and_remediation_record",
+      "historicalSources": ["workflow:32958507026", "pr:186"],
+      "syntheticBasis": "Return conflicting provider-authored target fields and prove Revision excludes them from the provider schema and injects the governed component, family, requirement, mark and format values.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-live-adapter.assessment-item-policy.test.ts"]
+    },
+    {
+      "id": "independent_review_scope_identity",
+      "firstSeenPilot": 5,
+      "summary": "Independent review returned synthetic workUnitId assessment-set instead of a governed work-unit identity.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_failed_value_and_remediation_record",
+      "historicalSources": ["workflow:32966319525", "pr:188"],
+      "syntheticBasis": "Recreate the historical assessment-set value and prove the provider cannot author workUnitId; Revision derives scope from the referenced governed artifact or leaves assessment-level findings unscoped.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-live-adapter-independent-review.test.ts"]
+    },
+    {
+      "id": "blueprint_scoped_learn_practice_provider_contract",
+      "firstSeenPilot": 7,
+      "summary": "Practice generation could return an unplanned mode because the provider schema was broader than the Learning Blueprint-selected modes.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_failure_class_and_remediation_record",
+      "historicalSources": ["workflow:33046351988", "pr:191"],
+      "syntheticBasis": "Exercise Blueprint-derived Learn/Practice schemas across allowed mode combinations and prove unselected Practice modes and provider-owned IDs/mode identity are outside the provider contract.",
+      "expectedDisposition": "schema_prevented",
+      "replayTests": ["src/content-factory/openai-provider-contract-hardening.test.ts"]
+    },
+    {
+      "id": "learning_blueprint_practice_output_mode_consistency",
+      "firstSeenPilot": 8,
+      "summary": "A Learning Blueprint work unit required Practice output while selecting no Practice mode.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_provider_contract_failure_record",
+      "historicalSources": ["workflow:33079051151", "issue:193", "pr:194"],
+      "syntheticBasis": "Construct the historical contradiction between required Practice output and empty Practice-mode selection and replay it through the current Learning Blueprint compiler boundary.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-learning-blueprint-compiler.test.ts"]
+    },
+    {
+      "id": "learning_coverage_reference_integrity",
+      "firstSeenPilot": 9,
+      "summary": "Learning/coverage evidence could self-reference or claim application evidence that did not substantively prove the governed requirement.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_pilot_remediation_record",
+      "historicalSources": ["workflow:33092728839", "pr:196", "pr:197"],
+      "syntheticBasis": "Replay weak/self-referential coverage and application evidence through current teaching-point and coverage-finalization integrity checks.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/teaching-point-integrity.test.ts", "src/content-factory/coverage-finalization.test.ts"]
+    },
+    {
+      "id": "assessment_command_mark_coverage_integrity",
+      "firstSeenPilot": 9,
+      "summary": "Structured assessment output could violate command, mark, MCQ or coverage integrity while remaining superficially parseable.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_pilot_remediation_record",
+      "historicalSources": ["workflow:33092728839", "pr:197"],
+      "syntheticBasis": "Replay structurally plausible assessment outputs with inconsistent command/mark/coverage semantics through deterministic assessment integrity validation.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/assessment-integrity.test.ts"]
+    },
+    {
+      "id": "practice_exact_evidence_locator",
+      "firstSeenPilot": 10,
+      "summary": "Practice exact-evidence locators could be accepted without deterministic evidence binding; the same generic class recurred in Pilot #15.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_failure_and_recurrence_record",
+      "historicalSources": ["workflow:33115556588", "pr:199", "workflow:33149356421", "issue:209", "pr:210"],
+      "syntheticBasis": "Replay Practice evidence with invalid or non-exact locators and require deterministic evidence binding rather than provider-authored locator trust.",
+      "expectedDisposition": "deterministically_validated",
+      "replayTests": ["src/content-factory/openai-provider-evidence-locator.test.ts"]
+    },
+    {
+      "id": "assessment_command_demand_contract",
+      "firstSeenPilot": 11,
+      "summary": "Assessment Item generation could drift from the governed command/demand contract.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_pilot_remediation_record",
+      "historicalSources": ["workflow:33118319846", "pr:202"],
+      "syntheticBasis": "Replay command/demand mismatches through the assessment integrity compiler and require the governed demand to survive normalization.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-assessment-integrity-compiler.test.ts"]
+    },
+    {
+      "id": "assessment_response_demand_contract",
+      "firstSeenPilot": 12,
+      "summary": "Assessment response-demand generation could diverge across provider and deterministic command metadata.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_pilot_remediation_record",
+      "historicalSources": ["workflow:33121436557", "pr:204"],
+      "syntheticBasis": "Replay response-demand inconsistency and require one deterministic command/response-demand contract across assessment generation.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-assessment-integrity-compiler.test.ts"]
+    },
+    {
+      "id": "marking_pack_ao_aggregate_consistency",
+      "firstSeenPilot": 13,
+      "summary": "Marking Pack aggregate AO allocation disagreed with its subquestion AO allocations (historical ao2 expected 8, actual 7).",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_provider_contract_failure_record",
+      "historicalSources": ["workflow:33124200984", "issue:205", "pr:206"],
+      "syntheticBasis": "Recreate inconsistent provider-authored AO totals and require Revision to derive structured aggregate AO totals deterministically from validated subquestion allocations.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/q2-marking-pack-ao-contract.test.ts"]
+    },
+    {
+      "id": "assessment_response_type_consistency",
+      "firstSeenPilot": 14,
+      "summary": "Assessment Item response type disagreed with the governed target (historical expected exam_long_answer, actual extended_response).",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_provider_contract_failure_record",
+      "historicalSources": ["workflow:33141363385", "issue:207", "pr:208"],
+      "syntheticBasis": "Recreate the historical response-type mismatch and require targeted normalization/repair at the assessment-item boundary without broad regeneration.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-assessment-item-provider-normalizer.test.ts"]
+    },
+    {
+      "id": "learner_facing_private_marking_metadata",
+      "firstSeenPilot": 16,
+      "summary": "Learner-facing ClassMaterials could contain private answer/solution or marking metadata.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_independent_review_finding",
+      "historicalSources": ["workflow:33214478392", "pr:227"],
+      "syntheticBasis": "Inject private answer/marking metadata into learner-facing output and require the generated-output integrity compiler to reject it.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/openai-output-integrity-compiler.test.ts", "src/content-factory/post-pilot16-requalification.test.ts"]
+    },
+    {
+      "id": "content_assertion_evidence_substance",
+      "firstSeenPilot": 16,
+      "summary": "Content Assertion review evidence could point to a placeholder heading without substantive supporting text.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_independent_review_finding",
+      "historicalSources": ["workflow:33214478392", "pr:227"],
+      "syntheticBasis": "Provide hollow assertion evidence and require deterministic evidence-substance validation to fail closed.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/openai-output-integrity-compiler.test.ts", "src/content-factory/post-pilot16-requalification.test.ts"]
+    },
+    {
+      "id": "marking_pack_integral_subquestion_ao",
+      "firstSeenPilot": 16,
+      "summary": "Marking Pack subquestion AO allocations could use fractional values inconsistent with whole-mark assessment allocation.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_independent_review_finding",
+      "historicalSources": ["workflow:33214478392", "pr:227"],
+      "syntheticBasis": "Replay fractional subquestion AO allocation and require whole-mark AO allocation integrity.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/openai-output-integrity-compiler.test.ts", "src/content-factory/post-pilot16-requalification.test.ts"]
+    },
+    {
+      "id": "calculation_marking_operationality",
+      "firstSeenPilot": 16,
+      "summary": "Calculation marking guidance could omit sufficiently operational accuracy/method treatment for the marks available.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_independent_review_finding",
+      "historicalSources": ["workflow:33214478392", "pr:227", "pr:236"],
+      "syntheticBasis": "Replay calculation rubric guidance without required method/accuracy treatment and require complete deterministic diagnostics or one bounded repair.",
+      "expectedDisposition": "bounded_repaired_then_revalidated",
+      "replayTests": ["src/content-factory/openai-marking-pack-v2-compiler.test.ts", "src/content-factory/post-pilot16-requalification.test.ts"]
+    },
+    {
+      "id": "applied_compare_explain_demand",
+      "firstSeenPilot": 16,
+      "summary": "Compare/explain assessment wording could permit isolated description without securely eliciting the governed application/analysis demand.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "durable_independent_review_finding",
+      "historicalSources": ["workflow:33214478392", "pr:227"],
+      "syntheticBasis": "Replay assessment demand that drops required application/analysis and require deterministic assessment/output integrity checks to reject it.",
+      "expectedDisposition": "truthfully_rejected",
+      "replayTests": ["src/content-factory/openai-assessment-integrity-compiler.test.ts", "src/content-factory/post-pilot16-requalification.test.ts"]
+    },
+    {
+      "id": "assessment_item_compiled_max_mark",
+      "firstSeenPilot": 17,
+      "summary": "Assessment Item top-level maxMark could disagree with the sum of subquestion marks (historical 30 versus 29).",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_failed_values_and_remediation_record",
+      "historicalSources": ["workflow:33221401966", "pr:231"],
+      "syntheticBasis": "Recreate conflicting top-level maxMark and subquestion totals and prove the provider no longer owns top-level maxMark; Revision derives it from the subquestions.",
+      "expectedDisposition": "deterministically_compiled",
+      "replayTests": ["src/content-factory/openai-assessment-item-provider-normalizer.test.ts", "src/content-factory/post-pilot17-requalification.test.ts"]
+    },
+    {
+      "id": "marking_pack_complete_diagnostic_repair",
+      "firstSeenPilot": 18,
+      "summary": "A parseable Marking Pack could contain multiple independent operational-rubric defects while the old path surfaced only the first before its one repair.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_failure_sequence_and_v2_trigger_record",
+      "historicalSources": ["workflow:33239396439", "issue:234", "pr:235", "pr:236"],
+      "syntheticBasis": "Use one Marking Pack candidate with simultaneous method-treatment, accuracy-treatment and extended-response-level defects; collect all diagnostics, perform at most one repair, then revalidate the complete artifact and fail closed if any defect remains.",
+      "expectedDisposition": "bounded_repaired_then_revalidated",
+      "replayTests": ["src/content-factory/openai-marking-pack-v2-compiler.test.ts"]
+    }
+  ],
+  "pilots": [
+    {
+      "pilotNumber": 1,
+      "workflowRunId": 32940511385,
+      "historicalHeadSha": "6923b6208ead9dd92d55c612355cdb8a444f9737",
+      "category": "non_contract_operational",
+      "q2ClassIds": [],
+      "exclusions": ["Initial live-pilot configuration/secret setup and harness timeout are operational incidents, not generated-output contract classes."]
+    },
+    {
+      "pilotNumber": 2,
+      "workflowRunId": 32942036573,
+      "historicalHeadSha": "6923b6208ead9dd92d55c612355cdb8a444f9737",
+      "category": "non_contract_operational",
+      "q2ClassIds": [],
+      "exclusions": ["The live integration test hit Vitest's 5-second default timeout before durable model-output evidence was produced; this is a harness failure, not a Q2 contract class."]
+    },
+    {
+      "pilotNumber": 3,
+      "workflowRunId": 32944865512,
+      "historicalHeadSha": "ab896ad76f187acf9ab85f88cd163eccf96dba80",
+      "category": "contract_class",
+      "q2ClassIds": ["question_family_provider_object_envelope"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 4,
+      "workflowRunId": 32958507026,
+      "historicalHeadSha": "e58ec4830258cb00a7b3acf274b266860bf41e83",
+      "category": "contract_class",
+      "q2ClassIds": ["assessment_item_governed_target_ownership"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 5,
+      "workflowRunId": 32966319525,
+      "historicalHeadSha": "689796e5dea24989a2dc2847823e3d89c5e68189",
+      "category": "contract_class",
+      "q2ClassIds": ["independent_review_scope_identity"],
+      "exclusions": ["The underlying assessment-component-format-mismatch educational finding is not reclassified as a provider-contract failure by this corpus."]
+    },
+    {
+      "pilotNumber": 6,
+      "workflowRunId": 32971115680,
+      "historicalHeadSha": "65850e266a5ac68ff181528fa74912b9d210e1ab",
+      "category": "educational_assurance",
+      "q2ClassIds": [],
+      "exclusions": ["The pipeline reached independent educational review and correctly returned fail_hold; educational findings are assurance outcomes, not Q2 engineering contract classes."]
+    },
+    {
+      "pilotNumber": 7,
+      "workflowRunId": 33046351988,
+      "historicalHeadSha": "284f4cf595d5f208144a39acc0956d2617d23e51",
+      "category": "mixed_contract_and_other",
+      "q2ClassIds": ["blueprint_scoped_learn_practice_provider_contract"],
+      "exclusions": ["Cross-workflow durability, checkpoint persistence and cumulative spend are restart/operations concerns and belong to restart/reuse qualification rather than Q2 output replay."]
+    },
+    {
+      "pilotNumber": 8,
+      "workflowRunId": 33079051151,
+      "historicalHeadSha": "fb4209b9e2c9472378dd8a77b2af5ae16666fdd3",
+      "category": "contract_class",
+      "q2ClassIds": ["learning_blueprint_practice_output_mode_consistency"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 9,
+      "workflowRunId": 33092728839,
+      "historicalHeadSha": "f8d3a2fa90a4631b04eeb62014f14c67df262473",
+      "category": "mixed_contract_and_other",
+      "q2ClassIds": ["learning_coverage_reference_integrity", "assessment_command_mark_coverage_integrity"],
+      "exclusions": ["Resume lifecycle/state handling found around the same pilot is operational restart behaviour and is not treated as a historical provider-output class."]
+    },
+    {
+      "pilotNumber": 10,
+      "workflowRunId": 33115556588,
+      "historicalHeadSha": "15c9c00bfcc2de283ccc082a47d880a77788ac77",
+      "category": "contract_class",
+      "q2ClassIds": ["practice_exact_evidence_locator"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 11,
+      "workflowRunId": 33118319846,
+      "historicalHeadSha": "cdae64c2c54c9db064455b451a24145cbeaac51d",
+      "category": "contract_class",
+      "q2ClassIds": ["assessment_command_demand_contract"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 12,
+      "workflowRunId": 33121436557,
+      "historicalHeadSha": "8999697fb82bfbbea3e93708622d16e66fa8d461",
+      "category": "contract_class",
+      "q2ClassIds": ["assessment_response_demand_contract"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 13,
+      "workflowRunId": 33124200984,
+      "historicalHeadSha": "c320fc8a710fde450146a755de3a4aa4cdf5010f",
+      "category": "contract_class",
+      "q2ClassIds": ["marking_pack_ao_aggregate_consistency"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 14,
+      "workflowRunId": 33141363385,
+      "historicalHeadSha": "4884d3b3395621a7f167e6d1c476828ae58ed9fd",
+      "category": "contract_class",
+      "q2ClassIds": ["assessment_response_type_consistency"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 15,
+      "workflowRunId": 33149356421,
+      "historicalHeadSha": "7df79c28ae0f72610cbb28f9c01f366f85aa2c0d",
+      "category": "contract_class",
+      "q2ClassIds": ["practice_exact_evidence_locator"],
+      "exclusions": ["The decision to pause further paid pilots and introduce qualification governance is a process/governance response, not an additional Q2 defect class."]
+    },
+    {
+      "pilotNumber": 16,
+      "workflowRunId": 33214478392,
+      "historicalHeadSha": "47c30e95c49c1951d0dd31c48b63a1d15506529f",
+      "category": "mixed_contract_and_other",
+      "q2ClassIds": ["learner_facing_private_marking_metadata", "content_assertion_evidence_substance", "marking_pack_integral_subquestion_ao", "calculation_marking_operationality", "applied_compare_explain_demand"],
+      "exclusions": ["Independent review also contained course-specific educational judgements about pedagogy and learner usefulness; only reusable deterministic/compiler defect classes are replayed in Q2."]
+    },
+    {
+      "pilotNumber": 17,
+      "workflowRunId": 33221401966,
+      "historicalHeadSha": "f9a9cde3e98faca3b1e17b5d575d4282677f06cc",
+      "category": "contract_class",
+      "q2ClassIds": ["assessment_item_compiled_max_mark"],
+      "exclusions": []
+    },
+    {
+      "pilotNumber": 18,
+      "workflowRunId": 33239396439,
+      "historicalHeadSha": "ed3bd4c4a50dd723da38952a41ff9bad084ad68d",
+      "category": "contract_class",
+      "q2ClassIds": ["marking_pack_complete_diagnostic_repair"],
+      "exclusions": []
+    }
+  ],
+  "nextEvidence": [
+    "Run the complete provider-free replay suite on one exact V2-B head.",
+    "Keep Q2 PASS false until same-head assurance proves every referenced replay test and corpus invariant is green.",
+    "Proceed to V2-C adversarial mutation matrix only after the V2-B branch is reviewed and merged under normal Founder approval."
+  ]
+}
