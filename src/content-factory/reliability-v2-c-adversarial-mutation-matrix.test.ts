@@ -510,7 +510,7 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
       expect(bands[0].minMark).toBe(0)
       expect(bands.at(-1)?.maxMark).toBe(subquestion.maxMark)
       for (let index = 1; index < bands.length; index += 1) {
-        expect(bands[index].minMark).toBe(bands[index - 1].maxMark + 1)
+        expect(bands[index]!.minMark).toBe(bands[index - 1]!.maxMark + 1)
       }
     }
   })
@@ -590,7 +590,10 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
     const result = await workers(fetchImpl).generatePracticeCollateral(practiceInput(scenario))
     expect(result.status).toBe('success')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
-    if (result.status === 'success') expect(result.output.coverageEvidence).toHaveLength(2)
+    if (result.status === 'success') {
+      const output = result.output as { coverageEvidence: unknown[] }
+      expect(output.coverageEvidence).toHaveLength(2)
+    }
   })
 
   it.each(scenarios)('rejects a mixed valid/invalid bounded locator set without retry for $shape', async (scenario) => {
