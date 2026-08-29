@@ -158,7 +158,12 @@ function omissionCandidate(profile: ShapeProfile) {
   const complete = candidate(profile)
   return {
     ...complete,
-    subquestions: complete.subquestions.map(({ maxMark: _maxMark, requirementIds: _requirementIds, coverageEvidence: _coverageEvidence, ...subquestion }) => subquestion),
+    subquestions: complete.subquestions.map((subquestion) => ({
+      id: subquestion.id,
+      command: subquestion.command,
+      wording: subquestion.wording,
+      responseDemands: subquestion.responseDemands,
+    })),
   }
 }
 
