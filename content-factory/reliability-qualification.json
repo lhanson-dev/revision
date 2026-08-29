@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Reliability v2 Q7 live-worker soak run 33265434110 on approved main 69d7abb7d3236616b687cbed480e7584ceb69fc9 exposed a new generic Assessment Item provider-contract class: seven of ten live Assessment Item samples omitted required subquestion-level maxMark, requirementIds and/or coverageEvidence before the existing targeted-repair boundary could run. All ten Marking Pack samples were accepted. Under the Reliability Qualification Standard, the affected Q1-Q6 gates must be requalified before another Q7 soak; the full-course pilot remains paused and Q8 is not eligible.",
+  "reason": "Confirmation Pilot #18 exposed the generic Marking Pack reliability weakness that triggered Reliability v2 complete-diagnostic validation and provider-free requalification. The subsequent Reliability v2 Q7 live-worker soak run 33265434110 on approved main 69d7abb7d3236616b687cbed480e7584ceb69fc9 exposed a new generic Assessment Item provider-contract class: seven of ten live Assessment Item samples omitted required subquestion-level maxMark, requirementIds and/or coverageEvidence before the existing targeted-repair boundary could run. All ten Marking Pack samples were accepted. Under the Reliability Qualification Standard, the affected Q1-Q6 gates must be requalified before another Q7 soak; the full-course pilot remains paused and Q8 is not eligible.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
