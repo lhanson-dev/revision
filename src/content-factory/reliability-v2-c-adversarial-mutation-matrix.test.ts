@@ -510,7 +510,9 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
       expect(bands[0]!.minMark).toBe(0)
       expect(bands.at(-1)?.maxMark).toBe(subquestion.maxMark)
       for (let index = 1; index < bands.length; index += 1) {
-        expect(bands[index]!.minMark).toBe(bands[index - 1]!.maxMark + 1)
+        const previousMaxMark = bands[index - 1]!.maxMark
+        expect(previousMaxMark).toBeDefined()
+        expect(bands[index]!.minMark).toBe((previousMaxMark ?? Number.NaN) + 1)
       }
     }
   })
