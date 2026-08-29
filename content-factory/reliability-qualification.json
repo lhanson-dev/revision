@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "status": "qualified",
-  "reason": "Post-Pilot-16 provider-free Q1-Q6 reliability requalification is complete on approved main after the Pilot #16 remediation. A fresh paid end-to-end run is eligible only as a governed confirmation pilot and remains subject to source-rights, spend, educational assurance, expert review and publication controls.",
+  "status": "paused",
+  "reason": "Confirmation Pilot #17 exposed a generic assessment-item provider-contract defect on approved main: an optional context data-point unit was emitted as an empty string and rejected before educational review. The corrected assessment-item boundary changes qualified behavior, so paid live-pilot eligibility is paused until provider-free reliability requalification proves the new normalization and dependency semantics.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
-    "pilot": 16,
-    "workflowRunId": 33214478392,
-    "jobIssueNumber": 226,
-    "mainSha": "47c30e95c49c1951d0dd31c48b63a1d15506529f"
+    "pilot": 17,
+    "workflowRunId": 33221401966,
+    "jobIssueNumber": 230,
+    "mainSha": "f9a9cde3e98faca3b1e17b5d575d4282677f06cc"
   },
   "requiredGates": [
     "Q1-worker-contract-inventory",
@@ -17,26 +17,6 @@
     "Q5-restart-reuse-dependency-invalidation",
     "Q6-repeated-qualification-stability"
   ],
-  "qualifiedEvidence": {
-    "qualificationEvidenceMainSha": "3f6493be1424e281f26a8f0e14855c26ed9a999e",
-    "requalificationRecord": "content-factory/reliability-post-pilot16-requalification.json",
-    "verificationMode": "exact_head_ci",
-    "providerCallsUsed": false,
-    "passedGates": [
-      "Q1-worker-contract-inventory",
-      "Q2-provider-free-contract-matrix",
-      "Q3-subject-shape-matrix",
-      "Q4-deterministic-pipeline-simulation",
-      "Q5-restart-reuse-dependency-invalidation",
-      "Q6-repeated-qualification-stability"
-    ],
-    "q6RepetitionCount": 3,
-    "nextPaidRunClass": "confirmation_pilot",
-    "limitations": [
-      "Reliability qualification is not educational correctness or publication approval.",
-      "The confirmation pilot must still obey source-rights, spend, deterministic validation, independent review, expert review and publication governance.",
-      "This eligibility state does not itself execute provider calls or publish learner content."
-    ]
-  },
-  "livePilotEligible": true
+  "qualifiedEvidence": null,
+  "livePilotEligible": false
 }
