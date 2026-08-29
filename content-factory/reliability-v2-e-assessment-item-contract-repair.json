@@ -6,7 +6,7 @@
   "sourceEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
   "sourceWorkflowRunId": 33265434110,
   "sourceMainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
-  "status": "implemented_pending_same_head_assurance",
+  "status": "complete",
   "providerCallsUsed": false,
   "liveProviderCallsUsed": false,
   "normativeAuthorityChanged": false,
@@ -51,14 +51,15 @@
     "learnerPublication": false
   },
   "qualificationEffect": {
-    "q1Passed": false,
-    "q2Passed": false,
-    "q3Passed": false,
-    "q4Passed": false,
-    "q5Passed": false,
-    "q6Passed": false,
+    "q1Passed": true,
+    "q2Passed": true,
+    "q3Passed": true,
+    "q4Passed": true,
+    "q5Passed": true,
+    "q6Passed": true,
     "q7Passed": false,
     "livePilotEligible": false,
-    "note": "All Q1-Q6 values remain false in this implementation record until same-head provider-free requalification is completed."
+    "providerFreeQualificationEvidence": "content-factory/reliability-v2-e-post-q7-provider-free-requalification.json",
+    "note": "Q1-Q6 are restored only through the same-head provider-free requalification record and final PR CI. Q7 remains pending and full-course eligibility remains false."
   }
 }
