@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 exposed a generic Marking Pack reliability weakness after v1 qualification: parseable artifacts could contain multiple defects while validation/repair surfaced only the first defect before the single targeted repair. The qualification strategy is therefore moving to compiler-first v2 closure with historical failure replay, adversarial multi-defect mutation testing, complete-diagnostic validation and a bounded live worker soak before any further full-course confirmation run.",
+  "reason": "Confirmation Pilot #18 exposed a generic Marking Pack reliability weakness after v1 qualification: parseable artifacts could contain multiple defects while validation/repair surfaced only the first defect before the single targeted repair. Reliability v2 complete-diagnostic validation, compiler ownership, historical replay and adversarial provider-free qualification now satisfy Q1-Q6 on the V2-D evidence path, but the bounded live worker soak (Q7) and separate Q8 eligibility transition remain required before any further full-course confirmation run.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -18,6 +18,16 @@
     "Q6-repeated-provider-free-stability",
     "Q7-bounded-live-worker-soak"
   ],
+  "gateStatus": {
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
+    "Q7-bounded-live-worker-soak": "pending"
+  },
+  "providerFreeQualificationEvidence": "content-factory/reliability-v2-d-provider-free-qualification.json",
   "qualifiedEvidence": null,
   "livePilotEligible": false
 }

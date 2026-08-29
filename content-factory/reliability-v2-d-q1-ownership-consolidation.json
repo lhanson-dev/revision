@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-D",
+  "gate": "Q1",
+  "status": "complete",
+  "baseMainSha": "7082331dc280ec8bd8b8223475180fa25b796d00",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "purpose": "Same-head Reliability v2 consolidation of the complete compiler/worker ownership inventory. The pre-v2 inventory is carried forward for unaffected boundaries and the V2-A Marking Pack ownership record deliberately supersedes the stale legacy Marking Pack field classifications.",
+  "allowedOwnership": [
+    "generative_judgement",
+    "deterministically_derived",
+    "bounded_locator_reference",
+    "targeted_repair_eligible",
+    "fail_closed"
+  ],
+  "sourceInventories": {
+    "preV2Inventory": "content-factory/reliability-contract-inventory.json",
+    "markingPackV2Overlay": "content-factory/reliability-v2-a-marking-pack-ownership.json"
+  },
+  "requiredWorkerBoundaries": [
+    "course_knowledge_model",
+    "learning_blueprint",
+    "learn_generation",
+    "practice_generation",
+    "assessment_blueprint",
+    "question_family_generation",
+    "assessment_item_generation",
+    "marking_pack_generation",
+    "deterministic_validation",
+    "independent_review",
+    "remediation",
+    "expert_review_package_assembly"
+  ],
+  "carriedForwardBoundaries": [
+    "course_knowledge_model",
+    "learning_blueprint",
+    "learn_generation",
+    "practice_generation",
+    "assessment_blueprint",
+    "question_family_generation",
+    "assessment_item_generation",
+    "deterministic_validation",
+    "independent_review",
+    "remediation",
+    "expert_review_package_assembly"
+  ],
+  "compilerOwnershipChallenges": [
+    {
+      "worker": "course_knowledge_model",
+      "conclusion": "Keep educational node meaning generative; Revision already owns identity, provenance and source-set fingerprints, while invalid node/source references fail closed. No additional mechanical model authorship remains justified for migration in V2-D."
+    },
+    {
+      "worker": "learning_blueprint",
+      "conclusion": "Keep pedagogical grouping and mode choice generative inside governed constraints; job/fingerprint bindings and invalid references remain deterministic or fail closed. No additional clerical representation needs model authorship."
+    },
+    {
+      "worker": "learn_generation",
+      "conclusion": "Keep learner-facing explanation meaning generative; exact teaching-point evidence is already a bounded locator resolved by Revision and artifact bindings are compiler-owned."
+    },
+    {
+      "worker": "practice_generation",
+      "conclusion": "Keep practice educational content generative; exact-evidence mechanics use bounded locators resolved by Revision and activity-mode/reference mechanics remain deterministic or fail closed."
+    },
+    {
+      "worker": "assessment_blueprint",
+      "conclusion": "Keep assessment planning judgement generative; component totals, timings, objective weightings and binding fields are already deterministically derived from governed alignment."
+    },
+    {
+      "worker": "question_family_generation",
+      "conclusion": "Keep educational assessment intent and demand requirements generative; requested identities, component/objective references and mark-range constraints remain fail closed."
+    },
+    {
+      "worker": "assessment_item_generation",
+      "conclusion": "Keep original question content generative; provenance and references are compiler/fail-closed mechanics, while linguistic demand mismatch is limited to one targeted repair where deterministic derivation would lose educational meaning."
+    },
+    {
+      "worker": "marking_pack_generation",
+      "conclusion": "V2-A moves every safely constructible Marking Pack mechanic out of model authorship: subquestion max marks, structured aggregate AO totals, rubric IDs and numeric mark bands are compiler-owned; target IDs are bounded references; educational allocation, answer requirements and level meaning remain generative; complete parseable-artifact diagnostics permit one targeted repair then whole-artifact revalidation."
+    },
+    {
+      "worker": "deterministic_validation",
+      "conclusion": "Validation decisions and exact-version bindings are already Revision-owned deterministic outputs; no generative ownership is required for those mechanics."
+    },
+    {
+      "worker": "independent_review",
+      "conclusion": "Keep finding meaning and recommended educational correction generative and independent; disposition semantics and decision derivation remain deterministic or fail closed."
+    },
+    {
+      "worker": "remediation",
+      "conclusion": "Keep corrected educational content generative within exact supplied findings; target scope, finding resolution and dependent replacement mechanics remain fail closed."
+    },
+    {
+      "worker": "expert_review_package_assembly",
+      "conclusion": "Package assembly, exact-version assurance binding and artifact/reference sets are already deterministic or fail closed; no model-authored clerical representation is required."
+    }
+  ],
+  "markingPackV2EffectiveOwnership": [
+    {
+      "fieldClass": "subquestion guidance target reference",
+      "fieldPatterns": ["subquestionGuidance[].subquestionId"],
+      "ownership": "bounded_locator_reference",
+      "rule": "The provider links educational guidance to an existing subquestion ID; Revision rejects missing, duplicate or unknown targets."
+    },
+    {
+      "fieldClass": "subquestion maximum mark",
+      "fieldPatterns": ["subquestionGuidance[].maxMark"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision injects the validated assessment subquestion maxMark; the structured provider schema does not expose the field."
+    },
+    {
+      "fieldClass": "subquestion AO distribution, rewarded demands and answer requirements",
+      "fieldPatterns": ["subquestionGuidance[].assessmentObjectiveAllocation", "subquestionGuidance[].rewardedDemands", "subquestionGuidance[].answerRequirements"],
+      "ownership": "generative_judgement",
+      "rule": "Educational allocation and marking meaning remain provider-authored but are validated against asked demands, available objectives and exact subquestion mark totals."
+    },
+    {
+      "fieldClass": "structured aggregate assessment-objective totals",
+      "fieldPatterns": ["assessmentObjectiveAllocation"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision sums validated subquestion AO allocations; structured provider output cannot contain aggregate AO arithmetic."
+    },
+    {
+      "fieldClass": "rubric educational quality meaning",
+      "fieldPatterns": ["rubricGuidance[].subquestionId", "rubricGuidance[].levels[].descriptor"],
+      "ownership": "generative_judgement",
+      "rule": "The provider supplies ordered subject-specific quality descriptions linked to the governed rubric scope."
+    },
+    {
+      "fieldClass": "rubric identity and numeric mark bands",
+      "fieldPatterns": ["rubric[].id", "rubric[].minMark", "rubric[].maxMark"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision compiles stable IDs and contiguous integer bands across 0..maxMark from validated ordered educational levels."
+    },
+    {
+      "fieldClass": "complete Marking Pack semantic diagnostics",
+      "fieldPatterns": ["subquestionGuidance", "rubricGuidance", "applicationRequirements", "analysisRequirements", "evaluationRequirements"],
+      "ownership": "targeted_repair_eligible",
+      "rule": "Revision inspects the entire parseable candidate, sends the complete actionable defect set in one bounded repair, then revalidates the whole candidate and fails closed on any remaining defect."
+    }
+  ],
+  "legacyMarkingPackDisposition": "superseded_for_v2_q1_by_markingPackV2EffectiveOwnership",
+  "providerCallsUsed": false,
+  "q1Passed": true,
+  "overallReliabilityV2Passed": false,
+  "nextGate": "Q2"
+}

@@ -2,11 +2,13 @@
 
 ## Status
 
-The Content Factory reliability programme is **paused after Confirmation Pilot #18 pending Reliability v2 implementation and qualification**.
+The Content Factory reliability programme remains **paused for full-course live execution after Confirmation Pilot #18**.
 
-Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the current validator/repair path surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
+Reliability v2 implementation has now progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The remaining reliability work is the bounded live-worker soak (Q7 / V2-E), followed by a separate Q8 eligibility transition (V2-F).
 
-The active governing authority is now `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. Full-course paid pilots must remain disabled until Q1–Q7 v2 evidence is complete and a separate Q8 eligibility PR restores `qualified` status.
+Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the validator/repair path then in use surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
+
+The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. Full-course paid pilots remain disabled until Q1–Q7 v2 evidence is complete and a separate Q8 eligibility PR restores `qualified` status.
 
 ## Pilot #18 historical evidence
 
@@ -25,7 +27,7 @@ Pilot #18 remains historical evidence and is not rewritten:
 - expert review was not reached;
 - nothing was published.
 
-The key architectural finding is not merely that one generated rubric was wrong. The current `validateOperationalRubricCoverage` path throws at the first failing subquestion. The targeted repair therefore receives only that first diagnostic. If another subquestion contains the same or another repair-eligible defect, it becomes visible only after the repair. That behavior can turn several defects in one generated artifact into sequential live failures.
+The architectural finding was not merely that one generated rubric was wrong. The previous Marking Pack path could turn several independent defects in one parseable artifact into sequential live failures because only the first actionable diagnostic reached the one bounded repair.
 
 ## Reliability v2 objective
 
@@ -37,64 +39,73 @@ The target is **not** perfect first-pass model output. The target is that normal
 
 ## v2 implementation sequence
 
-Implementation should proceed in short governed PRs against approved `main`.
+Implementation proceeds in short governed PRs against approved `main`.
 
-### V2-A — complete-diagnostic validation and compiler ownership
+### V2-A — complete-diagnostic validation and compiler ownership — implemented
 
 Primary objective: remove the known Pilot #18 serial-defect behavior and reduce unnecessary model ownership.
 
-Required work:
+Implemented behavior includes:
 
-- change repair-eligible validators to collect the complete actionable diagnostic set for a parseable artifact rather than throw on the first independent defect;
-- send the complete diagnostic set to the one bounded repair call;
-- revalidate the complete repaired artifact once;
-- retain explicit early stop only where the artifact is structurally unparseable or later validation is genuinely unsafe;
-- review Marking Pack operational rubric structure and move mechanically constructible skeleton/banding responsibility into deterministic/compiler ownership where educational meaning is preserved;
-- update worker semantic versions/dependency invalidation only for genuinely affected outputs.
+- repair-eligible Marking Pack validation collects the complete actionable diagnostic set for a parseable artifact;
+- the complete diagnostic set is sent to the one bounded repair call;
+- the complete repaired artifact is revalidated once;
+- structurally unsafe/unparseable output still stops early and fails closed;
+- mechanically constructible Marking Pack fields such as structured aggregate AO totals and numeric rubric bands are compiler-owned;
+- affected durable worker semantics invalidate only genuine downstream dependants.
 
-### V2-B — historical failure replay corpus
+Technical record: `docs/technical/Content Factory Reliability v2-A Marking Pack Compiler.md`.
 
-Build a permanent corpus for all known contract-class failures from Pilots #1–#18 where durable evidence exists.
+### V2-B — historical failure replay corpus — implemented
 
-Evidence classes:
+A permanent corpus now records all known Pilots #1–#18 outcomes and every reusable contract-class failure where durable evidence exists.
 
-- **exact historical output** — replay the durable provider output unchanged through the current boundary;
+Evidence classes remain:
+
+- **exact historical output** — replay a retained durable provider output unchanged where one genuinely exists;
 - **synthetic reproduction** — where exact output is unavailable, encode the smallest generic reproduction and label it explicitly as synthetic.
 
-The corpus must preserve original pilot records and prove the current expected outcome for every known defect class.
+Historical pilot records are preserved and non-contract operational/educational incidents are explicitly excluded rather than converted into artificial contract fixtures.
 
-### V2-C — adversarial mutation matrix
+Technical record: `docs/technical/Content Factory Reliability v2-B Historical Failure Replay Corpus.md`.
 
-Extend provider-free qualification beyond hand-authored happy-path/one-defect fixtures.
+### V2-C — adversarial mutation matrix — implemented
 
-The mutation harness should cover, where applicable:
+Provider-free qualification now extends beyond hand-authored happy-path/one-defect fixtures across all five governed subject shapes.
+
+The matrix covers:
 
 - blank/omitted/malformed optional values;
 - duplicated/missing/reordered references;
 - inconsistent totals;
-- overlapping/missing/out-of-range mark bands;
-- multiple calculation subquestions with simultaneous operational-rubric defects;
+- compiler-owned mark bands;
+- simultaneous Marking Pack defects;
 - mixed valid and invalid bounded locators;
 - plausible phrasing alternatives;
-- multiple independent repair-eligible defects in one artifact;
-- combinations that must remain fail closed.
+- exact-evidence paraphrase;
+- demand metadata mismatch;
+- complete-diagnostic single repair;
+- repair failure/fail closed;
+- valid output with no unnecessary extra provider call.
 
-All five governed subject shapes remain required.
+Technical record: `docs/technical/Content Factory Reliability v2-C Adversarial Mutation Matrix.md`.
 
-### V2-D — full provider-free qualification
+### V2-D — full provider-free qualification — complete on this evidence path
 
-Re-run Q1–Q6 on one exact implementation head:
+Q1–Q6 are re-run on one exact implementation head:
 
 - Q1 compiler/worker ownership inventory;
 - Q2 historical failure replay corpus;
 - Q3 adversarial provider-free subject matrix;
 - Q4 deterministic full-pipeline simulation;
 - Q5 restart/reuse/dependency invalidation;
-- Q6 repeated stability with varied mutation inputs/seeds rather than only repeating one immutable fixture.
+- Q6 repeated stability with varied mutation/test order under distinct governed seeds rather than only repeating one immutable fixture.
 
 No live provider call belongs in Q1–Q6.
 
-### V2-E — bounded live worker soak
+The V2-D machine-readable record is `content-factory/reliability-v2-d-provider-free-qualification.json`; the detailed technical record is `docs/technical/Content Factory Reliability v2-D Provider-Free Qualification.md`.
+
+### V2-E — bounded live worker soak — next
 
 Only after Q1–Q6 PASS, run Q7 as a separate bounded live-provider reliability exercise.
 
@@ -135,23 +146,23 @@ If two consecutive post-v2 confirmation-course attempts still expose new generic
 
 ## Current machine-readable state
 
-On the Reliability v2 governance branch, `content-factory/reliability-qualification.json` is intentionally:
+`content-factory/reliability-qualification.json` remains intentionally fail closed for full-course execution:
 
 - `status: paused`;
+- Q1–Q6 gate status: `pass` after V2-D exact-head assurance;
+- Q7 bounded live-worker soak: `pending`;
 - `qualifiedEvidence: null`;
 - `livePilotEligible: false`;
-- triggered by Pilot #18 workflow `33239396439` / Issue `#234`;
-- requiring Q1–Q7 v2 gates before a separate Q8 eligibility transition.
+- trigger remains Pilot #18 workflow `33239396439` / Issue `#234`;
+- Q8 remains a separate eligibility transition after Q7.
 
-Until this governance change is merged, approved `main` still contains the previous qualified record. Operationally, another full-course run should not be manually started because Pilot #18 has already invalidated the basis for that status.
+V2-D therefore permits only the governed next reliability exercise (V2-E/Q7). It does not permit another paid full-course run.
 
 ## Documentation impact
 
-Reliability v2 changes the governing reliability method and the bootstrap calibration cost model, so the same governed change updates:
+The normative Reliability v2 method remains governed by:
 
 - `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
-- `60-business-operations/Content Factory Bootstrap Cost Strategy.md`;
-- `content-factory/reliability-qualification.json`;
-- this indexed technical qualification record.
+- `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-No historical pilot evidence is rewritten. No learner-facing product behavior changes in this authority/pause PR. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
+V2-D updates implementation/evidence documentation and the machine-readable gate-progress record without changing normative authority. Historical pilot and v1 qualification evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
