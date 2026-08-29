@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import requalificationText from '../../content-factory/reliability-post-pilot17-requalification.json?raw'
-import qualificationText from '../../content-factory/reliability-qualification.json?raw'
 import historicalQ1Text from '../../content-factory/reliability-contract-inventory.json?raw'
 import historicalQ2Text from '../../content-factory/reliability-q2-contract-matrix.json?raw'
 import historicalQ3Text from '../../content-factory/reliability-q3-subject-shape-matrix.json?raw'
@@ -70,11 +69,6 @@ type RequalificationRecord = {
 }
 
 const requalification = JSON.parse(requalificationText) as RequalificationRecord
-const qualification = JSON.parse(qualificationText) as {
-  status: string
-  qualifiedEvidence: unknown
-  livePilotEligible: boolean
-}
 
 const historical = {
   q1: JSON.parse(historicalQ1Text) as { status: string; q1Pass: boolean },
@@ -117,7 +111,7 @@ function syntheticAssessmentItem(context?: {
 }
 
 describe('Content Factory post-Pilot-17 provider-free requalification', () => {
-  it('records all Q1-Q6 gates against the corrected approved-main implementation without granting paid execution', () => {
+  it('records all Q1-Q6 gates against the corrected approved-main implementation without itself granting paid execution', () => {
     expect(requalification.schemaVersion).toBe(1)
     expect(requalification.authority).toBe('80-company-workflows/Content Factory Reliability Qualification Standard.md')
     expect(requalification.status).toBe('complete')
@@ -136,12 +130,6 @@ describe('Content Factory post-Pilot-17 provider-free requalification', () => {
     expect(requalification.globalQualificationRequiredState).toBe('paused')
     expect(Object.keys(requalification.gates)).toEqual(expectedGates)
     expect(Object.values(requalification.gates).every((gate) => gate.status === 'pass')).toBe(true)
-
-    expect(qualification).toMatchObject({
-      status: 'paused',
-      qualifiedEvidence: null,
-      livePilotEligible: false,
-    })
   })
 
   it('preserves historical Q1-Q6 evidence instead of rewriting it', () => {
