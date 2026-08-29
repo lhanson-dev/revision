@@ -70,7 +70,7 @@ const input = {
         wording: 'Calculate the value.',
         maxMark: 4,
         requirementIds: ['requirement'],
-        responseDemands: ['calculation'] as const,
+        responseDemands: ['calculation'] as Array<'calculation'>,
         coverageEvidence: [{ requirementId: 'requirement', evidence: 'Calculate the value' }],
       },
       {
@@ -79,7 +79,7 @@ const input = {
         wording: 'Evaluate the option.',
         maxMark: 6,
         requirementIds: ['requirement'],
-        responseDemands: ['evaluation'] as const,
+        responseDemands: ['evaluation'] as Array<'evaluation'>,
         coverageEvidence: [{ requirementId: 'requirement', evidence: 'Evaluate the option' }],
       },
     ],
@@ -98,18 +98,15 @@ const input = {
 
 function baseCandidate() {
   return {
-    overallAssessmentObjectiveAllocation: [],
     subquestionGuidance: [
       {
         subquestionId: 'q1',
-        maxMark: 4,
         rewardedDemands: ['calculation'],
         assessmentObjectiveAllocation: [{ objectiveId: 'ao1', marks: 4 }],
         answerRequirements: ['Use a valid calculation route.'],
       },
       {
         subquestionId: 'q2',
-        maxMark: 6,
         rewardedDemands: ['evaluation'],
         assessmentObjectiveAllocation: [{ objectiveId: 'ao2', marks: 6 }],
         answerRequirements: ['Reach a supported judgement.'],
@@ -170,9 +167,17 @@ function responseBody(output: unknown) {
 }
 
 describe('Reliability v2-A Marking Pack compiler', () => {
-  it('does not expose compiler-owned rubric IDs or numeric mark bands to the provider schema', () => {
+  it('does not expose compiler-owned rubric IDs, numeric bands, subquestion maxMark or structured aggregate AO fields', () => {
     const candidate = validCandidate()
     expect(markingPackV2ProviderOutputSchema.safeParse(candidate).success).toBe(true)
+    expect(markingPackV2ProviderOutputSchema.safeParse({
+      ...candidate,
+      overallAssessmentObjectiveAllocation: [],
+    }).success).toBe(false)
+    expect(markingPackV2ProviderOutputSchema.safeParse({
+      ...candidate,
+      subquestionGuidance: [{ ...candidate.subquestionGuidance[0], maxMark: 4 }],
+    }).success).toBe(false)
     expect(markingPackV2ProviderOutputSchema.safeParse({
       ...candidate,
       rubric: [{ id: 'q1-level-1', descriptor: 'Mechanical provider field.', minMark: 0, maxMark: 4 }],
@@ -188,11 +193,15 @@ describe('Reliability v2-A Marking Pack compiler', () => {
     ])
   })
 
-  it('compiles deterministic IDs, contiguous bands and structured aggregate AO arithmetic', () => {
+  it('compiles deterministic IDs, contiguous bands, subquestion maxMark and aggregate AO arithmetic', () => {
     const compiled = compileMarkingPackV2Candidate(validCandidate(), input)
     expect(compiled.assessmentObjectiveAllocation).toEqual([
       { objectiveId: 'ao1', marks: 4 },
       { objectiveId: 'ao2', marks: 6 },
+    ])
+    expect(compiled.subquestionGuidance.map((entry) => ({ id: entry.subquestionId, maxMark: entry.maxMark }))).toEqual([
+      { id: 'q1', maxMark: 4 },
+      { id: 'q2', maxMark: 6 },
     ])
     expect(compiled.rubric).toEqual([
       {
@@ -236,6 +245,7 @@ describe('Reliability v2-A Marking Pack compiler', () => {
       const schemaText = JSON.stringify(body.text.format.schema)
       expect(schemaText).not.toContain('minMark')
       expect(schemaText).not.toContain('maxMark')
+      expect(schemaText).not.toContain('overallAssessmentObjectiveAllocation')
       expect(schemaText).not.toContain('"rubric"')
       if (call === 1) {
         return new Response(JSON.stringify(responseBody(invalidPilot18StyleCandidate())), {
