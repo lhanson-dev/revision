@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-C",
+  "title": "Content Factory Reliability v2 adversarial provider-free mutation matrix",
+  "status": "implemented_pending_v2_d_same_head_qualification",
+  "baseMainSha": "e5dbef58ab10ffca7c118048b294f2dc8eef5d37",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "technicalSequence": "docs/technical/Content Factory Reliability Qualification Harness.md",
+  "productionBoundaries": [
+    "src/content-factory/assessment-integrity.ts",
+    "src/content-factory/openai-provider-adapter.ts",
+    "src/content-factory/openai-marking-pack-v2-compiler.ts"
+  ],
+  "requiredShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "mutationClasses": [
+    {
+      "id": "blank_whitespace_malformed_optional",
+      "expectedDisposition": "schema_rejected",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "duplicate_missing_reordered_references",
+      "expectedDisposition": "reject_invalid_preserve_valid_reordering",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "inconsistent_totals",
+      "expectedDisposition": "deterministically_rejected",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "compiler_owned_mark_bands",
+      "expectedDisposition": "provider_mechanics_rejected_compiler_bands_contiguous",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "simultaneous_marking_defects",
+      "expectedDisposition": "complete_diagnostic_set",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "mixed_bounded_locators",
+      "expectedDisposition": "truthfully_rejected_without_retry",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "plausible_model_phrasing",
+      "expectedDisposition": "accepted_when_semantically_supported",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "exact_evidence_paraphrase",
+      "expectedDisposition": "truthfully_rejected",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "demand_metadata_mismatch",
+      "expectedDisposition": "truthfully_rejected",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "complete_diagnostic_single_repair",
+      "expectedDisposition": "one_repair_then_whole_artifact_revalidation",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "repair_failure_fail_closed",
+      "expectedDisposition": "two_provider_calls_maximum_then_failure",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "valid_output_no_extra_call",
+      "expectedDisposition": "single_provider_call",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    }
+  ],
+  "mutationSeeds": [17, 41, 73, 101, 149],
+  "providerCallsRequired": false,
+  "liveSoakIncluded": false,
+  "historicalRecordsRewritten": false,
+  "q3Passed": false,
+  "overallReliabilityV2Passed": false,
+  "nextWorkItem": "V2-D"
+}
