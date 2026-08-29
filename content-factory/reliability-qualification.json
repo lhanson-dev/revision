@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 exposed a generic Marking Pack reliability weakness after v1 qualification: parseable artifacts could contain multiple defects while validation/repair surfaced only the first defect before the single targeted repair. Reliability v2 complete-diagnostic validation, compiler ownership, historical replay and adversarial provider-free qualification now satisfy Q1-Q6 on the V2-D evidence path, but the bounded live worker soak (Q7) and separate Q8 eligibility transition remain required before any further full-course confirmation run.",
+  "reason": "Reliability v2 Q7 live-worker soak run 33265434110 on approved main 69d7abb7d3236616b687cbed480e7584ceb69fc9 exposed a new generic Assessment Item provider-contract class: seven of ten live Assessment Item samples omitted required subquestion-level maxMark, requirementIds and/or coverageEvidence before the existing targeted-repair boundary could run. All ten Marking Pack samples were accepted. Under the Reliability Qualification Standard, the affected Q1-Q6 gates must be requalified before another Q7 soak; the full-course pilot remains paused and Q8 is not eligible.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -9,6 +9,7 @@
     "jobIssueNumber": 234,
     "mainSha": "ed3bd4c4a50dd723da38952a41ff9bad084ad68d"
   },
+  "q7FailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
     "Q2-historical-failure-replay-corpus",
@@ -19,12 +20,12 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pass",
-    "Q2-historical-failure-replay-corpus": "pass",
-    "Q3-adversarial-provider-free-subject-matrix": "pass",
-    "Q4-deterministic-full-pipeline-simulation": "pass",
-    "Q5-restart-reuse-dependency-invalidation": "pass",
-    "Q6-repeated-provider-free-stability": "pass",
+    "Q1-compiler-worker-ownership-inventory": "pending",
+    "Q2-historical-failure-replay-corpus": "pending",
+    "Q3-adversarial-provider-free-subject-matrix": "pending",
+    "Q4-deterministic-full-pipeline-simulation": "pending",
+    "Q5-restart-reuse-dependency-invalidation": "pending",
+    "Q6-repeated-provider-free-stability": "pending",
     "Q7-bounded-live-worker-soak": "pending"
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-v2-d-provider-free-qualification.json",
