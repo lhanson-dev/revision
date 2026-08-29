@@ -1,0 +1,75 @@
+name: Content Factory Live Worker Soak
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-live-worker-soak
+  cancel-in-progress: false
+
+jobs:
+  live-worker-soak:
+    name: Reliability v2 Q7 bounded live worker soak
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout approved main
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Verify Q1-Q6 provider-free qualification is complete and Q7 is pending
+        run: node <<'NODE'
+          const fs = require('fs')
+          const qualification = JSON.parse(fs.readFileSync('content-factory/reliability-qualification.json', 'utf8'))
+          const required = [
+            'Q1-compiler-worker-ownership-inventory',
+            'Q2-historical-failure-replay-corpus',
+            'Q3-adversarial-provider-free-subject-matrix',
+            'Q4-deterministic-full-pipeline-simulation',
+            'Q5-restart-reuse-dependency-invalidation',
+            'Q6-repeated-provider-free-stability',
+          ]
+          for (const gate of required) {
+            if (qualification.gateStatus?.[gate] !== 'pass') throw new Error(`Q7 soak blocked: ${gate} is not pass`)
+          }
+          if (qualification.gateStatus?.['Q7-bounded-live-worker-soak'] !== 'pending') {
+            throw new Error('Q7 soak blocked: Q7 is not pending')
+          }
+          if (qualification.status !== 'paused' || qualification.livePilotEligible !== false || qualification.qualifiedEvidence !== null) {
+            throw new Error('Q7 soak blocked: full-course fail-closed qualification state was unexpectedly changed')
+          }
+          NODE
+
+      - name: Run bounded live worker soak
+        env:
+          CONTENT_FACTORY_LIVE_WORKER_SOAK: '1'
+          CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
+          CONTENT_FACTORY_MAX_SPEND_USD: '5'
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CONTENT_FACTORY_SOAK_MODEL: gpt-5.6-terra
+        run: npx vitest run src/content-factory/live-worker-soak.integration.test.ts --reporter=verbose
+
+      - name: Upload Q7 live worker soak evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-live-worker-soak-${{ github.sha }}
+          path: .artifacts/content-factory-live-worker-soak/
+          if-no-files-found: warn
+          retention-days: 30
