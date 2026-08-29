@@ -38,7 +38,8 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Verify governed trigger request when dispatched by push
-        run: node <<'NODE'
+        run: |
+          node <<'NODE'
           const fs = require('fs')
           if (process.env.GITHUB_EVENT_NAME !== 'push') process.exit(0)
           const request = JSON.parse(fs.readFileSync('content-factory/reliability-v2-e-live-worker-soak-request.json', 'utf8'))
@@ -51,7 +52,8 @@ jobs:
           NODE
 
       - name: Verify Q1-Q6 provider-free qualification is complete and Q7 is pending
-        run: node <<'NODE'
+        run: |
+          node <<'NODE'
           const fs = require('fs')
           const qualification = JSON.parse(fs.readFileSync('content-factory/reliability-qualification.json', 'utf8'))
           const required = [
