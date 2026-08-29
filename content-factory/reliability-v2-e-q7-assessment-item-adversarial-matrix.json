@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E-assessment-item-contract-repair",
+  "gate": "Q3-adversarial-provider-free-subject-matrix",
+  "title": "Post-Q7 Assessment Item omission mutation matrix",
+  "status": "implemented_pending_same_head_assurance",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "historicalMatrix": "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+  "historicalRecordsRewritten": false,
+  "providerCallsRequired": false,
+  "liveSoakIncluded": false,
+  "requiredShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "mutationClasses": [
+    {
+      "id": "assessment_subquestion_missing_max_mark",
+      "expectedDisposition": "one_bounded_repair_then_strict_revalidation",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "assessment_subquestion_missing_requirement_ids",
+      "expectedDisposition": "one_bounded_repair_then_strict_revalidation",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "assessment_subquestion_missing_coverage_evidence",
+      "expectedDisposition": "one_bounded_repair_then_strict_revalidation",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    },
+    {
+      "id": "assessment_subquestion_simultaneous_structural_omission",
+      "expectedDisposition": "one_bounded_repair_then_strict_revalidation_or_fail_closed",
+      "shapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"]
+    }
+  ],
+  "mutationCaseCount": 20,
+  "validOutputNoRepairCases": 5,
+  "failClosedAfterRepairCases": 5,
+  "regressionTest": "src/content-factory/openai-assessment-item-contract-boundary.test.ts",
+  "q3SupplementPassed": false,
+  "overallReliabilityV2Passed": false
+}
