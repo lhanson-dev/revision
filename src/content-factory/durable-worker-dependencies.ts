@@ -41,14 +41,16 @@ function integrityVersion(baseVersion: string, revision: string) {
 // and Practice to v2 for their course-agnostic generation guardrails. Pilot #17
 // exposed a generic assessment-item provider representation defect: an optional
 // data-point unit could be emitted as an empty string. Assessment-item semantics
-// therefore advance to output-integrity-v2 so pre-normalization assessment items
-// and genuine downstream dependants cannot be reused across this correction.
+// therefore advanced to output-integrity-v2. Reliability v2-A after Pilot #18
+// transfers Marking Pack rubric IDs/bands and structured aggregate AO arithmetic
+// to compiler ownership and makes repair validation whole-artifact/complete-
+// diagnostic, so legacy Marking Packs cannot be durably reused across that change.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
   assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v2'),
-  markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v1'),
+  markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
 } as const
 
 export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy = {

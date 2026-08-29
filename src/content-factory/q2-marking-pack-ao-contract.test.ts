@@ -100,13 +100,11 @@ function responseBody(output: unknown) {
   }
 }
 
-function markingOutput(overrides: Record<string, unknown> = {}) {
+function markingOutput() {
   return {
-    assessmentObjectiveAllocation: [],
     subquestionGuidance: [
       {
         subquestionId: 'q1',
-        maxMark: 4,
         rewardedDemands: ['calculation', 'application'],
         assessmentObjectiveAllocation: [
           { objectiveId: 'ao1', marks: 2 },
@@ -116,7 +114,6 @@ function markingOutput(overrides: Record<string, unknown> = {}) {
       },
       {
         subquestionId: 'q2',
-        maxMark: 4,
         rewardedDemands: ['analysis', 'application'],
         assessmentObjectiveAllocation: [
           { objectiveId: 'ao2', marks: 2 },
@@ -125,12 +122,22 @@ function markingOutput(overrides: Record<string, unknown> = {}) {
         answerRequirements: ['Explain a scientifically valid reason for the difference.'],
       },
     ],
-    rubric: [
-      { id: 'q1-zero', descriptor: 'No creditworthy method or answer.', minMark: 0, maxMark: 0 },
-      { id: 'q1-method', descriptor: 'Some correct method or working; allow consequential follow-through where the process is valid.', minMark: 1, maxMark: 2 },
-      { id: 'q1-accuracy', descriptor: 'Correct method with an accurate final answer, applying consequential-error treatment where appropriate.', minMark: 3, maxMark: 4 },
-      { id: 'q2-low', descriptor: 'Limited but relevant scientific explanation.', minMark: 0, maxMark: 2 },
-      { id: 'q2-developed', descriptor: 'Developed causal scientific explanation applied to the supplied context.', minMark: 3, maxMark: 4 },
+    rubricGuidance: [
+      {
+        subquestionId: 'q1',
+        levels: [
+          { descriptor: 'No or limited valid method or working.' },
+          { descriptor: 'Some correct method or working with partial application.' },
+          { descriptor: 'Correct method with an accurate final answer; allow consequential follow-through where appropriate.' },
+        ],
+      },
+      {
+        subquestionId: 'q2',
+        levels: [
+          { descriptor: 'Limited but relevant scientific explanation.' },
+          { descriptor: 'Developed causal scientific explanation applied to the supplied context.' },
+        ],
+      },
     ],
     applicationRequirements: ['Use the supplied scientific context.'],
     analysisRequirements: ['Develop a causal explanation.'],
@@ -142,7 +149,6 @@ function markingOutput(overrides: Record<string, unknown> = {}) {
     improvementActions: ['Check units and link the explanation to the physical process.'],
     ambiguityPolicy: 'Credit scientifically valid alternatives supported by the supplied context.',
     confidencePolicy: 'Use the governed confidence behaviour where evidence is insufficient for a precise mark.',
-    ...overrides,
   }
 }
 
@@ -156,72 +162,95 @@ function config(fetchImpl: typeof fetch) {
   }
 }
 
+function workerInput() {
+  return {
+    jobId: 'q2-marking-pack',
+    courseIdentity,
+    assessmentBlueprint,
+    questionFamily,
+    assessmentItem,
+    knowledgeNodes,
+  }
+}
+
 describe('Q2 structured Marking Pack AO ownership', () => {
-  it('derives the overall AO allocation from validated subquestion guidance with one provider call', async () => {
+  it('keeps structured aggregate AO arithmetic out of the provider schema and derives it from validated subquestion guidance', async () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
-      const body = JSON.parse(String(init?.body)) as { input: string }
-      const payload = JSON.parse(body.input) as { questionFamily: { responseShape: string }; assessmentBlueprint: { evidenceExpectations: string[] } }
-      expect(payload.questionFamily.responseShape).toContain('top-level assessmentObjectiveAllocation to an empty array')
-      expect(payload.questionFamily.responseShape).toContain('Revision derives the overall AO allocation deterministically')
-      expect(payload.questionFamily.responseShape).toContain('rubric must operationalise mark award for every structured subquestion')
-      expect(payload.assessmentBlueprint.evidenceExpectations.join(' ')).toContain('do not duplicate that arithmetic')
+      const body = JSON.parse(String(init?.body)) as {
+        instructions: string
+        text: { format: { schema: unknown } }
+      }
+      const schemaText = JSON.stringify(body.text.format.schema)
+      expect(schemaText).not.toContain('overallAssessmentObjectiveAllocation')
+      expect(schemaText).not.toContain('"maxMark"')
+      expect(body.instructions).toContain('Revision derives it from validated subquestion allocations')
       return new Response(JSON.stringify(responseBody(markingOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
 
-    const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
-    const result = await workers.generateMarkingPack({
-      jobId: 'q2-marking-pack',
-      courseIdentity,
-      assessmentBlueprint,
-      questionFamily,
-      assessmentItem,
-      knowledgeNodes,
-    })
+    const result = await createOpenAIModelAssistedWorkers(config(fetchImpl)).generateMarkingPack(workerInput())
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('3')
-    expect((result.output as { assessmentObjectiveAllocation: unknown }).assessmentObjectiveAllocation).toEqual([
+    expect(result.provenance.contractVersion).toBe('4')
+    const output = result.output as {
+      assessmentObjectiveAllocation: unknown
+      subquestionGuidance: Array<{ subquestionId: string; maxMark: number }>
+    }
+    expect(output.assessmentObjectiveAllocation).toEqual([
       { objectiveId: 'ao1', marks: 2 },
       { objectiveId: 'ao2', marks: 4 },
       { objectiveId: 'ao3', marks: 2 },
     ])
+    expect(output.subquestionGuidance.map(({ subquestionId, maxMark }) => ({ subquestionId, maxMark }))).toEqual([
+      { subquestionId: 'q1', maxMark: 4 },
+      { subquestionId: 'q2', maxMark: 4 },
+    ])
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('fails closed when the provider tries to author the structured aggregate AO arithmetic', async () => {
-    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(markingOutput({
+  it('fails at the provider contract boundary when legacy structured aggregate and numeric-rubric fields are returned', async () => {
+    const legacyOutput = {
+      ...markingOutput(),
       assessmentObjectiveAllocation: [
         { objectiveId: 'ao1', marks: 4 },
         { objectiveId: 'ao2', marks: 4 },
-        { objectiveId: 'ao3', marks: 0 },
       ],
-    }))), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+      rubric: [{ id: 'legacy', descriptor: 'Legacy provider-authored band.', minMark: 0, maxMark: 8 }],
+    }
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(legacyOutput)), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch
 
-    const result = await createOpenAIModelAssistedWorkers(config(fetchImpl)).generateMarkingPack({
-      jobId: 'q2-marking-pack', courseIdentity, assessmentBlueprint, questionFamily, assessmentItem, knowledgeNodes,
-    })
+    const result = await createOpenAIModelAssistedWorkers(config(fetchImpl)).generateMarkingPack(workerInput())
 
     expect(result.status).toBe('failure')
-    if (result.status === 'failure') expect(result.error).toContain('must leave overall AO allocation empty for deterministic derivation')
-    expect(result.provenance.contractVersion).toBe('3')
+    if (result.status !== 'failure') throw new Error('expected provider-contract failure')
+    expect(result.error).toContain('provider_contract_failure')
+    expect(result.error).toContain('Unrecognized keys')
+    expect(result.provenance.contractVersion).toBe('4')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('fails closed when a subquestion AO allocation does not total its governed marks', async () => {
+  it('collects a subquestion AO total defect, gives it one bounded repair, then fails closed if it remains', async () => {
     const invalid = markingOutput()
     invalid.subquestionGuidance[0].assessmentObjectiveAllocation = [
       { objectiveId: 'ao1', marks: 1 },
       { objectiveId: 'ao2', marks: 1 },
     ]
-    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalid)), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalid)), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch
 
-    const result = await createOpenAIModelAssistedWorkers(config(fetchImpl)).generateMarkingPack({
-      jobId: 'q2-marking-pack', courseIdentity, assessmentBlueprint, questionFamily, assessmentItem, knowledgeNodes,
-    })
+    const result = await createOpenAIModelAssistedWorkers(config(fetchImpl)).generateMarkingPack(workerInput())
 
     expect(result.status).toBe('failure')
-    if (result.status === 'failure') expect(result.error).toContain('guidance AO allocation for q1 must total 4')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    if (result.status !== 'failure') throw new Error('expected fail-closed result')
+    expect(result.error).toContain('marking_pack_v2_after_complete_diagnostic_repair')
+    expect(result.error).toContain('MARKING_SUBQUESTION_AO_TOTAL_MISMATCH')
+    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.retryCount).toBe(1)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 })
