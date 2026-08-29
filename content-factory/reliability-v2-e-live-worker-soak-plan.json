@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E",
+  "gate": "Q7",
+  "status": "runner_ready_pending_merge_and_live_execution",
+  "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
+  "integrationHarness": "src/content-factory/live-worker-soak.integration.test.ts",
+  "sampleCount": 20,
+  "samplesPerShape": 4,
+  "subjectShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "workerBoundaries": [
+    {
+      "worker": "assessment_item_generation",
+      "samplesPerShape": 2,
+      "totalSamples": 10,
+      "productionEntryPoint": "createOpenAIModelAssistedWorkers().generateAssessmentItem"
+    },
+    {
+      "worker": "marking_pack_generation",
+      "samplesPerShape": 2,
+      "totalSamples": 10,
+      "productionEntryPoint": "createOpenAIModelAssistedWorkers().generateMarkingPack"
+    }
+  ],
+  "sampleIndependence": "Marking Pack samples use deterministic synthetic valid assessment inputs so Q7 Marking Pack coverage does not depend on a preceding live Assessment Item sample succeeding.",
+  "providerCalls": "live_after_merge_only",
+  "maxSpendUsd": 5,
+  "providerRetriesPerRequest": 0,
+  "targetedRepairPolicy": "production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.",
+  "evidenceArtifactDirectory": ".artifacts/content-factory-live-worker-soak/",
+  "fullCourseAssembly": false,
+  "learnerPublication": false,
+  "livePilotEligibilityChanged": false,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "nextIfSoakPasses": "Persist Q7 evidence on a governed evidence PR, then V2-F/Q8 eligibility transition remains separate.",
+  "nextIfSoakFindsGenericContractClass": "Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."
+}
