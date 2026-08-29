@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Confirmation Pilot #17 exposed a generic assessment-item provider-contract defect on approved main: an optional context data-point unit was emitted as an empty string and rejected before educational review. The corrected assessment-item boundary changes qualified behavior, so paid live-pilot eligibility is paused until provider-free reliability requalification proves the new normalization and dependency semantics.",
+  "status": "qualified",
+  "reason": "Post-Pilot-17 provider-free Q1-Q6 reliability requalification is complete on approved main after the Pilot #17 assessment-item provider-boundary remediation. A fresh paid end-to-end run is eligible only as a governed confirmation pilot and remains subject to source-rights, spend, educational assurance, expert review and publication controls.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 17,
@@ -17,6 +17,26 @@
     "Q5-restart-reuse-dependency-invalidation",
     "Q6-repeated-qualification-stability"
   ],
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "qualificationEvidenceMainSha": "519aee37d796791cdca302e0d77b0da2c25f1b74",
+    "requalificationRecord": "content-factory/reliability-post-pilot17-requalification.json",
+    "verificationMode": "exact_head_ci",
+    "providerCallsUsed": false,
+    "passedGates": [
+      "Q1-worker-contract-inventory",
+      "Q2-provider-free-contract-matrix",
+      "Q3-subject-shape-matrix",
+      "Q4-deterministic-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-qualification-stability"
+    ],
+    "q6RepetitionCount": 3,
+    "nextPaidRunClass": "confirmation_pilot",
+    "limitations": [
+      "Reliability qualification is not educational correctness or publication approval.",
+      "The confirmation pilot must still obey source-rights, spend, deterministic validation, independent review, expert review and publication governance.",
+      "This eligibility state does not itself execute provider calls or publish learner content."
+    ]
+  },
+  "livePilotEligible": true
 }
