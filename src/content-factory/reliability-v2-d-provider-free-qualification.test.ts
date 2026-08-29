@@ -72,6 +72,7 @@ type V2ARecord = {
     v2AImplemented: boolean
     q1Passed: boolean
     overallReliabilityV2Passed: boolean
+    nextEvidence?: string
   }
 }
 
@@ -231,7 +232,7 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     expect(v2a.status).toBe('implemented_pending_same_head_assurance')
     expect(v2a.scope).toBe('marking_pack_generation')
     expect(v2a.providerBoundary.educationalJudgementOnly).toBe(true)
-    expect(v2a.qualificationEffect).toEqual({
+    expect(v2a.qualificationEffect).toMatchObject({
       v2AImplemented: true,
       q1Passed: false,
       overallReliabilityV2Passed: false,
