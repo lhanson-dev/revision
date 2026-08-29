@@ -2,12 +2,18 @@
   "schemaVersion": 1,
   "workItem": "V2-E",
   "gate": "Q7",
-  "status": "runner_ready_pending_merge_and_live_execution",
+  "status": "runner_merged_live_execution_pending",
   "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
+  "runnerMergedMainSha": "ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
   "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
   "integrationHarness": "src/content-factory/live-worker-soak.integration.test.ts",
+  "triggerModes": [
+    "workflow_dispatch",
+    "governed_main_request_file_push"
+  ],
+  "requestFile": "content-factory/reliability-v2-e-live-worker-soak-request.json",
   "sampleCount": 20,
   "samplesPerShape": 4,
   "subjectShapes": [
@@ -32,7 +38,7 @@
     }
   ],
   "sampleIndependence": "Marking Pack samples use deterministic synthetic valid assessment inputs so Q7 Marking Pack coverage does not depend on a preceding live Assessment Item sample succeeding.",
-  "providerCalls": "live_after_merge_only",
+  "providerCalls": "live_only_after_governed_trigger_on_approved_main",
   "maxSpendUsd": 5,
   "providerRetriesPerRequest": 0,
   "targetedRepairPolicy": "production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.",

@@ -2,23 +2,47 @@
 
 ## Status
 
-**Runner implemented; live execution pending merge to approved `main`.**
+**Runner merged on approved `main`; live execution pending.**
 
 V2-D established provider-free Q1–Q6 PASS. V2-E implements the distinct Q7 live-provider sampling path required by `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
+
+The runner merged to approved `main` in PR #240 at `ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7`. GitHub registered the workflow in the Actions UI but did not expose the expected manual `Run workflow` control. The workflow therefore retains `workflow_dispatch` and also supports a narrowly scoped governed request-file push on `main` as a fallback trigger.
 
 This change does **not** claim Q7 PASS, does not change global qualification to `qualified`, and does not enable a full-course Content Factory run.
 
 ## Canonical runtime and entry point
 
-Q7 uses the trusted manual GitHub Actions workflow:
+Q7 uses the trusted GitHub Actions workflow:
 
 - `.github/workflows/content-factory-live-worker-soak.yml`
 
-The workflow runs only when the checked-out ref is approved `main` and executes:
+The workflow runs only on approved `main` and executes:
 
 - `src/content-factory/live-worker-soak.integration.test.ts`
 
-It is deliberately separate from `.github/workflows/content-factory-live-pilot.yml`. The full-course workflow keeps its existing fail-closed qualification preflight and remains unavailable while `content-factory/reliability-qualification.json` is `paused`.
+Supported trigger modes are:
+
+- manual `workflow_dispatch`; and
+- a push to approved `main` that changes only the dedicated governed request path `content-factory/reliability-v2-e-live-worker-soak-request.json` within the workflow's path filter.
+
+The request-file fallback exists because the GitHub Actions UI did not expose the manual control despite the workflow being present on default `main` with `workflow_dispatch`. It does not create a broad push trigger: unrelated repository changes do not start a soak.
+
+The workflow remains deliberately separate from `.github/workflows/content-factory-live-pilot.yml`. The full-course workflow keeps its existing fail-closed qualification preflight and remains unavailable while `content-factory/reliability-qualification.json` is `paused`.
+
+## Governed request-file fallback
+
+For a push-triggered soak, the workflow validates the request file before any provider call. It must declare:
+
+- gate `Q7`;
+- run class `bounded_live_worker_soak`;
+- status `requested`;
+- maximum spend exactly US$5;
+- `fullCourseAssembly: false`; and
+- `learnerPublication: false`.
+
+Any mismatch fails before the live integration case. Because the push trigger is path-scoped to this file, normal merges and unrelated `main` pushes cannot start a paid soak.
+
+The first request is recorded in `content-factory/reliability-v2-e-live-worker-soak-request.json` and is intended to trigger the first v2 Q7 soak when its governed PR reaches `main`.
 
 ## Q7 preflight
 
@@ -134,11 +158,9 @@ If the soak exposes a new generic contract class, return to the affected Q1–Q6
 
 ## Documentation impact
 
-No normative authority changes in this runner PR. The implementation follows the existing Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy.
+No normative authority changes are required. The implementation follows the existing Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy.
 
-The change adds the Q7 implementation/evidence path and updates the canonical technical qualification harness. `INDEX.md` does not require a new entry because the existing Content Factory Reliability Qualification Harness remains the indexed technical source.
-
-Historical Pilot #1–#18 records and V2-A–V2-D evidence remain unchanged.
+This fallback changes only the technical execution mechanism required to initiate the already-approved Q7 exercise and corrects the previous stale statement that the runner was still pending merge. Historical Pilot #1–#18 records and V2-A–V2-D evidence remain unchanged. `INDEX.md` does not require a new entry because the existing Content Factory Reliability Qualification Harness remains the indexed technical source.
 
 ## Deliberate exclusions
 

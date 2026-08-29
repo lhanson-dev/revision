@@ -2,6 +2,11 @@ name: Content Factory Live Worker Soak
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - content-factory/reliability-v2-e-live-worker-soak-request.json
 
 permissions:
   contents: read
@@ -31,6 +36,19 @@ jobs:
 
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Verify governed trigger request when dispatched by push
+        run: node <<'NODE'
+          const fs = require('fs')
+          if (process.env.GITHUB_EVENT_NAME !== 'push') process.exit(0)
+          const request = JSON.parse(fs.readFileSync('content-factory/reliability-v2-e-live-worker-soak-request.json', 'utf8'))
+          if (request.gate !== 'Q7' || request.runClass !== 'bounded_live_worker_soak' || request.status !== 'requested') {
+            throw new Error('Q7 soak blocked: governed request file is not an active Q7 bounded-live-worker-soak request')
+          }
+          if (request.maxSpendUsd !== 5 || request.fullCourseAssembly !== false || request.learnerPublication !== false) {
+            throw new Error('Q7 soak blocked: governed request file changed the bounded reliability safety envelope')
+          }
+          NODE
 
       - name: Verify Q1-Q6 provider-free qualification is complete and Q7 is pending
         run: node <<'NODE'
