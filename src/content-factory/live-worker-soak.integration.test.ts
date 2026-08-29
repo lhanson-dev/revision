@@ -172,7 +172,7 @@ function assessmentBlueprint(scenario: ShapeScenario, sampleNumber: number) {
     }],
     quantitativeRequirements: scenario.demand === 'calculation' ? ['Use only invented values supplied in the generated item.'] : [],
     synopticRequirements: [],
-    commandDemands: [scenario.command],
+    commandDemands: [],
     evidenceExpectations: ['Use only the synthetic structured facts supplied for this reliability sample.'],
   }
 }
