@@ -3,7 +3,7 @@
   "workItem": "V2-E-assessment-item-contract-repair",
   "gate": "Q2-historical-failure-replay-corpus",
   "title": "Q7 Assessment Item provider-contract supplemental replay",
-  "status": "implemented_pending_same_head_assurance",
+  "status": "complete",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "historicalCorpus": "content-factory/reliability-v2-b-historical-failure-corpus.json",
   "historicalRecordsRewritten": false,
@@ -35,6 +35,6 @@
       ]
     }
   ],
-  "q2SupplementPassed": false,
+  "q2SupplementPassed": true,
   "overallReliabilityV2Passed": false
 }
