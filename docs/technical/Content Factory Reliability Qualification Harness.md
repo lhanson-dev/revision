@@ -2,20 +2,20 @@
 
 ## Status
 
-The Content Factory reliability gate remains **paused after Confirmation Pilot #17**, while the corrected assessment-item boundary has now been put through a fresh provider-free Q1–Q6 requalification.
+The Content Factory reliability gate is **qualified after the post-Pilot-17 provider-free Q1–Q6 requalification and this separate Q7 eligibility transition**.
 
-The sequence is:
+The governed sequence is now:
 
 1. post-Pilot-16 Q1–Q6 requalification and a separate Q7 transition made approved `main` `f9a9cde3e98faca3b1e17b5d575d4282677f06cc` eligible for Confirmation Pilot #17;
 2. Pilot #17 ran as workflow `33221401966` with durable job Issue `#230` and failed closed during assessment-item generation because an optional `context.dataPoints[0].unit` was supplied as an empty string;
 3. PR #231 corrected the generic assessment-item provider boundary and merged as approved `main` `d5fe9e8bc2eee82f0236711361739abe129e782a`;
 4. because that correction changed a previously qualified contract boundary, paid execution was deliberately returned to `paused`;
-5. `content-factory/reliability-post-pilot17-requalification.json` now records the fresh provider-free Q1–Q6 evidence for that corrected implementation;
-6. the global `content-factory/reliability-qualification.json` remains paused and must not be changed to `qualified` in the same requalification change.
+5. PR #232 merged the fresh provider-free Q1–Q6 requalification evidence onto approved `main` `519aee37d796791cdca302e0d77b0da2c25f1b74`;
+6. this separate Q7 transition changes the global `content-factory/reliability-qualification.json` to `qualified` and `livePilotEligible: true`, binding eligibility to the Q1–Q6 evidence already merged on approved `main`.
 
-A further paid confirmation pilot is not eligible until a **separate governed Q7-style status transition** is exact-head assured, explicitly Founder-approved and merged.
+The next paid end-to-end run is therefore eligible only as a **fresh confirmation pilot**. Qualification does not imply educational correctness, publication approval or awarding-body endorsement.
 
-The governing authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md`. No normative rule is changed by this technical requalification.
+The governing authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md`. No normative rule is changed by this status transition.
 
 ## Pilot #17 historical evidence
 
@@ -39,7 +39,7 @@ This was a generic provider-representation contract defect, not an educational `
 
 ## Corrected provider boundary
 
-The assessment-item schema already defines `context.dataPoints[].unit` as optional. The corrected live provider boundary therefore treats a semantically empty optional representation as absence rather than educational content:
+The assessment-item schema defines `context.dataPoints[].unit` as optional. The corrected live provider boundary therefore treats a semantically empty optional representation as absence rather than educational content:
 
 - `unit: ""` → omit `unit`;
 - whitespace-only `unit` → omit `unit`;
@@ -55,7 +55,7 @@ The normalizer is scoped to the assessment-item structured-output request. Other
 
 ## Durable dependency semantics
 
-The changed worker boundary advances:
+The changed worker boundary advanced:
 
 `generateAssessmentItem: 2+output-integrity-v1 → 2+output-integrity-v2`
 
@@ -71,7 +71,8 @@ Historical evidence is layered rather than rewritten:
 - `content-factory/reliability-post-pilot16-requalification.json` remains the provider-free evidence for the implementation that enabled Pilot #17;
 - Pilot #16 workflow/Issue #226 remains historical educational `fail_hold` evidence;
 - Pilot #17 workflow `33221401966` / Issue #230 remains historical provider-contract failure evidence;
-- `content-factory/reliability-post-pilot17-requalification.json` is the current provider-free Q1–Q6 overlay for corrected approved `main` `d5fe9e8bc2eee82f0236711361739abe129e782a`;
+- `content-factory/reliability-post-pilot17-requalification.json` is the provider-free Q1–Q6 overlay for corrected approved implementation `d5fe9e8bc2eee82f0236711361739abe129e782a`, merged to approved `main` by PR #232;
+- approved evidence-bearing `main` for the Q7 transition is `519aee37d796791cdca302e0d77b0da2c25f1b74`;
 - `content-factory/reliability-qualification.json` remains the current global paid-pilot eligibility record consumed by the live preflight.
 
 The post-Pilot-17 requalification record deliberately contains:
@@ -80,7 +81,7 @@ The post-Pilot-17 requalification record deliberately contains:
 - `paidPilotEligible: false`;
 - `globalQualificationRequiredState: paused`.
 
-Passing Q1–Q6 therefore proves reliability evidence only. It does not itself authorize external model spend.
+Those values remain historically and semantically correct. Q1–Q6 prove reliability evidence only. This separate Q7 status transition is the governed permission step that restores paid confirmation eligibility.
 
 ## Q1 — worker-contract inventory
 
@@ -137,13 +138,13 @@ This proves process compatibility only. It does not constitute factual, pedagogi
 
 ## Q4 — deterministic pipeline simulation
 
-The existing full provider-free simulation continues to traverse:
+The full provider-free simulation traverses:
 
 `requested → identified → sourced → mapped → generating → validating → independent_review → remediation when applicable → expert_review_ready`
 
 with no external provider calls and no publication side effect.
 
-The post-Pilot-17 requalification composes that simulation with the corrected assessment boundary by first passing a synthetic assessment response carrying an empty optional unit through `normaliseAssessmentItemOptionalUnits` and the same strict assessment-item worker schema. The resulting normalized item is valid without weakening downstream validation, after which the full deterministic pipeline still reaches `expert_review_ready`.
+The post-Pilot-17 requalification composes that simulation with the corrected assessment boundary by first passing a synthetic assessment response carrying an empty optional unit through `normaliseAssessmentItemOptionalUnits` and the same strict assessment-item worker schema. The resulting normalized item is valid without weakening downstream validation, after which the full deterministic pipeline reaches `expert_review_ready`.
 
 ## Q5 — restart, reuse and dependency-aware invalidation
 
@@ -155,15 +156,15 @@ rather than Git head alone.
 
 The current evidence proves:
 
-- `generateAssessmentItem` now uses `2+output-integrity-v2`;
+- `generateAssessmentItem` uses `2+output-integrity-v2`;
 - the assessment-item dependency closure does not acquire unrelated Learn or Practice dependencies;
 - Marking Pack and independent review do depend on assessment-item output and therefore invalidate when that semantic boundary changes;
 - unchanged compatible work remains reusable;
-- the existing Q5 durable-resume suite continues to prove truthful spend/retry provenance after reuse.
+- the Q5 durable-resume suite continues to prove truthful spend/retry provenance after reuse.
 
 ## Q6 — repeated qualification stability
 
-The governed repetition count remains **3**.
+The governed repetition count is **3**.
 
 The current Q6 suite repeats:
 
@@ -177,33 +178,47 @@ A single successful live-provider response is not used as reliability qualificat
 
 ## Q7 — paid confirmation eligibility
 
-Q7 remains deliberately separate.
+Q7 remains deliberately separate from Q1–Q6 evidence generation.
 
 The live-pilot execution sequence remains:
 
 `workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
 
-While `content-factory/reliability-qualification.json` is `paused`, a new live pilot must fail before external model calls. There is no workflow-input or environment-variable bypass.
+This Q7 transition changes the global record to:
 
-Restoring paid eligibility requires, in order:
+- `status: qualified`;
+- `livePilotEligible: true`;
+- `qualifiedEvidence.qualificationEvidenceMainSha: 519aee37d796791cdca302e0d77b0da2c25f1b74`;
+- `qualifiedEvidence.requalificationRecord: content-factory/reliability-post-pilot17-requalification.json`;
+- `qualifiedEvidence.providerCallsUsed: false`;
+- all Q1–Q6 gates in `passedGates`;
+- Q6 repetition count `3`;
+- next paid run class `confirmation_pilot`.
 
-1. corrected implementation on approved `main`;
-2. provider-free Q1–Q6 requalification on the corrected implementation;
-3. this requalification evidence merged to approved `main`;
-4. a separate governed Q7-style status PR changing the global record to `qualified` / `livePilotEligible: true` only when the approved evidence supports it;
-5. exact-head assurance and explicit Founder approval for that status PR;
-6. only then, a fresh paid confirmation pilot.
+The executable Q7 regression proves the same fail-closed preflight used by the live workflow accepts this state, while the workflow still places the preflight before the paid live-adapter step and exposes no bypass.
 
-Reliability qualification is not educational correctness, publication approval or awarding-body endorsement. Any future confirmation pilot remains subject to source rights, the US$20 course ceiling, deterministic validation, independent educational review, expert/human review authority, the Content Accuracy Assurance Gate and publication governance.
+This status transition does **not** execute provider calls. It only makes a future manually initiated paid confirmation pilot eligible to proceed past preflight.
+
+A future confirmation pilot remains subject to:
+
+- source-rights and provenance controls;
+- the US$20 per-course ceiling;
+- deterministic validation;
+- independent educational review;
+- expert/human review authority;
+- the Content Accuracy Assurance Gate;
+- publication governance.
+
+If another live pilot exposes a new generic reliability defect, the failure remains fail-closed and must be handled under the active Reliability Qualification Standard rather than by repeated unchanged paid reruns.
 
 ## Documentation impact
 
-This requalification change updates current implementation evidence only:
+This Q7 transition updates current implementation state only:
 
-- adds `content-factory/reliability-post-pilot17-requalification.json`;
-- adds `src/content-factory/post-pilot17-requalification.test.ts`;
+- updates `content-factory/reliability-qualification.json` from paused to qualified with evidence bound to approved `main` `519aee37d796791cdca302e0d77b0da2c25f1b74`;
+- updates `src/content-factory/q7-qualification-status.test.ts` so the actual live-pilot preflight must accept the qualified state and historical Pilot #17 evidence remains unchanged;
 - updates this indexed technical qualification record.
 
-It does **not** alter the active Reliability Qualification Standard, product behavior, educational authority or historical Pilot #10–#17 evidence.
+It does **not** alter the active Reliability Qualification Standard, product behaviour, educational authority, live-pilot workflow ordering or historical Pilot #10–#17 evidence.
 
 No `INDEX.md` update is required because this file is already the indexed technical source for the Content Factory reliability qualification harness.
