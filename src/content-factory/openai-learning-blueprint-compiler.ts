@@ -2,7 +2,7 @@ import {
   createOpenAIModelAssistedWorkers as createBaseOpenAIModelAssistedWorkers,
   type OpenAIContentFactoryAdapterConfig,
   type OpenAIModelAssistedWorkers,
-} from './openai-provider-adapter'
+} from './openai-assessment-item-contract-boundary'
 import {
   executableLearningBlueprintSchema,
   type ExecutableLearningBlueprint,
