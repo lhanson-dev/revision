@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
-  "status": "implemented_pending_exact_head_assurance",
+  "status": "complete",
   "scope": "post_q7_assessment_item_provider_free_requalification",
   "baseApprovedMainSha": "a3de541ac85a20945b987a661411b2703bc9aa92",
-  "verificationMode": "exact_head_ci_required_before_merge",
+  "verificationMode": "exact_head_ci",
   "providerCallsUsed": false,
   "paidPilotEligible": false,
   "globalQualificationRequiredState": "paused",
@@ -17,7 +17,7 @@
   },
   "gates": {
     "Q1-compiler-worker-ownership-inventory": {
-      "status": "candidate_pass",
+      "status": "pass",
       "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
       "currentEvidence": [
         "content-factory/reliability-q7-assessment-item-contract-defect.json",
@@ -48,7 +48,7 @@
       ]
     },
     "Q2-historical-failure-replay-corpus": {
-      "status": "candidate_pass",
+      "status": "pass",
       "historicalBaseEvidence": "content-factory/reliability-v2-b-historical-failure-corpus.json",
       "appendOnlyCurrentEvidence": "content-factory/reliability-q7-assessment-item-contract-defect.json",
       "currentEvidence": [
@@ -58,7 +58,7 @@
       "expectedDisposition": "The synthetic reproduction of the Q7 omission class reaches a complete three-field diagnostic set, receives at most one repair, and is then either fully compiled/revalidated or rejected fail closed."
     },
     "Q3-adversarial-provider-free-subject-matrix": {
-      "status": "candidate_pass",
+      "status": "pass",
       "requiredShapes": [
         "quantitative_business_economics",
         "mathematics",
@@ -81,7 +81,7 @@
       ]
     },
     "Q4-deterministic-full-pipeline-simulation": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "currentEvidence": [
         "src/content-factory/q7-assessment-item-requalification.test.ts",
@@ -91,7 +91,7 @@
       "correctedBoundaryAssertion": "A repaired synthetic Assessment Item compiles through the corrected strict boundary and composes with the provider-free deterministic pipeline that reaches expert_review_ready without publication."
     },
     "Q5-restart-reuse-dependency-invalidation": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "currentEvidence": [
         "src/content-factory/durable-worker-dependencies.ts",
@@ -104,7 +104,7 @@
       "invalidationRule": "The Q7 correction invalidates Assessment Item outputs and genuine downstream dependants including Marking Pack/review closure; Learn and Practice remain reusable because they are not in the Assessment Item dependency closure."
     },
     "Q6-repeated-provider-free-stability": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "repetitionCount": 3,
       "subjectShapeProbeRuns": 15,
@@ -115,11 +115,18 @@
       ]
     }
   },
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
   "limitations": [
     "Provider-free requalification proves contract/process behaviour, not live external-provider behaviour or educational correctness.",
-    "Q7 remains pending until this correction is merged to approved main and a separate governed bounded live-worker soak is explicitly retriggered.",
+    "Q7 remains pending; a separate governed bounded live-worker soak must run on approved main after this requalification is merged.",
     "The Content Factory remains paused and livePilotEligible remains false.",
     "This record does not authorize Q8, a full-course pilot, assembly or learner publication."
   ],
-  "historicalRecordsRewritten": false
+  "historicalRecordsRewritten": false,
+  "publicationSideEffect": false,
+  "nextWorkItem": "Q7-bounded-live-worker-soak"
 }
