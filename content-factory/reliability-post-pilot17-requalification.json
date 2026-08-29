@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "post_pilot_17_provider_free_requalification",
+  "reviewedImplementationMainSha": "d5fe9e8bc2eee82f0236711361739abe129e782a",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "purpose": "Provider-free Q1-Q6 requalification of the corrected assessment-item provider boundary after Confirmation Pilot #17 and PR #231. This evidence record does not itself restore paid-pilot eligibility; a separate governed Q7-style qualification-status transition remains required.",
+  "triggerEvidence": {
+    "pilot": 17,
+    "workflowRunId": 33221401966,
+    "jobIssueNumber": 230,
+    "failedImplementationMainSha": "f9a9cde3e98faca3b1e17b5d575d4282677f06cc",
+    "correctedImplementationMainSha": "d5fe9e8bc2eee82f0236711361739abe129e782a"
+  },
+  "gates": {
+    "Q1-worker-contract-inventory": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-provider-normalizer.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "ownershipExtensions": [
+        {
+          "worker": "assessment_item_generation",
+          "fieldClass": "optional context.dataPoints[].unit absence representation",
+          "ownership": "deterministically_derived",
+          "evidence": "normaliseAssessmentItemOptionalUnits removes only empty or whitespace-only optional unit fields before strict provider/domain validation"
+        },
+        {
+          "worker": "assessment_item_generation",
+          "fieldClass": "non-empty context.dataPoints[].unit educational/context value",
+          "ownership": "generative_judgement",
+          "evidence": "non-empty provider-authored units are preserved exactly and remain subject to the existing structured assessment contract"
+        },
+        {
+          "worker": "assessment_item_generation",
+          "fieldClass": "required context.dataPoints[].label and value structural validity",
+          "ownership": "fail_closed",
+          "evidence": "existing strict assessment-item schema continues to reject blank required values; the normalizer does not repair them"
+        }
+      ]
+    },
+    "Q2-provider-free-contract-matrix": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q2-contract-matrix.json",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts",
+        "src/content-factory/openai-provider-contract-hardening.test.ts",
+        "src/content-factory/openai-assessment-integrity-compiler.test.ts",
+        "src/content-factory/q2-course-knowledge-contract.test.ts",
+        "src/content-factory/q2-practice-evidence-contract.test.ts",
+        "src/content-factory/q2-marking-pack-ao-contract.test.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "currentCoverage": [
+        "omitted optional assessment data-point units remain valid",
+        "empty and whitespace-only optional units normalize deterministically to field absence",
+        "legitimate non-empty units including percent, currency, mass and composite display units are preserved exactly",
+        "blank required data-point values continue to fail closed",
+        "invalid non-string optional units continue to fail closed",
+        "optional-unit normalization causes no additional provider call",
+        "governed assessment target fields remain deterministically injected outside provider authorship"
+      ]
+    },
+    "Q3-subject-shape-matrix": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q3-subject-shape-matrix.json",
+      "currentEvidence": [
+        "src/content-factory/q3-subject-shape-fixtures.ts",
+        "src/content-factory/q3-subject-shape-matrix.test.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "crossSubjectRegression": "All five governed subject-shape pipelines still reach expert_review_ready provider-free, while the optional-unit boundary is separately challenged with quantitative, context-free and non-quantitative representations so it cannot fabricate unit metadata or force every course through a quantitative shape."
+    },
+    "Q4-deterministic-pipeline-simulation": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q4-deterministic-pipeline-simulation.json",
+      "currentEvidence": [
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "providerCallsUsed": false,
+      "correctedBoundaryAssertion": "A synthetic assessment-item response carrying an empty optional unit is normalized and accepted by the same strict assessment-item worker schema before the existing full deterministic pipeline simulation traverses to expert_review_ready with no publication side effect."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q5-restart-reuse-invalidation.json",
+      "currentEvidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-durable-resume.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "currentSemanticVersions": {
+        "generateAssessmentItem": "2+output-integrity-v2"
+      },
+      "invalidationRule": "Pre-v2 assessment-item outputs are not dependency-compatible with the corrected optional-unit boundary. Genuine assessment downstream dependants are invalidated, while unrelated Learn and Practice artifacts remain reusable where their dependency closure is unchanged.",
+      "providerCallsUsed": false
+    },
+    "Q6-repeated-qualification-stability": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-q6-repeated-stability.json",
+      "currentEvidence": [
+        "src/content-factory/q6-repeated-qualification-fixture.ts",
+        "src/content-factory/q6-repeated-qualification-stability.test.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts",
+        "src/content-factory/post-pilot17-requalification.test.ts"
+      ],
+      "repetitionCount": 3,
+      "subjectShapePipelineRuns": 15,
+      "deterministicPipelineRuns": 3,
+      "restartReuseScenarioSets": 3,
+      "providerCallsUsed": false
+    }
+  },
+  "limitations": [
+    "Provider-free reliability requalification proves process and contract behaviour, not factual or educational correctness.",
+    "The requalification does not prove live external-provider behaviour or awarding-body endorsement.",
+    "Pilot #17 remains historical provider-contract failure evidence and Issue #230 remains blocked historical evidence.",
+    "The global qualification record remains paused and the live-pilot preflight must continue to fail before any external model call.",
+    "Restoring qualified/livePilotEligible requires a separate governed Q7-style status PR after this requalification is merged to approved main."
+  ]
+}
