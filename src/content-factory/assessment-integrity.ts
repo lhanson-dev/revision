@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
-const nonEmptyStringSchema = z.string().min(1)
+const nonEmptyStringSchema = z.string().trim().min(1)
 
 export const assessmentResponseDemandSchema = z.enum([
   'selection',
@@ -116,6 +116,9 @@ export function validateStructuredAssessment(input: {
   const claimedRequirements = new Set<string>()
   for (const subquestion of subquestions) {
     const label = `Assessment item ${input.itemId} subquestion ${subquestion.id}`
+    if (new Set(subquestion.requirementIds).size !== subquestion.requirementIds.length) {
+      throw new Error(`${label} must not repeat requirement IDs`)
+    }
     for (const demand of subquestion.responseDemands) if (!assessmentCommandSupportsDemand(`${subquestion.command} ${subquestion.wording}`, demand)) {
       throw new Error(`${label} command does not ask for rewarded demand ${demand}`)
     }
