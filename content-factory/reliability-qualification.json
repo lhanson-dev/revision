@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 exposed a generic Marking Pack reliability weakness after v1 qualification. Reliability v2 Q1-Q6 provider-free qualification is now complete on the V2-D evidence path, but the bounded live worker soak (Q7) and separate Q8 eligibility transition remain required before any further full-course confirmation run.",
+  "reason": "Confirmation Pilot #18 exposed a generic Marking Pack reliability weakness after v1 qualification: parseable artifacts could contain multiple defects while validation/repair surfaced only the first defect before the single targeted repair. Reliability v2 complete-diagnostic validation, compiler ownership, historical replay and adversarial provider-free qualification now satisfy Q1-Q6 on the V2-D evidence path, but the bounded live worker soak (Q7) and separate Q8 eligibility transition remain required before any further full-course confirmation run.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
