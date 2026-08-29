@@ -15,16 +15,7 @@ type QualificationRecord = {
     mainSha: string
   }
   requiredGates: string[]
-  qualifiedEvidence: {
-    qualificationEvidenceMainSha: string
-    requalificationRecord: string
-    verificationMode: string
-    providerCallsUsed: boolean
-    passedGates: string[]
-    q6RepetitionCount: number
-    nextPaidRunClass: string
-    limitations: string[]
-  } | null
+  qualifiedEvidence: unknown | null
   livePilotEligible: boolean
 }
 
@@ -48,7 +39,7 @@ const qualification = JSON.parse(qualificationText) as QualificationRecord
 const postPilot16Requalification = JSON.parse(postPilot16RequalificationText) as RequalificationRecord
 const postPilot17Requalification = JSON.parse(postPilot17RequalificationText) as RequalificationRecord
 
-const expectedGates = [
+const historicalV1Gates = [
   'Q1-worker-contract-inventory',
   'Q2-provider-free-contract-matrix',
   'Q3-subject-shape-matrix',
@@ -57,8 +48,18 @@ const expectedGates = [
   'Q6-repeated-qualification-stability',
 ]
 
-describe('Content Factory qualification status after post-Pilot-17 requalification', () => {
-  it('changes only the global eligibility state after current provider-free Q1-Q6 evidence is merged on approved main', () => {
+const requiredV2Gates = [
+  'Q1-compiler-worker-ownership-inventory',
+  'Q2-historical-failure-replay-corpus',
+  'Q3-adversarial-provider-free-subject-matrix',
+  'Q4-deterministic-full-pipeline-simulation',
+  'Q5-restart-reuse-dependency-invalidation',
+  'Q6-repeated-provider-free-stability',
+  'Q7-bounded-live-worker-soak',
+]
+
+describe('Content Factory qualification state after Confirmation Pilot 18', () => {
+  it('preserves the completed v1 post-Pilot-17 evidence as history while current eligibility returns to paused', () => {
     expect(postPilot17Requalification).toMatchObject({
       schemaVersion: 1,
       status: 'complete',
@@ -68,23 +69,16 @@ describe('Content Factory qualification status after post-Pilot-17 requalificati
       paidPilotEligible: false,
       globalQualificationRequiredState: 'paused',
     })
-    expect(Object.keys(postPilot17Requalification.gates).sort()).toEqual([...expectedGates].sort())
-    for (const gate of expectedGates) expect(postPilot17Requalification.gates[gate]?.status).toBe('pass')
+    expect(Object.keys(postPilot17Requalification.gates).sort()).toEqual([...historicalV1Gates].sort())
+    for (const gate of historicalV1Gates) expect(postPilot17Requalification.gates[gate]?.status).toBe('pass')
 
-    expect(qualification.schemaVersion).toBe(1)
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
-    expect(qualification.requiredGates).toEqual(expectedGates)
-    expect(qualification.qualifiedEvidence).not.toBeNull()
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      qualificationEvidenceMainSha: '519aee37d796791cdca302e0d77b0da2c25f1b74',
-      requalificationRecord: 'content-factory/reliability-post-pilot17-requalification.json',
-      verificationMode: 'exact_head_ci',
-      providerCallsUsed: false,
-      passedGates: expectedGates,
-      q6RepetitionCount: 3,
-      nextPaidRunClass: 'confirmation_pilot',
+    expect(qualification).toMatchObject({
+      schemaVersion: 1,
+      status: 'paused',
+      livePilotEligible: false,
+      qualifiedEvidence: null,
     })
+    expect(qualification.requiredGates).toEqual(requiredV2Gates)
   })
 
   it('preserves earlier post-Pilot-16 requalification as historical evidence', () => {
@@ -99,17 +93,18 @@ describe('Content Factory qualification status after post-Pilot-17 requalificati
     })
   })
 
-  it('preserves Pilot 17 as historical trigger evidence rather than rewriting the failed run', () => {
+  it('records Pilot 18 as the current trigger without rewriting Pilot 17 history', () => {
     expect(qualification.triggerEvidence).toEqual({
-      pilot: 17,
-      workflowRunId: 33221401966,
-      jobIssueNumber: 230,
-      mainSha: 'f9a9cde3e98faca3b1e17b5d575d4282677f06cc',
+      pilot: 18,
+      workflowRunId: 33239396439,
+      jobIssueNumber: 234,
+      mainSha: 'ed3bd4c4a50dd723da38952a41ff9bad084ad68d',
     })
-    expect(qualification.reason).toContain('Post-Pilot-17')
+    expect(qualification.reason).toContain('Pilot #18')
+    expect(qualification.reason).toContain('complete-diagnostic validation')
   })
 
-  it('is accepted by the same fail-closed preflight that runs before a paid live pilot', async () => {
+  it('is rejected by the same fail-closed preflight before any paid full-course provider execution', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       execFileSync: (
@@ -120,12 +115,11 @@ describe('Content Factory qualification status after post-Pilot-17 requalificati
     }
     const runtimeProcess = (globalThis as unknown as { process: RuntimeProcess }).process
 
-    const output = childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
+    expect(() => childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
       cwd: runtimeProcess.cwd(),
       encoding: 'utf8',
       stdio: 'pipe',
-    })
-    expect(output).toContain('paid live pilot execution is eligible')
+    })).toThrow()
   })
 
   it('keeps qualification preflight before the paid live-adapter execution step with no bypass', () => {
