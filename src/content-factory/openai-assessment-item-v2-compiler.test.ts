@@ -137,7 +137,7 @@ function workersReturning(...outputs: unknown[]) {
 
 describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
   it('collects the complete Q7 missing-structure defect set before repair', () => {
-    const diagnostics = diagnoseAssessmentItemV2Candidate(q7OmissionOutput(), assessmentInput(), targetPolicy)
+    const diagnostics = diagnoseAssessmentItemV2Candidate(q7OmissionOutput(), targetPolicy)
     expect(diagnostics.map((entry) => entry.code)).toEqual([
       'ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING',
       'ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING',
@@ -208,7 +208,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
       ],
     }
 
-    const diagnostics = diagnoseAssessmentItemV2Candidate(candidate, assessmentInput(), targetPolicy)
+    const diagnostics = diagnoseAssessmentItemV2Candidate(candidate, targetPolicy)
     expect(diagnostics).toHaveLength(6)
     expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[0]'))).toHaveLength(3)
     expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[1]'))).toHaveLength(3)
