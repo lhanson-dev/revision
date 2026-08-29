@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-D",
+  "title": "Content Factory Reliability v2 provider-free Q1-Q6 qualification",
+  "status": "complete",
+  "baseMainSha": "7082331dc280ec8bd8b8223475180fa25b796d00",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "technicalSequence": "docs/technical/Content Factory Reliability Qualification Harness.md",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "liveProviderCallsUsed": false,
+  "repetitionCount": 3,
+  "repetitionSeeds": [17, 73, 149],
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-d-q1-ownership-consolidation.json",
+        "content-factory/reliability-contract-inventory.json",
+        "content-factory/reliability-v2-a-marking-pack-ownership.json",
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts"
+      ]
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "pilotCoverage": 18,
+      "knownDefectClassCount": 19,
+      "evidence": [
+        "content-factory/reliability-v2-b-historical-failure-corpus.json",
+        "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts"
+      ]
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "subjectShapeCount": 5,
+      "mutationClassCount": 12,
+      "mutationCasesPerRepetition": 60,
+      "evidence": [
+        "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+        "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts"
+      ]
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-q4-deterministic-pipeline-simulation.json",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts"
+      ]
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-q5-restart-reuse-invalidation.json",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-durable-resume.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts"
+      ]
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "strategy": "Run the complete Q2 replay-regression set, V2-C adversarial Q3 matrix, Q4 deterministic simulation and Q5 dependency-aware restart suite three times through Vitest with both file and test order shuffled under distinct governed seeds.",
+      "repetitionSeeds": [17, 73, 149],
+      "evidence": [
+        "src/content-factory/reliability-v2-d-provider-free-qualification.test.ts",
+        "content-factory/reliability-v2-c-adversarial-mutation-matrix.json"
+      ]
+    }
+  },
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
+  "historicalRecordsRewritten": false,
+  "publicationSideEffect": false,
+  "limitations": [
+    "Q1-Q6 provider-free PASS establishes process-contract reliability evidence, not educational correctness or content approval.",
+    "The repeated stability exercise varies execution order using governed mutation seeds; it does not claim to enumerate every possible provider wording.",
+    "No live provider behaviour is qualified by V2-D. Q7 bounded live worker soak remains required before any Q8 full-course eligibility transition.",
+    "The full-course live-pilot status remains paused and livePilotEligible remains false."
+  ],
+  "nextWorkItem": "V2-E"
+}
