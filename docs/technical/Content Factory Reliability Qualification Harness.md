@@ -2,32 +2,38 @@
 
 ## Status
 
-The Content Factory reliability programme remains **paused for full-course live execution after Confirmation Pilot #18**.
+The Content Factory remains **paused for full-course live execution**.
 
-Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker runner and governed request-file trigger are merged on approved `main`, but the live soak itself remains pending. The first request-file trigger at main `ef2b72bf83d31b66c15bee5480e33c21acfa580b` created workflow run `33264051185`; GitHub rejected the workflow definition before scheduling any job because inline Node heredocs were not expressed as multiline YAML `run: |` blocks. The run therefore made zero provider calls and incurred zero spend. A narrow corrective PR fixes the workflow definition and retriggers the same governed Q7 request. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
+Reliability v2 progressed through:
 
-Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the validator/repair path then in use surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
+- V2-A — compiler-first Marking Pack hardening and complete diagnostics;
+- V2-B — historical failure replay corpus;
+- V2-C — adversarial provider-free mutation matrix;
+- V2-D — provider-free Q1–Q6 qualification;
+- V2-E — bounded Q7 live-worker soak.
 
-The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. Full-course paid pilots remain disabled until Q1–Q7 v2 evidence is complete and a separate Q8 eligibility PR restores `qualified` status.
+The first completed Q7 live soak ran on approved `main` `69d7abb7d3236616b687cbed480e7584ceb69fc9` as workflow run `33265434110` / run number `16`. It executed all 20 governed samples and uploaded evidence, but it exposed a new generic Assessment Item provider-contract class. Q7 therefore did not pass.
 
-## Pilot #18 historical evidence
+Durable classified evidence:
 
-Pilot #18 remains historical evidence and is not rewritten:
+- `content-factory/reliability-v2-e-q7-live-soak-evidence.json`
+
+Current machine-readable state intentionally reopens Q1–Q6 to `pending`, keeps Q7 `pending`, keeps `status: paused`, keeps `qualifiedEvidence: null` and keeps `livePilotEligible: false`.
+
+The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. A separate Q8 eligibility transition remains unavailable until corrected Q1–Q6 evidence and a later Q7 PASS exist.
+
+## Historical trigger and evidence preservation
+
+Confirmation Pilot #18 remains the historical trigger for Reliability v2 and is not rewritten:
 
 - approved content head: `ed3bd4c4a50dd723da38952a41ff9bad084ad68d`;
 - workflow run: `33239396439` / run number `18`;
 - durable job: Issue `#234`;
-- final state: `blocked` from `generating`;
-- failure class: generic `provider_contract_failure` in Marking Pack operational-rubric validation after targeted repair;
+- failure class: generic Marking Pack operational-rubric provider-contract weakness after targeted repair;
 - cumulative provider spend: `US$1.253632`;
-- remaining course budget: `US$18.746368`;
-- executed workers: `45`;
-- successfully persisted Marking Packs before the failing target: `4`;
-- independent educational review was not reached;
-- expert review was not reached;
 - nothing was published.
 
-The architectural finding was not merely that one generated rubric was wrong. The previous Marking Pack path could turn several independent defects in one parseable artifact into sequential live failures because only the first actionable diagnostic reached the one bounded repair.
+V2-D also remains historical evidence that Q1–Q6 passed on its then-current exact implementation head. The Q7 live result does not rewrite that fact; it proves that the earlier provider-free evidence was not sufficient to qualify current live-provider robustness and therefore must be rerun after the newly exposed Assessment Item correction.
 
 ## Reliability v2 objective
 
@@ -35,148 +41,182 @@ The factory should behave like a compiler boundary around variable model output:
 
 `model educational judgement → compiler-owned structure → complete deterministic diagnostics → at most one targeted repair → whole-artifact revalidation → valid artifact or fail closed`
 
-The target is **not** perfect first-pass model output. The target is that normal model variability does not require an engineer to change TypeScript or prompts between ordinary courses.
+The target is not perfect first-pass model output. The target is that expected model variability does not require an engineer to change TypeScript, schemas or prompts between ordinary courses.
 
-## v2 implementation sequence
+## Qualification sequence
 
-Implementation proceeds in short governed PRs against approved `main`.
+### V2-A — complete-diagnostic validation and compiler ownership — complete
 
-### V2-A — complete-diagnostic validation and compiler ownership — implemented
-
-Primary objective: remove the known Pilot #18 serial-defect behavior and reduce unnecessary model ownership.
-
-Implemented behavior includes:
-
-- repair-eligible Marking Pack validation collects the complete actionable diagnostic set for a parseable artifact;
-- the complete diagnostic set is sent to the one bounded repair call;
-- the complete repaired artifact is revalidated once;
-- structurally unsafe/unparseable output still stops early and fails closed;
-- mechanically constructible Marking Pack fields such as structured aggregate AO totals and numeric rubric bands are compiler-owned;
-- affected durable worker semantics invalidate only genuine downstream dependants.
+V2-A removed the known Pilot #18 serial-defect Marking Pack behavior and moved mechanically constructible Marking Pack structure into Revision-owned compilation where educational meaning allowed.
 
 Technical record: `docs/technical/Content Factory Reliability v2-A Marking Pack Compiler.md`.
 
-### V2-B — historical failure replay corpus — implemented
+### V2-B — historical failure replay corpus — complete historically, must be extended
 
-A permanent corpus now records all known Pilots #1–#18 outcomes and every reusable contract-class failure where durable evidence exists.
+The permanent corpus records Pilots #1–#18 reusable contract classes using exact historical output where lawfully retained and labelled synthetic reproductions where exact output is unavailable.
 
-Evidence classes remain:
-
-- **exact historical output** — replay a retained durable provider output unchanged where one genuinely exists;
-- **synthetic reproduction** — where exact output is unavailable, encode the smallest generic reproduction and label it explicitly as synthetic.
-
-Historical pilot records are preserved and non-contract operational/educational incidents are explicitly excluded rather than converted into artificial contract fixtures.
+Q7 has now created an additional reusable Assessment Item contract class. The live-soak artifact retained the durable failure signature and sample evidence but not the raw provider candidate. The Q2 correction must therefore add a clearly labelled synthetic reproduction of the observed omission pattern; it must not claim exact provider-output replay.
 
 Technical record: `docs/technical/Content Factory Reliability v2-B Historical Failure Replay Corpus.md`.
 
-### V2-C — adversarial mutation matrix — implemented
+### V2-C — adversarial mutation matrix — complete historically, must be extended
 
-Provider-free qualification now extends beyond hand-authored happy-path/one-defect fixtures across all five governed subject shapes.
+The provider-free matrix covers all five governed subject shapes and a range of near-boundary/simultaneous defects.
 
-The matrix covers:
+The next correction must add Assessment Item adversarial cases for omitted and simultaneous subquestion-level:
 
-- blank/omitted/malformed optional values;
-- duplicated/missing/reordered references;
-- inconsistent totals;
-- compiler-owned mark bands;
-- simultaneous Marking Pack defects;
-- mixed valid and invalid bounded locators;
-- plausible phrasing alternatives;
-- exact-evidence paraphrase;
-- demand metadata mismatch;
-- complete-diagnostic single repair;
-- repair failure/fail closed;
-- valid output with no unnecessary extra provider call.
+- `maxMark`;
+- `requirementIds`;
+- `coverageEvidence` / locator structure;
+
+across all five subject shapes, including cases that prove the corrected boundary enters complete diagnostics/bounded repair or fails closed at the intended point.
 
 Technical record: `docs/technical/Content Factory Reliability v2-C Adversarial Mutation Matrix.md`.
 
-### V2-D — full provider-free qualification — complete
+### V2-D — provider-free Q1–Q6 qualification — previous PASS, now reopened
 
-Q1–Q6 were re-run on one exact implementation head:
+V2-D previously established Q1–Q6 PASS with three governed repetitions under varied seeds/order.
 
-- Q1 compiler/worker ownership inventory;
-- Q2 historical failure replay corpus;
-- Q3 adversarial provider-free subject matrix;
-- Q4 deterministic full-pipeline simulation;
-- Q5 restart/reuse/dependency invalidation;
-- Q6 repeated stability with varied mutation/test order under distinct governed seeds rather than only repeating one immutable fixture.
+The completed Q7 soak exposed a new generic contract class, so the active qualification record reopens Q1–Q6 to `pending` rather than treating V2-D as current qualifying evidence.
 
-No live provider call belongs in Q1–Q6.
+The corrected requalification must cover:
 
-The V2-D machine-readable record is `content-factory/reliability-v2-d-provider-free-qualification.json`; the detailed technical record is `docs/technical/Content Factory Reliability v2-D Provider-Free Qualification.md`.
+- Q1 — Assessment Item field ownership and repair boundary;
+- Q2 — synthetic replay of the Q7 defect signature;
+- Q3 — five-shape adversarial variants;
+- Q4 — corrected deterministic full-pipeline simulation;
+- Q5 — dependency-aware invalidation for the Assessment Item contract/compiler change;
+- Q6 — repeated provider-free stability with varied governed seeds/order.
 
-### V2-E — bounded live worker soak — runner merged, live execution pending
+Historical machine-readable record: `content-factory/reliability-v2-d-provider-free-qualification.json`.
 
-Q7 is a separate bounded live-provider reliability exercise after Q1–Q6 PASS.
+### V2-E — bounded live worker soak — completed, Q7 not passed
 
-The canonical runtime is `.github/workflows/content-factory-live-worker-soak.yml`, running on approved `main` and executing `src/content-factory/live-worker-soak.integration.test.ts`; it does not call the full-course pilot runner.
+The canonical runtime is:
 
-The runner retains manual `workflow_dispatch` and a narrowly scoped push trigger only when `content-factory/reliability-v2-e-live-worker-soak-request.json` changes on `main`. The push path validates that the request remains a Q7 bounded-live-worker-soak request with the US$5 ceiling, no full-course assembly and no learner publication before any provider call. Unrelated pushes do not trigger a soak.
+- `.github/workflows/content-factory-live-worker-soak.yml`;
+- `src/content-factory/live-worker-soak.integration.test.ts`.
 
-The first governed trigger exposed an implementation-only workflow-definition defect before job creation: the two inline Node checks used `run: node <<'NODE'` rather than multiline YAML `run: |` blocks. GitHub recorded run `33264051185` as failed with zero jobs. This is not Q7 reliability evidence because the provider boundary was never reached; it also consumed no provider budget. The corrective change uses valid multiline run blocks and adds regression coverage that rejects the invalid scalar form.
+The runner supports manual `workflow_dispatch` plus a narrowly scoped push trigger only when `content-factory/reliability-v2-e-live-worker-soak-request.json` changes on `main`.
 
-The current soak plan remains exactly 20 live worker samples:
+Execution history:
 
-- all five governed subject shapes;
-- two Assessment Item samples per shape (10 total);
-- two Marking Pack samples per shape (10 total);
+1. PR #240 merged the runner at `ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7`.
+2. PR #241 added the governed request-file fallback at `ef2b72bf83d31b66c15bee5480e33c21acfa580b` after GitHub did not expose the manual control.
+3. Run `33264051185` failed before job creation because inline Node heredocs were invalid YAML; it used zero provider calls and zero spend.
+4. PR #242 corrected the workflow YAML and merged at `69d7abb7d3236616b687cbed480e7584ceb69fc9`.
+5. Run `33265434110` executed the real Q7 soak and uploaded artifact `9718558827`.
+
+The governed live set was exactly 20 outputs:
+
+- all five subject shapes;
+- 10 Assessment Item samples;
+- 10 Marking Pack samples;
 - production `createOpenAIModelAssistedWorkers` compiler/validator/repair code;
-- deterministic synthetic Marking Pack inputs so Marking Pack coverage remains independent of live Assessment Item success;
-- provider transport retries disabled so a second provider call for one sample represents the production targeted-repair path;
-- provider/model, contract version, sample result, provider-call count, repair count and observed usage cost recorded per sample;
-- hard US$5 shared provider-spend ceiling;
-- no real course assembly and no learner publication.
+- transport retries disabled;
+- no full-course assembly;
+- no learner publication;
+- hard US$5 spend ceiling.
 
-The runner uploads `.artifacts/content-factory-live-worker-soak/q7-live-worker-soak-<main-sha>.json` as workflow evidence.
+Observed result:
 
-A controlled fail-closed output does not automatically mean Q7 fails. The uploaded evidence must distinguish a genuine educational rejection correctly handled by the boundary from a new generic engineering contract class. The workflow is automatically green only when all 20 samples are accepted; any controlled fail-closed output is preserved for classification before Q7 is called PASS.
+- 20 executed;
+- 13 accepted;
+- 7 controlled fail-closed;
+- 0 infrastructure incidents;
+- 0 escaped boundary exceptions;
+- 9 targeted repairs observed;
+- Assessment Item: 3/10 accepted;
+- Marking Pack: 10/10 accepted;
+- known measured cost: US$0.423906;
+- unpriced sample count: 0.
 
-Machine-readable plan: `content-factory/reliability-v2-e-live-worker-soak-plan.json`.
+The seven Assessment Item failures appeared across all five governed subject shapes and repeatedly omitted required subquestion-level `maxMark`, `requirementIds` and/or `coverageEvidence` structure. The candidates failed provider/worker schema validation before the existing validator-directed Assessment Item targeted-repair stage could run.
 
-Governed execution request: `content-factory/reliability-v2-e-live-worker-soak-request.json`.
+This is classified as:
+
+`assessment_subquestion_required_structure_omission_before_targeted_repair`
+
+It is a new generic engineering/provider-contract class, not a set of subject-specific educational findings. Under the Reliability Standard, Q7 cannot pass and the affected Q1–Q6 gates must be rerun before another soak.
 
 Technical record: `docs/technical/Content Factory Reliability v2-E Live Worker Soak.md`.
 
-### V2-F — separate Q8 eligibility transition
+Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence.json`.
 
-Only after Q1–Q7 PASS may a separate governed PR restore:
+### V2-F — Q8 eligibility transition — blocked
+
+V2-F is not yet eligible.
+
+Only after corrected Q1–Q6 PASS and a later Q7 PASS may a separate governed PR restore:
 
 - `status: qualified`;
 - `livePilotEligible: true`;
-- evidence binding to the exact v2 qualification head;
+- exact qualification evidence binding;
 - next paid run class `confirmation_pilot`.
 
 Pilot #19 must not run before that transition merges.
 
-## Maturity evidence after qualification
+## Assessment Item ownership finding
 
-A successful Pilot #19 would be confirmation evidence, not proof that routine scaling is solved.
+The Q7 defect does not mean all Assessment Item marks/references should automatically be model-owned or compiler-owned.
 
-The factory becomes mature enough for routine course production only after **three consecutive materially different real courses** reach `expert_review_ready` on their initial full factory run without an engineering/code/worker-contract correction between those course runs.
+Current production already treats governed top-level target fields differently from subquestion educational structure. When an Assessment Item policy exists, Revision omits top-level `componentId`, `questionFamilyId`, `requirementIds`, `format` and `maxMark` from the provider output contract and injects those values deterministically after provider validation.
 
-Normal educational findings, bounded infrastructure retries and course-specific educational decisions do not break this sequence. A new generic engineering contract class does and resets the sequence after correction/requalification.
+The failed values are within generated subquestions. The next Q1 review must deliberately classify each part using the v2 ownership model:
 
-If two consecutive post-v2 confirmation-course attempts still expose new generic engineering contract classes, the Reliability Standard requires an architecture review before another full-course attempt rather than continuing a paid debugging loop.
+- mechanically derivable skeleton/identity/clerical representation should move to compiler ownership where educational meaning is preserved;
+- educational allocation or evidence meaning that genuinely requires model judgement may remain generative;
+- parseable repair-eligible omissions must be able to reach complete diagnostics and the one bounded targeted repair rather than failing before repair where that can be done safely;
+- genuinely unsafe/unparseable output remains fail closed.
+
+The correction must be generic across courses and subject shapes. It must not encode wording that only makes the current synthetic fixtures pass.
+
+## Cost review after first completed v2 soak
+
+The Bootstrap Cost Strategy requires a review after the first completed v2 live-worker soak.
+
+Observed:
+
+- ceiling: US$5;
+- known measured usage: US$0.423906;
+- utilisation: 8.47812%;
+- sample coverage: complete 20/20;
+- no unpriced samples.
+
+Decision: **retain the US$5 Q7 ceiling**. No authority change is required because the evidence supports the existing guardrail rather than changing it.
 
 ## Current machine-readable state
 
-`content-factory/reliability-qualification.json` remains intentionally fail closed for full-course execution:
+`content-factory/reliability-qualification.json` remains fail closed:
 
 - `status: paused`;
-- Q1–Q6 gate status: `pass` after V2-D exact-head assurance;
-- Q7 bounded live-worker soak: `pending`;
+- Q1–Q6: `pending` after the Q7 generic contract failure;
+- Q7: `pending` / not passed;
+- `q7FailureEvidence: content-factory/reliability-v2-e-q7-live-soak-evidence.json`;
+- previous V2-D provider-free evidence retained for historical traceability;
 - `qualifiedEvidence: null`;
-- `livePilotEligible: false`;
-- trigger remains Pilot #18 workflow `33239396439` / Issue `#234`;
-- Q8 remains a separate eligibility transition after Q7.
+- `livePilotEligible: false`.
 
-V2-E therefore provides only the governed Q7 sampling runtime and execution request mechanism. It does not permit another paid full-course run.
+The full-course qualification preflight therefore continues to stop before any live course provider call.
+
+## Next corrective work
+
+The next governed PR should be implementation-focused and must not itself perform a paid Q7 run. It should:
+
+1. correct the reusable Assessment Item boundary;
+2. update Q1 ownership evidence;
+3. add the Q7 defect to Q2 as a labelled synthetic reproduction;
+4. add five-shape Q3 adversarial variants;
+5. update Q4/Q5 evidence for the corrected semantics;
+6. rerun Q6 provider-free stability;
+7. produce a new exact-head provider-free qualification record.
+
+Only after that provider-free correction is merged may a new bounded Q7 request be made.
 
 ## Documentation impact
 
-The normative Reliability v2 method remains governed by:
+No normative authority changes are required. The Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy already define the required response to this result.
 
-- `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
-- `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
+The technical harness, V2-E technical record, machine-readable qualification state, execution plan and durable Q7 evidence are updated together. Historical Pilot records and prior V2 evidence remain historically accurate and are not rewritten.
 
-The workflow-definition fix is an implementation correction only; it does not change the normative qualification method, spend ceiling, sample requirements or full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
+No learner-facing product behavior changes. `INDEX.md` does not require a new entry because this harness remains the existing indexed technical source for Content Factory reliability qualification.

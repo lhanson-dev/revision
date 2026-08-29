@@ -2,38 +2,55 @@
 
 ## Status
 
-**Runner merged on approved `main`; live execution pending.**
+**Live execution completed on approved `main`; Q7 did not pass because the soak exposed a new generic Assessment Item provider-contract class.**
 
-V2-D established provider-free Q1–Q6 PASS. V2-E implements the distinct Q7 live-provider sampling path required by `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
+V2-D established provider-free Q1–Q6 PASS before the soak. V2-E then exercised the distinct Q7 live-provider sampling path required by `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
 
-The runner merged to approved `main` in PR #240 at `ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7`. GitHub registered the workflow in the Actions UI but did not expose the expected manual `Run workflow` control. PR #241 added a narrowly scoped governed request-file push fallback and merged at `ef2b72bf83d31b66c15bee5480e33c21acfa580b`.
+The durable classified evidence is:
 
-The first fallback trigger created workflow run `33264051185`, but GitHub rejected the workflow definition before scheduling any job. The cause was invalid YAML for the two inline Node checks: they used `run: node <<'NODE'` as a plain scalar instead of a multiline `run: |` block. The run contained zero jobs, therefore made zero provider calls and incurred zero provider spend. Q7 was not executed and remains pending. The corrective implementation uses multiline run blocks and retains the same governed Q7 request and safety envelope.
+- `content-factory/reliability-v2-e-q7-live-soak-evidence.json`
 
-This work does **not** claim Q7 PASS, does not change global qualification to `qualified`, and does not enable a full-course Content Factory run.
+The completed live run was:
+
+- workflow: `Content Factory Live Worker Soak`;
+- run ID: `33265434110` / run number `16`;
+- approved `main`: `69d7abb7d3236616b687cbed480e7584ceb69fc9`;
+- artifact ID: `9718558827`;
+- provider/model: `openai` / `gpt-5.6-terra`;
+- configured ceiling: US$5;
+- known measured usage: US$0.423906;
+- full-course assembly: false;
+- learner publication: false.
+
+Q7 therefore remains unpassed. The full-course Content Factory remains paused and the separate Q8 eligibility transition is not available.
+
+## Execution history
+
+The Q7 runner merged to approved `main` in PR #240 at `ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7`.
+
+GitHub initially registered the workflow without exposing the expected manual `Run workflow` control. PR #241 added a narrowly scoped governed request-file push fallback and merged at `ef2b72bf83d31b66c15bee5480e33c21acfa580b`.
+
+The first fallback trigger created workflow run `33264051185`, but GitHub rejected the workflow definition before scheduling any job because the inline Node checks were not expressed as multiline YAML `run: |` blocks. That run contained zero jobs, made zero provider calls and incurred zero provider spend.
+
+PR #242 corrected the YAML and retriggered the same governed request. Its merge at `69d7abb7d3236616b687cbed480e7584ceb69fc9` created run `33265434110`, which executed the actual 20-sample Q7 soak and uploaded the evidence artifact.
 
 ## Canonical runtime and entry point
 
-Q7 uses the trusted GitHub Actions workflow:
+Q7 uses:
 
-- `.github/workflows/content-factory-live-worker-soak.yml`
+- `.github/workflows/content-factory-live-worker-soak.yml`;
+- `src/content-factory/live-worker-soak.integration.test.ts`.
 
-The workflow runs only on approved `main` and executes:
-
-- `src/content-factory/live-worker-soak.integration.test.ts`
-
-Supported trigger modes are:
+Supported trigger modes remain:
 
 - manual `workflow_dispatch`; and
-- a push to approved `main` that changes the dedicated governed request path `content-factory/reliability-v2-e-live-worker-soak-request.json` within the workflow's path filter.
+- a push to approved `main` that changes only the dedicated governed request path `content-factory/reliability-v2-e-live-worker-soak-request.json` within the workflow path filter.
 
-The request-file fallback exists because the GitHub Actions UI did not expose the manual control while the initial workflow definition was invalid. It does not create a broad push trigger: unrelated repository changes do not start a soak.
+The workflow is deliberately separate from `.github/workflows/content-factory-live-pilot.yml`. The full-course workflow remains fail closed unless the machine-readable reliability state is later restored to `qualified` through the separate Q8 transition.
 
-The workflow remains deliberately separate from `.github/workflows/content-factory-live-pilot.yml`. The full-course workflow keeps its existing fail-closed qualification preflight and remains unavailable while `content-factory/reliability-qualification.json` is `paused`.
+## Governed safety envelope
 
-## Governed request-file fallback
-
-For a push-triggered soak, the workflow validates the request file before any provider call. It must declare:
+For a push-triggered soak, the workflow validates before any provider call that the request declares:
 
 - gate `Q7`;
 - run class `bounded_live_worker_soak`;
@@ -42,30 +59,13 @@ For a push-triggered soak, the workflow validates the request file before any pr
 - `fullCourseAssembly: false`; and
 - `learnerPublication: false`.
 
-Any mismatch fails before the live integration case. Because the push trigger is path-scoped to this file, normal merges and unrelated `main` pushes cannot start a paid soak.
+The live run also verified before provider execution that Q1–Q6 were PASS on the then-current qualification record, Q7 was `pending`, global qualification was `paused`, `qualifiedEvidence` was null and `livePilotEligible` was false.
 
-The governed request remains `content-factory/reliability-v2-e-live-worker-soak-request.json`. The corrective PR changes only non-semantic whitespace in that file so that the same approved request is retriggered after the workflow-definition fix without changing its sample, spend or publication constraints.
+After classification of the completed soak, Q1–Q6 are intentionally reopened to `pending` so another Q7 run is blocked until the Assessment Item defect is corrected and provider-free qualification is repeated.
 
-## Q7 preflight
+## Sample design and result
 
-Before any provider call, the workflow verifies:
-
-- Q1 compiler/worker ownership inventory = PASS;
-- Q2 historical failure replay corpus = PASS;
-- Q3 adversarial provider-free subject matrix = PASS;
-- Q4 deterministic full-pipeline simulation = PASS;
-- Q5 restart/reuse/dependency invalidation = PASS;
-- Q6 repeated provider-free stability = PASS;
-- Q7 status is still `pending`;
-- global qualification remains `paused`;
-- `qualifiedEvidence` remains `null`; and
-- `livePilotEligible` remains `false`.
-
-A mismatch stops the soak before the live integration case.
-
-## Sample design
-
-The governed minimum is 20 live worker outputs across all five subject shapes. The V2-E plan uses exactly 20 independent samples:
+The governed sample set was exactly 20 independent live worker outputs across all five required subject shapes:
 
 | Subject shape | Assessment Item | Marking Pack | Total |
 | --- | ---: | ---: | ---: |
@@ -76,103 +76,105 @@ The governed minimum is 20 live worker outputs across all five subject shapes. T
 | language / prescribed text | 2 | 2 | 4 |
 | **Total** | **10** | **10** | **20** |
 
-These are the two highest-risk generative boundaries in the current reliability history. Q1 does not identify another provider boundary with a higher live-soak requirement than Assessment Item and Marking Pack generation.
+Observed outcome:
 
-Marking Pack samples use deterministic rights-safe synthetic assessment inputs rather than depending on the preceding live Assessment Item sample. That prevents one Assessment Item rejection from silently reducing Marking Pack sample coverage.
+- 20/20 planned samples executed;
+- 13 accepted;
+- 7 controlled fail-closed;
+- 0 infrastructure incidents;
+- 0 escaped engineering-boundary exceptions;
+- 9 targeted repairs observed across accepted samples;
+- Assessment Item: 3 accepted / 7 controlled fail-closed;
+- Marking Pack: 10 accepted / 0 controlled fail-closed.
 
-## Production boundary
+Marking Pack samples used deterministic rights-safe synthetic assessment inputs rather than depending on live Assessment Item success, so the 10/10 Marking Pack result is independent evidence for that worker boundary.
 
-The soak calls the same exported production worker factory used by the live Content Factory:
+## Generic Assessment Item defect classification
 
-- `createOpenAIModelAssistedWorkers().generateAssessmentItem`
-- `createOpenAIModelAssistedWorkers().generateMarkingPack`
+The seven controlled failures are classified as one reusable engineering contract class:
 
-This retains the current production layers, including:
+`assessment_subquestion_required_structure_omission_before_targeted_repair`
 
-- provider structured-output schema enforcement;
-- assessment optional-unit normalisation;
-- governed Assessment Item target-field injection;
-- structured assessment integrity validation;
-- one targeted Assessment Item repair where permitted;
-- Reliability v2 complete Marking Pack diagnostics;
-- one complete-diagnostic Marking Pack repair where permitted;
-- compiler-owned subquestion marks, aggregate AO arithmetic and numeric rubric bands;
-- whole-artifact revalidation; and
-- the shared provider-spend guard.
+Across all five governed subject shapes, live Assessment Item candidates omitted one or more required subquestion-level values:
 
-Provider transport retries are deliberately set to zero for the soak. This isolates model-contract variability from infrastructure retry behaviour and means a second provider call within one sample is attributable to the production targeted-repair path.
+- `subquestions[].maxMark`;
+- `subquestions[].requirementIds`;
+- `subquestions[].coverageEvidence` or its required locator fields.
 
-## Rights-safe synthetic inputs
+This is not the same as the compiler-owned top-level target fields. At the base provider adapter, Revision already omits top-level `componentId`, `questionFamilyId`, `requirementIds`, `format` and `maxMark` from the provider contract when a governed assessment policy exists, then injects those top-level values deterministically after provider validation.
 
-Every sample uses invented subject-shape facts and `Synthetic Reliability Board` identity. The harness does not provide awarding-body source prose, past-paper wording, prescribed-text excerpts or a real learner course.
+The failing values are subquestion-level educational structure. The current production provider schema requires them before the later structured-assessment compiler can inspect the complete item. When they are absent, the structured provider parse fails before the existing validator-directed Assessment Item repair can run.
 
-The five shapes exercise materially different demands:
+The repeated cross-shape pattern therefore demonstrates a generic provider-contract weakness rather than seven independent subject-specific educational findings.
 
-- quantitative/business/economics — contextual calculation;
-- mathematics — calculation;
-- science — analysis;
-- essay/humanities — evaluation;
-- language/prescribed text — analysis using invented micro-text concepts only.
+All ten Marking Pack samples were accepted. The soak did not expose a new generic Marking Pack contract class.
 
-These inputs are process evidence, not educational benchmark evidence.
+## Q1–Q6 requalification impact
 
-## Spend control
+Under the Reliability Qualification Standard, a new generic Q7 contract defect requires a return through the affected provider-free gates before another live soak.
 
-The workflow sets:
+The durable status therefore reopens Q1–Q6:
 
-- `CONTENT_FACTORY_MAX_SPEND_USD=5`
+- **Q1** — revisit Assessment Item ownership, especially whether any subquestion mechanical representation should move to compiler ownership and where bounded repair should begin;
+- **Q2** — add a permanent replay regression for this defect. The soak artifact did not retain the raw provider candidate, so this must be a clearly labelled synthetic reproduction rather than falsely described as exact historical output;
+- **Q3** — add omitted and simultaneous subquestion-structure mutations across all five subject shapes;
+- **Q4** — prove the corrected Assessment Item boundary through the deterministic full-pipeline simulation;
+- **Q5** — prove the Assessment Item contract/compiler semantic change invalidates only the genuine assessment and downstream dependency set;
+- **Q6** — repeat the complete corrected provider-free qualification under varied governed seeds/order.
 
-The production shared budget wrapper reserves conservative spend before every provider request. The integration harness additionally refuses any configured ceiling above US$5.
+Only after those gates pass again may another bounded Q7 live soak run.
 
-Per-sample evidence records provider/model, contract version, worker result, provider-call count, inferred targeted-repair count, provider retry count and observed usage cost where provider usage metadata is available.
+## Spend review
 
-The first completed soak must trigger the cost-strategy review required by `60-business-operations/Content Factory Bootstrap Cost Strategy.md`. Workflow-definition failures before job creation do not count as a completed soak and incur no provider spend.
+The first completed v2 live-worker soak triggers the cost review required by `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-## Evidence and classification
+Observed evidence:
 
-The workflow uploads:
+- configured ceiling: US$5;
+- known usage cost: US$0.423906;
+- unpriced sample count: 0;
+- ceiling utilisation: 8.47812%.
 
-- `.artifacts/content-factory-live-worker-soak/q7-live-worker-soak-<main-sha>.json`
+Decision: **retain the existing US$5 Q7 ceiling**. The completed 20-sample exercise was well inside the ceiling and provides no evidence that a higher limit is necessary. This is a review outcome, not a change to the normative cost authority.
 
-The evidence contains all 20 sample records plus aggregate shape, worker, repair and cost data.
+## Rights and publication position
 
-Results are classified conservatively:
+Every sample used invented subject-shape facts and `Synthetic Reliability Board` identity. The harness supplied no awarding-body source prose, past-paper wording, prescribed-text excerpts or real learner course.
 
-- `accepted` — production worker returned success;
-- `controlled_fail_closed` — production boundary safely rejected the provider output;
-- `infrastructure_incident` — provider/network/runtime incident;
-- `engineering_boundary_breach` — unexpected exception escaped the governed worker boundary.
+The run performed:
 
-A controlled fail-closed sample does not automatically mean Q7 fails. The Reliability Standard requires a classification decision: a genuine educational defect that was correctly rejected is different from a new reusable engineering contract class.
+- no full-course assembly;
+- no learner publication;
+- no educational benchmark approval;
+- no Q8 eligibility transition.
 
-For that reason, the workflow is automatically green only when all 20 samples are accepted. Any controlled fail-closed sample preserves and uploads evidence, then requires review before Q7 can be declared PASS. An infrastructure incident or escaped boundary exception also prevents a PASS claim.
+## Evidence retention
 
-## Follow-up after live execution
+The workflow artifact contained per-sample:
 
-If the soak is green with no new generic contract class:
+- subject shape;
+- worker boundary;
+- provider/model;
+- contract version;
+- provider-call count;
+- repair count;
+- retry count;
+- observed usage cost;
+- result/disposition;
+- failure diagnostics where applicable.
 
-1. inspect the exact-main evidence artifact;
-2. create a governed evidence PR that records Q7 PASS and binds it to the live-soak workflow run/head;
-3. keep `status: paused` and `livePilotEligible: false` in that Q7 evidence PR; and
-4. only then open the separate V2-F / Q8 eligibility transition.
-
-If the soak exposes a new generic contract class, return to the affected Q1–Q6 gates before another soak. Do not run a full-course confirmation pilot.
+Those sample records, the workflow/head/artifact binding, aggregate counts, cost review and classification decision are now persisted in `content-factory/reliability-v2-e-q7-live-soak-evidence.json` so the qualification evidence does not depend on the temporary GitHub artifact retention window.
 
 ## Documentation impact
 
-No normative authority changes are required. The implementation follows the existing Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy.
+No normative authority change is required. The observed failure is handled by the existing Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy.
 
-The workflow-definition correction changes only the technical execution mechanism required to initiate the already-approved Q7 exercise. It does not change the normative qualification method, spend ceiling, sample requirements or full-course eligibility. Historical Pilot #1–#18 records and V2-A–V2-D evidence remain unchanged. `INDEX.md` does not require a new entry because the existing Content Factory Reliability Qualification Harness remains the indexed technical source.
+This record and the indexed `Content Factory Reliability Qualification Harness.md` are updated because implementation/evidence state changed materially. `content-factory/reliability-qualification.json` is reset fail closed. Historical Pilot #1–#18 records and V2-A–V2-D evidence remain unchanged; V2-D remains historical evidence of the earlier provider-free PASS rather than current qualification evidence.
 
-## Deliberate exclusions
+`INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and Reliability Qualification Harness remain the canonical indexed locations.
 
-This runner does not:
+## Next work
 
-- assemble a complete course;
-- publish learner content;
-- use a real awarding-body content source as model input;
-- claim educational correctness or benchmark approval;
-- mark Q7 PASS before a live run exists;
-- change `status` to `qualified`;
-- enable Pilot #19; or
-- combine Q7 evidence recording with the separate Q8 eligibility transition.
+The next governed implementation change must correct the generic Assessment Item boundary, add the required Q2/Q3 regression evidence and rerun Q1–Q6. It must not trigger another paid Q7 soak as part of the correction PR.
+
+After corrected Q1–Q6 evidence is merged, a fresh bounded Q7 soak may be requested. Only a later Q7 PASS can lead to the separate V2-F / Q8 eligibility transition and then a full-course confirmation pilot.

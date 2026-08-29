@@ -7,11 +7,13 @@ type Qualification = {
   requiredGates: string[]
   gateStatus: Record<string, string>
   providerFreeQualificationEvidence: string
+  q7FailureEvidence?: string
   qualifiedEvidence: unknown | null
   livePilotEligible: boolean
 }
 
 type V2D = {
+  gates: Record<string, { status: string }>
   providerFreeQualificationPassed: boolean
   q7BoundedLiveSoakEligible: boolean
   q7Passed: boolean
@@ -33,14 +35,18 @@ const providerFreeGates = [
 ]
 
 describe('Reliability v2-D qualification status', () => {
-  it('records Q1-Q6 PASS while keeping Q7 and full-course eligibility fail closed', () => {
+  it('preserves the historical V2-D Q1-Q6 PASS while current qualification is reopened after Q7', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-v2-d-provider-free-qualification.json',
     )
+    expect(qualification.q7FailureEvidence).toBe(
+      'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
+    )
     for (const gate of providerFreeGates) {
       expect(qualification.requiredGates).toContain(gate)
-      expect(qualification.gateStatus[gate]).toBe('pass')
+      expect(qualification.gateStatus[gate]).toBe('pending')
+      expect(v2d.gates[gate]?.status).toBe('pass')
     }
     expect(qualification.requiredGates).toContain('Q7-bounded-live-worker-soak')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
