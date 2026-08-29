@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E-assessment-item-contract-repair",
+  "title": "Post-Q7 provider-free Reliability v2 requalification",
+  "status": "complete",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "baseMainSha": "a3de541ac85a20945b987a661411b2703bc9aa92",
+  "sourceQ7": {
+    "workflowRunId": 33265434110,
+    "mainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+    "evidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+    "classifiedDefect": "assessment_item_subquestion_structure_provider_contract"
+  },
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "liveProviderCallsUsed": false,
+  "fullCourseAssembly": false,
+  "learnerPublication": false,
+  "historicalRecordsRewritten": false,
+  "repetitionCount": 3,
+  "repetitionSeeds": [17, 73, 149],
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-d-q1-ownership-consolidation.json",
+        "content-factory/reliability-v2-e-assessment-item-contract-repair.json",
+        "src/content-factory/openai-assessment-item-contract-boundary.ts",
+        "src/content-factory/openai-assessment-integrity-compiler.ts"
+      ],
+      "assessmentItemSemanticVersion": "2+output-integrity-v3",
+      "compilerDefaultingForQ7Fields": false,
+      "repairableModelOwnedFields": [
+        "subquestions[].maxMark",
+        "subquestions[].requirementIds",
+        "subquestions[].coverageEvidence"
+      ]
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-b-historical-failure-corpus.json",
+        "content-factory/reliability-v2-e-q7-assessment-item-contract-replay.json"
+      ],
+      "historicalDefectClassCount": 19,
+      "supplementalQ7DefectClassCount": 1,
+      "combinedKnownDefectClassCount": 20
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+        "content-factory/reliability-v2-e-q7-assessment-item-adversarial-matrix.json",
+        "src/content-factory/openai-assessment-item-contract-boundary.test.ts"
+      ],
+      "subjectShapeCount": 5,
+      "historicalMutationClassCount": 12,
+      "supplementalMutationClassCount": 4,
+      "historicalMutationCasesPerRepetition": 60,
+      "supplementalMutationCasesPerRepetition": 20,
+      "combinedMutationCasesPerRepetition": 80,
+      "additionalCompleteNoRepairCases": 5,
+      "additionalFailClosedAfterRepairCases": 5
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "evidence": [
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/openai-assessment-item-contract-boundary.test.ts"
+      ],
+      "providerCallsUsed": false,
+      "note": "The existing complete deterministic pipeline remains green while the corrected Assessment Item boundary is independently exercised through repair and fail-closed paths."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "evidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/openai-assessment-item-provider-normalizer.test.ts"
+      ],
+      "currentAssessmentItemSemanticVersion": "2+output-integrity-v3",
+      "invalidatedMethods": [
+        "generateAssessmentItem",
+        "generateMarkingPack",
+        "independentReview",
+        "remediate"
+      ],
+      "preservedReusableMethods": [
+        "generateLearningCollateral",
+        "generatePracticeCollateral"
+      ],
+      "providerCallsUsed": false
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "evidence": [
+        "src/content-factory/reliability-v2-e-post-q7-provider-free-requalification.test.ts"
+      ],
+      "repetitionCount": 3,
+      "repetitionSeeds": [17, 73, 149],
+      "includesSupplementalQ7Replay": true,
+      "includesFiveShapeAssessmentItemOmissionMatrix": true,
+      "providerCallsUsed": false
+    }
+  },
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
+  "publicationSideEffect": false,
+  "nextWorkItem": "V2-E-Q7-repeat",
+  "limitations": [
+    "Provider-free qualification proves deterministic ownership, contract handling, bounded repair, fail-closed behaviour, restart/reuse semantics and repeated stability; it does not prove live external-provider educational correctness.",
+    "The first Q7 live soak remains a recorded failure and Q7 remains pending until a new bounded live-worker soak executes from approved main after this requalification is merged.",
+    "Q8 eligibility and full-course execution remain prohibited until Q7 passes and the separate eligibility transition is approved and merged."
+  ]
+}
