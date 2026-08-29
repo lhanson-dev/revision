@@ -36,16 +36,18 @@ function integrityVersion(baseVersion: string, revision: string) {
 
 // These semantic versions describe the effective worker boundary used by durable
 // reuse, including deterministic or generative post-provider integrity controls.
-// Pilot #16 initially advanced five boundaries to output-integrity-v1. Provider-
-// free requalification then exposed that the Learn script cleaner and Practice
-// phrase repair were too subject-shaped. Learn and Practice therefore advance to
-// v2 for the course-agnostic generation-guardrail contract, while the unaffected
-// Pilot #16 formula, assessment and Marking Pack controls remain on v1.
-const postPilot16IntegrityVersions = {
+// Pilot #16 advanced the Course Knowledge Model, Learn, Practice, assessment-item
+// and Marking Pack boundaries. Provider-free requalification then advanced Learn
+// and Practice to v2 for their course-agnostic generation guardrails. Pilot #17
+// exposed a generic assessment-item provider representation defect: an optional
+// data-point unit could be emitted as an empty string. Assessment-item semantics
+// therefore advance to output-integrity-v2 so pre-normalization assessment items
+// and genuine downstream dependants cannot be reused across this correction.
+const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v1'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v2'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v1'),
 } as const
 
@@ -71,7 +73,7 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['resolveStructuredEvidence', 'compileBoardAlignment'],
   },
   compileKnowledgeModel: {
-    contractVersion: postPilot16IntegrityVersions.courseKnowledgeModel,
+    contractVersion: currentIntegrityVersions.courseKnowledgeModel,
     dependsOn: ['resolveStructuredEvidence', 'compileBoardAlignment', 'compileCoverage'],
   },
   planLearningBlueprint: {
@@ -79,11 +81,11 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['compileCoverage', 'compileKnowledgeModel'],
   },
   generateLearningCollateral: {
-    contractVersion: postPilot16IntegrityVersions.learningCollateral,
+    contractVersion: currentIntegrityVersions.learningCollateral,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'planLearningBlueprint'],
   },
   generatePracticeCollateral: {
-    contractVersion: postPilot16IntegrityVersions.practiceCollateral,
+    contractVersion: currentIntegrityVersions.practiceCollateral,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'planLearningBlueprint'],
   },
   compileAssessmentBlueprint: {
@@ -95,11 +97,11 @@ export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'compileAssessmentBlueprint'],
   },
   generateAssessmentItem: {
-    contractVersion: postPilot16IntegrityVersions.assessmentItem,
+    contractVersion: currentIntegrityVersions.assessmentItem,
     dependsOn: ['compileCoverage', 'compileKnowledgeModel', 'compileAssessmentBlueprint', 'generateQuestionFamilies'],
   },
   generateMarkingPack: {
-    contractVersion: postPilot16IntegrityVersions.markingPack,
+    contractVersion: currentIntegrityVersions.markingPack,
     dependsOn: ['compileKnowledgeModel', 'compileAssessmentBlueprint', 'generateQuestionFamilies', 'generateAssessmentItem'],
   },
   independentReview: {
