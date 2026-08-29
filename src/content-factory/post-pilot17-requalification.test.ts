@@ -76,14 +76,14 @@ const qualification = JSON.parse(qualificationText) as {
   livePilotEligible: boolean
 }
 
-const historical = [
-  JSON.parse(historicalQ1Text) as { q1Pass: boolean },
-  JSON.parse(historicalQ2Text) as { q2Pass: boolean },
-  JSON.parse(historicalQ3Text) as { q3Pass: boolean },
-  JSON.parse(historicalQ4Text) as { q4Pass: boolean },
-  JSON.parse(historicalQ5Text) as { q5Pass: boolean },
-  JSON.parse(historicalQ6Text) as { q6Pass: boolean },
-]
+const historical = {
+  q1: JSON.parse(historicalQ1Text) as { status: string; q1Pass: boolean },
+  q2: JSON.parse(historicalQ2Text) as { status: string; q2Pass: boolean },
+  q3: JSON.parse(historicalQ3Text) as { status: string; q3Pass: boolean },
+  q4: JSON.parse(historicalQ4Text) as { status: string; q4Pass: boolean },
+  q5: JSON.parse(historicalQ5Text) as { status: string; q5Pass: boolean; providerCallsUsed: boolean },
+  q6: JSON.parse(historicalQ6Text) as { status: string; q6Pass: boolean; providerCallsUsed: boolean; repetitionCount: number },
+}
 
 const expectedGates = [
   'Q1-worker-contract-inventory',
@@ -145,7 +145,12 @@ describe('Content Factory post-Pilot-17 provider-free requalification', () => {
   })
 
   it('preserves historical Q1-Q6 evidence instead of rewriting it', () => {
-    expect(historical.map((record) => Object.values(record)[0])).toEqual([true, true, true, true, true, true])
+    expect(historical.q1).toMatchObject({ status: 'complete', q1Pass: true })
+    expect(historical.q2).toMatchObject({ status: 'complete', q2Pass: true })
+    expect(historical.q3).toMatchObject({ status: 'complete', q3Pass: true })
+    expect(historical.q4).toMatchObject({ status: 'complete', q4Pass: true })
+    expect(historical.q5).toMatchObject({ status: 'complete', q5Pass: true, providerCallsUsed: false })
+    expect(historical.q6).toMatchObject({ status: 'complete', q6Pass: true, providerCallsUsed: false, repetitionCount: 3 })
     for (const gate of Object.values(requalification.gates)) {
       expect(gate.currentEvidence.length).toBeGreaterThan(0)
     }
