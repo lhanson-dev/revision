@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "post_q7_assessment_item_provider_free_requalification",
+  "baseApprovedMainSha": "a3de541ac85a20945b987a661411b2703bc9aa92",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "triggerEvidence": {
+    "workflowRunId": 33265434110,
+    "workflowRunNumber": 16,
+    "failedImplementationMainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+    "durableFailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+    "defectRecord": "content-factory/reliability-q7-assessment-item-contract-defect.json"
+  },
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
+      "currentEvidence": [
+        "content-factory/reliability-q7-assessment-item-contract-defect.json",
+        "src/content-factory/openai-assessment-item-v2-compiler.ts",
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts"
+      ],
+      "ownershipExtensions": [
+        {
+          "fieldClass": "top-level governed Assessment Item target fields",
+          "fields": ["componentId", "questionFamilyId", "requirementIds", "maxMark", "format"],
+          "ownership": "deterministically_derived"
+        },
+        {
+          "fieldClass": "subquestion mark allocation",
+          "fields": ["subquestions[].maxMark"],
+          "ownership": "targeted_repair_eligible"
+        },
+        {
+          "fieldClass": "subquestion requirement and exact coverage-evidence mapping",
+          "fields": ["subquestions[].requirementIds", "subquestions[].coverageEvidence"],
+          "ownership": "targeted_repair_eligible"
+        },
+        {
+          "fieldClass": "remaining Assessment Item defect after the single repair",
+          "fields": ["subquestions[]"],
+          "ownership": "fail_closed"
+        }
+      ]
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "historicalBaseEvidence": "content-factory/reliability-v2-b-historical-failure-corpus.json",
+      "appendOnlyCurrentEvidence": "content-factory/reliability-q7-assessment-item-contract-defect.json",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+        "src/content-factory/q7-assessment-item-requalification.test.ts"
+      ],
+      "expectedDisposition": "The synthetic reproduction of the Q7 omission class reaches a complete three-field diagnostic set, receives at most one repair, and is then either fully compiled/revalidated or rejected fail closed."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-requalification.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts"
+      ],
+      "mutations": [
+        "single missing subquestion maxMark",
+        "single missing subquestion requirementIds",
+        "single missing subquestion coverageEvidence",
+        "simultaneous omission of all three fields",
+        "simultaneous omissions across multiple subquestions",
+        "valid repaired output",
+        "repair remains invalid and fails closed"
+      ]
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-requalification.test.ts",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts"
+      ],
+      "correctedBoundaryAssertion": "A repaired synthetic Assessment Item compiles through the corrected strict boundary and composes with the provider-free deterministic pipeline that reaches expert_review_ready without publication."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q7-assessment-item-requalification.test.ts"
+      ],
+      "currentSemanticVersions": {
+        "generateAssessmentItem": "2+output-integrity-v3"
+      },
+      "invalidationRule": "The Q7 correction invalidates Assessment Item outputs and genuine downstream dependants including Marking Pack/review closure; Learn and Practice remain reusable because they are not in the Assessment Item dependency closure."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "repetitionCount": 3,
+      "subjectShapeProbeRuns": 15,
+      "deterministicPipelineRuns": 3,
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-requalification.test.ts",
+        "src/content-factory/q6-repeated-qualification-fixture.ts"
+      ]
+    }
+  },
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
+  "limitations": [
+    "Provider-free requalification proves contract/process behaviour, not live external-provider behaviour or educational correctness.",
+    "Q7 remains pending; a separate governed bounded live-worker soak must run on approved main after this requalification is merged.",
+    "The Content Factory remains paused and livePilotEligible remains false.",
+    "This record does not authorize Q8, a full-course pilot, assembly or learner publication."
+  ],
+  "historicalRecordsRewritten": false,
+  "publicationSideEffect": false,
+  "nextWorkItem": "Q7-bounded-live-worker-soak"
+}

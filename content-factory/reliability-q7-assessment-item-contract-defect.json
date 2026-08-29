@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "recordType": "append_only_generic_contract_defect",
+  "status": "retained_regression_evidence",
+  "id": "q7-assessment-item-subquestion-structure-omission",
+  "source": {
+    "workflowRunId": 33265434110,
+    "workflowRunNumber": 16,
+    "approvedMainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+    "durableQ7Evidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json"
+  },
+  "classification": "generic_engineering_provider_contract_class",
+  "worker": "assessment_item_generation",
+  "observedPattern": {
+    "executedAssessmentItemSamples": 10,
+    "acceptedAssessmentItemSamples": 3,
+    "controlledFailClosedAssessmentItemSamples": 7,
+    "subjectShapesAffected": [
+      "quantitative_business_economics",
+      "mathematics",
+      "science",
+      "essay_humanities",
+      "language_prescribed_text"
+    ],
+    "repeatedMissingFields": [
+      "subquestions[].maxMark",
+      "subquestions[].requirementIds",
+      "subquestions[].coverageEvidence"
+    ],
+    "infrastructureIncidents": 0,
+    "escapedBoundaryExceptions": 0
+  },
+  "evidenceKind": "synthetic_reproduction",
+  "syntheticBasis": "The durable Q7 evidence records the repeated field-level failure family and cross-subject occurrence but does not retain provider response bodies as repository fixtures. The executable regression therefore reproduces the observed omission class synthetically without claiming verbatim historical provider output.",
+  "ownershipDecision": {
+    "topLevelGovernedTargetFields": {
+      "fields": ["componentId", "questionFamilyId", "requirementIds", "maxMark", "format"],
+      "ownership": "deterministically_derived",
+      "reason": "These values are governed by the selected target policy and can be injected without changing educational meaning."
+    },
+    "subquestionMarkAllocation": {
+      "fields": ["subquestions[].maxMark"],
+      "ownership": "targeted_repair_eligible",
+      "reason": "Distribution of marks across individual tasks carries educational assessment judgement and cannot be safely invented by the compiler. A parseable omission may receive one validator-directed repair before fail-closed validation."
+    },
+    "subquestionRequirementAndEvidenceMapping": {
+      "fields": ["subquestions[].requirementIds", "subquestions[].coverageEvidence"],
+      "ownership": "targeted_repair_eligible",
+      "reason": "Mapping governed requirements to the exact learner-facing task and evidence excerpt carries educational meaning. Revision validates it deterministically but does not fabricate the mapping."
+    },
+    "postRepairDisposition": {
+      "ownership": "fail_closed",
+      "reason": "After the single permitted repair, any remaining omission or structural/semantic mismatch blocks the worker output."
+    }
+  },
+  "expectedDisposition": "bounded_repaired_then_revalidated_or_fail_closed",
+  "replayTests": [
+    "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+    "src/content-factory/q7-assessment-item-requalification.test.ts"
+  ],
+  "historicalRecordsRewritten": false,
+  "paidProviderCallsRequiredForReplay": false
+}

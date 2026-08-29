@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 exposed the generic Marking Pack reliability weakness that triggered Reliability v2 complete-diagnostic validation and provider-free requalification. The subsequent Reliability v2 Q7 live-worker soak run 33265434110 on approved main 69d7abb7d3236616b687cbed480e7584ceb69fc9 exposed a new generic Assessment Item provider-contract class: seven of ten live Assessment Item samples omitted required subquestion-level maxMark, requirementIds and/or coverageEvidence before the existing targeted-repair boundary could run. All ten Marking Pack samples were accepted. Under the Reliability Qualification Standard, the affected Q1-Q6 gates must be requalified before another Q7 soak; the full-course pilot remains paused and Q8 is not eligible.",
+  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first Q7 live-worker soak run 33265434110 on approved main 69d7abb7d3236616b687cbed480e7584ceb69fc9 then exposed the generic Assessment Item provider-contract class assessment_subquestion_required_structure_omission_before_targeted_repair. That reusable boundary has now been corrected and Q1-Q6 have been requalified provider-free across the governed subject-shape, deterministic-pipeline, dependency-invalidation and repeated-stability evidence. Q7 remains pending and must be rerun as a separate bounded live-worker soak on approved main before any Q8 eligibility transition. Full-course execution remains paused and livePilotEligible remains false.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -20,15 +20,15 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pending",
-    "Q2-historical-failure-replay-corpus": "pending",
-    "Q3-adversarial-provider-free-subject-matrix": "pending",
-    "Q4-deterministic-full-pipeline-simulation": "pending",
-    "Q5-restart-reuse-dependency-invalidation": "pending",
-    "Q6-repeated-provider-free-stability": "pending",
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
     "Q7-bounded-live-worker-soak": "pending"
   },
-  "providerFreeQualificationEvidence": "content-factory/reliability-v2-d-provider-free-qualification.json",
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-q7-assessment-item-requalification.json",
   "qualifiedEvidence": null,
   "livePilotEligible": false
 }
