@@ -2,13 +2,24 @@
 
 ## Status
 
-The Content Factory reliability gate is **paused after Confirmation Pilot #17**.
+The Content Factory reliability gate remains **paused after Confirmation Pilot #17**, while the corrected assessment-item boundary has now been put through a fresh provider-free Q1–Q6 requalification.
 
-The post-Pilot-16 provider-free Q1–Q6 requalification and separate Q7 status transition correctly made approved `main` `f9a9cde3e98faca3b1e17b5d575d4282677f06cc` eligible for a fresh confirmation pilot. Confirmation Pilot #17 then ran as workflow `33221401966` with durable job Issue `#230`.
+The sequence is:
 
-The qualification preflight passed. The paid pipeline progressed through source/alignment work, all Learn/Practice work units, Assessment Blueprint generation, Question Family generation and one successful assessment item. A later assessment-item provider response supplied an optional `context.dataPoints[0].unit` as an empty string. The strict assessment-item contract requires an optional unit either to be omitted or, when present, to contain a non-empty value. The worker therefore failed closed during `generating` before independent educational review.
+1. post-Pilot-16 Q1–Q6 requalification and a separate Q7 transition made approved `main` `f9a9cde3e98faca3b1e17b5d575d4282677f06cc` eligible for Confirmation Pilot #17;
+2. Pilot #17 ran as workflow `33221401966` with durable job Issue `#230` and failed closed during assessment-item generation because an optional `context.dataPoints[0].unit` was supplied as an empty string;
+3. PR #231 corrected the generic assessment-item provider boundary and merged as approved `main` `d5fe9e8bc2eee82f0236711361739abe129e782a`;
+4. because that correction changed a previously qualified contract boundary, paid execution was deliberately returned to `paused`;
+5. `content-factory/reliability-post-pilot17-requalification.json` now records the fresh provider-free Q1–Q6 evidence for that corrected implementation;
+6. the global `content-factory/reliability-qualification.json` remains paused and must not be changed to `qualified` in the same requalification change.
 
-Pilot #17 evidence records:
+A further paid confirmation pilot is not eligible until a **separate governed Q7-style status transition** is exact-head assured, explicitly Founder-approved and merged.
+
+The governing authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md`. No normative rule is changed by this technical requalification.
+
+## Pilot #17 historical evidence
+
+Pilot #17 remains historical evidence and is not rewritten:
 
 - approved content head: `f9a9cde3e98faca3b1e17b5d575d4282677f06cc`;
 - workflow run: `33221401966` / run number `17`;
@@ -21,93 +32,91 @@ Pilot #17 evidence records:
 - human interventions: `0`;
 - executed workers: `37`;
 - reused workers: `0`;
-- no independent-review, expert-review or publication stage was reached.
+- independent educational review was not reached;
+- nothing was published.
 
-This is not an educational `fail_hold` like Pilot #16 and it is not an infrastructure/provider-availability failure. It is a generic provider-representation contract defect. The historical Pilot #17 run, workflow evidence and Issue #230 remain unchanged.
+This was a generic provider-representation contract defect, not an educational `fail_hold` and not an infrastructure/provider-availability incident.
 
-The current remediation deliberately returns `content-factory/reliability-qualification.json` to:
+## Corrected provider boundary
 
-- `status: paused`;
-- `qualifiedEvidence: null`;
-- `livePilotEligible: false`.
-
-A further paid pilot must not run until the corrected assessment-item boundary has passed provider-free requalification and a separate governed Q7-style status transition restores eligibility.
-
-The governing standard is unchanged. This document records current implementation and qualification evidence; it does not replace `80-company-workflows/Content Factory Reliability Qualification Standard.md`.
-
-## Pilot #17 correction
-
-The defect is narrower than the assessment-item educational contract itself. `context.dataPoints[].unit` is already optional. A unitless quantity is therefore valid, but a provider may encode the absence of a unit either by omitting the field or, as Pilot #17 demonstrated, by returning an empty/whitespace-only string.
-
-The corrected live provider boundary now applies one deterministic normalization before the existing strict domain schema consumes assessment-item output:
+The assessment-item schema already defines `context.dataPoints[].unit` as optional. The corrected live provider boundary therefore treats a semantically empty optional representation as absence rather than educational content:
 
 - `unit: ""` → omit `unit`;
 - whitespace-only `unit` → omit `unit`;
-- non-empty units such as `%`, `£`, `kg` or `£000` → preserve exactly;
-- non-string unit values → unchanged and therefore rejected by the existing schema;
-- required data-point `label` and `value` fields → unchanged and still fail closed when blank;
-- all other assessment-item fields → unchanged.
+- omitted `unit` → remain omitted;
+- non-empty units such as `%`, `£`, `kg` and `£000` → preserve exactly;
+- non-string `unit` values → leave untouched so the strict schema rejects them;
+- blank required `label` or `value` → leave untouched so the strict schema rejects them;
+- all other assessment-item content → unchanged.
 
-This is classified as **deterministically derived normalization** of an optional mechanical representation. It does not alter educational meaning and does not justify an extra provider call.
+This correction is **deterministically derived normalization** of an optional mechanical representation. It does not invent educational meaning and does not justify another provider call.
 
-The normalization is scoped to the `content-factory.assessment-item` structured-output request rather than to every provider response. Other worker contracts retain their existing behavior.
+The normalizer is scoped to the assessment-item structured-output request. Other Content Factory worker responses are not passed through this rule.
 
 ## Durable dependency semantics
 
-Pilot #17 changes the effective assessment-item worker boundary, so `generateAssessmentItem` advances from:
+The changed worker boundary advances:
 
-`2+output-integrity-v1`
+`generateAssessmentItem: 2+output-integrity-v1 → 2+output-integrity-v2`
 
-to:
+The dependency-aware cache therefore treats pre-v2 assessment-item executions as incompatible with the corrected boundary. Genuine downstream dependants such as Marking Pack generation and independent review are invalidated, while unrelated Learn and Practice outputs remain reusable where their dependency closure is unchanged.
 
-`2+output-integrity-v2`
-
-The existing dependency graph then invalidates genuine downstream dependants, including Marking Pack generation and independent review, while preserving unrelated compatible stages such as identity, source discovery, Course Knowledge Model, Learn and Practice when their own dependency fingerprints remain unchanged.
-
-Issue #230 is a historical blocked confirmation-pilot job and is not treated as resumable by the live runner. Provider-contract failures are deliberately excluded from the operational/infrastructure resume path. A future paid confirmation run must therefore be a fresh governed job after requalification.
+Issue #230 remains a blocked historical job. Provider-contract failures are not part of the operational/infrastructure resume path, so it is not resumed under the corrected implementation.
 
 ## Qualification evidence model
 
-Historical qualification evidence is not rewritten.
+Historical evidence is layered rather than rewritten:
 
-The evidence layers remain:
+- `content-factory/reliability-contract-inventory.json` through `content-factory/reliability-q6-repeated-stability.json` remain the original Q1–Q6 qualification records;
+- `content-factory/reliability-post-pilot16-requalification.json` remains the provider-free evidence for the implementation that enabled Pilot #17;
+- Pilot #16 workflow/Issue #226 remains historical educational `fail_hold` evidence;
+- Pilot #17 workflow `33221401966` / Issue #230 remains historical provider-contract failure evidence;
+- `content-factory/reliability-post-pilot17-requalification.json` is the current provider-free Q1–Q6 overlay for corrected approved `main` `d5fe9e8bc2eee82f0236711361739abe129e782a`;
+- `content-factory/reliability-qualification.json` remains the current global paid-pilot eligibility record consumed by the live preflight.
 
-- original Q1–Q6 qualification records: historical evidence for the first qualified implementation;
-- `content-factory/reliability-post-pilot16-requalification.json`: historical provider-free evidence for the implementation that enabled Pilot #17;
-- Pilot #16 workflow/Issue #226: historical educational `fail_hold` evidence;
-- Pilot #17 workflow `33221401966` / Issue #230: historical provider-contract failure evidence;
-- `content-factory/reliability-qualification.json`: current global paid-pilot eligibility consumed by the live-pilot preflight.
+The post-Pilot-17 requalification record deliberately contains:
 
-The current global record is paused because the implementation being corrected is no longer identical to the implementation proven by the post-Pilot-16 Q1–Q6 evidence.
+- `providerCallsUsed: false`;
+- `paidPilotEligible: false`;
+- `globalQualificationRequiredState: paused`.
+
+Passing Q1–Q6 therefore proves reliability evidence only. It does not itself authorize external model spend.
 
 ## Q1 — worker-contract inventory
 
-The existing historical inventory remains intact. The next provider-free requalification must explicitly layer the Pilot #17 ownership rule onto the assessment-item boundary:
+The post-Pilot-17 overlay classifies the changed assessment-item fields using the governed ownership vocabulary:
 
-- optional `context.dataPoints[].unit` absence representation → **deterministically derived normalization**;
-- non-empty unit content → preserved provider-authored structured context;
-- required `context.dataPoints[].label` and `.value` → **fail closed** when structurally invalid;
-- assessment-item educational wording, context and question design → **generative judgement** subject to the existing assessment-integrity and educational-assurance gates.
+- optional `context.dataPoints[].unit` absence representation → **deterministically derived**;
+- non-empty unit content → **generative judgement**, preserved as provider-authored structured context;
+- required data-point `label` and `value` validity → **fail closed** when structurally invalid.
 
-No Business-specific rule is introduced.
+No Business-specific or quantitative-course-specific exception is introduced.
+
+Primary executable evidence:
+
+- `src/content-factory/openai-assessment-item-provider-normalizer.ts`;
+- `src/content-factory/openai-assessment-item-provider-normalizer.test.ts`;
+- `src/content-factory/durable-worker-dependencies.ts`;
+- `src/content-factory/post-pilot17-requalification.test.ts`.
 
 ## Q2 — provider-free contract matrix
 
-Provider-free regressions for the corrected boundary must prove at minimum:
+The corrected boundary is challenged provider-free for:
 
-- an omitted optional unit remains valid;
-- empty and whitespace-only optional units normalize to absence;
-- legitimate non-empty units including `%`, `£`, `kg` and composite display units remain unchanged;
-- a blank required data-point value still fails closed;
-- non-string invalid units still fail closed under the existing schema;
-- normalization causes no second provider call;
-- governed assessment target fields continue to be injected deterministically and remain outside provider authorship.
+- omitted optional units;
+- empty optional units;
+- whitespace-only optional units;
+- legitimate `%`, `£`, `kg` and composite display units;
+- blank required values;
+- invalid non-string units;
+- valid first-pass output with no extra provider call;
+- continued deterministic injection of governed assessment target fields outside provider authorship.
 
-These tests use synthetic/generic assessment content and do not claim Business-specific educational approval.
+The strict assessment schema remains the authority for genuinely invalid output. Normalization is not a general repair mechanism.
 
 ## Q3 — subject-shape matrix
 
-The five required course shapes remain:
+The same five governed course shapes remain required:
 
 - quantitative/business/economics;
 - mathematics;
@@ -115,68 +124,86 @@ The five required course shapes remain:
 - essay/humanities;
 - language/prescribed-text.
 
-The next requalification must ensure the optional-unit normalization does not assume that all assessment contexts are quantitative or require units. In particular, unitless data and context-free assessment items must continue to pass without fabricated metadata.
+All five continue through the shared provider-free contract-integration pipeline to `expert_review_ready`.
 
-Synthetic fixtures prove process compatibility only. They do not constitute factual, pedagogical or awarding-body approval.
+The post-Pilot-17 overlay additionally probes the optional-unit boundary with materially different representations:
+
+- quantitative data with a semantically empty optional unit;
+- a science measurement with a legitimate unit;
+- context-free mathematics with no context object;
+- humanities and language/text contexts with no fabricated unit metadata.
+
+This proves process compatibility only. It does not constitute factual, pedagogical or awarding-body approval.
 
 ## Q4 — deterministic pipeline simulation
 
-The provider-free full-pipeline simulation must continue to traverse:
+The existing full provider-free simulation continues to traverse:
 
 `requested → identified → sourced → mapped → generating → validating → independent_review → remediation when applicable → expert_review_ready`
 
-without paid provider calls.
+with no external provider calls and no publication side effect.
 
-The corrected simulation must include at least one assessment-item response carrying a semantically empty optional unit and prove that the deterministic boundary normalizes it without weakening later assessment validation or publication controls.
+The post-Pilot-17 requalification composes that simulation with the corrected assessment boundary by first passing a synthetic assessment response carrying an empty optional unit through `normaliseAssessmentItemOptionalUnits` and the same strict assessment-item worker schema. The resulting normalized item is valid without weakening downstream validation, after which the full deterministic pipeline still reaches `expert_review_ready`.
 
 ## Q5 — restart, reuse and dependency-aware invalidation
 
-Semantic worker-cache compatibility continues to use:
+Qualification continues to use:
 
 `method + exact input fingerprint + transitive worker-contract dependency fingerprint`
 
 rather than Git head alone.
 
-The next requalification must prove that `generateAssessmentItem` `output-integrity-v2` invalidates assessment items and genuine downstream dependants while unrelated Learn/Practice artifacts remain reusable where their dependency closure is unchanged. Spend and retry provenance must remain truthful after reuse.
+The current evidence proves:
+
+- `generateAssessmentItem` now uses `2+output-integrity-v2`;
+- the assessment-item dependency closure does not acquire unrelated Learn or Practice dependencies;
+- Marking Pack and independent review do depend on assessment-item output and therefore invalidate when that semantic boundary changes;
+- unchanged compatible work remains reusable;
+- the existing Q5 durable-resume suite continues to prove truthful spend/retry provenance after reuse.
 
 ## Q6 — repeated qualification stability
 
-A single unit regression is not sufficient to restore qualification. The applicable provider-free qualification suites must pass repeatedly against the corrected assessment-item semantic boundary, including the five subject shapes, deterministic pipeline simulation and restart/reuse scenarios required by the Reliability Qualification Standard.
+The governed repetition count remains **3**.
 
-The technical requalification record must state the exact approved implementation head, repetition count and evidence. Provider calls must remain zero during requalification.
+The current Q6 suite repeats:
+
+- five subject-shape pipelines per repetition → `15` subject-shape pipeline runs;
+- one deterministic full-pipeline simulation per repetition → `3` deterministic pipeline runs;
+- one complete restart/reuse scenario set per repetition → `3` restart/reuse scenario sets.
+
+The post-Pilot-17 boundary regressions are part of the same exact-head unit/qualification suite. All requalification evidence is provider-free.
+
+A single successful live-provider response is not used as reliability qualification evidence.
 
 ## Q7 — paid confirmation eligibility
 
-Pilot #17 demonstrated that the post-Pilot-16 Q7 transition was correctly enforced: the live workflow passed its qualification preflight only after the prior evidence and Founder-approved status transition were on approved `main`.
+Q7 remains deliberately separate.
 
-Pilot #17 also exposed a new generic contract class. The current remediation therefore re-pauses Q7 eligibility. The live-pilot workflow remains fail closed:
+The live-pilot execution sequence remains:
 
 `workflow_dispatch → checkout/install → reliability qualification preflight → only if qualified: paid live pilot`
 
-There is no workflow input or environment-variable bypass. While the global status is paused, a newly dispatched paid pilot must fail before external model calls.
+While `content-factory/reliability-qualification.json` is `paused`, a new live pilot must fail before external model calls. There is no workflow-input or environment-variable bypass.
 
-Restoring paid eligibility again requires:
+Restoring paid eligibility requires, in order:
 
-1. corrected implementation merged to approved `main`;
-2. provider-free requalification of the corrected boundary and its affected Q1–Q6 evidence;
-3. a separate governed Q7-style status transition with exact-head assurance and explicit Founder merge approval;
-4. only then, a fresh paid confirmation pilot.
+1. corrected implementation on approved `main`;
+2. provider-free Q1–Q6 requalification on the corrected implementation;
+3. this requalification evidence merged to approved `main`;
+4. a separate governed Q7-style status PR changing the global record to `qualified` / `livePilotEligible: true` only when the approved evidence supports it;
+5. exact-head assurance and explicit Founder approval for that status PR;
+6. only then, a fresh paid confirmation pilot.
 
-Any future confirmation pilot remains subject to source-rights, the US$20 per-course ceiling, deterministic validation, independent educational review, expert/human review authority, the Content Accuracy Assurance Gate and publication governance.
-
-Reliability qualification does not constitute educational correctness, awarding-body endorsement or publication approval.
+Reliability qualification is not educational correctness, publication approval or awarding-body endorsement. Any future confirmation pilot remains subject to source rights, the US$20 course ceiling, deterministic validation, independent educational review, expert/human review authority, the Content Accuracy Assurance Gate and publication governance.
 
 ## Documentation impact
 
-This Pilot #17 remediation updates:
+This requalification change updates current implementation evidence only:
 
-- the live OpenAI compatibility boundary to normalize semantically empty optional assessment-item units;
-- provider-free assessment-item regression coverage;
-- assessment-item durable dependency semantics;
-- `content-factory/reliability-qualification.json` to re-pause paid execution;
-- `src/content-factory/q7-qualification-status.test.ts` to prove the fail-closed pause;
-- this indexed technical qualification record.
+- adds `content-factory/reliability-post-pilot17-requalification.json`;
+- adds `src/content-factory/post-pilot17-requalification.test.ts`;
+- updates this indexed technical qualification record.
 
-No normative authority change is required. The active Reliability Qualification Standard already requires generic contract correction, provider-free requalification after a defect and a separate governed Q7 transition before renewed paid eligibility.
+It does **not** alter the active Reliability Qualification Standard, product behavior, educational authority or historical Pilot #10–#17 evidence.
 
-No `INDEX.md` change is required because this file is already the indexed implementation source for Content Factory reliability qualification. Historical Pilot #10–#17 evidence and prior qualification records remain historical evidence and are not rewritten.
+No `INDEX.md` update is required because this file is already the indexed technical source for the Content Factory reliability qualification harness.
