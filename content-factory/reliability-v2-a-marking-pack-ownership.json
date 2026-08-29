@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "status": "implemented_pending_same_head_assurance",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "baseMainSha": "bf45c1264540702586eacbc551f962438ee554de",
+  "workItem": "V2-A",
+  "scope": "marking_pack_generation",
+  "pilotTrigger": "Pilot #18",
+  "implementationRefs": [
+    "src/content-factory/openai-marking-pack-v2-compiler.ts",
+    "src/content-factory/openai-shared-provider-budget.ts",
+    "src/content-factory/openai-live-adapter.ts",
+    "src/content-factory/durable-worker-dependencies.ts",
+    "src/content-factory/openai-marking-pack-v2-compiler.test.ts"
+  ],
+  "providerBoundary": {
+    "educationalJudgementOnly": true,
+    "structuredProviderFields": [
+      "subquestionGuidance[].subquestionId",
+      "subquestionGuidance[].rewardedDemands",
+      "subquestionGuidance[].assessmentObjectiveAllocation",
+      "subquestionGuidance[].answerRequirements",
+      "rubricGuidance[].subquestionId",
+      "rubricGuidance[].levels[].descriptor",
+      "applicationRequirements",
+      "analysisRequirements",
+      "evaluationRequirements",
+      "validReasoningRoutes",
+      "indicativeContent",
+      "misconceptions",
+      "diagnosticFeedbackRules",
+      "improvementActions",
+      "ambiguityPolicy",
+      "confidencePolicy"
+    ],
+    "compilerOwnedFieldsExcludedFromStructuredProviderSchema": [
+      "subquestionGuidance[].maxMark",
+      "assessmentObjectiveAllocation",
+      "rubric[].id",
+      "rubric[].minMark",
+      "rubric[].maxMark"
+    ]
+  },
+  "ownership": [
+    {
+      "fieldClass": "subquestion guidance target reference",
+      "fieldPatterns": ["subquestionGuidance[].subquestionId"],
+      "ownership": "bounded_locator_reference",
+      "rule": "Provider links educational guidance to an existing subquestion ID; Revision rejects missing, duplicate or unknown targets."
+    },
+    {
+      "fieldClass": "subquestion maximum mark",
+      "fieldPatterns": ["subquestionGuidance[].maxMark"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision injects the validated assessment subquestion maxMark; the structured provider schema does not expose the field."
+    },
+    {
+      "fieldClass": "subquestion AO distribution and answer requirements",
+      "fieldPatterns": ["subquestionGuidance[].assessmentObjectiveAllocation", "subquestionGuidance[].answerRequirements", "subquestionGuidance[].rewardedDemands"],
+      "ownership": "generative_judgement",
+      "rule": "Educational allocation and marking meaning remain provider-authored but are validated against asked demands, available objectives and exact subquestion mark totals."
+    },
+    {
+      "fieldClass": "structured aggregate assessment-objective totals",
+      "fieldPatterns": ["assessmentObjectiveAllocation"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision sums validated subquestion AO allocations; structured provider output cannot contain aggregate AO arithmetic."
+    },
+    {
+      "fieldClass": "rubric educational quality meaning",
+      "fieldPatterns": ["rubricGuidance[].subquestionId", "rubricGuidance[].levels[].descriptor"],
+      "ownership": "generative_judgement",
+      "rule": "Provider supplies ordered subject-specific quality descriptions linked to the governed rubric scope."
+    },
+    {
+      "fieldClass": "rubric identity and numeric mark bands",
+      "fieldPatterns": ["rubric[].id", "rubric[].minMark", "rubric[].maxMark"],
+      "ownership": "deterministically_derived",
+      "rule": "Revision compiles stable IDs and contiguous integer bands across 0..maxMark from validated ordered educational levels."
+    },
+    {
+      "fieldClass": "complete Marking Pack semantic diagnostics",
+      "fieldPatterns": ["subquestionGuidance", "rubricGuidance", "applicationRequirements", "analysisRequirements", "evaluationRequirements"],
+      "ownership": "targeted_repair_eligible",
+      "rule": "Revision inspects the entire parseable candidate, sends the complete actionable defect set in one bounded repair, then revalidates the whole candidate and fails closed on any remaining defect."
+    }
+  ],
+  "legacyInventoryDisposition": {
+    "path": "content-factory/reliability-contract-inventory.json",
+    "statusForThisBoundary": "pre_reliability_v2_evidence",
+    "rule": "The legacy Q1 inventory remains evidence of the earlier qualification state but its Marking Pack rubric-range ownership must not be treated as current Reliability v2 Q1 evidence after this change. V2 Q1 must consolidate the current boundary on one implementation head."
+  },
+  "qualificationEffect": {
+    "v2AImplemented": true,
+    "q1Passed": false,
+    "overallReliabilityV2Passed": false,
+    "nextEvidence": "same-head provider-free contract, historical-corpus and adversarial qualification"
+  }
+}
