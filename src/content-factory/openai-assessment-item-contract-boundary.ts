@@ -32,10 +32,6 @@ export const assessmentItemRepairCandidateProviderSchema = assessmentItemWorkerO
   format: true,
   maxMark: true,
 }).extend({
-  subquestions: assessmentItemWorkerOutputSchema.shape.subquestions.unwrap().element
-    ? assessmentItemWorkerOutputSchema.shape.subquestions
-    : assessmentItemWorkerOutputSchema.shape.subquestions,
-}).extend({
   subquestions: assessmentItemRepairCandidateSubquestionSchema.array().default([]),
 })
 
