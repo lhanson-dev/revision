@@ -232,10 +232,15 @@ test('new Student completes first-use journey through useful revision and meanin
   await expect(page.getByText('Starting check', { exact: true })).toBeVisible()
 
   for (let index = 0; index < 5; index += 1) {
+    const prompt = page.locator('#starting-check-heading')
+    const currentPrompt = await prompt.textContent()
     const options = page.locator('.first-use-options input[type="radio"]')
     await expect(options.first()).toBeVisible()
     await options.first().check()
-    await page.getByRole('button', { name: index === 4 ? 'See my starting point' : 'Continue' }).click()
+    const action = page.getByRole('button', { name: index === 4 ? 'See my starting point' : 'Continue' })
+    await expect(action).toBeEnabled()
+    await action.click()
+    if (index < 4 && currentPrompt) await expect(prompt).not.toHaveText(currentPrompt)
   }
 
   await expect(page.getByText('REV recommends', { exact: true })).toBeVisible()
