@@ -4,14 +4,14 @@ document_id: "revision-content-factory-bootstrap-cost-strategy"
 document_type: "domain-authority"
 authority: "business-operations"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
 effective_date: "2026-08-26"
-last_reviewed: "2026-08-26"
+last_reviewed: "2026-08-29"
 review_cadence: "after each live course pilot until stable, then quarterly"
 content_review_status: "founder-directed"
-source_of_truth_for: ["Content Factory bootstrap cost strategy", "course-production AI spend guardrails", "quality-first cost optimisation order", "initial live-pilot budget assumptions"]
-depends_on: ["Educational Content Source Licensing and Provenance Standard", "Content Factory v2 Expert Review Ready Amendment", "AI Cost and Allowance Policy", "AI Agent Constitution"]
+source_of_truth_for: ["Content Factory bootstrap cost strategy", "course-production AI spend guardrails", "quality-first cost optimisation order", "initial live-pilot budget assumptions", "reliability live-worker-soak spend guardrail"]
+depends_on: ["Educational Content Source Licensing and Provenance Standard", "Content Factory v2 Expert Review Ready Amendment", "Content Factory Reliability Qualification Standard", "AI Cost and Allowance Policy", "AI Agent Constitution"]
 supersedes: null
 ---
 # Content Factory Bootstrap Cost Strategy
@@ -79,6 +79,19 @@ These values are **initial operating guardrails for the live-pilot/calibration p
 
 The first real courses must replace these estimates with observed evidence. If high-quality, fully assured output regularly needs more than US$20, Revision should review architecture/model routing and then make a deliberate budget decision rather than degrading quality.
 
+### Reliability live-worker-soak ceiling
+
+The Reliability Qualification Standard v2 introduces a bounded live-provider worker soak before another full-course confirmation pilot.
+
+- Initial hard ceiling for one complete reliability live-worker soak: **US$5**.
+- The soak counts against the same US$50 monthly API working envelope.
+- It is not a course-production run and must not assemble or publish a learner course.
+- Spend should be concentrated on the highest-risk worker boundaries identified by the reliability ownership inventory, with multiple independent samples rather than one expensive end-to-end execution.
+- The soak runner must stop before deliberately starting another model call if its conservative spend guard indicates the US$5 ceiling could be breached.
+- A failed soak is reliability evidence; it is not a reason to raise the ceiling automatically.
+
+The US$5 ceiling may be reviewed after the first v2 soak using observed per-worker cost and sample coverage. Any material increase must be deliberate and must not be used as a substitute for moving mechanically provable work into deterministic/compiler ownership.
+
 ### Founder/family product testing allowance
 
 Once learner-facing AI/REV calls are enabled for controlled product testing:
@@ -101,30 +114,32 @@ The factory should reduce expert effort by delivering a complete, exact-version,
 Founder assurance should distinguish at least:
 
 1. content-production model/provider cost;
-2. qualified expert-review cost;
-3. learner-facing AI/REV inference cost;
-4. deterministic application/infrastructure cost; and
-5. other operating costs such as hosting, payments and support.
+2. reliability live-worker-soak cost;
+3. qualified expert-review cost;
+4. learner-facing AI/REV inference cost;
+5. deterministic application/infrastructure cost; and
+6. other operating costs such as hosting, payments and support.
 
-Do not make Content Factory economics look healthy by mixing one category into another or by using learner AI envelopes to hide content-production spend.
+Do not make Content Factory economics look healthy by mixing one category into another or by using learner AI envelopes to hide content-production or reliability-calibration spend.
 
-## Live-pilot evidence requirement
+## Live reliability evidence requirement
 
-For every material live Content Factory pilot, retain where available:
+For every material live Content Factory pilot **or reliability worker soak**, retain where available:
 
-- exact course and course version;
+- exact course/version when a real course is involved, or synthetic subject-shape/worker identity for a soak;
 - exact provider/model route by worker stage;
 - observed model usage cost by stage and total;
-- configured hard course ceiling;
-- retry/failure count;
-- source-rights interventions;
+- configured hard ceiling;
+- request/sample count;
+- retry/failure/repair count;
+- source-rights interventions where applicable;
 - other human interventions and reasons;
 - automated assurance findings/remediation count;
-- whether the course reached `expert_review_ready`;
+- whether a real course reached `expert_review_ready`;
 - qualified-expert findings when later available; and
 - known limitations in the cost measurement.
 
-The first successful real-course pilot should trigger an immediate review of the US$10–15 expectation and US$20 course ceiling.
+The first successful real course reaching `expert_review_ready` should trigger an immediate review of the US$10–15 expectation and US$20 course ceiling. The first completed v2 live-worker soak should separately review whether the US$5 ceiling is proportionate to the required sample coverage.
 
 ## Scaling rule
 
@@ -137,14 +152,15 @@ Before material batch/concurrency expansion, evidence should cover:
 - cost distribution rather than only the cheapest example;
 - quality outcomes by provider/model route;
 - source-rights blocker behaviour;
-- independent/expert defect rates; and
+- independent/expert defect rates;
+- reliability worker-soak variability evidence; and
 - failure/retry tail behaviour.
 
 Scale only when both **quality/trust** and **cost predictability** are demonstrated.
 
 ## Change authority
 
-The Founder may revise these bootstrap planning guardrails as real evidence arrives. A material change to the quality-first principle, source-rights floor, expert-assurance requirement or production-spend strategy must be recorded through governed authority and merged through the normal Founder approval gate.
+The Founder may revise these bootstrap planning guardrails as real evidence arrives. A material change to the quality-first principle, source-rights floor, expert-assurance requirement or production/reliability spend strategy must be recorded through governed authority and merged through the normal Founder approval gate.
 
 Routine provider/model routing optimisation within these principles does not automatically require a new commercial decision, but any material privacy, rights, educational-quality, architecture or user-experience impact remains subject to its own authority.
 
@@ -153,6 +169,7 @@ Routine provider/model routing optimisation within these principles does not aut
 This policy should be reviewed whenever:
 
 - the first real course reaches `expert_review_ready`;
+- the first v2 reliability live-worker soak completes;
 - provider/model pricing or routing changes materially;
 - observed course-production cost materially exceeds the current planning range;
 - expert-review cost evidence becomes available;
