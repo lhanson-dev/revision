@@ -45,11 +45,15 @@ function integrityVersion(baseVersion: string, revision: string) {
 // transfers Marking Pack rubric IDs/bands and structured aggregate AO arithmetic
 // to compiler ownership and makes repair validation whole-artifact/complete-
 // diagnostic, so legacy Marking Packs cannot be durably reused across that change.
+// Q7 then exposed a generic Assessment Item provider-contract omission class at
+// subquestion maxMark/requirementIds/coverageEvidence. The repairable candidate
+// boundary and strict one-repair revalidation advance Assessment Item semantics
+// to output-integrity-v3; genuine downstream dependants must therefore replay.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v2'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v3'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
 } as const
 
