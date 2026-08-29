@@ -266,10 +266,10 @@ describe('Content Factory post-Pilot-17 provider-free requalification', () => {
     expect(result.latestManifest.publicationStatus).toBe('factory_generated_unassured')
   })
 
-  it('keeps assessment contract invalidation bounded to assessment and genuine downstream dependants', () => {
+  it('preserves the Pilot 17 assessment version while current invalidation advances after Q7', () => {
     const q5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v2')
     expect(q5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v2' })
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
     expect(q5.providerCallsUsed).toBe(false)
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)
