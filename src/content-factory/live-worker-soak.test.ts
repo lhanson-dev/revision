@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import soakPlanText from '../../content-factory/reliability-v2-e-live-worker-soak-plan.json?raw'
+import soakRequestText from '../../content-factory/reliability-v2-e-live-worker-soak-request.json?raw'
 import soakWorkflowText from '../../.github/workflows/content-factory-live-worker-soak.yml?raw'
 import fullCourseWorkflowText from '../../.github/workflows/content-factory-live-pilot.yml?raw'
 import qualificationText from '../../content-factory/reliability-qualification.json?raw'
@@ -12,8 +13,11 @@ type SoakPlan = {
   gate: string
   status: string
   baseMainSha: string
+  runnerMergedMainSha: string
   canonicalRuntime: string
   integrationHarness: string
+  triggerModes: string[]
+  requestFile: string
   sampleCount: number
   samplesPerShape: number
   subjectShapes: string[]
@@ -33,6 +37,19 @@ type SoakPlan = {
   overallReliabilityV2Passed: boolean
 }
 
+type SoakRequest = {
+  schemaVersion: number
+  requestId: string
+  gate: string
+  runClass: string
+  status: string
+  requestedFromMainSha: string
+  sampleCount: number
+  maxSpendUsd: number
+  fullCourseAssembly: boolean
+  learnerPublication: boolean
+}
+
 type Qualification = {
   status: string
   gateStatus: Record<string, string>
@@ -41,6 +58,7 @@ type Qualification = {
 }
 
 const plan = JSON.parse(soakPlanText) as SoakPlan
+const request = JSON.parse(soakRequestText) as SoakRequest
 const qualification = JSON.parse(qualificationText) as Qualification
 
 const providerFreeGates = [
@@ -58,13 +76,16 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
       schemaVersion: 1,
       workItem: 'V2-E',
       gate: 'Q7',
-      status: 'runner_ready_pending_merge_and_live_execution',
+      status: 'runner_merged_live_execution_pending',
       baseMainSha: '9738abe542c4f32a37de269f50a6126c017293e5',
+      runnerMergedMainSha: 'ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7',
       canonicalRuntime: '.github/workflows/content-factory-live-worker-soak.yml',
       integrationHarness: 'src/content-factory/live-worker-soak.integration.test.ts',
+      triggerModes: ['workflow_dispatch', 'governed_main_request_file_push'],
+      requestFile: 'content-factory/reliability-v2-e-live-worker-soak-request.json',
       sampleCount: 20,
       samplesPerShape: 4,
-      providerCalls: 'live_after_merge_only',
+      providerCalls: 'live_only_after_governed_trigger_on_approved_main',
       maxSpendUsd: 5,
       providerRetriesPerRequest: 0,
       fullCourseAssembly: false,
@@ -90,15 +111,41 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     ])
   })
 
-  it('requires approved-main manual execution and preserves the US$5 spend ceiling', () => {
+  it('supports manual dispatch plus one governed main request-file push without broad push execution', () => {
     expect(soakWorkflowText).toContain('workflow_dispatch:')
+    expect(soakWorkflowText).toContain('push:')
+    expect(soakWorkflowText).toContain('branches:')
+    expect(soakWorkflowText).toContain('- main')
+    expect(soakWorkflowText).toContain('paths:')
+    expect(soakWorkflowText).toContain('- content-factory/reliability-v2-e-live-worker-soak-request.json')
     expect(soakWorkflowText).toContain("if: github.ref == 'refs/heads/main'")
+    expect(soakWorkflowText).toContain("process.env.GITHUB_EVENT_NAME !== 'push'")
+    expect(soakWorkflowText).toContain("request.runClass !== 'bounded_live_worker_soak'")
+    expect(soakWorkflowText).toContain('request.maxSpendUsd !== 5')
     expect(soakWorkflowText).toContain("CONTENT_FACTORY_LIVE_WORKER_SOAK: '1'")
     expect(soakWorkflowText).toContain("CONTENT_FACTORY_MAX_SPEND_USD: '5'")
     expect(soakWorkflowText).toContain('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')
     expect(soakWorkflowText).toContain('live-worker-soak.integration.test.ts')
     expect(soakWorkflowText).not.toContain('live-pilot.integration.test.ts')
     expect(soakWorkflowText).not.toContain('continue-on-error: true')
+  })
+
+  it('records the first fallback execution request without relaxing the safety envelope', () => {
+    expect(request).toEqual({
+      schemaVersion: 1,
+      requestId: 'q7-live-worker-soak-001',
+      gate: 'Q7',
+      runClass: 'bounded_live_worker_soak',
+      status: 'requested',
+      authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
+      costAuthority: '60-business-operations/Content Factory Bootstrap Cost Strategy.md',
+      requestedFromMainSha: 'ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7',
+      sampleCount: 20,
+      maxSpendUsd: 5,
+      fullCourseAssembly: false,
+      learnerPublication: false,
+      purpose: 'Trigger the first Reliability v2 Q7 bounded live worker soak after the GitHub Actions UI did not expose the workflow_dispatch Run workflow control.',
+    })
   })
 
   it('keeps full-course execution fail closed while Q7 is pending', () => {
@@ -116,7 +163,7 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
   })
 
   it('uses production workers, independent Marking inputs and evidence-first failure classification', () => {
-    expect(soakHarnessText).toContain("createOpenAIModelAssistedWorkers")
+    expect(soakHarnessText).toContain('createOpenAIModelAssistedWorkers')
     expect(soakHarnessText).toContain("'assessment_item_generation'")
     expect(soakHarnessText).toContain("'marking_pack_generation'")
     expect(soakHarnessText).toContain('deterministicAssessmentItem')
