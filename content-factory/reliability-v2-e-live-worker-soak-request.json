@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "requestId": "q7-live-worker-soak-001",
+  "gate": "Q7",
+  "runClass": "bounded_live_worker_soak",
+  "status": "requested",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "requestedFromMainSha": "ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7",
+  "sampleCount": 20,
+  "maxSpendUsd": 5,
+  "fullCourseAssembly": false,
+  "learnerPublication": false,
+  "purpose": "Trigger the first Reliability v2 Q7 bounded live worker soak after the GitHub Actions UI did not expose the workflow_dispatch Run workflow control."
+}
