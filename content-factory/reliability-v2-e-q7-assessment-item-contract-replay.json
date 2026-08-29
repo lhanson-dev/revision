@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E-assessment-item-contract-repair",
+  "gate": "Q2-historical-failure-replay-corpus",
+  "title": "Q7 Assessment Item provider-contract supplemental replay",
+  "status": "implemented_pending_same_head_assurance",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "historicalCorpus": "content-factory/reliability-v2-b-historical-failure-corpus.json",
+  "historicalRecordsRewritten": false,
+  "sourceClass": "q7_bounded_live_worker_soak",
+  "sourceWorkflowRunId": 33265434110,
+  "sourceMainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+  "sourceEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+  "providerCallsUsed": false,
+  "defectClasses": [
+    {
+      "id": "assessment_item_subquestion_structure_provider_contract",
+      "summary": "Assessment Item provider candidates can omit subquestion maxMark, requirementIds and coverageEvidence before the strict assessment compiler reaches its existing bounded repair path.",
+      "evidenceKind": "synthetic_reproduction",
+      "historicalEvidenceStrength": "exact_live_run_failure_class_and_sample_level_error_evidence",
+      "historicalSources": [
+        "workflow:33265434110",
+        "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+        "pr:243"
+      ],
+      "syntheticBasis": "Replay the exact omission family independently and simultaneously across all five governed subject shapes. Preserve model ownership of educational subquestion structure, allow only omission to cross the first provider-candidate boundary, collect deterministic strict-schema diagnostics, perform at most one targeted repair, then revalidate the complete Assessment Item and fail closed if any required field remains absent.",
+      "expectedDisposition": "bounded_repaired_then_revalidated",
+      "repairableFields": [
+        "subquestions[].maxMark",
+        "subquestions[].requirementIds",
+        "subquestions[].coverageEvidence"
+      ],
+      "replayTests": [
+        "src/content-factory/openai-assessment-item-contract-boundary.test.ts"
+      ]
+    }
+  ],
+  "q2SupplementPassed": false,
+  "overallReliabilityV2Passed": false
+}
