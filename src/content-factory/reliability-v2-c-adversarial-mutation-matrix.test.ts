@@ -507,7 +507,7 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
     for (const subquestion of input.assessmentItem.subquestions) {
       const bands = compiled.rubric.filter((entry) => entry.id.startsWith(`${subquestion.id}-level-`))
       expect(bands.length).toBeGreaterThan(0)
-      expect(bands[0].minMark).toBe(0)
+      expect(bands[0]!.minMark).toBe(0)
       expect(bands.at(-1)?.maxMark).toBe(subquestion.maxMark)
       for (let index = 1; index < bands.length; index += 1) {
         expect(bands[index]!.minMark).toBe(bands[index - 1]!.maxMark + 1)
