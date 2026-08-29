@@ -122,6 +122,8 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(soakWorkflowText).toContain("process.env.GITHUB_EVENT_NAME !== 'push'")
     expect(soakWorkflowText).toContain("request.runClass !== 'bounded_live_worker_soak'")
     expect(soakWorkflowText).toContain('request.maxSpendUsd !== 5')
+    expect(soakWorkflowText.match(/run: \|/g)?.length ?? 0).toBeGreaterThanOrEqual(2)
+    expect(soakWorkflowText).not.toContain("run: node <<'NODE'")
     expect(soakWorkflowText).toContain("CONTENT_FACTORY_LIVE_WORKER_SOAK: '1'")
     expect(soakWorkflowText).toContain("CONTENT_FACTORY_MAX_SPEND_USD: '5'")
     expect(soakWorkflowText).toContain('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')
