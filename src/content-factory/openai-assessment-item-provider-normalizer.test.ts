@@ -1,4 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
+import {
+  currentDurableWorkerDependencyPolicy,
+  durableWorkerDependencyClosure,
+} from './durable-worker-dependencies'
 import { createOpenAIModelAssistedWorkers } from './openai-live-adapter'
 import { normaliseAssessmentItemOptionalUnits } from './openai-assessment-item-provider-normalizer'
 
@@ -127,6 +131,7 @@ describe('assessment-item provider optional-unit normalization', () => {
       { label: 'Cost', value: '120', unit: '£' },
       { label: 'Mass', value: '4', unit: 'kg' },
       { label: 'Index', value: '110', unit: '   ' },
+      { label: 'Score', value: '84' },
     ])
 
     expect(normaliseAssessmentItemOptionalUnits(input)).toMatchObject({
@@ -137,6 +142,7 @@ describe('assessment-item provider optional-unit normalization', () => {
           { label: 'Cost', value: '120', unit: '£' },
           { label: 'Mass', value: '4', unit: 'kg' },
           { label: 'Index', value: '110' },
+          { label: 'Score', value: '84' },
         ],
       },
     })
@@ -175,5 +181,31 @@ describe('assessment-item provider optional-unit normalization', () => {
     expect(result.error).toContain('provider_contract_failure')
     expect(result.error).toContain('context.dataPoints[0].value')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('continues to fail closed when an optional unit is present with an invalid non-string type', async () => {
+    const { workers, fetchImpl } = workersReturning(providerOutput([
+      { label: 'Original sales', value: '100', unit: 123 },
+    ]))
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('failure')
+    if (result.status !== 'failure') throw new Error('Expected provider contract failure')
+    expect(result.error).toContain('provider_contract_failure')
+    expect(result.error).toContain('context.dataPoints[0].unit')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('advances only the assessment-item semantic boundary and genuine downstream dependency closure', () => {
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v2')
+    expect(currentDurableWorkerDependencyPolicy.generateLearningCollateral.contractVersion).toBe('3+output-integrity-v2')
+    expect(currentDurableWorkerDependencyPolicy.generatePracticeCollateral.contractVersion).toBe('3+output-integrity-v2')
+
+    const markingClosure = durableWorkerDependencyClosure('generateMarkingPack')
+    expect(markingClosure).toContainEqual({
+      method: 'generateAssessmentItem',
+      contractVersion: '2+output-integrity-v2',
+    })
   })
 })
