@@ -34,6 +34,19 @@ const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.extend
   })).min(1).optional(),
 })
 
+const repairableAssessmentContextSchema = z.object({
+  id: identifierSchema,
+  title: nonEmptyStringSchema,
+  body: nonEmptyStringSchema,
+  dataPoints: z.array(z.object({
+    label: nonEmptyStringSchema,
+    value: nonEmptyStringSchema,
+    // Blank/whitespace strings are admitted only at this provider edge so the
+    // existing Pilot #17 normalizer can deterministically convert them to absence.
+    unit: z.string().optional(),
+  })).default([]),
+}).optional()
+
 /**
  * Provider-facing Assessment Item contract for Reliability v2 after Q7.
  *
@@ -50,8 +63,10 @@ export const assessmentItemV2ProviderOutputSchema = assessmentItemWorkerOutputSc
   format: true,
   maxMark: true,
   subquestions: true,
+  context: true,
 }).extend({
   subquestions: z.array(repairableAssessmentSubquestionSchema).default([]),
+  context: repairableAssessmentContextSchema,
 })
 
 export type AssessmentItemDiagnostic = {
@@ -98,7 +113,6 @@ function strictSubquestions(candidate: RepairableCandidate) {
  */
 export function diagnoseAssessmentItemV2Candidate(
   providerOutput: unknown,
-  input: AssessmentItemInput,
   policy: AssessmentItemPolicy,
 ): AssessmentItemDiagnostic[] {
   const candidate = normalisedCandidate(providerOutput)
@@ -158,7 +172,7 @@ export function compileAssessmentItemV2Candidate(
   policy: AssessmentItemPolicy,
 ) {
   const candidate = normalisedCandidate(providerOutput)
-  const diagnostics = diagnoseAssessmentItemV2Candidate(candidate, input, policy)
+  const diagnostics = diagnoseAssessmentItemV2Candidate(candidate, policy)
   if (diagnostics.length > 0) {
     throw new Error(diagnostics.map((entry) => `${entry.code} @ ${entry.path}: ${entry.message}`).join(' | '))
   }
@@ -243,7 +257,7 @@ export function createOpenAIModelAssistedWorkers(
       })
       if (firstExecution.status !== 'success') return firstExecution
 
-      const firstDiagnostics = diagnoseAssessmentItemV2Candidate(firstExecution.output, input, policy)
+      const firstDiagnostics = diagnoseAssessmentItemV2Candidate(firstExecution.output, policy)
       if (firstDiagnostics.length === 0) {
         try {
           return { ...firstExecution, output: compileAssessmentItemV2Candidate(firstExecution.output, input, policy) }
@@ -284,7 +298,7 @@ export function createOpenAIModelAssistedWorkers(
       )
       if (repairExecution.status !== 'success') return repairExecution
 
-      const repairDiagnostics = diagnoseAssessmentItemV2Candidate(repairExecution.output, input, policy)
+      const repairDiagnostics = diagnoseAssessmentItemV2Candidate(repairExecution.output, policy)
       if (repairDiagnostics.length > 0) {
         return {
           status: 'failure',
