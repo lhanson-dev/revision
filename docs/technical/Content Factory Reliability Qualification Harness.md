@@ -4,7 +4,7 @@
 
 The Content Factory reliability programme remains **paused for full-course live execution after Confirmation Pilot #18**.
 
-Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker runner is now merged on approved `main`; the live soak itself remains pending. GitHub registered the manual workflow but did not expose its expected `Run workflow` control, so a narrowly scoped governed request-file push trigger is being added as a fallback. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
+Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker runner and governed request-file trigger are merged on approved `main`, but the live soak itself remains pending. The first request-file trigger at main `ef2b72bf83d31b66c15bee5480e33c21acfa580b` created workflow run `33264051185`; GitHub rejected the workflow definition before scheduling any job because inline Node heredocs were not expressed as multiline YAML `run: |` blocks. The run therefore made zero provider calls and incurred zero spend. A narrow corrective PR fixes the workflow definition and retriggers the same governed Q7 request. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
 
 Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the validator/repair path then in use surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
 
@@ -111,9 +111,11 @@ Q7 is a separate bounded live-provider reliability exercise after Q1–Q6 PASS.
 
 The canonical runtime is `.github/workflows/content-factory-live-worker-soak.yml`, running on approved `main` and executing `src/content-factory/live-worker-soak.integration.test.ts`; it does not call the full-course pilot runner.
 
-The runner retains manual `workflow_dispatch`. Because the GitHub Actions UI did not expose the manual `Run workflow` control after the runner merged, the workflow also supports a narrowly scoped push trigger only when `content-factory/reliability-v2-e-live-worker-soak-request.json` changes on `main`. The push path validates that the request remains a Q7 bounded-live-worker-soak request with the US$5 ceiling, no full-course assembly and no learner publication before any provider call. Unrelated pushes do not trigger a soak.
+The runner retains manual `workflow_dispatch` and a narrowly scoped push trigger only when `content-factory/reliability-v2-e-live-worker-soak-request.json` changes on `main`. The push path validates that the request remains a Q7 bounded-live-worker-soak request with the US$5 ceiling, no full-course assembly and no learner publication before any provider call. Unrelated pushes do not trigger a soak.
 
-The current soak plan uses exactly 20 live worker samples:
+The first governed trigger exposed an implementation-only workflow-definition defect before job creation: the two inline Node checks used `run: node <<'NODE'` rather than multiline YAML `run: |` blocks. GitHub recorded run `33264051185` as failed with zero jobs. This is not Q7 reliability evidence because the provider boundary was never reached; it also consumed no provider budget. The corrective change uses valid multiline run blocks and adds regression coverage that rejects the invalid scalar form.
+
+The current soak plan remains exactly 20 live worker samples:
 
 - all five governed subject shapes;
 - two Assessment Item samples per shape (10 total);
@@ -177,4 +179,4 @@ The normative Reliability v2 method remains governed by:
 - `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
 - `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-The fallback trigger is an implementation correction to initiate the already-approved Q7 exercise; it does not change the normative qualification method, spend ceiling, sample requirements or full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
+The workflow-definition fix is an implementation correction only; it does not change the normative qualification method, spend ceiling, sample requirements or full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
