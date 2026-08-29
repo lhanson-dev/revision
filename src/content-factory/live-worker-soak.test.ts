@@ -297,8 +297,8 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     })
   })
 
-  it('reopens affected Q1-Q6 gates and keeps full-course execution fail closed', () => {
-    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pending')
+  it('restores Q1-Q6 after requalification while keeping Q7 and full-course execution fail closed', () => {
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence.json')
     expect(qualification.status).toBe('paused')
