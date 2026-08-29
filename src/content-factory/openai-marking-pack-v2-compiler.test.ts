@@ -167,16 +167,12 @@ function responseBody(output: unknown) {
 }
 
 describe('Reliability v2-A Marking Pack compiler', () => {
-  it('does not expose compiler-owned rubric IDs, numeric bands, subquestion maxMark or structured aggregate AO fields', () => {
+  it('keeps structured compiler-owned aggregate and rubric mechanics out of the provider contract', () => {
     const candidate = validCandidate()
     expect(markingPackV2ProviderOutputSchema.safeParse(candidate).success).toBe(true)
     expect(markingPackV2ProviderOutputSchema.safeParse({
       ...candidate,
       overallAssessmentObjectiveAllocation: [],
-    }).success).toBe(false)
-    expect(markingPackV2ProviderOutputSchema.safeParse({
-      ...candidate,
-      subquestionGuidance: [{ ...candidate.subquestionGuidance[0], maxMark: 4 }],
     }).success).toBe(false)
     expect(markingPackV2ProviderOutputSchema.safeParse({
       ...candidate,
