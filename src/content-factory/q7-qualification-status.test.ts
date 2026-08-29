@@ -55,8 +55,8 @@ const expectedGates = [
   'Q6-repeated-qualification-stability',
 ]
 
-describe('Content Factory qualification status after post-Pilot-16 requalification', () => {
-  it('changes only the global eligibility state after the provider-free requalification is complete on approved main', () => {
+describe('Content Factory qualification status after Confirmation Pilot 17', () => {
+  it('preserves the post-Pilot-16 Q1-Q6 requalification as historical evidence', () => {
     expect(requalification).toMatchObject({
       schemaVersion: 1,
       status: 'complete',
@@ -68,34 +68,25 @@ describe('Content Factory qualification status after post-Pilot-16 requalificati
     })
     expect(Object.keys(requalification.gates).sort()).toEqual([...expectedGates].sort())
     for (const gate of expectedGates) expect(requalification.gates[gate]?.status).toBe('pass')
+  })
 
+  it('re-pauses paid eligibility against exact Pilot 17 trigger evidence', () => {
     expect(qualification.schemaVersion).toBe(1)
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.requiredGates).toEqual(expectedGates)
-    expect(qualification.qualifiedEvidence).not.toBeNull()
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      qualificationEvidenceMainSha: '3f6493be1424e281f26a8f0e14855c26ed9a999e',
-      requalificationRecord: 'content-factory/reliability-post-pilot16-requalification.json',
-      verificationMode: 'exact_head_ci',
-      providerCallsUsed: false,
-      passedGates: expectedGates,
-      q6RepetitionCount: 3,
-      nextPaidRunClass: 'confirmation_pilot',
-    })
-  })
-
-  it('preserves Pilot 16 as historical trigger evidence rather than rewriting the failed run', () => {
+    expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.triggerEvidence).toEqual({
-      pilot: 16,
-      workflowRunId: 33214478392,
-      jobIssueNumber: 226,
-      mainSha: '47c30e95c49c1951d0dd31c48b63a1d15506529f',
+      pilot: 17,
+      workflowRunId: 33221401966,
+      jobIssueNumber: 230,
+      mainSha: 'f9a9cde3e98faca3b1e17b5d575d4282677f06cc',
     })
-    expect(qualification.reason).toContain('Post-Pilot-16')
+    expect(qualification.reason).toContain('Confirmation Pilot #17')
+    expect(qualification.reason).toContain('optional context data-point unit')
   })
 
-  it('is accepted by the same fail-closed preflight that runs before a paid live pilot', async () => {
+  it('is rejected by the same fail-closed preflight that runs before any paid live pilot', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       execFileSync: (
@@ -106,12 +97,11 @@ describe('Content Factory qualification status after post-Pilot-16 requalificati
     }
     const runtimeProcess = (globalThis as unknown as { process: RuntimeProcess }).process
 
-    const output = childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
+    expect(() => childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], {
       cwd: runtimeProcess.cwd(),
       encoding: 'utf8',
       stdio: 'pipe',
-    })
-    expect(output).toContain('paid live pilot execution is eligible')
+    })).toThrow()
   })
 
   it('keeps qualification preflight before the paid live-adapter execution step with no bypass', () => {
