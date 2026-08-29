@@ -4,7 +4,7 @@
 
 The Content Factory reliability programme remains **paused for full-course live execution after Confirmation Pilot #18**.
 
-Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker **runner is now implemented**, but the live soak itself remains pending until this runner is merged and manually executed on approved `main`. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
+Reliability v2 implementation has progressed through the compiler-first boundary work (V2-A), historical replay corpus (V2-B), adversarial mutation matrix (V2-C) and provider-free Q1–Q6 qualification (V2-D). The V2-E/Q7 bounded live-worker runner is now merged on approved `main`; the live soak itself remains pending. GitHub registered the manual workflow but did not expose its expected `Run workflow` control, so a narrowly scoped governed request-file push trigger is being added as a fallback. A separate Q8 eligibility transition (V2-F) remains required after Q7 PASS.
 
 Pilot #18 proved that the v1 Q1–Q6 provider-free qualification was valuable but insufficient as a predictor of live provider robustness. The pipeline progressed materially further than earlier failures, but a Marking Pack contained more than one operational-rubric defect and the validator/repair path then in use surfaced only the first defect before the one permitted repair. After that repair, a second defect of the same class became visible and the run failed closed.
 
@@ -105,11 +105,13 @@ No live provider call belongs in Q1–Q6.
 
 The V2-D machine-readable record is `content-factory/reliability-v2-d-provider-free-qualification.json`; the detailed technical record is `docs/technical/Content Factory Reliability v2-D Provider-Free Qualification.md`.
 
-### V2-E — bounded live worker soak — runner implemented, live execution pending
+### V2-E — bounded live worker soak — runner merged, live execution pending
 
 Q7 is a separate bounded live-provider reliability exercise after Q1–Q6 PASS.
 
-The canonical runtime is `.github/workflows/content-factory-live-worker-soak.yml`, executed manually on approved `main`. The workflow runs `src/content-factory/live-worker-soak.integration.test.ts` and does not call the full-course pilot runner.
+The canonical runtime is `.github/workflows/content-factory-live-worker-soak.yml`, running on approved `main` and executing `src/content-factory/live-worker-soak.integration.test.ts`; it does not call the full-course pilot runner.
+
+The runner retains manual `workflow_dispatch`. Because the GitHub Actions UI did not expose the manual `Run workflow` control after the runner merged, the workflow also supports a narrowly scoped push trigger only when `content-factory/reliability-v2-e-live-worker-soak-request.json` changes on `main`. The push path validates that the request remains a Q7 bounded-live-worker-soak request with the US$5 ceiling, no full-course assembly and no learner publication before any provider call. Unrelated pushes do not trigger a soak.
 
 The current soak plan uses exactly 20 live worker samples:
 
@@ -128,6 +130,8 @@ The runner uploads `.artifacts/content-factory-live-worker-soak/q7-live-worker-s
 A controlled fail-closed output does not automatically mean Q7 fails. The uploaded evidence must distinguish a genuine educational rejection correctly handled by the boundary from a new generic engineering contract class. The workflow is automatically green only when all 20 samples are accepted; any controlled fail-closed output is preserved for classification before Q7 is called PASS.
 
 Machine-readable plan: `content-factory/reliability-v2-e-live-worker-soak-plan.json`.
+
+Governed execution request: `content-factory/reliability-v2-e-live-worker-soak-request.json`.
 
 Technical record: `docs/technical/Content Factory Reliability v2-E Live Worker Soak.md`.
 
@@ -164,7 +168,7 @@ If two consecutive post-v2 confirmation-course attempts still expose new generic
 - trigger remains Pilot #18 workflow `33239396439` / Issue `#234`;
 - Q8 remains a separate eligibility transition after Q7.
 
-V2-E therefore creates only the governed Q7 sampling runtime. It does not permit another paid full-course run.
+V2-E therefore provides only the governed Q7 sampling runtime and execution request mechanism. It does not permit another paid full-course run.
 
 ## Documentation impact
 
@@ -173,4 +177,4 @@ The normative Reliability v2 method remains governed by:
 - `80-company-workflows/Content Factory Reliability Qualification Standard.md`;
 - `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-V2-E adds the live-soak implementation/evidence path and this current technical status without changing normative authority or machine-readable full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
+The fallback trigger is an implementation correction to initiate the already-approved Q7 exercise; it does not change the normative qualification method, spend ceiling, sample requirements or full-course eligibility. Historical pilot, v1 qualification and V2-A–V2-D evidence remains unchanged. No learner-facing product behavior changes. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and this harness remain the canonical indexed locations.
