@@ -2,7 +2,7 @@
 
 ## Status
 
-**Two bounded Q7 live-worker soaks have completed and neither passed. The second-run generic Assessment Item cross-reference class now has a provider-free correction under exact-head Q1–Q6 requalification. No further Q7 soak is eligible until that requalification is green, merged under Founder approval, and a separate governed Q7 request is deliberately created.**
+**Two bounded Q7 live-worker soaks have completed and neither passed. The second-run generic Assessment Item cross-reference class is now corrected and Q1–Q6 have passed provider-free exact-head assurance. Q7 remains pending. No further paid Q7 soak is authorized by this PR; any later soak requires this correction to merge under Founder approval and a separate governed Q7 request on corrected approved `main`.**
 
 The active authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The US$5 per-soak guardrail remains governed by `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
@@ -122,9 +122,9 @@ No second repair, broader retry loop or silent coercion has been added.
 
 Assessment Item durable semantics advance to `2+output-integrity-v4`, invalidating Assessment Item and genuine downstream dependants while preserving unrelated Learn and Practice reuse.
 
-## Provider-free Q1–Q6 requalification
+## Provider-free Q1–Q6 PASS
 
-The current record is `content-factory/reliability-post-q7-002-assessment-item-requalification.json`.
+The current PASS record is `content-factory/reliability-post-q7-002-assessment-item-requalification.json`.
 
 Provider-free evidence includes:
 
@@ -135,7 +135,9 @@ Provider-free evidence includes:
 5. Q5 — `2+output-integrity-v4` dependency invalidation restricted to Assessment Item and genuine downstream closure;
 6. Q6 — three repeated five-shape probes plus three deterministic pipeline runs.
 
-Until exact-head CI completes successfully, these remain candidate-pass evidence. Q7 remains pending throughout.
+The corrected implementation head `271a6e97907329f16f228d50ec92e96d0a61f73f` passed Revision CI run `33300169063` / #1285. The pass included typecheck, lint, unit tests, production build, responsive browser assurance, database/RLS assurance, protected service assurance and secret scanning.
+
+The provider-free result establishes Q1–Q6 PASS only. Q7 remains pending and live external-provider behaviour remains unproven for this corrected boundary.
 
 ## Cost position
 
@@ -145,9 +147,9 @@ Decision: **retain the US$5 per-soak ceiling**. The failure is a contract-qualit
 
 ## Machine-readable position and next work
 
-The active `content-factory/reliability-qualification.json` remains paused while exact-head Q1–Q6 assurance is incomplete. Q7 remains pending, `qualifiedEvidence` remains null and `livePilotEligible` remains false.
+The active `content-factory/reliability-qualification.json` remains paused but now records Q1–Q6 PASS and Q7 pending. `providerFreeQualificationEvidence` points to the second-Q7 requalification record; `qualifiedEvidence` remains null and `livePilotEligible` remains false.
 
-If and only if Q1–Q6 pass on the exact corrected head, this PR may record the provider-free PASS evidence. That still does not execute Q7. After merge, any later bounded Q7 soak must be authorized through a **separate governed request** against the corrected approved-main implementation.
+This correction must merge under explicit Founder approval before any later bounded Q7 soak is considered. That later soak must be authorized through a **separate governed request** against the corrected approved-main implementation. This PR deliberately does not modify the existing governed Q7 request file.
 
 Q8 and Pilot #19 remain blocked.
 
