@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "q7-assessment-item-coverage-requirement-cross-reference",
+  "classification": "generic_engineering_provider_contract_class",
+  "boundary": "assessment_item_generation",
+  "defectClass": "assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "source": {
+    "workflowRunId": 33282967568,
+    "workflowRunNumber": 17,
+    "approvedMainSha": "f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9",
+    "artifactId": 9723581809,
+    "durableFailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"
+  },
+  "evidenceKind": "synthetic_reproduction",
+  "syntheticBasis": "The second Q7 artifact retained exact failure diagnostics and per-sample provenance but did not retain the raw provider candidate. The durable signature shows that subquestion coverageEvidence requirementId sets disagreed with the owning subquestion requirementIds before and after the single permitted repair. Provider-free replay therefore reproduces that duplicated cross-reference representation deliberately and does not claim verbatim historical provider output.",
+  "observedPattern": {
+    "controlledFailClosedAssessmentItemSamples": 3,
+    "subjectShapesAffected": [
+      "essay_humanities",
+      "language_prescribed_text"
+    ],
+    "failureSignature": "coverage evidence must match its requirement IDs exactly",
+    "survivedSingleTargetedRepair": true,
+    "previousQ7OmissionClassRecurred": false
+  },
+  "ownershipReview": {
+    "educationalRequirementMapping": {
+      "fields": ["subquestions[].requirementIds"],
+      "ownership": "targeted_repair_eligible",
+      "reason": "Choosing which governed requirement each subquestion genuinely assesses can encode educational judgement and must not be fabricated by deterministic code."
+    },
+    "coverageEvidenceExcerpt": {
+      "fields": ["subquestions[].coverageEvidence[].evidence"],
+      "ownership": "generative_judgement_with_deterministic_validation",
+      "reason": "The provider identifies the exact learner-facing excerpt that demonstrates where the selected educational requirement is assessed; Revision verifies that the excerpt is verbatim."
+    },
+    "coverageRequirementPointer": {
+      "providerField": "subquestions[].coverageEvidence[].requirementPosition",
+      "durableField": "subquestions[].coverageEvidence[].requirementId",
+      "ownership": "bounded_locator_reference",
+      "reason": "The final requirementId duplicates an already-declared subquestion requirement mapping and is mechanically resolvable. The provider now supplies only a one-based bounded position; Revision resolves and writes the durable requirementId deterministically."
+    }
+  },
+  "correction": {
+    "providerContractVersion": "5",
+    "durableSemanticVersion": "2+output-integrity-v4",
+    "compiler": "src/content-factory/openai-assessment-item-v2-compiler.ts",
+    "rule": "Every declared subquestion requirement position must be evidenced exactly once. Missing, duplicate or out-of-range bounded locators enter the complete diagnostic set, may receive at most one targeted repair, and fail closed if still invalid. Final durable coverageEvidence requirementId values are compiler-resolved rather than provider-authored."
+  },
+  "replayTests": [
+    "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+    "src/content-factory/q7-second-assessment-item-requalification.test.ts"
+  ],
+  "historicalRecordsRewritten": false,
+  "paidProviderCallsRequiredForReplay": false
+}
