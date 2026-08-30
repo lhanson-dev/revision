@@ -2,232 +2,156 @@
 
 ## Status
 
-**The first live Q7 soak completed and did not pass. Its generic Assessment Item contract defect has now been corrected and Q1–Q6 have been requalified provider-free. Q7 remains pending until a fresh bounded live soak runs on the corrected approved-main implementation.**
+**Two bounded Q7 live-worker soaks have now completed. Neither passed. The second run exposed a different generic Assessment Item engineering contract class, so Q1–Q6 are reopened and no further Q7 soak is eligible until the affected provider-free gates pass again.**
 
-The durable first-run evidence remains:
+The active authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The US$5 per-soak guardrail remains governed by `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
 
-- `content-factory/reliability-v2-e-q7-live-soak-evidence.json`.
+The Content Factory remains paused for full-course live execution. Q8 is blocked, `qualifiedEvidence` remains null and `livePilotEligible` remains false.
 
-The current post-Q7 provider-free evidence is:
+## Canonical runtime
 
-- `content-factory/reliability-post-q7-assessment-item-requalification.json`;
-- `content-factory/reliability-q7-assessment-item-contract-defect.json`.
+Q7 uses:
 
-The first completed live run was:
+- `.github/workflows/content-factory-live-worker-soak.yml`;
+- `src/content-factory/live-worker-soak.integration.test.ts`;
+- production `createOpenAIModelAssistedWorkers` Assessment Item and Marking Pack boundaries;
+- the governed request file `content-factory/reliability-v2-e-live-worker-soak-request.json` for approved-main push execution.
 
-- workflow: `Content Factory Live Worker Soak`;
-- run ID: `33265434110` / run number `16`;
-- approved `main`: `69d7abb7d3236616b687cbed480e7584ceb69fc9`;
-- artifact ID: `9718558827`;
-- provider/model: `openai` / `gpt-5.6-terra`;
-- configured ceiling: US$5;
-- known measured usage: US$0.423906;
-- full-course assembly: false;
-- learner publication: false.
-
-The full-course Content Factory remains paused. Q8 is not available until a later Q7 PASS is recorded through governed evidence.
+Each soak is limited to 20 rights-safe synthetic worker samples across all five governed subject shapes, uses the production compiler/validator/repair code, performs no full-course assembly or learner publication, and is capped at US$5.
 
 ## Execution history
 
-The Q7 runner merged to approved `main` in PR #240 at `ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7`.
+### Attempt 1 — run 33265434110 / run #16
 
-GitHub initially registered the workflow without exposing the expected manual `Run workflow` control. PR #241 added a narrowly scoped governed request-file push fallback and merged at `ef2b72bf83d31b66c15bee5480e33c21acfa580b`.
+Approved `main`: `69d7abb7d3236616b687cbed480e7584ceb69fc9`.
 
-The first fallback trigger created workflow run `33264051185`, but GitHub rejected the workflow definition before scheduling any job because the inline Node checks were not expressed as multiline YAML `run: |` blocks. That run contained zero jobs, made zero provider calls and incurred zero provider spend.
+Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence.json`.
 
-PR #242 corrected the YAML and retriggered the same governed request. Its merge at `69d7abb7d3236616b687cbed480e7584ceb69fc9` created run `33265434110`, which executed the actual 20-sample Q7 soak and uploaded the evidence artifact.
+Observed:
 
-The first Q7 soak then exposed a new generic Assessment Item provider-contract class. Under the Reliability Qualification Standard, that correctly reopened Q1–Q6 before another live soak could be attempted.
-
-The subsequent Assessment Item correction is deliberately provider-free. It does not alter the first-run evidence and does not trigger another live Q7 run. Instead it repairs the reusable boundary and restores Q1–Q6 PASS so that a fresh Q7 request may be made separately after merge to approved `main`.
-
-## Canonical runtime and entry point
-
-Q7 continues to use:
-
-- `.github/workflows/content-factory-live-worker-soak.yml`;
-- `src/content-factory/live-worker-soak.integration.test.ts`.
-
-Supported trigger modes remain:
-
-- manual `workflow_dispatch`; and
-- a push to approved `main` that changes the dedicated governed request path `content-factory/reliability-v2-e-live-worker-soak-request.json` within the workflow path filter.
-
-The workflow is deliberately separate from `.github/workflows/content-factory-live-pilot.yml`. The full-course workflow remains fail closed unless the machine-readable reliability state is later restored to `qualified` through the separate Q8 transition.
-
-## Governed safety envelope
-
-For a push-triggered soak, the workflow validates before any provider call that the request declares:
-
-- gate `Q7`;
-- run class `bounded_live_worker_soak`;
-- status `requested`;
-- maximum spend exactly US$5;
-- `fullCourseAssembly: false`; and
-- `learnerPublication: false`.
-
-The live workflow also verifies before provider execution that:
-
-- Q1–Q6 are PASS in `content-factory/reliability-qualification.json`;
-- Q7 is `pending`;
-- global qualification remains `paused`;
-- `qualifiedEvidence` remains null; and
-- `livePilotEligible` remains false.
-
-The post-Q7 correction restores that provider-free gate state but deliberately does not change the request file. Therefore merging the correction cannot itself start paid provider execution.
-
-## First-run sample design and result
-
-The governed first-run sample set was exactly 20 independent live worker outputs across all five required subject shapes:
-
-| Subject shape | Assessment Item | Marking Pack | Total |
-| --- | ---: | ---: | ---: |
-| quantitative / business / economics | 2 | 2 | 4 |
-| mathematics | 2 | 2 | 4 |
-| science | 2 | 2 | 4 |
-| essay / humanities | 2 | 2 | 4 |
-| language / prescribed text | 2 | 2 | 4 |
-| **Total** | **10** | **10** | **20** |
-
-Observed first-run outcome:
-
-- 20/20 planned samples executed;
+- 20/20 executed;
 - 13 accepted;
 - 7 controlled fail-closed;
+- Assessment Item 3/10 accepted;
+- Marking Pack 10/10 accepted;
+- 9 targeted repairs observed;
 - 0 infrastructure incidents;
-- 0 escaped engineering-boundary exceptions;
-- 9 targeted repairs observed across accepted samples;
-- Assessment Item: 3 accepted / 7 controlled fail-closed;
-- Marking Pack: 10 accepted / 0 controlled fail-closed.
+- known provider cost US$0.423906.
 
-Marking Pack samples used deterministic rights-safe synthetic assessment inputs rather than depending on live Assessment Item success, so the 10/10 Marking Pack result is independent evidence for that worker boundary.
-
-## Generic Assessment Item defect classification
-
-The seven controlled failures remain historically classified as one reusable engineering contract class:
+The first run exposed:
 
 `assessment_subquestion_required_structure_omission_before_targeted_repair`
 
-Across all five governed subject shapes, live Assessment Item candidates omitted one or more required subquestion-level values:
+Live Assessment Item candidates across all five shapes omitted required subquestion `maxMark`, `requirementIds` and/or `coverageEvidence` structure before the then-existing repair boundary could inspect them. That reusable defect was corrected provider-free and Q1–Q6 were subsequently requalified.
 
-- `subquestions[].maxMark`;
-- `subquestions[].requirementIds`;
-- `subquestions[].coverageEvidence` or its required locator fields.
+Historical first-run evidence remains unchanged.
 
-This was not the same as the compiler-owned top-level target fields. Revision already derives top-level `componentId`, `questionFamilyId`, `requirementIds`, `format` and `maxMark` from governed Assessment Item policy inputs.
+### Attempt 2 — run 33282967568 / run #17
 
-The first-run weakness was that the provider schema required all subquestion educational structure before the later Assessment Item validation/repair layer could inspect it. Omitted fields therefore failed too early for complete diagnostics and the single targeted repair.
+Approved `main`: `f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9`.
 
-The repeated cross-shape pattern demonstrated a generic provider-contract weakness rather than seven independent subject-specific educational findings.
+Artifact:
 
-All ten Marking Pack samples were accepted. The soak did not expose a new generic Marking Pack class.
+- ID `9723581809`;
+- name `content-factory-live-worker-soak-f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9`;
+- digest `sha256:b351f24be35d23b8dbecc78ba0cbf0228cac314cd20adfab2bf38dd19199d21b`.
 
-## Post-Q7 Assessment Item correction
+Durable repository evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-002.json`.
 
-The corrected Assessment Item boundary follows the same compiler-first reliability model without inventing educational judgement.
+Observed:
 
-The implementation now:
+- 20/20 planned samples executed;
+- 17 accepted;
+- 3 controlled fail-closed;
+- Assessment Item 7/10 accepted;
+- Marking Pack 10/10 accepted;
+- 15 targeted repairs observed;
+- 0 infrastructure incidents;
+- 0 escaped engineering-boundary exceptions;
+- provider/model `openai` / `gpt-5.6-terra`;
+- known provider cost US$0.455962;
+- unpriced samples 0;
+- full-course assembly false;
+- learner publication false.
 
-1. uses an Assessment Item-specific parseable provider candidate schema that admits only the bounded repairable omission class and semantically empty optional units;
-2. normalizes only semantically empty optional units;
-3. collects complete diagnostics for missing subquestion `maxMark`, `requirementIds` and `coverageEvidence` structure;
-4. permits at most one validator-directed repair;
-5. strictly recompiles the whole item, including deterministic top-level target fields;
-6. applies the existing command/demand and output-integrity guards;
-7. fails closed if any required structure or educational contract defect remains.
+Normal repository CI and deployment passed on the same approved `main`; the failure was confined to the governed live reliability soak.
 
-Subquestion mark allocation, requirement mapping and evidence mapping remain targeted-repair eligible because those values can encode educational meaning. The compiler does not fabricate them merely to satisfy schema shape.
+## Second-run defect classification
 
-The shared OpenAI structured-worker client is not weakened for other workers. Marking Pack continues to use its existing compiler-first v2 boundary.
+The second run exposed:
 
-Durable Assessment Item semantics advance to `2+output-integrity-v3`, invalidating Assessment Item output and genuine downstream dependants while preserving unrelated Learn/Practice reuse.
+`assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair`
 
-## Provider-free Q1–Q6 requalification
+Three live Assessment Item samples failed closed:
 
-Current evidence is `content-factory/reliability-post-q7-assessment-item-requalification.json`.
+- `essay_humanities-assessment_item_generation-1`;
+- `essay_humanities-assessment_item_generation-2`;
+- `language_prescribed_text-assessment_item_generation-1`.
 
-The corrected boundary records:
+In each sample, the subquestion declared `requirementIds` whose set did not exactly match the `requirementId` values represented in `coverageEvidence`. The deterministic structured-assessment validator detected the mismatch on the initial candidate, sent it through the single permitted complete-diagnostic targeted repair, and detected the same mismatch again after repair.
 
-- Q1 PASS — ownership deliberately separates deterministic top-level target fields from repair-eligible subquestion educational structure;
-- Q2 PASS — the Q7 omission class is retained as a clearly labelled synthetic reproduction because raw provider output was not durably retained;
-- Q3 PASS — omitted and simultaneous subquestion structure is exercised across all five governed subject shapes, including successful repair and fail-closed repair failure;
-- Q4 PASS — the corrected boundary composes with the full deterministic provider-free pipeline through `expert_review_ready` with no publication;
-- Q5 PASS — only Assessment Item and genuine downstream dependencies are semantically invalidated;
-- Q6 PASS — the corrected five-shape boundary and deterministic pipeline are repeated three times provider-free with varied governed ordering.
+This is classified as a **new generic Assessment Item engineering/provider-contract class** because:
 
-No provider calls or paid reliability spend are used by this requalification.
+- the same deterministic cross-reference contract failed repeatedly;
+- it occurred across two materially different governed subject shapes;
+- it survived the one permitted repair;
+- there was no infrastructure incident;
+- it is not a subject-specific educational judgement that happened to be rejected correctly.
 
-## Spend review
+The prior first-Q7 omission-before-repair class did **not** recur. The v4 Assessment Item boundary successfully admitted candidates to complete diagnostics and exercised bounded repair. This second failure therefore narrows the next reliability problem rather than invalidating the earlier correction.
 
-The first completed v2 live-worker soak triggered the review required by `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
+All ten Marking Pack samples passed, so no new Marking Pack contract class was exposed.
 
-Observed first-run evidence:
+## Ownership implication for the next correction
 
-- configured ceiling: US$5;
-- known usage cost: US$0.423906;
-- unpriced sample count: 0;
-- ceiling utilisation: 8.47812%.
+The second failure concerns a duplicated cross-reference between two model-authored structures: subquestion `requirementIds` and `coverageEvidence[].requirementId`.
 
-Decision: **retain the existing US$5 Q7 ceiling**. The 20-sample exercise was well inside the ceiling and provides no evidence that a higher limit is necessary. This is a review outcome, not a change to normative cost authority.
+The Reliability Standard requires Q1 to challenge whether mechanically provable references can move to compiler ownership. The next provider-free correction must therefore determine the smallest reusable representation that preserves the model's genuine educational judgement about **which requirement an excerpt evidences** while removing unnecessary duplicated clerical authorship where possible.
 
-## Rights and publication position
+This evidence/reset change does not pre-decide that implementation. It records the defect and reopens Q1–Q6 so ownership, replay, mutation, composition, dependency and repeated-stability evidence are all re-established before another live soak.
 
-Every Q7 sample uses invented subject-shape facts and `Synthetic Reliability Board` identity. The harness supplies no awarding-body source prose, past-paper wording, prescribed-text excerpts or real learner course.
+Because the raw provider candidates were not retained in the soak artifact, Q2 must use a clearly labelled **synthetic reproduction** of the durable mismatch signature rather than claim exact historical replay.
 
-The first run performed:
+## Cost position
 
-- no full-course assembly;
-- no learner publication;
-- no educational benchmark approval;
-- no Q8 eligibility transition.
+Second-soak known usage was US$0.455962, or 9.11924% of the governed US$5 ceiling. Combined known spend across the two completed Q7 soaks is US$0.879868.
 
-The post-Q7 correction likewise performs no paid provider execution, course assembly or publication.
-
-## Evidence retention
-
-The first Q7 workflow artifact contained per-sample:
-
-- subject shape;
-- worker boundary;
-- provider/model;
-- contract version;
-- provider-call count;
-- repair count;
-- retry count;
-- observed usage cost;
-- result/disposition;
-- failure diagnostics where applicable.
-
-Those sample records, the workflow/head/artifact binding, aggregate counts, cost review and first-run classification remain persisted in `content-factory/reliability-v2-e-q7-live-soak-evidence.json`.
-
-The reusable Q7 Assessment Item defect is separately retained in `content-factory/reliability-q7-assessment-item-contract-defect.json`, including the explicit statement that its provider-free replay is a synthetic reproduction rather than verbatim historical output.
+Decision: **retain the US$5 per-soak ceiling**. The failure is a contract-quality signal, not a budget-capacity signal. No cost-authority change is justified.
 
 ## Current machine-readable position
 
-After the post-Q7 correction:
+`content-factory/reliability-qualification.json` now records:
 
-- Q1–Q6 are `pass`;
-- Q7 is `pending`;
-- `status` remains `paused`;
-- `qualifiedEvidence` remains null;
-- `livePilotEligible` remains false;
-- current provider-free qualification evidence points to `content-factory/reliability-post-q7-assessment-item-requalification.json`;
-- first-run Q7 failure evidence remains retained for history.
+- Q1–Q6 `pending`;
+- Q7 `pending`;
+- `status: paused`;
+- `providerFreeQualificationEvidence: null`;
+- the previous provider-free PASS record retained as `lastProviderFreeQualificationEvidence`;
+- the second Q7 evidence as the current `q7FailureEvidence`;
+- both Q7 failure records in `q7FailureEvidenceHistory`;
+- `qualifiedEvidence: null`;
+- `livePilotEligible: false`.
 
-This state is intentionally sufficient for a **future bounded Q7 soak only** once present on approved `main`. It does not authorize Q8 or a full-course pilot.
+This state blocks both another Q7 soak and any full-course live pilot until the governed prerequisites are deliberately restored.
 
 ## Next work
 
-The next reliability action is a separate governed request for a fresh bounded Q7 soak on the corrected approved-main implementation.
+The next reliability work is provider-free:
 
-That soak must retain the existing safety envelope and sample breadth. If it exposes a new generic engineering contract class, the affected provider-free gates reopen again. If it passes, a short evidence PR may record Q7 PASS while keeping overall status paused and `livePilotEligible:false`.
+1. Q1 — review Assessment Item requirement/evidence ownership and remove unnecessary duplicated mechanical authorship where educational meaning can be preserved;
+2. Q2 — add a labelled synthetic reproduction of the second Q7 mismatch class;
+3. Q3 — add five-shape adversarial and simultaneous cross-reference mutations;
+4. Q4 — prove the corrected Assessment Item boundary composes with the deterministic full pipeline;
+5. Q5 — prove dependency-aware invalidation for the semantic change;
+6. Q6 — repeat the corrected provider-free qualification under varied governed ordering;
+7. only after those gates PASS on approved `main`, use a separate governed request for any later Q7 live soak.
 
-Only after Q7 PASS may the separate V2-F/Q8 eligibility transition be proposed. Pilot #19 must not run before Q8 merges.
+Q8 and Pilot #19 remain blocked.
 
 ## Documentation impact
 
-No normative authority change is required. The observed first-run failure and the post-Q7 correction are both handled by the active Reliability Qualification Standard v2.0 and Bootstrap Cost Strategy.
+No normative authority change is required. Reliability Standard v2.0 already requires a return to affected Q1–Q6 gates when Q7 exposes a new generic contract class, and the Bootstrap Cost Strategy already governs the spend response.
 
-This record and the indexed `Content Factory Reliability Qualification Harness.md` are updated because current implementation/evidence state changed materially. `content-factory/reliability-qualification.json` and its tests are updated in the same governed change.
+This technical record, the Reliability Qualification Harness, the live-soak plan, the machine-readable qualification state and assurance tests are updated because current implementation/evidence state changed materially. Historical Pilot records, first-Q7 evidence and the prior provider-free requalification record remain historically accurate and are not rewritten.
 
-Historical Pilot #1–#18 records, original V2-D qualification evidence and first-Q7 live evidence remain unchanged and historically accurate. `INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and Reliability Qualification Harness remain the canonical indexed locations.
+`INDEX.md` does not require a new entry because the existing Reliability Qualification Standard and Reliability Qualification Harness remain the canonical indexed sources.
