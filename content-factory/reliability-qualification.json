@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first Q7 live-worker soak run 33265434110 exposed the generic Assessment Item omission-before-repair class, which was corrected and requalified provider-free. The second Q7 live-worker soak run 33282967568 on approved main f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9 then exposed a different generic Assessment Item engineering contract class: coverageEvidence requirement IDs did not exactly match subquestion requirementIds and the mismatch remained after the single permitted targeted repair. Under Reliability v2, the affected Q1-Q6 gates are reopened before any later Q7 soak. Full-course execution remains paused and livePilotEligible remains false.",
+  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first Q7 live-worker soak exposed the Assessment Item omission-before-repair class, which was corrected provider-free. The second Q7 live-worker soak run 33282967568 then exposed a different generic Assessment Item cross-reference class: coverageEvidence requirement IDs could disagree with subquestion requirementIds after the single repair. That duplicated clerical pointer has now moved to bounded-locator/compiler ownership: the provider supplies a one-based requirementPosition and Revision resolves the durable requirementId from the subquestion requirementIds. Q1-Q6 have been requalified provider-free across historical replay, five-shape adversarial coverage, deterministic pipeline composition, dependency invalidation and repeated stability. Q7 remains pending and must run separately on approved main before any Q8 eligibility transition. Full-course execution remains paused and livePilotEligible remains false.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -24,15 +24,15 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pending",
-    "Q2-historical-failure-replay-corpus": "pending",
-    "Q3-adversarial-provider-free-subject-matrix": "pending",
-    "Q4-deterministic-full-pipeline-simulation": "pending",
-    "Q5-restart-reuse-dependency-invalidation": "pending",
-    "Q6-repeated-provider-free-stability": "pending",
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
     "Q7-bounded-live-worker-soak": "pending"
   },
-  "providerFreeQualificationEvidence": null,
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-q7-second-assessment-item-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-assessment-item-requalification.json",
   "qualifiedEvidence": null,
   "livePilotEligible": false
