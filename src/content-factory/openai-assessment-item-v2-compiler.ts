@@ -132,13 +132,10 @@ function resolvedCoverageEvidence(subquestion: RepairableSubquestion, subquestio
 }
 
 function strictSubquestions(candidate: RepairableCandidate) {
-  return candidate.subquestions.map((subquestion, index) => {
-    const { coverageEvidence: _coverageEvidence, ...rest } = subquestion
-    return assessmentSubquestionSchema.parse({
-      ...rest,
-      coverageEvidence: resolvedCoverageEvidence(subquestion, index),
-    })
-  })
+  return candidate.subquestions.map((subquestion, index) => assessmentSubquestionSchema.parse({
+    ...subquestion,
+    coverageEvidence: resolvedCoverageEvidence(subquestion, index),
+  }))
 }
 
 /**
