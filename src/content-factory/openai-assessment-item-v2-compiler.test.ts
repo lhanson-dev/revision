@@ -118,9 +118,6 @@ function secondQ7MismatchSignature() {
     ...complete,
     subquestions: complete.subquestions.map((subquestion) => ({
       ...subquestion,
-      // This stale duplicate representation reproduces the generic second-Q7
-      // class. It is intentionally outside the provider contract and must not
-      // control the final artifact.
       requirementIds: ['stale-provider-requirement'],
     })),
   }
@@ -203,11 +200,12 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(result.status).toBe('success')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.output.subquestions[0]?.requirementIds).toEqual(['quantitative-skills'])
-    expect(result.output.subquestions[0]?.coverageEvidence).toEqual([
+    const output = result.output as ReturnType<typeof compileAssessmentItemV2Candidate>
+    expect(output.subquestions[0]?.requirementIds).toEqual(['quantitative-skills'])
+    expect(output.subquestions[0]?.coverageEvidence).toEqual([
       { requirementId: 'quantitative-skills', evidence: 'percentage change' },
     ])
-    expect(JSON.stringify(result.output)).not.toContain('stale-provider-requirement')
+    expect(JSON.stringify(output)).not.toContain('stale-provider-requirement')
   })
 
   it('uses no repair call for a valid first-pass candidate', async () => {
