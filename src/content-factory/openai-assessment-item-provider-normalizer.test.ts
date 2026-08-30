@@ -37,7 +37,7 @@ function providerOutput(dataPoints: Array<{ label: string; value: string; unit?:
       maxMark: 4,
       requirementIds: ['quantitative-skills'],
       responseDemands: ['calculation'],
-      coverageEvidence: [{ requirementId: 'quantitative-skills', evidence: 'percentage change' }],
+      coverageEvidence: [{ requirementPosition: 1, evidence: 'percentage change' }],
     }],
     context: {
       id: 'sales-data',
@@ -198,14 +198,14 @@ describe('assessment-item provider optional-unit normalization', () => {
   })
 
   it('advances only the assessment-item semantic boundary and genuine downstream dependency closure', () => {
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v4')
     expect(currentDurableWorkerDependencyPolicy.generateLearningCollateral.contractVersion).toBe('3+output-integrity-v2')
     expect(currentDurableWorkerDependencyPolicy.generatePracticeCollateral.contractVersion).toBe('3+output-integrity-v2')
 
     const markingClosure = durableWorkerDependencyClosure('generateMarkingPack')
     expect(markingClosure).toContainEqual({
       method: 'generateAssessmentItem',
-      contractVersion: '2+output-integrity-v3',
+      contractVersion: '2+output-integrity-v4',
     })
   })
 })
