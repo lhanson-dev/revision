@@ -253,7 +253,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
       requirementId: 'quantitative-skills',
       evidence: 'show your working',
     })
-    expect(() => compileAssessmentItemV2Candidate(duplicate, assessmentInput(), targetPolicy)).toThrow(/repeats coverage evidence/i)
+    expect(() => compileAssessmentItemV2Candidate(duplicate, assessmentInput(), targetPolicy)).toThrow(/repeat requirement IDs/i)
 
     const unknown = completeProviderOutput()
     unknown.subquestions[0].coverageEvidence[0].requirementId = 'unknown-requirement'
