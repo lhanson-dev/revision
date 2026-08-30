@@ -241,8 +241,8 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(fullCourseRun).toBeGreaterThan(fullCoursePreflight)
   })
 
-  it('retains the bounded request and workflow safety envelope without triggering another soak in this PR', () => {
-    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-002', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
+  it('retains the bounded third-soak request and workflow safety envelope before approved-main execution', () => {
+    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-003', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
     expect(soakWorkflowText).toContain('workflow_dispatch:')
     expect(soakWorkflowText).toContain('- content-factory/reliability-v2-e-live-worker-soak-request.json')
     expect(soakWorkflowText).toContain("request.maxSpendUsd !== 5")
