@@ -244,7 +244,7 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
   it.each(profiles)('fails closed on duplicate, missing, unknown and non-exact coverage mappings for $shape', (profile) => {
     const duplicate = clone(candidate(profile))
     duplicate.subquestions[0].coverageEvidence.push(clone(duplicate.subquestions[0].coverageEvidence[0]))
-    expect(diagnoseAssessmentItemV2Candidate(duplicate, policy(profile))[0]?.message).toMatch(/repeats coverage evidence/i)
+    expect(diagnoseAssessmentItemV2Candidate(duplicate, policy(profile))[0]?.message).toMatch(/repeat requirement IDs/i)
 
     const missing = clone(candidate(profile))
     missing.subquestions[0].coverageEvidence.pop()
