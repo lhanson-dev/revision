@@ -147,7 +147,6 @@ function candidate(profile: ShapeProfile) {
       command: profile.command,
       wording,
       maxMark: profile.maxMark,
-      requirementIds: [requirementId(profile)],
       responseDemands: [profile.demand],
       coverageEvidence: [{ requirementId: requirementId(profile), evidence }],
     }],
@@ -181,8 +180,8 @@ const expectedGates = [
   'Q6-repeated-provider-free-stability',
 ]
 
-describe('post-Q7 Assessment Item provider-free requalification', () => {
-  it('keeps the requalification fail closed until exact-head assurance completes', () => {
+describe('historical first-Q7 Assessment Item provider-free requalification', () => {
+  it('retains the completed historical requalification record without treating it as current eligibility', () => {
     expect(['implemented_pending_exact_head_assurance', 'complete']).toContain(requalification.status)
     expect(Object.keys(requalification.gates)).toEqual(expectedGates)
     expect(Object.values(requalification.gates).every((gate) => ['candidate_pass', 'pass'].includes(gate.status))).toBe(true)
@@ -192,7 +191,7 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     expect(requalification.historicalRecordsRewritten).toBe(false)
   })
 
-  it('retains the Q7 generic contract class without pretending the synthetic replay is verbatim provider output', () => {
+  it('retains what the first Q7 run actually exposed without rewriting historical evidence', () => {
     expect(defect.id).toBe('q7-assessment-item-subquestion-structure-omission')
     expect(defect.classification).toBe('generic_engineering_provider_contract_class')
     expect(defect.source.workflowRunId).toBe(33265434110)
@@ -211,7 +210,7 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     expect(defect.paidProviderCallsRequiredForReplay).toBe(false)
   })
 
-  it('records Q1 ownership at the educationally meaningful boundary', () => {
+  it('keeps the historical Q1 ownership extension as evidence of the prior boundary', () => {
     const ownership = requalification.gates['Q1-compiler-worker-ownership-inventory'].ownershipExtensions ?? []
     expect(ownership).toEqual(expect.arrayContaining([
       expect.objectContaining({ ownership: 'deterministically_derived', fields: expect.arrayContaining(['maxMark', 'requirementIds']) }),
@@ -221,11 +220,10 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     ]))
   })
 
-  it.each(profiles)('replays the Q7 omission class and corrected strict compilation for $shape', (profile) => {
+  it.each(profiles)('replays the still-relevant omission class and corrected strict compilation for $shape', (profile) => {
     const diagnostics = diagnoseAssessmentItemV2Candidate(omissionCandidate(profile), policy(profile))
     expect(diagnostics.map((entry) => entry.code)).toEqual([
       'ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING',
-      'ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING',
       'ASSESSMENT_SUBQUESTION_COVERAGE_EVIDENCE_MISSING',
     ])
 
@@ -236,9 +234,10 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     expect(compiled.maxMark).toBe(profile.maxMark)
     expect(compiled.format).toBe(profile.format)
     expect(compiled.subquestions[0]?.maxMark).toBe(profile.maxMark)
+    expect(compiled.subquestions[0]?.requirementIds).toEqual([requirementId(profile)])
   })
 
-  it('composes the corrected Assessment Item boundary with the full Q4 deterministic pipeline simulation', async () => {
+  it('composes the current corrected Assessment Item boundary with the full Q4 deterministic pipeline simulation', async () => {
     const probe = profiles[0]
     expect(() => compileAssessmentItemV2Candidate(candidate(probe), input(probe), policy(probe))).not.toThrow()
 
@@ -249,10 +248,10 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     expect(result.latestManifest.publicationStatus).toBe('factory_generated_unassured')
   })
 
-  it('advances only Assessment Item durable semantics and its genuine downstream dependency closure', () => {
-    const q5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
-    expect(q5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v3' })
+  it('preserves the historical v3 record while the current Assessment Item semantic boundary has advanced to v4', () => {
+    const historicalQ5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
+    expect(historicalQ5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v3' })
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v4')
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)
     expect(assessmentClosure).not.toContain('generateLearningCollateral')
@@ -264,11 +263,11 @@ describe('post-Q7 Assessment Item provider-free requalification', () => {
     expect(reviewClosure).toContain('generateAssessmentItem')
   })
 
-  it('repeats the corrected five-shape boundary and full deterministic pipeline three times provider-free', async () => {
+  it('repeats the current corrected five-shape boundary and full deterministic pipeline three times provider-free', async () => {
     expect(q6RepetitionCount).toBe(3)
     for (let repetition = 0; repetition < q6RepetitionCount; repetition += 1) {
       for (const profile of orderedProfiles([17, 41, 73][repetition]!)) {
-        expect(diagnoseAssessmentItemV2Candidate(omissionCandidate(profile), policy(profile))).toHaveLength(3)
+        expect(diagnoseAssessmentItemV2Candidate(omissionCandidate(profile), policy(profile))).toHaveLength(2)
         expect(() => compileAssessmentItemV2Candidate(candidate(profile), input(profile), policy(profile))).not.toThrow()
       }
       const pipeline = await runQ4DeterministicPipelineSimulation()
