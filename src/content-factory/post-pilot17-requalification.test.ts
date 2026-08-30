@@ -269,7 +269,7 @@ describe('Content Factory post-Pilot-17 provider-free requalification', () => {
   it('preserves the historical Pilot 17 v2 semantic record while current Assessment Item semantics advance after Q7', () => {
     const q5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
     expect(q5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v2' })
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v4')
     expect(q5.providerCallsUsed).toBe(false)
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)

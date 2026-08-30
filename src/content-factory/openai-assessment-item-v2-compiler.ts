@@ -25,9 +25,10 @@ import type { WorkerExecution } from './intake-to-knowledge-model'
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().trim().min(1)
 
-const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.extend({
+const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.omit({
+  requirementIds: true,
+}).extend({
   maxMark: z.number().int().positive().optional(),
-  requirementIds: z.array(identifierSchema).min(1).optional(),
   coverageEvidence: z.array(z.object({
     requirementId: identifierSchema,
     evidence: nonEmptyStringSchema,
@@ -50,11 +51,16 @@ const repairableAssessmentContextSchema = z.object({
 /**
  * Provider-facing Assessment Item contract for Reliability v2 after Q7.
  *
- * Revision still owns top-level target component/family/requirements/format/marks.
- * The three subquestion fields made optional here are not optional in the final
- * artifact. They are allowed to be absent only so one complete, validator-directed
- * repair can operate on the live-provider omission class exposed by Q7. Final
- * compilation remains strict and fail closed.
+ * Revision owns top-level target component/family/requirements/format/marks and
+ * now also owns the duplicated subquestion requirementIds representation. The
+ * provider retains the educational judgement about which governed requirement an
+ * exact question excerpt evidences through coverageEvidence[].requirementId;
+ * Revision deterministically derives subquestions[].requirementIds from that
+ * mapping before strict whole-artifact validation.
+ *
+ * Subquestion maxMark and coverageEvidence remain required in the final artifact
+ * but may be absent at this provider edge so one complete, validator-directed
+ * repair can operate on the bounded omission classes already exposed by Q7.
  */
 export const assessmentItemV2ProviderOutputSchema = assessmentItemWorkerOutputSchema.omit({
   componentId: true,
@@ -95,21 +101,25 @@ function normalisedCandidate(providerOutput: unknown) {
 function candidateHasCompleteSubquestionStructure(candidate: RepairableCandidate) {
   return candidate.subquestions.length > 0 && candidate.subquestions.every((subquestion) => (
     subquestion.maxMark !== undefined
-    && subquestion.requirementIds !== undefined
     && subquestion.coverageEvidence !== undefined
   ))
 }
 
 function strictSubquestions(candidate: RepairableCandidate) {
-  return candidate.subquestions.map((subquestion) => assessmentSubquestionSchema.parse(subquestion))
+  return candidate.subquestions.map((subquestion) => assessmentSubquestionSchema.parse({
+    ...subquestion,
+    requirementIds: subquestion.coverageEvidence?.map((entry) => entry.requirementId) ?? [],
+  }))
 }
 
 /**
  * Inspect the whole parseable candidate before repair. Missing structural fields
- * are reported for every subquestion in one diagnostic set. If the structure is
- * complete, the existing deterministic assessment validator remains the source
- * of truth for semantic reconciliation and any resulting failure is represented
- * as one candidate-level diagnostic for the bounded repair.
+ * are reported for every subquestion in one diagnostic set. Provider-authored
+ * subquestion requirementIds are deliberately outside this contract: the exact
+ * set is compiled from coverageEvidence[].requirementId. Once repairable
+ * structure is complete, deterministic assessment validation remains the source
+ * of truth for mark arithmetic, governed requirement coverage, exact excerpts,
+ * duplicate mappings, command/demand integrity and all remaining semantics.
  */
 export function diagnoseAssessmentItemV2Candidate(
   providerOutput: unknown,
@@ -133,11 +143,6 @@ export function diagnoseAssessmentItemV2Candidate(
       'ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING',
       `${prefix}.maxMark`,
       'Subquestion mark allocation is required educational judgement and must be supplied for bounded validation.',
-    ))
-    if (subquestion.requirementIds === undefined) diagnostics.push(diagnostic(
-      'ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING',
-      `${prefix}.requirementIds`,
-      'Subquestion requirement mapping is required educational judgement and must be supplied for bounded validation.',
     ))
     if (subquestion.coverageEvidence === undefined) diagnostics.push(diagnostic(
       'ASSESSMENT_SUBQUESTION_COVERAGE_EVIDENCE_MISSING',
@@ -209,10 +214,10 @@ const assessmentItemV2Instruction = [
   'Create one original Revision-owned exam-style assessment item for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question.',
   'Use the supplied targetPolicy requirementIds, maxMark and format to shape the item, but do not return those governed top-level target fields; Revision injects them deterministically after provider validation.',
   'Return a non-empty subquestions array that makes every individual mark-bearing task explicit.',
-  'Every subquestion must include maxMark, requirementIds, responseDemands and coverageEvidence.',
+  'Every subquestion must include maxMark, responseDemands and coverageEvidence. Do not return subquestion requirementIds; Revision derives them deterministically from coverageEvidence requirementId values.',
   'Subquestion maxMark values must sum exactly to targetPolicy.maxMark.',
-  'Across subquestions, requirementIds must cover every targetPolicy requirementId and no others.',
-  'Each subquestion coverageEvidence entry must use an exact excerpt from that subquestion wording showing where the requirement is genuinely assessed.',
+  'Across subquestion coverageEvidence requirementId values, cover every targetPolicy requirementId and no others.',
+  'Each subquestion coverageEvidence entry must identify the governed requirementId and use an exact excerpt from that subquestion wording showing where the requirement is genuinely assessed.',
   'responseDemands must describe only what the learner-facing command and wording actually ask the student to do.',
   'For selection/MCQ tasks provide exactly four distinct options A-D with exactly one correct answer and a distinct plausible misconceptionBasis for every incorrect option.',
   'Use only supplied knowledgeNodeIds. When context or stimulus is required, make it original, subject-authentic and internally consistent with supplied structured data.',
@@ -227,7 +232,7 @@ function combinedRepairExecution(
     ...repair,
     provenance: {
       ...repair.provenance,
-      contractVersion: '4',
+      contractVersion: '5',
       retryCount: (first.provenance.retryCount ?? 0) + (repair.provenance.retryCount ?? 0) + 1,
       usageCost: (first.provenance.usageCost ?? 0) + (repair.provenance.usageCost ?? 0),
     },
@@ -249,7 +254,7 @@ export function createOpenAIModelAssistedWorkers(
 
       const firstExecution = await client.run({
         workerId: 'content-factory.assessment-item-v2',
-        contractVersion: '4',
+        contractVersion: '5',
         routeKind: 'generation',
         outputSchema: assessmentItemV2ProviderOutputSchema,
         instructions: assessmentItemV2Instruction,
@@ -276,7 +281,7 @@ export function createOpenAIModelAssistedWorkers(
         'The first complete provider candidate was inspected as far as its available structure safely permits and produced this complete actionable defect set:',
         diagnosticText(firstDiagnostics),
         'Return the complete corrected Assessment Item candidate in one repair. Preserve valid educational content and correct every listed defect.',
-        'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark or format; Revision owns those governed target fields.',
+        'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark or format. Do not return subquestion requirementIds; Revision derives those from coverageEvidence.',
         'Do not remove genuine educational demand merely to silence validation; repair the structured representation or learner-facing wording so the intended demand is explicit and provable.',
       ].join('\n')
 
@@ -284,7 +289,7 @@ export function createOpenAIModelAssistedWorkers(
         firstExecution,
         await client.run({
           workerId: 'content-factory.assessment-item-v2-repair',
-          contractVersion: '4',
+          contractVersion: '5',
           routeKind: 'generation',
           outputSchema: assessmentItemV2ProviderOutputSchema,
           instructions: repairInstruction,

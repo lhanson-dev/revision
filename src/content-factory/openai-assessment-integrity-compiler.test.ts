@@ -87,12 +87,12 @@ function validAssessmentOutput() {
     subquestions: [
       {
         id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['calculation', 'application'],
+        responseDemands: ['calculation', 'application'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
       },
       {
         id: 'q2', command: 'Analyse', wording: q2, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['analysis', 'application'],
+        responseDemands: ['analysis', 'application'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'higher contribution per unit' }],
       },
     ],
@@ -106,7 +106,7 @@ function invalidCalculationSelectionOutput() {
     command: 'Select', questionWording: wording,
     subquestions: [{
       id: 'q1', command: 'Select', wording, maxMark: 8,
-      requirementIds: ['finance-analysis'], responseDemands: ['selection', 'calculation'],
+      responseDemands: ['selection', 'calculation'],
       coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
       options: [
         { label: 'A', text: 'GBP 2', correct: false, misconceptionBasis: 'Subtracts the values in the wrong order.' },
@@ -125,7 +125,7 @@ function invalidInterpretationOutput() {
     command: 'Select', questionWording: wording,
     subquestions: [{
       id: 'q1', command: 'Select', wording, maxMark: 8,
-      requirementIds: ['finance-analysis'], responseDemands: ['selection', 'interpretation'],
+      responseDemands: ['selection', 'interpretation'],
       coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'capacity utilisation figure' }],
       options: [
         { label: 'A', text: '40%', correct: false, misconceptionBasis: 'Reverses the utilisation ratio.' },
@@ -146,12 +146,12 @@ function pilot14InvalidOutput() {
     subquestions: [
       {
         id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['calculation', 'application'],
+        responseDemands: ['calculation', 'application'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
       },
       {
         id: 'q2', command: 'State', wording: q2, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['knowledge', 'interpretation'],
+        responseDemands: ['knowledge', 'interpretation'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'consequence of the result' }],
       },
     ],
@@ -167,12 +167,12 @@ function pilot14RepairedOutput() {
     subquestions: [
       {
         id: 'q1', command: 'Calculate', wording: q1, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['calculation', 'application'],
+        responseDemands: ['calculation', 'application'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution per unit' }],
       },
       {
         id: 'q2', command: 'Explain', wording: q2, maxMark: 4,
-        requirementIds: ['finance-analysis'], responseDemands: ['interpretation', 'analysis'],
+        responseDemands: ['interpretation', 'analysis'],
         coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'result suggests' }],
       },
     ],
@@ -200,9 +200,10 @@ describe('OpenAI assessment integrity compiler', () => {
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       const body = JSON.parse(String(init?.body)) as { instructions: string; input: string }
       const payload = JSON.parse(body.input) as { targetPolicy: { requirementIds: string[]; maxMark: number; format: string } }
-      expect(body.instructions).toContain('Every subquestion must include maxMark, requirementIds, responseDemands and coverageEvidence.')
+      expect(body.instructions).toContain('Every subquestion must include maxMark, responseDemands and coverageEvidence.')
+      expect(body.instructions).toContain('Do not return subquestion requirementIds; Revision derives them deterministically from coverageEvidence requirementId values.')
       expect(body.instructions).toContain('Subquestion maxMark values must sum exactly to targetPolicy.maxMark.')
-      expect(body.instructions).toContain('coverageEvidence entry must use an exact excerpt')
+      expect(body.instructions).toContain('coverageEvidence entry must identify the governed requirementId')
       expect(body.instructions).toContain('selection/MCQ tasks provide exactly four distinct options A-D')
       expect(payload.targetPolicy).toEqual({ requirementIds: ['finance-analysis'], maxMark: 8, format: 'mixed' })
       return new Response(JSON.stringify(responseBody(validAssessmentOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
@@ -212,9 +213,11 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(0)
-    expect((result.output as { subquestions: unknown[] }).subquestions).toHaveLength(2)
+    const output = result.output as { subquestions: Array<{ requirementIds: string[] }> }
+    expect(output.subquestions).toHaveLength(2)
+    expect(output.subquestions.every((subquestion) => subquestion.requirementIds[0] === 'finance-analysis')).toBe(true)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
@@ -225,7 +228,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -238,7 +241,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -251,7 +254,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -278,7 +281,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }

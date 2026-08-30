@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "post_q7_002_assessment_item_cross_reference_provider_free_requalification",
+  "baseApprovedMainSha": "0a047bae4472698410410feddce3f2a115f47ff2",
+  "verificationMode": "exact_head_ci",
+  "verifiedImplementationHeadSha": "271a6e97907329f16f228d50ec92e96d0a61f73f",
+  "verificationWorkflowRunId": 33300169063,
+  "verificationWorkflowRunNumber": 1285,
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "triggerEvidence": {
+    "workflowRunId": 33282967568,
+    "workflowRunNumber": 17,
+    "failedImplementationMainSha": "f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9",
+    "durableFailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
+    "defectRecord": "content-factory/reliability-q7-002-assessment-item-cross-reference-defect.json"
+  },
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-v2-compiler.ts",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "ownershipExtensions": [
+        {
+          "fieldClass": "subquestion exact coverage-evidence mapping",
+          "fields": ["subquestions[].coverageEvidence[].requirementId", "subquestions[].coverageEvidence[].evidence"],
+          "ownership": "generative_judgement_with_strict_validation_and_targeted_repair"
+        },
+        {
+          "fieldClass": "subquestion requirement cross-reference representation",
+          "fields": ["subquestions[].requirementIds"],
+          "ownership": "deterministically_derived"
+        },
+        {
+          "fieldClass": "invalid coverage mapping after deterministic derivation and any permitted repair",
+          "fields": ["subquestions[].coverageEvidence"],
+          "ownership": "fail_closed"
+        }
+      ]
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "appendOnlyCurrentEvidence": "content-factory/reliability-q7-002-assessment-item-cross-reference-defect.json",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "expectedDisposition": "Synthetic reproduction of the second-Q7 duplicate cross-reference class cannot influence the final requirementIds representation; Revision derives it from coverageEvidence while invalid mappings remain fail closed."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "requiredShapes": ["quantitative_business_economics", "mathematics", "science", "essay_humanities", "language_prescribed_text"],
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts"
+      ],
+      "mutations": [
+        "conflicting provider-authored duplicate requirementIds",
+        "coverage evidence order reversal",
+        "duplicate coverage requirement reference",
+        "missing governed coverage requirement",
+        "unknown coverage requirement",
+        "non-exact coverage excerpt"
+      ]
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts"
+      ],
+      "correctedBoundaryAssertion": "The corrected Assessment Item compiler composes with the deterministic provider-free pipeline through expert_review_ready without publication."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "currentSemanticVersions": {"generateAssessmentItem": "2+output-integrity-v4"},
+      "invalidationRule": "Assessment Item and genuine downstream dependants are invalidated; Learn and Practice remain reusable."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "repetitionCount": 3,
+      "subjectShapeProbeRuns": 15,
+      "deterministicPipelineRuns": 3,
+      "currentEvidence": [
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts",
+        "src/content-factory/q6-repeated-qualification-fixture.ts"
+      ]
+    }
+  },
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
+  "limitations": [
+    "Provider-free requalification proves contract/process behaviour, not live external-provider behaviour or educational correctness.",
+    "Q7 remains pending; this record does not itself authorize or trigger paid provider execution.",
+    "Any later bounded live-worker soak requires the corrected implementation to merge under explicit Founder approval and then a separate governed Q7 request on approved main.",
+    "The Content Factory remains paused and livePilotEligible remains false.",
+    "This record does not authorize Q8, a full-course pilot, assembly or learner publication."
+  ],
+  "historicalRecordsRewritten": false,
+  "publicationSideEffect": false,
+  "nextWorkItem": "founder_review_and_merge_correction_before_any_separately_governed_Q7_request"
+}

@@ -4,7 +4,7 @@
 
 The Content Factory remains **paused for full-course live execution**.
 
-Reliability v2 has now completed two bounded Q7 live-worker soak attempts. Both exposed generic Assessment Item contract classes, so Q8 remains blocked and the current provider-free gates Q1–Q6 are reopened to `pending`.
+Reliability v2 has completed two bounded Q7 live-worker soak attempts. Both exposed generic Assessment Item contract classes. The second class is now corrected provider-free and Q1–Q6 have passed exact-head provider-free assurance. Q7 itself remains pending, Q8 remains blocked and no paid execution is authorized by this correction.
 
 The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The current machine-readable state is `content-factory/reliability-qualification.json`.
 
@@ -14,7 +14,7 @@ The factory target remains:
 
 `model educational judgement → compiler-owned structure → complete deterministic diagnostics → at most one targeted repair → whole-artifact revalidation → valid artifact or fail closed`
 
-The purpose of Q7 is to expose real provider variability cheaply before another full-course run. A correctly rejected educational defect does not automatically fail Q7; a new reusable engineering/provider-contract class does.
+Q7 exists to expose real provider variability cheaply before another full-course run. A correctly rejected educational defect does not automatically fail Q7; a new reusable engineering/provider-contract class does.
 
 ## Qualification history
 
@@ -42,7 +42,7 @@ Generic class:
 
 Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence.json`.
 
-That class was corrected by the Assessment Item v4 boundary and requalified provider-free. The resulting historical PASS record remains `content-factory/reliability-post-q7-assessment-item-requalification.json`.
+That class was corrected and requalified provider-free. The historical PASS record remains `content-factory/reliability-post-q7-assessment-item-requalification.json` and is not rewritten by later work.
 
 ### Q7 attempt 2
 
@@ -68,73 +68,57 @@ Generic class:
 
 `assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair`
 
-The three failed Assessment Item samples occurred across essay/humanities and language/prescribed-text shapes. In each, `coverageEvidence[].requirementId` did not exactly reconcile with the subquestion `requirementIds`, and the mismatch remained after the single permitted targeted repair.
+The three failed Assessment Item samples occurred across essay/humanities and language/prescribed-text shapes. In each, `coverageEvidence[].requirementId` did not exactly reconcile with separately provider-authored subquestion `requirementIds`, and the mismatch remained after the single permitted targeted repair.
 
 The first-Q7 omission class did not recur. Marking Pack remained 10/10. The second failure is therefore a new, narrower Assessment Item cross-reference class.
 
+The append-only defect record for this class is `content-factory/reliability-q7-002-assessment-item-cross-reference-defect.json`. Because raw failed provider candidates were not retained, its executable replay is explicitly a synthetic reproduction rather than an exact-output claim.
+
+## Second-Q7 correction
+
+Q1 identified the defect as duplicated clerical authorship, not a need for broader model repair.
+
+The corrected ownership boundary is:
+
+- `coverageEvidence[].requirementId` and its exact learner-facing excerpt remain model-authored educational judgement, subject to strict deterministic validation and the existing bounded repair policy;
+- `subquestions[].requirementIds` is no longer independently model-authored at the provider boundary;
+- Revision deterministically derives `subquestions[].requirementIds` from the validated `coverageEvidence[].requirementId` values;
+- duplicate coverage mappings, missing governed requirements, unknown requirements, malformed identifiers and non-exact evidence excerpts still fail closed;
+- no additional retry or repair allowance has been introduced.
+
+This removes the second-Q7 mismatch class by construction without inventing educational meaning or weakening validation.
+
+The Assessment Item durable semantic boundary advances from `2+output-integrity-v3` to `2+output-integrity-v4`. Assessment Item outputs and genuine downstream dependants such as Marking Pack and independent review are invalidated; Learn and Practice remain reusable because they are outside the Assessment Item dependency closure.
+
+## Provider-free Q1–Q6 PASS evidence
+
+The current PASS record is `content-factory/reliability-post-q7-002-assessment-item-requalification.json`.
+
+It covers:
+
+- Q1 — explicit ownership transfer for the duplicated requirement-ID representation;
+- Q2 — append-only synthetic reproduction of the second-Q7 class;
+- Q3 — five governed subject shapes with conflicting duplicate IDs, reordering, duplicate mappings, missing/unknown requirements and non-exact excerpts;
+- Q4 — deterministic full-pipeline composition through `expert_review_ready` with zero provider usage and no publication;
+- Q5 — semantic-version advancement and genuine downstream dependency invalidation;
+- Q6 — three repeated five-shape boundary runs plus three deterministic pipeline runs.
+
+The corrected implementation head `271a6e97907329f16f228d50ec92e96d0a61f73f` passed Revision CI run `33300169063` / #1285, including typecheck, lint, unit tests, production build, responsive browser assurance, database/RLS assurance, protected service assurance and secret scanning.
+
+This provider-free PASS does not prove live-provider behaviour and does not make Q7 pass.
+
 ## Current gate state
 
-The second Q7 failure invalidates the current provider-free qualification claim for the affected implementation boundary. `content-factory/reliability-qualification.json` therefore records:
+`content-factory/reliability-qualification.json` now records:
 
-- Q1 `pending`;
-- Q2 `pending`;
-- Q3 `pending`;
-- Q4 `pending`;
-- Q5 `pending`;
-- Q6 `pending`;
+- Q1–Q6 `pass`;
 - Q7 `pending`;
 - `status: paused`;
-- `providerFreeQualificationEvidence: null`;
-- `lastProviderFreeQualificationEvidence: content-factory/reliability-post-q7-assessment-item-requalification.json`;
+- `providerFreeQualificationEvidence: content-factory/reliability-post-q7-002-assessment-item-requalification.json`;
 - `qualifiedEvidence: null`;
 - `livePilotEligible: false`.
 
-The first and second Q7 evidence records remain available in `q7FailureEvidenceHistory`; the latest second-run evidence is the active `q7FailureEvidence` pointer.
-
-This state prevents another Q7 live run because the Q7 workflow preflight requires Q1–Q6 PASS. It also continues to prevent full-course live execution because the full-course workflow requires global `qualified` status.
-
-## Provider-free corrective programme
-
-The next work must be provider-free and generic.
-
-### Q1 — ownership review
-
-Revisit the duplicated Assessment Item cross-reference between:
-
-- `subquestions[].requirementIds`;
-- `subquestions[].coverageEvidence[].requirementId`.
-
-The model must retain genuine educational judgement about which requirement an excerpt evidences. However, mechanically duplicated IDs should move to deterministic or bounded-reference ownership where that mapping can be preserved without inventing educational meaning.
-
-### Q2 — historical replay
-
-The second soak artifact retained the exact durable failure signature but not the raw provider candidates. The replay must therefore be explicitly labelled a **synthetic reproduction**, not exact historical output.
-
-### Q3 — adversarial matrix
-
-Add five-shape provider-free variants for:
-
-- coverage-evidence requirement missing from `requirementIds`;
-- declared requirement missing from coverage evidence;
-- duplicates;
-- reordering;
-- simultaneous cross-reference defects;
-- one complete-diagnostic repair;
-- repair failure and fail-closed behavior.
-
-### Q4 — deterministic pipeline
-
-Prove the corrected boundary composes through `expert_review_ready` with no provider call and no publication.
-
-### Q5 — dependency invalidation
-
-Advance the relevant Assessment Item semantic fingerprint and prove only Assessment Item outputs and genuine downstream dependants are invalidated.
-
-### Q6 — repeated stability
-
-Repeat the corrected provider-free qualification under varied governed input ordering/seeds. A single green run is insufficient.
-
-Only after Q1–Q6 return to PASS on approved `main` may a separate governed Q7 request be proposed.
+The corrected branch is therefore technically eligible to proceed toward a later bounded Q7 soak **only after** it is merged under explicit Founder approval. This PR does not authorize or trigger that paid execution. Any later Q7 attempt requires a separate governed request on corrected approved `main`.
 
 ## Cost position
 
@@ -150,8 +134,10 @@ Pilot #19 must not run before Q8 merges.
 
 ## Documentation impact
 
-No normative authority change is required. The active Reliability Qualification Standard and Bootstrap Cost Strategy already prescribe this reset path.
+No normative authority change is required. Reliability Standard v2.0 and the Bootstrap Cost Strategy already prescribe the reset, provider-free requalification and spend controls used here.
 
-The technical harness, V2-E record, live-soak plan, machine-readable qualification state and assurance tests are updated in the same governed change. Historical Pilot records, first-Q7 evidence, V2-D evidence and the prior post-Q7 provider-free PASS record remain unchanged as historical evidence.
+This technical harness, the V2-E record, machine-readable qualification evidence and assurance tests change with the implementation. Historical Pilot records, both Q7 failure evidence records, V2-D evidence and the prior post-Q7 provider-free PASS record remain unchanged as historical evidence.
+
+The governed Q7 request file is deliberately untouched, so this correction cannot trigger another paid soak.
 
 `INDEX.md` remains correct because this file is already the indexed technical reliability source.

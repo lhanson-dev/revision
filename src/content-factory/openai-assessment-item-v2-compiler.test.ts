@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createOpenAIModelAssistedWorkers } from './openai-live-adapter'
-import { diagnoseAssessmentItemV2Candidate } from './openai-assessment-item-v2-compiler'
+import {
+  compileAssessmentItemV2Candidate,
+  diagnoseAssessmentItemV2Candidate,
+} from './openai-assessment-item-v2-compiler'
 
 const route = {
   model: 'test-model',
@@ -81,7 +84,6 @@ function completeProviderOutput() {
       command: 'Calculate',
       wording: questionWording,
       maxMark: 4,
-      requirementIds: ['quantitative-skills'],
       responseDemands: ['calculation'],
       coverageEvidence: [{ requirementId: 'quantitative-skills', evidence: 'percentage change' }],
     }],
@@ -106,6 +108,17 @@ function q7OmissionOutput() {
       command: subquestion.command,
       wording: subquestion.wording,
       responseDemands: subquestion.responseDemands,
+    })),
+  }
+}
+
+function secondQ7MismatchSignature() {
+  const complete = completeProviderOutput()
+  return {
+    ...complete,
+    subquestions: complete.subquestions.map((subquestion) => ({
+      ...subquestion,
+      requirementIds: ['stale-provider-requirement'],
     })),
   }
 }
@@ -141,16 +154,15 @@ function workersReturning(...outputs: unknown[]) {
 }
 
 describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
-  it('collects the complete Q7 missing-structure defect set before repair', () => {
+  it('collects only genuinely provider-owned missing structure before repair', () => {
     const diagnostics = diagnoseAssessmentItemV2Candidate(q7OmissionOutput(), targetPolicy)
     expect(diagnostics.map((entry) => entry.code)).toEqual([
       'ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING',
-      'ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING',
       'ASSESSMENT_SUBQUESTION_COVERAGE_EVIDENCE_MISSING',
     ])
   })
 
-  it('repairs the Q7 omission class once, then compiles governed top-level fields and validates the complete item', async () => {
+  it('repairs the bounded omission class once, then compiles governed and cross-reference fields', async () => {
     const { workers, fetchImpl } = workersReturning(q7OmissionOutput(), completeProviderOutput())
 
     const result = await workers.generateAssessmentItem(assessmentInput())
@@ -159,7 +171,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.output).toMatchObject({
       componentId: 'paper-1',
       questionFamilyId: 'quantitative-family',
@@ -180,6 +192,22 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     })
   })
 
+  it('eliminates the second-Q7 mismatch class by deriving subquestion requirementIds from coverageEvidence', async () => {
+    const { workers, fetchImpl } = workersReturning(secondQ7MismatchSignature())
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('success')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    if (result.status !== 'success') throw new Error(result.error)
+    const output = result.output as ReturnType<typeof compileAssessmentItemV2Candidate>
+    expect(output.subquestions[0]?.requirementIds).toEqual(['quantitative-skills'])
+    expect(output.subquestions[0]?.coverageEvidence).toEqual([
+      { requirementId: 'quantitative-skills', evidence: 'percentage change' },
+    ])
+    expect(JSON.stringify(output)).not.toContain('stale-provider-requirement')
+  })
+
   it('uses no repair call for a valid first-pass candidate', async () => {
     const { workers, fetchImpl } = workersReturning(completeProviderOutput())
 
@@ -189,7 +217,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('fails closed after the one permitted repair if required subquestion structure is still absent', async () => {
+  it('fails closed after the one permitted repair if required provider-owned structure is still absent', async () => {
     const { workers, fetchImpl } = workersReturning(q7OmissionOutput(), q7OmissionOutput())
 
     const result = await workers.generateAssessmentItem(assessmentInput())
@@ -199,8 +227,8 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
     expect(result.error).toContain('ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING')
-    expect(result.error).toContain('ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING')
     expect(result.error).toContain('ASSESSMENT_SUBQUESTION_COVERAGE_EVIDENCE_MISSING')
+    expect(result.error).not.toContain('ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING')
   })
 
   it('reports simultaneous omissions across every parseable subquestion rather than stopping at the first defect', () => {
@@ -214,8 +242,25 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     }
 
     const diagnostics = diagnoseAssessmentItemV2Candidate(candidate, targetPolicy)
-    expect(diagnostics).toHaveLength(6)
-    expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[0]'))).toHaveLength(3)
-    expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[1]'))).toHaveLength(3)
+    expect(diagnostics).toHaveLength(4)
+    expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[0]'))).toHaveLength(2)
+    expect(diagnostics.filter((entry) => entry.path.startsWith('subquestions[1]'))).toHaveLength(2)
+  })
+
+  it('keeps invalid coverage mappings fail closed after deriving the duplicated requirementIds representation', () => {
+    const duplicate = completeProviderOutput()
+    duplicate.subquestions[0].coverageEvidence.push({
+      requirementId: 'quantitative-skills',
+      evidence: 'show your working',
+    })
+    expect(() => compileAssessmentItemV2Candidate(duplicate, assessmentInput(), targetPolicy)).toThrow(/repeat requirement IDs/i)
+
+    const unknown = completeProviderOutput()
+    unknown.subquestions[0].coverageEvidence[0].requirementId = 'unknown-requirement'
+    expect(() => compileAssessmentItemV2Candidate(unknown, assessmentInput(), targetPolicy)).toThrow(/governed requirement IDs/i)
+
+    const badExcerpt = completeProviderOutput()
+    badExcerpt.subquestions[0].coverageEvidence[0].evidence = 'not present in the learner-facing wording'
+    expect(() => compileAssessmentItemV2Candidate(badExcerpt, assessmentInput(), targetPolicy)).toThrow(/exact question excerpt/i)
   })
 })

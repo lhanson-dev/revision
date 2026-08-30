@@ -68,7 +68,7 @@ describe('Reliability v2-A Marking Pack ownership register', () => {
 
   it('preserves the V2-A Marking Pack boundary while allowing later independently governed boundaries to advance', () => {
     expect(currentDurableWorkerDependencyPolicy.generateMarkingPack.contractVersion).toContain('output-integrity-v2')
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v3')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v4')
     expect(currentDurableWorkerDependencyPolicy.generateLearningCollateral.contractVersion).toContain('output-integrity-v2')
     expect(currentDurableWorkerDependencyPolicy.generatePracticeCollateral.contractVersion).toContain('output-integrity-v2')
   })
