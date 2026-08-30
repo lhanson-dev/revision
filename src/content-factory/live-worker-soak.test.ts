@@ -221,15 +221,15 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(secondEvidence.samples.filter((sample) => sample.disposition === 'controlled_fail_closed').every((sample) => sample.error?.includes('coverage evidence must match its requirement IDs exactly'))).toBe(true)
   })
 
-  it('reopens Q1-Q6 and keeps Q7/Q8/full-course execution fail closed', () => {
-    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pending')
+  it('records requalified Q1-Q6 PASS while keeping Q7/Q8/full-course execution fail closed', () => {
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-002.json')
     expect(qualification.q7FailureEvidenceHistory).toEqual([
       'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-002.json',
     ])
-    expect(qualification.providerFreeQualificationEvidence).toBeNull()
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-assessment-item-requalification.json')
     expect(qualification.status).toBe('paused')
     expect(qualification.qualifiedEvidence).toBeNull()
