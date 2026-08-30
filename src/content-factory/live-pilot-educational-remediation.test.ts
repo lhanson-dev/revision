@@ -111,8 +111,8 @@ function paper2StructuredProviderOutput() {
       maxMark: marks[index]!,
       requirementIds: group,
       responseDemands: command === 'Evaluate' ? ['evaluation', 'application'] : command === 'Analyse' ? ['analysis', 'application'] : ['knowledge', 'application'],
-      coverageEvidence: group.map((requirementId, requirementIndex) => ({
-        requirementId,
+      coverageEvidence: group.map((_requirementId, requirementIndex) => ({
+        requirementPosition: requirementIndex + 1,
         evidence: labels[requirementIndex]!,
       })),
     }
