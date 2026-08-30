@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair",
+  "classification": "generic_engineering_provider_contract_class",
+  "evidenceKind": "synthetic_reproduction",
+  "syntheticBasis": "The raw failed provider candidates from the second Q7 soak were not retained as fixtures. Durable Q7 evidence records three controlled Assessment Item failures in which coverageEvidence requirement-ID sets did not exactly match separately provider-authored subquestion requirementIds after the one permitted repair. The permanent provider-free reproduction therefore supplies conflicting duplicate requirementIds alongside valid coverageEvidence and proves Revision now removes that duplicate provider ownership, derives the final subquestion requirementIds from coverageEvidence requirementId values, and still rejects duplicate, unknown, missing or non-exact coverage mappings.",
+  "source": {
+    "workflowRunId": 33282967568,
+    "workflowRunNumber": 17,
+    "approvedMainSha": "f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9",
+    "evidenceFile": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
+    "recordingPr": 248
+  },
+  "observedPattern": {
+    "controlledFailClosedAssessmentItemSamples": 3,
+    "subjectShapesAffected": ["essay_humanities", "language_prescribed_text"],
+    "failedContract": "coverageEvidence requirement-ID set must exactly match subquestion requirementIds",
+    "repairOutcome": "mismatch remained after the single permitted targeted repair"
+  },
+  "correctedOwnership": {
+    "coverageEvidence": "generative_judgement_with_strict_validation_and_targeted_repair",
+    "subquestions[].requirementIds": "deterministically_derived_from_coverageEvidence_requirementId",
+    "remainingInvalidCoverageMapping": "fail_closed"
+  },
+  "permanentReplayTests": [
+    "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+    "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+  ],
+  "historicalRecordsRewritten": false,
+  "paidProviderCallsRequiredForReplay": false
+}
