@@ -279,21 +279,21 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(soakWorkflowText).not.toContain('continue-on-error: true')
   })
 
-  it('preserves the original governed fallback request without relaxing the safety envelope', () => {
+  it('uses the second governed request without relaxing the safety envelope', () => {
     expect(request).toEqual({
       schemaVersion: 1,
-      requestId: 'q7-live-worker-soak-001',
+      requestId: 'q7-live-worker-soak-002',
       gate: 'Q7',
       runClass: 'bounded_live_worker_soak',
       status: 'requested',
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
       costAuthority: '60-business-operations/Content Factory Bootstrap Cost Strategy.md',
-      requestedFromMainSha: 'ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7',
+      requestedFromMainSha: 'bacb3e33fc09257a727844162b3b405de2abe611',
       sampleCount: 20,
       maxSpendUsd: 5,
       fullCourseAssembly: false,
       learnerPublication: false,
-      purpose: 'Trigger the first Reliability v2 Q7 bounded live worker soak after the GitHub Actions UI did not expose the workflow_dispatch Run workflow control.',
+      purpose: 'Trigger the second Reliability v2 Q7 bounded live worker soak after the generic Assessment Item provider-contract omission class was corrected and Q1-Q6 were requalified provider-free on approved main.',
     })
   })
 
