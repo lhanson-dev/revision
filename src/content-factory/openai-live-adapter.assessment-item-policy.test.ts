@@ -61,7 +61,7 @@ describe('OpenAI assessment-item governed target boundary', () => {
           maxMark: 10,
           requirementIds: ['business-foundations'],
           responseDemands: ['analysis'],
-          coverageEvidence: [{ requirementId: 'business-foundations', evidence: 'ownership structure' }],
+          coverageEvidence: [{ requirementPosition: 1, evidence: 'ownership structure' }],
         }],
         componentId: 'provider-invented-component',
         questionFamilyId: 'provider-invented-family',
