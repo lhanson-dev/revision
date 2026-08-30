@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { assessmentItemWorkerOutputSchema } from './assessment-and-marking'
 import { createOpenAIModelAssistedWorkers } from './openai-live-adapter'
 import { diagnoseAssessmentItemV2Candidate } from './openai-assessment-item-v2-compiler'
 
@@ -201,9 +202,10 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
+    const output = assessmentItemWorkerOutputSchema.parse(result.output)
     expect(fetchImpl).toHaveBeenCalledTimes(1)
     expect(result.provenance.contractVersion).toBe('5')
-    expect(result.output.subquestions[0]?.coverageEvidence).toEqual([
+    expect(output.subquestions[0]?.coverageEvidence).toEqual([
       { requirementId: 'quantitative-skills', evidence: 'percentage change' },
     ])
   })
@@ -225,10 +227,11 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
+    const output = assessmentItemWorkerOutputSchema.parse(result.output)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
     expect(result.provenance.contractVersion).toBe('5')
-    expect(result.output.subquestions[0]?.coverageEvidence).toEqual([
+    expect(output.subquestions[0]?.coverageEvidence).toEqual([
       { requirementId: 'quantitative-skills', evidence: 'percentage change' },
     ])
   })
