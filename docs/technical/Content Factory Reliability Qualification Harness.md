@@ -4,7 +4,7 @@
 
 The Content Factory remains **paused for full-course live execution**.
 
-Reliability v2 has completed two bounded Q7 live-worker soak attempts. Both exposed generic Assessment Item contract classes. The second class is now corrected provider-free on the current governed branch, but Q8 remains blocked and no further paid Q7 soak is eligible until exact-head Q1–Q6 assurance is green and the provider-free qualification record is promoted to PASS.
+Reliability v2 has completed two bounded Q7 live-worker soak attempts. Both exposed generic Assessment Item contract classes. The second class is now corrected provider-free and Q1–Q6 have passed exact-head provider-free assurance. Q7 itself remains pending, Q8 remains blocked and no paid execution is authorized by this correction.
 
 The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The current machine-readable state is `content-factory/reliability-qualification.json`.
 
@@ -90,9 +90,9 @@ This removes the second-Q7 mismatch class by construction without inventing educ
 
 The Assessment Item durable semantic boundary advances from `2+output-integrity-v3` to `2+output-integrity-v4`. Assessment Item outputs and genuine downstream dependants such as Marking Pack and independent review are invalidated; Learn and Practice remain reusable because they are outside the Assessment Item dependency closure.
 
-## Provider-free requalification evidence
+## Provider-free Q1–Q6 PASS evidence
 
-The current requalification record is `content-factory/reliability-post-q7-002-assessment-item-requalification.json`.
+The current PASS record is `content-factory/reliability-post-q7-002-assessment-item-requalification.json`.
 
 It covers:
 
@@ -103,19 +103,22 @@ It covers:
 - Q5 — semantic-version advancement and genuine downstream dependency invalidation;
 - Q6 — three repeated five-shape boundary runs plus three deterministic pipeline runs.
 
-Until exact-head CI passes, these gates remain candidate evidence only. The active qualification state must remain paused and Q7 pending.
+The corrected implementation head `271a6e97907329f16f228d50ec92e96d0a61f73f` passed Revision CI run `33300169063` / #1285, including typecheck, lint, unit tests, production build, responsive browser assurance, database/RLS assurance, protected service assurance and secret scanning.
+
+This provider-free PASS does not prove live-provider behaviour and does not make Q7 pass.
 
 ## Current gate state
 
-Before exact-head requalification is promoted, `content-factory/reliability-qualification.json` continues to record:
+`content-factory/reliability-qualification.json` now records:
 
-- Q1–Q6 `pending`;
+- Q1–Q6 `pass`;
 - Q7 `pending`;
 - `status: paused`;
+- `providerFreeQualificationEvidence: content-factory/reliability-post-q7-002-assessment-item-requalification.json`;
 - `qualifiedEvidence: null`;
 - `livePilotEligible: false`.
 
-After the corrected branch achieves exact-head Q1–Q6 assurance, the same governed PR may record Q1–Q6 PASS and point `providerFreeQualificationEvidence` to the new requalification record. That still does not make Q7 pass or authorize any paid execution. A later Q7 attempt requires a separate governed request on approved `main`.
+The corrected branch is therefore technically eligible to proceed toward a later bounded Q7 soak **only after** it is merged under explicit Founder approval. This PR does not authorize or trigger that paid execution. Any later Q7 attempt requires a separate governed request on corrected approved `main`.
 
 ## Cost position
 
