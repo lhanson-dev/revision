@@ -192,6 +192,7 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
     expect(['implemented_pending_exact_head_assurance', 'complete']).toContain(requalification.status)
     expect(Object.keys(requalification.gates)).toEqual(expectedGates)
     expect(Object.values(requalification.gates).every((gate) => ['candidate_pass', 'pass'].includes(gate.status))).toBe(true)
+    expect(new Set(requalification.gates['Q3-adversarial-provider-free-subject-matrix'].requiredShapes)).toEqual(new Set(q3SubjectShapeIds))
     expect(requalification.providerCallsUsed).toBe(false)
     expect(requalification.paidPilotEligible).toBe(false)
     expect(requalification.globalQualificationRequiredState).toBe('paused')
