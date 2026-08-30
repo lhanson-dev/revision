@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_exact_head_assurance",
+  "scope": "post_q7_second_assessment_item_provider_free_requalification",
+  "baseApprovedMainSha": "0a047bae4472698410410feddce3f2a115f47ff2",
+  "verificationMode": "exact_head_ci_required_before_pass",
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "triggerEvidence": {
+    "workflowRunId": 33282967568,
+    "workflowRunNumber": 17,
+    "failedImplementationMainSha": "f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9",
+    "durableFailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
+    "defectRecord": "content-factory/reliability-q7-assessment-item-coverage-pointer-defect.json"
+  },
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "candidate_pass",
+      "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
+      "currentEvidence": [
+        "content-factory/reliability-q7-assessment-item-coverage-pointer-defect.json",
+        "src/content-factory/openai-assessment-item-v2-compiler.ts",
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts"
+      ],
+      "ownershipExtensions": [
+        {
+          "fieldClass": "top-level governed Assessment Item target fields",
+          "fields": ["componentId", "questionFamilyId", "requirementIds", "maxMark", "format"],
+          "ownership": "deterministically_derived"
+        },
+        {
+          "fieldClass": "subquestion mark allocation and educational requirement mapping",
+          "fields": ["subquestions[].maxMark", "subquestions[].requirementIds"],
+          "ownership": "targeted_repair_eligible"
+        },
+        {
+          "fieldClass": "coverage evidence exact excerpt",
+          "fields": ["subquestions[].coverageEvidence[].evidence"],
+          "ownership": "generative_judgement"
+        },
+        {
+          "fieldClass": "coverage requirement pointer",
+          "providerFields": ["subquestions[].coverageEvidence[].requirementPosition"],
+          "durableFields": ["subquestions[].coverageEvidence[].requirementId"],
+          "ownership": "bounded_locator_reference"
+        },
+        {
+          "fieldClass": "remaining Assessment Item defect after the single repair",
+          "fields": ["subquestions[]"],
+          "ownership": "fail_closed"
+        }
+      ]
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "candidate_pass",
+      "historicalBaseEvidence": "content-factory/reliability-v2-b-historical-failure-corpus.json",
+      "priorQ7Evidence": "content-factory/reliability-q7-assessment-item-contract-defect.json",
+      "appendOnlyCurrentEvidence": "content-factory/reliability-q7-assessment-item-coverage-pointer-defect.json",
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+        "src/content-factory/q7-assessment-item-requalification.test.ts",
+        "src/content-factory/q7-second-assessment-item-requalification.test.ts"
+      ],
+      "expectedDisposition": "The labelled synthetic reproduction of the second-Q7 duplicated requirementId cross-reference no longer survives as a provider-authored durable pointer. Under contract v5, legacy requirementId-only coverage entries become a missing bounded-locator diagnostic, receive at most one repair, and final durable requirementId values are resolved deterministically from subquestion requirementIds."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "candidate_pass",
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "currentEvidence": [
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts",
+        "src/content-factory/q7-second-assessment-item-requalification.test.ts",
+        "src/content-factory/q3-subject-shape-fixtures.ts"
+      ],
+      "mutations": [
+        "valid bounded coverage locator",
+        "legacy provider-authored coverage requirementId without bounded position",
+        "missing coverage requirementPosition",
+        "duplicate coverage requirementPosition",
+        "out-of-range coverage requirementPosition",
+        "declared requirement position left unevidenced",
+        "simultaneous duplicate/out-of-range/unevidenced coverage locators",
+        "first-Q7 omitted subquestion structure regression remains covered",
+        "repair remains invalid and fails closed"
+      ]
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "candidate_pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/q7-second-assessment-item-requalification.test.ts",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts"
+      ],
+      "correctedBoundaryAssertion": "A synthetic Assessment Item using bounded coverage requirement locators compiles to the existing durable requirementId evidence shape and composes with the provider-free deterministic pipeline through expert_review_ready without publication."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "candidate_pass",
+      "providerCallsUsed": false,
+      "currentEvidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q7-second-assessment-item-requalification.test.ts"
+      ],
+      "currentSemanticVersions": {
+        "generateAssessmentItem": "2+output-integrity-v4"
+      },
+      "invalidationRule": "The second-Q7 correction invalidates Assessment Item outputs and genuine downstream dependants including Marking Pack/review closure. Learn and Practice remain reusable because they are not in the Assessment Item dependency closure."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "candidate_pass",
+      "providerCallsUsed": false,
+      "repetitionCount": 3,
+      "subjectShapeProbeRuns": 15,
+      "deterministicPipelineRuns": 3,
+      "currentEvidence": [
+        "src/content-factory/q7-second-assessment-item-requalification.test.ts",
+        "src/content-factory/q6-repeated-qualification-fixture.ts"
+      ]
+    }
+  },
+  "providerFreeQualificationPassed": false,
+  "q7BoundedLiveSoakEligible": false,
+  "q7Passed": false,
+  "overallReliabilityV2Passed": false,
+  "livePilotEligible": false,
+  "limitations": [
+    "Candidate provider-free evidence is not PASS until exact-head CI is green and the final evidence/state commit records Q1-Q6 PASS.",
+    "Provider-free requalification proves contract/process behaviour, not live external-provider behaviour or educational correctness.",
+    "The Content Factory remains paused and livePilotEligible remains false.",
+    "No paid Q7 request is included in this correction work."
+  ],
+  "historicalRecordsRewritten": false,
+  "publicationSideEffect": false,
+  "nextWorkItem": "complete_exact_head_assurance_then_restore_q1_q6_pass"
+}
