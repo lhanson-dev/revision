@@ -45,16 +45,18 @@ function integrityVersion(baseVersion: string, revision: string) {
 // transfers Marking Pack rubric IDs/bands and structured aggregate AO arithmetic
 // to compiler ownership and makes repair validation whole-artifact/complete-
 // diagnostic, so legacy Marking Packs cannot be durably reused across that change.
-// Q7 then exposed a generic Assessment Item omission class before the existing
-// bounded repair boundary: subquestion maxMark, requirementIds and coverageEvidence
-// could be omitted by the provider and rejected before repair. output-integrity-v3
-// moves that parseable omission class inside one complete-diagnostic repair while
-// preserving strict final validation and fail-closed behaviour.
+// The first Q7 soak then exposed a generic Assessment Item omission class before
+// the existing bounded repair boundary. output-integrity-v3 moved that parseable
+// omission class inside one complete-diagnostic repair. The second Q7 soak exposed
+// a duplicated coverageEvidence.requirementId cross-reference that could disagree
+// with the owning subquestion requirementIds even after repair. output-integrity-v4
+// replaces that provider-authored duplicate with a bounded requirementPosition
+// locator and resolves the final durable requirementId deterministically.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v3'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v4'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
 } as const
 
