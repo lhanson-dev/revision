@@ -1,10 +1,15 @@
 {
   "schemaVersion": 1,
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
-  "status": "implemented_pending_exact_head_assurance",
+  "status": "complete",
   "scope": "post_q7_second_assessment_item_provider_free_requalification",
   "baseApprovedMainSha": "0a047bae4472698410410feddce3f2a115f47ff2",
-  "verificationMode": "exact_head_ci_required_before_pass",
+  "verificationMode": "exact_head_ci",
+  "candidateAssurance": {
+    "headSha": "7ad812013c7bc95aa8aaa15606f5b86a1e0155c4",
+    "workflowRunId": 33298339862,
+    "result": "success"
+  },
   "providerCallsUsed": false,
   "paidPilotEligible": false,
   "globalQualificationRequiredState": "paused",
@@ -17,7 +22,7 @@
   },
   "gates": {
     "Q1-compiler-worker-ownership-inventory": {
-      "status": "candidate_pass",
+      "status": "pass",
       "historicalBaseEvidence": "content-factory/reliability-contract-inventory.json",
       "currentEvidence": [
         "content-factory/reliability-q7-assessment-item-coverage-pointer-defect.json",
@@ -54,7 +59,7 @@
       ]
     },
     "Q2-historical-failure-replay-corpus": {
-      "status": "candidate_pass",
+      "status": "pass",
       "historicalBaseEvidence": "content-factory/reliability-v2-b-historical-failure-corpus.json",
       "priorQ7Evidence": "content-factory/reliability-q7-assessment-item-contract-defect.json",
       "appendOnlyCurrentEvidence": "content-factory/reliability-q7-assessment-item-coverage-pointer-defect.json",
@@ -66,7 +71,7 @@
       "expectedDisposition": "The labelled synthetic reproduction of the second-Q7 duplicated requirementId cross-reference no longer survives as a provider-authored durable pointer. Under contract v5, legacy requirementId-only coverage entries become a missing bounded-locator diagnostic, receive at most one repair, and final durable requirementId values are resolved deterministically from subquestion requirementIds."
     },
     "Q3-adversarial-provider-free-subject-matrix": {
-      "status": "candidate_pass",
+      "status": "pass",
       "requiredShapes": [
         "quantitative_business_economics",
         "mathematics",
@@ -92,7 +97,7 @@
       ]
     },
     "Q4-deterministic-full-pipeline-simulation": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "currentEvidence": [
         "src/content-factory/q7-second-assessment-item-requalification.test.ts",
@@ -102,7 +107,7 @@
       "correctedBoundaryAssertion": "A synthetic Assessment Item using bounded coverage requirement locators compiles to the existing durable requirementId evidence shape and composes with the provider-free deterministic pipeline through expert_review_ready without publication."
     },
     "Q5-restart-reuse-dependency-invalidation": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "currentEvidence": [
         "src/content-factory/durable-worker-dependencies.ts",
@@ -115,7 +120,7 @@
       "invalidationRule": "The second-Q7 correction invalidates Assessment Item outputs and genuine downstream dependants including Marking Pack/review closure. Learn and Practice remain reusable because they are not in the Assessment Item dependency closure."
     },
     "Q6-repeated-provider-free-stability": {
-      "status": "candidate_pass",
+      "status": "pass",
       "providerCallsUsed": false,
       "repetitionCount": 3,
       "subjectShapeProbeRuns": 15,
@@ -126,18 +131,18 @@
       ]
     }
   },
-  "providerFreeQualificationPassed": false,
-  "q7BoundedLiveSoakEligible": false,
+  "providerFreeQualificationPassed": true,
+  "q7BoundedLiveSoakEligible": true,
   "q7Passed": false,
   "overallReliabilityV2Passed": false,
   "livePilotEligible": false,
   "limitations": [
-    "Candidate provider-free evidence is not PASS until exact-head CI is green and the final evidence/state commit records Q1-Q6 PASS.",
     "Provider-free requalification proves contract/process behaviour, not live external-provider behaviour or educational correctness.",
-    "The Content Factory remains paused and livePilotEligible remains false.",
-    "No paid Q7 request is included in this correction work."
+    "Q7 remains pending and requires a separate governed bounded live-worker-soak request after this correction is merged to approved main.",
+    "The Content Factory remains paused and livePilotEligible remains false; Q8 and full-course confirmation remain blocked.",
+    "No paid Q7 request or provider call is included in this correction work."
   ],
   "historicalRecordsRewritten": false,
   "publicationSideEffect": false,
-  "nextWorkItem": "complete_exact_head_assurance_then_restore_q1_q6_pass"
+  "nextWorkItem": "Q7-bounded-live-worker-soak"
 }
