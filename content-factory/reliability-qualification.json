@@ -1,1 +1,55 @@
-{"schemaVersion":1,"status":"paused","reason":"Confirmation Pilot #19 exposed a generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head provider-free Q1-Q6 assurance. The post-Pilot #19 bounded Q7 soak run 33395187056 on approved main 02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9 then accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes, with eight bounded repairs, zero controlled fail-closed samples, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course execution remains paused and livePilotEligible remains false until the separate Q8 eligibility transition is Founder-approved and merged.","authority":"80-company-workflows/Content Factory Reliability Qualification Standard.md","triggerEvidence":{"pilot":18,"workflowRunId":33239396439,"jobIssueNumber":234,"mainSha":"ed3bd4c4a50dd723da38952a41ff9bad084ad68d"},"latestFailureEvidence":{"pilot":19,"workflowRunId":33371449134,"jobIssueNumber":254,"mainSha":"23b0849354e99d6be865361009388af5922d2f3f","artifactId":9750570226,"artifactDigest":"sha256:e9272de540d285fcb4c6dac8522ddd537f15c84c1f7f1e3835a029179e195fed","knownCourseSpendUsd":0.7151,"classification":"new_generic_engineering_contract_class","defectClass":"assessment_mcq_cognitive_demand_lexical_overconstraint","architectureReview":"content-factory/reliability-pilot19-assessment-architecture-review.json"},"q7FailureEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence-002.json","q7FailureEvidenceHistory":["content-factory/reliability-v2-e-q7-live-soak-evidence.json","content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"],"q7PassEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence-004.json","q7PassEvidenceHistory":["content-factory/reliability-v2-e-q7-live-soak-evidence-003.json"],"requiredGates":["Q1-compiler-worker-ownership-inventory","Q2-historical-failure-replay-corpus","Q3-adversarial-provider-free-subject-matrix","Q4-deterministic-full-pipeline-simulation","Q5-restart-reuse-dependency-invalidation","Q6-repeated-provider-free-stability","Q7-bounded-live-worker-soak"],"gateStatus":{"Q1-compiler-worker-ownership-inventory":"pass","Q2-historical-failure-replay-corpus":"pass","Q3-adversarial-provider-free-subject-matrix":"pass","Q4-deterministic-full-pipeline-simulation":"pass","Q5-restart-reuse-dependency-invalidation":"pass","Q6-repeated-provider-free-stability":"pass","Q7-bounded-live-worker-soak":"pass"},"providerFreeQualificationEvidence":"content-factory/reliability-post-pilot19-requalification.json","lastProviderFreeQualificationEvidence":"content-factory/reliability-post-q7-002-assessment-item-requalification.json","qualifiedEvidence":null,"livePilotEligible":false}
+{
+  "schemaVersion": 1,
+  "status": "paused",
+  "reason": "Confirmation Pilot #19 exposed a generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head provider-free Q1-Q6 assurance. The post-Pilot #19 bounded Q7 soak run 33395187056 on approved main 02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9 then accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes, with eight bounded repairs, zero controlled fail-closed samples, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course execution remains paused and livePilotEligible remains false until the separate Q8 eligibility transition is Founder-approved and merged.",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "triggerEvidence": {
+    "pilot": 18,
+    "workflowRunId": 33239396439,
+    "jobIssueNumber": 234,
+    "mainSha": "ed3bd4c4a50dd723da38952a41ff9bad084ad68d"
+  },
+  "latestFailureEvidence": {
+    "pilot": 19,
+    "workflowRunId": 33371449134,
+    "jobIssueNumber": 254,
+    "mainSha": "23b0849354e99d6be865361009388af5922d2f3f",
+    "artifactId": 9750570226,
+    "artifactDigest": "sha256:e9272de540d285fcb4c6dac8522ddd537f15c84c1f7f1e3835a029179e195fed",
+    "knownCourseSpendUsd": 0.7151,
+    "classification": "new_generic_engineering_contract_class",
+    "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
+    "architectureReview": "content-factory/reliability-pilot19-assessment-architecture-review.json"
+  },
+  "q7FailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
+  "q7FailureEvidenceHistory": [
+    "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"
+  ],
+  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+  "q7PassEvidenceHistory": [
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json"
+  ],
+  "requiredGates": [
+    "Q1-compiler-worker-ownership-inventory",
+    "Q2-historical-failure-replay-corpus",
+    "Q3-adversarial-provider-free-subject-matrix",
+    "Q4-deterministic-full-pipeline-simulation",
+    "Q5-restart-reuse-dependency-invalidation",
+    "Q6-repeated-provider-free-stability",
+    "Q7-bounded-live-worker-soak"
+  ],
+  "gateStatus": {
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
+    "Q7-bounded-live-worker-soak": "pass"
+  },
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
+  "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
+  "qualifiedEvidence": null,
+  "livePilotEligible": false
+}
