@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first Q7 live-worker soak run 33265434110 exposed the generic Assessment Item omission-before-repair class, which was corrected and requalified provider-free. The second Q7 live-worker soak run 33282967568 on approved main f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9 exposed a different generic Assessment Item cross-reference class. That class is now corrected provider-free by deriving subquestion requirementIds from strictly validated coverageEvidence mappings, and Q1-Q6 have passed provider-free exact-head assurance. Q7 remains pending; full-course execution remains paused and livePilotEligible remains false.",
+  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first two Q7 live-worker soaks exposed generic Assessment Item engineering contract classes; both were corrected and Q1-Q6 were requalified provider-free. The third Q7 soak run 33364521121 on approved main 9755c7a40d5e61b76a49e51480e7c5403642e593 executed all 20 governed samples. Four samples failed closed after the single permitted repair, but classification against the active Q1 ownership inventory found no new generic engineering contract class: the Assessment Item failures were genuine governed-requirement coverage failures after compiler-owned requirementId derivation, and the Marking Pack failures were insufficient provider-authored educational calculation-rubric guidance. Q7 therefore passes. Full-course execution remains paused and livePilotEligible remains false until the separate V2-F/Q8 eligibility transition is Founder-approved and merged.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -14,6 +14,7 @@
     "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
     "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"
   ],
+  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
     "Q2-historical-failure-replay-corpus",
@@ -30,7 +31,7 @@
     "Q4-deterministic-full-pipeline-simulation": "pass",
     "Q5-restart-reuse-dependency-invalidation": "pass",
     "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "pending"
+    "Q7-bounded-live-worker-soak": "pass"
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-assessment-item-requalification.json",

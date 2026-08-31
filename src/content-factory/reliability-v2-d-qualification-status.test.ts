@@ -12,6 +12,7 @@ type Qualification = {
   lastProviderFreeQualificationEvidence: string
   q7FailureEvidence: string
   q7FailureEvidenceHistory: string[]
+  q7PassEvidence: string
   qualifiedEvidence: unknown | null
   livePilotEligible: boolean
 }
@@ -41,8 +42,8 @@ const providerFreeGates = [
   'Q6-repeated-provider-free-stability',
 ]
 
-describe('Reliability v2 provider-free qualification status after the second Q7 correction', () => {
-  it('records current Q1-Q6 PASS evidence while keeping Q7 and overall qualification pending', () => {
+describe('Reliability v2 qualification status after third Q7 classification', () => {
+  it('records current Q1-Q7 PASS while preserving historical provider-free records and keeping Q8 pending', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-q7-002-assessment-item-requalification.json',
@@ -57,6 +58,9 @@ describe('Reliability v2 provider-free qualification status after the second Q7 
       'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-002.json',
     ])
+    expect(qualification.q7PassEvidence).toBe(
+      'content-factory/reliability-v2-e-q7-live-soak-evidence-003.json',
+    )
 
     for (const gate of providerFreeGates) {
       expect(qualification.requiredGates).toContain(gate)
@@ -67,7 +71,7 @@ describe('Reliability v2 provider-free qualification status after the second Q7 
     }
 
     expect(qualification.requiredGates).toContain('Q7-bounded-live-worker-soak')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
 

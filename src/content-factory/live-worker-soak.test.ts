@@ -3,6 +3,7 @@ import soakPlanText from '../../content-factory/reliability-v2-e-live-worker-soa
 import soakRequestText from '../../content-factory/reliability-v2-e-live-worker-soak-request.json?raw'
 import firstEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence.json?raw'
 import secondEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-002.json?raw'
+import thirdEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-003.json?raw'
 import soakWorkflowText from '../../.github/workflows/content-factory-live-worker-soak.yml?raw'
 import fullCourseWorkflowText from '../../.github/workflows/content-factory-live-pilot.yml?raw'
 import qualificationText from '../../content-factory/reliability-qualification.json?raw'
@@ -82,6 +83,8 @@ type SoakEvidence = {
     rawProviderCandidateRetention: string
     previousQ7DefectRecurrence?: boolean
     observedSubjectShapes?: string[]
+    assessmentItemClassification?: { decision: string; observedSubjectShapes: string[] }
+    markingPackClassification?: { decision: string; observedSubjectShapes: string[] }
   }
   affectedQualificationGates: string[]
   qualificationOutcome: { q7Passed: boolean; overallReliabilityV2Passed: boolean; livePilotEligible: boolean; fullCourseAssembly: boolean; learnerPublication: boolean }
@@ -93,6 +96,7 @@ type Qualification = {
   gateStatus: Record<string, string>
   q7FailureEvidence: string
   q7FailureEvidenceHistory: string[]
+  q7PassEvidence: string
   providerFreeQualificationEvidence: string | null
   lastProviderFreeQualificationEvidence: string
   qualifiedEvidence: unknown | null
@@ -102,6 +106,7 @@ type Qualification = {
 const plan = JSON.parse(soakPlanText) as SoakPlan
 const firstEvidence = JSON.parse(firstEvidenceText) as SoakEvidence
 const secondEvidence = JSON.parse(secondEvidenceText) as SoakEvidence
+const thirdEvidence = JSON.parse(thirdEvidenceText) as SoakEvidence
 const request = JSON.parse(soakRequestText) as { requestId: string; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
 const qualification = JSON.parse(qualificationText) as Qualification
 
@@ -115,12 +120,12 @@ const providerFreeGates = [
 ]
 
 describe('Reliability v2-E Q7 live worker soak governance', () => {
-  it('retains both completed Q7 attempts and identifies the second generic contract failure as current', () => {
+  it('retains all three Q7 attempts and records the third classified soak as PASS', () => {
     expect(plan).toMatchObject({
       schemaVersion: 1,
       workItem: 'V2-E',
       gate: 'Q7',
-      status: 'second_live_execution_completed_generic_contract_failure',
+      status: 'third_live_execution_passed_controlled_educational_fail_closed',
       canonicalRuntime: '.github/workflows/content-factory-live-worker-soak.yml',
       integrationHarness: 'src/content-factory/live-worker-soak.integration.test.ts',
       triggerModes: ['workflow_dispatch', 'governed_main_request_file_push'],
@@ -130,15 +135,15 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
       providerCalls: 'completed_on_approved_main',
       maxSpendUsd: 5,
       providerRetriesPerRequest: 0,
-      latestLiveExecutionAttempt: 2,
+      latestLiveExecutionAttempt: 3,
       fullCourseAssembly: false,
       learnerPublication: false,
       livePilotEligibilityChanged: false,
-      q7Passed: false,
-      overallReliabilityV2Passed: false,
+      q7Passed: true,
+      overallReliabilityV2Passed: true,
     })
     expect(new Set(plan.subjectShapes)).toEqual(new Set(q3SubjectShapeIds))
-    expect(plan.liveExecutions).toHaveLength(2)
+    expect(plan.liveExecutions).toHaveLength(3)
     expect(plan.liveExecutions[0]).toMatchObject({
       attempt: 1,
       workflowRunId: 33265434110,
@@ -162,73 +167,107 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
       classification: 'q7_fail_generic_engineering_contract_class',
       defectClass: 'assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair',
     })
-    expect(plan.affectedQualificationGates).toEqual(providerFreeGates)
+    expect(plan.liveExecutions[2]).toMatchObject({
+      attempt: 3,
+      mainSha: '9755c7a40d5e61b76a49e51480e7c5403642e593',
+      workflowRunId: 33364521121,
+      workflowRunNumber: 18,
+      artifactId: 9747914357,
+      durableEvidence: 'content-factory/reliability-v2-e-q7-live-soak-evidence-003.json',
+      executedSamples: 20,
+      acceptedSamples: 16,
+      controlledFailClosedSamples: 4,
+      knownUsageCostUsd: 0.432952,
+      targetedRepairsObserved: 12,
+      classification: 'q7_pass_no_new_generic_engineering_contract_class',
+      defectClass: 'none_new_generic_engineering_contract_class',
+    })
+    expect(plan.affectedQualificationGates).toEqual([])
     expect(plan.costCeilingReview).toMatchObject({
       decision: 'retain_usd_5_ceiling',
-      latestKnownUsageCostUsd: 0.455962,
-      latestCeilingUtilisationPercent: 9.11924,
-      cumulativeKnownQ7SpendUsd: 0.879868,
+      latestKnownUsageCostUsd: 0.432952,
+      latestCeilingUtilisationPercent: 8.65904,
+      cumulativeKnownQ7SpendUsd: 1.31282,
     })
   })
 
-  it('preserves the first Q7 evidence unchanged while persisting the exact second-run result', () => {
+  it('preserves historical Q7 failure evidence and persists the exact third-run classified result', () => {
     expect(firstEvidence.workflow.runId).toBe(33265434110)
     expect(firstEvidence.classification.defectClass).toBe('assessment_subquestion_required_structure_omission_before_targeted_repair')
+    expect(secondEvidence.workflow.runId).toBe(33282967568)
+    expect(secondEvidence.classification.defectClass).toBe('assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair')
 
-    expect(secondEvidence).toMatchObject({
-      attempt: 2,
-      status: 'failed_generic_contract_class',
+    expect(thirdEvidence).toMatchObject({
+      attempt: 3,
+      status: 'passed_controlled_educational_fail_closed',
       workflow: {
-        runId: 33282967568,
-        runNumber: 17,
-        mainSha: 'f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9',
-        artifactId: 9723581809,
-        artifactDigest: 'sha256:b351f24be35d23b8dbecc78ba0cbf0228cac314cd20adfab2bf38dd19199d21b',
+        runId: 33364521121,
+        runNumber: 18,
+        mainSha: '9755c7a40d5e61b76a49e51480e7c5403642e593',
+        artifactId: 9747914357,
+        artifactDigest: 'sha256:1a09cb3242faa1ace9816187ce3b2895bd191c1f9801e846047cd3ba57146d96',
       },
       sampleSummary: {
         planned: 20,
         executed: 20,
-        accepted: 17,
-        controlledFailClosed: 3,
+        accepted: 16,
+        controlledFailClosed: 4,
         infrastructureIncidents: 0,
         engineeringBoundaryBreaches: 0,
-        assessmentItemAccepted: 7,
-        assessmentItemControlledFailClosed: 3,
-        markingPackAccepted: 10,
-        markingPackControlledFailClosed: 0,
-        targetedRepairsObserved: 15,
+        assessmentItemAccepted: 8,
+        assessmentItemControlledFailClosed: 2,
+        markingPackAccepted: 8,
+        markingPackControlledFailClosed: 2,
+        targetedRepairsObserved: 12,
       },
       costEvidence: {
         configuredMaxSpendUsd: 5,
-        knownUsageCostUsd: 0.455962,
+        knownUsageCostUsd: 0.432952,
         unpricedSampleCount: 0,
         reviewDecision: 'retain_usd_5_ceiling',
       },
       classification: {
-        decision: 'q7_fail_generic_engineering_contract_class',
-        boundary: 'assessment_item_generation',
-        defectClass: 'assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair',
-        rawProviderCandidateRetention: 'not_retained_in_soak_artifact',
+        decision: 'q7_pass_no_new_generic_engineering_contract_class',
+        boundary: 'assessment_item_generation_and_marking_pack_generation',
+        defectClass: 'none_new_generic_engineering_contract_class',
         previousQ7DefectRecurrence: false,
-        observedSubjectShapes: ['essay_humanities', 'language_prescribed_text'],
+        assessmentItemClassification: {
+          decision: 'controlled_educational_semantic_fail_closed',
+          observedSubjectShapes: ['essay_humanities', 'language_prescribed_text'],
+        },
+        markingPackClassification: {
+          decision: 'controlled_educational_semantic_fail_closed',
+          observedSubjectShapes: ['quantitative_business_economics', 'mathematics'],
+        },
+      },
+      qualificationOutcome: {
+        q7Passed: true,
+        overallReliabilityV2Passed: true,
+        livePilotEligible: false,
+        fullCourseAssembly: false,
+        learnerPublication: false,
       },
     })
-    expect(new Set(secondEvidence.sampleSummary.subjectShapes)).toEqual(new Set(q3SubjectShapeIds))
-    expect(secondEvidence.samples).toHaveLength(20)
-    expect(secondEvidence.samples.filter((sample) => sample.disposition === 'controlled_fail_closed')).toHaveLength(3)
-    expect(secondEvidence.samples.filter((sample) => sample.workerBoundary === 'marking_pack_generation' && sample.disposition === 'accepted')).toHaveLength(10)
-    expect(secondEvidence.samples.every((sample) => sample.provider === 'openai' && sample.model === 'gpt-5.6-terra')).toBe(true)
-    expect(secondEvidence.samples.filter((sample) => sample.disposition === 'controlled_fail_closed').every((sample) => sample.error?.includes('coverage evidence must match its requirement IDs exactly'))).toBe(true)
+    expect(new Set(thirdEvidence.sampleSummary.subjectShapes)).toEqual(new Set(q3SubjectShapeIds))
+    expect(thirdEvidence.samples).toHaveLength(20)
+    const controlled = thirdEvidence.samples.filter((sample) => sample.disposition === 'controlled_fail_closed')
+    expect(controlled).toHaveLength(4)
+    expect(controlled.filter((sample) => sample.workerBoundary === 'assessment_item_generation')).toHaveLength(2)
+    expect(controlled.filter((sample) => sample.workerBoundary === 'marking_pack_generation')).toHaveLength(2)
+    expect(thirdEvidence.samples.every((sample) => sample.provider === 'openai' && sample.model === 'gpt-5.6-terra')).toBe(true)
+    expect(controlled.filter((sample) => sample.workerBoundary === 'assessment_item_generation').every((sample) => sample.error?.includes('must evidence exactly the governed requirement IDs'))).toBe(true)
+    expect(controlled.every((sample) => !sample.error?.includes('coverage evidence must match its requirement IDs exactly'))).toBe(true)
   })
 
-  it('records requalified Q1-Q6 PASS while keeping Q7/Q8/full-course execution fail closed', () => {
+  it('records Q1-Q7 PASS while keeping Q8 and full-course execution fail closed', () => {
     for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-002.json')
     expect(qualification.q7FailureEvidenceHistory).toEqual([
       'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-002.json',
     ])
+    expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-003.json')
     expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-assessment-item-requalification.json')
     expect(qualification.status).toBe('paused')
@@ -241,7 +280,7 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(fullCourseRun).toBeGreaterThan(fullCoursePreflight)
   })
 
-  it('retains the bounded third-soak request and workflow safety envelope before approved-main execution', () => {
+  it('retains the bounded third-soak request and workflow safety envelope', () => {
     expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-003', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
     expect(soakWorkflowText).toContain('workflow_dispatch:')
     expect(soakWorkflowText).toContain('- content-factory/reliability-v2-e-live-worker-soak-request.json')
