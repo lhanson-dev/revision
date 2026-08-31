@@ -14,7 +14,8 @@ The Content Factory is **paused after Confirmation Pilot #20** under the Reliabi
 - Candidate-recovery implementation checkpoint 1: **complete Assessment Item diagnostics implemented; not qualification evidence by itself**.
 - Candidate-recovery implementation checkpoint 2: **bounded Assessment Item candidate resampling implemented; not qualification evidence by itself**.
 - Candidate-recovery implementation checkpoint 3: **durable Assessment Item slot/candidate state implemented; not qualification evidence by itself**.
-- Next full-course confirmation: **not permitted** until the candidate-recovery production topology is implemented, requalified through Q1–Q7 and separately restored through Q8.
+- Candidate-recovery implementation checkpoint 4: **durable Marking Pack candidate recovery implemented; not qualification evidence by itself**.
+- Next full-course confirmation: **not permitted** until the candidate-recovery production topology is requalified through Q1–Q7 and separately restored through Q8.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
 
@@ -37,6 +38,8 @@ The target is:
 A rejected candidate is expected production scrap. It is not itself a course failure.
 
 The factory is reliable only when it can recover automatically from expected candidate variability while retaining all educational assurance and spend controls.
+
+A second hard invariant applies to completeness: **reject attempts, not requirements**. A rejected candidate cannot satisfy a required curriculum or dependent-artifact slot. Each mandatory requirement must terminate in accepted required coverage/artifacts or an explicit blocking state; silent omission is not a valid recovery outcome.
 
 ## Success definition: trusted and repeatable
 
@@ -109,10 +112,10 @@ The failure is classified as:
 
 `assessment_candidate_recovery_and_complete_diagnostic_architecture_failure`
 
-Two production behaviours are coupled:
+Two production behaviours were coupled:
 
 1. `diagnoseAssessmentItemV2Candidate()` ran the semantic structured validator in a `try/catch`. The validator could throw after the first safely inspectable semantic defect, so that one thrown error could be presented to the repair worker as though it were the complete diagnostic set.
-2. `runAssessmentAndMarkingFactory()` converts an Assessment Item or Marking Pack worker failure directly into `blockJob(...)`. A rejectable candidate therefore becomes a course-level blocker rather than a bounded candidate-level recovery event.
+2. `runAssessmentAndMarkingFactory()` converted an Assessment Item or Marking Pack worker failure directly into `blockJob(...)`. A rejectable candidate therefore became a course-level blocker rather than a bounded candidate-level recovery event.
 
 This is generic architecture. It is not an AQA Business-specific educational defect.
 
@@ -157,6 +160,16 @@ Fresh resampling is preferred to repeatedly rewriting a complex candidate where 
 - invalid Marking Pack → replace that pack while preserving the frozen accepted Assessment Item;
 - shared case/stimulus → validate and freeze context before independently generating dependent slots where the assessment shape permits it.
 
+### Required-slot completeness
+
+Candidate rejection never changes what the governed course requires.
+
+- an Assessment slot remains unfilled until an Assessment Item candidate is accepted;
+- a markable accepted Assessment Item remains incomplete for course assembly until an accepted Marking Pack exists for it;
+- rejected Assessment/Marking candidates carry no accepted artifact/coverage reference;
+- bounded recovery exhaustion creates an explicit blocker;
+- `expert_review_ready` qualification must fail if any mandatory coverage or required dependent artifact is absent.
+
 ### Course-level blocker
 
 The course becomes blocked only when automation cannot safely recover, for example:
@@ -172,7 +185,7 @@ An ordinary bad candidate is not itself a course blocker.
 
 ## Implementation checkpoint 1 — complete Assessment Item diagnostics
 
-The first production slice of ADR-0019 addresses the Pilot #20 diagnostic defect without claiming the wider recovery topology is complete.
+The first production slice of ADR-0019 addressed the Pilot #20 diagnostic defect without claiming the wider recovery topology was complete.
 
 Implemented in the shared Assessment Item integrity boundary:
 
@@ -208,7 +221,7 @@ Checkpoint 2 did **not** make the candidate sequence durable. The two-candidate 
 
 ## Implementation checkpoint 3 — durable Assessment Item slot/candidate state
 
-The third production slice moves candidate sequencing into the assessment factory/orchestration boundary and makes every candidate attempt durable.
+The third production slice moved candidate sequencing into the assessment factory/orchestration boundary and made every Assessment Item candidate attempt durable.
 
 Implemented in the production Assessment path:
 
@@ -227,9 +240,33 @@ Implemented in the production Assessment path:
 - provider/infrastructure failures remain distinct from candidate rejection and are not silently consumed as candidate scrap;
 - direct non-orchestrated Assessment worker callers retain the same bounded two-candidate fallback for compatibility, while production orchestration supplies one exact candidate at a time.
 
-Checkpoint 3 is implementation evidence only. It still does **not** implement independent Marking Pack candidate recovery, the final course-level orchestrator recovery semantics, Q1–Q7 requalification evidence or Q8 eligibility.
+Checkpoint 3 was implementation evidence only and did not yet provide the dependent Marking Pack recovery path.
 
-The machine remains paused after checkpoint 3.
+## Implementation checkpoint 4 — durable Marking Pack candidate recovery
+
+The fourth production slice makes Marking Pack recovery independent, bounded and durable while preserving the accepted Assessment Item.
+
+Implemented in the production Assessment/Marking path:
+
+- each accepted Assessment Item defines a required Marking Pack slot `marking-pack-slot:<assessment-item-id>`;
+- each Marking Pack candidate attempt is a separate canonical `marking_pack` worker execution with `...:candidate:<n>` input evidence;
+- the factory derives candidate sequence from persisted `workerRuns[]` and owns a hard two-candidate ceiling;
+- the live Marking Pack provider contract advances from `4` to `5` and accepts orchestration-owned candidate number/max-candidate inputs;
+- each candidate may receive at most one complete-diagnostic targeted repair using the existing Marking Pack compiler/diagnostic boundary;
+- if candidate 1 remains invalid after its repair, candidate 2 is generated fresh from the same frozen accepted Assessment Item, Question Family and governed inputs, not from candidate 1 wording;
+- rejected Marking Pack candidates carry no accepted output ref and create no `markingPackCoverage` entry;
+- an accepted pack and its coverage entry are checkpointed before later sibling packs continue;
+- the accepted Assessment Item is never regenerated merely because its Marking Pack candidate failed;
+- already accepted sibling Marking Packs remain untouched while another pack recovers;
+- recovery exhaustion creates an explicit course blocker and cannot be treated as a completed marking slot;
+- if durable success evidence exists but the accepted Marking Pack coverage/artifact cannot be recovered, the factory refuses to overwrite accepted work;
+- the generic Marking Pack input contract advances from `2` to `3` and durable semantic integrity advances from `output-integrity-v2` to `output-integrity-v3` so pre-recovery Marking Pack executions cannot be reused across a changed-head replay;
+- direct non-orchestrated Marking Pack callers retain a bounded two-candidate fallback while production orchestration executes one exact candidate at a time;
+- provider-free regressions cover candidate replacement, two-candidate exhaustion, durable restart at candidate 2, preservation of accepted Assessment Items, deterministic slot markers and current dependency versioning.
+
+Checkpoint 4 is implementation evidence only. It does **not** restore Q1–Q7 status, authorize a live soak, authorize another full-course confirmation or restore Q8 eligibility.
+
+The machine remains paused after checkpoint 4.
 
 ## Requalification requirements after Pilot #20
 
@@ -258,7 +295,8 @@ In addition to existing shape/mutation coverage, qualification must deliberately
 - Marking Pack rejection without Assessment Item invalidation;
 - recovery exhaustion that truthfully blocks;
 - mixed-demand multi-question assessment artifacts;
-- shared-context/case assessment shapes where applicable.
+- shared-context/case assessment shapes where applicable;
+- missing-required-slot attempts that prove rejected artifacts never count toward completeness.
 
 ### Q4 — deterministic full-pipeline simulation
 
@@ -266,17 +304,21 @@ The provider-free full-course simulation must reach `expert_review_ready` **desp
 
 A simulation where every generated candidate is valid is insufficient evidence.
 
+The simulation must also reconcile mandatory coverage/dependent-artifact obligations before `expert_review_ready`: every required slot must have accepted evidence, and deliberately exhausted required slots must fail closed rather than be omitted.
+
 ### Q5 — restart/reuse/dependency invalidation
 
 Qualification must prove accepted sibling artifacts remain reusable after another candidate fails and that resuming the job does not regenerate unrelated accepted work.
 
 For the durable candidate topology specifically, Q5 must prove:
 
-- restart from a job checkpoint after candidate 1 rejection continues with candidate 2 and does not regenerate candidate 1;
-- an accepted Assessment Item slot survives restart and is not regenerated merely because another slot fails;
+- restart from a job checkpoint after Assessment candidate 1 rejection continues with candidate 2 and does not regenerate candidate 1;
+- restart from a job checkpoint after Marking Pack candidate 1 rejection continues with candidate 2 and does not regenerate the accepted Assessment Item;
+- an accepted Assessment Item slot survives restart and is not regenerated merely because its Marking Pack or another slot fails;
+- an accepted Marking Pack survives another sibling pack failure;
 - a terminal candidate worker cache entry can be reused after interruption without a second provider charge when its exact input/dependency fingerprint is unchanged;
-- a pre-checkpoint-3 Assessment execution is not inferred reusable across a changed-head replay under the new candidate semantics; and
-- genuine downstream Assessment/Marking/review dependencies invalidate when the Assessment contract changes while unrelated Learn/Practice work remains reusable where its own inputs/contracts are unchanged.
+- pre-checkpoint durable Assessment/Marking executions are not inferred reusable across changed-head replay under new candidate semantics; and
+- genuine downstream Assessment/Marking/review dependencies invalidate when the relevant contract changes while unrelated Learn/Practice work remains reusable where its own inputs/contracts are unchanged.
 
 ### Q6 — repeated recovery stability
 
@@ -288,7 +330,7 @@ The next live worker soak must exercise the **same candidate rejection/resamplin
 
 It must not merely sample isolated first-pass worker acceptance.
 
-At least some live samples must exercise controlled candidate rejection and automatic replacement before Q7 can support a repeatability claim.
+At least some live Assessment Item and Marking Pack samples must exercise controlled candidate rejection and automatic replacement before Q7 can support a repeatability claim.
 
 A new generic engineering class still fails Q7.
 
@@ -387,21 +429,24 @@ The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery 
 
 ## Documentation impact
 
-No normative authority change is required for implementation checkpoints 1–3. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
+No normative authority change is required for implementation checkpoints 1–4. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
 
 The current implementation now:
 
 - fixes the first-error/complete-diagnostics mismatch at the shared Assessment Item integrity boundary;
 - versions the Assessment Item provider contract to `8` for orchestration-owned durable candidate recovery;
 - permits two fresh Assessment Item candidates per governed slot, with one complete-diagnostic repair per candidate;
-- records each candidate as a separate canonical worker run with deterministic slot/candidate markers and checkpoints it immediately through the durable job store;
+- records each Assessment Item candidate as a separate canonical worker run with deterministic slot/candidate markers and checkpoints it immediately through the durable job store;
 - preserves accepted Assessment Item siblings across candidate recovery and fails closed instead of overwriting accepted work whose artifact cannot be recovered;
-- accumulates retry/resample and usage-cost provenance and fails closed after bounded exhaustion;
-- advances the generic Assessment contract to `3` and durable semantic integrity version to `output-integrity-v6` so changed-head replay cannot reuse pre-recovery Assessment semantics;
-- preserves direct and Pilot #20 simultaneous-defect regressions and adds successful-resample/exhaustion and durable-candidate-state regressions;
-- updates `docs/technical/Content Factory Architecture.md`, `docs/technical/Content Factory Durable Resume and Spend.md` and this qualification harness with checkpoint 3 and the remaining recovery work;
+- versions the Marking Pack provider contract to `5` and generic input contract to `3` for orchestration-owned durable candidate recovery;
+- permits two fresh Marking Pack candidates per accepted Assessment Item, with one complete-diagnostic repair per candidate;
+- records each Marking Pack candidate as a separate canonical `marking_pack` run with deterministic slot/candidate markers and checkpoints accepted coverage immediately;
+- preserves the frozen accepted Assessment Item and unrelated sibling packs while a Marking Pack candidate is rejected/replaced;
+- ensures rejected Marking Pack candidates do not enter `markingPackCoverage`, and bounded exhaustion blocks rather than allowing a missing required pack;
+- advances durable Marking Pack semantic integrity to `output-integrity-v3` so changed-head replay cannot reuse pre-recovery Marking Pack semantics;
+- preserves historical evidence files unchanged;
+- updates `docs/technical/Content Factory Architecture.md`, `docs/technical/Content Factory Durable Resume and Spend.md` and this qualification harness for checkpoint 4;
 - leaves `content-factory/reliability-qualification.json` paused and unchanged;
-- does not rewrite historical Pilot, Q7 or Q8 evidence;
 - does not run a provider, full course, live soak or publication action.
 
-Later implementation PRs still need to land Marking Pack recovery and course-level orchestrator recovery before provider-free requalification can begin.
+The next governed step after this implementation checkpoint is provider-free requalification of the actual end-to-end candidate-recovery and mandatory-completeness topology. That requalification must prove deliberate bad Assessment/Marking candidates can recover without dropping required course material before any live/full-course eligibility can be restored.

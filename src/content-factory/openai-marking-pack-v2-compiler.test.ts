@@ -264,17 +264,75 @@ describe('Reliability v2-A Marking Pack compiler', () => {
       independentReview: route,
       fetchImpl,
       maxRetries: 0,
-    }).generateMarkingPack(input)
+    }).generateMarkingPack({ ...input, candidateNumber: 1, maxCandidates: 2 })
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     expect((result.output as { rubric: unknown[] }).rubric).toHaveLength(5)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
-  it('fails closed after the one repair when whole-artifact revalidation still finds defects', async () => {
+  it('returns a rejected candidate after the one repair when whole-artifact revalidation still finds defects', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidPilot18StyleCandidate())), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch
+
+    const result = await createOpenAIModelAssistedWorkers({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+    }).generateMarkingPack({ ...input, candidateNumber: 1, maxCandidates: 2 })
+
+    expect(result.status).toBe('failure')
+    if (result.status !== 'failure') throw new Error('expected failure')
+    expect(result.error).toContain('marking_pack_v2_candidate_rejected')
+    expect(result.error).toContain('MARKING_CALCULATION_METHOD_TREATMENT_MISSING')
+    expect(result.error).toContain('MARKING_EXTENDED_RESPONSE_LEVELS_INSUFFICIENT')
+    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.retryCount).toBe(1)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+  })
+
+  it('freshly resamples the same accepted question after a rejected repaired candidate', async () => {
+    let call = 0
+    const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      call += 1
+      const body = JSON.parse(String(init?.body)) as { instructions: string; input?: unknown }
+      if (call <= 2) {
+        return new Response(JSON.stringify(responseBody(invalidPilot18StyleCandidate())), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      }
+      expect(body.instructions).toContain('FRESH MARKING PACK CANDIDATE RESAMPLE REQUIRED')
+      expect(body.instructions).toContain('accepted assessment question is fixed')
+      return new Response(JSON.stringify(responseBody(validCandidate())), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }) as typeof fetch
+
+    const result = await createOpenAIModelAssistedWorkers({
+      apiKey: 'test-secret',
+      generation: route,
+      independentReview: route,
+      fetchImpl,
+      maxRetries: 0,
+    }).generateMarkingPack(input)
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.retryCount).toBe(2)
+    expect(fetchImpl).toHaveBeenCalledTimes(3)
+  })
+
+  it('fails closed after both fresh candidates exhaust their one-repair allowance', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidPilot18StyleCandidate())), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -290,10 +348,10 @@ describe('Reliability v2-A Marking Pack compiler', () => {
 
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('expected failure')
-    expect(result.error).toContain('marking_pack_v2_after_complete_diagnostic_repair')
-    expect(result.error).toContain('MARKING_CALCULATION_METHOD_TREATMENT_MISSING')
-    expect(result.error).toContain('MARKING_EXTENDED_RESPONSE_LEVELS_INSUFFICIENT')
-    expect(result.provenance.retryCount).toBe(1)
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.error).toContain('marking_pack_v2_candidate_recovery_exhausted')
+    expect(result.error).toContain('candidate 1 diagnostics_after_repair')
+    expect(result.error).toContain('candidate 2 diagnostics_after_repair')
+    expect(result.provenance.contractVersion).toBe('5')
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
   })
 })

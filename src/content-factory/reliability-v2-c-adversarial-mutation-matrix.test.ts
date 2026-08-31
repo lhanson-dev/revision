@@ -570,7 +570,7 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
     if (result.status === 'success') expect(result.provenance.retryCount).toBe(1)
   })
 
-  it.each(scenarios)('fails closed after the one permitted repair for $shape', async (scenario) => {
+  it.each(scenarios)('fails closed after both bounded Marking Pack candidates exhaust their one permitted repair for $shape', async (scenario) => {
     const invalid = simultaneousDefectCandidate(scenario)
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalid)), {
       status: 200,
@@ -579,9 +579,11 @@ describe('Reliability v2-C adversarial provider-free mutation matrix', () => {
 
     const result = await workers(fetchImpl).generateMarkingPack(markingInput(scenario))
     expect(result.status).toBe('failure')
-    if (result.status === 'success') throw new Error('Expected bounded repair failure')
-    expect(result.error).toContain('marking_pack_v2_after_complete_diagnostic_repair')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    if (result.status === 'success') throw new Error('Expected bounded candidate-recovery exhaustion')
+    expect(result.error).toContain('marking_pack_v2_candidate_recovery_exhausted')
+    expect(result.error).toContain('candidate 1 diagnostics_after_repair')
+    expect(result.error).toContain('candidate 2 diagnostics_after_repair')
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
   })
 
   it.each(scenarios)('resolves valid bounded locators with no retry for $shape', async (scenario) => {

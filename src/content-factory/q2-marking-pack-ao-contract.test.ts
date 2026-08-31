@@ -170,6 +170,8 @@ function workerInput() {
     questionFamily,
     assessmentItem,
     knowledgeNodes,
+    candidateNumber: 1,
+    maxCandidates: 2,
   }
 }
 
@@ -191,7 +193,7 @@ describe('Q2 structured Marking Pack AO ownership', () => {
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     const output = result.output as {
       assessmentObjectiveAllocation: unknown
       subquestionGuidance: Array<{ subquestionId: string; maxMark: number }>
@@ -227,12 +229,13 @@ describe('Q2 structured Marking Pack AO ownership', () => {
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('expected provider-contract failure')
     expect(result.error).toContain('provider_contract_failure')
+    expect(result.error).toContain('marking_pack_v2_candidate_rejected')
     expect(result.error).toContain('Unrecognized keys')
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('collects a subquestion AO total defect, gives it one bounded repair, then fails closed if it remains', async () => {
+  it('collects a subquestion AO total defect, gives it one bounded repair, then rejects that candidate if it remains', async () => {
     const invalid = markingOutput()
     invalid.subquestionGuidance[0].assessmentObjectiveAllocation = [
       { objectiveId: 'ao1', marks: 1 },
@@ -247,9 +250,9 @@ describe('Q2 structured Marking Pack AO ownership', () => {
 
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('expected fail-closed result')
-    expect(result.error).toContain('marking_pack_v2_after_complete_diagnostic_repair')
+    expect(result.error).toContain('marking_pack_v2_candidate_rejected')
     expect(result.error).toContain('MARKING_SUBQUESTION_AO_TOTAL_MISMATCH')
-    expect(result.provenance.contractVersion).toBe('4')
+    expect(result.provenance.contractVersion).toBe('5')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
