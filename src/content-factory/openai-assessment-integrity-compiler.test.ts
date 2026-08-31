@@ -213,7 +213,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.provenance.retryCount).toBe(0)
     const output = result.output as { subquestions: Array<{ requirementIds: string[] }> }
     expect(output.subquestions).toHaveLength(2)
@@ -228,7 +228,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -241,7 +241,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
@@ -254,13 +254,13 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.provenance.retryCount).toBe(1)
     if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
-  it('repairs a Pilot 14 style response-demand mismatch once using the exact deterministic validation error', async () => {
+  it('repairs a Pilot 14 style response-demand mismatch once using the complete deterministic diagnostic set', async () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
@@ -272,7 +272,7 @@ describe('OpenAI assessment integrity compiler', () => {
       expect(body.instructions).toContain('command does not ask for rewarded demand interpretation')
       const payload = JSON.parse(body.input) as { repairDiagnostics: Array<{ code: string; message: string }> }
       expect(payload.repairDiagnostics).toEqual(expect.arrayContaining([
-        expect.objectContaining({ code: 'ASSESSMENT_STRUCTURED_CONTRACT_INVALID' }),
+        expect.objectContaining({ code: 'ASSESSMENT_RESPONSE_DEMAND_UNSUPPORTED' }),
       ]))
       return new Response(JSON.stringify(responseBody(pilot14RepairedOutput())), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
@@ -281,7 +281,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }
