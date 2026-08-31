@@ -25,6 +25,25 @@ export const assessmentResponseDemandCommandEvidence = {
   evaluation: ['evaluate', 'assess', 'justify', 'recommend'],
 } as const satisfies Record<AssessmentResponseDemand, readonly string[]>
 
+export type AssessmentResponseDemandValidationMode = 'lexical_command' | 'lexical_or_mcq_semantic'
+
+/**
+ * Selection is an interaction format. Knowledge and application are cognitive
+ * demands that may legitimately be assessed through that interaction without a
+ * second command verb (for example, "Which option ...?"). Calculation,
+ * interpretation, analysis and evaluation still require explicit learner-facing
+ * command evidence so the provider cannot claim an unasked higher-order demand.
+ */
+export const assessmentResponseDemandValidationMode = {
+  selection: 'lexical_command',
+  knowledge: 'lexical_or_mcq_semantic',
+  application: 'lexical_or_mcq_semantic',
+  calculation: 'lexical_command',
+  interpretation: 'lexical_command',
+  analysis: 'lexical_command',
+  evaluation: 'lexical_command',
+} as const satisfies Record<AssessmentResponseDemand, AssessmentResponseDemandValidationMode>
+
 export const assessmentOptionSchema = z.object({
   label: z.enum(['A', 'B', 'C', 'D']),
   text: nonEmptyStringSchema,
@@ -86,6 +105,19 @@ export function assessmentResponseDemandCommandContractText() {
     .join('; ')
 }
 
+function isSelectionMcq(subquestion: AssessmentSubquestion) {
+  return subquestion.responseDemands.includes('selection') && (subquestion.options?.length ?? 0) > 0
+}
+
+export function assessmentSubquestionSupportsDemand(
+  subquestion: AssessmentSubquestion,
+  demand: AssessmentResponseDemand,
+) {
+  if (assessmentCommandSupportsDemand(`${subquestion.command} ${subquestion.wording}`, demand)) return true
+  return assessmentResponseDemandValidationMode[demand] === 'lexical_or_mcq_semantic'
+    && isSelectionMcq(subquestion)
+}
+
 function validateMcqOptions(subquestion: AssessmentSubquestion, label: string) {
   const isSelection = subquestion.responseDemands.includes('selection')
   if (!isSelection && (subquestion.options?.length ?? 0) > 0) throw new Error(`${label} supplies MCQ options without selection demand`)
@@ -119,7 +151,7 @@ export function validateStructuredAssessment(input: {
     if (new Set(subquestion.requirementIds).size !== subquestion.requirementIds.length) {
       throw new Error(`${label} must not repeat requirement IDs`)
     }
-    for (const demand of subquestion.responseDemands) if (!assessmentCommandSupportsDemand(`${subquestion.command} ${subquestion.wording}`, demand)) {
+    for (const demand of subquestion.responseDemands) if (!assessmentSubquestionSupportsDemand(subquestion, demand)) {
       throw new Error(`${label} command does not ask for rewarded demand ${demand}`)
     }
     validateMcqOptions(subquestion, label)
