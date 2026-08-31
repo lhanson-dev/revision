@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #19 exposed a new generic Assessment Item engineering-contract class: the shared response-demand validator conflated MCQ selection interaction wording with knowledge/application cognitive-demand evidence and could reject a valid knowledge MCQ by construction. Reliability Standard v2.0 therefore requires full-course eligibility to pause. The reusable architecture correction is implemented provider-free on this branch, Q1-Q6 require exact-head assurance, and a new bounded Q7 live-worker soak is required before any separate Q8 transition may restore confirmation-pilot eligibility.",
+  "reason": "Confirmation Pilot #19 exposed a new generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head post-merge provider-free Q1-Q6 assurance. Reliability Standard v2.0 still requires a new bounded Q7 live-worker soak before any separate Q8 transition may restore full-course confirmation eligibility.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -37,15 +37,15 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "candidate_pass_pending_exact_head_assurance",
-    "Q2-historical-failure-replay-corpus": "candidate_pass_pending_exact_head_assurance",
-    "Q3-adversarial-provider-free-subject-matrix": "candidate_pass_pending_exact_head_assurance",
-    "Q4-deterministic-full-pipeline-simulation": "candidate_pass_pending_exact_head_assurance",
-    "Q5-restart-reuse-dependency-invalidation": "candidate_pass_pending_exact_head_assurance",
-    "Q6-repeated-provider-free-stability": "candidate_pass_pending_exact_head_assurance",
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
     "Q7-bounded-live-worker-soak": "required_after_pilot19"
   },
-  "providerFreeQualificationEvidence": "content-factory/reliability-pilot19-assessment-architecture-review.json",
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
   "qualifiedEvidence": null,
   "livePilotEligible": false
