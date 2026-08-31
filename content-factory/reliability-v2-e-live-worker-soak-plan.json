@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "workItem": "V2-E",
   "gate": "Q7",
-  "status": "second_live_execution_completed_generic_contract_failure",
+  "status": "third_live_execution_passed_controlled_educational_fail_closed",
   "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
-  "runnerMergedMainSha": "ba9d5e5fee0ae33bfac22f393f50faad4e8cb4f7",
+  "runnerMergedMainSha": "9755c7a40d5e61b76a49e51480e7c5403642e593",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
   "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
@@ -73,29 +73,37 @@
       "targetedRepairsObserved": 15,
       "classification": "q7_fail_generic_engineering_contract_class",
       "defectClass": "assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair"
+    },
+    {
+      "attempt": 3,
+      "mainSha": "9755c7a40d5e61b76a49e51480e7c5403642e593",
+      "workflowRunId": 33364521121,
+      "workflowRunNumber": 18,
+      "artifactId": 9747914357,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
+      "executedSamples": 20,
+      "acceptedSamples": 16,
+      "controlledFailClosedSamples": 4,
+      "knownUsageCostUsd": 0.432952,
+      "targetedRepairsObserved": 12,
+      "classification": "q7_pass_no_new_generic_engineering_contract_class",
+      "defectClass": "none_new_generic_engineering_contract_class"
     }
   ],
-  "latestLiveExecutionAttempt": 2,
-  "affectedQualificationGates": [
-    "Q1-compiler-worker-ownership-inventory",
-    "Q2-historical-failure-replay-corpus",
-    "Q3-adversarial-provider-free-subject-matrix",
-    "Q4-deterministic-full-pipeline-simulation",
-    "Q5-restart-reuse-dependency-invalidation",
-    "Q6-repeated-provider-free-stability"
-  ],
+  "latestLiveExecutionAttempt": 3,
+  "affectedQualificationGates": [],
   "costCeilingReview": {
     "decision": "retain_usd_5_ceiling",
-    "latestKnownUsageCostUsd": 0.455962,
-    "latestCeilingUtilisationPercent": 9.11924,
-    "cumulativeKnownQ7SpendUsd": 0.879868,
-    "rationale": "Both completed 20-sample soaks used well under the governed US$5 per-soak ceiling. The second failure is a contract-quality signal and does not justify increasing the ceiling."
+    "latestKnownUsageCostUsd": 0.432952,
+    "latestCeilingUtilisationPercent": 8.65904,
+    "cumulativeKnownQ7SpendUsd": 1.31282,
+    "rationale": "All three 20-sample soaks used well under the governed US$5 per-soak ceiling. The third soak completed all samples for US$0.432952; its four controlled fail-closed outcomes were classified as educational/semantic rejections handled by the intended deterministic boundary, so no ceiling change is justified."
   },
   "fullCourseAssembly": false,
   "learnerPublication": false,
   "livePilotEligibilityChanged": false,
-  "q7Passed": false,
-  "overallReliabilityV2Passed": false,
-  "nextIfSoakPasses": "Persist Q7 evidence on a governed evidence PR, then V2-F/Q8 eligibility transition remains separate.",
+  "q7Passed": true,
+  "overallReliabilityV2Passed": true,
+  "nextIfSoakPasses": "Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
   "nextIfSoakFindsGenericContractClass": "Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."
 }
