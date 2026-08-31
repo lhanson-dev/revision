@@ -89,9 +89,11 @@
   "historicalRecordsRewritten": false,
   "documentationImpact": {
     "normativeAuthorityChanged": false,
+    "normativeReason": "Reliability Standard v2.0 already requires model variability to be handled without engineering intervention, compiler-first ownership, complete diagnostics, targeted recovery and a stop-loss architecture review after two consecutive confirmation engineering failures. ADR-0019 selects the implementation architecture within that authority rather than changing the educational or reliability policy.",
     "architectureDecisionRequired": true,
-    "technicalArchitectureUpdateRequired": true,
-    "qualificationHarnessUpdateRequired": true,
-    "indexUpdateRequired": false
+    "architectureDecision": "decisions/ADR-0019-content-factory-candidate-recovery.md",
+    "technicalArchitectureUpdateRequiredDuringImplementation": true,
+    "qualificationHarnessUpdated": true,
+    "indexUpdatedForAdr0019": true
   }
 }
