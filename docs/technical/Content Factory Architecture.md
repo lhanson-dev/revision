@@ -295,7 +295,7 @@ The implementation must satisfy these invariants:
 - course-level `blocked` state is reserved for unresolved authority/identity/rights/coverage ambiguity, exhausted governed recovery/spend limits, unrecoverable infrastructure, or educational ambiguity that automation cannot safely resolve;
 - educational assurance remains unchanged and can still reject an educationally weak candidate or course.
 
-### Implementation checkpoint: complete Assessment Item diagnostics
+### Implementation checkpoint 1: complete Assessment Item diagnostics
 
 The first implementation slice after ADR-0019 is the Assessment Item diagnostic boundary:
 
@@ -303,10 +303,25 @@ The first implementation slice after ADR-0019 is the Assessment Item diagnostic 
 - the aggregate path inspects all safely parseable subquestions and reports simultaneous mark, requirement, command/demand, MCQ and coverage findings rather than stopping after the first semantic failure;
 - the existing `validateStructuredAssessment` fail-fast API is retained for compatibility and returns the first diagnostic as an exception;
 - the Assessment Item provider worker uses the aggregate path before its single permitted targeted repair;
-- the Assessment Item worker contract is versioned to `6` because the provider/repair behaviour has materially changed;
+- the Assessment Item worker contract was versioned to `6` because the provider/repair behaviour materially changed;
 - a Pilot #20 regression proves calculation- and interpretation-demand defects in different subquestions are supplied together to the one repair call.
 
-This checkpoint **does not yet implement** bounded fresh-candidate resampling, slot-level accepted-sibling preservation, Marking Pack candidate recovery, or the orchestrator change that prevents an ordinary rejected candidate from blocking the course. Full-course eligibility therefore remains paused and Q1–Q7 must not be treated as passed because this diagnostic slice is green.
+Checkpoint 1 by itself did **not** implement bounded fresh-candidate resampling, slot-level accepted-sibling preservation, Marking Pack candidate recovery, or the orchestrator change that prevents an ordinary rejected candidate from blocking the course.
+
+### Implementation checkpoint 2: bounded Assessment Item candidate resampling
+
+The second implementation slice adds bounded worker-local recovery for the governed Assessment Item / Question Family slot:
+
+- the Assessment Item worker contract is versioned to `7` because candidate lifecycle and provider-call provenance materially change;
+- each Assessment Item slot may use at most **two fresh candidates**;
+- each candidate may receive at most **one** complete-diagnostic targeted repair, preserving the Reliability v2 one-repair-per-artifact ceiling;
+- when candidate 1 remains invalid after repair, candidate 2 is generated fresh from the governed slot inputs and target policy rather than rewriting or preserving candidate 1 wording;
+- a valid first-pass candidate still uses one provider call and no recovery call;
+- provider usage cost and retry/resample counts are accumulated across the bounded candidate sequence;
+- exhausted candidate recovery returns an explicit `assessment_item_v2_candidate_recovery_exhausted` failure; no third candidate or unbounded loop is possible;
+- Assessment Item generation is already scoped to one governed item/Question Family worker invocation, so rejection and resampling do not mutate unrelated already accepted Assessment Item siblings at this worker boundary.
+
+Checkpoint 2 remains deliberately narrower than the complete ADR-0019 topology. It does **not yet implement** durable slot/candidate state in the job record, Marking Pack candidate replacement, or course-level orchestrator semantics that distinguish exhausted worker recovery from ordinary candidate rejection. It therefore does not restore Q1–Q7 or full-course eligibility. The machine-readable qualification state remains paused.
 
 ## Worker contract/versioning
 
@@ -341,7 +356,7 @@ Retry/recovery rules:
 - the job record must show the latest valid stage plus rejected/failed attempts where operationally useful;
 - a failed post-merge deployment keeps the job out of `pilot_live` even though the merge has already occurred.
 
-Candidate-scope recovery is being implemented incrementally after Pilot #20. Until the resampling/orchestrator slices are merged and requalified, the machine-readable qualification state remains paused.
+Candidate-scope recovery is being implemented incrementally after Pilot #20. Until the remaining durable slot-state, Marking Pack and orchestrator recovery slices are merged and requalified, the machine-readable qualification state remains paused.
 
 ## Parallelism
 
@@ -388,7 +403,7 @@ Routing policy should prefer deterministic code and lower-cost workers where qua
 5. Add isolated generation and independent-review worker invocation contracts with worker-run provenance.
 6. Automate branch/PR and exact-head CI handling plus the final Founder-approval stop.
 7. Add post-merge deployment verification and `pilot_live` transition.
-8. Implement ADR-0019 candidate recovery in bounded slices: complete diagnostics, candidate resampling/slot state, Marking Pack recovery, then orchestrator recovery semantics.
+8. Implement ADR-0019 candidate recovery in bounded slices: complete diagnostics, Assessment Item candidate resampling, durable slot state, Marking Pack recovery, then orchestrator recovery semantics.
 9. Requalify the actual candidate-recovery topology through Q1–Q7 and a separate Q8 before another full-course confirmation run.
 10. Prove the pipeline on several materially different qualification types.
 11. Add batch intake/concurrency and spend limits.
