@@ -11,9 +11,11 @@ import {
 } from './openai-provider-adapter'
 import { withSharedProviderBudget } from './openai-shared-provider-budget'
 import type { WorkerExecution } from './intake-to-knowledge-model'
+import { MAX_MARKING_PACK_CANDIDATES } from './marking-pack-candidate-recovery'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
+const MARKING_PACK_CONTRACT_VERSION = '5'
 
 const providerSubquestionGuidanceSchema = markingSubquestionGuidanceSchema.omit({ maxMark: true })
 const providerRubricGuidanceSchema = z.strictObject({
@@ -65,6 +67,11 @@ type RubricScope = {
   id: string
   maxMark: number
   responseDemands: string[]
+}
+type CandidateRejection = {
+  candidateNumber: number
+  stage: 'provider_contract' | 'diagnostics_after_repair' | 'compilation'
+  details: string
 }
 
 function providerOutputSchema(input: MarkingPackInput) {
@@ -396,6 +403,12 @@ function diagnosticText(diagnostics: MarkingPackDiagnostic[]) {
     .join('\n')
 }
 
+function rejectionText(rejections: CandidateRejection[]) {
+  return rejections
+    .map((rejection) => `candidate ${rejection.candidateNumber} ${rejection.stage}: ${rejection.details}`)
+    .join(' | ')
+}
+
 function markingPackV2Instruction(input: MarkingPackInput) {
   const structured = input.assessmentItem.subquestions.length > 0
   return [
@@ -413,20 +426,83 @@ function markingPackV2Instruction(input: MarkingPackInput) {
   ].join(' ')
 }
 
-function combinedRepairExecution(first: WorkerExecution<unknown>, repair: WorkerExecution<unknown>): WorkerExecution<unknown> {
+function generationInstruction(input: MarkingPackInput, candidateNumber: number) {
+  const instruction = markingPackV2Instruction(input)
+  if (candidateNumber === 1) return instruction
+  return [
+    instruction,
+    'FRESH MARKING PACK CANDIDATE RESAMPLE REQUIRED.',
+    'A previous Marking Pack candidate for this exact accepted question was rejected within the bounded candidate-recovery process.',
+    'Generate genuinely fresh marking guidance from the accepted question, Question Family and governed inputs. Do not patch, preserve or imitate the rejected candidate wording.',
+    'The accepted assessment question is fixed and must not be rewritten or weakened to make marking guidance easier.',
+  ].join('\n')
+}
+
+function repairInstruction(input: MarkingPackInput, diagnostics: MarkingPackDiagnostic[]) {
+  return [
+    markingPackV2Instruction(input),
+    'TARGETED MARKING PACK REPAIR REQUIRED.',
+    'The complete candidate was inspected as a whole and produced this complete deterministic defect set:',
+    diagnosticText(diagnostics),
+    'Return the complete corrected educational Marking Pack candidate. Preserve valid content and correct every listed defect in this one repair.',
+    'Do not add rubric IDs, numeric mark bands, subquestion maxMark values or structured aggregate AO arithmetic; Revision owns those mechanical representations.',
+  ].join('\n')
+}
+
+function appendExecution(
+  accumulated: WorkerExecution<unknown> | undefined,
+  next: WorkerExecution<unknown>,
+  retryIncrement: number,
+): WorkerExecution<unknown> {
+  if (!accumulated) {
+    return {
+      ...next,
+      provenance: {
+        ...next.provenance,
+        contractVersion: MARKING_PACK_CONTRACT_VERSION,
+        retryCount: (next.provenance.retryCount ?? 0) + retryIncrement,
+      },
+    }
+  }
   return {
-    ...repair,
+    ...next,
     provenance: {
-      ...repair.provenance,
-      contractVersion: '4',
-      retryCount: (first.provenance.retryCount ?? 0) + (repair.provenance.retryCount ?? 0) + 1,
-      usageCost: (first.provenance.usageCost ?? 0) + (repair.provenance.usageCost ?? 0),
+      ...next.provenance,
+      contractVersion: MARKING_PACK_CONTRACT_VERSION,
+      retryCount: (accumulated.provenance.retryCount ?? 0) + (next.provenance.retryCount ?? 0) + retryIncrement,
+      usageCost: (accumulated.provenance.usageCost ?? 0) + (next.provenance.usageCost ?? 0),
     },
   }
 }
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'unknown Marking Pack v2 compilation error'
+}
+
+function isRecoverableProviderContractFailure(execution: WorkerExecution<unknown>) {
+  return execution.status === 'failure' && execution.error.startsWith('provider_contract_failure:')
+}
+
+function rejectedCandidate(
+  rejections: CandidateRejection[],
+  provenance: WorkerExecution<unknown>['provenance'],
+): WorkerExecution<unknown> {
+  return {
+    status: 'failure',
+    error: `provider_contract_failure: marking_pack_v2_candidate_rejected: ${rejectionText(rejections)}`,
+    provenance,
+  }
+}
+
+function exhaustedCandidateRecovery(
+  rejections: CandidateRejection[],
+  provenance: WorkerExecution<unknown>['provenance'],
+): WorkerExecution<unknown> {
+  return {
+    status: 'failure',
+    error: `provider_contract_failure: marking_pack_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
+    provenance,
+  }
 }
 
 export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAdapterConfig): OpenAIModelAssistedWorkers {
@@ -438,76 +514,114 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
     ...workers,
     async generateMarkingPack(input) {
       const outputSchema = providerOutputSchema(input)
-      const instruction = markingPackV2Instruction(input)
-      const firstExecution = await client.run({
-        workerId: 'content-factory.marking-pack-v2',
-        contractVersion: '4',
-        routeKind: 'generation',
-        outputSchema,
-        strictOutput: true,
-        instructions: instruction,
-        payload: input,
-      })
-      if (firstExecution.status !== 'success') return firstExecution
+      const configuredMaxCandidates = input.maxCandidates ?? MAX_MARKING_PACK_CANDIDATES
+      if (configuredMaxCandidates !== MAX_MARKING_PACK_CANDIDATES) {
+        throw new Error(`Marking Pack recovery requires the governed ${MAX_MARKING_PACK_CANDIDATES}-candidate ceiling`)
+      }
+      if (input.candidateNumber !== undefined && (
+        !Number.isInteger(input.candidateNumber)
+        || input.candidateNumber < 1
+        || input.candidateNumber > configuredMaxCandidates
+      )) throw new Error('Marking Pack candidateNumber is outside the governed recovery ceiling')
 
-      const firstDiagnostics = diagnoseMarkingPackV2Candidate(firstExecution.output, input)
-      if (firstDiagnostics.length === 0) {
-        try {
-          return { ...firstExecution, output: compileMarkingPackV2Candidate(firstExecution.output, input) }
-        } catch (error) {
-          return {
-            status: 'failure',
-            error: `provider_contract_failure: marking_pack_v2_compilation: ${errorMessage(error)}`,
-            provenance: firstExecution.provenance,
+      const singleCandidateMode = input.candidateNumber !== undefined
+      const firstCandidateNumber = input.candidateNumber ?? 1
+      const lastCandidateNumber = input.candidateNumber ?? configuredMaxCandidates
+      let accumulatedExecution: WorkerExecution<unknown> | undefined
+      const rejections: CandidateRejection[] = []
+
+      for (let candidateNumber = firstCandidateNumber; candidateNumber <= lastCandidateNumber; candidateNumber += 1) {
+        const generationExecution = appendExecution(
+          accumulatedExecution,
+          await client.run({
+            workerId: candidateNumber === 1
+              ? 'content-factory.marking-pack-v2'
+              : 'content-factory.marking-pack-v2-resample',
+            contractVersion: MARKING_PACK_CONTRACT_VERSION,
+            routeKind: 'generation',
+            outputSchema,
+            strictOutput: true,
+            instructions: generationInstruction(input, candidateNumber),
+            payload: {
+              ...input,
+              candidateNumber,
+              maxCandidates: configuredMaxCandidates,
+            },
+          }),
+          candidateNumber === 1 ? 0 : 1,
+        )
+        accumulatedExecution = generationExecution
+        if (generationExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(generationExecution)) return generationExecution
+          rejections.push({ candidateNumber, stage: 'provider_contract', details: generationExecution.error })
+          if (singleCandidateMode) return rejectedCandidate(rejections, generationExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
+          return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
+        }
+
+        const firstDiagnostics = diagnoseMarkingPackV2Candidate(generationExecution.output, input)
+        if (firstDiagnostics.length === 0) {
+          try {
+            return { ...generationExecution, output: compileMarkingPackV2Candidate(generationExecution.output, input) }
+          } catch (error) {
+            rejections.push({ candidateNumber, stage: 'compilation', details: errorMessage(error) })
+            if (singleCandidateMode) return rejectedCandidate(rejections, generationExecution.provenance)
+            if (candidateNumber < lastCandidateNumber) continue
+            return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
           }
         }
-      }
 
-      const repairInstruction = [
-        instruction,
-        'TARGETED MARKING PACK REPAIR REQUIRED.',
-        'The first complete candidate was inspected as a whole and produced this complete deterministic defect set:',
-        diagnosticText(firstDiagnostics),
-        'Return the complete corrected educational Marking Pack candidate. Preserve valid content and correct every listed defect in this one repair.',
-        'Do not add rubric IDs, numeric mark bands, subquestion maxMark values or structured aggregate AO arithmetic; Revision owns those mechanical representations.',
-      ].join('\n')
+        const repairExecution = appendExecution(
+          generationExecution,
+          await client.run({
+            workerId: 'content-factory.marking-pack-v2-repair',
+            contractVersion: MARKING_PACK_CONTRACT_VERSION,
+            routeKind: 'generation',
+            outputSchema,
+            strictOutput: true,
+            instructions: repairInstruction(input, firstDiagnostics),
+            payload: {
+              ...input,
+              candidateNumber,
+              maxCandidates: configuredMaxCandidates,
+              previousCandidate: generationExecution.output,
+              repairDiagnostics: firstDiagnostics,
+            },
+          }),
+          1,
+        )
+        accumulatedExecution = repairExecution
+        if (repairExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(repairExecution)) return repairExecution
+          rejections.push({ candidateNumber, stage: 'provider_contract', details: repairExecution.error })
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
+          return exhaustedCandidateRecovery(rejections, repairExecution.provenance)
+        }
 
-      const repairExecution = combinedRepairExecution(
-        firstExecution,
-        await client.run({
-          workerId: 'content-factory.marking-pack-v2-repair',
-          contractVersion: '4',
-          routeKind: 'generation',
-          outputSchema,
-          strictOutput: true,
-          instructions: repairInstruction,
-          payload: {
-            ...input,
-            previousCandidate: firstExecution.output,
-            repairDiagnostics: firstDiagnostics,
-          },
-        }),
-      )
-      if (repairExecution.status !== 'success') return repairExecution
+        const repairDiagnostics = diagnoseMarkingPackV2Candidate(repairExecution.output, input)
+        if (repairDiagnostics.length > 0) {
+          rejections.push({
+            candidateNumber,
+            stage: 'diagnostics_after_repair',
+            details: `initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
+          })
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
+          return exhaustedCandidateRecovery(rejections, repairExecution.provenance)
+        }
 
-      const repairDiagnostics = diagnoseMarkingPackV2Candidate(repairExecution.output, input)
-      if (repairDiagnostics.length > 0) {
-        return {
-          status: 'failure',
-          error: `provider_contract_failure: marking_pack_v2_after_complete_diagnostic_repair: initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
-          provenance: repairExecution.provenance,
+        try {
+          return { ...repairExecution, output: compileMarkingPackV2Candidate(repairExecution.output, input) }
+        } catch (error) {
+          rejections.push({ candidateNumber, stage: 'compilation', details: errorMessage(error) })
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
+          return exhaustedCandidateRecovery(rejections, repairExecution.provenance)
         }
       }
 
-      try {
-        return { ...repairExecution, output: compileMarkingPackV2Candidate(repairExecution.output, input) }
-      } catch (error) {
-        return {
-          status: 'failure',
-          error: `provider_contract_failure: marking_pack_v2_compilation: ${errorMessage(error)}`,
-          provenance: repairExecution.provenance,
-        }
-      }
+      throw new Error('Marking Pack candidate recovery loop exited without a result')
     },
   }
 }
