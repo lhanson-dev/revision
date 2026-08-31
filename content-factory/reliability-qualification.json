@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #19 exposed a new generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head post-merge provider-free Q1-Q6 assurance. Reliability Standard v2.0 still requires a new bounded Q7 live-worker soak before any separate Q8 transition may restore full-course confirmation eligibility.",
+  "reason": "Confirmation Pilot #19 exposed a new generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head post-merge provider-free Q1-Q6 assurance. Q7 is now pending the governed bounded live-worker soak requested from approved main 17efed9d7c44807f4382808638ae5d6bd8589f13; a separate Q8 transition remains required before full-course confirmation eligibility can be restored.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -43,7 +43,7 @@
     "Q4-deterministic-full-pipeline-simulation": "pass",
     "Q5-restart-reuse-dependency-invalidation": "pass",
     "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "required_after_pilot19"
+    "Q7-bounded-live-worker-soak": "pending"
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
