@@ -259,7 +259,7 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(controlled.every((sample) => !sample.error?.includes('coverage evidence must match its requirement IDs exactly'))).toBe(true)
   })
 
-  it('records Q1-Q7 PASS while keeping Q8 and full-course execution fail closed', () => {
+  it('records Q1-Q7 PASS while recognising the later separate Q8 eligibility transition', () => {
     for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-002.json')
@@ -270,9 +270,12 @@ describe('Reliability v2-E Q7 live worker soak governance', () => {
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-003.json')
     expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-assessment-item-requalification.json')
-    expect(qualification.status).toBe('paused')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+
+    expect(thirdEvidence.qualificationOutcome.livePilotEligible).toBe(false)
+    expect(plan.livePilotEligibilityChanged).toBe(false)
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.qualifiedEvidence).not.toBeNull()
+    expect(qualification.livePilotEligible).toBe(true)
 
     const fullCoursePreflight = fullCourseWorkflowText.indexOf('Verify course-agnostic Content Factory reliability qualification')
     const fullCourseRun = fullCourseWorkflowText.indexOf('Run rights-safe live adapter pilot')
