@@ -70,7 +70,7 @@ const allReliabilityV2Gates = [...providerFreeGates, 'Q7-bounded-live-worker-soa
 describe('Reliability v2 status after Pilot #19 architecture review', () => {
   it('pauses current eligibility while preserving all earlier Q7/Q8 evidence as historical truth', () => {
     expect(qualification.status).toBe('paused')
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-pilot19-assessment-architecture-review.json')
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-002.json')
     expect(qualification.q7FailureEvidenceHistory).toEqual([
@@ -83,7 +83,7 @@ describe('Reliability v2 status after Pilot #19 architecture review', () => {
     expect(qualification.livePilotEligible).toBe(false)
 
     for (const gate of providerFreeGates) {
-      expect(['candidate_pass_pending_exact_head_assurance', 'pass']).toContain(qualification.gateStatus[gate])
+      expect(qualification.gateStatus[gate]).toBe('pass')
     }
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('required_after_pilot19')
   })

@@ -4,15 +4,19 @@
 
 The Content Factory is **paused for paid full-course confirmation pilots** under Reliability Standard v2.0 following Confirmation Pilot #19.
 
-Pilot #19 exposed a new generic Assessment Item engineering-contract class after the previous Q1–Q7 qualification and Q8 eligibility transition had passed. The current correction is deliberately provider-free: it redesigns the shared Assessment Item demand-validation boundary, advances the Assessment Item durable semantic version, preserves unaffected Learn/Practice output for dependency-aware reuse, and expands the next bounded Q7 live-soak matrix before any later Q8 transition can restore confirmation-pilot eligibility.
+Pilot #19 exposed a new generic Assessment Item engineering-contract class after the previous Q1–Q7 qualification and Q8 eligibility transition had passed. PR #255 redesigned the shared Assessment Item demand-validation boundary, advanced the Assessment Item durable semantic version, preserved unaffected Learn/Practice output for dependency-aware reuse, and expanded the next bounded Q7 live-soak matrix.
+
+Approved `main` `119cde951b9cd76410d7c091ee00b872c00f4a39` then passed post-merge Revision CI `33383475298` / run #1313. Provider-free Q1–Q6 are therefore recorded as PASS in `content-factory/reliability-post-pilot19-requalification.json`.
 
 Current machine-readable state: `content-factory/reliability-qualification.json`.
 
-Current Pilot #19 architecture/requalification evidence: `content-factory/reliability-pilot19-assessment-architecture-review.json`.
+Pilot #19 architecture evidence: `content-factory/reliability-pilot19-assessment-architecture-review.json`.
+
+Current Pilot #19 Q1–Q6 requalification evidence: `content-factory/reliability-post-pilot19-requalification.json`.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
 
-No paid provider run, full-course assembly or learner publication is triggered by this architecture correction.
+Full-course eligibility remains paused. Q7 is now the next governed qualification step; a separate Q8 transition is still required after Q7 PASS before another full-course confirmation pilot can become eligible.
 
 ## Reliability objective
 
@@ -198,9 +202,13 @@ This applies the Reliability Standard Q5 rule that a narrow semantic correction 
 
 ## Provider-free requalification
 
-The Pilot #19 branch re-exercises Q1–Q6 without paid provider calls.
+Provider-free Q1–Q6 are now PASS for the corrected implementation on approved `main` `119cde951b9cd76410d7c091ee00b872c00f4a39`.
 
-The provider-free matrix now explicitly proves:
+The exact-head post-merge Revision CI evidence is workflow `33383475298` / run #1313. It completed successfully after PR #255 merged, with no provider call introduced by the qualification work.
+
+`content-factory/reliability-post-pilot19-requalification.json` records the PASS decision and binds it to that approved implementation head.
+
+The provider-free matrix proves:
 
 - valid `selection + knowledge` MCQ accepted;
 - valid `selection + application` MCQ accepted;
@@ -210,9 +218,9 @@ The provider-free matrix now explicitly proves:
 - historical requirement-cross-reference compiler ownership remains intact;
 - five-shape deterministic pipeline simulation still reaches `expert_review_ready` with zero provider usage;
 - dependency closure invalidates Assessment Item/downstream scope without invalidating Learn/Practice;
-- repeated provider-free stability remains required.
+- repeated provider-free stability remains green under the governed mutation/repetition strategy.
 
-Exact-head CI determines whether these candidate Q1–Q6 results can be recorded as PASS.
+This satisfies Q1–Q6 only. It does not claim live-provider robustness and does not restore paid full-course eligibility.
 
 ## Next bounded Q7
 
@@ -232,7 +240,7 @@ After Pilot #19, its Assessment Item coverage explicitly includes:
 
 Provider retries remain zero per request, bounded repair remains inside the production compiler, the Q7 ceiling remains US$5, and there is no learner publication or full-course assembly.
 
-The live soak is **not triggered by this remediation PR**. It remains a separate governed paid qualification step after the architecture correction is merged and production-verified.
+The Q1–Q6 requalification PR does **not** update the Q7 live-soak request file and therefore cannot trigger paid provider execution. A separate governed request PR is required for the new soak.
 
 If Q7 passes with no new generic engineering class, a separate Q8 eligibility PR is still required before another full-course confirmation pilot.
 
@@ -252,7 +260,7 @@ Pilot #19 stopped at approximately **US$0.7151** under its US$20 course ceiling.
 
 No paid execution is performed by the architecture correction or provider-free Q1–Q6 requalification.
 
-The next paid activity, once this correction is merged and exact-head assurance is complete, is a bounded Q7 live-worker soak under the existing US$5 ceiling—not another full course.
+The next paid activity, after this requalification status change is merged, is a separately governed bounded Q7 live-worker soak under the existing US$5 ceiling—not another full course.
 
 ## Documentation impact
 
@@ -264,6 +272,6 @@ No normative authority change is required. Reliability Standard v2.0 already req
 - bounded Q7 requalification;
 - a separate Q8 transition before another confirmation pilot.
 
-This change updates current machine qualification state, the current Q1 ownership inventory, current executable reliability assurance, durable semantic dependency versioning and this indexed technical record. Pilot #19 is recorded append-only. Historical Q7 and Q8 evidence is not rewritten.
+This status change adds an append-only post-Pilot-19 Q1–Q6 requalification record, updates the machine qualification state to show Q1–Q6 PASS while remaining paused, updates executable status assurance, and updates this indexed technical record. Historical Pilot #19, Q7 and Q8 evidence is not rewritten.
 
-`INDEX.md` remains correct because this file is already the indexed technical reliability source. No ADR is required because the change refines ownership inside the already-approved Reliability v2 compiler-first architecture rather than changing the target architecture or governing workflow.
+`INDEX.md` remains correct because this file is already the indexed technical reliability source. No ADR is required because no target architecture or governing workflow changes in this requalification-status step.

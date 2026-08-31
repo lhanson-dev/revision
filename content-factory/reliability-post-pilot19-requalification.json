@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "scope": "post_pilot_19_provider_free_requalification",
+  "reviewedImplementationMainSha": "119cde951b9cd76410d7c091ee00b872c00f4a39",
+  "verificationMode": "exact_head_post_merge_ci",
+  "verificationWorkflowRunId": 33383475298,
+  "providerCallsUsed": false,
+  "paidPilotEligible": false,
+  "globalQualificationRequiredState": "paused",
+  "purpose": "Record exact-head Q1-Q6 PASS for the Pilot #19 Assessment Item architecture correction after PR #255 merged and approved main passed post-merge Revision CI. This evidence does not authorise a full-course confirmation pilot; Q7 remains a separate bounded paid qualification step and Q8 remains required after Q7 PASS.",
+  "triggerEvidence": {
+    "pilot": 19,
+    "workflowRunId": 33371449134,
+    "jobIssueNumber": 254,
+    "failedImplementationMainSha": "23b0849354e99d6be865361009388af5922d2f3f",
+    "correctedImplementationMainSha": "119cde951b9cd76410d7c091ee00b872c00f4a39",
+    "architectureReview": "content-factory/reliability-pilot19-assessment-architecture-review.json"
+  },
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-pilot19-contract-inventory.json",
+        "content-factory/reliability-pilot19-assessment-architecture-review.json",
+        "src/content-factory/assessment-integrity.ts",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/pilot19-assessment-shape-contract.test.ts"
+      ],
+      "conclusion": "Selection interaction mechanics are validated separately from MCQ knowledge/application cognitive judgement. Explicit calculation, interpretation, analysis and evaluation command guards remain deterministic/fail-closed, and the Assessment Item semantic boundary is versioned independently from unaffected Learn/Practice work."
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "evidence": [
+        "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts",
+        "src/content-factory/pilot19-assessment-shape-contract.test.ts"
+      ],
+      "conclusion": "Historical assessment command/demand and cross-reference defect classes remain protected while the new Pilot #19 valid MCQ shape is accepted. Historical evidence is unchanged."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "evidence": [
+        "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+        "src/content-factory/pilot19-assessment-shape-contract.test.ts"
+      ],
+      "conclusion": "Provider-free adversarial coverage preserves valid knowledge/application MCQs, strict operational-demand failures and five governed subject shapes without weakening the shared contract."
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "conclusion": "The deterministic full-pipeline simulation still traverses to expert_review_ready with no publication side effect."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "currentSemanticVersions": {
+        "generateAssessmentItem": "2+output-integrity-v5"
+      },
+      "evidence": [
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "conclusion": "Assessment Item and genuine downstream Marking Pack/review outputs are invalidated by the semantic change while Course Knowledge Model, Learn and Practice remain reusable where their dependency closure is unchanged."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q6-repeated-qualification-stability.test.ts",
+        "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts"
+      ],
+      "conclusion": "Repeated provider-free qualification remains green under the governed repetition/mutation strategy on the corrected implementation."
+    }
+  },
+  "q7": {
+    "status": "required",
+    "nextPaidRunClass": "bounded_q7_live_worker_soak",
+    "sampleCount": 20,
+    "maxSpendUsd": 5,
+    "fullCourseAssembly": false,
+    "learnerPublication": false,
+    "requiredCoverage": [
+      "knowledge MCQ",
+      "application MCQ",
+      "calculation demand guard",
+      "interpretation demand guard",
+      "assessment-item generation across all five governed subject shapes",
+      "Marking Pack generation across all five governed subject shapes"
+    ]
+  },
+  "limitations": [
+    "Provider-free Q1-Q6 PASS proves process and contract behaviour, not educational correctness.",
+    "No live provider behaviour is claimed by this record.",
+    "Full-course confirmation eligibility remains paused until Q7 PASS and a separate Founder-approved Q8 transition.",
+    "Pilot #19 and all earlier pilot/Q7 evidence remain historical and are not rewritten."
+  ],
+  "historicalRecordsRewritten": false
+}
