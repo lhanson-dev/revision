@@ -55,13 +55,15 @@ function integrityVersion(baseVersion: string, revision: string) {
 // for knowledge/application cognitive demand. output-integrity-v5 separates the
 // mechanically validated selection interaction from those MCQ cognitive labels,
 // while preserving explicit lexical guards for calculation, interpretation,
-// analysis and evaluation. Assessment Item and genuine downstream dependants are
-// therefore invalidated; unrelated Learn/Practice output remains reusable.
+// analysis and evaluation. Post-Pilot #20 candidate recovery now moves candidate
+// numbering and the two-candidate ceiling into durable orchestration state. The
+// Assessment Item worker input contract is therefore v3 and output-integrity-v6
+// prevents pre-durable candidate executions from being reused across head changes.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v5'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v6'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
 } as const
 
