@@ -169,7 +169,7 @@ describe('assessment-item provider optional-unit normalization', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('continues to fail closed when a required data-point value is blank', async () => {
+  it('continues to fail closed after both fresh candidates have a blank required data-point value', async () => {
     const { workers, fetchImpl } = workersReturning(providerOutput([
       { label: 'Original sales', value: '', unit: '' },
     ]))
@@ -178,12 +178,14 @@ describe('assessment-item provider optional-unit normalization', () => {
 
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('Expected provider contract failure')
-    expect(result.error).toContain('provider_contract_failure')
+    expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
     expect(result.error).toContain('context.dataPoints[0].value')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(result.error).toContain('candidate 1 provider_contract')
+    expect(result.error).toContain('candidate 2 provider_contract')
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
-  it('continues to fail closed when an optional unit is present with an invalid non-string type', async () => {
+  it('continues to fail closed after both fresh candidates contain an invalid non-string optional unit', async () => {
     const { workers, fetchImpl } = workersReturning(providerOutput([
       { label: 'Original sales', value: '100', unit: 123 },
     ]))
@@ -192,9 +194,11 @@ describe('assessment-item provider optional-unit normalization', () => {
 
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('Expected provider contract failure')
-    expect(result.error).toContain('provider_contract_failure')
+    expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
     expect(result.error).toContain('context.dataPoints[0].unit')
-    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    expect(result.error).toContain('candidate 1 provider_contract')
+    expect(result.error).toContain('candidate 2 provider_contract')
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
   })
 
   it('preserves the optional-unit boundary while current Assessment Item semantics advance independently', () => {

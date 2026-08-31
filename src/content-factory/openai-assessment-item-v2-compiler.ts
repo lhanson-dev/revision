@@ -26,6 +26,9 @@ import type { WorkerExecution } from './intake-to-knowledge-model'
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().trim().min(1)
 
+const ASSESSMENT_ITEM_CONTRACT_VERSION = '7'
+const MAX_ASSESSMENT_ITEM_CANDIDATES = 2
+
 const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.omit({
   requirementIds: true,
 }).extend({
@@ -86,6 +89,12 @@ type AssessmentItemInput = Parameters<OpenAIModelAssistedWorkers['generateAssess
 type AssessmentItemPolicy = NonNullable<OpenAIContentFactoryAdapterConfig['assessmentItemPolicies']>[string]
 type RepairableSubquestion = z.infer<typeof repairableAssessmentSubquestionSchema>
 type RepairableCandidate = z.infer<typeof assessmentItemV2ProviderOutputSchema>
+
+type CandidateRejection = {
+  candidateNumber: number
+  stage: 'provider_contract' | 'diagnostics_after_repair' | 'compilation'
+  details: string
+}
 
 function diagnostic(code: string, path: string, message: string): AssessmentItemDiagnostic {
   return { code, path, message }
@@ -202,6 +211,27 @@ function diagnosticText(diagnostics: AssessmentItemDiagnostic[]) {
     .join('\n')
 }
 
+function rejectionText(rejections: CandidateRejection[]) {
+  return rejections
+    .map((rejection) => `candidate ${rejection.candidateNumber} ${rejection.stage}: ${rejection.details}`)
+    .join(' | ')
+}
+
+function isRecoverableProviderContractFailure(execution: WorkerExecution<unknown>) {
+  return execution.status === 'failure' && execution.error.startsWith('provider_contract_failure:')
+}
+
+function exhaustedCandidateRecovery(
+  rejections: CandidateRejection[],
+  provenance: WorkerExecution<unknown>['provenance'],
+): WorkerExecution<unknown> {
+  return {
+    status: 'failure',
+    error: `provider_contract_failure: assessment_item_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
+    provenance,
+  }
+}
+
 const assessmentItemV2Instruction = [
   'Create one original Revision-owned exam-style assessment item for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question.',
   'Use the supplied targetPolicy requirementIds, maxMark and format to shape the item, but do not return those governed top-level target fields; Revision injects them deterministically after provider validation.',
@@ -216,19 +246,53 @@ const assessmentItemV2Instruction = [
   'Do not make a learner prove or classify a property that the supplied wording or context does not establish. State enough original scenario information for every factual premise the task requires.',
 ].join(' ')
 
-function combinedRepairExecution(
-  first: WorkerExecution<unknown>,
-  repair: WorkerExecution<unknown>,
+function appendExecution(
+  accumulated: WorkerExecution<unknown> | undefined,
+  next: WorkerExecution<unknown>,
+  retryIncrement: number,
 ): WorkerExecution<unknown> {
+  if (!accumulated) {
+    return {
+      ...next,
+      provenance: {
+        ...next.provenance,
+        contractVersion: ASSESSMENT_ITEM_CONTRACT_VERSION,
+      },
+    }
+  }
+
   return {
-    ...repair,
+    ...next,
     provenance: {
-      ...repair.provenance,
-      contractVersion: '6',
-      retryCount: (first.provenance.retryCount ?? 0) + (repair.provenance.retryCount ?? 0) + 1,
-      usageCost: (first.provenance.usageCost ?? 0) + (repair.provenance.usageCost ?? 0),
+      ...next.provenance,
+      contractVersion: ASSESSMENT_ITEM_CONTRACT_VERSION,
+      retryCount: (accumulated.provenance.retryCount ?? 0) + (next.provenance.retryCount ?? 0) + retryIncrement,
+      usageCost: (accumulated.provenance.usageCost ?? 0) + (next.provenance.usageCost ?? 0),
     },
   }
+}
+
+function generationInstruction(candidateNumber: number) {
+  if (candidateNumber === 1) return assessmentItemV2Instruction
+  return [
+    assessmentItemV2Instruction,
+    'FRESH CANDIDATE RESAMPLE REQUIRED.',
+    'A previous candidate for this production slot was rejected within the bounded candidate-recovery process.',
+    'Generate a genuinely fresh Assessment Item candidate for the same governed slot. Do not patch, preserve or imitate the rejected candidate wording.',
+    'Satisfy the target policy directly from the supplied governed inputs.',
+  ].join('\n')
+}
+
+function repairInstruction(diagnostics: AssessmentItemDiagnostic[]) {
+  return [
+    assessmentItemV2Instruction,
+    'TARGETED ASSESSMENT ITEM REPAIR REQUIRED.',
+    'This candidate was inspected as far as its available structure safely permits and produced this complete actionable defect set:',
+    diagnosticText(diagnostics),
+    'Return the complete corrected Assessment Item candidate in one repair. Preserve valid educational content and correct every listed defect.',
+    'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark or format. Do not return subquestion requirementIds; Revision derives those from coverageEvidence.',
+    'Do not remove genuine educational demand merely to silence validation; repair the structured representation or learner-facing wording so the intended demand is explicit and provable.',
+  ].join('\n')
 }
 
 export function createOpenAIModelAssistedWorkers(
@@ -244,75 +308,117 @@ export function createOpenAIModelAssistedWorkers(
       const policy = sharedConfig.assessmentItemPolicies?.[input.questionFamily.id]
       if (!policy) return workers.generateAssessmentItem(input)
 
-      const firstExecution = await client.run({
-        workerId: 'content-factory.assessment-item-v2',
-        contractVersion: '6',
-        routeKind: 'generation',
-        outputSchema: assessmentItemV2ProviderOutputSchema,
-        instructions: assessmentItemV2Instruction,
-        payload: { ...input, targetPolicy: policy },
-      })
-      if (firstExecution.status !== 'success') return firstExecution
+      let accumulatedExecution: WorkerExecution<unknown> | undefined
+      const rejections: CandidateRejection[] = []
 
-      const firstDiagnostics = diagnoseAssessmentItemV2Candidate(firstExecution.output, policy)
-      if (firstDiagnostics.length === 0) {
-        try {
-          return { ...firstExecution, output: compileAssessmentItemV2Candidate(firstExecution.output, input, policy) }
-        } catch (error) {
-          return {
-            status: 'failure',
-            error: `provider_contract_failure: assessment_item_v2_compilation: ${errorMessage(error)}`,
-            provenance: firstExecution.provenance,
+      for (let candidateNumber = 1; candidateNumber <= MAX_ASSESSMENT_ITEM_CANDIDATES; candidateNumber += 1) {
+        const generationExecution = appendExecution(
+          accumulatedExecution,
+          await client.run({
+            workerId: candidateNumber === 1
+              ? 'content-factory.assessment-item-v2'
+              : 'content-factory.assessment-item-v2-resample',
+            contractVersion: ASSESSMENT_ITEM_CONTRACT_VERSION,
+            routeKind: 'generation',
+            outputSchema: assessmentItemV2ProviderOutputSchema,
+            instructions: generationInstruction(candidateNumber),
+            payload: {
+              ...input,
+              targetPolicy: policy,
+              candidateNumber,
+              maxCandidates: MAX_ASSESSMENT_ITEM_CANDIDATES,
+            },
+          }),
+          candidateNumber === 1 ? 0 : 1,
+        )
+        accumulatedExecution = generationExecution
+        if (generationExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(generationExecution)) return generationExecution
+          rejections.push({
+            candidateNumber,
+            stage: 'provider_contract',
+            details: generationExecution.error,
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
+        }
+
+        const firstDiagnostics = diagnoseAssessmentItemV2Candidate(generationExecution.output, policy)
+        if (firstDiagnostics.length === 0) {
+          try {
+            return {
+              ...generationExecution,
+              output: compileAssessmentItemV2Candidate(generationExecution.output, input, policy),
+            }
+          } catch (error) {
+            rejections.push({
+              candidateNumber,
+              stage: 'compilation',
+              details: errorMessage(error),
+            })
+            if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+            return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
           }
         }
-      }
 
-      const repairInstruction = [
-        assessmentItemV2Instruction,
-        'TARGETED ASSESSMENT ITEM REPAIR REQUIRED.',
-        'The first complete provider candidate was inspected as far as its available structure safely permits and produced this complete actionable defect set:',
-        diagnosticText(firstDiagnostics),
-        'Return the complete corrected Assessment Item candidate in one repair. Preserve valid educational content and correct every listed defect.',
-        'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark or format. Do not return subquestion requirementIds; Revision derives those from coverageEvidence.',
-        'Do not remove genuine educational demand merely to silence validation; repair the structured representation or learner-facing wording so the intended demand is explicit and provable.',
-      ].join('\n')
+        const repairedExecution = appendExecution(
+          generationExecution,
+          await client.run({
+            workerId: 'content-factory.assessment-item-v2-repair',
+            contractVersion: ASSESSMENT_ITEM_CONTRACT_VERSION,
+            routeKind: 'generation',
+            outputSchema: assessmentItemV2ProviderOutputSchema,
+            instructions: repairInstruction(firstDiagnostics),
+            payload: {
+              ...input,
+              targetPolicy: policy,
+              candidateNumber,
+              previousCandidate: generationExecution.output,
+              repairDiagnostics: firstDiagnostics,
+            },
+          }),
+          1,
+        )
+        accumulatedExecution = repairedExecution
+        if (repairedExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(repairedExecution)) return repairedExecution
+          rejections.push({
+            candidateNumber,
+            stage: 'provider_contract',
+            details: repairedExecution.error,
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
+        }
 
-      const repairExecution = combinedRepairExecution(
-        firstExecution,
-        await client.run({
-          workerId: 'content-factory.assessment-item-v2-repair',
-          contractVersion: '6',
-          routeKind: 'generation',
-          outputSchema: assessmentItemV2ProviderOutputSchema,
-          instructions: repairInstruction,
-          payload: {
-            ...input,
-            targetPolicy: policy,
-            previousCandidate: firstExecution.output,
-            repairDiagnostics: firstDiagnostics,
-          },
-        }),
-      )
-      if (repairExecution.status !== 'success') return repairExecution
+        const repairDiagnostics = diagnoseAssessmentItemV2Candidate(repairedExecution.output, policy)
+        if (repairDiagnostics.length > 0) {
+          rejections.push({
+            candidateNumber,
+            stage: 'diagnostics_after_repair',
+            details: `initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
+        }
 
-      const repairDiagnostics = diagnoseAssessmentItemV2Candidate(repairExecution.output, policy)
-      if (repairDiagnostics.length > 0) {
-        return {
-          status: 'failure',
-          error: `provider_contract_failure: assessment_item_v2_after_complete_diagnostic_repair: initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
-          provenance: repairExecution.provenance,
+        try {
+          return {
+            ...repairedExecution,
+            output: compileAssessmentItemV2Candidate(repairedExecution.output, input, policy),
+          }
+        } catch (error) {
+          rejections.push({
+            candidateNumber,
+            stage: 'compilation',
+            details: errorMessage(error),
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
       }
 
-      try {
-        return { ...repairExecution, output: compileAssessmentItemV2Candidate(repairExecution.output, input, policy) }
-      } catch (error) {
-        return {
-          status: 'failure',
-          error: `provider_contract_failure: assessment_item_v2_compilation: ${errorMessage(error)}`,
-          provenance: repairExecution.provenance,
-        }
-      }
+      throw new Error('Assessment Item candidate recovery loop exited without a result')
     },
   }
 }

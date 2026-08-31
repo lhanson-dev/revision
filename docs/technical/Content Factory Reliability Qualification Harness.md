@@ -12,6 +12,7 @@ The Content Factory is **paused after Confirmation Pilot #20** under the Reliabi
 - Current machine state: **paused**.
 - `livePilotEligible`: **false**.
 - Candidate-recovery implementation checkpoint 1: **complete Assessment Item diagnostics implemented; not qualification evidence by itself**.
+- Candidate-recovery implementation checkpoint 2: **bounded Assessment Item candidate resampling implemented; not qualification evidence by itself**.
 - Next full-course confirmation: **not permitted** until the candidate-recovery production topology is implemented, requalified through Q1–Q7 and separately restored through Q8.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
@@ -179,20 +180,38 @@ Implemented in the shared Assessment Item integrity boundary:
 - schema-unparseable subquestion input returns the available schema issue set and does not pretend later semantic checks are safe;
 - `validateStructuredAssessment()` remains as a fail-fast compatibility API, now backed by the aggregate diagnostics and throwing the first finding for existing callers;
 - `diagnoseAssessmentItemV2Candidate()` uses the aggregate API before the provider repair call;
-- Assessment Item worker/repair contract version moves from `5` to `6` because the repair input contract materially changes;
+- Assessment Item worker/repair contract version moved from `5` to `6` because the repair input contract materially changed;
 - a direct shared-validator regression and a worker-boundary Pilot #20 regression prove simultaneous calculation- and interpretation-demand defects are surfaced together;
 - the worker regression proves those two defects can be corrected in the existing single permitted targeted repair call rather than serially discovered across separate runs.
 
-This checkpoint does **not** complete ADR-0019. It deliberately does not yet add:
+Checkpoint 1 established the diagnostic foundation but did not itself add fresh candidate resampling or the wider recovery topology.
 
-- fresh candidate resampling after a rejected Assessment Item;
-- explicit slot/candidate durable state;
-- accepted-sibling immutability/reuse during recovery;
+## Implementation checkpoint 2 — bounded Assessment Item candidate resampling
+
+The second production slice moves ordinary post-repair Assessment Item rejection from immediate worker failure into a bounded fresh-candidate loop.
+
+Implemented at the Assessment Item worker boundary:
+
+- Assessment Item generation/repair contract version moves from `6` to `7`;
+- each governed Assessment Item / Question Family slot may generate at most **two fresh candidates**;
+- each candidate may receive at most **one** complete-diagnostic targeted repair;
+- candidate 2 is a fresh generation from the governed slot inputs and policy and is not instructed to patch or preserve rejected candidate 1 wording;
+- a valid first-pass candidate continues to use one provider call and zero recovery calls;
+- the worker accumulates usage cost and retry/resampling provenance across generation, repair and fresh resample calls;
+- candidate 1 can fail diagnostics after its repair and candidate 2 can still be accepted automatically without returning a worker failure;
+- if candidate 2 also remains invalid after its one repair, the worker fails closed with `assessment_item_v2_candidate_recovery_exhausted` and records both rejection summaries;
+- no candidate 3 is permitted, so the recovery loop is mechanically bounded;
+- provider-free regressions prove successful candidate-2 recovery and truthful exhaustion after both candidates.
+
+This checkpoint still does **not** complete ADR-0019. It deliberately does not yet add:
+
+- explicit durable slot/candidate state in the job record;
+- a finer subquestion replacement boundary where an assessment shape safely permits it;
 - independent Marking Pack candidate replacement;
-- orchestrator behaviour that converts ordinary worker candidate rejection into bounded recovery rather than `blockJob(...)`;
+- orchestrator semantics that persist candidate recovery/exhaustion and reserve course-level `blocked` for genuinely exhausted or unsafe recovery;
 - Q1–Q7 qualification evidence or Q8 eligibility.
 
-The machine remains paused after this slice. Its purpose is to establish a correct diagnostic foundation for the later recovery mechanism, not to justify another course run.
+The machine remains paused after checkpoint 2. The new tests are implementation evidence only and do not restore a reliability gate.
 
 ## Requalification requirements after Pilot #20
 
@@ -342,18 +361,19 @@ The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery 
 
 ## Documentation impact
 
-No normative authority change is required for implementation checkpoint 1. Reliability Standard v2.0 already requires complete diagnostics, and ADR-0019 is the accepted architecture decision for candidate recovery.
+No normative authority change is required for implementation checkpoints 1–2. Reliability Standard v2.0 already requires complete diagnostics and bounded recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
 
-This implementation slice:
+The current implementation now:
 
 - fixes the first-error/complete-diagnostics mismatch at the shared Assessment Item integrity boundary;
-- versions the Assessment Item provider contract to `6`;
-- adds direct and Pilot #20 simultaneous-defect regressions;
-- updates `docs/technical/Content Factory Architecture.md` with the candidate lifecycle and explicit implementation checkpoint;
+- versions the Assessment Item provider contract to `7` for bounded candidate recovery;
+- permits two fresh Assessment Item candidates per governed slot, with one complete-diagnostic repair per candidate;
+- accumulates retry/resample and usage-cost provenance and fails closed after bounded exhaustion;
+- preserves direct and Pilot #20 simultaneous-defect regressions and adds successful-resample/exhaustion regressions;
+- updates `docs/technical/Content Factory Architecture.md` with both implementation checkpoints and the remaining recovery work;
 - updates this qualification harness without changing current gate status;
-- marks ADR-0019 accepted after its Founder-approved merge;
 - leaves `content-factory/reliability-qualification.json` paused and unchanged;
 - does not rewrite historical Pilot, Q7 or Q8 evidence;
 - does not run a provider, full course, live soak or publication action.
 
-Later implementation PRs still need to land candidate resampling/slot state, Marking Pack recovery and orchestrator recovery before provider-free requalification can begin.
+Later implementation PRs still need to land durable slot/candidate state, Marking Pack recovery and orchestrator recovery before provider-free requalification can begin.
