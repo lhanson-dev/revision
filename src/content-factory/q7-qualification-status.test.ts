@@ -8,11 +8,61 @@ import livePilotWorkflowText from '../../.github/workflows/content-factory-live-
 
 type RuntimeProcess = { execPath: string; cwd: () => string }
 
-const qualification = JSON.parse(qualificationText) as any
-const postPilot19 = JSON.parse(postPilot19RequalificationText) as any
-const fourthQ7 = JSON.parse(fourthQ7EvidenceText) as any
-const historicalQ8 = JSON.parse(historicalQ8Text) as any
-const currentQ8 = JSON.parse(currentQ8Text) as any
+type Qualification = {
+  status: string
+  livePilotEligible: boolean
+  requiredGates: string[]
+  gateStatus: Record<string, string>
+  providerFreeQualificationEvidence: string
+  q7PassEvidence: string
+  q7PassEvidenceHistory: string[]
+  qualifiedEvidence: {
+    qualificationEvidenceMainSha: string
+    eligibilityRecord: string
+    providerFreeQualificationRecord: string
+    q7PassRecord: string
+    q7PassingAttempt: number
+    q7WorkflowRunId: number
+    q7ExecutedSamples: number
+    q7AcceptedSamples: number
+    q7ControlledFailClosedSamples: number
+    passedGates: string[]
+    nextPaidRunClass: string
+  }
+}
+
+type PostPilot19 = { status: string; providerCallsUsed: boolean }
+type Q7Evidence = {
+  workflow: { runId: number; artifactId: number }
+  sampleSummary: { executed: number; accepted: number; controlledFailClosed: number; infrastructureIncidents: number; engineeringBoundaryBreaches: number }
+  classification: { decision: string }
+}
+type Q8 = {
+  status?: string
+  reviewedApprovedMainSha: string
+  providerCallsUsed?: boolean
+  fullCourseExecutionTriggered?: boolean
+  courseAssemblyTriggered?: boolean
+  learnerPublicationTriggered?: boolean
+  historicalRecordsRewritten: boolean
+  passedGates?: string[]
+  decision: {
+    qualificationStatus?: string
+    livePilotEligible?: boolean
+    nextPaidRunClass?: string
+    confirmationPilotEligibleAfterMerge?: boolean
+    confirmationPilotTriggeredByThisChange?: boolean
+    maturityAchieved?: boolean
+    pilot19EligibleAfterMerge?: boolean
+    pilot19TriggeredByThisChange?: boolean
+  }
+}
+
+const qualification = JSON.parse(qualificationText) as Qualification
+const postPilot19 = JSON.parse(postPilot19RequalificationText) as PostPilot19
+const fourthQ7 = JSON.parse(fourthQ7EvidenceText) as Q7Evidence
+const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
+const currentQ8 = JSON.parse(currentQ8Text) as Q8
 
 const gates = [
   'Q1-compiler-worker-ownership-inventory',
