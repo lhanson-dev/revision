@@ -223,10 +223,10 @@ describe('historical second-Q7 Assessment Item cross-reference requalification',
     expect(result.latestManifest.publicationStatus).toBe('factory_generated_unassured')
   })
 
-  it('preserves the historical v4 record while current Pilot #19 semantics advance only Assessment Item and downstream dependants', () => {
+  it('preserves the historical v4 record while current Assessment recovery semantics advance only Assessment Item and downstream dependants', () => {
     const q5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
     expect(q5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v4' })
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v5')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('3+output-integrity-v6')
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)
     expect(assessmentClosure).not.toContain('generateLearningCollateral')
