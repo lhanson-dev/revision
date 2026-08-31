@@ -32,6 +32,15 @@ import {
   MAX_ASSESSMENT_ITEM_CANDIDATES,
   nextAssessmentCandidateNumber,
 } from './assessment-candidate-recovery'
+import {
+  isRecoverableMarkingPackCandidateFailure,
+  markingPackCandidateRef,
+  markingPackCandidateRuns,
+  markingPackSlotRef,
+  markingPackValidationRejectedExecution,
+  MAX_MARKING_PACK_CANDIDATES,
+  nextMarkingPackCandidateNumber,
+} from './marking-pack-candidate-recovery'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -171,6 +180,8 @@ export interface AssessmentAndMarkingWorkers {
     questionFamily: QuestionFamily
     assessmentItem: Omit<AssessmentItemArtifact, 'schemaVersion' | 'artifactType' | 'jobId' | 'origin' | 'presentationLabel' | 'assessmentBlueprintFingerprint' | 'knowledgeModelFingerprint' | 'sourceRefs'>
     knowledgeNodes: SafeKnowledgeNode[]
+    candidateNumber?: number
+    maxCandidates?: number
   }): Promise<WorkerExecution<unknown>>
 }
 
@@ -178,7 +189,7 @@ export const contentFactoryAssessmentWorkerContracts = {
   assessmentBlueprint: { workerId: 'content-factory.assessment-blueprint', contractVersion: '1', sourceInput: 'structured-board-alignment-plus-course-knowledge-model-facts-only' },
   questionFamily: { workerId: 'content-factory.question-family', contractVersion: '1', sourceInput: 'assessment-blueprint-plus-course-knowledge-model-facts-only' },
   assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '3', sourceInput: 'question-family-plus-target-component-course-knowledge-model-structured-subquestion-facts-and-durable-candidate-number' },
-  markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '2', sourceInput: 'revision-owned-structured-question-plus-assessment-contracts-and-course-knowledge-model-facts-only' },
+  markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '3', sourceInput: 'revision-owned-structured-question-plus-assessment-contracts-course-knowledge-model-facts-and-durable-candidate-number' },
 } as const
 
 function appendWorkerRun(jobInput: ContentFactoryJob, stage: WorkerRun['stage'], execution: WorkerExecution<unknown>, updatedAt: string, refs: { inputRefs?: string[]; outputRefs?: string[] } = {}) {
@@ -210,7 +221,7 @@ function workerFailure(job: ContentFactoryJob, execution: Extract<WorkerExecutio
   })
 }
 
-function recordedWorkerFailure(job: ContentFactoryJob, execution: Extract<WorkerExecution<unknown>, { status: 'failure' | 'infrastructure_failure' }>, updatedAt: string, stage: 'generation') {
+function recordedWorkerFailure(job: ContentFactoryJob, execution: Extract<WorkerExecution<unknown>, { status: 'failure' | 'infrastructure_failure' }>, updatedAt: string, stage: 'generation' | 'marking_pack') {
   return blockJob(job, {
     id: `worker-failure-${execution.provenance.id}`,
     reason: `${stage} worker ${execution.status}: ${execution.error}`,
@@ -628,15 +639,85 @@ export async function runAssessmentAndMarkingFactory(input: {
   for (const target of targets) {
     const familyRecord = families.get(target.familyId)!
     const itemRecord = items.get(targetKey(target))!
-    const existing = await persistedMarkingPack(job, input.artifactStore, itemRecord.item, familyRecord.family, blueprint)
+    const markingTarget = { assessmentItemId: itemRecord.item.id }
+    let existing = await persistedMarkingPack(job, input.artifactStore, itemRecord.item, familyRecord.family, blueprint)
     if (existing) { markingPackRefs.push(existing.ref); continue }
-    const execution = await input.workers.generateMarkingPack({ jobId: job.jobId, courseIdentity: job.courseIdentity!, assessmentBlueprint: blueprint, questionFamily: familyRecord.family, assessmentItem: safeAssessmentItemInput(itemRecord.item), knowledgeNodes: itemNodes(model, itemRecord.item).map(safeKnowledgeNodeInput) })
-    if (execution.status !== 'success') return workerFailure(job, execution, input.now, 'marking_pack')
-    const pack = validateMarkingPack(execution.output, itemRecord.item, familyRecord.family, blueprint)
-    const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'marking_pack', fingerprint: await fingerprintValue(pack), value: pack })
-    job = appendWorkerRun(job, 'marking_pack', execution, input.now, { inputRefs: [job.assessmentBlueprintRef!, familyRecord.ref, itemRecord.ref, job.courseKnowledgeModelRef!], outputRefs: [write.ref] })
-    job = contentFactoryJobSchema.parse({ ...job, markingPackCoverage: [...job.markingPackCoverage, { assessmentItemId: itemRecord.item.id, markingPackRef: write.ref }], updatedAt: input.now })
-    markingPackRefs.push(write.ref)
+
+    const priorCandidateRuns = markingPackCandidateRuns(job, markingTarget)
+    if (priorCandidateRuns.some((entry) => entry.run.status === 'success')) {
+      throw new Error(`Accepted Marking Pack slot ${markingPackSlotRef(markingTarget)} is missing its persisted coverage/artifact; refusing to overwrite accepted work`)
+    }
+
+    while (!existing) {
+      const candidateNumber = nextMarkingPackCandidateNumber(job, markingTarget)
+      if (candidateNumber > MAX_MARKING_PACK_CANDIDATES) {
+        return blockJob(job, {
+          id: `marking-pack-candidate-exhausted-${itemRecord.item.id}`,
+          reason: `marking_pack candidate recovery exhausted for ${markingPackSlotRef(markingTarget)} after ${MAX_MARKING_PACK_CANDIDATES} durably recorded candidates`,
+          createdAt: input.now,
+        })
+      }
+
+      const execution = await input.workers.generateMarkingPack({
+        jobId: job.jobId,
+        courseIdentity: job.courseIdentity!,
+        assessmentBlueprint: blueprint,
+        questionFamily: familyRecord.family,
+        assessmentItem: safeAssessmentItemInput(itemRecord.item),
+        knowledgeNodes: itemNodes(model, itemRecord.item).map(safeKnowledgeNodeInput),
+        candidateNumber,
+        maxCandidates: MAX_MARKING_PACK_CANDIDATES,
+      })
+      const inputRefs = [
+        job.assessmentBlueprintRef!,
+        familyRecord.ref,
+        itemRecord.ref,
+        job.courseKnowledgeModelRef!,
+        markingPackSlotRef(markingTarget),
+        markingPackCandidateRef(markingTarget, candidateNumber),
+      ]
+
+      let recordedExecution: WorkerExecution<unknown> = execution
+      let acceptedRef: string | undefined
+      if (execution.status === 'success') {
+        try {
+          const pack = validateMarkingPack(execution.output, itemRecord.item, familyRecord.family, blueprint)
+          const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'marking_pack', fingerprint: await fingerprintValue(pack), value: pack })
+          acceptedRef = write.ref
+        } catch (error) {
+          recordedExecution = markingPackValidationRejectedExecution(execution, error)
+        }
+      }
+
+      job = appendWorkerRun(job, 'marking_pack', recordedExecution, input.now, {
+        inputRefs,
+        outputRefs: acceptedRef ? [acceptedRef] : [],
+      })
+      if (acceptedRef) {
+        job = contentFactoryJobSchema.parse({
+          ...job,
+          markingPackCoverage: [...job.markingPackCoverage, { assessmentItemId: itemRecord.item.id, markingPackRef: acceptedRef }],
+          updatedAt: input.now,
+        })
+      }
+      await checkpoint()
+
+      if (acceptedRef) {
+        existing = { ref: acceptedRef, pack: executableMarkingPackSchema.parse(await input.artifactStore.readJson(acceptedRef)) }
+        markingPackRefs.push(acceptedRef)
+        break
+      }
+      if (isRecoverableMarkingPackCandidateFailure(recordedExecution)) {
+        if (candidateNumber < MAX_MARKING_PACK_CANDIDATES) continue
+        return blockJob(job, {
+          id: `marking-pack-candidate-exhausted-${itemRecord.item.id}`,
+          reason: `marking_pack candidate recovery exhausted for ${markingPackSlotRef(markingTarget)}: ${recordedExecution.status === 'failure' ? recordedExecution.error : 'unknown candidate rejection'}`,
+          createdAt: input.now,
+        })
+      }
+      if (recordedExecution.status !== 'success') return recordedWorkerFailure(job, recordedExecution, input.now, 'marking_pack')
+      throw new Error(`Marking Pack slot ${markingPackSlotRef(markingTarget)} exited candidate processing without acceptance or an explicit failure`)
+    }
   }
 
   const markableItemIds = targets.map((target) => items.get(targetKey(target))!.item.id)
