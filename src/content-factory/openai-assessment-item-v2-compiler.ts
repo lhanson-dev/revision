@@ -92,7 +92,7 @@ type RepairableCandidate = z.infer<typeof assessmentItemV2ProviderOutputSchema>
 
 type CandidateRejection = {
   candidateNumber: number
-  stage: 'diagnostics_after_repair' | 'compilation'
+  stage: 'provider_contract' | 'diagnostics_after_repair' | 'compilation'
   details: string
 }
 
@@ -217,6 +217,21 @@ function rejectionText(rejections: CandidateRejection[]) {
     .join(' | ')
 }
 
+function isRecoverableProviderContractFailure(execution: WorkerExecution<unknown>) {
+  return execution.status === 'failure' && execution.error.startsWith('provider_contract_failure:')
+}
+
+function exhaustedCandidateRecovery(
+  rejections: CandidateRejection[],
+  provenance: WorkerExecution<unknown>['provenance'],
+): WorkerExecution<unknown> {
+  return {
+    status: 'failure',
+    error: `provider_contract_failure: assessment_item_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
+    provenance,
+  }
+}
+
 const assessmentItemV2Instruction = [
   'Create one original Revision-owned exam-style assessment item for the exact target component and Question Family. Never reproduce or closely mimic a known past-paper question.',
   'Use the supplied targetPolicy requirementIds, maxMark and format to shape the item, but do not return those governed top-level target fields; Revision injects them deterministically after provider validation.',
@@ -262,7 +277,7 @@ function generationInstruction(candidateNumber: number) {
   return [
     assessmentItemV2Instruction,
     'FRESH CANDIDATE RESAMPLE REQUIRED.',
-    'A previous candidate for this production slot was rejected after its one permitted targeted repair.',
+    'A previous candidate for this production slot was rejected within the bounded candidate-recovery process.',
     'Generate a genuinely fresh Assessment Item candidate for the same governed slot. Do not patch, preserve or imitate the rejected candidate wording.',
     'Satisfy the target policy directly from the supplied governed inputs.',
   ].join('\n')
@@ -317,7 +332,16 @@ export function createOpenAIModelAssistedWorkers(
           candidateNumber === 1 ? 0 : 1,
         )
         accumulatedExecution = generationExecution
-        if (generationExecution.status !== 'success') return generationExecution
+        if (generationExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(generationExecution)) return generationExecution
+          rejections.push({
+            candidateNumber,
+            stage: 'provider_contract',
+            details: generationExecution.error,
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
+        }
 
         const firstDiagnostics = diagnoseAssessmentItemV2Candidate(generationExecution.output, policy)
         if (firstDiagnostics.length === 0) {
@@ -333,11 +357,7 @@ export function createOpenAIModelAssistedWorkers(
               details: errorMessage(error),
             })
             if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
-            return {
-              status: 'failure',
-              error: `provider_contract_failure: assessment_item_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
-              provenance: generationExecution.provenance,
-            }
+            return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
           }
         }
 
@@ -360,7 +380,16 @@ export function createOpenAIModelAssistedWorkers(
           1,
         )
         accumulatedExecution = repairedExecution
-        if (repairedExecution.status !== 'success') return repairedExecution
+        if (repairedExecution.status !== 'success') {
+          if (!isRecoverableProviderContractFailure(repairedExecution)) return repairedExecution
+          rejections.push({
+            candidateNumber,
+            stage: 'provider_contract',
+            details: repairedExecution.error,
+          })
+          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
+        }
 
         const repairDiagnostics = diagnoseAssessmentItemV2Candidate(repairedExecution.output, policy)
         if (repairDiagnostics.length > 0) {
@@ -370,11 +399,7 @@ export function createOpenAIModelAssistedWorkers(
             details: `initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
           })
           if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
-          return {
-            status: 'failure',
-            error: `provider_contract_failure: assessment_item_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
-            provenance: repairedExecution.provenance,
-          }
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
 
         try {
@@ -389,11 +414,7 @@ export function createOpenAIModelAssistedWorkers(
             details: errorMessage(error),
           })
           if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
-          return {
-            status: 'failure',
-            error: `provider_contract_failure: assessment_item_v2_candidate_recovery_exhausted: ${rejectionText(rejections)}`,
-            provenance: repairedExecution.provenance,
-          }
+          return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
       }
 
