@@ -15,6 +15,7 @@ The Content Factory is **paused after Confirmation Pilot #20** under the Reliabi
 - Candidate-recovery implementation checkpoint 2: **bounded Assessment Item candidate resampling implemented; not qualification evidence by itself**.
 - Candidate-recovery implementation checkpoint 3: **durable Assessment Item slot/candidate state implemented; not qualification evidence by itself**.
 - Candidate-recovery implementation checkpoint 4: **durable Marking Pack candidate recovery implemented; not qualification evidence by itself**.
+- Candidate-recovery implementation checkpoint 5: **required coverage reconciliation before course-pack acceptance implemented; not qualification evidence by itself**.
 - Next full-course confirmation: **not permitted** until the candidate-recovery production topology is requalified through Q1–Q7 and separately restored through Q8.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
@@ -266,7 +267,28 @@ Implemented in the production Assessment/Marking path:
 
 Checkpoint 4 is implementation evidence only. It does **not** restore Q1–Q7 status, authorize a live soak, authorize another full-course confirmation or restore Q8 eligibility.
 
-The machine remains paused after checkpoint 4.
+## Implementation checkpoint 5 — required coverage reconciliation before course-pack acceptance
+
+The fifth production slice closes the remaining manufacturing-boundary gap between successful candidate recovery and mandatory curriculum completeness.
+
+Implemented in the governed qualification and durable live-pilot orchestration paths:
+
+- the existing Assessment Item and Marking Pack candidate-recovery factory remains unchanged;
+- a guarded orchestration boundary intercepts the immutable `course_content_pack` manifest write before it is accepted;
+- the guard reads the persisted Coverage Map and derives accepted Learn/Practice evidence from persisted work-unit ownership plus the manifest artifacts;
+- accepted Exam Prep evidence is derived from Assessment Item `requirementIds` in the proposed manifest;
+- every active requirement must have every channel it declares mandatory: Learn, Practice and/or Exam Prep;
+- `deferred` and `not_applicable` remain the only governed non-blocking exceptions;
+- if any required channel is absent, the manifest write is refused and the course is explicitly blocked with `required_coverage_reconciliation_failed`;
+- successful sibling candidate/Marking Pack checkpoints remain durable and are not deleted merely because another mandatory requirement remains uncovered;
+- already-validating jobs with a persisted manifest are reconciled again when they re-enter the governed orchestration path, so older manifests cannot bypass the new invariant;
+- the later deterministic `coverage-completeness` assurance remains an independent backstop rather than being weakened or replaced;
+- provider-free regressions prove that accepted sibling evidence cannot compensate for a missing required Exam Prep channel and that all missing channels are surfaced together;
+- the existing deterministic full-pipeline simulation continues through the guarded production topology and must still reach `expert_review_ready` when mandatory coverage is genuinely complete.
+
+Checkpoint 5 is implementation evidence only. It does **not** restore Q1–Q7 status, authorize a live soak, authorize another full-course confirmation or restore Q8 eligibility.
+
+The machine remains paused after checkpoint 5.
 
 ## Requalification requirements after Pilot #20
 
@@ -429,7 +451,7 @@ The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery 
 
 ## Documentation impact
 
-No normative authority change is required for implementation checkpoints 1–4. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
+No normative authority change is required for implementation checkpoints 1–5. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, the active Coverage/Accuracy authorities already prohibit silent omission, and ADR-0019 is the accepted architecture decision for candidate recovery.
 
 The current implementation now:
 
@@ -444,8 +466,11 @@ The current implementation now:
 - preserves the frozen accepted Assessment Item and unrelated sibling packs while a Marking Pack candidate is rejected/replaced;
 - ensures rejected Marking Pack candidates do not enter `markingPackCoverage`, and bounded exhaustion blocks rather than allowing a missing required pack;
 - advances durable Marking Pack semantic integrity to `output-integrity-v3` so changed-head replay cannot reuse pre-recovery Marking Pack semantics;
+- reconciles all active Coverage Map requirements against accepted Learn, Practice and Exam Prep evidence before a course-pack manifest can be accepted by the governed qualification/live-pilot path;
+- refuses incomplete course-pack writes and blocks explicitly while preserving already accepted candidate/Marking Pack checkpoints;
+- preserves the later deterministic coverage-completeness assurance as an independent backstop;
 - preserves historical evidence files unchanged;
-- updates `docs/technical/Content Factory Architecture.md`, `docs/technical/Content Factory Durable Resume and Spend.md` and this qualification harness for checkpoint 4;
+- updates `docs/technical/Content Factory Required Coverage Reconciliation.md` and this qualification harness for checkpoint 5;
 - leaves `content-factory/reliability-qualification.json` paused and unchanged;
 - does not run a provider, full course, live soak or publication action.
 
