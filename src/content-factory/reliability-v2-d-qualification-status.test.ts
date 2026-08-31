@@ -7,13 +7,50 @@ import historicalQ8Text from '../../content-factory/reliability-v2-f-q8-eligibil
 import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
 import pilot19Text from '../../content-factory/reliability-pilot19-assessment-architecture-review.json?raw'
 
-const qualification = JSON.parse(qualificationText) as any
-const v2d = JSON.parse(v2dText) as any
-const postQ7 = JSON.parse(postQ7Text) as any
-const postQ7002 = JSON.parse(postQ7002Text) as any
-const historicalQ8 = JSON.parse(historicalQ8Text) as any
-const currentQ8 = JSON.parse(currentQ8Text) as any
-const pilot19 = JSON.parse(pilot19Text) as any
+type ProviderFreeEvidence = { gates: Record<string, { status: string }> }
+type Qualification = {
+  status: string
+  livePilotEligible: boolean
+  providerFreeQualificationEvidence: string
+  q7PassEvidence: string
+  q7PassEvidenceHistory: string[]
+  requiredGates: string[]
+  gateStatus: Record<string, string>
+  qualifiedEvidence: {
+    eligibilityRecord: string
+    q7PassRecord: string
+    q7PassingAttempt: number
+    q7WorkflowRunId: number
+    passedGates: string[]
+  }
+}
+type Pilot19 = {
+  classification: { decision: string; defectClass: string }
+  providerFreeRequalification: { providerCallsUsed: boolean }
+  nextQualificationStep: { q7Required: boolean; fullCourseConfirmationEligible: boolean; nextPaidRunClass: string }
+  historicalRecordsRewritten: boolean
+}
+type Q8 = {
+  reviewedApprovedMainSha: string
+  providerCallsUsed?: boolean
+  fullCourseExecutionTriggered?: boolean
+  historicalRecordsRewritten?: boolean
+  decision: {
+    qualificationStatus: string
+    livePilotEligible: boolean
+    pilot19TriggeredByThisChange?: boolean
+    confirmationPilotTriggeredByThisChange?: boolean
+    maturityAchieved?: boolean
+  }
+}
+
+const qualification = JSON.parse(qualificationText) as Qualification
+const v2d = JSON.parse(v2dText) as ProviderFreeEvidence
+const postQ7 = JSON.parse(postQ7Text) as ProviderFreeEvidence
+const postQ7002 = JSON.parse(postQ7002Text) as ProviderFreeEvidence
+const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
+const currentQ8 = JSON.parse(currentQ8Text) as Q8
+const pilot19 = JSON.parse(pilot19Text) as Pilot19
 
 const providerFreeGates = [
   'Q1-compiler-worker-ownership-inventory',
