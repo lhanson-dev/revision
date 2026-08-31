@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Confirmation Pilot #19 exposed a generic Assessment Item engineering-contract class. PR #255 corrected the reusable Assessment Item architecture and approved main 119cde951b9cd76410d7c091ee00b872c00f4a39 passed exact-head provider-free Q1-Q6 assurance. The post-Pilot #19 bounded Q7 soak run 33395187056 on approved main 02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9 then accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes, with eight bounded repairs, zero controlled fail-closed samples, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course execution remains paused and livePilotEligible remains false until the separate Q8 eligibility transition is Founder-approved and merged.",
+  "status": "qualified",
+  "reason": "Post-Pilot #19 Reliability v2 Q1-Q7 qualification is complete. Provider-free Q1-Q6 evidence remains valid on the corrected Assessment Item architecture, and the fourth bounded Q7 live-worker soak accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes with no new generic engineering/provider-contract class. V2-F/Q8 therefore restores full-course confirmation-pilot eligibility. This eligibility transition does not itself execute a provider call, assemble or publish a course, approve educational content, or establish maturity for routine batch production.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -50,6 +50,40 @@
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "reliabilityVersion": "2.0",
+    "qualificationEvidenceMainSha": "f2b9b43ccddc0111859da39cff4900343065f7a2",
+    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility-002.json",
+    "providerFreeQualificationRecord": "content-factory/reliability-post-pilot19-requalification.json",
+    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+    "verificationMode": "approved_main_q1_q7_evidence_plus_exact_head_ci",
+    "providerCallsUsed": false,
+    "passedGates": [
+      "Q1-compiler-worker-ownership-inventory",
+      "Q2-historical-failure-replay-corpus",
+      "Q3-adversarial-provider-free-subject-matrix",
+      "Q4-deterministic-full-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-provider-free-stability",
+      "Q7-bounded-live-worker-soak"
+    ],
+    "q6RepetitionCount": 3,
+    "q7PassingAttempt": 4,
+    "q7WorkflowRunId": 33395187056,
+    "q7ExecutedSamples": 20,
+    "q7AcceptedSamples": 20,
+    "q7ControlledFailClosedSamples": 0,
+    "q7InfrastructureIncidents": 0,
+    "q7EngineeringBoundaryBreaches": 0,
+    "q7Classification": "q7_pass_no_new_generic_engineering_contract_class",
+    "nextPaidRunClass": "confirmation_pilot",
+    "limitations": [
+      "Reliability qualification is not educational correctness, expert-review approval or publication approval.",
+      "This Q8 transition does not itself dispatch a paid provider run, assemble a real course or publish learner content.",
+      "Any confirmation pilot remains subject to source-rights, the US$20 course ceiling, deterministic validation, independent review, expert review and publication governance.",
+      "A new generic engineering/provider-contract class must pause full-course eligibility and return the factory to Reliability v2 qualification.",
+      "Routine batch-production maturity still requires three consecutive materially different real courses to reach expert_review_ready without engineering or worker-contract correction between runs."
+    ]
+  },
+  "livePilotEligible": true
 }
