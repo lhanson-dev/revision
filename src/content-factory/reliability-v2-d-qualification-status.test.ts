@@ -68,7 +68,7 @@ const providerFreeGates = [
 const allReliabilityV2Gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Reliability v2 status after Pilot #19 architecture review', () => {
-  it('pauses current eligibility while preserving all earlier Q7/Q8 evidence as historical truth', () => {
+  it('keeps full-course eligibility paused while the post-Pilot #19 Q7 soak is pending', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
@@ -85,7 +85,7 @@ describe('Reliability v2 status after Pilot #19 architecture review', () => {
     for (const gate of providerFreeGates) {
       expect(qualification.gateStatus[gate]).toBe('pass')
     }
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('required_after_pilot19')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
   })
 
   it('records Pilot #19 as a new generic class and requires bounded Q7 before another Q8', () => {
