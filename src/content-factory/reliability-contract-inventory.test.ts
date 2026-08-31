@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import inventoryText from '../../content-factory/reliability-contract-inventory.json?raw'
+import inventoryText from '../../content-factory/reliability-pilot19-contract-inventory.json?raw'
 
 type Ownership =
   | 'generative_judgement'
