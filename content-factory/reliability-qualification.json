@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Confirmation Pilot #18 triggered Reliability v2 complete-diagnostic validation and provider-free qualification. The first two Q7 live-worker soaks exposed generic Assessment Item engineering contract classes; both were corrected and Q1-Q6 were requalified provider-free. The third Q7 soak run 33364521121 on approved main 9755c7a40d5e61b76a49e51480e7c5403642e593 executed all 20 governed samples. Four samples failed closed after the single permitted repair, but classification against the active Q1 ownership inventory found no new generic engineering contract class: the Assessment Item failures were genuine governed-requirement coverage failures after compiler-owned requirementId derivation, and the Marking Pack failures were insufficient provider-authored educational calculation-rubric guidance. Q7 therefore passes. Full-course execution remains paused and livePilotEligible remains false until the separate V2-F/Q8 eligibility transition is Founder-approved and merged.",
+  "status": "qualified",
+  "reason": "Reliability v2 Q1-Q7 qualification is complete. Provider-free Q1-Q6 evidence remains valid on the corrected compiler/worker boundaries, and the third bounded Q7 live-worker soak completed all 20 governed samples across all five subject shapes with no new generic engineering/provider-contract class. V2-F/Q8 therefore restores full-course confirmation-pilot eligibility. This eligibility transition does not itself execute a provider call, assemble or publish a course, approve educational content, or establish maturity for routine batch production.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -35,6 +35,37 @@
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-assessment-item-requalification.json",
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "reliabilityVersion": "2.0",
+    "qualificationEvidenceMainSha": "166f9cb6957b995b81ff3eec84062b2f09ecec6c",
+    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility.json",
+    "providerFreeQualificationRecord": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
+    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
+    "verificationMode": "approved_main_q1_q7_evidence_plus_exact_head_ci",
+    "providerCallsUsed": false,
+    "passedGates": [
+      "Q1-compiler-worker-ownership-inventory",
+      "Q2-historical-failure-replay-corpus",
+      "Q3-adversarial-provider-free-subject-matrix",
+      "Q4-deterministic-full-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-provider-free-stability",
+      "Q7-bounded-live-worker-soak"
+    ],
+    "q6RepetitionCount": 3,
+    "q7PassingAttempt": 3,
+    "q7WorkflowRunId": 33364521121,
+    "q7ExecutedSamples": 20,
+    "q7ControlledFailClosedSamples": 4,
+    "q7Classification": "q7_pass_no_new_generic_engineering_contract_class",
+    "nextPaidRunClass": "confirmation_pilot",
+    "limitations": [
+      "Reliability qualification is not educational correctness, expert-review approval or publication approval.",
+      "This Q8 transition does not itself dispatch a paid provider run, assemble a real course or publish learner content.",
+      "Any confirmation pilot remains subject to source-rights, the US$20 course ceiling, deterministic validation, independent review, expert review and publication governance.",
+      "A new generic engineering/provider-contract class must pause full-course eligibility and return the factory to Reliability v2 qualification.",
+      "Routine batch-production maturity still requires three consecutive materially different real courses to reach expert_review_ready without engineering or worker-contract correction between runs."
+    ]
+  },
+  "livePilotEligible": true
 }

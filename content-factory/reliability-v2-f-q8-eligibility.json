@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-F",
+  "gate": "Q8",
+  "status": "eligible_for_confirmation_pilot",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "reviewedApprovedMainSha": "166f9cb6957b995b81ff3eec84062b2f09ecec6c",
+  "providerCallsUsed": false,
+  "fullCourseExecutionTriggered": false,
+  "courseAssemblyTriggered": false,
+  "learnerPublicationTriggered": false,
+  "historicalRecordsRewritten": false,
+  "qualificationEvidence": {
+    "providerFreeQ1ToQ6": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
+    "q7Pass": "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
+    "q7WorkflowRunId": 33364521121,
+    "q7WorkflowRunNumber": 18,
+    "q7ApprovedMainSha": "9755c7a40d5e61b76a49e51480e7c5403642e593",
+    "q7ArtifactId": 9747914357,
+    "q7ArtifactDigest": "sha256:1a09cb3242faa1ace9816187ce3b2895bd191c1f9801e846047cd3ba57146d96",
+    "q7ExecutedSamples": 20,
+    "q7AcceptedSamples": 16,
+    "q7ControlledFailClosedSamples": 4,
+    "q7InfrastructureIncidents": 0,
+    "q7EngineeringBoundaryBreaches": 0,
+    "q7Classification": "q7_pass_no_new_generic_engineering_contract_class",
+    "q6RepetitionCount": 3
+  },
+  "passedGates": [
+    "Q1-compiler-worker-ownership-inventory",
+    "Q2-historical-failure-replay-corpus",
+    "Q3-adversarial-provider-free-subject-matrix",
+    "Q4-deterministic-full-pipeline-simulation",
+    "Q5-restart-reuse-dependency-invalidation",
+    "Q6-repeated-provider-free-stability",
+    "Q7-bounded-live-worker-soak"
+  ],
+  "decision": {
+    "qualificationStatus": "qualified",
+    "livePilotEligible": true,
+    "nextPaidRunClass": "confirmation_pilot",
+    "pilot19EligibleAfterMerge": true,
+    "pilot19TriggeredByThisChange": false,
+    "maturityAchieved": false,
+    "rationale": "All Reliability v2 Q1-Q7 gates are PASS on the currently approved implementation lineage. The third bounded Q7 soak exposed no new generic engineering/provider-contract class, so Q8 may restore confirmation-pilot eligibility without changing worker/compiler logic or weakening educational assurance."
+  },
+  "limitations": [
+    "Q8 restores execution eligibility only; it does not prove educational correctness or publication readiness.",
+    "A confirmation pilot may still fail closed for educational findings, provider/infrastructure incidents or a new generic engineering contract class.",
+    "A new generic engineering contract class must return global qualification to paused and restart the affected Reliability v2 gates.",
+    "The US$20 per-course ceiling and source-rights, independent-review, expert-review and publication controls remain unchanged.",
+    "Content Factory maturity still requires three consecutive materially different real courses to reach expert_review_ready without engineering or worker-contract correction between runs."
+  ],
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "technicalQualificationHarnessUpdated": true,
+    "indexUpdateRequired": false,
+    "adrRequired": false
+  }
+}
