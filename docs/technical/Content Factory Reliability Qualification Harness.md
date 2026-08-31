@@ -2,17 +2,18 @@
 
 ## Status
 
-The Content Factory is **paused after Confirmation Pilot #20** under the Reliability v2.0 two-confirmation stop-loss.
+The Content Factory is **paused after Confirmation Pilot #20** under the Reliability v2.0 stop-loss.
 
-Current machine state:
+- Post-Pilot #19 Q1–Q6 provider-free qualification: historical **PASS**.
+- Post-Pilot #19 Q7 bounded live-worker soak attempt 4: historical **PASS**.
+- Post-Pilot #19 Q8 confirmation-pilot eligibility: historical **qualified**.
+- Confirmation Pilot #19: generic engineering failure.
+- Confirmation Pilot #20: second consecutive generic engineering/recovery failure.
+- Current machine state: **paused**.
+- `livePilotEligible`: **false**.
+- Next full-course confirmation: **not permitted** until the candidate-recovery production topology is implemented, requalified through Q1–Q7 and separately restored through Q8.
 
-- `status: paused`;
-- `livePilotEligible: false`;
-- Q1–Q7 require requalification against the candidate-recovery production topology;
-- no further full-course confirmation run is permitted until that requalification passes and a separate governed Q8 transition restores eligibility;
-- maturity remains **zero consecutive successful materially different real courses**.
-
-Active authority remains `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
+Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
 
 Current machine-readable state: `content-factory/reliability-qualification.json`.
 
@@ -24,86 +25,105 @@ No educational assurance requirement is lowered by this reset. `80-company-workf
 
 ## Reliability objective
 
-The reliability objective is now expressed operationally as:
+The post-Pilot #20 objective is no longer to prove that individual model calls are usually valid. It is to prove that the **production system remains reliable when ordinary model candidates are invalid**.
 
-`deterministic production slot → AI candidate → complete diagnostics → accept or reject → bounded automatic recovery/resampling → frozen valid artifact → dependent artifact → independent assurance`
+The target is:
 
-A rejected AI candidate is expected production variability. It becomes a Content Factory reliability failure only when the factory cannot recover automatically within governed educational, retry, infrastructure and spend limits.
+`deterministic production slot → generated candidate → complete diagnostics → accept or reject → bounded automatic resampling/recovery → freeze accepted artifact → dependent generation/assurance → expert_review_ready`
 
-This is a stricter practical interpretation of the existing Reliability v2 objective that normal model variability must be converted into valid output or truthful fail-closed behaviour without engineering intervention.
+A rejected candidate is expected production scrap. It is not itself a course failure.
 
-## Why the factory is paused
+The factory is reliable only when it can recover automatically from expected candidate variability while retaining all educational assurance and spend controls.
 
-### Confirmation Pilot #19
+## Success definition: trusted and repeatable
 
-Pilot #19 exposed the generic Assessment Item class:
+The Content Factory succeeds only when both of these outcomes are demonstrated together:
+
+1. **Trusted content** — the resulting Learn, Practice, Assessment Item and Marking Pack artifacts satisfy the applicable A1–A4 accuracy/assurance controls, independent educational challenge and later qualified human benchmark review. Finishing the pipeline is not evidence that content can be trusted by students.
+2. **Repeatable production** — materially different new courses can traverse the same generic production contracts without course-specific engineering changes, prompt/worker-contract correction after observing a course failure, or manual rescue of ordinary rejected candidates.
+
+This is the scale target for adding courses. Neither first-pass provider perfection nor one successful Business course is sufficient evidence.
+
+## Why the post-Pilot #19 qualification was insufficient
+
+Historical Reliability v2 qualification had previously reached Q1–Q7 PASS and a separate Q8 transition made Pilot #19 eligible.
+
+Pilot #19 exposed the generic Assessment Item engineering-contract class:
 
 `assessment_mcq_cognitive_demand_lexical_overconstraint`
 
-A structurally valid selection MCQ carrying knowledge/application cognitive demand could be rejected because the validator required artificial additional lexical command evidence.
+The deterministic validator incorrectly treated every `responseDemands[]` value as requiring independent lexical proof in the learner-facing command. That was valid for explicit operational demands such as calculation, interpretation, analysis and evaluation, but invalid for structurally valid selection MCQs whose educational cognitive classification was `knowledge` or `application`.
 
-The Assessment Item boundary was corrected and Reliability v2 Q1–Q7 was repeated. Q7 attempt #4 accepted 20/20 live samples and Q8 subsequently restored confirmation-pilot eligibility.
+The factory returned to `paused`, the Assessment Item boundary was corrected and Reliability v2 Q1–Q7 was repeated.
 
-Pilot #19 remains historical evidence. It is not rewritten by this reset.
+The fourth bounded live soak then accepted 20/20 Assessment Item and Marking Pack samples across all five governed subject shapes. A separate Q8 restored confirmation-pilot eligibility.
 
-### Confirmation Pilot #20
+That evidence was real, but Pilot #20 exposed a property that the qualification did not prove: **automatic recovery of a real production assessment topology when more than one independent defect exists and an individual candidate is rejected**.
+
+The qualification therefore tested the production validators and compilers but did not sufficiently prove the production failure/recovery topology.
+
+## Confirmation Pilot #20
 
 Pilot #20 ran on approved `main`:
 
 `b240ea9b6e2d56a644048c6085162c58429aef33`
 
-Durable execution evidence:
+Workflow:
 
-- workflow run: `33420994194`;
-- GitHub job issue: `#260`;
-- artifact ID: `9769262820`;
-- artifact digest: `sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d`;
-- known provider spend: **US$0.670708** of the US$20 course ceiling;
-- 37 recorded worker runs, including 30 OpenAI runs;
+`33420994194`
+
+Job issue:
+
+`#260`
+
+Artifact:
+
+- ID `9769262820`
+- digest `sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d`
+
+Observed:
+
+- 13 Learn/Practice work units planned;
 - 13/13 Learn/Practice work units completed;
-- five Question Families completed;
-- zero markable Assessment Items accepted;
-- zero Marking Packs produced;
+- 5 Question Families produced;
+- 37 total worker executions;
+- 30 provider worker executions;
+- known provider spend **US$0.670708**;
+- zero human interventions;
+- zero markable Assessment Items accepted before the run blocked;
 - no learner publication;
-- no human intervention before the engineering block.
+- final state `blocked` rather than `expert_review_ready`.
 
-The blocking Assessment Item failure was:
+The first Assessment Item candidate failed calculation-demand validation for q1. The one complete-candidate repair corrected that failure but then exposed an interpretation-demand failure for q5.
 
-1. initial candidate — q1 did not visibly ask for its claimed calculation demand;
-2. single whole-artifact repair — q1 was corrected, but q5 then did not visibly ask for its claimed interpretation demand;
-3. the Assessment Item worker returned failure and the course moved to `blocked`.
+The resulting production error was:
 
-## Root-cause architecture finding
+`assessment_item_v2_after_complete_diagnostic_repair`
 
-Pilot #20 is classified as:
+### Generic root cause
+
+The failure is classified as:
 
 `assessment_candidate_recovery_and_complete_diagnostic_architecture_failure`
 
-Two reusable production behaviours combine to create the failure.
+Two production behaviours are coupled:
 
-### 1. Complete diagnostics were not actually complete
+1. `diagnoseAssessmentItemV2Candidate()` runs the semantic structured validator in a `try/catch`. The validator can throw after the first safely inspectable semantic defect, so that one thrown error can be presented to the repair worker as though it were the complete diagnostic set.
+2. `runAssessmentAndMarkingFactory()` converts an Assessment Item or Marking Pack worker failure directly into `blockJob(...)`. A rejectable candidate therefore becomes a course-level blocker rather than a bounded candidate-level recovery event.
 
-The Assessment Item v2 diagnostic path calls the strict structured validator once and catches the resulting exception as a diagnostic entry.
+This is generic architecture. It is not an AQA Business-specific educational defect.
 
-The strict validator throws when it encounters the first safely inspectable semantic contract failure. Therefore a parseable multi-subquestion artifact can contain several independent defects while the repair worker receives only the first one.
+## Stop-loss
 
-This reproduces the serial-discovery pattern Reliability v2 was intended to eliminate.
+Pilots #19 and #20 are two consecutive confirmation-course attempts exposing generic engineering classes.
 
-### 2. Candidate rejection was escalated to course failure
+Reliability Standard v2.0 therefore prohibits a third full-course confirmation merely to discover the next failure.
 
-The assessment factory treats a failed Assessment Item generation execution as a course-level worker failure and moves the job to `blocked`.
+The factory remains paused until the affected production architecture has materially changed and been requalified.
 
-That means whole-course success currently depends too strongly on every required generative artifact surviving its bounded generation/repair attempt.
+Maturity remains:
 
-For probabilistic generation, this is not a credible scaling invariant.
-
-## Stop-loss decision
-
-Pilots #19 and #20 are two consecutive confirmation-course attempts exposing new reusable engineering/contract classes.
-
-Reliability Standard v2.0 therefore prohibits a third full-course confirmation attempt merely to discover the next defect.
-
-The machine qualification state is paused until the affected production topology is redesigned and requalified.
+**0 consecutive materially different real courses reaching `expert_review_ready` without engineering/worker-contract correction between runs.**
 
 ## Candidate-recovery architecture
 
@@ -111,177 +131,191 @@ ADR-0019 defines the replacement production model.
 
 ### Deterministic production slots
 
-The Assessment Blueprint and Question Family contracts define what must be manufactured.
+The factory plans the required assessment inventory from governed Assessment Blueprint / Question Family constraints.
 
-Revision should own mechanically provable structure wherever educational meaning is not lost, including IDs, target coverage, marks/totals, response shape, cross-references and other deterministic constraints.
+Mechanically provable properties belong to Revision/compiler ownership where educational meaning is not lost.
 
-AI workers should provide the educational judgement that genuinely benefits from generative reasoning.
+### Candidate generation
 
-### Candidate lifecycle
+A model output is not canonical content merely because the provider call succeeded. It is a candidate.
 
-Generative output is provisional until accepted.
+Candidates must pass compilation and deterministic/educational checks before acceptance.
 
-Normal flow:
+### Candidate rejection and replacement
 
-1. create deterministic slot;
-2. generate candidate;
-3. collect complete actionable deterministic diagnostics;
-4. accept valid candidate or reject invalid candidate;
-5. automatically resample/recover within bounded policy;
-6. freeze accepted artifact;
-7. generate and independently validate dependent Marking Pack;
-8. continue until the Assessment Blueprint is satisfied.
+A rejected candidate is discarded from canonical course content and automatically resampled within a bounded retry/candidate/spend policy.
 
-### Recovery isolation
+Fresh resampling is preferred to repeatedly rewriting a complex candidate where semantic variation is the failure source.
 
-Recovery must affect the smallest safe unit.
+### Smallest-safe recovery
 
-- one bad subquestion must not rewrite unrelated accepted subquestions where safe assembly is possible;
-- one rejected Assessment Item must not invalidate unrelated accepted Assessment Items;
-- one rejected Marking Pack must not invalidate its accepted question or unrelated packs;
-- accepted sibling artifacts remain stable unless a genuine dependency change invalidates them.
+- invalid subquestion → replace/recover the smallest safely independent question slot;
+- invalid Assessment Item → replace that item without regenerating accepted siblings;
+- invalid Marking Pack → replace that pack while preserving the frozen accepted Assessment Item;
+- shared case/stimulus → validate and freeze context before independently generating dependent slots where the assessment shape permits it.
 
-For shared case/stimulus assessments, a validated context may be frozen first and question slots generated independently against it.
+### Course-level blocker
 
-### Repair versus resampling
+The course becomes blocked only when automation cannot safely recover, for example:
 
-One bounded validator-directed repair may remain useful for genuinely repairable representation defects.
-
-For generative semantic rejection, fresh candidate resampling is preferred to repeated rewriting of a complex artifact with many already-valid invariants.
-
-There must be no unbounded repair loop.
-
-### Course-level blockers
-
-Course-level `blocked` status should be reserved for failures automation cannot safely resolve, such as:
-
-- unresolved identity, tier, option, text or pathway;
+- unresolved identity/learner option;
 - source-rights ambiguity;
-- unrecoverable source/coverage authority defect;
-- material educational ambiguity requiring human judgement;
-- exhausted candidate/retry/spend ceiling;
-- infrastructure state that bounded retry/resume cannot recover.
+- unrecoverable authority/coverage problem;
+- material educational ambiguity that cannot safely be automated;
+- exhausted governed candidate/retry/spend ceiling;
+- non-recoverable infrastructure state.
 
-Ordinary rejected AI candidates are not course-level blockers.
-
-## Educational trust criteria remain unchanged
-
-Repeatability does not mean accepting weaker content.
-
-A course can reach `expert_review_ready` only when all applicable Content Accuracy Assurance Gate controls remain satisfied.
-
-This includes:
-
-- rights-safe and source-traceable inputs;
-- A1 factual/alignment assurance;
-- A2 explanation assurance;
-- A3 original assessment assurance;
-- A4 Marking Pack assurance;
-- deterministic arithmetic, totals, references and compatibility checks;
-- fresh-context independent educational review;
-- targeted remediation and revalidation;
-- an exact-version portable expert package;
-- qualified human subject review as the benchmark trust gate before serious commercial reliance.
-
-The automated factory is successful only when it produces content capable of passing these controls. Pipeline completion alone is not a quality claim.
+An ordinary bad candidate is not itself a course blocker.
 
 ## Requalification requirements after Pilot #20
 
-Q1–Q7 must be repeated against the actual candidate-recovery topology.
+All Q1–Q7 gates are reset because qualification must exercise the new production topology rather than reuse the old transactional-generation proof.
 
 ### Q1 — ownership inventory
 
-Re-evaluate Assessment Item and Marking Pack fields so mechanically provable structure moves to compiler ownership where educational meaning permits.
+Re-evaluate Assessment Item and Marking Pack fields under the candidate/slot model.
 
-Explicitly identify candidate/slot ownership, immutable accepted fields and resampling boundaries.
+Compiler ownership must be preferred for mechanically provable structure.
 
-### Q2 — historical failure replay
+### Q2 — historical replay
 
-Pilot #20 becomes permanent regression evidence in addition to the existing historical corpus.
+The permanent corpus must include Pilot #20 as a generic recovery architecture regression.
 
-The modern expected outcome is not merely that q1 and q5 can both be made valid. The production architecture must avoid serial course-level discovery of those defects.
+Historical records remain unchanged.
 
-### Q3 — adversarial matrix
+### Q3 — adversarial provider-free matrix
 
-Add deliberate cases containing:
+In addition to existing shape/mutation coverage, qualification must deliberately inject:
 
-- multiple independently invalid subquestions in one parseable candidate;
-- mixed valid and invalid sibling slots;
-- repeated invalid fresh candidates followed by a valid candidate;
-- invalid Marking Pack candidates after a valid frozen Assessment Item;
-- duplicate/near-duplicate candidate rejection where selection/pool logic is introduced;
-- combinations that must exhaust the bounded policy and fail closed truthfully.
+- multiple independent defects in one parseable candidate;
+- candidate rejection followed by a valid fresh candidate;
+- repeated rejected candidates followed by recovery within bounds;
+- Assessment Item rejection without sibling invalidation;
+- Marking Pack rejection without Assessment Item invalidation;
+- recovery exhaustion that truthfully blocks;
+- mixed-demand multi-question assessment artifacts;
+- shared-context/case assessment shapes where applicable.
 
 ### Q4 — deterministic full-pipeline simulation
 
-The full provider-free course simulation must reach `expert_review_ready` while deliberately injecting bad Assessment Item and Marking Pack candidates that are rejected and replaced automatically.
+The provider-free full-course simulation must reach `expert_review_ready` **despite deliberate bad-candidate injection**.
 
-A happy-path-only simulation is insufficient.
+A simulation where every generated candidate is valid is insufficient evidence.
 
-### Q5 — restart/reuse/dependency isolation
+### Q5 — restart/reuse/dependency invalidation
 
-Prove that accepted sibling questions, contexts, Learn/Practice artifacts and unrelated Marking Packs survive another candidate's rejection and resume correctly.
-
-Spend and retry provenance must remain truthful.
+Qualification must prove accepted sibling artifacts remain reusable after another candidate fails and that resuming the job does not regenerate unrelated accepted work.
 
 ### Q6 — repeated recovery stability
 
-Repeat the provider-free matrix with varied candidate failures/order/seeds or equivalent deterministic variation.
+The recovery topology must pass repeatedly with varied mutations/order and no code/worker-contract changes between repetitions.
 
-No code or worker-contract correction may be required between repetitions.
+### Q7 — bounded live soak
 
-### Q7 — bounded live worker soak
+The next live worker soak must exercise the **same candidate rejection/resampling path as production**.
 
-The next live soak must execute the **same candidate recovery/resampling path as production**, not only isolated worker calls that bypass orchestration behaviour.
+It must not merely sample isolated first-pass worker acceptance.
 
-It must include multi-question/mixed-demand production shapes and demonstrate that live provider rejections can be recovered without engineering intervention.
+At least some live samples must exercise controlled candidate rejection and automatic replacement before Q7 can support a repeatability claim.
 
-Only after Q1–Q7 PASS may a separate Q8 transition restore `qualified` / `livePilotEligible: true`.
+A new generic engineering class still fails Q7.
 
-## Historical Q7 position
+### Q8
 
-The existing Q7 attempts remain historical evidence:
+Only after the reset Q1–Q7 gates pass may a separate governed Q8 transition restore `qualified` / `livePilotEligible: true`.
 
-- attempt 1 — workflow `33265434110`, 13/20 accepted, Q7 FAIL, US$0.423906;
-- attempt 2 — workflow `33282967568`, 17/20 accepted, Q7 FAIL, US$0.455962;
-- attempt 3 — workflow `33364521121`, 16/20 accepted with controlled educational/semantic fail-closed outputs, historical Q7 PASS, US$0.432952;
-- attempt 4 — workflow `33395187056`, 20/20 accepted across five governed subject shapes, post-Pilot #19 Q7 PASS, US$0.384316.
+No Q8 restoration occurs in this architecture/reset work.
 
-Cumulative known historical Q7 spend remains **US$1.697136**.
+## Historical Q7 execution history
 
-Attempt #4 remains valid historical evidence of the worker boundary it tested. Pilot #20 shows that it did not adequately prove the full production recovery topology.
+Historical evidence remains historical truth and is not rewritten.
+
+### Attempt 1 — workflow `33265434110`
+
+- 20/20 executed
+- 13 accepted / 7 controlled fail-closed
+- 9 targeted repairs
+- known spend US$0.423906
+- generic class: `assessment_subquestion_required_structure_omission_before_targeted_repair`
+- result: **Q7 FAIL**
+
+### Attempt 2 — workflow `33282967568`
+
+- 20/20 executed
+- 17 accepted / 3 controlled fail-closed
+- 15 targeted repairs
+- known spend US$0.455962
+- generic class: `assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair`
+- result: **Q7 FAIL**
+
+### Attempt 3 — workflow `33364521121`
+
+- 20/20 executed
+- 16 accepted / 4 controlled fail-closed
+- 12 targeted repairs
+- known spend US$0.432952
+- result: historical **Q7 PASS**
+
+Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-003.json`.
+
+### Attempt 4 — workflow `33395187056`
+
+- 20/20 executed;
+- 20/20 accepted;
+- 10/10 Assessment Item accepted;
+- 10/10 Marking Pack accepted;
+- five subject shapes;
+- 8 targeted repairs;
+- 0 infrastructure incidents;
+- 0 engineering-boundary breaches;
+- known spend US$0.384316;
+- result: historical post-Pilot #19 **Q7 PASS**.
+
+Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-004.json`.
+
+This PASS remains historically true. It does not satisfy the new candidate-recovery qualification because it did not prove the recovery topology later shown missing by Pilot #20.
+
+## Historical Q8
+
+`content-factory/reliability-v2-f-q8-eligibility-002.json` remains the historical record that correctly made Pilot #20 eligible under the then-current qualified evidence.
+
+It is not rewritten after the later failure.
+
+Current eligibility is controlled by `content-factory/reliability-qualification.json`, which is now paused.
 
 ## Current machine state
 
-`content-factory/reliability-qualification.json` now records:
+`content-factory/reliability-qualification.json` records:
 
 - `status: paused`;
-- latest failure: Pilot #20;
-- classification: `new_generic_engineering_contract_class`;
-- defect class: `assessment_candidate_recovery_and_complete_diagnostic_architecture_failure`;
-- `qualifiedEvidence: null`;
 - `livePilotEligible: false`;
-- Q1–Q7 required after the Pilot #20 architecture reset.
+- `qualifiedEvidence: null`;
+- latest failure = Pilot #20;
+- Pilot #19 retained in failure history;
+- historical Q7 PASS attempt 4 retained;
+- Q1–Q7 = `required_after_pilot20_architecture_reset`.
 
-The historical Q7 and Q8 evidence files are preserved unchanged.
+The live-pilot preflight must therefore fail before paid provider execution.
 
-## Maturity
+## Cost position
 
-The maturity sequence remains **zero**.
+Historical Q7 soak spend remains:
 
-The existing maturity criterion remains three consecutive materially different real courses, across more than one governed subject shape, reaching `expert_review_ready` on their initial factory run without reusable engineering/code/worker-contract correction between course runs.
+- attempt 1: US$0.423906
+- attempt 2: US$0.455962
+- attempt 3: US$0.432952
+- attempt 4: US$0.384316
+- cumulative: **US$1.697136**
 
-Normal candidate rejection and automatic recovery under the approved factory design will not count as engineering correction; that behaviour is the repeatability mechanism we now intend to qualify.
+Pilot #19 separately stopped at approximately US$0.7151.
+
+Pilot #20 stopped at **US$0.670708**.
+
+The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery architecture must use bounded candidate-level retry/spend limits underneath that course ceiling.
 
 ## Documentation impact
 
-No normative authority change is required for this reset. Reliability Standard v2.0 already requires:
-
-- automatic handling of normal model variability without engineering intervention;
-- compiler-first ownership;
-- complete diagnostics;
-- provider-free and live qualification;
-- the two-consecutive-confirmation stop-loss.
+No normative authority change is required in this reset. Reliability Standard v2.0 already requires expected model variability to be handled without engineering intervention, compiler-first ownership, complete diagnostics and the two-confirmation stop-loss architecture review. The candidate-recovery design is an architecture decision within those rules, not a reduction or redefinition of the educational/reliability policy.
 
 This architecture/reset change:
 
@@ -289,7 +323,9 @@ This architecture/reset change:
 - records ADR-0019;
 - pauses current machine qualification;
 - updates this indexed technical qualification source;
+- updates executable qualification-state tests;
+- updates `INDEX.md` so ADR-0019 is discoverable;
 - does not rewrite historical Pilot, Q7 or Q8 evidence;
 - does not run a provider, course or publication action.
 
-The current Content Factory Architecture and implementation documentation must be updated alongside the implementation PRs that introduce candidate/slot state, automatic resampling and recovery-aware orchestration.
+The implementation PRs that introduce candidate recovery must update `docs/technical/Content Factory Architecture.md`, the relevant implementation plan and code/tests as the new topology lands.
