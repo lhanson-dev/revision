@@ -262,7 +262,8 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
     expect(result.provenance.contractVersion).toBe('6')
-    expect(result.output.subquestions.map((subquestion) => subquestion.command)).toEqual([
+    const output = result.output as ReturnType<typeof compileAssessmentItemV2Candidate>
+    expect(output.subquestions.map((subquestion) => subquestion.command)).toEqual([
       'Calculate',
       'Interpret',
     ])
