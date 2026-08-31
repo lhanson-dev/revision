@@ -11,6 +11,7 @@ The Content Factory is **paused after Confirmation Pilot #20** under the Reliabi
 - Confirmation Pilot #20: second consecutive generic engineering/recovery failure.
 - Current machine state: **paused**.
 - `livePilotEligible`: **false**.
+- Candidate-recovery implementation checkpoint 1: **complete Assessment Item diagnostics implemented; not qualification evidence by itself**.
 - Next full-course confirmation: **not permitted** until the candidate-recovery production topology is implemented, requalified through Q1–Q7 and separately restored through Q8.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
@@ -108,7 +109,7 @@ The failure is classified as:
 
 Two production behaviours are coupled:
 
-1. `diagnoseAssessmentItemV2Candidate()` runs the semantic structured validator in a `try/catch`. The validator can throw after the first safely inspectable semantic defect, so that one thrown error can be presented to the repair worker as though it were the complete diagnostic set.
+1. `diagnoseAssessmentItemV2Candidate()` ran the semantic structured validator in a `try/catch`. The validator could throw after the first safely inspectable semantic defect, so that one thrown error could be presented to the repair worker as though it were the complete diagnostic set.
 2. `runAssessmentAndMarkingFactory()` converts an Assessment Item or Marking Pack worker failure directly into `blockJob(...)`. A rejectable candidate therefore becomes a course-level blocker rather than a bounded candidate-level recovery event.
 
 This is generic architecture. It is not an AQA Business-specific educational defect.
@@ -167,6 +168,32 @@ The course becomes blocked only when automation cannot safely recover, for examp
 
 An ordinary bad candidate is not itself a course blocker.
 
+## Implementation checkpoint 1 — complete Assessment Item diagnostics
+
+The first production slice of ADR-0019 addresses the Pilot #20 diagnostic defect without claiming the wider recovery topology is complete.
+
+Implemented in the shared Assessment Item integrity boundary:
+
+- a non-throwing `diagnoseStructuredAssessment()` API returns all safely inspectable structured-assessment findings for a parseable artifact;
+- it aggregates duplicate IDs, mark-total mismatch, duplicate requirement references, unsupported response demands, MCQ contract findings, coverage-evidence duplication/mismatch, invalid coverage excerpts and governed-requirement mismatch;
+- schema-unparseable subquestion input returns the available schema issue set and does not pretend later semantic checks are safe;
+- `validateStructuredAssessment()` remains as a fail-fast compatibility API, now backed by the aggregate diagnostics and throwing the first finding for existing callers;
+- `diagnoseAssessmentItemV2Candidate()` uses the aggregate API before the provider repair call;
+- Assessment Item worker/repair contract version moves from `5` to `6` because the repair input contract materially changes;
+- a direct shared-validator regression and a worker-boundary Pilot #20 regression prove simultaneous calculation- and interpretation-demand defects are surfaced together;
+- the worker regression proves those two defects can be corrected in the existing single permitted targeted repair call rather than serially discovered across separate runs.
+
+This checkpoint does **not** complete ADR-0019. It deliberately does not yet add:
+
+- fresh candidate resampling after a rejected Assessment Item;
+- explicit slot/candidate durable state;
+- accepted-sibling immutability/reuse during recovery;
+- independent Marking Pack candidate replacement;
+- orchestrator behaviour that converts ordinary worker candidate rejection into bounded recovery rather than `blockJob(...)`;
+- Q1–Q7 qualification evidence or Q8 eligibility.
+
+The machine remains paused after this slice. Its purpose is to establish a correct diagnostic foundation for the later recovery mechanism, not to justify another course run.
+
 ## Requalification requirements after Pilot #20
 
 All Q1–Q7 gates are reset because qualification must exercise the new production topology rather than reuse the old transactional-generation proof.
@@ -224,7 +251,7 @@ A new generic engineering class still fails Q7.
 
 Only after the reset Q1–Q7 gates pass may a separate governed Q8 transition restore `qualified` / `livePilotEligible: true`.
 
-No Q8 restoration occurs in this architecture/reset work.
+No Q8 restoration occurs during candidate-recovery implementation work.
 
 ## Historical Q7 execution history
 
@@ -315,17 +342,18 @@ The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery 
 
 ## Documentation impact
 
-No normative authority change is required in this reset. Reliability Standard v2.0 already requires expected model variability to be handled without engineering intervention, compiler-first ownership, complete diagnostics and the two-confirmation stop-loss architecture review. The candidate-recovery design is an architecture decision within those rules, not a reduction or redefinition of the educational/reliability policy.
+No normative authority change is required for implementation checkpoint 1. Reliability Standard v2.0 already requires complete diagnostics, and ADR-0019 is the accepted architecture decision for candidate recovery.
 
-This architecture/reset change:
+This implementation slice:
 
-- adds an append-only Pilot #20 stop-loss evidence record;
-- records ADR-0019;
-- pauses current machine qualification;
-- updates this indexed technical qualification source;
-- updates executable qualification-state tests;
-- updates `INDEX.md` so ADR-0019 is discoverable;
+- fixes the first-error/complete-diagnostics mismatch at the shared Assessment Item integrity boundary;
+- versions the Assessment Item provider contract to `6`;
+- adds direct and Pilot #20 simultaneous-defect regressions;
+- updates `docs/technical/Content Factory Architecture.md` with the candidate lifecycle and explicit implementation checkpoint;
+- updates this qualification harness without changing current gate status;
+- marks ADR-0019 accepted after its Founder-approved merge;
+- leaves `content-factory/reliability-qualification.json` paused and unchanged;
 - does not rewrite historical Pilot, Q7 or Q8 evidence;
-- does not run a provider, course or publication action.
+- does not run a provider, full course, live soak or publication action.
 
-The implementation PRs that introduce candidate recovery must update `docs/technical/Content Factory Architecture.md`, the relevant implementation plan and code/tests as the new topology lands.
+Later implementation PRs still need to land candidate resampling/slot state, Marking Pack recovery and orchestrator recovery before provider-free requalification can begin.

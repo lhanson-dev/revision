@@ -1,6 +1,6 @@
 # Content Factory Architecture
 
-Status: Approved target; v0.1 foundation partially implemented.
+Status: Approved target; v0.1 foundation partially implemented; ADR-0019 candidate-recovery migration in progress.
 
 ## Purpose
 
@@ -89,7 +89,9 @@ Required responsibilities:
 - record worker results and exact commit/artifact references;
 - record material worker/model/contract provenance;
 - enforce independent-review separation;
-- stop on blockers;
+- distinguish ordinary rejected generative candidates from genuine course-level blockers;
+- recover rejected candidates within governed candidate/retry/spend ceilings when the affected worker boundary supports candidate recovery;
+- stop on genuine blockers;
 - handle retryable failures;
 - expose current job status;
 - stop at Founder merge approval;
@@ -195,6 +197,8 @@ Workers may be model-routed by task complexity. The architecture must support re
 
 Each material worker run should return enough provenance to identify the worker/stage, worker-contract or prompt-template version, model/provider where applicable, input references, output artifact/commit, result, retry count and usage/cost where available.
 
+Under ADR-0019, a model output at a recovery-enabled boundary is a **candidate**, not accepted course content, until the relevant deterministic/compiler and educational checks have accepted it. Rejected candidates remain operational evidence where useful and must not silently become canonical learner content.
+
 ### 8. Deterministic assurance service
 
 Where checks are computable, implement them as reusable code/tests rather than prompts.
@@ -212,6 +216,8 @@ Target checks include:
 - duplicate/contradictory structured items.
 
 These checks should produce machine-readable results suitable for the job record and PR summary.
+
+For repair-eligible parseable candidates, deterministic validation must expose the **complete safely inspectable actionable defect set** before a provider repair call. A first-error throwing API may remain as a compatibility surface for callers that only need fail-fast validation, but provider repair must use an aggregate diagnostic API rather than treating the first exception as the complete defect set.
 
 ### 9. Independent-review worker boundary
 
@@ -273,6 +279,35 @@ The export generator creates the portable teacher/subject-specialist review docu
 
 The v0.1 export may remain PDF-based. A later richer Content Operations review experience can consume the same underlying structured job/content data.
 
+## Candidate-recovery architecture after Pilot #20
+
+ADR-0019 changes the reliability topology at generative worker boundaries. The target lifecycle is:
+
+`planned slot → candidate generation → complete diagnostics → accept or reject → bounded resample → freeze accepted artifact → generate dependent artifact`
+
+The implementation must satisfy these invariants:
+
+- ordinary provider/model variability is expected production behaviour rather than an automatic course failure;
+- recovery happens at the smallest safe candidate/subartifact scope;
+- accepted sibling artifacts remain immutable unless a genuine dependency change invalidates them;
+- fresh candidate resampling is preferred to repeated whole-artifact rewriting when semantic generation is unstable;
+- candidate and retry budgets are bounded and included in course spend accounting;
+- course-level `blocked` state is reserved for unresolved authority/identity/rights/coverage ambiguity, exhausted governed recovery/spend limits, unrecoverable infrastructure, or educational ambiguity that automation cannot safely resolve;
+- educational assurance remains unchanged and can still reject an educationally weak candidate or course.
+
+### Implementation checkpoint: complete Assessment Item diagnostics
+
+The first implementation slice after ADR-0019 is the Assessment Item diagnostic boundary:
+
+- `assessment-integrity.ts` exposes a non-throwing aggregate diagnostic path for structured Assessment Items;
+- the aggregate path inspects all safely parseable subquestions and reports simultaneous mark, requirement, command/demand, MCQ and coverage findings rather than stopping after the first semantic failure;
+- the existing `validateStructuredAssessment` fail-fast API is retained for compatibility and returns the first diagnostic as an exception;
+- the Assessment Item provider worker uses the aggregate path before its single permitted targeted repair;
+- the Assessment Item worker contract is versioned to `6` because the provider/repair behaviour has materially changed;
+- a Pilot #20 regression proves calculation- and interpretation-demand defects in different subquestions are supplied together to the one repair call.
+
+This checkpoint **does not yet implement** bounded fresh-candidate resampling, slot-level accepted-sibling preservation, Marking Pack candidate recovery, or the orchestrator change that prevents an ordinary rejected candidate from blocking the course. Full-course eligibility therefore remains paused and Q1–Q7 must not be treated as passed because this diagnostic slice is green.
+
 ## Worker contract/versioning
 
 Worker implementations and prompts will evolve. The orchestrator therefore treats worker contracts as versioned execution dependencies.
@@ -293,14 +328,20 @@ A material worker-contract change can trigger targeted revalidation when prior q
 
 Each factory stage should be idempotent or explicitly versioned.
 
-Retry rules:
+Retry/recovery rules:
 
 - transient network/model/CI/deployment infrastructure failures may retry within bounded limits;
+- an ordinary invalid model candidate at a recovery-enabled boundary is rejected and recovered at candidate scope within governed limits rather than immediately blocking the course;
+- fresh resampling is preferred to repeated whole-artifact repair where ADR-0019 identifies semantic instability;
+- exhausted candidate/retry/spend limits become an explicit course-level blocker rather than an unbounded loop;
 - educational ambiguity does not auto-retry into a guessed answer — it becomes `blocked`;
 - a material upstream source/coverage change invalidates dependent generation/review stages;
-- retries must not create duplicate job issues, branches, PRs or content identifiers;
-- the job record must show the latest valid stage plus failed attempts where operationally useful;
+- retries/resampling must not create duplicate job issues, branches, PRs or canonical content identifiers;
+- accepted unaffected artifacts must be preserved across candidate recovery and resume;
+- the job record must show the latest valid stage plus rejected/failed attempts where operationally useful;
 - a failed post-merge deployment keeps the job out of `pilot_live` even though the merge has already occurred.
+
+Candidate-scope recovery is being implemented incrementally after Pilot #20. Until the resampling/orchestrator slices are merged and requalified, the machine-readable qualification state remains paused.
 
 ## Parallelism
 
@@ -321,11 +362,11 @@ Track at least:
 - task/stage;
 - request count;
 - token/usage cost where available;
-- retries;
+- retries and rejected candidate count where recovery is enabled;
 - total job cost;
 - human-review status/cost when relevant.
 
-The orchestrator should support per-job and batch usage limits so retry loops or concurrency cannot consume unbounded spend.
+The orchestrator should support per-job and batch usage limits so retry loops, candidate resampling or concurrency cannot consume unbounded spend.
 
 Routing policy should prefer deterministic code and lower-cost workers where quality evidence supports them, while preserving stronger review for high-risk educational tasks.
 
@@ -347,9 +388,11 @@ Routing policy should prefer deterministic code and lower-cost workers where qua
 5. Add isolated generation and independent-review worker invocation contracts with worker-run provenance.
 6. Automate branch/PR and exact-head CI handling plus the final Founder-approval stop.
 7. Add post-merge deployment verification and `pilot_live` transition.
-8. Prove the pipeline on several materially different qualification types.
-9. Add batch intake/concurrency and spend limits.
-10. Expand Content Operations into a broader dashboard only if operational volume justifies it.
+8. Implement ADR-0019 candidate recovery in bounded slices: complete diagnostics, candidate resampling/slot state, Marking Pack recovery, then orchestrator recovery semantics.
+9. Requalify the actual candidate-recovery topology through Q1–Q7 and a separate Q8 before another full-course confirmation run.
+10. Prove the pipeline on several materially different qualification types.
+11. Add batch intake/concurrency and spend limits.
+12. Expand Content Operations into a broader dashboard only if operational volume justifies it.
 
 ## Explicitly out of v0.1
 

@@ -1,6 +1,6 @@
 # ADR-0019 — Content Factory candidate recovery architecture
 
-**Status:** Proposed for Founder-approved merge  
+**Status:** Accepted via Founder-approved PR #261  
 **Date:** 31 August 2026  
 **Decision owner:** Founder  
 **Applies to:** Content Factory assessment and other generative worker boundaries where normal model variability can produce rejectable candidates

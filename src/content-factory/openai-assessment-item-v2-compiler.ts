@@ -4,6 +4,7 @@ import {
 } from './assessment-and-marking'
 import {
   assessmentSubquestionSchema,
+  diagnoseStructuredAssessment,
   validateStructuredAssessment,
 } from './assessment-integrity'
 import {
@@ -49,7 +50,7 @@ const repairableAssessmentContextSchema = z.object({
 }).optional()
 
 /**
- * Provider-facing Assessment Item contract for Reliability v2 after Q7.
+ * Provider-facing Assessment Item contract for the post-Pilot #20 recovery architecture.
  *
  * Revision owns top-level target component/family/requirements/format/marks and
  * now also owns the duplicated subquestion requirementIds representation. The
@@ -117,9 +118,8 @@ function strictSubquestions(candidate: RepairableCandidate) {
  * are reported for every subquestion in one diagnostic set. Provider-authored
  * subquestion requirementIds are deliberately outside this contract: the exact
  * set is compiled from coverageEvidence[].requirementId. Once repairable
- * structure is complete, deterministic assessment validation remains the source
- * of truth for mark arithmetic, governed requirement coverage, exact excerpts,
- * duplicate mappings, command/demand integrity and all remaining semantics.
+ * structure is complete, the shared assessment-integrity diagnostic API returns
+ * every safely inspectable deterministic semantic finding in the same pass.
  */
 export function diagnoseAssessmentItemV2Candidate(
   providerOutput: unknown,
@@ -153,20 +153,12 @@ export function diagnoseAssessmentItemV2Candidate(
 
   if (diagnostics.length > 0 || !candidateHasCompleteSubquestionStructure(candidate)) return diagnostics
 
-  try {
-    validateStructuredAssessment({
-      itemId: candidate.id,
-      maxMark: policy.maxMark,
-      governedRequirementIds: policy.requirementIds,
-      subquestions: strictSubquestions(candidate),
-    })
-  } catch (error) {
-    diagnostics.push(diagnostic(
-      'ASSESSMENT_STRUCTURED_CONTRACT_INVALID',
-      'subquestions',
-      errorMessage(error),
-    ))
-  }
+  for (const entry of diagnoseStructuredAssessment({
+    itemId: candidate.id,
+    maxMark: policy.maxMark,
+    governedRequirementIds: policy.requirementIds,
+    subquestions: strictSubquestions(candidate),
+  })) diagnostics.push(diagnostic(entry.code, entry.path, entry.message))
 
   return diagnostics
 }
@@ -232,7 +224,7 @@ function combinedRepairExecution(
     ...repair,
     provenance: {
       ...repair.provenance,
-      contractVersion: '5',
+      contractVersion: '6',
       retryCount: (first.provenance.retryCount ?? 0) + (repair.provenance.retryCount ?? 0) + 1,
       usageCost: (first.provenance.usageCost ?? 0) + (repair.provenance.usageCost ?? 0),
     },
@@ -254,7 +246,7 @@ export function createOpenAIModelAssistedWorkers(
 
       const firstExecution = await client.run({
         workerId: 'content-factory.assessment-item-v2',
-        contractVersion: '5',
+        contractVersion: '6',
         routeKind: 'generation',
         outputSchema: assessmentItemV2ProviderOutputSchema,
         instructions: assessmentItemV2Instruction,
@@ -289,7 +281,7 @@ export function createOpenAIModelAssistedWorkers(
         firstExecution,
         await client.run({
           workerId: 'content-factory.assessment-item-v2-repair',
-          contractVersion: '5',
+          contractVersion: '6',
           routeKind: 'generation',
           outputSchema: assessmentItemV2ProviderOutputSchema,
           instructions: repairInstruction,
