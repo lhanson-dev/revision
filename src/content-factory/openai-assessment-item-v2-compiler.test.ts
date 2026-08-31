@@ -112,6 +112,50 @@ function q7OmissionOutput() {
   }
 }
 
+function simultaneousDemandMismatchOutput() {
+  const complete = completeProviderOutput()
+  return {
+    ...complete,
+    subquestions: [
+      {
+        id: 'q1',
+        command: 'State',
+        wording: 'State the sales trend shown in the data.',
+        maxMark: 2,
+        responseDemands: ['calculation'],
+        coverageEvidence: [{ requirementId: 'quantitative-skills', evidence: 'sales trend' }],
+      },
+      {
+        id: 'q2',
+        command: 'State',
+        wording: 'State what the profit data shows.',
+        maxMark: 2,
+        responseDemands: ['interpretation'],
+        coverageEvidence: [{ requirementId: 'quantitative-skills', evidence: 'profit data' }],
+      },
+    ],
+  }
+}
+
+function repairedSimultaneousDemandOutput() {
+  const candidate = simultaneousDemandMismatchOutput()
+  return {
+    ...candidate,
+    subquestions: [
+      {
+        ...candidate.subquestions[0],
+        command: 'Calculate',
+        wording: 'Calculate the sales trend shown in the data.',
+      },
+      {
+        ...candidate.subquestions[1],
+        command: 'Interpret',
+        wording: 'Interpret what the profit data shows.',
+      },
+    ],
+  }
+}
+
 function secondQ7MismatchSignature() {
   const complete = completeProviderOutput()
   return {
@@ -171,7 +215,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('5')
+    expect(result.provenance.contractVersion).toBe('6')
     expect(result.output).toMatchObject({
       componentId: 'paper-1',
       questionFamilyId: 'quantitative-family',
@@ -190,6 +234,38 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
         ],
       },
     })
+  })
+
+  it('collects the Pilot 20 simultaneous demand defects in one actionable diagnostic set', () => {
+    const diagnostics = diagnoseAssessmentItemV2Candidate(simultaneousDemandMismatchOutput(), targetPolicy)
+    const demandDiagnostics = diagnostics.filter((entry) => entry.code === 'ASSESSMENT_RESPONSE_DEMAND_UNSUPPORTED')
+
+    expect(demandDiagnostics).toHaveLength(2)
+    expect(demandDiagnostics.map((entry) => entry.path)).toEqual([
+      'subquestions[0].responseDemands',
+      'subquestions[1].responseDemands',
+    ])
+    expect(demandDiagnostics[0]?.message).toContain('calculation')
+    expect(demandDiagnostics[1]?.message).toContain('interpretation')
+  })
+
+  it('repairs simultaneous Pilot 20 demand defects in the single permitted repair call', async () => {
+    const { workers, fetchImpl } = workersReturning(
+      simultaneousDemandMismatchOutput(),
+      repairedSimultaneousDemandOutput(),
+    )
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.retryCount).toBe(1)
+    expect(result.provenance.contractVersion).toBe('6')
+    expect(result.output.subquestions.map((subquestion) => subquestion.command)).toEqual([
+      'Calculate',
+      'Interpret',
+    ])
   })
 
   it('eliminates the second-Q7 mismatch class by deriving subquestion requirementIds from coverageEvidence', async () => {
