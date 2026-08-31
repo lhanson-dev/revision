@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "architecture_reset_required",
+  "workItem": "Reliability-v2-post-confirmation-pilot-20-stop-loss",
+  "trigger": {
+    "pilot": 20,
+    "workflowRunId": 33420994194,
+    "jobIssueNumber": 260,
+    "approvedMainSha": "b240ea9b6e2d56a644048c6085162c58429aef33",
+    "artifactId": 9769262820,
+    "artifactDigest": "sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d",
+    "knownCourseSpendUsd": 0.670708,
+    "finalState": "blocked",
+    "reachedExpertReviewReady": false,
+    "workUnitCount": 13,
+    "completedLearnPracticeWorkUnits": 13,
+    "questionFamilyCount": 5,
+    "markableAssessmentItemCount": 0,
+    "workerRunCount": 37,
+    "providerWorkerRunCount": 30,
+    "humanInterventionCount": 0
+  },
+  "classification": {
+    "decision": "new_generic_engineering_contract_class",
+    "defectClass": "assessment_candidate_recovery_and_complete_diagnostic_architecture_failure",
+    "boundary": "assessment_item_generation_and_orchestration",
+    "observedFailure": "The first Assessment Item candidate failed calculation-demand validation on q1. The single whole-artifact repair corrected that defect but then failed interpretation-demand validation on q5, blocking the full course.",
+    "whyGeneric": "The production diagnostic path catches the first semantic validation exception and presents it as the complete actionable defect set, while the assessment orchestrator converts a rejected Assessment Item candidate into a course-level blocker. Both behaviours apply across courses and providers rather than to AQA Business-specific educational content.",
+    "educationalFinding": false,
+    "providerInfrastructureIncident": false
+  },
+  "stopLoss": {
+    "triggered": true,
+    "consecutiveConfirmationEngineeringFailures": [19, 20],
+    "thirdFullCourseConfirmationPermitted": false,
+    "requiredBeforeNextFullCourse": "deliberate architecture change and requalification of the affected production topology"
+  },
+  "architectureDecision": {
+    "goal": "credible trusted learner content through a repeatable automated course-production process",
+    "principle": "A bad AI-generated candidate is normal production scrap; the Content Factory fails only when it cannot recover automatically within governed quality, retry and spend limits.",
+    "candidateLifecycle": [
+      "plan deterministic assessment slot",
+      "generate candidate educational content",
+      "run complete deterministic diagnostics",
+      "accept or reject candidate",
+      "resample rejected candidate within bounded policy",
+      "freeze accepted artifact",
+      "generate and validate dependent Marking Pack independently",
+      "continue until blueprint coverage is satisfied"
+    ],
+    "courseLevelBlockersReservedFor": [
+      "unresolved course identity or learner option",
+      "source-rights ambiguity",
+      "unrecoverable upstream authority or coverage defect",
+      "exhausted governed candidate/retry or spend ceiling",
+      "material educational ambiguity that automation cannot resolve safely",
+      "infrastructure state that cannot be recovered by bounded retry/resume"
+    ],
+    "requiredProductionProperties": [
+      "complete multi-defect diagnostics for every parseable candidate before repair or rejection",
+      "slot-level or subartifact-level recovery rather than whole-course failure",
+      "accepted sibling artifacts remain immutable when another candidate fails",
+      "fresh candidate resampling is preferred to repeated whole-artifact repair where generative semantics are unstable",
+      "compiler ownership of mechanically provable assessment structure",
+      "independent educational assurance remains mandatory",
+      "qualified human subject review remains the benchmark gate"
+    ]
+  },
+  "qualificationReset": {
+    "fullCourseEligibilityPaused": true,
+    "q1OwnershipInventoryRequired": true,
+    "q2HistoricalReplayMustIncludePilot20": true,
+    "q3AdversarialMatrixMustIncludeMultiDefectAndCandidateRejectionRecovery": true,
+    "q4SimulationMustReachExpertReviewReadyDespiteInjectedBadCandidates": true,
+    "q5ResumeMustPreserveAcceptedSiblingArtifacts": true,
+    "q6RepeatedRecoveryStabilityRequired": true,
+    "q7LiveSoakMustExerciseProductionCandidateRecoveryTopology": true,
+    "separateQ8RequiredAfterQualification": true
+  },
+  "trustAndScaleAcceptance": {
+    "educationalTrustAuthorityUnchanged": "80-company-workflows/Content Accuracy Assurance Gate.md",
+    "mustRetainA1ToA4Assurance": true,
+    "mustRetainFreshContextIndependentReview": true,
+    "mustRetainQualifiedHumanBenchmarkReview": true,
+    "repeatabilityTarget": "new courses can traverse the same generic production contracts without course-specific engineering intervention",
+    "maturitySequence": 0
+  },
+  "historicalRecordsRewritten": false,
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "normativeReason": "Reliability Standard v2.0 already requires model variability to be handled without engineering intervention, compiler-first ownership, complete diagnostics, targeted recovery and a stop-loss architecture review after two consecutive confirmation engineering failures. ADR-0019 selects the implementation architecture within that authority rather than changing the educational or reliability policy.",
+    "architectureDecisionRequired": true,
+    "architectureDecision": "decisions/ADR-0019-content-factory-candidate-recovery.md",
+    "technicalArchitectureUpdateRequiredDuringImplementation": true,
+    "qualificationHarnessUpdated": true,
+    "indexUpdatedForAdr0019": true
+  }
+}
