@@ -55,16 +55,19 @@ function integrityVersion(baseVersion: string, revision: string) {
 // for knowledge/application cognitive demand. output-integrity-v5 separates the
 // mechanically validated selection interaction from those MCQ cognitive labels,
 // while preserving explicit lexical guards for calculation, interpretation,
-// analysis and evaluation. Post-Pilot #20 candidate recovery now moves candidate
+// analysis and evaluation. Post-Pilot #20 candidate recovery moves candidate
 // numbering and the two-candidate ceiling into durable orchestration state. The
 // Assessment Item worker input contract is therefore v3 and output-integrity-v6
-// prevents pre-durable candidate executions from being reused across head changes.
+// prevents pre-durable Assessment candidates from being reused across head changes.
+// The next ADR-0019 slice applies the same durable candidate ownership to Marking
+// Packs: the generic input contract advances to v3 and output-integrity-v3 prevents
+// pre-recovery Marking Pack executions from being reused as candidate-aware work.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
   assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v6'),
-  markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
+  markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v3'),
 } as const
 
 export const currentDurableWorkerDependencyPolicy: DurableWorkerDependencyPolicy = {
