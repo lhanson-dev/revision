@@ -2,13 +2,15 @@
 
 ## Status
 
-The Content Factory remains **paused for full-course live execution**.
+The Content Factory is **qualified for a governed full-course confirmation pilot** under Reliability Standard v2.0.
 
-Reliability v2 has now completed three bounded Q7 live-worker soak attempts. Attempts 1 and 2 exposed generic Assessment Item engineering contract classes; both were corrected and requalified provider-free through Q1–Q6. Attempt 3 executed all 20 governed live samples and, after the required engineering-vs-educational classification, exposed **no new generic engineering/provider-contract class**. Q1–Q7 are therefore PASS.
+Reliability v2 completed three bounded Q7 live-worker soak attempts. Attempts 1 and 2 exposed generic Assessment Item engineering contract classes; both were corrected and requalified provider-free through Q1–Q6. Attempt 3 executed all 20 governed live samples and, after the required engineering-vs-educational classification, exposed **no new generic engineering/provider-contract class**. Q1–Q7 are therefore PASS.
 
-Q8 remains a separate governed eligibility transition. Until Q8 is Founder-approved and merged, `status` remains `paused`, `qualifiedEvidence` remains null and `livePilotEligible` remains false.
+V2-F/Q8 is the separate governed eligibility transition required by the standard. The current machine-readable state is now `status: qualified`, `livePilotEligible: true`, with qualification evidence bound to approved `main` `166f9cb6957b995b81ff3eec84062b2f09ecec6c`, the current provider-free Q1–Q6 record and the passing Q7 live-soak record.
 
-The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The current machine-readable state is `content-factory/reliability-qualification.json`.
+This state makes the next paid end-to-end run eligible only as a **confirmation pilot**. Q8 itself does not dispatch that run, execute a provider call, assemble or publish a real course, approve educational content or establish maturity for routine batch production.
+
+The active governing authority is `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0. The current machine-readable state is `content-factory/reliability-qualification.json`, with the Q8 transition record at `content-factory/reliability-v2-f-q8-eligibility.json`.
 
 ## Reliability objective
 
@@ -128,35 +130,55 @@ It covers:
 
 The third live soak does not invalidate that evidence because it exposed no new generic engineering class.
 
-## Current gate state
+## Q8 eligibility decision
+
+V2-F/Q8 reviews the complete Q1–Q7 evidence already merged on approved `main` and restores the full-course confirmation-pilot gate without changing production worker/compiler logic.
+
+The Q8 record is `content-factory/reliability-v2-f-q8-eligibility.json`. It binds the decision to approved `main` `166f9cb6957b995b81ff3eec84062b2f09ecec6c` and records:
+
+- Q1–Q7 `pass`;
+- provider-free Q1–Q6 evidence `content-factory/reliability-post-q7-002-assessment-item-requalification.json`;
+- Q7 PASS evidence `content-factory/reliability-v2-e-q7-live-soak-evidence-003.json`;
+- Q6 repetition count 3;
+- Q7 attempt 3 / workflow `33364521121` / 20 executed samples;
+- no provider calls used by the Q8 transition itself;
+- no full-course execution, assembly or learner publication triggered by Q8;
+- next paid run class `confirmation_pilot`;
+- maturity not yet achieved.
 
 `content-factory/reliability-qualification.json` now records:
 
-- Q1–Q7 `pass`;
-- `status: paused`;
-- `q7PassEvidence: content-factory/reliability-v2-e-q7-live-soak-evidence-003.json`;
-- `providerFreeQualificationEvidence: content-factory/reliability-post-q7-002-assessment-item-requalification.json`;
-- `qualifiedEvidence: null`;
-- `livePilotEligible: false`.
+- `status: qualified`;
+- `livePilotEligible: true`;
+- all seven required gates in `passedGates`;
+- `qualifiedEvidence.qualificationEvidenceMainSha: 166f9cb6957b995b81ff3eec84062b2f09ecec6c`;
+- `qualifiedEvidence.eligibilityRecord: content-factory/reliability-v2-f-q8-eligibility.json`;
+- `qualifiedEvidence.nextPaidRunClass: confirmation_pilot`.
 
-This distinction is deliberate. Passing Q1–Q7 establishes the evidence required to proceed to V2-F/Q8; it does not itself authorize a full-course paid pilot.
+The existing full-course workflow remains fail closed: its preflight requires `qualified`, `livePilotEligible: true`, non-null qualification evidence and every required gate in `passedGates` before any paid provider execution step can begin.
 
 ## Cost position
 
 Attempt 3 used US$0.432952, 8.65904% of the US$5 ceiling. Combined known spend across all three Q7 attempts is **US$1.312820**.
 
-The existing US$5 ceiling remains proportionate. No cost-authority change is required.
+The existing US$5 Q7 ceiling remains proportionate. The next full-course confirmation pilot remains governed by the existing **US$20 per-course hard ceiling** and the wider bootstrap cost strategy. Q8 makes no cost-authority change.
 
-## Q8 and confirmation pilots
+## Confirmation-pilot boundary
 
-V2-F/Q8 is now the next reliability step. It must be a separate governed PR that reviews the complete Q1–Q7 evidence and, if assurance remains valid, transitions the machine-readable status to `qualified` and `livePilotEligible: true`.
+Pilot #19 is eligible after Q8 reaches approved `main`, but Q8 does not dispatch it.
 
-Pilot #19 remains blocked until Q8 merges under explicit Founder approval.
+The next paid end-to-end real course run is a confirmation pilot, not a debugging mechanism. Its outcomes must be classified under the Reliability Standard:
+
+- educational finding — normal assurance/remediation work, not automatically a reliability failure;
+- provider/infrastructure incident — bounded retry/resume rules apply;
+- new generic contract/engineering failure — pause full-course eligibility and return to Reliability v2 qualification.
+
+A successful Pilot #19 would still not make the Content Factory mature. Maturity requires three consecutive materially different real courses to reach `expert_review_ready` on their initial full factory run without engineering/code/worker-contract correction between runs, across more than one governed subject shape.
 
 ## Documentation impact
 
-No normative authority change is required. Reliability Standard v2.0 already defines the controlled educational-rejection classification used here, and the Bootstrap Cost Strategy already governs the spend response.
+No normative authority change is required. Reliability Standard v2.0 already defines Q8, confirmation-pilot classification, maturity and the stop-loss rule. The Bootstrap Cost Strategy already governs the US$20 course ceiling and quality-first spend controls.
 
-This evidence PR updates the V2-E record, this technical harness, machine-readable qualification state and assurance tests. Historical Pilot records, both prior Q7 failure records, V2-D evidence and provider-free requalification records remain unchanged.
+This Q8 change updates the machine-readable qualification state, adds an append-only V2-F/Q8 eligibility record, updates this indexed technical harness and updates executable qualification/preflight assurance. Historical Pilot records, Q7 failure evidence, Q7 PASS evidence, V2-D evidence and provider-free requalification records remain unchanged.
 
-`INDEX.md` remains correct because this file is already the indexed technical reliability source.
+`INDEX.md` remains correct because this file is already the indexed technical reliability source. No ADR is required because Q8 implements the already-approved Reliability v2 architecture rather than changing it.
