@@ -79,6 +79,12 @@ export const markingSubquestionGuidanceSchema = z.object({
 export type AssessmentSubquestion = z.infer<typeof assessmentSubquestionSchema>
 export type MarkingSubquestionGuidance = z.infer<typeof markingSubquestionGuidanceSchema>
 
+export type AssessmentIntegrityDiagnostic = {
+  code: string
+  path: string
+  message: string
+}
+
 function normalise(value: string) {
   return value.trim().replace(/\s+/g, ' ').toLowerCase()
 }
@@ -91,6 +97,19 @@ function sameSet(left: Iterable<string>, right: Iterable<string>) {
 
 function regexEscape(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function integrityDiagnostic(code: string, path: string, message: string): AssessmentIntegrityDiagnostic {
+  return { code, path, message }
+}
+
+function zodIssuePath(path: PropertyKey[]) {
+  if (path.length === 0) return 'subquestions'
+  return path.reduce<string>((result, segment) => (
+    typeof segment === 'number'
+      ? `${result}[${segment}]`
+      : `${result}.${String(segment)}`
+  ), 'subquestions')
 }
 
 export function assessmentCommandSupportsDemand(commandInput: string, demand: AssessmentResponseDemand) {
@@ -118,20 +137,155 @@ export function assessmentSubquestionSupportsDemand(
     && isSelectionMcq(subquestion)
 }
 
-function validateMcqOptions(subquestion: AssessmentSubquestion, label: string) {
+function diagnoseMcqOptions(
+  subquestion: AssessmentSubquestion,
+  label: string,
+  path: string,
+): AssessmentIntegrityDiagnostic[] {
+  const diagnostics: AssessmentIntegrityDiagnostic[] = []
   const isSelection = subquestion.responseDemands.includes('selection')
-  if (!isSelection && (subquestion.options?.length ?? 0) > 0) throw new Error(`${label} supplies MCQ options without selection demand`)
-  if (!isSelection) return
-
   const options = subquestion.options ?? []
-  if (options.length !== 4) throw new Error(`${label} must provide exactly four MCQ options`)
-  if (!sameSet(options.map((option) => option.label), ['A', 'B', 'C', 'D'])) throw new Error(`${label} must provide unique options A-D`)
-  if (new Set(options.map((option) => normalise(option.text))).size !== 4) throw new Error(`${label} MCQ option text must be distinct`)
-  if (options.filter((option) => option.correct).length !== 1) throw new Error(`${label} must have exactly one correct MCQ option`)
+
+  if (!isSelection && options.length > 0) {
+    diagnostics.push(integrityDiagnostic(
+      'ASSESSMENT_MCQ_OPTIONS_WITHOUT_SELECTION',
+      `${path}.options`,
+      `${label} supplies MCQ options without selection demand`,
+    ))
+    return diagnostics
+  }
+  if (!isSelection) return diagnostics
+
+  if (options.length !== 4) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_OPTION_COUNT_INVALID',
+    `${path}.options`,
+    `${label} must provide exactly four MCQ options`,
+  ))
+  if (!sameSet(options.map((option) => option.label), ['A', 'B', 'C', 'D'])) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_OPTION_LABELS_INVALID',
+    `${path}.options`,
+    `${label} must provide unique options A-D`,
+  ))
+  if (new Set(options.map((option) => normalise(option.text))).size !== options.length) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_OPTION_TEXT_DUPLICATE',
+    `${path}.options`,
+    `${label} MCQ option text must be distinct`,
+  ))
+  if (options.filter((option) => option.correct).length !== 1) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_CORRECT_OPTION_COUNT_INVALID',
+    `${path}.options`,
+    `${label} must have exactly one correct MCQ option`,
+  ))
+
   const weakDistractors = options.filter((option) => !option.correct && normalise(option.misconceptionBasis ?? '').length < 8)
-  if (weakDistractors.length > 0) throw new Error(`${label} incorrect MCQ options must identify a plausible misconception basis`)
-  const distractorBases = options.filter((option) => !option.correct).map((option) => normalise(option.misconceptionBasis!))
-  if (new Set(distractorBases).size !== distractorBases.length) throw new Error(`${label} MCQ distractors must use distinct misconception bases`)
+  if (weakDistractors.length > 0) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_DISTRACTOR_BASIS_WEAK',
+    `${path}.options`,
+    `${label} incorrect MCQ options must identify a plausible misconception basis`,
+  ))
+  const distractorBases = options.filter((option) => !option.correct).map((option) => normalise(option.misconceptionBasis ?? ''))
+  if (new Set(distractorBases).size !== distractorBases.length) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MCQ_DISTRACTOR_BASIS_DUPLICATE',
+    `${path}.options`,
+    `${label} MCQ distractors must use distinct misconception bases`,
+  ))
+
+  return diagnostics
+}
+
+/**
+ * Return every safely inspectable structured-assessment defect for one parseable
+ * artifact. This is the non-throwing contract used by validator-directed repair
+ * so one repair call receives the complete actionable defect set rather than the
+ * first semantic exception only.
+ */
+export function diagnoseStructuredAssessment(input: {
+  itemId: string
+  maxMark: number
+  governedRequirementIds: string[]
+  subquestions: AssessmentSubquestion[]
+}): AssessmentIntegrityDiagnostic[] {
+  const parsed = z.array(assessmentSubquestionSchema).min(1).safeParse(input.subquestions)
+  if (!parsed.success) {
+    return parsed.error.issues.map((issue) => integrityDiagnostic(
+      'ASSESSMENT_SCHEMA_INVALID',
+      zodIssuePath(issue.path),
+      issue.message,
+    ))
+  }
+
+  const subquestions = parsed.data
+  const diagnostics: AssessmentIntegrityDiagnostic[] = []
+
+  if (new Set(subquestions.map((subquestion) => subquestion.id)).size !== subquestions.length) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_DUPLICATE_SUBQUESTION_IDS',
+    'subquestions',
+    `Assessment item ${input.itemId} has duplicate subquestion IDs`,
+  ))
+
+  const totalMarks = subquestions.reduce((sum, subquestion) => sum + subquestion.maxMark, 0)
+  if (totalMarks !== input.maxMark) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_MARK_TOTAL_MISMATCH',
+    'subquestions',
+    `Assessment item ${input.itemId} subquestion marks total ${totalMarks}, expected ${input.maxMark}`,
+  ))
+
+  const claimedRequirements = new Set<string>()
+  subquestions.forEach((subquestion, index) => {
+    const path = `subquestions[${index}]`
+    const label = `Assessment item ${input.itemId} subquestion ${subquestion.id}`
+
+    if (new Set(subquestion.requirementIds).size !== subquestion.requirementIds.length) diagnostics.push(integrityDiagnostic(
+      'ASSESSMENT_SUBQUESTION_REQUIREMENT_IDS_DUPLICATE',
+      `${path}.requirementIds`,
+      `${label} must not repeat requirement IDs`,
+    ))
+
+    for (const demand of subquestion.responseDemands) {
+      if (!assessmentSubquestionSupportsDemand(subquestion, demand)) diagnostics.push(integrityDiagnostic(
+        'ASSESSMENT_RESPONSE_DEMAND_UNSUPPORTED',
+        `${path}.responseDemands`,
+        `${label} command does not ask for rewarded demand ${demand}`,
+      ))
+    }
+
+    diagnostics.push(...diagnoseMcqOptions(subquestion, label, path))
+
+    const evidenceByRequirement = new Map<string, string>()
+    for (const entry of subquestion.coverageEvidence) {
+      if (evidenceByRequirement.has(entry.requirementId)) diagnostics.push(integrityDiagnostic(
+        'ASSESSMENT_COVERAGE_EVIDENCE_DUPLICATE',
+        `${path}.coverageEvidence`,
+        `${label} repeats coverage evidence for ${entry.requirementId}`,
+      ))
+      else evidenceByRequirement.set(entry.requirementId, entry.evidence)
+    }
+
+    if (!sameSet(subquestion.requirementIds, evidenceByRequirement.keys())) diagnostics.push(integrityDiagnostic(
+      'ASSESSMENT_COVERAGE_EVIDENCE_MISMATCH',
+      `${path}.coverageEvidence`,
+      `${label} coverage evidence must match its requirement IDs exactly`,
+    ))
+
+    const searchable = normalise(subquestion.wording)
+    for (const requirementId of subquestion.requirementIds) {
+      claimedRequirements.add(requirementId)
+      const excerpt = normalise(evidenceByRequirement.get(requirementId) ?? '')
+      if (excerpt.length < 8 || !searchable.includes(excerpt)) diagnostics.push(integrityDiagnostic(
+        'ASSESSMENT_COVERAGE_EXCERPT_INVALID',
+        `${path}.coverageEvidence`,
+        `${label} coverage for ${requirementId} must cite an exact question excerpt`,
+      ))
+    }
+  })
+
+  if (!sameSet(claimedRequirements, input.governedRequirementIds)) diagnostics.push(integrityDiagnostic(
+    'ASSESSMENT_GOVERNED_REQUIREMENT_SET_MISMATCH',
+    'subquestions',
+    `Assessment item ${input.itemId} subquestions must evidence exactly the governed requirement IDs`,
+  ))
+
+  return diagnostics
 }
 
 export function validateStructuredAssessment(input: {
@@ -140,40 +294,9 @@ export function validateStructuredAssessment(input: {
   governedRequirementIds: string[]
   subquestions: AssessmentSubquestion[]
 }) {
-  const subquestions = z.array(assessmentSubquestionSchema).min(1).parse(input.subquestions)
-  if (new Set(subquestions.map((subquestion) => subquestion.id)).size !== subquestions.length) throw new Error(`Assessment item ${input.itemId} has duplicate subquestion IDs`)
-  const totalMarks = subquestions.reduce((sum, subquestion) => sum + subquestion.maxMark, 0)
-  if (totalMarks !== input.maxMark) throw new Error(`Assessment item ${input.itemId} subquestion marks total ${totalMarks}, expected ${input.maxMark}`)
-
-  const claimedRequirements = new Set<string>()
-  for (const subquestion of subquestions) {
-    const label = `Assessment item ${input.itemId} subquestion ${subquestion.id}`
-    if (new Set(subquestion.requirementIds).size !== subquestion.requirementIds.length) {
-      throw new Error(`${label} must not repeat requirement IDs`)
-    }
-    for (const demand of subquestion.responseDemands) if (!assessmentSubquestionSupportsDemand(subquestion, demand)) {
-      throw new Error(`${label} command does not ask for rewarded demand ${demand}`)
-    }
-    validateMcqOptions(subquestion, label)
-
-    const evidenceByRequirement = new Map<string, string>()
-    for (const entry of subquestion.coverageEvidence) {
-      if (evidenceByRequirement.has(entry.requirementId)) throw new Error(`${label} repeats coverage evidence for ${entry.requirementId}`)
-      evidenceByRequirement.set(entry.requirementId, entry.evidence)
-    }
-    if (!sameSet(subquestion.requirementIds, evidenceByRequirement.keys())) throw new Error(`${label} coverage evidence must match its requirement IDs exactly`)
-    const searchable = normalise(subquestion.wording)
-    for (const requirementId of subquestion.requirementIds) {
-      claimedRequirements.add(requirementId)
-      const excerpt = normalise(evidenceByRequirement.get(requirementId) ?? '')
-      if (excerpt.length < 8 || !searchable.includes(excerpt)) throw new Error(`${label} coverage for ${requirementId} must cite an exact question excerpt`)
-    }
-  }
-
-  if (!sameSet(claimedRequirements, input.governedRequirementIds)) {
-    throw new Error(`Assessment item ${input.itemId} subquestions must evidence exactly the governed requirement IDs`)
-  }
-  return subquestions
+  const diagnostics = diagnoseStructuredAssessment(input)
+  if (diagnostics.length > 0) throw new Error(diagnostics[0].message)
+  return z.array(assessmentSubquestionSchema).min(1).parse(input.subquestions)
 }
 
 export function validateStructuredMarkingGuidance(input: {
