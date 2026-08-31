@@ -1,7 +1,7 @@
 # Content Factory Durable Resume and Spend
 
-**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 Assessment candidate durability implementation checkpoint 3 in progress  
-**Current approved baseline for checkpoint 3:** `c6f27bd735018690457f96b1d7014b319bc3dfb4`  
+**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4  
+**Current approved baseline for checkpoint 4:** `05df69add84541adaa0e487f78a8a0757900bf80`  
 **Related initiative:** GitHub Issue #169
 
 ## Purpose
@@ -63,9 +63,7 @@ The cumulative spend ledger remains attached to the same course job across this 
 
 ## ADR-0019 Assessment candidate durability
 
-PR #263 introduced bounded two-candidate Assessment Item recovery, but the candidate loop still lived inside one worker invocation. That meant the job payload could record only the final combined execution; it could not reconstruct candidate 1 rejection versus candidate 2 acceptance after an interruption.
-
-Implementation checkpoint 3 makes the existing canonical `workerRuns[]` record the durable candidate-attempt ledger rather than introducing a parallel job-state model.
+PR #263 introduced bounded two-candidate Assessment Item recovery, but the candidate loop still lived inside one worker invocation. Checkpoint 3 moved candidate sequencing to the assessment factory/orchestration boundary so the existing canonical `workerRuns[]` record became the durable candidate-attempt ledger rather than introducing a parallel state model.
 
 For every governed Assessment Item production slot:
 
@@ -80,21 +78,41 @@ For every governed Assessment Item production slot:
 - if a terminal candidate execution was cached but the process stopped before the job checkpoint, replaying the exact candidate input can reuse that dependency-aware cached execution without another provider charge;
 - if accepted worker-run evidence exists but its artifact cannot be recovered, the factory fails closed rather than silently generating replacement content over the accepted slot.
 
-This is deliberately not a new generic retry loop. The candidate ceiling remains exactly two; candidate numbers are part of the exact worker input fingerprint; cumulative spend remains enforced by the existing durable course ledger.
-
-### Worker version/invalidation correction
-
-Checkpoint 3 also closes a semantic-cache versioning gap exposed during review of PR #263.
-
-The live Assessment Item provider boundary had advanced to contract v7, but the dependency-aware cache fingerprint still used the older generic Assessment contract plus `output-integrity-v5`. That could allow a changed-head semantic replay to treat a pre-recovery execution as reusable even though candidate lifecycle semantics had materially changed.
-
-The durable Assessment boundary now advances to:
+The durable Assessment boundary is:
 
 - generic Assessment Item input contract: `3`;
 - live provider Assessment Item contract: `8`;
 - durable semantic integrity revision: `output-integrity-v6`.
 
-Because Marking Pack and assurance dependency closures already depend on `generateAssessmentItem`, those genuine downstream dependants are invalidated automatically. Learn and Practice remain independently reusable when their own inputs/contracts are unchanged.
+Because Marking Pack and assurance dependency closures depend on `generateAssessmentItem`, those genuine downstream dependants invalidate automatically while Learn and Practice remain independently reusable where their own inputs/contracts are unchanged.
+
+## ADR-0019 Marking Pack candidate durability
+
+Checkpoint 4 applies the same durable candidate pattern to each Marking Pack without invalidating the accepted question it depends on.
+
+For every accepted Assessment Item:
+
+- the Marking Pack slot marker is `marking-pack-slot:<assessment-item-id>`;
+- each candidate run also carries `marking-pack-slot:<assessment-item-id>:candidate:<n>`;
+- candidate 1 and candidate 2 are separate `generateMarkingPack` worker executions recorded as canonical `marking_pack` runs;
+- the accepted Assessment Item artifact/reference is an exact input to both candidates and remains frozen throughout pack recovery;
+- each Marking Pack candidate permits at most one complete-diagnostic targeted repair;
+- candidate 1 rejection is checkpointed immediately and restart derives candidate 2 from the durable worker-run ledger;
+- candidate 2 is generated fresh from the same accepted question, Question Family and governed knowledge inputs rather than patching candidate 1;
+- a rejected candidate has no accepted output ref and does not enter `markingPackCoverage`;
+- therefore rejected candidates cannot satisfy the required dependent-artifact slot or allow course assembly to continue with a missing pack;
+- if both candidates exhaust their recovery allowance, the course blocks explicitly rather than omitting the Marking Pack;
+- an accepted candidate is checkpointed together with its `markingPackCoverage` entry before later sibling packs are attempted;
+- accepted sibling packs remain reusable when another pack fails;
+- accepted Marking Pack worker evidence whose coverage/artifact cannot be recovered fails closed rather than allowing an overwrite.
+
+The durable Marking Pack boundary advances to:
+
+- generic Marking Pack input contract: `3`;
+- live provider Marking Pack contract: `5`;
+- durable semantic integrity revision: `output-integrity-v3`.
+
+This version advance prevents pre-checkpoint-4 Marking Pack executions from being inferred reusable across a changed-head replay when they do not carry candidate-aware semantics. Independent review remains a genuine downstream dependency and is invalidated; unrelated Learn/Practice work is not.
 
 ## Legacy compatibility
 
@@ -105,7 +123,7 @@ Existing schema-v1 worker checkpoint records remain valid but deliberately conse
 - a v1 record is never inferred safe across a head change;
 - therefore the first cross-head resume of an old v1-only job may regenerate provider work before future semantic reuse becomes available.
 
-Pre-checkpoint-3 Assessment runs without deterministic candidate markers remain historical execution evidence. A successfully persisted Assessment Item artifact can still be reused through the existing artifact/worker-run path when its dependency evidence remains valid; old combined candidate-loop executions are not treated as evidence that a new durable candidate number has been consumed under the checkpoint-3 topology.
+Pre-checkpoint-3 Assessment runs without deterministic candidate markers and pre-checkpoint-4 Marking Pack runs without deterministic Marking Pack candidate markers remain historical execution evidence. They are not treated as proof that a candidate number has been consumed under the new durable topology.
 
 This fail-closed migration avoids inventing dependency evidence that historical records did not capture.
 
@@ -113,7 +131,7 @@ This fail-closed migration avoids inventing dependency evidence that historical 
 
 `.github/workflows/content-factory-live-pilot.yml` remains manual, `main`-only and qualification-gated before any external model call. Its optional `resume_job_issue_number` means dependency-aware semantic resume.
 
-The durable live-pilot runner now passes its existing GitHub-Issue `checkpointJob` callback into the Assessment/Marking factory. Assessment candidate acceptance/rejection is therefore persisted during the Assessment stage rather than only after the entire Assessment/Marking stage returns.
+The durable live-pilot runner passes its existing GitHub-Issue `checkpointJob` callback into the Assessment/Marking factory. Assessment Item and Marking Pack candidate acceptance/rejection can therefore be persisted during the assessment stage rather than only after the entire Assessment/Marking stage returns.
 
 The workflow still:
 
@@ -122,32 +140,34 @@ The workflow still:
 - does not send protected AQA source prose to generative workers; and
 - cannot make paid model calls while `content-factory/reliability-qualification.json` remains unqualified.
 
-Checkpoint 3 does not itself authorize another paid pilot.
+Checkpoint 4 does not itself authorize another paid pilot.
 
 ## Provider-free assurance
 
 Existing Q5 assurance continues to prove dependency-aware replay, narrow invalidation and cumulative spend mechanics.
 
-Checkpoint 3 adds provider-free tests for the Assessment candidate ledger itself, including:
+Assessment and Marking Pack candidate-state tests now prove, at their implementation boundaries:
 
 - deterministic slot/candidate markers;
 - reconstructing the next candidate after a durably recorded rejection;
-- ignoring unrelated generation runs;
-- preserving infrastructure failures as non-candidate failures; and
-- distinguishing deterministic candidate validation rejection from infrastructure failure.
+- preserving accepted Assessment Items while a dependent Marking Pack is rejected and replaced;
+- preserving unrelated accepted sibling work;
+- rejecting factory-validation failures as candidate scrap without adding accepted coverage;
+- truthful blocking after the two-candidate ceiling is exhausted;
+- interruption after candidate 1 followed by resume at candidate 2 without regenerating accepted questions; and
+- semantic-version advancement so pre-recovery Marking Pack executions cannot be reused as candidate-aware current work.
 
-The wider Assessment/Marking suite and exact-head CI remain responsible for proving that these markers are integrated into the actual assessment factory without weakening existing assessment/Marking Pack validation.
+These tests are implementation assurance, not reset Q1–Q7 qualification evidence. The wider full-pipeline candidate-recovery topology still requires deliberate bad-candidate injection and repeated qualification under the active Reliability Standard.
 
 ## Deliberate limitations
 
 - The durable checkpoint backend remains GitHub Issues for the current v0.x proof stage and is replaceable under the existing architecture.
 - Dependency safety is explicit rather than inferred: a worker contract or dependency graph change must update the relevant version/graph evidence.
 - Legacy v1 checkpoints require same-head reuse or regeneration before semantic cross-head reuse exists.
-- Durable Assessment candidate state does not yet provide Marking Pack candidate recovery.
-- Course-level recovery semantics after downstream candidate exhaustion remain a separate ADR-0019 implementation slice.
-- The Content Factory remains paused and requires provider-free requalification, bounded live soak and separate Q8 before another full-course confirmation run.
+- Durable Assessment Item and Marking Pack candidate recovery does not by itself prove whole-course recovery/coverage completeness under all downstream failure shapes.
+- The Content Factory remains paused and requires provider-free requalification, repeated recovery stability, bounded live soak and separate Q8 before another full-course confirmation run.
 - `expert_review_ready` still does not mean learner-published, benchmark-approved or awarding-body endorsed.
 
 ## Documentation impact
 
-Checkpoint 3 changes current implementation behaviour and therefore updates this technical record, the Content Factory Architecture and the Reliability Qualification Harness. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery and dependency-aware invalidation. Historical pilot evidence is not rewritten.
+Checkpoint 4 changes current implementation behaviour and therefore updates this technical record, the Content Factory Architecture and the Reliability Qualification Harness. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery, smallest-safe-scope preservation, fail-closed exhaustion and dependency-aware invalidation. Historical pilot evidence is not rewritten.
