@@ -15,6 +15,7 @@ type Qualification = {
   q7FailureEvidence: string
   q7FailureEvidenceHistory: string[]
   q7PassEvidence: string
+  q7PassEvidenceHistory: string[]
   qualifiedEvidence: unknown | null
   livePilotEligible: boolean
 }
@@ -67,8 +68,8 @@ const providerFreeGates = [
 
 const allReliabilityV2Gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Reliability v2 status after Pilot #19 architecture review', () => {
-  it('keeps full-course eligibility paused while the post-Pilot #19 Q7 soak is pending', () => {
+describe('Reliability v2 status after post-Pilot #19 Q7', () => {
+  it('records Q1-Q7 PASS but keeps full-course eligibility paused until separate Q8', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-q7-002-assessment-item-requalification.json')
@@ -77,18 +78,18 @@ describe('Reliability v2 status after Pilot #19 architecture review', () => {
       'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-002.json',
     ])
-    expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-003.json')
+    expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
+    expect(qualification.q7PassEvidenceHistory).toEqual([
+      'content-factory/reliability-v2-e-q7-live-soak-evidence-003.json',
+    ])
     expect(qualification.requiredGates).toEqual(allReliabilityV2Gates)
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
 
-    for (const gate of providerFreeGates) {
-      expect(qualification.gateStatus[gate]).toBe('pass')
-    }
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    for (const gate of allReliabilityV2Gates) expect(qualification.gateStatus[gate]).toBe('pass')
   })
 
-  it('records Pilot #19 as a new generic class and requires bounded Q7 before another Q8', () => {
+  it('preserves Pilot #19 as the generic class that required the new bounded Q7', () => {
     expect(pilot19).toMatchObject({
       classification: {
         decision: 'new_generic_engineering_contract_class',
@@ -108,7 +109,7 @@ describe('Reliability v2 status after Pilot #19 architecture review', () => {
     }
   })
 
-  it('preserves the earlier provider-free and Q8 records without retroactively changing their outcome', () => {
+  it('preserves earlier provider-free and historical Q8 records without retroactive changes', () => {
     for (const gate of providerFreeGates) {
       expect(postQ7002.gates[gate]?.status).toBe('pass')
       expect(postQ7.gates[gate]?.status).toBe('pass')
