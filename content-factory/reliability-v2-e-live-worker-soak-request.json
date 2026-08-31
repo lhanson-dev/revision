@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "requestId": "q7-live-worker-soak-003",
+  "requestId": "q7-live-worker-soak-004",
   "gate": "Q7",
   "runClass": "bounded_live_worker_soak",
   "status": "requested",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
-  "requestedFromMainSha": "4ddc4af219fbb762b212c917d6f5497d35a6c97c",
+  "requestedFromMainSha": "17efed9d7c44807f4382808638ae5d6bd8589f13",
   "sampleCount": 20,
   "maxSpendUsd": 5,
   "fullCourseAssembly": false,
   "learnerPublication": false,
-  "purpose": "Trigger the third Reliability v2 Q7 bounded live worker soak after the second-Q7 Assessment Item cross-reference class was corrected and Q1-Q6 were requalified provider-free on approved main."
+  "purpose": "Trigger the fourth Reliability v2 Q7 bounded live worker soak after Confirmation Pilot #19 exposed the generic Assessment Item MCQ cognitive-demand lexical-overconstraint class, the reusable architecture was corrected, and Q1-Q6 were requalified provider-free on approved main."
 }
