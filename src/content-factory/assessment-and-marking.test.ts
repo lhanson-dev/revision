@@ -329,6 +329,16 @@ const markingOutput = {
   confidencePolicy: 'Do not force a precise mark when the response sits materially between rubric boundaries; use the governed confidence behaviour.',
 }
 
+function invalidMarkingOutput() {
+  return {
+    ...markingOutput,
+    assessmentObjectiveAllocation: [
+      { objectiveId: 'ao1', marks: 3 },
+      { objectiveId: 'ao2', marks: 3 },
+    ],
+  }
+}
+
 function createWorkers(overrides: Partial<AssessmentAndMarkingWorkers> = {}) {
   let itemCalls = 0
   let markingCalls = 0
@@ -504,23 +514,135 @@ describe('Content Factory assessment and Marking Pack factory', () => {
     expect(recoveredRuns[1]?.outputRefs).toHaveLength(1)
   })
 
-  it('rejects a Marking Pack whose AO allocation does not total the exact question mark', async () => {
+  it('keeps an invalid Marking Pack slot unfilled and blocks after both candidates are rejected', async () => {
     const store = seedStore()
+    const candidateNumbers: number[] = []
     const { workers } = createWorkers({
-      generateMarkingPack: async (input) => success(`bad-pack-${input.assessmentItem.componentId}`, {
-        ...markingOutput,
-        assessmentObjectiveAllocation: [
-          { objectiveId: 'ao1', marks: 3 },
-          { objectiveId: 'ao2', marks: 3 },
-        ],
-      }),
+      generateMarkingPack: async (input) => {
+        candidateNumbers.push(input.candidateNumber ?? -1)
+        return success(`bad-pack-${input.assessmentItem.componentId}-${input.candidateNumber}`, invalidMarkingOutput())
+      },
     })
 
-    await expect(runAssessmentAndMarkingFactory({ job: generatingJob(), artifactStore: store, workers, now }))
-      .rejects.toThrow('must total 10 marks')
+    const result = await runAssessmentAndMarkingFactory({ job: generatingJob(), artifactStore: store, workers, now })
+
+    expect(result.state).toBe('blocked')
+    expect(candidateNumbers).toEqual([1, 2])
+    const runs = result.workerRuns.filter((run) => (
+      run.stage === 'marking_pack'
+      && run.inputRefs.includes('marking-pack-slot:market-share-paper-1')
+    ))
+    expect(runs).toHaveLength(2)
+    expect(runs.map((run) => run.status)).toEqual(['failure', 'failure'])
+    expect(runs.map((run) => run.inputRefs.find((ref) => ref.includes(':candidate:')))).toEqual([
+      'marking-pack-slot:market-share-paper-1:candidate:1',
+      'marking-pack-slot:market-share-paper-1:candidate:2',
+    ])
+    expect(runs.every((run) => run.outputRefs.length === 0)).toBe(true)
+    expect(result.markingPackCoverage).toEqual([])
+    expect(result.workerRuns.filter((run) => run.stage === 'generation' && run.status === 'success')).toHaveLength(2)
+    expect(result.blockers.some((blocker) => blocker.reason.includes('marking_pack candidate recovery exhausted'))).toBe(true)
   })
 
-  it('resumes after a Marking Pack worker failure without regenerating successful assessment items', async () => {
+  it('replaces only a rejected Marking Pack candidate and preserves the accepted Assessment Item', async () => {
+    const store = seedStore()
+    let itemCalls = 0
+    const markingCalls: Array<{ componentId: string; candidateNumber: number | undefined }> = []
+    const { workers } = createWorkers({
+      generateAssessmentItem: async (input) => {
+        itemCalls += 1
+        return success(`assessment-item-${input.targetComponentId}`, assessmentItem(input.targetComponentId))
+      },
+      generateMarkingPack: async (input) => {
+        markingCalls.push({ componentId: input.assessmentItem.componentId, candidateNumber: input.candidateNumber })
+        if (input.assessmentItem.componentId === 'paper-1' && input.candidateNumber === 1) {
+          return success('bad-pack-paper-1-candidate-1', invalidMarkingOutput())
+        }
+        return success(`good-pack-${input.assessmentItem.componentId}-candidate-${input.candidateNumber}`, markingOutput)
+      },
+    })
+
+    const result = await runAssessmentAndMarkingFactory({ job: generatingJob(), artifactStore: store, workers, now })
+
+    expect(result.state).toBe('validating')
+    expect(itemCalls).toBe(2)
+    expect(markingCalls).toEqual([
+      { componentId: 'paper-1', candidateNumber: 1 },
+      { componentId: 'paper-1', candidateNumber: 2 },
+      { componentId: 'paper-2', candidateNumber: 1 },
+    ])
+    const paperOneRuns = result.workerRuns.filter((run) => run.stage === 'marking_pack' && run.inputRefs.includes('marking-pack-slot:market-share-paper-1'))
+    expect(paperOneRuns.map((run) => run.status)).toEqual(['failure', 'success'])
+    expect(result.markingPackCoverage).toHaveLength(2)
+    expect(result.markableAssessmentItemIds).toEqual(['market-share-paper-1', 'market-share-paper-2'])
+  })
+
+  it('resumes an interrupted Marking Pack slot at candidate two without regenerating accepted questions', async () => {
+    const store = seedStore()
+    let checkpointed: ContentFactoryJob | undefined
+    let itemCalls = 0
+    const firstWorkers: AssessmentAndMarkingWorkers = {
+      compileAssessmentBlueprint: async () => success('assessment-blueprint-run', blueprint()),
+      generateQuestionFamilies: async () => success('question-family-run', [questionFamily]),
+      generateAssessmentItem: async (input) => {
+        itemCalls += 1
+        return success(`assessment-item-${input.targetComponentId}`, assessmentItem(input.targetComponentId))
+      },
+      generateMarkingPack: async (input) => {
+        expect(input.assessmentItem.componentId).toBe('paper-1')
+        expect(input.candidateNumber).toBe(1)
+        return failure('marking-pack-paper-1-candidate-1', 'provider_contract_failure: synthetic candidate rejection')
+      },
+    }
+
+    await expect(runAssessmentAndMarkingFactory({
+      job: generatingJob(),
+      artifactStore: store,
+      workers: firstWorkers,
+      now,
+      checkpointJob: async (job) => {
+        const rejectedMarkingRun = job.workerRuns.find((run) => run.stage === 'marking_pack' && run.status === 'failure')
+        if (!rejectedMarkingRun) return
+        checkpointed = job
+        throw new Error('synthetic interruption after Marking Pack checkpoint')
+      },
+    })).rejects.toThrow('synthetic interruption after Marking Pack checkpoint')
+
+    if (!checkpointed) throw new Error('Expected a durable Marking Pack checkpoint')
+    expect(itemCalls).toBe(2)
+    const resumeFrom = checkpointed
+    const checkpointRuns = resumeFrom.workerRuns.filter((run) => run.stage === 'marking_pack' && run.inputRefs.includes('marking-pack-slot:market-share-paper-1'))
+    expect(checkpointRuns).toHaveLength(1)
+    expect(checkpointRuns[0]?.inputRefs).toContain('marking-pack-slot:market-share-paper-1:candidate:1')
+
+    const markingCalls: Array<{ componentId: string; candidateNumber: number | undefined }> = []
+    const resumedWorkers: AssessmentAndMarkingWorkers = {
+      compileAssessmentBlueprint: async () => { throw new Error('blueprint should be reused') },
+      generateQuestionFamilies: async () => { throw new Error('Question Family should be reused') },
+      generateAssessmentItem: async () => { throw new Error('accepted Assessment Items should be reused') },
+      generateMarkingPack: async (input) => {
+        markingCalls.push({ componentId: input.assessmentItem.componentId, candidateNumber: input.candidateNumber })
+        return success(`marking-pack-${input.assessmentItem.componentId}-${input.candidateNumber}`, markingOutput)
+      },
+    }
+
+    const result = await runAssessmentAndMarkingFactory({
+      job: resumeFrom,
+      artifactStore: store,
+      workers: resumedWorkers,
+      now: '2026-08-25T23:11:00+01:00',
+    })
+
+    expect(result.state).toBe('validating')
+    expect(itemCalls).toBe(2)
+    expect(markingCalls).toEqual([
+      { componentId: 'paper-1', candidateNumber: 2 },
+      { componentId: 'paper-2', candidateNumber: 1 },
+    ])
+    expect(result.markingPackCoverage).toHaveLength(2)
+  })
+
+  it('resumes after a non-recoverable Marking Pack worker failure without regenerating successful assessment items', async () => {
     const store = seedStore()
     let itemCalls = 0
     let markingCalls = 0
@@ -550,8 +672,9 @@ describe('Content Factory assessment and Marking Pack factory', () => {
         itemCalls += 1
         throw new Error('assessment item should be reused')
       },
-      generateMarkingPack: async () => {
+      generateMarkingPack: async (input) => {
         markingCalls += 1
+        expect(input.candidateNumber).toBe(input.assessmentItem.componentId === 'paper-1' ? 2 : 1)
         return success(`marking-pack-resume-${markingCalls}`, markingOutput)
       },
     }
