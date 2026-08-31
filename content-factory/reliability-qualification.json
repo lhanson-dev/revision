@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "qualified",
-  "reason": "Post-Pilot #19 Reliability v2 Q1-Q7 qualification is complete. Provider-free Q1-Q6 evidence remains valid on the corrected Assessment Item architecture, and the fourth bounded Q7 live-worker soak accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes with no new generic engineering/provider-contract class. V2-F/Q8 therefore restores full-course confirmation-pilot eligibility. This eligibility transition does not itself execute a provider call, assemble or publish a course, approve educational content, or establish maturity for routine batch production.",
+  "status": "paused",
+  "reason": "Confirmation Pilot #20 exposed a second consecutive generic Assessment Item engineering/recovery class after Pilot #19. The production boundary can present a first semantic validation exception as a complete diagnostic set and converts a rejected Assessment Item candidate into a course-level blocker instead of recovering automatically. Reliability Standard v2.0 stop-loss therefore pauses full-course confirmation eligibility. The next step is the governed candidate-recovery architecture reset, provider-free requalification of that production topology, a bounded live soak, and a separate Q8 transition before any further full-course confirmation run.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -10,17 +10,31 @@
     "mainSha": "ed3bd4c4a50dd723da38952a41ff9bad084ad68d"
   },
   "latestFailureEvidence": {
-    "pilot": 19,
-    "workflowRunId": 33371449134,
-    "jobIssueNumber": 254,
-    "mainSha": "23b0849354e99d6be865361009388af5922d2f3f",
-    "artifactId": 9750570226,
-    "artifactDigest": "sha256:e9272de540d285fcb4c6dac8522ddd537f15c84c1f7f1e3835a029179e195fed",
-    "knownCourseSpendUsd": 0.7151,
+    "pilot": 20,
+    "workflowRunId": 33420994194,
+    "jobIssueNumber": 260,
+    "mainSha": "b240ea9b6e2d56a644048c6085162c58429aef33",
+    "artifactId": 9769262820,
+    "artifactDigest": "sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d",
+    "knownCourseSpendUsd": 0.670708,
     "classification": "new_generic_engineering_contract_class",
-    "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
-    "architectureReview": "content-factory/reliability-pilot19-assessment-architecture-review.json"
+    "defectClass": "assessment_candidate_recovery_and_complete_diagnostic_architecture_failure",
+    "architectureReview": "content-factory/reliability-pilot20-stop-loss-architecture-review.json"
   },
+  "failureEvidenceHistory": [
+    {
+      "pilot": 19,
+      "workflowRunId": 33371449134,
+      "jobIssueNumber": 254,
+      "mainSha": "23b0849354e99d6be865361009388af5922d2f3f",
+      "artifactId": 9750570226,
+      "artifactDigest": "sha256:e9272de540d285fcb4c6dac8522ddd537f15c84c1f7f1e3835a029179e195fed",
+      "knownCourseSpendUsd": 0.7151,
+      "classification": "new_generic_engineering_contract_class",
+      "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
+      "architectureReview": "content-factory/reliability-pilot19-assessment-architecture-review.json"
+    }
+  ],
   "q7FailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
   "q7FailureEvidenceHistory": [
     "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
@@ -40,50 +54,16 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pass",
-    "Q2-historical-failure-replay-corpus": "pass",
-    "Q3-adversarial-provider-free-subject-matrix": "pass",
-    "Q4-deterministic-full-pipeline-simulation": "pass",
-    "Q5-restart-reuse-dependency-invalidation": "pass",
-    "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "pass"
+    "Q1-compiler-worker-ownership-inventory": "required_after_pilot20_architecture_reset",
+    "Q2-historical-failure-replay-corpus": "required_after_pilot20_architecture_reset",
+    "Q3-adversarial-provider-free-subject-matrix": "required_after_pilot20_architecture_reset",
+    "Q4-deterministic-full-pipeline-simulation": "required_after_pilot20_architecture_reset",
+    "Q5-restart-reuse-dependency-invalidation": "required_after_pilot20_architecture_reset",
+    "Q6-repeated-provider-free-stability": "required_after_pilot20_architecture_reset",
+    "Q7-bounded-live-worker-soak": "required_after_pilot20_architecture_reset"
   },
-  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
-  "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-q7-002-assessment-item-requalification.json",
-  "qualifiedEvidence": {
-    "reliabilityVersion": "2.0",
-    "qualificationEvidenceMainSha": "f2b9b43ccddc0111859da39cff4900343065f7a2",
-    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility-002.json",
-    "providerFreeQualificationRecord": "content-factory/reliability-post-pilot19-requalification.json",
-    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
-    "verificationMode": "approved_main_q1_q7_evidence_plus_exact_head_ci",
-    "providerCallsUsed": false,
-    "passedGates": [
-      "Q1-compiler-worker-ownership-inventory",
-      "Q2-historical-failure-replay-corpus",
-      "Q3-adversarial-provider-free-subject-matrix",
-      "Q4-deterministic-full-pipeline-simulation",
-      "Q5-restart-reuse-dependency-invalidation",
-      "Q6-repeated-provider-free-stability",
-      "Q7-bounded-live-worker-soak"
-    ],
-    "q6RepetitionCount": 3,
-    "q7PassingAttempt": 4,
-    "q7WorkflowRunId": 33395187056,
-    "q7ExecutedSamples": 20,
-    "q7AcceptedSamples": 20,
-    "q7ControlledFailClosedSamples": 0,
-    "q7InfrastructureIncidents": 0,
-    "q7EngineeringBoundaryBreaches": 0,
-    "q7Classification": "q7_pass_no_new_generic_engineering_contract_class",
-    "nextPaidRunClass": "confirmation_pilot",
-    "limitations": [
-      "Reliability qualification is not educational correctness, expert-review approval or publication approval.",
-      "This Q8 transition does not itself dispatch a paid provider run, assemble a real course or publish learner content.",
-      "Any confirmation pilot remains subject to source-rights, the US$20 course ceiling, deterministic validation, independent review, expert review and publication governance.",
-      "A new generic engineering/provider-contract class must pause full-course eligibility and return the factory to Reliability v2 qualification.",
-      "Routine batch-production maturity still requires three consecutive materially different real courses to reach expert_review_ready without engineering or worker-contract correction between runs."
-    ]
-  },
-  "livePilotEligible": true
+  "providerFreeQualificationEvidence": "content-factory/reliability-pilot20-stop-loss-architecture-review.json",
+  "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
+  "qualifiedEvidence": null,
+  "livePilotEligible": false
 }
