@@ -22,7 +22,7 @@ import {
   runAssessmentAndMarkingFactory,
   type AssessmentArtifactKind,
   type AssessmentAndMarkingWorkers,
-} from './assessment-and-marking'
+} from './assessment-and-marking-with-coverage-reconciliation'
 import {
   runAssuranceAndRemediationFactory,
   type AssuranceArtifactKind,

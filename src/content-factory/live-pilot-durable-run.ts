@@ -8,7 +8,7 @@ import {
 } from './end-to-end-proof'
 import { runIntakeToKnowledgeModel } from './intake-to-knowledge-model'
 import { runLearningAndPracticeFactory } from './learning-and-practice'
-import { runAssessmentAndMarkingFactory } from './assessment-and-marking'
+import { runAssessmentAndMarkingFactory } from './assessment-and-marking-with-coverage-reconciliation'
 import { runAssuranceAndRemediationFactory } from './assurance-and-remediation'
 import { blockJob, createRequestedJob, resumeJob } from './orchestrator'
 import { contentFactoryJobSchema, type ContentFactoryJob } from './schema'
@@ -26,6 +26,7 @@ const livePilotLimitations = [
   'The secondary CC BY source is admitted only after live licence/terms preflight and only manually curated structured facts are passed downstream.',
   'Durable restart replays the current pipeline and reuses only exact-input executions whose transitive worker-contract dependency fingerprint is unchanged; legacy v1 cache entries remain same-head-only until migrated.',
   'Assessment Item candidate attempts are durably checkpointed in canonical job workerRuns using deterministic production-slot markers before later assessment siblings are generated.',
+  'Course-pack assembly fails closed if any active Coverage Map requirement lacks a required Learn, Practice or Exam Prep artifact.',
 ]
 
 export function createAqaAsBusiness7131RequestedLivePilotJob(input: {
