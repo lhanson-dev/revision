@@ -13,6 +13,7 @@ The Content Factory is **paused after Confirmation Pilot #20** under the Reliabi
 - `livePilotEligible`: **false**.
 - Candidate-recovery implementation checkpoint 1: **complete Assessment Item diagnostics implemented; not qualification evidence by itself**.
 - Candidate-recovery implementation checkpoint 2: **bounded Assessment Item candidate resampling implemented; not qualification evidence by itself**.
+- Candidate-recovery implementation checkpoint 3: **durable Assessment Item slot/candidate state implemented; not qualification evidence by itself**.
 - Next full-course confirmation: **not permitted** until the candidate-recovery production topology is implemented, requalified through Q1–Q7 and separately restored through Q8.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
@@ -188,11 +189,11 @@ Checkpoint 1 established the diagnostic foundation but did not itself add fresh 
 
 ## Implementation checkpoint 2 — bounded Assessment Item candidate resampling
 
-The second production slice moves ordinary post-repair Assessment Item rejection from immediate worker failure into a bounded fresh-candidate loop.
+The second production slice moved ordinary post-repair Assessment Item rejection from immediate worker failure into a bounded fresh-candidate loop.
 
-Implemented at the Assessment Item worker boundary:
+Implemented initially at the Assessment Item worker boundary:
 
-- Assessment Item generation/repair contract version moves from `6` to `7`;
+- Assessment Item generation/repair contract version moved from `6` to `7`;
 - each governed Assessment Item / Question Family slot may generate at most **two fresh candidates**;
 - each candidate may receive at most **one** complete-diagnostic targeted repair;
 - candidate 2 is a fresh generation from the governed slot inputs and policy and is not instructed to patch or preserve rejected candidate 1 wording;
@@ -203,15 +204,32 @@ Implemented at the Assessment Item worker boundary:
 - no candidate 3 is permitted, so the recovery loop is mechanically bounded;
 - provider-free regressions prove successful candidate-2 recovery and truthful exhaustion after both candidates.
 
-This checkpoint still does **not** complete ADR-0019. It deliberately does not yet add:
+Checkpoint 2 did **not** make the candidate sequence durable. The two-candidate loop still lived inside one worker execution, so a job restart could not reconstruct candidate 1 rejection versus candidate 2 acceptance from canonical job state.
 
-- explicit durable slot/candidate state in the job record;
-- a finer subquestion replacement boundary where an assessment shape safely permits it;
-- independent Marking Pack candidate replacement;
-- orchestrator semantics that persist candidate recovery/exhaustion and reserve course-level `blocked` for genuinely exhausted or unsafe recovery;
-- Q1–Q7 qualification evidence or Q8 eligibility.
+## Implementation checkpoint 3 — durable Assessment Item slot/candidate state
 
-The machine remains paused after checkpoint 2. The new tests are implementation evidence only and do not restore a reliability gate.
+The third production slice moves candidate sequencing into the assessment factory/orchestration boundary and makes every candidate attempt durable.
+
+Implemented in the production Assessment path:
+
+- each Assessment Item candidate attempt is a separate `generation` worker execution;
+- `workerRuns[]` remains the canonical operational state rather than adding a parallel recovery-state model;
+- deterministic input refs identify the production slot as `assessment-slot:<question-family-id>:<component-id>` and each candidate as `...:candidate:<n>`;
+- the factory derives the next candidate number from those persisted worker runs;
+- rejected and accepted candidate runs are checkpointed to the GitHub-Issue job record immediately, before later Assessment siblings or Marking Packs are generated;
+- the accepted worker run carries the frozen Assessment Item artifact in `outputRefs`; rejected candidates carry no accepted artifact ref but durably consume their candidate number;
+- the factory owns the two-candidate ceiling and passes the exact candidate number to the Assessment worker;
+- the live Assessment provider boundary advances from contract `7` to `8`; one complete-diagnostic repair remains the maximum within each candidate;
+- the generic Assessment Item input contract advances from `2` to `3` because candidate number is now an orchestration-owned worker input;
+- the dependency-aware durable semantic version advances from `output-integrity-v5` to `output-integrity-v6`, preventing pre-durable candidate executions from being reused across a changed-head replay;
+- candidate-specific exact inputs allow a terminal cached execution to be reused without another provider call if a process stops after the worker finishes but before its job checkpoint is persisted;
+- accepted sibling artifacts remain frozen; if accepted worker-run evidence exists but the referenced artifact cannot be recovered, the factory fails closed rather than regenerating over accepted work;
+- provider/infrastructure failures remain distinct from candidate rejection and are not silently consumed as candidate scrap;
+- direct non-orchestrated Assessment worker callers retain the same bounded two-candidate fallback for compatibility, while production orchestration supplies one exact candidate at a time.
+
+Checkpoint 3 is implementation evidence only. It still does **not** implement independent Marking Pack candidate recovery, the final course-level orchestrator recovery semantics, Q1–Q7 requalification evidence or Q8 eligibility.
+
+The machine remains paused after checkpoint 3.
 
 ## Requalification requirements after Pilot #20
 
@@ -251,6 +269,14 @@ A simulation where every generated candidate is valid is insufficient evidence.
 ### Q5 — restart/reuse/dependency invalidation
 
 Qualification must prove accepted sibling artifacts remain reusable after another candidate fails and that resuming the job does not regenerate unrelated accepted work.
+
+For the durable candidate topology specifically, Q5 must prove:
+
+- restart from a job checkpoint after candidate 1 rejection continues with candidate 2 and does not regenerate candidate 1;
+- an accepted Assessment Item slot survives restart and is not regenerated merely because another slot fails;
+- a terminal candidate worker cache entry can be reused after interruption without a second provider charge when its exact input/dependency fingerprint is unchanged;
+- a pre-checkpoint-3 Assessment execution is not inferred reusable across a changed-head replay under the new candidate semantics; and
+- genuine downstream Assessment/Marking/review dependencies invalidate when the Assessment contract changes while unrelated Learn/Practice work remains reusable where its own inputs/contracts are unchanged.
 
 ### Q6 — repeated recovery stability
 
@@ -361,19 +387,21 @@ The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery 
 
 ## Documentation impact
 
-No normative authority change is required for implementation checkpoints 1–2. Reliability Standard v2.0 already requires complete diagnostics and bounded recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
+No normative authority change is required for implementation checkpoints 1–3. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, and ADR-0019 is the accepted architecture decision for candidate recovery.
 
 The current implementation now:
 
 - fixes the first-error/complete-diagnostics mismatch at the shared Assessment Item integrity boundary;
-- versions the Assessment Item provider contract to `7` for bounded candidate recovery;
+- versions the Assessment Item provider contract to `8` for orchestration-owned durable candidate recovery;
 - permits two fresh Assessment Item candidates per governed slot, with one complete-diagnostic repair per candidate;
+- records each candidate as a separate canonical worker run with deterministic slot/candidate markers and checkpoints it immediately through the durable job store;
+- preserves accepted Assessment Item siblings across candidate recovery and fails closed instead of overwriting accepted work whose artifact cannot be recovered;
 - accumulates retry/resample and usage-cost provenance and fails closed after bounded exhaustion;
-- preserves direct and Pilot #20 simultaneous-defect regressions and adds successful-resample/exhaustion regressions;
-- updates `docs/technical/Content Factory Architecture.md` with both implementation checkpoints and the remaining recovery work;
-- updates this qualification harness without changing current gate status;
+- advances the generic Assessment contract to `3` and durable semantic integrity version to `output-integrity-v6` so changed-head replay cannot reuse pre-recovery Assessment semantics;
+- preserves direct and Pilot #20 simultaneous-defect regressions and adds successful-resample/exhaustion and durable-candidate-state regressions;
+- updates `docs/technical/Content Factory Architecture.md`, `docs/technical/Content Factory Durable Resume and Spend.md` and this qualification harness with checkpoint 3 and the remaining recovery work;
 - leaves `content-factory/reliability-qualification.json` paused and unchanged;
 - does not rewrite historical Pilot, Q7 or Q8 evidence;
 - does not run a provider, full course, live soak or publication action.
 
-Later implementation PRs still need to land durable slot/candidate state, Marking Pack recovery and orchestrator recovery before provider-free requalification can begin.
+Later implementation PRs still need to land Marking Pack recovery and course-level orchestrator recovery before provider-free requalification can begin.

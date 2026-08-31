@@ -25,6 +25,7 @@ const livePilotLimitations = [
   'AQA sources remain REFERENCE_ONLY; generative workers receive only controlled structured alignment facts, never AQA source prose.',
   'The secondary CC BY source is admitted only after live licence/terms preflight and only manually curated structured facts are passed downstream.',
   'Durable restart replays the current pipeline and reuses only exact-input executions whose transitive worker-contract dependency fingerprint is unchanged; legacy v1 cache entries remain same-head-only until migrated.',
+  'Assessment Item candidate attempts are durably checkpointed in canonical job workerRuns using deterministic production-slot markers before later assessment siblings are generated.',
 ]
 
 export function createAqaAsBusiness7131RequestedLivePilotJob(input: {
@@ -125,6 +126,9 @@ export async function runDurableAqaAsBusiness7131LivePilot(input: {
         workers: input.workers,
         artifactStore: input.artifactStore,
         now: input.now,
+        checkpointJob: async (checkpointedJob) => {
+          await input.checkpointJob(contentFactoryJobSchema.parse(checkpointedJob))
+        },
       })
       await checkpoint()
       if (job.state === 'blocked') return { job, report: report(job) }

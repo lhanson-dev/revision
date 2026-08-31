@@ -22,12 +22,12 @@ import {
 } from './openai-output-integrity-compiler'
 import { withSharedProviderBudget } from './openai-shared-provider-budget'
 import type { WorkerExecution } from './intake-to-knowledge-model'
+import { MAX_ASSESSMENT_ITEM_CANDIDATES } from './assessment-candidate-recovery'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().trim().min(1)
 
-const ASSESSMENT_ITEM_CONTRACT_VERSION = '7'
-const MAX_ASSESSMENT_ITEM_CANDIDATES = 2
+const ASSESSMENT_ITEM_CONTRACT_VERSION = '8'
 
 const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.omit({
   requirementIds: true,
@@ -221,6 +221,17 @@ function isRecoverableProviderContractFailure(execution: WorkerExecution<unknown
   return execution.status === 'failure' && execution.error.startsWith('provider_contract_failure:')
 }
 
+function rejectedCandidate(
+  rejections: CandidateRejection[],
+  provenance: WorkerExecution<unknown>['provenance'],
+): WorkerExecution<unknown> {
+  return {
+    status: 'failure',
+    error: `provider_contract_failure: assessment_item_v2_candidate_rejected: ${rejectionText(rejections)}`,
+    provenance,
+  }
+}
+
 function exhaustedCandidateRecovery(
   rejections: CandidateRejection[],
   provenance: WorkerExecution<unknown>['provenance'],
@@ -257,6 +268,7 @@ function appendExecution(
       provenance: {
         ...next.provenance,
         contractVersion: ASSESSMENT_ITEM_CONTRACT_VERSION,
+        retryCount: (next.provenance.retryCount ?? 0) + retryIncrement,
       },
     }
   }
@@ -308,10 +320,23 @@ export function createOpenAIModelAssistedWorkers(
       const policy = sharedConfig.assessmentItemPolicies?.[input.questionFamily.id]
       if (!policy) return workers.generateAssessmentItem(input)
 
+      const configuredMaxCandidates = input.maxCandidates ?? MAX_ASSESSMENT_ITEM_CANDIDATES
+      if (configuredMaxCandidates !== MAX_ASSESSMENT_ITEM_CANDIDATES) {
+        throw new Error(`Assessment Item recovery requires the governed ${MAX_ASSESSMENT_ITEM_CANDIDATES}-candidate ceiling`)
+      }
+      if (input.candidateNumber !== undefined && (
+        !Number.isInteger(input.candidateNumber)
+        || input.candidateNumber < 1
+        || input.candidateNumber > configuredMaxCandidates
+      )) throw new Error('Assessment Item candidateNumber is outside the governed recovery ceiling')
+
+      const singleCandidateMode = input.candidateNumber !== undefined
+      const firstCandidateNumber = input.candidateNumber ?? 1
+      const lastCandidateNumber = input.candidateNumber ?? configuredMaxCandidates
       let accumulatedExecution: WorkerExecution<unknown> | undefined
       const rejections: CandidateRejection[] = []
 
-      for (let candidateNumber = 1; candidateNumber <= MAX_ASSESSMENT_ITEM_CANDIDATES; candidateNumber += 1) {
+      for (let candidateNumber = firstCandidateNumber; candidateNumber <= lastCandidateNumber; candidateNumber += 1) {
         const generationExecution = appendExecution(
           accumulatedExecution,
           await client.run({
@@ -326,7 +351,7 @@ export function createOpenAIModelAssistedWorkers(
               ...input,
               targetPolicy: policy,
               candidateNumber,
-              maxCandidates: MAX_ASSESSMENT_ITEM_CANDIDATES,
+              maxCandidates: configuredMaxCandidates,
             },
           }),
           candidateNumber === 1 ? 0 : 1,
@@ -339,7 +364,8 @@ export function createOpenAIModelAssistedWorkers(
             stage: 'provider_contract',
             details: generationExecution.error,
           })
-          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          if (singleCandidateMode) return rejectedCandidate(rejections, generationExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
           return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
         }
 
@@ -356,7 +382,8 @@ export function createOpenAIModelAssistedWorkers(
               stage: 'compilation',
               details: errorMessage(error),
             })
-            if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+            if (singleCandidateMode) return rejectedCandidate(rejections, generationExecution.provenance)
+            if (candidateNumber < lastCandidateNumber) continue
             return exhaustedCandidateRecovery(rejections, generationExecution.provenance)
           }
         }
@@ -387,7 +414,8 @@ export function createOpenAIModelAssistedWorkers(
             stage: 'provider_contract',
             details: repairedExecution.error,
           })
-          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairedExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
           return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
 
@@ -398,7 +426,8 @@ export function createOpenAIModelAssistedWorkers(
             stage: 'diagnostics_after_repair',
             details: `initial=${diagnosticText(firstDiagnostics)}; repair=${diagnosticText(repairDiagnostics)}`,
           })
-          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairedExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
           return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
 
@@ -413,7 +442,8 @@ export function createOpenAIModelAssistedWorkers(
             stage: 'compilation',
             details: errorMessage(error),
           })
-          if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+          if (singleCandidateMode) return rejectedCandidate(rejections, repairedExecution.provenance)
+          if (candidateNumber < lastCandidateNumber) continue
           return exhaustedCandidateRecovery(rejections, repairedExecution.provenance)
         }
       }

@@ -248,10 +248,10 @@ describe('historical first-Q7 Assessment Item provider-free requalification', ()
     expect(result.latestManifest.publicationStatus).toBe('factory_generated_unassured')
   })
 
-  it('preserves the historical v3 record while the current Assessment Item semantic boundary has advanced to v5', () => {
+  it('preserves the historical v3 record while the current Assessment Item recovery boundary has advanced to v6', () => {
     const historicalQ5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
     expect(historicalQ5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v3' })
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v5')
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('3+output-integrity-v6')
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)
     expect(assessmentClosure).not.toContain('generateLearningCollateral')

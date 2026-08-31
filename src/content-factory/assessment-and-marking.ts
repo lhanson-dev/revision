@@ -23,6 +23,15 @@ import {
   validateStructuredAssessment,
   validateStructuredMarkingGuidance,
 } from './assessment-integrity'
+import {
+  assessmentCandidateRef,
+  assessmentCandidateRuns,
+  assessmentSlotRef,
+  assessmentValidationRejectedExecution,
+  isRecoverableAssessmentCandidateFailure,
+  MAX_ASSESSMENT_ITEM_CANDIDATES,
+  nextAssessmentCandidateNumber,
+} from './assessment-candidate-recovery'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -152,6 +161,8 @@ export interface AssessmentAndMarkingWorkers {
     targetComponentId: string
     knowledgeNodes: SafeKnowledgeNode[]
     examPrepRequirements: SafeExamPrepRequirement[]
+    candidateNumber?: number
+    maxCandidates?: number
   }): Promise<WorkerExecution<unknown>>
   generateMarkingPack(input: {
     jobId: string
@@ -166,7 +177,7 @@ export interface AssessmentAndMarkingWorkers {
 export const contentFactoryAssessmentWorkerContracts = {
   assessmentBlueprint: { workerId: 'content-factory.assessment-blueprint', contractVersion: '1', sourceInput: 'structured-board-alignment-plus-course-knowledge-model-facts-only' },
   questionFamily: { workerId: 'content-factory.question-family', contractVersion: '1', sourceInput: 'assessment-blueprint-plus-course-knowledge-model-facts-only' },
-  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '2', sourceInput: 'question-family-plus-target-component-course-knowledge-model-and-structured-subquestion-facts-only' },
+  assessmentItem: { workerId: 'content-factory.assessment-item', contractVersion: '3', sourceInput: 'question-family-plus-target-component-course-knowledge-model-structured-subquestion-facts-and-durable-candidate-number' },
   markingPack: { workerId: 'content-factory.marking-pack', contractVersion: '2', sourceInput: 'revision-owned-structured-question-plus-assessment-contracts-and-course-knowledge-model-facts-only' },
 } as const
 
@@ -193,6 +204,14 @@ function appendWorkerRun(jobInput: ContentFactoryJob, stage: WorkerRun['stage'],
 
 function workerFailure(job: ContentFactoryJob, execution: Extract<WorkerExecution<unknown>, { status: 'failure' | 'infrastructure_failure' }>, updatedAt: string, stage: 'assessment_blueprint' | 'question_family' | 'generation' | 'marking_pack') {
   return blockJob(appendWorkerRun(job, stage, execution, updatedAt), {
+    id: `worker-failure-${execution.provenance.id}`,
+    reason: `${stage} worker ${execution.status}: ${execution.error}`,
+    createdAt: updatedAt,
+  })
+}
+
+function recordedWorkerFailure(job: ContentFactoryJob, execution: Extract<WorkerExecution<unknown>, { status: 'failure' | 'infrastructure_failure' }>, updatedAt: string, stage: 'generation') {
+  return blockJob(job, {
     id: `worker-failure-${execution.provenance.id}`,
     reason: `${stage} worker ${execution.status}: ${execution.error}`,
     createdAt: updatedAt,
@@ -475,8 +494,17 @@ function itemNodes(model: CourseKnowledgeModel, item: AssessmentItemArtifact) {
   })
 }
 
-export async function runAssessmentAndMarkingFactory(input: { job: ContentFactoryJob; artifactStore: AssessmentArtifactStore; workers: AssessmentAndMarkingWorkers; now: string }): Promise<ContentFactoryJob> {
+export async function runAssessmentAndMarkingFactory(input: {
+  job: ContentFactoryJob
+  artifactStore: AssessmentArtifactStore
+  workers: AssessmentAndMarkingWorkers
+  now: string
+  checkpointJob?: (job: ContentFactoryJob) => Promise<void>
+}): Promise<ContentFactoryJob> {
   let job = requireRunnableJob(input.job)
+  const checkpoint = async () => {
+    if (input.checkpointJob) await input.checkpointJob(contentFactoryJobSchema.parse(job))
+  }
   const { boardAlignment, coverage, model } = await readUpstreamArtifacts(job, input.artifactStore)
   if (job.state === 'validating') {
     if (!job.assessmentBlueprintRef || job.questionFamilyRefs.length === 0 || job.markableAssessmentItemIds.length === 0) throw new Error('Validating job is missing completed assessment-factory artifacts')
@@ -524,13 +552,76 @@ export async function runAssessmentAndMarkingFactory(input: { job: ContentFactor
   for (const target of targets) {
     const key = targetKey(target)
     if (items.has(key)) continue
+
+    const priorCandidateRuns = assessmentCandidateRuns(job, target)
+    if (priorCandidateRuns.some((entry) => entry.run.status === 'success')) {
+      throw new Error(`Accepted Assessment Item slot ${assessmentSlotRef(target)} is missing its persisted artifact; refusing to overwrite accepted work`)
+    }
+
     const familyRecord = families.get(target.familyId)!
-    const execution = await input.workers.generateAssessmentItem({ jobId: job.jobId, courseIdentity: job.courseIdentity!, assessmentBlueprint: blueprint, questionFamily: familyRecord.family, targetComponentId: target.componentId, knowledgeNodes: safeNodes, examPrepRequirements: examRequirements })
-    if (execution.status !== 'success') return workerFailure(job, execution, input.now, 'generation')
-    const item = validateAssessmentItem(execution.output, job, target, familyRecord.family, blueprint, coverage, model, boardAlignment)
-    const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'assessment_item', fingerprint: await fingerprintValue(item), value: item })
-    job = appendWorkerRun(job, 'generation', execution, input.now, { inputRefs: [job.assessmentBlueprintRef!, familyRecord.ref, job.courseKnowledgeModelRef!, job.coverageMapRef!, `component:${target.componentId}`], outputRefs: [write.ref] })
-    items.set(key, { ref: write.ref, item })
+    while (!items.has(key)) {
+      const candidateNumber = nextAssessmentCandidateNumber(job, target)
+      if (candidateNumber > MAX_ASSESSMENT_ITEM_CANDIDATES) {
+        return blockJob(job, {
+          id: `assessment-candidate-exhausted-${target.familyId}-${target.componentId}`,
+          reason: `generation candidate recovery exhausted for ${assessmentSlotRef(target)} after ${MAX_ASSESSMENT_ITEM_CANDIDATES} durably recorded candidates`,
+          createdAt: input.now,
+        })
+      }
+
+      const execution = await input.workers.generateAssessmentItem({
+        jobId: job.jobId,
+        courseIdentity: job.courseIdentity!,
+        assessmentBlueprint: blueprint,
+        questionFamily: familyRecord.family,
+        targetComponentId: target.componentId,
+        knowledgeNodes: safeNodes,
+        examPrepRequirements: examRequirements,
+        candidateNumber,
+        maxCandidates: MAX_ASSESSMENT_ITEM_CANDIDATES,
+      })
+
+      const inputRefs = [
+        job.assessmentBlueprintRef!,
+        familyRecord.ref,
+        job.courseKnowledgeModelRef!,
+        job.coverageMapRef!,
+        `component:${target.componentId}`,
+        assessmentSlotRef(target),
+        assessmentCandidateRef(target, candidateNumber),
+      ]
+
+      let recordedExecution: WorkerExecution<unknown> = execution
+      let accepted: { ref: string; item: AssessmentItemArtifact } | undefined
+      if (execution.status === 'success') {
+        try {
+          const item = validateAssessmentItem(execution.output, job, target, familyRecord.family, blueprint, coverage, model, boardAlignment)
+          const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'assessment_item', fingerprint: await fingerprintValue(item), value: item })
+          accepted = { ref: write.ref, item }
+        } catch (error) {
+          recordedExecution = assessmentValidationRejectedExecution(execution, error)
+        }
+      }
+
+      job = appendWorkerRun(job, 'generation', recordedExecution, input.now, {
+        inputRefs,
+        outputRefs: accepted ? [accepted.ref] : [],
+      })
+      if (accepted) items.set(key, accepted)
+      await checkpoint()
+
+      if (accepted) break
+      if (isRecoverableAssessmentCandidateFailure(recordedExecution)) {
+        if (candidateNumber < MAX_ASSESSMENT_ITEM_CANDIDATES) continue
+        return blockJob(job, {
+          id: `assessment-candidate-exhausted-${target.familyId}-${target.componentId}`,
+          reason: `generation candidate recovery exhausted for ${assessmentSlotRef(target)}: ${recordedExecution.status === 'failure' ? recordedExecution.error : 'unknown candidate rejection'}`,
+          createdAt: input.now,
+        })
+      }
+      if (recordedExecution.status !== 'success') return recordedWorkerFailure(job, recordedExecution, input.now, 'generation')
+      throw new Error(`Assessment Item slot ${assessmentSlotRef(target)} exited candidate processing without acceptance or an explicit failure`)
+    }
   }
 
   const markingPackRefs: string[] = []

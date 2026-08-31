@@ -403,14 +403,105 @@ describe('Content Factory assessment and Marking Pack factory', () => {
     expect(manifest.markingPackRefs).toHaveLength(2)
   })
 
-  it('rejects an assessment item whose mark allocation is outside its Question Family contract', async () => {
+  it('records and exhausts invalid Assessment candidates instead of replacing the governed slot', async () => {
     const store = seedStore()
+    const candidateNumbers: number[] = []
     const { workers } = createWorkers({
-      generateAssessmentItem: async (input) => success(`bad-item-${input.targetComponentId}`, { ...assessmentItem(input.targetComponentId), maxMark: 20 }),
+      generateAssessmentItem: async (input) => {
+        candidateNumbers.push(input.candidateNumber ?? -1)
+        return success(
+          `bad-item-${input.targetComponentId}-candidate-${input.candidateNumber}`,
+          { ...assessmentItem(input.targetComponentId), maxMark: 20 },
+        )
+      },
     })
 
-    await expect(runAssessmentAndMarkingFactory({ job: generatingJob(), artifactStore: store, workers, now }))
-      .rejects.toThrow('mark allocation is outside Question Family')
+    const result = await runAssessmentAndMarkingFactory({ job: generatingJob(), artifactStore: store, workers, now })
+
+    expect(result.state).toBe('blocked')
+    expect(candidateNumbers).toEqual([1, 2])
+    const runs = result.workerRuns.filter((run) => (
+      run.stage === 'generation'
+      && run.inputRefs.includes('assessment-slot:extended-evaluation:paper-1')
+    ))
+    expect(runs).toHaveLength(2)
+    expect(runs.map((run) => run.status)).toEqual(['failure', 'failure'])
+    expect(runs.map((run) => run.inputRefs.find((ref) => ref.includes(':candidate:')))).toEqual([
+      'assessment-slot:extended-evaluation:paper-1:candidate:1',
+      'assessment-slot:extended-evaluation:paper-1:candidate:2',
+    ])
+    expect(runs.every((run) => run.outputRefs.length === 0)).toBe(true)
+    expect(result.markableAssessmentItemIds).toEqual([])
+    expect(result.blockers.some((blocker) => blocker.reason.includes('candidate recovery exhausted'))).toBe(true)
+  })
+
+  it('resumes an interrupted Assessment slot at candidate two from the durable checkpoint', async () => {
+    const store = seedStore()
+    let checkpointed: ContentFactoryJob | undefined
+    const calls: Array<{ componentId: string; candidateNumber: number | undefined }> = []
+    const firstWorkers: AssessmentAndMarkingWorkers = {
+      compileAssessmentBlueprint: async () => success('assessment-blueprint-run', blueprint()),
+      generateQuestionFamilies: async () => success('question-family-run', [questionFamily]),
+      generateAssessmentItem: async (input) => {
+        calls.push({ componentId: input.targetComponentId, candidateNumber: input.candidateNumber })
+        return failure('assessment-item-paper-1-candidate-1', 'provider_contract_failure: synthetic candidate-one rejection')
+      },
+      generateMarkingPack: async () => { throw new Error('Marking Pack should not run before recovery') },
+    }
+
+    await expect(runAssessmentAndMarkingFactory({
+      job: generatingJob(),
+      artifactStore: store,
+      workers: firstWorkers,
+      now,
+      checkpointJob: async (job) => {
+        checkpointed = job
+        throw new Error('synthetic interruption after Assessment checkpoint')
+      },
+    })).rejects.toThrow('synthetic interruption after Assessment checkpoint')
+
+    if (!checkpointed) throw new Error('Expected a durable Assessment checkpoint')
+    const resumeFrom = checkpointed
+    const checkpointRuns = resumeFrom.workerRuns.filter((run) => (
+      run.stage === 'generation'
+      && run.inputRefs.includes('assessment-slot:extended-evaluation:paper-1')
+    ))
+    expect(checkpointRuns).toHaveLength(1)
+    expect(checkpointRuns[0]?.status).toBe('failure')
+    expect(checkpointRuns[0]?.inputRefs).toContain('assessment-slot:extended-evaluation:paper-1:candidate:1')
+
+    const resumedWorkers: AssessmentAndMarkingWorkers = {
+      compileAssessmentBlueprint: async () => { throw new Error('blueprint should be reused') },
+      generateQuestionFamilies: async () => { throw new Error('Question Family should be reused') },
+      generateAssessmentItem: async (input) => {
+        calls.push({ componentId: input.targetComponentId, candidateNumber: input.candidateNumber })
+        if (input.targetComponentId === 'paper-1') {
+          expect(input.candidateNumber).toBe(2)
+          return success('assessment-item-paper-1-candidate-2', assessmentItem('paper-1'))
+        }
+        expect(input.candidateNumber).toBe(1)
+        return success('assessment-item-paper-2-candidate-1', assessmentItem('paper-2'))
+      },
+      generateMarkingPack: async (input) => success(`marking-pack-${input.assessmentItem.componentId}`, markingOutput),
+    }
+
+    const result = await runAssessmentAndMarkingFactory({
+      job: resumeFrom,
+      artifactStore: store,
+      workers: resumedWorkers,
+      now: '2026-08-25T23:11:00+01:00',
+    })
+
+    expect(result.state).toBe('validating')
+    expect(calls.filter((call) => call.componentId === 'paper-1').map((call) => call.candidateNumber)).toEqual([1, 2])
+    const recoveredRuns = result.workerRuns.filter((run) => (
+      run.stage === 'generation'
+      && run.inputRefs.includes('assessment-slot:extended-evaluation:paper-1')
+    ))
+    expect(recoveredRuns).toHaveLength(2)
+    expect(recoveredRuns.map((run) => run.status)).toEqual(['failure', 'success'])
+    expect(recoveredRuns[1]?.inputRefs).toContain('assessment-slot:extended-evaluation:paper-1:candidate:2')
+    expect(recoveredRuns[1]?.outputRefs).toHaveLength(1)
   })
 
   it('rejects a Marking Pack whose AO allocation does not total the exact question mark', async () => {
