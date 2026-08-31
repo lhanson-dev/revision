@@ -39,12 +39,19 @@ export const q4ExpectedStateTrace: ContentFactoryActiveState[] = [
 
 type Q4ArtifactKind = ContentFactoryEndToEndArtifactKind
 
+type Q4CandidatePlan = {
+  rejectedAssessmentCandidates?: readonly number[]
+  rejectedMarkingPackCandidates?: readonly number[]
+}
+
 export type Q4Trace = {
   states: ContentFactoryActiveState[]
   refsByKind: Map<Q4ArtifactKind, string[]>
   reviewInputs: Array<{ reviewedCommit: string; contentFingerprint: string; validationDecision: 'pass' | 'fail' }>
   remediationTargets: Array<{ kind: string; artifactRef: string; findingIds: string[] }>
   persistCalls: Array<{ state: ContentFactoryJob['state']; priorHeadSha: string; replacementRefs: string[] }>
+  assessmentCandidateCalls: Array<{ candidateNumber: number; maxCandidates?: number }>
+  markingPackCandidateCalls: Array<{ candidateNumber: number; maxCandidates?: number; assessmentItemId: string; questionWording: string }>
 }
 
 function recordState(trace: Q4Trace, state: ContentFactoryActiveState) {
@@ -122,7 +129,7 @@ function sourceRightsRules(): SourceRightsPolicyRule[] {
   ]
 }
 
-function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentFactoryEndToEndWorkers {
+function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore, candidatePlan: Q4CandidatePlan = {}): ContentFactoryEndToEndWorkers {
   let runNumber = 0
   let reviewCalls = 0
   const boardSourceId = 'q4-board-source'
@@ -135,20 +142,32 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
   }
   const cohortValidity = { status: 'current' as const, firstAssessment: '2026', notes: [] }
 
-  function success<T>(stage: string, output: T): WorkerExecution<T> {
+  function provenance(stage: string) {
     runNumber += 1
+    return {
+      id: `q4-${stage}-${runNumber}`,
+      contextId: `q4-context-${stage}-${runNumber}`,
+      contractVersion: '1',
+      provider: 'controlled-fixture',
+      model: 'q4-deterministic-v1',
+      retryCount: 0,
+      usageCost: 0,
+    }
+  }
+
+  function success<T>(stage: string, output: T): WorkerExecution<T> {
     return {
       status: 'success',
       output,
-      provenance: {
-        id: `q4-${stage}-${runNumber}`,
-        contextId: `q4-context-${stage}-${runNumber}`,
-        contractVersion: '1',
-        provider: 'controlled-fixture',
-        model: 'q4-deterministic-v1',
-        retryCount: 0,
-        usageCost: 0,
-      },
+      provenance: provenance(stage),
+    }
+  }
+
+  function recoverableCandidateFailure(stage: string, message: string): WorkerExecution<never> {
+    return {
+      status: 'failure',
+      error: `provider_contract_failure: ${message}`,
+      provenance: provenance(stage),
     }
   }
 
@@ -349,43 +368,60 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
       calibrationStatus: 'not_calibrated' as const,
     }]),
 
-    generateAssessmentItem: async () => success('assessment-item', {
-      id: 'q4-ratio-item',
-      version: '1',
-      title: 'Q4 ratio calculation',
-      componentId: q4Course.componentId,
-      questionFamilyId: q4Course.familyId,
-      requirementIds: [q4Course.requirementId],
-      knowledgeNodeIds: [`node-${q4Course.requirementId}`],
-      format: 'calculation' as const,
-      command: 'Calculate',
-      maxMark: 6,
-      questionWording: 'Calculate the ratio and show your working.',
-      context: {
-        id: 'q4-ratio-context',
-        title: 'Synthetic quantitative dataset',
-        body: 'A fictional dataset supplies the two values required for the calculation.',
-        dataPoints: [
-          { label: 'value-a', value: '20', unit: 'units' },
-          { label: 'value-b', value: '5', unit: 'units' },
-        ],
-      },
-    }),
+    generateAssessmentItem: async ({ candidateNumber = 1, maxCandidates }) => {
+      trace.assessmentCandidateCalls.push({ candidateNumber, maxCandidates })
+      if (candidatePlan.rejectedAssessmentCandidates?.includes(candidateNumber)) {
+        return recoverableCandidateFailure('assessment-item', `q4 injected Assessment candidate ${candidateNumber} rejection`)
+      }
+      return success('assessment-item', {
+        id: 'q4-ratio-item',
+        version: '1',
+        title: 'Q4 ratio calculation',
+        componentId: q4Course.componentId,
+        questionFamilyId: q4Course.familyId,
+        requirementIds: [q4Course.requirementId],
+        knowledgeNodeIds: [`node-${q4Course.requirementId}`],
+        format: 'calculation' as const,
+        command: 'Calculate',
+        maxMark: 6,
+        questionWording: 'Calculate the ratio and show your working.',
+        context: {
+          id: 'q4-ratio-context',
+          title: 'Synthetic quantitative dataset',
+          body: 'A fictional dataset supplies the two values required for the calculation.',
+          dataPoints: [
+            { label: 'value-a', value: '20', unit: 'units' },
+            { label: 'value-b', value: '5', unit: 'units' },
+          ],
+        },
+      })
+    },
 
-    generateMarkingPack: async ({ assessmentItem }) => success('marking-pack', {
-      assessmentObjectiveAllocation: [],
-      rubric: [{ id: `rubric-${assessmentItem.id}`, descriptor: 'Accurate calculation with relevant working', minMark: 0, maxMark: assessmentItem.maxMark }],
-      applicationRequirements: ['Apply reasoning to the supplied synthetic context.'],
-      analysisRequirements: [],
-      evaluationRequirements: [],
-      validReasoningRoutes: ['Award credit for any legitimate calculation route that satisfies the question demand.'],
-      indicativeContent: ['Illustrative working only; equivalent valid working can receive credit.'],
-      misconceptions: ['Do not reward contradictory working.'],
-      diagnosticFeedbackRules: ['Explain the first material calculation gap before giving additional detail.'],
-      improvementActions: ['Revisit the ratio rule and attempt a fresh variant.'],
-      ambiguityPolicy: 'Do not award a precise mark when the response is genuinely ambiguous.',
-      confidencePolicy: 'Use a bounded range when evidence does not support a single reliable mark.',
-    }),
+    generateMarkingPack: async ({ assessmentItem, candidateNumber = 1, maxCandidates }) => {
+      trace.markingPackCandidateCalls.push({
+        candidateNumber,
+        maxCandidates,
+        assessmentItemId: assessmentItem.id,
+        questionWording: assessmentItem.questionWording,
+      })
+      if (candidatePlan.rejectedMarkingPackCandidates?.includes(candidateNumber)) {
+        return recoverableCandidateFailure('marking-pack', `q4 injected Marking Pack candidate ${candidateNumber} rejection`)
+      }
+      return success('marking-pack', {
+        assessmentObjectiveAllocation: [],
+        rubric: [{ id: `rubric-${assessmentItem.id}`, descriptor: 'Accurate calculation with relevant working', minMark: 0, maxMark: assessmentItem.maxMark }],
+        applicationRequirements: ['Apply reasoning to the supplied synthetic context.'],
+        analysisRequirements: [],
+        evaluationRequirements: [],
+        validReasoningRoutes: ['Award credit for any legitimate calculation route that satisfies the question demand.'],
+        indicativeContent: ['Illustrative working only; equivalent valid working can receive credit.'],
+        misconceptions: ['Do not reward contradictory working.'],
+        diagnosticFeedbackRules: ['Explain the first material calculation gap before giving additional detail.'],
+        improvementActions: ['Revisit the ratio rule and attempt a fresh variant.'],
+        ambiguityPolicy: 'Do not award a precise mark when the response is genuinely ambiguous.',
+        confidencePolicy: 'Use a bounded range when evidence does not support a single reliable mark.',
+      })
+    },
 
     independentReview: async (input) => {
       recordState(trace, 'independent_review')
@@ -484,16 +520,22 @@ function createQ4Workers(trace: Q4Trace, store: Q4MemoryArtifactStore): ContentF
   }
 }
 
-export async function runQ4DeterministicPipelineSimulation() {
-  const trace: Q4Trace = {
+function createQ4Trace(): Q4Trace {
+  return {
     states: ['requested'],
     refsByKind: new Map(),
     reviewInputs: [],
     remediationTargets: [],
     persistCalls: [],
+    assessmentCandidateCalls: [],
+    markingPackCandidateCalls: [],
   }
+}
+
+async function executeQ4DeterministicPipeline(candidatePlan: Q4CandidatePlan = {}) {
+  const trace = createQ4Trace()
   const store = new Q4MemoryArtifactStore(trace)
-  const workers = createQ4Workers(trace, store)
+  const workers = createQ4Workers(trace, store, candidatePlan)
 
   const result = await runRequestedContentFactoryToExpertReviewReady({
     workers,
@@ -523,15 +565,11 @@ export async function runQ4DeterministicPipelineSimulation() {
     },
   })
 
-  recordState(trace, result.job.state as ContentFactoryActiveState)
+  if (result.job.state !== 'blocked') recordState(trace, result.job.state as ContentFactoryActiveState)
 
   const validationReports = await Promise.all(store.refs('validation_report').map(async (ref) => deterministicValidationReportSchema.parse(await store.readJson(ref))))
   const reviewReports = await Promise.all(store.refs('independent_review_report').map(async (ref) => independentReviewReportSchema.parse(await store.readJson(ref))))
   const remediationRecords = await Promise.all(store.refs('remediation_record').map(async (ref) => remediationRecordSchema.parse(await store.readJson(ref))))
-  const manifestRefs = store.refs('course_content_pack')
-  const latestManifestRef = manifestRefs.at(-1)
-  if (!latestManifestRef) throw new Error('Q4 simulation produced no course content pack')
-  const latestManifest = courseContentPackManifestSchema.parse(await store.readJson(latestManifestRef))
 
   return {
     ...result,
@@ -540,6 +578,43 @@ export async function runQ4DeterministicPipelineSimulation() {
     validationReports,
     reviewReports,
     remediationRecords,
-    latestManifest,
   }
+}
+
+async function requireLatestManifest(result: Awaited<ReturnType<typeof executeQ4DeterministicPipeline>>) {
+  const manifestRefs = result.store.refs('course_content_pack')
+  const latestManifestRef = manifestRefs.at(-1)
+  if (!latestManifestRef) throw new Error('Q4 simulation produced no course content pack')
+  return courseContentPackManifestSchema.parse(await result.store.readJson(latestManifestRef))
+}
+
+export async function runQ4DeterministicPipelineSimulation() {
+  const result = await executeQ4DeterministicPipeline()
+  return {
+    ...result,
+    latestManifest: await requireLatestManifest(result),
+  }
+}
+
+export async function runQ4CandidateRecoverySimulation() {
+  const result = await executeQ4DeterministicPipeline({
+    rejectedAssessmentCandidates: [1],
+    rejectedMarkingPackCandidates: [1],
+  })
+  return {
+    ...result,
+    latestManifest: await requireLatestManifest(result),
+  }
+}
+
+export async function runQ4AssessmentCandidateExhaustionSimulation() {
+  return executeQ4DeterministicPipeline({
+    rejectedAssessmentCandidates: [1, 2],
+  })
+}
+
+export async function runQ4MarkingPackCandidateExhaustionSimulation() {
+  return executeQ4DeterministicPipeline({
+    rejectedMarkingPackCandidates: [1, 2],
+  })
 }
