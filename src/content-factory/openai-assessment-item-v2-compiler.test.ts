@@ -318,6 +318,41 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     })
   })
 
+  it('resamples a fresh candidate when candidate one fails the provider output contract before diagnostics', async () => {
+    const { workers, fetchImpl } = workersReturning(
+      { malformed: true },
+      completeProviderOutput(),
+    )
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(1)
+    expect(result.output).toMatchObject({ id: 'quantitative-item', questionFamilyId: 'quantitative-family' })
+  })
+
+  it('fails closed after both fresh candidates fail the provider output contract', async () => {
+    const { workers, fetchImpl } = workersReturning(
+      { malformed: 'one' },
+      { malformed: 'two' },
+    )
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('failure')
+    if (result.status !== 'failure') throw new Error('Expected provider contract failure')
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(1)
+    expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
+    expect(result.error).toContain('candidate 1 provider_contract')
+    expect(result.error).toContain('candidate 2 provider_contract')
+    expect(result.error).not.toContain('candidate 3')
+  })
+
   it('fails closed only after both candidate slots and their single repairs are exhausted', async () => {
     const { workers, fetchImpl } = workersReturning(
       q7OmissionOutput(),
