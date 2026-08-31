@@ -1,1 +1,124 @@
-{"schemaVersion":1,"workItem":"V2-E","gate":"Q7","status":"fourth_live_execution_passed_all_samples_accepted","baseMainSha":"9738abe542c4f32a37de269f50a6126c017293e5","runnerMergedMainSha":"02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9","authority":"80-company-workflows/Content Factory Reliability Qualification Standard.md","costAuthority":"60-business-operations/Content Factory Bootstrap Cost Strategy.md","canonicalRuntime":".github/workflows/content-factory-live-worker-soak.yml","integrationHarness":"src/content-factory/live-worker-soak.integration.test.ts","triggerModes":["workflow_dispatch","governed_main_request_file_push"],"requestFile":"content-factory/reliability-v2-e-live-worker-soak-request.json","sampleCount":20,"samplesPerShape":4,"subjectShapes":["quantitative_business_economics","mathematics","science","essay_humanities","language_prescribed_text"],"workerBoundaries":[{"worker":"assessment_item_generation","samplesPerShape":2,"totalSamples":10,"productionEntryPoint":"createOpenAIModelAssistedWorkers().generateAssessmentItem"},{"worker":"marking_pack_generation","samplesPerShape":2,"totalSamples":10,"productionEntryPoint":"createOpenAIModelAssistedWorkers().generateMarkingPack"}],"sampleIndependence":"Marking Pack samples use deterministic synthetic valid assessment inputs so Q7 Marking Pack coverage does not depend on a preceding live Assessment Item sample succeeding.","providerCalls":"completed_on_approved_main","maxSpendUsd":5,"providerRetriesPerRequest":0,"targetedRepairPolicy":"Production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.","evidenceArtifactDirectory":".artifacts/content-factory-live-worker-soak/","liveExecutions":[{"attempt":1,"mainSha":"69d7abb7d3236616b687cbed480e7584ceb69fc9","workflowRunId":33265434110,"workflowRunNumber":16,"artifactId":9718558827,"durableEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence.json","executedSamples":20,"acceptedSamples":13,"controlledFailClosedSamples":7,"knownUsageCostUsd":0.423906,"targetedRepairsObserved":9,"classification":"q7_fail_generic_engineering_contract_class","defectClass":"assessment_subquestion_required_structure_omission_before_targeted_repair"},{"attempt":2,"mainSha":"f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9","workflowRunId":33282967568,"workflowRunNumber":17,"artifactId":9723581809,"durableEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence-002.json","executedSamples":20,"acceptedSamples":17,"controlledFailClosedSamples":3,"knownUsageCostUsd":0.455962,"targetedRepairsObserved":15,"classification":"q7_fail_generic_engineering_contract_class","defectClass":"assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair"},{"attempt":3,"mainSha":"9755c7a40d5e61b76a49e51480e7c5403642e593","workflowRunId":33364521121,"workflowRunNumber":18,"artifactId":9747914357,"durableEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence-003.json","executedSamples":20,"acceptedSamples":16,"controlledFailClosedSamples":4,"knownUsageCostUsd":0.432952,"targetedRepairsObserved":12,"classification":"q7_pass_no_new_generic_engineering_contract_class","defectClass":"none_new_generic_engineering_contract_class"},{"attempt":4,"mainSha":"02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9","workflowRunId":33395187056,"workflowRunNumber":19,"artifactId":9759214890,"durableEvidence":"content-factory/reliability-v2-e-q7-live-soak-evidence-004.json","executedSamples":20,"acceptedSamples":20,"controlledFailClosedSamples":0,"knownUsageCostUsd":0.384316,"targetedRepairsObserved":8,"classification":"q7_pass_no_new_generic_engineering_contract_class","defectClass":"none_new_generic_engineering_contract_class"}],"latestLiveExecutionAttempt":4,"affectedQualificationGates":[],"costCeilingReview":{"decision":"retain_usd_5_ceiling","latestKnownUsageCostUsd":0.384316,"latestCeilingUtilisationPercent":7.68632,"cumulativeKnownQ7SpendUsd":1.697136,"rationale":"All four bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 4 accepted all 20 governed samples for US$0.384316 with no infrastructure incident, engineering-boundary breach or controlled fail-closed sample, so no ceiling change is justified."},"fullCourseAssembly":false,"learnerPublication":false,"livePilotEligibilityChanged":false,"q7Passed":true,"overallReliabilityV2Passed":true,"nextIfSoakPasses":"Post-Pilot #19 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.","nextIfSoakFindsGenericContractClass":"Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."}
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E",
+  "gate": "Q7",
+  "status": "fourth_live_execution_passed_all_samples_accepted",
+  "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
+  "runnerMergedMainSha": "02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
+  "integrationHarness": "src/content-factory/live-worker-soak.integration.test.ts",
+  "triggerModes": [
+    "workflow_dispatch",
+    "governed_main_request_file_push"
+  ],
+  "requestFile": "content-factory/reliability-v2-e-live-worker-soak-request.json",
+  "sampleCount": 20,
+  "samplesPerShape": 4,
+  "subjectShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "workerBoundaries": [
+    {
+      "worker": "assessment_item_generation",
+      "samplesPerShape": 2,
+      "totalSamples": 10,
+      "productionEntryPoint": "createOpenAIModelAssistedWorkers().generateAssessmentItem"
+    },
+    {
+      "worker": "marking_pack_generation",
+      "samplesPerShape": 2,
+      "totalSamples": 10,
+      "productionEntryPoint": "createOpenAIModelAssistedWorkers().generateMarkingPack"
+    }
+  ],
+  "sampleIndependence": "Marking Pack samples use deterministic synthetic valid assessment inputs so Q7 Marking Pack coverage does not depend on a preceding live Assessment Item sample succeeding.",
+  "providerCalls": "completed_on_approved_main",
+  "maxSpendUsd": 5,
+  "providerRetriesPerRequest": 0,
+  "targetedRepairPolicy": "Production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.",
+  "evidenceArtifactDirectory": ".artifacts/content-factory-live-worker-soak/",
+  "liveExecutions": [
+    {
+      "attempt": 1,
+      "mainSha": "69d7abb7d3236616b687cbed480e7584ceb69fc9",
+      "workflowRunId": 33265434110,
+      "workflowRunNumber": 16,
+      "artifactId": 9718558827,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
+      "executedSamples": 20,
+      "acceptedSamples": 13,
+      "controlledFailClosedSamples": 7,
+      "knownUsageCostUsd": 0.423906,
+      "targetedRepairsObserved": 9,
+      "classification": "q7_fail_generic_engineering_contract_class",
+      "defectClass": "assessment_subquestion_required_structure_omission_before_targeted_repair"
+    },
+    {
+      "attempt": 2,
+      "mainSha": "f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9",
+      "workflowRunId": 33282967568,
+      "workflowRunNumber": 17,
+      "artifactId": 9723581809,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
+      "executedSamples": 20,
+      "acceptedSamples": 17,
+      "controlledFailClosedSamples": 3,
+      "knownUsageCostUsd": 0.455962,
+      "targetedRepairsObserved": 15,
+      "classification": "q7_fail_generic_engineering_contract_class",
+      "defectClass": "assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair"
+    },
+    {
+      "attempt": 3,
+      "mainSha": "9755c7a40d5e61b76a49e51480e7c5403642e593",
+      "workflowRunId": 33364521121,
+      "workflowRunNumber": 18,
+      "artifactId": 9747914357,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
+      "executedSamples": 20,
+      "acceptedSamples": 16,
+      "controlledFailClosedSamples": 4,
+      "knownUsageCostUsd": 0.432952,
+      "targetedRepairsObserved": 12,
+      "classification": "q7_pass_no_new_generic_engineering_contract_class",
+      "defectClass": "none_new_generic_engineering_contract_class"
+    },
+    {
+      "attempt": 4,
+      "mainSha": "02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9",
+      "workflowRunId": 33395187056,
+      "workflowRunNumber": 19,
+      "artifactId": 9759214890,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+      "executedSamples": 20,
+      "acceptedSamples": 20,
+      "controlledFailClosedSamples": 0,
+      "knownUsageCostUsd": 0.384316,
+      "targetedRepairsObserved": 8,
+      "classification": "q7_pass_no_new_generic_engineering_contract_class",
+      "defectClass": "none_new_generic_engineering_contract_class"
+    }
+  ],
+  "latestLiveExecutionAttempt": 4,
+  "affectedQualificationGates": [],
+  "costCeilingReview": {
+    "decision": "retain_usd_5_ceiling",
+    "latestKnownUsageCostUsd": 0.384316,
+    "latestCeilingUtilisationPercent": 7.68632,
+    "cumulativeKnownQ7SpendUsd": 1.697136,
+    "rationale": "All four bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 4 accepted all 20 governed samples for US$0.384316 with no infrastructure incident, engineering-boundary breach or controlled fail-closed sample, so no ceiling change is justified."
+  },
+  "fullCourseAssembly": false,
+  "learnerPublication": false,
+  "livePilotEligibilityChanged": false,
+  "q7Passed": true,
+  "overallReliabilityV2Passed": true,
+  "nextIfSoakPasses": "Post-Pilot #19 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
+  "nextIfSoakFindsGenericContractClass": "Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."
+}
