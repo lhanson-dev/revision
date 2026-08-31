@@ -183,6 +183,8 @@ The factory can generate the readable `SOURCE_AND_COVERAGE.md` from, or alongsid
 
 The map is the downstream generation contract and enables automated gap checks.
 
+A rejected generative candidate can never discharge a required coverage or dependent-artifact obligation. A required slot remains unfilled until an accepted artifact satisfies it. If bounded recovery is exhausted, the course must block rather than silently omit the requirement or dependent artifact.
+
 ### 6. Work-unit planner
 
 The planner converts the coverage map into bounded generation tasks.
@@ -338,7 +340,28 @@ The third implementation slice moves Assessment Item candidate sequencing to the
 - the generic Assessment Item input contract advances to `3` and the durable semantic integrity version advances to `output-integrity-v6`, preventing pre-durable candidate executions from being reused across a changed-head resume;
 - the governed ceiling remains two fresh candidates and one targeted repair per candidate; this checkpoint changes ownership/durability, not the educational or spend limits.
 
-Checkpoint 3 still does **not** implement Marking Pack candidate replacement, whole-course orchestrator recovery after downstream candidate exhaustion, Q1–Q7 requalification or Q8 eligibility. The machine-readable qualification state remains paused.
+Checkpoint 3 did **not** implement Marking Pack candidate replacement, whole-course orchestrator recovery after downstream candidate exhaustion, Q1–Q7 requalification or Q8 eligibility.
+
+### Implementation checkpoint 4: durable Marking Pack candidate recovery
+
+The fourth implementation slice applies the same bounded durable candidate topology to the Marking Pack for each already accepted Assessment Item:
+
+- the accepted Assessment Item remains frozen while its Marking Pack is manufactured; a rejected Marking Pack candidate cannot trigger question regeneration;
+- each Marking Pack production slot is identified as `marking-pack-slot:<assessment-item-id>` and each candidate as `...:candidate:<n>`;
+- candidate 1 and candidate 2 are separate canonical `marking_pack` worker runs in `workerRuns[]`;
+- the factory owns the two-candidate ceiling and checkpoints every rejected or accepted candidate immediately through the durable job payload;
+- each candidate still receives at most one complete-diagnostic targeted repair before it is accepted or rejected;
+- if candidate 1 remains invalid after its repair, candidate 2 is a fresh generation from the same accepted question, Question Family and governed inputs rather than a second rewrite of candidate 1;
+- a rejected candidate carries no Marking Pack output ref and does not create `markingPackCoverage`; therefore it cannot satisfy the required dependent-artifact slot;
+- the course can advance only after every markable Assessment Item has an accepted Marking Pack in `markingPackCoverage`; exhausted recovery blocks rather than silently omitting a pack;
+- accepted sibling Marking Packs and accepted Assessment Items are preserved while another pack recovers;
+- if a successful Marking Pack worker-run record exists but its accepted coverage/artifact cannot be recovered, the factory fails closed instead of generating over accepted work;
+- the live Marking Pack provider boundary advances from contract `4` to `5`; direct non-orchestrated callers retain the bounded two-candidate fallback, while production orchestration supplies one exact candidate number at a time;
+- the generic Marking Pack input contract advances from `2` to `3` and the durable semantic integrity revision advances from `output-integrity-v2` to `output-integrity-v3`, preventing pre-recovery Marking Pack executions from being reused across changed-head replay.
+
+Checkpoint 4 completes durable candidate recovery for the Assessment Item → Marking Pack production pair. It is implementation evidence only: the wider course-level recovery/coverage-completeness topology still requires provider-free requalification, repeated stability proof, bounded live soak and a separate Q8 transition before full-course execution can resume.
+
+The machine-readable qualification state remains paused.
 
 ## Worker contract/versioning
 
@@ -373,7 +396,7 @@ Retry/recovery rules:
 - the job record must show the latest valid stage plus rejected/failed attempts where operationally useful;
 - a failed post-merge deployment keeps the job out of `pilot_live` even though the merge has already occurred.
 
-Candidate-scope recovery is being implemented incrementally after Pilot #20. Assessment Item diagnostics, bounded resampling and durable candidate state are implemented; until the remaining Marking Pack and course-level orchestrator recovery slices are merged and the actual topology is requalified, the machine-readable qualification state remains paused.
+Candidate-scope recovery is being implemented incrementally after Pilot #20. Complete Assessment Item diagnostics, bounded Assessment Item resampling, durable Assessment candidate state and durable Marking Pack candidate recovery are implemented. The production topology must still be requalified end to end—including the invariant that every mandatory coverage/dependent-artifact requirement ends in accepted content or an explicit blocker—before the machine-readable qualification state can leave `paused`.
 
 ## Parallelism
 
@@ -420,8 +443,8 @@ Routing policy should prefer deterministic code and lower-cost workers where qua
 5. Add isolated generation and independent-review worker invocation contracts with worker-run provenance.
 6. Automate branch/PR and exact-head CI handling plus the final Founder-approval stop.
 7. Add post-merge deployment verification and `pilot_live` transition.
-8. Implement ADR-0019 candidate recovery in bounded slices: complete diagnostics, Assessment Item candidate resampling, durable slot state, Marking Pack recovery, then orchestrator recovery semantics.
-9. Requalify the actual candidate-recovery topology through Q1–Q7 and a separate Q8 before another full-course confirmation run.
+8. Implement ADR-0019 candidate recovery in bounded slices: complete diagnostics, Assessment Item candidate resampling, durable Assessment slot state and durable Marking Pack recovery.
+9. Requalify the actual candidate-recovery topology through Q1–Q7, including mandatory coverage/dependent-artifact completeness under deliberate candidate rejection, then perform a separate Q8 transition before another full-course confirmation run.
 10. Prove the pipeline on several materially different qualification types.
 11. Add batch intake/concurrency and spend limits.
 12. Expand Content Operations into a broader dashboard only if operational volume justifies it.
