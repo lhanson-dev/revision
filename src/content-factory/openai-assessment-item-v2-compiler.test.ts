@@ -215,7 +215,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.output).toMatchObject({
       componentId: 'paper-1',
       questionFamilyId: 'quantitative-family',
@@ -261,7 +261,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     const output = result.output as ReturnType<typeof compileAssessmentItemV2Candidate>
     expect(output.subquestions.map((subquestion) => subquestion.command)).toEqual([
       'Calculate',
@@ -293,7 +293,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     expect(result.status).toBe('success')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.provenance.retryCount ?? 0).toBe(0)
   })
 
@@ -309,7 +309,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(3)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.provenance.retryCount).toBe(2)
     expect(result.output).toMatchObject({
       id: 'quantitative-item',
@@ -329,7 +329,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.provenance.retryCount).toBe(1)
     expect(result.output).toMatchObject({ id: 'quantitative-item', questionFamilyId: 'quantitative-family' })
   })
@@ -345,7 +345,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('Expected provider contract failure')
     expect(fetchImpl).toHaveBeenCalledTimes(2)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.provenance.retryCount).toBe(1)
     expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
     expect(result.error).toContain('candidate 1 provider_contract')
@@ -366,7 +366,7 @@ describe('Assessment Item candidate diagnostics and bounded recovery', () => {
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('Expected provider contract failure')
     expect(fetchImpl).toHaveBeenCalledTimes(4)
-    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.contractVersion).toBe('8')
     expect(result.provenance.retryCount).toBe(3)
     expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
     expect(result.error).toContain('candidate 1 diagnostics_after_repair')
