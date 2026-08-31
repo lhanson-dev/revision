@@ -197,7 +197,7 @@ function workersReturning(...outputs: unknown[]) {
   return { workers, fetchImpl }
 }
 
-describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
+describe('Assessment Item candidate diagnostics and bounded recovery', () => {
   it('collects only genuinely provider-owned missing structure before repair', () => {
     const diagnostics = diagnoseAssessmentItemV2Candidate(q7OmissionOutput(), targetPolicy)
     expect(diagnostics.map((entry) => entry.code)).toEqual([
@@ -215,7 +215,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('6')
+    expect(result.provenance.contractVersion).toBe('7')
     expect(result.output).toMatchObject({
       componentId: 'paper-1',
       questionFamilyId: 'quantitative-family',
@@ -249,7 +249,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(demandDiagnostics[1]?.message).toContain('interpretation')
   })
 
-  it('repairs simultaneous Pilot 20 demand defects in the single permitted repair call', async () => {
+  it('repairs simultaneous Pilot 20 demand defects in the single permitted repair call for that candidate', async () => {
     const { workers, fetchImpl } = workersReturning(
       simultaneousDemandMismatchOutput(),
       repairedSimultaneousDemandOutput(),
@@ -261,7 +261,7 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     if (result.status !== 'success') throw new Error(result.error)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     expect(result.provenance.retryCount).toBe(1)
-    expect(result.provenance.contractVersion).toBe('6')
+    expect(result.provenance.contractVersion).toBe('7')
     const output = result.output as ReturnType<typeof compileAssessmentItemV2Candidate>
     expect(output.subquestions.map((subquestion) => subquestion.command)).toEqual([
       'Calculate',
@@ -285,27 +285,60 @@ describe('Reliability v2 Q7 Assessment Item provider-contract repair', () => {
     expect(JSON.stringify(output)).not.toContain('stale-provider-requirement')
   })
 
-  it('uses no repair call for a valid first-pass candidate', async () => {
+  it('uses no repair or resample call for a valid first-pass candidate', async () => {
     const { workers, fetchImpl } = workersReturning(completeProviderOutput())
 
     const result = await workers.generateAssessmentItem(assessmentInput())
 
     expect(result.status).toBe('success')
     expect(fetchImpl).toHaveBeenCalledTimes(1)
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount ?? 0).toBe(0)
   })
 
-  it('fails closed after the one permitted repair if required provider-owned structure is still absent', async () => {
-    const { workers, fetchImpl } = workersReturning(q7OmissionOutput(), q7OmissionOutput())
+  it('resamples a fresh candidate when candidate one remains invalid after its one repair', async () => {
+    const { workers, fetchImpl } = workersReturning(
+      q7OmissionOutput(),
+      q7OmissionOutput(),
+      completeProviderOutput(),
+    )
+
+    const result = await workers.generateAssessmentItem(assessmentInput())
+
+    expect(result.status).toBe('success')
+    if (result.status !== 'success') throw new Error(result.error)
+    expect(fetchImpl).toHaveBeenCalledTimes(3)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(2)
+    expect(result.output).toMatchObject({
+      id: 'quantitative-item',
+      questionFamilyId: 'quantitative-family',
+      maxMark: 4,
+    })
+  })
+
+  it('fails closed only after both candidate slots and their single repairs are exhausted', async () => {
+    const { workers, fetchImpl } = workersReturning(
+      q7OmissionOutput(),
+      q7OmissionOutput(),
+      q7OmissionOutput(),
+      q7OmissionOutput(),
+    )
 
     const result = await workers.generateAssessmentItem(assessmentInput())
 
     expect(result.status).toBe('failure')
     if (result.status !== 'failure') throw new Error('Expected provider contract failure')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
-    expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(3)
+    expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
+    expect(result.error).toContain('candidate 1 diagnostics_after_repair')
+    expect(result.error).toContain('candidate 2 diagnostics_after_repair')
     expect(result.error).toContain('ASSESSMENT_SUBQUESTION_MAX_MARK_MISSING')
     expect(result.error).toContain('ASSESSMENT_SUBQUESTION_COVERAGE_EVIDENCE_MISSING')
-    expect(result.error).not.toContain('ASSESSMENT_SUBQUESTION_REQUIREMENTS_MISSING')
+    expect(result.error).not.toContain('candidate 3')
   })
 
   it('reports simultaneous omissions across every parseable subquestion rather than stopping at the first defect', () => {
