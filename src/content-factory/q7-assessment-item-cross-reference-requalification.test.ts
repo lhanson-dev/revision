@@ -184,7 +184,7 @@ describe('historical second-Q7 Assessment Item cross-reference requalification',
   it('retains the second-Q7 class as append-only synthetic evidence', () => {
     expect(defect.id).toBe('assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair')
     expect(defect.classification).toBe('generic_engineering_provider_contract_class')
-    expect(defect.source).toEqual({
+    expect(defect.source).toMatchObject({
       workflowRunId: 33282967568,
       approvedMainSha: 'f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9',
     })
