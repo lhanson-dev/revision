@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-E",
+  "gate": "Q7",
+  "attempt": 3,
+  "status": "passed_controlled_educational_fail_closed",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "workflow": {
+    "runId": 33364521121,
+    "runNumber": 18,
+    "event": "push",
+    "mainSha": "9755c7a40d5e61b76a49e51480e7c5403642e593",
+    "artifactId": 9747914357,
+    "artifactName": "content-factory-live-worker-soak-9755c7a40d5e61b76a49e51480e7c5403642e593",
+    "artifactDigest": "sha256:1a09cb3242faa1ace9816187ce3b2895bd191c1f9801e846047cd3ba57146d96",
+    "recordedAt": "2026-08-31T06:36:29.335Z"
+  },
+  "sampleSummary": {
+    "planned": 20,
+    "executed": 20,
+    "accepted": 16,
+    "controlledFailClosed": 4,
+    "infrastructureIncidents": 0,
+    "engineeringBoundaryBreaches": 0,
+    "assessmentItemAccepted": 8,
+    "assessmentItemControlledFailClosed": 2,
+    "markingPackAccepted": 8,
+    "markingPackControlledFailClosed": 2,
+    "targetedRepairsObserved": 12,
+    "subjectShapes": [
+      "quantitative_business_economics",
+      "mathematics",
+      "science",
+      "essay_humanities",
+      "language_prescribed_text"
+    ]
+  },
+  "costEvidence": {
+    "configuredMaxSpendUsd": 5,
+    "knownUsageCostUsd": 0.432952,
+    "unpricedSampleCount": 0,
+    "ceilingUtilisationPercent": 8.65904,
+    "cumulativeKnownQ7SpendUsd": 1.31282,
+    "reviewDecision": "retain_usd_5_ceiling",
+    "reviewRationale": "The third 20-sample soak used 8.65904% of the governed US$5 ceiling and all 20 planned samples executed. The controlled educational fail-closed outcomes do not justify increasing the ceiling."
+  },
+  "classification": {
+    "decision": "q7_pass_no_new_generic_engineering_contract_class",
+    "boundary": "assessment_item_generation_and_marking_pack_generation",
+    "defectClass": "none_new_generic_engineering_contract_class",
+    "crossShape": true,
+    "controlledFailClosedSamples": [
+      "quantitative_business_economics-marking_pack_generation-2",
+      "mathematics-marking_pack_generation-2",
+      "essay_humanities-assessment_item_generation-1",
+      "language_prescribed_text-assessment_item_generation-2"
+    ],
+    "assessmentItemClassification": {
+      "decision": "controlled_educational_semantic_fail_closed",
+      "observedSubjectShapes": [
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "finding": "Two Assessment Item samples failed strict governed-requirement coverage after the single permitted repair. Revision already compiles subquestion requirementIds from coverageEvidence requirementId mappings, so the prior duplicated cross-reference engineering class did not recur. The remaining failure is that the provider-authored educational coverage evidence did not genuinely evidence exactly the governed requirement set; deterministic validation rejected the affected item as designed."
+    },
+    "markingPackClassification": {
+      "decision": "controlled_educational_semantic_fail_closed",
+      "observedSubjectShapes": [
+        "quantitative_business_economics",
+        "mathematics"
+      ],
+      "finding": "Two calculation Marking Pack samples remained without sufficient final-answer accuracy or consequential-error treatment in provider-authored rubric descriptors after the single permitted repair. Rubric descriptor meaning is generative educational marking judgement under Q1; deterministic validation rejected insufficient marking guidance as designed. One initial unasked-demand defect was corrected by the bounded repair before the remaining educational rubric defect failed closed."
+    },
+    "previousQ7DefectRecurrence": false,
+    "previousQ7DefectFinding": "Neither the first-soak omission-before-repair class nor the second-soak duplicated coverageEvidence/requirementIds cross-reference class recurred. The v5 Assessment Item boundary derived requirementIds from coverageEvidence and reached strict semantic coverage validation.",
+    "infrastructureFinding": "No infrastructure incidents were recorded.",
+    "engineeringBoundaryFinding": "No escaped engineering-boundary exception was recorded. Complete diagnostics, the single permitted targeted repair and whole-artifact revalidation all operated at the intended production boundaries.",
+    "rawProviderCandidateRetention": "not_retained_in_soak_artifact",
+    "workflowConclusionNote": "The GitHub Actions soak job concluded failure because the qualification harness deliberately fails whenever controlled fail-closed samples require engineering-vs-educational classification. This durable classification resolves that manual gate; the workflow exit code is not itself evidence of an engineering reliability defect."
+  },
+  "affectedQualificationGates": [],
+  "qualificationOutcome": {
+    "q7Passed": true,
+    "overallReliabilityV2Passed": true,
+    "livePilotEligible": false,
+    "fullCourseAssembly": false,
+    "learnerPublication": false,
+    "nextStep": "Persist Q7 PASS on a governed evidence PR. V2-F/Q8 remains a separate Founder-approved eligibility transition before status may become qualified or livePilotEligible may become true."
+  },
+  "samples": [
+    {"sampleId":"quantitative_business_economics-assessment_item_generation-1","subjectShape":"quantitative_business_economics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.007304},
+    {"sampleId":"quantitative_business_economics-assessment_item_generation-2","subjectShape":"quantitative_business_economics","workerBoundary":"assessment_item_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.023512},
+    {"sampleId":"quantitative_business_economics-marking_pack_generation-1","subjectShape":"quantitative_business_economics","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.031042},
+    {"sampleId":"quantitative_business_economics-marking_pack_generation-2","subjectShape":"quantitative_business_economics","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"failure","disposition":"controlled_fail_closed","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.02898,"error":"provider_contract_failure: marking_pack_v2_after_complete_diagnostic_repair: initial=1. [MARKING_UNASKED_REWARDED_DEMAND] subquestionGuidance[q1].rewardedDemands: Guidance for q1 rewards unasked demand application.\n2. [MARKING_CALCULATION_ACCURACY_TREATMENT_MISSING] rubricGuidance[q1].levels: Calculation rubric for q1 must explain final-answer accuracy or consequential-error treatment.; repair=1. [MARKING_CALCULATION_ACCURACY_TREATMENT_MISSING] rubricGuidance[q1].levels: Calculation rubric for q1 must explain final-answer accuracy or consequential-error treatment."},
+    {"sampleId":"mathematics-assessment_item_generation-1","subjectShape":"mathematics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.006196},
+    {"sampleId":"mathematics-assessment_item_generation-2","subjectShape":"mathematics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.010108},
+    {"sampleId":"mathematics-marking_pack_generation-1","subjectShape":"mathematics","workerBoundary":"marking_pack_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":0,"usageCostUsd":0.012576},
+    {"sampleId":"mathematics-marking_pack_generation-2","subjectShape":"mathematics","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"failure","disposition":"controlled_fail_closed","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.027144,"error":"provider_contract_failure: marking_pack_v2_after_complete_diagnostic_repair: initial=1. [MARKING_CALCULATION_ACCURACY_TREATMENT_MISSING] rubricGuidance[q1].levels: Calculation rubric for q1 must explain final-answer accuracy or consequential-error treatment.; repair=1. [MARKING_CALCULATION_ACCURACY_TREATMENT_MISSING] rubricGuidance[q1].levels: Calculation rubric for q1 must explain final-answer accuracy or consequential-error treatment."},
+    {"sampleId":"science-assessment_item_generation-1","subjectShape":"science","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.011924},
+    {"sampleId":"science-assessment_item_generation-2","subjectShape":"science","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.010268},
+    {"sampleId":"science-marking_pack_generation-1","subjectShape":"science","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.032466},
+    {"sampleId":"science-marking_pack_generation-2","subjectShape":"science","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.034662},
+    {"sampleId":"essay_humanities-assessment_item_generation-1","subjectShape":"essay_humanities","workerBoundary":"assessment_item_generation","providerCallCount":2,"repairCount":1,"status":"failure","disposition":"controlled_fail_closed","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.02193,"error":"provider_contract_failure: assessment_item_v2_after_complete_diagnostic_repair: initial=1. [ASSESSMENT_STRUCTURED_CONTRACT_INVALID] subquestions: Assessment item q7-essay-humanities-evaluation-1 subquestions must evidence exactly the governed requirement IDs; repair=1. [ASSESSMENT_STRUCTURED_CONTRACT_INVALID] subquestions: Assessment item q7-essay-humanities-evaluation-1 subquestions must evidence exactly the governed requirement IDs"},
+    {"sampleId":"essay_humanities-assessment_item_generation-2","subjectShape":"essay_humanities","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.00834},
+    {"sampleId":"essay_humanities-marking_pack_generation-1","subjectShape":"essay_humanities","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.03732},
+    {"sampleId":"essay_humanities-marking_pack_generation-2","subjectShape":"essay_humanities","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.035222},
+    {"sampleId":"language_prescribed_text-assessment_item_generation-1","subjectShape":"language_prescribed_text","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.009624},
+    {"sampleId":"language_prescribed_text-assessment_item_generation-2","subjectShape":"language_prescribed_text","workerBoundary":"assessment_item_generation","providerCallCount":2,"repairCount":1,"status":"failure","disposition":"controlled_fail_closed","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.013988,"error":"provider_contract_failure: assessment_item_v2_after_complete_diagnostic_repair: initial=1. [ASSESSMENT_STRUCTURED_CONTRACT_INVALID] subquestions: Assessment item invented-repetition-and-uncertainty-analysis subquestions must evidence exactly the governed requirement IDs; repair=1. [ASSESSMENT_STRUCTURED_CONTRACT_INVALID] subquestions: Assessment item invented-repetition-and-uncertainty-analysis subquestions must evidence exactly the governed requirement IDs"},
+    {"sampleId":"language_prescribed_text-marking_pack_generation-1","subjectShape":"language_prescribed_text","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.036474},
+    {"sampleId":"language_prescribed_text-marking_pack_generation-2","subjectShape":"language_prescribed_text","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"4","retryCount":1,"usageCostUsd":0.033872}
+  ],
+  "limitations": [
+    "Known usage cost is the sum of worker provenance where provider usage metadata is available; the production shared spend guard remains the hard US$5 control.",
+    "The workflow intentionally exits non-zero whenever any controlled fail-closed sample requires engineering-vs-educational classification; the durable classification in this record is therefore required before Q7 PASS is claimed.",
+    "This soak samples live provider variability at the two highest-risk generation boundaries and does not claim educational benchmark approval."
+  ]
+}
