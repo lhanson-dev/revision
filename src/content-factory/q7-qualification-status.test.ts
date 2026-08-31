@@ -14,6 +14,7 @@ type Qualification = {
   requiredGates: string[]
   gateStatus: Record<string, string>
   providerFreeQualificationEvidence: string
+  lastProviderFreeQualificationEvidence: string
   q7PassEvidence: string
   q7PassEvidenceHistory: string[]
   qualifiedEvidence: {
@@ -28,7 +29,7 @@ type Qualification = {
     q7ControlledFailClosedSamples: number
     passedGates: string[]
     nextPaidRunClass: string
-  }
+  } | null
 }
 
 type PostPilot19 = { status: string; providerCallsUsed: boolean }
@@ -74,31 +75,20 @@ const gates = [
   'Q7-bounded-live-worker-soak',
 ]
 
-describe('Content Factory Reliability v2 post-Pilot #19 Q8 eligibility', () => {
-  it('restores confirmation-pilot eligibility only after Q1-Q7 PASS', () => {
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
+describe('Content Factory Reliability v2 status after Pilot #20 stop-loss', () => {
+  it('preserves the post-Pilot #19 Q1-Q8 evidence but pauses current confirmation eligibility', () => {
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.requiredGates).toEqual(gates)
-    for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
+    for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('required_after_pilot20_architecture_reset')
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-pilot20-stop-loss-architecture-review.json')
+    expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json'])
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      qualificationEvidenceMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2',
-      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-002.json',
-      providerFreeQualificationRecord: 'content-factory/reliability-post-pilot19-requalification.json',
-      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-004.json',
-      q7PassingAttempt: 4,
-      q7WorkflowRunId: 33395187056,
-      q7ExecutedSamples: 20,
-      q7AcceptedSamples: 20,
-      q7ControlledFailClosedSamples: 0,
-      passedGates: gates,
-      nextPaidRunClass: 'confirmation_pilot',
-    })
+    expect(qualification.qualifiedEvidence).toBeNull()
   })
 
-  it('binds Q8 to the clean post-Pilot #19 Q7 evidence', () => {
+  it('preserves the clean post-Pilot #19 Q7 and Q8 records as historical evidence', () => {
     expect(postPilot19.status).toBe('complete')
     expect(postPilot19.providerCallsUsed).toBe(false)
     expect(fourthQ7).toMatchObject({
@@ -134,11 +124,11 @@ describe('Content Factory Reliability v2 post-Pilot #19 Q8 eligibility', () => {
     })
   })
 
-  it('allows the fail-closed preflight only because the qualified evidence is complete', async () => {
+  it('fails the paid live-pilot preflight while the machine is paused', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as { execFileSync: (file: string, args: string[], options: { cwd: string; encoding: string; stdio: string }) => string }
     const runtimeProcess = (globalThis as unknown as { process: RuntimeProcess }).process
-    expect(() => childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], { cwd: runtimeProcess.cwd(), encoding: 'utf8', stdio: 'pipe' })).not.toThrow()
+    expect(() => childProcess.execFileSync(runtimeProcess.execPath, ['scripts/content-factory-live-pilot-qualification.mjs'], { cwd: runtimeProcess.cwd(), encoding: 'utf8', stdio: 'pipe' })).toThrow()
   })
 
   it('keeps qualification preflight before paid execution with no bypass', () => {
