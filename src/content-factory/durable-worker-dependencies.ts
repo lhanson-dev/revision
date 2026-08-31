@@ -48,16 +48,20 @@ function integrityVersion(baseVersion: string, revision: string) {
 // The first Q7 soak exposed omitted Assessment Item subquestion maxMark,
 // requirementIds and coverageEvidence before the repair boundary; v3 admitted the
 // genuinely provider-owned omission class into one complete-diagnostic repair.
-// The second Q7 soak then exposed a different duplicate-representation defect:
-// provider-authored coverageEvidence requirement IDs could disagree with separately
-// provider-authored subquestion requirementIds. output-integrity-v4 removes that
-// clerical duplicate from provider ownership and deterministically compiles
-// subquestion requirementIds from strictly validated coverageEvidence mappings.
+// The second Q7 soak exposed duplicate provider authorship of requirement IDs;
+// output-integrity-v4 derives subquestion requirementIds from coverageEvidence.
+// Confirmation Pilot #19 then exposed a semantic-validation architecture defect:
+// MCQ interaction wording was incorrectly required to carry a second lexical cue
+// for knowledge/application cognitive demand. output-integrity-v5 separates the
+// mechanically validated selection interaction from those MCQ cognitive labels,
+// while preserving explicit lexical guards for calculation, interpretation,
+// analysis and evaluation. Assessment Item and genuine downstream dependants are
+// therefore invalidated; unrelated Learn/Practice output remains reusable.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v4'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v5'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v2'),
 } as const
 
