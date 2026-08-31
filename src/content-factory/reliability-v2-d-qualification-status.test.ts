@@ -12,6 +12,7 @@ type Qualification = {
   status: string
   livePilotEligible: boolean
   providerFreeQualificationEvidence: string
+  lastProviderFreeQualificationEvidence: string
   q7PassEvidence: string
   q7PassEvidenceHistory: string[]
   requiredGates: string[]
@@ -22,7 +23,7 @@ type Qualification = {
     q7PassingAttempt: number
     q7WorkflowRunId: number
     passedGates: string[]
-  }
+  } | null
 }
 type Pilot19 = {
   classification: { decision: string; defectClass: string }
@@ -62,25 +63,20 @@ const providerFreeGates = [
 ]
 const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Reliability v2 status after post-Pilot #19 Q8', () => {
-  it('records the current qualified state from post-Pilot #19 Q1-Q7 evidence', () => {
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
+describe('Reliability v2 status after Pilot #20 stop-loss', () => {
+  it('pauses current eligibility while preserving post-Pilot #19 qualification evidence', () => {
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-pilot20-stop-loss-architecture-review.json')
+    expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json'])
     expect(qualification.requiredGates).toEqual(allGates)
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-002.json',
-      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-004.json',
-      q7PassingAttempt: 4,
-      q7WorkflowRunId: 33395187056,
-      passedGates: allGates,
-    })
+    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('required_after_pilot20_architecture_reset')
+    expect(qualification.qualifiedEvidence).toBeNull()
   })
 
-  it('preserves Pilot #19 as the generic class that forced requalification', () => {
+  it('preserves Pilot #19 as the generic class that forced its earlier requalification', () => {
     expect(pilot19).toMatchObject({
       classification: { decision: 'new_generic_engineering_contract_class', defectClass: 'assessment_mcq_cognitive_demand_lexical_overconstraint' },
       providerFreeRequalification: { providerCallsUsed: false },
@@ -89,7 +85,7 @@ describe('Reliability v2 status after post-Pilot #19 Q8', () => {
     })
   })
 
-  it('preserves earlier provider-free and historical Q8 evidence unchanged', () => {
+  it('preserves earlier provider-free and Q8 evidence unchanged', () => {
     for (const gate of providerFreeGates) {
       expect(postQ7002.gates[gate]?.status).toBe('pass')
       expect(postQ7.gates[gate]?.status).toBe('pass')
