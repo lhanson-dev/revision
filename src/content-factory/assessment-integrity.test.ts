@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  diagnoseStructuredAssessment,
   validateStructuredAssessment,
   validateStructuredMarkingGuidance,
   type AssessmentSubquestion,
@@ -50,6 +51,39 @@ describe('structured assessment integrity', () => {
     expect(() => validateStructuredAssessment({
       itemId: 'case-1', maxMark: 4, governedRequirementIds: ['finance-analysis'], subquestions: [subquestion],
     })).toThrow(/command does not ask for rewarded demand interpretation/)
+  })
+
+  it('aggregates independent demand defects across the whole parseable assessment', () => {
+    const first: AssessmentSubquestion = {
+      ...calculationSubquestion(),
+      id: 'q1',
+      command: 'State',
+      wording: 'State the annual contribution shown by the supplied figures.',
+      maxMark: 2,
+      responseDemands: ['calculation'],
+      coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'annual contribution' }],
+    }
+    const second: AssessmentSubquestion = {
+      ...calculationSubquestion(),
+      id: 'q2',
+      command: 'State',
+      wording: 'State what the contribution result shows about the proposal.',
+      maxMark: 2,
+      responseDemands: ['interpretation'],
+      coverageEvidence: [{ requirementId: 'finance-analysis', evidence: 'contribution result' }],
+    }
+
+    const diagnostics = diagnoseStructuredAssessment({
+      itemId: 'case-multi-defect',
+      maxMark: 4,
+      governedRequirementIds: ['finance-analysis'],
+      subquestions: [first, second],
+    })
+
+    expect(diagnostics.filter((entry) => entry.code === 'ASSESSMENT_RESPONSE_DEMAND_UNSUPPORTED')).toEqual([
+      expect.objectContaining({ path: 'subquestions[0].responseDemands', message: expect.stringContaining('calculation') }),
+      expect.objectContaining({ path: 'subquestions[1].responseDemands', message: expect.stringContaining('interpretation') }),
+    ])
   })
 
   it('requires misconception-based MCQ distractors', () => {
