@@ -213,7 +213,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('6')
+    expect(result.provenance.contractVersion).toBe('7')
     expect(result.provenance.retryCount).toBe(0)
     const output = result.output as { subquestions: Array<{ requirementIds: string[] }> }
     expect(output.subquestions).toHaveLength(2)
@@ -221,43 +221,53 @@ describe('OpenAI assessment integrity compiler', () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1)
   })
 
-  it('makes one targeted repair attempt for a completed but unstructured provider response, then fails closed if still invalid', async () => {
+  it('exhausts both bounded candidates before failing closed for persistently unstructured provider output', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody({
       ...validAssessmentOutput(), subquestions: [],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('6')
-    expect(result.provenance.retryCount).toBe(1)
-    if (result.status === 'failure') expect(result.error).toContain('assessment_item_v2_after_complete_diagnostic_repair')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(3)
+    if (result.status === 'failure') {
+      expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
+      expect(result.error).toContain('candidate 1 diagnostics_after_repair')
+      expect(result.error).toContain('candidate 2 diagnostics_after_repair')
+    }
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
   })
 
-  it('keeps the fail-closed calculation-demand guard after one targeted repair attempt', async () => {
+  it('keeps the fail-closed calculation-demand guard through bounded candidate recovery', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidCalculationSelectionOutput())), {
       status: 200, headers: { 'Content-Type': 'application/json' },
     })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('6')
-    expect(result.provenance.retryCount).toBe(1)
-    if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand calculation')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(3)
+    if (result.status === 'failure') {
+      expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
+      expect(result.error).toContain('command does not ask for rewarded demand calculation')
+    }
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
   })
 
-  it('keeps the fail-closed interpretation guard for Pilot 12 style selection wording after one targeted repair attempt', async () => {
+  it('keeps the fail-closed interpretation guard through bounded candidate recovery for Pilot 12 style selection wording', async () => {
     const fetchImpl = vi.fn(async () => new Response(JSON.stringify(responseBody(invalidInterpretationOutput())), {
       status: 200, headers: { 'Content-Type': 'application/json' },
     })) as typeof fetch
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('6')
-    expect(result.provenance.retryCount).toBe(1)
-    if (result.status === 'failure') expect(result.error).toContain('command does not ask for rewarded demand interpretation')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(result.provenance.contractVersion).toBe('7')
+    expect(result.provenance.retryCount).toBe(3)
+    if (result.status === 'failure') {
+      expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
+      expect(result.error).toContain('command does not ask for rewarded demand interpretation')
+    }
+    expect(fetchImpl).toHaveBeenCalledTimes(4)
   })
 
   it('repairs a Pilot 14 style response-demand mismatch once using the complete deterministic diagnostic set', async () => {
@@ -281,7 +291,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('6')
+    expect(result.provenance.contractVersion).toBe('7')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }
