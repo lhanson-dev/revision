@@ -101,7 +101,7 @@ const providerFreeV2Gates = [
 const requiredV2Gates = [...providerFreeV2Gates, 'Q7-bounded-live-worker-soak']
 
 describe('Content Factory Reliability v2 status after Confirmation Pilot #19', () => {
-  it('keeps paid full-course eligibility paused after exact-head Q1-Q6 PASS', () => {
+  it('keeps paid full-course eligibility paused while the governed Q7 soak is pending', () => {
     expect(qualification).toMatchObject({
       schemaVersion: 1,
       status: 'paused',
@@ -113,7 +113,7 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #19', (
     for (const gate of providerFreeV2Gates) {
       expect(qualification.gateStatus[gate]).toBe('pass')
     }
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('required_after_pilot19')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.reason).toContain('Confirmation Pilot #19')
     expect(qualification.latestFailureEvidence).toMatchObject({
       pilot: 19,

@@ -141,7 +141,7 @@ describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () =
     expect(third.samples.every((sample) => sample.provider === 'openai' && sample.model === 'gpt-5.6-terra')).toBe(true)
   })
 
-  it('distinguishes historical Q7 PASS from the later Pilot #19 reliability pause', () => {
+  it('distinguishes historical Q7 PASS from the post-Pilot #19 pending requalification soak', () => {
     expect(qualification.q7FailureEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-002.json')
     expect(qualification.q7FailureEvidenceHistory).toEqual([
       'content-factory/reliability-v2-e-q7-live-soak-evidence.json',
@@ -152,12 +152,12 @@ describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () =
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
     for (const gate of providerFreeGates) {
-      expect(['candidate_pass_pending_exact_head_assurance', 'pass']).toContain(qualification.gateStatus[gate])
+      expect(qualification.gateStatus[gate]).toBe('pass')
     }
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('required_after_pilot19')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
   })
 
-  it('requires the next bounded Q7 to cover the MCQ class that historical soak scenarios missed', () => {
+  it('requests the next bounded Q7 with the MCQ class that historical soak scenarios missed', () => {
     expect(pilot19.nextQualificationStep.q7Required).toBe(true)
     expect(pilot19.nextQualificationStep.requiredLiveCoverage).toEqual(expect.arrayContaining([
       'knowledge MCQ',
@@ -165,7 +165,7 @@ describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () =
       'calculation demand guard',
       'interpretation demand guard',
     ]))
-    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-003', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
+    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-004', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
     expect(soakWorkflowText).toContain('workflow_dispatch:')
     expect(soakWorkflowText).toContain('- content-factory/reliability-v2-e-live-worker-soak-request.json')
     expect(soakWorkflowText).not.toContain('continue-on-error: true')
