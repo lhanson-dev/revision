@@ -30,6 +30,13 @@ The governing engineering principle is:
 
 > A bad AI-generated candidate is normal production scrap. The Content Factory fails only when it cannot automatically recover within governed educational, retry, infrastructure and spend limits.
 
+The success criteria are deliberately two-dimensional:
+
+1. **educational trust** — generated course content must pass the existing factual, curriculum, pedagogical, assessment and marking assurance controls and be credible for student use; and
+2. **production repeatability** — materially different new courses must traverse the same generic production contracts without course-specific engineering intervention, prompt/contract correction after observing a course failure, or manual rescue of ordinary rejected candidates.
+
+Neither dimension can substitute for the other. A pipeline that completes with weak content is not successful, and high-quality content that requires engineering rescue for each new course is not a scalable Content Factory.
+
 ### 1. Deterministic production slots
 
 Assessment Blueprint and Question Family contracts define deterministic production slots. Revision owns mechanically provable constraints such as identity, target requirement coverage, response shape, marks, assessment-objective structure where computable, command/demand constraints, and cross-references.
