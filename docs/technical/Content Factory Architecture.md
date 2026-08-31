@@ -135,6 +135,8 @@ blockers[]
 timestamps
 ```
 
+`worker_runs[]` is also the durable candidate-attempt ledger for recovery-enabled boundaries. A candidate attempt is identified by deterministic production-slot/candidate input refs, so restart can reconstruct the next permitted attempt from the canonical job payload without relying on in-memory loop state.
+
 The job issue is operational evidence only. It cannot override content authority, CI, publication gates or Founder merge approval.
 
 GitHub Issues are chosen for v0.1 because they survive branch merges, avoid operational-status commits to `main`, provide history and linking to PRs, and require no new operational database before the pipeline is proven. The job-store adapter must remain replaceable so a dedicated operational store can be introduced later without changing educational/content architecture.
@@ -310,9 +312,9 @@ Checkpoint 1 by itself did **not** implement bounded fresh-candidate resampling,
 
 ### Implementation checkpoint 2: bounded Assessment Item candidate resampling
 
-The second implementation slice adds bounded worker-local recovery for the governed Assessment Item / Question Family slot:
+The second implementation slice added bounded worker-local recovery for the governed Assessment Item / Question Family slot:
 
-- the Assessment Item worker contract is versioned to `7` because candidate lifecycle and provider-call provenance materially change;
+- the Assessment Item worker contract was versioned to `7` because candidate lifecycle and provider-call provenance materially changed;
 - each Assessment Item slot may use at most **two fresh candidates**;
 - each candidate may receive at most **one** complete-diagnostic targeted repair, preserving the Reliability v2 one-repair-per-artifact ceiling;
 - when candidate 1 remains invalid after repair, candidate 2 is generated fresh from the governed slot inputs and target policy rather than rewriting or preserving candidate 1 wording;
@@ -321,7 +323,22 @@ The second implementation slice adds bounded worker-local recovery for the gover
 - exhausted candidate recovery returns an explicit `assessment_item_v2_candidate_recovery_exhausted` failure; no third candidate or unbounded loop is possible;
 - Assessment Item generation is already scoped to one governed item/Question Family worker invocation, so rejection and resampling do not mutate unrelated already accepted Assessment Item siblings at this worker boundary.
 
-Checkpoint 2 remains deliberately narrower than the complete ADR-0019 topology. It does **not yet implement** durable slot/candidate state in the job record, Marking Pack candidate replacement, or course-level orchestrator semantics that distinguish exhausted worker recovery from ordinary candidate rejection. It therefore does not restore Q1–Q7 or full-course eligibility. The machine-readable qualification state remains paused.
+Checkpoint 2 did **not** make candidate state durable across orchestrator restart; the two-candidate loop still lived inside one worker execution.
+
+### Implementation checkpoint 3: durable Assessment Item slot/candidate state
+
+The third implementation slice moves Assessment Item candidate sequencing to the assessment factory/orchestration boundary:
+
+- each candidate attempt is recorded as a normal `generation` entry in canonical `workerRuns[]`;
+- deterministic input refs identify the production slot (`assessment-slot:<family>:<component>`) and candidate number, allowing restart to reconstruct the next permitted attempt without a second state model;
+- rejected and accepted candidate runs are checkpointed to the GitHub-Issue job payload immediately, before later Assessment siblings or Marking Packs are generated;
+- candidate 1 and candidate 2 are separate dependency-aware worker executions, so a terminal cached attempt can be reused without another provider call after a process restart;
+- the factory refuses to overwrite an accepted slot if its accepted worker-run evidence exists but the persisted artifact cannot be recovered;
+- the provider boundary is contract `8`; a directly invoked non-orchestrated worker still retains the same two-candidate bounded fallback, while production orchestration supplies the exact candidate number;
+- the generic Assessment Item input contract advances to `3` and the durable semantic integrity version advances to `output-integrity-v6`, preventing pre-durable candidate executions from being reused across a changed-head resume;
+- the governed ceiling remains two fresh candidates and one targeted repair per candidate; this checkpoint changes ownership/durability, not the educational or spend limits.
+
+Checkpoint 3 still does **not** implement Marking Pack candidate replacement, whole-course orchestrator recovery after downstream candidate exhaustion, Q1–Q7 requalification or Q8 eligibility. The machine-readable qualification state remains paused.
 
 ## Worker contract/versioning
 
@@ -356,7 +373,7 @@ Retry/recovery rules:
 - the job record must show the latest valid stage plus rejected/failed attempts where operationally useful;
 - a failed post-merge deployment keeps the job out of `pilot_live` even though the merge has already occurred.
 
-Candidate-scope recovery is being implemented incrementally after Pilot #20. Until the remaining durable slot-state, Marking Pack and orchestrator recovery slices are merged and requalified, the machine-readable qualification state remains paused.
+Candidate-scope recovery is being implemented incrementally after Pilot #20. Assessment Item diagnostics, bounded resampling and durable candidate state are implemented; until the remaining Marking Pack and course-level orchestrator recovery slices are merged and the actual topology is requalified, the machine-readable qualification state remains paused.
 
 ## Parallelism
 
