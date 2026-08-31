@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 4,
+  "status": "complete",
+  "q1Pass": true,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "reviewedAgainstMainSha": "23b0849354e99d6be865361009388af5922d2f3f",
+  "purpose": "Course-agnostic compiler/worker ownership inventory after Confirmation Pilot #19. Interaction format, mechanically provable structure and cognitive educational judgement are classified separately so valid assessment shapes are not rejected by an over-broad lexical heuristic.",
+  "allowedOwnership": [
+    "generative_judgement",
+    "deterministically_derived",
+    "bounded_locator_reference",
+    "targeted_repair_eligible",
+    "fail_closed"
+  ],
+  "requiredWorkerBoundaries": [
+    "course_knowledge_model",
+    "learning_blueprint",
+    "learn_generation",
+    "practice_generation",
+    "assessment_blueprint",
+    "question_family_generation",
+    "assessment_item_generation",
+    "marking_pack_generation",
+    "deterministic_validation",
+    "independent_review",
+    "remediation",
+    "expert_review_package_assembly"
+  ],
+  "workers": [
+    {
+      "worker": "course_knowledge_model",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/intake-to-knowledge-model.ts", "src/content-factory/schema.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"artifact and source bindings","fieldPatterns":["jobId","sourceRefs","sourceSetFingerprint","fingerprint"],"ownership":"deterministically_derived","mechanicalCheck":"Revision binds the artifact to the current job and governed source set.","currentCompliance":"compliant"},
+        {"fieldClass":"educational knowledge content","fieldPatterns":["nodes[].summary","nodes[].formulas","nodes[].misconceptions"],"ownership":"generative_judgement","mechanicalCheck":"Educational meaning remains model-authored inside schema and source constraints.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "learning_blueprint",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/learning-and-practice.ts", "src/content-factory/openai-learning-blueprint-compiler.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"work-unit references and required outputs","fieldPatterns":["workUnits[].id","workUnits[].requirementIds","workUnits[].requiredOutputs"],"ownership":"deterministically_derived","mechanicalCheck":"Revision reconciles required output structure to governed coverage and rejects invalid references.","currentCompliance":"compliant"},
+        {"fieldClass":"pedagogical grouping and mode choice","fieldPatterns":["workUnits[].title","workUnits[].scope","workUnits[].learningModes"],"ownership":"generative_judgement","mechanicalCheck":"Pedagogical grouping remains model judgement inside supported modes.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "learn_generation",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/provider-coverage-evidence.ts", "src/content-factory/learning-and-practice.ts", "src/content-factory/teaching-point-integrity.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"teaching-point coverage evidence","fieldPatterns":["coverageEvidence[].teachingPoint","coverageEvidence[].evidence"],"ownership":"bounded_locator_reference","mechanicalCheck":"The provider identifies a bounded location and Revision resolves the exact generated learner-content string.","currentCompliance":"compliant"},
+        {"fieldClass":"learner-facing explanation content","fieldPatterns":["title","introduction","sections","workedExamples"],"ownership":"generative_judgement","mechanicalCheck":"Educational explanation remains model-authored and later assured.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "practice_generation",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/provider-coverage-evidence.ts", "src/content-factory/learning-and-practice.ts", "src/content-factory/q2-practice-evidence-contract.test.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"teaching-point coverage evidence","fieldPatterns":["coverageEvidence[].teachingPoint","coverageEvidence[].evidence"],"ownership":"bounded_locator_reference","mechanicalCheck":"The provider identifies mode/index/field and Revision resolves exact generated practice evidence without JSON-serialization drift.","currentCompliance":"compliant"},
+        {"fieldClass":"activity mode consistency","fieldPatterns":["activities[].mode","workUnit.learningModes"],"ownership":"fail_closed","mechanicalCheck":"Generated activities must use governed supported Practice modes.","currentCompliance":"compliant"},
+        {"fieldClass":"learner-facing practice content","fieldPatterns":["activities[].prompt","activities[].expectedResponse","activities[].explanation"],"ownership":"generative_judgement","mechanicalCheck":"Practice meaning remains model-authored inside governed mode and evidence constraints.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "assessment_blueprint",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/openai-assessment-blueprint-compiler.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"component totals and objective bindings","fieldPatterns":["components[].componentId","components[].markTotal","assessmentObjectives[].id"],"ownership":"deterministically_derived","mechanicalCheck":"Mechanically checkable blueprint values must match governed Board Alignment facts.","currentCompliance":"compliant"},
+        {"fieldClass":"assessment planning judgement","fieldPatterns":["commandDemands","evidenceExpectations","components[].questionFamilyIds"],"ownership":"generative_judgement","mechanicalCheck":"Assessment planning remains model judgement inside governed component constraints.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "question_family_generation",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/openai-question-family-compiler.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"family identity and component references","fieldPatterns":["id","componentScope","assessmentObjectiveIds"],"ownership":"fail_closed","mechanicalCheck":"Returned family identities and references must match the governed requested set.","currentCompliance":"compliant"},
+        {"fieldClass":"assessment intent and demand requirements","fieldPatterns":["contextRequirements","applicationRequirements","analysisRequirements","evaluationRequirements"],"ownership":"generative_judgement","mechanicalCheck":"Educational assessment-family design remains model-authored.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "assessment_item_generation",
+      "scope": "generic",
+      "reviewStatus": "complete_after_pilot19_architecture_review",
+      "implementationRefs": ["src/content-factory/assessment-integrity.ts", "src/content-factory/openai-assessment-item-v2-compiler.ts", "src/content-factory/pilot19-assessment-shape-contract.test.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"target identity, marks and requirement cross references","fieldPatterns":["componentId","questionFamilyId","requirementIds","maxMark","subquestions[].requirementIds"],"ownership":"deterministically_derived","mechanicalCheck":"Revision injects governed top-level targets and derives subquestion requirement IDs from validated coverage evidence.","currentCompliance":"compliant"},
+        {"fieldClass":"selection interaction contract","fieldPatterns":["subquestions[].command","subquestions[].responseDemands.selection","subquestions[].options"],"ownership":"targeted_repair_eligible","mechanicalCheck":"Selection must be learner-visible through select/choose/which and MCQ option structure must be exactly four distinct options with one correct answer and plausible distinct distractors.","currentCompliance":"compliant"},
+        {"fieldClass":"MCQ knowledge and application cognitive demand","fieldPatterns":["subquestions[].responseDemands.knowledge","subquestions[].responseDemands.application"],"ownership":"generative_judgement","mechanicalCheck":"For a valid selection/MCQ interaction, knowledge or application is educational meaning rather than a second mechanically provable command verb; schema, coverage, options, independent review and expert review constrain the judgement.","currentCompliance":"compliant"},
+        {"fieldClass":"explicit operational cognitive demand command evidence","fieldPatterns":["subquestions[].responseDemands.calculation","subquestions[].responseDemands.interpretation","subquestions[].responseDemands.analysis","subquestions[].responseDemands.evaluation"],"ownership":"targeted_repair_eligible","mechanicalCheck":"Calculation, interpretation, analysis and evaluation continue to require compatible learner-facing lexical command evidence; one complete-diagnostic repair is permitted before fail-closed revalidation.","currentCompliance":"compliant"},
+        {"fieldClass":"question wording, original context and educational coverage judgement","fieldPatterns":["questionWording","context","subquestions[].coverageEvidence[].requirementId","subquestions[].coverageEvidence[].evidence"],"ownership":"generative_judgement","mechanicalCheck":"Original content and genuine requirement coverage remain model-authored educational judgement with strict exact-evidence and governed-reference validation.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "marking_pack_generation",
+      "scope": "generic",
+      "reviewStatus": "complete_after_pilot19_architecture_review",
+      "implementationRefs": ["src/content-factory/openai-marking-pack-v2-compiler.ts", "src/content-factory/assessment-integrity.ts", "src/content-factory/q2-marking-pack-ao-contract.test.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"question identity and provenance bindings","fieldPatterns":["questionId","questionVersion","exactQuestionWording","maxMark","questionFamilyId"],"ownership":"deterministically_derived","mechanicalCheck":"Revision assembles immutable Marking Pack identity from the validated Assessment Item and family.","currentCompliance":"compliant"},
+        {"fieldClass":"aggregate assessment-objective totals","fieldPatterns":["assessmentObjectiveAllocation[].objectiveId","assessmentObjectiveAllocation[].marks"],"ownership":"deterministically_derived","mechanicalCheck":"Revision derives structured aggregate AO allocation from validated subquestion guidance.","currentCompliance":"compliant"},
+        {"fieldClass":"rubric skeleton and reconciliation","fieldPatterns":["rubric[].minMark","rubric[].maxMark","subquestionGuidance[].maxMark"],"ownership":"fail_closed","mechanicalCheck":"Compiler-owned/range structure and subquestion arithmetic must reconcile with the validated Assessment Item.","currentCompliance":"compliant"},
+        {"fieldClass":"marking judgement and diagnostic guidance","fieldPatterns":["rubric[].descriptor","validReasoningRoutes","indicativeContent","misconceptions","diagnosticFeedbackRules"],"ownership":"generative_judgement","mechanicalCheck":"Subject-specific marking meaning remains model-authored and independently assured; Pilot #19 did not justify transferring this educational judgement to the compiler.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "deterministic_validation",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/assurance-and-remediation.ts", "src/content-factory/coverage-finalization.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"validation decision and exact-version binding","fieldPatterns":["decision","checks[].status","reviewedCommit","contentFingerprint"],"ownership":"deterministically_derived","mechanicalCheck":"Validation disposition is derived from deterministic checks and bound to the exact reviewed content version.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "independent_review",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/openai-independent-review-compiler.ts", "src/content-factory/assurance-and-remediation.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"finding references and decision semantics","fieldPatterns":["findings[].artifactRef","findings[].resolutionStatus","decision"],"ownership":"fail_closed","mechanicalCheck":"Findings must reference governed artifacts and decision severity semantics are constrained.","currentCompliance":"compliant"},
+        {"fieldClass":"educational finding meaning","fieldPatterns":["findings[].finding","findings[].recommendedCorrection"],"ownership":"generative_judgement","mechanicalCheck":"Fresh-context educational challenge remains model judgement.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "remediation",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/openai-remediation-compiler.ts", "src/content-factory/assurance-and-remediation.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"target and finding scope","fieldPatterns":["resolvedFindingIds","replacements[].oldRef","replacements[].newRef"],"ownership":"fail_closed","mechanicalCheck":"Remediation may resolve only supplied open findings against the governed smallest-safe target.","currentCompliance":"compliant"},
+        {"fieldClass":"corrected educational content","fieldPatterns":["correctedArtifact"],"ownership":"generative_judgement","mechanicalCheck":"Correction meaning remains model-authored and must pass the same downstream assurance.","currentCompliance":"compliant"}
+      ]
+    },
+    {
+      "worker": "expert_review_package_assembly",
+      "scope": "generic",
+      "reviewStatus": "complete",
+      "implementationRefs": ["src/content-factory/expert-review-handoff.ts", "src/content-factory/expert-review-handoff-contract.test.ts"],
+      "mechanicalFields": [
+        {"fieldClass":"package identity and evidence assembly","fieldPatterns":["packageId","contentFingerprint","artifactRefs","validationRefs","independentReviewRefs"],"ownership":"deterministically_derived","mechanicalCheck":"Revision assembles the exact-version expert-review package from persisted governed evidence.","currentCompliance":"compliant"}
+      ]
+    }
+  ],
+  "blockers": [],
+  "resolvedBlockers": [
+    {
+      "id": "Q1-PRACTICE-EVIDENCE-PATH",
+      "worker": "practice_generation",
+      "resolutionGate": "Q2-provider-free-contract-matrix",
+      "resolution": "Exact generated practice evidence is resolved from bounded provider locators against actual string leaves rather than JSON serialization.",
+      "evidence": ["src/content-factory/q2-practice-evidence-contract.test.ts"]
+    },
+    {
+      "id": "Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC",
+      "worker": "marking_pack_generation",
+      "resolutionGate": "Q2-provider-free-contract-matrix",
+      "resolution": "Structured aggregate AO arithmetic is compiler-owned and derived from validated subquestion allocations.",
+      "evidence": ["src/content-factory/q2-marking-pack-ao-contract.test.ts"]
+    }
+  ],
+  "pilot19ArchitectureDecision": {
+    "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
+    "classification": "generic_engineering_contract_class",
+    "decision": "Separate MCQ interaction mechanics from cognitive-demand educational judgement. Do not add select/choose/which indiscriminately to the knowledge/application lexical vocabulary.",
+    "assessmentItemSemanticVersion": "2+output-integrity-v5",
+    "markingPackOwnershipChanged": false
+  }
+}

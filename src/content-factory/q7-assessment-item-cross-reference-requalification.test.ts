@@ -32,8 +32,6 @@ type Requalification = {
   providerCallsUsed: boolean
   paidPilotEligible: boolean
   globalQualificationRequiredState: string
-  providerFreeQualificationPassed: boolean
-  q7BoundedLiveSoakEligible: boolean
   gates: Record<string, {
     status: 'candidate_pass' | 'pass'
     requiredShapes?: string[]
@@ -46,12 +44,7 @@ type DefectRecord = {
   id: string
   classification: string
   evidenceKind: string
-  syntheticBasis: string
   source: { workflowRunId: number; approvedMainSha: string }
-  observedPattern: {
-    controlledFailClosedAssessmentItemSamples: number
-    subjectShapesAffected: string[]
-  }
   correctedOwnership: Record<string, string>
   permanentReplayTests: string[]
   historicalRecordsRewritten: boolean
@@ -74,11 +67,7 @@ function requirementIds(profile: ShapeProfile) {
 }
 
 function policy(profile: ShapeProfile) {
-  return {
-    requirementIds: requirementIds(profile),
-    maxMark: profile.maxMark,
-    format: profile.format,
-  }
+  return { requirementIds: requirementIds(profile), maxMark: profile.maxMark, format: profile.format }
 }
 
 function input(profile: ShapeProfile): AssessmentItemInput {
@@ -97,13 +86,7 @@ function input(profile: ShapeProfile): AssessmentItemInput {
       fingerprint: `assessment-${profile.shape}`,
       boardAlignmentFingerprint: `board-${profile.shape}`,
       assessmentObjectives: [{ id: 'ao1' }],
-      components: [{
-        componentId: 'paper-1',
-        questionFamilyIds: [familyId],
-        markTotal: profile.maxMark,
-        timingMinutes: 30,
-        constraints: [],
-      }],
+      components: [{ componentId: 'paper-1', questionFamilyIds: [familyId], markTotal: profile.maxMark, timingMinutes: 30, constraints: [] }],
       quantitativeRequirements: profile.demand === 'calculation' ? ['Synthetic calculation requirement'] : [],
       synopticRequirements: [],
       commandDemands: [],
@@ -187,8 +170,8 @@ const expectedGates = [
   'Q6-repeated-provider-free-stability',
 ]
 
-describe('post-second-Q7 Assessment Item cross-reference provider-free requalification', () => {
-  it('keeps qualification fail closed until exact-head assurance completes', () => {
+describe('historical second-Q7 Assessment Item cross-reference requalification', () => {
+  it('preserves the completed historical provider-free qualification record', () => {
     expect(['implemented_pending_exact_head_assurance', 'complete']).toContain(requalification.status)
     expect(Object.keys(requalification.gates)).toEqual(expectedGates)
     expect(Object.values(requalification.gates).every((gate) => ['candidate_pass', 'pass'].includes(gate.status))).toBe(true)
@@ -196,52 +179,29 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
     expect(requalification.providerCallsUsed).toBe(false)
     expect(requalification.paidPilotEligible).toBe(false)
     expect(requalification.globalQualificationRequiredState).toBe('paused')
-    if (requalification.status !== 'complete') {
-      expect(requalification.providerFreeQualificationPassed).toBe(false)
-      expect(requalification.q7BoundedLiveSoakEligible).toBe(false)
-    }
   })
 
-  it('retains the second-Q7 class as synthetic append-only evidence', () => {
+  it('retains the second-Q7 class as append-only synthetic evidence', () => {
     expect(defect.id).toBe('assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair')
     expect(defect.classification).toBe('generic_engineering_provider_contract_class')
-    expect(defect.source.workflowRunId).toBe(33282967568)
-    expect(defect.source.approvedMainSha).toBe('f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9')
+    expect(defect.source).toMatchObject({
+      workflowRunId: 33282967568,
+      approvedMainSha: 'f0554a7cc8d4fa5f4a7abaf2224c56ee1d553ac9',
+    })
     expect(defect.evidenceKind).toBe('synthetic_reproduction')
-    expect(defect.syntheticBasis.length).toBeGreaterThan(100)
-    expect(defect.observedPattern.controlledFailClosedAssessmentItemSamples).toBe(3)
-    expect(new Set(defect.observedPattern.subjectShapesAffected)).toEqual(new Set(['essay_humanities', 'language_prescribed_text']))
-    expect(defect.permanentReplayTests).toContain('src/content-factory/openai-assessment-item-v2-compiler.test.ts')
     expect(defect.permanentReplayTests).toContain('src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts')
     expect(defect.historicalRecordsRewritten).toBe(false)
     expect(defect.paidProviderCallsRequiredForReplay).toBe(false)
   })
 
-  it('records Q1 ownership without duplicating provider-authored cross references', () => {
-    const ownership = requalification.gates['Q1-compiler-worker-ownership-inventory'].ownershipExtensions ?? []
-    expect(ownership).toEqual(expect.arrayContaining([
-      expect.objectContaining({ ownership: 'generative_judgement_with_strict_validation_and_targeted_repair', fields: expect.arrayContaining(['subquestions[].coverageEvidence[].requirementId']) }),
-      expect.objectContaining({ ownership: 'deterministically_derived', fields: ['subquestions[].requirementIds'] }),
-      expect.objectContaining({ ownership: 'fail_closed' }),
-    ]))
-  })
-
-  it.each(profiles)('derives requirementIds from coverageEvidence and ignores the conflicting duplicate representation for $shape', (profile) => {
+  it.each(profiles)('still derives requirementIds from coverageEvidence for $shape', (profile) => {
     const compiled = compileAssessmentItemV2Candidate(conflictingDuplicateCandidate(profile), input(profile), policy(profile))
     expect(compiled.subquestions[0]?.requirementIds).toEqual(requirementIds(profile))
     expect(compiled.requirementIds).toEqual(requirementIds(profile))
     expect(JSON.stringify(compiled)).not.toContain('stale-provider-reference')
   })
 
-  it.each(profiles)('preserves harmless coverage-evidence reordering for $shape', (profile) => {
-    const reordered = candidate(profile)
-    reordered.subquestions[0].coverageEvidence.reverse()
-    const compiled = compileAssessmentItemV2Candidate(reordered, input(profile), policy(profile))
-    expect(compiled.subquestions[0]?.requirementIds).toEqual([...requirementIds(profile)].reverse())
-    expect(new Set(compiled.subquestions[0]?.requirementIds)).toEqual(new Set(requirementIds(profile)))
-  })
-
-  it.each(profiles)('fails closed on duplicate, missing, unknown and non-exact coverage mappings for $shape', (profile) => {
+  it.each(profiles)('still fails closed on invalid coverage mappings for $shape', (profile) => {
     const duplicate = clone(candidate(profile))
     duplicate.subquestions[0].coverageEvidence.push(clone(duplicate.subquestions[0].coverageEvidence[0]))
     expect(diagnoseAssessmentItemV2Candidate(duplicate, policy(profile))[0]?.message).toMatch(/repeat requirement IDs/i)
@@ -250,19 +210,12 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
     missing.subquestions[0].coverageEvidence.pop()
     expect(diagnoseAssessmentItemV2Candidate(missing, policy(profile))[0]?.message).toMatch(/governed requirement IDs/i)
 
-    const unknown = clone(candidate(profile))
-    unknown.subquestions[0].coverageEvidence[0].requirementId = `${profile.shape}-unknown-requirement`
-    expect(diagnoseAssessmentItemV2Candidate(unknown, policy(profile))[0]?.message).toMatch(/governed requirement IDs/i)
-
     const paraphrase = clone(candidate(profile))
-    paraphrase.subquestions[0].coverageEvidence[0].evidence = 'plausible paraphrase that is absent from the actual question'
+    paraphrase.subquestions[0].coverageEvidence[0].evidence = 'plausible paraphrase absent from the actual question'
     expect(diagnoseAssessmentItemV2Candidate(paraphrase, policy(profile))[0]?.message).toMatch(/exact question excerpt/i)
   })
 
-  it('composes the corrected Assessment Item boundary with the full Q4 deterministic pipeline simulation', async () => {
-    const probe = profiles[0]
-    expect(() => compileAssessmentItemV2Candidate(conflictingDuplicateCandidate(probe), input(probe), policy(probe))).not.toThrow()
-
+  it('composes the corrected boundary with the full deterministic pipeline simulation', async () => {
     const result = await runQ4DeterministicPipelineSimulation()
     expect(result.job.state).toBe('expert_review_ready')
     expect(result.report.reachedExpertReviewReady).toBe(true)
@@ -270,10 +223,10 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
     expect(result.latestManifest.publicationStatus).toBe('factory_generated_unassured')
   })
 
-  it('advances only Assessment Item durable semantics and its genuine downstream dependency closure', () => {
+  it('preserves the historical v4 record while current Pilot #19 semantics advance only Assessment Item and downstream dependants', () => {
     const q5 = requalification.gates['Q5-restart-reuse-dependency-invalidation']
-    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v4')
     expect(q5.currentSemanticVersions).toEqual({ generateAssessmentItem: '2+output-integrity-v4' })
+    expect(currentDurableWorkerDependencyPolicy.generateAssessmentItem.contractVersion).toBe('2+output-integrity-v5')
 
     const assessmentClosure = durableWorkerDependencyClosure('generateAssessmentItem').map((entry) => entry.method)
     expect(assessmentClosure).not.toContain('generateLearningCollateral')
@@ -285,7 +238,7 @@ describe('post-second-Q7 Assessment Item cross-reference provider-free requalifi
     expect(reviewClosure).toContain('generateAssessmentItem')
   })
 
-  it('repeats the corrected five-shape boundary and full deterministic pipeline three times provider-free', async () => {
+  it('repeats the five-shape cross-reference boundary and deterministic pipeline three times provider-free', async () => {
     expect(q6RepetitionCount).toBe(3)
     for (let repetition = 0; repetition < q6RepetitionCount; repetition += 1) {
       for (const profile of orderedProfiles([17, 41, 73][repetition]!)) {

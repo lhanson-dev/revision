@@ -286,7 +286,7 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     for (const seed of v2d.repetitionSeeds) expect(mutationMatrix.mutationSeeds).toContain(seed)
   })
 
-  it('preserves the historical V2-D paused boundary while recognising the later separate Q8 transition', () => {
+  it('preserves the historical V2-D paused boundary while recognising Q8 was later superseded by the Pilot 19 pause', () => {
     expect(v2d).toMatchObject({
       schemaVersion: 1,
       workItem: 'V2-D',
@@ -320,9 +320,9 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     })
     expect(v2d.gates['Q6-repeated-provider-free-stability']?.repetitionSeeds).toEqual(v2d.repetitionSeeds)
 
-    expect(currentQualification.status).toBe('qualified')
-    expect(currentQualification.qualifiedEvidence).not.toBeNull()
-    expect(currentQualification.livePilotEligible).toBe(true)
+    expect(currentQualification.status).toBe('paused')
+    expect(currentQualification.qualifiedEvidence).toBeNull()
+    expect(currentQualification.livePilotEligible).toBe(false)
     expect(currentQualification.requiredGates).toContain('Q7-bounded-live-worker-soak')
     expect(v2d.limitations.join(' ')).toContain('educational correctness')
     expect(v2d.limitations.join(' ')).toContain('Q7')

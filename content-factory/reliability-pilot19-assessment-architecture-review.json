@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_exact_head_assurance",
+  "workItem": "Reliability-v2-post-confirmation-pilot-19",
+  "trigger": {
+    "pilot": 19,
+    "workflowRunId": 33371449134,
+    "jobIssueNumber": 254,
+    "approvedMainSha": "23b0849354e99d6be865361009388af5922d2f3f",
+    "artifactId": 9750570226,
+    "artifactDigest": "sha256:e9272de540d285fcb4c6dac8522ddd537f15c84c1f7f1e3835a029179e195fed",
+    "knownCourseSpendUsd": 0.7151,
+    "finalState": "blocked",
+    "reachedExpertReviewReady": false
+  },
+  "classification": {
+    "decision": "new_generic_engineering_contract_class",
+    "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
+    "boundary": "assessment_item_generation",
+    "observedFailure": "A valid selection/MCQ shape carrying knowledge demand was required to contain a second knowledge command verb even though Which/select/choose is the legitimate learner interaction.",
+    "whyGeneric": "The shared validator applied the same lexical-command proof rule to interaction format and cognitive demand across all courses, so the defect was reusable rather than AQA Business-specific."
+  },
+  "architectureDecision": {
+    "interactionAndCognitiveDemandSeparated": true,
+    "selectionInteractionOwnership": "targeted_repair_eligible_with_strict_option_validation",
+    "mcqKnowledgeApplicationOwnership": "generative_judgement_with_schema_coverage_and_independent_assurance",
+    "explicitLexicalDemandGuardsRetained": [
+      "calculation",
+      "interpretation",
+      "analysis",
+      "evaluation"
+    ],
+    "assessmentItemSemanticVersionBefore": "2+output-integrity-v4",
+    "assessmentItemSemanticVersionAfter": "2+output-integrity-v5",
+    "providerSchemaVersionChanged": false,
+    "markingPackOwnershipChanged": false,
+    "markingPackReviewConclusion": "Pilot #19 did not expose a Marking Pack ownership defect. Mechanical identity, AO aggregates and rubric structure remain compiler-owned/fail-closed; subject-specific marking meaning remains generative educational judgement."
+  },
+  "providerFreeRequalification": {
+    "providerCallsUsed": false,
+    "paidFullCourseExecutionTriggered": false,
+    "learnerPublicationTriggered": false,
+    "gates": {
+      "Q1-compiler-worker-ownership-inventory": "candidate_pass_pending_exact_head_assurance",
+      "Q2-historical-failure-replay-corpus": "candidate_pass_pending_exact_head_assurance",
+      "Q3-adversarial-provider-free-subject-matrix": "candidate_pass_pending_exact_head_assurance",
+      "Q4-deterministic-full-pipeline-simulation": "candidate_pass_pending_exact_head_assurance",
+      "Q5-restart-reuse-dependency-invalidation": "candidate_pass_pending_exact_head_assurance",
+      "Q6-repeated-provider-free-stability": "candidate_pass_pending_exact_head_assurance"
+    },
+    "evidence": [
+      "src/content-factory/pilot19-assessment-shape-contract.test.ts",
+      "src/content-factory/openai-assessment-integrity-compiler.test.ts",
+      "src/content-factory/q7-assessment-item-cross-reference-requalification.test.ts",
+      "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+      "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+      "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+      "src/content-factory/q5-dependency-aware-resume.test.ts",
+      "src/content-factory/q6-repeated-qualification-stability.test.ts"
+    ]
+  },
+  "dependencyImpact": {
+    "reusableWithoutRegeneration": [
+      "course_knowledge_model",
+      "learning_blueprint",
+      "learning_collateral",
+      "practice_collateral",
+      "assessment_blueprint",
+      "question_families"
+    ],
+    "invalidated": [
+      "assessment_items",
+      "dependent_marking_packs",
+      "dependent_assurance_and_review_evidence"
+    ]
+  },
+  "nextQualificationStep": {
+    "q7Required": true,
+    "nextPaidRunClass": "bounded_q7_live_worker_soak",
+    "fullCourseConfirmationEligible": false,
+    "requiredLiveCoverage": [
+      "knowledge MCQ",
+      "application MCQ",
+      "calculation demand guard",
+      "interpretation demand guard",
+      "assessment-item generation across all five governed subject shapes",
+      "Marking Pack generation across all five governed subject shapes"
+    ],
+    "separateQ8RequiredAfterQ7Pass": true
+  },
+  "maturity": {
+    "achieved": false,
+    "consecutiveSuccessfulMateriallyDifferentCourses": 0
+  },
+  "historicalRecordsRewritten": false,
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "technicalQualificationHarnessUpdated": true,
+    "machineQualificationStatePaused": true,
+    "indexUpdateRequired": false,
+    "adrRequired": false
+  }
+}

@@ -23,6 +23,7 @@ type AssessmentFormat = NonNullable<OpenAIContentFactoryAdapterConfig['assessmen
 type WorkerBoundary = 'assessment_item_generation' | 'marking_pack_generation'
 type SampleStatus = 'success' | 'failure' | 'infrastructure_failure' | 'runner_exception'
 type SampleDisposition = 'accepted' | 'controlled_fail_closed' | 'infrastructure_incident' | 'engineering_boundary_breach'
+type FamilyPurpose = 'assessment' | 'marking'
 
 type ShapeScenario = {
   shape: Q3SubjectShapeId
@@ -35,6 +36,7 @@ type ShapeScenario = {
   requiresApplication: boolean
   requirementTopic: string
   knowledgeSummary: string
+  mcq?: boolean
 }
 
 type SampleRecord = {
@@ -116,6 +118,45 @@ const scenarios: ShapeScenario[] = [
   },
 ]
 
+function assessmentVariant(scenario: ShapeScenario, sampleNumber: number): ShapeScenario {
+  if (scenario.shape === 'quantitative_business_economics' && sampleNumber === 1) {
+    return {
+      ...scenario,
+      demand: 'knowledge',
+      command: 'Which',
+      marks: 1,
+      format: 'written_question',
+      requiresApplication: false,
+      requirementTopic: 'synthetic business ownership concept',
+      knowledgeSummary: 'A wholly invented business ownership concept can be tested using an original multiple-choice item without reproducing any awarding-body question.',
+      mcq: true,
+    }
+  }
+  if (scenario.shape === 'quantitative_business_economics' && sampleNumber === 2) {
+    return {
+      ...scenario,
+      demand: 'application',
+      command: 'Which',
+      marks: 1,
+      format: 'case_question',
+      requiresApplication: true,
+      requirementTopic: 'synthetic business decision',
+      knowledgeSummary: 'A wholly invented business scenario can require the learner to select the most appropriate application of a supplied concept.',
+      mcq: true,
+    }
+  }
+  if (scenario.shape === 'science' && sampleNumber === 2) {
+    return {
+      ...scenario,
+      demand: 'interpretation',
+      command: 'Interpret',
+      requirementTopic: 'synthetic experimental result',
+      knowledgeSummary: 'An invented experimental result can be interpreted from supplied synthetic observations without using external source material.',
+    }
+  }
+  return scenario
+}
+
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
   if (!value) throw new Error(`provider_secret_missing_or_runtime_config_missing:${name}`)
@@ -130,8 +171,8 @@ function positiveNumberEnv(name: string, fallback: number) {
   return value
 }
 
-function familyId(scenario: ShapeScenario, sampleNumber: number) {
-  return `${scenario.shape.replaceAll('_', '-')}-soak-${sampleNumber}`
+function familyId(scenario: ShapeScenario, sampleNumber: number, purpose: FamilyPurpose) {
+  return `${scenario.shape.replaceAll('_', '-')}-${purpose}-soak-${sampleNumber}`
 }
 
 function requirementId(scenario: ShapeScenario) {
@@ -155,12 +196,12 @@ function courseIdentity(scenario: ShapeScenario) {
   }
 }
 
-function assessmentBlueprint(scenario: ShapeScenario, sampleNumber: number) {
-  const family = familyId(scenario, sampleNumber)
+function assessmentBlueprint(scenario: ShapeScenario, sampleNumber: number, purpose: FamilyPurpose) {
+  const family = familyId(scenario, sampleNumber, purpose)
   return {
     schemaVersion: 1,
-    jobId: `q7-${scenario.shape}-${sampleNumber}`,
-    fingerprint: `q7-blueprint-${scenario.shape}-${sampleNumber}`,
+    jobId: `q7-${scenario.shape}-${purpose}-${sampleNumber}`,
+    fingerprint: `q7-blueprint-${scenario.shape}-${purpose}-${sampleNumber}`,
     boardAlignmentFingerprint: `q7-board-${scenario.shape}`,
     assessmentObjectives: [{ id: 'ao1', weightingPercent: 100 }],
     components: [{
@@ -177,16 +218,19 @@ function assessmentBlueprint(scenario: ShapeScenario, sampleNumber: number) {
   }
 }
 
-function questionFamily(scenario: ShapeScenario, sampleNumber: number) {
+function questionFamily(scenario: ShapeScenario, sampleNumber: number, purpose: FamilyPurpose) {
+  const responseShape = scenario.mcq
+    ? `One original rights-safe multiple-choice ${scenario.demand} task. Use a Which/select interaction, exactly four options, and responseDemands containing selection plus ${scenario.demand}.`
+    : `One original rights-safe ${scenario.demand} task using invented content only.`
   return {
     schemaVersion: 1,
-    id: familyId(scenario, sampleNumber),
-    title: `Q7 synthetic ${scenario.shape} family ${sampleNumber}`,
+    id: familyId(scenario, sampleNumber, purpose),
+    title: `Q7 synthetic ${scenario.shape} ${purpose} family ${sampleNumber}`,
     assessmentObjectiveIds: ['ao1'],
-    skillProfile: [scenario.demand],
+    skillProfile: scenario.mcq ? ['selection', scenario.demand] : [scenario.demand],
     componentScope: [componentId(scenario)],
     markRange: { min: scenario.marks, max: scenario.marks },
-    responseShape: `One original rights-safe ${scenario.demand} task using invented content only.`,
+    responseShape,
     contextRequirements: scenario.requiresApplication ? ['Use a short invented scenario supplied or created within the item.'] : [],
     applicationRequirements: scenario.requiresApplication ? ['Apply the response to the invented scenario rather than giving generic assertions.'] : [],
     analysisRequirements: scenario.demand === 'analysis' ? ['Develop a supported analytical link from the stated evidence to the stated outcome.'] : [],
@@ -210,12 +254,13 @@ function knowledgeNodes(scenario: ShapeScenario) {
   }]
 }
 
-function assessmentInput(scenario: ShapeScenario, sampleNumber: number): AssessmentItemInput {
+function assessmentInput(baseScenario: ShapeScenario, sampleNumber: number): AssessmentItemInput {
+  const scenario = assessmentVariant(baseScenario, sampleNumber)
   return {
-    jobId: `q7-${scenario.shape}-${sampleNumber}`,
+    jobId: `q7-${scenario.shape}-assessment-${sampleNumber}`,
     courseIdentity: courseIdentity(scenario),
-    assessmentBlueprint: assessmentBlueprint(scenario, sampleNumber),
-    questionFamily: questionFamily(scenario, sampleNumber),
+    assessmentBlueprint: assessmentBlueprint(scenario, sampleNumber, 'assessment'),
+    questionFamily: questionFamily(scenario, sampleNumber, 'assessment'),
     targetComponentId: componentId(scenario),
     knowledgeNodes: knowledgeNodes(scenario),
     examPrepRequirements: [],
@@ -233,7 +278,7 @@ function deterministicAssessmentItem(scenario: ShapeScenario, sampleNumber: numb
     version: '1',
     title: `Q7 synthetic ${scenario.shape} marking input ${sampleNumber}`,
     componentId: componentId(scenario),
-    questionFamilyId: familyId(scenario, sampleNumber),
+    questionFamilyId: familyId(scenario, sampleNumber, 'marking'),
     requirementIds: [requirement],
     knowledgeNodeIds: [nodeId(scenario)],
     format: scenario.format,
@@ -256,22 +301,21 @@ function markingInput(scenario: ShapeScenario, sampleNumber: number): MarkingPac
   return {
     jobId: `q7-${scenario.shape}-marking-${sampleNumber}`,
     courseIdentity: courseIdentity(scenario),
-    assessmentBlueprint: assessmentBlueprint(scenario, sampleNumber),
-    questionFamily: questionFamily(scenario, sampleNumber),
+    assessmentBlueprint: assessmentBlueprint(scenario, sampleNumber, 'marking'),
+    questionFamily: questionFamily(scenario, sampleNumber, 'marking'),
     assessmentItem: deterministicAssessmentItem(scenario, sampleNumber),
     knowledgeNodes: knowledgeNodes(scenario),
   } as MarkingPackInput
 }
 
 function policies(): NonNullable<OpenAIContentFactoryAdapterConfig['assessmentItemPolicies']> {
-  return Object.fromEntries(scenarios.flatMap((scenario) => [1, 2].map((sampleNumber) => [
-    familyId(scenario, sampleNumber),
-    {
-      requirementIds: [requirementId(scenario)],
-      maxMark: scenario.marks,
-      format: scenario.format,
-    },
-  ]))) as NonNullable<OpenAIContentFactoryAdapterConfig['assessmentItemPolicies']>
+  return Object.fromEntries(scenarios.flatMap((baseScenario) => [1, 2].map((sampleNumber) => {
+    const scenario = assessmentVariant(baseScenario, sampleNumber)
+    return [
+      familyId(scenario, sampleNumber, 'assessment'),
+      { requirementIds: [requirementId(scenario)], maxMark: scenario.marks, format: scenario.format },
+    ]
+  }))) as NonNullable<OpenAIContentFactoryAdapterConfig['assessmentItemPolicies']>
 }
 
 function route(model: string): OpenAIModelRoute {
@@ -340,7 +384,7 @@ function exceptionRecord(input: {
   }
 }
 
-describe('Reliability v2-E bounded live worker soak', () => {
+describe('Reliability v2 bounded live worker soak', () => {
   const liveIt = liveEnabled ? it : it.skip
 
   liveIt('samples production Assessment Item and Marking Pack boundaries across all five governed shapes', async () => {
@@ -368,32 +412,16 @@ describe('Reliability v2-E bounded live worker soak', () => {
       fetchImpl: trackedFetch,
     })
 
-    const runSample = async (
-      scenario: ShapeScenario,
-      workerBoundary: WorkerBoundary,
-      sampleNumber: number,
-    ) => {
+    const runSample = async (scenario: ShapeScenario, workerBoundary: WorkerBoundary, sampleNumber: number) => {
       const sampleId = `${scenario.shape}-${workerBoundary}-${sampleNumber}`
       activeProviderCallCount = 0
       try {
         const execution = workerBoundary === 'assessment_item_generation'
           ? await workers.generateAssessmentItem(assessmentInput(scenario, sampleNumber))
           : await workers.generateMarkingPack(markingInput(scenario, sampleNumber))
-        samples.push(executionRecord({
-          sampleId,
-          scenario,
-          workerBoundary,
-          providerCallCount: activeProviderCallCount,
-          execution,
-        }))
+        samples.push(executionRecord({ sampleId, scenario, workerBoundary, providerCallCount: activeProviderCallCount, execution }))
       } catch (error) {
-        samples.push(exceptionRecord({
-          sampleId,
-          scenario,
-          workerBoundary,
-          providerCallCount: activeProviderCallCount,
-          error,
-        }))
+        samples.push(exceptionRecord({ sampleId, scenario, workerBoundary, providerCallCount: activeProviderCallCount, error }))
       }
     }
 
@@ -416,7 +444,7 @@ describe('Reliability v2-E bounded live worker soak', () => {
       && new Set(samples.map((sample) => sample.subjectShape)).size === q3SubjectShapeIds.length
 
     const evidence = {
-      schemaVersion: 1,
+      schemaVersion: 2,
       artifactType: 'content_factory_reliability_v2_q7_live_worker_soak_evidence',
       recordedAt: new Date().toISOString(),
       repository,
@@ -429,6 +457,13 @@ describe('Reliability v2-E bounded live worker soak', () => {
       executedSampleCount: samples.length,
       samplesPerShape,
       subjectShapes: q3SubjectShapeIds,
+      assessmentShapeCoverage: {
+        quantitativeBusinessEconomicsAssessmentSamples: ['knowledge_mcq', 'application_mcq'],
+        mathematicsAssessmentSamples: ['calculation', 'calculation'],
+        scienceAssessmentSamples: ['analysis', 'interpretation'],
+        essayHumanitiesAssessmentSamples: ['evaluation', 'evaluation'],
+        languagePrescribedTextAssessmentSamples: ['analysis', 'analysis'],
+      },
       workerBoundaries: {
         assessment_item_generation: samples.filter((sample) => sample.workerBoundary === 'assessment_item_generation').length,
         marking_pack_generation: samples.filter((sample) => sample.workerBoundary === 'marking_pack_generation').length,
@@ -447,7 +482,8 @@ describe('Reliability v2-E bounded live worker soak', () => {
       limitations: [
         'Known usage cost is the sum of worker provenance where provider usage metadata is available; the production shared spend guard remains the hard US$5 control.',
         'A controlled fail-closed sample requires classification before Q7 can be called PASS because the Reliability Standard distinguishes genuine educational rejection from a new generic engineering contract class.',
-        'This soak samples live provider variability at the two highest-risk generation boundaries and does not claim educational benchmark approval.',
+        'The post-Pilot-19 matrix explicitly samples knowledge/application MCQs and retains explicit calculation/interpretation demand coverage before another full-course confirmation can be eligible.',
+        'This soak is reliability evidence, not educational benchmark approval.',
       ],
     }
 
