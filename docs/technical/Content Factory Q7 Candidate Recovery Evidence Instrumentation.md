@@ -8,6 +8,10 @@ Attempt 005 proved the live production recovery boundary was behaving strongly, 
 
 Attempt 006 used the corrected candidate-aware trace and completed successfully on approved `main`.
 
+### Relationship to the broader reliability harness record
+
+`docs/technical/Content Factory Reliability Qualification Harness.md` retains the longer post-Pilot #20 stop-loss narrative and implementation-checkpoint history. Its pre-classification status wording predates attempt 006. For the **current Q7 status**, this document together with `content-factory/reliability-qualification.json` and `content-factory/reliability-v2-e-q7-live-soak-evidence-006.json` is the later implementation evidence: Q7 is PASS, while the overall machine remains paused and full-course confirmation remains prohibited until the separate Q8 eligibility transition. The older harness narrative is not rewritten as though its earlier checkpoint observations occurred after this classification.
+
 ## Attempt 005 — instrumentation-limited historical evidence
 
 Approved main:
@@ -124,4 +128,4 @@ Attempt 006 used 8.09316% of the governed US$5 per-soak ceiling. The current evi
 
 ## Documentation impact
 
-No normative authority or ADR change is required. Reliability Standard v2.0 and ADR-0019 already govern the recovery topology and evidence requirements. This document records the production-confirmed candidate-aware evidence result, while preserving attempt 005 and all earlier Q7 evidence as historical records.
+No normative authority or ADR change is required. Reliability Standard v2.0 and ADR-0019 already govern the recovery topology and evidence requirements. This document records the production-confirmed candidate-aware evidence result, explicitly resolves the current-status relationship to the broader historical harness narrative, and preserves attempt 005 and all earlier Q7 evidence as historical records.
