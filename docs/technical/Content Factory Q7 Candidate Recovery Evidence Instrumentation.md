@@ -2,11 +2,13 @@
 
 ## Status
 
-Post-Pilot #20 Q7 remains **pending**.
+Post-Pilot #20 Q7 is now **PASS**, pending only the separate governed evidence-classification PR reaching `main`.
 
-The first post-Pilot #20 bounded live-worker soak (`q7-live-worker-soak-005`) completed successfully on approved `main`, but its schema-v2 evidence instrument predates ADR-0019 candidate recovery. The run is therefore retained as useful live evidence but is not sufficient to declare Q7 PASS.
+Attempt 005 proved the live production recovery boundary was behaving strongly, but its schema-v2 evidence instrument could not distinguish targeted repair from fresh candidate resampling. That historical run remains unchanged and is not used as the decisive Q7 PASS record.
 
-## Attempt 005
+Attempt 006 used the corrected candidate-aware trace and completed successfully on approved `main`.
+
+## Attempt 005 — instrumentation-limited historical evidence
 
 Approved main:
 
@@ -20,96 +22,106 @@ Artifact:
 
 - ID `9817051688`;
 - digest `sha256:72666062b1f14b8d5605eda8e9d3f48541e3000315d75eab261f8256e0d89f64`;
-- durable raw copy `content-factory/reliability-v2-e-q7-live-soak-evidence-005.json`.
+- durable raw copy `content-factory/reliability-v2-e-q7-live-soak-evidence-005.json`;
+- review record `content-factory/reliability-post-pilot20-q7-attempt-005-review.json`.
 
 Observed provider outcome:
 
-- 20/20 governed samples executed;
-- 20/20 accepted;
+- 20/20 governed samples executed and accepted;
 - all five governed subject shapes covered;
 - 10 Assessment Item and 10 Marking Pack samples;
 - zero controlled fail-closed samples;
 - zero infrastructure incidents;
 - zero engineering-boundary breaches;
 - known provider spend US$0.394502 against the US$5 ceiling;
-- no full-course assembly;
-- no learner publication.
+- no full-course assembly or learner publication.
 
-## Why this is not yet Q7 PASS
-
-Reliability Standard v2.0 requires a repair count for every live sample.
-
-The historical Q7 harness calculated:
-
-`repairCount = providerCallCount - 1`
-
-That was a reasonable measurement before candidate resampling existed, because provider retries were disabled and an additional provider call represented the one bounded repair path.
-
-ADR-0019 changed that topology. A provider call after the first generation may now be either:
-
-1. a targeted repair of the current candidate; or
-2. a fresh candidate resample after the previous candidate is rejected.
-
-Attempt 005 contained a live science Assessment sample with four provider calls. The production worker permits at most two candidates and one repair per candidate, so the bounded sequence is:
-
-`candidate 1 generation -> targeted repair -> fresh candidate 2 generation -> targeted repair -> accepted`
-
-The raw schema-v2 artifact records this as `repairCount: 3`. That value is not semantically accurate: the correct interpretation is two targeted repairs and one fresh candidate resample.
-
-The production recovery boundary behaved as governed. The defect is in qualification evidence instrumentation, not in the Content Factory runtime.
+The raw evidence used the historical approximation `repairCount = providerCallCount - 1`. Under ADR-0019 that is no longer sufficient because an extra provider call can represent either targeted repair or a fresh candidate resample. Attempt 005 therefore remained Q7 `pending` despite the strong provider outcome.
 
 ## Candidate-aware instrumentation
 
-Future Q7 runs retain the existing production worker path and provider retries remain disabled.
-
-The Q7 workflow now adds a non-mutating provider-request trace. It records only bounded recovery metadata needed for qualification:
+The Q7 workflow retains the production worker path with provider retries disabled and adds a non-mutating provider-request trace. It records only the recovery metadata needed for qualification:
 
 - Q7 job identity;
 - provider request schema/worker name;
-- whether the call is initial generation, targeted repair or fresh candidate resample.
+- whether each call is initial generation, targeted repair or fresh candidate resample.
 
-The trace deliberately does not change provider requests and does not store the API key or full provider payload.
+The trace does not change provider requests and does not store API credentials or full provider payloads.
 
-After the live harness writes its existing raw artifact, a candidate-aware normalizer combines the raw sample evidence with the trace and emits schema-v3 Q7 evidence containing:
+The candidate-aware normalizer reconciles the raw live-soak artifact with that trace and emits schema-v3 evidence containing:
 
 - accurate per-sample `repairCount`;
 - per-sample `freshCandidateResampleCount`;
 - provider-call kind sequence;
 - total targeted repairs;
 - total fresh candidate resamples;
-- candidate-recovery sample IDs;
-- an explicit instrumentation-completeness result.
+- instrumentation-completeness evidence.
 
-The normalizer fails closed if call counts cannot be reconciled or if a call sequence exceeds the governed recovery topology.
+The normalizer fails closed if call counts cannot be reconciled or if a sequence exceeds the governed two-candidate / one-repair-per-candidate topology.
 
-## Recovery sequence assurance
+## Attempt 006 — candidate-aware Q7 PASS evidence
 
-With provider retries disabled, the accepted call sequences are bounded to the production policy:
+Approved main:
 
-- initial generation;
-- initial generation -> targeted repair;
-- initial generation -> fresh candidate resample;
-- initial generation -> targeted repair -> fresh candidate resample;
-- initial generation -> fresh candidate resample -> targeted repair;
-- initial generation -> targeted repair -> fresh candidate resample -> targeted repair.
+`e74e04613c8d9fa8d7eba617bb839ef368d26029`
 
-This matches the maximum two-candidate / one-repair-per-candidate rule.
+Workflow:
 
-## Qualification boundary
+`33554413877` / run #21
 
-This instrumentation correction does not:
+Artifact:
 
-- make another provider call;
-- modify Assessment Item or Marking Pack generation/recovery behavior;
-- change Q1-Q6 status;
-- change Q7 from `pending`;
-- change overall qualification from `paused`;
-- enable a full-course run;
-- enable learner publication;
-- permit Q8.
+- ID `9818944889`;
+- digest `sha256:43be3553cf21db5892efbfab888c0211f7a02944408a631d228d06fd8955a30b`;
+- durable classified evidence `content-factory/reliability-v2-e-q7-live-soak-evidence-006.json`.
 
-After this instrumentation is merged and production-confirmed, a fresh governed Q7 request must be created and Founder-approved before another paid soak runs. Only a correctly instrumented live result may be classified as post-Pilot #20 Q7 PASS.
+Observed:
+
+- 20/20 governed samples executed;
+- 20/20 accepted;
+- Assessment Item 10/10 accepted;
+- Marking Pack 10/10 accepted;
+- all five governed subject shapes covered;
+- 31 provider calls in total;
+- **10 targeted repairs** accurately identified;
+- **1 fresh candidate resample** accurately identified;
+- provider-call classification complete for all 20 samples;
+- zero controlled fail-closed samples;
+- zero infrastructure incidents;
+- zero engineering-boundary breaches;
+- known provider spend **US$0.404658** against the US$5 ceiling;
+- no full-course assembly;
+- no learner publication.
+
+The science Assessment Item sample `science-assessment_item_generation-2` exercised the recovery topology that attempt 005 could not measure correctly:
+
+`initial generation -> targeted repair -> fresh candidate resample -> accepted`
+
+The schema-v3 trace records that truthfully as one targeted repair and one fresh candidate resample. No engineering intervention was required.
+
+## Q7 classification
+
+Attempt 006 reported:
+
+- `automaticQ7PassCandidate: true`;
+- `requiresEngineeringVsEducationalClassification: false`;
+- complete provider-call classification;
+- no new generic engineering/provider-contract class.
+
+Classification:
+
+`q7_pass_no_new_generic_engineering_contract_class`
+
+**Q7 PASS.**
+
+Q1-Q6 remain PASS. The overall machine state deliberately remains `paused`, `qualifiedEvidence` remains null and `livePilotEligible` remains false until the separate V2-F/Q8 eligibility transition is exact-head assured, Founder-approved and merged.
+
+## Cost position
+
+Attempt 005 used US$0.394502 and attempt 006 used US$0.404658. Including the earlier four Q7 soaks, cumulative known Q7 spend is US$2.496296.
+
+Attempt 006 used 8.09316% of the governed US$5 per-soak ceiling. The current evidence does not justify increasing that ceiling.
 
 ## Documentation impact
 
-No normative authority or ADR changes are required. The Reliability Standard and ADR-0019 already require the distinction between targeted repair and fresh candidate recovery. This document records the corrected implementation of that evidence requirement while preserving attempt 005 unchanged as historical live evidence.
+No normative authority or ADR change is required. Reliability Standard v2.0 and ADR-0019 already govern the recovery topology and evidence requirements. This document records the production-confirmed candidate-aware evidence result, while preserving attempt 005 and all earlier Q7 evidence as historical records.
