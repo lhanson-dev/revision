@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_same_head_assurance",
+  "gate": "Q3-adversarial-provider-free-subject-matrix",
+  "scope": "post_pilot_20_candidate_recovery_adversarial_subject_matrix",
+  "baseMainSha": "2063de6836c3f6091b97cc16d92c26f08c49a1ad",
+  "providerCallsUsed": false,
+  "historicalRecordsRewritten": false,
+  "purpose": "Requalify the governed five-shape Q3 adversarial matrix against the post-Pilot #20 candidate-recovery topology without rewriting pre-reset Q3 evidence or overlapping Q6 repeated-stability scope.",
+  "carriedForwardEvidence": {
+    "subjectShapeMatrix": "content-factory/reliability-q3-subject-shape-matrix.json",
+    "subjectShapeRegression": "src/content-factory/q3-subject-shape-matrix.test.ts",
+    "adversarialMutationMatrix": "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+    "adversarialMutationRegression": "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+    "productionRecoveryImplementation": "src/content-factory/assessment-and-marking.ts",
+    "q4FullPipelineRecoveryEvidence": "docs/technical/Content Factory Q4 Candidate Recovery Qualification.md"
+  },
+  "requiredShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "postResetAdversarialProof": {
+    "allShapeCandidateReplacement": "Every governed subject shape is driven through the production Assessment/Marking factory with an injected Assessment candidate-1 rejection and Marking Pack candidate-1 rejection for a real shape-derived slot; candidate 2 fills the same slot and the factory reaches validating with the complete expected set of accepted Assessment Items and Marking Packs.",
+    "acceptedSiblingSurvival": "The two-component science fixture rejects candidate 1 only for its second Assessment slot; the already accepted first Assessment sibling is not regenerated while the second slot advances to candidate 2.",
+    "sharedFamilyMarkingRecovery": "The language/text fixture uses one Question Family across two components. Rejecting Marking Pack candidate 1 for the second component leaves the first Marking Pack and both accepted Assessment Items intact; the exact accepted question wording remains frozen across Marking Pack attempts.",
+    "boundedExhaustion": "The science second Assessment slot rejects candidates 1 and 2. The course blocks explicitly, no candidate 3 exists, the accepted first Assessment sibling remains persisted, and no course-content-pack manifest is assembled.",
+    "coverageInvariant": "Rejected candidates never count as accepted Assessment or Marking Pack coverage. Successful shapes contain exactly the number of accepted artifacts required by their Assessment Blueprint targets; exhausted mandatory slots cannot be silently omitted."
+  },
+  "acceptance": {
+    "allFiveGovernedShapesCovered": true,
+    "mixedAndMultiComponentShapesCovered": true,
+    "sharedFamilyAcrossComponentsCovered": true,
+    "assessmentCandidateReplacementCovered": true,
+    "markingPackCandidateReplacementCovered": true,
+    "acceptedSiblingSurvivalCovered": true,
+    "frozenAssessmentDependencyCovered": true,
+    "boundedExhaustionBlocksCovered": true,
+    "rejectedCandidatesNeverCountAsCoverage": true,
+    "providerFree": true,
+    "q3EvidenceReady": true,
+    "globalQualificationStateChanged": false,
+    "q6PassedByThisEvidence": false,
+    "q7Eligible": false,
+    "q8Eligible": false
+  },
+  "limitations": [
+    "This evidence requalifies adversarial breadth against current candidate recovery; it does not prove repeated recovery stability across varied mutation orders, seeds or repeated executions. Q6 remains separate and required.",
+    "The five subject shapes are synthetic process fixtures and are not educational benchmark evidence or live-provider evidence.",
+    "Q4 remains the full-pipeline bad-candidate-to-expert_review_ready proof; this Q3 slice deliberately targets adversarial subject-shape breadth at the production Assessment/Marking recovery boundary.",
+    "content-factory/reliability-qualification.json remains paused and is deliberately not transitioned by this evidence slice."
+  ]
+}
