@@ -35,8 +35,8 @@ function fieldClass(workerName, name) {
 }
 
 describe('Content Factory Q1 post-Pilot #20 ownership inventory', () => {
-  it('is explicitly refreshed against the candidate-recovery main baseline', () => {
-    expect(inventory.schemaVersion).toBe(4)
+  it('is explicitly refreshed against the candidate-recovery main baseline without breaking the v3 inventory contract', () => {
+    expect(inventory.schemaVersion).toBe(3)
     expect(inventory.status).toBe('complete')
     expect(inventory.q1Pass).toBe(true)
     expect(inventory.reviewedAgainstMainSha).toBe(reviewedMainSha)
