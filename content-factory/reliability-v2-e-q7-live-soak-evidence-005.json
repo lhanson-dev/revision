@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "artifactType": "content_factory_reliability_v2_q7_live_worker_soak_evidence",
+  "recordedAt": "2026-09-01T19:32:14.203Z",
+  "repository": "lhanson-dev/revision",
+  "contentHeadSha": "fffb92d9c1b1666f516b5597058276e58f0dfb31",
+  "providerModel": "gpt-5.6-terra",
+  "configuredMaxSpendUsd": 5,
+  "knownUsageCostUsd": 0.394502,
+  "unpricedSampleCount": 0,
+  "plannedSampleCount": 20,
+  "executedSampleCount": 20,
+  "samplesPerShape": 4,
+  "subjectShapes": [
+    "quantitative_business_economics",
+    "mathematics",
+    "science",
+    "essay_humanities",
+    "language_prescribed_text"
+  ],
+  "assessmentShapeCoverage": {
+    "quantitativeBusinessEconomicsAssessmentSamples": ["knowledge_mcq", "application_mcq"],
+    "mathematicsAssessmentSamples": ["calculation", "calculation"],
+    "scienceAssessmentSamples": ["analysis", "interpretation"],
+    "essayHumanitiesAssessmentSamples": ["evaluation", "evaluation"],
+    "languagePrescribedTextAssessmentSamples": ["analysis", "analysis"]
+  },
+  "workerBoundaries": {
+    "assessment_item_generation": 10,
+    "marking_pack_generation": 10
+  },
+  "productionCompilerBoundary": "createOpenAIModelAssistedWorkers",
+  "providerRetriesPerRequest": 0,
+  "targetedRepairsObserved": 10,
+  "controlledFailClosedSampleIds": [],
+  "infrastructureIncidentSampleIds": [],
+  "engineeringBoundaryBreachSampleIds": [],
+  "automaticQ7PassCandidate": true,
+  "requiresEngineeringVsEducationalClassification": false,
+  "fullCourseAssembly": false,
+  "learnerPublication": false,
+  "samples": [
+    {"sampleId":"quantitative_business_economics-assessment_item_generation-1","subjectShape":"quantitative_business_economics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.006924},
+    {"sampleId":"quantitative_business_economics-assessment_item_generation-2","subjectShape":"quantitative_business_economics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.013884},
+    {"sampleId":"quantitative_business_economics-marking_pack_generation-1","subjectShape":"quantitative_business_economics","workerBoundary":"marking_pack_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.0129},
+    {"sampleId":"quantitative_business_economics-marking_pack_generation-2","subjectShape":"quantitative_business_economics","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.02534},
+    {"sampleId":"mathematics-assessment_item_generation-1","subjectShape":"mathematics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.008436},
+    {"sampleId":"mathematics-assessment_item_generation-2","subjectShape":"mathematics","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.012096},
+    {"sampleId":"mathematics-marking_pack_generation-1","subjectShape":"mathematics","workerBoundary":"marking_pack_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.013158},
+    {"sampleId":"mathematics-marking_pack_generation-2","subjectShape":"mathematics","workerBoundary":"marking_pack_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":0,"usageCostUsd":0.013374},
+    {"sampleId":"science-assessment_item_generation-1","subjectShape":"science","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.010204},
+    {"sampleId":"science-assessment_item_generation-2","subjectShape":"science","workerBoundary":"assessment_item_generation","providerCallCount":4,"repairCount":3,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":3,"usageCostUsd":0.044444},
+    {"sampleId":"science-marking_pack_generation-1","subjectShape":"science","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.030087999999999997},
+    {"sampleId":"science-marking_pack_generation-2","subjectShape":"science","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.031716},
+    {"sampleId":"essay_humanities-assessment_item_generation-1","subjectShape":"essay_humanities","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.008336},
+    {"sampleId":"essay_humanities-assessment_item_generation-2","subjectShape":"essay_humanities","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.008876},
+    {"sampleId":"essay_humanities-marking_pack_generation-1","subjectShape":"essay_humanities","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.032864},
+    {"sampleId":"essay_humanities-marking_pack_generation-2","subjectShape":"essay_humanities","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.037194000000000005},
+    {"sampleId":"language_prescribed_text-assessment_item_generation-1","subjectShape":"language_prescribed_text","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.008072},
+    {"sampleId":"language_prescribed_text-assessment_item_generation-2","subjectShape":"language_prescribed_text","workerBoundary":"assessment_item_generation","providerCallCount":1,"repairCount":0,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"8","retryCount":0,"usageCostUsd":0.007928},
+    {"sampleId":"language_prescribed_text-marking_pack_generation-1","subjectShape":"language_prescribed_text","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.033898},
+    {"sampleId":"language_prescribed_text-marking_pack_generation-2","subjectShape":"language_prescribed_text","workerBoundary":"marking_pack_generation","providerCallCount":2,"repairCount":1,"status":"success","disposition":"accepted","provider":"openai","model":"gpt-5.6-terra","contractVersion":"5","retryCount":1,"usageCostUsd":0.03477}
+  ],
+  "limitations": [
+    "Known usage cost is the sum of worker provenance where provider usage metadata is available; the production shared spend guard remains the hard US$5 control.",
+    "A controlled fail-closed sample requires classification before Q7 can be called PASS because the Reliability Standard distinguishes genuine educational rejection from a new generic engineering contract class.",
+    "The post-Pilot-19 matrix explicitly samples knowledge/application MCQs and retains explicit calculation/interpretation demand coverage before another full-course confirmation can be eligible.",
+    "This soak is reliability evidence, not educational benchmark approval."
+  ]
+}
