@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "workItem": "V2-E",
   "gate": "Q7",
-  "status": "fourth_live_execution_passed_all_samples_accepted",
+  "status": "sixth_live_execution_passed_candidate_aware_all_samples_accepted",
   "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
-  "runnerMergedMainSha": "02fbccbd1979460b63f3e0ee7f85ee2d1fede3c9",
+  "runnerMergedMainSha": "e74e04613c8d9fa8d7eba617bb839ef368d26029",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
   "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
@@ -41,7 +41,7 @@
   "providerCalls": "completed_on_approved_main",
   "maxSpendUsd": 5,
   "providerRetriesPerRequest": 0,
-  "targetedRepairPolicy": "Production bounded repair remains enabled; with provider retries disabled, providerCallCount above one for a sample represents the production targeted-repair path.",
+  "targetedRepairPolicy": "Production bounded repair and candidate recovery remain enabled. The candidate-aware Q7 trace classifies each additional provider call as targeted repair or fresh candidate resample rather than inferring repair count from total calls.",
   "evidenceArtifactDirectory": ".artifacts/content-factory-live-worker-soak/",
   "liveExecutions": [
     {
@@ -103,22 +103,54 @@
       "targetedRepairsObserved": 8,
       "classification": "q7_pass_no_new_generic_engineering_contract_class",
       "defectClass": "none_new_generic_engineering_contract_class"
+    },
+    {
+      "attempt": 5,
+      "mainSha": "fffb92d9c1b1666f516b5597058276e58f0dfb31",
+      "workflowRunId": 33549488154,
+      "workflowRunNumber": 20,
+      "artifactId": 9817051688,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-005.json",
+      "reviewEvidence": "content-factory/reliability-post-pilot20-q7-attempt-005-review.json",
+      "executedSamples": 20,
+      "acceptedSamples": 20,
+      "controlledFailClosedSamples": 0,
+      "knownUsageCostUsd": 0.394502,
+      "classification": "q7_pending_evidence_instrumentation_correction_required",
+      "defectClass": "qualification_evidence_instrumentation_defect"
+    },
+    {
+      "attempt": 6,
+      "mainSha": "e74e04613c8d9fa8d7eba617bb839ef368d26029",
+      "workflowRunId": 33554413877,
+      "workflowRunNumber": 21,
+      "artifactId": 9818944889,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
+      "executedSamples": 20,
+      "acceptedSamples": 20,
+      "controlledFailClosedSamples": 0,
+      "knownUsageCostUsd": 0.404658,
+      "targetedRepairsObserved": 10,
+      "freshCandidateResamplesObserved": 1,
+      "providerCallClassificationComplete": true,
+      "classification": "q7_pass_no_new_generic_engineering_contract_class",
+      "defectClass": "none_new_generic_engineering_contract_class"
     }
   ],
-  "latestLiveExecutionAttempt": 4,
+  "latestLiveExecutionAttempt": 6,
   "affectedQualificationGates": [],
   "costCeilingReview": {
     "decision": "retain_usd_5_ceiling",
-    "latestKnownUsageCostUsd": 0.384316,
-    "latestCeilingUtilisationPercent": 7.68632,
-    "cumulativeKnownQ7SpendUsd": 1.697136,
-    "rationale": "All four bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 4 accepted all 20 governed samples for US$0.384316 with no infrastructure incident, engineering-boundary breach or controlled fail-closed sample, so no ceiling change is justified."
+    "latestKnownUsageCostUsd": 0.404658,
+    "latestCeilingUtilisationPercent": 8.09316,
+    "cumulativeKnownQ7SpendUsd": 2.496296,
+    "rationale": "All six bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 6 accepted all 20 governed samples for US$0.404658 with complete candidate-aware evidence, no infrastructure incident and no engineering-boundary breach. Attempt 5 spend is retained in cumulative cost evidence even though its repair/resample instrumentation was insufficient for Q7 classification."
   },
   "fullCourseAssembly": false,
   "learnerPublication": false,
   "livePilotEligibilityChanged": false,
   "q7Passed": true,
   "overallReliabilityV2Passed": true,
-  "nextIfSoakPasses": "Post-Pilot #19 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
+  "nextIfSoakPasses": "Post-Pilot #20 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
   "nextIfSoakFindsGenericContractClass": "Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."
 }

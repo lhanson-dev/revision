@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Post-Pilot #20 candidate-recovery architecture has completed provider-free Q1-Q6 requalification on approved main. Overall qualification remains paused. The next permitted reliability activity is the bounded Q7 live worker soak; full-course confirmation remains prohibited until Q7 is PASS and a separate Founder-approved Q8 transition restores qualified status.",
+  "reason": "Post-Pilot #20 candidate-recovery architecture passed provider-free Q1-Q6 on approved main and the fresh candidate-aware Q7 bounded live-worker soak run 33554413877 then accepted all 20 governed samples across all five subject shapes. The schema-v3 trace accurately distinguished ten targeted repairs from one fresh candidate resample, with zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course confirmation remains prohibited until the separate Founder-approved Q8 transition restores qualified status and livePilotEligible.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -40,9 +40,10 @@
     "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
     "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"
   ],
-  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
   "q7PassEvidenceHistory": [
-    "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json"
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json"
   ],
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
@@ -60,7 +61,7 @@
     "Q4-deterministic-full-pipeline-simulation": "pass",
     "Q5-restart-reuse-dependency-invalidation": "pass",
     "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "pending"
+    "Q7-bounded-live-worker-soak": "pass"
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
