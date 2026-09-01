@@ -48,7 +48,6 @@ const pilot19 = JSON.parse(pilot19Text) as { nextQualificationStep: { q7Required
 const qualification = JSON.parse(qualificationText) as Qualification
 
 const providerFreeGates = ['Q1-compiler-worker-ownership-inventory','Q2-historical-failure-replay-corpus','Q3-adversarial-provider-free-subject-matrix','Q4-deterministic-full-pipeline-simulation','Q5-restart-reuse-dependency-invalidation','Q6-repeated-provider-free-stability']
-const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () => {
   it('preserves historical attempts and records the fourth post-Pilot-19 PASS', () => {
@@ -75,14 +74,15 @@ describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () =
     expect(fourth.assessmentShapeCoverage?.quantitativeBusinessEconomicsAssessmentSamples).toEqual(['knowledge_mcq', 'application_mcq'])
   })
 
-  it('preserves historical Q7/Q8 PASS evidence while Pilot #20 pauses current eligibility', () => {
+  it('preserves historical Q7/Q8 PASS evidence while current Q1-Q6 are requalified and Q7 is pending', () => {
     expect(qualification.q7FailureEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence.json','content-factory/reliability-v2-e-q7-live-soak-evidence-002.json'])
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json'])
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.qualifiedEvidence).toBeNull()
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('required_after_pilot20_architecture_reset')
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(q8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
   })
 
