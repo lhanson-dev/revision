@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_same_head_assurance",
+  "gate": "Q6-repeated-provider-free-stability",
+  "scope": "post_pilot_20_candidate_recovery_repeated_stability",
+  "baseMainSha": "80356b359fe1652892d070cf7f5c8b2f3f191225",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "liveProviderCallsUsed": false,
+  "historicalRecordsRewritten": false,
+  "repetitionCount": 3,
+  "repetitionSeeds": [211, 463, 887],
+  "boundProviderFreeSuites": {
+    "Q2": [
+      "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+      "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts"
+    ],
+    "Q3": [
+      "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+      "src/content-factory/q3-post-pilot20-candidate-recovery-requalification.test.ts"
+    ],
+    "Q4": [
+      "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+      "src/content-factory/q4-candidate-recovery-qualification.test.ts"
+    ],
+    "Q5": [
+      "src/content-factory/q5-dependency-aware-resume.test.ts",
+      "src/content-factory/q5-candidate-recovery-requalification.test.ts"
+    ]
+  },
+  "stabilityProof": {
+    "variedOrdering": "The complete current Q2-Q5 provider-free recovery suite is executed three times under distinct deterministic Vitest shuffle seeds, varying test and mutation-case execution ordering without changing the governed assertions.",
+    "currentRecoveryTopology": "The repetitions include the post-Pilot #20 Q2 historical recovery replay, post-Pilot #20 Q3 subject-shape recovery matrix, Q4 full-pipeline candidate recovery proof, and Q5 candidate-aware restart/reuse/dependency invalidation proof.",
+    "carriedForwardRegression": "The immutable historical failure corpus and adversarial mutation matrix remain in every repetition so current recovery evidence cannot pass by dropping the pre-existing generic defect classes or adversarial cases.",
+    "stableOutcome": "Every repetition must exit successfully with the same governed PASS outcome despite different execution ordering. Any regression, new blocker, unhandled candidate failure or dependency inconsistency fails the Q6 exact-head CI proof.",
+    "providerFree": "The repeated suite uses controlled fixtures only and excludes live-provider and paid-course integration tests."
+  },
+  "acceptance": {
+    "threeDistinctRepetitions": true,
+    "variedDeterministicOrdering": true,
+    "q2CurrentRecoveryBound": true,
+    "q3CurrentRecoveryBound": true,
+    "q4CurrentRecoveryBound": true,
+    "q5CurrentRecoveryBound": true,
+    "historicalCorpusRetained": true,
+    "adversarialMatrixRetained": true,
+    "providerFree": true,
+    "q6EvidenceReady": true,
+    "globalQualificationStateChanged": false,
+    "q7MachineEligibilityChanged": false,
+    "q8EligibilityChanged": false
+  },
+  "limitations": [
+    "This evidence proves repeated provider-free process stability under three deterministic shuffled execution orders; it is not live-provider, educational benchmark or paid-course evidence.",
+    "This evidence slice does not mutate content-factory/reliability-qualification.json. A separate governed consolidation must decide whether current approved-main Q1-Q6 evidence is sufficient to transition the machine state to bounded Q7 eligibility.",
+    "Q7 bounded live soak remains prohibited until the approved-main qualification state explicitly records Q1-Q6 as passed and Q7 as eligible.",
+    "Q8 remains a separate transition and no full-course confirmation eligibility is created by this Q6 evidence."
+  ]
+}
