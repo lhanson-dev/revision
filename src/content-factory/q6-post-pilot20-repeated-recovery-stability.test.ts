@@ -24,7 +24,7 @@ type Qualification = {
   status: string
   requiredGates: string[]
   gateStatus: Record<string, string>
-  qualifiedEvidence: unknown | null
+  qualifiedEvidence: { eligibilityRecord: string; q7PassRecord: string; nextPaidRunClass: string } | null
   livePilotEligible: boolean
 }
 
@@ -66,7 +66,7 @@ function repeatedTestFiles() {
 }
 
 describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => {
-  it('preserves the Q6 evidence slice while accepting the later governed Q1-Q7 state', () => {
+  it('preserves the Q6 evidence slice while accepting the later governed Q1-Q7 and Q8 state', () => {
     expect(evidence).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -102,12 +102,16 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
       q8EligibilityChanged: false,
     })
 
-    expect(qualification.status).toBe('paused')
+    expect(qualification.status).toBe('qualified')
     expect(qualification.requiredGates).toContain('Q6-repeated-provider-free-stability')
     expect(qualification.gateStatus['Q6-repeated-provider-free-stability']).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-003.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(qualification.livePilotEligible).toBe(true)
     expect(evidence.limitations.join(' ')).toMatch(/Q7 bounded live soak remains prohibited/i)
     expect(evidence.limitations.join(' ')).toMatch(/Q8 remains a separate transition/i)
   })
