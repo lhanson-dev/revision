@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "q7_pending_evidence_instrumentation_correction_required",
+  "attempt": "q7-live-worker-soak-005",
+  "approvedMainSha": "fffb92d9c1b1666f516b5597058276e58f0dfb31",
+  "workflowRunId": 33549488154,
+  "workflowRunNumber": 20,
+  "artifactId": 9817051688,
+  "artifactDigest": "sha256:72666062b1f14b8d5605eda8e9d3f48541e3000315d75eab261f8256e0d89f64",
+  "durableRawEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-005.json",
+  "providerOutcome": {
+    "plannedSamples": 20,
+    "executedSamples": 20,
+    "acceptedSamples": 20,
+    "controlledFailClosedSamples": 0,
+    "infrastructureIncidents": 0,
+    "engineeringBoundaryBreaches": 0,
+    "knownUsageCostUsd": 0.394502,
+    "configuredMaxSpendUsd": 5,
+    "fullCourseAssembly": false,
+    "learnerPublication": false
+  },
+  "instrumentationFinding": {
+    "classification": "qualification_evidence_instrumentation_defect",
+    "productionRuntimeFailure": false,
+    "newGenericProviderContractClass": false,
+    "description": "The schema-v2 Q7 harness defines repairCount as providerCallCount minus one. After ADR-0019, extra provider calls may be either one targeted repair or a fresh candidate resample. The raw artifact therefore cannot truthfully supply the repair count required by Q7 for every sample.",
+    "exampleSample": {
+      "sampleId": "science-assessment_item_generation-2",
+      "rawProviderCallCount": 4,
+      "rawRepairCount": 3,
+      "governedRecoveryInterpretation": "candidate 1 generation -> targeted repair -> fresh candidate 2 generation -> targeted repair -> accepted",
+      "actualTargetedRepairCount": 2,
+      "freshCandidateResampleCount": 1
+    }
+  },
+  "qualificationDecision": {
+    "q7Passed": false,
+    "q7RemainsPending": true,
+    "overallStatusRemainsPaused": true,
+    "livePilotEligibleRemainsFalse": true,
+    "q8Permitted": false,
+    "reason": "The live execution is strong operational evidence but Q7 cannot be called PASS until the required per-sample repair/resample provenance is measured accurately."
+  },
+  "nextStep": {
+    "fixScope": "Q7 evidence instrumentation only",
+    "productionGenerationRecoveryChangeRequired": false,
+    "freshPaidSoakRequiredAfterFix": true,
+    "freshSoakRequiresSeparateFounderApprovedRequest": true
+  },
+  "historicalEvidenceRewritten": false
+}
