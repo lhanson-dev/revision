@@ -80,10 +80,19 @@ jobs:
           CONTENT_FACTORY_LIVE_WORKER_SOAK: '1'
           CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '5'
+          CONTENT_FACTORY_Q7_TRACE_FILE: .artifacts/content-factory-live-worker-soak/provider-call-trace.jsonl
           GITHUB_REPOSITORY: ${{ github.repository }}
+          NODE_OPTIONS: --import=${{ github.workspace }}/scripts/content-factory-q7-provider-call-trace.mjs
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CONTENT_FACTORY_SOAK_MODEL: gpt-5.6-terra
         run: npx vitest run src/content-factory/live-worker-soak.integration.test.ts --reporter=verbose
+
+      - name: Build candidate-aware Q7 evidence
+        if: always()
+        env:
+          CONTENT_FACTORY_CONTENT_HEAD_SHA: ${{ github.sha }}
+          CONTENT_FACTORY_Q7_TRACE_FILE: .artifacts/content-factory-live-worker-soak/provider-call-trace.jsonl
+        run: node scripts/content-factory-q7-candidate-aware-evidence.mjs
 
       - name: Upload Q7 live worker soak evidence
         if: always()
