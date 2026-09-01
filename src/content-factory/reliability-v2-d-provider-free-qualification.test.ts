@@ -287,7 +287,7 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     for (const seed of v2d.repetitionSeeds) expect(mutationMatrix.mutationSeeds).toContain(seed)
   })
 
-  it('preserves the historical V2-D boundary while current post-Pilot #20 Q1-Q6 are consolidated', () => {
+  it('preserves the historical V2-D boundary while current post-Pilot #20 Q1-Q7 are classified', () => {
     expect(v2d).toMatchObject({
       schemaVersion: 1,
       workItem: 'V2-D',
@@ -328,7 +328,7 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     for (const gateId of requiredGateIds) {
       expect(currentQualification.gateStatus[gateId]).toBe('pass')
     }
-    expect(currentQualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(currentQualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(v2d.limitations.join(' ')).toContain('educational correctness')
     expect(v2d.limitations.join(' ')).toContain('Q7')
   })
