@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #20 exposed a second consecutive generic Assessment Item engineering/recovery class after Pilot #19. The production boundary can present a first semantic validation exception as a complete diagnostic set and converts a rejected Assessment Item candidate into a course-level blocker instead of recovering automatically. Reliability Standard v2.0 stop-loss therefore pauses full-course confirmation eligibility. The next step is the governed candidate-recovery architecture reset, provider-free requalification of that production topology, a bounded live soak, and a separate Q8 transition before any further full-course confirmation run.",
+  "reason": "Post-Pilot #20 candidate-recovery architecture has completed provider-free Q1-Q6 requalification on approved main. Overall qualification remains paused. The next permitted reliability activity is the bounded Q7 live worker soak; full-course confirmation remains prohibited until Q7 is PASS and a separate Founder-approved Q8 transition restores qualified status.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -54,15 +54,15 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "required_after_pilot20_architecture_reset",
-    "Q2-historical-failure-replay-corpus": "required_after_pilot20_architecture_reset",
-    "Q3-adversarial-provider-free-subject-matrix": "required_after_pilot20_architecture_reset",
-    "Q4-deterministic-full-pipeline-simulation": "required_after_pilot20_architecture_reset",
-    "Q5-restart-reuse-dependency-invalidation": "required_after_pilot20_architecture_reset",
-    "Q6-repeated-provider-free-stability": "required_after_pilot20_architecture_reset",
-    "Q7-bounded-live-worker-soak": "required_after_pilot20_architecture_reset"
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
+    "Q7-bounded-live-worker-soak": "pending"
   },
-  "providerFreeQualificationEvidence": "content-factory/reliability-pilot20-stop-loss-architecture-review.json",
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
   "qualifiedEvidence": null,
   "livePilotEligible": false
