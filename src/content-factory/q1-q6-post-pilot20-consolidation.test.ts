@@ -139,9 +139,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
   })
 
   it('matches the existing Q7 workflow guard while preserving the full-course fail-closed state', () => {
-    for (const gate of q1ToQ6) {
-      expect(soakWorkflowText).toContain(`qualification.gateStatus?.[gate] !== 'pass'`)
-    }
+    expect(soakWorkflowText).toContain("qualification.gateStatus?.[gate] !== 'pass'")
     expect(soakWorkflowText).toContain("qualification.gateStatus?.['Q7-bounded-live-worker-soak'] !== 'pending'")
     expect(soakWorkflowText).toContain("qualification.status !== 'paused'")
     expect(soakWorkflowText).toContain('qualification.livePilotEligible !== false')
