@@ -43,7 +43,7 @@ const second = JSON.parse(secondEvidenceText) as Evidence
 const third = JSON.parse(thirdEvidenceText) as Evidence
 const fourth = JSON.parse(fourthEvidenceText) as Evidence
 const q8 = JSON.parse(q8Eligibility002Text) as Q8
-const request = JSON.parse(soakRequestText) as { requestId: string; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
+const request = JSON.parse(soakRequestText) as { requestId: string; status: string; requestedFromMainSha: string; sampleCount: number; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
 const pilot19 = JSON.parse(pilot19Text) as { nextQualificationStep: { q7Required: boolean; requiredLiveCoverage: string[] } }
 const qualification = JSON.parse(qualificationText) as Qualification
 
@@ -86,9 +86,9 @@ describe('Reliability v2-E Q7 live-worker soak governance after Pilot #19', () =
     expect(q8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
   })
 
-  it('preserves the governed request and workflow safety envelope', () => {
+  it('preserves the governed current request and workflow safety envelope', () => {
     expect(pilot19.nextQualificationStep.requiredLiveCoverage).toEqual(expect.arrayContaining(['knowledge MCQ','application MCQ','calculation demand guard','interpretation demand guard']))
-    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-004', maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
+    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-005', status: 'requested', requestedFromMainSha: '654189bbe7888ac8a7a975dc3696190ea1ec74b0', sampleCount: 20, maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
     expect(soakWorkflowText).not.toContain('continue-on-error: true')
     expect(soakHarnessText).toContain('requiresEngineeringVsEducationalClassification')
     const fullCoursePreflight = fullCourseWorkflowText.indexOf('Verify course-agnostic Content Factory reliability qualification')
