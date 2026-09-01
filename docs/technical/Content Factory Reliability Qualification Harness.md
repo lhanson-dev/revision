@@ -2,31 +2,32 @@
 
 ## Status
 
-The Content Factory is **paused after Confirmation Pilot #20** under the Reliability v2.0 stop-loss.
+The Content Factory has completed the post-Confirmation-Pilot #20 Reliability v2.0 requalification sequence.
 
-- Post-Pilot #19 Q1–Q6 provider-free qualification: historical **PASS**.
-- Post-Pilot #19 Q7 bounded live-worker soak attempt 4: historical **PASS**.
-- Post-Pilot #19 Q8 confirmation-pilot eligibility: historical **qualified**.
-- Confirmation Pilot #19: generic engineering failure.
-- Confirmation Pilot #20: second consecutive generic engineering/recovery failure.
-- Current machine state: **paused**.
-- `livePilotEligible`: **false**.
-- Candidate-recovery implementation checkpoint 1: **complete Assessment Item diagnostics implemented; not qualification evidence by itself**.
-- Candidate-recovery implementation checkpoint 2: **bounded Assessment Item candidate resampling implemented; not qualification evidence by itself**.
-- Candidate-recovery implementation checkpoint 3: **durable Assessment Item slot/candidate state implemented; not qualification evidence by itself**.
-- Candidate-recovery implementation checkpoint 4: **durable Marking Pack candidate recovery implemented; not qualification evidence by itself**.
-- Candidate-recovery implementation checkpoint 5: **required coverage reconciliation before course-pack acceptance implemented; not qualification evidence by itself**.
-- Next full-course confirmation: **not permitted** until the candidate-recovery production topology is requalified through Q1–Q7 and separately restored through Q8.
+- Post-Pilot #20 Q1–Q6 provider-free candidate-recovery qualification: **PASS**.
+- Post-Pilot #20 Q7 candidate-aware bounded live-worker soak attempt 6: **PASS**.
+- Q8 confirmation-pilot eligibility: **restored by this separate governed state transition once merged**.
+- Machine state after Q8: **`qualified`**.
+- `livePilotEligible` after Q8: **`true`**.
+- Next paid run class: **one bounded `confirmation_pilot`**.
+- Q8 itself performs **no provider call, full-course execution, course assembly or learner publication**.
+- Content Factory maturity remains **not achieved**.
 
 Active authority: `80-company-workflows/Content Factory Reliability Qualification Standard.md` v2.0.
 
+Cost authority: `60-business-operations/Content Factory Bootstrap Cost Strategy.md`.
+
 Current machine-readable state: `content-factory/reliability-qualification.json`.
 
-Current stop-loss evidence: `content-factory/reliability-pilot20-stop-loss-architecture-review.json`.
+Current Q8 evidence: `content-factory/reliability-v2-f-q8-eligibility-003.json`.
+
+Current Q7 PASS evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-006.json`.
+
+Current provider-free Q1–Q6 evidence: `content-factory/reliability-post-pilot20-q1-q6-consolidation.json`.
 
 Architecture decision: `decisions/ADR-0019-content-factory-candidate-recovery.md`.
 
-No educational assurance requirement is lowered by this reset. `80-company-workflows/Content Accuracy Assurance Gate.md` remains the authority for trusted learner content.
+No educational assurance requirement is lowered by this transition. `80-company-workflows/Content Accuracy Assurance Gate.md` remains the authority for trusted learner content.
 
 ## Reliability objective
 
@@ -120,13 +121,13 @@ Two production behaviours were coupled:
 
 This is generic architecture. It is not an AQA Business-specific educational defect.
 
-## Stop-loss
+## Stop-loss history
 
-Pilots #19 and #20 are two consecutive confirmation-course attempts exposing generic engineering classes.
+Pilots #19 and #20 were two consecutive confirmation-course attempts exposing generic engineering classes.
 
-Reliability Standard v2.0 therefore prohibits a third full-course confirmation merely to discover the next failure.
+Reliability Standard v2.0 therefore prohibited a third full-course confirmation merely to discover the next failure and required the affected production architecture to change and be requalified.
 
-The factory remains paused until the affected production architecture has materially changed and been requalified.
+That stop-loss is retained as historical truth. The post-Pilot #20 Q1–Q8 sequence described below is the governed evidence that now permits one further confirmation-pilot run class.
 
 Maturity remains:
 
@@ -265,11 +266,11 @@ Implemented in the production Assessment/Marking path:
 - direct non-orchestrated Marking Pack callers retain a bounded two-candidate fallback while production orchestration executes one exact candidate at a time;
 - provider-free regressions cover candidate replacement, two-candidate exhaustion, durable restart at candidate 2, preservation of accepted Assessment Items, deterministic slot markers and current dependency versioning.
 
-Checkpoint 4 is implementation evidence only. It does **not** restore Q1–Q7 status, authorize a live soak, authorize another full-course confirmation or restore Q8 eligibility.
+Checkpoint 4 is implementation evidence only. At that point it did **not** restore Q1–Q7 status or Q8 eligibility.
 
 ## Implementation checkpoint 5 — required coverage reconciliation before course-pack acceptance
 
-The fifth production slice closes the remaining manufacturing-boundary gap between successful candidate recovery and mandatory curriculum completeness.
+The fifth production slice closed the remaining manufacturing-boundary gap between successful candidate recovery and mandatory curriculum completeness.
 
 Implemented in the governed qualification and durable live-pilot orchestration paths:
 
@@ -286,192 +287,125 @@ Implemented in the governed qualification and durable live-pilot orchestration p
 - provider-free regressions prove that accepted sibling evidence cannot compensate for a missing required Exam Prep channel and that all missing channels are surfaced together;
 - the existing deterministic full-pipeline simulation continues through the guarded production topology and must still reach `expert_review_ready` when mandatory coverage is genuinely complete.
 
-Checkpoint 5 is implementation evidence only. It does **not** restore Q1–Q7 status, authorize a live soak, authorize another full-course confirmation or restore Q8 eligibility.
+Checkpoint 5 was implementation evidence only. The later Q1–Q8 evidence below is what restores execution eligibility.
 
-The machine remains paused after checkpoint 5.
+## Completed post-Pilot #20 requalification
 
-## Requalification requirements after Pilot #20
+The reset qualification requirements have now been exercised against the production candidate-recovery topology rather than reused from the earlier transactional-generation proof.
 
-All Q1–Q7 gates are reset because qualification must exercise the new production topology rather than reuse the old transactional-generation proof.
+### Q1–Q6 — provider-free PASS
 
-### Q1 — ownership inventory
+Canonical consolidation:
 
-Re-evaluate Assessment Item and Marking Pack fields under the candidate/slot model.
+`content-factory/reliability-post-pilot20-q1-q6-consolidation.json`
 
-Compiler ownership must be preferred for mechanically provable structure.
+The qualification includes current ownership, historical replay including Pilot #20, adversarial candidate-recovery coverage, deterministic full-pipeline recovery, restart/reuse/dependency invalidation and repeated stability evidence.
 
-### Q2 — historical replay
+The provider-free evidence does not call a live provider and does not rewrite historical failure evidence.
 
-The permanent corpus must include Pilot #20 as a generic recovery architecture regression.
+### Q7 — candidate-aware bounded live soak PASS
 
-Historical records remain unchanged.
+Attempt 005 accepted 20/20 governed outputs but its historical evidence instrument could not distinguish targeted repair from fresh candidate resampling. It remains preserved as instrumentation-limited evidence and did not itself promote Q7.
 
-### Q3 — adversarial provider-free matrix
+Attempt 006 is the decisive Q7 record:
 
-In addition to existing shape/mutation coverage, qualification must deliberately inject:
+- workflow `33554413877` / run #21;
+- approved `main` `e74e04613c8d9fa8d7eba617bb839ef368d26029`;
+- artifact ID `9818944889`;
+- digest `sha256:43be3553cf21db5892efbfab888c0211f7a02944408a631d228d06fd8955a30b`;
+- 20/20 accepted;
+- all five governed subject shapes;
+- Assessment Item 10/10 accepted;
+- Marking Pack 10/10 accepted;
+- 31 provider calls completely classified;
+- 10 targeted repairs;
+- 1 fresh candidate resample;
+- 0 controlled fail-closed samples;
+- 0 infrastructure incidents;
+- 0 engineering-boundary breaches;
+- known spend US$0.404658;
+- no full-course assembly;
+- no learner publication.
 
-- multiple independent defects in one parseable candidate;
-- candidate rejection followed by a valid fresh candidate;
-- repeated rejected candidates followed by recovery within bounds;
-- Assessment Item rejection without sibling invalidation;
-- Marking Pack rejection without Assessment Item invalidation;
-- recovery exhaustion that truthfully blocks;
-- mixed-demand multi-question assessment artifacts;
-- shared-context/case assessment shapes where applicable;
-- missing-required-slot attempts that prove rejected artifacts never count toward completeness.
+One science Assessment Item exercised:
 
-### Q4 — deterministic full-pipeline simulation
+`initial generation → targeted repair → fresh candidate resample → accepted`
 
-The provider-free full-course simulation must reach `expert_review_ready` **despite deliberate bad-candidate injection**.
+Classification:
 
-A simulation where every generated candidate is valid is insufficient evidence.
+`q7_pass_no_new_generic_engineering_contract_class`
 
-The simulation must also reconcile mandatory coverage/dependent-artifact obligations before `expert_review_ready`: every required slot must have accepted evidence, and deliberately exhausted required slots must fail closed rather than be omitted.
+Durable evidence:
 
-### Q5 — restart/reuse/dependency invalidation
+`content-factory/reliability-v2-e-q7-live-soak-evidence-006.json`
 
-Qualification must prove accepted sibling artifacts remain reusable after another candidate fails and that resuming the job does not regenerate unrelated accepted work.
+### Q8 — separate eligibility transition
 
-For the durable candidate topology specifically, Q5 must prove:
+Q8 is a repository-state transition only.
 
-- restart from a job checkpoint after Assessment candidate 1 rejection continues with candidate 2 and does not regenerate candidate 1;
-- restart from a job checkpoint after Marking Pack candidate 1 rejection continues with candidate 2 and does not regenerate the accepted Assessment Item;
-- an accepted Assessment Item slot survives restart and is not regenerated merely because its Marking Pack or another slot fails;
-- an accepted Marking Pack survives another sibling pack failure;
-- a terminal candidate worker cache entry can be reused after interruption without a second provider charge when its exact input/dependency fingerprint is unchanged;
-- pre-checkpoint durable Assessment/Marking executions are not inferred reusable across changed-head replay under new candidate semantics; and
-- genuine downstream Assessment/Marking/review dependencies invalidate when the relevant contract changes while unrelated Learn/Practice work remains reusable where its own inputs/contracts are unchanged.
+Current record:
 
-### Q6 — repeated recovery stability
+`content-factory/reliability-v2-f-q8-eligibility-003.json`
 
-The recovery topology must pass repeatedly with varied mutations/order and no code/worker-contract changes between repetitions.
+It binds the post-Pilot #20 provider-free and Q7 evidence to:
 
-### Q7 — bounded live soak
+- `status: qualified`;
+- `livePilotEligible: true`;
+- all Q1–Q7 gates PASS;
+- next paid run class `confirmation_pilot`.
 
-The next live worker soak must exercise the **same candidate rejection/resampling path as production**.
+The Q8 transition itself uses no provider call and triggers no full-course execution, course assembly or learner publication.
 
-It must not merely sample isolated first-pass worker acceptance.
+The later confirmation pilot remains an explicit paid run and is not dispatched by this state change.
 
-At least some live Assessment Item and Marking Pack samples must exercise controlled candidate rejection and automatic replacement before Q7 can support a repeatability claim.
-
-A new generic engineering class still fails Q7.
-
-### Q8
-
-Only after the reset Q1–Q7 gates pass may a separate governed Q8 transition restore `qualified` / `livePilotEligible: true`.
-
-No Q8 restoration occurs during candidate-recovery implementation work.
-
-## Historical Q7 execution history
+## Historical Q7/Q8 continuity
 
 Historical evidence remains historical truth and is not rewritten.
 
-### Attempt 1 — workflow `33265434110`
+Earlier Q7 attempts remain in their original records, including attempts 1–2 FAIL and attempts 3–4 historical PASS.
 
-- 20/20 executed
-- 13 accepted / 7 controlled fail-closed
-- 9 targeted repairs
-- known spend US$0.423906
-- generic class: `assessment_subquestion_required_structure_omission_before_targeted_repair`
-- result: **Q7 FAIL**
+`content-factory/reliability-v2-f-q8-eligibility.json` and `content-factory/reliability-v2-f-q8-eligibility-002.json` remain the earlier Q8 decisions for their then-current evidence lineages.
 
-### Attempt 2 — workflow `33282967568`
-
-- 20/20 executed
-- 17 accepted / 3 controlled fail-closed
-- 15 targeted repairs
-- known spend US$0.455962
-- generic class: `assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair`
-- result: **Q7 FAIL**
-
-### Attempt 3 — workflow `33364521121`
-
-- 20/20 executed
-- 16 accepted / 4 controlled fail-closed
-- 12 targeted repairs
-- known spend US$0.432952
-- result: historical **Q7 PASS**
-
-Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-003.json`.
-
-### Attempt 4 — workflow `33395187056`
-
-- 20/20 executed;
-- 20/20 accepted;
-- 10/10 Assessment Item accepted;
-- 10/10 Marking Pack accepted;
-- five subject shapes;
-- 8 targeted repairs;
-- 0 infrastructure incidents;
-- 0 engineering-boundary breaches;
-- known spend US$0.384316;
-- result: historical post-Pilot #19 **Q7 PASS**.
-
-Durable evidence: `content-factory/reliability-v2-e-q7-live-soak-evidence-004.json`.
-
-This PASS remains historically true. It does not satisfy the new candidate-recovery qualification because it did not prove the recovery topology later shown missing by Pilot #20.
-
-## Historical Q8
-
-`content-factory/reliability-v2-f-q8-eligibility-002.json` remains the historical record that correctly made Pilot #20 eligible under the then-current qualified evidence.
-
-It is not rewritten after the later failure.
-
-Current eligibility is controlled by `content-factory/reliability-qualification.json`, which is now paused.
+The current post-Pilot #20 Q8 decision is appended as `content-factory/reliability-v2-f-q8-eligibility-003.json`.
 
 ## Current machine state
 
-`content-factory/reliability-qualification.json` records:
+After the Q8 transition reaches approved `main`, `content-factory/reliability-qualification.json` records:
 
-- `status: paused`;
-- `livePilotEligible: false`;
-- `qualifiedEvidence: null`;
-- latest failure = Pilot #20;
-- Pilot #19 retained in failure history;
-- historical Q7 PASS attempt 4 retained;
-- Q1–Q7 = `required_after_pilot20_architecture_reset`.
+- `status: qualified`;
+- `livePilotEligible: true`;
+- Q1–Q7 `pass`;
+- current Q7 evidence `content-factory/reliability-v2-e-q7-live-soak-evidence-006.json`;
+- current Q8 eligibility record `content-factory/reliability-v2-f-q8-eligibility-003.json`;
+- `nextPaidRunClass: confirmation_pilot`.
 
-The live-pilot preflight must therefore fail before paid provider execution.
+The paid live-pilot preflight in `scripts/content-factory-live-pilot-qualification.mjs` must pass before provider execution, and the live-pilot workflow keeps that preflight ahead of the paid run with no bypass.
+
+Qualification is not publication approval and is not maturity.
 
 ## Cost position
 
-Historical Q7 soak spend remains:
+Known Q7 soak spend through attempt 006 is **US$2.496296** in total.
 
-- attempt 1: US$0.423906
-- attempt 2: US$0.455962
-- attempt 3: US$0.432952
-- attempt 4: US$0.384316
-- cumulative: **US$1.697136**
+Attempt 006 used **US$0.404658**, or 8.09316% of the governed US$5 per-soak ceiling.
 
-Pilot #19 separately stopped at approximately US$0.7151.
+The US$5 Q7 ceiling remains proportionate and is not increased by this transition.
 
-Pilot #20 stopped at **US$0.670708**.
-
-The US$20 confirmation-course ceiling remains unchanged. The candidate-recovery architecture must use bounded candidate-level retry/spend limits underneath that course ceiling.
+The US$20 confirmation-course ceiling remains unchanged. A later confirmation pilot remains subject to normal spend logging and stop-loss controls.
 
 ## Documentation impact
 
-No normative authority change is required for implementation checkpoints 1–5. Reliability Standard v2.0 already requires complete diagnostics and bounded durable recovery, the active Coverage/Accuracy authorities already prohibit silent omission, and ADR-0019 is the accepted architecture decision for candidate recovery.
+No normative authority or ADR change is required for Q8. Reliability Standard v2.0 already defines the separate Q8 state transition and ADR-0019 already governs candidate recovery.
 
-The current implementation now:
+This transition:
 
-- fixes the first-error/complete-diagnostics mismatch at the shared Assessment Item integrity boundary;
-- versions the Assessment Item provider contract to `8` for orchestration-owned durable candidate recovery;
-- permits two fresh Assessment Item candidates per governed slot, with one complete-diagnostic repair per candidate;
-- records each Assessment Item candidate as a separate canonical worker run with deterministic slot/candidate markers and checkpoints it immediately through the durable job store;
-- preserves accepted Assessment Item siblings across candidate recovery and fails closed instead of overwriting accepted work whose artifact cannot be recovered;
-- versions the Marking Pack provider contract to `5` and generic input contract to `3` for orchestration-owned durable candidate recovery;
-- permits two fresh Marking Pack candidates per accepted Assessment Item, with one complete-diagnostic repair per candidate;
-- records each Marking Pack candidate as a separate canonical `marking_pack` run with deterministic slot/candidate markers and checkpoints accepted coverage immediately;
-- preserves the frozen accepted Assessment Item and unrelated sibling packs while a Marking Pack candidate is rejected/replaced;
-- ensures rejected Marking Pack candidates do not enter `markingPackCoverage`, and bounded exhaustion blocks rather than allowing a missing required pack;
-- advances durable Marking Pack semantic integrity to `output-integrity-v3` so changed-head replay cannot reuse pre-recovery Marking Pack semantics;
-- reconciles all active Coverage Map requirements against accepted Learn, Practice and Exam Prep evidence before a course-pack manifest can be accepted by the governed qualification/live-pilot path;
-- refuses incomplete course-pack writes and blocks explicitly while preserving already accepted candidate/Marking Pack checkpoints;
-- preserves the later deterministic coverage-completeness assurance as an independent backstop;
-- preserves historical evidence files unchanged;
-- updates `docs/technical/Content Factory Required Coverage Reconciliation.md` and this qualification harness for checkpoint 5;
-- leaves `content-factory/reliability-qualification.json` paused and unchanged;
-- does not run a provider, full course, live soak or publication action.
+- appends the post-Pilot #20 Q8 evidence record;
+- updates the machine-readable qualification state from paused to qualified;
+- binds that state to current post-Pilot #20 provider-free and Q7 evidence;
+- updates executable assurance to expect current Q8 eligibility while preserving historical assertions;
+- updates this technical harness to the current Q1–Q8 state;
+- preserves historical evidence records unchanged;
+- does not change worker/compiler runtime logic;
+- does not call a provider, run a full course, assemble a course or publish learner content.
 
-The next governed step after this implementation checkpoint is provider-free requalification of the actual end-to-end candidate-recovery and mandatory-completeness topology. That requalification must prove deliberate bad Assessment/Marking candidates can recover without dropping required course material before any live/full-course eligibility can be restored.
+The next governed paid activity, if separately requested, is one confirmation pilot under the same qualification evidence and existing cost, rights, accuracy and expert-review controls.

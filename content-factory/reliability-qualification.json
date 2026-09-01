@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Post-Pilot #20 candidate-recovery architecture passed provider-free Q1-Q6 on approved main and the fresh candidate-aware Q7 bounded live-worker soak run 33554413877 then accepted all 20 governed samples across all five subject shapes. The schema-v3 trace accurately distinguished ten targeted repairs from one fresh candidate resample, with zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course confirmation remains prohibited until the separate Founder-approved Q8 transition restores qualified status and livePilotEligible.",
+  "status": "qualified",
+  "reason": "Post-Pilot #20 candidate-recovery architecture passed provider-free Q1-Q6 on approved main and the fresh candidate-aware Q7 bounded live-worker soak run 33554413877 accepted all 20 governed samples across all five subject shapes with complete recovery classification and no infrastructure incident or engineering-boundary breach. The separate provider-free Q8 transition now restores one confirmation-pilot eligibility on the same qualification evidence. The Q8 change itself does not call a provider, assemble a course or publish learner content.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -65,6 +65,26 @@
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
-  "qualifiedEvidence": null,
-  "livePilotEligible": false
+  "qualifiedEvidence": {
+    "qualificationEvidenceMainSha": "3b5cbb1ed5404f1d6692880e79b44847281e0b6f",
+    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility-003.json",
+    "providerFreeQualificationRecord": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
+    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
+    "q7PassingAttempt": 6,
+    "q7WorkflowRunId": 33554413877,
+    "q7ExecutedSamples": 20,
+    "q7AcceptedSamples": 20,
+    "q7ControlledFailClosedSamples": 0,
+    "passedGates": [
+      "Q1-compiler-worker-ownership-inventory",
+      "Q2-historical-failure-replay-corpus",
+      "Q3-adversarial-provider-free-subject-matrix",
+      "Q4-deterministic-full-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-provider-free-stability",
+      "Q7-bounded-live-worker-soak"
+    ],
+    "nextPaidRunClass": "confirmation_pilot"
+  },
+  "livePilotEligible": true
 }

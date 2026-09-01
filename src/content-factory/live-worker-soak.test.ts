@@ -7,7 +7,8 @@ import thirdEvidenceText from '../../content-factory/reliability-v2-e-q7-live-so
 import fourthEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-004.json?raw'
 import fifthReviewText from '../../content-factory/reliability-post-pilot20-q7-attempt-005-review.json?raw'
 import sixthEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-006.json?raw'
-import q8Eligibility002Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
+import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
+import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
 import pilot19Text from '../../content-factory/reliability-pilot19-assessment-architecture-review.json?raw'
 import soakWorkflowText from '../../.github/workflows/content-factory-live-worker-soak.yml?raw'
 import fullCourseWorkflowText from '../../.github/workflows/content-factory-live-pilot.yml?raw'
@@ -48,11 +49,20 @@ type Qualification = {
   q7FailureEvidenceHistory: string[]
   q7PassEvidence: string
   q7PassEvidenceHistory: string[]
-  qualifiedEvidence: { eligibilityRecord: string; q7PassRecord: string; q7PassingAttempt: number; q7WorkflowRunId: number; passedGates: string[] } | null
+  qualifiedEvidence: { eligibilityRecord: string; q7PassRecord: string; q7PassingAttempt: number; q7WorkflowRunId: number; passedGates: string[]; nextPaidRunClass?: string } | null
   livePilotEligible: boolean
 }
 
-type Q8 = { reviewedApprovedMainSha: string; providerCallsUsed: boolean; fullCourseExecutionTriggered: boolean; decision: { qualificationStatus: string; livePilotEligible: boolean; confirmationPilotTriggeredByThisChange: boolean } }
+type Q8 = {
+  reviewedApprovedMainSha: string
+  providerCallsUsed: boolean
+  fullCourseExecutionTriggered: boolean
+  courseAssemblyTriggered?: boolean
+  learnerPublicationTriggered?: boolean
+  historicalRecordsRewritten?: boolean
+  qualificationEvidence?: { q7Pass: string; q7PassingAttempt?: number; q7WorkflowRunId: number }
+  decision: { qualificationStatus: string; livePilotEligible: boolean; nextPaidRunClass?: string; confirmationPilotEligibleAfterMerge?: boolean; confirmationPilotTriggeredByThisChange: boolean }
+}
 type FifthReview = { providerOutcome: { acceptedSamples: number; knownUsageCostUsd: number }; qualificationDecision: { q7Passed: boolean; q7RemainsPending: boolean }; instrumentationFinding: { classification: string } }
 
 const plan = JSON.parse(soakPlanText) as Plan
@@ -62,12 +72,14 @@ const third = JSON.parse(thirdEvidenceText) as Evidence
 const fourth = JSON.parse(fourthEvidenceText) as Evidence
 const fifthReview = JSON.parse(fifthReviewText) as FifthReview
 const sixth = JSON.parse(sixthEvidenceText) as Evidence
-const q8 = JSON.parse(q8Eligibility002Text) as Q8
+const priorQ8 = JSON.parse(priorQ8Text) as Q8
+const currentQ8 = JSON.parse(currentQ8Text) as Q8
 const request = JSON.parse(soakRequestText) as { requestId: string; status: string; requestedFromMainSha: string; sampleCount: number; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
 const pilot19 = JSON.parse(pilot19Text) as { nextQualificationStep: { q7Required: boolean; requiredLiveCoverage: string[] } }
 const qualification = JSON.parse(qualificationText) as Qualification
 
 const providerFreeGates = ['Q1-compiler-worker-ownership-inventory','Q2-historical-failure-replay-corpus','Q3-adversarial-provider-free-subject-matrix','Q4-deterministic-full-pipeline-simulation','Q5-restart-reuse-dependency-invalidation','Q6-repeated-provider-free-stability']
+const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20 attempt 006', () => {
   it('preserves all historical attempts and records candidate-aware attempt 006 PASS', () => {
@@ -115,16 +127,32 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20
     expect(sixth.samples.reduce((sum, sample) => sum + (sample.freshCandidateResampleCount ?? 0), 0)).toBe(1)
   })
 
-  it('preserves historical Q8 evidence while current Q1-Q7 pass and Q8 remains fail closed', () => {
+  it('preserves historical Q8 evidence while current Q8 restores one confirmation-pilot eligibility', () => {
     expect(qualification.q7FailureEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence.json','content-factory/reliability-v2-e-q7-live-soak-evidence-002.json'])
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-006.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json'])
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.qualifiedEvidence).toBeNull()
-    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
-    expect(q8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.livePilotEligible).toBe(true)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-003.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
+      q7PassingAttempt: 6,
+      q7WorkflowRunId: 33554413877,
+      passedGates: allGates,
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(priorQ8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
+    expect(currentQ8).toMatchObject({
+      reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',
+      providerCallsUsed: false,
+      fullCourseExecutionTriggered: false,
+      courseAssemblyTriggered: false,
+      learnerPublicationTriggered: false,
+      historicalRecordsRewritten: false,
+      qualificationEvidence: { q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json', q7PassingAttempt: 6, q7WorkflowRunId: 33554413877 },
+      decision: { qualificationStatus: 'qualified', livePilotEligible: true, nextPaidRunClass: 'confirmation_pilot', confirmationPilotEligibleAfterMerge: true, confirmationPilotTriggeredByThisChange: false },
+    })
   })
 
   it('preserves the governed current request and workflow safety envelope', () => {
