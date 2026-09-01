@@ -64,15 +64,16 @@ const providerFreeGates = [
 const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Reliability v2 status after Pilot #20 stop-loss', () => {
-  it('pauses current eligibility while preserving post-Pilot #19 qualification evidence', () => {
+  it('keeps current confirmation paused while recording post-Pilot #20 Q1-Q6 provider-free PASS', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-pilot20-stop-loss-architecture-review.json')
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot20-q1-q6-consolidation.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json'])
     expect(qualification.requiredGates).toEqual(allGates)
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('required_after_pilot20_architecture_reset')
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.qualifiedEvidence).toBeNull()
   })
 

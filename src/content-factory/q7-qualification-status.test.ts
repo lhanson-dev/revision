@@ -65,23 +65,24 @@ const fourthQ7 = JSON.parse(fourthQ7EvidenceText) as Q7Evidence
 const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
 
-const gates = [
+const providerFreeGates = [
   'Q1-compiler-worker-ownership-inventory',
   'Q2-historical-failure-replay-corpus',
   'Q3-adversarial-provider-free-subject-matrix',
   'Q4-deterministic-full-pipeline-simulation',
   'Q5-restart-reuse-dependency-invalidation',
   'Q6-repeated-provider-free-stability',
-  'Q7-bounded-live-worker-soak',
 ]
+const gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Content Factory Reliability v2 status after Pilot #20 stop-loss', () => {
-  it('preserves the post-Pilot #19 Q1-Q8 evidence but pauses current confirmation eligibility', () => {
+  it('preserves post-Pilot #19 Q7/Q8 history while current Q1-Q6 are requalified and confirmation remains paused', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.requiredGates).toEqual(gates)
-    for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('required_after_pilot20_architecture_reset')
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-pilot20-stop-loss-architecture-review.json')
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot20-q1-q6-consolidation.json')
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-004.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json'])
