@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "requestId": "q7-live-worker-soak-005",
+  "requestId": "q7-live-worker-soak-006",
   "gate": "Q7",
   "runClass": "bounded_live_worker_soak",
   "status": "requested",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
-  "requestedFromMainSha": "654189bbe7888ac8a7a975dc3696190ea1ec74b0",
+  "requestedFromMainSha": "3126e49350a670aa276adfb45c44fc5c220ac467",
   "sampleCount": 20,
   "maxSpendUsd": 5,
   "fullCourseAssembly": false,
   "learnerPublication": false,
-  "purpose": "Trigger the first post-Pilot #20 Reliability v2 Q7 bounded live worker soak after ADR-0019 candidate recovery and provider-free Q1-Q6 requalification were consolidated on approved main. The soak samples the current production Assessment Item and Marking Pack compiler, validator, bounded-repair and candidate-recovery boundaries across all five governed subject shapes without assembling or publishing a learner course."
+  "purpose": "Trigger the fresh post-Pilot #20 Reliability v2 Q7 bounded live worker soak after candidate-aware evidence instrumentation was production-confirmed. The soak samples the current production Assessment Item and Marking Pack compiler, validator, bounded-repair and candidate-recovery boundaries across all five governed subject shapes, while the Q7 trace distinguishes initial generation, targeted repair and fresh candidate resampling. It does not assemble or publish a learner course."
 }
