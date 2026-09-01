@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_same_head_assurance",
+  "gate": "Q2-historical-failure-replay-corpus",
+  "scope": "post_pilot_20_candidate_recovery_historical_replay",
+  "baseMainSha": "e906b4c244b1fabaf18e6a4e75c726e7398c1136",
+  "providerCallsUsed": false,
+  "historicalRecordsRewritten": false,
+  "purpose": "Extend current Q2 evidence through Confirmation Pilot #20 without modifying the immutable Pilots #1-#18 corpus, the Pilot #19 requalification record, or the Pilot #20 stop-loss record. The replay binds the Pilot #20 generic complete-diagnostic and candidate-recovery failure class to current provider-free production boundaries.",
+  "carriedForwardEvidence": {
+    "pilots1To18Corpus": "content-factory/reliability-v2-b-historical-failure-corpus.json",
+    "pilots1To18Regression": "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+    "pilot19Requalification": "content-factory/reliability-post-pilot19-requalification.json",
+    "pilot19Q2Status": "pass"
+  },
+  "pilot20HistoricalEvidence": {
+    "record": "content-factory/reliability-pilot20-stop-loss-architecture-review.json",
+    "pilot": 20,
+    "workflowRunId": 33420994194,
+    "jobIssueNumber": 260,
+    "approvedMainSha": "b240ea9b6e2d56a644048c6085162c58429aef33",
+    "artifactId": 9769262820,
+    "artifactDigest": "sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d",
+    "defectClass": "assessment_candidate_recovery_and_complete_diagnostic_architecture_failure",
+    "historicalOutcome": "blocked"
+  },
+  "syntheticReplay": {
+    "evidenceKind": "synthetic_reproduction",
+    "reason": "The durable historical record proves the exact failure sequence, provenance and generic classification but the raw failed provider candidate is not promoted into a new exact-output fixture. The replay therefore reconstructs the smallest generic failure shape and binds it to current production recovery behavior.",
+    "completeDiagnosticBoundary": {
+      "implementation": "src/content-factory/assessment-integrity.ts",
+      "regression": "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts",
+      "requiredFindingClasses": [
+        "calculation demand unsupported",
+        "interpretation demand unsupported"
+      ],
+      "expectedDisposition": "both independent defects returned in one complete diagnostic set"
+    },
+    "candidateRecoveryBoundary": {
+      "implementation": "src/content-factory/assessment-and-marking.ts",
+      "harness": "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+      "regression": "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts",
+      "expectedDisposition": "rejected candidate 1 carries no accepted output; candidate 2 may fill the same required slot and the production route continues to expert_review_ready"
+    },
+    "exhaustionBoundary": {
+      "implementation": "src/content-factory/assessment-and-marking.ts",
+      "harness": "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+      "regression": "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts",
+      "expectedDisposition": "two rejected candidates exhaust the bounded slot, no candidate 3 exists, and the course blocks rather than silently omitting the required Assessment slot"
+    }
+  },
+  "acceptance": {
+    "legacyCorpusUnchanged": true,
+    "pilot19EvidenceUnchanged": true,
+    "pilot20HistoricalRecordUnchanged": true,
+    "completeDiagnosticsReplayed": true,
+    "candidateReplacementReplayed": true,
+    "boundedExhaustionReplayed": true,
+    "rejectedCandidatesNeverCountAsCoverage": true,
+    "providerFree": true,
+    "q2EvidenceReady": true,
+    "globalQualificationStateChanged": false,
+    "q7Eligible": false,
+    "q8Eligible": false
+  },
+  "limitations": [
+    "This is a synthetic generic replay of the Pilot #20 failure class, not a claim that the raw historical failed model output is being replayed byte-for-byte.",
+    "Q2 evidence does not by itself prove Q3 or Q6 recovery breadth/stability and does not authorize Q7 live-provider work.",
+    "Educational correctness and qualified human benchmark review remain separate assurance requirements.",
+    "content-factory/reliability-qualification.json remains paused and is deliberately not transitioned by this evidence slice."
+  ]
+}
