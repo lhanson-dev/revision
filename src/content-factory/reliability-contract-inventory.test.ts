@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import inventoryText from '../../content-factory/reliability-pilot19-contract-inventory.json?raw'
+import inventoryText from '../../content-factory/reliability-contract-inventory.json?raw'
+import {
+  assessmentCandidateRef,
+  assessmentSlotRef,
+  MAX_ASSESSMENT_ITEM_CANDIDATES,
+} from './assessment-candidate-recovery'
+import { contentFactoryAssessmentWorkerContracts } from './assessment-and-marking'
+import {
+  markingPackCandidateRef,
+  markingPackSlotRef,
+  MAX_MARKING_PACK_CANDIDATES,
+} from './marking-pack-candidate-recovery'
 
 type Ownership =
   | 'generative_judgement'
@@ -14,6 +25,7 @@ type MechanicalField = {
   ownership: Ownership
   mechanicalCheck: string
   currentCompliance: 'compliant' | 'blocker'
+  compilerOwnershipChallenge?: string
   blockerId?: string
   blocker?: string
 }
@@ -26,21 +38,6 @@ type WorkerBoundary = {
   mechanicalFields: MechanicalField[]
 }
 
-type Blocker = {
-  id: string
-  worker: string
-  nextGate?: string
-  requiredResolution?: string
-}
-
-type ResolvedBlocker = {
-  id: string
-  worker: string
-  resolutionGate: string
-  resolution: string
-  evidence: string[]
-}
-
 type Inventory = {
   schemaVersion: number
   status: string
@@ -49,14 +46,30 @@ type Inventory = {
   allowedOwnership: Ownership[]
   requiredWorkerBoundaries: string[]
   workers: WorkerBoundary[]
-  blockers: Blocker[]
-  resolvedBlockers: ResolvedBlocker[]
-  pilot19ArchitectureDecision: {
-    defectClass: string
-    classification: string
-    decision: string
-    assessmentItemSemanticVersion: string
-    markingPackOwnershipChanged: boolean
+  blockers: Array<{ id: string; worker: string }>
+  resolvedBlockers: Array<{ id: string; worker: string; resolutionGate: string; resolution: string; evidence: string[] }>
+  preservedArchitectureDecisions: {
+    pilot19: {
+      defectClass: string
+      decision: string
+      historicalInventory: string
+    }
+    pilot20: {
+      defectClass: string
+      decision: string
+      architectureRef: string
+      assessmentItemContractVersion: string
+      markingPackContractVersion: string
+      assessmentMaxCandidates: number
+      markingPackMaxCandidates: number
+    }
+  }
+  qualificationEffect: {
+    q1Evidence: string
+    overallQualificationDecision: string
+    machineQualificationStateChanged: boolean
+    providerCallsUsed: boolean
+    learnerPublication: boolean
   }
 }
 
@@ -75,39 +88,57 @@ function worker(workerId: string) {
   return boundary!
 }
 
-describe('Content Factory Q1 reliability contract inventory after Pilot #19', () => {
-  it('covers every governed material worker boundary exactly once', () => {
+function field(workerId: string, fieldClass: string) {
+  const result = worker(workerId).mechanicalFields.find((candidate) => candidate.fieldClass === fieldClass)
+  expect(result, `missing ${workerId} field ${fieldClass}`).toBeDefined()
+  return result!
+}
+
+describe('Content Factory Q1 compiler/worker ownership inventory after Pilot #20', () => {
+  it('validates the canonical current inventory and covers every declared material boundary exactly once', () => {
     const workerIds = inventory.workers.map((boundary) => boundary.worker)
     expect(new Set(workerIds).size).toBe(workerIds.length)
     expect(new Set(workerIds)).toEqual(new Set(inventory.requiredWorkerBoundaries))
+    expect(inventory.requiredWorkerBoundaries).toEqual(expect.arrayContaining([
+      'assessment_item_generation',
+      'marking_pack_generation',
+      'candidate_recovery_orchestration',
+      'required_coverage_reconciliation',
+    ]))
   })
 
-  it('classifies every mechanical representation with an approved ownership type and implementation evidence', () => {
+  it('classifies every field with governed ownership and explicitly challenges every field left generative', () => {
     expect(new Set(inventory.allowedOwnership)).toEqual(new Set(requiredOwnership))
+
     for (const boundary of inventory.workers) {
       expect(boundary.scope).toBe('generic')
       expect(boundary.reviewStatus.startsWith('complete')).toBe(true)
       expect(boundary.implementationRefs.length).toBeGreaterThan(0)
       expect(boundary.mechanicalFields.length).toBeGreaterThan(0)
-      for (const field of boundary.mechanicalFields) {
-        expect(requiredOwnership).toContain(field.ownership)
-        expect(field.fieldClass.trim().length).toBeGreaterThan(0)
-        expect(field.fieldPatterns.length).toBeGreaterThan(0)
-        expect(field.mechanicalCheck.trim().length).toBeGreaterThan(0)
-        expect(['compliant', 'blocker']).toContain(field.currentCompliance)
-        if (field.currentCompliance === 'blocker') {
-          expect(field.blockerId?.trim().length).toBeGreaterThan(0)
-          expect(field.blocker?.trim().length).toBeGreaterThan(0)
+
+      for (const candidate of boundary.mechanicalFields) {
+        expect(requiredOwnership).toContain(candidate.ownership)
+        expect(candidate.fieldClass.trim().length).toBeGreaterThan(0)
+        expect(candidate.fieldPatterns.length).toBeGreaterThan(0)
+        expect(candidate.mechanicalCheck.trim().length).toBeGreaterThan(0)
+        expect(['compliant', 'blocker']).toContain(candidate.currentCompliance)
+
+        if (candidate.ownership === 'generative_judgement') {
+          expect(candidate.compilerOwnershipChallenge?.trim().length ?? 0).toBeGreaterThan(40)
+        }
+        if (candidate.currentCompliance === 'blocker') {
+          expect(candidate.blockerId?.trim().length).toBeGreaterThan(0)
+          expect(candidate.blocker?.trim().length).toBeGreaterThan(0)
         }
       }
     }
   })
 
-  it('allows Q1 PASS only when no current blocker remains', () => {
+  it('allows Q1 PASS only when no current ownership blocker remains', () => {
     const fieldBlockers = inventory.workers.flatMap((boundary) =>
       boundary.mechanicalFields
-        .filter((field) => field.currentCompliance === 'blocker')
-        .map((field) => ({ id: field.blockerId!, worker: boundary.worker })),
+        .filter((candidate) => candidate.currentCompliance === 'blocker')
+        .map((candidate) => ({ id: candidate.blockerId!, worker: boundary.worker })),
     )
 
     expect(new Set(inventory.blockers.map((blocker) => blocker.id))).toEqual(new Set(fieldBlockers.map((blocker) => blocker.id)))
@@ -117,53 +148,60 @@ describe('Content Factory Q1 reliability contract inventory after Pilot #19', ()
     expect(inventory.status).toBe('complete')
   })
 
-  it('preserves provider-free evidence for the previously resolved generic blocker classes', () => {
-    const resolvedIds = new Set(inventory.resolvedBlockers.map((blocker) => blocker.id))
-    expect(resolvedIds).toEqual(new Set([
-      'Q1-PRACTICE-EVIDENCE-PATH',
-      'Q1-MARKING-PACK-DUPLICATE-AO-ARITHMETIC',
-    ]))
+  it('keeps candidate slot identity, candidate number and retry ceilings in Revision ownership', () => {
+    expect(field('assessment_item_generation', 'candidate attempt coordinates').ownership).toBe('deterministically_derived')
+    expect(field('marking_pack_generation', 'candidate attempt coordinates').ownership).toBe('deterministically_derived')
 
-    for (const resolved of inventory.resolvedBlockers) {
-      expect(resolved.resolutionGate).toBe('Q2-provider-free-contract-matrix')
-      expect(resolved.resolution.trim().length).toBeGreaterThan(0)
-      expect(resolved.evidence.length).toBeGreaterThan(0)
-    }
+    expect(assessmentSlotRef({ familyId: 'family-a', componentId: 'paper-1' })).toBe('assessment-slot:family-a:paper-1')
+    expect(assessmentCandidateRef({ familyId: 'family-a', componentId: 'paper-1' }, 2)).toBe('assessment-slot:family-a:paper-1:candidate:2')
+    expect(markingPackSlotRef({ assessmentItemId: 'question-1' })).toBe('marking-pack-slot:question-1')
+    expect(markingPackCandidateRef({ assessmentItemId: 'question-1' }, 2)).toBe('marking-pack-slot:question-1:candidate:2')
+
+    expect(MAX_ASSESSMENT_ITEM_CANDIDATES).toBe(2)
+    expect(MAX_MARKING_PACK_CANDIDATES).toBe(2)
+    expect(inventory.preservedArchitectureDecisions.pilot20.assessmentMaxCandidates).toBe(MAX_ASSESSMENT_ITEM_CANDIDATES)
+    expect(inventory.preservedArchitectureDecisions.pilot20.markingPackMaxCandidates).toBe(MAX_MARKING_PACK_CANDIDATES)
+
+    expect(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion).toBe('3')
+    expect(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion).toBe('3')
+    expect(contentFactoryAssessmentWorkerContracts.assessmentItem.sourceInput).toContain('durable-candidate-number')
+    expect(contentFactoryAssessmentWorkerContracts.markingPack.sourceInput).toContain('durable-candidate-number')
   })
 
-  it('separates MCQ interaction mechanics from cognitive educational judgement', () => {
-    const assessment = worker('assessment_item_generation')
-    const selection = assessment.mechanicalFields.find((field) => field.fieldClass === 'selection interaction contract')
-    const mcqCognitive = assessment.mechanicalFields.find((field) => field.fieldClass === 'MCQ knowledge and application cognitive demand')
-    const explicitDemand = assessment.mechanicalFields.find((field) => field.fieldClass === 'explicit operational cognitive demand command evidence')
+  it('keeps recovery lifecycle and required-course completeness out of model control', () => {
+    const recovery = worker('candidate_recovery_orchestration')
+    expect(recovery.mechanicalFields.every((candidate) => candidate.ownership !== 'generative_judgement')).toBe(true)
+    expect(field('candidate_recovery_orchestration', 'candidate sequence and bounded ceilings').ownership).toBe('deterministically_derived')
+    expect(field('candidate_recovery_orchestration', 'candidate acceptance and rejection state').ownership).toBe('fail_closed')
+    expect(field('candidate_recovery_orchestration', 'recovery exhaustion and course blocking').ownership).toBe('fail_closed')
 
-    expect(selection?.ownership).toBe('targeted_repair_eligible')
-    expect(mcqCognitive?.ownership).toBe('generative_judgement')
-    expect(mcqCognitive?.mechanicalCheck).toContain('rather than a second mechanically provable command verb')
-    expect(explicitDemand?.ownership).toBe('targeted_repair_eligible')
-    expect(explicitDemand?.mechanicalCheck).toContain('Calculation, interpretation, analysis and evaluation')
+    const coverage = worker('required_coverage_reconciliation')
+    expect(coverage.mechanicalFields.every((candidate) => candidate.ownership !== 'generative_judgement')).toBe(true)
+    expect(field('required_coverage_reconciliation', 'mandatory requirement and channel contract').ownership).toBe('deterministically_derived')
+    expect(field('required_coverage_reconciliation', 'missing required coverage disposition').ownership).toBe('fail_closed')
+  })
 
-    expect(inventory.pilot19ArchitectureDecision).toMatchObject({
-      defectClass: 'assessment_mcq_cognitive_demand_lexical_overconstraint',
-      classification: 'generic_engineering_contract_class',
-      assessmentItemSemanticVersion: '2+output-integrity-v5',
-      markingPackOwnershipChanged: false,
+  it('preserves the Pilot #19 boundary between interaction mechanics and educational cognitive judgement', () => {
+    expect(field('assessment_item_generation', 'selection interaction contract').ownership).toBe('targeted_repair_eligible')
+    expect(field('assessment_item_generation', 'MCQ knowledge and application cognitive demand').ownership).toBe('generative_judgement')
+    expect(field('assessment_item_generation', 'explicit operational cognitive demand command evidence').ownership).toBe('targeted_repair_eligible')
+    expect(inventory.preservedArchitectureDecisions.pilot19.defectClass).toBe('assessment_mcq_cognitive_demand_lexical_overconstraint')
+    expect(inventory.preservedArchitectureDecisions.pilot19.historicalInventory).toBe('content-factory/reliability-pilot19-contract-inventory.json')
+  })
+
+  it('keeps prior compiler-ownership corrections and post-Pilot #20 qualification limits explicit', () => {
+    expect(field('practice_generation', 'teaching-point coverage evidence').ownership).toBe('bounded_locator_reference')
+    expect(field('marking_pack_generation', 'aggregate assessment-objective totals').ownership).toBe('deterministically_derived')
+
+    expect(inventory.schemaVersion).toBe(5)
+    expect(inventory.reviewedAgainstMainSha).toBe('721063a9e31e3cf695a99bfa63af74af7d36c7bc')
+    expect(inventory.qualificationEffect).toEqual({
+      q1Evidence: 'current_candidate_topology_provider_free_pass',
+      overallQualificationDecision: 'paused',
+      machineQualificationStateChanged: false,
+      providerCallsUsed: false,
+      learnerPublication: false,
     })
-  })
-
-  it('keeps prior compiler ownership corrections intact', () => {
-    const practice = worker('practice_generation')
-    const practiceEvidence = practice.mechanicalFields.find((field) => field.fieldClass === 'teaching-point coverage evidence')
-    expect(practiceEvidence?.ownership).toBe('bounded_locator_reference')
-
-    const markingPack = worker('marking_pack_generation')
-    const aggregateAo = markingPack.mechanicalFields.find((field) => field.fieldClass === 'aggregate assessment-objective totals')
-    expect(aggregateAo?.ownership).toBe('deterministically_derived')
-  })
-
-  it('is tied to the exact approved main commit reviewed by the architecture change', () => {
-    expect(inventory.schemaVersion).toBe(4)
-    expect(inventory.reviewedAgainstMainSha).toBe('23b0849354e99d6be865361009388af5922d2f3f')
     expect(inventoryText.toLowerCase()).not.toContain('business-specific')
   })
 })
