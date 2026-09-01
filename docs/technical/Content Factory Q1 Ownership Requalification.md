@@ -20,12 +20,20 @@ This evidence does **not** change the overall machine-readable reliability decis
 
 Q1 requires a machine-readable or test-enforced inventory of every material provider contract and mechanically validated field, with each field assigned to a governed ownership class. Any field left under generative ownership must be explicitly challenged to determine whether compiler ownership could replace model authorship without losing useful educational judgement.
 
-After Confirmation Pilot #20, the existing ownership evidence had two material assurance gaps:
+Confirmation Pilot #20 changed the production architecture materially. The repository already contained earlier Q1 ownership records, but those records are historical inputs to the prior Reliability v2 qualification chain:
 
-1. the canonical `content-factory/reliability-contract-inventory.json` predated the current candidate-recovery architecture and did not describe deterministic production slots, candidate numbering/ceilings, recovery lifecycle state or required-course coverage reconciliation;
-2. `src/content-factory/reliability-contract-inventory.test.ts` imported the historical `content-factory/reliability-pilot19-contract-inventory.json` snapshot rather than the canonical current inventory, so current ownership drift could occur without this Q1 test detecting it.
+- `content-factory/reliability-contract-inventory.json` is retained as the pre-v2 inventory consumed by the v2-D qualification evidence;
+- `content-factory/reliability-pilot19-contract-inventory.json` records the Pilot #19 Assessment Item architecture decision.
 
-Historical Pilot #19 evidence was valid evidence for that implementation head and is deliberately preserved unchanged. It is not the current Q1 source of truth.
+Neither historical record should be rewritten to describe the new candidate-recovery topology.
+
+The post-Pilot #20 gap was therefore the absence of a **new current Q1 record** that explicitly classified deterministic production slots, candidate numbering/ceilings, recovery lifecycle state and required-course coverage reconciliation against ADR-0019.
+
+This slice adds that record at:
+
+`content-factory/reliability-pilot20-candidate-ownership-inventory.json`
+
+and makes `src/content-factory/reliability-contract-inventory.test.ts` enforce that current record while the older v2-D and Q2 tests continue to consume their unchanged historical sources.
 
 ## Current ownership decision
 
@@ -61,7 +69,7 @@ Some model output participates in tightly bounded mechanical contracts rather th
 
 ### Generative educational judgement retained
 
-Generative ownership remains only where compiler ownership would remove useful educational meaning or judgement. The current inventory explicitly records the compiler-ownership challenge for each such field class.
+Generative ownership remains only where compiler ownership would remove useful educational meaning or judgement. The post-Pilot #20 inventory explicitly records the compiler-ownership challenge for each such field class.
 
 Examples include:
 
@@ -119,8 +127,8 @@ The governing invariant remains:
 
 Current Q1 evidence is enforced by:
 
-- `content-factory/reliability-contract-inventory.json` — canonical current ownership inventory;
-- `src/content-factory/reliability-contract-inventory.test.ts` — validates the canonical inventory rather than the historical Pilot #19 snapshot;
+- `content-factory/reliability-pilot20-candidate-ownership-inventory.json` — post-Pilot #20 current ownership inventory;
+- `src/content-factory/reliability-contract-inventory.test.ts` — validates that post-Pilot #20 record against current production constants/contracts;
 - `src/content-factory/assessment-candidate-recovery.ts` — Assessment slot/candidate identity and bounded candidate sequence;
 - `src/content-factory/marking-pack-candidate-recovery.ts` — Marking Pack slot/candidate identity and bounded candidate sequence;
 - `src/content-factory/assessment-and-marking.ts` — current Assessment/Marking worker contracts including durable candidate coordinates;
@@ -129,7 +137,7 @@ Current Q1 evidence is enforced by:
 
 The Q1 regression verifies, among other things, that:
 
-- every declared material boundary appears exactly once;
+- every current declared material boundary appears exactly once in the new Pilot #20 inventory;
 - every field uses an approved ownership classification;
 - every field left as `generative_judgement` includes an explicit compiler-ownership challenge;
 - Q1 cannot be marked PASS while an ownership blocker exists;
@@ -140,6 +148,8 @@ The Q1 regression verifies, among other things, that:
 - required-coverage reconciliation contains no generative-ownership field;
 - Pilot #19's MCQ interaction/cognitive-demand separation remains preserved;
 - prior Practice evidence and Marking Pack AO compiler-ownership corrections remain intact.
+
+The historical pre-v2 and Pilot #19 ownership records remain byte-for-byte outside this change and continue to support their original qualification tests.
 
 ## Qualification effect and limits
 
@@ -162,4 +172,4 @@ At this point:
 
 No normative authority change is required. The Reliability Qualification Standard already requires explicit compiler/worker ownership and ADR-0019 already assigns deterministic slot/recovery mechanics to Revision while retaining generative educational judgement only where it adds educational value.
 
-Historical evidence, including `content-factory/reliability-pilot19-contract-inventory.json` and prior pilot records, is not rewritten.
+Historical evidence is not rewritten. In particular, `content-factory/reliability-contract-inventory.json`, `content-factory/reliability-pilot19-contract-inventory.json` and prior pilot/qualification records remain historical evidence for the implementation states they describe.
