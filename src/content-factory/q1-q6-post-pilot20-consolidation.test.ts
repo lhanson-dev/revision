@@ -71,7 +71,7 @@ const q1ToQ6 = [
 ] as const
 
 describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
-  it('consolidates the approved-main provider-free evidence into the exact Q7 machine precondition', () => {
+  it('preserves the approved-main provider-free consolidation while accepting the later Q7 PASS', () => {
     expect(consolidation).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -101,7 +101,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
       expect(consolidation.gates[gate]?.evidence.length).toBeGreaterThan(0)
     }
 
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(consolidation.q7).toMatchObject({
       status: 'pending',
       machineEligibleAfterMerge: true,
@@ -138,7 +138,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     expect(q6.boundProviderFreeSuites.Q5).toContain('src/content-factory/q5-candidate-recovery-requalification.test.ts')
   })
 
-  it('matches the existing Q7 workflow guard while preserving the full-course fail-closed state', () => {
+  it('preserves the historical Q7 trigger guard while the current full-course state remains fail closed', () => {
     expect(soakWorkflowText).toContain("qualification.gateStatus?.[gate] !== 'pass'")
     expect(soakWorkflowText).toContain("qualification.gateStatus?.['Q7-bounded-live-worker-soak'] !== 'pending'")
     expect(soakWorkflowText).toContain("qualification.status !== 'paused'")
@@ -161,7 +161,8 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     })
     expect(consolidation.limitations.join(' ')).toMatch(/does not modify the Q7 request file/i)
     expect(consolidation.limitations.join(' ')).toMatch(/separate Founder-approved Q8 transition/i)
-    expect(qualification.reason).toMatch(/bounded Q7 live worker soak/i)
+    expect(qualification.reason).toMatch(/candidate-aware Q7 bounded live-worker soak/i)
+    expect(qualification.reason).toMatch(/Q7 therefore passes/i)
     expect(qualification.reason).toMatch(/full-course confirmation remains prohibited/i)
   })
 })
