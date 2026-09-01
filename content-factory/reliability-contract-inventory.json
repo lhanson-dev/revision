@@ -3,8 +3,23 @@
   "status": "complete",
   "q1Pass": true,
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
-  "reviewedAgainstMainSha": "0e9e7bb7c85ddbc72965a056a84c5d2c864e0659",
-  "purpose": "Course-agnostic inventory of material Content Factory worker boundaries and mechanically validated representations. Q1 PASS means the inventory is complete and its previously identified ownership blockers have provider-free remediation evidence; it does not make the overall reliability qualification PASS.",
+  "reviewedAgainstMainSha": "721063a9e31e3cf695a99bfa63af74af7d36c7bc",
+  "purpose": "Course-agnostic inventory of material Content Factory worker boundaries and mechanically validated representations. Q1 PASS means the inventory is complete against the post-Pilot #20 candidate-recovery architecture and its ownership boundaries are executable; it does not make the overall reliability qualification PASS.",
+  "architectureResetReview": {
+    "trigger": "Confirmation Pilot #20 candidate-recovery architecture reset under ADR-0019",
+    "decision": "Mechanical slot identity, candidate ordinal/limits, lifecycle recording, acceptance/rejection, dependency freezing, exhaustion and required-coverage reconciliation are Revision-owned. Providers own semantic educational candidate content only inside those deterministic envelopes.",
+    "productionEvidence": [
+      "src/content-factory/assessment-and-marking.ts",
+      "src/content-factory/assessment-candidate-recovery.ts",
+      "src/content-factory/marking-pack-candidate-recovery.ts",
+      "src/content-factory/assessment-and-marking-with-coverage-reconciliation.ts",
+      "src/content-factory/required-coverage-reconciliation.ts"
+    ],
+    "qualificationEvidence": [
+      "tests/content-factory-q1-ownership-refresh.test.mjs",
+      "docs/technical/Content Factory Q1 Contract Ownership Qualification.md"
+    ]
+  },
   "allowedOwnership": [
     "generative_judgement",
     "deterministically_derived",
@@ -25,6 +40,91 @@
     "independent_review",
     "remediation",
     "expert_review_package_assembly"
+  ],
+  "recoveryControlOwnership": [
+    {
+      "id": "assessment_slot_identity",
+      "scope": "assessment_item_generation",
+      "ownership": "deterministically_derived",
+      "fieldPatterns": ["assessment-slot:<familyId>:<componentId>"],
+      "mechanicalCheck": "Revision derives the slot reference from the governed question-family/component target; the provider cannot choose or replace the required slot.",
+      "implementationRefs": ["src/content-factory/assessment-candidate-recovery.ts", "src/content-factory/assessment-and-marking.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "assessment_candidate_ordinal_and_limit",
+      "scope": "assessment_item_generation",
+      "ownership": "deterministically_derived",
+      "fieldPatterns": ["candidateNumber", "maxCandidates", "assessment-slot:<familyId>:<componentId>:candidate:<n>"],
+      "maxCandidates": 2,
+      "mechanicalCheck": "Revision calculates the next durable candidate ordinal from recorded worker runs and supplies the bounded maximum; the provider receives but does not author either value.",
+      "implementationRefs": ["src/content-factory/assessment-candidate-recovery.ts", "src/content-factory/assessment-and-marking.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "assessment_candidate_disposition",
+      "scope": "assessment_item_generation",
+      "ownership": "fail_closed",
+      "fieldPatterns": ["workerRuns[].status", "workerRuns[].outputRefs", "assessment_candidate_validation_rejected"],
+      "mechanicalCheck": "Only a candidate that passes the complete Assessment Item contract is persisted as an accepted output. Rejected candidates are durably recorded with no output reference.",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-candidate-recovery.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "marking_pack_slot_identity",
+      "scope": "marking_pack_generation",
+      "ownership": "deterministically_derived",
+      "fieldPatterns": ["marking-pack-slot:<assessmentItemId>"],
+      "mechanicalCheck": "Revision derives the Marking Pack slot from the already accepted Assessment Item; the provider cannot retarget the dependency.",
+      "implementationRefs": ["src/content-factory/marking-pack-candidate-recovery.ts", "src/content-factory/assessment-and-marking.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "marking_pack_candidate_ordinal_and_limit",
+      "scope": "marking_pack_generation",
+      "ownership": "deterministically_derived",
+      "fieldPatterns": ["candidateNumber", "maxCandidates", "marking-pack-slot:<assessmentItemId>:candidate:<n>"],
+      "maxCandidates": 2,
+      "mechanicalCheck": "Revision calculates the next durable Marking Pack candidate ordinal from recorded worker runs and supplies the bounded maximum; the provider receives but does not author either value.",
+      "implementationRefs": ["src/content-factory/marking-pack-candidate-recovery.ts", "src/content-factory/assessment-and-marking.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "marking_pack_candidate_disposition",
+      "scope": "marking_pack_generation",
+      "ownership": "fail_closed",
+      "fieldPatterns": ["workerRuns[].status", "workerRuns[].outputRefs", "marking_pack_candidate_validation_rejected", "markingPackCoverage[]"],
+      "mechanicalCheck": "Only a Marking Pack that passes the complete contract receives an output reference and coverage entry. Rejected candidates remain scrap and cannot satisfy coverage.",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/marking-pack-candidate-recovery.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "accepted_dependency_freeze",
+      "scope": "assessment_and_marking_recovery",
+      "ownership": "fail_closed",
+      "fieldPatterns": ["persistedAssessmentItems", "persistedMarkingPack", "accepted Assessment Item slot", "accepted Marking Pack slot"],
+      "mechanicalCheck": "Accepted artifacts are reused from durable state. Missing persisted accepted output/coverage is an integrity error rather than permission to regenerate or overwrite accepted work.",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "bounded_recovery_exhaustion",
+      "scope": "assessment_and_marking_recovery",
+      "ownership": "fail_closed",
+      "fieldPatterns": ["assessment-candidate-exhausted-*", "marking-pack-candidate-exhausted-*"],
+      "mechanicalCheck": "Revision stops after the governed candidate ceiling and blocks the course explicitly; there is no third candidate and no silent omission of the required slot.",
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-candidate-recovery.ts", "src/content-factory/marking-pack-candidate-recovery.ts"],
+      "currentCompliance": "compliant"
+    },
+    {
+      "id": "required_coverage_reconciliation",
+      "scope": "course_content_pack_assembly",
+      "ownership": "fail_closed",
+      "fieldPatterns": ["required-coverage-reconciliation-failed", "learningArtifactRefs", "practiceArtifactRefs", "assessmentItemRefs", "markingPackRefs"],
+      "mechanicalCheck": "Revision reconciles active Coverage Map requirements against accepted Learn, Practice, Assessment and Marking evidence before permitting the course manifest; rejected candidates never count as coverage.",
+      "implementationRefs": ["src/content-factory/assessment-and-marking-with-coverage-reconciliation.ts", "src/content-factory/required-coverage-reconciliation.ts"],
+      "currentCompliance": "compliant"
+    }
   ],
   "workers": [
     {
@@ -66,7 +166,7 @@
       "reviewStatus": "complete",
       "implementationRefs": ["src/content-factory/provider-coverage-evidence.ts", "src/content-factory/learning-and-practice.ts", "src/content-factory/teaching-point-integrity.ts", "src/content-factory/q2-practice-evidence-contract.test.ts"],
       "mechanicalFields": [
-        {"fieldClass":"teaching-point coverage evidence","fieldPatterns":["coverageEvidence[].teachingPoint","coverageEvidence[].evidence"],"ownership":"bounded_locator_reference","mechanicalCheck":"Provider identifies practice mode, one-based activity index and allowed field; Revision resolves the exact generated practice string and validation searches actual generated string leaves rather than JSON serialization.","currentCompliance":"compliant"},
+        {"fieldClass":"teaching-point coverage evidence","fieldPatterns":["coverageEvidence[].teachingPoint","coverageEvidence[].evidence"],"ownership":"bounded_locator_reference","mechanicalCheck":"Provider identifies practice mode, one-based activity index and allowed field; Revision resolves the exact generated practice string and validation searches actual generated string leaves rather than JSON serialization drift.","currentCompliance":"compliant"},
         {"fieldClass":"activity mode consistency","fieldPatterns":["activities[].mode","workUnit.learningModes"],"ownership":"fail_closed","mechanicalCheck":"Generated activities must use supported Practice modes selected by the governed work unit.","currentCompliance":"compliant"},
         {"fieldClass":"artifact/job/work-unit/model/source bindings","fieldPatterns":["jobId","workUnitId","knowledgeModelFingerprint","knowledgeNodeIds","sourceRefs"],"ownership":"deterministically_derived","mechanicalCheck":"Revision assembles immutable artifact metadata from validated upstream artifacts.","currentCompliance":"compliant"},
         {"fieldClass":"learner-facing practice content","fieldPatterns":["title","instructions","activities[].prompt","activities[].expectedResponse","activities[].explanation","activities[].improvementAction"],"ownership":"generative_judgement","mechanicalCheck":"Content remains generative judgement inside schema, mode and teaching-point constraints.","currentCompliance":"compliant"}
@@ -98,8 +198,9 @@
       "worker": "assessment_item_generation",
       "scope": "generic",
       "reviewStatus": "complete",
-      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-integrity.ts", "src/content-factory/openai-provider-adapter.ts"],
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-integrity.ts", "src/content-factory/openai-provider-adapter.ts", "src/content-factory/assessment-candidate-recovery.ts"],
       "mechanicalFields": [
+        {"fieldClass":"candidate recovery envelope","fieldPatterns":["candidateNumber","maxCandidates","assessment-slot:<familyId>:<componentId>","assessment-slot:<familyId>:<componentId>:candidate:<n>"],"ownership":"deterministically_derived","mechanicalCheck":"Revision derives the required slot, next durable candidate number and bounded candidate ceiling. These values may be supplied to the provider as context but are not provider-authored.","currentCompliance":"compliant"},
         {"fieldClass":"family/component/requirement/node references and artifact provenance","fieldPatterns":["questionFamilyId","componentId","requirementIds","knowledgeNodeIds","assessmentBlueprintFingerprint","knowledgeModelFingerprint","sourceRefs"],"ownership":"fail_closed","mechanicalCheck":"Unknown or out-of-scope references are rejected; Revision derives artifact provenance fields.","currentCompliance":"compliant"},
         {"fieldClass":"question/subquestion mark arithmetic and requirement coverage","fieldPatterns":["maxMark","subquestions[].marks","subquestions[].requirementIds"],"ownership":"fail_closed","mechanicalCheck":"Structured assessment integrity must reconcile marks and governed requirements without weakening intended demand.","currentCompliance":"compliant"},
         {"fieldClass":"subquestion wording presence in rendered question","fieldPatterns":["questionWording","subquestions[].wording"],"ownership":"fail_closed","mechanicalCheck":"Every structured subquestion wording must appear verbatim in learner-facing question wording.","currentCompliance":"compliant"},
@@ -111,8 +212,9 @@
       "worker": "marking_pack_generation",
       "scope": "generic",
       "reviewStatus": "complete",
-      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-integrity.ts", "src/content-factory/openai-assessment-integrity-compiler.ts", "src/content-factory/q2-marking-pack-ao-contract.test.ts"],
+      "implementationRefs": ["src/content-factory/assessment-and-marking.ts", "src/content-factory/assessment-integrity.ts", "src/content-factory/openai-assessment-integrity-compiler.ts", "src/content-factory/q2-marking-pack-ao-contract.test.ts", "src/content-factory/marking-pack-candidate-recovery.ts"],
       "mechanicalFields": [
+        {"fieldClass":"candidate recovery envelope","fieldPatterns":["candidateNumber","maxCandidates","marking-pack-slot:<assessmentItemId>","marking-pack-slot:<assessmentItemId>:candidate:<n>"],"ownership":"deterministically_derived","mechanicalCheck":"Revision derives the required slot from the frozen accepted Assessment Item, then derives the next durable candidate number and bounded candidate ceiling. These values may be supplied to the provider as context but are not provider-authored.","currentCompliance":"compliant"},
         {"fieldClass":"question identity, wording, version, max mark, family and provenance bindings","fieldPatterns":["questionId","questionVersion","exactQuestionWording","maxMark","questionFamilyId","assessmentBlueprintFingerprint","sourceRefs"],"ownership":"deterministically_derived","mechanicalCheck":"Revision assembles these values from the validated assessment item, family and blueprint rather than asking the provider to reproduce them.","currentCompliance":"compliant"},
         {"fieldClass":"aggregate assessment-objective totals","fieldPatterns":["assessmentObjectiveAllocation[].objectiveId","assessmentObjectiveAllocation[].marks"],"ownership":"deterministically_derived","mechanicalCheck":"For structured items, Revision derives aggregate objective allocation from validated subquestion guidance; provider-authored structured aggregate arithmetic fails closed.","currentCompliance":"compliant"},
         {"fieldClass":"subquestion guidance mark/objective reconciliation","fieldPatterns":["subquestionGuidance[].subquestionId","subquestionGuidance[].marks","subquestionGuidance[].assessmentObjectiveAllocation"],"ownership":"fail_closed","mechanicalCheck":"Guidance must reconcile with the structured assessment and allowed objectives.","currentCompliance":"compliant"},
