@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_same_head_assurance",
+  "scope": "post_pilot_20_q1_q6_provider_free_consolidation",
+  "baseMainSha": "861d017fd295a39d1135a4ccb80266909bd86172",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "liveProviderCallsUsed": false,
+  "historicalRecordsRewritten": false,
+  "purpose": "Consolidate the approved-main post-Pilot #20 Q1-Q6 provider-free evidence into the current machine-readable qualification state. This transition permits only the bounded Q7 live worker soak after same-head assurance and Founder-approved merge; it does not restore full-course confirmation eligibility.",
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-contract-inventory.json",
+        "tests/content-factory-q1-ownership-refresh.test.mjs",
+        "docs/technical/Content Factory Q1 Contract Ownership Qualification.md"
+      ],
+      "conclusion": "The post-Pilot #20 candidate-recovery topology has a complete course-agnostic ownership inventory. Slot identity, candidate sequence and ceilings, disposition, accepted-artifact freezing, exhaustion and required-coverage reconciliation are Revision-owned mechanical controls; semantic educational content remains generative judgement where appropriate."
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-b-historical-failure-corpus.json",
+        "src/content-factory/reliability-v2-b-historical-failure-corpus.test.ts",
+        "content-factory/reliability-post-pilot20-q2-historical-replay.json",
+        "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts"
+      ],
+      "conclusion": "The immutable Pilots #1-#18 corpus and Pilot #19 evidence remain intact, while Pilot #20 is represented by a labelled synthetic replay proving complete diagnostics, same-slot replacement and explicit bounded exhaustion without silent omission."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "evidence": [
+        "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+        "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+        "content-factory/reliability-post-pilot20-q3-adversarial-requalification.json",
+        "src/content-factory/q3-post-pilot20-candidate-recovery-requalification.test.ts"
+      ],
+      "conclusion": "All five governed subject shapes exercise the production Assessment/Marking recovery topology, including Assessment and Marking candidate replacement, accepted-sibling survival, frozen dependencies and fail-closed exhaustion."
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/q4-candidate-recovery-qualification.test.ts",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts",
+        "docs/technical/Content Factory Q4 Candidate Recovery Qualification.md"
+      ],
+      "conclusion": "The provider-free production-path simulation can reject and replace Assessment and Marking candidates, preserve accepted work, reconcile mandatory coverage and reach expert_review_ready; bounded exhaustion blocks instead of manufacturing an incomplete course."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q5-candidate-recovery-requalification.test.ts",
+        "src/content-factory/q5-durable-resume.ts",
+        "src/content-factory/durable-worker-dependencies.ts"
+      ],
+      "conclusion": "Candidate-aware restart and exact-terminal reuse preserve unaffected accepted work, while semantic changes invalidate only the affected stage and genuine downstream dependants rather than forcing universal regeneration."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "content-factory/reliability-post-pilot20-q6-repeated-recovery-stability.json",
+        "src/content-factory/q6-post-pilot20-repeated-recovery-stability.test.ts"
+      ],
+      "repetitionCount": 3,
+      "repetitionSeeds": [211, 463, 887],
+      "conclusion": "The current Q2-Q5 recovery topology passes three deterministic shuffled repetitions with the historical corpus and adversarial matrix retained."
+    }
+  },
+  "q7": {
+    "status": "pending",
+    "machineEligibleAfterMerge": true,
+    "nextRunClass": "bounded_q7_live_worker_soak",
+    "sampleCount": 20,
+    "maxSpendUsd": 5,
+    "fullCourseAssembly": false,
+    "learnerPublication": false,
+    "liveSoakRequestChangedByThisTransition": false,
+    "liveSoakTriggeredByThisTransition": false
+  },
+  "fullCourse": {
+    "status": "paused",
+    "livePilotEligible": false,
+    "qualifiedEvidence": null,
+    "q8StillRequired": true
+  },
+  "acceptance": {
+    "q1Pass": true,
+    "q2Pass": true,
+    "q3Pass": true,
+    "q4Pass": true,
+    "q5Pass": true,
+    "q6Pass": true,
+    "q7Pending": true,
+    "providerFree": true,
+    "sameHeadAssuranceRequiredBeforeMerge": true,
+    "fullCourseRemainsPaused": true,
+    "q8EligibilityUnchanged": true,
+    "historicalRecordsRewritten": false
+  },
+  "limitations": [
+    "Q1-Q6 provider-free PASS is process and contract evidence, not educational benchmark evidence and not live-provider evidence.",
+    "This consolidation does not modify the Q7 request file and therefore does not itself initiate any provider call or spend.",
+    "Q7 remains required and may expose a new generic contract class; any such finding returns the affected gates to requalification before another soak.",
+    "Full-course confirmation remains prohibited until Q7 is PASS and a separate Founder-approved Q8 transition changes the overall machine status to qualified.",
+    "Historical Pilot #19, Pilot #20 and earlier Q7 evidence remain unchanged and historical."
+  ]
+}
