@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import inventoryText from '../../content-factory/reliability-contract-inventory.json?raw'
+import inventoryText from '../../content-factory/reliability-pilot20-candidate-ownership-inventory.json?raw'
 import {
   assessmentCandidateRef,
   assessmentSlotRef,
@@ -95,7 +95,7 @@ function field(workerId: string, fieldClass: string) {
 }
 
 describe('Content Factory Q1 compiler/worker ownership inventory after Pilot #20', () => {
-  it('validates the canonical current inventory and covers every declared material boundary exactly once', () => {
+  it('validates the current Pilot #20 inventory and covers every declared material boundary exactly once', () => {
     const workerIds = inventory.workers.map((boundary) => boundary.worker)
     expect(new Set(workerIds).size).toBe(workerIds.length)
     expect(new Set(workerIds)).toEqual(new Set(inventory.requiredWorkerBoundaries))
