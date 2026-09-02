@@ -138,7 +138,6 @@ function adversarialCandidate(shape: string) {
       title: `Synthetic ${shape} item`,
       knowledgeNodeIds: ['synthetic-node'],
       command: 'Analyse and evaluate',
-      // Deliberately stale duplicate reproducing the generic Pilot #21 class.
       questionWording: secondWording,
       subquestions: [
         {
@@ -235,7 +234,7 @@ describe('Content Factory post-Pilot #21 provider-free Q1-Q5 requalification', (
     expect(requalification.acceptance.pilot21LearnPracticeProtectedFromAssessmentOnlyInvalidation).toBe(true)
   })
 
-  it('records Q1-Q6 PASS while keeping Q7, full-course execution and Q8 closed', () => {
+  it('preserves provider-free Q1-Q6 evidence while current Q7 PASS still keeps full-course execution and Q8 closed', () => {
     expect(requalification).toMatchObject({
       status: 'implemented_pending_same_head_assurance',
       scope: 'post_pilot_21_q1_q6_provider_free_requalification',
@@ -254,7 +253,7 @@ describe('Content Factory post-Pilot #21 provider-free Q1-Q5 requalification', (
       pilot21FullCourseResumePermitted: false,
     })
     expect(qualification.status).toBe('paused')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
     )
