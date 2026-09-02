@@ -138,7 +138,7 @@ type CurrentQualification = {
   status: string
   requiredGates: string[]
   gateStatus: Record<string, string>
-  qualifiedEvidence: unknown | null
+  qualifiedEvidence: { eligibilityRecord: string; q7PassRecord: string; nextPaidRunClass: string } | null
   livePilotEligible: boolean
 }
 
@@ -287,7 +287,7 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     for (const seed of v2d.repetitionSeeds) expect(mutationMatrix.mutationSeeds).toContain(seed)
   })
 
-  it('preserves the historical V2-D boundary while current Pilot #21 Q1-Q7 have passed and Q8 remains closed', () => {
+  it('preserves the historical V2-D boundary while current Pilot #21 has completed Q8', () => {
     expect(v2d).toMatchObject({
       schemaVersion: 1,
       workItem: 'V2-D',
@@ -321,9 +321,13 @@ describe('Reliability v2-D same-head provider-free Q1-Q6 qualification', () => {
     })
     expect(v2d.gates['Q6-repeated-provider-free-stability']?.repetitionSeeds).toEqual(v2d.repetitionSeeds)
 
-    expect(currentQualification.status).toBe('paused')
-    expect(currentQualification.qualifiedEvidence).toBeNull()
-    expect(currentQualification.livePilotEligible).toBe(false)
+    expect(currentQualification.status).toBe('qualified')
+    expect(currentQualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(currentQualification.livePilotEligible).toBe(true)
     expect(currentQualification.requiredGates).toContain('Q7-bounded-live-worker-soak')
     for (const gateId of requiredGateIds) {
       expect(currentQualification.gateStatus[gateId]).toBe('pass')
