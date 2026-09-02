@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "paused",
-  "reason": "Confirmation Pilot #21 exposed a generic Assessment Item duplicate-authorship contract defect. The compiler correction is now on approved main and the affected provider-free Reliability v2 Q1-Q6 gates are requalified against that corrected boundary. The fresh post-Pilot #21 Q7 bounded live-worker soak run 33672670696 then accepted all 20 governed samples across all five subject shapes, with ten correctly bounded targeted repairs, no fresh candidate resample, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course confirmation remains prohibited until the separate Founder-approved Q8 transition restores qualified status and livePilotEligible.",
+  "status": "qualified",
+  "reason": "Confirmation Pilot #21 exposed a generic Assessment Item duplicate-authorship contract defect. The compiler correction is now on approved main and the affected provider-free Reliability v2 Q1-Q6 gates are requalified against that corrected boundary. The fresh post-Pilot #21 Q7 bounded live-worker soak run 33672670696 then accepted all 20 governed samples across all five subject shapes, with ten correctly bounded targeted repairs, no fresh candidate resample, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. This separate provider-free Q8 transition binds qualification to that exact evidence and restores one confirmation-pilot eligibility. Q8 itself does not call a provider, resume Pilot #21, assemble a course or publish learner content.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -78,7 +78,27 @@
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot21-q1-q6-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
-  "qualifiedEvidence": null,
+  "qualifiedEvidence": {
+    "qualificationEvidenceMainSha": "c6503344dd163bae77fe6311fe977446adae6baa",
+    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility-004.json",
+    "providerFreeQualificationRecord": "content-factory/reliability-post-pilot21-q1-q6-requalification.json",
+    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-007.json",
+    "q7PassingAttempt": 7,
+    "q7WorkflowRunId": 33672670696,
+    "q7ExecutedSamples": 20,
+    "q7AcceptedSamples": 20,
+    "q7ControlledFailClosedSamples": 0,
+    "passedGates": [
+      "Q1-compiler-worker-ownership-inventory",
+      "Q2-historical-failure-replay-corpus",
+      "Q3-adversarial-provider-free-subject-matrix",
+      "Q4-deterministic-full-pipeline-simulation",
+      "Q5-restart-reuse-dependency-invalidation",
+      "Q6-repeated-provider-free-stability",
+      "Q7-bounded-live-worker-soak"
+    ],
+    "nextPaidRunClass": "confirmation_pilot"
+  },
   "requalificationTriggerEvidence": "content-factory/reliability-pilot21-question-wording-ownership-defect.json",
-  "livePilotEligible": false
+  "livePilotEligible": true
 }
