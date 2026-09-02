@@ -71,7 +71,7 @@ const q1ToQ6 = [
 ] as const
 
 describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
-  it('preserves the approved-main historical consolidation while current Pilot #21 has Q1-Q7 PASS', () => {
+  it('preserves the approved-main historical consolidation while current Pilot #21 has completed Q8', () => {
     expect(consolidation).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -84,9 +84,13 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
       historicalRecordsRewritten: false,
     })
 
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.qualifiedEvidence).toBeNull()
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.livePilotEligible).toBe(true)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
     )
@@ -138,7 +142,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     expect(q6.boundProviderFreeSuites.Q5).toContain('src/content-factory/q5-candidate-recovery-requalification.test.ts')
   })
 
-  it('preserves the historical Q7 trigger guard while current Pilot #21 Q7 has passed and separate Q8 remains required', () => {
+  it('preserves the historical Q7 trigger guard while current Pilot #21 Q8 is separately qualified', () => {
     expect(soakWorkflowText).toContain("qualification.gateStatus?.[gate] !== 'pass'")
     expect(soakWorkflowText).toContain("qualification.gateStatus?.['Q7-bounded-live-worker-soak'] !== 'pending'")
     expect(soakWorkflowText).toContain("qualification.status !== 'paused'")
@@ -164,6 +168,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     expect(qualification.reason).toMatch(/Confirmation Pilot #21/i)
     expect(qualification.reason).toMatch(/Q1-Q6 gates are requalified/i)
     expect(qualification.reason).toMatch(/Q7 therefore passes/i)
-    expect(qualification.reason).toMatch(/separate Founder-approved Q8 transition/i)
+    expect(qualification.reason).toMatch(/Q8 transition binds qualification/i)
+    expect(qualification.reason).toMatch(/does not call a provider/i)
   })
 })
