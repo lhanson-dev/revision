@@ -150,7 +150,7 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20
 
   it('preserves the governed current request and workflow safety envelope', () => {
     expect(pilot19.nextQualificationStep.requiredLiveCoverage).toEqual(expect.arrayContaining(['knowledge MCQ','application MCQ','calculation demand guard','interpretation demand guard']))
-    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-006', status: 'requested', requestedFromMainSha: '3126e49350a670aa276adfb45c44fc5c220ac467', sampleCount: 20, maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
+    expect(request).toMatchObject({ requestId: 'q7-live-worker-soak-007', status: 'requested', requestedFromMainSha: '34d5b0c198af85d08e45ee6f4e26df487ed220fe', sampleCount: 20, maxSpendUsd: 5, fullCourseAssembly: false, learnerPublication: false })
     expect(soakWorkflowText).not.toContain('continue-on-error: true')
     expect(soakHarnessText).toContain('requiresEngineeringVsEducationalClassification')
     const fullCoursePreflight = fullCourseWorkflowText.indexOf('Verify course-agnostic Content Factory reliability qualification')
