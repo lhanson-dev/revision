@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "status": "qualified",
-  "reason": "Post-Pilot #20 candidate-recovery architecture passed provider-free Q1-Q6 on approved main and the fresh candidate-aware Q7 bounded live-worker soak run 33554413877 accepted all 20 governed samples across all five subject shapes with complete recovery classification and no infrastructure incident or engineering-boundary breach. The separate provider-free Q8 transition now restores one confirmation-pilot eligibility on the same qualification evidence. The Q8 change itself does not call a provider, assemble a course or publish learner content.",
+  "status": "paused",
+  "reason": "Confirmation Pilot #21 exposed a new generic Assessment Item engineering contract class: duplicated provider authorship of top-level questionWording and structured subquestions[].wording allowed a mechanically valid educational candidate to be rejected because the two clerical representations drifted. The reusable compiler correction transfers top-level questionWording to deterministic Revision ownership. Under Reliability Standard v2.0, full-course eligibility is paused and Q1-Q7 must be requalified before a separate Q8 transition can restore confirmation-pilot eligibility.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -10,16 +10,16 @@
     "mainSha": "ed3bd4c4a50dd723da38952a41ff9bad084ad68d"
   },
   "latestFailureEvidence": {
-    "pilot": 20,
-    "workflowRunId": 33420994194,
-    "jobIssueNumber": 260,
-    "mainSha": "b240ea9b6e2d56a644048c6085162c58429aef33",
-    "artifactId": 9769262820,
-    "artifactDigest": "sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d",
-    "knownCourseSpendUsd": 0.670708,
+    "pilot": 21,
+    "workflowRunId": 33563478174,
+    "jobIssueNumber": 281,
+    "mainSha": "c6d7e7b200be7886a3d9fb4cda530bbc604fb254",
+    "artifactId": 9822561947,
+    "artifactDigest": "sha256:57160072211ef18fcbd72f1b7eb6532743088c5f69eac8f02fa0f92291f8f618",
+    "knownCourseSpendUsd": 0.7454,
     "classification": "new_generic_engineering_contract_class",
-    "defectClass": "assessment_candidate_recovery_and_complete_diagnostic_architecture_failure",
-    "architectureReview": "content-factory/reliability-pilot20-stop-loss-architecture-review.json"
+    "defectClass": "assessment_question_wording_duplicate_provider_authorship",
+    "failureRecord": "content-factory/reliability-pilot21-question-wording-ownership-defect.json"
   },
   "failureEvidenceHistory": [
     {
@@ -33,6 +33,18 @@
       "classification": "new_generic_engineering_contract_class",
       "defectClass": "assessment_mcq_cognitive_demand_lexical_overconstraint",
       "architectureReview": "content-factory/reliability-pilot19-assessment-architecture-review.json"
+    },
+    {
+      "pilot": 20,
+      "workflowRunId": 33420994194,
+      "jobIssueNumber": 260,
+      "mainSha": "b240ea9b6e2d56a644048c6085162c58429aef33",
+      "artifactId": 9769262820,
+      "artifactDigest": "sha256:155b3e5d229e82c7d5f2af7e1b43f2ae7050f53a8ccd198c8de5c800a6b35b6d",
+      "knownCourseSpendUsd": 0.670708,
+      "classification": "new_generic_engineering_contract_class",
+      "defectClass": "assessment_candidate_recovery_and_complete_diagnostic_architecture_failure",
+      "architectureReview": "content-factory/reliability-pilot20-stop-loss-architecture-review.json"
     }
   ],
   "q7FailureEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json",
@@ -43,7 +55,8 @@
   "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
   "q7PassEvidenceHistory": [
     "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
-    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json"
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json"
   ],
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
@@ -55,36 +68,17 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pass",
-    "Q2-historical-failure-replay-corpus": "pass",
-    "Q3-adversarial-provider-free-subject-matrix": "pass",
-    "Q4-deterministic-full-pipeline-simulation": "pass",
-    "Q5-restart-reuse-dependency-invalidation": "pass",
-    "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "pass"
+    "Q1-compiler-worker-ownership-inventory": "pending",
+    "Q2-historical-failure-replay-corpus": "pending",
+    "Q3-adversarial-provider-free-subject-matrix": "pending",
+    "Q4-deterministic-full-pipeline-simulation": "pending",
+    "Q5-restart-reuse-dependency-invalidation": "pending",
+    "Q6-repeated-provider-free-stability": "pending",
+    "Q7-bounded-live-worker-soak": "pending"
   },
-  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
-  "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot19-requalification.json",
-  "qualifiedEvidence": {
-    "qualificationEvidenceMainSha": "3b5cbb1ed5404f1d6692880e79b44847281e0b6f",
-    "eligibilityRecord": "content-factory/reliability-v2-f-q8-eligibility-003.json",
-    "providerFreeQualificationRecord": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
-    "q7PassRecord": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
-    "q7PassingAttempt": 6,
-    "q7WorkflowRunId": 33554413877,
-    "q7ExecutedSamples": 20,
-    "q7AcceptedSamples": 20,
-    "q7ControlledFailClosedSamples": 0,
-    "passedGates": [
-      "Q1-compiler-worker-ownership-inventory",
-      "Q2-historical-failure-replay-corpus",
-      "Q3-adversarial-provider-free-subject-matrix",
-      "Q4-deterministic-full-pipeline-simulation",
-      "Q5-restart-reuse-dependency-invalidation",
-      "Q6-repeated-provider-free-stability",
-      "Q7-bounded-live-worker-soak"
-    ],
-    "nextPaidRunClass": "confirmation_pilot"
-  },
-  "livePilotEligible": true
+  "providerFreeQualificationEvidence": null,
+  "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
+  "qualifiedEvidence": null,
+  "requalificationTriggerEvidence": "content-factory/reliability-pilot21-question-wording-ownership-defect.json",
+  "livePilotEligible": false
 }
