@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "implemented_pending_same_head_assurance",
+  "scope": "post_pilot_21_q1_q6_provider_free_requalification",
+  "baseMainSha": "df44194f7399dbfe5f6f4e5d7a1bfe311474bf11",
+  "verificationMode": "exact_head_ci",
+  "providerCallsUsed": false,
+  "liveProviderCallsUsed": false,
+  "historicalRecordsRewritten": false,
+  "purpose": "Requalify the affected provider-free Reliability v2 gates after Confirmation Pilot #21 transferred duplicated top-level Assessment Item questionWording from provider authorship to deterministic Revision compilation. This evidence preserves valid Pilot #21 Learn/Practice work, proves the corrected Assessment boundary and permits only a bounded Q7 live-worker soak after Founder-approved merge. It does not restore full-course eligibility.",
+  "pilot21DurableResumeTarget": {
+    "jobIssueNumber": 281,
+    "workflowRunId": 33563478174,
+    "originalContentHeadSha": "c6d7e7b200be7886a3d9fb4cda530bbc604fb254",
+    "completedWorkUnits": 13,
+    "bankedLearningArtifacts": 13,
+    "bankedPracticeArtifacts": 13,
+    "failureBoundary": "assessment_item_generation",
+    "expectedReuse": ["learning_collateral", "practice_collateral"],
+    "expectedInvalidation": ["assessment_item", "marking_pack", "independent_review", "remediation"],
+    "regenerationRule": "Replay and fingerprint verification of earlier stages is permitted; unchanged valid Learn/Practice artifacts must not incur a provider call or replacement solely because the implementation head changed."
+  },
+  "gates": {
+    "Q1-compiler-worker-ownership-inventory": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-contract-inventory.json",
+        "content-factory/reliability-pilot21-q1-ownership-addendum.json",
+        "src/content-factory/pilot21-question-wording-ownership.test.ts",
+        "src/content-factory/openai-assessment-item-v2-compiler.test.ts"
+      ],
+      "conclusion": "The complete current ownership inventory is the historical post-Pilot #20 inventory plus the Pilot #21 Assessment Item addendum. Educational subquestions[].wording remains generative judgement; top-level questionWording and duplicated requirement identifiers are compiler-owned mechanical representations."
+    },
+    "Q2-historical-failure-replay-corpus": {
+      "status": "pass",
+      "evidence": [
+        "content-factory/reliability-v2-b-historical-failure-corpus.json",
+        "content-factory/reliability-post-pilot20-q2-historical-replay.json",
+        "content-factory/reliability-pilot21-question-wording-ownership-defect.json",
+        "src/content-factory/q2-pilot20-candidate-recovery-replay.test.ts",
+        "src/content-factory/pilot21-question-wording-ownership.test.ts",
+        "src/content-factory/pilot21-q1-q5-requalification.test.ts"
+      ],
+      "conclusion": "Historical Pilots remain immutable and the exact generic Pilot #21 mismatch is permanently replayed provider-free: a stale duplicate top-level wording is discarded and the compiler reconstructs the learner-visible wording from validated subquestions without weakening educational checks."
+    },
+    "Q3-adversarial-provider-free-subject-matrix": {
+      "status": "pass",
+      "requiredShapes": [
+        "quantitative_business_economics",
+        "mathematics",
+        "science",
+        "essay_humanities",
+        "language_prescribed_text"
+      ],
+      "evidence": [
+        "content-factory/reliability-v2-c-adversarial-mutation-matrix.json",
+        "src/content-factory/reliability-v2-c-adversarial-mutation-matrix.test.ts",
+        "src/content-factory/q3-post-pilot20-candidate-recovery-requalification.test.ts",
+        "src/content-factory/pilot21-q1-q5-requalification.test.ts"
+      ],
+      "conclusion": "All five governed subject shapes exercise the current Assessment Item v9 wording boundary with an adversarial stale duplicate representation. The provider duplicate is removed and the final learner-visible wording is deterministic from validated structured wording in every shape."
+    },
+    "Q4-deterministic-full-pipeline-simulation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q4-deterministic-pipeline-simulation.test.ts",
+        "src/content-factory/q4-candidate-recovery-qualification.test.ts",
+        "src/content-factory/q4-deterministic-pipeline-fixture.ts"
+      ],
+      "conclusion": "The current provider-free deterministic production-path simulation retains complete-diagnostic candidate recovery, fail-closed bounded exhaustion, coverage reconciliation and the ability to reach expert_review_ready without a provider call."
+    },
+    "Q5-restart-reuse-dependency-invalidation": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "evidence": [
+        "src/content-factory/q5-dependency-aware-resume.test.ts",
+        "src/content-factory/q5-candidate-recovery-requalification.test.ts",
+        "src/content-factory/q5-durable-resume.ts",
+        "src/content-factory/durable-worker-dependencies.ts",
+        "src/content-factory/pilot21-question-wording-ownership.test.ts",
+        "src/content-factory/pilot21-q1-q5-requalification.test.ts"
+      ],
+      "conclusion": "The Assessment Item semantic change invalidates Assessment Items and genuine downstream dependants only. Learn and Practice are outside the Assessment dependency closure and remain reusable across a content-head change when their own inputs and semantic dependency fingerprints remain unchanged. Pilot #21 therefore resumes from the Assessment boundary rather than regenerating its 13 accepted Learn and 13 accepted Practice artifacts."
+    },
+    "Q6-repeated-provider-free-stability": {
+      "status": "pass",
+      "providerCallsUsed": false,
+      "repetitionCount": 3,
+      "repetitionSeeds": [317, 641, 953],
+      "evidence": [
+        "src/content-factory/q6-pilot21-repeated-provider-free-stability.test.ts"
+      ],
+      "conclusion": "The current Pilot #21 Q2-Q5 provider-free qualification suite is rerun three times under distinct deterministic shuffle seeds, including the exact defect replay, five-shape wording matrix, deterministic pipeline, candidate recovery and dependency-aware restart/reuse tests."
+    }
+  },
+  "q7": {
+    "status": "pending",
+    "machineEligibleAfterMerge": true,
+    "nextRunClass": "bounded_q7_live_worker_soak",
+    "sampleCount": 20,
+    "maxSpendUsd": 5,
+    "fullCourseAssembly": false,
+    "learnerPublication": false,
+    "pilot21FullCourseResumePermitted": false
+  },
+  "fullCourse": {
+    "status": "paused",
+    "livePilotEligible": false,
+    "qualifiedEvidence": null,
+    "q8StillRequired": true
+  },
+  "acceptance": {
+    "q1Pass": true,
+    "q2Pass": true,
+    "q3Pass": true,
+    "q4Pass": true,
+    "q5Pass": true,
+    "q6Pass": true,
+    "q7Pending": true,
+    "providerFree": true,
+    "pilot21LearnPracticeProtectedFromAssessmentOnlyInvalidation": true,
+    "sameHeadAssuranceRequiredBeforeMerge": true,
+    "fullCourseRemainsPaused": true,
+    "separateQ8StillRequired": true,
+    "historicalRecordsRewritten": false
+  },
+  "limitations": [
+    "Q1-Q6 provider-free PASS is engineering/process evidence, not educational benchmark approval and not live-provider evidence.",
+    "The Pilot #21 durable output counts describe the banked course checkpoint; Q5 proves the generic dependency rule that protects those outputs, not their educational quality.",
+    "This transition does not modify or trigger a paid full-course run. Q7 remains a separate bounded live-worker soak with a hard US$5 ceiling.",
+    "Full-course confirmation remains prohibited until a fresh Q7 passes and a separate Founder-approved Q8 transition restores qualified confirmation-pilot eligibility.",
+    "Historical Pilot #19, Pilot #20, earlier Q1-Q7 and Q8 records remain unchanged and historical."
+  ]
+}

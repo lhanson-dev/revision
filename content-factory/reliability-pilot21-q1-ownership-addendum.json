@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "complete",
+  "gate": "Q1-compiler-worker-ownership-inventory",
+  "q1Pass": true,
+  "scope": "post_pilot_21_assessment_question_wording_ownership_addendum",
+  "reviewedAgainstMainSha": "df44194f7399dbfe5f6f4e5d7a1bfe311474bf11",
+  "baseInventory": "content-factory/reliability-contract-inventory.json",
+  "baseInventoryTreatment": "historical_post_pilot_20_inventory_inherited_for_all_unchanged_worker_boundaries",
+  "triggerEvidence": "content-factory/reliability-pilot21-question-wording-ownership-defect.json",
+  "changedWorkerBoundary": {
+    "worker": "assessment_item_generation",
+    "providerContractVersion": "9",
+    "durableSemanticVersion": "3+output-integrity-v7",
+    "implementationRefs": [
+      "src/content-factory/openai-assessment-item-v2-compiler.ts",
+      "src/content-factory/durable-worker-dependencies.ts",
+      "src/content-factory/pilot21-question-wording-ownership.test.ts"
+    ],
+    "mechanicalFields": [
+      {
+        "fieldClass": "validated structured learner wording",
+        "fieldPatterns": ["subquestions[].wording"],
+        "ownership": "generative_judgement",
+        "mechanicalCheck": "The provider authors educational subquestion wording once; Revision validates the structured item without asking the provider to reproduce the same wording in a second top-level representation.",
+        "currentCompliance": "compliant"
+      },
+      {
+        "fieldClass": "learner-visible aggregate question wording",
+        "fieldPatterns": ["questionWording"],
+        "ownership": "deterministically_derived",
+        "mechanicalCheck": "Revision composes top-level questionWording from validated subquestions[].wording in governed order with a stable blank-line separator, preserving every subquestion wording verbatim.",
+        "currentCompliance": "compliant"
+      },
+      {
+        "fieldClass": "subquestion requirement identifiers",
+        "fieldPatterns": ["subquestions[].requirementIds", "subquestions[].coverageEvidence[].requirementId"],
+        "ownership": "deterministically_derived",
+        "mechanicalCheck": "Revision derives duplicated subquestion requirementIds from validated coverageEvidence requirement identifiers; the provider authors the educational coverage evidence rather than a second clerical identifier list.",
+        "currentCompliance": "compliant"
+      }
+    ]
+  },
+  "supersededBaseInventoryStatements": [
+    {
+      "fieldClass": "subquestion wording presence in rendered question",
+      "reason": "The post-Pilot #20 inventory treated exact agreement between two provider-authored wording representations as a fail-closed validation concern. Pilot #21 proved the duplicate representation itself was the generic defect."
+    },
+    {
+      "fieldClass": "question content and original context",
+      "reason": "Top-level questionWording is no longer generative judgement. Educational subquestions[].wording and original context remain generative judgement."
+    }
+  ],
+  "unchangedBoundaryInheritance": {
+    "allOtherRequiredWorkerBoundariesInherited": true,
+    "candidateRecoveryOwnershipChanged": false,
+    "markingPackOwnershipChanged": false,
+    "learnPracticeOwnershipChanged": false,
+    "assuranceOwnershipChanged": false,
+    "sourceRightsOwnershipChanged": false
+  },
+  "blockers": [],
+  "historicalRecordsRewritten": false,
+  "providerCallsUsed": false,
+  "acceptance": {
+    "duplicateQuestionWordingProviderAuthorshipRemoved": true,
+    "educationalSubquestionWordingRemainsGenerative": true,
+    "topLevelQuestionWordingCompilerOwned": true,
+    "unchangedWorkerBoundariesInherited": true,
+    "q1EvidenceReady": true
+  }
+}

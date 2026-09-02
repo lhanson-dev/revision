@@ -70,15 +70,18 @@ const providerFreeGates = [
 const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Reliability v2 status after Confirmation Pilot #21', () => {
-  it('pauses current qualification while preserving the approved post-Pilot #20 Q8 record as history', () => {
+  it('records current Q1-Q6 requalification while preserving the approved post-Pilot #20 Q8 record as history', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.providerFreeQualificationEvidence).toBeNull()
+    expect(qualification.providerFreeQualificationEvidence).toBe(
+      'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
+    )
     expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot20-q1-q6-consolidation.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-006.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json'])
     expect(qualification.requiredGates).toEqual(allGates)
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pending')
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(currentQ8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',

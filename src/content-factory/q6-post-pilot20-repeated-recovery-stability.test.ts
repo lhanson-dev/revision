@@ -66,7 +66,7 @@ function repeatedTestFiles() {
 }
 
 describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => {
-  it('preserves the Q6 evidence slice while current Pilot #21 reliability state is paused', () => {
+  it('preserves the historical Q6 evidence slice while current Pilot #21 Q1-Q6 are requalified', () => {
     expect(evidence).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -104,7 +104,7 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
 
     expect(qualification.status).toBe('paused')
     expect(qualification.requiredGates).toContain('Q6-repeated-provider-free-stability')
-    expect(qualification.gateStatus['Q6-repeated-provider-free-stability']).toBe('pending')
+    expect(qualification.gateStatus['Q6-repeated-provider-free-stability']).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
@@ -112,7 +112,7 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
     expect(evidence.limitations.join(' ')).toMatch(/Q8 remains a separate transition/i)
   })
 
-  it('uses only the governed current provider-free Q2-Q5 suites', () => {
+  it('uses only the governed historical post-Pilot #20 provider-free Q2-Q5 suites', () => {
     const files = repeatedTestFiles()
 
     expect(files).toHaveLength(8)
@@ -129,7 +129,7 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
     expect(files.every((file) => !file.includes('integration.test'))).toBe(true)
   })
 
-  it('re-runs the current post-Pilot #20 Q2-Q5 recovery topology three times under distinct deterministic shuffle seeds', async () => {
+  it('retains the historical post-Pilot #20 repeated recovery proof unchanged', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       spawnSync: (
@@ -157,7 +157,7 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
 
       expect(
         result.status,
-        `Q6 post-Pilot #20 repetition failed for seed ${seed}.\nSTDOUT:\n${result.stdout}\nSTDERR:\n${result.stderr}`,
+        `Q6 historical post-Pilot #20 repetition failed for seed ${seed}.\nSTDOUT:\n${result.stdout}\nSTDERR:\n${result.stderr}`,
       ).toBe(0)
       expect(result.stdout).toContain('Test Files')
       expect(result.stdout).toContain('Tests')
