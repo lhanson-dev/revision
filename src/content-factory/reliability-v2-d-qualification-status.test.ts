@@ -12,7 +12,7 @@ type ProviderFreeEvidence = { gates: Record<string, { status: string }> }
 type Qualification = {
   status: string
   livePilotEligible: boolean
-  providerFreeQualificationEvidence: string
+  providerFreeQualificationEvidence: string | null
   lastProviderFreeQualificationEvidence: string
   q7PassEvidence: string
   q7PassEvidenceHistory: string[]
@@ -69,24 +69,17 @@ const providerFreeGates = [
 ]
 const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Reliability v2 status after Pilot #20 stop-loss and Q8 restoration', () => {
-  it('records post-Pilot #20 Q1-Q7 PASS and the current Q8 confirmation-pilot eligibility', () => {
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
-    expect(qualification.providerFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot20-q1-q6-consolidation.json')
-    expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot19-requalification.json')
+describe('Reliability v2 status after Confirmation Pilot #21', () => {
+  it('pauses current qualification while preserving the approved post-Pilot #20 Q8 record as history', () => {
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.providerFreeQualificationEvidence).toBeNull()
+    expect(qualification.lastProviderFreeQualificationEvidence).toBe('content-factory/reliability-post-pilot20-q1-q6-consolidation.json')
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-006.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json'])
     expect(qualification.requiredGates).toEqual(allGates)
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-003.json',
-      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
-      q7PassingAttempt: 6,
-      q7WorkflowRunId: 33554413877,
-      passedGates: allGates,
-      nextPaidRunClass: 'confirmation_pilot',
-    })
+    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pending')
+    expect(qualification.qualifiedEvidence).toBeNull()
     expect(currentQ8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',
       providerCallsUsed: false,
