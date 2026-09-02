@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #21 exposed a new generic Assessment Item engineering contract class: duplicated provider authorship of top-level questionWording and structured subquestions[].wording allowed a mechanically valid educational candidate to be rejected because the two clerical representations drifted. The reusable compiler correction transfers top-level questionWording to deterministic Revision ownership. Under Reliability Standard v2.0, full-course eligibility is paused and Q1-Q7 must be requalified before a separate Q8 transition can restore confirmation-pilot eligibility.",
+  "reason": "Confirmation Pilot #21 exposed a generic Assessment Item duplicate-authorship contract defect. The compiler correction is now on approved main and the affected provider-free Reliability v2 Q1-Q6 gates are requalified against that corrected boundary: current ownership is explicit, Pilot #21 is permanently replayed, all five governed subject shapes exercise the corrected wording boundary, the deterministic pipeline still reaches expert_review_ready provider-free, dependency-aware restart preserves unrelated Learn/Practice while invalidating Assessment and genuine downstream dependants, and the affected suite is repeated three times. A fresh bounded Q7 live-worker soak remains required, followed by a separate Q8 transition before any paid full-course confirmation resume.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -67,15 +67,15 @@
     "Q7-bounded-live-worker-soak"
   ],
   "gateStatus": {
-    "Q1-compiler-worker-ownership-inventory": "pending",
-    "Q2-historical-failure-replay-corpus": "pending",
-    "Q3-adversarial-provider-free-subject-matrix": "pending",
-    "Q4-deterministic-full-pipeline-simulation": "pending",
-    "Q5-restart-reuse-dependency-invalidation": "pending",
-    "Q6-repeated-provider-free-stability": "pending",
+    "Q1-compiler-worker-ownership-inventory": "pass",
+    "Q2-historical-failure-replay-corpus": "pass",
+    "Q3-adversarial-provider-free-subject-matrix": "pass",
+    "Q4-deterministic-full-pipeline-simulation": "pass",
+    "Q5-restart-reuse-dependency-invalidation": "pass",
+    "Q6-repeated-provider-free-stability": "pass",
     "Q7-bounded-live-worker-soak": "pending"
   },
-  "providerFreeQualificationEvidence": null,
+  "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot21-q1-q6-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",
   "qualifiedEvidence": null,
   "requalificationTriggerEvidence": "content-factory/reliability-pilot21-question-wording-ownership-defect.json",

@@ -102,12 +102,15 @@ const providerFreeGates = [
 const gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
 describe('Content Factory Reliability v2 status after Confirmation Pilot #21', () => {
-  it('pauses current Q1-Q7 qualification and full-course eligibility after the new generic engineering failure', () => {
+  it('records current Q1-Q6 provider-free PASS while keeping Q7 and full-course eligibility closed', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.requiredGates).toEqual(gates)
-    for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('pending')
-    expect(qualification.providerFreeQualificationEvidence).toBeNull()
+    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.providerFreeQualificationEvidence).toBe(
+      'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
+    )
     expect(qualification.lastProviderFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
     )
@@ -121,7 +124,7 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
     expect(qualification.qualifiedEvidence).toBeNull()
   })
 
-  it('preserves the exact candidate-aware attempt-006 Q7 PASS as historical evidence', () => {
+  it('preserves the exact candidate-aware attempt-006 Q7 PASS as historical evidence only', () => {
     expect(sixthQ7).toMatchObject({
       workflow: {
         runId: 33554413877,
@@ -144,6 +147,7 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
         candidateRecoveryObserved: true,
       },
     })
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
   })
 
   it('preserves Q8 as exact approved post-Pilot #20 historical evidence without treating it as current eligibility', () => {
@@ -215,7 +219,7 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
     })
   })
 
-  it('fails closed at paid live-pilot preflight while Pilot #21 requalification is pending', async () => {
+  it('fails closed at paid live-pilot preflight while fresh Q7 and separate Q8 remain outstanding', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       execFileSync: (

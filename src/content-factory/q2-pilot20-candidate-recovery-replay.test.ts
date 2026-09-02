@@ -219,14 +219,14 @@ describe('Content Factory Q2 post-Pilot #20 historical recovery replay', () => {
     expect(result.job.blockers.some((blocker) => blocker.reason.includes(assessmentSlotRef))).toBe(true)
   })
 
-  it('preserves Q2 slice history while current Pilot #21 reliability state is paused for requalification', () => {
+  it('preserves Q2 slice history while current Pilot #21 Q2 is requalified and Q7 remains pending', () => {
     expect(replay.acceptance.q2EvidenceReady).toBe(true)
     expect(replay.acceptance.globalQualificationStateChanged).toBe(false)
     expect(replay.acceptance.q7Eligible).toBe(false)
     expect(replay.acceptance.q8Eligible).toBe(false)
 
     expect(qualification.status).toBe('paused')
-    expect(qualification.gateStatus['Q2-historical-failure-replay-corpus']).toBe('pending')
+    expect(qualification.gateStatus['Q2-historical-failure-replay-corpus']).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
