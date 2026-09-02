@@ -71,7 +71,9 @@
     "architectureDecisionRequired": false,
     "architectureReason": "ADR-0019 and the active compiler-first rule already govern candidate recovery and mechanical compiler ownership; this change applies that existing architecture at one additional duplicated assessment representation.",
     "technicalDocumentationUpdated": true,
+    "technicalDocument": "docs/technical/Content Factory Pilot 21 Question Wording Ownership Remediation.md",
     "qualificationStateUpdated": true,
-    "indexUpdated": true
+    "indexUpdateRequired": false,
+    "indexReason": "INDEX.md already routes Content Factory reliability work to the active Reliability Qualification Standard and indexed qualification harness. Q1 requalification will update the current ownership inventory and qualification evidence rather than promoting this point-in-time remediation note to governing authority."
   }
 }
