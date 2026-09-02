@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "status": "remediation_implemented_pending_requalification",
+  "workItem": "Reliability-v2-post-confirmation-pilot-21-question-wording-ownership",
+  "source": {
+    "pilot": 21,
+    "workflowRunId": 33563478174,
+    "jobIssueNumber": 281,
+    "approvedMainSha": "c6d7e7b200be7886a3d9fb4cda530bbc604fb254",
+    "artifactId": 9822561947,
+    "artifactDigest": "sha256:57160072211ef18fcbd72f1b7eb6532743088c5f69eac8f02fa0f92291f8f618",
+    "knownCourseSpendUsd": 0.7454,
+    "finalState": "blocked",
+    "reachedExpertReviewReady": false,
+    "workerRunCount": 37,
+    "retryCount": 3,
+    "humanInterventionCount": 0
+  },
+  "classification": {
+    "decision": "new_generic_engineering_contract_class",
+    "defectClass": "assessment_question_wording_duplicate_provider_authorship",
+    "boundary": "assessment_item_generation_and_compilation",
+    "observedFailure": "Assessment Item candidate recovery exhausted after the effective contract rejected learner-visible questionWording because it did not contain subquestion q1-profit verbatim.",
+    "observedError": "questionWording must contain subquestion q1-profit verbatim",
+    "whyGeneric": "The production contract required the provider to author both structured subquestions[].wording and a second top-level questionWording representation, then required exact mechanical agreement between those two provider-authored copies. That duplicated clerical authorship is course-agnostic and provider-agnostic. Revision can preserve the provider's educational wording while deterministically composing the top-level learner-visible representation.",
+    "educationalFinding": false,
+    "providerInfrastructureIncident": false,
+    "sourceRightsFailure": false
+  },
+  "correctedOwnership": {
+    "subquestions[].wording": "generative_judgement_with_deterministic_validation",
+    "questionWording": "deterministically_derived_from_validated_subquestions_wording",
+    "subquestions[].requirementIds": "deterministically_derived_from_coverageEvidence_requirementId",
+    "remainingEducationalOrContractDefects": "fail_closed_under_existing_complete_diagnostic_and_candidate_recovery_policy"
+  },
+  "implementation": {
+    "providerContractVersion": "9",
+    "providerNoLongerAuthors": ["questionWording"],
+    "compilerComposition": "Join validated subquestions[].wording in governed order with a stable blank-line separator, preserving each subquestion wording verbatim.",
+    "durableAssessmentSemanticVersion": "output-integrity-v7",
+    "unrelatedLearnPracticeInvalidated": false,
+    "downstreamAssessmentDependantsInvalidated": true,
+    "validatorWeakened": false,
+    "candidateCeilingChanged": false,
+    "providerRetryPolicyChanged": false,
+    "sourceRightsChanged": false,
+    "spendCeilingChanged": false
+  },
+  "permanentReplayTests": [
+    "src/content-factory/pilot21-question-wording-ownership.test.ts",
+    "src/content-factory/openai-assessment-item-v2-compiler.test.ts"
+  ],
+  "qualificationReset": {
+    "fullCourseEligibilityPaused": true,
+    "q1OwnershipInventoryRequired": true,
+    "q2HistoricalReplayMustIncludePilot21": true,
+    "q3AdversarialMatrixRequired": true,
+    "q4DeterministicPipelineRequired": true,
+    "q5DependencyInvalidationRequired": true,
+    "q6RepeatedProviderFreeStabilityRequired": true,
+    "q7BoundedLiveWorkerSoakRequired": true,
+    "separateQ8RequiredAfterQ1ToQ7Pass": true,
+    "paidFullCourseRetryPermittedBeforeQ8": false
+  },
+  "historicalRecordsRewritten": false,
+  "paidProviderCallsRequiredForReplay": false,
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "normativeReason": "The active Reliability Qualification Standard already prohibits duplicated model authorship when deterministic derivation preserves educational meaning and already requires a generic confirmation-pilot engineering failure to pause full-course eligibility and return to Reliability v2 qualification.",
+    "architectureDecisionRequired": false,
+    "architectureReason": "ADR-0019 and the active compiler-first rule already govern candidate recovery and mechanical compiler ownership; this change applies that existing architecture at one additional duplicated assessment representation.",
+    "technicalDocumentationUpdated": true,
+    "qualificationStateUpdated": true,
+    "indexUpdated": true
+  }
+}
