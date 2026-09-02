@@ -1,6 +1,6 @@
 # Content Factory Durable Resume and Spend
 
-**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4  
+**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4; post-Pilot #21 Assessment wording ownership is current at provider contract 9 / `output-integrity-v7`  
 **Current approved baseline for checkpoint 4:** `05df69add84541adaa0e487f78a8a0757900bf80`  
 **Related initiative:** GitHub Issue #169
 
@@ -78,13 +78,13 @@ For every governed Assessment Item production slot:
 - if a terminal candidate execution was cached but the process stopped before the job checkpoint, replaying the exact candidate input can reuse that dependency-aware cached execution without another provider charge;
 - if accepted worker-run evidence exists but its artifact cannot be recovered, the factory fails closed rather than silently generating replacement content over the accepted slot.
 
-The durable Assessment boundary is:
+The current durable Assessment boundary is:
 
 - generic Assessment Item input contract: `3`;
-- live provider Assessment Item contract: `8`;
-- durable semantic integrity revision: `output-integrity-v6`.
+- live provider Assessment Item contract: `9`;
+- durable semantic integrity revision: `output-integrity-v7`.
 
-Because Marking Pack and assurance dependency closures depend on `generateAssessmentItem`, those genuine downstream dependants invalidate automatically while Learn and Practice remain independently reusable where their own inputs/contracts are unchanged.
+Post-Pilot #21, the provider authors the educational `subquestions[].wording` once and Revision deterministically composes the duplicated top-level `questionWording`. The `output-integrity-v7` change invalidates pre-fix Assessment Item outputs and genuine downstream Marking Pack/assurance dependants while leaving unrelated Learn and Practice artifacts reusable when their own inputs and contracts are unchanged.
 
 ## ADR-0019 Marking Pack candidate durability
 
@@ -106,13 +106,13 @@ For every accepted Assessment Item:
 - accepted sibling packs remain reusable when another pack fails;
 - accepted Marking Pack worker evidence whose coverage/artifact cannot be recovered fails closed rather than allowing an overwrite.
 
-The durable Marking Pack boundary advances to:
+The durable Marking Pack boundary remains:
 
 - generic Marking Pack input contract: `3`;
 - live provider Marking Pack contract: `5`;
 - durable semantic integrity revision: `output-integrity-v3`.
 
-This version advance prevents pre-checkpoint-4 Marking Pack executions from being inferred reusable across a changed-head replay when they do not carry candidate-aware semantics. Independent review remains a genuine downstream dependency and is invalidated; unrelated Learn/Practice work is not.
+This version prevents pre-checkpoint-4 Marking Pack executions from being inferred reusable across a changed-head replay when they do not carry candidate-aware semantics. Independent review remains a genuine downstream dependency and is invalidated; unrelated Learn/Practice work is not.
 
 ## Legacy compatibility
 
@@ -138,15 +138,15 @@ The workflow still:
 - publishes no learner content;
 - keeps AQA `REFERENCE_ONLY`;
 - does not send protected AQA source prose to generative workers; and
-- cannot make paid model calls while `content-factory/reliability-qualification.json` remains unqualified.
+- cannot make paid full-course model calls while `content-factory/reliability-qualification.json` remains unqualified.
 
-Checkpoint 4 does not itself authorize another paid pilot.
+Durable candidate recovery and Q7 PASS do not themselves authorize another paid full-course pilot. A separate Q8 eligibility transition is still required.
 
-## Provider-free assurance
+## Provider-free and live reliability assurance
 
-Existing Q5 assurance continues to prove dependency-aware replay, narrow invalidation and cumulative spend mechanics.
+Q5 assurance proves dependency-aware replay, narrow invalidation and cumulative spend mechanics.
 
-Assessment and Marking Pack candidate-state tests now prove, at their implementation boundaries:
+Assessment and Marking Pack candidate-state tests prove, at their implementation boundaries:
 
 - deterministic slot/candidate markers;
 - reconstructing the next candidate after a durably recorded rejection;
@@ -157,7 +157,7 @@ Assessment and Marking Pack candidate-state tests now prove, at their implementa
 - interruption after candidate 1 followed by resume at candidate 2 without regenerating accepted questions; and
 - semantic-version advancement so pre-recovery Marking Pack executions cannot be reused as candidate-aware current work.
 
-These tests are implementation assurance, not reset Q1–Q7 qualification evidence. The wider full-pipeline candidate-recovery topology still requires deliberate bad-candidate injection and repeated qualification under the active Reliability Standard.
+After Confirmation Pilot #21, provider-free Q1-Q6 were requalified on the corrected Assessment wording boundary and the fresh Q7 attempt 007 live-worker soak passed 20/20 samples across all five governed subject shapes. This is reliability qualification evidence, not educational benchmark approval or full-course eligibility.
 
 ## Deliberate limitations
 
@@ -165,9 +165,9 @@ These tests are implementation assurance, not reset Q1–Q7 qualification eviden
 - Dependency safety is explicit rather than inferred: a worker contract or dependency graph change must update the relevant version/graph evidence.
 - Legacy v1 checkpoints require same-head reuse or regeneration before semantic cross-head reuse exists.
 - Durable Assessment Item and Marking Pack candidate recovery does not by itself prove whole-course recovery/coverage completeness under all downstream failure shapes.
-- The Content Factory remains paused and requires provider-free requalification, repeated recovery stability, bounded live soak and separate Q8 before another full-course confirmation run.
+- Reliability v2 Q1-Q7 are now passed after Pilot #21, but the Content Factory remains paused until a separate governed Q8 transition restores `qualified` status and full-course confirmation eligibility.
 - `expert_review_ready` still does not mean learner-published, benchmark-approved or awarding-body endorsed.
 
 ## Documentation impact
 
-Checkpoint 4 changes current implementation behaviour and therefore updates this technical record, the Content Factory Architecture and the Reliability Qualification Harness. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery, smallest-safe-scope preservation, fail-closed exhaustion and dependency-aware invalidation. Historical pilot evidence is not rewritten.
+This record now reflects the current post-Pilot #21 Assessment provider contract `9`, durable semantic `output-integrity-v7`, completed Q1-Q7 reliability position, and the continued separate Q8 requirement. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery, smallest-safe-scope preservation, fail-closed exhaustion and dependency-aware invalidation. Historical pilot evidence is not rewritten.
