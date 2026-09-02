@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "workItem": "V2-E",
   "gate": "Q7",
-  "status": "sixth_live_execution_passed_candidate_aware_all_samples_accepted",
+  "status": "seventh_live_execution_passed_candidate_aware_all_samples_accepted",
   "baseMainSha": "9738abe542c4f32a37de269f50a6126c017293e5",
-  "runnerMergedMainSha": "e74e04613c8d9fa8d7eba617bb839ef368d26029",
+  "runnerMergedMainSha": "d8978f52c1069e25e543e8e6a142834a827ce36c",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
   "canonicalRuntime": ".github/workflows/content-factory-live-worker-soak.yml",
@@ -135,22 +135,39 @@
       "providerCallClassificationComplete": true,
       "classification": "q7_pass_no_new_generic_engineering_contract_class",
       "defectClass": "none_new_generic_engineering_contract_class"
+    },
+    {
+      "attempt": 7,
+      "mainSha": "d8978f52c1069e25e543e8e6a142834a827ce36c",
+      "workflowRunId": 33672670696,
+      "workflowRunNumber": 22,
+      "artifactId": 9863319922,
+      "durableEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-007.json",
+      "executedSamples": 20,
+      "acceptedSamples": 20,
+      "controlledFailClosedSamples": 0,
+      "knownUsageCostUsd": 0.369562,
+      "targetedRepairsObserved": 10,
+      "freshCandidateResamplesObserved": 0,
+      "providerCallClassificationComplete": true,
+      "classification": "q7_pass_no_new_generic_engineering_contract_class",
+      "defectClass": "none_new_generic_engineering_contract_class"
     }
   ],
-  "latestLiveExecutionAttempt": 6,
+  "latestLiveExecutionAttempt": 7,
   "affectedQualificationGates": [],
   "costCeilingReview": {
     "decision": "retain_usd_5_ceiling",
-    "latestKnownUsageCostUsd": 0.404658,
-    "latestCeilingUtilisationPercent": 8.09316,
-    "cumulativeKnownQ7SpendUsd": 2.496296,
-    "rationale": "All six bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 6 accepted all 20 governed samples for US$0.404658 with complete candidate-aware evidence, no infrastructure incident and no engineering-boundary breach. Attempt 5 spend is retained in cumulative cost evidence even though its repair/resample instrumentation was insufficient for Q7 classification."
+    "latestKnownUsageCostUsd": 0.369562,
+    "latestCeilingUtilisationPercent": 7.39124,
+    "cumulativeKnownQ7SpendUsd": 2.865858,
+    "rationale": "All seven bounded 20-sample soaks used well under the governed US$5 per-soak ceiling. Attempt 7 accepted all 20 governed samples for US$0.369562 with complete candidate-aware evidence, no infrastructure incident and no engineering-boundary breach. Historical spend, including attempt 5 with its evidence-instrumentation limitation, remains retained."
   },
   "fullCourseAssembly": false,
   "learnerPublication": false,
   "livePilotEligibilityChanged": false,
   "q7Passed": true,
   "overallReliabilityV2Passed": true,
-  "nextIfSoakPasses": "Post-Pilot #20 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
+  "nextIfSoakPasses": "Post-Pilot #21 Q7 PASS is now durably classified. V2-F/Q8 remains a separate governed eligibility transition before status may become qualified or livePilotEligible may become true.",
   "nextIfSoakFindsGenericContractClass": "Return to the affected Q1-Q6 gates before another soak; do not run a full-course confirmation pilot."
 }
