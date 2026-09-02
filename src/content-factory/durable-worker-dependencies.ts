@@ -62,11 +62,16 @@ function integrityVersion(baseVersion: string, revision: string) {
 // The next ADR-0019 slice applies the same durable candidate ownership to Marking
 // Packs: the generic input contract advances to v3 and output-integrity-v3 prevents
 // pre-recovery Marking Pack executions from being reused as candidate-aware work.
+// Confirmation Pilot #21 exposed duplicate provider authorship of top-level
+// questionWording and subquestions[].wording. output-integrity-v7 transfers the
+// top-level clerical representation to deterministic compilation from validated
+// subquestion wording, invalidating pre-fix Assessment Item outputs and genuine
+// downstream dependants while leaving unrelated Learn/Practice artifacts reusable.
 const currentIntegrityVersions = {
   courseKnowledgeModel: integrityVersion(contentFactoryIntakeWorkerContracts.knowledgeModel.contractVersion, 'output-integrity-v1'),
   learningCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.learningCollateral.contractVersion, 'output-integrity-v2'),
   practiceCollateral: integrityVersion(contentFactoryLearningPracticeWorkerContracts.practiceCollateral.contractVersion, 'output-integrity-v2'),
-  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v6'),
+  assessmentItem: integrityVersion(contentFactoryAssessmentWorkerContracts.assessmentItem.contractVersion, 'output-integrity-v7'),
   markingPack: integrityVersion(contentFactoryAssessmentWorkerContracts.markingPack.contractVersion, 'output-integrity-v3'),
 } as const
 
