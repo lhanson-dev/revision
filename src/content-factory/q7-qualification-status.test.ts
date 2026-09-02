@@ -3,6 +3,7 @@ import qualificationText from '../../content-factory/reliability-qualification.j
 import postPilot19RequalificationText from '../../content-factory/reliability-post-pilot19-requalification.json?raw'
 import fourthQ7EvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-004.json?raw'
 import sixthQ7EvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-006.json?raw'
+import seventhQ7EvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-007.json?raw'
 import historicalQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility.json?raw'
 import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
 import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
@@ -36,7 +37,7 @@ type Qualification = {
 
 type PostPilot19 = { status: string; providerCallsUsed: boolean }
 type Q7Evidence = {
-  workflow: { runId: number; artifactId: number; mainSha?: string }
+  workflow: { runId: number; runNumber?: number; artifactId: number; mainSha?: string; artifactDigest?: string }
   sampleSummary: {
     executed: number
     accepted: number
@@ -47,6 +48,7 @@ type Q7Evidence = {
     freshCandidateResamplesObserved?: number
     providerCallClassificationComplete?: boolean
   }
+  costEvidence?: { configuredMaxSpendUsd: number; knownUsageCostUsd: number; cumulativeKnownQ7SpendUsd?: number }
   classification: {
     decision: string
     instrumentationComplete?: boolean
@@ -87,6 +89,7 @@ const qualification = JSON.parse(qualificationText) as Qualification
 const postPilot19 = JSON.parse(postPilot19RequalificationText) as PostPilot19
 const fourthQ7 = JSON.parse(fourthQ7EvidenceText) as Q7Evidence
 const sixthQ7 = JSON.parse(sixthQ7EvidenceText) as Q7Evidence
+const seventhQ7 = JSON.parse(seventhQ7EvidenceText) as Q7Evidence
 const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
 const priorQ8 = JSON.parse(priorQ8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
@@ -101,13 +104,12 @@ const providerFreeGates = [
 ]
 const gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Content Factory Reliability v2 status after Confirmation Pilot #21', () => {
-  it('records current Q1-Q6 provider-free PASS while keeping Q7 and full-course eligibility closed', () => {
+describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classification', () => {
+  it('records current Q1-Q7 PASS while keeping full-course eligibility closed until Q8', () => {
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.requiredGates).toEqual(gates)
-    for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
     )
@@ -115,16 +117,49 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
       'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
     )
     expect(qualification.q7PassEvidence).toBe(
-      'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
+      'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
     )
     expect(qualification.q7PassEvidenceHistory).toEqual([
       'content-factory/reliability-v2-e-q7-live-soak-evidence-003.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-004.json',
+      'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
     ])
     expect(qualification.qualifiedEvidence).toBeNull()
   })
 
-  it('preserves the exact candidate-aware attempt-006 Q7 PASS as historical evidence only', () => {
+  it('binds current Q7 PASS to exact candidate-aware attempt-007 evidence', () => {
+    expect(seventhQ7).toMatchObject({
+      workflow: {
+        runId: 33672670696,
+        runNumber: 22,
+        artifactId: 9863319922,
+        mainSha: 'd8978f52c1069e25e543e8e6a142834a827ce36c',
+        artifactDigest: 'sha256:9069d0ea0c0b70abd78d9d97b686ff5cdd66c498caaa0b54481796a0a1cdff80',
+      },
+      sampleSummary: {
+        executed: 20,
+        accepted: 20,
+        controlledFailClosed: 0,
+        infrastructureIncidents: 0,
+        engineeringBoundaryBreaches: 0,
+        targetedRepairsObserved: 10,
+        freshCandidateResamplesObserved: 0,
+        providerCallClassificationComplete: true,
+      },
+      costEvidence: {
+        configuredMaxSpendUsd: 5,
+        knownUsageCostUsd: 0.369562,
+        cumulativeKnownQ7SpendUsd: 2.865858,
+      },
+      classification: {
+        decision: 'q7_pass_no_new_generic_engineering_contract_class',
+        instrumentationComplete: true,
+        candidateRecoveryObserved: false,
+      },
+    })
+  })
+
+  it('preserves the exact candidate-aware attempt-006 Q7 PASS as historical evidence', () => {
     expect(sixthQ7).toMatchObject({
       workflow: {
         runId: 33554413877,
@@ -147,7 +182,9 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
         candidateRecoveryObserved: true,
       },
     })
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.q7PassEvidenceHistory).toContain(
+      'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
+    )
   })
 
   it('preserves Q8 as exact approved post-Pilot #20 historical evidence without treating it as current eligibility', () => {
@@ -219,7 +256,7 @@ describe('Content Factory Reliability v2 status after Confirmation Pilot #21', (
     })
   })
 
-  it('fails closed at paid live-pilot preflight while fresh Q7 and separate Q8 remain outstanding', async () => {
+  it('fails closed at paid live-pilot preflight while separate Q8 remains outstanding', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       execFileSync: (
