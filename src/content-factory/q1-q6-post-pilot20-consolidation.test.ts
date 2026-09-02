@@ -44,7 +44,7 @@ type Qualification = {
   reason: string
   requiredGates: string[]
   gateStatus: Record<string, string>
-  providerFreeQualificationEvidence: string
+  providerFreeQualificationEvidence: string | null
   lastProviderFreeQualificationEvidence: string
   qualifiedEvidence: { eligibilityRecord: string; q7PassRecord: string; nextPaidRunClass: string } | null
   livePilotEligible: boolean
@@ -71,7 +71,7 @@ const q1ToQ6 = [
 ] as const
 
 describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
-  it('preserves the approved-main provider-free consolidation while accepting the later Q7 PASS and Q8 transition', () => {
+  it('preserves the approved-main provider-free consolidation while current Pilot #21 state is paused', () => {
     expect(consolidation).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -84,28 +84,22 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
       historicalRecordsRewritten: false,
     })
 
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-003.json',
-      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
-      nextPaidRunClass: 'confirmation_pilot',
-    })
-    expect(qualification.providerFreeQualificationEvidence).toBe(
-      'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
-    )
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toBeNull()
+    expect(qualification.providerFreeQualificationEvidence).toBeNull()
     expect(qualification.lastProviderFreeQualificationEvidence).toBe(
-      'content-factory/reliability-post-pilot19-requalification.json',
+      'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
     )
 
     for (const gate of q1ToQ6) {
       expect(qualification.requiredGates).toContain(gate)
-      expect(qualification.gateStatus[gate]).toBe('pass')
+      expect(qualification.gateStatus[gate]).toBe('pending')
       expect(consolidation.gates[gate]?.status).toBe('pass')
       expect(consolidation.gates[gate]?.evidence.length).toBeGreaterThan(0)
     }
 
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(consolidation.q7).toMatchObject({
       status: 'pending',
       machineEligibleAfterMerge: true,
@@ -125,7 +119,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     })
   })
 
-  it('binds each provider-free gate to the current post-Pilot #20 evidence rather than historical qualification alone', () => {
+  it('binds each historical provider-free gate to the approved post-Pilot #20 evidence', () => {
     expect(q1.status).toBe('complete')
     expect(q1.q1Pass).toBe(true)
     expect(q1.blockers).toEqual([])
@@ -142,7 +136,7 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     expect(q6.boundProviderFreeSuites.Q5).toContain('src/content-factory/q5-candidate-recovery-requalification.test.ts')
   })
 
-  it('preserves the historical Q7 trigger guard while current Q8 has separately restored confirmation-pilot eligibility', () => {
+  it('preserves the historical Q7 trigger guard while Pilot #21 requires fresh Q1-Q7 and separate Q8', () => {
     expect(soakWorkflowText).toContain("qualification.gateStatus?.[gate] !== 'pass'")
     expect(soakWorkflowText).toContain("qualification.gateStatus?.['Q7-bounded-live-worker-soak'] !== 'pending'")
     expect(soakWorkflowText).toContain("qualification.status !== 'paused'")
@@ -165,8 +159,8 @@ describe('Content Factory post-Pilot #20 Q1-Q6 consolidation', () => {
     })
     expect(consolidation.limitations.join(' ')).toMatch(/does not modify the Q7 request file/i)
     expect(consolidation.limitations.join(' ')).toMatch(/separate Founder-approved Q8 transition/i)
-    expect(qualification.reason).toMatch(/candidate-aware Q7 bounded live-worker soak/i)
-    expect(qualification.reason).toMatch(/separate provider-free Q8 transition/i)
-    expect(qualification.reason).toMatch(/does not call a provider/i)
+    expect(qualification.reason).toMatch(/Confirmation Pilot #21/i)
+    expect(qualification.reason).toMatch(/Q1-Q7 must be requalified/i)
+    expect(qualification.reason).toMatch(/separate Q8 transition/i)
   })
 })

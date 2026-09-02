@@ -127,21 +127,14 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20
     expect(sixth.samples.reduce((sum, sample) => sum + (sample.freshCandidateResampleCount ?? 0), 0)).toBe(1)
   })
 
-  it('preserves historical Q8 evidence while current Q8 restores one confirmation-pilot eligibility', () => {
+  it('preserves historical Q8 evidence while current Pilot #21 state pauses confirmation-pilot eligibility', () => {
     expect(qualification.q7FailureEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence.json','content-factory/reliability-v2-e-q7-live-soak-evidence-002.json'])
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-006.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json'])
-    expect(qualification.status).toBe('qualified')
-    expect(qualification.livePilotEligible).toBe(true)
-    expect(qualification.qualifiedEvidence).toMatchObject({
-      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-003.json',
-      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
-      q7PassingAttempt: 6,
-      q7WorkflowRunId: 33554413877,
-      passedGates: allGates,
-      nextPaidRunClass: 'confirmation_pilot',
-    })
-    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pass')
+    expect(qualification.status).toBe('paused')
+    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toBeNull()
+    for (const gate of allGates) expect(qualification.gateStatus[gate]).toBe('pending')
     expect(priorQ8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
     expect(currentQ8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',

@@ -213,7 +213,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('8')
+    expect(result.provenance.contractVersion).toBe('9')
     expect(result.provenance.retryCount).toBe(0)
     const output = result.output as { subquestions: Array<{ requirementIds: string[] }> }
     expect(output.subquestions).toHaveLength(2)
@@ -228,7 +228,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('8')
+    expect(result.provenance.contractVersion).toBe('9')
     expect(result.provenance.retryCount).toBe(3)
     if (result.status === 'failure') {
       expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
@@ -245,7 +245,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('8')
+    expect(result.provenance.contractVersion).toBe('9')
     expect(result.provenance.retryCount).toBe(3)
     if (result.status === 'failure') {
       expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
@@ -261,7 +261,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const workers = createOpenAIModelAssistedWorkers(config(fetchImpl))
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('failure')
-    expect(result.provenance.contractVersion).toBe('8')
+    expect(result.provenance.contractVersion).toBe('9')
     expect(result.provenance.retryCount).toBe(3)
     if (result.status === 'failure') {
       expect(result.error).toContain('assessment_item_v2_candidate_recovery_exhausted')
@@ -291,7 +291,7 @@ describe('OpenAI assessment integrity compiler', () => {
     const result = await workers.generateAssessmentItem(assessmentInput())
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.provenance.contractVersion).toBe('8')
+    expect(result.provenance.contractVersion).toBe('9')
     expect(result.provenance.retryCount).toBe(1)
     expect(fetchImpl).toHaveBeenCalledTimes(2)
     const repaired = result.output as { id: string; subquestions: Array<{ id: string; command: string; responseDemands: string[] }> }
