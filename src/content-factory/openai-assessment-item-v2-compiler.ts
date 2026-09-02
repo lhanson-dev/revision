@@ -27,7 +27,7 @@ import { MAX_ASSESSMENT_ITEM_CANDIDATES } from './assessment-candidate-recovery'
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().trim().min(1)
 
-const ASSESSMENT_ITEM_CONTRACT_VERSION = '8'
+const ASSESSMENT_ITEM_CONTRACT_VERSION = '9'
 
 const repairableAssessmentSubquestionSchema = assessmentSubquestionSchema.omit({
   requirementIds: true,
@@ -53,14 +53,15 @@ const repairableAssessmentContextSchema = z.object({
 }).optional()
 
 /**
- * Provider-facing Assessment Item contract for the post-Pilot #20 recovery architecture.
+ * Provider-facing Assessment Item contract for the post-Pilot #21 ownership boundary.
  *
- * Revision owns top-level target component/family/requirements/format/marks and
- * now also owns the duplicated subquestion requirementIds representation. The
- * provider retains the educational judgement about which governed requirement an
- * exact question excerpt evidences through coverageEvidence[].requirementId;
- * Revision deterministically derives subquestions[].requirementIds from that
- * mapping before strict whole-artifact validation.
+ * Revision owns top-level target component/family/requirements/format/marks, the
+ * duplicated subquestion requirementIds representation, and the duplicated
+ * learner-visible questionWording representation. The provider retains the
+ * educational judgement in subquestions[].wording and coverageEvidence; Revision
+ * deterministically composes questionWording from the validated subquestion wording
+ * so a valid educational item cannot fail because the model reproduced the same
+ * learner wording differently in a second clerical field.
  *
  * Subquestion maxMark and coverageEvidence remain required in the final artifact
  * but may be absent at this provider edge so one complete, validator-directed
@@ -72,6 +73,7 @@ export const assessmentItemV2ProviderOutputSchema = assessmentItemWorkerOutputSc
   requirementIds: true,
   format: true,
   maxMark: true,
+  questionWording: true,
   subquestions: true,
   context: true,
 }).extend({
@@ -122,13 +124,20 @@ function strictSubquestions(candidate: RepairableCandidate) {
   }))
 }
 
+export function compileAssessmentQuestionWording(
+  subquestions: ReturnType<typeof strictSubquestions>,
+) {
+  return subquestions.map((subquestion) => subquestion.wording).join('\n\n')
+}
+
 /**
  * Inspect the whole parseable candidate before repair. Missing structural fields
  * are reported for every subquestion in one diagnostic set. Provider-authored
- * subquestion requirementIds are deliberately outside this contract: the exact
- * set is compiled from coverageEvidence[].requirementId. Once repairable
- * structure is complete, the shared assessment-integrity diagnostic API returns
- * every safely inspectable deterministic semantic finding in the same pass.
+ * subquestion requirementIds and top-level questionWording are deliberately outside
+ * this contract: Revision compiles those clerical representations from validated
+ * provider-owned educational content. Once repairable structure is complete, the
+ * shared assessment-integrity diagnostic API returns every safely inspectable
+ * deterministic semantic finding in the same pass.
  */
 export function diagnoseAssessmentItemV2Candidate(
   providerOutput: unknown,
@@ -183,9 +192,11 @@ export function compileAssessmentItemV2Candidate(
     throw new Error(diagnostics.map((entry) => `${entry.code} @ ${entry.path}: ${entry.message}`).join(' | '))
   }
 
+  const subquestions = strictSubquestions(candidate)
   const item = assessmentItemWorkerOutputSchema.parse({
     ...candidate,
-    subquestions: strictSubquestions(candidate),
+    questionWording: compileAssessmentQuestionWording(subquestions),
+    subquestions,
     componentId: input.targetComponentId,
     questionFamilyId: input.questionFamily.id,
     requirementIds: policy.requirementIds,
@@ -248,6 +259,7 @@ const assessmentItemV2Instruction = [
   'Use the supplied targetPolicy requirementIds, maxMark and format to shape the item, but do not return those governed top-level target fields; Revision injects them deterministically after provider validation.',
   'Return a non-empty subquestions array that makes every individual mark-bearing task explicit.',
   'Every subquestion must include maxMark, responseDemands and coverageEvidence. Do not return subquestion requirementIds; Revision derives them deterministically from coverageEvidence requirementId values.',
+  'Do not return top-level questionWording; Revision deterministically composes the learner-visible question wording from the validated subquestion wording.',
   'Subquestion maxMark values must sum exactly to targetPolicy.maxMark.',
   'Across subquestion coverageEvidence requirementId values, cover every targetPolicy requirementId and no others.',
   'Each subquestion coverageEvidence entry must identify the governed requirementId and use an exact excerpt from that subquestion wording showing where the requirement is genuinely assessed.',
@@ -302,7 +314,7 @@ function repairInstruction(diagnostics: AssessmentItemDiagnostic[]) {
     'This candidate was inspected as far as its available structure safely permits and produced this complete actionable defect set:',
     diagnosticText(diagnostics),
     'Return the complete corrected Assessment Item candidate in one repair. Preserve valid educational content and correct every listed defect.',
-    'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark or format. Do not return subquestion requirementIds; Revision derives those from coverageEvidence.',
+    'Do not return top-level componentId, questionFamilyId, requirementIds, maxMark, format or questionWording. Do not return subquestion requirementIds; Revision derives those from coverageEvidence.',
     'Do not remove genuine educational demand merely to silence validation; repair the structured representation or learner-facing wording so the intended demand is explicit and provable.',
   ].join('\n')
 }
