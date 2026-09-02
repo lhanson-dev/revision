@@ -55,8 +55,7 @@
   "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
   "q7PassEvidenceHistory": [
     "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
-    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
-    "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json"
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json"
   ],
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
