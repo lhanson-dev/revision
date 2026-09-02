@@ -66,7 +66,7 @@ function repeatedTestFiles() {
 }
 
 describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => {
-  it('preserves the historical Q6 evidence slice while current Pilot #21 has Q1-Q7 PASS', () => {
+  it('preserves the historical Q6 evidence slice while current Pilot #21 has completed Q8', () => {
     expect(evidence).toMatchObject({
       schemaVersion: 1,
       authority: '80-company-workflows/Content Factory Reliability Qualification Standard.md',
@@ -102,12 +102,16 @@ describe('Content Factory Q6 post-Pilot #20 repeated recovery stability', () => 
       q8EligibilityChanged: false,
     })
 
-    expect(qualification.status).toBe('paused')
+    expect(qualification.status).toBe('qualified')
     expect(qualification.requiredGates).toContain('Q6-repeated-provider-free-stability')
     expect(qualification.gateStatus['Q6-repeated-provider-free-stability']).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(qualification.livePilotEligible).toBe(true)
     expect(evidence.limitations.join(' ')).toMatch(/Q7 bounded live soak remains prohibited/i)
     expect(evidence.limitations.join(' ')).toMatch(/Q8 remains a separate transition/i)
   })
