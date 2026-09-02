@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "paused",
-  "reason": "Confirmation Pilot #21 exposed a generic Assessment Item duplicate-authorship contract defect. The compiler correction is now on approved main and the affected provider-free Reliability v2 Q1-Q6 gates are requalified against that corrected boundary: current ownership is explicit, Pilot #21 is permanently replayed, all five governed subject shapes exercise the corrected wording boundary, the deterministic pipeline still reaches expert_review_ready provider-free, dependency-aware restart preserves unrelated Learn/Practice while invalidating Assessment and genuine downstream dependants, and the affected suite is repeated three times. A fresh bounded Q7 live-worker soak remains required, followed by a separate Q8 transition before any paid full-course confirmation resume.",
+  "reason": "Confirmation Pilot #21 exposed a generic Assessment Item duplicate-authorship contract defect. The compiler correction is now on approved main and the affected provider-free Reliability v2 Q1-Q6 gates are requalified against that corrected boundary. The fresh post-Pilot #21 Q7 bounded live-worker soak run 33672670696 then accepted all 20 governed samples across all five subject shapes, with ten correctly bounded targeted repairs, no fresh candidate resample, zero infrastructure incidents and zero engineering-boundary breaches. Q7 therefore passes. Full-course confirmation remains prohibited until the separate Founder-approved Q8 transition restores qualified status and livePilotEligible.",
   "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
   "triggerEvidence": {
     "pilot": 18,
@@ -52,10 +52,11 @@
     "content-factory/reliability-v2-e-q7-live-soak-evidence.json",
     "content-factory/reliability-v2-e-q7-live-soak-evidence-002.json"
   ],
-  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json",
+  "q7PassEvidence": "content-factory/reliability-v2-e-q7-live-soak-evidence-007.json",
   "q7PassEvidenceHistory": [
     "content-factory/reliability-v2-e-q7-live-soak-evidence-003.json",
-    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json"
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-004.json",
+    "content-factory/reliability-v2-e-q7-live-soak-evidence-006.json"
   ],
   "requiredGates": [
     "Q1-compiler-worker-ownership-inventory",
@@ -73,7 +74,7 @@
     "Q4-deterministic-full-pipeline-simulation": "pass",
     "Q5-restart-reuse-dependency-invalidation": "pass",
     "Q6-repeated-provider-free-stability": "pass",
-    "Q7-bounded-live-worker-soak": "pending"
+    "Q7-bounded-live-worker-soak": "pass"
   },
   "providerFreeQualificationEvidence": "content-factory/reliability-post-pilot21-q1-q6-requalification.json",
   "lastProviderFreeQualificationEvidence": "content-factory/reliability-post-pilot20-q1-q6-consolidation.json",

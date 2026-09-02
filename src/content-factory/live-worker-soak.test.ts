@@ -7,6 +7,7 @@ import thirdEvidenceText from '../../content-factory/reliability-v2-e-q7-live-so
 import fourthEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-004.json?raw'
 import fifthReviewText from '../../content-factory/reliability-post-pilot20-q7-attempt-005-review.json?raw'
 import sixthEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-006.json?raw'
+import seventhEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-007.json?raw'
 import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
 import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
 import pilot19Text from '../../content-factory/reliability-pilot19-assessment-architecture-review.json?raw'
@@ -72,6 +73,7 @@ const third = JSON.parse(thirdEvidenceText) as Evidence
 const fourth = JSON.parse(fourthEvidenceText) as Evidence
 const fifthReview = JSON.parse(fifthReviewText) as FifthReview
 const sixth = JSON.parse(sixthEvidenceText) as Evidence
+const seventh = JSON.parse(seventhEvidenceText) as Evidence
 const priorQ8 = JSON.parse(priorQ8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
 const request = JSON.parse(soakRequestText) as { requestId: string; status: string; requestedFromMainSha: string; sampleCount: number; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
@@ -80,18 +82,19 @@ const qualification = JSON.parse(qualificationText) as Qualification
 
 const providerFreeGates = ['Q1-compiler-worker-ownership-inventory','Q2-historical-failure-replay-corpus','Q3-adversarial-provider-free-subject-matrix','Q4-deterministic-full-pipeline-simulation','Q5-restart-reuse-dependency-invalidation','Q6-repeated-provider-free-stability']
 
-describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20 attempt 006', () => {
-  it('preserves all historical attempts and records candidate-aware attempt 006 PASS', () => {
-    expect(plan).toMatchObject({ schemaVersion: 1, workItem: 'V2-E', gate: 'Q7', status: 'sixth_live_execution_passed_candidate_aware_all_samples_accepted', sampleCount: 20, samplesPerShape: 4, maxSpendUsd: 5, latestLiveExecutionAttempt: 6, q7Passed: true, overallReliabilityV2Passed: true })
+describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #21 attempt 007', () => {
+  it('preserves all historical attempts and records candidate-aware attempt 007 PASS', () => {
+    expect(plan).toMatchObject({ schemaVersion: 1, workItem: 'V2-E', gate: 'Q7', status: 'seventh_live_execution_passed_candidate_aware_all_samples_accepted', sampleCount: 20, samplesPerShape: 4, maxSpendUsd: 5, latestLiveExecutionAttempt: 7, q7Passed: true, overallReliabilityV2Passed: true })
     expect(new Set(plan.subjectShapes)).toEqual(new Set(q3SubjectShapeIds))
-    expect(plan.liveExecutions).toHaveLength(6)
+    expect(plan.liveExecutions).toHaveLength(7)
     expect(plan.liveExecutions[0]).toMatchObject({ attempt: 1, workflowRunId: 33265434110, defectClass: 'assessment_subquestion_required_structure_omission_before_targeted_repair' })
     expect(plan.liveExecutions[1]).toMatchObject({ attempt: 2, workflowRunId: 33282967568, classification: 'q7_fail_generic_engineering_contract_class', defectClass: 'assessment_subquestion_coverage_requirement_cross_reference_mismatch_after_targeted_repair' })
     expect(plan.liveExecutions[2]).toMatchObject({ attempt: 3, workflowRunId: 33364521121, classification: 'q7_pass_no_new_generic_engineering_contract_class' })
     expect(plan.liveExecutions[3]).toMatchObject({ attempt: 4, workflowRunId: 33395187056, acceptedSamples: 20, controlledFailClosedSamples: 0, knownUsageCostUsd: 0.384316, durableEvidence: 'content-factory/reliability-v2-e-q7-live-soak-evidence-004.json', classification: 'q7_pass_no_new_generic_engineering_contract_class' })
     expect(plan.liveExecutions[4]).toMatchObject({ attempt: 5, workflowRunId: 33549488154, acceptedSamples: 20, knownUsageCostUsd: 0.394502, classification: 'q7_pending_evidence_instrumentation_correction_required' })
     expect(plan.liveExecutions[5]).toMatchObject({ attempt: 6, workflowRunId: 33554413877, acceptedSamples: 20, controlledFailClosedSamples: 0, knownUsageCostUsd: 0.404658, durableEvidence: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json', targetedRepairsObserved: 10, freshCandidateResamplesObserved: 1, providerCallClassificationComplete: true, classification: 'q7_pass_no_new_generic_engineering_contract_class' })
-    expect(plan.costCeilingReview).toMatchObject({ cumulativeKnownQ7SpendUsd: 2.496296, latestKnownUsageCostUsd: 0.404658 })
+    expect(plan.liveExecutions[6]).toMatchObject({ attempt: 7, workflowRunId: 33672670696, acceptedSamples: 20, controlledFailClosedSamples: 0, knownUsageCostUsd: 0.369562, durableEvidence: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json', targetedRepairsObserved: 10, freshCandidateResamplesObserved: 0, providerCallClassificationComplete: true, classification: 'q7_pass_no_new_generic_engineering_contract_class' })
+    expect(plan.costCeilingReview).toMatchObject({ cumulativeKnownQ7SpendUsd: 2.865858, latestKnownUsageCostUsd: 0.369562 })
   })
 
   it('preserves the first four historical evidence records unchanged', () => {
@@ -112,7 +115,7 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20
     })
   })
 
-  it('binds current Q7 PASS to exact candidate-aware attempt-006 evidence', () => {
+  it('preserves attempt 006 as candidate-recovery historical PASS evidence', () => {
     expect(sixth).toMatchObject({
       workflow: { runId: 33554413877, runNumber: 21, mainSha: 'e74e04613c8d9fa8d7eba617bb839ef368d26029', artifactId: 9818944889, artifactDigest: 'sha256:43be3553cf21db5892efbfab888c0211f7a02944408a631d228d06fd8955a30b' },
       sampleSummary: { executed: 20, accepted: 20, controlledFailClosed: 0, infrastructureIncidents: 0, engineeringBoundaryBreaches: 0, assessmentItemAccepted: 10, markingPackAccepted: 10, targetedRepairsObserved: 10, freshCandidateResamplesObserved: 1, providerCallClassificationComplete: true },
@@ -126,15 +129,29 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #20
     expect(sixth.samples.reduce((sum, sample) => sum + (sample.freshCandidateResampleCount ?? 0), 0)).toBe(1)
   })
 
-  it('preserves historical Q8 evidence while current Pilot #21 has Q1-Q6 requalified and Q7 pending', () => {
+  it('binds current Q7 PASS to exact candidate-aware attempt-007 evidence', () => {
+    expect(seventh).toMatchObject({
+      workflow: { runId: 33672670696, runNumber: 22, mainSha: 'd8978f52c1069e25e543e8e6a142834a827ce36c', artifactId: 9863319922, artifactDigest: 'sha256:9069d0ea0c0b70abd78d9d97b686ff5cdd66c498caaa0b54481796a0a1cdff80' },
+      sampleSummary: { executed: 20, accepted: 20, controlledFailClosed: 0, infrastructureIncidents: 0, engineeringBoundaryBreaches: 0, assessmentItemAccepted: 10, markingPackAccepted: 10, targetedRepairsObserved: 10, freshCandidateResamplesObserved: 0, providerCallClassificationComplete: true },
+      costEvidence: { configuredMaxSpendUsd: 5, knownUsageCostUsd: 0.369562, unpricedSampleCount: 0, cumulativeKnownQ7SpendUsd: 2.865858 },
+      classification: { decision: 'q7_pass_no_new_generic_engineering_contract_class', defectClass: 'none_new_generic_engineering_contract_class', allSamplesAccepted: true, requiresEngineeringVsEducationalClassification: false, instrumentationComplete: true, candidateRecoveryObserved: false },
+      qualificationOutcome: { q7Passed: true, overallReliabilityV2Passed: true, livePilotEligible: false },
+    })
+    expect(seventh.samples).toHaveLength(20)
+    expect(seventh.samples.every((sample) => sample.disposition === 'accepted' && sample.providerCallClassificationComplete === true)).toBe(true)
+    expect(seventh.samples.reduce((sum, sample) => sum + (sample.repairCount ?? 0), 0)).toBe(10)
+    expect(seventh.samples.reduce((sum, sample) => sum + (sample.freshCandidateResampleCount ?? 0), 0)).toBe(0)
+  })
+
+  it('preserves historical Q8 evidence while current Pilot #21 has Q1-Q7 PASS and Q8 still closed', () => {
     expect(qualification.q7FailureEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence.json','content-factory/reliability-v2-e-q7-live-soak-evidence-002.json'])
-    expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-006.json')
-    expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json'])
+    expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-007.json')
+    expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json','content-factory/reliability-v2-e-q7-live-soak-evidence-006.json'])
     expect(qualification.status).toBe('paused')
     expect(qualification.livePilotEligible).toBe(false)
     expect(qualification.qualifiedEvidence).toBeNull()
     for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
+    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(priorQ8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
     expect(currentQ8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',

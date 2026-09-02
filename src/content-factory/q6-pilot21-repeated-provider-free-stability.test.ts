@@ -53,7 +53,7 @@ describe('Content Factory Q6 post-Pilot #21 repeated provider-free stability', (
     expect(repeatedSuites.every((file) => !file.includes('live-worker-soak'))).toBe(true)
   })
 
-  it('keeps the machine paused after Q1-Q6 PASS until a fresh bounded Q7 and separate Q8', () => {
+  it('keeps the machine paused after Q1-Q7 PASS until the separate Q8 transition', () => {
     for (const gate of [
       'Q1-compiler-worker-ownership-inventory',
       'Q2-historical-failure-replay-corpus',
@@ -61,10 +61,10 @@ describe('Content Factory Q6 post-Pilot #21 repeated provider-free stability', (
       'Q4-deterministic-full-pipeline-simulation',
       'Q5-restart-reuse-dependency-invalidation',
       'Q6-repeated-provider-free-stability',
+      'Q7-bounded-live-worker-soak',
     ]) expect(qualification.gateStatus[gate]).toBe('pass')
 
     expect(qualification.status).toBe('paused')
-    expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pending')
     expect(qualification.qualifiedEvidence).toBeNull()
     expect(qualification.livePilotEligible).toBe(false)
   })
