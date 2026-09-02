@@ -12,7 +12,7 @@ type Evidence = {
 type Qualification = {
   status: string
   gateStatus: Record<string, string>
-  qualifiedEvidence: unknown | null
+  qualifiedEvidence: { eligibilityRecord?: string; nextPaidRunClass?: string } | null
   livePilotEligible: boolean
 }
 
@@ -53,7 +53,7 @@ describe('Content Factory Q6 post-Pilot #21 repeated provider-free stability', (
     expect(repeatedSuites.every((file) => !file.includes('live-worker-soak'))).toBe(true)
   })
 
-  it('keeps the machine paused after Q1-Q7 PASS until the separate Q8 transition', () => {
+  it('preserves Q6 evidence while separate Q8 restores confirmation-pilot eligibility', () => {
     for (const gate of [
       'Q1-compiler-worker-ownership-inventory',
       'Q2-historical-failure-replay-corpus',
@@ -64,9 +64,12 @@ describe('Content Factory Q6 post-Pilot #21 repeated provider-free stability', (
       'Q7-bounded-live-worker-soak',
     ]) expect(qualification.gateStatus[gate]).toBe('pass')
 
-    expect(qualification.status).toBe('paused')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(qualification.livePilotEligible).toBe(true)
   })
 
   it('re-runs the current affected provider-free reliability suite three times under distinct deterministic shuffle seeds', async () => {
