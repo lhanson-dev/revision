@@ -5,7 +5,8 @@ import postQ7Text from '../../content-factory/reliability-post-q7-assessment-ite
 import postQ7002Text from '../../content-factory/reliability-post-q7-002-assessment-item-requalification.json?raw'
 import historicalQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility.json?raw'
 import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
-import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import postPilot20Q8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-004.json?raw'
 import pilot19Text from '../../content-factory/reliability-pilot19-assessment-architecture-review.json?raw'
 
 type ProviderFreeEvidence = { gates: Record<string, { status: string }> }
@@ -56,6 +57,7 @@ const postQ7 = JSON.parse(postQ7Text) as ProviderFreeEvidence
 const postQ7002 = JSON.parse(postQ7002Text) as ProviderFreeEvidence
 const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
 const priorQ8 = JSON.parse(priorQ8Text) as Q8
+const postPilot20Q8 = JSON.parse(postPilot20Q8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
 const pilot19 = JSON.parse(pilot19Text) as Pilot19
 
@@ -69,10 +71,10 @@ const providerFreeGates = [
 ]
 const allGates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Reliability v2 status after Confirmation Pilot #21', () => {
-  it('records current Q1-Q7 PASS while preserving the approved post-Pilot #20 Q8 record as history', () => {
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
+describe('Reliability v2 status after post-Pilot #21 Q8 eligibility', () => {
+  it('records current Q1-Q7 PASS and Q8-004 qualification while preserving post-Pilot #20 Q8 as history', () => {
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.livePilotEligible).toBe(true)
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
     )
@@ -86,8 +88,15 @@ describe('Reliability v2 status after Confirmation Pilot #21', () => {
     expect(qualification.requiredGates).toEqual(allGates)
     for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(currentQ8).toMatchObject({
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      q7PassingAttempt: 7,
+      q7WorkflowRunId: 33672670696,
+      passedGates: allGates,
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(postPilot20Q8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',
       providerCallsUsed: false,
       fullCourseExecutionTriggered: false,
@@ -96,6 +105,25 @@ describe('Reliability v2 status after Confirmation Pilot #21', () => {
         q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
         q7PassingAttempt: 6,
         q7WorkflowRunId: 33554413877,
+      },
+      decision: {
+        qualificationStatus: 'qualified',
+        livePilotEligible: true,
+        nextPaidRunClass: 'confirmation_pilot',
+        confirmationPilotEligibleAfterMerge: true,
+        confirmationPilotTriggeredByThisChange: false,
+        maturityAchieved: false,
+      },
+    })
+    expect(currentQ8).toMatchObject({
+      reviewedApprovedMainSha: 'c6503344dd163bae77fe6311fe977446adae6baa',
+      providerCallsUsed: false,
+      fullCourseExecutionTriggered: false,
+      historicalRecordsRewritten: false,
+      qualificationEvidence: {
+        q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+        q7PassingAttempt: 7,
+        q7WorkflowRunId: 33672670696,
       },
       decision: {
         qualificationStatus: 'qualified',
