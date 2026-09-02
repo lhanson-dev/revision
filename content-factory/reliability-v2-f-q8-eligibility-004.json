@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "workItem": "V2-F",
+  "gate": "Q8",
+  "status": "eligible_for_confirmation_pilot",
+  "authority": "80-company-workflows/Content Factory Reliability Qualification Standard.md",
+  "costAuthority": "60-business-operations/Content Factory Bootstrap Cost Strategy.md",
+  "reviewedApprovedMainSha": "c6503344dd163bae77fe6311fe977446adae6baa",
+  "providerCallsUsed": false,
+  "fullCourseExecutionTriggered": false,
+  "courseAssemblyTriggered": false,
+  "learnerPublicationTriggered": false,
+  "historicalRecordsRewritten": false,
+  "qualificationEvidence": {
+    "providerFreeQ1ToQ6": "content-factory/reliability-post-pilot21-q1-q6-requalification.json",
+    "q7Pass": "content-factory/reliability-v2-e-q7-live-soak-evidence-007.json",
+    "q7PassingAttempt": 7,
+    "q7WorkflowRunId": 33672670696,
+    "q7WorkflowRunNumber": 22,
+    "q7ApprovedMainSha": "d8978f52c1069e25e543e8e6a142834a827ce36c",
+    "q7ArtifactId": 9863319922,
+    "q7ArtifactDigest": "sha256:9069d0ea0c0b70abd78d9d97b686ff5cdd66c498caaa0b54481796a0a1cdff80",
+    "q7ExecutedSamples": 20,
+    "q7AcceptedSamples": 20,
+    "q7ControlledFailClosedSamples": 0,
+    "q7InfrastructureIncidents": 0,
+    "q7EngineeringBoundaryBreaches": 0,
+    "q7TargetedRepairsObserved": 10,
+    "q7FreshCandidateResamplesObserved": 0,
+    "q7ProviderCallClassificationComplete": true,
+    "q7Classification": "q7_pass_no_new_generic_engineering_contract_class",
+    "q6RepetitionCount": 3
+  },
+  "passedGates": [
+    "Q1-compiler-worker-ownership-inventory",
+    "Q2-historical-failure-replay-corpus",
+    "Q3-adversarial-provider-free-subject-matrix",
+    "Q4-deterministic-full-pipeline-simulation",
+    "Q5-restart-reuse-dependency-invalidation",
+    "Q6-repeated-provider-free-stability",
+    "Q7-bounded-live-worker-soak"
+  ],
+  "decision": {
+    "qualificationStatus": "qualified",
+    "livePilotEligible": true,
+    "nextPaidRunClass": "confirmation_pilot",
+    "confirmationPilotEligibleAfterMerge": true,
+    "confirmationPilotTriggeredByThisChange": false,
+    "maturityAchieved": false,
+    "rationale": "Post-Pilot #21 Reliability v2 Q1-Q7 are PASS on the approved Assessment Item wording-ownership implementation lineage. The fresh candidate-aware bounded Q7 attempt 007 accepted all 20 governed Assessment Item and Marking Pack samples across all five subject shapes, recorded ten correctly bounded targeted repairs, zero fresh candidate resamples, zero infrastructure incidents and zero engineering-boundary breaches, with complete provider-call classification. Q8 may therefore restore confirmation-pilot eligibility without changing worker/compiler logic or weakening educational assurance."
+  },
+  "limitations": [
+    "Q8 restores execution eligibility only; it does not prove educational correctness, expert-review approval or publication readiness.",
+    "This Q8 transition does not itself dispatch a provider run, resume Pilot #21, assemble a course or publish learner content.",
+    "The next paid execution is the bounded confirmation-pilot continuation permitted by this qualification; resuming Pilot #21 remains a separate post-merge action and must reuse valid persisted upstream artifacts according to governed dependency invalidation.",
+    "Pilot #21 must resume from the invalidated Assessment Item boundary; its 13 banked Learn and 13 banked Practice artifacts remain reusable when replay and semantic dependency fingerprints confirm they are unchanged.",
+    "A confirmation pilot may still fail closed for educational findings, provider/infrastructure incidents or a new generic engineering contract class.",
+    "A new generic engineering contract class must return global qualification to paused and restart the affected Reliability v2 gates.",
+    "The US$20 per-course ceiling and source-rights, independent-review, expert-review and publication controls remain unchanged.",
+    "Content Factory maturity still requires three consecutive materially different real courses to reach expert_review_ready without engineering or worker-contract correction between runs."
+  ],
+  "documentationImpact": {
+    "normativeAuthorityChanged": false,
+    "technicalQualificationHarnessUpdated": true,
+    "indexUpdateRequired": false,
+    "adrRequired": false
+  }
+}
