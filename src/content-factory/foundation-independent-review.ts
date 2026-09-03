@@ -62,18 +62,10 @@ export const foundationIndependentReviewFindingSchema = z.object({
   resolutionStatus: z.enum(['open', 'not_applicable']),
 }).superRefine((finding, context) => {
   if (finding.severity === 'no_issue' && finding.resolutionStatus !== 'not_applicable') {
-    context.addIssue({
-      code: 'custom',
-      path: ['resolutionStatus'],
-      message: 'No-issue Foundation review entries must be not_applicable',
-    })
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'No-issue Foundation review entries must be not_applicable' })
   }
   if (finding.severity !== 'no_issue' && finding.resolutionStatus !== 'open') {
-    context.addIssue({
-      code: 'custom',
-      path: ['resolutionStatus'],
-      message: 'Foundation review findings must enter the issue register as open',
-    })
+    context.addIssue({ code: 'custom', path: ['resolutionStatus'], message: 'Foundation review findings must enter the issue register as open' })
   }
 })
 
@@ -101,22 +93,12 @@ export const foundationIndependentReviewReportSchema = z.object({
   excludedContextIds: z.array(nonEmptyStringSchema).default([]),
   createdAt: nonEmptyStringSchema,
 }).superRefine((report, context) => {
-  const hasBlockingOrMaterial = report.findings.some((finding) =>
-    finding.resolutionStatus === 'open' && ['blocking', 'material'].includes(finding.severity),
-  )
-  if (hasBlockingOrMaterial && report.decision !== 'fail_hold') {
-    context.addIssue({
-      code: 'custom',
-      path: ['decision'],
-      message: 'Blocking/material Foundation review findings require fail_hold',
-    })
+  const material = report.findings.some((finding) => finding.resolutionStatus === 'open' && ['blocking', 'material'].includes(finding.severity))
+  if (material && report.decision !== 'fail_hold') {
+    context.addIssue({ code: 'custom', path: ['decision'], message: 'Blocking/material Foundation review findings require fail_hold' })
   }
-  if (!hasBlockingOrMaterial && report.decision !== 'pass') {
-    context.addIssue({
-      code: 'custom',
-      path: ['decision'],
-      message: 'Foundation review without blocking/material findings must pass',
-    })
+  if (!material && report.decision !== 'pass') {
+    context.addIssue({ code: 'custom', path: ['decision'], message: 'Foundation review without blocking/material findings must pass' })
   }
   if (report.excludedContextIds.includes(report.reviewer.contextId)) {
     context.addIssue({
@@ -191,6 +173,12 @@ export interface FoundationIndependentReviewArtifactStore {
   }): Promise<{ ref: string }>
 }
 
+export type FoundationReviewArtifactEntry = {
+  artifactKind: FoundationReviewableArtifactKind
+  artifactRef: string
+  value: unknown
+}
+
 type FoundationBundle = {
   sourceLicenceRegister: SourceLicenceRegister
   boardAlignment: BoardAlignment
@@ -198,7 +186,8 @@ type FoundationBundle = {
   courseKnowledgeModel: CourseKnowledgeModel
   assessmentBlueprint: FoundationAssessmentBlueprint
   questionFamilies: Array<{ artifact: FoundationArtifactRef; value: QuestionFamily }>
-  artifacts: Map<string, { kind: FoundationReviewableArtifactKind; value: unknown }>
+  artifactIndex: FoundationReviewArtifactEntry[]
+  artifacts: Map<string, FoundationReviewArtifactEntry>
 }
 
 export type FoundationRemediationTarget = {
@@ -209,6 +198,18 @@ export type FoundationRemediationTarget = {
   findings: FoundationIndependentReviewFinding[]
 }
 
+type RightsSafeSourceEvidence = Array<{
+  id: string
+  issuer: string
+  sourceType: string
+  educationalRole: string[]
+  useClass: string
+  permissionBasis: string
+  aiInputPermitted: boolean
+  derivedCommercialUsePermitted: boolean
+  restrictions: string[]
+}>
+
 export interface FoundationIndependentReviewWorkers {
   independentReview(input: {
     jobId: string
@@ -217,17 +218,8 @@ export interface FoundationIndependentReviewWorkers {
     foundationFingerprint: string
     courseIdentity: FoundationCandidate['courseIdentity']
     cohortValidity: FoundationCandidate['cohortValidity']
-    sourceEvidence: Array<{
-      id: string
-      issuer: string
-      sourceType: string
-      educationalRole: string[]
-      useClass: string
-      permissionBasis: string
-      aiInputPermitted: boolean
-      derivedCommercialUsePermitted: boolean
-      restrictions: string[]
-    }>
+    sourceEvidence: RightsSafeSourceEvidence
+    artifactIndex: FoundationReviewArtifactEntry[]
     boardAlignment: BoardAlignment
     coverageModel: FoundationCoverageModel
     courseKnowledgeModel: CourseKnowledgeModel
@@ -242,17 +234,8 @@ export interface FoundationIndependentReviewWorkers {
     foundationFingerprint: string
     courseIdentity: FoundationCandidate['courseIdentity']
     cohortValidity: FoundationCandidate['cohortValidity']
-    sourceEvidence: Array<{
-      id: string
-      issuer: string
-      sourceType: string
-      educationalRole: string[]
-      useClass: string
-      permissionBasis: string
-      aiInputPermitted: boolean
-      derivedCommercialUsePermitted: boolean
-      restrictions: string[]
-    }>
+    sourceEvidence: RightsSafeSourceEvidence
+    artifactIndex: FoundationReviewArtifactEntry[]
     boardAlignment: BoardAlignment
     coverageModel: FoundationCoverageModel
     courseKnowledgeModel: CourseKnowledgeModel
@@ -305,7 +288,7 @@ function workerEvidence(provenance: FoundationWorkerExecutionProvenance) {
   })
 }
 
-function sourceEvidence(register: SourceLicenceRegister) {
+function sourceEvidence(register: SourceLicenceRegister): RightsSafeSourceEvidence {
   return register.sources.map((source) => ({
     id: source.id,
     issuer: source.issuer,
@@ -329,22 +312,27 @@ async function readBundle(candidate: FoundationCandidate, store: FoundationIndep
     artifact,
     value: questionFamilySchema.parse(await store.readJson(artifact.ref)),
   })))
-  const artifacts = new Map<string, { kind: FoundationReviewableArtifactKind; value: unknown }>([
-    [candidate.sourceLicenceRegister.ref, { kind: 'source_licence_register', value: sourceLicenceRegister }],
-    [candidate.boardAlignment.ref, { kind: 'board_alignment', value: boardAlignment }],
-    [candidate.coverageModel.ref, { kind: 'foundation_coverage_model', value: coverageModel }],
-    [candidate.courseKnowledgeModel.ref, { kind: 'course_knowledge_model', value: courseKnowledgeModel }],
-    [candidate.assessmentBlueprint.ref, { kind: 'assessment_blueprint', value: assessmentBlueprint }],
-  ])
-  for (const family of questionFamilies) artifacts.set(family.artifact.ref, { kind: 'question_family', value: family.value })
-  return { sourceLicenceRegister, boardAlignment, coverageModel, courseKnowledgeModel, assessmentBlueprint, questionFamilies, artifacts }
+  const artifactIndex: FoundationReviewArtifactEntry[] = [
+    { artifactKind: 'source_licence_register', artifactRef: candidate.sourceLicenceRegister.ref, value: sourceLicenceRegister },
+    { artifactKind: 'board_alignment', artifactRef: candidate.boardAlignment.ref, value: boardAlignment },
+    { artifactKind: 'foundation_coverage_model', artifactRef: candidate.coverageModel.ref, value: coverageModel },
+    { artifactKind: 'course_knowledge_model', artifactRef: candidate.courseKnowledgeModel.ref, value: courseKnowledgeModel },
+    { artifactKind: 'assessment_blueprint', artifactRef: candidate.assessmentBlueprint.ref, value: assessmentBlueprint },
+    ...questionFamilies.map((family) => ({ artifactKind: 'question_family' as const, artifactRef: family.artifact.ref, value: family.value })),
+  ]
+  return {
+    sourceLicenceRegister,
+    boardAlignment,
+    coverageModel,
+    courseKnowledgeModel,
+    assessmentBlueprint,
+    questionFamilies,
+    artifactIndex,
+    artifacts: new Map(artifactIndex.map((entry) => [entry.artifactRef, entry])),
+  }
 }
 
-async function findMatchingDeterministicReport(
-  candidate: FoundationCandidate,
-  store: FoundationIndependentReviewArtifactStore,
-  reviewedCommit: string,
-) {
+async function findMatchingDeterministicReport(candidate: FoundationCandidate, store: FoundationIndependentReviewArtifactStore, reviewedCommit: string) {
   if (candidate.deterministicAssurance.status !== 'pass' || !candidate.deterministicAssurance.foundationFingerprint) return null
   for (const ref of [...candidate.deterministicAssurance.evidenceRefs].reverse()) {
     try {
@@ -355,7 +343,7 @@ async function findMatchingDeterministicReport(
         && report.reviewedCommit === reviewedCommit
       ) return { ref, report }
     } catch {
-      // Ignore stale or unrelated evidence and continue to an exact match.
+      // Continue until exact fingerprint/commit evidence is found.
     }
   }
   return null
@@ -371,12 +359,9 @@ async function ensureDeterministicPass(input: {
   if (!job.candidate) throw new Error('Foundation deterministic assurance requires a candidate')
   const fingerprint = await computeFoundationFingerprint(job.candidate)
   const existing = await findMatchingDeterministicReport(job.candidate, input.artifactStore, input.reviewedCommit)
-  if (
-    existing
-    && job.candidate.deterministicAssurance.status === 'pass'
-    && job.candidate.deterministicAssurance.foundationFingerprint === fingerprint
-  ) return { job, ref: existing.ref, report: existing.report }
-
+  if (existing && job.candidate.deterministicAssurance.foundationFingerprint === fingerprint) {
+    return { job, ref: existing.ref, report: existing.report }
+  }
   const result = await runDeterministicFoundationAssurance({
     job,
     artifactStore: {
@@ -406,18 +391,14 @@ function validateReviewOutput(input: {
     decision: z.enum(['pass', 'fail_hold']),
     findings: z.array(foundationIndependentReviewFindingSchema).default([]),
   }).parse(input.output)
-  if (parsed.reviewedCommit !== input.reviewedCommit) {
-    throw new Error('Independent Foundation review must cover the exact deterministically assured commit')
-  }
-  if (parsed.foundationFingerprint !== input.foundationFingerprint) {
-    throw new Error('Independent Foundation review must cover the exact deterministically assured Foundation fingerprint')
-  }
-  const findingIds = parsed.findings.map((finding) => finding.id)
-  if (new Set(findingIds).size !== findingIds.length) throw new Error('Independent Foundation review finding IDs must be unique')
+  if (parsed.reviewedCommit !== input.reviewedCommit) throw new Error('Independent Foundation review must cover the exact deterministically assured commit')
+  if (parsed.foundationFingerprint !== input.foundationFingerprint) throw new Error('Independent Foundation review must cover the exact deterministically assured Foundation fingerprint')
+  const ids = parsed.findings.map((finding) => finding.id)
+  if (new Set(ids).size !== ids.length) throw new Error('Independent Foundation review finding IDs must be unique')
   for (const finding of parsed.findings) {
     const artifact = input.bundle.artifacts.get(finding.artifactRef)
     if (!artifact) throw new Error(`Independent Foundation review finding ${finding.id} references unknown artifact ${finding.artifactRef}`)
-    if (artifact.kind !== finding.artifactKind) {
+    if (artifact.artifactKind !== finding.artifactKind) {
       throw new Error(`Independent Foundation review finding ${finding.id} artifact kind does not match ${finding.artifactRef}`)
     }
   }
@@ -438,9 +419,7 @@ function validateReviewOutput(input: {
 }
 
 function unresolvedMaterialFindings(report: FoundationIndependentReviewReport) {
-  return report.findings.filter((finding) =>
-    finding.resolutionStatus === 'open' && ['blocking', 'material'].includes(finding.severity),
-  )
+  return report.findings.filter((finding) => finding.resolutionStatus === 'open' && ['blocking', 'material'].includes(finding.severity))
 }
 
 function minorLimitations(report: FoundationIndependentReviewReport) {
@@ -449,11 +428,7 @@ function minorLimitations(report: FoundationIndependentReviewReport) {
     .map((finding) => `Independent Foundation review ${finding.id}: ${finding.finding}`)
 }
 
-function updateOperationalMetadata(jobInput: FoundationJob, input: {
-  contextIds?: string[]
-  limitations?: string[]
-  now: string
-}) {
+function updateOperationalMetadata(jobInput: FoundationJob, input: { contextIds?: string[]; limitations?: string[]; now: string }) {
   const job = foundationJobSchema.parse(jobInput)
   if (job.state !== 'assuring' || !job.candidate) throw new Error('Foundation assurance metadata may be updated only while assuring')
   const candidate = foundationCandidateSchema.parse({
@@ -461,39 +436,28 @@ function updateOperationalMetadata(jobInput: FoundationJob, input: {
     knownLimitations: unique([...job.candidate.knownLimitations, ...(input.limitations ?? [])]),
     provenance: {
       ...job.candidate.provenance,
-      assuranceContextIds: unique([
-        ...job.candidate.provenance.assuranceContextIds,
-        ...(input.contextIds ?? []),
-      ]),
+      assuranceContextIds: unique([...job.candidate.provenance.assuranceContextIds, ...(input.contextIds ?? [])]),
     },
   })
   return foundationJobSchema.parse({ ...job, candidate, updatedAt: input.now })
 }
 
 function upstreamFinding(findings: FoundationIndependentReviewFinding[]) {
-  return findings.find((finding) =>
-    ['source_licence_register', 'board_alignment', 'foundation_coverage_model'].includes(finding.artifactKind),
-  )
+  return findings.find((finding) => ['source_licence_register', 'board_alignment', 'foundation_coverage_model'].includes(finding.artifactKind))
 }
 
-function remediationTargets(
-  candidate: FoundationCandidate,
-  bundle: FoundationBundle,
-  review: FoundationIndependentReviewReport,
-): FoundationRemediationTarget[] {
+function remediationTargets(candidate: FoundationCandidate, bundle: FoundationBundle, review: FoundationIndependentReviewReport): FoundationRemediationTarget[] {
   const material = unresolvedMaterialFindings(review)
   const byRef = new Map<string, FoundationRemediationTarget>()
-  const add = (input: FoundationRemediationTarget) => {
-    const existing = byRef.get(input.oldRef)
-    const direct = unique([...(existing?.findings ?? []), ...input.findings].map((finding) => finding.id))
-      .map((id) => material.find((finding) => finding.id === id)!)
-    byRef.set(input.oldRef, {
-      ...input,
-      reason: existing?.reason === 'direct_finding' || input.reason === 'direct_finding' ? 'direct_finding' : 'dependency',
-      findings: direct,
+  const add = (target: FoundationRemediationTarget) => {
+    const existing = byRef.get(target.oldRef)
+    const directIds = unique([...(existing?.findings ?? []), ...target.findings].map((finding) => finding.id))
+    byRef.set(target.oldRef, {
+      ...target,
+      reason: existing?.reason === 'direct_finding' || target.reason === 'direct_finding' ? 'direct_finding' : 'dependency',
+      findings: directIds.map((id) => material.find((finding) => finding.id === id)!),
     })
   }
-
   for (const finding of material) {
     if (finding.artifactKind === 'course_knowledge_model') {
       add({ artifactKind: 'course_knowledge_model', oldRef: candidate.courseKnowledgeModel.ref, value: bundle.courseKnowledgeModel, reason: 'direct_finding', findings: [finding] })
@@ -547,8 +511,7 @@ async function applyRemediation(input: {
   let courseFingerprint = sourceCandidate.courseKnowledgeModel.fingerprint
   const courseTarget = targets.find((target) => target.artifactKind === 'course_knowledge_model')
   if (courseTarget) {
-    const replacement = replacementByRef.get(courseTarget.oldRef)!
-    const parsed = courseKnowledgeModelSchema.parse(replacement.correctedArtifact)
+    const parsed = courseKnowledgeModelSchema.parse(replacementByRef.get(courseTarget.oldRef)!.correctedArtifact)
     if (parsed.jobId !== job.jobId) throw new Error('Course Truth remediation may not change Foundation job identity')
     if (!sameSet(parsed.nodes.map((node) => node.id), input.bundle.courseKnowledgeModel.nodes.map((node) => node.id))) {
       throw new Error('Course Truth remediation may not silently change the canonical coverage node set')
@@ -568,8 +531,7 @@ async function applyRemediation(input: {
   let examFingerprint = sourceCandidate.assessmentBlueprint.fingerprint
   const examTarget = targets.find((target) => target.artifactKind === 'assessment_blueprint')
   if (examTarget) {
-    const replacement = replacementByRef.get(examTarget.oldRef)!
-    const parsed = foundationAssessmentBlueprintSchema.parse(replacement.correctedArtifact)
+    const parsed = foundationAssessmentBlueprintSchema.parse(replacementByRef.get(examTarget.oldRef)!.correctedArtifact)
     if (parsed.jobId !== job.jobId) throw new Error('Exam Truth remediation may not change Foundation job identity')
     const corrected = foundationAssessmentBlueprintSchema.parse({
       ...parsed,
@@ -588,10 +550,9 @@ async function applyRemediation(input: {
 
   const questionFamilies = [...sourceCandidate.questionFamilies]
   for (const target of targets.filter((entry) => entry.artifactKind === 'question_family')) {
-    const replacement = replacementByRef.get(target.oldRef)!
     const before = input.bundle.questionFamilies.find((entry) => entry.artifact.ref === target.oldRef)
     if (!before) throw new Error(`Question Family ${target.oldRef} is unavailable for remediation`)
-    const corrected = questionFamilySchema.parse(replacement.correctedArtifact)
+    const corrected = questionFamilySchema.parse(replacementByRef.get(target.oldRef)!.correctedArtifact)
     if (corrected.id !== before.value.id) throw new Error(`Question Family remediation may not change family identity ${before.value.id}`)
     const fingerprint = await fingerprintFoundationArtifact(corrected)
     const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'question_family', fingerprint, value: corrected })
@@ -626,9 +587,8 @@ async function applyRemediation(input: {
     },
   })
   const remediatedFingerprint = await computeFoundationFingerprint(remediatedCandidate)
-  if (remediatedFingerprint === sourceFingerprint) {
-    throw new Error('Blocking/material Foundation remediation must produce a materially different Foundation fingerprint')
-  }
+  if (remediatedFingerprint === sourceFingerprint) throw new Error('Blocking/material Foundation remediation must produce a materially different Foundation fingerprint')
+
   const remediatedJob = foundationJobSchema.parse({ ...job, candidate: remediatedCandidate, updatedAt: input.now })
   const reassured = await runDeterministicFoundationAssurance({
     job: remediatedJob,
@@ -639,7 +599,6 @@ async function applyRemediation(input: {
     reviewedCommit: input.reviewedCommit,
     now: input.now,
   })
-
   const record = foundationRemediationRecordSchema.parse({
     schemaVersion: 1,
     artifactType: 'foundation_remediation_record',
@@ -666,6 +625,10 @@ async function applyRemediation(input: {
   return { job: reassured.job, record, recordRef: write.ref, deterministicReport: reassured.report }
 }
 
+function safeBlockerId(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9._-]/g, '-')
+}
+
 function blockWorkerFailure(
   job: FoundationJob,
   stage: 'independent-review' | 'remediation',
@@ -673,7 +636,7 @@ function blockWorkerFailure(
   now: string,
 ) {
   return blockFoundationJob(job, {
-    id: `${stage}-worker-failure-${execution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
+    id: safeBlockerId(`${stage}-worker-failure-${execution.provenance.id}`),
     reason: `${stage} worker ${execution.status}: ${execution.error}`,
     createdAt: now,
   })
@@ -710,9 +673,8 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
   while (true) {
     const deterministic = await ensureDeterministicPass({ job, artifactStore: input.artifactStore, reviewedCommit, now: input.now })
     job = deterministic.job
-    if (deterministic.report.decision !== 'pass') {
-      return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
-    }
+    if (deterministic.report.decision !== 'pass') return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
+
     const candidate = job.candidate!
     const foundationFingerprint = await computeFoundationFingerprint(candidate)
     const bundle = await readBundle(candidate, input.artifactStore)
@@ -721,9 +683,7 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       ...candidate.provenance.assuranceContextIds,
       ...(input.additionalForbiddenContextIds ?? []),
     ])
-    if (excludedContextIds.length === 0) {
-      throw new Error('Independent Foundation review requires retained generation-context provenance; independence cannot be inferred')
-    }
+    if (excludedContextIds.length === 0) throw new Error('Independent Foundation review requires retained generation-context provenance; independence cannot be inferred')
 
     const reviewExecution = await input.workers.independentReview({
       jobId: job.jobId,
@@ -733,6 +693,7 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       courseIdentity: candidate.courseIdentity,
       cohortValidity: candidate.cohortValidity,
       sourceEvidence: sourceEvidence(bundle.sourceLicenceRegister),
+      artifactIndex: bundle.artifactIndex,
       boardAlignment: bundle.boardAlignment,
       coverageModel: bundle.coverageModel,
       courseKnowledgeModel: bundle.courseKnowledgeModel,
@@ -746,7 +707,7 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
     if (excludedContextIds.includes(reviewExecution.provenance.contextId)) {
       return {
         job: blockFoundationJob(job, {
-          id: `independent-review-context-reuse-${reviewExecution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
+          id: safeBlockerId(`independent-review-context-reuse-${reviewExecution.provenance.id}`),
           reason: 'Independent Foundation review reused a generation/review/remediation context and cannot be treated as independent evidence.',
           createdAt: input.now,
         }),
@@ -815,6 +776,7 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       courseIdentity: candidate.courseIdentity,
       cohortValidity: candidate.cohortValidity,
       sourceEvidence: sourceEvidence(bundle.sourceLicenceRegister),
+      artifactIndex: bundle.artifactIndex,
       boardAlignment: bundle.boardAlignment,
       coverageModel: bundle.coverageModel,
       courseKnowledgeModel: bundle.courseKnowledgeModel,
@@ -829,7 +791,7 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
     if (forbiddenRemediationContexts.includes(remediationExecution.provenance.contextId)) {
       return {
         job: blockFoundationJob(job, {
-          id: `foundation-remediation-context-reuse-${remediationExecution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
+          id: safeBlockerId(`foundation-remediation-context-reuse-${remediationExecution.provenance.id}`),
           reason: 'Foundation remediation reused a generation/review/remediation context; corrected truth cannot be accepted from a contaminated context.',
           createdAt: input.now,
         }),
@@ -852,8 +814,6 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
     job = remediated.job
     remediationRecords.push(remediated.record)
     remediationRefs.push(remediated.recordRef)
-    if (remediated.deterministicReport.decision !== 'pass') {
-      return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
-    }
+    if (remediated.deterministicReport.decision !== 'pass') return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
   }
 }
