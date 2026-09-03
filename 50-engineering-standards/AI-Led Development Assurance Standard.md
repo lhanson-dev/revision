@@ -56,7 +56,7 @@ A high-risk change requires all of the following in addition to the Testing & As
 2. explicit failure/abuse hypotheses;
 3. deterministic negative, boundary and recovery assurance appropriate to the changed responsibility;
 4. critical-assurance integrity validation;
-5. independent automated security/dependency analysis where the repository/platform supports it;
+5. independent automated security analysis, plus dependency vulnerability analysis when dependency manifests or lockfiles change;
 6. a fresh-context adversarial AI review after implementation; and
 7. explicit test-sensitivity evidence showing how a plausible incorrect implementation would be detected.
 
@@ -155,14 +155,13 @@ Unresolved material findings block merge. The review record must be truthful abo
 
 ## Independent automated analysis
 
-For Level 3/4 pull requests, Revision must use security/supply-chain analysis that is independent of the AI-authored application tests using the strongest repository-supported mechanism available.
+For Level 3/4 pull requests, Revision must use security analysis that is independent of the AI-authored application tests using the strongest repository-supported mechanism available.
 
-The current controls are:
+The current security control is GitHub CodeQL analysis for JavaScript/TypeScript findings.
 
-- GitHub CodeQL analysis for JavaScript/TypeScript security findings; and
-- lockfile-based dependency vulnerability analysis that fails on high/critical known vulnerabilities.
+Dependency vulnerability analysis is additionally mandatory when `package.json`, `package-lock.json` or an equivalent governed dependency manifest/lockfile changes. GitHub Dependency Review is preferred when the repository's Dependency Graph capability is enabled and available because it can focus on newly introduced dependency risk. Where that repository capability is unavailable, a fail-closed lockfile audit such as `npm audit --audit-level=high` is the governed fallback.
 
-GitHub Dependency Review is preferred when the repository's Dependency Graph capability is enabled and available because it can focus on newly introduced dependency risk. Where that repository capability is unavailable, a fail-closed lockfile audit such as `npm audit --audit-level=high` is the governed fallback rather than disabling dependency vulnerability analysis.
+A registry-dependent vulnerability audit must not be made a mandatory dependency of unrelated Level 3/4 work when the dependency graph has not changed. That creates availability coupling without adding change-specific evidence and can prevent independent security analysis such as CodeQL from running.
 
 These controls supplement rather than replace database/RLS tests, Edge-function authorisation tests, secret scanning or application-level negative tests.
 
@@ -186,6 +185,7 @@ Static integrity checks cannot prove assertion quality. That remaining risk is a
 This standard must not turn every change into a maximum-assurance release.
 
 - Level 1/2 work must not run Level 3/4 adversarial/security ceremony solely because those controls exist.
+- Dependency vulnerability analysis is change-scoped to dependency manifest/lockfile changes rather than all high-risk PRs.
 - Expensive mutation/fuzz/property runs should be targeted to the changed critical domain or run as deeper periodic assurance where appropriate.
 - The existing conservative-full CI execution may be reduced only through a separate governed change after selective execution is evidenced as safe.
 - Uncertain risk classification fails safe by escalating; it must not skip required assurance to preserve speed.
