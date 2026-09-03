@@ -205,11 +205,25 @@ describe('Foundation lifecycle', () => {
 
     expect(blocked.state).toBe('blocked')
     expect(blocked.blockedFromState).toBe('compiling')
-    expect(() => advanceFoundationJob(blocked, 'superseded', later)).toThrow(/resumed/)
 
     const resumed = resumeFoundationJob(blocked, 'rights-question', later)
     expect(resumed.state).toBe('compiling')
     expect(resumed.blockedFromState).toBeUndefined()
+  })
+
+  it('allows an abandoned blocked Foundation to be superseded without falsely resolving its blocker', () => {
+    const requested = createFoundationJob({ jobId: 'job-1', createdAt: now })
+    const compiling = advanceFoundationJob(requested, 'compiling', now)
+    const blocked = blockFoundationJob(compiling, {
+      id: 'rights-question',
+      reason: 'Source-use decision required',
+      createdAt: now,
+    })
+
+    const superseded = advanceFoundationJob(blocked, 'superseded', later)
+    expect(superseded.state).toBe('superseded')
+    expect(superseded.blockedFromState).toBeUndefined()
+    expect(superseded.blockers[0]?.resolvedAt).toBeUndefined()
   })
 
   it('enters foundation_approved only through exact qualified approval evidence', async () => {
