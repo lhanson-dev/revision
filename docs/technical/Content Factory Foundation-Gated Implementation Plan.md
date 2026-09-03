@@ -1,25 +1,29 @@
 # Content Factory Foundation-Gated Implementation Plan
 
-**Status:** Proposed target implementation plan  
+**Status:** Active implementation plan — authority approved via PR #290; Issue #289 In Progress  
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
 **Related previous initiative:** GitHub Issue #169 (superseded end-to-end v2 programme)
 
 ## Purpose
 
-Implement the new Content Factory as a staged production system where an exact course reaches an approved Course Foundation before any learner-facing Learn, Practice or Exam Prep assets are generated.
+Implement the Content Factory as a staged production system where an exact course reaches an approved Course Foundation before any learner-facing Learn, Practice or Exam Prep assets are generated.
 
-This plan deliberately does not treat the existing v2 orchestrator as the structure to extend. The current `src/content-factory/` implementation is useful implementation evidence and a source of reusable components, but the new orchestration should be designed around the new authority first.
+The existing v2 factory is implementation evidence and a source of reusable controls. It is not the orchestration shape to extend.
 
 ## Current implementation truth
 
-The current v2 implementation on `main` remains an end-to-end course-build system. Its orchestration runs intake/knowledge modelling, then combined Learn + Practice generation, then assessment/marking generation, then assurance and expert-review packaging.
+The legacy implementation under `src/content-factory/` still contains the old end-to-end `ContentFactoryJob` and orchestrator used by the historical v2 programme. That path couples foundation modelling with learner-asset generation and final package assurance.
 
-Its job lifecycle is built around one course job moving through generic states such as `mapped`, `generating`, `validating`, `independent_review` and `expert_review_ready`.
+Issue #289 introduces a separate Foundation boundary. The first implementation slice is deliberately isolated from the legacy state machine so the old topology does not become a dependency of the new process.
 
-That implementation does not provide a separate approved-foundation gate before learner-asset generation.
+The new Foundation modules are:
 
-The previous live programme also did not achieve a final real-course `expert_review_ready` pass. The new architecture therefore does not depend on proving or completing the old end-to-end confirmation-pilot sequence.
+- `src/content-factory/foundation-schema.ts`;
+- `src/content-factory/foundation-lifecycle.ts`; and
+- `src/content-factory/foundation-lifecycle.test.ts`.
+
+The legacy orchestrator remains present during migration but is not the canonical Foundation runtime.
 
 ## Migration rule
 
@@ -27,29 +31,34 @@ Reuse a previous component only when all three are true:
 
 1. its responsibility remains valid under the new authority;
 2. its contract can be understood without importing the old end-to-end state machine; and
-3. reuse is simpler and safer than implementing the same bounded responsibility cleanly.
+3. reuse is simpler and safer than implementing the bounded responsibility cleanly.
 
-If any of those conditions fail, implement a new boundary and port only the relevant lesson/control.
+If any condition fails, create a clean boundary and port only the useful control or learning.
 
 ## Reusable implementation candidates
 
-The following existing areas should be assessed for direct reuse or thin adaptation:
+Strong candidates for selective reuse are:
 
 - source-rights classification and Source Licence Register construction;
 - exact identity/cohort resolution;
 - Board Alignment compilation;
-- curriculum coverage compilation;
-- Course Knowledge Model schema and validation;
-- Assessment Blueprint schema/compiler;
-- Question Family schema/compiler;
-- deterministic arithmetic/cross-reference/coverage validation utilities;
+- Course Knowledge Model concepts and validators;
+- Assessment Blueprint and Question Family concepts;
+- deterministic cross-reference and completeness validators;
 - fresh-context independent-review contracts;
-- artifact fingerprinting;
-- dependency-aware invalidation/reuse utilities;
+- durable artifact fingerprints and dependency-aware invalidation;
 - worker provenance and cost telemetry; and
-- candidate recovery utilities for high-variability generative boundaries.
+- bounded candidate recovery where generative variability genuinely requires it.
 
-Reuse should occur at function/schema/service boundaries, not by calling the old end-to-end orchestrator from the new one.
+Reuse should occur at schema/function/service boundaries, never by calling the old end-to-end orchestrator from the new Foundation process.
+
+## Known legacy incompatibility
+
+The legacy `coverageMapSchema` treats a requirement as `complete` only when it references learner-content artifacts.
+
+That contract is incompatible with the new authority because the Course Foundation must be approvable before Learn, Practice or Exam Prep assets exist.
+
+The new Foundation Candidate therefore references a Foundation coverage-model artifact and its fingerprint without importing the legacy learner-content completeness rule. Slice 2 must establish the replacement Foundation coverage contract explicitly.
 
 ## Do not carry forward by default
 
@@ -59,265 +68,215 @@ Do not make these old structures prerequisites for the new process:
 - the single `generating` state;
 - combined Learn/Practice work units;
 - `continueContentFactoryToExpertReviewReady` as the normal entry point;
-- old Q1–Q8 qualification sequencing;
-- full-course confirmation-pilot eligibility as a prerequisite to Foundation work;
-- old expert-review packaging that requires all Learn/Practice/assessment collateral to exist;
-- checkpoint compatibility assumptions tied to the old whole-course topology.
+- old Q1–Q8 whole-course qualification sequencing;
+- full-course confirmation-pilot eligibility;
+- old expert-review packaging that requires all learner collateral to exist; or
+- checkpoint assumptions tied to the old whole-course topology.
 
-Historical tests can remain as regression evidence for reusable utilities, but the new staged process needs its own tests and proof contracts.
+Historical tests remain historical/regression evidence only where a retained boundary still uses the same contract.
 
-## Target domain model
+## Foundation domain model
 
-### Course Foundation candidate
+### Foundation Candidate
 
-A Foundation candidate contains references to the exact version of:
+A Foundation Candidate is the complete pre-approval dependency set for an exact course. It records:
 
-- course identity/cohort;
-- Source Licence Register;
-- Board Alignment;
-- coverage model;
-- Course Truth / Course Knowledge Model;
-- Exam Truth / Assessment Blueprint;
-- Question Families where applicable;
-- deterministic assurance;
-- independent review;
-- expert review; and
-- known limitations.
+- exact course identity and cohort;
+- Source Licence Register ref/fingerprint;
+- Board Alignment ref/fingerprint;
+- Foundation coverage-model ref/fingerprint;
+- Course Truth / Course Knowledge Model ref/fingerprint;
+- Exam Truth / Assessment Blueprint ref/fingerprint;
+- Question Family refs/fingerprints where applicable;
+- deterministic Foundation assurance;
+- independent Foundation review;
+- unresolved blockers and known limitations; and
+- provenance/source-set fingerprint.
+
+It contains no Learn, Practice, Exam Prep, mock or Marking Pack requirement.
 
 ### Approved Course Foundation
 
 The approved artifact adds:
 
-- `foundationVersion`;
-- `foundationFingerprint`;
-- approval status;
-- approval date;
-- reviewer evidence/reference; and
-- exact constituent artifact fingerprints.
+- stable `foundationId`;
+- positive `foundationVersion`;
+- deterministic `foundationFingerprint`;
+- exact embedded Foundation Candidate;
+- qualified reviewer and approver identities;
+- review/approval timestamps and evidence refs; and
+- known limitations.
 
-The approved artifact is immutable. A changed dependency creates a new candidate/version.
+The approved record is immutable. A changed Course Truth, Exam Truth or other material Foundation dependency requires a different fingerprint and newer version for the same foundation ID.
 
-### Asset job
+## Approved Foundation lifecycle
 
-An asset-production job is separate from the Foundation job and records at minimum:
+The canonical Foundation lifecycle is intentionally small:
 
-- asset job ID;
-- asset type: `learn`, `practice` or `exam_prep`;
-- course identity;
-- approved `foundationVersion` / `foundationFingerprint`;
-- coverage obligations / knowledge-node scope;
-- generated artifact refs;
-- assurance status;
-- remediation/provenance; and
-- publication state where applicable.
+`requested → compiling → assuring → expert_review → foundation_approved`
 
-## Target Foundation lifecycle
+Exception states:
 
-Keep the lifecycle small and responsibility-specific.
+- `blocked` — operational interruption; resumes to the exact prior working stage after all blockers are resolved;
+- `superseded` — terminal record for a replaced candidate/version.
 
-A practical target is:
+The working states deliberately group internal worker details. Identity, source-rights, Board Alignment, coverage, Course Truth and Exam Truth compilation are activities within `compiling`, not additional operator lifecycle states.
 
-`requested → identified → sourced → foundation_compiled → foundation_validating → foundation_independent_review → foundation_expert_review → foundation_approved`
-
-Optional exception states:
-
-- `foundation_remediation`;
-- `blocked`.
-
-The implementation may use more granular internal worker events, but those should not become operator-facing lifecycle states unless they represent a distinct decision or recovery boundary.
+Deterministic validation, independent review and bounded remediation are activities within `assuring`.
 
 ### Transition rules
 
-`requested → identified`
-- exact course/cohort resolved;
-- unresolved learner/course options fail closed.
+`requested → compiling`
+- Foundation work may begin for the exact requested course.
 
-`identified → sourced`
-- Source Licence Register complete;
-- source rights approved for intended use.
+`compiling → assuring`
+- a complete Foundation Candidate exists with exact dependency refs/fingerprints.
 
-`sourced → foundation_compiled`
-- Board Alignment complete;
-- coverage complete for declared scope;
-- Course Truth complete;
-- Exam Truth complete;
-- all constituent artifacts tied to the current source/dependency fingerprints.
+`assuring → expert_review`
+- deterministic Foundation assurance is `pass`;
+- independent Foundation review is `pass`;
+- candidate-level blockers are empty; and
+- operational blockers are resolved.
 
-`foundation_compiled → foundation_validating`
-- complete constituent artifact set exists.
+`expert_review → foundation_approved`
+- transition is available only through the dedicated Foundation approval function;
+- qualified reviewer/approver evidence is present;
+- the exact candidate fingerprint is calculated and frozen; and
+- the approved version is recorded.
 
-`foundation_validating → foundation_independent_review`
-- deterministic foundation assurance passes.
+`foundation_approved → superseded`
+- permitted only when a later governed Foundation version replaces the approved record.
 
-`foundation_independent_review → foundation_expert_review`
-- no unresolved blocking/material independent-review finding remains.
+No learner-asset generation transition exists inside this lifecycle.
 
-`foundation_expert_review → foundation_approved`
-- qualified reviewer approves the exact candidate version;
-- known limitations are explicit;
-- approved foundation fingerprint is frozen.
+## Foundation fingerprint and version invariant
 
-No asset-generation transition exists inside this lifecycle.
+The Foundation fingerprint is deterministic SHA-256 over the educational/assessment dependency set rather than operational review metadata.
+
+It includes the exact course/cohort, source/foundation artifact refs and fingerprints, Course Truth, Exam Truth, Question Families and source-set fingerprint.
+
+It excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
+
+Required invariant for the same `foundationId`:
+
+- same Foundation fingerprint → same `foundationVersion`;
+- changed Foundation fingerprint → newer `foundationVersion`.
+
+An Approved Course Foundation must also be re-checkable against its embedded candidate to detect fingerprint drift/tampering.
 
 ## Implementation slices
 
-### Slice 1 — Foundation schema and state only
+### Slice 1 — Foundation schema and lifecycle
 
-Goal: create the new domain boundary without generating content.
+**Status: implementation in progress via Issue #289.**
 
 Implement:
 
-- Foundation candidate/approved schemas;
-- minimal Foundation lifecycle;
-- constituent fingerprint calculation;
-- explicit `foundation_approved` transition guard;
-- unit tests for immutability/version changes;
-- no provider calls;
-- no learner asset generation;
-- no dependency on old `expert_review_ready` state.
+- Foundation Candidate schema;
+- Approved Course Foundation schema;
+- Foundation job/lifecycle schema;
+- small lifecycle and blocker/resume behaviour;
+- deterministic Foundation fingerprint;
+- explicit `foundation_approved` approval guard;
+- version/integrity invariant;
+- unit/schema assurance;
+- public Content Factory exports; and
+- current technical implementation documentation.
+
+Explicitly exclude provider calls and all learner-asset generation.
 
 Success proof:
 
-A synthetic/stored Foundation candidate can move through the lifecycle only when the required exact-version evidence is present, and a changed constituent fingerprint cannot masquerade as the approved version.
+A synthetic Foundation Candidate can reach `foundation_approved` only with passing assurance and exact qualified approval evidence; changed Course Truth or Exam Truth changes the Foundation fingerprint and cannot masquerade as the same approved version.
 
 ### Slice 2 — Foundation compilation
 
-Goal: create Course Truth + Exam Truth through the new boundary.
+Goal: create Course Truth + Exam Truth behind the new boundary.
 
-Assess and port/reuse:
+Assess and selectively port/rebuild:
 
-- identity resolution;
-- source rights;
+- identity/cohort resolution;
+- source discovery and rights;
 - Board Alignment;
-- coverage;
-- Course Knowledge Model;
-- Assessment Blueprint;
+- Foundation-specific curriculum coverage;
+- Course Knowledge Model / Course Truth;
+- Assessment Blueprint / Exam Truth; and
 - Question Families.
 
-Do not call Learn, Practice or assessment-item generation.
+Do not call Learn, Practice, assessment-item or Marking Pack generation.
 
 Success proof:
 
-A real governed course can reach `foundation_compiled` with complete Course Truth and Exam Truth without producing learner collateral.
+A real governed course reaches a complete Foundation Candidate with Course Truth and Exam Truth and zero learner-facing assets.
 
 ### Slice 3 — Foundation assurance and approval
 
-Goal: make `foundation_approved` a trustworthy gate.
+Goal: make the Foundation approval gate operationally trustworthy.
 
 Implement/port:
 
-- foundation-specific deterministic validator;
-- fresh-context independent foundation review;
-- targeted foundation remediation;
-- portable foundation expert-review contract/package;
-- structured expert findings import or equivalent review evidence;
-- final approved Foundation artifact.
+- Foundation-specific deterministic assurance;
+- fresh-context independent Foundation review;
+- targeted Foundation remediation;
+- qualified expert-review package/contract;
+- structured expert findings/evidence; and
+- durable approved Foundation persistence.
 
 Success proof:
 
-One real course reaches `foundation_approved`, with the exact approved version and reviewer evidence retained, before any learner asset is generated.
-
-This is the first major milestone of the new Content Factory.
+One real course reaches `foundation_approved` before any learner asset is generated.
 
 ### Slice 4 — Learn Factory
 
-Goal: produce learner teaching assets from an approved Foundation.
-
-Implement:
-
-- Learn asset planning by canonical Course Truth nodes;
-- coverage-driven generation;
-- deterministic content/coverage checks;
-- independent A2 educational review;
-- targeted remediation;
-- foundation fingerprint linkage.
-
-Success proof:
-
-Learn can be regenerated or changed without changing the approved Foundation when Course Truth is unchanged.
+Generate and assure teaching assets from approved Course Truth. Every Learn asset must carry the approved Foundation fingerprint/version.
 
 ### Slice 5 — Practice Factory
 
-Goal: produce valid evidence-generating Practice assets from an approved Foundation.
-
-Implement:
-
-- node-level valid-evidence mappings;
-- format capability constraints;
-- coverage/variation planning without fixed universal quotas;
-- flashcard/retrieval/quiz/application/calculation/topic-test production as appropriate;
-- answer/explanation contracts;
-- assurance and remediation;
-- learner-evidence metadata compatible with Exam Readiness governance.
-
-Success proof:
-
-A course can achieve complete Practice obligations through the set of formats educationally appropriate to its nodes, without requiring every format to test every skill.
+Generate coverage-driven Practice assets against canonical knowledge/skill nodes and valid learner-evidence mappings, without universal quantity quotas or mandatory completion lanes.
 
 ### Slice 6 — Exam Prep Factory
 
-Goal: produce assessment-authentic assets from approved Course Truth + Exam Truth.
+Generate assessment-authentic technique, questions, timed work, mocks/simulations and Marking Packs from approved Course Truth + Exam Truth, with higher assurance for representative mocks.
 
-Implement:
-
-- exam-technique assets;
-- assessment-item production by Question Family;
-- timed sections;
-- mock/simulation assembly;
-- Marking Packs;
-- stronger A3/A4 deterministic and independent assurance;
-- representative whole-paper checks for trusted mocks;
-- foundation fingerprint linkage.
-
-Candidate recovery from ADR-0019 should be reused at Assessment/Marking boundaries if it remains the simplest robust mechanism.
-
-Success proof:
-
-Exam Prep assets can be regenerated/calibrated without modifying Course Truth/Exam Truth unless assurance reveals a genuine Foundation defect.
+Candidate recovery from ADR-0019 should be reused only where it remains the simplest robust mechanism.
 
 ### Slice 7 — Content Operations presentation
 
-Goal: make the staged model obvious to an operator.
-
-Minimum view:
+Present the operator journey primarily as:
 
 ```text
 Foundation
 Course Truth     APPROVED
 Exam Truth       APPROVED
-Foundation       APPROVED v1.0
+Foundation       APPROVED v1
 
 Assets
-Learn            assured
-Practice         generating
-Exam Prep        not started
+Learn            not started / generating / assured / published
+Practice         not started / generating / assured / published
+Exam Prep        not started / generating / assured / published
 ```
 
-Internal retries/candidates/checkpoint details remain available for diagnostics but are not the primary operator journey.
+Internal candidates/retries remain diagnostics, not the primary workflow.
 
-### Slice 8 — Repeatability qualification
+### Slice 8 — staged repeatability qualification
 
-The new system needs a new staged qualification model rather than inheriting old Q1–Q8 whole-course gates.
-
-Qualification should prove separately:
+Create a staged reliability model that separately proves:
 
 - Foundation reliability across materially different course shapes;
-- Learn production reliability;
-- Practice production reliability;
+- Learn reliability;
+- Practice reliability;
 - Exam Prep/Marking reliability;
-- dependency-aware invalidation;
+- dependency invalidation;
 - restart/reuse and cost controls; and
 - fail-closed behaviour.
 
-Only after each stage is reliable should routine multi-course/batch production be considered.
+Do not inherit the old full-course Q1–Q8 sequence merely for compatibility.
 
 ## First real-course proof
 
-The first real implementation proof should use a course where Revision already has useful source/assessment learnings, but it must not be treated as a requirement to preserve the old pilot job.
+AQA Business remains a useful validation candidate because earlier pilots exposed many reusable failure classes, but the new proof must be a new Foundation job/version rather than a continuation of Issue #281.
 
-AQA Business may be a sensible validation course because earlier work exposed many useful failure classes. The new Foundation should be built as a **new Foundation job/version**, not by resuming the old end-to-end Issue #281 job.
-
-The proof criterion is not “finish Pilot #21.” It is:
+The proof question is:
 
 > Can Revision establish complete Course Truth and Exam Truth, assure them independently, obtain qualified approval of the exact version, and freeze an Approved Course Foundation before generating assets?
 
@@ -328,43 +287,37 @@ For every slice:
 - schema/unit tests for lifecycle and invariants;
 - deterministic validator tests including simultaneous defects where relevant;
 - dependency invalidation tests;
-- no cross-stage hidden mutation of approved Foundation artifacts;
+- no hidden mutation of approved Foundation artifacts;
 - explicit provider-call/cost boundaries;
-- independent-review context separation;
-- historical defect regressions only where they exercise a retained component; and
+- fresh-context review separation;
+- historical regressions only for retained components; and
 - exact-head CI before governed merge.
 
-Do not port the complete historical reliability corpus into every new stage. Carry forward only defects relevant to a reused boundary.
-
 ## Cost approach
-
-The new process should reduce wasted generation cost by moving the expensive asset factories after Foundation approval.
 
 Track cost independently for:
 
 - Foundation compilation;
 - Foundation assurance;
 - Learn;
-- Practice;
+- Practice; and
 - Exam Prep/Marking.
 
-This allows Revision to understand the marginal cost of adding or refreshing each asset class without rebuilding the full course.
-
-Existing per-course and provider spend guardrails remain relevant until deliberately replaced, but old paid-pilot eligibility mechanics are not the new production lifecycle.
+Moving expensive asset generation after Foundation approval should reduce waste when foundational defects are discovered.
 
 ## Documentation migration
 
 As implementation lands:
 
-- update `docs/technical/Content Factory Architecture.md` to describe the new target/current state;
-- retain old pilot/remediation documents as history;
-- mark old end-to-end implementation documents as legacy/superseded when they no longer describe current runtime;
-- update Content Operations technical documentation when the operator surface changes;
-- update reliability authority with a staged replacement before routine paid/batch production; and
-- update `INDEX.md` as current implementation ownership changes.
+- maintain this plan as the current staged implementation source;
+- maintain `docs/technical/Content Factory Foundation Lifecycle Implementation.md` for Slice 1 implementation truth;
+- update `docs/technical/Content Factory Architecture.md` as the new runtime replaces legacy topology;
+- retain pilot/remediation records as history;
+- mark old end-to-end implementation docs legacy/superseded when appropriate;
+- update Content Operations documentation when that surface changes;
+- create staged reliability authority before routine paid/batch production; and
+- update `INDEX.md` when implementation ownership materially changes.
 
-## Immediate next implementation PR
+## Immediate next step
 
-After the governing authority/ADR is merged and the new initiative has explicit Definition-of-Ready approval, the first code PR should be **Slice 1 only: Foundation schema, fingerprint and lifecycle**.
-
-It should not include Learn, Practice, Exam Prep, provider integration, Admin UI or migration of the old v2 orchestrator.
+Complete Slice 1 through its governed PR and exact-head assurance. After production verification, begin Slice 2 as a separate short PR. Do not combine Foundation compilation or provider work into the Slice 1 PR.
