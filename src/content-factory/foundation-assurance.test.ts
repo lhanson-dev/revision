@@ -21,6 +21,7 @@ import {
   boardAlignmentSchema,
   courseKnowledgeModelSchema,
   questionFamilySchema,
+  sourceLicenceRegisterSchema,
 } from './schema'
 
 const now = '2026-09-03T21:45:00+01:00'
@@ -41,7 +42,7 @@ class MemoryAssuranceStore implements FoundationAssuranceArtifactStore {
     this.values.set(ref, structuredClone(value))
   }
 
-  mutate(ref: string, updater: (value: any) => unknown) {
+  mutate(ref: string, updater: (value: unknown) => unknown) {
     const current = this.values.get(ref)
     if (current === undefined) throw new Error(`Missing fixture artifact ${ref}`)
     this.values.set(ref, structuredClone(updater(structuredClone(current))))
@@ -270,11 +271,14 @@ describe('Foundation deterministic assurance', () => {
   it('passes a coherent Foundation Candidate, binds evidence to the exact fingerprint, and ignores revalidation timestamps as material identity', async () => {
     const { job, candidate, store } = await fixture()
 
-    store.mutate(candidate.sourceLicenceRegister.ref, (register) => ({
-      ...register,
-      checkedAt: '2026-09-04T08:00:00+01:00',
-      sources: register.sources.map((source: any) => ({ ...source, checkedAt: '2026-09-04T08:00:00+01:00' })),
-    }))
+    store.mutate(candidate.sourceLicenceRegister.ref, (value) => {
+      const register = sourceLicenceRegisterSchema.parse(value)
+      return {
+        ...register,
+        checkedAt: '2026-09-04T08:00:00+01:00',
+        sources: register.sources.map((source) => ({ ...source, checkedAt: '2026-09-04T08:00:00+01:00' })),
+      }
+    })
 
     const result = await runDeterministicFoundationAssurance({
       job,
@@ -299,16 +303,19 @@ describe('Foundation deterministic assurance', () => {
   it('reports simultaneous persisted-artifact, Course Truth and Question Family defects without stopping at the first failure', async () => {
     const { job, candidate, store } = await fixture()
 
-    store.mutate(candidate.coverageModel.ref, (coverage) => ({
-      ...coverage,
-      requirements: coverage.requirements.map((requirement: any, index: number) => index === 0
-        ? { ...requirement, knowledgeNodeIds: ['missing-node'] }
-        : requirement),
-    }))
-    store.mutate(candidate.questionFamilies[0].ref, (family) => ({
-      ...family,
-      componentScope: ['unknown-paper'],
-    }))
+    store.mutate(candidate.coverageModel.ref, (value) => {
+      const coverage = foundationCoverageModelSchema.parse(value)
+      return {
+        ...coverage,
+        requirements: coverage.requirements.map((requirement, index) => index === 0
+          ? { ...requirement, knowledgeNodeIds: ['missing-node'] }
+          : requirement),
+      }
+    })
+    store.mutate(candidate.questionFamilies[0].ref, (value) => {
+      const family = questionFamilySchema.parse(value)
+      return { ...family, componentScope: ['unknown-paper'] }
+    })
 
     const result = await runDeterministicFoundationAssurance({
       job,
