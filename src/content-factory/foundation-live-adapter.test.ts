@@ -11,6 +11,7 @@ import {
   type FoundationStructuredProviderClient,
 } from './foundation-live-adapter'
 import { loadGovernedFoundationSourceRightsRules } from './foundation-source-rights-registry'
+import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID } from './source-seeds/aqa-a-level-business-7132-2027'
 
 const headSha = 'a'.repeat(40)
 const now = '2026-09-03T19:00:00+01:00'
@@ -46,15 +47,15 @@ class FakeProvider implements FoundationStructuredProviderClient {
     this.calls.push(input.workerId)
     const payload = input.payload as Record<string, unknown>
     if (input.workerId.endsWith('course-truth')) {
-      const requirements = payload.requirements as Array<{ requirementId: string; revisionArea: string }>
+      const seed = payload.governedRevisionSeed as { requirements: Array<{ requirementId: string; revisionArea: string }> }
       return success({
-        nodes: requirements.map((requirement) => ({
+        nodes: seed.requirements.map((requirement) => ({
           id: requirement.requirementId,
           kind: requirement.requirementId === 'quantitative-skills' ? 'skill' : 'concept',
           summary: `Revision-authored Course Truth for ${requirement.revisionArea}.`,
           prerequisiteIds: [],
           relatedIds: [],
-          formulas: requirement.requirementId === 'quantitative-skills' ? ['percentage change = change / original × 100'] : [],
+          formulas: [],
           misconceptions: ['A plausible misconception that must be diagnosed.'],
           applicationContexts: ['business decision making'],
           depth: 'core',
@@ -107,6 +108,8 @@ const fetchImpl: typeof fetch = async () => new Response([
   'Business Open Government Licence assessment objectives',
   'Business Fundamentals CC BY 4.0 content can be downloaded or copied licensing of the material',
   'A-level Business 7132 outgoing 2027 Paper 1 Paper 2 Paper 3 100 marks AO1 AO4',
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+  'governed_main_only',
 ].join(' '), { status: 200 })
 
 async function compilingJob() {
@@ -127,11 +130,13 @@ describe('Foundation live adapter', () => {
       headSha,
     })
     expect(loaded.rules.some((rule) => rule.issuer === 'AQA' && rule.useClass === 'REFERENCE_ONLY')).toBe(true)
+    expect(loaded.rules.some((rule) => rule.issuer === 'Revision' && rule.useClass === 'REVISION_OWNED')).toBe(true)
     expect(loaded.registryFingerprint).toMatch(/^[0-9a-f]{64}$/)
-    expect(loaded.approvalEvidenceRef).toContain(headSha)
+    expect(loaded.approvalEvidenceRef).toContain(`:${loaded.registryFingerprint}@${headSha}`)
+    expect(loaded.authorityRef).toContain(headSha)
   })
 
-  it('compiles a real-course Foundation Candidate with live-provider boundaries and zero learner assets', async () => {
+  it('compiles a real-course Foundation Candidate from the governed Revision seed with zero learner assets', async () => {
     const provider = new FakeProvider()
     const store = new MemoryStore()
     const rights = await loadGovernedFoundationSourceRightsRules({ repository: 'lhanson-dev/revision', gitRef: 'refs/heads/main', headSha })
@@ -172,6 +177,8 @@ describe('Foundation live adapter', () => {
       'question_family',
       'question_family',
     ])
+    const courseTruthWrite = store.writes.find((write) => write.kind === 'course_knowledge_model')
+    expect(JSON.stringify(courseTruthWrite?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
     expect(store.writes.some((write) => ['learning', 'practice', 'assessment_item', 'marking_pack'].includes(write.kind))).toBe(false)
   })
 
