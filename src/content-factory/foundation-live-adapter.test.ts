@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { describe, expect, it } from 'vitest'
 import { advanceFoundationJob, createFoundationJob } from './foundation-lifecycle'
 import {
@@ -76,25 +77,30 @@ class FakeProvider implements FoundationStructuredProviderClient {
       }, input.workerId)
     }
     if (input.workerId.endsWith('question-families')) {
+      const jsonSchema = z.toJSONSchema(input.outputSchema)
+      expect(jsonSchema.type).toBe('object')
+      expect(jsonSchema.properties).toHaveProperty('questionFamilies')
       const requested = payload.requestedFamilyIds as string[]
       const componentFor = (id: string) => id.startsWith('paper1-') ? 'paper-1' : id.startsWith('paper2-') ? 'paper-2' : 'paper-3'
-      return success(requested.map((id) => ({
-        schemaVersion: 1,
-        id,
-        title: id.replaceAll('-', ' '),
-        assessmentObjectiveIds: ['ao1', 'ao2', 'ao3', 'ao4'],
-        skillProfile: ['business knowledge', 'application', 'analysis', 'evaluation'],
-        componentScope: [componentFor(id)],
-        markRange: { min: 1, max: id === 'paper3-case-study' ? 100 : id === 'paper2-data-response' ? 40 : id === 'paper1-essay' ? 25 : id === 'paper1-short-answer' ? 35 : 15 },
-        responseShape: 'Revision-owned exam-style response contract',
-        contextRequirements: id.includes('data-response') || id.includes('case-study') ? ['original Revision-owned business context'] : [],
-        applicationRequirements: ['apply relevant business knowledge when context is provided'],
-        analysisRequirements: ['develop linked reasoning where marks require analysis'],
-        evaluationRequirements: ['reach supported judgement where marks require evaluation'],
-        commonFailureModes: ['assertion without development'],
-        markingPackTemplateVersion: 'foundation-v1',
-        calibrationStatus: 'not_calibrated',
-      })), input.workerId)
+      return success({
+        questionFamilies: requested.map((id) => ({
+          schemaVersion: 1,
+          id,
+          title: id.replaceAll('-', ' '),
+          assessmentObjectiveIds: ['ao1', 'ao2', 'ao3', 'ao4'],
+          skillProfile: ['business knowledge', 'application', 'analysis', 'evaluation'],
+          componentScope: [componentFor(id)],
+          markRange: { min: 1, max: id === 'paper3-case-study' ? 100 : id === 'paper2-data-response' ? 40 : id === 'paper1-essay' ? 25 : id === 'paper1-short-answer' ? 35 : 15 },
+          responseShape: 'Revision-owned exam-style response contract',
+          contextRequirements: id.includes('data-response') || id.includes('case-study') ? ['original Revision-owned business context'] : [],
+          applicationRequirements: ['apply relevant business knowledge when context is provided'],
+          analysisRequirements: ['develop linked reasoning where marks require analysis'],
+          evaluationRequirements: ['reach supported judgement where marks require evaluation'],
+          commonFailureModes: ['assertion without development'],
+          markingPackTemplateVersion: 'foundation-v1',
+          calibrationStatus: 'not_calibrated',
+        })),
+      }, input.workerId)
     }
     throw new Error(`Unexpected provider worker ${input.workerId}`)
   }
