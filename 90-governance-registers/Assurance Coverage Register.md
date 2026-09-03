@@ -13,7 +13,7 @@
 - CI/deployment results are dynamic operational evidence and must be read from their current source.
 - Update this register when a material journey/control, required assurance layer or evidence owner changes.
 
-## Current baseline — 2026-08-25
+## Current baseline — 2026-09-03
 
 | ID | Critical journey/control | Risk | Required assurance | Current evidence source | Status | Gap / next step |
 |---|---|---:|---|---|---|---|
@@ -23,6 +23,8 @@
 | PTL-03 | Frontend release is blocked unless governed lineage and required production backend capabilities are present | Critical | Approval lineage + backend readiness + deploy + smoke | `release-lineage.mjs`; `revision_release_readiness()`; deploy workflow; `revision/path-to-live` | Covered | FI-022 advances the required candidate contract to `plan-state-v1`; retain exact contract/function probes |
 | PTL-04 | Change risk/assurance needs are classified before main suites | High | Machine-readable change classification | `change-classifier.mjs`; assurance plan artifact | Covered | Selective execution remains separately governed |
 | PTL-05 | `main` cannot be casually bypassed outside governed PR/CI/Founder flow | Critical | Repository protection + release fail-closed | protected `main`; Founder approval gate; release lineage | Covered | Retain PR-only merge and no bypass discipline |
+| PTL-06 | Level 3/4 AI-led changes carry authority-derived invariants, failure hypotheses, adversarial review and test-sensitivity evidence | High | Machine-validated PR evidence + governed fresh-context review | `.github/PULL_REQUEST_TEMPLATE.md`; `validate-high-risk-pr-evidence.mjs`; AI-Led Assurance Workflow; Revision CI | Covered | Evidence quality still depends on truthful adversarial execution; do not represent this as human technical review |
+| ASSUR-01 | Critical assurance assets cannot silently disappear, be suppressed or lose required explicit CI invocation | Critical | Structural integrity + high-risk change escalation | `critical-assurance-manifest.json`; `validate-critical-assurance.mjs`; `change-classifier.mjs`; Revision CI | Covered | Static integrity cannot prove assertion semantics; retain Level-3 review/test-sensitivity requirement for changes to protected assurance |
 | AUTH-01 | Sign-in entry is usable and provider gating fails closed | High | Browser | `tests/e2e/auth-entry.spec.ts` | Partial | Does not prove a real production sign-in transaction |
 | AUTH-02 | Ordinary learner does not receive Admin navigation/utilities | High | Browser | `tests/e2e/app-responsive.spec.ts` | Covered for UI presentation | Server authorization remains separate |
 | ADM-01 | Database-approved Admin receives protected Admin experience | High | Browser + server/data | Admin browser tests; `edge-operations.test.ts`; repository Edge source | Covered | Retain 401/403/Admin success assertions |
@@ -47,6 +49,7 @@
 | SEC-03 | Privileged credentials stay server-side and public readiness remains least privilege | Critical | Static/config + database | secret scan; SECURITY INVOKER assertions | Covered | Pre-existing leaked-password Auth warning remains separate |
 | SEC-04 | Planner operations re-authorise server-side and preserve learner isolation | Critical | SQL/integration + protected service | database CI; `edge-operations.test.ts` | Covered | Retain protected-service assertions |
 | SEC-05 | Learner plan assignment cannot be self-elevated and protected Admin assignment is authenticated, authorized and auditable | Critical | RLS/RPC + protected Edge integration | `learner-plan-assurance.test.sql`; `edge-operations.test.ts`; `learner-plan-operations`; production ACTIVE/JWT verification and rollback-safe assignment check | Covered | Real billing must replace testing assignment semantics through FI-002 without weakening this boundary |
+| SEC-06 | Level 3/4 PRs receive security/supply-chain analysis independent of Revision-authored application tests | High | CodeQL + dependency review | `Revision CI` `Independent security and dependency analysis` job | Covered on high-risk PR path | Does not replace dynamic RLS/service/negative tests; investigate platform/tool failures rather than bypassing them |
 | CNT-01 | Available learner content has governed educational assurance | Critical | Content Accuracy Assurance Gate | per-pack assurance records/workflows | Partial by catalogue | Never infer content accuracy from software CI |
 | A11Y-01 | Critical learner journeys meet automated accessibility baseline | High | Automated accessibility | axe Playwright suite across phone/tablet/desktop | Covered | Manual/AT review still applies where warranted |
 | DEF-01 | Open P0/P1/P2 defects are durably tracked and surfaced | High | Defect register + Admin integration | `Defect Register.md`; parser/unit; Founder Assurance | Covered | Zero means zero known recorded defects only |
@@ -77,6 +80,8 @@ FI-022 is **Live**. PR #159 merged as `df7d9b520fec60d4b804c49dfc2c441498f37b99`
 - DATA-03 remains Partial for value-level Admin/test aggregate exclusion breadth.
 - Content assurance remains independent of software CI and varies by governed content pack.
 - Supabase leaked-password protection remains a separate managed Auth warning and should be enabled/reverified before broad external acquisition or when the justified Supabase plan supports it.
+- Revision currently has no routine independent human technical code reviewer. The AI-led assurance controls reduce, but cannot eliminate, correlated builder/reviewer blind-spot risk; do not represent AI/Founder approval as human technical review.
+- A targeted automated mutation/property-testing harness is not yet a universal CI control. High-risk PRs require test-sensitivity/invariant evidence now; mutation/property tooling should be added selectively where measured value justifies it.
 
 ## Maintenance model
 
