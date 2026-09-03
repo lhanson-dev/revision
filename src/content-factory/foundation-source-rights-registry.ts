@@ -39,6 +39,19 @@ export const FOUNDATION_SOURCE_RIGHTS_REGISTRY: FoundationSourceRightsRegistry =
   },
   rules: [
     {
+      id: 'revision-governed-foundation-seed',
+      issuer: 'Revision',
+      hostnames: ['raw.githubusercontent.com'],
+      sourceTypes: ['other_primary'],
+      useClass: 'REVISION_OWNED',
+      permissionBasis: 'Revision-authored structured Foundation seed committed to Founder-approved main. The live runtime verifies the governed-main seed before use.',
+      aiInputPermitted: true,
+      derivedCommercialUsePermitted: true,
+      attributionRequirements: [],
+      restrictions: ['governed-main-only', 'retain-upstream-provenance'],
+      revalidationConditions: ['Seed content, upstream evidence, repository authority or approval state changes.'],
+    },
+    {
       id: 'govuk-dfe-ogl-v3',
       issuer: 'Department for Education',
       hostnames: ['www.gov.uk'],
