@@ -1,6 +1,6 @@
 # Content Factory Foundation Assurance Implementation
 
-**Status:** Slice 3A implementation record — PR #295; real-course proof path — PR #296  
+**Status:** Slice 3A released through PR #295 / real-course deterministic proof through PR #296; Slice 3B implementation in PR #298  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -19,17 +19,17 @@ No learner-facing asset factory may begin from this assurance path until the exa
 
 Slice 3 is deliberately split into short governed increments:
 
-1. **Slice 3A — deterministic Foundation assurance** — PR #295, with the retained real-course proof path added through PR #296.
-2. **Slice 3B — fresh-context independent Foundation review and targeted remediation.**
+1. **Slice 3A — deterministic Foundation assurance** — released through PR #295, with the retained real-course deterministic proof through PR #296.
+2. **Slice 3B — fresh-context independent Foundation review and targeted remediation** — implementation in PR #298; retained real-course operational proof follows only after release to approved `main`.
 3. **Slice 3C — qualified expert-review package, approval evidence and immutable Approved Course Foundation persistence.**
 
-This keeps deterministic structure checking separate from educational judgement and human approval.
+This keeps deterministic structure checking separate from independent educational judgement and qualified-human approval.
 
-## Slice 3A implementation
+## Slice 3A — deterministic Foundation assurance
 
-`src/content-factory/foundation-assurance.ts` introduces a Foundation-native deterministic assurance engine.
+`src/content-factory/foundation-assurance.ts` is the Foundation-native deterministic assurance engine.
 
-It accepts only a complete Foundation Candidate in the canonical `assuring` lifecycle state and re-reads the exact persisted artifacts referenced by that candidate:
+It accepts a complete Foundation Candidate in the canonical `assuring` state and re-reads the exact persisted artifacts referenced by that candidate:
 
 - Source Licence Register;
 - Board Alignment;
@@ -38,45 +38,23 @@ It accepts only a complete Foundation Candidate in the canonical `assuring` life
 - Assessment Blueprint / Exam Truth; and
 - Question Families.
 
-The engine then performs mechanically provable checks across the complete dependency set.
+It then performs mechanically provable checks across the complete dependency set.
 
 ### Exact artifact identity
 
 Assurance recomputes material fingerprints and compares them with the exact fingerprints frozen into the Foundation Candidate.
 
-The Source Licence Register retains its existing material-identity rule: `checkedAt` revalidation timestamps are audit metadata and do not create a new Foundation identity by themselves. Material source/right changes still change the fingerprint.
+The Source Licence Register retains its material-identity rule: `checkedAt` revalidation timestamps are audit metadata and do not create a new Foundation identity by themselves. Material source/right changes still change the fingerprint.
 
-### Source-rights checks
+### Source-rights, alignment and coverage checks
 
 The deterministic layer fails closed when a persisted source is `PROHIBITED` or `UNKNOWN`, or when a `REFERENCE_ONLY` source is incorrectly permitted for generative AI input.
 
-Curriculum coverage and Course Truth source references must resolve only to sources whose use class and commercial-derivation permissions allow curriculum truth.
-
-### Board Alignment checks
-
-Deterministic assurance verifies that Board Alignment:
-
-- belongs to the exact Foundation job;
-- preserves the exact candidate course identity and cohort;
-- remains verified;
-- references admissible sources; and
-- does not contain assessment requirements pointing at unknown components.
-
-### Coverage and Course Truth checks
-
-The assurance engine verifies that:
-
-- Foundation coverage belongs to the exact job/source set;
-- every requirement remains complete;
-- curriculum source references remain rights-safe;
-- component references remain valid;
-- Course Truth contains exactly the canonical node set established by coverage;
-- every Course Truth node retains governed source traceability; and
-- Board Alignment references remain resolvable.
+It verifies exact job/course/cohort identity, Board Alignment integrity, Foundation coverage completeness, rights-safe curriculum references, Course Truth canonical node coverage and source/alignment traceability.
 
 ### Exam Truth and Question Family checks
 
-The assurance engine verifies that Exam Truth:
+The deterministic engine verifies that Exam Truth:
 
 - binds to the exact Board Alignment and Course Truth fingerprints;
 - preserves the governed component set, marks and timings;
@@ -85,69 +63,139 @@ The assurance engine verifies that Exam Truth:
 
 Question Families are checked against valid component and assessment-objective IDs.
 
-## Complete diagnostics
+### Complete diagnostics and evidence binding
 
-Deterministic assurance does not stop at the first material problem where the remaining checks can safely continue. It retains one structured report containing all detected deterministic failures.
+Deterministic assurance does not stop at the first material problem where later checks can safely continue. It retains a structured report containing all detected deterministic failures.
 
-This follows the existing Content Factory lesson that complete deterministic diagnostics are more useful than repeated one-defect-at-a-time repair cycles.
-
-If a required artifact cannot be read or parsed, the load failure is recorded as blocking evidence and dependent checks are marked not applicable rather than inventing confidence.
-
-## Evidence binding
-
-A successful or failed deterministic assurance report records:
+A successful or failed `foundation_deterministic_assurance_report` records:
 
 - exact Foundation job/candidate;
 - exact reviewed repository commit;
 - exact aggregate Foundation fingerprint;
-- all deterministic checks and evidence; and
-- a pass/fail decision mechanically consistent with those checks.
+- all deterministic checks/evidence; and
+- a mechanically consistent pass/fail decision.
 
-The report is persisted as `foundation_deterministic_assurance_report` evidence and the existing Foundation lifecycle records only that evidence reference plus the exact Foundation fingerprint.
+A stale report for another Foundation fingerprint cannot satisfy the lifecycle gate.
 
-A stale report for another Foundation fingerprint cannot satisfy the existing lifecycle approval guard.
+### Retained real-course deterministic proof
 
-## Regression assurance
+PR #296 added the bounded operational proof for the exact **AQA A-level Business 7132 — 2027 cohort** Foundation Candidate retained by successful Foundation Live Proof #2.
 
-`src/content-factory/foundation-assurance.test.ts` proves that:
+The main-only proof reused the retained generated Candidate rather than regenerating it and established deterministic PASS on approved `main` with complete retained evidence. It made no provider calls and generated zero learner-facing assets.
 
-- a coherent Foundation Candidate passes deterministic assurance;
-- the report and lifecycle evidence bind to the exact Foundation fingerprint;
-- timestamp-only source-rights revalidation does not create a false material mismatch;
-- simultaneous persisted-artifact, Course Truth and Question Family defects are all surfaced in one deterministic report; and
-- deterministic failure prevents transition to expert review.
+That retained proof is historical evidence for Slice 3A; later assurance increments may re-run deterministic checks against the same exact material Foundation fingerprint under newer approved implementation commits without pretending the Foundation was regenerated.
 
-## Retained real-course proof path
+## Slice 3B — independent review and targeted remediation
 
-PR #296 adds a bounded operational proof for the exact **AQA A-level Business 7132 — 2027 cohort** Foundation Candidate retained by successful Foundation Live Proof #2.
+PR #298 introduces `src/content-factory/foundation-independent-review.ts`, a Foundation-native provider-neutral control loop. It deliberately does not import or route through the legacy whole-course `assurance-and-remediation.ts` orchestrator.
 
-The proof deliberately reuses the retained generated Candidate rather than regenerating it. The main-only `Content Factory Foundation Assurance Proof` workflow:
+### Fresh-context independence
 
-1. identifies Foundation Live Proof #2 by exact workflow run ID, artifact name and artifact digest;
-2. verifies the retained source proof identity before use;
-3. downloads the retained proof artifact at runtime without committing the unapproved generated course output into the repository;
-4. verifies the source content head and exact Foundation fingerprint;
-5. reconstructs the canonical `assuring` lifecycle state around the exact retained Candidate;
-6. runs the released deterministic Foundation assurance engine against all persisted Foundation artifacts;
-7. retains a `foundation_real_course_deterministic_assurance_proof_evidence` artifact containing the complete deterministic report and assured job state; and
-8. posts a durable pass/fail summary to Issue #289.
+Independent review is not accepted merely because a different worker name is used.
 
-The proof is deterministic and makes no OpenAI/provider calls. A failed proof retains complete diagnostics and must block progression to independent review until remediation and deterministic re-assurance pass.
+The control loop constructs an explicit forbidden context set from:
 
-The source proof remains historical evidence from content head `b7f5ec6f699715b41e341659e4c79e0b40c79e94`; deterministic assurance is separately bound to the current approved `main` commit that reviews it. Re-running assurance therefore does not rewrite or pretend to regenerate the historical Foundation Candidate.
+- retained Foundation generation context IDs;
+- previous Foundation review/remediation context IDs; and
+- any additional historical context IDs supplied by the retained proof harness.
 
-## Explicit non-scope
+The independent-review worker must return provenance containing a context ID outside that set. Reuse fails closed and blocks the Foundation job.
 
-Slice 3A does **not**:
+`FoundationCandidate.provenance` therefore carries `generationContextIds` and `assuranceContextIds` as operational provenance. These arrays are intentionally **non-material metadata** and remain excluded from the aggregate Foundation fingerprint, so recording assurance provenance cannot manufacture a new educational identity.
 
-- claim qualified-human curriculum completeness;
-- perform fresh-context AI/independent educational review;
-- remediate Course Truth or Exam Truth;
-- create or approve an expert-review package;
+Historical Slice 2B retained proof data does not need to be mutated: its original worker-run contexts can be supplied as additional forbidden contexts when the real-course 3B proof is executed.
+
+### Exact deterministic precondition
+
+Independent review must be bound to deterministic PASS evidence for both:
+
+- the exact current Foundation fingerprint; and
+- the exact implementation commit performing the review.
+
+If the candidate has passing deterministic evidence for the fingerprint but not the current reviewed commit, the 3B loop reruns the deterministic engine first. This allows a retained Foundation Candidate to be reviewed under the current released assurance implementation without regenerating content or accepting stale code-level evidence.
+
+### Independent review contract
+
+The review worker receives only the exact Foundation dependency set plus rights-safe structured source metadata and deterministic evidence. It is instructed to find and classify educational/assessment defects rather than improve prose or repeat mechanical checks.
+
+The persisted `foundation_independent_review_report` contains:
+
+- exact job/candidate;
+- exact reviewed commit;
+- exact deterministic-assurance evidence reference;
+- exact Foundation fingerprint;
+- reviewer worker/context/provider/model provenance;
+- the context IDs excluded from review;
+- a pass/fail-hold decision; and
+- machine-readable findings.
+
+Each finding records severity (`blocking`, `material`, `minor`, `no_issue`), issue type, affected artifact kind/ref, evidence, finding, recommended correction and resolution status.
+
+Blocking or material findings require `fail_hold`. A review with no blocking/material findings passes. Minor findings do not disappear: they are retained in `knownLimitations` for later expert review or a subsequent governed material revision.
+
+### Smallest-safe remediation boundary
+
+Material remediation is restricted to the Foundation truth that can be safely replaced inside assurance:
+
+- **Course Truth finding** → remediate Course Truth, rebuild dependent Exam Truth and rebuild/revalidate all Question Families;
+- **Exam Truth finding** → remediate Exam Truth and rebuild/revalidate all Question Families;
+- **Question Family finding** → remediate only the affected Question Family.
+
+The remediation worker must return exactly the required dependency closure. Missing or unrelated replacements are rejected.
+
+Source Licence Register, Board Alignment and Foundation coverage are deliberately **not** locally rewritten by the assurance remediation worker. A blocking/material finding against one of those upstream authorities blocks the job and requires Foundation compilation to be reopened from governed evidence. This prevents an AI remediation pass from silently changing the course/exam contract it is supposed to review.
+
+### New candidate and deterministic re-assurance
+
+A blocking/material correction must produce materially changed Foundation truth. The loop:
+
+1. persists corrected artifacts;
+2. deterministically owns dependency fingerprints rather than asking a model to reproduce SHA values;
+3. creates a new candidate ID;
+4. resets deterministic assurance and independent review to pending;
+5. computes a new aggregate Foundation fingerprint and rejects a material-remediation cycle if the fingerprint did not change;
+6. writes a `foundation_remediation_record` retaining source/new fingerprints, worker provenance, finding IDs, correction notes and replacements;
+7. reruns deterministic Foundation assurance against the new exact fingerprint/commit; and
+8. if deterministic assurance passes, runs a new independent review in another fresh context.
+
+No old review can satisfy the new candidate because lifecycle evidence is fingerprint-bound.
+
+### Remediation cycle limit
+
+The provider-neutral loop defaults to three material remediation cycles. If blocking/material findings remain after that limit, the job blocks rather than iterating indefinitely or weakening the review threshold.
+
+### Regression assurance
+
+`src/content-factory/foundation-independent-review.test.ts` covers the high-risk control boundaries:
+
+- coherent deterministic precondition + fresh independent review;
+- minor findings retained as limitations without material regeneration;
+- generation-context reuse blocked as contaminated evidence;
+- Course Truth material remediation expands to the exact downstream dependency closure;
+- material correction changes the Foundation fingerprint;
+- deterministic re-assurance passes on the remediated candidate before re-review;
+- a second independent review uses another fresh context and binds to the remediated fingerprint; and
+- upstream Board Alignment findings block rather than being silently rewritten during assurance.
+
+## Source-rights boundary
+
+The 3B contract follows `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`.
+
+Independent review/remediation receives source-use metadata and Revision-owned/derived structured Foundation truth. It does not gain a new right to ingest or reconstruct protected `REFERENCE_ONLY` awarding-body prose. The provider boundary remains responsible for enforcing the same no-browsing/no-reconstruction rule used by the existing structured worker client.
+
+## Explicit non-scope of PR #298
+
+PR #298 does **not**:
+
+- claim a real-course independent-review PASS before the released main-only proof has run;
+- substitute a second AI review for qualified subject/assessment expert review;
+- create the Slice 3C expert-review package;
 - produce `foundation_approved`;
 - generate Learn, Practice, assessment items, Exam Prep, mocks or Marking Packs; or
 - publish learner content.
 
-## Next increment
+## Operational completion condition for Slice 3B
 
-Only after the retained real-course deterministic assurance proof passes on approved `main`, Slice 3B should add a Foundation-native fresh-context independent review contract and the smallest-safe remediation/re-assurance loop. It must remain bound to the exact Foundation fingerprint and must not reuse generation context as review context.
+After PR #298 is released to approved `main`, run the retained AQA Business Foundation through the released deterministic precondition and a genuinely fresh provider review context. Retain the exact review evidence, and if the reviewer finds blocking/material issues, retain every targeted remediation candidate, deterministic re-assurance report and fresh re-review until the exact current Foundation fingerprint passes or the fail-closed cycle limit/upstream-recompilation rule blocks progression.
+
+Only an exact Foundation version with deterministic PASS and independent-review PASS may proceed to Slice 3C qualified expert review. Slice 3C remains separately governed and cannot be inferred from AI review success.
