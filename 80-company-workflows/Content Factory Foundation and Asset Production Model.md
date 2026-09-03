@@ -1,6 +1,6 @@
 # Content Factory Foundation and Asset Production Model
 
-**Status:** Founder-approved direction — v1.0 proposed for governed merge  
+**Status:** Active v1.0 — Founder-approved via PR #290  
 **Owner:** Founder / Product / Content Operations  
 **Decision date:** 3 September 2026  
 **Purpose:** Define the Content Factory process that establishes and approves a trusted course foundation before Revision generates learner-facing Learn, Practice or Exam Prep assets.
