@@ -48,10 +48,11 @@ Schema version 2 retains the existing layers and additionally declares whether t
 - authority-derived assurance contract evidence;
 - fresh-context adversarial review;
 - test-sensitivity evidence;
-- critical-assurance integrity validation; and
-- independent security analysis.
+- critical-assurance integrity validation;
+- independent security analysis; and
+- dependency vulnerability analysis when the governed npm manifest/lockfile changes.
 
-The last four high-risk independence controls are governed by the AI-Led Development Assurance Standard.
+The high-risk independence controls are governed by the AI-Led Development Assurance Standard.
 
 ## Conservative execution mode
 
@@ -59,12 +60,13 @@ The current implementation continues to use `selectionMode: conservative-full` f
 
 The classifier declares the minimum assurance implied by risk, but **does not yet skip the existing Foundation quality or Database/RLS/protected-service jobs**. This remains deliberate while selective execution is separately calibrated.
 
-The new AI-led independence controls are risk-conditional:
+The new AI-led independence controls are conditional:
 
-- the high-risk PR assurance contract is required only at Level 3/4; and
-- independent CodeQL/dependency analysis runs only on Level 3/4 pull requests.
+- the high-risk PR assurance contract is required only at Level 3/4;
+- CodeQL runs only on Level 3/4 pull requests; and
+- dependency vulnerability analysis runs only when `package.json` or `package-lock.json` changes.
 
-This improves dangerous-change depth without adding the expensive new controls to Level 1/2 work.
+This improves dangerous-change depth without adding the expensive new controls to Level 1/2 work or coupling unrelated high-risk work to the npm advisory service.
 
 Selective execution of the older broad suites may only be introduced through a separate governed change after the classifier has demonstrated reliable boundaries; uncertainty must continue to escalate rather than skip assurance.
 
@@ -91,9 +93,15 @@ At Level 1/2 the validator does not add those requirements.
 
 ## Independent security analysis
 
-For Level 3/4 pull requests, `Revision CI` adds independent dependency-vulnerability and CodeQL analysis. The current repository does not have GitHub Dependency Graph enabled, so GitHub Dependency Review is unavailable; CI therefore uses the governed fail-closed `npm audit --audit-level=high` lockfile fallback plus CodeQL. This supplements, rather than replaces, Revision's dynamic database/RLS/protected-service assurance.
+For Level 3/4 pull requests, `Revision CI` always adds CodeQL independent security analysis.
+
+Dependency vulnerability analysis is change-scoped. When `package.json` or `package-lock.json` changes, CI additionally runs the governed fail-closed `npm audit --audit-level=high` lockfile fallback. The current repository does not have GitHub Dependency Graph enabled, so GitHub Dependency Review is unavailable.
 
 If Dependency Graph is deliberately enabled later, GitHub Dependency Review may replace the lockfile fallback through a governed implementation change because it can focus on newly introduced dependency risk.
+
+A live PR run proved that the npm advisory endpoint can time out independently of the repository. The plan therefore does not invoke that registry-dependent control on unrelated Level 3/4 work, preventing an external availability failure from suppressing CodeQL while preserving fail-closed dependency assurance when the dependency graph changes.
+
+These independent controls supplement, rather than replace, Revision's dynamic database/RLS/protected-service assurance.
 
 ## Repository secret/config scanning
 
