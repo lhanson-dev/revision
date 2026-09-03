@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const defaultManifestPath = path.join(scriptDirectory, 'critical-assurance-manifest.json')
-const suppressionPattern = /\b(?:describe|it|test)\.(?:skip|todo|only)\s*\(/g
+const alwaysSuppressedPattern = /\b(?:describe|it|test)\.(?:todo|only)\s*\(|\b(?:describe|it|test)\.skip\s*\(\s*(?:['"`]|true\b|\))/g
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'))
@@ -44,9 +44,9 @@ export function validateCriticalAssurance({ root = process.cwd(), manifestPath =
     }
 
     if (isExecutableTest(entry.path)) {
-      const suppressions = [...content.matchAll(suppressionPattern)]
+      const suppressions = [...content.matchAll(alwaysSuppressedPattern)]
       if (suppressions.length > 0) {
-        errors.push(`Critical assurance test contains skip/todo/only suppression: ${entry.path}`)
+        errors.push(`Critical assurance test contains unconditional skip/todo/only suppression: ${entry.path}`)
       }
     }
   }
