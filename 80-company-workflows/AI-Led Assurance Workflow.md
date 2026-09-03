@@ -54,14 +54,16 @@ Existing Revision CI remains conservative-full until a separate governed change 
 
 CI must run the critical-assurance integrity validator.
 
-If a protected assurance asset or its invocation has disappeared, become suppressed, or been weakened structurally, stop. Changes to those assets are high risk and require this workflow themselves.
+If a protected assurance asset or its invocation has disappeared, become unconditionally suppressed, or been weakened structurally, stop. Legitimate conditional test scoping is acceptable only when the critical test is still demonstrably executed in the dedicated CI environment/project intended to exercise it. Changes to protected assurance assets are high risk and require this workflow themselves.
 
 ## 5. Run independent automated analysis
 
-For Level 3/4 pull requests, run the repository-supported independent analysis controls:
+For Level 3/4 pull requests, run the strongest repository-supported independent analysis controls:
 
-- dependency review for newly introduced vulnerable dependencies; and
+- dependency vulnerability analysis that fails on high/critical known vulnerabilities; and
 - CodeQL for JavaScript/TypeScript security findings.
+
+GitHub Dependency Review is preferred when Dependency Graph is enabled because it can focus on newly introduced dependency risk. If that repository capability is unavailable, use the governed lockfile-audit fallback rather than dropping dependency analysis.
 
 Material findings must be resolved or deliberately governed before merge. Passing application tests do not override a material independent scanner finding.
 
