@@ -46,10 +46,15 @@ export const foundationCandidateSchema = z.object({
   courseIdentity: courseIdentitySchema,
   cohortValidity: cohortValiditySchema,
   sourceLicenceRegister: foundationArtifactRefSchema,
+  sourceRightsStatus: z.literal('approved'),
   boardAlignment: foundationArtifactRefSchema,
+  boardAlignmentStatus: z.literal('verified'),
   coverageModel: foundationArtifactRefSchema,
+  coverageCompleteness: z.literal('complete'),
   courseKnowledgeModel: foundationArtifactRefSchema,
+  courseTruthCompleteness: z.literal('complete'),
   assessmentBlueprint: foundationArtifactRefSchema,
+  examTruthCompleteness: z.literal('complete'),
   questionFamilies: z.array(foundationArtifactRefSchema).default([]),
   deterministicAssurance: foundationAssuranceResultSchema,
   independentReview: foundationIndependentReviewResultSchema,
@@ -61,6 +66,18 @@ export const foundationCandidateSchema = z.object({
     sourceSetFingerprint: nonEmptyStringSchema,
     implementationHeadSha: commitShaSchema.optional(),
   }),
+}).superRefine((candidate, context) => {
+  const questionFamilyRefs = new Set<string>()
+  candidate.questionFamilies.forEach((family, index) => {
+    if (questionFamilyRefs.has(family.ref)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['questionFamilies', index, 'ref'],
+        message: `Duplicate Question Family reference: ${family.ref}`,
+      })
+    }
+    questionFamilyRefs.add(family.ref)
+  })
 })
 
 export const foundationApprovalEvidenceSchema = z.object({
@@ -79,6 +96,28 @@ export const approvedCourseFoundationSchema = z.object({
   candidate: foundationCandidateSchema,
   approval: foundationApprovalEvidenceSchema,
   knownLimitations: z.array(nonEmptyStringSchema).default([]),
+}).superRefine((foundation, context) => {
+  if (foundation.candidate.deterministicAssurance.status !== 'pass') {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate', 'deterministicAssurance', 'status'],
+      message: 'Approved Course Foundation requires passing deterministic assurance',
+    })
+  }
+  if (foundation.candidate.independentReview.status !== 'pass') {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate', 'independentReview', 'status'],
+      message: 'Approved Course Foundation requires passing independent review',
+    })
+  }
+  if (foundation.candidate.unresolvedBlockers.length > 0) {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate', 'unresolvedBlockers'],
+      message: 'Approved Course Foundation cannot retain unresolved candidate blockers',
+    })
+  }
 })
 
 export const foundationOperationalBlockerSchema = z.object({
@@ -131,6 +170,30 @@ export const foundationJobSchema = z.object({
       path: ['candidate'],
       message: `Foundation state ${job.state} requires a complete Foundation Candidate`,
     })
+  }
+
+  if (job.state === 'expert_review' && job.candidate) {
+    if (job.candidate.deterministicAssurance.status !== 'pass') {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'deterministicAssurance', 'status'],
+        message: 'expert_review requires passing deterministic Foundation assurance',
+      })
+    }
+    if (job.candidate.independentReview.status !== 'pass') {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'independentReview', 'status'],
+        message: 'expert_review requires passing independent Foundation review',
+      })
+    }
+    if (job.candidate.unresolvedBlockers.length > 0) {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'unresolvedBlockers'],
+        message: 'expert_review cannot start with unresolved candidate blockers',
+      })
+    }
   }
 
   if (job.state === 'foundation_approved') {
