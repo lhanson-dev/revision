@@ -1,0 +1,83 @@
+name: Content Factory Foundation Assurance Proof
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: content-factory-foundation-assurance-proof
+  cancel-in-progress: false
+
+jobs:
+  foundation-assurance-proof:
+    name: Governed retained real-course Foundation assurance proof
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN_ID: '33802600001'
+      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-b7f5ec6f699715b41e341659e4c79e0b40c79e94
+      SOURCE_ARTIFACT_DIGEST: sha256:6f0c7e55bf436e9a064084fb8ddb1f33b6109faaedbad63180494ab967cf76e3
+      SOURCE_HEAD_SHA: b7f5ec6f699715b41e341659e4c79e0b40c79e94
+      FOUNDATION_FINGERPRINT: 5b9a8496128b67d78c00a6075fe46ca70cad08bbc10bed6f4ce8f16b97e6efd8
+      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-assurance-source/aqa-a-level-business-7132-foundation-b7f5ec6f6997-1788467414643.json
+    steps:
+      - name: Checkout approved main
+        uses: actions/checkout@v6
+
+      - name: Verify retained source proof identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          actual_digest="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts" --jq ".artifacts[] | select(.name == \"${SOURCE_ARTIFACT_NAME}\") | .digest")"
+          test "${actual_digest}" = "${SOURCE_ARTIFACT_DIGEST}"
+
+      - name: Download retained Foundation live proof
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .artifacts/content-factory-foundation-assurance-source
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir .artifacts/content-factory-foundation-assurance-source
+          test -f "${SOURCE_PROOF_PATH}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run deterministic Foundation assurance proof
+        env:
+          CONTENT_FACTORY_FOUNDATION_ASSURANCE_PROOF: '1'
+          CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH: ${{ env.SOURCE_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA: ${{ env.SOURCE_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_RUN_ID: ${{ env.SOURCE_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_NAME: ${{ env.SOURCE_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_DIGEST: ${{ env.SOURCE_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_REVIEWED_COMMIT: ${{ github.sha }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npx vitest run src/content-factory/foundation-assurance-proof.integration.test.ts --reporter=verbose
+
+      - name: Upload deterministic Foundation assurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-foundation-assurance-proof-${{ github.sha }}
+          path: .artifacts/content-factory-foundation-assurance-proof/
+          if-no-files-found: warn
+          retention-days: 30

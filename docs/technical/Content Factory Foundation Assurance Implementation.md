@@ -1,6 +1,6 @@
 # Content Factory Foundation Assurance Implementation
 
-**Status:** Slice 3A implementation record — PR #295  
+**Status:** Slice 3A implementation record — PR #295; real-course proof path — PR #296  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -19,7 +19,7 @@ No learner-facing asset factory may begin from this assurance path until the exa
 
 Slice 3 is deliberately split into short governed increments:
 
-1. **Slice 3A — deterministic Foundation assurance** — PR #295.
+1. **Slice 3A — deterministic Foundation assurance** — PR #295, with the retained real-course proof path added through PR #296.
 2. **Slice 3B — fresh-context independent Foundation review and targeted remediation.**
 3. **Slice 3C — qualified expert-review package, approval evidence and immutable Approved Course Foundation persistence.**
 
@@ -117,6 +117,25 @@ A stale report for another Foundation fingerprint cannot satisfy the existing li
 - simultaneous persisted-artifact, Course Truth and Question Family defects are all surfaced in one deterministic report; and
 - deterministic failure prevents transition to expert review.
 
+## Retained real-course proof path
+
+PR #296 adds a bounded operational proof for the exact **AQA A-level Business 7132 — 2027 cohort** Foundation Candidate retained by successful Foundation Live Proof #2.
+
+The proof deliberately reuses the retained generated Candidate rather than regenerating it. The main-only `Content Factory Foundation Assurance Proof` workflow:
+
+1. identifies Foundation Live Proof #2 by exact workflow run ID, artifact name and artifact digest;
+2. verifies the retained source proof identity before use;
+3. downloads the retained proof artifact at runtime without committing the unapproved generated course output into the repository;
+4. verifies the source content head and exact Foundation fingerprint;
+5. reconstructs the canonical `assuring` lifecycle state around the exact retained Candidate;
+6. runs the released deterministic Foundation assurance engine against all persisted Foundation artifacts;
+7. retains a `foundation_real_course_deterministic_assurance_proof_evidence` artifact containing the complete deterministic report and assured job state; and
+8. posts a durable pass/fail summary to Issue #289.
+
+The proof is deterministic and makes no OpenAI/provider calls. A failed proof retains complete diagnostics and must block progression to independent review until remediation and deterministic re-assurance pass.
+
+The source proof remains historical evidence from content head `b7f5ec6f699715b41e341659e4c79e0b40c79e94`; deterministic assurance is separately bound to the current approved `main` commit that reviews it. Re-running assurance therefore does not rewrite or pretend to regenerate the historical Foundation Candidate.
+
 ## Explicit non-scope
 
 Slice 3A does **not**:
@@ -131,4 +150,4 @@ Slice 3A does **not**:
 
 ## Next increment
 
-After Slice 3A is released and production-verified, Slice 3B should add a Foundation-native fresh-context independent review contract and the smallest-safe remediation/re-assurance loop. It must remain bound to the exact Foundation fingerprint and must not reuse generation context as review context.
+Only after the retained real-course deterministic assurance proof passes on approved `main`, Slice 3B should add a Foundation-native fresh-context independent review contract and the smallest-safe remediation/re-assurance loop. It must remain bound to the exact Foundation fingerprint and must not reuse generation context as review context.
