@@ -1,6 +1,6 @@
 # Content Factory Durable Resume and Spend
 
-**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4; post-Pilot #21 Assessment wording ownership is current at provider contract 9 / `output-integrity-v7`  
+**Implementation status:** durable restart foundation merged via PR #192; dependency-aware restart qualification implemented in Q5; ADR-0019 durable Assessment and Marking Pack candidate recovery implemented through checkpoint 4; post-Pilot #21 Assessment wording ownership is current at provider contract 9 / `output-integrity-v7`; Q8 confirmation-pilot eligibility restored via PR #286  
 **Current approved baseline for checkpoint 4:** `05df69add84541adaa0e487f78a8a0757900bf80`  
 **Related initiative:** GitHub Issue #169
 
@@ -121,7 +121,7 @@ Existing schema-v1 worker checkpoint records remain valid but deliberately conse
 - a v1 record is reusable only on its original exact head;
 - a successful same-head v1 reuse is migrated into a schema-v2 semantic cache record;
 - a v1 record is never inferred safe across a head change;
-- therefore the first cross-head resume of an old v1-only job may regenerate provider work before future semantic reuse becomes available.
+- therefore the first cross-head resume of an old v1-only job may regenerate provider work before future semantic reuse exists.
 
 Pre-checkpoint-3 Assessment runs without deterministic candidate markers and pre-checkpoint-4 Marking Pack runs without deterministic Marking Pack candidate markers remain historical execution evidence. They are not treated as proof that a candidate number has been consumed under the new durable topology.
 
@@ -140,7 +140,7 @@ The workflow still:
 - does not send protected AQA source prose to generative workers; and
 - cannot make paid full-course model calls while `content-factory/reliability-qualification.json` remains unqualified.
 
-Durable candidate recovery and Q7 PASS do not themselves authorize another paid full-course pilot. A separate Q8 eligibility transition is still required.
+Q8 has now completed through PR #286. The machine-readable qualification is `qualified` with `livePilotEligible: true`, so the next paid run class is a confirmation pilot. For the current lineage, that run is the continuation of Pilot #21 by resuming durable job Issue #281 rather than starting a new course.
 
 ## Provider-free and live reliability assurance
 
@@ -157,7 +157,7 @@ Assessment and Marking Pack candidate-state tests prove, at their implementation
 - interruption after candidate 1 followed by resume at candidate 2 without regenerating accepted questions; and
 - semantic-version advancement so pre-recovery Marking Pack executions cannot be reused as candidate-aware current work.
 
-After Confirmation Pilot #21, provider-free Q1-Q6 were requalified on the corrected Assessment wording boundary and the fresh Q7 attempt 007 live-worker soak passed 20/20 samples across all five governed subject shapes. This is reliability qualification evidence, not educational benchmark approval or full-course eligibility.
+After Confirmation Pilot #21, provider-free Q1-Q6 were requalified on the corrected Assessment wording boundary and the fresh Q7 attempt 007 live-worker soak passed 20/20 samples across all five governed subject shapes. Q1-Q7 are reliability qualification evidence rather than educational benchmark approval; the separate Q8 transition has now restored confirmation-pilot eligibility.
 
 ## Deliberate limitations
 
@@ -165,9 +165,9 @@ After Confirmation Pilot #21, provider-free Q1-Q6 were requalified on the correc
 - Dependency safety is explicit rather than inferred: a worker contract or dependency graph change must update the relevant version/graph evidence.
 - Legacy v1 checkpoints require same-head reuse or regeneration before semantic cross-head reuse exists.
 - Durable Assessment Item and Marking Pack candidate recovery does not by itself prove whole-course recovery/coverage completeness under all downstream failure shapes.
-- Reliability v2 Q1-Q7 are now passed after Pilot #21, but the Content Factory remains paused until a separate governed Q8 transition restores `qualified` status and full-course confirmation eligibility.
+- Q8 eligibility permits the confirmation continuation of Pilot #21, but does not establish Content Factory maturity; the governed maturity criterion still requires three consecutive materially different real courses to reach `expert_review_ready` without engineering correction between those course runs.
 - `expert_review_ready` still does not mean learner-published, benchmark-approved or awarding-body endorsed.
 
 ## Documentation impact
 
-This record now reflects the current post-Pilot #21 Assessment provider contract `9`, durable semantic `output-integrity-v7`, completed Q1-Q7 reliability position, and the continued separate Q8 requirement. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery, smallest-safe-scope preservation, fail-closed exhaustion and dependency-aware invalidation. Historical pilot evidence is not rewritten.
+This record now reflects the current post-Pilot #21 Assessment provider contract `9`, durable semantic `output-integrity-v7`, completed Q1-Q7 reliability position, and completed Q8 confirmation-pilot eligibility transition. No normative authority change is required: ADR-0019 and the active Reliability Qualification Standard already require durable bounded candidate recovery, smallest-safe-scope preservation, fail-closed exhaustion and dependency-aware invalidation. Historical pilot evidence is not rewritten.
