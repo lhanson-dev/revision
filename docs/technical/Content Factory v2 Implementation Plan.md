@@ -44,15 +44,11 @@ Course Knowledge Model (Course Truth)
   ↓
 Assessment Blueprint + Question Families (Exam Truth)
   ↓
-Learning Blueprint
-  ↓
-Learn + Practice work units
+Learning Blueprint + parallel Learn/Practice work units
   ↓
 Exam Prep questions + timed sets + representative mocks
   ↓
-Marking Packs
-  ↓
-Learner-evidence mapping
+Marking Packs + learner-evidence mapping
   ↓
 Deterministic validators
   ↓
@@ -65,15 +61,34 @@ Expert Review Contract + portable package
 expert_review_ready
 ```
 
-The key sequencing invariant is that **Course Truth and Exam Truth are established before high-volume learner collateral generation**. Generated mocks/questions must never become the authority from which curriculum teaching scope is inferred.
+The sequencing invariant is that **Course Truth and Exam Truth are established before high-volume learner collateral generation**. Generated mocks/questions must never become the authority from which curriculum teaching scope is inferred.
 
 ## Durable artifact contracts
 
-Add or maintain versioned schemas under `src/content-factory/` for at least:
+Add versioned Zod schemas under `src/content-factory/` for at least:
 
 ### `SourceLicenceRecord`
 
-Structured source identity, role, version, use class, permission basis, AI-input permission, derived-use permission, attribution/restrictions and revalidation metadata.
+```text
+source_id
+issuer
+url_or_reference
+source_type
+educational_role
+version_or_date
+use_class
+permission_basis
+ai_input_permitted
+derived_commercial_use_permitted
+attribution_requirements
+restrictions
+checked_at
+checker_method
+source_fingerprint
+revalidation_conditions
+```
+
+`use_class` supports `OPEN`, `REVISION_OWNED`, `LICENSED`, `REFERENCE_ONLY`, `PROHIBITED`, `UNKNOWN`.
 
 ### `BoardAlignment`
 
@@ -93,11 +108,11 @@ Reusable assessment archetype with skill/AO profile, response demands, constrain
 
 ### `LearningBlueprint`
 
-Requirement/cluster → deliberately selected Learn, Practice and Exam Prep modes plus work-unit plan. It must carry enough coverage/evidence metadata to prove that asset quantity is derived from curriculum and assessment need rather than fixed quotas.
+Requirement/cluster → deliberately selected Learn, Practice and Exam Prep modes and work-unit plan. It must preserve coverage and evidence semantics so asset quantity is derived from curriculum/assessment need rather than fixed quotas.
 
 ### `LearnerEvidenceMap`
 
-For every scored Practice and Exam Prep asset, record:
+For every scored Practice and Exam Prep asset, record at minimum:
 
 ```text
 asset_id
@@ -111,7 +126,7 @@ can_affect_reviewed
 can_affect_exam_readiness
 ```
 
-The map must enforce the product/evidence semantics that Learn exposure may affect `Reviewed` but does not directly increase Exam Readiness, while validated Practice and Exam Prep results may update readiness only for the knowledge/skills they genuinely assess.
+The map must enforce the governed semantics that Learn exposure may affect `Reviewed` but does not directly increase Exam Readiness, while validated Practice and Exam Prep results may update readiness only for the knowledge/skills they genuinely assess.
 
 ### `RepresentativeMockContract`
 
@@ -123,7 +138,7 @@ For each trusted full mock/simulation, record enough whole-assessment metadata t
 - question-family / command-demand mix;
 - assessment-objective profile where applicable;
 - difficulty/representativeness state;
-- marking-pack completeness;
+- Marking Pack completeness;
 - independent-review and expert-calibration status.
 
 ### `MarkingPack`
@@ -136,13 +151,27 @@ Exact reviewed version, package reference and machine-readable expert findings w
 
 ## Lifecycle delta
 
+Extend the existing state machine with:
+
+```text
+...
+independent_review
+remediation (when required)
+expert_review_packaging
+expert_review_ready
+human_review
+benchmark_approved
+```
+
+Source-rights ambiguity should use the existing `blocked` mechanism with a stable blocker such as `source_rights_review_required`.
+
 The state machine must guard `expert_review_ready` on:
 
 - resolved exact identity;
 - no unresolved source-rights blocker;
 - complete Course Truth for intended scope;
 - complete Exam Truth for applicable assessment scope;
-- required Learn/Practice/Exam Prep artifacts present and version-compatible;
+- required v2 Learn/Practice/Exam Prep artifacts present and version-compatible;
 - representative mock contracts green where required;
 - Marking Packs for all items represented as markable;
 - learner-evidence mappings complete and valid;
@@ -152,6 +181,21 @@ The state machine must guard `expert_review_ready` on:
 - explicit known limitations.
 
 ## Worker contract architecture
+
+Each AI-assisted worker is a versioned contract with:
+
+```text
+worker_id
+contract_version
+input_schema
+output_schema
+permitted_source_classes
+model_route_class
+retry_policy
+quality_evaluation_version
+```
+
+Workers return schema-valid output or an explicit blocker/failure. Free-form prose is not a durable stage result.
 
 Recommended worker boundaries:
 
@@ -173,13 +217,23 @@ Recommended worker boundaries:
 16. targeted remediation worker;
 17. expert-review package generator/importer.
 
-Workers return schema-valid output or an explicit blocker/failure. Free-form prose is not a durable stage result.
+## AI provider boundary
+
+Keep the domain/orchestrator model-provider neutral. Provider calls sit behind an injected worker adapter so models/providers can be changed without changing educational authority or job state.
+
+For an initial OpenAI adapter, use the current Responses API with Structured Outputs/JSON Schema for schema-bound worker outputs rather than relying on unconstrained prose parsing. Current OpenAI models expose a cost/intelligence range suitable for task routing, but exact model selection must be driven by Revision evaluation evidence and current pricing rather than hard-coded into authority.
+
+Provider secrets must remain server-side. Content Factory inputs must respect the Source Licence Register; a provider adapter must never receive `REFERENCE_ONLY`, `PROHIBITED` or unresolved material beyond what the approved worker contract permits.
+
+No learner personal data is required for course-content production workers.
 
 ## Model routing strategy
 
 Use the cheapest route that passes the quality threshold for the worker class.
 
-- **deterministic/no-model:** IDs, coverage/reference checks, arithmetic, totals, evidence mappings, lifecycle gating and whole-mock structural checks;
+Proposed evaluation classes:
+
+- **deterministic/no-model:** IDs, coverage/reference checks, arithmetic, totals, learner-evidence mappings, lifecycle gating and whole-mock structural checks;
 - **low-cost bounded generation:** flashcard/quiz variants and straightforward transformations after benchmark evidence supports the route;
 - **mid/high reasoning:** Course Knowledge Model, Assessment Blueprint, substantial assessment generation and Marking Packs;
 - **strong independent reasoning:** adversarial educational/assessment review and difficult remediation.
@@ -202,6 +256,8 @@ A mock may be accepted only after whole-assessment validation against Exam Truth
 
 ## Marking Pack implementation principle
 
+Marking Packs should push stable assessment rules into precomputed structured contracts so runtime answer marking does not need to rediscover the rubric on every student response.
+
 The worker sequence is:
 
 ```text
@@ -218,7 +274,7 @@ Runtime learner-answer interpretation can then consume the exact known question 
 
 ## Deterministic assurance services
 
-Minimum v2 checks include:
+Create reusable validators returning machine-readable findings. Minimum v2 checks:
 
 - schema and required-field validity;
 - stable IDs / broken references;
@@ -226,7 +282,7 @@ Minimum v2 checks include:
 - Course Truth coverage completeness;
 - Exam Truth completeness;
 - Learning Blueprint coverage;
-- learner-evidence-map validity and permitted semantics;
+- learner-evidence-map validity and permitted evidence semantics;
 - formulas/arithmetic/percentages/ratios/units;
 - answer-key validity;
 - case numerical consistency where computable;
@@ -257,19 +313,51 @@ The export generator assembles one readable package containing:
 - Source Licence Register references;
 - Board Alignment and Course Truth coverage summary;
 - Assessment Blueprint and Question Families / Exam Truth summary;
-- substantial Learn and Practice content;
+- substantial Learn/Practice content;
 - representative exam-style simulations/mocks;
 - learner-evidence mapping summary;
 - Marking Packs and calibration anchors in scope;
 - automated assurance results and known limitations;
 - structured issue/sign-off form.
 
+The imported reviewer result must validate against `ExpertReviewContract` and create targeted remediation tasks rather than a free-text backlog.
+
+## Orchestration, retries and idempotency
+
+Every stage stores explicit input fingerprints and output references.
+
+Rules:
+
+- unchanged successful stages can be reused;
+- transient provider/network failures may retry within bounded limits;
+- curriculum/source/rights ambiguity becomes `blocked`, not repeated guessing;
+- retries must not duplicate jobs, branches, PRs or content IDs;
+- upstream source/alignment/contract changes invalidate dependent stages deliberately;
+- worker-contract changes can trigger targeted re-evaluation when benchmark assumptions no longer hold.
+
+## Cost controls
+
+Content-production AI cost is operational content cost, separate from learner-tier AI envelopes in `AI Cost and Allowance Policy.md`.
+
+Record per worker/job where available:
+
+- provider/model/route;
+- input/output usage;
+- cached usage where applicable;
+- retry count;
+- cost estimate/actual cost;
+- wall-clock stage duration;
+- total automated course cost;
+- expert-review cost when known.
+
+The orchestrator must support per-job and batch ceilings plus bounded concurrency. Cost controls may route work differently but may not bypass source, accuracy or review gates.
+
 ## Founder/Admin assurance
 
 Content Operations should eventually show, for each course job:
 
 - exact course;
-- current state and stage completion without false precision;
+- current state and percent/stage completion without false precision;
 - current blocker and required human action;
 - source-rights health;
 - Course Truth coverage completeness;
@@ -283,11 +371,24 @@ Content Operations should eventually show, for each course job:
 - expert-review readiness/status;
 - branch/PR/CI/deployment status where applicable.
 
+The initial implementation may expose this incrementally; machine-readable job state is the source for the UI.
+
+## Security / trust
+
+- server-side provider/GitHub/service credentials only;
+- no browser model-provider secrets;
+- admin authorization revalidated server-side;
+- no learner personal data needed for course factory workers;
+- fail closed on source-use ambiguity;
+- no substantial protected source material stored for convenience;
+- worker inputs/outputs and permission provenance attributable to exact versions;
+- no automated merge.
+
 ## Test strategy
 
 ### Contract/unit
 
-- artifact schemas;
+- every new Zod artifact schema;
 - source-use class transitions;
 - `expert_review_ready` state guards;
 - invalid version/cross-reference rejection;
@@ -296,6 +397,26 @@ Content Operations should eventually show, for each course job:
 - learner-evidence semantics guards;
 - representative-mock contract guards;
 - Marking Pack coverage guards.
+
+### Worker adapter/evaluation
+
+- Structured Output schema conformance;
+- refusal/failure handling;
+- retry/idempotency behaviour;
+- quality evals per worker contract;
+- generator/reviewer context-separation assertions.
+
+### Integration
+
+- Admin intake → durable job;
+- job → source-rights blocker/resume;
+- Course Truth → Exam Truth → learner-collateral sequencing;
+- job → artifacts → review → remediation;
+- learner-evidence-map exact-reference handling;
+- representative-mock assurance state;
+- expert package exact-version linkage;
+- GitHub branch/PR/exact-head CI handling;
+- no privileged secret in browser bundle.
 
 ### Content/evaluation
 
@@ -308,6 +429,10 @@ Content Operations should eventually show, for each course job:
 - Marking Pack alternative-valid-reasoning tests;
 - human calibration agreement for judgement-heavy marking.
 
+### Production smoke
+
+When user-facing Admin/job-status increments are deployed, verify the canonical `/app/` role-gated route and protected backend behaviour under normal path-to-live controls.
+
 ## Implementation sequence
 
 Use short governed PRs after Founder-approved `Ready`:
@@ -315,8 +440,8 @@ Use short governed PRs after Founder-approved `Ready`:
 1. schemas + state-machine/source-rights guard;
 2. rights-safe identity/source/Board Alignment/coverage/Course Knowledge Model workers;
 3. Assessment Blueprint + Question Families / Exam Truth;
-4. Learning Blueprint + Learn/Practice workers + evidence mappings;
-5. Exam Prep generation + trusted mock contracts + Marking Packs;
+4. Learning Blueprint + Learn/Practice workers + learner-evidence mappings;
+5. Exam Prep generation + representative mock contracts + Marking Packs;
 6. deterministic assurance + independent review + targeted remediation;
 7. expert-review packaging/import + `expert_review_ready` Admin status;
 8. prove end-to-end on materially different qualification shapes;
@@ -345,4 +470,4 @@ Before calling v2 mature, demonstrate at least:
 
 ## Documentation impact
 
-This plan is the technical implementation companion for Content Factory v2. The 3 September 2026 strategy clarification changes sequencing and adds explicit learner-evidence and trusted-mock contracts. `docs/technical/Content Factory Architecture.md`, current implementation records and relevant ADRs must be updated as those implementation increments land. Historical v0.1 implementation records remain historically accurate.
+This plan is the technical implementation companion for Content Factory v2. The 3 September 2026 strategy clarification changes sequencing and adds explicit learner-evidence and representative-mock contracts. As implementation increments land, update `docs/technical/Content Factory Architecture.md`, `Content Operations Admin Implementation.md`, code-level implementation records and relevant ADRs where architecture decisions become durable. Historical v0.1 implementation records remain historically accurate.
