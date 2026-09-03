@@ -16,6 +16,11 @@ const highRiskFiles = new Set([
   'src/app/navigation.ts',
 ])
 
+const dependencyFiles = new Set([
+  'package.json',
+  'package-lock.json',
+])
+
 const criticalAssuranceFiles = new Set([
   '.github/PULL_REQUEST_TEMPLATE.md',
   'scripts/assurance/critical-assurance-manifest.json',
@@ -110,7 +115,7 @@ export function classifyChange(files) {
       continue
     }
 
-    if (path === 'package.json' || path === 'package-lock.json') {
+    if (dependencyFiles.has(path)) {
       level = Math.max(level, 3)
       reasons.push(`${path}: dependency/build contract changed.`)
       addDomain(affectedDomains, 'path-to-live')
@@ -164,6 +169,7 @@ export function classifyChange(files) {
 
 export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
   const risk = classifyChange(files)
+  const dependencyChanged = files.some((file) => dependencyFiles.has(file.path))
   const required = {
     staticValidation: true,
     typecheckLintBuild: risk.level >= 2,
@@ -177,6 +183,7 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     testSensitivityEvidence: risk.level >= 3,
     criticalAssuranceIntegrity: true,
     independentSecurityAnalysis: risk.level >= 3,
+    dependencyVulnerabilityAnalysis: dependencyChanged,
     postDeploymentSmoke: risk.level >= 3,
     rollbackRecoveryReview: risk.level >= 4,
   }
@@ -189,7 +196,7 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     headSha,
     risk,
     selectionMode: 'conservative-full',
-    selectionPolicy: 'Existing Revision CI suites remain mandatory while selective execution is separately calibrated; new adversarial/security controls apply only to Level 3/4 changes.',
+    selectionPolicy: 'Existing Revision CI suites remain mandatory while selective execution is separately calibrated; new adversarial/security controls apply only to Level 3/4 changes, and dependency vulnerability analysis runs only when dependency manifests or lockfiles change.',
     changedFiles: files.map(({ path }) => path),
     requiredAssurance: required,
     executedCiPolicy: {
@@ -197,6 +204,7 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
       criticalAssuranceIntegrity: true,
       highRiskPrEvidence: risk.level >= 3,
       independentSecurityAnalysisOnPullRequest: risk.level >= 3,
+      dependencyVulnerabilityAnalysisOnChange: dependencyChanged,
       foundationQuality: true,
       databaseRlsProtectedService: true,
     },
