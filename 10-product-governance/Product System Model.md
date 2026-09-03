@@ -1,6 +1,6 @@
 # Product System Model
 
-**Status:** Draft authority candidate — v0.6  
+**Status:** Draft authority candidate — v0.7  
 **Purpose:** Define the core model by which Revision understands a student, recommends activity and updates guidance over time.
 
 ## Core model
@@ -35,7 +35,7 @@ The system understands the applicable qualification, exam board, specification s
 
 ### Learner intelligence
 
-The system maintains a structured, evidence-aware picture of what the learner has covered, what they currently appear to understand, where evidence is weak or stale, recurring misconceptions or mistake patterns where supported, and relevant planning/preferences context.
+The system maintains a structured, evidence-aware picture of what the learner has reviewed, what they currently appear to understand, where evidence is weak or stale, recurring misconceptions or mistake patterns where supported, and relevant planning/preferences context.
 
 ### Exam intelligence
 
@@ -47,20 +47,65 @@ The system combines curriculum need, learner evidence, exam timing, realistic av
 
 These forms of intelligence should reinforce one another rather than create separate product silos.
 
+## Learner-facing course model
+
+Within a course, the primary focused learner jobs are:
+
+- **Learn** — help me understand this;
+- **Practice** — help me test and improve what I know; and
+- **Exam Prep** — help me perform in the real exam.
+
+These sections are different routes into one underlying curriculum/evidence model. A topic or knowledge/skill node must not become a different academic identity merely because the learner reaches it through a different activity type.
+
+### Learn
+
+Learn contains the explanations, notes, worked examples, visual material, formulas, relationships, misconceptions and other learning formats justified by the Course Knowledge Model and Learning Blueprint.
+
+Meaningful use of Learn may update a `Reviewed`/content-exposure signal, but Learn completion does not itself establish mastery or Exam Readiness.
+
+### Practice
+
+Practice may include flashcards, retrieval, quizzes, calculations, application/case work, topic tests, mixed tests, practice questions and other validated techniques.
+
+Practice types are alternative techniques rather than mandatory completion lanes. A learner should not have to use every available format to demonstrate knowledge. Each practice format should cover the full relevant curriculum scope that the format can validly assess, and its results should update the same underlying knowledge/skill evidence model.
+
+A format may provide evidence only for what it can genuinely test. For example, flashcards can provide strong recall evidence but cannot by themselves prove extended evaluation, complex applied reasoning or other skills they do not validly assess.
+
+### Exam Prep
+
+Exam Prep includes targeted exam-question work, timed practice, exam technique, full-paper/component practice, trusted Revision mock examinations and the Exam Simulator where supported.
+
+Exam Prep evidence should normally carry the strongest weight in Exam Readiness because it most directly represents performance under authentic assessment demands.
+
 ## Three distinct dimensions
 
 Revision should not collapse all progress into one score. It should distinguish at least three dimensions:
 
-### Coverage
-Has the student meaningfully revised the relevant area of the specification?
+### Reviewed / coverage
+
+Has the student meaningfully encountered or revised the relevant material?
+
+This is primarily an orientation signal. It helps the learner see what they have and have not looked at, but it is not an achievement measure.
 
 ### Understanding / mastery
-What does the available evidence suggest the student currently understands and can recall?
+
+What does the available evidence suggest the student currently understands, can recall and can use?
 
 ### Exam readiness
-Can the student apply that knowledge effectively in exam-style conditions, including realistic questions, timing and mark expectations?
 
-These dimensions are related but not interchangeable. A student can have covered a topic without mastering it, or understand content without yet demonstrating exam readiness.
+Can the student apply that knowledge and skill effectively under exam-style conditions, including realistic questions, timing and mark expectations?
+
+These dimensions are related but not interchangeable. A student can have reviewed a topic without mastering it, understand content without yet demonstrating exam readiness, or demonstrate strong performance despite not having consumed all Revision Learn content.
+
+Revision must not penalise a learner for unreviewed Learn material when stronger evidence already demonstrates the relevant knowledge/skill. Conversely, reviewing all Learn material must not compensate for weak performance evidence.
+
+## Exam Readiness as the primary performance signal
+
+Learner-facing course and topic progress should treat **Exam Readiness** as the primary demonstrated-performance signal and `Reviewed` as a secondary content-exposure signal.
+
+Exam Readiness should be updated from validated Practice and Exam Prep performance, weighted by the strength, breadth, recency and assessment relevance of the evidence. Different activity types are not automatically equivalent evidence.
+
+The readiness judgement and Revision's confidence in that judgement are separate. Narrow or stale evidence may justify a promising provisional judgement while still leaving low confidence in its breadth. The product should explain this in plain English and avoid unsupported precision.
 
 ## Structured learner memory
 
@@ -70,7 +115,7 @@ Structured learner memory may include, subject to the applicable evidence, priva
 
 - active courses, qualification and exam-board context;
 - specification/topic structure relevant to the learner;
-- coverage state;
+- Reviewed/content-exposure state;
 - understanding/mastery evidence with provenance, recency and confidence;
 - exam-readiness evidence with provenance, recency and confidence;
 - repeated misconception or error patterns where supported by sufficient evidence;
@@ -83,6 +128,7 @@ Structured learner memory may include, subject to the applicable evidence, priva
 Different memory classes must retain their meaning. For example:
 
 - learner preference is not mastery evidence;
+- Learn completion is not Exam Readiness evidence;
 - a conversation statement is not automatically an objective fact;
 - a single wrong answer is not automatically a durable misconception;
 - self-reported outside revision may inform planning but does not create objective readiness; and
@@ -96,13 +142,17 @@ The model may use evidence from activities including:
 
 - quizzes;
 - active recall and flashcards;
-- topic tests;
-- exam questions;
+- calculations and other skill drills;
+- topic and mixed tests;
+- practice questions;
+- exam-style questions;
 - timed practice;
 - full or simulated papers; and
 - other validated learning interactions introduced later.
 
 Assessment should not only produce a score. Where practical it should provide feedback that helps the student understand mistakes and improve.
+
+All scored Practice and Exam Prep assets should map back to the relevant curriculum knowledge/skill nodes so results can update the same learner model regardless of the activity format used.
 
 ## Directional starting-check evidence
 
@@ -119,7 +169,7 @@ A starting-check answer may:
 
 Starting-check evidence must **not by itself**:
 
-- mark a topic as covered;
+- mark a topic as reviewed or covered;
 - establish understanding, proficiency or mastery;
 - create or increase a readiness score;
 - count towards the minimum evidence threshold for readiness;
@@ -130,7 +180,7 @@ A correct answer means only that the Student answered that sampled item correctl
 
 Implementation must preserve explicit starting-check provenance so these observations cannot become indistinguishable from ordinary Practice evidence merely because the question format is the same.
 
-Later normal learning, Practice and exam evidence may confirm, weaken or overturn the initial directional signal. Once stronger evidence exists, normal evidence and recency rules govern subsequent recommendations.
+Later normal Learn, Practice and Exam Prep evidence may confirm, weaken or overturn the initial directional signal. Once stronger evidence exists, normal evidence and recency rules govern subsequent recommendations.
 
 The initial starting-check selection and recommendation logic should be deterministic and testable rather than delegated to an LLM.
 
@@ -138,9 +188,11 @@ The initial starting-check selection and recommendation logic should be determin
 
 Revision should infer completion from reliable product activity wherever possible rather than asking the student to maintain a manual task list.
 
-Where REV recommends an in-product activity and the learner follows that recommendation into the activity, Revision should retain the recommendation-to-activity link. When the activity reaches a reliable completion state, the system should record that the recommended work was completed and use the resulting evidence automatically.
+Where REV recommends an in-product activity and the learner follows that recommendation into the activity, Revision should retain the recommendation-to-activity link. When the activity reaches a reliable completion state, the system should record that the recommended work was completed and use any resulting valid evidence automatically.
 
 A click-through alone must not be treated as completion where the activity has a meaningful completion event. The product should distinguish recommendation exposure, activity start, meaningful engagement and activity completion so product metrics do not overstate useful engagement.
+
+Activity completion is not itself educational achievement. Revision must not create a completion tax in which a learner has to consume all Learn content or complete every Practice format to improve a performance indicator. Where stronger existing evidence already demonstrates the intended outcome, the planner should be free to prioritise other work.
 
 At an appropriate return point, Revision may use a very short reconciliation interaction. This should primarily:
 
@@ -224,7 +276,7 @@ When the student completes different work from what Revision recommended, misses
 
 The system should not create artificial task debt by carrying every uncompleted recommendation forward. It should decide again what matters most given:
 
-- current coverage, understanding and exam-readiness evidence;
+- current Reviewed, understanding and exam-readiness evidence;
 - the time remaining before relevant assessments;
 - realistic future availability;
 - competing priorities across subjects; and
@@ -243,6 +295,8 @@ Revision may suggest that additional study time would materially help when genui
 Revision should be proactive enough to explain why an action matters.
 
 Recommendations should be understandable rather than opaque. REV should be able to explain material reasons such as limited evidence, demonstrated weakness, stale evidence worth checking, assessment proximity, known exam weighting/mark opportunity, already-strong material or a realistic improvement opportunity.
+
+Where the learner has not reviewed some Learn content but already has strong, representative evidence for the same knowledge/skill, REV should be able to recommend spending time elsewhere rather than forcing content completion.
 
 The product must not expose false-precision internal priority scores or promise precise additional marks unless evidence and claims authority support such a claim.
 
@@ -284,8 +338,12 @@ Student choices should not be treated as product failure simply because the syst
 
 ## Desired outcome
 
-The system model succeeds when the complexity of balancing subjects, coverage, understanding, forgetting risk, misconceptions, exam readiness, exam dates, available time, learner preferences and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
+The system model succeeds when the complexity of balancing subjects, Reviewed state, understanding, forgetting risk, misconceptions, exam readiness, exam dates, available time, learner preferences and exam preparation is handled largely behind the scenes, leaving the student with a simple answer to the question:
 
 **What is the most useful thing for me to do next, and why?**
 
 The governing strategic context for this system model is `00-company-foundation/Product Strategy.md`.
+
+## Documentation impact
+
+This v0.7 clarification aligns the learner evidence model with the three focused course jobs, establishes Exam Readiness as the primary demonstrated-performance signal, and explicitly prevents content/activity completion from becoming a performance gate. It must remain aligned with Claims and Progress Governance, Information Architecture, Core User Journeys and Content Factory authority.
