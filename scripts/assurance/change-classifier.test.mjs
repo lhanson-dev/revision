@@ -46,11 +46,12 @@ describe('change assurance classifier', () => {
     expect(plan.requiredAssurance.targetedBrowser).toBe(true)
     expect(plan.requiredAssurance.adversarialReview).toBe(false)
     expect(plan.requiredAssurance.independentSecurityAnalysis).toBe(false)
+    expect(plan.requiredAssurance.dependencyVulnerabilityAnalysis).toBe(false)
     expect(plan.requiredAssurance.criticalAssuranceIntegrity).toBe(true)
     expect(plan.executedCiPolicy.databaseRlsProtectedService).toBe(true)
   })
 
-  it('declares the compensating assurance required for high-risk changes', () => {
+  it('declares the compensating assurance required for high-risk changes without unnecessary dependency registry coupling', () => {
     const plan = buildAssurancePlan({
       files: [{ path: 'src/services/auth/session.ts', patch: '' }],
       baseSha: 'a'.repeat(40),
@@ -64,8 +65,26 @@ describe('change assurance classifier', () => {
       testSensitivityEvidence: true,
       criticalAssuranceIntegrity: true,
       independentSecurityAnalysis: true,
+      dependencyVulnerabilityAnalysis: false,
     })
     expect(plan.executedCiPolicy.highRiskPrEvidence).toBe(true)
     expect(plan.executedCiPolicy.independentSecurityAnalysisOnPullRequest).toBe(true)
+    expect(plan.executedCiPolicy.dependencyVulnerabilityAnalysisOnChange).toBe(false)
+  })
+
+  it('requires dependency vulnerability analysis when package manifests or lockfiles change', () => {
+    for (const path of ['package.json', 'package-lock.json']) {
+      const plan = buildAssurancePlan({
+        files: [{ path, patch: '' }],
+        baseSha: 'a'.repeat(40),
+        headSha: 'b'.repeat(40),
+        eventName: 'pull_request',
+      })
+
+      expect(plan.risk).toMatchObject({ level: 3, label: 'High' })
+      expect(plan.requiredAssurance.independentSecurityAnalysis).toBe(true)
+      expect(plan.requiredAssurance.dependencyVulnerabilityAnalysis).toBe(true)
+      expect(plan.executedCiPolicy.dependencyVulnerabilityAnalysisOnChange).toBe(true)
+    }
   })
 })
