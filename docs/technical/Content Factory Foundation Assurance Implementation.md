@@ -1,6 +1,6 @@
 # Content Factory Foundation Assurance Implementation
 
-**Status:** Slice 3A implementation in progress via PR #295  
+**Status:** Slice 3A implementation record — PR #295  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
