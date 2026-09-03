@@ -32,12 +32,66 @@ export const foundationCandidateBlockerSchema = z.object({
 
 export const foundationAssuranceResultSchema = z.object({
   status: z.enum(['pending', 'pass', 'fail']),
+  foundationFingerprint: sha256Schema.optional(),
   evidenceRefs: z.array(nonEmptyStringSchema).default([]),
+}).superRefine((result, context) => {
+  if (result.status === 'pending') {
+    if (result.foundationFingerprint) {
+      context.addIssue({
+        code: 'custom',
+        path: ['foundationFingerprint'],
+        message: 'Pending deterministic assurance must not claim a Foundation fingerprint',
+      })
+    }
+    return
+  }
+
+  if (!result.foundationFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['foundationFingerprint'],
+      message: 'Completed deterministic assurance must identify the exact Foundation fingerprint assessed',
+    })
+  }
+  if (result.evidenceRefs.length === 0) {
+    context.addIssue({
+      code: 'custom',
+      path: ['evidenceRefs'],
+      message: 'Completed deterministic assurance must retain evidence',
+    })
+  }
 })
 
 export const foundationIndependentReviewResultSchema = z.object({
   status: z.enum(['pending', 'pass', 'fail_hold']),
+  foundationFingerprint: sha256Schema.optional(),
   evidenceRefs: z.array(nonEmptyStringSchema).default([]),
+}).superRefine((result, context) => {
+  if (result.status === 'pending') {
+    if (result.foundationFingerprint) {
+      context.addIssue({
+        code: 'custom',
+        path: ['foundationFingerprint'],
+        message: 'Pending independent review must not claim a Foundation fingerprint',
+      })
+    }
+    return
+  }
+
+  if (!result.foundationFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['foundationFingerprint'],
+      message: 'Completed independent review must identify the exact Foundation fingerprint assessed',
+    })
+  }
+  if (result.evidenceRefs.length === 0) {
+    context.addIssue({
+      code: 'custom',
+      path: ['evidenceRefs'],
+      message: 'Completed independent review must retain evidence',
+    })
+  }
 })
 
 export const foundationCandidateSchema = z.object({
@@ -78,11 +132,22 @@ export const foundationCandidateSchema = z.object({
     }
     questionFamilyRefs.add(family.ref)
   })
+
+  const deterministicFingerprint = candidate.deterministicAssurance.foundationFingerprint
+  const reviewFingerprint = candidate.independentReview.foundationFingerprint
+  if (deterministicFingerprint && reviewFingerprint && deterministicFingerprint !== reviewFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['independentReview', 'foundationFingerprint'],
+      message: 'Deterministic assurance and independent review must assess the same Foundation fingerprint',
+    })
+  }
 })
 
 export const foundationApprovalEvidenceSchema = z.object({
   reviewerId: nonEmptyStringSchema,
   approverId: nonEmptyStringSchema,
+  foundationFingerprint: sha256Schema,
   reviewedAt: nonEmptyStringSchema,
   approvedAt: nonEmptyStringSchema,
   evidenceRefs: z.array(nonEmptyStringSchema).min(1),
@@ -116,6 +181,27 @@ export const approvedCourseFoundationSchema = z.object({
       code: 'custom',
       path: ['candidate', 'unresolvedBlockers'],
       message: 'Approved Course Foundation cannot retain unresolved candidate blockers',
+    })
+  }
+  if (foundation.candidate.deterministicAssurance.foundationFingerprint !== foundation.foundationFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate', 'deterministicAssurance', 'foundationFingerprint'],
+      message: 'Deterministic assurance must be bound to the exact approved Foundation fingerprint',
+    })
+  }
+  if (foundation.candidate.independentReview.foundationFingerprint !== foundation.foundationFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate', 'independentReview', 'foundationFingerprint'],
+      message: 'Independent review must be bound to the exact approved Foundation fingerprint',
+    })
+  }
+  if (foundation.approval.foundationFingerprint !== foundation.foundationFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['approval', 'foundationFingerprint'],
+      message: 'Qualified approval evidence must be bound to the exact approved Foundation fingerprint',
     })
   }
 })
