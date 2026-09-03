@@ -13,60 +13,34 @@ import {
   foundationDiscoveredSourceSchema,
   foundationIdentityResolutionSchema,
   foundationStructuredEvidenceSchema,
+  fingerprintFoundationArtifact,
   type FoundationCompilationWorkers,
-  type FoundationCurriculumRequirementInput,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import {
   OpenAIStructuredWorkerClient,
   type OpenAIContentFactoryAdapterConfig,
 } from './openai-live-adapter'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED,
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+} from './source-seeds/aqa-a-level-business-7132-2027'
 
 export const AQA_A_LEVEL_BUSINESS_7132_URLS = {
   specification: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification',
   assessment: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/specification-at-a-glance',
   scheme: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment',
   subjectContent: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/subject-content',
-  quantitativeSkills: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business',
-  keyDates: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/key-dates',
   dfeSubjectContent: 'https://www.gov.uk/government/publications/gce-as-and-a-level-for-business',
   ofqualAssessmentObjectives: 'https://www.gov.uk/government/publications/assessment-objectives-ancient-languages-geography-and-mfl/gcse-as-and-a-level-assessment-objectives',
   libreTextsBusiness: 'https://biz.libretexts.org/Courses/Cosumnes_River_College/Bus_300%3A_Business_Fundamentals_%28Brown%29',
   libreTextsTerms: 'https://libretexts.org/terms-conditions',
+  revisionCourseTruthSeed: 'https://raw.githubusercontent.com/lhanson-dev/revision/main/src/content-factory/source-seeds/aqa-a-level-business-7132-2027.ts',
 } as const
 
 const allComponents = ['paper-1', 'paper-2', 'paper-3']
 const allAos = ['ao1', 'ao2', 'ao3', 'ao4']
-const permittedCurriculumSources = ['dfe-business-subject-content', 'libretexts-business-fundamentals']
-
-const curriculumRequirements: FoundationCurriculumRequirementInput[] = [
-  requirement('business-purpose-forms-environment', 'Business purpose, forms and external environment', ['business objectives', 'profit and cash flow', 'ownership forms', 'shareholders and stakeholders', 'external influences']),
-  requirement('leadership-management-decisions', 'Management, leadership and decision making', ['management and leadership', 'leadership styles', 'decision making', 'risk and uncertainty', 'stakeholder trade-offs']),
-  requirement('marketing-analysis', 'Marketing objectives, research, markets and demand', ['marketing objectives', 'market research', 'segmentation and targeting', 'positioning', 'price elasticity', 'income elasticity']),
-  requirement('marketing-decisions', 'Marketing mix and competitive marketing decisions', ['product decisions', 'pricing', 'promotion', 'distribution', 'branding', 'digital marketing']),
-  requirement('operations-decisions', 'Operational objectives, performance, quality and supply', ['productivity', 'capacity utilisation', 'unit costs', 'quality', 'inventory', 'lean operations', 'supply chains', 'technology']),
-  requirement('financial-performance', 'Financial objectives, profit, cash flow and budgets', ['revenue costs and profit', 'cash flow', 'budgets', 'variance analysis', 'cash-flow forecasting']),
-  requirement('financial-decisions', 'Financial analysis, investment and funding decisions', ['contribution', 'break-even', 'profitability ratios', 'investment appraisal', 'sources of finance', 'financial decision making']),
-  requirement('human-resources', 'Human-resource objectives, organisation, motivation and employee relations', ['workforce performance', 'organisational design', 'motivation', 'employee involvement', 'employee relations', 'labour productivity', 'labour turnover']),
-  requirement('strategic-position', 'Analysing the strategic position of a business', ['mission and objectives', 'financial ratio analysis', 'SWOT', 'external environment', 'competitive position', 'investment appraisal', 'decision trees']),
-  requirement('strategic-direction', 'Choosing strategic direction', ['strategic objectives', 'markets and products', 'competitive positioning', 'strategic choices and trade-offs']),
-  requirement('strategic-methods', 'Strategic methods for pursuing strategy', ['organic growth', 'mergers and takeovers', 'internationalisation', 'innovation', 'digital technology', 'strategic alliances']),
-  requirement('strategic-change', 'Managing strategic change', ['organisational culture', 'change management', 'leadership of change', 'barriers to change', 'implementation risk']),
-  requirement('quantitative-skills', 'Quantitative skills in business', ['ratios and averages', 'percentages and percentage change', 'index numbers', 'cost revenue profit and break-even', 'investment appraisal', 'elasticity', 'graphical and numerical interpretation']),
-  requirement('synoptic-business-judgement', 'Synoptic business judgement', ['interrelationships between business functions', 'contextual analysis', 'quantitative and qualitative evidence', 'evaluation', 'evidence-based judgement']),
-]
-
-function requirement(requirementId: string, revisionArea: string, skillsOrKnowledge: string[]): FoundationCurriculumRequirementInput {
-  return {
-    requirementId,
-    officialReference: 'DfE GCE AS and A level subject content for business — governed common A-level Business requirement',
-    requirementSummary: revisionArea,
-    skillsOrKnowledge,
-    componentScope: allComponents,
-    revisionArea,
-    sourceRefs: permittedCurriculumSources,
-  }
-}
+const curriculumRequirements = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements
 
 const boardAlignment: Omit<BoardAlignment, 'fingerprint' | 'jobId'> = {
   schemaVersion: 1,
@@ -112,14 +86,14 @@ const structuredEvidence = foundationStructuredEvidenceSchema.parse({
   curriculumRequirements,
 })
 
-const sourceList = z.array(foundationDiscoveredSourceSchema).parse([
-  { id: 'dfe-business-subject-content', url: AQA_A_LEVEL_BUSINESS_7132_URLS.dfeSubjectContent, title: 'GCE AS and A level subject content for business', issuer: 'Department for Education', sourceType: 'subject_content', educationalRole: ['permitted common A-level Business curriculum truth', 'quantitative skills'], versionOrDate: 'current publication; runtime preflight required' },
+const externalSourceList = z.array(foundationDiscoveredSourceSchema).parse([
+  { id: 'dfe-business-subject-content', url: AQA_A_LEVEL_BUSINESS_7132_URLS.dfeSubjectContent, title: 'GCE AS and A level subject content for business', issuer: 'Department for Education', sourceType: 'subject_content', educationalRole: ['OPEN upstream evidence for the Revision-owned Course Truth seed', 'quantitative skills'], versionOrDate: 'current publication; runtime preflight required' },
   { id: 'ofqual-business-assessment-objectives', url: AQA_A_LEVEL_BUSINESS_7132_URLS.ofqualAssessmentObjectives, title: 'GCSE, AS and A level assessment objectives — Business', issuer: 'Ofqual', sourceType: 'assessment_objectives', educationalRole: ['permitted assessment-objective truth'], versionOrDate: 'current publication; runtime preflight required' },
-  { id: 'libretexts-business-fundamentals', url: AQA_A_LEVEL_BUSINESS_7132_URLS.libreTextsBusiness, title: 'Business Fundamentals (Brown)', issuer: 'LibreTexts', sourceType: 'secondary_supplement', educationalRole: ['permitted business subject explanation and cross-checking'], versionOrDate: 'current CC BY 4.0 resource; runtime preflight required' },
+  { id: 'libretexts-business-fundamentals', url: AQA_A_LEVEL_BUSINESS_7132_URLS.libreTextsBusiness, title: 'Business Fundamentals (Brown)', issuer: 'LibreTexts', sourceType: 'secondary_supplement', educationalRole: ['OPEN upstream cross-checking evidence for the Revision-owned Course Truth seed'], versionOrDate: 'current CC BY 4.0 resource; runtime preflight required' },
   { id: 'aqa-7132-specification', url: AQA_A_LEVEL_BUSINESS_7132_URLS.specification, title: 'AQA A-level Business 7132 specification', issuer: 'AQA', sourceType: 'specification', educationalRole: ['course identity', 'cohort alignment'] },
   { id: 'aqa-7132-assessment', url: AQA_A_LEVEL_BUSINESS_7132_URLS.assessment, title: 'AQA A-level Business 7132 specification at a glance', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['component and assessment-format alignment'] },
   { id: 'aqa-7132-scheme', url: AQA_A_LEVEL_BUSINESS_7132_URLS.scheme, title: 'AQA A-level Business 7132 scheme of assessment', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['assessment-objective and assessment-rule alignment'] },
-  { id: 'aqa-7132-subject-content', url: AQA_A_LEVEL_BUSINESS_7132_URLS.subjectContent, title: 'AQA A-level Business 7132 subject content', issuer: 'AQA', sourceType: 'subject_content', educationalRole: ['structured section-level alignment only'] },
+  { id: 'aqa-7132-subject-content', url: AQA_A_LEVEL_BUSINESS_7132_URLS.subjectContent, title: 'AQA A-level Business 7132 subject content', issuer: 'AQA', sourceType: 'subject_content', educationalRole: ['structured Board Alignment reference only'] },
 ])
 
 const courseTruthEnrichmentSchema = z.object({
@@ -171,6 +145,23 @@ export async function preflightAqaAlevelBusiness7132Sources(fetchImpl: typeof fe
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.specification, ['a-level business', '7132', 'outgoing', '2027'])
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.assessment, ['paper 1', '100 marks', 'paper 2', 'paper 3'])
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.scheme, ['assessment objectives', 'ao1', 'ao4'])
+  await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.revisionCourseTruthSeed, [AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID, 'governed_main_only'])
+}
+
+async function discoveredSourcesWithSeedFingerprint() {
+  const seedFingerprint = await fingerprintFoundationArtifact(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED)
+  return z.array(foundationDiscoveredSourceSchema).parse([
+    ...externalSourceList,
+    {
+      id: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+      url: AQA_A_LEVEL_BUSINESS_7132_URLS.revisionCourseTruthSeed,
+      title: 'Revision governed AQA 7132 / 2027 Course Truth seed',
+      issuer: 'Revision',
+      sourceType: 'other_primary',
+      educationalRole: ['Revision-owned exact generative curriculum input', 'retains OPEN upstream-evidence references and explicit limitations'],
+      versionOrDate: `sha256:${seedFingerprint}`,
+    },
+  ])
 }
 
 function failure(stage: string, error: unknown): FoundationWorkerExecution<unknown> {
@@ -203,7 +194,7 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
     async discoverSources({ jobId }) {
       try {
         await preflightAqaAlevelBusiness7132Sources(fetchImpl)
-        return deterministicSuccess(sourceList, `foundation-sources-${jobId}`, 'revision-live-source-preflight')
+        return deterministicSuccess(await discoveredSourcesWithSeedFingerprint(), `foundation-sources-${jobId}`, 'revision-live-source-preflight')
       } catch (error) {
         return failure('source-discovery', error)
       }
@@ -230,16 +221,21 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
         outputSchema: courseTruthEnrichmentSchema,
         strictOutput: true,
         instructions: [
-          'Create one canonical Course Truth node for every governed requirement and no extra nodes.',
+          'Create one canonical Course Truth node for every governed Revision-owned seed requirement and no extra nodes.',
           'Preserve every supplied requirementId exactly as the node id.',
+          'Use only the factual scope supplied in the governed seed. Do not introduce unsupported facts, formulas or claims from model memory.',
+          'If the seed does not support a precise formula or dependency, return an empty formula/dependency list rather than inventing detail.',
           'Do not invent source or Board Alignment references; those are attached deterministically after your semantic output.',
-          'Use prerequisiteIds and relatedIds only from the supplied requirement IDs. Use [] when a relationship is not clearly justified.',
-          'Summaries must be independent Revision-authored subject truth, not reconstructed awarding-body wording.',
-          'Include useful misconceptions, formulas where relevant, application contexts and evidenceTypes sufficient to support later Learn/Practice/Exam Prep factories.',
+          'Use prerequisiteIds and relatedIds only from the supplied requirement IDs and only when the seed clearly supports the relationship.',
+          'Summaries must be independent Revision-authored wording and must not reconstruct awarding-body text.',
         ].join('\n'),
         payload: {
           courseIdentity: boardAlignment.courseIdentity,
-          requirements: requirements.map(({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea }) => ({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea })),
+          governedRevisionSeed: {
+            seedId: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.seedId,
+            limitations: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.limitations,
+            requirements: requirements.map(({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea }) => ({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea })),
+          },
           allowedNodeIds: requirements.map((item) => item.requirementId),
         },
       })
@@ -273,6 +269,7 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
           'Do not alter component structure, marks, timing, assessment objectives or assessment requirements.',
           'Return command demands, evidence expectations, quantitative requirements and synoptic requirements only.',
           'All componentScope values must use only paper-1, paper-2 or paper-3.',
+          'Do not reproduce official awarding-body questions, mark schemes or protected source prose.',
         ].join('\n'),
         payload: { boardAlignment: alignment, courseTruthNodes: courseKnowledgeModel.nodes.map(({ id, kind, summary, evidenceTypes }) => ({ id, kind, summary, evidenceTypes })) },
       })
