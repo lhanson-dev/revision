@@ -35,7 +35,7 @@ export const FOUNDATION_SOURCE_RIGHTS_REGISTRY: FoundationSourceRightsRegistry =
     mechanism: 'founder_approved_governed_main',
     repository: 'lhanson-dev/revision',
     branch: 'main',
-    note: 'Rules are usable by the live Foundation runtime only after this registry is present on Founder-approved main. Runtime source preflight still revalidates the factual licence/source markers before a rule is applied.',
+    note: 'Rules are usable by the live Foundation runtime only after this exact registry version is present on Founder-approved main. Runtime source preflight still revalidates factual licence/source markers before a rule is applied.',
   },
   rules: [
     {
@@ -101,6 +101,7 @@ export async function loadGovernedFoundationSourceRightsRules(input: {
   rules: FoundationSourceRightsPolicyRule[]
   registryFingerprint: string
   approvalEvidenceRef: string
+  authorityRef: string
 }> {
   if (input.repository !== FOUNDATION_SOURCE_RIGHTS_REGISTRY.approvalEvidence.repository) {
     throw new Error(`foundation_source_rights_registry_repository_mismatch:${input.repository}`)
@@ -114,6 +115,7 @@ export async function loadGovernedFoundationSourceRightsRules(input: {
   return {
     rules: FOUNDATION_SOURCE_RIGHTS_REGISTRY.rules,
     registryFingerprint,
-    approvalEvidenceRef: `${FOUNDATION_SOURCE_RIGHTS_REGISTRY.authorityRef}@${input.headSha}`,
+    approvalEvidenceRef: `foundation-source-rights-registry:${FOUNDATION_SOURCE_RIGHTS_REGISTRY.registryId}:v${FOUNDATION_SOURCE_RIGHTS_REGISTRY.registryVersion}:${registryFingerprint}@${input.headSha}`,
+    authorityRef: `${FOUNDATION_SOURCE_RIGHTS_REGISTRY.authorityRef}@${input.headSha}`,
   }
 }
