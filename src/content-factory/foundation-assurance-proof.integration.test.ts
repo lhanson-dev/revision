@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { z } from 'zod'
 import {
   advanceFoundationJob,
@@ -41,6 +41,13 @@ function requiredEnv(name: string) {
   const value = env[name]?.trim()
   if (!value) throw new Error(`runtime_config_missing:${name}`)
   return value
+}
+
+async function readUtf8File(path: string) {
+  const fsPromises = await import('node:fs/promises') as unknown as {
+    readFile(path: string, encoding: 'utf-8'): Promise<string>
+  }
+  return fsPromises.readFile(path, 'utf-8')
 }
 
 function githubHeaders(token: string) {
@@ -108,7 +115,7 @@ describe('Foundation retained real-course deterministic assurance proof', () => 
     const token = requiredEnv('GITHUB_TOKEN')
     const now = new Date().toISOString()
 
-    const sourceProof = sourceProofSchema.parse(JSON.parse(await readFile(sourceProofPath, 'utf-8')))
+    const sourceProof = sourceProofSchema.parse(JSON.parse(await readUtf8File(sourceProofPath)))
     expect(sourceProof.repository).toBe(repo)
     expect(sourceProof.contentHeadSha).toBe(expectedSourceHead)
     expect(sourceProof.foundationFingerprint).toBe(expectedFoundationFingerprint)
