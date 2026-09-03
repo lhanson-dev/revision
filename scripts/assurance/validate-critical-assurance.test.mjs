@@ -42,9 +42,15 @@ describe('critical assurance integrity', () => {
     })
   })
 
-  it('rejects suppressed critical tests', () => {
+  it('accepts conditional skips used to scope a critical test to the CI environment where it executes', () => {
+    withFixture({ testContent: "import { test } from '@playwright/test'\nconst enabled = process.env.TEST_DB === '1'\ntest('critical', ({}, testInfo) => { test.skip(!enabled || testInfo.project.name !== 'desktop', 'Runs in the dedicated critical job') })\n" }, ({ root, manifestPath }) => {
+      expect(validateCriticalAssurance({ root, manifestPath })).toMatchObject({ protectedFileCount: 1 })
+    })
+  })
+
+  it('rejects unconditionally suppressed critical tests', () => {
     withFixture({ testContent: "import { it } from 'vitest'\nit.skip('disabled critical check', () => {})\n" }, ({ root, manifestPath }) => {
-      expect(() => validateCriticalAssurance({ root, manifestPath })).toThrow(/skip\/todo\/only suppression/)
+      expect(() => validateCriticalAssurance({ root, manifestPath })).toThrow(/unconditional skip\/todo\/only suppression/)
     })
   })
 
