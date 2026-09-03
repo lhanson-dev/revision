@@ -12,6 +12,10 @@ import {
   createOpenAIFoundationLiveProvider,
 } from './foundation-live-adapter'
 import { loadGovernedFoundationSourceRightsRules } from './foundation-source-rights-registry'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED,
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+} from './source-seeds/aqa-a-level-business-7132-2027'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -137,6 +141,7 @@ describe('Foundation live real-course proof', () => {
     const learnerAssetCount = store.artifacts.filter((artifact) => learnerAssetKinds.has(artifact.kind)).length
     const budget = provider.budgetSnapshot?.() ?? { conservativeConsumedUsd: 0 }
     const providerRuns = result.workerRuns.filter((run) => run.provenance.provider === 'openai')
+    const courseTruthArtifact = store.artifacts.find((artifact) => artifact.kind === 'course_knowledge_model')
     const evidence = {
       schemaVersion: 1,
       artifactType: 'foundation_live_real_course_proof_evidence',
@@ -146,6 +151,9 @@ describe('Foundation live real-course proof', () => {
       gitRef,
       sourceRightsRegistryFingerprint: rights.registryFingerprint,
       sourceRightsApprovalEvidenceRef: rights.approvalEvidenceRef,
+      sourceRightsAuthorityRef: rights.authorityRef,
+      courseTruthSeedId: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+      courseTruthSeedLimitations: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.limitations,
       configuredMaxSpendUsd: maxSpendUsd,
       providerBudget: budget,
       jobId,
@@ -162,6 +170,7 @@ describe('Foundation live real-course proof', () => {
       workerRuns: result.workerRuns,
       providerRunCount: providerRuns.length,
       artifactKinds: store.artifacts.map((artifact) => artifact.kind),
+      courseTruthArtifact,
       artifacts: store.artifacts,
       candidate: result.candidate,
     }
@@ -175,14 +184,16 @@ describe('Foundation live real-course proof', () => {
       `- Course: **AQA A-level Business 7132 — 2027 cohort**`,
       `- Content head: \`${headSha}\``,
       `- Foundation fingerprint: \`${foundationFingerprint}\``,
-      `- Course Truth complete: **${result.candidate.courseTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
-      `- Exam Truth complete: **${result.candidate.examTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
+      `- Rights registry: \`${rights.approvalEvidenceRef}\``,
+      `- Governed Course Truth seed: \`${AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID}\``,
+      `- Course Truth compiler-complete: **${result.candidate.courseTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
+      `- Exam Truth compiler-complete: **${result.candidate.examTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
       `- Live OpenAI worker runs: **${providerRuns.length}**`,
       `- Conservative provider spend: **$${budget.conservativeConsumedUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
       `- Learner-facing assets generated: **${learnerAssetCount}**`,
       `- Foundation assurance status: \`${result.candidate.deterministicAssurance.status}\` / independent review \`${result.candidate.independentReview.status}\``,
       '',
-      'This proof stops at a complete Foundation Candidate. It does not claim Foundation approval and does not generate Learn, Practice, assessment items, mocks or Marking Packs.',
+      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed Slice 2B seed; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
     ].join('\n'))
 
     expect(result.job.state).toBe('compiling')
@@ -191,6 +202,7 @@ describe('Foundation live real-course proof', () => {
     expect(result.candidate.deterministicAssurance.status).toBe('pending')
     expect(result.candidate.independentReview.status).toBe('pending')
     expect(providerRuns.map((run) => run.stage)).toEqual(['course_truth', 'exam_truth', 'question_families'])
+    expect(JSON.stringify(courseTruthArtifact?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
     expect(learnerAssetCount).toBe(0)
     expect(budget.conservativeConsumedUsd).toBeLessThanOrEqual(maxSpendUsd)
   }, testTimeoutMs)
