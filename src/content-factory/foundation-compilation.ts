@@ -356,6 +356,26 @@ function ruleMatchesSource(rule: FoundationSourceRightsPolicyRule, source: Found
     && rule.sourceTypes.includes(source.sourceType)
 }
 
+function sourceRightsMaterialFingerprintPayload(record: z.infer<typeof sourceLicenceRecordSchema>) {
+  return {
+    id: record.id,
+    issuer: record.issuer,
+    urlOrReference: record.urlOrReference,
+    sourceType: record.sourceType,
+    educationalRole: record.educationalRole,
+    versionOrDate: record.versionOrDate,
+    useClass: record.useClass,
+    permissionBasis: record.permissionBasis,
+    aiInputPermitted: record.aiInputPermitted,
+    derivedCommercialUsePermitted: record.derivedCommercialUsePermitted,
+    attributionRequirements: record.attributionRequirements,
+    restrictions: record.restrictions,
+    checkerMethod: record.checkerMethod,
+    sourceFingerprint: record.sourceFingerprint,
+    revalidationConditions: record.revalidationConditions,
+  }
+}
+
 export async function classifyFoundationSourcesWithApprovedRules(input: {
   jobId: string
   sources: FoundationDiscoveredSource[]
@@ -413,7 +433,7 @@ export async function classifyFoundationSourcesWithApprovedRules(input: {
     })
   }))
 
-  const fingerprint = await fingerprintFoundationArtifact(records)
+  const fingerprint = await fingerprintFoundationArtifact(records.map(sourceRightsMaterialFingerprintPayload))
   const register = sourceLicenceRegisterSchema.parse({
     schemaVersion: 2,
     jobId: input.jobId,

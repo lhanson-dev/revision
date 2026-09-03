@@ -3,181 +3,118 @@
 **Status:** Active implementation plan — authority approved via PR #290; Issue #289 In Progress  
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
+**Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
 **Related previous initiative:** GitHub Issue #169 (superseded end-to-end v2 programme)
 
 ## Purpose
 
 Implement the Content Factory as a staged production system where an exact course reaches an approved Course Foundation before any learner-facing Learn, Practice or Exam Prep assets are generated.
 
-The existing v2 factory is implementation evidence and a source of reusable controls. It is not the orchestration shape to extend.
+The historical v2 factory remains implementation evidence and a source of reusable controls. It is not the orchestration shape to extend.
 
 ## Current implementation truth
 
-The legacy implementation under `src/content-factory/` still contains the old end-to-end `ContentFactoryJob` and orchestrator used by the historical v2 programme. That path couples foundation modelling with learner-asset generation and final package assurance.
+The canonical Foundation runtime is now separate from the legacy `ContentFactoryJob` topology.
 
-Issue #289 now has a separate Foundation boundary. Slice 1 was released through PR #291 and is deliberately isolated from the legacy state machine so the old topology does not become a dependency of the new process.
+Released through PR #291 and PR #292:
 
-The canonical Foundation lifecycle modules are:
+- `foundation-schema.ts` — Foundation Candidate / Approved Course Foundation contracts;
+- `foundation-lifecycle.ts` — the small Foundation lifecycle and exact-fingerprint/version controls;
+- `foundation-compilation.ts` — provider-neutral Foundation compilation and deterministic reconciliation; and
+- Foundation-specific coverage, Course Truth, Exam Truth and Question Family boundaries with zero learner-asset dependency.
 
-- `src/content-factory/foundation-schema.ts`;
-- `src/content-factory/foundation-lifecycle.ts`;
-- `src/content-factory/foundation-lifecycle.test.ts`; and
-- `src/content-factory/foundation-fingerprint.test.ts`.
+Slice 2B via PR #293 adds the live Foundation runtime:
 
-Slice 2A adds the bounded Foundation compilation core through:
+- `foundation-source-rights-registry.ts` — versioned reusable source-rights rules with a governed-main trust boundary;
+- `foundation-live-adapter.ts` — Foundation-native live source/profile/provider workers;
+- `foundation-live-adapter.test.ts` — provider-boundary/fail-closed regression assurance;
+- `foundation-live-proof.integration.test.ts` — real-course live proof harness; and
+- `.github/workflows/content-factory-foundation-live-proof.yml` — main-only manual paid proof workflow.
 
-- `src/content-factory/foundation-compilation.ts`; and
-- `src/content-factory/foundation-compilation.test.ts`.
-
-The legacy orchestrator remains present during migration but is not the canonical Foundation runtime.
+The legacy orchestrator and old worker factories remain in the repository during migration but are not canonical Foundation runtime dependencies.
 
 ## Migration rule
 
 Reuse a previous component only when all three are true:
 
 1. its responsibility remains valid under the new authority;
-2. its contract can be understood without importing the old end-to-end state machine; and
+2. its contract can be used without importing the old end-to-end state machine; and
 3. reuse is simpler and safer than implementing the bounded responsibility cleanly.
 
 If any condition fails, create a clean boundary and port only the useful control or learning.
 
-## Reusable implementation candidates
-
-Strong candidates for selective reuse are:
-
-- source-rights classification and Source Licence Register construction;
-- exact identity/cohort resolution;
-- Board Alignment compilation;
-- Course Knowledge Model concepts and validators;
-- Assessment Blueprint and Question Family concepts;
-- deterministic cross-reference and completeness validators;
-- fresh-context independent-review contracts;
-- durable artifact fingerprints and dependency-aware invalidation;
-- worker provenance and cost telemetry; and
-- bounded candidate recovery where generative variability genuinely requires it.
-
-Reuse should occur at schema/function/service boundaries, never by calling the old end-to-end orchestrator from the new Foundation process.
+Current selective reuse includes the Source Licence Register concepts, identity/Board/CKM/assessment schemas, deterministic cross-reference controls, worker provenance/cost telemetry and the low-level OpenAI structured Responses API transport. The old combined Learn/Practice/assessment worker factory is not reused by the Foundation path.
 
 ## Legacy coverage incompatibility and replacement
 
-The legacy `coverageMapSchema` treats a requirement as `complete` only when it references learner-content artifacts.
+The legacy `coverageMapSchema` treats a requirement as complete only when it references learner-content artifacts. That conflicts with Foundation-first authority.
 
-That contract is incompatible with the new authority because the Course Foundation must be approvable before Learn, Practice or Exam Prep assets exist.
+`foundationCoverageModelSchema` instead requires:
 
-The Foundation compilation boundary therefore uses `foundationCoverageModelSchema`. Complete Foundation coverage means:
+- every governed curriculum requirement exactly once;
+- preserved official/source/component scope;
+- mapping to one or more canonical Course Truth knowledge/skill node IDs; and
+- permitted curriculum source rights.
 
-- every governed curriculum requirement is represented exactly once;
-- every requirement preserves its official/source/component scope;
-- every requirement is mapped to one or more canonical Course Truth knowledge/skill node IDs; and
-- all referenced curriculum sources have permitted derived-use rights.
-
-It does not contain `contentRefs`, Learn/Practice requirements, or another learner-asset completion dependency.
+It contains no learner-content refs and no Learn/Practice/Exam Prep completion dependency.
 
 ## Do not carry forward by default
 
-Do not make these old structures prerequisites for the new process:
+Do not make these legacy structures prerequisites for the new process:
 
 - the v2 whole-course state transition map;
 - the single `generating` state;
 - combined Learn/Practice work units;
-- `continueContentFactoryToExpertReviewReady` as the normal entry point;
+- `continueContentFactoryToExpertReviewReady`;
 - old Q1–Q8 whole-course qualification sequencing;
 - full-course confirmation-pilot eligibility;
-- old expert-review packaging that requires all learner collateral to exist; or
-- checkpoint assumptions tied to the old whole-course topology.
+- expert-review packages requiring all learner collateral; or
+- checkpoint assumptions tied to the old end-to-end topology.
 
-Historical tests remain historical/regression evidence only where a retained boundary still uses the same contract.
+Historical tests and ADRs remain evidence only where a retained boundary still uses the same contract.
 
 ## Foundation domain model
 
-### Foundation Candidate
-
-A Foundation Candidate is the complete pre-approval dependency set for an exact course. It records:
-
-- exact course identity and cohort;
-- Source Licence Register ref/fingerprint;
-- Board Alignment ref/fingerprint;
-- Foundation coverage-model ref/fingerprint;
-- Course Truth / Course Knowledge Model ref/fingerprint;
-- Exam Truth / Assessment Blueprint ref/fingerprint;
-- Question Family refs/fingerprints where applicable;
-- deterministic Foundation assurance;
-- independent Foundation review;
-- unresolved blockers and known limitations; and
-- provenance/source-set fingerprint.
+A Foundation Candidate is the complete pre-approval dependency set for an exact course. It records exact course/cohort, Source Licence Register, Board Alignment, Foundation coverage, Course Truth, Exam Truth, Question Families, assurance/review status, blockers/limitations and provenance.
 
 It contains no Learn, Practice, Exam Prep, mock or Marking Pack requirement.
 
-### Approved Course Foundation
-
-The approved artifact adds:
-
-- stable `foundationId`;
-- positive `foundationVersion`;
-- deterministic `foundationFingerprint`;
-- exact embedded Foundation Candidate;
-- qualified reviewer and approver identities;
-- review/approval timestamps and evidence refs; and
-- known limitations.
-
-The approved record is immutable. A changed Course Truth, Exam Truth or other material Foundation dependency requires a different fingerprint and newer version for the same foundation ID.
+An Approved Course Foundation adds stable Foundation identity/version, deterministic aggregate fingerprint, the exact embedded candidate, qualified reviewer/approver evidence and known limitations. The approved record is immutable; changed material Foundation truth requires a new fingerprint and newer version.
 
 ## Approved Foundation lifecycle
 
-The canonical Foundation lifecycle is intentionally small:
+The canonical lifecycle is intentionally small:
 
 `requested → compiling → assuring → expert_review → foundation_approved`
 
 Exception states:
 
-- `blocked` — operational interruption; resumes to the exact prior working stage after all blockers are resolved;
+- `blocked` — operational interruption, resumable to the exact prior working stage after blockers resolve;
 - `superseded` — terminal record for a replaced candidate/version.
 
-The working states deliberately group internal worker details. Identity, source-rights, Board Alignment, coverage, Course Truth and Exam Truth compilation are activities within `compiling`, not additional operator lifecycle states.
-
-Deterministic validation, independent review and bounded remediation are activities within `assuring`.
-
-### Transition rules
-
-`requested → compiling`
-- Foundation work may begin for the exact requested course.
-
-`compiling → assuring`
-- a complete Foundation Candidate exists with exact dependency refs/fingerprints.
-
-`assuring → expert_review`
-- deterministic Foundation assurance is `pass`;
-- independent Foundation review is `pass`;
-- candidate-level blockers are empty; and
-- operational blockers are resolved.
-
-`expert_review → foundation_approved`
-- transition is available only through the dedicated Foundation approval function;
-- qualified reviewer/approver evidence is present;
-- the exact candidate fingerprint is calculated and frozen; and
-- the approved version is recorded.
-
-`foundation_approved → superseded`
-- permitted only when a later governed Foundation version replaces the approved record.
+Identity, rights, Board Alignment, coverage, Course Truth and Exam Truth are activities within `compiling`. Deterministic assurance, independent review and bounded remediation are activities within `assuring`.
 
 No learner-asset generation transition exists inside this lifecycle.
 
-## Foundation fingerprint and version invariant
+## Foundation fingerprint/version invariant
 
-The Foundation fingerprint is deterministic SHA-256 over the material educational/assessment dependency identity rather than operational review metadata or storage location.
+The aggregate Foundation fingerprint is deterministic SHA-256 over material educational/assessment dependency identity:
 
-It includes the exact course/cohort, Source Licence Register fingerprint, Board Alignment fingerprint, coverage fingerprint, Course Truth fingerprint, Exam Truth fingerprint, Question Family fingerprints and source-set fingerprint.
+- exact course/cohort;
+- Source Licence Register fingerprint;
+- Board Alignment fingerprint;
+- coverage fingerprint;
+- Course Truth fingerprint;
+- Exam Truth fingerprint;
+- Question Family fingerprints; and
+- source-set fingerprint.
 
-Artifact refs remain part of the immutable Foundation Candidate so the exact evidence can be retrieved and audited, but refs are deliberately excluded from the aggregate Foundation fingerprint. Moving an immutable artifact without changing its dependency fingerprint must not invent a new Foundation version.
+Artifact storage refs, review timestamps and assurance evidence refs do not define educational identity.
 
-The aggregate fingerprint also excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
+For the same `foundationId`:
 
-Required invariant for the same `foundationId`:
-
-- same material Foundation fingerprint → same `foundationVersion`;
-- changed material Foundation fingerprint → newer `foundationVersion`.
-
-An Approved Course Foundation must also be re-checkable against its embedded candidate to detect dependency fingerprint drift/tampering and stale review/approval evidence.
+- same material fingerprint → same `foundationVersion`;
+- changed material fingerprint → newer version.
 
 ## Implementation slices
 
@@ -185,69 +122,56 @@ An Approved Course Foundation must also be re-checkable against its embedded can
 
 **Status: released through PR #291; storage-location repeatability clarified in PR #292.**
 
-Implemented:
-
-- Foundation Candidate schema;
-- Approved Course Foundation schema;
-- Foundation job/lifecycle schema;
-- small lifecycle and blocker/resume behaviour;
-- deterministic material-dependency Foundation fingerprint;
-- exact-fingerprint deterministic/independent-review binding;
-- explicit `foundation_approved` approval guard;
-- mandatory version lineage/integrity invariant;
-- unit/schema assurance;
-- storage-location independence regression assurance;
-- public Content Factory exports; and
-- current technical implementation documentation.
-
-Provider calls and all learner-asset generation remain excluded from Slice 1.
+Implemented Foundation schemas, lifecycle, blocker/resume behaviour, material fingerprint, exact-fingerprint assurance/review binding, approval guard, mandatory version lineage, integrity checks and unit assurance.
 
 ### Slice 2 — Foundation compilation
 
-Goal: create Course Truth + Exam Truth behind the new boundary.
-
-Slice 2 is deliberately decomposed into short governed increments without changing the approved outcome.
+Goal: create Course Truth + Exam Truth behind the new Foundation boundary with zero learner-facing assets.
 
 #### Slice 2A — compiler core and contracts
 
-**Status: implementation in progress via Issue #289.**
+**Status: released and production-verified through PR #292 / `60269b9d96d6cce75f5decde30a727301f446d03`.**
 
-Implement:
+Implemented:
 
 - Foundation-native identity/source/evidence worker contracts;
-- deterministic source-rights classification without importing the legacy orchestrator;
+- deterministic source-rights classification;
 - Board Alignment validation/fingerprinting;
-- the Foundation-specific coverage model;
-- Course Truth compilation/reconciliation against exact coverage node IDs;
-- Exam Truth compilation bound to the exact Board Alignment and Course Truth fingerprints;
-- Question Family reconciliation against Exam Truth;
-- Foundation-only artifact-store contracts and worker provenance; and
-- compilation into a complete `FoundationCandidate` while the job remains in `compiling`.
-
-Explicitly exclude Learn, Practice, assessment items, Marking Packs, Foundation assurance and expert approval.
-
-Success proof:
-
-A provider-free governed fixture reaches a complete Foundation Candidate with Course Truth and Exam Truth, all dependencies are cross-reconciled/fingerprinted, storage-location changes do not change the aggregate Foundation identity, and the artifact ledger contains zero learner-facing assets.
+- Foundation-specific coverage;
+- Course Truth reconciliation against exact coverage node IDs;
+- Exam Truth bound to exact Board Alignment + Course Truth fingerprints and governed assessment requirements;
+- Question Family reconciliation;
+- Foundation-only artifact/provenance contracts; and
+- provider-free proof of a complete Foundation Candidate with zero learner assets.
 
 #### Slice 2B — live adapter and real-course proof
 
-Connect the Slice 2A contracts to selectively reused/rebuilt provider workers for:
+**Status: implementation in progress via PR #293.**
 
-- exact identity/cohort resolution;
-- source discovery and controlled evidence extraction;
-- governed loading of previously approved source-rights policy rules and their approval evidence;
-- Board Alignment;
-- Foundation coverage;
-- Course Truth;
-- Exam Truth; and
-- Question Families.
+Implement:
 
-Do not route through the legacy `ContentFactoryJob`/orchestrator and do not call Learn, Practice, assessment-item or Marking Pack generation.
+- governed loading of reusable source-rights rules and approval evidence;
+- current-source/licence preflight;
+- exact identity/cohort and controlled structured evidence;
+- Foundation-native live provider workers;
+- bounded live Course Truth, Exam Truth enrichment and Question Families;
+- provider spend/provenance evidence; and
+- one new real governed Foundation job.
+
+The first proof profile is **AQA A-level Business 7132 for the 2027 examination cohort**. It is a new Foundation job and not a continuation of superseded Issue #281.
+
+AQA material is conservatively `REFERENCE_ONLY` under the proposed registry: controlled structured alignment facts may be used, but AQA source prose must not enter generative context. Curriculum truth supplied to generative workers must come from OPEN/owned/licensed sources.
+
+The source-rights registry is a proposed rule set until PR #293 is Founder-approved and merged. The runtime deliberately refuses live registry use outside `refs/heads/main`. Therefore the paid real-course proof occurs **after** approved merge and production verification, using the exact governed `main` version.
 
 Success proof for completion of Slice 2:
 
-A new real governed course Foundation job reaches a complete Foundation Candidate with Course Truth and Exam Truth and zero learner-facing assets.
+- a new real course Foundation job reaches a compiler-complete Foundation Candidate;
+- Course Truth and Exam Truth are complete against the exact governed requirement set;
+- exact worker/provider/cost/rights-registry evidence is retained; and
+- learner-facing artifact count is zero.
+
+This does not constitute Foundation assurance or expert approval.
 
 ### Slice 3 — Foundation assurance and approval
 
@@ -260,15 +184,13 @@ Implement/port:
 - targeted Foundation remediation;
 - qualified expert-review package/contract;
 - structured expert findings/evidence; and
-- durable approved Foundation persistence.
+- durable immutable Approved Course Foundation persistence.
 
-Success proof:
-
-One real course reaches `foundation_approved` before any learner asset is generated.
+Success proof: one real course reaches `foundation_approved` before any learner asset is generated.
 
 ### Slice 4 — Learn Factory
 
-Generate and assure teaching assets from approved Course Truth. Every Learn asset must carry the approved Foundation fingerprint/version.
+Generate and assure teaching assets from approved Course Truth. Every Learn asset carries the approved Foundation fingerprint/version.
 
 ### Slice 5 — Practice Factory
 
@@ -276,7 +198,7 @@ Generate coverage-driven Practice assets against canonical knowledge/skill nodes
 
 ### Slice 6 — Exam Prep Factory
 
-Generate assessment-authentic technique, questions, timed work, mocks/simulations and Marking Packs from approved Course Truth + Exam Truth, with higher assurance for representative mocks.
+Generate assessment-authentic technique, questions, timed work, mocks/simulations and Marking Packs from approved Course Truth + Exam Truth. Representative full mocks receive higher assurance.
 
 Candidate recovery from ADR-0019 should be reused only where it remains the simplest robust mechanism.
 
@@ -296,29 +218,23 @@ Practice         not started / generating / assured / published
 Exam Prep        not started / generating / assured / published
 ```
 
-Internal candidates/retries remain diagnostics, not the primary workflow.
+Internal candidates/retries remain diagnostics rather than the primary workflow.
 
 ### Slice 8 — staged repeatability qualification
 
-Create a staged reliability model that separately proves:
-
-- Foundation reliability across materially different course shapes;
-- Learn reliability;
-- Practice reliability;
-- Exam Prep/Marking reliability;
-- dependency invalidation;
-- restart/reuse and cost controls; and
-- fail-closed behaviour.
+Separately prove Foundation reliability, Learn reliability, Practice reliability, Exam Prep/Marking reliability, dependency invalidation, restart/reuse/cost controls and fail-closed behaviour across materially different course shapes.
 
 Do not inherit the old full-course Q1–Q8 sequence merely for compatibility.
 
-## First real-course proof
+## First real-course proof and larger proof question
 
-AQA Business remains a useful validation candidate because earlier pilots exposed many reusable failure classes, but the new proof must be a new Foundation job/version rather than a continuation of Issue #281.
+Slice 2B answers the first operational question: can a live governed runtime produce a Foundation Candidate containing Course Truth + Exam Truth without manufacturing learner assets?
 
-The proof question is:
+The larger programme proof remains:
 
 > Can Revision establish complete Course Truth and Exam Truth, assure them independently, obtain qualified approval of the exact version, and freeze an Approved Course Foundation before generating assets?
+
+Slice 3 completes that larger proof.
 
 ## Assurance approach
 
@@ -329,36 +245,24 @@ For every slice:
 - dependency invalidation tests;
 - no hidden mutation of approved Foundation artifacts;
 - explicit provider-call/cost boundaries;
-- fresh-context review separation;
+- fresh-context review separation where review exists;
 - historical regressions only for retained components; and
 - exact-head CI before governed merge.
 
-## Cost approach
-
-Track cost independently for:
-
-- Foundation compilation;
-- Foundation assurance;
-- Learn;
-- Practice; and
-- Exam Prep/Marking.
-
-Moving expensive asset generation after Foundation approval should reduce waste when foundational defects are discovered.
+Paid live proof evidence supplements these controls; it does not replace exact-head CI or Founder approval.
 
 ## Documentation migration
 
 As implementation lands:
 
-- maintain this plan as the current staged implementation source;
-- maintain `docs/technical/Content Factory Foundation Lifecycle Implementation.md` for Slice 1 implementation truth;
-- maintain `docs/technical/Content Factory Foundation Compilation Implementation.md` for Slice 2 implementation truth;
-- update `docs/technical/Content Factory Architecture.md` when the live Foundation runtime replaces legacy provider/orchestration topology;
+- maintain this plan as the staged implementation owner;
+- maintain Foundation Lifecycle and Foundation Compilation implementation records;
+- keep `docs/technical/Content Factory Architecture.md` aligned to the current Foundation runtime rather than legacy orchestration;
 - retain pilot/remediation records as history;
-- mark old end-to-end implementation docs legacy/superseded when appropriate;
-- update Content Operations documentation when that surface changes;
-- create staged reliability authority before routine paid/batch production; and
-- update `INDEX.md` when implementation ownership materially changes.
+- mark old end-to-end implementation docs legacy/superseded where appropriate;
+- update Content Operations documentation when that surface changes; and
+- update `INDEX.md` only when implementation ownership materially changes.
 
 ## Immediate next step
 
-Complete Slice 2A through its governed short PR and exact-head assurance. After production verification, implement Slice 2B as a separate short PR that connects live provider workers and proves one new real governed Foundation job without generating learner assets.
+Complete PR #293 implementation, documentation, exact-head CI and review. After explicit Founder approval, merge and production-verify the runtime. Then run the main-only AQA 7132 live proof and retain the exact evidence. Slice 2 is complete only when that proof succeeds.
