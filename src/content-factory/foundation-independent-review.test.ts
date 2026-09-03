@@ -274,7 +274,7 @@ describe('Foundation independent review and remediation', () => {
       },
     }
 
-    const result = await runFoundationIndependentReviewAndRemediation({ job, store: undefined as never, artifactStore: store, workers, reviewedCommit, now })
+    const result = await runFoundationIndependentReviewAndRemediation({ job, artifactStore: store, workers, reviewedCommit, now })
 
     expect(result.job.state).toBe('assuring')
     expect(result.job.candidate?.deterministicAssurance.status).toBe('pass')
