@@ -65,13 +65,14 @@ function fingerprintPayload(candidateInput: FoundationCandidate) {
     schemaVersion: candidate.schemaVersion,
     courseIdentity: candidate.courseIdentity,
     cohortValidity: candidate.cohortValidity,
-    sourceLicenceRegister: candidate.sourceLicenceRegister,
-    boardAlignment: candidate.boardAlignment,
-    coverageModel: candidate.coverageModel,
-    courseKnowledgeModel: candidate.courseKnowledgeModel,
-    assessmentBlueprint: candidate.assessmentBlueprint,
-    questionFamilies: [...candidate.questionFamilies]
-      .sort((left, right) => `${left.ref}:${left.fingerprint}`.localeCompare(`${right.ref}:${right.fingerprint}`)),
+    sourceLicenceRegisterFingerprint: candidate.sourceLicenceRegister.fingerprint,
+    boardAlignmentFingerprint: candidate.boardAlignment.fingerprint,
+    coverageModelFingerprint: candidate.coverageModel.fingerprint,
+    courseKnowledgeModelFingerprint: candidate.courseKnowledgeModel.fingerprint,
+    assessmentBlueprintFingerprint: candidate.assessmentBlueprint.fingerprint,
+    questionFamilyFingerprints: candidate.questionFamilies
+      .map((family) => family.fingerprint)
+      .sort((left, right) => left.localeCompare(right)),
     sourceSetFingerprint: candidate.provenance.sourceSetFingerprint,
   }
 }
