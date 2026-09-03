@@ -66,11 +66,13 @@ The compiler rejects a candidate when any of these conditions occur:
 - a source has no unique approved rights rule or is prohibited;
 - curriculum evidence relies on a source without permitted derived-use rights;
 - Board Alignment identity/cohort/components do not match the resolved course;
+- a known resolved component name, compulsory status, marks, duration or weighting drifts in Board Alignment;
 - Board Alignment evidence is not verified;
 - Foundation coverage omits, adds or mutates a governed curriculum requirement;
 - Foundation coverage uses unknown components or disallowed sources;
 - Course Truth does not contain the exact canonical node set established by Foundation coverage;
-- Course Truth uses source evidence outside the coverage governing that node;
+- a Course Truth node has no explicit valid Board Alignment relevance;
+- Course Truth uses source evidence outside the coverage governing that node or cannot trace to each governing coverage requirement;
 - Course Truth references unknown Board Alignment items;
 - Exam Truth is not bound to the exact Board Alignment and Course Truth fingerprints;
 - Exam Truth does not cover the exact governed component/objective set;
@@ -111,6 +113,14 @@ Every execution carries worker/context/contract provenance and optional provider
 
 Slice 2A does not choose or connect a live model provider. That is Slice 2B, so the new architecture can be proven independently of provider/network behaviour before live cost is incurred.
 
+### Source-rights policy trust boundary
+
+`sourceRightsRules` is a control-plane input, not an AI judgement. Slice 2A validates rule shape and applies it deterministically, but it cannot establish whether a human/legal approval is authentic merely because a caller supplied a rule object.
+
+Slice 2B must therefore load reusable source-rights rules only from a governed approved source and retain the approval/policy evidence that authorises each rule. Arbitrary runtime or model-generated rules must not be accepted as authorised. If a source cannot be matched uniquely to that governed rule set, the Foundation must fail closed with `source_rights_review_required`.
+
+This preserves the licensing authority rule that only an authorised human/legal decision or a previously approved reusable policy rule can clear source-rights uncertainty.
+
 ## Selective reuse decision
 
 Useful previous concepts were retained:
@@ -133,8 +143,9 @@ Provider-free tests prove that:
 - only Foundation artifacts are persisted;
 - Foundation coverage contains canonical node mappings and no learner-content requirements;
 - unresolved source rights fail closed;
+- resolved component contract drift fails closed;
 - an omitted curriculum requirement fails closed;
-- missing Course Truth nodes fail closed;
+- missing or unanchored Course Truth nodes fail closed;
 - stale Exam Truth fingerprint bindings fail closed; and
 - Question Family scope drift fails closed.
 
@@ -142,10 +153,10 @@ Repository CI remains the merge gate.
 
 ## Documentation impact
 
-No normative authority changes in Slice 2A. The implementation enforces the sequencing and Foundation definition already approved through PR #290.
+No normative authority changes in Slice 2A. The implementation enforces the sequencing, source-rights boundary and Foundation definition already approved through PR #290 and the Educational Content Source Licensing and Provenance Standard.
 
 `docs/technical/Content Factory Architecture.md` remains transitional while live provider execution still belongs to the legacy path. Update that architecture document when Slice 2B establishes the live Foundation provider/runtime path rather than describing a provider-free compiler as a complete runtime replacement.
 
 ## Next implementation increment
 
-Slice 2B will connect live provider workers to this boundary and prove one **new** real governed Foundation job—likely using AQA Business as a useful historical failure corpus—through complete Course Truth + Exam Truth with zero learner-facing assets. It must not resume the superseded Issue #281 pilot or route through the old end-to-end orchestrator.
+Slice 2B will connect live provider workers to this boundary, load source-rights policy only through the governed approval boundary, and prove one **new** real governed Foundation job—likely using AQA Business as a useful historical failure corpus—through complete Course Truth + Exam Truth with zero learner-facing assets. It must not resume the superseded Issue #281 pilot or route through the old end-to-end orchestrator.
