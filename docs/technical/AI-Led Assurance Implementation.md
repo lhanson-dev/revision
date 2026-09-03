@@ -102,19 +102,21 @@ Unit coverage: `scripts/assurance/validate-high-risk-pr-evidence.test.mjs`.
 
 ## Independent security and dependency analysis
 
-`Revision CI` now has an `Independent security and dependency analysis` job that runs only when:
+`Revision CI` has an `Independent security and dependency analysis` job that runs only when:
 
 - the event is a pull request; and
 - the machine-readable risk level is 3 or 4.
 
-The job uses:
+The implemented controls are:
 
-- `actions/dependency-review-action@v5` with `fail-on-severity: high`; and
+- `npm audit --audit-level=high` against the committed npm dependency graph/lockfile; and
 - `github/codeql-action@v4` for `javascript-typescript` using `build-mode: none`.
 
-The CodeQL major version was chosen from the currently supported GitHub action line as of this implementation. Dependency Review v5 uses the Node 24 runtime and is compatible with the repository's current GitHub-hosted runner baseline.
+The first PR execution attempted GitHub Dependency Review, but GitHub reported that Dependency Review is unsupported because this repository's Dependency Graph capability is not enabled. The implementation therefore uses the governed fail-closed lockfile-audit fallback rather than dropping dependency vulnerability analysis or requiring the Founder to perform repository-settings mechanics.
 
-These tools are independent of Revision's application test authoring. They do not replace RLS/Edge/service tests or secret scanning.
+GitHub Dependency Review remains preferable if Dependency Graph is deliberately enabled later because it can focus on newly introduced dependency risk. At that point the workflow may move back to Dependency Review through a governed implementation change.
+
+The CodeQL major version was chosen from the currently supported GitHub action line as of this implementation. These controls are independent of Revision's application test authoring. They do not replace RLS/Edge/service tests or secret scanning.
 
 ## CI execution profile
 
@@ -131,7 +133,7 @@ Existing Revision CI remains mandatory, including the current conservative full 
 In addition to existing CI, run:
 
 - high-risk PR contract/evidence validation; and
-- independent Dependency Review + CodeQL analysis.
+- independent lockfile vulnerability audit + CodeQL analysis.
 
 The adversarial review itself is a governed AI workflow step recorded in the PR rather than an autonomous GitHub-hosted model invocation.
 
@@ -151,7 +153,7 @@ Property-based generation follows the same principle: introduce it where broad i
 
 ## Speed position
 
-This change deliberately does **not** add CodeQL, Dependency Review, formal adversarial evidence or mutation/fuzz work to Level 1/2 PRs.
+This change deliberately does **not** add CodeQL, dependency vulnerability audit, formal adversarial evidence or mutation/fuzz work to Level 1/2 PRs.
 
 The only new universal runtime is the lightweight structural integrity/evidence scripts in the assurance-plan job.
 
@@ -166,6 +168,7 @@ Known residual limits include:
 - the same AI system may still share blind spots between builder and adversarial-review roles;
 - structural test-integrity checks cannot prove assertion quality;
 - CodeQL/dependency analysis does not prove business or educational correctness;
+- lockfile audit reports the repository's known dependency vulnerabilities rather than isolating only the PR's newly introduced dependency delta;
 - there is not yet an automated mutation/property harness for all critical deterministic logic; and
 - specialist human security/architecture review remains valuable for exceptionally consequential changes when available.
 
