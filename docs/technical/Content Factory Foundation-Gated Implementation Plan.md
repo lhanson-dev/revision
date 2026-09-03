@@ -20,8 +20,9 @@ Issue #289 now has a separate Foundation boundary. Slice 1 was released through 
 The canonical Foundation lifecycle modules are:
 
 - `src/content-factory/foundation-schema.ts`;
-- `src/content-factory/foundation-lifecycle.ts`; and
-- `src/content-factory/foundation-lifecycle.test.ts`.
+- `src/content-factory/foundation-lifecycle.ts`;
+- `src/content-factory/foundation-lifecycle.test.ts`; and
+- `src/content-factory/foundation-fingerprint.test.ts`.
 
 Slice 2A adds the bounded Foundation compilation core through:
 
@@ -163,24 +164,26 @@ No learner-asset generation transition exists inside this lifecycle.
 
 ## Foundation fingerprint and version invariant
 
-The Foundation fingerprint is deterministic SHA-256 over the educational/assessment dependency set rather than operational review metadata.
+The Foundation fingerprint is deterministic SHA-256 over the material educational/assessment dependency identity rather than operational review metadata or storage location.
 
-It includes the exact course/cohort, source/foundation artifact refs and fingerprints, Course Truth, Exam Truth, Question Families and source-set fingerprint.
+It includes the exact course/cohort, Source Licence Register fingerprint, Board Alignment fingerprint, coverage fingerprint, Course Truth fingerprint, Exam Truth fingerprint, Question Family fingerprints and source-set fingerprint.
 
-It excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
+Artifact refs remain part of the immutable Foundation Candidate so the exact evidence can be retrieved and audited, but refs are deliberately excluded from the aggregate Foundation fingerprint. Moving an immutable artifact without changing its dependency fingerprint must not invent a new Foundation version.
+
+The aggregate fingerprint also excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
 
 Required invariant for the same `foundationId`:
 
-- same Foundation fingerprint → same `foundationVersion`;
-- changed Foundation fingerprint → newer `foundationVersion`.
+- same material Foundation fingerprint → same `foundationVersion`;
+- changed material Foundation fingerprint → newer `foundationVersion`.
 
-An Approved Course Foundation must also be re-checkable against its embedded candidate to detect fingerprint drift/tampering.
+An Approved Course Foundation must also be re-checkable against its embedded candidate to detect dependency fingerprint drift/tampering and stale review/approval evidence.
 
 ## Implementation slices
 
 ### Slice 1 — Foundation schema and lifecycle
 
-**Status: released through PR #291.**
+**Status: released through PR #291; storage-location repeatability clarified in PR #292.**
 
 Implemented:
 
@@ -188,11 +191,12 @@ Implemented:
 - Approved Course Foundation schema;
 - Foundation job/lifecycle schema;
 - small lifecycle and blocker/resume behaviour;
-- deterministic Foundation fingerprint;
+- deterministic material-dependency Foundation fingerprint;
 - exact-fingerprint deterministic/independent-review binding;
 - explicit `foundation_approved` approval guard;
 - mandatory version lineage/integrity invariant;
 - unit/schema assurance;
+- storage-location independence regression assurance;
 - public Content Factory exports; and
 - current technical implementation documentation.
 
@@ -224,7 +228,7 @@ Explicitly exclude Learn, Practice, assessment items, Marking Packs, Foundation 
 
 Success proof:
 
-A provider-free governed fixture reaches a complete Foundation Candidate with Course Truth and Exam Truth, all dependencies are cross-reconciled/fingerprinted, and the artifact ledger contains zero learner-facing assets.
+A provider-free governed fixture reaches a complete Foundation Candidate with Course Truth and Exam Truth, all dependencies are cross-reconciled/fingerprinted, storage-location changes do not change the aggregate Foundation identity, and the artifact ledger contains zero learner-facing assets.
 
 #### Slice 2B — live adapter and real-course proof
 
@@ -232,6 +236,7 @@ Connect the Slice 2A contracts to selectively reused/rebuilt provider workers fo
 
 - exact identity/cohort resolution;
 - source discovery and controlled evidence extraction;
+- governed loading of previously approved source-rights policy rules and their approval evidence;
 - Board Alignment;
 - Foundation coverage;
 - Course Truth;
