@@ -1,5 +1,7 @@
 export * from './schema'
 export * from './orchestrator'
+export * from './foundation-schema'
+export * from './foundation-lifecycle'
 export * from './github-issue-job-store'
 export * from './intake-to-knowledge-model'
 export * from './learning-and-practice'

@@ -1,6 +1,6 @@
 # ADR-0020 — Content Factory foundation gate and staged asset production
 
-**Status:** Proposed for Founder-approved merge  
+**Status:** Accepted via Founder-approved PR #290  
 **Date:** 3 September 2026  
 **Decision owner:** Founder  
 **Applies to:** Content Factory orchestration, course-foundation approval, Learn/Practice/Exam Prep production and migration from the v2 end-to-end factory
