@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   approvedCourseFoundationSchema,
   foundationCandidateSchema,
+  foundationJobSchema,
+  type ApprovedCourseFoundation,
   type FoundationCandidate,
 } from './foundation-schema'
 import {
@@ -13,6 +15,8 @@ import {
   computeFoundationFingerprint,
   createFoundationJob,
   getFoundationTransitionProblems,
+  recordDeterministicFoundationAssurance,
+  recordIndependentFoundationReview,
   resumeFoundationJob,
   setFoundationCandidate,
 } from './foundation-lifecycle'
@@ -54,12 +58,12 @@ function candidate(overrides: Partial<FoundationCandidate> = {}): FoundationCand
       artifact('foundation/question-family-data-response.json', 'data-response-v1'),
     ],
     deterministicAssurance: {
-      status: 'pass',
-      evidenceRefs: ['foundation/deterministic-assurance.json'],
+      status: 'pending',
+      evidenceRefs: [],
     },
     independentReview: {
-      status: 'pass',
-      evidenceRefs: ['foundation/independent-review.json'],
+      status: 'pending',
+      evidenceRefs: [],
     },
     unresolvedBlockers: [],
     knownLimitations: [],
@@ -73,29 +77,58 @@ function candidate(overrides: Partial<FoundationCandidate> = {}): FoundationCand
   })
 }
 
-function approval() {
+function approval(foundationFingerprint: string) {
   return {
     reviewerId: 'qualified-subject-reviewer',
     approverId: 'content-operations-approver',
+    foundationFingerprint,
     reviewedAt: later,
     approvedAt: later,
     evidenceRefs: ['foundation/expert-review.json'],
   }
 }
 
-async function approvedFoundation(version = 1, candidateInput = candidate()) {
+async function jobAtAssuring(candidateInput = candidate()) {
   let job = createFoundationJob({ jobId: 'aqa-a-level-business-7132', createdAt: now })
   job = advanceFoundationJob(job, 'compiling', now)
   job = setFoundationCandidate(job, candidateInput, now)
-  job = advanceFoundationJob(job, 'assuring', now)
-  job = advanceFoundationJob(job, 'expert_review', later)
-  job = await approveFoundation(job, {
+  return advanceFoundationJob(job, 'assuring', now)
+}
+
+async function jobAtExpertReview(candidateInput = candidate()) {
+  let job = await jobAtAssuring(candidateInput)
+  if (!job.candidate) throw new Error('Expected a Foundation Candidate')
+  const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
+  job = await recordDeterministicFoundationAssurance(job, {
+    status: 'pass',
+    foundationFingerprint,
+    evidenceRefs: ['foundation/deterministic-assurance.json'],
+  }, later)
+  job = await recordIndependentFoundationReview(job, {
+    status: 'pass',
+    foundationFingerprint,
+    evidenceRefs: ['foundation/independent-review.json'],
+  }, later)
+  return {
+    job: advanceFoundationJob(job, 'expert_review', later),
+    foundationFingerprint,
+  }
+}
+
+async function approvedFoundation(
+  version = 1,
+  candidateInput = candidate(),
+  previousApprovedFoundation: ApprovedCourseFoundation | null = null,
+) {
+  const { job, foundationFingerprint } = await jobAtExpertReview(candidateInput)
+  const approvedJob = await approveFoundation(job, {
     foundationId: 'aqa-a-level-business-7132',
     foundationVersion: version,
-    approval: approval(),
+    previousApprovedFoundation,
+    approval: approval(foundationFingerprint),
   })
-  if (!job.approvedFoundation) throw new Error('Expected an approved Foundation')
-  return job.approvedFoundation
+  if (!approvedJob.approvedFoundation) throw new Error('Expected an approved Foundation')
+  return approvedJob.approvedFoundation
 }
 
 describe('Foundation schema boundary', () => {
@@ -128,6 +161,24 @@ describe('Foundation schema boundary', () => {
     })).toThrow(/Duplicate Question Family reference/)
   })
 
+  it('requires completed assurance and review evidence to identify an exact Foundation fingerprint', () => {
+    expect(() => foundationCandidateSchema.parse({
+      ...candidate(),
+      deterministicAssurance: {
+        status: 'pass',
+        evidenceRefs: ['foundation/deterministic-assurance.json'],
+      },
+    })).toThrow(/exact Foundation fingerprint/)
+
+    expect(() => foundationCandidateSchema.parse({
+      ...candidate(),
+      independentReview: {
+        status: 'pass',
+        evidenceRefs: ['foundation/independent-review.json'],
+      },
+    })).toThrow(/exact Foundation fingerprint/)
+  })
+
   it('requires an Approved Course Foundation to contain a valid SHA-256 foundation fingerprint', () => {
     expect(() => approvedCourseFoundationSchema.parse({
       schemaVersion: 1,
@@ -135,20 +186,20 @@ describe('Foundation schema boundary', () => {
       foundationVersion: 1,
       foundationFingerprint: 'not-a-sha256',
       candidate: candidate(),
-      approval: approval(),
+      approval: approval('a'.repeat(64)),
       knownLimitations: [],
     })).toThrow()
   })
 
-  it('rejects an Approved Course Foundation whose embedded candidate has not passed assurance', async () => {
+  it('rejects an Approved Course Foundation whose review evidence is not bound to its exact fingerprint', async () => {
     const approved = await approvedFoundation()
     expect(() => approvedCourseFoundationSchema.parse({
       ...approved,
-      candidate: {
-        ...approved.candidate,
-        independentReview: { status: 'fail_hold', evidenceRefs: ['review-fail.json'] },
+      approval: {
+        ...approved.approval,
+        foundationFingerprint: 'b'.repeat(64),
       },
-    })).toThrow(/passing independent review/)
+    })).toThrow(/exact approved Foundation fingerprint/)
   })
 })
 
@@ -162,34 +213,44 @@ describe('Foundation lifecycle', () => {
 
     const withCandidate = setFoundationCandidate(compiling, candidate(), now)
     const assuring = advanceFoundationJob(withCandidate, 'assuring', now)
-    const expertReview = advanceFoundationJob(assuring, 'expert_review', later)
-
-    expect(expertReview.state).toBe('expert_review')
-    expect(getFoundationTransitionProblems(expertReview, 'foundation_approved'))
-      .toContain('Use approveFoundation to enter foundation_approved with exact approval evidence')
+    expect(assuring.state).toBe('assuring')
   })
 
-  it('fails closed before expert review when deterministic or independent assurance has not passed', () => {
-    let job = createFoundationJob({ jobId: 'job-1', createdAt: now })
-    job = advanceFoundationJob(job, 'compiling', now)
-    job = setFoundationCandidate(job, candidate({
-      deterministicAssurance: { status: 'fail', evidenceRefs: ['deterministic.json'] },
-      independentReview: { status: 'pending', evidenceRefs: [] },
-    }), now)
-    job = advanceFoundationJob(job, 'assuring', now)
+  it('freezes Foundation dependencies when assurance begins', async () => {
+    const assuring = await jobAtAssuring()
+    expect(() => setFoundationCandidate(assuring, candidate({
+      courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
+    }), later)).toThrow(/only while compiling/)
+  })
+
+  it('records assurance only when evidence targets the exact current Foundation fingerprint', async () => {
+    const assuring = await jobAtAssuring()
+    await expect(recordDeterministicFoundationAssurance(assuring, {
+      status: 'pass',
+      foundationFingerprint: 'b'.repeat(64),
+      evidenceRefs: ['foundation/deterministic-assurance.json'],
+    }, later)).rejects.toThrow(/exact current Foundation fingerprint/)
+  })
+
+  it('fails closed before expert review when deterministic or independent assurance has not passed', async () => {
+    let job = await jobAtAssuring()
+    if (!job.candidate) throw new Error('Expected a Foundation Candidate')
+    const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
+    job = await recordDeterministicFoundationAssurance(job, {
+      status: 'fail',
+      foundationFingerprint,
+      evidenceRefs: ['deterministic.json'],
+    }, later)
 
     const problems = getFoundationTransitionProblems(job, 'expert_review')
     expect(problems).toContain('Deterministic Foundation assurance must pass before expert approval')
     expect(problems).toContain('Independent Foundation review must pass before expert approval')
   })
 
-  it('does not approve a candidate with unresolved educational blockers', () => {
-    let job = createFoundationJob({ jobId: 'job-1', createdAt: now })
-    job = advanceFoundationJob(job, 'compiling', now)
-    job = setFoundationCandidate(job, candidate({
+  it('does not approve a candidate with unresolved educational blockers', async () => {
+    const job = await jobAtAssuring(candidate({
       unresolvedBlockers: [{ id: 'coverage-gap', reason: 'One material curriculum requirement is unresolved' }],
-    }), now)
-    job = advanceFoundationJob(job, 'assuring', now)
+    }))
 
     expect(() => advanceFoundationJob(job, 'expert_review', later)).toThrow(/unresolved blockers/)
   })
@@ -232,7 +293,28 @@ describe('Foundation lifecycle', () => {
     expect(approved.foundationVersion).toBe(1)
     expect(approved.foundationFingerprint).toMatch(/^[0-9a-f]{64}$/)
     expect(approved.approval.reviewerId).toBe('qualified-subject-reviewer')
+    expect(approved.approval.foundationFingerprint).toBe(approved.foundationFingerprint)
     await expect(assertApprovedFoundationIntegrity(approved)).resolves.toEqual(approved)
+  })
+
+  it('rejects stale assurance if Foundation content is changed after review evidence was created', async () => {
+    const { job, foundationFingerprint } = await jobAtExpertReview()
+    if (!job.candidate) throw new Error('Expected a Foundation Candidate')
+
+    const tamperedJob = foundationJobSchema.parse({
+      ...job,
+      candidate: {
+        ...job.candidate,
+        courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
+      },
+    })
+
+    await expect(approveFoundation(tamperedJob, {
+      foundationId: 'aqa-a-level-business-7132',
+      foundationVersion: 1,
+      previousApprovedFoundation: null,
+      approval: approval(foundationFingerprint),
+    })).rejects.toThrow(/assurance is stale/)
   })
 })
 
@@ -260,40 +342,77 @@ describe('Foundation fingerprint and version invariants', () => {
 
   it('does not change the content fingerprint merely because assurance evidence is refreshed', async () => {
     const base = candidate()
+    const baseFingerprint = await computeFoundationFingerprint(base)
     const reReviewed = candidate({
-      deterministicAssurance: { status: 'pass', evidenceRefs: ['foundation/deterministic-assurance-v2.json'] },
-      independentReview: { status: 'pass', evidenceRefs: ['foundation/independent-review-v2.json'] },
+      deterministicAssurance: {
+        status: 'pass',
+        foundationFingerprint: baseFingerprint,
+        evidenceRefs: ['foundation/deterministic-assurance-v2.json'],
+      },
+      independentReview: {
+        status: 'pass',
+        foundationFingerprint: baseFingerprint,
+        evidenceRefs: ['foundation/independent-review-v2.json'],
+      },
       provenance: {
         ...base.provenance,
         createdAt: later,
       },
     })
 
-    await expect(computeFoundationFingerprint(reReviewed)).resolves.toBe(await computeFoundationFingerprint(base))
+    await expect(computeFoundationFingerprint(reReviewed)).resolves.toBe(baseFingerprint)
   })
 
-  it('requires a newer version when the approved Foundation inputs change', async () => {
+  it('enforces a newer version inside approval when approved Foundation inputs change', async () => {
+    const first = await approvedFoundation(1)
+    const changedCandidate = candidate({
+      courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
+    })
+    const { job, foundationFingerprint } = await jobAtExpertReview(changedCandidate)
+
+    await expect(approveFoundation(job, {
+      foundationId: 'aqa-a-level-business-7132',
+      foundationVersion: 1,
+      previousApprovedFoundation: first,
+      approval: approval(foundationFingerprint),
+    })).rejects.toThrow(/newer foundationVersion/)
+
+    const secondJob = await approveFoundation(job, {
+      foundationId: 'aqa-a-level-business-7132',
+      foundationVersion: 2,
+      previousApprovedFoundation: first,
+      approval: approval(foundationFingerprint),
+    })
+    expect(secondJob.approvedFoundation?.foundationVersion).toBe(2)
+  })
+
+  it('requires an initial Foundation lineage to start at version 1', async () => {
+    const { job, foundationFingerprint } = await jobAtExpertReview()
+    await expect(approveFoundation(job, {
+      foundationId: 'aqa-a-level-business-7132',
+      foundationVersion: 2,
+      previousApprovedFoundation: null,
+      approval: approval(foundationFingerprint),
+    })).rejects.toThrow(/must start at foundationVersion 1/)
+  })
+
+  it('retains the standalone version assertion as a reusable integrity check', async () => {
     const first = await approvedFoundation(1)
     const changed = await approvedFoundation(2, candidate({
       courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
-    }))
+    }), first)
 
     expect(() => assertFoundationVersionInvariant(first, changed)).not.toThrow()
-
-    const invalidVersion = approvedCourseFoundationSchema.parse({
-      ...changed,
-      foundationVersion: 1,
-    })
-    expect(() => assertFoundationVersionInvariant(first, invalidVersion)).toThrow(/newer foundationVersion/)
   })
 
   it('detects fingerprint tampering after approval', async () => {
     const approved = await approvedFoundation()
     const tampered = approvedCourseFoundationSchema.parse({
       ...approved,
-      candidate: candidate({
+      candidate: {
+        ...approved.candidate,
         assessmentBlueprint: artifact('foundation/exam-truth.json', 'tampered-exam-truth'),
-      }),
+      },
     })
 
     await expect(assertApprovedFoundationIntegrity(tampered)).rejects.toThrow(/does not match/)
