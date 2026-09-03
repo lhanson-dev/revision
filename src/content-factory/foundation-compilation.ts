@@ -473,6 +473,34 @@ function validateStructuredEvidence(
   return evidence
 }
 
+function assertResolvedComponentCompatibility(
+  resolvedComponents: FoundationIdentityResolution['components'],
+  alignedComponents: BoardAlignment['components'],
+) {
+  assertNoDuplicates(resolvedComponents.map((component) => component.id), 'resolved course component id')
+  assertNoDuplicates(alignedComponents.map((component) => component.id), 'Board Alignment component id')
+  if (!sameSet(resolvedComponents.map((component) => component.id), alignedComponents.map((component) => component.id))) {
+    throw new Error('Board Alignment components do not match resolved course components')
+  }
+
+  const alignedById = new Map(alignedComponents.map((component) => [component.id, component]))
+  for (const resolved of resolvedComponents) {
+    const aligned = alignedById.get(resolved.id)!
+    if (aligned.name !== resolved.name || aligned.compulsory !== resolved.compulsory) {
+      throw new Error(`Board Alignment component ${resolved.id} changes resolved name or compulsory status`)
+    }
+    if (resolved.marks !== undefined && aligned.marks !== resolved.marks) {
+      throw new Error(`Board Alignment component ${resolved.id} changes resolved marks`)
+    }
+    if (resolved.durationMinutes !== undefined && aligned.durationMinutes !== resolved.durationMinutes) {
+      throw new Error(`Board Alignment component ${resolved.id} changes resolved duration`)
+    }
+    if (resolved.weightingPercent !== undefined && aligned.weightingPercent !== resolved.weightingPercent) {
+      throw new Error(`Board Alignment component ${resolved.id} changes resolved weighting`)
+    }
+  }
+}
+
 async function validateBoardAlignment(
   alignmentInput: unknown,
   jobId: string,
@@ -484,10 +512,11 @@ async function validateBoardAlignment(
   if (!sameJson(parsed.courseIdentity, identity.courseIdentity)) throw new Error('Board Alignment course identity does not match resolved identity')
   if (!sameJson(parsed.cohortValidity, identity.cohortValidity)) throw new Error('Board Alignment cohort validity does not match resolved identity')
   if (parsed.verificationStatus !== 'verified') throw new Error('Board Alignment must be verified')
-  if (!sameSet(parsed.components.map((component) => component.id), identity.components.map((component) => component.id))) {
-    throw new Error('Board Alignment components do not match resolved course components')
-  }
+  assertResolvedComponentCompatibility(identity.components, parsed.components)
+  assertNoDuplicates(parsed.assessmentObjectives.map((objective) => objective.id), 'Board Alignment assessment objective id')
+  assertNoDuplicates(parsed.assessmentRequirements.map((requirement) => requirement.id), 'Board Alignment assessment requirement id')
 
+  const componentIds = new Set(parsed.components.map((component) => component.id))
   const boardSources = availableBoardSourceIds(register)
   for (const sourceRef of parsed.sourceRefs) {
     if (!boardSources.has(sourceRef)) throw new Error(`Board Alignment references unavailable source ${sourceRef}`)
@@ -498,6 +527,10 @@ async function validateBoardAlignment(
     }
   }
   for (const requirement of parsed.assessmentRequirements) {
+    assertNoDuplicates(requirement.componentScope, `component reference on Board Alignment assessment requirement ${requirement.id}`)
+    for (const componentId of requirement.componentScope) {
+      if (!componentIds.has(componentId)) throw new Error(`Assessment requirement ${requirement.id} references unknown component ${componentId}`)
+    }
     for (const sourceRef of requirement.sourceRefs) {
       if (!boardSources.has(sourceRef)) throw new Error(`Assessment requirement ${requirement.id} references unavailable source ${sourceRef}`)
     }
@@ -580,10 +613,22 @@ async function validateCourseTruth(
   }
 
   for (const node of model.nodes) {
-    const governedSourceIds = new Set((coverageByNode.get(node.id) ?? []).flatMap((requirement) => requirement.sourceRefs))
+    assertNoDuplicates(node.sourceRefs, `source reference on Course Truth node ${node.id}`)
+    assertNoDuplicates(node.boardAlignmentRefs, `Board Alignment reference on Course Truth node ${node.id}`)
+    if (node.boardAlignmentRefs.length === 0) {
+      throw new Error(`Course Truth node ${node.id} must declare Board Alignment relevance`)
+    }
+
+    const governingRequirements = coverageByNode.get(node.id) ?? []
+    const governedSourceIds = new Set(governingRequirements.flatMap((requirement) => requirement.sourceRefs))
     for (const sourceRef of node.sourceRefs) {
       if (!permittedSources.has(sourceRef) || !governedSourceIds.has(sourceRef)) {
         throw new Error(`Course Truth node ${node.id} references source ${sourceRef} outside its governed Foundation coverage`)
+      }
+    }
+    for (const requirement of governingRequirements) {
+      if (!requirement.sourceRefs.some((sourceRef) => node.sourceRefs.includes(sourceRef))) {
+        throw new Error(`Course Truth node ${node.id} has no source trace to governing coverage requirement ${requirement.requirementId}`)
       }
     }
     for (const alignmentRef of node.boardAlignmentRefs) {
@@ -735,13 +780,17 @@ export async function compileFoundationCandidate(input: {
   implementationHeadSha?: string
 }): Promise<{ candidate: FoundationCandidate; workerRuns: FoundationCompilationWorkerRun[] }> {
   const workerRuns: FoundationCompilationWorkerRun[] = []
+  const jobId = identifierSchema.parse(input.jobId)
+  const candidateId = identifierSchema.parse(input.candidateId)
   const officialUrls = z.array(z.string().url()).min(1).parse(input.officialUrls)
+  const founderInstruction = nonEmptyStringSchema.parse(input.founderInstruction)
+  const producerVersion = nonEmptyStringSchema.parse(input.producerVersion)
   if (input.implementationHeadSha) commitShaSchema.parse(input.implementationHeadSha)
 
   const identityExecution = requireSuccess('identity', await input.workers.resolveIdentity({
-    jobId: input.jobId,
+    jobId,
     officialUrls,
-    founderInstruction: input.founderInstruction,
+    founderInstruction,
   }))
   const identity = foundationIdentityResolutionSchema.parse(identityExecution.output)
   if (identity.unresolvedChoices.length > 0) {
@@ -750,7 +799,7 @@ export async function compileFoundationCandidate(input: {
   workerRuns.push({ stage: 'identity', provenance: identityExecution.provenance, inputRefs: officialUrls, outputRefs: [] })
 
   const sourceExecution = requireSuccess('source_discovery', await input.workers.discoverSources({
-    jobId: input.jobId,
+    jobId,
     officialUrls,
     identity,
   }))
@@ -758,7 +807,7 @@ export async function compileFoundationCandidate(input: {
   workerRuns.push({ stage: 'source_discovery', provenance: sourceExecution.provenance, inputRefs: officialUrls, outputRefs: [] })
 
   const sourceRights = await classifyFoundationSourcesWithApprovedRules({
-    jobId: input.jobId,
+    jobId,
     sources,
     rules: input.sourceRightsRules,
     checkedAt: input.now,
@@ -767,13 +816,13 @@ export async function compileFoundationCandidate(input: {
     throw new FoundationCompilationError('source_rights', `source_rights_review_required: ${sourceRights.blockingSourceIds.join(', ')}`)
   }
   const sourceRef = await writeArtifact(input.artifactStore, workerRuns, {
-    jobId: input.jobId,
+    jobId,
     kind: 'source_licence_register',
     fingerprint: sourceRights.register.fingerprint,
     value: sourceRights.register,
     stage: 'source_rights',
     provenance: {
-      id: `source-rights-${input.candidateId}`,
+      id: `source-rights-${candidateId}`,
       contextId: 'deterministic-source-rights-policy-engine',
       contractVersion: '1',
     },
@@ -781,7 +830,7 @@ export async function compileFoundationCandidate(input: {
   })
 
   const evidenceExecution = requireSuccess('structured_evidence', await input.workers.resolveStructuredEvidence({
-    jobId: input.jobId,
+    jobId,
     officialUrls,
     identity,
     sourceLicenceRegister: sourceRights.register,
@@ -800,20 +849,20 @@ export async function compileFoundationCandidate(input: {
   })
 
   const alignmentExecution = requireSuccess('board_alignment', await input.workers.compileBoardAlignment({
-    jobId: input.jobId,
+    jobId,
     identity,
     sourceLicenceRegister: sourceRights.register,
     facts: evidence.boardAlignmentFacts,
   }))
   let boardAlignment: BoardAlignment
   try {
-    boardAlignment = await validateBoardAlignment(alignmentExecution.output, input.jobId, identity, sourceRights.register)
+    boardAlignment = await validateBoardAlignment(alignmentExecution.output, jobId, identity, sourceRights.register)
   } catch (error) {
     throw new FoundationCompilationError('board_alignment', error instanceof Error ? error.message : String(error))
   }
   const boardAlignmentFingerprint = boardAlignment.fingerprint
   const boardAlignmentRef = await writeArtifact(input.artifactStore, workerRuns, {
-    jobId: input.jobId,
+    jobId,
     kind: 'board_alignment',
     fingerprint: boardAlignmentFingerprint,
     value: boardAlignment,
@@ -823,7 +872,7 @@ export async function compileFoundationCandidate(input: {
   })
 
   const coverageExecution = requireSuccess('coverage', await input.workers.compileCoverage({
-    jobId: input.jobId,
+    jobId,
     identity,
     sourceLicenceRegister: sourceRights.register,
     boardAlignment,
@@ -833,7 +882,7 @@ export async function compileFoundationCandidate(input: {
   try {
     coverageModel = validateCoverage(
       coverageExecution.output,
-      input.jobId,
+      jobId,
       identity,
       sourceRights.register,
       evidence.curriculumRequirements,
@@ -843,7 +892,7 @@ export async function compileFoundationCandidate(input: {
   }
   const coverageFingerprint = await fingerprintFoundationArtifact(coverageModel)
   const coverageRef = await writeArtifact(input.artifactStore, workerRuns, {
-    jobId: input.jobId,
+    jobId,
     kind: 'foundation_coverage_model',
     fingerprint: coverageFingerprint,
     value: coverageModel,
@@ -853,7 +902,7 @@ export async function compileFoundationCandidate(input: {
   })
 
   const courseTruthExecution = requireSuccess('course_truth', await input.workers.compileCourseTruth({
-    jobId: input.jobId,
+    jobId,
     identity,
     sourceLicenceRegister: sourceRights.register,
     boardAlignment,
@@ -864,7 +913,7 @@ export async function compileFoundationCandidate(input: {
   try {
     courseKnowledgeModel = await validateCourseTruth(
       courseTruthExecution.output,
-      input.jobId,
+      jobId,
       sourceRights.register,
       boardAlignment,
       coverageModel,
@@ -874,7 +923,7 @@ export async function compileFoundationCandidate(input: {
   }
   const courseTruthFingerprint = courseKnowledgeModel.fingerprint
   const courseTruthRef = await writeArtifact(input.artifactStore, workerRuns, {
-    jobId: input.jobId,
+    jobId,
     kind: 'course_knowledge_model',
     fingerprint: courseTruthFingerprint,
     value: courseKnowledgeModel,
@@ -884,7 +933,7 @@ export async function compileFoundationCandidate(input: {
   })
 
   const examTruthExecution = requireSuccess('exam_truth', await input.workers.compileExamTruth({
-    jobId: input.jobId,
+    jobId,
     identity,
     boardAlignment,
     boardAlignmentFingerprint,
@@ -895,7 +944,7 @@ export async function compileFoundationCandidate(input: {
   try {
     assessmentBlueprint = await validateExamTruth(
       examTruthExecution.output,
-      input.jobId,
+      jobId,
       identity,
       boardAlignment,
       boardAlignmentFingerprint,
@@ -906,7 +955,7 @@ export async function compileFoundationCandidate(input: {
   }
   const examTruthFingerprint = await fingerprintFoundationArtifact(assessmentBlueprint)
   const examTruthRef = await writeArtifact(input.artifactStore, workerRuns, {
-    jobId: input.jobId,
+    jobId,
     kind: 'assessment_blueprint',
     fingerprint: examTruthFingerprint,
     value: assessmentBlueprint,
@@ -916,10 +965,10 @@ export async function compileFoundationCandidate(input: {
   })
 
   const requestedFamilyIds = [...new Set(assessmentBlueprint.components.flatMap((component) => component.questionFamilyIds))].sort()
-  const questionFamilyArtifacts: Array<{ family: QuestionFamily; ref: string; fingerprint: string }> = []
+  const questionFamilyArtifacts: Array<{ ref: string; fingerprint: string }> = []
   if (requestedFamilyIds.length > 0) {
     const familyExecution = requireSuccess('question_families', await input.workers.compileQuestionFamilies({
-      jobId: input.jobId,
+      jobId,
       identity,
       assessmentBlueprint,
       requestedFamilyIds,
@@ -934,12 +983,12 @@ export async function compileFoundationCandidate(input: {
     for (const family of [...families].sort((left, right) => left.id.localeCompare(right.id))) {
       const fingerprint = await fingerprintFoundationArtifact(family)
       const ref = await input.artifactStore.writeJson({
-        jobId: input.jobId,
+        jobId,
         kind: 'question_family',
         fingerprint,
         value: family,
       }).then((write) => write.ref)
-      questionFamilyArtifacts.push({ family, ref, fingerprint })
+      questionFamilyArtifacts.push({ ref, fingerprint })
     }
     workerRuns.push({
       stage: 'question_families',
@@ -951,7 +1000,7 @@ export async function compileFoundationCandidate(input: {
 
   const candidate = foundationCandidateSchema.parse({
     schemaVersion: 1,
-    candidateId: input.candidateId,
+    candidateId,
     courseIdentity: identity.courseIdentity,
     cohortValidity: identity.cohortValidity,
     sourceLicenceRegister: { ref: sourceRef, fingerprint: sourceRights.register.fingerprint },
@@ -964,14 +1013,14 @@ export async function compileFoundationCandidate(input: {
     courseTruthCompleteness: 'complete',
     assessmentBlueprint: { ref: examTruthRef, fingerprint: examTruthFingerprint },
     examTruthCompleteness: 'complete',
-    questionFamilies: questionFamilyArtifacts.map((artifact) => ({ ref: artifact.ref, fingerprint: artifact.fingerprint })),
+    questionFamilies: questionFamilyArtifacts,
     deterministicAssurance: { status: 'pending', evidenceRefs: [] },
     independentReview: { status: 'pending', evidenceRefs: [] },
     unresolvedBlockers: [],
     knownLimitations: [],
     provenance: {
       createdAt: input.now,
-      producerVersion: input.producerVersion,
+      producerVersion,
       sourceSetFingerprint: sourceRights.register.fingerprint,
       implementationHeadSha: input.implementationHeadSha,
     },
