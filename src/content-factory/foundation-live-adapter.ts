@@ -107,6 +107,10 @@ const examTruthEnrichmentSchema = z.object({
   synopticRequirements: foundationAssessmentBlueprintSchema.shape.synopticRequirements,
 })
 
+const questionFamiliesEnvelopeSchema = z.object({
+  questionFamilies: z.array(questionFamilySchema).min(1),
+})
+
 export interface FoundationStructuredProviderClient {
   run(input: {
     workerId: string
@@ -294,14 +298,15 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
       }
     },
     async compileQuestionFamilies({ assessmentBlueprint, requestedFamilyIds, courseKnowledgeModel }) {
-      return input.provider.run({
+      const execution = await input.provider.run({
         workerId: foundationCompilationWorkerContracts.questionFamilies.workerId,
         contractVersion: foundationCompilationWorkerContracts.questionFamilies.contractVersion,
         routeKind: 'generation',
-        outputSchema: z.array(questionFamilySchema).min(1),
+        outputSchema: questionFamiliesEnvelopeSchema,
         strictOutput: true,
         instructions: [
           'Create exactly the requested Revision-owned question-family contracts and no others.',
+          'Return them inside the questionFamilies object field.',
           'Preserve every requested id exactly.',
           'componentScope must match the component mapping in Exam Truth exactly.',
           'Use only assessment objective ids present in Exam Truth.',
@@ -314,6 +319,9 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
           courseTruthNodes: courseKnowledgeModel.nodes.map(({ id, kind, summary, evidenceTypes }) => ({ id, kind, summary, evidenceTypes })),
         },
       })
+      if (execution.status !== 'success') return execution
+      const envelope = questionFamiliesEnvelopeSchema.parse(execution.output)
+      return { ...execution, output: envelope.questionFamilies }
     },
   }
 }
