@@ -1,0 +1,167 @@
+import { z } from 'zod'
+import { cohortValiditySchema, courseIdentitySchema } from './schema'
+
+const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
+const nonEmptyStringSchema = z.string().min(1)
+const commitShaSchema = z.string().regex(/^[0-9a-f]{40}$/)
+const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/)
+
+export const foundationWorkingStateSchema = z.enum([
+  'requested',
+  'compiling',
+  'assuring',
+  'expert_review',
+])
+
+export const foundationStateSchema = z.union([
+  foundationWorkingStateSchema,
+  z.literal('foundation_approved'),
+  z.literal('blocked'),
+  z.literal('superseded'),
+])
+
+export const foundationArtifactRefSchema = z.object({
+  ref: nonEmptyStringSchema,
+  fingerprint: nonEmptyStringSchema,
+})
+
+export const foundationCandidateBlockerSchema = z.object({
+  id: identifierSchema,
+  reason: nonEmptyStringSchema,
+})
+
+export const foundationAssuranceResultSchema = z.object({
+  status: z.enum(['pending', 'pass', 'fail']),
+  evidenceRefs: z.array(nonEmptyStringSchema).default([]),
+})
+
+export const foundationIndependentReviewResultSchema = z.object({
+  status: z.enum(['pending', 'pass', 'fail_hold']),
+  evidenceRefs: z.array(nonEmptyStringSchema).default([]),
+})
+
+export const foundationCandidateSchema = z.object({
+  schemaVersion: z.literal(1),
+  candidateId: identifierSchema,
+  courseIdentity: courseIdentitySchema,
+  cohortValidity: cohortValiditySchema,
+  sourceLicenceRegister: foundationArtifactRefSchema,
+  boardAlignment: foundationArtifactRefSchema,
+  coverageModel: foundationArtifactRefSchema,
+  courseKnowledgeModel: foundationArtifactRefSchema,
+  assessmentBlueprint: foundationArtifactRefSchema,
+  questionFamilies: z.array(foundationArtifactRefSchema).default([]),
+  deterministicAssurance: foundationAssuranceResultSchema,
+  independentReview: foundationIndependentReviewResultSchema,
+  unresolvedBlockers: z.array(foundationCandidateBlockerSchema).default([]),
+  knownLimitations: z.array(nonEmptyStringSchema).default([]),
+  provenance: z.object({
+    createdAt: nonEmptyStringSchema,
+    producerVersion: nonEmptyStringSchema,
+    sourceSetFingerprint: nonEmptyStringSchema,
+    implementationHeadSha: commitShaSchema.optional(),
+  }),
+})
+
+export const foundationApprovalEvidenceSchema = z.object({
+  reviewerId: nonEmptyStringSchema,
+  approverId: nonEmptyStringSchema,
+  reviewedAt: nonEmptyStringSchema,
+  approvedAt: nonEmptyStringSchema,
+  evidenceRefs: z.array(nonEmptyStringSchema).min(1),
+})
+
+export const approvedCourseFoundationSchema = z.object({
+  schemaVersion: z.literal(1),
+  foundationId: identifierSchema,
+  foundationVersion: z.number().int().positive(),
+  foundationFingerprint: sha256Schema,
+  candidate: foundationCandidateSchema,
+  approval: foundationApprovalEvidenceSchema,
+  knownLimitations: z.array(nonEmptyStringSchema).default([]),
+})
+
+export const foundationOperationalBlockerSchema = z.object({
+  id: identifierSchema,
+  reason: nonEmptyStringSchema,
+  stage: foundationWorkingStateSchema,
+  createdAt: nonEmptyStringSchema,
+  resolvedAt: nonEmptyStringSchema.optional(),
+})
+
+export const foundationJobSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  state: foundationStateSchema,
+  blockedFromState: foundationWorkingStateSchema.optional(),
+  candidate: foundationCandidateSchema.optional(),
+  approvedFoundation: approvedCourseFoundationSchema.optional(),
+  blockers: z.array(foundationOperationalBlockerSchema).default([]),
+  createdAt: nonEmptyStringSchema,
+  updatedAt: nonEmptyStringSchema,
+}).superRefine((job, context) => {
+  const unresolvedOperationalBlockers = job.blockers.filter((blocker) => !blocker.resolvedAt)
+
+  if (job.state === 'blocked') {
+    if (!job.blockedFromState) {
+      context.addIssue({
+        code: 'custom',
+        path: ['blockedFromState'],
+        message: 'Blocked Foundation jobs must record the state they were blocked from',
+      })
+    }
+    if (unresolvedOperationalBlockers.length === 0) {
+      context.addIssue({
+        code: 'custom',
+        path: ['blockers'],
+        message: 'Blocked Foundation jobs must retain at least one unresolved blocker',
+      })
+    }
+  } else if (job.blockedFromState) {
+    context.addIssue({
+      code: 'custom',
+      path: ['blockedFromState'],
+      message: 'Only blocked Foundation jobs may retain blockedFromState',
+    })
+  }
+
+  if (['assuring', 'expert_review', 'foundation_approved'].includes(job.state) && !job.candidate) {
+    context.addIssue({
+      code: 'custom',
+      path: ['candidate'],
+      message: `Foundation state ${job.state} requires a complete Foundation Candidate`,
+    })
+  }
+
+  if (job.state === 'foundation_approved') {
+    if (!job.approvedFoundation) {
+      context.addIssue({
+        code: 'custom',
+        path: ['approvedFoundation'],
+        message: 'foundation_approved requires an Approved Course Foundation',
+      })
+    } else if (job.candidate && job.approvedFoundation.candidate.candidateId !== job.candidate.candidateId) {
+      context.addIssue({
+        code: 'custom',
+        path: ['approvedFoundation', 'candidate', 'candidateId'],
+        message: 'Approved Course Foundation must contain the exact candidate being approved',
+      })
+    }
+  }
+
+  if (job.approvedFoundation && !['foundation_approved', 'superseded'].includes(job.state)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['approvedFoundation'],
+      message: 'Approved Course Foundation may exist only in foundation_approved or superseded state',
+    })
+  }
+})
+
+export type FoundationWorkingState = z.infer<typeof foundationWorkingStateSchema>
+export type FoundationState = z.infer<typeof foundationStateSchema>
+export type FoundationArtifactRef = z.infer<typeof foundationArtifactRefSchema>
+export type FoundationCandidate = z.infer<typeof foundationCandidateSchema>
+export type FoundationApprovalEvidence = z.infer<typeof foundationApprovalEvidenceSchema>
+export type ApprovedCourseFoundation = z.infer<typeof approvedCourseFoundationSchema>
+export type FoundationJob = z.infer<typeof foundationJobSchema>
