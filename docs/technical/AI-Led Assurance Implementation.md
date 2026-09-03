@@ -73,7 +73,7 @@ It fails when:
 
 - a declared critical assurance file is missing;
 - a declared critical assurance file is unexpectedly empty/small;
-- a protected executable test contains `skip`, `todo` or `only` suppression syntax;
+- a protected executable test is unconditionally disabled with `skip`, `todo` or `only`; conditional Playwright skips that deliberately scope a test to the CI environment/project where it executes remain allowed;
 - a minimum protected control ID disappears from the manifest; or
 - an explicitly required critical assurance command disappears from `.github/workflows/ci.yml`.
 
