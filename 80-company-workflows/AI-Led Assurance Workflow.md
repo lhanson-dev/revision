@@ -58,12 +58,11 @@ If a protected assurance asset or its invocation has disappeared, become uncondi
 
 ## 5. Run independent automated analysis
 
-For Level 3/4 pull requests, run the strongest repository-supported independent analysis controls:
+For every Level 3/4 pull request, run CodeQL for JavaScript/TypeScript security findings.
 
-- dependency vulnerability analysis that fails on high/critical known vulnerabilities; and
-- CodeQL for JavaScript/TypeScript security findings.
+When a governed dependency manifest or lockfile changes, additionally run dependency vulnerability analysis that fails on high/critical known vulnerabilities. GitHub Dependency Review is preferred when Dependency Graph is enabled because it can focus on newly introduced dependency risk. If that repository capability is unavailable, use the governed lockfile-audit fallback rather than dropping dependency analysis.
 
-GitHub Dependency Review is preferred when Dependency Graph is enabled because it can focus on newly introduced dependency risk. If that repository capability is unavailable, use the governed lockfile-audit fallback rather than dropping dependency analysis.
+Do not make a registry-dependent dependency audit a mandatory gate for a Level 3/4 PR whose dependency graph did not change. That availability coupling adds no change-specific dependency evidence and can prevent CodeQL from running.
 
 Material findings must be resolved or deliberately governed before merge. Passing application tests do not override a material independent scanner finding.
 
@@ -136,6 +135,7 @@ This workflow is complete for a Level 3/4 PR only when:
 - required automated assurance is green;
 - critical-assurance integrity is green;
 - required independent analysis is green or an explicitly governed exception exists;
+- dependency vulnerability analysis is green when a governed dependency manifest/lockfile changed;
 - test-sensitivity evidence is recorded;
 - adversarial review has no unresolved material finding;
 - documentation/register impact is current; and
