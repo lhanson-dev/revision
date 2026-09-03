@@ -1,14 +1,14 @@
 # Content Factory Foundation Lifecycle Implementation
 
-**Status:** Implementation in progress on Issue #289  
+**Status:** Slice 1 released through PR #291; repeatability clarification implemented in PR #292  
 **Date:** 3 September 2026  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md` and ADR-0020
 
 ## Purpose
 
-Record the first production implementation increment of the foundation-gated Content Factory.
+Record the production implementation of the foundation-gated Content Factory lifecycle boundary.
 
-This increment establishes only the architectural boundary required before Course Truth or Exam Truth workers are connected.
+Slice 1 established the architectural boundary required before Course Truth or Exam Truth workers are connected. PR #292 retains that boundary while clarifying that the aggregate Foundation identity represents material dependency content rather than artifact storage location.
 
 ## Canonical runtime boundary
 
@@ -16,11 +16,12 @@ The current implementation boundary is the typed Content Factory domain under `s
 
 The new Foundation lifecycle is implemented separately from the legacy end-to-end `ContentFactoryJob` / `orchestrator.ts` path. The legacy orchestrator remains implementation evidence and may continue to support historical tooling, but it does not govern the new Foundation process.
 
-New modules:
+Foundation lifecycle modules:
 
 - `src/content-factory/foundation-schema.ts` — Foundation Candidate, Approved Course Foundation and Foundation job contracts;
 - `src/content-factory/foundation-lifecycle.ts` — small lifecycle, blocking/resume, deterministic fingerprinting, assurance/review binding, approval guard and version invariant;
-- `src/content-factory/foundation-lifecycle.test.ts` — focused boundary and invariant assurance.
+- `src/content-factory/foundation-lifecycle.test.ts` — focused boundary and invariant assurance; and
+- `src/content-factory/foundation-fingerprint.test.ts` — storage-location independence and material-dependency fingerprint regression coverage.
 
 The public `src/content-factory/index.ts` exports the new Foundation contracts alongside legacy exports during migration.
 
@@ -49,6 +50,8 @@ A Foundation Candidate records the trusted dependency set without learner-facing
 - independent-review result;
 - unresolved blockers and known limitations; and
 - provenance/source-set fingerprint.
+
+The candidate retains both refs and fingerprints because refs locate the exact immutable evidence/artifact while fingerprints establish dependency identity.
 
 The new candidate contract deliberately does **not** reuse the legacy `coverageMapSchema` as its Foundation completeness contract. The legacy schema treats `complete` coverage as requiring learner-content references, which conflicts with the approved rule that the Foundation must be approvable before Learn, Practice or Exam Prep assets exist.
 
@@ -88,24 +91,28 @@ The resulting Approved Course Foundation embeds the exact candidate plus exact-f
 
 ## Fingerprint and version invariant
 
-The Foundation fingerprint is deterministic SHA-256 over the educational/assessment dependency set, including Course Truth and Exam Truth fingerprints. It deliberately excludes review timestamps and assurance evidence references.
+The Foundation fingerprint is deterministic SHA-256 over the material educational/assessment dependency identity. It uses the exact dependency **fingerprints** for the Source Licence Register, Board Alignment, coverage model, Course Truth, Exam Truth and Question Families, together with exact course/cohort and source-set identity.
+
+Artifact refs remain on the immutable Foundation Candidate for retrieval and traceability, but storage paths are deliberately excluded from the aggregate Foundation fingerprint. Moving an immutable artifact to another valid ref therefore does not invent a new educational Foundation version.
+
+The aggregate fingerprint also deliberately excludes review timestamps and assurance evidence references.
 
 Consequences:
 
-- identical foundation inputs produce the same fingerprint even if Question Family reference order differs;
+- identical material Foundation inputs produce the same fingerprint even when immutable artifact refs or Question Family ordering differ;
 - refreshed assurance of identical educational inputs does not create a different content fingerprint;
-- a Course Truth or Exam Truth change produces a different fingerprint;
+- a Course Truth, Exam Truth or other material dependency fingerprint change produces a different Foundation fingerprint;
 - changed inputs require a newer `foundationVersion` for the same `foundationId` inside the mandatory approval path;
 - an initial Foundation cannot start at an arbitrary later version; and
-- a stored Approved Course Foundation can be rechecked against its embedded candidate and exact review/approval bindings to detect fingerprint tampering or stale evidence.
+- a stored Approved Course Foundation can be rechecked against its embedded candidate and exact review/approval bindings to detect dependency fingerprint tampering or stale evidence.
 
 The standalone version assertion remains available as a reusable integrity check, but approval correctness no longer depends on callers remembering to invoke it separately.
 
-## Deliberately excluded
+## Deliberately excluded from the lifecycle slice
 
-This increment does not implement:
+The lifecycle boundary itself does not implement:
 
-- Course Truth or Exam Truth generation/compilation workers;
+- Course Truth or Exam Truth provider generation;
 - Learn generation;
 - Practice generation;
 - Exam Prep or mocks;
@@ -114,6 +121,8 @@ This increment does not implement:
 - Content Operations UI;
 - learner publication; or
 - migration of the old end-to-end orchestrator.
+
+Foundation compilation is added separately by Slice 2A without changing these lifecycle responsibilities.
 
 ## Assurance
 
@@ -127,6 +136,7 @@ Focused tests cover:
 - stale review evidence after a Course Truth / Exam Truth change;
 - dedicated `foundation_approved` approval path;
 - deterministic fingerprint stability;
+- storage-location independence for identical dependency fingerprints;
 - Course Truth / Exam Truth fingerprint changes;
 - mandatory version-lineage enforcement inside approval;
 - initial-version enforcement; and
@@ -136,4 +146,4 @@ Full repository CI remains the merge gate.
 
 ## Documentation impact
 
-This document records how the first approved Foundation boundary is implemented. It does not change the normative process established by PR #290. The review corrections strengthen the implementation so that the existing exact-version assurance and approval rule is actually enforced. Historical Content Factory pilot and reliability records remain unchanged.
+This document records how the approved Foundation lifecycle boundary is implemented. The storage-location correction aligns implementation with the existing authority rule that a new Foundation version is required when a **material** source, curriculum, Course Truth or Exam Truth dependency changes; it does not create a new normative rule. Historical Content Factory pilot and reliability records remain unchanged.

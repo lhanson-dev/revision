@@ -15,13 +15,19 @@ The existing v2 factory is implementation evidence and a source of reusable cont
 
 The legacy implementation under `src/content-factory/` still contains the old end-to-end `ContentFactoryJob` and orchestrator used by the historical v2 programme. That path couples foundation modelling with learner-asset generation and final package assurance.
 
-Issue #289 introduces a separate Foundation boundary. The first implementation slice is deliberately isolated from the legacy state machine so the old topology does not become a dependency of the new process.
+Issue #289 now has a separate Foundation boundary. Slice 1 was released through PR #291 and is deliberately isolated from the legacy state machine so the old topology does not become a dependency of the new process.
 
-The new Foundation modules are:
+The canonical Foundation lifecycle modules are:
 
 - `src/content-factory/foundation-schema.ts`;
-- `src/content-factory/foundation-lifecycle.ts`; and
-- `src/content-factory/foundation-lifecycle.test.ts`.
+- `src/content-factory/foundation-lifecycle.ts`;
+- `src/content-factory/foundation-lifecycle.test.ts`; and
+- `src/content-factory/foundation-fingerprint.test.ts`.
+
+Slice 2A adds the bounded Foundation compilation core through:
+
+- `src/content-factory/foundation-compilation.ts`; and
+- `src/content-factory/foundation-compilation.test.ts`.
 
 The legacy orchestrator remains present during migration but is not the canonical Foundation runtime.
 
@@ -52,13 +58,20 @@ Strong candidates for selective reuse are:
 
 Reuse should occur at schema/function/service boundaries, never by calling the old end-to-end orchestrator from the new Foundation process.
 
-## Known legacy incompatibility
+## Legacy coverage incompatibility and replacement
 
 The legacy `coverageMapSchema` treats a requirement as `complete` only when it references learner-content artifacts.
 
 That contract is incompatible with the new authority because the Course Foundation must be approvable before Learn, Practice or Exam Prep assets exist.
 
-The new Foundation Candidate therefore references a Foundation coverage-model artifact and its fingerprint without importing the legacy learner-content completeness rule. Slice 2 must establish the replacement Foundation coverage contract explicitly.
+The Foundation compilation boundary therefore uses `foundationCoverageModelSchema`. Complete Foundation coverage means:
+
+- every governed curriculum requirement is represented exactly once;
+- every requirement preserves its official/source/component scope;
+- every requirement is mapped to one or more canonical Course Truth knowledge/skill node IDs; and
+- all referenced curriculum sources have permitted derived-use rights.
+
+It does not contain `contentRefs`, Learn/Practice requirements, or another learner-asset completion dependency.
 
 ## Do not carry forward by default
 
@@ -151,63 +164,90 @@ No learner-asset generation transition exists inside this lifecycle.
 
 ## Foundation fingerprint and version invariant
 
-The Foundation fingerprint is deterministic SHA-256 over the educational/assessment dependency set rather than operational review metadata.
+The Foundation fingerprint is deterministic SHA-256 over the material educational/assessment dependency identity rather than operational review metadata or storage location.
 
-It includes the exact course/cohort, source/foundation artifact refs and fingerprints, Course Truth, Exam Truth, Question Families and source-set fingerprint.
+It includes the exact course/cohort, Source Licence Register fingerprint, Board Alignment fingerprint, coverage fingerprint, Course Truth fingerprint, Exam Truth fingerprint, Question Family fingerprints and source-set fingerprint.
 
-It excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
+Artifact refs remain part of the immutable Foundation Candidate so the exact evidence can be retrieved and audited, but refs are deliberately excluded from the aggregate Foundation fingerprint. Moving an immutable artifact without changing its dependency fingerprint must not invent a new Foundation version.
+
+The aggregate fingerprint also excludes review timestamps and assurance evidence refs so re-reviewing identical educational inputs does not create artificial content versions.
 
 Required invariant for the same `foundationId`:
 
-- same Foundation fingerprint → same `foundationVersion`;
-- changed Foundation fingerprint → newer `foundationVersion`.
+- same material Foundation fingerprint → same `foundationVersion`;
+- changed material Foundation fingerprint → newer `foundationVersion`.
 
-An Approved Course Foundation must also be re-checkable against its embedded candidate to detect fingerprint drift/tampering.
+An Approved Course Foundation must also be re-checkable against its embedded candidate to detect dependency fingerprint drift/tampering and stale review/approval evidence.
 
 ## Implementation slices
 
 ### Slice 1 — Foundation schema and lifecycle
 
-**Status: implementation in progress via Issue #289.**
+**Status: released through PR #291; storage-location repeatability clarified in PR #292.**
 
-Implement:
+Implemented:
 
 - Foundation Candidate schema;
 - Approved Course Foundation schema;
 - Foundation job/lifecycle schema;
 - small lifecycle and blocker/resume behaviour;
-- deterministic Foundation fingerprint;
+- deterministic material-dependency Foundation fingerprint;
+- exact-fingerprint deterministic/independent-review binding;
 - explicit `foundation_approved` approval guard;
-- version/integrity invariant;
+- mandatory version lineage/integrity invariant;
 - unit/schema assurance;
+- storage-location independence regression assurance;
 - public Content Factory exports; and
 - current technical implementation documentation.
 
-Explicitly exclude provider calls and all learner-asset generation.
-
-Success proof:
-
-A synthetic Foundation Candidate can reach `foundation_approved` only with passing assurance and exact qualified approval evidence; changed Course Truth or Exam Truth changes the Foundation fingerprint and cannot masquerade as the same approved version.
+Provider calls and all learner-asset generation remain excluded from Slice 1.
 
 ### Slice 2 — Foundation compilation
 
 Goal: create Course Truth + Exam Truth behind the new boundary.
 
-Assess and selectively port/rebuild:
+Slice 2 is deliberately decomposed into short governed increments without changing the approved outcome.
 
-- identity/cohort resolution;
-- source discovery and rights;
-- Board Alignment;
-- Foundation-specific curriculum coverage;
-- Course Knowledge Model / Course Truth;
-- Assessment Blueprint / Exam Truth; and
-- Question Families.
+#### Slice 2A — compiler core and contracts
 
-Do not call Learn, Practice, assessment-item or Marking Pack generation.
+**Status: implementation in progress via Issue #289.**
+
+Implement:
+
+- Foundation-native identity/source/evidence worker contracts;
+- deterministic source-rights classification without importing the legacy orchestrator;
+- Board Alignment validation/fingerprinting;
+- the Foundation-specific coverage model;
+- Course Truth compilation/reconciliation against exact coverage node IDs;
+- Exam Truth compilation bound to the exact Board Alignment and Course Truth fingerprints;
+- Question Family reconciliation against Exam Truth;
+- Foundation-only artifact-store contracts and worker provenance; and
+- compilation into a complete `FoundationCandidate` while the job remains in `compiling`.
+
+Explicitly exclude Learn, Practice, assessment items, Marking Packs, Foundation assurance and expert approval.
 
 Success proof:
 
-A real governed course reaches a complete Foundation Candidate with Course Truth and Exam Truth and zero learner-facing assets.
+A provider-free governed fixture reaches a complete Foundation Candidate with Course Truth and Exam Truth, all dependencies are cross-reconciled/fingerprinted, storage-location changes do not change the aggregate Foundation identity, and the artifact ledger contains zero learner-facing assets.
+
+#### Slice 2B — live adapter and real-course proof
+
+Connect the Slice 2A contracts to selectively reused/rebuilt provider workers for:
+
+- exact identity/cohort resolution;
+- source discovery and controlled evidence extraction;
+- governed loading of previously approved source-rights policy rules and their approval evidence;
+- Board Alignment;
+- Foundation coverage;
+- Course Truth;
+- Exam Truth; and
+- Question Families.
+
+Do not route through the legacy `ContentFactoryJob`/orchestrator and do not call Learn, Practice, assessment-item or Marking Pack generation.
+
+Success proof for completion of Slice 2:
+
+A new real governed course Foundation job reaches a complete Foundation Candidate with Course Truth and Exam Truth and zero learner-facing assets.
 
 ### Slice 3 — Foundation assurance and approval
 
@@ -311,7 +351,8 @@ As implementation lands:
 
 - maintain this plan as the current staged implementation source;
 - maintain `docs/technical/Content Factory Foundation Lifecycle Implementation.md` for Slice 1 implementation truth;
-- update `docs/technical/Content Factory Architecture.md` as the new runtime replaces legacy topology;
+- maintain `docs/technical/Content Factory Foundation Compilation Implementation.md` for Slice 2 implementation truth;
+- update `docs/technical/Content Factory Architecture.md` when the live Foundation runtime replaces legacy provider/orchestration topology;
 - retain pilot/remediation records as history;
 - mark old end-to-end implementation docs legacy/superseded when appropriate;
 - update Content Operations documentation when that surface changes;
@@ -320,4 +361,4 @@ As implementation lands:
 
 ## Immediate next step
 
-Complete Slice 1 through its governed PR and exact-head assurance. After production verification, begin Slice 2 as a separate short PR. Do not combine Foundation compilation or provider work into the Slice 1 PR.
+Complete Slice 2A through its governed short PR and exact-head assurance. After production verification, implement Slice 2B as a separate short PR that connects live provider workers and proves one new real governed Foundation job without generating learner assets.
