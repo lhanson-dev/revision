@@ -164,7 +164,7 @@ export const foundationJobSchema = z.object({
     })
   }
 
-  if (['assuring', 'expert_review', 'foundation_approved'].includes(job.state) && !job.candidate) {
+  if (['assuring', 'expert_review'].includes(job.state) && !job.candidate) {
     context.addIssue({
       code: 'custom',
       path: ['candidate'],
@@ -203,11 +203,12 @@ export const foundationJobSchema = z.object({
         path: ['approvedFoundation'],
         message: 'foundation_approved requires an Approved Course Foundation',
       })
-    } else if (job.candidate && job.approvedFoundation.candidate.candidateId !== job.candidate.candidateId) {
+    }
+    if (job.candidate) {
       context.addIssue({
         code: 'custom',
-        path: ['approvedFoundation', 'candidate', 'candidateId'],
-        message: 'Approved Course Foundation must contain the exact candidate being approved',
+        path: ['candidate'],
+        message: 'foundation_approved freezes the candidate only inside Approved Course Foundation',
       })
     }
   }
