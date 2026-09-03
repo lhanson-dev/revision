@@ -219,16 +219,20 @@ describe('Content Factory Q2 post-Pilot #20 historical recovery replay', () => {
     expect(result.job.blockers.some((blocker) => blocker.reason.includes(assessmentSlotRef))).toBe(true)
   })
 
-  it('preserves Q2 slice history while current Pilot #21 Q2 remains requalified and Q7 has passed with Q8 closed', () => {
+  it('preserves Q2 slice history while separate Q8 now restores the current confirmation-pilot state', () => {
     expect(replay.acceptance.q2EvidenceReady).toBe(true)
     expect(replay.acceptance.globalQualificationStateChanged).toBe(false)
     expect(replay.acceptance.q7Eligible).toBe(false)
     expect(replay.acceptance.q8Eligible).toBe(false)
 
-    expect(qualification.status).toBe('paused')
+    expect(qualification.status).toBe('qualified')
     expect(qualification.gateStatus['Q2-historical-failure-replay-corpus']).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(qualification.livePilotEligible).toBe(true)
   })
 })

@@ -51,7 +51,7 @@ type Qualification = {
   gateStatus: Record<string, string>
   providerFreeQualificationEvidence: string | null
   lastProviderFreeQualificationEvidence: string
-  qualifiedEvidence: unknown | null
+  qualifiedEvidence: { eligibilityRecord?: string; nextPaidRunClass?: string } | null
   livePilotEligible: boolean
 }
 
@@ -234,7 +234,7 @@ describe('Content Factory post-Pilot #21 provider-free Q1-Q5 requalification', (
     expect(requalification.acceptance.pilot21LearnPracticeProtectedFromAssessmentOnlyInvalidation).toBe(true)
   })
 
-  it('preserves provider-free Q1-Q6 evidence while current Q7 PASS still keeps full-course execution and Q8 closed', () => {
+  it('preserves historical Q1-Q6 evidence while separate Q8 restores current confirmation-pilot eligibility', () => {
     expect(requalification).toMatchObject({
       status: 'implemented_pending_same_head_assurance',
       scope: 'post_pilot_21_q1_q6_provider_free_requalification',
@@ -252,7 +252,7 @@ describe('Content Factory post-Pilot #21 provider-free Q1-Q5 requalification', (
       fullCourseAssembly: false,
       pilot21FullCourseResumePermitted: false,
     })
-    expect(qualification.status).toBe('paused')
+    expect(qualification.status).toBe('qualified')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(qualification.providerFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
@@ -260,7 +260,10 @@ describe('Content Factory post-Pilot #21 provider-free Q1-Q5 requalification', (
     expect(qualification.lastProviderFreeQualificationEvidence).toBe(
       'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
     )
-    expect(qualification.qualifiedEvidence).toBeNull()
-    expect(qualification.livePilotEligible).toBe(false)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      nextPaidRunClass: 'confirmation_pilot',
+    })
+    expect(qualification.livePilotEligible).toBe(true)
   })
 })

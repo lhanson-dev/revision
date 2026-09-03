@@ -9,7 +9,8 @@ import fifthReviewText from '../../content-factory/reliability-post-pilot20-q7-a
 import sixthEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-006.json?raw'
 import seventhEvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-007.json?raw'
 import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
-import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import postPilot20Q8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-004.json?raw'
 import pilot19Text from '../../content-factory/reliability-pilot19-assessment-architecture-review.json?raw'
 import soakWorkflowText from '../../.github/workflows/content-factory-live-worker-soak.yml?raw'
 import fullCourseWorkflowText from '../../.github/workflows/content-factory-live-pilot.yml?raw'
@@ -75,6 +76,7 @@ const fifthReview = JSON.parse(fifthReviewText) as FifthReview
 const sixth = JSON.parse(sixthEvidenceText) as Evidence
 const seventh = JSON.parse(seventhEvidenceText) as Evidence
 const priorQ8 = JSON.parse(priorQ8Text) as Q8
+const postPilot20Q8 = JSON.parse(postPilot20Q8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
 const request = JSON.parse(soakRequestText) as { requestId: string; status: string; requestedFromMainSha: string; sampleCount: number; maxSpendUsd: number; fullCourseAssembly: boolean; learnerPublication: boolean }
 const pilot19 = JSON.parse(pilot19Text) as { nextQualificationStep: { q7Required: boolean; requiredLiveCoverage: string[] } }
@@ -143,17 +145,23 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #21
     expect(seventh.samples.reduce((sum, sample) => sum + (sample.freshCandidateResampleCount ?? 0), 0)).toBe(0)
   })
 
-  it('preserves historical Q8 evidence while current Pilot #21 has Q1-Q7 PASS and Q8 still closed', () => {
+  it('preserves historical Q8 evidence while Q8-004 restores current Pilot #21 confirmation-pilot eligibility', () => {
     expect(qualification.q7FailureEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence.json','content-factory/reliability-v2-e-q7-live-soak-evidence-002.json'])
     expect(qualification.q7PassEvidence).toBe('content-factory/reliability-v2-e-q7-live-soak-evidence-007.json')
     expect(qualification.q7PassEvidenceHistory).toEqual(['content-factory/reliability-v2-e-q7-live-soak-evidence-003.json','content-factory/reliability-v2-e-q7-live-soak-evidence-004.json','content-factory/reliability-v2-e-q7-live-soak-evidence-006.json'])
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
-    expect(qualification.qualifiedEvidence).toBeNull()
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.livePilotEligible).toBe(true)
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      q7PassingAttempt: 7,
+      q7WorkflowRunId: 33672670696,
+      nextPaidRunClass: 'confirmation_pilot',
+    })
     for (const gate of providerFreeGates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.gateStatus['Q7-bounded-live-worker-soak']).toBe('pass')
     expect(priorQ8).toMatchObject({ reviewedApprovedMainSha: 'f2b9b43ccddc0111859da39cff4900343065f7a2', providerCallsUsed: false, fullCourseExecutionTriggered: false, decision: { qualificationStatus: 'qualified', livePilotEligible: true, confirmationPilotTriggeredByThisChange: false } })
-    expect(currentQ8).toMatchObject({
+    expect(postPilot20Q8).toMatchObject({
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',
       providerCallsUsed: false,
       fullCourseExecutionTriggered: false,
@@ -161,6 +169,16 @@ describe('Reliability v2-E Q7 live-worker soak governance through post-Pilot #21
       learnerPublicationTriggered: false,
       historicalRecordsRewritten: false,
       qualificationEvidence: { q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json', q7PassingAttempt: 6, q7WorkflowRunId: 33554413877 },
+      decision: { qualificationStatus: 'qualified', livePilotEligible: true, nextPaidRunClass: 'confirmation_pilot', confirmationPilotEligibleAfterMerge: true, confirmationPilotTriggeredByThisChange: false },
+    })
+    expect(currentQ8).toMatchObject({
+      reviewedApprovedMainSha: 'c6503344dd163bae77fe6311fe977446adae6baa',
+      providerCallsUsed: false,
+      fullCourseExecutionTriggered: false,
+      courseAssemblyTriggered: false,
+      learnerPublicationTriggered: false,
+      historicalRecordsRewritten: false,
+      qualificationEvidence: { q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json', q7PassingAttempt: 7, q7WorkflowRunId: 33672670696 },
       decision: { qualificationStatus: 'qualified', livePilotEligible: true, nextPaidRunClass: 'confirmation_pilot', confirmationPilotEligibleAfterMerge: true, confirmationPilotTriggeredByThisChange: false },
     })
   })

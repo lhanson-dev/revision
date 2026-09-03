@@ -6,7 +6,8 @@ import sixthQ7EvidenceText from '../../content-factory/reliability-v2-e-q7-live-
 import seventhQ7EvidenceText from '../../content-factory/reliability-v2-e-q7-live-soak-evidence-007.json?raw'
 import historicalQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility.json?raw'
 import priorQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-002.json?raw'
-import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import postPilot20Q8Text from '../../content-factory/reliability-v2-f-q8-eligibility-003.json?raw'
+import currentQ8Text from '../../content-factory/reliability-v2-f-q8-eligibility-004.json?raw'
 import livePilotWorkflowText from '../../.github/workflows/content-factory-live-pilot.yml?raw'
 
 type RuntimeProcess = { execPath: string; cwd: () => string }
@@ -92,6 +93,7 @@ const sixthQ7 = JSON.parse(sixthQ7EvidenceText) as Q7Evidence
 const seventhQ7 = JSON.parse(seventhQ7EvidenceText) as Q7Evidence
 const historicalQ8 = JSON.parse(historicalQ8Text) as Q8
 const priorQ8 = JSON.parse(priorQ8Text) as Q8
+const postPilot20Q8 = JSON.parse(postPilot20Q8Text) as Q8
 const currentQ8 = JSON.parse(currentQ8Text) as Q8
 
 const providerFreeGates = [
@@ -104,10 +106,10 @@ const providerFreeGates = [
 ]
 const gates = [...providerFreeGates, 'Q7-bounded-live-worker-soak']
 
-describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classification', () => {
-  it('records current Q1-Q7 PASS while keeping full-course eligibility closed until Q8', () => {
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
+describe('Content Factory Reliability v2 status after post-Pilot #21 Q8 eligibility', () => {
+  it('records current Q1-Q7 PASS and restores confirmation-pilot eligibility through separate Q8', () => {
+    expect(qualification.status).toBe('qualified')
+    expect(qualification.livePilotEligible).toBe(true)
     expect(qualification.requiredGates).toEqual(gates)
     for (const gate of gates) expect(qualification.gateStatus[gate]).toBe('pass')
     expect(qualification.providerFreeQualificationEvidence).toBe(
@@ -124,7 +126,19 @@ describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classifi
       'content-factory/reliability-v2-e-q7-live-soak-evidence-004.json',
       'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
     ])
-    expect(qualification.qualifiedEvidence).toBeNull()
+    expect(qualification.qualifiedEvidence).toMatchObject({
+      qualificationEvidenceMainSha: 'c6503344dd163bae77fe6311fe977446adae6baa',
+      eligibilityRecord: 'content-factory/reliability-v2-f-q8-eligibility-004.json',
+      providerFreeQualificationRecord: 'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
+      q7PassRecord: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+      q7PassingAttempt: 7,
+      q7WorkflowRunId: 33672670696,
+      q7ExecutedSamples: 20,
+      q7AcceptedSamples: 20,
+      q7ControlledFailClosedSamples: 0,
+      passedGates: gates,
+      nextPaidRunClass: 'confirmation_pilot',
+    })
   })
 
   it('binds current Q7 PASS to exact candidate-aware attempt-007 evidence', () => {
@@ -159,7 +173,37 @@ describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classifi
     })
   })
 
-  it('preserves the exact candidate-aware attempt-006 Q7 PASS as historical evidence', () => {
+  it('records Q8-004 as the current provider-free eligibility decision without triggering execution', () => {
+    expect(currentQ8).toMatchObject({
+      status: 'eligible_for_confirmation_pilot',
+      reviewedApprovedMainSha: 'c6503344dd163bae77fe6311fe977446adae6baa',
+      providerCallsUsed: false,
+      fullCourseExecutionTriggered: false,
+      courseAssemblyTriggered: false,
+      learnerPublicationTriggered: false,
+      historicalRecordsRewritten: false,
+      qualificationEvidence: {
+        providerFreeQ1ToQ6: 'content-factory/reliability-post-pilot21-q1-q6-requalification.json',
+        q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-007.json',
+        q7PassingAttempt: 7,
+        q7WorkflowRunId: 33672670696,
+        q7ExecutedSamples: 20,
+        q7AcceptedSamples: 20,
+        q7ControlledFailClosedSamples: 0,
+      },
+      passedGates: gates,
+      decision: {
+        qualificationStatus: 'qualified',
+        livePilotEligible: true,
+        nextPaidRunClass: 'confirmation_pilot',
+        confirmationPilotEligibleAfterMerge: true,
+        confirmationPilotTriggeredByThisChange: false,
+        maturityAchieved: false,
+      },
+    })
+  })
+
+  it('preserves the exact candidate-aware attempt-006 Q7 PASS and post-Pilot #20 Q8 as historical evidence', () => {
     expect(sixthQ7).toMatchObject({
       workflow: {
         runId: 33554413877,
@@ -185,38 +229,17 @@ describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classifi
     expect(qualification.q7PassEvidenceHistory).toContain(
       'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
     )
-  })
-
-  it('preserves Q8 as exact approved post-Pilot #20 historical evidence without treating it as current eligibility', () => {
-    expect(currentQ8).toMatchObject({
+    expect(postPilot20Q8).toMatchObject({
       status: 'eligible_for_confirmation_pilot',
       reviewedApprovedMainSha: '3b5cbb1ed5404f1d6692880e79b44847281e0b6f',
-      providerCallsUsed: false,
-      fullCourseExecutionTriggered: false,
-      courseAssemblyTriggered: false,
-      learnerPublicationTriggered: false,
       historicalRecordsRewritten: false,
-      qualificationEvidence: {
-        providerFreeQ1ToQ6: 'content-factory/reliability-post-pilot20-q1-q6-consolidation.json',
-        q7Pass: 'content-factory/reliability-v2-e-q7-live-soak-evidence-006.json',
-        q7PassingAttempt: 6,
-        q7WorkflowRunId: 33554413877,
-        q7ExecutedSamples: 20,
-        q7AcceptedSamples: 20,
-        q7ControlledFailClosedSamples: 0,
-      },
-      passedGates: gates,
       decision: {
         qualificationStatus: 'qualified',
         livePilotEligible: true,
         nextPaidRunClass: 'confirmation_pilot',
-        confirmationPilotEligibleAfterMerge: true,
         confirmationPilotTriggeredByThisChange: false,
-        maturityAchieved: false,
       },
     })
-    expect(qualification.status).toBe('paused')
-    expect(qualification.livePilotEligible).toBe(false)
   })
 
   it('preserves the clean post-Pilot #19 Q7 and Q8 records as historical evidence', () => {
@@ -256,7 +279,7 @@ describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classifi
     })
   })
 
-  it('fails closed at paid live-pilot preflight while separate Q8 remains outstanding', async () => {
+  it('allows paid live-pilot preflight only after separate Q8 has restored qualification', async () => {
     const moduleName = 'node:child_process'
     const childProcess = await import(/* @vite-ignore */ moduleName) as {
       execFileSync: (
@@ -266,11 +289,12 @@ describe('Content Factory Reliability v2 status after post-Pilot #21 Q7 classifi
       ) => string
     }
     const runtimeProcess = (globalThis as unknown as { process: RuntimeProcess }).process
-    expect(() => childProcess.execFileSync(
+    const output = childProcess.execFileSync(
       runtimeProcess.execPath,
       ['scripts/content-factory-live-pilot-qualification.mjs'],
       { cwd: runtimeProcess.cwd(), encoding: 'utf8', stdio: 'pipe' },
-    )).toThrow(/content_factory_live_pilot_paused/)
+    )
+    expect(output).toMatch(/reliability qualification is PASS/i)
   })
 
   it('keeps qualification preflight before paid execution with no bypass', () => {
