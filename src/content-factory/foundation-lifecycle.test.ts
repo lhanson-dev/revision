@@ -40,10 +40,15 @@ function candidate(overrides: Partial<FoundationCandidate> = {}): FoundationCand
       notes: [],
     },
     sourceLicenceRegister: artifact('foundation/source-licence-register.json', 'sources-v1'),
+    sourceRightsStatus: 'approved',
     boardAlignment: artifact('foundation/board-alignment.json', 'board-v1'),
+    boardAlignmentStatus: 'verified',
     coverageModel: artifact('foundation/coverage.json', 'coverage-v1'),
+    coverageCompleteness: 'complete',
     courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v1'),
+    courseTruthCompleteness: 'complete',
     assessmentBlueprint: artifact('foundation/exam-truth.json', 'exam-truth-v1'),
+    examTruthCompleteness: 'complete',
     questionFamilies: [
       artifact('foundation/question-family-essay.json', 'essay-v1'),
       artifact('foundation/question-family-data-response.json', 'data-response-v1'),
@@ -103,6 +108,26 @@ describe('Foundation schema boundary', () => {
     expect('contentPackRefs' in parsed).toBe(false)
   })
 
+  it('fails closed when a Foundation Candidate is not source-rights approved or complete', () => {
+    expect(() => foundationCandidateSchema.parse({
+      ...candidate(),
+      sourceRightsStatus: 'pending',
+    })).toThrow()
+
+    expect(() => foundationCandidateSchema.parse({
+      ...candidate(),
+      coverageCompleteness: 'incomplete',
+    })).toThrow()
+  })
+
+  it('rejects duplicate Question Family references in the Foundation Candidate', () => {
+    const first = artifact('foundation/question-family-essay.json', 'essay-v1')
+    expect(() => foundationCandidateSchema.parse({
+      ...candidate(),
+      questionFamilies: [first, first],
+    })).toThrow(/Duplicate Question Family reference/)
+  })
+
   it('requires an Approved Course Foundation to contain a valid SHA-256 foundation fingerprint', () => {
     expect(() => approvedCourseFoundationSchema.parse({
       schemaVersion: 1,
@@ -113,6 +138,17 @@ describe('Foundation schema boundary', () => {
       approval: approval(),
       knownLimitations: [],
     })).toThrow()
+  })
+
+  it('rejects an Approved Course Foundation whose embedded candidate has not passed assurance', async () => {
+    const approved = await approvedFoundation()
+    expect(() => approvedCourseFoundationSchema.parse({
+      ...approved,
+      candidate: {
+        ...approved.candidate,
+        independentReview: { status: 'fail_hold', evidenceRefs: ['review-fail.json'] },
+      },
+    })).toThrow(/passing independent review/)
   })
 })
 
@@ -147,7 +183,7 @@ describe('Foundation lifecycle', () => {
     expect(problems).toContain('Independent Foundation review must pass before expert approval')
   })
 
-  it('does not approve a candidate with unresolved educational blockers', async () => {
+  it('does not approve a candidate with unresolved educational blockers', () => {
     let job = createFoundationJob({ jobId: 'job-1', createdAt: now })
     job = advanceFoundationJob(job, 'compiling', now)
     job = setFoundationCandidate(job, candidate({
