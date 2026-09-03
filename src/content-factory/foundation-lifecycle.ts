@@ -16,7 +16,7 @@ const transitionMap: Record<FoundationState, readonly FoundationState[]> = {
   assuring: ['expert_review', 'superseded'],
   expert_review: ['foundation_approved', 'superseded'],
   foundation_approved: ['superseded'],
-  blocked: [],
+  blocked: ['superseded'],
   superseded: [],
 }
 
@@ -105,7 +105,6 @@ export function setFoundationCandidate(
   if (!['compiling', 'assuring'].includes(job.state)) {
     throw new Error('Foundation Candidate may be changed only while compiling or assuring')
   }
-  if (job.state === 'blocked') throw new Error('Blocked Foundation jobs must be resumed before changing the candidate')
   if (unresolvedOperationalBlockers(job).length > 0) throw new Error('Resolve all Foundation job blockers before changing the candidate')
 
   return foundationJobSchema.parse({
@@ -121,11 +120,13 @@ export function getFoundationTransitionProblems(
 ): string[] {
   const job = foundationJobSchema.parse(jobInput)
 
-  if (job.state === 'blocked') return ['Blocked Foundation jobs must be resumed before advancing']
+  if (job.state === 'blocked' && target !== 'superseded') {
+    return ['Blocked Foundation jobs must be resumed before advancing']
+  }
   if (!transitionMap[job.state].includes(target)) {
     return [`Foundation transition ${job.state} -> ${target} is not allowed`]
   }
-  if (unresolvedOperationalBlockers(job).length > 0) {
+  if (target !== 'superseded' && unresolvedOperationalBlockers(job).length > 0) {
     return ['Resolve all Foundation job blockers before advancing']
   }
 
@@ -155,6 +156,7 @@ export function advanceFoundationJob(
   return foundationJobSchema.parse({
     ...job,
     state: target,
+    blockedFromState: target === 'superseded' ? undefined : job.blockedFromState,
     updatedAt,
   })
 }
