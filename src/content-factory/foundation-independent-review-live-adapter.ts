@@ -1,0 +1,126 @@
+import { z } from 'zod'
+import {
+  courseKnowledgeModelSchema,
+  questionFamilySchema,
+} from './schema'
+import {
+  foundationAssessmentBlueprintSchema,
+  type FoundationWorkerExecution,
+} from './foundation-compilation'
+import type { FoundationStructuredProviderClient } from './foundation-live-adapter'
+import {
+  foundationIndependentReviewFindingSchema,
+  foundationIndependentReviewWorkerContracts,
+  type FoundationIndependentReviewWorkers,
+} from './foundation-independent-review'
+
+const nonEmptyStringSchema = z.string().min(1)
+const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
+const commitShaSchema = z.string().regex(/^[0-9a-f]{40}$/)
+const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/)
+
+const foundationIndependentReviewProviderOutputSchema = z.object({
+  reviewedCommit: commitShaSchema,
+  foundationFingerprint: sha256Schema,
+  decision: z.enum(['pass', 'fail_hold']),
+  findings: z.array(foundationIndependentReviewFindingSchema).default([]),
+})
+
+const foundationRemediationProviderOutputSchema = z.object({
+  resolvedFindingIds: z.array(identifierSchema).min(1),
+  resolutionNotes: z.array(nonEmptyStringSchema).min(1),
+  replacements: z.array(z.discriminatedUnion('artifactKind', [
+    z.object({
+      artifactKind: z.literal('course_knowledge_model'),
+      oldRef: nonEmptyStringSchema,
+      correctedArtifact: courseKnowledgeModelSchema,
+    }),
+    z.object({
+      artifactKind: z.literal('assessment_blueprint'),
+      oldRef: nonEmptyStringSchema,
+      correctedArtifact: foundationAssessmentBlueprintSchema,
+    }),
+    z.object({
+      artifactKind: z.literal('question_family'),
+      oldRef: nonEmptyStringSchema,
+      correctedArtifact: questionFamilySchema,
+    }),
+  ])).min(1),
+})
+
+function normaliseExecution(execution: Awaited<ReturnType<FoundationStructuredProviderClient['run']>>): FoundationWorkerExecution<unknown> {
+  return execution
+}
+
+export function createFoundationIndependentReviewLiveWorkers(input: {
+  provider: FoundationStructuredProviderClient
+}): FoundationIndependentReviewWorkers {
+  return {
+    async independentReview(reviewInput) {
+      const execution = await input.provider.run({
+        workerId: foundationIndependentReviewWorkerContracts.independentReview.workerId,
+        contractVersion: foundationIndependentReviewWorkerContracts.independentReview.contractVersion,
+        routeKind: 'independent_review',
+        outputSchema: foundationIndependentReviewProviderOutputSchema,
+        instructions: [
+          'Act as an independent educational and assessment reviewer of the exact Foundation Candidate supplied.',
+          'Do not rewrite for style and do not repeat deterministic schema checks unless they expose an educational consequence.',
+          'Challenge conceptual correctness, curriculum sufficiency, depth, misconceptions, assessment authenticity, component fit, command demand, mark/timing realism and Question Family suitability.',
+          'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
+          'Every finding must use an artifactRef and artifactKind exactly as supplied in artifactIndex.',
+          'Severity: blocking means progression is unsafe; material means educational/assessment truth requires correction; minor means non-blocking precision/limitation; no_issue is optional and not required for clean artifacts.',
+          'Return fail_hold when any blocking or material finding exists; otherwise return pass.',
+          'The reviewedCommit and foundationFingerprint must be copied exactly from the supplied review identity.',
+        ].join('\n'),
+        payload: {
+          reviewIdentity: {
+            jobId: reviewInput.jobId,
+            candidateId: reviewInput.candidateId,
+            reviewedCommit: reviewInput.reviewedCommit,
+            foundationFingerprint: reviewInput.foundationFingerprint,
+          },
+          courseIdentity: reviewInput.courseIdentity,
+          cohortValidity: reviewInput.cohortValidity,
+          sourceEvidence: reviewInput.sourceEvidence,
+          artifactIndex: reviewInput.artifactIndex,
+          deterministicAssurance: reviewInput.deterministicAssurance,
+        },
+      })
+      return normaliseExecution(execution)
+    },
+
+    async remediate(remediationInput) {
+      const execution = await input.provider.run({
+        workerId: foundationIndependentReviewWorkerContracts.remediation.workerId,
+        contractVersion: foundationIndependentReviewWorkerContracts.remediation.contractVersion,
+        routeKind: 'generation',
+        outputSchema: foundationRemediationProviderOutputSchema,
+        instructions: [
+          'Correct only the blocking/material Foundation findings and only inside the exact remediation targets supplied.',
+          'Return exactly one replacement for every target oldRef and no unrelated replacement.',
+          'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
+          'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
+          'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
+          'Do not attempt to calculate SHA fingerprints. The Foundation compiler owns dependency and material fingerprints after your corrected structured output is returned.',
+          'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
+          'Resolve exactly the finding IDs represented by triggerReview blocking/material findings.',
+        ].join('\n'),
+        payload: {
+          remediationIdentity: {
+            jobId: remediationInput.jobId,
+            sourceCandidateId: remediationInput.sourceCandidateId,
+            reviewedCommit: remediationInput.reviewedCommit,
+            foundationFingerprint: remediationInput.foundationFingerprint,
+          },
+          courseIdentity: remediationInput.courseIdentity,
+          cohortValidity: remediationInput.cohortValidity,
+          sourceEvidence: remediationInput.sourceEvidence,
+          artifactIndex: remediationInput.artifactIndex,
+          triggerReview: remediationInput.triggerReview,
+          targets: remediationInput.targets,
+        },
+      })
+      return normaliseExecution(execution)
+    },
+  }
+}
