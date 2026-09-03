@@ -11,7 +11,6 @@ import {
 } from './schema'
 import {
   fingerprintFoundationArtifact,
-  fingerprintFoundationSourceLicenceRegister,
   foundationAssessmentBlueprintSchema,
   foundationCoverageModelSchema,
   type FoundationAssessmentBlueprint,
@@ -114,6 +113,30 @@ function unique(values: Iterable<string>) {
   return [...new Set(values)]
 }
 
+function sourceRightsMaterialFingerprintPayload(record: SourceLicenceRegister['sources'][number]) {
+  return {
+    id: record.id,
+    issuer: record.issuer,
+    urlOrReference: record.urlOrReference,
+    sourceType: record.sourceType,
+    educationalRole: record.educationalRole,
+    versionOrDate: record.versionOrDate,
+    useClass: record.useClass,
+    permissionBasis: record.permissionBasis,
+    aiInputPermitted: record.aiInputPermitted,
+    derivedCommercialUsePermitted: record.derivedCommercialUsePermitted,
+    attributionRequirements: record.attributionRequirements,
+    restrictions: record.restrictions,
+    checkerMethod: record.checkerMethod,
+    sourceFingerprint: record.sourceFingerprint,
+    revalidationConditions: record.revalidationConditions,
+  }
+}
+
+async function fingerprintSourceLicenceRegister(register: SourceLicenceRegister) {
+  return fingerprintFoundationArtifact(register.sources.map(sourceRightsMaterialFingerprintPayload))
+}
+
 function check(
   checkId: string,
   status: FoundationDeterministicCheck['status'],
@@ -212,6 +235,11 @@ async function loadFoundationArtifacts(candidate: FoundationCandidate, store: Fo
     return { artifact, ...loaded }
   }))
 
+  const questionFamilies: LoadedFoundationArtifacts['questionFamilies'] = []
+  for (const loaded of familyLoads) {
+    if (loaded.value !== undefined) questionFamilies.push({ artifact: loaded.artifact, value: loaded.value })
+  }
+
   return {
     artifacts: {
       sourceLicenceRegister: source.value,
@@ -219,9 +247,7 @@ async function loadFoundationArtifacts(candidate: FoundationCandidate, store: Fo
       coverageModel: coverage.value,
       courseKnowledgeModel: course.value,
       assessmentBlueprint: exam.value,
-      questionFamilies: familyLoads
-        .filter((loaded): loaded is typeof loaded & { value: QuestionFamily } => loaded.value !== undefined)
-        .map(({ artifact, value }) => ({ artifact, value })),
+      questionFamilies,
     } satisfies LoadedFoundationArtifacts,
     checks: [
       source.loadCheck,
@@ -238,7 +264,7 @@ async function artifactFingerprintProblems(candidate: FoundationCandidate, bundl
   const problems: string[] = []
 
   if (bundle.sourceLicenceRegister) {
-    const fingerprint = await fingerprintFoundationSourceLicenceRegister(bundle.sourceLicenceRegister)
+    const fingerprint = await fingerprintSourceLicenceRegister(bundle.sourceLicenceRegister)
     if (fingerprint !== bundle.sourceLicenceRegister.fingerprint) {
       problems.push('Source Licence Register material fingerprint does not match its embedded fingerprint')
     }
@@ -420,7 +446,7 @@ function courseTruthProblems(jobId: string, bundle: LoadedFoundationArtifacts) {
   for (const node of model.nodes) {
     const governingRequirements = requirementsByNode.get(node.id) ?? []
     const governedSources = new Set(governingRequirements.flatMap((requirement) => requirement.sourceRefs))
-    if (node.boardAlignmentRefs.length === 0) problems.push(`Course Truth node ${node.id} has no Board Alignment relevance`) 
+    if (node.boardAlignmentRefs.length === 0) problems.push(`Course Truth node ${node.id} has no Board Alignment relevance`)
     for (const sourceRef of node.sourceRefs) {
       if (!permittedCurriculumSources.has(sourceRef) || !governedSources.has(sourceRef)) {
         problems.push(`Course Truth node ${node.id} uses source ${sourceRef} outside its governed coverage/right boundary`)
