@@ -251,6 +251,7 @@ export async function approveFoundation(
   return foundationJobSchema.parse({
     ...job,
     state: 'foundation_approved',
+    candidate: undefined,
     approvedFoundation,
     updatedAt: input.approval.approvedAt,
   })
