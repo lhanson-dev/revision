@@ -222,7 +222,7 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
         requirements: requirements.map((governed) => ({ ...governed, knowledgeNodeIds: [governed.requirementId], coverageStatus: 'complete' })),
       }), `foundation-coverage-${jobId}`, 'revision-foundation-coverage-compiler')
     },
-    async compileCourseTruth({ jobId, boardAlignment: alignment, requirements }) {
+    async compileCourseTruth({ jobId, requirements }) {
       const execution = await input.provider.run({
         workerId: foundationCompilationWorkerContracts.courseTruth.workerId,
         contractVersion: foundationCompilationWorkerContracts.courseTruth.contractVersion,
