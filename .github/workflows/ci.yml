@@ -69,7 +69,7 @@ jobs:
       security-events: write
       pull-requests: read
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -80,13 +80,16 @@ jobs:
       - name: Pin npm
         run: npm install --global npm@11.19.0 --no-audit --no-fund
       - name: Audit locked dependencies for high/critical vulnerabilities
-        run: npm audit --audit-level=high
+        timeout-minutes: 3
+        run: npm audit --audit-level=high --fetch-timeout=60000 --fetch-retries=1
       - name: Initialize CodeQL
+        timeout-minutes: 5
         uses: github/codeql-action/init@v4
         with:
           languages: javascript-typescript
           build-mode: none
       - name: Analyze JavaScript and TypeScript with CodeQL
+        timeout-minutes: 10
         uses: github/codeql-action/analyze@v4
 
   foundation-quality:
