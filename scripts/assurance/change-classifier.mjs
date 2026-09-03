@@ -16,11 +16,28 @@ const highRiskFiles = new Set([
   'src/app/navigation.ts',
 ])
 
+const criticalAssuranceFiles = new Set([
+  '.github/PULL_REQUEST_TEMPLATE.md',
+  'scripts/assurance/critical-assurance-manifest.json',
+  'scripts/assurance/validate-critical-assurance.mjs',
+  'scripts/assurance/validate-high-risk-pr-evidence.mjs',
+  'supabase/tests/database-assurance.test.sql',
+  'supabase/tests/learner-plan-assurance.test.sql',
+  'supabase/tests/starting-check-assurance.test.sql',
+  'supabase/tests/student-first-use-assurance.test.sql',
+  'tests/integration/supabase-persistence.test.ts',
+  'tests/integration/edge-operations.test.ts',
+  'tests/e2e/database-persistence.spec.ts',
+  'tests/e2e/student-first-use.spec.ts',
+])
+
 const docsExtensions = ['.md', '.mdx']
 const destructiveSql = /\b(drop\s+(table|schema|column)|truncate\s+table|delete\s+from|alter\s+table[\s\S]{0,120}\bdrop\b)\b/i
 
 function isDocsOnly(files) {
-  return files.length > 0 && files.every((file) => docsExtensions.some((extension) => file.path.endsWith(extension)))
+  return files.length > 0 && files.every((file) =>
+    docsExtensions.some((extension) => file.path.endsWith(extension))
+      && !criticalAssuranceFiles.has(file.path))
 }
 
 function addDomain(domains, name) {
@@ -66,6 +83,15 @@ export function classifyChange(files) {
       level = Math.max(level, 3)
       reasons.push(`${path}: CI/deployment path changed.`)
       addDomain(affectedDomains, 'path-to-live')
+      addDomain(affectedDomains, 'assurance-integrity')
+      continue
+    }
+
+    if (criticalAssuranceFiles.has(path) || path.startsWith('scripts/assurance/')) {
+      level = Math.max(level, 3)
+      reasons.push(`${path}: critical assurance or release-safety implementation changed.`)
+      addDomain(affectedDomains, 'path-to-live')
+      addDomain(affectedDomains, 'assurance-integrity')
       continue
     }
 
@@ -107,9 +133,9 @@ export function classifyChange(files) {
       continue
     }
 
-    if (path.startsWith('tests/') || path.startsWith('scripts/assurance/')) {
+    if (path.startsWith('tests/')) {
       level = Math.max(level, 2)
-      reasons.push(`${path}: assurance implementation changed.`)
+      reasons.push(`${path}: non-critical assurance implementation changed.`)
       addDomain(affectedDomains, 'path-to-live')
       continue
     }
@@ -146,23 +172,31 @@ export function buildAssurancePlan({ files, baseSha, headSha, eventName }) {
     targetedBrowser: risk.level >= 2,
     fullRelevantBrowserRegression: risk.level >= 3,
     responsiveAccessibility: risk.level >= 2,
+    assuranceContract: risk.level >= 3,
+    adversarialReview: risk.level >= 3,
+    testSensitivityEvidence: risk.level >= 3,
+    criticalAssuranceIntegrity: true,
+    independentSecurityAnalysis: risk.level >= 3,
     postDeploymentSmoke: risk.level >= 3,
     rollbackRecoveryReview: risk.level >= 4,
   }
 
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     eventName,
     baseSha,
     headSha,
     risk,
     selectionMode: 'conservative-full',
-    selectionPolicy: 'Classifier is evidence-only in v1. Existing CI suites remain mandatory while classification data is calibrated.',
+    selectionPolicy: 'Existing Revision CI suites remain mandatory while selective execution is separately calibrated; new adversarial/security controls apply only to Level 3/4 changes.',
     changedFiles: files.map(({ path }) => path),
     requiredAssurance: required,
     executedCiPolicy: {
       assurancePlanAndSecretScan: true,
+      criticalAssuranceIntegrity: true,
+      highRiskPrEvidence: risk.level >= 3,
+      independentSecurityAnalysisOnPullRequest: risk.level >= 3,
       foundationQuality: true,
       databaseRlsProtectedService: true,
     },
