@@ -39,6 +39,7 @@ Use this file to find the governing source before substantive work.
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Factory reliability qualification harness / paid-pilot pause → `docs/technical/Content Factory Reliability Qualification Harness.md`
@@ -55,7 +56,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0019-content-factory-candidate-recovery.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0020-content-factory-foundation-gate.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -119,9 +120,10 @@ Use this file to find the governing source before substantive work.
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
-- Scalable content-production orchestration / Content Factory → `80-company-workflows/Content Factory Operating Model.md`
-- Content Factory reliability qualification / paid live-pilot eligibility → `80-company-workflows/Content Factory Reliability Qualification Standard.md`
-- Content Factory v2 automated course build / Marking Packs / expert-review-ready gate → `80-company-workflows/Content Factory v2 Expert Review Ready Amendment.md`
+- Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
+- Earlier Content Factory orchestration controls / legacy sequencing → `80-company-workflows/Content Factory Operating Model.md`
+- Content Factory reliability qualification / legacy end-to-end proof controls → `80-company-workflows/Content Factory Reliability Qualification Standard.md`
+- Content Factory v2 automated course build / legacy expert-review-ready sequencing → `80-company-workflows/Content Factory v2 Expert Review Ready Amendment.md`
 - Minimal Content Operations Admin amendment → `80-company-workflows/Content Operations Admin v0.1 Amendment.md`
 - Course vs assessment-component classification → `80-company-workflows/Course and Assessment Component Classification Check.md`
 - Official awarding-body URL intake for new courses → `80-company-workflows/Awarding Body URL Content Intake Workflow.md`
@@ -157,6 +159,7 @@ Use this file to find the governing source before substantive work.
 - B7 final compatibility retirement / visual acceptance → `docs/technical/Interface System B7 Final Acceptance.md`
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
+- Content Factory current staged target / migration plan → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
