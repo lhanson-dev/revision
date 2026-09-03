@@ -4,7 +4,7 @@
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3A deterministic Foundation assurance — PR #295
+**Current increment:** Slice 3B fresh-context independent Foundation review + targeted remediation + deterministic re-assurance — PR #298
 
 ## Purpose
 
@@ -20,20 +20,23 @@ The historical v2 factory remains implementation evidence and a source of reusab
 
 The current Foundation runtime is separate from the legacy `ContentFactoryJob` topology.
 
-Released implementation now includes:
+Released implementation includes:
 
 - `foundation-schema.ts` — Foundation Candidate / Approved Course Foundation contracts;
 - `foundation-lifecycle.ts` — small Foundation lifecycle, exact-fingerprint assurance binding, approval gate and version-lineage invariants;
 - `foundation-compilation.ts` — provider-neutral Foundation compilation and deterministic reconciliation;
 - `foundation-source-rights-registry.ts` — governed-main reusable source-rights rules;
 - `foundation-live-adapter.ts` — Foundation-native live source/profile/provider workers;
-- `foundation-live-proof.integration.test.ts` — real-course live proof harness; and
-- `.github/workflows/content-factory-foundation-live-proof.yml` — main-only bounded paid proof workflow.
-
-Slice 3A adds:
-
+- `foundation-live-proof.integration.test.ts` — real-course live proof harness;
+- `.github/workflows/content-factory-foundation-live-proof.yml` — main-only bounded paid proof workflow;
 - `foundation-assurance.ts` — Foundation-specific deterministic assurance; and
-- `foundation-assurance.test.ts` — exact-fingerprint, multi-defect and lifecycle-gate regression assurance.
+- `foundation-assurance.test.ts` — exact-fingerprint, multi-defect and lifecycle-gate deterministic regression assurance.
+
+Slice 3B adds through PR #298:
+
+- `foundation-independent-review.ts` — Foundation-native independent review, fail-closed context separation, targeted remediation and deterministic re-assurance loop;
+- `foundation-independent-review.test.ts` — high-risk review/remediation boundary regressions; and
+- non-material Foundation provenance fields for retained generation/review/remediation context IDs.
 
 The legacy orchestrator, old whole-course assurance factory and old worker factories remain in the repository during migration but are not canonical Foundation runtime dependencies.
 
@@ -45,7 +48,7 @@ Reuse a previous component only when all three are true:
 2. its contract can be used without importing the old end-to-end state machine; and
 3. reuse is simpler and safer than implementing the bounded responsibility cleanly.
 
-Proven controls may be ported without preserving obsolete topology. In particular, complete deterministic diagnostics, fresh-context review separation, targeted remediation, durable fingerprints, provenance and cost telemetry remain useful. The old combined Learn/Practice/assessment assurance package does not define the new Foundation assurance boundary.
+Proven controls may be ported without preserving obsolete topology. Complete deterministic diagnostics, fresh-context review separation, targeted remediation, durable fingerprints, provenance and cost telemetry remain useful. The old combined Learn/Practice/assessment assurance package does not define the new Foundation assurance boundary.
 
 ## Foundation domain model
 
@@ -62,7 +65,9 @@ A Foundation Candidate is the complete pre-approval dependency set for an exact 
 - blockers/limitations; and
 - provenance.
 
-It contains no Learn, Practice, Exam Prep, mock or Marking Pack requirement.
+Operational context provenance (`generationContextIds`, `assuranceContextIds`) is retained so fresh-context separation remains provable after persistence/resume. These IDs do not form part of material educational identity and therefore do not enter the aggregate Foundation fingerprint.
+
+A Foundation Candidate contains no Learn, Practice, Exam Prep, mock or Marking Pack requirement.
 
 An Approved Course Foundation adds stable Foundation identity/version, the deterministic aggregate Foundation fingerprint, the exact embedded candidate, qualified reviewer/approver evidence and known limitations. An approved record is immutable; changed material Foundation truth requires a new candidate/fingerprint and newer version.
 
@@ -98,7 +103,7 @@ The aggregate Foundation fingerprint is deterministic SHA-256 over material educ
 - Question Family fingerprints; and
 - source-set fingerprint.
 
-Artifact storage refs, review timestamps and assurance evidence refs do not define educational identity.
+Artifact storage refs, review timestamps, assurance evidence refs and worker context IDs do not define educational identity.
 
 For the same `foundationId`:
 
@@ -111,32 +116,13 @@ Source-rights revalidation timestamps remain audit metadata; a timestamp-only re
 
 **Released through PR #291.**
 
-Implemented:
-
-- Foundation Candidate and Approved Course Foundation schemas;
-- small Foundation lifecycle;
-- blocker/resume behaviour;
-- aggregate Foundation fingerprint;
-- exact-fingerprint deterministic/independent-review binding;
-- approval guard;
-- mandatory version lineage; and
-- immutable approved-record integrity checks.
+Implemented Foundation Candidate / Approved Course Foundation schemas, the small lifecycle, blocker/resume behaviour, aggregate Foundation fingerprint, exact-fingerprint assurance binding, approval guard, mandatory version lineage and immutable approved-record integrity.
 
 ## Completed Slice 2A — Foundation compilation core
 
 **Released and production-verified through PR #292 / `60269b9d96d6cce75f5decde30a727301f446d03`.**
 
-Implemented:
-
-- Foundation-native identity/source/evidence worker contracts;
-- deterministic source-rights classification;
-- Board Alignment validation/fingerprinting;
-- Foundation-specific coverage independent of learner assets;
-- Course Truth reconciliation against canonical coverage node IDs;
-- Exam Truth bound to exact Board Alignment + Course Truth fingerprints;
-- Question Family reconciliation;
-- Foundation-only artifact/provenance contracts; and
-- provider-free proof of a complete Foundation Candidate with zero learner assets.
+Implemented Foundation-native identity/source/evidence worker contracts, deterministic source-rights classification, Board Alignment validation/fingerprinting, Foundation-specific coverage, Course Truth reconciliation, Exam Truth binding, Question Family reconciliation and provider-free proof with zero learner assets.
 
 ## Completed Slice 2B — live adapter and real-course proof
 
@@ -144,19 +130,9 @@ Implemented:
 
 Foundation Live Proof #2 / workflow run `33802600001` completed successfully on approved `main` commit `b7f5ec6f699715b41e341659e4c79e0b40c79e94` for **AQA A-level Business 7132 — 2027 cohort**.
 
-Retained evidence established:
-
-- Course Truth compiler-complete against the exact governed Slice 2B seed;
-- Exam Truth compiler-complete;
-- governed source-rights evidence bound to exact `main`;
-- three live OpenAI worker runs;
-- conservative provider spend `$0.0824 / $12.00`;
-- learner-facing assets generated: `0`; and
-- deterministic assurance / independent review correctly remained pending.
+Retained evidence established compiler-complete Course Truth and Exam Truth, governed source-rights evidence, three live OpenAI worker runs, conservative provider spend `$0.0824 / $12.00`, learner-facing assets generated `0`, and deterministic/independent assurance correctly pending.
 
 The successful proof establishes the live Foundation compilation boundary only. It is not a claim of qualified-human curriculum completeness or Foundation approval.
-
-Live Proof #1 remains historical failed evidence. It exposed an OpenAI Question Family response-schema integration defect that PR #294 corrected before Live Proof #2.
 
 ## Slice 3 — Foundation assurance and approval
 
@@ -164,50 +140,51 @@ Goal: make the Foundation approval gate operationally trustworthy and prove one 
 
 Slice 3 is deliberately decomposed into short governed increments.
 
-### Slice 3A — deterministic Foundation assurance
+### Completed Slice 3A — deterministic Foundation assurance
 
-**Implementation: PR #295.**
+**Implementation released through PR #295; retained real-course proof released through PR #296.**
 
-Implement a Foundation-native deterministic assurance engine that re-reads the exact persisted Foundation Candidate dependency set and mechanically checks:
+The Foundation-native deterministic assurance engine re-reads the exact persisted Foundation Candidate dependency set and checks artifact readability/fingerprints, source-rights safety, exact identity/cohort/alignment, Foundation coverage, Course Truth traceability, Exam Truth binding and Question Family validity.
 
-- schema/readability of every referenced Foundation artifact;
-- exact material artifact fingerprints;
-- Source Licence Register material identity while excluding timestamp-only revalidation metadata;
-- source-rights safety;
-- exact identity/cohort and Board Alignment consistency;
-- Foundation coverage completeness and source/component validity;
-- exact Course Truth node coverage and source/alignment traceability;
-- Exam Truth binding to exact Course Truth and Board Alignment;
-- marks/timing/objective/assessment-requirement consistency; and
-- Question Family identity, component scope and assessment-objective validity.
+It retains complete deterministic diagnostics and persists a `foundation_deterministic_assurance_report` bound to exact job/candidate, reviewed commit and aggregate Foundation fingerprint.
 
-The deterministic layer retains complete diagnostics where checks can safely continue rather than stopping at the first defect.
-
-It writes a structured `foundation_deterministic_assurance_report` bound to:
-
-- exact job/candidate;
-- exact reviewed repository commit; and
-- exact aggregate Foundation fingerprint.
-
-The existing lifecycle records the result and evidence reference. A failed or stale deterministic result cannot advance to expert review.
-
-This slice does not perform educational judgement, AI independent review, remediation or expert approval.
+The retained AQA Business Foundation subsequently passed deterministic assurance on approved `main` with 18 checks, zero failures and zero learner assets.
 
 Detailed implementation record: `docs/technical/Content Factory Foundation Assurance Implementation.md`.
 
-### Slice 3B — fresh-context independent Foundation review and remediation
+### Current Slice 3B — fresh-context independent Foundation review and remediation
 
-Implement:
+**Implementation: PR #298. Operational real-course proof follows only after release to approved `main`.**
 
-- Foundation-specific independent-review contract;
-- fresh review context that was not used by Foundation generation;
-- structured findings with blocking/material/minor severity;
-- review evidence bound to exact Foundation fingerprint;
+Implement and prove:
+
+- a Foundation-specific independent-review contract;
+- exact deterministic PASS for the current Foundation fingerprint and review implementation commit before AI review;
+- fresh review context not used by Foundation generation, previous independent review or remediation;
+- durable context provenance that survives persistence/resume without changing Foundation identity;
+- structured findings with blocking/material/minor/no-issue severity;
+- review evidence bound to exact Foundation fingerprint and deterministic report;
+- independent educational/assessment challenge rather than repetition of deterministic structure checks;
+- minor findings retained as explicit limitations;
 - smallest-safe remediation scope;
-- new candidate/fingerprint where material Foundation truth changes; and
-- deterministic re-assurance after remediation.
+- fail-closed handling for Source Rights, Board Alignment or Foundation coverage findings that require upstream re-compilation;
+- new candidate/fingerprint where material Course Truth / Exam Truth / Question Family truth changes;
+- deterministic re-assurance after every material correction;
+- a new fresh independent review after deterministic re-assurance; and
+- a bounded remediation cycle limit rather than indefinite AI self-repair.
 
-The review must challenge Course Truth and Exam Truth educational/assessment sufficiency rather than merely repeat deterministic structure checks.
+Dependency closure is explicit:
+
+- Course Truth material finding → Course Truth + dependent Exam Truth + all Question Families;
+- Exam Truth material finding → Exam Truth + all Question Families;
+- Question Family material finding → affected family only;
+- Source Rights / Board Alignment / Foundation coverage material finding → block and reopen governed Foundation compilation.
+
+A remediation worker may not arbitrarily change canonical coverage node identity, course/job identity or upstream Board Alignment. Dependency fingerprints are compiler-owned and recomputed mechanically rather than copied from model output.
+
+PR #298 provides deterministic regression assurance for context contamination, minor limitation handling, dependency-closure remediation, new-fingerprint creation, deterministic re-assurance, fresh re-review and upstream fail-closed behaviour.
+
+After PR #298 is released, the retained AQA Business Foundation must be run through this exact released boundary. A real provider review PASS or retained remediation/re-assurance/re-review chain is required before Slice 3C starts.
 
 ### Slice 3C — qualified expert review and immutable approval
 
@@ -221,6 +198,8 @@ Implement:
 - durable immutable Approved Course Foundation persistence.
 
 Success proof for Slice 3: the real AQA Business Foundation reaches `foundation_approved` on an exact assured/reviewed version while learner-facing asset count remains zero.
+
+A second AI review is not expert approval. Slice 3C remains a separate human qualification gate even if Slice 3B passes cleanly.
 
 ## Subsequent implementation sequence
 
@@ -286,6 +265,15 @@ As implementation lands:
 - update Content Operations documentation only when that surface changes; and
 - update `INDEX.md` when implementation ownership or discoverability materially changes.
 
-## Operational completion condition for Slice 3A
+## Operational completion condition for Slice 3B
 
-PR #295 establishes the deterministic-assurance implementation. Once that implementation is released and production-verified, run deterministic assurance against the retained real-course Foundation proof dependency set (or reproduce the exact governed Foundation Candidate if required by the retained-evidence format) and retain the result. Slice 3B follows only after that evidence exists.
+PR #298 establishes the provider-neutral independent-review/remediation control boundary and regression assurance. Slice 3B is operationally complete only after that implementation is released to approved `main` and the retained real-course AQA Business Foundation is processed through:
+
+1. deterministic PASS bound to the exact current implementation commit and Foundation fingerprint;
+2. a provider review context proven distinct from retained generation/review/remediation contexts;
+3. retained structured review evidence;
+4. if required, smallest-safe material remediation creating a new candidate/fingerprint;
+5. deterministic re-assurance of the remediated candidate; and
+6. another fresh independent review of the exact remediated fingerprint.
+
+Only an exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.
