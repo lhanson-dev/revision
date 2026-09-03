@@ -119,6 +119,8 @@ export const foundationCandidateSchema = z.object({
     producerVersion: nonEmptyStringSchema,
     sourceSetFingerprint: nonEmptyStringSchema,
     implementationHeadSha: commitShaSchema.optional(),
+    generationContextIds: z.array(nonEmptyStringSchema).default([]),
+    assuranceContextIds: z.array(nonEmptyStringSchema).default([]),
   }),
 }).superRefine((candidate, context) => {
   const questionFamilyRefs = new Set<string>()
