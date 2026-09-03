@@ -66,6 +66,74 @@ const sourceRightsRules: FoundationSourceRightsPolicyRule[] = [
   },
 ]
 
+function validBoardAlignment() {
+  return {
+    schemaVersion: 1 as const,
+    jobId: 'aqa-a-level-business-7132-foundation-1',
+    fingerprint: 'provider-value-is-replaced',
+    courseIdentity: {
+      subject: 'Business',
+      qualification: 'A-level',
+      awardingBody: 'AQA',
+      specificationId: '7132',
+    },
+    cohortValidity: {
+      status: 'current' as const,
+      firstAssessment: '2027',
+      notes: [],
+    },
+    components: [
+      { id: 'paper-1', name: 'Paper 1', compulsory: true, marks: 100, durationMinutes: 120 },
+    ],
+    assessmentObjectives: [
+      { id: 'ao1', name: 'Knowledge and understanding', weightingPercent: 20, sourceRefs: ['aqa-spec-7132'] },
+    ],
+    assessmentRequirements: [
+      { id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'], sourceRefs: ['aqa-spec-7132'] },
+    ],
+    sourceRefs: ['aqa-spec-7132'],
+    verificationStatus: 'verified' as const,
+  }
+}
+
+function validCourseTruth(jobId: string) {
+  return {
+    schemaVersion: 1 as const,
+    jobId,
+    fingerprint: 'provider-value-is-replaced',
+    nodes: [
+      {
+        id: 'business-objectives',
+        kind: 'concept' as const,
+        summary: 'Businesses set objectives that can change with circumstances and stakeholder priorities.',
+        prerequisiteIds: [],
+        relatedIds: ['business-calculations'],
+        formulas: [],
+        misconceptions: ['Objectives are fixed permanently.'],
+        applicationContexts: ['growth', 'survival'],
+        depth: 'core' as const,
+        sourceRefs: ['aqa-spec-7132'],
+        boardAlignmentRefs: ['paper-1', 'ao1'],
+        evidenceTypes: ['explain', 'apply'],
+      },
+      {
+        id: 'business-calculations',
+        kind: 'skill' as const,
+        summary: 'Calculate and interpret percentage change in business contexts.',
+        prerequisiteIds: [],
+        relatedIds: ['business-objectives'],
+        formulas: ['percentage change = change / original × 100'],
+        misconceptions: [],
+        applicationContexts: ['sales growth'],
+        depth: 'core' as const,
+        sourceRefs: ['aqa-spec-7132'],
+        boardAlignmentRefs: ['paper-1'],
+        evidenceTypes: ['calculate', 'interpret'],
+      },
+    ],
+  }
+}
+
 function workers(overrides: Partial<FoundationCompilationWorkers> = {}): FoundationCompilationWorkers {
   const base: FoundationCompilationWorkers = {
     async resolveIdentity() {
@@ -139,33 +207,7 @@ function workers(overrides: Partial<FoundationCompilationWorkers> = {}): Foundat
       })
     },
     async compileBoardAlignment() {
-      return success('board-1', {
-        schemaVersion: 1,
-        jobId: 'aqa-a-level-business-7132-foundation-1',
-        fingerprint: 'provider-value-is-replaced',
-        courseIdentity: {
-          subject: 'Business',
-          qualification: 'A-level',
-          awardingBody: 'AQA',
-          specificationId: '7132',
-        },
-        cohortValidity: {
-          status: 'current',
-          firstAssessment: '2027',
-          notes: [],
-        },
-        components: [
-          { id: 'paper-1', name: 'Paper 1', compulsory: true, marks: 100, durationMinutes: 120 },
-        ],
-        assessmentObjectives: [
-          { id: 'ao1', name: 'Knowledge and understanding', weightingPercent: 20, sourceRefs: ['aqa-spec-7132'] },
-        ],
-        assessmentRequirements: [
-          { id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'], sourceRefs: ['aqa-spec-7132'] },
-        ],
-        sourceRefs: ['aqa-spec-7132'],
-        verificationStatus: 'verified',
-      })
+      return success('board-1', validBoardAlignment())
     },
     async compileCoverage(input) {
       return success('coverage-1', {
@@ -187,41 +229,7 @@ function workers(overrides: Partial<FoundationCompilationWorkers> = {}): Foundat
       })
     },
     async compileCourseTruth(input) {
-      return success('course-truth-1', {
-        schemaVersion: 1,
-        jobId: input.jobId,
-        fingerprint: 'provider-value-is-replaced',
-        nodes: [
-          {
-            id: 'business-objectives',
-            kind: 'concept',
-            summary: 'Businesses set objectives that can change with circumstances and stakeholder priorities.',
-            prerequisiteIds: [],
-            relatedIds: ['business-calculations'],
-            formulas: [],
-            misconceptions: ['Objectives are fixed permanently.'],
-            applicationContexts: ['growth', 'survival'],
-            depth: 'core',
-            sourceRefs: ['aqa-spec-7132'],
-            boardAlignmentRefs: ['paper-1', 'ao1'],
-            evidenceTypes: ['explain', 'apply'],
-          },
-          {
-            id: 'business-calculations',
-            kind: 'skill',
-            summary: 'Calculate and interpret percentage change in business contexts.',
-            prerequisiteIds: [],
-            relatedIds: ['business-objectives'],
-            formulas: ['percentage change = change / original × 100'],
-            misconceptions: [],
-            applicationContexts: ['sales growth'],
-            depth: 'core',
-            sourceRefs: ['aqa-spec-7132'],
-            boardAlignmentRefs: ['paper-1'],
-            evidenceTypes: ['calculate', 'interpret'],
-          },
-        ],
-      })
+      return success('course-truth-1', validCourseTruth(input.jobId))
     },
     async compileExamTruth(input) {
       return success('exam-truth-1', {
@@ -339,6 +347,28 @@ describe('Foundation compilation', () => {
     expect(store.writes).toHaveLength(0)
   })
 
+  it('rejects Board Alignment that changes a resolved component contract', async () => {
+    const store = new MemoryArtifactStore()
+    const workerSet = workers({
+      async compileBoardAlignment() {
+        return success('board-drift', {
+          ...validBoardAlignment(),
+          components: [
+            { id: 'paper-1', name: 'Paper 1', compulsory: true, marks: 80, durationMinutes: 120 },
+          ],
+        })
+      },
+    })
+
+    await expect(compileFoundationJob({
+      job: await compilingJob(),
+      ...compileInput(store, workerSet),
+    })).rejects.toMatchObject({
+      name: 'FoundationCompilationError',
+      stage: 'board_alignment',
+    })
+  })
+
   it('rejects coverage that silently omits a governed curriculum requirement', async () => {
     const store = new MemoryArtifactStore()
     const workerSet = workers({
@@ -373,20 +403,30 @@ describe('Foundation compilation', () => {
           schemaVersion: 1,
           jobId: input.jobId,
           fingerprint: 'provider-value-is-replaced',
-          nodes: [{
-            id: 'business-objectives',
-            kind: 'concept',
-            summary: 'Businesses set objectives.',
-            prerequisiteIds: [],
-            relatedIds: [],
-            formulas: [],
-            misconceptions: [],
-            applicationContexts: [],
-            depth: 'core',
-            sourceRefs: ['aqa-spec-7132'],
-            boardAlignmentRefs: ['paper-1'],
-            evidenceTypes: ['explain'],
-          }],
+          nodes: [validCourseTruth(input.jobId).nodes[0]],
+        })
+      },
+    })
+
+    await expect(compileFoundationJob({
+      job: await compilingJob(),
+      ...compileInput(store, workerSet),
+    })).rejects.toMatchObject({
+      name: 'FoundationCompilationError',
+      stage: 'course_truth',
+    })
+  })
+
+  it('rejects Course Truth nodes with no Board Alignment relevance', async () => {
+    const store = new MemoryArtifactStore()
+    const workerSet = workers({
+      async compileCourseTruth(input) {
+        const model = validCourseTruth(input.jobId)
+        return success('course-truth-unanchored', {
+          ...model,
+          nodes: model.nodes.map((node) => node.id === 'business-calculations'
+            ? { ...node, boardAlignmentRefs: [] }
+            : node),
         })
       },
     })
