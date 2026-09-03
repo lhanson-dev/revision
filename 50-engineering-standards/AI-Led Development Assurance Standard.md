@@ -155,12 +155,14 @@ Unresolved material findings block merge. The review record must be truthful abo
 
 ## Independent automated analysis
 
-For Level 3/4 pull requests, Revision should use security/supply-chain analysis that is independent of the AI-authored application tests where the hosting platform supports it.
+For Level 3/4 pull requests, Revision must use security/supply-chain analysis that is independent of the AI-authored application tests using the strongest repository-supported mechanism available.
 
-The current target is:
+The current controls are:
 
 - GitHub CodeQL analysis for JavaScript/TypeScript security findings; and
-- GitHub dependency review to block newly introduced high/critical vulnerable dependencies.
+- lockfile-based dependency vulnerability analysis that fails on high/critical known vulnerabilities.
+
+GitHub Dependency Review is preferred when the repository's Dependency Graph capability is enabled and available because it can focus on newly introduced dependency risk. Where that repository capability is unavailable, a fail-closed lockfile audit such as `npm audit --audit-level=high` is the governed fallback rather than disabling dependency vulnerability analysis.
 
 These controls supplement rather than replace database/RLS tests, Edge-function authorisation tests, secret scanning or application-level negative tests.
 
@@ -172,7 +174,7 @@ Revision must maintain a machine-readable set of critical assurance files/comman
 
 - disappears;
 - becomes empty;
-- is marked skipped/todo/only in a way that suppresses normal execution where such syntax applies; or
+- is marked skipped/todo/only in a way that suppresses its required execution rather than deliberately scoping it to the CI environment/project where it runs; or
 - is no longer invoked by the canonical Revision CI workflow when explicit invocation is required.
 
 Changes to critical assurance assets, the risk classifier, release-lineage assurance, Founder-approval assurance or CI/deployment workflows are high-risk assurance changes and must not be classified as routine test maintenance.
