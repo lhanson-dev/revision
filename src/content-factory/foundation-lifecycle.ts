@@ -1,6 +1,8 @@
 import {
   approvedCourseFoundationSchema,
+  foundationAssuranceResultSchema,
   foundationCandidateSchema,
+  foundationIndependentReviewResultSchema,
   foundationJobSchema,
   type ApprovedCourseFoundation,
   type FoundationApprovalEvidence,
@@ -102,14 +104,86 @@ export function setFoundationCandidate(
   const job = foundationJobSchema.parse(jobInput)
   const candidate = foundationCandidateSchema.parse(candidateInput)
 
-  if (!['compiling', 'assuring'].includes(job.state)) {
-    throw new Error('Foundation Candidate may be changed only while compiling or assuring')
+  if (job.state !== 'compiling') {
+    throw new Error('Foundation dependencies may be changed only while compiling')
   }
-  if (unresolvedOperationalBlockers(job).length > 0) throw new Error('Resolve all Foundation job blockers before changing the candidate')
+  if (unresolvedOperationalBlockers(job).length > 0) {
+    throw new Error('Resolve all Foundation job blockers before changing the candidate')
+  }
 
   return foundationJobSchema.parse({
     ...job,
-    candidate,
+    candidate: {
+      ...candidate,
+      deterministicAssurance: { status: 'pending', evidenceRefs: [] },
+      independentReview: { status: 'pending', evidenceRefs: [] },
+    },
+    updatedAt,
+  })
+}
+
+export async function recordDeterministicFoundationAssurance(
+  jobInput: FoundationJob,
+  resultInput: {
+    status: 'pass' | 'fail'
+    foundationFingerprint: string
+    evidenceRefs: string[]
+  },
+  updatedAt: string,
+): Promise<FoundationJob> {
+  const job = foundationJobSchema.parse(jobInput)
+  if (job.state !== 'assuring' || !job.candidate) {
+    throw new Error('Deterministic Foundation assurance may be recorded only while assuring')
+  }
+  if (unresolvedOperationalBlockers(job).length > 0) {
+    throw new Error('Resolve all Foundation job blockers before recording assurance')
+  }
+
+  const result = foundationAssuranceResultSchema.parse(resultInput)
+  const expectedFingerprint = await computeFoundationFingerprint(job.candidate)
+  if (result.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Deterministic Foundation assurance does not match the exact current Foundation fingerprint')
+  }
+
+  return foundationJobSchema.parse({
+    ...job,
+    candidate: {
+      ...job.candidate,
+      deterministicAssurance: result,
+    },
+    updatedAt,
+  })
+}
+
+export async function recordIndependentFoundationReview(
+  jobInput: FoundationJob,
+  resultInput: {
+    status: 'pass' | 'fail_hold'
+    foundationFingerprint: string
+    evidenceRefs: string[]
+  },
+  updatedAt: string,
+): Promise<FoundationJob> {
+  const job = foundationJobSchema.parse(jobInput)
+  if (job.state !== 'assuring' || !job.candidate) {
+    throw new Error('Independent Foundation review may be recorded only while assuring')
+  }
+  if (unresolvedOperationalBlockers(job).length > 0) {
+    throw new Error('Resolve all Foundation job blockers before recording review evidence')
+  }
+
+  const result = foundationIndependentReviewResultSchema.parse(resultInput)
+  const expectedFingerprint = await computeFoundationFingerprint(job.candidate)
+  if (result.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Independent Foundation review does not match the exact current Foundation fingerprint')
+  }
+
+  return foundationJobSchema.parse({
+    ...job,
+    candidate: {
+      ...job.candidate,
+      independentReview: result,
+    },
     updatedAt,
   })
 }
@@ -222,6 +296,7 @@ export async function approveFoundation(
   input: {
     foundationId: string
     foundationVersion: number
+    previousApprovedFoundation: ApprovedCourseFoundation | null
     approval: FoundationApprovalEvidence
     knownLimitations?: string[]
   },
@@ -234,19 +309,42 @@ export async function approveFoundation(
   if (unresolvedOperationalBlockers(job).length > 0) {
     throw new Error('Resolve all Foundation job blockers before approval')
   }
+  if (input.previousApprovedFoundation === undefined) {
+    throw new Error('Foundation approval requires explicit version lineage')
+  }
 
   const problems = candidateApprovalProblems(job.candidate)
   if (problems.length > 0) throw new Error(problems.join('; '))
+
+  const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
+  if (job.candidate.deterministicAssurance.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('Deterministic Foundation assurance is stale for the current Foundation fingerprint')
+  }
+  if (job.candidate.independentReview.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('Independent Foundation review is stale for the current Foundation fingerprint')
+  }
+  if (input.approval.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('Qualified approval evidence does not match the exact current Foundation fingerprint')
+  }
 
   const approvedFoundation = approvedCourseFoundationSchema.parse({
     schemaVersion: 1,
     foundationId: input.foundationId,
     foundationVersion: input.foundationVersion,
-    foundationFingerprint: await computeFoundationFingerprint(job.candidate),
+    foundationFingerprint,
     candidate: job.candidate,
     approval: input.approval,
     knownLimitations: input.knownLimitations ?? job.candidate.knownLimitations,
   })
+
+  if (input.previousApprovedFoundation === null) {
+    if (input.foundationVersion !== 1) {
+      throw new Error('An initial Approved Course Foundation must start at foundationVersion 1')
+    }
+  } else {
+    await assertApprovedFoundationIntegrity(input.previousApprovedFoundation)
+    assertFoundationVersionInvariant(input.previousApprovedFoundation, approvedFoundation)
+  }
 
   return foundationJobSchema.parse({
     ...job,
@@ -262,6 +360,15 @@ export async function assertApprovedFoundationIntegrity(foundationInput: Approve
   const expectedFingerprint = await computeFoundationFingerprint(foundation.candidate)
   if (foundation.foundationFingerprint !== expectedFingerprint) {
     throw new Error('Approved Course Foundation fingerprint does not match its exact Foundation Candidate')
+  }
+  if (foundation.candidate.deterministicAssurance.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Approved Course Foundation contains stale deterministic assurance evidence')
+  }
+  if (foundation.candidate.independentReview.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Approved Course Foundation contains stale independent review evidence')
+  }
+  if (foundation.approval.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Approved Course Foundation contains approval evidence for a different fingerprint')
   }
   return foundation
 }
