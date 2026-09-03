@@ -154,6 +154,11 @@ export const foundationAssessmentBlueprintSchema = z.object({
     id: identifierSchema,
     weightingPercent: z.number().nonnegative().max(100).optional(),
   })).default([]),
+  assessmentRequirements: z.array(z.object({
+    id: identifierSchema,
+    summary: nonEmptyStringSchema,
+    componentScope: z.array(identifierSchema).default([]),
+  })).default([]),
   components: z.array(z.object({
     componentId: identifierSchema,
     questionFamilyIds: z.array(identifierSchema).default([]),
@@ -681,6 +686,21 @@ async function validateExamTruth(
     const governed = governedObjectives.get(objective.id)!
     if (governed.weightingPercent !== undefined && objective.weightingPercent !== governed.weightingPercent) {
       throw new Error(`Exam Truth weighting for ${objective.id} must match Board Alignment`)
+    }
+  }
+
+  assertNoDuplicates(blueprint.assessmentRequirements.map((requirement) => requirement.id), 'Exam Truth assessment requirement id')
+  if (!sameSet(blueprint.assessmentRequirements.map((requirement) => requirement.id), alignment.assessmentRequirements.map((requirement) => requirement.id))) {
+    throw new Error('Exam Truth assessment requirements must match Board Alignment')
+  }
+  const governedRequirements = new Map(alignment.assessmentRequirements.map((requirement) => [requirement.id, requirement]))
+  for (const requirement of blueprint.assessmentRequirements) {
+    const governed = governedRequirements.get(requirement.id)!
+    if (requirement.summary !== governed.summary) {
+      throw new Error(`Exam Truth assessment requirement ${requirement.id} must preserve the Board Alignment summary`)
+    }
+    if (!sameSet(requirement.componentScope, governed.componentScope)) {
+      throw new Error(`Exam Truth assessment requirement ${requirement.id} component scope must match Board Alignment`)
     }
   }
 
