@@ -1,6 +1,6 @@
 # Content Factory Architecture
 
-**Status:** Foundation-gated architecture active; Foundation lifecycle and compiler released; live Foundation runtime in progress via PR #293  
+**Status:** Foundation-gated architecture active; deterministic Foundation assurance released; independent review/remediation in PR #298  
 **Normative workflow:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
 **Implementation owner:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -9,7 +9,7 @@
 
 Define the current technical architecture for Revision content production while preserving the canonical learner application boundary.
 
-The Content Factory is a separate production plane upstream of learner publication. Its current architecture is **Foundation-first**: establish Course Truth and Exam Truth, assure and approve that exact Foundation, then manufacture learner-facing assets from the approved version.
+The Content Factory is a separate production plane upstream of learner publication. Its architecture is **Foundation-first**: establish Course Truth and Exam Truth, assure and approve that exact Foundation, then manufacture learner-facing assets from the approved version.
 
 This document describes implementation architecture. Normative authority is held by the numbered governance sources above it in the repository hierarchy.
 
@@ -35,6 +35,8 @@ requested → compiling → assuring → expert_review → foundation_approved
               |
       deterministic assurance
       independent review/remediation
+      deterministic re-assurance
+      fresh independent re-review
       qualified expert approval
               |
               v
@@ -64,7 +66,9 @@ Learner assets cannot be used to define or silently revise Course Truth or Exam 
 
 `src/content-factory/foundation-schema.ts` and `foundation-lifecycle.ts` own the small Foundation lifecycle and exact-version invariants.
 
-The aggregate Foundation fingerprint identifies material educational/assessment dependencies, not storage locations or review timestamps. A material truth change requires a new Foundation fingerprint/version.
+The aggregate Foundation fingerprint identifies material educational/assessment dependencies, not storage locations, review timestamps, evidence refs or worker context IDs. A material truth change requires a new Foundation fingerprint/version.
+
+Foundation provenance additionally retains generation and assurance context IDs so fresh-context independence remains provable after persistence/resume without changing educational identity.
 
 ### Compilation
 
@@ -87,14 +91,14 @@ A requirement is Foundation-complete when the exact governed requirement is repr
 
 ### Live provider/runtime boundary
 
-Slice 2B adds:
+The Foundation live path uses:
 
 - `foundation-source-rights-registry.ts` — reusable rights-policy registry with an approved-main trust boundary;
 - `foundation-live-adapter.ts` — source preflight, governed real-course profile and Foundation-native provider workers;
 - `OpenAIStructuredWorkerClient` — selectively reused low-level structured Responses API transport; and
 - `content-factory-foundation-live-proof.yml` — main-only manual live proof.
 
-The low-level provider client is reused because it already provides bounded structured output, fresh run/context identity, `store: false`, retries, cost accounting and spend ceilings without importing legacy orchestration.
+The low-level provider client is reusable because it already provides bounded structured output, fresh run/context identity, `store: false`, retries, cost accounting and spend ceilings without importing legacy orchestration.
 
 The old model-assisted worker factory is not a Foundation dependency because it is coupled to Learn/Practice/assessment generation.
 
@@ -117,57 +121,94 @@ deterministic source-rights classification
         +--> UNKNOWN / ambiguous / prohibited → fail closed
 ```
 
-A feature branch cannot authorise its own live source rules. The Slice 2B loader requires `refs/heads/main` and an exact commit SHA. The registry version on a feature branch is therefore only a proposal until Founder-approved merge.
+A feature branch cannot authorise its own live source rules. The loader requires approved-main source-rights authority for paid proof.
 
-Awarding-body source prose classified `REFERENCE_ONLY` is not passed into generative context. Controlled structured facts may support Board Alignment where the licensing standard permits that use.
+Awarding-body source prose classified `REFERENCE_ONLY` is not passed into generative or independent-review context. Controlled structured facts may support Board Alignment where the licensing standard permits that use.
 
 ## Worker architecture
 
-`FoundationCompilationWorkers` is the canonical compilation worker interface. Each material worker execution records:
+### Compilation workers
 
-- worker/stage identity;
-- fresh context identity where provider-backed;
-- contract version;
-- provider/model when applicable;
-- retry count;
-- usage/cost where available; and
-- exact input/output references in the Foundation run ledger.
+`FoundationCompilationWorkers` is the canonical compilation worker interface. Each material worker execution records worker/stage identity, context identity where provider-backed, contract version, provider/model, retry count, usage/cost and input/output references.
 
-Responsibilities may be deterministic or provider-backed according to the task. The compiler, not the model, owns final schema/cross-reference acceptance.
+The compiler, not the model, owns final schema/cross-reference acceptance.
 
-For the Slice 2B AQA Business proof:
+For the AQA Business Foundation proof:
 
 - identity/cohort — deterministic controlled profile plus live source preflight;
 - source discovery — deterministic controlled source set plus live availability/licence-marker checks;
 - Board Alignment — controlled structured evidence;
 - Foundation coverage — deterministic;
 - Course Truth — bounded model synthesis from permitted curriculum inputs;
-- Exam Truth enrichment — bounded model synthesis from structured Foundation inputs while governed components/objectives/requirements remain deterministic;
+- Exam Truth enrichment — bounded model synthesis while governed components/objectives/requirements remain deterministic; and
 - Question Families — bounded model generation plus compiler reconciliation.
+
+### Independent-review/remediation workers
+
+`foundation-independent-review.ts` adds the provider-neutral Slice 3B worker boundary.
+
+An independent-review run is accepted only when its returned context ID is not present in retained generation/review/remediation provenance. Worker-name separation alone is insufficient.
+
+Review is bound to the exact Foundation fingerprint, deterministic assurance report and implementation commit. The reviewer receives rights-safe structured source metadata plus the exact Foundation artifacts; it is not authorised to browse or reconstruct protected awarding-body prose.
+
+Material remediation is constrained to a deterministic dependency closure:
+
+```text
+Course Truth finding
+  → Course Truth
+  → Exam Truth
+  → all Question Families
+
+Exam Truth finding
+  → Exam Truth
+  → all Question Families
+
+Question Family finding
+  → affected Question Family
+
+Source Rights / Board Alignment / Foundation coverage finding
+  → BLOCK
+  → reopen governed Foundation compilation
+```
+
+The remediation worker cannot redefine canonical upstream truth. The runtime owns replacement refs/fingerprints, creates a new candidate when material truth changes, resets assurance/review evidence and deterministically re-assures before another fresh independent review.
 
 ## Artifact and persistence architecture
 
-The compiler uses a replaceable `FoundationCompilationArtifactStore` contract. Artifact storage refs remain auditable but do not define aggregate Foundation identity.
+Foundation stores are replaceable contracts. Artifact storage refs remain auditable but do not define aggregate Foundation identity.
 
-During the Slice 2B live proof, Foundation artifacts and the full candidate are retained as workflow evidence. A later operational persistence adapter may move these artifacts to a durable production store without changing Foundation identity semantics.
+Live proof artifacts and candidates are retained as workflow evidence. A later operational persistence adapter may move these artifacts to a durable production store without changing Foundation identity semantics.
 
-GitHub Issue #289 remains the programme-level operational record for the current proof. The live proof posts a bounded result summary there and uploads machine-readable evidence as a workflow artifact.
+GitHub Issue #289 remains the programme-level operational record for the current staged proof. Operational records are evidence only; they cannot override content authority, source-rights rules, assurance or Founder approval.
 
-The operational record is evidence only; it cannot override content authority, source-rights rules, assurance or Founder approval.
+Slice 3B additionally persists:
+
+- `foundation_independent_review_report` — exact fingerprint/commit/reviewer provenance and machine-readable findings; and
+- `foundation_remediation_record` — source/remediated candidate fingerprints, corrected dependency refs, worker provenance, resolution notes and deterministic re-assurance evidence.
+
+Historical review/remediation evidence remains immutable even after a new candidate supersedes its result.
 
 ## Foundation assurance boundary
 
-Slice 2B stops at a complete Foundation Candidate with assurance statuses still pending.
+### Deterministic assurance — Slice 3A
 
-Slice 3 owns:
+`foundation-assurance.ts` re-reads the exact persisted Candidate dependencies and checks artifact identity, source rights, alignment, coverage, Course Truth, Exam Truth and Question Family relationships. It retains complete deterministic diagnostics and binds PASS/FAIL to an exact Foundation fingerprint and reviewed commit.
 
-- Foundation-specific deterministic assurance;
-- fresh-context independent educational/assessment review;
-- bounded targeted remediation;
-- qualified expert-review evidence; and
-- immutable Approved Course Foundation persistence.
+The retained AQA A-level Business 7132 / 2027 Foundation passed this boundary on approved `main` with zero learner assets.
 
-A live provider run or compiler-complete candidate is not an approved course and is not sufficient for learner publication.
+### Independent review and remediation — Slice 3B
+
+`foundation-independent-review.ts` ensures deterministic PASS exists for the exact current fingerprint/implementation commit before review. It then enforces fresh-context independent educational/assessment review, machine-readable severity, bounded remediation, new-fingerprint invalidation and deterministic re-assurance.
+
+Minor findings are retained as known limitations. Blocking/material findings may not be waved through. Repeated self-repair is bounded; unresolved findings ultimately block rather than lowering the threshold.
+
+A model review is independent assurance evidence, not qualified-human approval.
+
+### Qualified approval — Slice 3C
+
+Slice 3C owns qualified subject/assessment expert-review evidence and immutable Approved Course Foundation persistence. It begins only after the exact Foundation version has deterministic PASS and independent-review PASS.
+
+A live provider run, compiler-complete candidate or AI-review PASS is not an approved course and is not sufficient for learner publication.
 
 ## Asset-factory architecture after Foundation approval
 
@@ -202,7 +243,7 @@ A future Content Operations UI is an operator surface over this production plane
 
 ## GitHub governance and release boundary
 
-Governed implementation changes continue to use branches and PRs. Exact-head CI, review and explicit Founder merge approval remain independent from educational Foundation approval.
+Governed implementation changes use branches and PRs. Exact-head CI, review and explicit Founder merge approval remain independent from educational Foundation approval.
 
 The Content Factory must never infer Founder approval from mergeability or successful CI.
 
@@ -213,25 +254,10 @@ governed PR
   → explicit Founder merge approval
   → exact-head merge
   → main CI
-  → deployment
-  → production smoke/path-to-live
+  → deployment / production verification where applicable
 ```
 
-Live Content Factory proof evidence supplements this release chain; it does not bypass it.
-
-## Main-only live proof
-
-The Slice 2B workflow deliberately uses `workflow_dispatch` and refuses execution unless the workflow runs from `refs/heads/main`.
-
-This ordering is intentional:
-
-1. implement and assure the runtime on a governed PR;
-2. obtain explicit Founder merge approval;
-3. production-verify the merged runtime;
-4. run the paid real-course proof against that exact approved `main`;
-5. retain the Foundation fingerprint, rights-registry fingerprint, provider provenance/cost and zero-learner-asset evidence.
-
-The first proof is AQA A-level Business 7132 for the 2027 examination cohort. It is a new Foundation job, not the superseded historical pilot.
+Main-only paid Content Factory proof follows release because provider spend and source-rights authority must run from approved `main`. Proof evidence supplements the release chain; it does not bypass it.
 
 ## Legacy implementation status
 
@@ -239,7 +265,7 @@ The repository still contains the previous end-to-end Content Factory modules, t
 
 They are **not** the canonical Foundation architecture and must not be invoked as a shortcut from the new path.
 
-In particular, the following are legacy topology rather than current Foundation prerequisites:
+Legacy topology includes:
 
 - old `ContentFactoryJob` whole-course state machine;
 - old `generating` orchestration;
@@ -248,28 +274,34 @@ In particular, the following are legacy topology rather than current Foundation 
 - old whole-course Q1–Q8 qualification / confirmation-pilot flow; and
 - expert-review packaging that assumes learner assets already exist.
 
-Historical ADRs and audit evidence remain intact; this current technical document reflects the active architecture rather than rewriting those historical records.
+Historical ADRs and audit evidence remain intact; this current technical document reflects active architecture rather than rewriting historical records.
 
 ## Security and operational controls
 
 - provider credentials are server/workflow secrets only, never learner-browser inputs;
 - provider requests use bounded structured contracts and explicit spend ceilings;
 - source-rights ambiguity fails closed;
-- exact worker/model/cost provenance is recorded;
+- protected `REFERENCE_ONLY` prose is not passed to generative/review workers merely because it is visible to a human operator;
+- exact worker/model/cost/context provenance is recorded;
+- context reuse across generation/review/remediation fails closed;
+- material remediation must change the material Foundation fingerprint;
+- deterministic re-assurance is mandatory after material correction;
 - live proof is manual/main-only rather than automatically spending on every merge;
-- generated artifacts do not become learner content merely because a provider call succeeded; and
+- generated artifacts do not become learner content merely because a provider call or AI review succeeded; and
 - no workflow may merge a governed PR automatically under current governance.
 
 ## Current implementation sequence
 
 1. **Slice 1 — lifecycle:** released through PR #291.
 2. **Slice 2A — compiler:** released through PR #292.
-3. **Slice 2B — live runtime / real-course proof:** PR #293 in progress; proof runs after approved release.
-4. **Slice 3 — Foundation assurance / approval.**
-5. **Slice 4 — Learn Factory.**
-6. **Slice 5 — Practice Factory.**
-7. **Slice 6 — Exam Prep / Marking Factory.**
-8. **Slice 7 — Content Operations presentation.**
-9. **Slice 8 — staged repeatability qualification.**
+3. **Slice 2B — live runtime / real-course proof:** released through PR #293/#294; proof successful.
+4. **Slice 3A — deterministic Foundation assurance:** released through PR #295/#296; retained AQA Business proof passed.
+5. **Slice 3B — independent review/remediation:** implementation in PR #298; main-only retained real-course proof follows release.
+6. **Slice 3C — qualified expert review / immutable Foundation approval.**
+7. **Slice 4 — Learn Factory.**
+8. **Slice 5 — Practice Factory.**
+9. **Slice 6 — Exam Prep / Marking Factory.**
+10. **Slice 7 — Content Operations presentation.**
+11. **Slice 8 — staged repeatability qualification.**
 
 See the Foundation-gated implementation plan for slice-level acceptance evidence and current status.
