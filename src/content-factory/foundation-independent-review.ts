@@ -77,8 +77,8 @@ export const foundationIndependentReviewFindingSchema = z.object({
   }
 })
 
-const workerEvidenceSchema = z.object({
-  workerRunId: identifierSchema,
+const foundationWorkerEvidenceSchema = z.object({
+  workerRunId: nonEmptyStringSchema,
   contextId: nonEmptyStringSchema,
   contractVersion: nonEmptyStringSchema,
   provider: nonEmptyStringSchema.optional(),
@@ -97,21 +97,21 @@ export const foundationIndependentReviewReportSchema = z.object({
   foundationFingerprint: sha256Schema,
   decision: z.enum(['pass', 'fail_hold']),
   findings: z.array(foundationIndependentReviewFindingSchema).default([]),
-  reviewer: workerEvidenceSchema,
+  reviewer: foundationWorkerEvidenceSchema,
   excludedContextIds: z.array(nonEmptyStringSchema).default([]),
   createdAt: nonEmptyStringSchema,
 }).superRefine((report, context) => {
-  const material = report.findings.some((finding) =>
+  const hasBlockingOrMaterial = report.findings.some((finding) =>
     finding.resolutionStatus === 'open' && ['blocking', 'material'].includes(finding.severity),
   )
-  if (material && report.decision !== 'fail_hold') {
+  if (hasBlockingOrMaterial && report.decision !== 'fail_hold') {
     context.addIssue({
       code: 'custom',
       path: ['decision'],
       message: 'Blocking/material Foundation review findings require fail_hold',
     })
   }
-  if (!material && report.decision !== 'pass') {
+  if (!hasBlockingOrMaterial && report.decision !== 'pass') {
     context.addIssue({
       code: 'custom',
       path: ['decision'],
@@ -122,7 +122,7 @@ export const foundationIndependentReviewReportSchema = z.object({
     context.addIssue({
       code: 'custom',
       path: ['reviewer', 'contextId'],
-      message: 'Foundation independent review must use a context excluded from all prior generation/review/remediation contexts',
+      message: 'Independent Foundation review must use a context excluded from prior generation/review/remediation contexts',
     })
   }
 })
@@ -147,8 +147,9 @@ export const foundationRemediationRecordSchema = z.object({
   sourceFoundationFingerprint: sha256Schema,
   triggerReviewRef: nonEmptyStringSchema,
   reviewedCommit: commitShaSchema,
-  remediationWorker: workerEvidenceSchema,
+  remediationWorker: foundationWorkerEvidenceSchema,
   resolvedFindingIds: z.array(identifierSchema).min(1),
+  resolutionNotes: z.array(nonEmptyStringSchema).min(1),
   replacements: z.array(z.object({
     artifactKind: z.enum(['course_knowledge_model', 'assessment_blueprint', 'question_family']),
     oldRef: nonEmptyStringSchema,
@@ -167,10 +168,10 @@ export const foundationRemediationRecordSchema = z.object({
   createdAt: nonEmptyStringSchema,
 })
 
+export type FoundationReviewableArtifactKind = z.infer<typeof foundationReviewableArtifactKindSchema>
 export type FoundationIndependentReviewFinding = z.infer<typeof foundationIndependentReviewFindingSchema>
 export type FoundationIndependentReviewReport = z.infer<typeof foundationIndependentReviewReportSchema>
 export type FoundationRemediationRecord = z.infer<typeof foundationRemediationRecordSchema>
-export type FoundationReviewableArtifactKind = z.infer<typeof foundationReviewableArtifactKindSchema>
 
 export type FoundationIndependentReviewArtifactKind =
   | 'foundation_deterministic_assurance_report'
@@ -200,7 +201,7 @@ type FoundationBundle = {
   artifacts: Map<string, { kind: FoundationReviewableArtifactKind; value: unknown }>
 }
 
-type RemediationTarget = {
+export type FoundationRemediationTarget = {
   artifactKind: 'course_knowledge_model' | 'assessment_blueprint' | 'question_family'
   oldRef: string
   value: unknown
@@ -258,7 +259,7 @@ export interface FoundationIndependentReviewWorkers {
     assessmentBlueprint: FoundationAssessmentBlueprint
     questionFamilies: QuestionFamily[]
     triggerReview: FoundationIndependentReviewReport
-    targets: RemediationTarget[]
+    targets: FoundationRemediationTarget[]
   }): Promise<FoundationWorkerExecution<unknown>>
 }
 
@@ -288,8 +289,12 @@ function sameSet(left: Iterable<string>, right: Iterable<string>) {
   return a.size === b.size && [...a].every((value) => b.has(value))
 }
 
+function exactSet(left: string[], right: string[]) {
+  return left.length === right.length && sameSet(left, right)
+}
+
 function workerEvidence(provenance: FoundationWorkerExecutionProvenance) {
-  return workerEvidenceSchema.parse({
+  return foundationWorkerEvidenceSchema.parse({
     workerRunId: provenance.id,
     contextId: provenance.contextId,
     contractVersion: provenance.contractVersion,
@@ -324,7 +329,6 @@ async function readBundle(candidate: FoundationCandidate, store: FoundationIndep
     artifact,
     value: questionFamilySchema.parse(await store.readJson(artifact.ref)),
   })))
-
   const artifacts = new Map<string, { kind: FoundationReviewableArtifactKind; value: unknown }>([
     [candidate.sourceLicenceRegister.ref, { kind: 'source_licence_register', value: sourceLicenceRegister }],
     [candidate.boardAlignment.ref, { kind: 'board_alignment', value: boardAlignment }],
@@ -333,26 +337,15 @@ async function readBundle(candidate: FoundationCandidate, store: FoundationIndep
     [candidate.assessmentBlueprint.ref, { kind: 'assessment_blueprint', value: assessmentBlueprint }],
   ])
   for (const family of questionFamilies) artifacts.set(family.artifact.ref, { kind: 'question_family', value: family.value })
-
-  return {
-    sourceLicenceRegister,
-    boardAlignment,
-    coverageModel,
-    courseKnowledgeModel,
-    assessmentBlueprint,
-    questionFamilies,
-    artifacts,
-  }
+  return { sourceLicenceRegister, boardAlignment, coverageModel, courseKnowledgeModel, assessmentBlueprint, questionFamilies, artifacts }
 }
 
-async function matchingDeterministicReport(
+async function findMatchingDeterministicReport(
   candidate: FoundationCandidate,
   store: FoundationIndependentReviewArtifactStore,
   reviewedCommit: string,
 ) {
-  if (candidate.deterministicAssurance.status !== 'pass' || !candidate.deterministicAssurance.foundationFingerprint) {
-    throw new Error('Foundation independent review requires passing deterministic assurance')
-  }
+  if (candidate.deterministicAssurance.status !== 'pass' || !candidate.deterministicAssurance.foundationFingerprint) return null
   for (const ref of [...candidate.deterministicAssurance.evidenceRefs].reverse()) {
     try {
       const report = foundationDeterministicAssuranceReportSchema.parse(await store.readJson(ref))
@@ -362,10 +355,38 @@ async function matchingDeterministicReport(
         && report.reviewedCommit === reviewedCommit
       ) return { ref, report }
     } catch {
-      // Continue until exact bound deterministic evidence is found.
+      // Ignore stale or unrelated evidence and continue to an exact match.
     }
   }
-  throw new Error('No deterministic PASS report matches the exact Foundation fingerprint and reviewed commit')
+  return null
+}
+
+async function ensureDeterministicPass(input: {
+  job: FoundationJob
+  artifactStore: FoundationIndependentReviewArtifactStore
+  reviewedCommit: string
+  now: string
+}) {
+  const job = foundationJobSchema.parse(input.job)
+  if (!job.candidate) throw new Error('Foundation deterministic assurance requires a candidate')
+  const fingerprint = await computeFoundationFingerprint(job.candidate)
+  const existing = await findMatchingDeterministicReport(job.candidate, input.artifactStore, input.reviewedCommit)
+  if (
+    existing
+    && job.candidate.deterministicAssurance.status === 'pass'
+    && job.candidate.deterministicAssurance.foundationFingerprint === fingerprint
+  ) return { job, ref: existing.ref, report: existing.report }
+
+  const result = await runDeterministicFoundationAssurance({
+    job,
+    artifactStore: {
+      readJson: (ref) => input.artifactStore.readJson(ref),
+      writeJson: (write) => input.artifactStore.writeJson(write),
+    },
+    reviewedCommit: input.reviewedCommit,
+    now: input.now,
+  })
+  return { job: result.job, ref: result.reportRef, report: result.report }
 }
 
 function validateReviewOutput(input: {
@@ -385,16 +406,14 @@ function validateReviewOutput(input: {
     decision: z.enum(['pass', 'fail_hold']),
     findings: z.array(foundationIndependentReviewFindingSchema).default([]),
   }).parse(input.output)
-
   if (parsed.reviewedCommit !== input.reviewedCommit) {
     throw new Error('Independent Foundation review must cover the exact deterministically assured commit')
   }
   if (parsed.foundationFingerprint !== input.foundationFingerprint) {
     throw new Error('Independent Foundation review must cover the exact deterministically assured Foundation fingerprint')
   }
-
-  const ids = parsed.findings.map((finding) => finding.id)
-  if (new Set(ids).size !== ids.length) throw new Error('Independent Foundation review finding IDs must be unique')
+  const findingIds = parsed.findings.map((finding) => finding.id)
+  if (new Set(findingIds).size !== findingIds.length) throw new Error('Independent Foundation review finding IDs must be unique')
   for (const finding of parsed.findings) {
     const artifact = input.bundle.artifacts.get(finding.artifactRef)
     if (!artifact) throw new Error(`Independent Foundation review finding ${finding.id} references unknown artifact ${finding.artifactRef}`)
@@ -402,7 +421,6 @@ function validateReviewOutput(input: {
       throw new Error(`Independent Foundation review finding ${finding.id} artifact kind does not match ${finding.artifactRef}`)
     }
   }
-
   return foundationIndependentReviewReportSchema.parse({
     schemaVersion: 1,
     artifactType: 'foundation_independent_review_report',
@@ -431,76 +449,66 @@ function minorLimitations(report: FoundationIndependentReviewReport) {
     .map((finding) => `Independent Foundation review ${finding.id}: ${finding.finding}`)
 }
 
-function updateCandidateOperationalMetadata(jobInput: FoundationJob, input: {
-  assuranceContextIds?: string[]
-  knownLimitations?: string[]
-  updatedAt: string
+function updateOperationalMetadata(jobInput: FoundationJob, input: {
+  contextIds?: string[]
+  limitations?: string[]
+  now: string
 }) {
   const job = foundationJobSchema.parse(jobInput)
   if (job.state !== 'assuring' || !job.candidate) throw new Error('Foundation assurance metadata may be updated only while assuring')
   const candidate = foundationCandidateSchema.parse({
     ...job.candidate,
-    knownLimitations: unique([...job.candidate.knownLimitations, ...(input.knownLimitations ?? [])]),
+    knownLimitations: unique([...job.candidate.knownLimitations, ...(input.limitations ?? [])]),
     provenance: {
       ...job.candidate.provenance,
       assuranceContextIds: unique([
-        ...(job.candidate.provenance.assuranceContextIds ?? []),
-        ...(input.assuranceContextIds ?? []),
+        ...job.candidate.provenance.assuranceContextIds,
+        ...(input.contextIds ?? []),
       ]),
     },
   })
-  return foundationJobSchema.parse({ ...job, candidate, updatedAt: input.updatedAt })
+  return foundationJobSchema.parse({ ...job, candidate, updatedAt: input.now })
 }
 
-function upstreamRemediationFinding(findings: FoundationIndependentReviewFinding[]) {
-  return findings.find((finding) => ['source_licence_register', 'board_alignment', 'foundation_coverage_model'].includes(finding.artifactKind))
+function upstreamFinding(findings: FoundationIndependentReviewFinding[]) {
+  return findings.find((finding) =>
+    ['source_licence_register', 'board_alignment', 'foundation_coverage_model'].includes(finding.artifactKind),
+  )
 }
 
-function requiredRemediationTargets(bundle: FoundationBundle, report: FoundationIndependentReviewReport): RemediationTarget[] {
-  const findings = unresolvedMaterialFindings(report)
-  const required = new Map<string, RemediationTarget>()
-  const add = (
-    artifactKind: RemediationTarget['artifactKind'],
-    oldRef: string,
-    value: unknown,
-    reason: RemediationTarget['reason'],
-    directFindings: FoundationIndependentReviewFinding[] = [],
-  ) => {
-    const existing = required.get(oldRef)
-    required.set(oldRef, {
-      artifactKind,
-      oldRef,
-      value,
-      reason: existing?.reason === 'direct_finding' || reason === 'direct_finding' ? 'direct_finding' : 'dependency',
-      findings: unique([...(existing?.findings ?? []), ...directFindings].map((finding) => finding.id))
-        .map((id) => findings.find((finding) => finding.id === id)!),
+function remediationTargets(
+  candidate: FoundationCandidate,
+  bundle: FoundationBundle,
+  review: FoundationIndependentReviewReport,
+): FoundationRemediationTarget[] {
+  const material = unresolvedMaterialFindings(review)
+  const byRef = new Map<string, FoundationRemediationTarget>()
+  const add = (input: FoundationRemediationTarget) => {
+    const existing = byRef.get(input.oldRef)
+    const direct = unique([...(existing?.findings ?? []), ...input.findings].map((finding) => finding.id))
+      .map((id) => material.find((finding) => finding.id === id)!)
+    byRef.set(input.oldRef, {
+      ...input,
+      reason: existing?.reason === 'direct_finding' || input.reason === 'direct_finding' ? 'direct_finding' : 'dependency',
+      findings: direct,
     })
   }
 
-  for (const finding of findings) {
+  for (const finding of material) {
     if (finding.artifactKind === 'course_knowledge_model') {
-      add('course_knowledge_model', finding.artifactRef, bundle.courseKnowledgeModel, 'direct_finding', [finding])
-      add('assessment_blueprint', [...bundle.artifacts].find(([, value]) => value.value === bundle.assessmentBlueprint)?.[0] ?? '', bundle.assessmentBlueprint, 'dependency')
-      for (const family of bundle.questionFamilies) add('question_family', family.artifact.ref, family.value, 'dependency')
-      continue
-    }
-    if (finding.artifactKind === 'assessment_blueprint') {
-      add('assessment_blueprint', finding.artifactRef, bundle.assessmentBlueprint, 'direct_finding', [finding])
-      for (const family of bundle.questionFamilies) add('question_family', family.artifact.ref, family.value, 'dependency')
-      continue
-    }
-    if (finding.artifactKind === 'question_family') {
+      add({ artifactKind: 'course_knowledge_model', oldRef: candidate.courseKnowledgeModel.ref, value: bundle.courseKnowledgeModel, reason: 'direct_finding', findings: [finding] })
+      add({ artifactKind: 'assessment_blueprint', oldRef: candidate.assessmentBlueprint.ref, value: bundle.assessmentBlueprint, reason: 'dependency', findings: [] })
+      for (const family of bundle.questionFamilies) add({ artifactKind: 'question_family', oldRef: family.artifact.ref, value: family.value, reason: 'dependency', findings: [] })
+    } else if (finding.artifactKind === 'assessment_blueprint') {
+      add({ artifactKind: 'assessment_blueprint', oldRef: candidate.assessmentBlueprint.ref, value: bundle.assessmentBlueprint, reason: 'direct_finding', findings: [finding] })
+      for (const family of bundle.questionFamilies) add({ artifactKind: 'question_family', oldRef: family.artifact.ref, value: family.value, reason: 'dependency', findings: [] })
+    } else if (finding.artifactKind === 'question_family') {
       const family = bundle.questionFamilies.find((entry) => entry.artifact.ref === finding.artifactRef)
       if (!family) throw new Error(`Question Family remediation target ${finding.artifactRef} is unavailable`)
-      add('question_family', finding.artifactRef, family.value, 'direct_finding', [finding])
+      add({ artifactKind: 'question_family', oldRef: family.artifact.ref, value: family.value, reason: 'direct_finding', findings: [finding] })
     }
   }
-
-  return [...required.values()]
-}
-
-function exactIds(left: string[], right: string[]) {
-  return sameSet(left, right) && left.length === right.length
+  return [...byRef.values()]
 }
 
 async function applyRemediation(input: {
@@ -512,36 +520,31 @@ async function applyRemediation(input: {
   artifactStore: FoundationIndependentReviewArtifactStore
   reviewedCommit: string
   now: string
-  remediationCycle: number
+  cycle: number
 }) {
   const job = foundationJobSchema.parse(input.job)
   if (job.state !== 'assuring' || !job.candidate) throw new Error('Foundation remediation requires a candidate in assuring state')
   const sourceCandidate = job.candidate
   const sourceFingerprint = await computeFoundationFingerprint(sourceCandidate)
-  const findings = unresolvedMaterialFindings(input.review)
-  const targets = requiredRemediationTargets(input.bundle, input.review)
+  const material = unresolvedMaterialFindings(input.review)
+  const targets = remediationTargets(sourceCandidate, input.bundle, input.review)
   const output = foundationRemediationWorkerOutputSchema.parse(input.execution.output)
-
-  if (!exactIds(output.resolvedFindingIds, findings.map((finding) => finding.id))) {
+  if (!exactSet(output.resolvedFindingIds, material.map((finding) => finding.id))) {
     throw new Error('Foundation remediation must resolve exactly the blocking/material findings assigned to the cycle')
   }
-  if (!exactIds(output.replacements.map((replacement) => replacement.oldRef), targets.map((target) => target.oldRef))) {
+  if (!exactSet(output.replacements.map((replacement) => replacement.oldRef), targets.map((target) => target.oldRef))) {
     throw new Error('Foundation remediation replacements must match the exact smallest-safe dependency closure')
   }
-
   const replacementByRef = new Map(output.replacements.map((replacement) => [replacement.oldRef, replacement]))
   for (const target of targets) {
-    const replacement = replacementByRef.get(target.oldRef)!
-    if (replacement.artifactKind !== target.artifactKind) {
+    if (replacementByRef.get(target.oldRef)?.artifactKind !== target.artifactKind) {
       throw new Error(`Foundation remediation replacement kind mismatch for ${target.oldRef}`)
     }
   }
 
-  const replacementRecords: FoundationRemediationRecord['replacements'] = []
-  let courseArtifact = input.bundle.courseKnowledgeModel
+  const records: FoundationRemediationRecord['replacements'] = []
   let courseRef = sourceCandidate.courseKnowledgeModel.ref
   let courseFingerprint = sourceCandidate.courseKnowledgeModel.fingerprint
-
   const courseTarget = targets.find((target) => target.artifactKind === 'course_knowledge_model')
   if (courseTarget) {
     const replacement = replacementByRef.get(courseTarget.oldRef)!
@@ -551,25 +554,16 @@ async function applyRemediation(input: {
       throw new Error('Course Truth remediation may not silently change the canonical coverage node set')
     }
     courseFingerprint = await fingerprintFoundationArtifact({ ...parsed, fingerprint: undefined })
-    courseArtifact = courseKnowledgeModelSchema.parse({ ...parsed, fingerprint: courseFingerprint })
-    const write = await input.artifactStore.writeJson({
-      jobId: job.jobId,
-      kind: 'course_knowledge_model',
-      fingerprint: courseFingerprint,
-      value: courseArtifact,
-    })
+    const corrected = courseKnowledgeModelSchema.parse({ ...parsed, fingerprint: courseFingerprint })
+    const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'course_knowledge_model', fingerprint: courseFingerprint, value: corrected })
     courseRef = write.ref
-    replacementRecords.push({
-      artifactKind: 'course_knowledge_model',
-      oldRef: courseTarget.oldRef,
-      newRef: write.ref,
-      oldFingerprint: sourceCandidate.courseKnowledgeModel.fingerprint,
-      newFingerprint: courseFingerprint,
+    records.push({
+      artifactKind: 'course_knowledge_model', oldRef: courseTarget.oldRef, newRef: write.ref,
+      oldFingerprint: sourceCandidate.courseKnowledgeModel.fingerprint, newFingerprint: courseFingerprint,
       directFindingIds: courseTarget.findings.map((finding) => finding.id),
     })
   }
 
-  let examArtifact = input.bundle.assessmentBlueprint
   let examRef = sourceCandidate.assessmentBlueprint.ref
   let examFingerprint = sourceCandidate.assessmentBlueprint.fingerprint
   const examTarget = targets.find((target) => target.artifactKind === 'assessment_blueprint')
@@ -577,32 +571,22 @@ async function applyRemediation(input: {
     const replacement = replacementByRef.get(examTarget.oldRef)!
     const parsed = foundationAssessmentBlueprintSchema.parse(replacement.correctedArtifact)
     if (parsed.jobId !== job.jobId) throw new Error('Exam Truth remediation may not change Foundation job identity')
-    if (parsed.boardAlignmentFingerprint !== sourceCandidate.boardAlignment.fingerprint) {
-      throw new Error('Exam Truth remediation may not change the governed Board Alignment dependency')
-    }
-    if (parsed.courseKnowledgeModelFingerprint !== courseFingerprint) {
-      throw new Error('Exam Truth remediation must bind to the exact remediated Course Truth fingerprint')
-    }
-    examArtifact = parsed
-    examFingerprint = await fingerprintFoundationArtifact(examArtifact)
-    const write = await input.artifactStore.writeJson({
-      jobId: job.jobId,
-      kind: 'assessment_blueprint',
-      fingerprint: examFingerprint,
-      value: examArtifact,
+    const corrected = foundationAssessmentBlueprintSchema.parse({
+      ...parsed,
+      boardAlignmentFingerprint: sourceCandidate.boardAlignment.fingerprint,
+      courseKnowledgeModelFingerprint: courseFingerprint,
     })
+    examFingerprint = await fingerprintFoundationArtifact(corrected)
+    const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'assessment_blueprint', fingerprint: examFingerprint, value: corrected })
     examRef = write.ref
-    replacementRecords.push({
-      artifactKind: 'assessment_blueprint',
-      oldRef: examTarget.oldRef,
-      newRef: write.ref,
-      oldFingerprint: sourceCandidate.assessmentBlueprint.fingerprint,
-      newFingerprint: examFingerprint,
+    records.push({
+      artifactKind: 'assessment_blueprint', oldRef: examTarget.oldRef, newRef: write.ref,
+      oldFingerprint: sourceCandidate.assessmentBlueprint.fingerprint, newFingerprint: examFingerprint,
       directFindingIds: examTarget.findings.map((finding) => finding.id),
     })
   }
 
-  const familyRefs = [...sourceCandidate.questionFamilies]
+  const questionFamilies = [...sourceCandidate.questionFamilies]
   for (const target of targets.filter((entry) => entry.artifactKind === 'question_family')) {
     const replacement = replacementByRef.get(target.oldRef)!
     const before = input.bundle.questionFamilies.find((entry) => entry.artifact.ref === target.oldRef)
@@ -610,31 +594,23 @@ async function applyRemediation(input: {
     const corrected = questionFamilySchema.parse(replacement.correctedArtifact)
     if (corrected.id !== before.value.id) throw new Error(`Question Family remediation may not change family identity ${before.value.id}`)
     const fingerprint = await fingerprintFoundationArtifact(corrected)
-    const write = await input.artifactStore.writeJson({
-      jobId: job.jobId,
-      kind: 'question_family',
-      fingerprint,
-      value: corrected,
-    })
-    const index = familyRefs.findIndex((entry) => entry.ref === target.oldRef)
+    const write = await input.artifactStore.writeJson({ jobId: job.jobId, kind: 'question_family', fingerprint, value: corrected })
+    const index = questionFamilies.findIndex((entry) => entry.ref === target.oldRef)
     if (index < 0) throw new Error(`Foundation Candidate does not reference Question Family ${target.oldRef}`)
-    familyRefs[index] = { ref: write.ref, fingerprint }
-    replacementRecords.push({
-      artifactKind: 'question_family',
-      oldRef: target.oldRef,
-      newRef: write.ref,
-      oldFingerprint: before.artifact.fingerprint,
-      newFingerprint: fingerprint,
+    questionFamilies[index] = { ref: write.ref, fingerprint }
+    records.push({
+      artifactKind: 'question_family', oldRef: target.oldRef, newRef: write.ref,
+      oldFingerprint: before.artifact.fingerprint, newFingerprint: fingerprint,
       directFindingIds: target.findings.map((finding) => finding.id),
     })
   }
 
   const remediatedCandidate = foundationCandidateSchema.parse({
     ...sourceCandidate,
-    candidateId: `${sourceCandidate.candidateId}-r${input.remediationCycle}`,
+    candidateId: `${sourceCandidate.candidateId}-r${input.cycle}`,
     courseKnowledgeModel: { ref: courseRef, fingerprint: courseFingerprint },
     assessmentBlueprint: { ref: examRef, fingerprint: examFingerprint },
-    questionFamilies: familyRefs,
+    questionFamilies,
     deterministicAssurance: { status: 'pending', evidenceRefs: [] },
     independentReview: { status: 'pending', evidenceRefs: [] },
     knownLimitations: unique([...sourceCandidate.knownLimitations, ...minorLimitations(input.review)]),
@@ -643,7 +619,7 @@ async function applyRemediation(input: {
       createdAt: input.now,
       implementationHeadSha: input.reviewedCommit,
       assuranceContextIds: unique([
-        ...(sourceCandidate.provenance.assuranceContextIds ?? []),
+        ...sourceCandidate.provenance.assuranceContextIds,
         input.review.reviewer.contextId,
         input.execution.provenance.contextId,
       ]),
@@ -653,24 +629,16 @@ async function applyRemediation(input: {
   if (remediatedFingerprint === sourceFingerprint) {
     throw new Error('Blocking/material Foundation remediation must produce a materially different Foundation fingerprint')
   }
-
-  let remediatedJob = foundationJobSchema.parse({ ...job, candidate: remediatedCandidate, updatedAt: input.now })
-  const deterministicStore = {
-    readJson: (ref: string) => input.artifactStore.readJson(ref),
-    writeJson: (write: {
-      jobId: string
-      kind: 'foundation_deterministic_assurance_report'
-      fingerprint: string
-      value: unknown
-    }) => input.artifactStore.writeJson(write),
-  }
+  const remediatedJob = foundationJobSchema.parse({ ...job, candidate: remediatedCandidate, updatedAt: input.now })
   const reassured = await runDeterministicFoundationAssurance({
     job: remediatedJob,
-    artifactStore: deterministicStore,
+    artifactStore: {
+      readJson: (ref) => input.artifactStore.readJson(ref),
+      writeJson: (write) => input.artifactStore.writeJson(write),
+    },
     reviewedCommit: input.reviewedCommit,
     now: input.now,
   })
-  remediatedJob = reassured.job
 
   const record = foundationRemediationRecordSchema.parse({
     schemaVersion: 1,
@@ -682,39 +650,30 @@ async function applyRemediation(input: {
     reviewedCommit: input.reviewedCommit,
     remediationWorker: workerEvidence(input.execution.provenance),
     resolvedFindingIds: output.resolvedFindingIds,
-    replacements: replacementRecords,
+    resolutionNotes: output.resolutionNotes,
+    replacements: records,
     remediatedCandidateId: remediatedCandidate.candidateId,
     remediatedFoundationFingerprint: remediatedFingerprint,
-    deterministicReassurance: {
-      decision: reassured.report.decision,
-      reportRef: reassured.reportRef,
-      reviewedCommit: reassured.report.reviewedCommit,
-    },
+    deterministicReassurance: { decision: reassured.report.decision, reportRef: reassured.reportRef, reviewedCommit: reassured.report.reviewedCommit },
     createdAt: input.now,
   })
-  const recordWrite = await input.artifactStore.writeJson({
+  const write = await input.artifactStore.writeJson({
     jobId: job.jobId,
     kind: 'foundation_remediation_record',
     fingerprint: await fingerprintFoundationArtifact(record),
     value: record,
   })
-
-  return {
-    job: remediatedJob,
-    record,
-    recordRef: recordWrite.ref,
-    deterministicReport: reassured.report,
-  }
+  return { job: reassured.job, record, recordRef: write.ref, deterministicReport: reassured.report }
 }
 
-function blockForExecutionFailure(
+function blockWorkerFailure(
   job: FoundationJob,
   stage: 'independent-review' | 'remediation',
   execution: Extract<FoundationWorkerExecution<unknown>, { status: 'failure' | 'infrastructure_failure' }>,
   now: string,
 ) {
   return blockFoundationJob(job, {
-    id: `${stage}-worker-failure-${execution.provenance.id}`,
+    id: `${stage}-worker-failure-${execution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
     reason: `${stage} worker ${execution.status}: ${execution.error}`,
     createdAt: now,
   })
@@ -738,34 +697,28 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
   let job = foundationJobSchema.parse(input.job)
   const reviewedCommit = commitShaSchema.parse(input.reviewedCommit)
   const maxRemediationCycles = input.maxRemediationCycles ?? 3
-  if (!Number.isInteger(maxRemediationCycles) || maxRemediationCycles < 0) {
-    throw new Error('maxRemediationCycles must be a non-negative integer')
-  }
-  if (job.state !== 'assuring' || !job.candidate) {
-    throw new Error('Foundation independent review requires a complete Foundation Candidate in assuring state')
-  }
-  if (job.blockers.some((blocker) => !blocker.resolvedAt)) {
-    throw new Error('Resolve all Foundation operational blockers before independent review')
-  }
+  if (!Number.isInteger(maxRemediationCycles) || maxRemediationCycles < 0) throw new Error('maxRemediationCycles must be a non-negative integer')
+  if (job.state !== 'assuring' || !job.candidate) throw new Error('Foundation independent review requires a complete Foundation Candidate in assuring state')
+  if (job.blockers.some((blocker) => !blocker.resolvedAt)) throw new Error('Resolve all Foundation operational blockers before independent review')
 
   const reviewReports: FoundationIndependentReviewReport[] = []
   const reviewRefs: string[] = []
   const remediationRecords: FoundationRemediationRecord[] = []
   const remediationRefs: string[] = []
-  let remediationCycle = 0
+  let cycle = 0
 
   while (true) {
+    const deterministic = await ensureDeterministicPass({ job, artifactStore: input.artifactStore, reviewedCommit, now: input.now })
+    job = deterministic.job
+    if (deterministic.report.decision !== 'pass') {
+      return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
+    }
     const candidate = job.candidate!
     const foundationFingerprint = await computeFoundationFingerprint(candidate)
-    if (candidate.deterministicAssurance.status !== 'pass' || candidate.deterministicAssurance.foundationFingerprint !== foundationFingerprint) {
-      throw new Error('Independent Foundation review requires deterministic PASS evidence for the exact current Foundation fingerprint')
-    }
-
-    const deterministic = await matchingDeterministicReport(candidate, input.artifactStore, reviewedCommit)
     const bundle = await readBundle(candidate, input.artifactStore)
     const excludedContextIds = unique([
-      ...(candidate.provenance.generationContextIds ?? []),
-      ...(candidate.provenance.assuranceContextIds ?? []),
+      ...candidate.provenance.generationContextIds,
+      ...candidate.provenance.assuranceContextIds,
       ...(input.additionalForbiddenContextIds ?? []),
     ])
     if (excludedContextIds.length === 0) {
@@ -788,25 +741,16 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       deterministicAssurance: deterministic.report,
     })
     if (reviewExecution.status !== 'success') {
-      return {
-        job: blockForExecutionFailure(job, 'independent-review', reviewExecution, input.now),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
-      }
+      return { job: blockWorkerFailure(job, 'independent-review', reviewExecution, input.now), reviewReports, reviewRefs, remediationRecords, remediationRefs }
     }
     if (excludedContextIds.includes(reviewExecution.provenance.contextId)) {
       return {
         job: blockFoundationJob(job, {
-          id: `independent-review-context-reuse-${reviewExecution.provenance.id}`,
+          id: `independent-review-context-reuse-${reviewExecution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
           reason: 'Independent Foundation review reused a generation/review/remediation context and cannot be treated as independent evidence.',
           createdAt: input.now,
         }),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
+        reviewReports, reviewRefs, remediationRecords, remediationRefs,
       }
     }
 
@@ -829,57 +773,40 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
     })
     reviewReports.push(review)
     reviewRefs.push(reviewWrite.ref)
-
-    job = updateCandidateOperationalMetadata(job, {
-      assuranceContextIds: [reviewExecution.provenance.contextId],
-      knownLimitations: minorLimitations(review),
-      updatedAt: input.now,
-    })
+    job = updateOperationalMetadata(job, { contextIds: [reviewExecution.provenance.contextId], limitations: minorLimitations(review), now: input.now })
     job = await recordIndependentFoundationReview(job, {
       status: review.decision,
       foundationFingerprint,
       evidenceRefs: [reviewWrite.ref],
     }, input.now)
 
-    const materialFindings = unresolvedMaterialFindings(review)
-    if (materialFindings.length === 0) {
-      return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
-    }
+    const material = unresolvedMaterialFindings(review)
+    if (material.length === 0) return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
 
-    const upstream = upstreamRemediationFinding(materialFindings)
-    if (upstream) {
+    const unsafeUpstream = upstreamFinding(material)
+    if (unsafeUpstream) {
       return {
         job: blockFoundationJob(job, {
-          id: `foundation-upstream-remediation-required-${upstream.id}`,
-          reason: `Independent review finding ${upstream.id} targets ${upstream.artifactKind}. Safe correction requires reopening Foundation compilation rather than silently rewriting governed upstream truth during assurance.`,
+          id: `foundation-upstream-remediation-required-${unsafeUpstream.id}`,
+          reason: `Independent review finding ${unsafeUpstream.id} targets ${unsafeUpstream.artifactKind}. Safe correction requires reopening Foundation compilation rather than silently rewriting governed upstream truth during assurance.`,
           createdAt: input.now,
         }),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
+        reviewReports, reviewRefs, remediationRecords, remediationRefs,
       }
     }
-
-    if (remediationCycle >= maxRemediationCycles) {
+    if (cycle >= maxRemediationCycles) {
       return {
         job: blockFoundationJob(job, {
           id: `foundation-remediation-cycle-limit-${candidate.candidateId}`,
           reason: `Independent review still has blocking/material findings after ${maxRemediationCycles} targeted Foundation remediation cycles.`,
           createdAt: input.now,
         }),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
+        reviewReports, reviewRefs, remediationRecords, remediationRefs,
       }
     }
 
-    const targets = requiredRemediationTargets(bundle, review)
-    const forbiddenRemediationContexts = unique([
-      ...excludedContextIds,
-      reviewExecution.provenance.contextId,
-    ])
+    const targets = remediationTargets(candidate, bundle, review)
+    const forbiddenRemediationContexts = unique([...excludedContextIds, reviewExecution.provenance.contextId])
     const remediationExecution = await input.workers.remediate({
       jobId: job.jobId,
       sourceCandidateId: candidate.candidateId,
@@ -897,29 +824,20 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       targets,
     })
     if (remediationExecution.status !== 'success') {
-      return {
-        job: blockForExecutionFailure(job, 'remediation', remediationExecution, input.now),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
-      }
+      return { job: blockWorkerFailure(job, 'remediation', remediationExecution, input.now), reviewReports, reviewRefs, remediationRecords, remediationRefs }
     }
     if (forbiddenRemediationContexts.includes(remediationExecution.provenance.contextId)) {
       return {
         job: blockFoundationJob(job, {
-          id: `foundation-remediation-context-reuse-${remediationExecution.provenance.id}`,
+          id: `foundation-remediation-context-reuse-${remediationExecution.provenance.id}`.toLowerCase().replace(/[^a-z0-9._-]/g, '-'),
           reason: 'Foundation remediation reused a generation/review/remediation context; corrected truth cannot be accepted from a contaminated context.',
           createdAt: input.now,
         }),
-        reviewReports,
-        reviewRefs,
-        remediationRecords,
-        remediationRefs,
+        reviewReports, reviewRefs, remediationRecords, remediationRefs,
       }
     }
 
-    remediationCycle += 1
+    cycle += 1
     const remediated = await applyRemediation({
       job,
       bundle,
@@ -929,12 +847,11 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       artifactStore: input.artifactStore,
       reviewedCommit,
       now: input.now,
-      remediationCycle,
+      cycle,
     })
     job = remediated.job
     remediationRecords.push(remediated.record)
     remediationRefs.push(remediated.recordRef)
-
     if (remediated.deterministicReport.decision !== 'pass') {
       return { job, reviewReports, reviewRefs, remediationRecords, remediationRefs }
     }
