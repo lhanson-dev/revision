@@ -40,8 +40,9 @@ The generated assurance plan schema is version 2 and explicitly declares whether
 - an assurance contract;
 - adversarial review;
 - test-sensitivity evidence;
-- critical-assurance integrity; and
-- independent security analysis.
+- critical-assurance integrity;
+- independent security analysis; and
+- dependency vulnerability analysis when the npm manifest/lockfile changes.
 
 `selectionMode` remains `conservative-full`: this change does not yet use risk classification to skip the existing Foundation or database assurance jobs.
 
@@ -107,14 +108,15 @@ Unit coverage: `scripts/assurance/validate-high-risk-pr-evidence.test.mjs`.
 - the event is a pull request; and
 - the machine-readable risk level is 3 or 4.
 
-The implemented controls are:
+For every such PR the job runs `github/codeql-action@v4` for `javascript-typescript` using `build-mode: none`.
 
-- `npm audit --audit-level=high` against the committed npm dependency graph/lockfile; and
-- `github/codeql-action@v4` for `javascript-typescript` using `build-mode: none`.
+Dependency vulnerability analysis is separately change-scoped. If `package.json` or `package-lock.json` changes, the assurance plan sets `dependencyVulnerabilityAnalysis=true` and the same job additionally runs `npm audit --audit-level=high` against the committed lockfile. If neither dependency file changes, the npm setup/audit steps are skipped and CodeQL still runs.
 
-The first PR execution attempted GitHub Dependency Review, but GitHub reported that Dependency Review is unsupported because this repository's Dependency Graph capability is not enabled. The implementation therefore uses the governed fail-closed lockfile-audit fallback rather than dropping dependency vulnerability analysis or requiring the Founder to perform repository-settings mechanics.
+The first PR execution attempted GitHub Dependency Review, but GitHub reported that Dependency Review is unsupported because this repository's Dependency Graph capability is not enabled. The implementation therefore uses the governed fail-closed lockfile-audit fallback for dependency-changing PRs rather than dropping dependency vulnerability analysis or requiring the Founder to perform repository-settings mechanics.
 
 GitHub Dependency Review remains preferable if Dependency Graph is deliberately enabled later because it can focus on newly introduced dependency risk. At that point the workflow may move back to Dependency Review through a governed implementation change.
+
+A subsequent live PR run proved why the dependency audit must be change-scoped: the npm advisory endpoint timed out on a high-risk PR that had not changed dependencies, causing the job to fail before CodeQL could start. The classifier/CI contract was therefore corrected so registry availability cannot suppress independent security analysis on unrelated high-risk work.
 
 The CodeQL major version was chosen from the currently supported GitHub action line as of this implementation. These controls are independent of Revision's application test authoring. They do not replace RLS/Edge/service tests or secret scanning.
 
@@ -133,7 +135,11 @@ Existing Revision CI remains mandatory, including the current conservative full 
 In addition to existing CI, run:
 
 - high-risk PR contract/evidence validation; and
-- independent lockfile vulnerability audit + CodeQL analysis.
+- CodeQL independent security analysis.
+
+### Dependency-changing PRs
+
+When `package.json` or `package-lock.json` changes, additionally run the fail-closed high/critical dependency vulnerability audit. Dependency changes are already classified Level 3 / High, so this is additive to CodeQL rather than an alternate path.
 
 The adversarial review itself is a governed AI workflow step recorded in the PR rather than an autonomous GitHub-hosted model invocation.
 
@@ -153,7 +159,9 @@ Property-based generation follows the same principle: introduce it where broad i
 
 ## Speed position
 
-This change deliberately does **not** add CodeQL, dependency vulnerability audit, formal adversarial evidence or mutation/fuzz work to Level 1/2 PRs.
+This change deliberately does **not** add CodeQL, formal adversarial evidence or mutation/fuzz work to Level 1/2 PRs.
+
+Dependency vulnerability auditing is narrower still: it runs only when the governed dependency manifest/lockfile changes. This avoids coupling unrelated high-risk work to npm advisory endpoint availability while preserving fail-closed dependency assurance when the dependency graph actually changes.
 
 The only new universal runtime is the lightweight structural integrity/evidence scripts in the assurance-plan job.
 
@@ -168,7 +176,8 @@ Known residual limits include:
 - the same AI system may still share blind spots between builder and adversarial-review roles;
 - structural test-integrity checks cannot prove assertion quality;
 - CodeQL/dependency analysis does not prove business or educational correctness;
-- lockfile audit reports the repository's known dependency vulnerabilities rather than isolating only the PR's newly introduced dependency delta;
+- the npm lockfile audit reports known vulnerabilities in the dependency graph rather than isolating only the PR's newly introduced dependency delta;
+- registry availability can still block a dependency-changing PR because that audit is intentionally fail closed;
 - there is not yet an automated mutation/property harness for all critical deterministic logic; and
 - specialist human security/architecture review remains valuable for exceptionally consequential changes when available.
 
