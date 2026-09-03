@@ -72,7 +72,7 @@ Selective execution of the older broad suites may only be introduced through a s
 
 `scripts/assurance/critical-assurance-manifest.json` and `scripts/assurance/validate-critical-assurance.mjs` protect the currently declared critical assurance assets and explicit CI invocations.
 
-The validator runs in the assurance-plan job and fails if a protected asset disappears, is unexpectedly empty, uses test suppression syntax where applicable, drops a minimum control ID, or loses a required explicit CI invocation.
+The validator runs in the assurance-plan job and fails if a protected asset disappears, is unexpectedly empty, is unconditionally disabled with test suppression syntax, drops a minimum control ID, or loses a required explicit CI invocation. Conditional Playwright scoping remains allowed where the critical test still executes in its dedicated CI environment/project.
 
 This is a structural integrity control, not proof of assertion semantics. Semantic weakening is addressed by Level-3 escalation, test-sensitivity evidence and adversarial review.
 
@@ -91,7 +91,9 @@ At Level 1/2 the validator does not add those requirements.
 
 ## Independent security analysis
 
-For Level 3/4 pull requests, `Revision CI` adds an independent job using GitHub Dependency Review and CodeQL. This supplements, rather than replaces, Revision's dynamic database/RLS/protected-service assurance.
+For Level 3/4 pull requests, `Revision CI` adds independent dependency-vulnerability and CodeQL analysis. The current repository does not have GitHub Dependency Graph enabled, so GitHub Dependency Review is unavailable; CI therefore uses the governed fail-closed `npm audit --audit-level=high` lockfile fallback plus CodeQL. This supplements, rather than replaces, Revision's dynamic database/RLS/protected-service assurance.
+
+If Dependency Graph is deliberately enabled later, GitHub Dependency Review may replace the lockfile fallback through a governed implementation change because it can focus on newly introduced dependency risk.
 
 ## Repository secret/config scanning
 
