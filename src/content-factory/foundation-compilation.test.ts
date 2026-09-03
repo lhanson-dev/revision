@@ -238,6 +238,7 @@ function workers(overrides: Partial<FoundationCompilationWorkers> = {}): Foundat
         boardAlignmentFingerprint: input.boardAlignmentFingerprint,
         courseKnowledgeModelFingerprint: input.courseKnowledgeModelFingerprint,
         assessmentObjectives: [{ id: 'ao1', weightingPercent: 20 }],
+        assessmentRequirements: [{ id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'] }],
         components: [{
           componentId: 'paper-1',
           questionFamilyIds: ['short-explain'],
@@ -450,7 +451,43 @@ describe('Foundation compilation', () => {
           boardAlignmentFingerprint: 'stale-board',
           courseKnowledgeModelFingerprint: input.courseKnowledgeModelFingerprint,
           assessmentObjectives: [{ id: 'ao1', weightingPercent: 20 }],
+          assessmentRequirements: [{ id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'] }],
           components: [{ componentId: 'paper-1', questionFamilyIds: [], markTotal: 100, timingMinutes: 120, constraints: [] }],
+          commandDemands: [],
+          evidenceExpectations: [],
+          quantitativeRequirements: [],
+          synopticRequirements: [],
+        })
+      },
+    })
+
+    await expect(compileFoundationJob({
+      job: await compilingJob(),
+      ...compileInput(store, workerSet),
+    })).rejects.toMatchObject({
+      name: 'FoundationCompilationError',
+      stage: 'exam_truth',
+    })
+  })
+
+  it('rejects Exam Truth that omits a governed assessment requirement', async () => {
+    const store = new MemoryArtifactStore()
+    const workerSet = workers({
+      async compileExamTruth(input) {
+        return success('exam-truth-missing-requirement', {
+          schemaVersion: 1,
+          jobId: input.jobId,
+          boardAlignmentFingerprint: input.boardAlignmentFingerprint,
+          courseKnowledgeModelFingerprint: input.courseKnowledgeModelFingerprint,
+          assessmentObjectives: [{ id: 'ao1', weightingPercent: 20 }],
+          assessmentRequirements: [],
+          components: [{
+            componentId: 'paper-1',
+            questionFamilyIds: [],
+            markTotal: 100,
+            timingMinutes: 120,
+            constraints: [],
+          }],
           commandDemands: [],
           evidenceExpectations: [],
           quantitativeRequirements: [],
