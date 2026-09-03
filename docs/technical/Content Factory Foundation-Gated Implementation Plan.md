@@ -4,7 +4,7 @@
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3A deterministic Foundation assurance via PR #295
+**Current increment:** Slice 3A deterministic Foundation assurance — PR #295
 
 ## Purpose
 
@@ -166,7 +166,7 @@ Slice 3 is deliberately decomposed into short governed increments.
 
 ### Slice 3A — deterministic Foundation assurance
 
-**Status: implementation in progress via PR #295.**
+**Implementation: PR #295.**
 
 Implement a Foundation-native deterministic assurance engine that re-reads the exact persisted Foundation Candidate dependency set and mechanically checks:
 
@@ -286,6 +286,6 @@ As implementation lands:
 - update Content Operations documentation only when that surface changes; and
 - update `INDEX.md` when implementation ownership or discoverability materially changes.
 
-## Immediate next step
+## Operational completion condition for Slice 3A
 
-Complete PR #295 code, documentation, exact-head CI and final review. After explicit Founder merge approval and production verification, run deterministic assurance against the retained real-course Foundation proof dependency set (or reproduce the exact governed Foundation Candidate if required by the retained-evidence format) and retain the result. Then proceed to Slice 3B fresh-context independent review/remediation.
+PR #295 establishes the deterministic-assurance implementation. Once that implementation is released and production-verified, run deterministic assurance against the retained real-course Foundation proof dependency set (or reproduce the exact governed Foundation Candidate if required by the retained-evidence format) and retain the result. Slice 3B follows only after that evidence exists.
