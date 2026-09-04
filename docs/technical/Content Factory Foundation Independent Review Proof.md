@@ -1,9 +1,9 @@
 # Content Factory Foundation Independent Review Proof
 
-**Status:** Operational proof harness proposed after Slice 3B release  
+**Status:** Operational proof harness released through PR #299; retained real-course proof pending  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`
+**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`
 
 ## Purpose
 
@@ -31,6 +31,15 @@ The main-only workflow `.github/workflows/content-factory-foundation-independent
 14. runs another fresh independent review after successful deterministic re-assurance;
 15. stops at the released remediation-cycle limit or upstream recompilation boundary rather than weakening the gate; and
 16. uploads the full proof evidence and records the outcome on Issue #289.
+
+## Controlled invocation
+
+The proof remains deliberately non-automatic because it makes bounded paid provider calls. It may be started in either of two ways:
+
+- manual `workflow_dispatch` on `main`; or
+- the exact command `revision-run-foundation-independent-review-proof:v1` posted on Issue #289 by repository owner `lhanson-dev`.
+
+The issue-comment trigger ignores other issues, other users, non-owner associations and any non-exact command text. It exists so the governed proof can be invoked through the authenticated project operating path without turning every `main` push into a paid proof run.
 
 ## Success condition
 
@@ -91,4 +100,4 @@ Slice 3C remains a separate mandatory qualified-human approval gate under the ac
 
 ## Documentation impact
 
-This record documents the operational proof path introduced after the Slice 3B implementation release. It does not change normative Content Factory authority. If the real-course proof produces a material Foundation correction or exposes a Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting the historical Slice 2B/3A proof evidence.
+This record documents the operational proof path introduced after the Slice 3B implementation release and the controlled invocation mechanism required to run it from the project operating path. It does not change normative Content Factory authority. If the real-course proof produces a material Foundation correction or exposes a Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting the historical Slice 2B/3A proof evidence.
