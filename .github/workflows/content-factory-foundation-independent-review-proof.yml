@@ -2,6 +2,8 @@ name: Content Factory Foundation Independent Review Proof
 
 on:
   workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
@@ -15,7 +17,13 @@ concurrency:
 jobs:
   foundation-independent-review-proof:
     name: Governed retained real-course Foundation independent review proof
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       github.event.comment.body == 'revision-run-foundation-independent-review-proof:v1')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
