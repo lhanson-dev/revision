@@ -46,7 +46,27 @@ class CapturingProvider implements FoundationStructuredProviderClient {
     return success({
       resolvedFindingIds: ['material-finding'],
       resolutionNotes: ['Corrected only the supplied remediation target.'],
-      replacements: [],
+      replacements: [{
+        artifactKind: 'question_family',
+        oldRef: 'foundation/question-family-test.json',
+        correctedArtifact: {
+          schemaVersion: 1,
+          id: 'test-family',
+          title: 'Test family',
+          assessmentObjectiveIds: [],
+          skillProfile: ['explain'],
+          componentScope: [],
+          markRange: { min: 1, max: 2 },
+          responseShape: 'short response',
+          contextRequirements: [],
+          applicationRequirements: [],
+          analysisRequirements: [],
+          evaluationRequirements: [],
+          commonFailureModes: [],
+          markingPackTemplateVersion: 'foundation-v1',
+          calibrationStatus: 'not_calibrated',
+        },
+      }],
     }, 'remediation-run', 'fresh-remediation-context')
   }
 }
