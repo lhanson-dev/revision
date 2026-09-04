@@ -34,9 +34,17 @@ const remediationCourseKnowledgeModelProviderSchema = z.object({
   nodes: z.array(courseKnowledgeNodeSchema).min(1),
 })
 
-const remediationAssessmentBlueprintProviderSchema = foundationAssessmentBlueprintSchema.omit({
-  boardAlignmentFingerprint: true,
-  courseKnowledgeModelFingerprint: true,
+const remediationAssessmentBlueprintProviderSchema = z.object({
+  schemaVersion: foundationAssessmentBlueprintSchema.shape.schemaVersion,
+  jobId: foundationAssessmentBlueprintSchema.shape.jobId,
+  assessmentObjectives: foundationAssessmentBlueprintSchema.shape.assessmentObjectives,
+  assessmentRequirements: foundationAssessmentBlueprintSchema.shape.assessmentRequirements,
+  components: foundationAssessmentBlueprintSchema.shape.components,
+  commandDemands: foundationAssessmentBlueprintSchema.shape.commandDemands,
+  evidenceExpectations: foundationAssessmentBlueprintSchema.shape.evidenceExpectations,
+  quantitativeRequirements: foundationAssessmentBlueprintSchema.shape.quantitativeRequirements,
+  quantitativeCoveragePlan: foundationAssessmentBlueprintSchema.shape.quantitativeCoveragePlan,
+  synopticRequirements: foundationAssessmentBlueprintSchema.shape.synopticRequirements,
 })
 
 const foundationRemediationProviderOutputSchema = z.object({
