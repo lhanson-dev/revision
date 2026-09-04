@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { advanceFoundationJob, createFoundationJob } from './foundation-lifecycle'
 import {
   compileFoundationJob,
+  foundationCoverageModelSchema,
   type FoundationCompilationArtifactKind,
   type FoundationCompilationArtifactStore,
   type FoundationCoverageModel,
@@ -236,18 +237,13 @@ describe('Foundation live adapter', () => {
   })
 
   it('fails v2 coverage that collapses governed knowledge items into too few canonical nodes', () => {
-    expect(() => z.parse(z.object({ coverage: z.unknown() }), { coverage: null })).not.toThrow()
     const requirement = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements[0]
-    expect(() => {
-      const value: FoundationCoverageModel = {
-        schemaVersion: 2,
-        jobId: 'test-job',
-        sourceSetFingerprint: 'source-fingerprint',
-        requirements: [{ ...requirement, knowledgeNodeIds: [requirement.requirementId], coverageStatus: 'complete' }],
-      }
-      // Re-use compilation by parsing through the inferred type at runtime in the next test path.
-      return value
-    }).not.toThrow()
+    expect(() => foundationCoverageModelSchema.parse({
+      schemaVersion: 2,
+      jobId: 'test-job',
+      sourceSetFingerprint: 'source-fingerprint',
+      requirements: [{ ...requirement, knowledgeNodeIds: [requirement.requirementId], coverageStatus: 'complete' }],
+    })).toThrow('requires at least one canonical knowledge node for every governed skillsOrKnowledge item')
   })
 
   it('fails closed before model execution when live source preflight fails', async () => {
