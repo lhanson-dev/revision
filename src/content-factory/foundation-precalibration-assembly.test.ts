@@ -4,11 +4,10 @@ import {
   type FoundationCompilationWorkers,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
-import type { FoundationIndependentReviewWorkers } from './foundation-independent-review'
 import {
+  aqa7132PreCalibrationAssemblyProblems,
   normaliseAqa7132PreCalibrationQuestionFamily,
   withAqa7132PreCalibrationAssemblyGuard,
-  withAqa7132PreCalibrationRemediationGuard,
 } from './foundation-precalibration-assembly'
 
 function success(output: unknown): FoundationWorkerExecution<unknown> {
@@ -78,6 +77,7 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
     expect(corrected.responseShape).toContain('remain unfixed until qualified calibration')
     expect(corrected.responseShape).not.toContain('5/10/15/20/25/25')
     expect(corrected.calibrationStatus).toBe('not_calibrated')
+    expect(aqa7132PreCalibrationAssemblyProblems(corrected, blueprint())).toEqual([])
   })
 
   it('fails closed when exact constituent mark/timing allocations are hidden outside responseShape', () => {
@@ -85,6 +85,18 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
       ...family('paper3-case-study', 'paper-3'),
       evaluationRequirements: ['Finish with two 25-mark strategic judgements.'],
     }, blueprint())).toThrow('unsupported exact constituent mark/timing allocation')
+  })
+
+  it('reports persisted pre-calibration drift deterministically', () => {
+    const problems = aqa7132PreCalibrationAssemblyProblems(
+      family('paper3-case-study', 'paper-3'),
+      blueprint(),
+    )
+
+    expect(problems).toEqual(expect.arrayContaining([
+      expect.stringContaining('component-wide pre-calibration mark envelope'),
+      expect.stringContaining('aggregate-only pre-calibration response shape'),
+    ]))
   })
 
   it('normalises initial Question Family compilation before persistence', async () => {
@@ -108,42 +120,5 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
         responseShape: expect.stringContaining('constituent mark and timing allocations remain unfixed'),
       }),
     ])
-  })
-
-  it('normalises targeted remediation replacements through the same boundary', async () => {
-    const rawWorkers = {
-      async independentReview() {
-        return success({ decision: 'pass', findings: [] })
-      },
-      async remediate() {
-        return success({
-          resolvedFindingIds: ['paper3-mark-and-timing-demand-is-not-calibrated'],
-          resolutionNotes: ['Adjusted Paper 3 structure.'],
-          replacements: [{
-            artifactKind: 'question_family',
-            oldRef: 'foundation:paper3-family',
-            correctedArtifact: family('paper3-case-study', 'paper-3'),
-          }],
-        })
-      },
-    } as unknown as FoundationIndependentReviewWorkers
-    const guarded = withAqa7132PreCalibrationRemediationGuard(rawWorkers)
-
-    const result = await guarded.remediate({
-      assessmentBlueprint: blueprint(),
-    } as Parameters<FoundationIndependentReviewWorkers['remediate']>[0])
-
-    expect(result.status).toBe('success')
-    if (result.status !== 'success') throw new Error(result.error)
-    expect(result.output).toMatchObject({
-      replacements: [{
-        artifactKind: 'question_family',
-        correctedArtifact: {
-          id: 'paper3-case-study',
-          markRange: { min: 1, max: 100 },
-          calibrationStatus: 'not_calibrated',
-        },
-      }],
-    })
   })
 })
