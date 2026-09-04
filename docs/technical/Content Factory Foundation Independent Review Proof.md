@@ -1,9 +1,9 @@
 # Content Factory Foundation Independent Review Proof
 
-**Status:** Operational proof harness released; first two retained real-course proofs blocked on 4 September 2026; second proof isolated a remediation provider-contract defect now under governed repair  
+**Status:** Operational proof harness released; first three retained real-course proofs blocked on 4 September 2026; third proof isolated a bounded remediation response-capacity issue after the fingerprint-contract repair  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`; controlled invocation released through PR #300 / `7474068be3f7958b2e8c3233ed96d96858cbc8e3`; blocker diagnostics released through PR #301 / `1989f306cc1a742e2eccb65f53a38c5f338fabba`
+**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`; controlled invocation released through PR #300 / `7474068be3f7958b2e8c3233ed96d96858cbc8e3`; blocker diagnostics released through PR #301 / `1989f306cc1a742e2eccb65f53a38c5f338fabba`; remediation fingerprint-contract repair released through PR #302 / `afd867c18cbac1ee0f602010df21820bf71a2945`
 
 ## Purpose
 
@@ -72,6 +72,20 @@ Those fields are mechanically derived Foundation dependencies. The active Slice 
 
 The governed repair keeps the assurance semantics unchanged. The provider-facing remediation schema accepts semantic Course Truth and Exam Truth without compiler-owned fingerprint fields; the live adapter deterministically restores Course Truth material fingerprint and exact Board Alignment/Course Truth dependency fingerprints before returning the internal remediation worker result. The Foundation remediation core still recomputes and validates the affected fingerprints, dependency closure, material Foundation fingerprint change and deterministic re-assurance. Model-generated hashes are neither requested nor trusted.
 
+## Third retained real-course proof outcome
+
+The post-repair proof executed as workflow run `33872089814` on approved `main` commit `afd867c18cbac1ee0f602010df21820bf71a2945` after PR #302 released the remediation fingerprint-contract repair.
+
+The fingerprint-contract failure did not recur. The remediation worker reached the live OpenAI provider boundary, but the response completed with provider status `incomplete`; the Foundation runtime therefore failed closed before retaining a remediation record. The exact retained operational blocker was:
+
+`remediation worker infrastructure_failure: OpenAI response status was incomplete`
+
+The final Foundation fingerprint remained `5b9a8496128b67d78c00a6075fe46ca70cad08bbc10bed6f4ce8f16b97e6efd8`. Deterministic assurance remained `pass`, independent review remained `fail_hold`, remediation contexts and retained remediation cycles remained `0`, learner-facing asset count remained `0`, and conservative provider spend was `$0.2420 / $12.00`.
+
+This third run establishes a different failure class from the second run. The shared provider adapter did not retain the provider's `incomplete_details.reason`, so the exact provider reason was not directly proved by the retained run and must not be reconstructed after the fact. The available evidence nevertheless points strongly to the configured remediation output ceiling as the next bounded issue to test: the failed remediation call consumed approximately `$0.1865`; a 12,000-token output at the configured `$12 / million` output rate accounts for `$0.144` before input cost, and the dependency-closure response may need to return corrected Course Truth, dependent Exam Truth and all five Question Families. The retained source forms of those artifacts already total roughly 25,000 compact JSON characters before the material quantitative expansion requested by the reviewer.
+
+The governed follow-up therefore does not split the remediation architecture prematurely. It increases only the targeted-remediation generation route from 12,000 to 32,000 maximum output tokens, while keeping the independent-review route at 12,000, the whole-proof spend ceiling at `$12.00`, the three-cycle remediation limit, exact dependency closure, fresh-context separation, deterministic re-assurance and zero-learner-asset rule unchanged. The proof also records non-completed provider response diagnostics — status, `incomplete_details.reason` when supplied, and input/output token usage — through a read-only response-clone observer so any further non-completed response is diagnosable without altering provider handling.
+
 ## Success condition
 
 The proof passes only when the final exact Foundation Candidate remains in `assuring` state with:
@@ -101,7 +115,7 @@ The proof fails or blocks progression when any of the following occurs:
 - blocking/material findings remain after the bounded remediation limit; or
 - the final exact candidate does not hold both deterministic PASS and independent-review PASS.
 
-Any unresolved operational blocker on a failed proof is retained verbatim in the proof evidence and Issue #289 diagnostic output before the final PASS assertions execute.
+Any unresolved operational blocker on a failed proof is retained verbatim in the proof evidence and Issue #289 diagnostic output before the final PASS assertions execute. Subsequent proof runs also retain non-completed provider response status/reason and token usage when the provider supplies them.
 
 ## Evidence retained
 
@@ -112,6 +126,7 @@ The uploaded JSON evidence records:
 - reviewed implementation commit;
 - excluded generation context IDs;
 - fresh review and remediation context IDs;
+- non-completed provider response diagnostics, including reason and token usage when supplied;
 - provider spend;
 - final Foundation job state and `blockedFromState` where applicable;
 - exact unresolved operational blockers with ID, stage, reason and creation time;
@@ -137,4 +152,4 @@ Slice 3C remains a separate mandatory qualified-human approval gate under the ac
 
 ## Documentation impact
 
-This record documents the operational proof path, controlled invocation, first retained blocked outcome, second diagnostic rerun and the remediation provider-contract repair required before another paid proof. It does not change normative Content Factory authority. Both failed proof runs remain historical operational evidence and are not rewritten. If a later real-course proof produces a material Foundation correction or exposes another Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting historical Slice 2B/3A or earlier Slice 3B proof evidence.
+This record documents the operational proof path, controlled invocation, all three retained blocked outcomes, the released fingerprint-contract repair and the bounded response-capacity/diagnostic follow-up. It does not change normative Content Factory authority, and the active Foundation-gated implementation plan remains correct because the Slice 3B success criteria and sequencing are unchanged. The failed proof runs remain historical operational evidence and are not rewritten. If a later real-course proof produces a material Foundation correction or exposes another Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting historical Slice 2B/3A or earlier Slice 3B proof evidence.
