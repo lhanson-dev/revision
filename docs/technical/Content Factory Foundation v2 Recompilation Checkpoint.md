@@ -1,6 +1,6 @@
 # Content Factory Foundation v2 Recompilation Checkpoint
 
-**Status:** Retained real-course v2 Foundation compilation and first v2 Slice 3B proof complete; targeted-remediation fragment normalisation repair in progress  
+**Status:** Retained real-course v2 Foundation compilation complete; Course Truth fragment normalisation released; quantitative source-anchor remediation repair in progress  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Related implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`  
@@ -8,9 +8,9 @@
 
 ## Purpose
 
-Record the fresh upstream Foundation recompilation required after the fourth retained Slice 3B proof showed that the historical AQA A-level Business 7132 Foundation was structurally too coarse for controlled downstream generation, and retain the subsequent v2 assurance evidence without rewriting earlier proof history.
+Record the fresh upstream Foundation recompilation required after the fourth retained Slice 3B proof showed that the historical AQA A-level Business 7132 Foundation was structurally too coarse for controlled downstream generation, and retain subsequent v2 assurance evidence without rewriting earlier proof history.
 
-This checkpoint is append-only operational evidence. It does not reinterpret the earlier Slice 3B independent-review proofs and does not change normative Content Factory authority.
+This checkpoint is append-only operational evidence. It does not reinterpret earlier Slice 3B independent-review proofs and does not change normative Content Factory authority.
 
 ## Released compiler boundary
 
@@ -124,22 +124,80 @@ Exact blocker:
 
 The local normaliser rejected valid references from `quantitative-skills.k02` to unchanged canonical nodes including `quantitative-skills.k01`, `marketing-analysis.k05` and `financial-performance.k04` because it validated the provider's one-node correction as though that fragment were the complete Course Knowledge Model.
 
-This is an implementation normalisation-boundary defect. It is not a provider-capacity failure, not a source-rights failure, not evidence that those canonical node references are invalid, and not a reason to weaken the independent-review gate or raise the remediation-cycle limit.
+This was an implementation normalisation-boundary defect. It was not a provider-capacity failure, not a source-rights failure, not evidence that those canonical node references were invalid, and not a reason to weaken the independent-review gate or raise the remediation-cycle limit.
 
-The failed proof must not be blindly rerun.
+## Released Course Truth fragment-normalisation repair
 
-## Governed fragment-normalisation repair
+PR #306 repaired the live remediation boundary while keeping the core remediation and assurance contracts unchanged. It:
 
-The smallest safe repair is to keep the core remediation contract unchanged while making the live provider boundary correctly handle semantic Course Truth fragments:
+1. accepts one or more corrected canonical Course Truth nodes from the provider;
+2. rejects duplicate or unknown canonical node IDs;
+3. merges corrected nodes into the exact current complete Course Truth artifact;
+4. validates the reconstructed full graph so genuinely unknown prerequisite/related references still fail closed;
+5. computes the Course Truth fingerprint locally from the complete reconstructed semantic artifact; and
+6. passes the complete validated artifact into the existing remediation core, which continues to enforce canonical node-set identity, dependency rebuilding and deterministic re-assurance.
 
-1. accept one or more corrected canonical nodes from the provider;
-2. reject duplicate or unknown canonical node IDs;
-3. merge those corrected nodes into the exact current complete Course Truth artifact;
-4. validate the reconstructed full graph so genuinely unknown prerequisite/related references still fail closed;
-5. compute the Course Truth fingerprint locally from the complete reconstructed semantic artifact; and
-6. pass the complete validated artifact into the existing remediation core, which continues to enforce canonical node-set identity, dependency rebuilding and deterministic re-assurance.
+PR #306 merged to approved `main` as `ab00620380640431eb3f927751a2cfead38593d0`. Post-merge Revision CI #1564 and Pages #238 passed on that exact commit.
 
-This repair does not weaken assurance or allow the provider to delete canonical nodes. It reduces unnecessary model output for narrow corrections while preserving full-graph integrity validation inside Revision.
+This repair did not weaken assurance or allow the provider to delete canonical nodes. It reduced unnecessary model output for narrow corrections while preserving full-graph integrity validation inside Revision.
+
+## Second retained v2 Slice 3B proof
+
+After #306 was fully released, one governed proof was run against the same exact retained v2 source Foundation. **Content Factory Foundation Independent Review Proof** run `33911867784` reviewed exact released `main` `ab00620380640431eb3f927751a2cfead38593d0`.
+
+Retained evidence:
+
+- source and final Foundation fingerprint: `950c002c325e4d6a980d2588c707b3c541a3316b9fe5b7ce446fd51b1e481fac`;
+- evidence artifact id: `9951781044`;
+- evidence artifact digest: `sha256:86ec91b98ff14a5b48e5381670a20a4017df5efc848296b8730c75909e6a27df`;
+- deterministic assurance: `pass`;
+- fresh independent-review contexts: `1`;
+- retained remediation contexts: `0` because remediation failed during local normalisation before a corrected candidate could be written;
+- provider non-completed-response diagnostics: none;
+- conservative provider spend: `$0.377006 / $12.00`;
+- learner-facing assets: `0`.
+
+The proof again failed closed, but **did not reproduce the Course Truth fragment-reference defect repaired by #306**.
+
+### Fresh review findings on run `33911867784`
+
+The fresh reviewer returned `fail_hold` with two findings on the source v2 Foundation:
+
+1. **Blocking — Course Truth remained label-only and not learning-ready.** The reviewer observed that the source 82-node candidate still contained `Focuses specifically on...` summaries, empty formula arrays for quantitative methods, and empty prerequisite/related/misconception/application structures. This is expected on the unremediated source candidate and confirms why targeted remediation is required before Slice 3C.
+2. **Material — Paper 2 / Paper 3 component mark allocation remained insufficiently operationalised.** Component totals were known, but the source Exam Truth did not yet constrain multi-question assembly tightly enough to guarantee exact 100-mark totals, command/response progression and realistic timing/quantitative opportunities.
+
+These are legitimate educational/assessment findings for the unremediated source Foundation. The proof should have entered targeted remediation.
+
+### Quantitative source-anchor normalisation failure
+
+The remediation provider returned corrections for the blocking/material findings, but local normalisation failed before any remediation record or new candidate was retained.
+
+Exact blocker:
+
+`remediation worker failure: provider_contract_failure: remediation_normalisation: Quantitative coverage plan must reference an Exam Truth assessment requirement`
+
+The source Exam Truth v2 quantitative plan is compiler-owned and references the verified assessment requirement:
+
+`sourceAssessmentRequirementId: quantitative-minimum`
+
+During remediation, the semantic Assessment Blueprint replacement omitted that referenced requirement while Revision correctly restored the compiler-owned quantitative plan. Full Exam Truth validation therefore failed closed because the restored plan no longer had its required source anchor in the provider-returned assessment-requirement list.
+
+This is a second, distinct local remediation-normalisation boundary. The correct repair is not to remove the quantitative invariant or trust the provider's omission. The exact verified source requirement referenced by the compiler-owned plan must itself be preserved mechanically during remediation, alongside the plan, schema version and dependency fingerprints. Surrounding Paper 2 / Paper 3 assessment structure remains available for legitimate targeted correction.
+
+## Quantitative source-anchor preservation repair
+
+The bounded repair is:
+
+1. read `quantitativeCoveragePlan.sourceAssessmentRequirementId` from the exact current Exam Truth;
+2. locate the exact current assessment requirement with that ID;
+3. preserve that source requirement mechanically even if provider semantic output omits or rewrites it;
+4. continue to preserve the compiler-owned v2 schema version, quantitative plan, Board Alignment fingerprint and Course Truth fingerprint;
+5. validate the reconstructed complete Exam Truth normally so unrelated invalid assessment changes still fail closed; and
+6. explicitly instruct the remediation provider that the compiler-linked source requirement is not a mutable remediation field.
+
+This implements the existing authority that Exam Truth quantitative rules derive from approved/verified assessment evidence. It does not create a new assessment rule, weaken independent review, change the three-cycle limit, increase spend, alter source rights or start learner-asset generation.
+
+The failed run `33911867784` must not be blindly rerun before this repair is exact-head assured, Founder-approved, merged and production-verified.
 
 ## Progression boundary
 
@@ -158,4 +216,4 @@ Even a clean Slice 3B PASS does not constitute qualified expert approval. Slice 
 
 ## Documentation impact
 
-This checkpoint records current implementation evidence only. No normative authority changes. Earlier proof evidence remains historically intact. The repair changes how a semantic Course Truth remediation fragment is reconstructed and validated before the existing remediation core; it does not change what educational assurance must prove.
+This checkpoint records current implementation evidence only. No normative authority changes. Earlier proof evidence remains historically intact. The current repair mechanically preserves a compiler-linked, verified quantitative assessment source anchor during model remediation; it does not change what educational assurance must prove.
