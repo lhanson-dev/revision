@@ -77,6 +77,40 @@ function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
 }
 
+async function normaliseCourseKnowledgeModelReplacement(
+  semanticPatch: z.infer<typeof remediationCourseKnowledgeModelProviderSchema>,
+  remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
+) {
+  const current = remediationInput.courseKnowledgeModel
+  if (semanticPatch.jobId !== current.jobId) {
+    throw new Error('Course Truth remediation may not change Foundation job identity')
+  }
+
+  const currentNodeIds = new Set(current.nodes.map((node) => node.id))
+  const patchNodeIds = semanticPatch.nodes.map((node) => node.id)
+  if (new Set(patchNodeIds).size !== patchNodeIds.length) {
+    throw new Error('Course Truth remediation patch may not contain duplicate canonical node IDs')
+  }
+  for (const nodeId of patchNodeIds) {
+    if (!currentNodeIds.has(nodeId)) {
+      throw new Error(`Course Truth remediation patch references unknown canonical node ${nodeId}`)
+    }
+  }
+
+  const patchById = new Map(semanticPatch.nodes.map((node) => [node.id, node]))
+  const semanticFullModel = {
+    schemaVersion: current.schemaVersion,
+    jobId: current.jobId,
+    nodes: current.nodes.map((node) => patchById.get(node.id) ?? node),
+  }
+  const fingerprint = await fingerprintFoundationArtifact(semanticFullModel)
+
+  return courseKnowledgeModelSchema.parse({
+    ...semanticFullModel,
+    fingerprint,
+  })
+}
+
 async function normaliseRemediationOutput(
   providerOutput: unknown,
   remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
@@ -84,23 +118,23 @@ async function normaliseRemediationOutput(
   const parsed = foundationRemediationProviderOutputSchema.parse(providerOutput)
   const courseReplacement = parsed.replacements.find((replacement) => replacement.artifactKind === 'course_knowledge_model')
   const hasAssessmentBlueprintReplacement = parsed.replacements.some((replacement) => replacement.artifactKind === 'assessment_blueprint')
+  const normalisedCourseReplacement = courseReplacement?.artifactKind === 'course_knowledge_model'
+    ? await normaliseCourseKnowledgeModelReplacement(courseReplacement.correctedArtifact, remediationInput)
+    : undefined
   let courseKnowledgeModelFingerprint: string | undefined
 
-  if (courseReplacement?.artifactKind === 'course_knowledge_model') {
-    courseKnowledgeModelFingerprint = await fingerprintFoundationArtifact(courseReplacement.correctedArtifact)
+  if (normalisedCourseReplacement) {
+    courseKnowledgeModelFingerprint = normalisedCourseReplacement.fingerprint
   } else if (hasAssessmentBlueprintReplacement) {
     courseKnowledgeModelFingerprint = remediationInput.courseKnowledgeModel.fingerprint
   }
 
   const replacements = await Promise.all(parsed.replacements.map(async (replacement) => {
     if (replacement.artifactKind === 'course_knowledge_model') {
-      const fingerprint = await fingerprintFoundationArtifact(replacement.correctedArtifact)
+      if (!normalisedCourseReplacement) throw new Error('Course Truth remediation normalisation did not produce a complete model')
       return {
         ...replacement,
-        correctedArtifact: courseKnowledgeModelSchema.parse({
-          ...replacement.correctedArtifact,
-          fingerprint,
-        }),
+        correctedArtifact: normalisedCourseReplacement,
       }
     }
 
@@ -175,6 +209,7 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
         instructions: [
           'Correct only the blocking/material Foundation findings and only inside the exact remediation targets supplied.',
           'Return exactly one replacement for every target oldRef and no unrelated replacement.',
+          'For a Course Truth replacement, return only the canonical nodes you materially corrected. Revision preserves omitted canonical nodes, reconstructs the complete Course Truth graph, validates all node references and computes the fingerprint after your semantic patch is returned.',
           'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
