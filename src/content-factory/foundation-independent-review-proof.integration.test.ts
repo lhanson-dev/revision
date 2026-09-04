@@ -7,7 +7,7 @@ import {
   createFoundationJob,
   setFoundationCandidate,
 } from './foundation-lifecycle'
-import { foundationCandidateSchema } from './foundation-schema'
+import { foundationCandidateSchema, type FoundationJob } from './foundation-schema'
 import {
   foundationCompilationWorkerStageSchema,
   type FoundationCompilationWorkerRun,
@@ -102,6 +102,21 @@ async function addIssueComment(repo: string, token: string, issueNumber: number,
   if (!response.ok) throw new Error(`GitHub issue comment failed with HTTP ${response.status}: ${(await response.text()).slice(0, 500)}`)
 }
 
+function unresolvedOperationalBlockers(job: Pick<FoundationJob, 'blockers'>) {
+  return job.blockers.filter((blocker) => !blocker.resolvedAt)
+}
+
+function operationalBlockerDiagnosticLines(blockers: FoundationJob['blockers']) {
+  if (blockers.length === 0) return []
+  return [
+    '',
+    'Final operational blocker diagnostics:',
+    '```json',
+    JSON.stringify(blockers.map(({ id, reason, stage, createdAt }) => ({ id, reason, stage, createdAt })), null, 2),
+    '```',
+  ]
+}
+
 class RetainedProofReviewStore implements FoundationIndependentReviewArtifactStore {
   readonly values = new Map<string, unknown>()
   readonly writes: Array<{
@@ -134,6 +149,25 @@ class RetainedProofReviewStore implements FoundationIndependentReviewArtifactSto
     return { ref }
   }
 }
+
+describe('Foundation independent review proof diagnostics', () => {
+  it('retains the exact unresolved remediation blocker reason for failed provider output', () => {
+    const blockers: FoundationJob['blockers'] = [{
+      id: 'remediation-worker-failure-content-factory.foundation.targeted-remediation-test-run',
+      reason: 'remediation worker failure: provider_contract_failure: correctedArtifact failed schema validation',
+      stage: 'assuring',
+      createdAt: '2026-09-04T05:54:00.000Z',
+    }]
+
+    const unresolved = unresolvedOperationalBlockers({ blockers })
+    expect(unresolved).toEqual(blockers)
+
+    const rendered = operationalBlockerDiagnosticLines(unresolved).join('\n')
+    expect(rendered).toContain(blockers[0].id)
+    expect(rendered).toContain(blockers[0].reason)
+    expect(rendered).toContain('"stage": "assuring"')
+  })
+})
 
 describe('Foundation retained real-course independent review proof', () => {
   const proofIt = proofEnabled ? it : it.skip
@@ -219,6 +253,7 @@ describe('Foundation retained real-course independent review proof', () => {
     const remediationContextIds = result.remediationRecords.map((record) => record.remediationWorker.contextId)
     const providerContextIds = [...reviewContextIds, ...remediationContextIds]
     const budget = provider.budgetSnapshot?.() ?? { conservativeConsumedUsd: 0 }
+    const operationalBlockers = unresolvedOperationalBlockers(result.job)
     const finalPass = result.job.state === 'assuring'
       && finalCandidate?.deterministicAssurance.status === 'pass'
       && finalCandidate.independentReview.status === 'pass'
@@ -248,10 +283,13 @@ describe('Foundation retained real-course independent review proof', () => {
       configuredMaxSpendUsd: maxSpendUsd,
       providerBudget: budget,
       finalState: result.job.state,
+      blockedFromState: result.job.blockedFromState ?? null,
+      finalOperationalBlockers: operationalBlockers,
       finalCandidateId: finalCandidate?.candidateId ?? null,
       finalFoundationFingerprint,
       deterministicAssuranceStatus: finalCandidate?.deterministicAssurance.status ?? null,
       independentReviewStatus: finalCandidate?.independentReview.status ?? null,
+      finalCandidateUnresolvedBlockers: finalCandidate?.unresolvedBlockers ?? [],
       reviewReports: result.reviewReports,
       reviewRefs: result.reviewRefs,
       remediationRecords: result.remediationRecords,
@@ -286,8 +324,10 @@ describe('Foundation retained real-course independent review proof', () => {
       `- Final Foundation fingerprint: \`${finalFoundationFingerprint ?? 'unavailable'}\``,
       `- Final deterministic assurance: **${finalCandidate?.deterministicAssurance.status ?? 'unavailable'}**`,
       `- Final independent review: **${finalCandidate?.independentReview.status ?? 'unavailable'}**`,
+      `- Final operational blockers: **${operationalBlockers.length}**`,
       `- Conservative provider spend: **$${budget.conservativeConsumedUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
       `- Learner-facing assets generated: **${sourceProof.learnerAssetCount}**`,
+      ...operationalBlockerDiagnosticLines(operationalBlockers),
       '',
       finalPass
         ? 'Slice 3B operational proof PASS: the exact retained/current Foundation version has deterministic PASS and fresh-context independent-review PASS. This does not constitute qualified expert approval or `foundation_approved`; Slice 3C remains mandatory.'
