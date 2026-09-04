@@ -111,6 +111,33 @@ async function normaliseCourseKnowledgeModelReplacement(
   })
 }
 
+function normaliseAssessmentRequirements(
+  semanticRequirements: z.infer<typeof remediationAssessmentBlueprintProviderSchema>['assessmentRequirements'],
+  remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
+) {
+  const current = remediationInput.assessmentBlueprint
+  const quantitativeCoveragePlan = current.quantitativeCoveragePlan
+  if (!quantitativeCoveragePlan) return semanticRequirements
+
+  const sourceRequirementId = quantitativeCoveragePlan.sourceAssessmentRequirementId
+  const sourceRequirementIndex = current.assessmentRequirements.findIndex((requirement) => requirement.id === sourceRequirementId)
+  const sourceRequirement = current.assessmentRequirements[sourceRequirementIndex]
+  if (!sourceRequirement) {
+    throw new Error(`Compiler-owned quantitative coverage plan references missing source assessment requirement ${sourceRequirementId}`)
+  }
+
+  const semanticIds = semanticRequirements.map((requirement) => requirement.id)
+  if (new Set(semanticIds).size !== semanticIds.length) {
+    throw new Error('Assessment Blueprint remediation may not contain duplicate assessment requirement IDs')
+  }
+
+  const normalised = semanticRequirements
+    .filter((requirement) => requirement.id !== sourceRequirementId)
+    .map((requirement) => ({ ...requirement }))
+  normalised.splice(Math.min(sourceRequirementIndex, normalised.length), 0, sourceRequirement)
+  return normalised
+}
+
 async function normaliseRemediationOutput(
   providerOutput: unknown,
   remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
@@ -147,6 +174,7 @@ async function normaliseRemediationOutput(
         correctedArtifact: foundationAssessmentBlueprintSchema.parse({
           ...replacement.correctedArtifact,
           schemaVersion: remediationInput.assessmentBlueprint.schemaVersion,
+          assessmentRequirements: normaliseAssessmentRequirements(replacement.correctedArtifact.assessmentRequirements, remediationInput),
           quantitativeCoveragePlan: remediationInput.assessmentBlueprint.quantitativeCoveragePlan,
           boardAlignmentFingerprint: remediationInput.boardAlignment.fingerprint,
           courseKnowledgeModelFingerprint,
@@ -213,7 +241,7 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
-          'Do not change Assessment Blueprint schemaVersion or quantitativeCoveragePlan. Those fields are compiler-owned and Revision deterministically preserves them after your semantic correction.',
+          'Do not remove or rewrite the Assessment Blueprint requirement referenced by quantitativeCoveragePlan.sourceAssessmentRequirementId. That verified source anchor, the Assessment Blueprint schemaVersion and quantitativeCoveragePlan are compiler-owned and Revision deterministically preserves them after your semantic correction.',
           'Do not return or attempt to calculate Course Truth or dependency SHA fingerprints. Revision deterministically restores and validates those fields after your corrected semantic output is returned.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
           'Resolve exactly the finding IDs represented by triggerReview blocking/material findings.',

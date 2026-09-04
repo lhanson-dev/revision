@@ -164,7 +164,7 @@ describe('Foundation independent-review live adapter', () => {
     expect(provider.calls[0].routeKind).toBe('generation')
     expect(provider.calls[0].workerId).toBe('content-factory.foundation.targeted-remediation')
     expect(provider.calls[0].instructions).toContain('Do not modify Source Rights, Board Alignment or Foundation coverage')
-    expect(provider.calls[0].instructions).toContain('Do not change Assessment Blueprint schemaVersion or quantitativeCoveragePlan')
+    expect(provider.calls[0].instructions).toContain('Do not remove or rewrite the Assessment Blueprint requirement referenced by quantitativeCoveragePlan.sourceAssessmentRequirementId')
     expect(provider.calls[0].instructions).toContain('Do not return or attempt to calculate Course Truth or dependency SHA fingerprints')
     expect(provider.calls[0].payload).toMatchObject({
       remediationIdentity: { reviewedCommit, foundationFingerprint },
@@ -191,13 +191,18 @@ describe('Foundation independent-review live adapter', () => {
         evidenceTypes: ['explain', 'apply'],
       }],
     }
+    const canonicalQuantitativeRequirement = {
+      id: 'quantitative-minimum',
+      summary: 'Quantitative skills are assessed at a minimum of 10% of overall marks.',
+      componentScope: ['paper-1'],
+    }
     const providerExamSemantic = {
       schemaVersion: 1 as const,
       jobId: 'foundation-live-review-job',
       assessmentObjectives: [{ id: 'ao1', weightingPercent: 20 }],
       assessmentRequirements: [
-        { id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'] },
-        { id: 'quantitative-minimum', summary: 'Quantitative skills are assessed at a minimum of 10% of overall marks.', componentScope: ['paper-1'] },
+        { id: 'written-exam', summary: 'Written examination with an improved component assembly contract.', componentScope: ['paper-1'] },
+        { id: 'quantitative-minimum', summary: 'Provider attempts to rewrite the compiler-linked source requirement.', componentScope: ['paper-1'] },
       ],
       components: [{ componentId: 'paper-1', questionFamilyIds: ['short-explain'], markTotal: 100, timingMinutes: 120, constraints: ['written examination'] }],
       commandDemands: [{ command: 'explain', cognitiveDemand: 'develop a linked explanation', componentScope: ['paper-1'] }],
@@ -240,6 +245,7 @@ describe('Foundation independent-review live adapter', () => {
     const sourceExam = foundationAssessmentBlueprintSchema.parse({
       ...providerExamSemantic,
       schemaVersion: 2,
+      assessmentRequirements: [providerExamSemantic.assessmentRequirements[0], canonicalQuantitativeRequirement],
       quantitativeCoveragePlan,
       boardAlignmentFingerprint: 'source-board-fingerprint',
       courseKnowledgeModelFingerprint: sourceCourse.fingerprint,
@@ -267,6 +273,7 @@ describe('Foundation independent-review live adapter', () => {
     expect(correctedCourse.fingerprint).toBe(expectedCourseFingerprint)
     expect(correctedExam.schemaVersion).toBe(2)
     expect(correctedExam.quantitativeCoveragePlan).toEqual(quantitativeCoveragePlan)
+    expect(correctedExam.assessmentRequirements.find((requirement) => requirement.id === 'quantitative-minimum')).toEqual(canonicalQuantitativeRequirement)
     expect(correctedExam.boardAlignmentFingerprint).toBe('source-board-fingerprint')
     expect(correctedExam.courseKnowledgeModelFingerprint).toBe(expectedCourseFingerprint)
   })
