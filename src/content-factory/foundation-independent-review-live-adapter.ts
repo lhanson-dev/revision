@@ -10,6 +10,7 @@ import {
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import type { FoundationStructuredProviderClient } from './foundation-live-adapter'
+import { normaliseAqa7132PreCalibrationQuestionFamily } from './foundation-precalibration-assembly'
 import {
   foundationIndependentReviewFindingSchema,
   foundationIndependentReviewWorkerContracts,
@@ -184,7 +185,10 @@ async function normaliseRemediationOutput(
 
     return {
       ...replacement,
-      correctedArtifact: questionFamilySchema.parse(replacement.correctedArtifact),
+      correctedArtifact: normaliseAqa7132PreCalibrationQuestionFamily(
+        replacement.correctedArtifact,
+        remediationInput.assessmentBlueprint,
+      ),
     }
   }))
 
@@ -242,6 +246,7 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
           'Do not remove or rewrite the Assessment Blueprint requirement referenced by quantitativeCoveragePlan.sourceAssessmentRequirementId. That verified source anchor, the Assessment Blueprint schemaVersion and quantitativeCoveragePlan are compiler-owned and Revision deterministically preserves them after your semantic correction.',
+          'For Paper 2/Paper 3 Question Families that remain not_calibrated, do not invent fixed constituent mark sequences or per-question timing allocations. Revision deterministically restores the governed aggregate-only response shape and component-wide mark envelope.',
           'Do not return or attempt to calculate Course Truth or dependency SHA fingerprints. Revision deterministically restores and validates those fields after your corrected semantic output is returned.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
           'Resolve exactly the finding IDs represented by triggerReview blocking/material findings.',
