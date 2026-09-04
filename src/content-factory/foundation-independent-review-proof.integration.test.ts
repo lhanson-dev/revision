@@ -31,6 +31,13 @@ const testTimeoutMs = 30 * 60 * 1000
 const remediationMaxOutputTokens = 32_000
 const independentReviewMaxOutputTokens = 12_000
 
+type ProviderResponseDiagnostic = {
+  status: string
+  incompleteReason?: string
+  inputTokens?: number
+  outputTokens?: number
+}
+
 const workerRunSchema = z.object({
   stage: foundationCompilationWorkerStageSchema,
   provenance: z.object({
@@ -119,6 +126,48 @@ function operationalBlockerDiagnosticLines(blockers: FoundationJob['blockers']) 
   ]
 }
 
+function providerResponseDiagnostic(body: unknown): ProviderResponseDiagnostic | null {
+  if (typeof body !== 'object' || body === null) return null
+  const value = body as {
+    status?: unknown
+    incomplete_details?: { reason?: unknown } | null
+    usage?: { input_tokens?: unknown; output_tokens?: unknown } | null
+  }
+  if (typeof value.status !== 'string' || value.status === 'completed') return null
+  return {
+    status: value.status,
+    ...(typeof value.incomplete_details?.reason === 'string'
+      ? { incompleteReason: value.incomplete_details.reason }
+      : {}),
+    ...(typeof value.usage?.input_tokens === 'number' ? { inputTokens: value.usage.input_tokens } : {}),
+    ...(typeof value.usage?.output_tokens === 'number' ? { outputTokens: value.usage.output_tokens } : {}),
+  }
+}
+
+function createDiagnosticFetch(diagnostics: ProviderResponseDiagnostic[]): typeof fetch {
+  return async (input, init) => {
+    const response = await fetch(input, init)
+    try {
+      const diagnostic = providerResponseDiagnostic(await response.clone().json())
+      if (diagnostic) diagnostics.push(diagnostic)
+    } catch {
+      // The provider adapter remains authoritative for response parsing/failure handling.
+    }
+    return response
+  }
+}
+
+function providerResponseDiagnosticLines(diagnostics: ProviderResponseDiagnostic[]) {
+  if (diagnostics.length === 0) return []
+  return [
+    '',
+    'Non-completed provider response diagnostics:',
+    '```json',
+    JSON.stringify(diagnostics, null, 2),
+    '```',
+  ]
+}
+
 class RetainedProofReviewStore implements FoundationIndependentReviewArtifactStore {
   readonly values = new Map<string, unknown>()
   readonly writes: Array<{
@@ -175,6 +224,20 @@ describe('Foundation independent review proof diagnostics', () => {
     expect(independentReviewMaxOutputTokens).toBe(12_000)
     expect(remediationMaxOutputTokens).toBeGreaterThan(independentReviewMaxOutputTokens)
   })
+
+  it('retains incomplete response reason and token usage without changing provider handling', () => {
+    expect(providerResponseDiagnostic({
+      status: 'incomplete',
+      incomplete_details: { reason: 'max_tokens' },
+      usage: { input_tokens: 21_000, output_tokens: 12_000 },
+    })).toEqual({
+      status: 'incomplete',
+      incompleteReason: 'max_tokens',
+      inputTokens: 21_000,
+      outputTokens: 12_000,
+    })
+    expect(providerResponseDiagnostic({ status: 'completed' })).toBeNull()
+  })
 })
 
 describe('Foundation retained real-course independent review proof', () => {
@@ -208,9 +271,11 @@ describe('Foundation retained real-course independent review proof', () => {
     )
     expect(generationContextIds.length).toBeGreaterThan(0)
 
+    const providerResponseDiagnostics: ProviderResponseDiagnostic[] = []
     const provider = createOpenAIFoundationLiveProvider({
       apiKey,
       maxSpendUsd,
+      fetchImpl: createDiagnosticFetch(providerResponseDiagnostics),
       generation: {
         model: generationModel,
         inputUsdPerMillion: 2,
@@ -288,6 +353,7 @@ describe('Foundation retained real-course independent review proof', () => {
       generationContextIds,
       reviewContextIds,
       remediationContextIds,
+      providerResponseDiagnostics,
       configuredMaxSpendUsd: maxSpendUsd,
       providerBudget: budget,
       finalState: result.job.state,
@@ -333,9 +399,11 @@ describe('Foundation retained real-course independent review proof', () => {
       `- Final deterministic assurance: **${finalCandidate?.deterministicAssurance.status ?? 'unavailable'}**`,
       `- Final independent review: **${finalCandidate?.independentReview.status ?? 'unavailable'}**`,
       `- Final operational blockers: **${operationalBlockers.length}**`,
+      `- Non-completed provider responses retained: **${providerResponseDiagnostics.length}**`,
       `- Conservative provider spend: **$${budget.conservativeConsumedUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
       `- Learner-facing assets generated: **${sourceProof.learnerAssetCount}**`,
       ...operationalBlockerDiagnosticLines(operationalBlockers),
+      ...providerResponseDiagnosticLines(providerResponseDiagnostics),
       '',
       finalPass
         ? 'Slice 3B operational proof PASS: the exact retained/current Foundation version has deterministic PASS and fresh-context independent-review PASS. This does not constitute qualified expert approval or `foundation_approved`; Slice 3C remains mandatory.'
