@@ -2,9 +2,9 @@
 
 **Status:** Active implementation plan — authority approved via PR #290; Issue #289 In Progress  
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Architecture decision:** `decisions/ADR-0020-content-factory-foundation-gate.md`  
+**Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3B real-course qualification — harden upstream Foundation compilation after the fourth independent-review proof exposed structural Course Truth granularity and quantitative Exam Truth gaps.
+**Current increment:** Slice 3B real-course qualification — move substantive Course Truth semantics into governed rights-safe compilation input, then harden the pre-calibration Paper 2 / Paper 3 assembly boundary exposed by the fifth independent-review proof.
 
 ## Purpose
 
@@ -110,7 +110,7 @@ The retained AQA Business Foundation passed deterministic assurance with 18 chec
 
 ### Current Slice 3B — fresh-context independent Foundation review and remediation
 
-Core implementation was released through PR #298, with operational proof controls/repairs through PRs #299–#303.
+Core implementation was released through PR #298, with operational proof controls/repairs through PRs #299–#303 and subsequent v2 Foundation/rebinding/remediation hardening through PRs #304–#307.
 
 The released boundary provides:
 
@@ -151,32 +151,76 @@ The final remediated fingerprint was `ae57b118251b5124b020c9505f7582b00d29104560
 1. **Course Truth granularity:** broad coverage requirements were each represented by one broad node despite the governed Revision-owned seed already containing multiple `skillsOrKnowledge` entries.
 2. **Quantitative Exam Truth:** the verified minimum of 10% quantitative marks was stated but not converted into an enforceable aggregate generation constraint. For three 100-mark papers this requires at least 30 marks across the qualification assessment.
 
-The correct response is **not** to raise the remediation-cycle limit. These findings expose an upstream compilation-contract boundary.
+The correct response was **not** to raise the remediation-cycle limit. These findings exposed an upstream compilation-contract boundary.
 
-#### Current upstream recompilation hardening
+#### Completed v2 Foundation recompilation hardening
 
-The next Foundation compiler increment therefore deliberately reopens compilation rather than continuing to mutate the old retained candidate.
+The next compiler increment deliberately reopened compilation rather than continuing to mutate the old retained candidate.
 
-The hardening implements existing Foundation authority by:
+The released hardening:
 
-- preserving the current rights-governed Revision-owned source seed and its existing `skillsOrKnowledge` detail;
-- creating deterministic atomic canonical node IDs for every governed `skillsOrKnowledge` entry;
-- emitting Foundation coverage v2 in which a requirement cannot be structurally complete with fewer canonical nodes than governed knowledge/skill items;
-- constraining the Course Truth provider to enrich only those exact canonical nodes rather than inventing scope/identity;
-- emitting Exam Truth v2 with a compiler-owned quantitative coverage plan linked to the verified `quantitative-minimum` Board Alignment requirement;
-- recording for AQA 7132 an aggregate minimum of `30 / 300` marks, eligible Question Families, the deterministic future-generation rule `sum_quantitative_marks_gte_minimum`, and required interpretation credit;
-- preserving the v2 schema version and quantitative plan through subsequent model remediation; and
-- keeping v1 retained artifacts readable for historical assurance evidence.
+- preserved the rights-governed Revision-owned source seed and its existing `skillsOrKnowledge` obligations;
+- created deterministic atomic canonical node IDs for every governed `skillsOrKnowledge` entry;
+- emitted Foundation coverage v2 in which a requirement cannot be structurally complete with fewer canonical nodes than governed knowledge/skill items;
+- constrained the Course Truth provider to enrich only those exact canonical nodes rather than inventing scope/identity;
+- emitted Exam Truth v2 with a compiler-owned quantitative coverage plan linked to the verified `quantitative-minimum` Board Alignment requirement;
+- recorded for AQA 7132 an aggregate minimum of `30 / 300` marks, eligible Question Families, `sum_quantitative_marks_gte_minimum`, and required interpretation credit;
+- preserved the v2 schema version, quantitative plan and verified quantitative source requirement through subsequent model remediation; and
+- kept historical retained artifacts readable.
 
-This is an implementation/technical-documentation change, not a normative authority change. It does not add curriculum scope beyond the governed seed, does not relax source rights, and does not start learner-asset generation.
+A fresh v2 Foundation Candidate was retained and Slice 3B was rebound to that exact artifact/fingerprint before the fifth proof.
 
-Because canonical coverage and Course Truth identities change, the old retained Foundation used by prior Slice 3B proofs is now a stale proof input for this hardening. Once released, the required sequence is:
+#### Fifth real-course Slice 3B proof checkpoint — 4 September 2026
 
-1. run a fresh main-only Foundation live proof to retain a new v2 Foundation Candidate;
+Workflow run `33920653838` on approved `main` `9a976ff236b06257644d5fe02206817598583e03` exercised the exact retained v2 Foundation through the full independent-review/remediation loop. Retained artifact `9955070274`, digest `sha256:4b74b19d324575a35b94e61ab52a08da881ed3335a3dcb49e0d9caee14b9f8de`.
+
+Evidence:
+
+- four fresh independent reviews;
+- three completed targeted-remediation cycles;
+- deterministic PASS after every correction;
+- `providerResponseDiagnostics: []`;
+- conservative provider spend `$1.025522 / $12.00`;
+- learner-facing assets `0`;
+- final Foundation fingerprint `7fb036361c544f9acfd276f23e4f7c9c6007144e83b6a363395dd9dee12070f2`;
+- final state blocked only because material findings remained after the governed three-cycle limit.
+
+This proof confirms that the technical review/remediation machinery is functioning. The remaining work is educational/assessment ownership upstream of the retry loop.
+
+The final two material findings were:
+
+1. **Financial-ratio scope is not enactable.** The Course Truth node described a wider ratio-method scope than the formulas/methods it actually defined, so controlled generation could not know whether efficiency/gearing methods were required or prohibited.
+2. **Paper 3 internal demand is over-specified before calibration.** Remediation created a rigid six-question `5/10/15/20/25/25` mark sequence with matching `6/12/18/24/30/30` minute guidance while the Question Family remained `not_calibrated`.
+
+Do not raise the remediation-cycle limit and do not rerun the retained run-#15 candidate.
+
+#### Current post-fifth-proof hardening
+
+The current work is split into two short governed changes so the evidence ownership remains explicit.
+
+**A. Course Truth semantic evidence seed**
+
+The Revision-owned AQA Business seed now needs to carry substantive candidate semantics for all 82 atomic knowledge/skill obligations instead of topic labels alone. Where applicable it should include definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
+
+The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. This is a source-seed/fingerprint change, so the next Foundation proof must compile a fresh candidate.
+
+Architecture decision: `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`.
+
+**B. Pre-calibration assessment assembly boundary**
+
+A separate following slice must prevent remediation from manufacturing rigid constituent mark/timing patterns where Board Alignment supports only aggregate structure and the Question Family remains `not_calibrated`. Exact verified paper totals/shape must remain enforceable, but unsupported internal allocations should remain bounded/flexible until qualified calibration establishes them.
+
+No paid Slice 3B proof should run after only part A. Both part A and part B must be released first.
+
+Once both are released, the required sequence is:
+
+1. run a fresh main-only Foundation live proof to retain a new Foundation Candidate derived from the changed semantic seed;
 2. verify the exact new Foundation artifact/fingerprint and zero learner assets;
-3. bind Slice 3B proof input to that new retained candidate rather than the historical `5b9a...` candidate;
-4. rerun deterministic assurance and fresh-context independent review on the exact new Foundation; and
+3. bind Slice 3B proof input to that new retained candidate;
+4. rerun deterministic assurance and one fresh-context independent-review/remediation proof; and
 5. enter Slice 3C only if the exact version reaches deterministic PASS plus independent-review PASS.
+
+This remains an implementation/technical-documentation change under existing authority. Source-rights rules, independent-review severity, the three-cycle limit and qualified expert review are not weakened.
 
 ### Slice 3C — qualified expert review and immutable approval
 
@@ -239,7 +283,7 @@ As implementation lands:
 - keep `docs/technical/Content Factory Architecture.md` aligned to the current Foundation runtime rather than legacy orchestration;
 - retain pilot/remediation/proof records as history;
 - update Content Operations documentation only when that surface changes; and
-- update `INDEX.md` only when implementation ownership or discoverability materially changes.
+- update `INDEX.md` when implementation ownership, architecture-decision discoverability or source-of-truth relationships materially change.
 
 ## Operational completion condition for Slice 3B
 
@@ -252,4 +296,4 @@ Slice 3B is operationally complete only when an exact **current** Foundation Can
 5. deterministic re-assurance of the remediated candidate; and
 6. another fresh independent review of the exact remediated fingerprint reaching PASS within the bounded cycle limit.
 
-The fourth proof demonstrated that the mechanism works but the historical Foundation input does not yet meet the educational quality bar. Only a newly compiled exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.
+The fifth proof demonstrates that the mechanism works but that the current candidate still needs stronger upstream semantic evidence and a safer pre-calibration assessment-assembly boundary. Only a newly compiled exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.
