@@ -1,9 +1,9 @@
 # Content Factory Foundation Independent Review Proof
 
-**Status:** Operational proof harness released; first retained real-course proof blocked on 4 September 2026; subsequent proof runs retain exact operational blocker diagnostics  
+**Status:** Operational proof harness released; first two retained real-course proofs blocked on 4 September 2026; second proof isolated a remediation provider-contract defect now under governed repair  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`; controlled invocation released through PR #300 / `7474068be3f7958b2e8c3233ed96d96858cbc8e3`
+**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`; controlled invocation released through PR #300 / `7474068be3f7958b2e8c3233ed96d96858cbc8e3`; blocker diagnostics released through PR #301 / `1989f306cc1a742e2eccb65f53a38c5f338fabba`
 
 ## Purpose
 
@@ -56,6 +56,21 @@ The exact retained Foundation fingerprint remained `5b9a8496128b67d78c00a6075fe4
 The runtime correctly failed closed, but the first proof artifact exposed an observability gap: no remediation record was retained and the proof evidence/comment did not include the final operational blocker reason. Because Course Truth and Question Family findings are eligible for the released targeted-remediation path, a blind paid rerun would not provide sufficient diagnostic confidence.
 
 Subsequent runs therefore retain the exact unresolved operational blockers, including blocker ID, stage, creation time and reason, in both the uploaded JSON evidence and the Issue #289 outcome comment. This changes proof diagnostics only; it does not weaken, bypass or reinterpret any assurance decision.
+
+## Second retained real-course proof outcome
+
+The diagnostic rerun executed as workflow run `33845049342` on approved `main` commit `1989f306cc1a742e2eccb65f53a38c5f338fabba` after PR #301 made final operational blockers durable.
+
+The run again failed closed before a remediation record could be retained. Deterministic assurance remained `pass`, independent review remained `fail_hold`, remediation contexts and retained remediation cycles remained `0`, learner-facing asset count remained `0`, and conservative provider spend was `$0.2022 / $12.00`.
+
+The retained blocker isolated the exact provider-contract defect:
+
+- the remediation provider returned corrected Course Truth semantic content without `correctedArtifact.fingerprint`; and
+- the dependent corrected Exam Truth output did not return `correctedArtifact.courseKnowledgeModelFingerprint`.
+
+Those fields are mechanically derived Foundation dependencies. The active Slice 3B implementation plan explicitly assigns dependency fingerprints to Revision/compiler ownership and instructs the remediation model not to calculate SHA fingerprints. Requiring those same derived fields in the provider-facing output schema therefore contradicted the intended boundary and caused otherwise usable semantic remediation output to fail schema validation.
+
+The governed repair keeps the assurance semantics unchanged. The provider-facing remediation schema accepts semantic Course Truth and Exam Truth without compiler-owned fingerprint fields; the live adapter deterministically restores Course Truth material fingerprint and exact Board Alignment/Course Truth dependency fingerprints before returning the internal remediation worker result. The Foundation remediation core still recomputes and validates the affected fingerprints, dependency closure, material Foundation fingerprint change and deterministic re-assurance. Model-generated hashes are neither requested nor trusted.
 
 ## Success condition
 
@@ -122,4 +137,4 @@ Slice 3C remains a separate mandatory qualified-human approval gate under the ac
 
 ## Documentation impact
 
-This record documents the operational proof path, the controlled invocation mechanism, the first retained real-course blocked outcome and the diagnostic evidence required before a paid rerun. It does not change normative Content Factory authority. The first failed proof remains historical operational evidence and is not rewritten; the diagnostic change affects only subsequent proof evidence. If a later real-course proof produces a material Foundation correction or exposes a Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting the historical Slice 2B/3A or first Slice 3B proof evidence.
+This record documents the operational proof path, controlled invocation, first retained blocked outcome, second diagnostic rerun and the remediation provider-contract repair required before another paid proof. It does not change normative Content Factory authority. Both failed proof runs remain historical operational evidence and are not rewritten. If a later real-course proof produces a material Foundation correction or exposes another Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting historical Slice 2B/3A or earlier Slice 3B proof evidence.
