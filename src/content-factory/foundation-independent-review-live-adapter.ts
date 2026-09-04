@@ -1,10 +1,12 @@
 import { z } from 'zod'
 import {
   courseKnowledgeModelSchema,
+  courseKnowledgeNodeSchema,
   questionFamilySchema,
 } from './schema'
 import {
   foundationAssessmentBlueprintSchema,
+  fingerprintFoundationArtifact,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import type { FoundationStructuredProviderClient } from './foundation-live-adapter'
@@ -26,6 +28,17 @@ const foundationIndependentReviewProviderOutputSchema = z.object({
   findings: z.array(foundationIndependentReviewFindingSchema).default([]),
 })
 
+const remediationCourseKnowledgeModelProviderSchema = z.object({
+  schemaVersion: z.literal(1),
+  jobId: identifierSchema,
+  nodes: z.array(courseKnowledgeNodeSchema).min(1),
+})
+
+const remediationAssessmentBlueprintProviderSchema = foundationAssessmentBlueprintSchema.omit({
+  boardAlignmentFingerprint: true,
+  courseKnowledgeModelFingerprint: true,
+})
+
 const foundationRemediationProviderOutputSchema = z.object({
   resolvedFindingIds: z.array(identifierSchema).min(1),
   resolutionNotes: z.array(nonEmptyStringSchema).min(1),
@@ -33,12 +46,12 @@ const foundationRemediationProviderOutputSchema = z.object({
     z.object({
       artifactKind: z.literal('course_knowledge_model'),
       oldRef: nonEmptyStringSchema,
-      correctedArtifact: courseKnowledgeModelSchema,
+      correctedArtifact: remediationCourseKnowledgeModelProviderSchema,
     }),
     z.object({
       artifactKind: z.literal('assessment_blueprint'),
       oldRef: nonEmptyStringSchema,
-      correctedArtifact: foundationAssessmentBlueprintSchema,
+      correctedArtifact: remediationAssessmentBlueprintProviderSchema,
     }),
     z.object({
       artifactKind: z.literal('question_family'),
@@ -50,6 +63,60 @@ const foundationRemediationProviderOutputSchema = z.object({
 
 function normaliseExecution(execution: Awaited<ReturnType<FoundationStructuredProviderClient['run']>>): FoundationWorkerExecution<unknown> {
   return execution
+}
+
+function errorMessage(error: unknown) {
+  return error instanceof Error ? error.message : String(error)
+}
+
+async function normaliseRemediationOutput(
+  providerOutput: unknown,
+  remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
+) {
+  const parsed = foundationRemediationProviderOutputSchema.parse(providerOutput)
+  const courseReplacement = parsed.replacements.find((replacement) => replacement.artifactKind === 'course_knowledge_model')
+  const hasAssessmentBlueprintReplacement = parsed.replacements.some((replacement) => replacement.artifactKind === 'assessment_blueprint')
+  let courseKnowledgeModelFingerprint: string | undefined
+
+  if (courseReplacement?.artifactKind === 'course_knowledge_model') {
+    courseKnowledgeModelFingerprint = await fingerprintFoundationArtifact(courseReplacement.correctedArtifact)
+  } else if (hasAssessmentBlueprintReplacement) {
+    courseKnowledgeModelFingerprint = remediationInput.courseKnowledgeModel.fingerprint
+  }
+
+  const replacements = await Promise.all(parsed.replacements.map(async (replacement) => {
+    if (replacement.artifactKind === 'course_knowledge_model') {
+      const fingerprint = await fingerprintFoundationArtifact(replacement.correctedArtifact)
+      return {
+        ...replacement,
+        correctedArtifact: courseKnowledgeModelSchema.parse({
+          ...replacement.correctedArtifact,
+          fingerprint,
+        }),
+      }
+    }
+
+    if (replacement.artifactKind === 'assessment_blueprint') {
+      if (!courseKnowledgeModelFingerprint) {
+        throw new Error('Assessment Blueprint remediation requires a Course Truth fingerprint')
+      }
+      return {
+        ...replacement,
+        correctedArtifact: foundationAssessmentBlueprintSchema.parse({
+          ...replacement.correctedArtifact,
+          boardAlignmentFingerprint: remediationInput.boardAlignment.fingerprint,
+          courseKnowledgeModelFingerprint,
+        }),
+      }
+    }
+
+    return {
+      ...replacement,
+      correctedArtifact: questionFamilySchema.parse(replacement.correctedArtifact),
+    }
+  }))
+
+  return { ...parsed, replacements }
 }
 
 export function createFoundationIndependentReviewLiveWorkers(input: {
@@ -101,7 +168,7 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
-          'Do not attempt to calculate SHA fingerprints. The Foundation compiler owns dependency and material fingerprints after your corrected structured output is returned.',
+          'Do not return or attempt to calculate Course Truth or dependency SHA fingerprints. Revision deterministically restores and validates those fields after your corrected semantic output is returned.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
           'Resolve exactly the finding IDs represented by triggerReview blocking/material findings.',
         ].join('\n'),
@@ -120,7 +187,19 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           targets: remediationInput.targets,
         },
       })
-      return normaliseExecution(execution)
+      if (execution.status !== 'success') return normaliseExecution(execution)
+      try {
+        return {
+          ...execution,
+          output: await normaliseRemediationOutput(execution.output, remediationInput),
+        }
+      } catch (error) {
+        return {
+          status: 'failure',
+          error: `provider_contract_failure: remediation_normalisation: ${errorMessage(error)}`,
+          provenance: execution.provenance,
+        }
+      }
     },
   }
 }
