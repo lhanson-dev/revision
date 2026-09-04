@@ -75,10 +75,13 @@ async function normaliseRemediationOutput(
 ) {
   const parsed = foundationRemediationProviderOutputSchema.parse(providerOutput)
   const courseReplacement = parsed.replacements.find((replacement) => replacement.artifactKind === 'course_knowledge_model')
-  let courseKnowledgeModelFingerprint = remediationInput.courseKnowledgeModel.fingerprint
+  const hasAssessmentBlueprintReplacement = parsed.replacements.some((replacement) => replacement.artifactKind === 'assessment_blueprint')
+  let courseKnowledgeModelFingerprint: string | undefined
 
   if (courseReplacement?.artifactKind === 'course_knowledge_model') {
     courseKnowledgeModelFingerprint = await fingerprintFoundationArtifact(courseReplacement.correctedArtifact)
+  } else if (hasAssessmentBlueprintReplacement) {
+    courseKnowledgeModelFingerprint = remediationInput.courseKnowledgeModel.fingerprint
   }
 
   const replacements = await Promise.all(parsed.replacements.map(async (replacement) => {
@@ -94,6 +97,9 @@ async function normaliseRemediationOutput(
     }
 
     if (replacement.artifactKind === 'assessment_blueprint') {
+      if (!courseKnowledgeModelFingerprint) {
+        throw new Error('Assessment Blueprint remediation requires a Course Truth fingerprint')
+      }
       return {
         ...replacement,
         correctedArtifact: foundationAssessmentBlueprintSchema.parse({
