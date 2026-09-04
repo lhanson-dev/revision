@@ -1,9 +1,9 @@
 # Content Factory Foundation Independent Review Proof
 
-**Status:** Operational proof harness released through PR #299; retained real-course proof pending  
+**Status:** Operational proof harness released; first retained real-course proof blocked on 4 September 2026; subsequent proof runs retain exact operational blocker diagnostics  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`
+**Implementation:** Slice 3B released through PR #298 / `fe34103cf1ffe18fcd85dba2496fe9cf4d6d08e0`; proof harness released through PR #299 / `d133c6fd795cb3ab627c6abfcf57c3206e705f80`; controlled invocation released through PR #300 / `7474068be3f7958b2e8c3233ed96d96858cbc8e3`
 
 ## Purpose
 
@@ -41,6 +41,22 @@ The proof remains deliberately non-automatic because it makes bounded paid provi
 
 The issue-comment trigger ignores other issues, other users, non-owner associations and any non-exact command text. It exists so the governed proof can be invoked through the authenticated project operating path without turning every `main` push into a paid proof run.
 
+## First retained real-course proof outcome
+
+The first operational Slice 3B proof ran as workflow run `33842046624` on approved `main` commit `7474068be3f7958b2e8c3233ed96d96858cbc8e3`.
+
+The retained independent reviewer produced three material findings:
+
+- quantitative Course Truth did not yet encode sufficient formula/procedure, variable/unit, interpretation, assumption and misconception detail for reliable teaching and assessment;
+- the Paper 2 Question Family did not yet define a defensible constituent mark/demand/quantitative/timing progression within its data-response structure; and
+- the Paper 3 Question Family did not yet define a sufficiently explicit internal mark/demand/evidence/quantitative/timing sequence for the case-study paper.
+
+The exact retained Foundation fingerprint remained `5b9a8496128b67d78c00a6075fe46ca70cad08bbc10bed6f4ce8f16b97e6efd8`. Deterministic assurance remained `pass`, independent review was `fail_hold`, learner-facing asset count remained `0`, and conservative provider spend was `$0.2488 / $12.00`.
+
+The runtime correctly failed closed, but the first proof artifact exposed an observability gap: no remediation record was retained and the proof evidence/comment did not include the final operational blocker reason. Because Course Truth and Question Family findings are eligible for the released targeted-remediation path, a blind paid rerun would not provide sufficient diagnostic confidence.
+
+Subsequent runs therefore retain the exact unresolved operational blockers, including blocker ID, stage, creation time and reason, in both the uploaded JSON evidence and the Issue #289 outcome comment. This changes proof diagnostics only; it does not weaken, bypass or reinterpret any assurance decision.
+
 ## Success condition
 
 The proof passes only when the final exact Foundation Candidate remains in `assuring` state with:
@@ -63,11 +79,14 @@ The proof fails or blocks progression when any of the following occurs:
 - independent review reuses a previous generation/review/remediation context;
 - the provider review cannot produce valid machine-readable evidence;
 - a blocking/material finding targets Source Rights, Board Alignment or Foundation coverage and therefore requires governed Foundation recompilation;
+- a review or remediation worker fails or returns invalid provider-contract output;
 - targeted remediation fails to match the exact dependency closure;
 - a claimed material correction does not change the Foundation fingerprint;
 - deterministic re-assurance fails;
 - blocking/material findings remain after the bounded remediation limit; or
 - the final exact candidate does not hold both deterministic PASS and independent-review PASS.
+
+Any unresolved operational blocker on a failed proof is retained verbatim in the proof evidence and Issue #289 diagnostic output before the final PASS assertions execute.
 
 ## Evidence retained
 
@@ -79,6 +98,9 @@ The uploaded JSON evidence records:
 - excluded generation context IDs;
 - fresh review and remediation context IDs;
 - provider spend;
+- final Foundation job state and `blockedFromState` where applicable;
+- exact unresolved operational blockers with ID, stage, reason and creation time;
+- final Candidate unresolved blockers;
 - all independent-review reports and refs;
 - all remediation records and refs;
 - any new corrected Foundation artifacts;
@@ -100,4 +122,4 @@ Slice 3C remains a separate mandatory qualified-human approval gate under the ac
 
 ## Documentation impact
 
-This record documents the operational proof path introduced after the Slice 3B implementation release and the controlled invocation mechanism required to run it from the project operating path. It does not change normative Content Factory authority. If the real-course proof produces a material Foundation correction or exposes a Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting the historical Slice 2B/3A proof evidence.
+This record documents the operational proof path, the controlled invocation mechanism, the first retained real-course blocked outcome and the diagnostic evidence required before a paid rerun. It does not change normative Content Factory authority. The first failed proof remains historical operational evidence and is not rewritten; the diagnostic change affects only subsequent proof evidence. If a later real-course proof produces a material Foundation correction or exposes a Foundation-compilation defect, the resulting governed remediation must update the relevant implementation documentation without rewriting the historical Slice 2B/3A or first Slice 3B proof evidence.
