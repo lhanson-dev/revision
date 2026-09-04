@@ -1,15 +1,15 @@
 # Content Factory Foundation Independent Review Proof
 
-**Status:** Operational proof harness released; four retained real-course proofs have run. The fourth proved the full review → remediation → deterministic re-assurance → fresh re-review loop and stopped correctly at the three-cycle limit because two structural Foundation-quality findings remained.  
+**Status:** Operational proof harness released; five retained real-course proofs have run. The fifth proved that the current review/remediation machinery completes cleanly through all three governed remediation cycles and now fails only on genuine Foundation-quality findings rather than provider, fingerprint or normalization defects.  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Implementation lineage:** Slice 3B PR #298; proof harness PR #299; controlled invocation PR #300; blocker diagnostics PR #301; remediation fingerprint-contract repair PR #302; bounded remediation-capacity/diagnostics repair PR #303.
+**Implementation lineage:** Slice 3B PR #298; proof harness PR #299; controlled invocation PR #300; blocker diagnostics PR #301; remediation fingerprint-contract repair PR #302; bounded remediation-capacity/diagnostics repair PR #303; upstream Foundation granularity/quantitative hardening and proof-source/remediation repairs through PRs #304–#307.
 
 ## Purpose
 
 Prove the released Slice 3B Foundation assurance boundary against a retained real-course **AQA A-level Business 7132 — 2027 cohort** Foundation Candidate before Slice 3C qualified expert review begins.
 
-The assurance proof reuses an exact retained Foundation Candidate and does not generate learner-facing assets. When independent review shows that the retained Foundation itself was compiled at an insufficient structural granularity, the correct next step is governed upstream Foundation recompilation rather than unlimited remediation of the stale candidate.
+The assurance proof reuses an exact retained Foundation Candidate and does not generate learner-facing assets. When independent review shows that the retained Foundation itself was compiled from insufficient semantic evidence or contains assessment structure that is more precise than its evidence/calibration supports, the correct next step is governed upstream Foundation hardening rather than unlimited remediation of the stale candidate.
 
 ## Proof boundary
 
@@ -106,20 +106,90 @@ These findings are educational/Foundation-structure evidence, not provider or in
 
 ## Governed follow-up after the fourth proof
 
-Another remediation run against the old retained Foundation is not the correct next action. The fourth proof showed that the limiting defects originate in Foundation compilation structure itself.
+Another remediation run against the old retained Foundation was not the correct next action. The fourth proof showed that the limiting defects originated in Foundation compilation structure itself.
 
-The next governed compilation hardening therefore:
+The subsequent compilation hardening:
 
-- keeps the existing rights-governed Revision-owned source seed;
-- deterministically creates canonical atomic node IDs for every existing `skillsOrKnowledge` entry rather than mapping each broad requirement to one node;
-- makes v2 coverage complete only when at least one canonical node exists for every governed `skillsOrKnowledge` item;
-- asks the model to enrich only those exact canonical atomic nodes, without inventing source scope or identifiers;
-- adds an Exam Truth v2 compiler-owned quantitative coverage plan bound to the verified `quantitative-minimum` assessment requirement;
-- for AQA 7132, records a qualification-total minimum of `30 / 300` marks, the eligible Question Families and a generation validation rule `sum_quantitative_marks_gte_minimum`;
-- preserves that quantitative plan and schema version mechanically through later AI remediation; and
-- keeps v1 retained artifacts readable so historical evidence is not reinterpreted.
+- kept the rights-governed Revision-owned source seed;
+- deterministically created canonical atomic node IDs for every existing `skillsOrKnowledge` entry rather than mapping each broad requirement to one node;
+- made v2 coverage complete only when at least one canonical node exists for every governed `skillsOrKnowledge` item;
+- constrained the model to enrich only those exact canonical atomic nodes, without inventing source scope or identifiers;
+- added an Exam Truth v2 compiler-owned quantitative coverage plan bound to the verified `quantitative-minimum` assessment requirement;
+- for AQA 7132, recorded a qualification-total minimum of `30 / 300` marks, eligible Question Families and `sum_quantitative_marks_gte_minimum` generation validation;
+- preserved the quantitative plan and its verified source requirement mechanically through later AI remediation; and
+- kept historical retained artifacts readable rather than reinterpreting them.
 
-Because canonical coverage and Course Truth identity change, this is an upstream Foundation recompilation boundary. After the hardening is released, Revision must run a fresh Foundation live proof first. Slice 3B independent review must then be rebound to that new retained Foundation artifact/fingerprint; the old `5b9a...` source candidate must not be treated as the new proof input.
+A fresh v2 Foundation was then compiled, retained and rebound to the Slice 3B proof path before the fifth proof.
+
+## Fifth retained real-course proof outcome — 4 September 2026
+
+Workflow run `33920653838` ran on approved `main` commit `9a976ff236b06257644d5fe02206817598583e03` after the v2 Foundation recompilation/rebinding and remediation source-anchor repairs. Retained evidence artifact:
+
+- artifact id: `9955070274`;
+- artifact name: `content-factory-foundation-independent-review-proof-9a976ff236b06257644d5fe02206817598583e03`;
+- artifact digest: `sha256:4b74b19d324575a35b94e61ab52a08da881ed3335a3dcb49e0d9caee14b9f8de`.
+
+The operational Slice 3B mechanism completed cleanly:
+
+- four genuinely fresh independent-review contexts;
+- three completed targeted-remediation cycles;
+- deterministic re-assurance `pass` after every material correction;
+- no provider/normalization diagnostics (`providerResponseDiagnostics: []`);
+- provider spend `$1.025522 / $12.00`; and
+- learner-facing assets `0`.
+
+The final remediated Foundation fingerprint was:
+
+`7fb036361c544f9acfd276f23e4f7c9c6007144e83b6a363395dd9dee12070f2`
+
+The proof stopped only because the governed three-cycle remediation limit was reached while two material findings remained. The correct response remains to improve upstream evidence/contracts, not to raise the limit or blindly rerun the same candidate.
+
+### What the fifth proof established
+
+The v2 structural hardening worked: canonical coverage was atomic and the quantitative `30 / 300` gate survived remediation. Earlier provider-capacity, compiler-owned fingerprint and quantitative-source-anchor defects did not recur.
+
+The review/remediation progression also exposed a more precise ownership boundary:
+
+1. **Initial Course Truth was structurally atomic but semantically under-supplied.** The governed seed still provided mostly labels such as `financial ratio analysis` or named quantitative topics while the Course Truth worker was prohibited from inventing unsupported subject facts from model memory. Review therefore found the initial Course Knowledge Model too label-like for controlled generation.
+2. **Remediation correctly enriched Course Truth**, but later review found a percentage-change grouping error, demonstrating that exact quantitative method rules belong upstream in governed semantic evidence rather than being manufactured during remediation.
+3. **Paper 2/Paper 3 remediation filled structural gaps**, but the final Paper 3 correction over-specified a fixed `5/10/15/20/25/25` mark sequence and matching `6/12/18/24/30/30` minute pattern while the family remained `not_calibrated`.
+
+### Remaining material findings after review cycle four
+
+The final review retained exactly two material findings:
+
+1. **`financial-ratio-method-scope-is-underenactable`** — the Course Truth node for financial-ratio analysis described a broader method scope than the actual formulas/methods it defined. Controlled generation therefore could not know whether efficiency/gearing methods were required or prohibited.
+2. **`paper3-mark-and-timing-demand-is-not-calibrated`** — remediation had converted an approximately-six-question Board Alignment fact into a rigid internal mark/timing progression with two 25-mark sustained strategic judgements, despite the Question Family explicitly remaining `not_calibrated`.
+
+These are educational/assessment-design findings, not infrastructure failures.
+
+## Governed follow-up after the fifth proof
+
+Two short upstream hardening slices are required before another paid Slice 3B proof is justified.
+
+### 1. Course Truth semantic evidence ownership
+
+The governed Revision-owned Course Truth seed must provide substantive candidate semantics for each canonical atomic node rather than topic labels alone. Where applicable this includes definitions, relationships, formula/method rules, interpretation boundaries and explicit allowed method sets. The generation worker must remain prohibited from broadening those semantics from model memory.
+
+For the immediate AQA Business candidate, financial-ratio scope is deliberately bounded to the methods actually governed by the seed instead of claiming undefined efficiency/gearing coverage. The seed remains candidate Foundation evidence: independent review and qualified expert review remain mandatory.
+
+Architecture decision: `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`.
+
+### 2. Pre-calibration assessment assembly boundary
+
+Exam Truth/Question Family remediation must not manufacture rigid constituent mark/timing allocations merely to satisfy a request for greater structural precision when Board Alignment only establishes aggregate paper facts and the family remains uncalibrated. The compiler/remediation boundary should preserve exact verified aggregate facts while representing internal assembly constraints only to the level supported before Slice 3C human calibration.
+
+This second hardening is deliberately separate from the semantic-seed change so each PR remains reviewable and its assurance evidence is attributable.
+
+After both slices are released, the governed sequence is:
+
+1. compile a **fresh** Foundation Candidate because the Revision-owned source seed fingerprint has changed;
+2. verify the new retained artifact/fingerprint and zero learner assets;
+3. bind Slice 3B proof input to that exact candidate;
+4. run deterministic assurance and one fresh-context independent-review proof; and
+5. enter Slice 3C only if the exact final candidate reaches deterministic PASS plus independent-review PASS.
+
+Do not rerun run-#15's retained candidate and do not increase the remediation-cycle limit.
 
 ## Success condition
 
@@ -152,4 +222,4 @@ It does **not** establish qualified subject/assessment expert approval, `foundat
 
 ## Documentation impact
 
-This document preserves all four retained proof outcomes as historical operational evidence and records the new structural recompilation requirement exposed by the fourth proof. It does not change normative Content Factory authority. The Foundation hardening implements the existing authority that Course Truth be sufficiently complete and precise and that Exam Truth encode applicable quantitative assessment requirements. Historical Slice 2B/3A and earlier Slice 3B proof evidence remains historical and is not rewritten as if it had used the new v2 compilation contracts.
+This document preserves all five retained proof outcomes as historical operational evidence and records the upstream ownership changes exposed by the fifth proof. It does not change normative Content Factory authority. The current hardening implements the existing authority that Course Truth contain complete reusable subject truth and that Exam Truth represent only supported assessment structure before qualified calibration. Historical Slice 2B/3A and earlier Slice 3B proof evidence remains historical and is not rewritten as if it had used later contracts.

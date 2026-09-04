@@ -217,7 +217,7 @@ describe('Foundation live adapter', () => {
     const courseTruth = store.writes.find((write) => write.kind === 'course_knowledge_model')?.value as { nodes: Array<{ id: string; summary: string }> }
     expect(courseTruth.nodes).toHaveLength(coverage.requirements.flatMap((requirement) => requirement.knowledgeNodeIds).length)
     expect(courseTruth.nodes.some((node) => node.id === 'marketing-analysis.k01')).toBe(true)
-    expect(courseTruth.nodes.some((node) => node.summary.includes('market research'))).toBe(true)
+    expect(courseTruth.nodes.some((node) => node.summary.toLowerCase().includes('market research'))).toBe(true)
     expect(JSON.stringify(courseTruth)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
 
     const blueprint = store.writes.find((write) => write.kind === 'assessment_blueprint')?.value as FoundationAssessmentBlueprint
