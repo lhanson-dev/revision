@@ -28,6 +28,8 @@ const env = runtime.process?.env ?? {}
 const proofEnabled = env.CONTENT_FACTORY_FOUNDATION_INDEPENDENT_REVIEW_PROOF === '1'
 const evidenceDirectory = '.artifacts/content-factory-foundation-independent-review-proof'
 const testTimeoutMs = 30 * 60 * 1000
+const remediationMaxOutputTokens = 32_000
+const independentReviewMaxOutputTokens = 12_000
 
 const workerRunSchema = z.object({
   stage: foundationCompilationWorkerStageSchema,
@@ -167,6 +169,12 @@ describe('Foundation independent review proof diagnostics', () => {
     expect(rendered).toContain(blockers[0].reason)
     expect(rendered).toContain('"stage": "assuring"')
   })
+
+  it('keeps targeted remediation output capacity bounded above the independent-review route', () => {
+    expect(remediationMaxOutputTokens).toBe(32_000)
+    expect(independentReviewMaxOutputTokens).toBe(12_000)
+    expect(remediationMaxOutputTokens).toBeGreaterThan(independentReviewMaxOutputTokens)
+  })
 })
 
 describe('Foundation retained real-course independent review proof', () => {
@@ -213,7 +221,7 @@ describe('Foundation retained real-course independent review proof', () => {
         longContextInputMultiplier: 2,
         longContextOutputMultiplier: 1.5,
         reasoningEffort: 'high',
-        maxOutputTokens: 12_000,
+        maxOutputTokens: remediationMaxOutputTokens,
       },
       independentReview: {
         model: generationModel,
@@ -225,7 +233,7 @@ describe('Foundation retained real-course independent review proof', () => {
         longContextInputMultiplier: 2,
         longContextOutputMultiplier: 1.5,
         reasoningEffort: 'high',
-        maxOutputTokens: 12_000,
+        maxOutputTokens: independentReviewMaxOutputTokens,
       },
       maxRetries: 2,
     })
