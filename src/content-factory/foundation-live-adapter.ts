@@ -15,6 +15,7 @@ import {
   foundationStructuredEvidenceSchema,
   fingerprintFoundationArtifact,
   type FoundationCompilationWorkers,
+  type FoundationCurriculumRequirementInput,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import {
@@ -41,6 +42,8 @@ export const AQA_A_LEVEL_BUSINESS_7132_URLS = {
 const allComponents = ['paper-1', 'paper-2', 'paper-3']
 const allAos = ['ao1', 'ao2', 'ao3', 'ao4']
 const curriculumRequirements = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements
+const quantitativeMinimumPercent = 10
+const quantitativeRequirementId = 'quantitative-minimum'
 
 const boardAlignment: Omit<BoardAlignment, 'fingerprint' | 'jobId'> = {
   schemaVersion: 1,
@@ -66,7 +69,7 @@ const boardAlignment: Omit<BoardAlignment, 'fingerprint' | 'jobId'> = {
     { id: 'paper2-structure', summary: 'Paper 2 is a compulsory two-hour, 100-mark paper containing three compulsory data-response questions worth approximately 33 marks each.', componentScope: ['paper-2'], sourceRefs: ['aqa-7132-assessment'] },
     { id: 'paper3-structure', summary: 'Paper 3 is a compulsory two-hour, 100-mark paper containing one compulsory case study followed by approximately six questions.', componentScope: ['paper-3'], sourceRefs: ['aqa-7132-assessment'] },
     { id: 'all-content-all-papers', summary: 'All three papers may assess content from across the full A-level Business course.', componentScope: allComponents, sourceRefs: ['aqa-7132-assessment'] },
-    { id: 'quantitative-minimum', summary: 'Quantitative skills are assessed at a minimum of 10% of the overall A-level marks.', componentScope: allComponents, sourceRefs: ['dfe-business-subject-content'] },
+    { id: quantitativeRequirementId, summary: `Quantitative skills are assessed at a minimum of ${quantitativeMinimumPercent}% of the overall A-level marks.`, componentScope: allComponents, sourceRefs: ['dfe-business-subject-content'] },
   ],
   sourceRefs: ['aqa-7132-specification', 'aqa-7132-assessment', 'aqa-7132-scheme', 'dfe-business-subject-content', 'ofqual-business-assessment-objectives'],
   verificationStatus: 'verified',
@@ -81,7 +84,7 @@ const structuredEvidence = foundationStructuredEvidenceSchema.parse({
     { id: 'paper3', sourceRef: 'aqa-7132-assessment', category: 'component', value: 'Paper 3: 2 hours, 100 marks, 33.3%.', verificationStatus: 'verified' },
     { id: 'ao-set', sourceRef: 'ofqual-business-assessment-objectives', category: 'assessment_objective', value: ['AO1', 'AO2', 'AO3', 'AO4'], verificationStatus: 'verified' },
     { id: 'assessment-shape', sourceRef: 'aqa-7132-assessment', category: 'assessment_requirement', value: 'Paper 1 uses MCQ/short-answer/essay demand; Paper 2 uses compulsory data response; Paper 3 uses a compulsory case study.', verificationStatus: 'verified' },
-    { id: 'quantitative-floor', sourceRef: 'dfe-business-subject-content', category: 'quantitative_requirement', value: 'At least 10% of overall A-level marks assess quantitative skills.', verificationStatus: 'verified' },
+    { id: 'quantitative-floor', sourceRef: 'dfe-business-subject-content', category: 'quantitative_requirement', value: `At least ${quantitativeMinimumPercent}% of overall A-level marks assess quantitative skills.`, verificationStatus: 'verified' },
   ],
   curriculumRequirements,
 })
@@ -176,6 +179,15 @@ function failure(stage: string, error: unknown): FoundationWorkerExecution<unkno
   }
 }
 
+function canonicalKnowledgeNodeSpecs(requirements: FoundationCurriculumRequirementInput[]) {
+  return requirements.flatMap((requirement) => requirement.skillsOrKnowledge.map((knowledgeItem, index) => ({
+    id: `${requirement.requirementId}.k${String(index + 1).padStart(2, '0')}`,
+    requirementId: requirement.requirementId,
+    knowledgeItem,
+    revisionArea: requirement.revisionArea,
+  })))
+}
+
 function exactNodeSet(nodes: Array<{ id: string }>, expectedIds: string[]) {
   const actual = new Set(nodes.map((node) => node.id))
   return actual.size === expectedIds.length && expectedIds.every((id) => actual.has(id))
@@ -211,13 +223,23 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
     },
     async compileCoverage({ jobId, sourceLicenceRegister, requirements }) {
       return deterministicSuccess(foundationCoverageModelSchema.parse({
-        schemaVersion: 1,
+        schemaVersion: 2,
         jobId,
         sourceSetFingerprint: sourceLicenceRegister.fingerprint,
-        requirements: requirements.map((governed) => ({ ...governed, knowledgeNodeIds: [governed.requirementId], coverageStatus: 'complete' })),
+        requirements: requirements.map((governed) => ({
+          ...governed,
+          knowledgeNodeIds: canonicalKnowledgeNodeSpecs([governed]).map((node) => node.id),
+          coverageStatus: 'complete',
+        })),
       }), `foundation-coverage-${jobId}`, 'revision-foundation-coverage-compiler')
     },
-    async compileCourseTruth({ jobId, requirements }) {
+    async compileCourseTruth({ jobId, requirements, coverageModel }) {
+      const canonicalNodes = canonicalKnowledgeNodeSpecs(requirements)
+      const expectedIds = coverageModel.requirements.flatMap((requirement) => requirement.knowledgeNodeIds)
+      if (!exactNodeSet(canonicalNodes, expectedIds)) {
+        return failure('course-truth-coverage-contract', 'Foundation coverage node IDs do not match the governed atomic skillsOrKnowledge decomposition')
+      }
+
       const execution = await input.provider.run({
         workerId: foundationCompilationWorkerContracts.courseTruth.workerId,
         contractVersion: foundationCompilationWorkerContracts.courseTruth.contractVersion,
@@ -225,12 +247,13 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
         outputSchema: courseTruthEnrichmentSchema,
         strictOutput: true,
         instructions: [
-          'Create one canonical Course Truth node for every governed Revision-owned seed requirement and no extra nodes.',
-          'Preserve every supplied requirementId exactly as the node id.',
-          'Use only the factual scope supplied in the governed seed. Do not introduce unsupported facts, formulas or claims from model memory.',
+          'Create exactly one atomic canonical Course Truth node for every supplied canonical knowledge item and no extra nodes.',
+          'Preserve every supplied node id exactly. Each node summary must explain only its named knowledgeItem rather than collapsing the wider requirement into a topical overview.',
+          'For each item, state the subject distinction, relationship, application boundary, misconception or calculation convention when the governed seed supports it.',
+          'Use only the factual scope supplied in the governed Revision-owned seed. Do not introduce unsupported facts, formulas or claims from model memory.',
           'If the seed does not support a precise formula or dependency, return an empty formula/dependency list rather than inventing detail.',
           'Do not invent source or Board Alignment references; those are attached deterministically after your semantic output.',
-          'Use prerequisiteIds and relatedIds only from the supplied requirement IDs and only when the seed clearly supports the relationship.',
+          'Use prerequisiteIds and relatedIds only from the supplied canonical node IDs and only when the seed clearly supports the relationship.',
           'Summaries must be independent Revision-authored wording and must not reconstruct awarding-body text.',
         ].join('\n'),
         payload: {
@@ -238,20 +261,21 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
           governedRevisionSeed: {
             seedId: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.seedId,
             limitations: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.limitations,
-            requirements: requirements.map(({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea }) => ({ requirementId, requirementSummary, skillsOrKnowledge, revisionArea })),
           },
-          allowedNodeIds: requirements.map((item) => item.requirementId),
+          canonicalKnowledgeNodes: canonicalNodes,
+          allowedNodeIds: canonicalNodes.map((item) => item.id),
         },
       })
       if (execution.status !== 'success') return execution
       const enrichment = courseTruthEnrichmentSchema.parse(execution.output)
-      const expectedIds = requirements.map((item) => item.requirementId)
-      if (!exactNodeSet(enrichment.nodes, expectedIds)) {
-        return { ...execution, status: 'failure', error: 'provider_contract_failure: Course Truth provider must return exactly the governed requirement IDs' }
+      if (!exactNodeSet(enrichment.nodes, canonicalNodes.map((item) => item.id))) {
+        return { ...execution, status: 'failure', error: 'provider_contract_failure: Course Truth provider must return exactly the canonical atomic knowledge node IDs' }
       }
+      const requirementByNodeId = new Map(canonicalNodes.map((node) => [node.id, node.requirementId]))
       const requirementsById = new Map(requirements.map((item) => [item.requirementId, item]))
       const nodes = enrichment.nodes.map((node) => {
-        const governed = requirementsById.get(node.id)!
+        const requirementId = requirementByNodeId.get(node.id)!
+        const governed = requirementsById.get(requirementId)!
         return {
           ...node,
           sourceRefs: governed.sourceRefs,
@@ -272,6 +296,7 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
           'Derive only Revision-authored Exam Truth guidance from the supplied structured Board Alignment and Course Truth.',
           'Do not alter component structure, marks, timing, assessment objectives or assessment requirements.',
           'Return command demands, evidence expectations, quantitative requirements and synoptic requirements only.',
+          'The numeric quantitative coverage gate is compiler-owned and will be attached deterministically; describe quantitative methods and interpretation expectations without inventing a different percentage or mark allocation.',
           'All componentScope values must use only paper-1, paper-2 or paper-3.',
           'Do not reproduce official awarding-body questions, mark schemes or protected source prose.',
         ].join('\n'),
@@ -279,21 +304,34 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
       })
       if (execution.status !== 'success') return execution
       const enrichment = examTruthEnrichmentSchema.parse(execution.output)
+      const components = [
+        { componentId: 'paper-1', questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay'], markTotal: 100, timingMinutes: 120, constraints: ['15 one-mark MCQs', '35 marks of short-answer questions', 'two 25-mark essay responses selected from choices'] },
+        { componentId: 'paper-2', questionFamilyIds: ['paper2-data-response'], markTotal: 100, timingMinutes: 120, constraints: ['three compulsory data-response questions worth approximately 33 marks each'] },
+        { componentId: 'paper-3', questionFamilyIds: ['paper3-case-study'], markTotal: 100, timingMinutes: 120, constraints: ['one compulsory case study followed by approximately six questions'] },
+      ]
+      const totalAssessmentMarks = components.reduce((sum, component) => sum + component.markTotal, 0)
+      const eligibleQuestionFamilyIds = components.flatMap((component) => component.questionFamilyIds)
       return {
         ...execution,
         output: foundationAssessmentBlueprintSchema.parse({
-          schemaVersion: 1,
+          schemaVersion: 2,
           jobId,
           boardAlignmentFingerprint,
           courseKnowledgeModelFingerprint,
           assessmentObjectives: alignment.assessmentObjectives.map(({ id, weightingPercent }) => ({ id, weightingPercent })),
           assessmentRequirements: alignment.assessmentRequirements.map(({ id, summary, componentScope }) => ({ id, summary, componentScope })),
-          components: [
-            { componentId: 'paper-1', questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay'], markTotal: 100, timingMinutes: 120, constraints: ['15 one-mark MCQs', '35 marks of short-answer questions', 'two 25-mark essay responses selected from choices'] },
-            { componentId: 'paper-2', questionFamilyIds: ['paper2-data-response'], markTotal: 100, timingMinutes: 120, constraints: ['three compulsory data-response questions worth approximately 33 marks each'] },
-            { componentId: 'paper-3', questionFamilyIds: ['paper3-case-study'], markTotal: 100, timingMinutes: 120, constraints: ['one compulsory case study followed by approximately six questions'] },
-          ],
+          components,
           ...enrichment,
+          quantitativeCoveragePlan: {
+            sourceAssessmentRequirementId: quantitativeRequirementId,
+            scope: 'qualification_total',
+            minimumOverallPercent: quantitativeMinimumPercent,
+            totalAssessmentMarks,
+            minimumQuantitativeMarks: Math.ceil((totalAssessmentMarks * quantitativeMinimumPercent) / 100),
+            eligibleQuestionFamilyIds,
+            generationValidation: 'sum_quantitative_marks_gte_minimum',
+            interpretationCreditRequired: true,
+          },
         }),
       }
     },
@@ -310,8 +348,9 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
           'Preserve every requested id exactly.',
           'componentScope must match the component mapping in Exam Truth exactly.',
           'Use only assessment objective ids present in Exam Truth.',
+          'Where Exam Truth declares a quantitativeCoveragePlan, retain authentic quantitative opportunities in eligible families; actual generated assessment sets must be validated against the compiler-owned aggregate mark minimum rather than treating calculations as universally optional.',
           'These are Revision-authored exam-style families, never official AQA questions or mark schemes.',
-          'Calibration status must remain not_calibrated because Slice 2B performs no qualified-human calibration.',
+          'Calibration status must remain not_calibrated because Foundation compilation performs no qualified-human calibration.',
         ].join('\n'),
         payload: {
           requestedFamilyIds,

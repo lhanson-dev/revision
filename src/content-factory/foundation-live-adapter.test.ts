@@ -3,8 +3,11 @@ import { describe, expect, it } from 'vitest'
 import { advanceFoundationJob, createFoundationJob } from './foundation-lifecycle'
 import {
   compileFoundationJob,
+  foundationCoverageModelSchema,
   type FoundationCompilationArtifactKind,
   type FoundationCompilationArtifactStore,
+  type FoundationCoverageModel,
+  type FoundationAssessmentBlueprint,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import {
@@ -12,7 +15,10 @@ import {
   type FoundationStructuredProviderClient,
 } from './foundation-live-adapter'
 import { loadGovernedFoundationSourceRightsRules } from './foundation-source-rights-registry'
-import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID } from './source-seeds/aqa-a-level-business-7132-2027'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED,
+  AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+} from './source-seeds/aqa-a-level-business-7132-2027'
 
 const headSha = 'a'.repeat(40)
 const now = '2026-09-03T19:00:00+01:00'
@@ -48,17 +54,23 @@ class FakeProvider implements FoundationStructuredProviderClient {
     this.calls.push(input.workerId)
     const payload = input.payload as Record<string, unknown>
     if (input.workerId.endsWith('course-truth')) {
-      const seed = payload.governedRevisionSeed as { requirements: Array<{ requirementId: string; revisionArea: string }> }
+      const canonicalNodes = payload.canonicalKnowledgeNodes as Array<{
+        id: string
+        knowledgeItem: string
+        revisionArea: string
+      }>
+      const allowedNodeIds = new Set(payload.allowedNodeIds as string[])
+      expect(canonicalNodes.every((node) => allowedNodeIds.has(node.id))).toBe(true)
       return success({
-        nodes: seed.requirements.map((requirement) => ({
-          id: requirement.requirementId,
-          kind: requirement.requirementId === 'quantitative-skills' ? 'skill' : 'concept',
-          summary: `Revision-authored Course Truth for ${requirement.revisionArea}.`,
+        nodes: canonicalNodes.map((node) => ({
+          id: node.id,
+          kind: node.knowledgeItem.toLowerCase().includes('ratio') || node.knowledgeItem.toLowerCase().includes('percentage') ? 'skill' : 'concept',
+          summary: `Revision-authored atomic Course Truth for ${node.knowledgeItem} within ${node.revisionArea}.`,
           prerequisiteIds: [],
           relatedIds: [],
           formulas: [],
-          misconceptions: ['A plausible misconception that must be diagnosed.'],
-          applicationContexts: ['business decision making'],
+          misconceptions: [`A misconception specific to ${node.knowledgeItem}.`],
+          applicationContexts: [`Apply ${node.knowledgeItem} to a business decision.`],
           depth: 'core',
           evidenceTypes: ['explain', 'apply', 'analyse'],
         })),
@@ -72,7 +84,7 @@ class FakeProvider implements FoundationStructuredProviderClient {
           { command: 'evaluate', cognitiveDemand: 'weigh evidence and reach a supported contextual judgement', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
         ],
         evidenceExpectations: ['Use accurate business knowledge, contextual application and evidence-based reasoning.'],
-        quantitativeRequirements: ['Use quantitative evidence where it materially informs the business decision.'],
+        quantitativeRequirements: ['Use the governed quantitative coverage plan and credit interpretation as well as method use.'],
         synopticRequirements: ['Connect relevant functional and strategic areas when the task demands it.'],
       }, input.workerId)
     }
@@ -81,6 +93,14 @@ class FakeProvider implements FoundationStructuredProviderClient {
       expect(jsonSchema.type).toBe('object')
       expect(jsonSchema.properties).toHaveProperty('questionFamilies')
       const requested = payload.requestedFamilyIds as string[]
+      const blueprint = payload.assessmentBlueprint as FoundationAssessmentBlueprint
+      expect(blueprint.quantitativeCoveragePlan).toMatchObject({
+        minimumOverallPercent: 10,
+        totalAssessmentMarks: 300,
+        minimumQuantitativeMarks: 30,
+        generationValidation: 'sum_quantitative_marks_gte_minimum',
+        interpretationCreditRequired: true,
+      })
       const componentFor = (id: string) => id.startsWith('paper1-') ? 'paper-1' : id.startsWith('paper2-') ? 'paper-2' : 'paper-3'
       return success({
         questionFamilies: requested.map((id) => ({
@@ -88,7 +108,7 @@ class FakeProvider implements FoundationStructuredProviderClient {
           id,
           title: id.replaceAll('-', ' '),
           assessmentObjectiveIds: ['ao1', 'ao2', 'ao3', 'ao4'],
-          skillProfile: ['business knowledge', 'application', 'analysis', 'evaluation'],
+          skillProfile: ['business knowledge', 'application', 'analysis', 'evaluation', 'quantitative evidence where authentic'],
           componentScope: [componentFor(id)],
           markRange: { min: 1, max: id === 'paper3-case-study' ? 100 : id === 'paper2-data-response' ? 40 : id === 'paper1-essay' ? 25 : id === 'paper1-short-answer' ? 35 : 15 },
           responseShape: 'Revision-owned exam-style response contract',
@@ -142,7 +162,7 @@ describe('Foundation live adapter', () => {
     expect(loaded.authorityRef).toContain(headSha)
   })
 
-  it('compiles a real-course Foundation Candidate from the governed Revision seed with zero learner assets', async () => {
+  it('compiles granular Course Truth and an enforceable quantitative Exam Truth invariant with zero learner assets', async () => {
     const provider = new FakeProvider()
     const store = new MemoryStore()
     const rights = await loadGovernedFoundationSourceRightsRules({ repository: 'lhanson-dev/revision', gitRef: 'refs/heads/main', headSha })
@@ -155,7 +175,7 @@ describe('Foundation live adapter', () => {
       artifactStore: store,
       sourceRightsRules: rights.rules,
       now,
-      producerVersion: 'foundation-live-adapter-v1',
+      producerVersion: 'foundation-live-adapter-v2',
       implementationHeadSha: headSha,
     })
 
@@ -183,9 +203,47 @@ describe('Foundation live adapter', () => {
       'question_family',
       'question_family',
     ])
-    const courseTruthWrite = store.writes.find((write) => write.kind === 'course_knowledge_model')
-    expect(JSON.stringify(courseTruthWrite?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
+
+    const coverage = store.writes.find((write) => write.kind === 'foundation_coverage_model')?.value as FoundationCoverageModel
+    expect(coverage.schemaVersion).toBe(2)
+    const governedById = new Map(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements.map((requirement) => [requirement.requirementId, requirement]))
+    for (const requirement of coverage.requirements) {
+      expect(requirement.knowledgeNodeIds).toHaveLength(governedById.get(requirement.requirementId)!.skillsOrKnowledge.length)
+      expect(requirement.knowledgeNodeIds.every((id) => id.startsWith(`${requirement.requirementId}.k`))).toBe(true)
+    }
+    expect(coverage.requirements.flatMap((requirement) => requirement.knowledgeNodeIds).length)
+      .toBeGreaterThan(coverage.requirements.length)
+
+    const courseTruth = store.writes.find((write) => write.kind === 'course_knowledge_model')?.value as { nodes: Array<{ id: string; summary: string }> }
+    expect(courseTruth.nodes).toHaveLength(coverage.requirements.flatMap((requirement) => requirement.knowledgeNodeIds).length)
+    expect(courseTruth.nodes.some((node) => node.id === 'marketing-analysis.k01')).toBe(true)
+    expect(courseTruth.nodes.some((node) => node.summary.includes('market research'))).toBe(true)
+    expect(JSON.stringify(courseTruth)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
+
+    const blueprint = store.writes.find((write) => write.kind === 'assessment_blueprint')?.value as FoundationAssessmentBlueprint
+    expect(blueprint.schemaVersion).toBe(2)
+    expect(blueprint.quantitativeCoveragePlan).toEqual({
+      sourceAssessmentRequirementId: 'quantitative-minimum',
+      scope: 'qualification_total',
+      minimumOverallPercent: 10,
+      totalAssessmentMarks: 300,
+      minimumQuantitativeMarks: 30,
+      eligibleQuestionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay', 'paper2-data-response', 'paper3-case-study'],
+      generationValidation: 'sum_quantitative_marks_gte_minimum',
+      interpretationCreditRequired: true,
+    })
+
     expect(store.writes.some((write) => ['learning', 'practice', 'assessment_item', 'marking_pack'].includes(write.kind))).toBe(false)
+  })
+
+  it('fails v2 coverage that collapses governed knowledge items into too few canonical nodes', () => {
+    const requirement = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements[0]
+    expect(() => foundationCoverageModelSchema.parse({
+      schemaVersion: 2,
+      jobId: 'test-job',
+      sourceSetFingerprint: 'source-fingerprint',
+      requirements: [{ ...requirement, knowledgeNodeIds: [requirement.requirementId], coverageStatus: 'complete' }],
+    })).toThrow('requires at least one canonical knowledge node for every governed skillsOrKnowledge item')
   })
 
   it('fails closed before model execution when live source preflight fails', async () => {
@@ -203,7 +261,7 @@ describe('Foundation live adapter', () => {
       artifactStore: store,
       sourceRightsRules: rights.rules,
       now,
-      producerVersion: 'foundation-live-adapter-v1',
+      producerVersion: 'foundation-live-adapter-v2',
       implementationHeadSha: headSha,
     })).rejects.toMatchObject({ stage: 'source_discovery' })
 

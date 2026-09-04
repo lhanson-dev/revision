@@ -115,7 +115,7 @@ export const foundationCoverageRequirementSchema = foundationCurriculumRequireme
 })
 
 export const foundationCoverageModelSchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: z.union([z.literal(1), z.literal(2)]),
   jobId: identifierSchema,
   sourceSetFingerprint: nonEmptyStringSchema,
   requirements: z.array(foundationCoverageRequirementSchema).min(1),
@@ -142,11 +142,30 @@ export const foundationCoverageModelSchema = z.object({
       }
       nodeIds.add(nodeId)
     })
+
+    if (coverage.schemaVersion === 2 && requirement.knowledgeNodeIds.length < requirement.skillsOrKnowledge.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['requirements', index, 'knowledgeNodeIds'],
+        message: `Foundation coverage v2 requires at least one canonical knowledge node for every governed skillsOrKnowledge item on ${requirement.requirementId}`,
+      })
+    }
   })
 })
 
+export const foundationQuantitativeCoveragePlanSchema = z.object({
+  sourceAssessmentRequirementId: identifierSchema,
+  scope: z.literal('qualification_total'),
+  minimumOverallPercent: z.number().positive().max(100),
+  totalAssessmentMarks: z.number().int().positive(),
+  minimumQuantitativeMarks: z.number().int().positive(),
+  eligibleQuestionFamilyIds: z.array(identifierSchema).min(1),
+  generationValidation: z.literal('sum_quantitative_marks_gte_minimum'),
+  interpretationCreditRequired: z.boolean(),
+})
+
 export const foundationAssessmentBlueprintSchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: z.union([z.literal(1), z.literal(2)]),
   jobId: identifierSchema,
   boardAlignmentFingerprint: nonEmptyStringSchema,
   courseKnowledgeModelFingerprint: nonEmptyStringSchema,
@@ -173,7 +192,51 @@ export const foundationAssessmentBlueprintSchema = z.object({
   })).default([]),
   evidenceExpectations: z.array(nonEmptyStringSchema).default([]),
   quantitativeRequirements: z.array(nonEmptyStringSchema).default([]),
+  quantitativeCoveragePlan: foundationQuantitativeCoveragePlanSchema.optional(),
   synopticRequirements: z.array(nonEmptyStringSchema).default([]),
+}).superRefine((blueprint, context) => {
+  const plan = blueprint.quantitativeCoveragePlan
+  if (!plan) return
+
+  if (!blueprint.assessmentRequirements.some((requirement) => requirement.id === plan.sourceAssessmentRequirementId)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['quantitativeCoveragePlan', 'sourceAssessmentRequirementId'],
+      message: 'Quantitative coverage plan must reference an Exam Truth assessment requirement',
+    })
+  }
+
+  const markTotals = blueprint.components.map((component) => component.markTotal)
+  if (markTotals.every((mark): mark is number => mark !== undefined)) {
+    const total = markTotals.reduce((sum, mark) => sum + mark, 0)
+    if (plan.totalAssessmentMarks !== total) {
+      context.addIssue({
+        code: 'custom',
+        path: ['quantitativeCoveragePlan', 'totalAssessmentMarks'],
+        message: `Quantitative coverage plan total marks must equal component marks (${total})`,
+      })
+    }
+  }
+
+  const requiredMinimum = Math.ceil((plan.totalAssessmentMarks * plan.minimumOverallPercent) / 100)
+  if (plan.minimumQuantitativeMarks !== requiredMinimum) {
+    context.addIssue({
+      code: 'custom',
+      path: ['quantitativeCoveragePlan', 'minimumQuantitativeMarks'],
+      message: `Quantitative coverage plan minimum marks must equal the percentage-derived minimum (${requiredMinimum})`,
+    })
+  }
+
+  const familyIds = new Set(blueprint.components.flatMap((component) => component.questionFamilyIds))
+  for (const [index, familyId] of plan.eligibleQuestionFamilyIds.entries()) {
+    if (!familyIds.has(familyId)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['quantitativeCoveragePlan', 'eligibleQuestionFamilyIds', index],
+        message: `Quantitative coverage plan references unknown Question Family ${familyId}`,
+      })
+    }
+  }
 })
 
 export type FoundationIdentityResolution = z.infer<typeof foundationIdentityResolutionSchema>
@@ -183,6 +246,7 @@ export type FoundationStructuredEvidence = z.infer<typeof foundationStructuredEv
 export type FoundationCurriculumRequirementInput = z.infer<typeof foundationCurriculumRequirementInputSchema>
 export type FoundationCoverageModel = z.infer<typeof foundationCoverageModelSchema>
 export type FoundationAssessmentBlueprint = z.infer<typeof foundationAssessmentBlueprintSchema>
+export type FoundationQuantitativeCoveragePlan = z.infer<typeof foundationQuantitativeCoveragePlanSchema>
 
 export type FoundationWorkerExecutionProvenance = {
   id: string

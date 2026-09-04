@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { advanceFoundationJob, computeFoundationFingerprint, createFoundationJob } from './foundation-lifecycle'
 import {
   compileFoundationJob,
+  type FoundationAssessmentBlueprint,
   type FoundationCompilationArtifactKind,
   type FoundationCompilationArtifactStore,
 } from './foundation-compilation'
@@ -22,6 +23,8 @@ const env = runtime.process?.env ?? {}
 const liveEnabled = env.CONTENT_FACTORY_FOUNDATION_LIVE_PROOF === '1'
 const evidenceDirectory = '.artifacts/content-factory-foundation-live-proof'
 const testTimeoutMs = 30 * 60 * 1000
+const foundationGenerationMaxOutputTokens = 32_000
+const independentReviewMaxOutputTokens = 12_000
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -103,7 +106,7 @@ describe('Foundation live real-course proof', () => {
         longContextInputMultiplier: 2,
         longContextOutputMultiplier: 1.5,
         reasoningEffort: 'high',
-        maxOutputTokens: 12_000,
+        maxOutputTokens: foundationGenerationMaxOutputTokens,
       },
       independentReview: {
         model: generationModel,
@@ -115,7 +118,7 @@ describe('Foundation live real-course proof', () => {
         longContextInputMultiplier: 2,
         longContextOutputMultiplier: 1.5,
         reasoningEffort: 'high',
-        maxOutputTokens: 12_000,
+        maxOutputTokens: independentReviewMaxOutputTokens,
       },
       maxRetries: 2,
     })
@@ -132,7 +135,7 @@ describe('Foundation live real-course proof', () => {
       artifactStore: store,
       sourceRightsRules: rights.rules,
       now,
-      producerVersion: 'foundation-live-adapter-v1',
+      producerVersion: 'foundation-live-adapter-v2',
       implementationHeadSha: headSha,
     })
 
@@ -142,6 +145,12 @@ describe('Foundation live real-course proof', () => {
     const budget = provider.budgetSnapshot?.() ?? { conservativeConsumedUsd: 0 }
     const providerRuns = result.workerRuns.filter((run) => run.provenance.provider === 'openai')
     const courseTruthArtifact = store.artifacts.find((artifact) => artifact.kind === 'course_knowledge_model')
+    const coverageArtifact = store.artifacts.find((artifact) => artifact.kind === 'foundation_coverage_model')
+    const assessmentBlueprintArtifact = store.artifacts.find((artifact) => artifact.kind === 'assessment_blueprint')
+    const courseTruthNodeCount = (courseTruthArtifact?.value as { nodes?: unknown[] } | undefined)?.nodes?.length ?? 0
+    const canonicalCoverageNodeCount = (coverageArtifact?.value as { requirements?: Array<{ knowledgeNodeIds?: unknown[] }> } | undefined)
+      ?.requirements?.reduce((total, requirement) => total + (requirement.knowledgeNodeIds?.length ?? 0), 0) ?? 0
+    const quantitativeCoveragePlan = (assessmentBlueprintArtifact?.value as FoundationAssessmentBlueprint | undefined)?.quantitativeCoveragePlan ?? null
     const evidence = {
       schemaVersion: 1,
       artifactType: 'foundation_live_real_course_proof_evidence',
@@ -156,6 +165,8 @@ describe('Foundation live real-course proof', () => {
       courseTruthSeedLimitations: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.limitations,
       configuredMaxSpendUsd: maxSpendUsd,
       providerBudget: budget,
+      foundationGenerationMaxOutputTokens,
+      independentReviewMaxOutputTokens,
       jobId,
       candidateId,
       foundationFingerprint,
@@ -166,6 +177,9 @@ describe('Foundation live real-course proof', () => {
       examTruthCompleteness: result.candidate.examTruthCompleteness,
       deterministicAssuranceStatus: result.candidate.deterministicAssurance.status,
       independentReviewStatus: result.candidate.independentReview.status,
+      courseTruthNodeCount,
+      canonicalCoverageNodeCount,
+      quantitativeCoveragePlan,
       learnerAssetCount,
       workerRuns: result.workerRuns,
       providerRunCount: providerRuns.length,
@@ -186,6 +200,9 @@ describe('Foundation live real-course proof', () => {
       `- Foundation fingerprint: \`${foundationFingerprint}\``,
       `- Rights registry: \`${rights.approvalEvidenceRef}\``,
       `- Governed Course Truth seed: \`${AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID}\``,
+      `- Canonical Course Truth nodes: **${courseTruthNodeCount}**`,
+      `- Canonical coverage nodes: **${canonicalCoverageNodeCount}**`,
+      `- Quantitative aggregate minimum: **${quantitativeCoveragePlan?.minimumQuantitativeMarks ?? 'unavailable'} / ${quantitativeCoveragePlan?.totalAssessmentMarks ?? 'unavailable'} marks**`,
       `- Course Truth compiler-complete: **${result.candidate.courseTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
       `- Exam Truth compiler-complete: **${result.candidate.examTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
       `- Live OpenAI worker runs: **${providerRuns.length}**`,
@@ -193,7 +210,7 @@ describe('Foundation live real-course proof', () => {
       `- Learner-facing assets generated: **${learnerAssetCount}**`,
       `- Foundation assurance status: \`${result.candidate.deterministicAssurance.status}\` / independent review \`${result.candidate.independentReview.status}\``,
       '',
-      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed Slice 2B seed; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
+      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed seed and new atomic coverage/quantitative contracts; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
     ].join('\n'))
 
     expect(result.job.state).toBe('compiling')
@@ -202,6 +219,9 @@ describe('Foundation live real-course proof', () => {
     expect(result.candidate.deterministicAssurance.status).toBe('pending')
     expect(result.candidate.independentReview.status).toBe('pending')
     expect(providerRuns.map((run) => run.stage)).toEqual(['course_truth', 'exam_truth', 'question_families'])
+    expect(courseTruthNodeCount).toBe(canonicalCoverageNodeCount)
+    expect(courseTruthNodeCount).toBeGreaterThan(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements.length)
+    expect(quantitativeCoveragePlan).toMatchObject({ minimumOverallPercent: 10, minimumQuantitativeMarks: 30, totalAssessmentMarks: 300 })
     expect(JSON.stringify(courseTruthArtifact?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
     expect(learnerAssetCount).toBe(0)
     expect(budget.conservativeConsumedUsd).toBeLessThanOrEqual(maxSpendUsd)

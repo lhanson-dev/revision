@@ -34,9 +34,17 @@ const remediationCourseKnowledgeModelProviderSchema = z.object({
   nodes: z.array(courseKnowledgeNodeSchema).min(1),
 })
 
-const remediationAssessmentBlueprintProviderSchema = foundationAssessmentBlueprintSchema.omit({
-  boardAlignmentFingerprint: true,
-  courseKnowledgeModelFingerprint: true,
+const remediationAssessmentBlueprintProviderSchema = z.object({
+  schemaVersion: foundationAssessmentBlueprintSchema.shape.schemaVersion,
+  jobId: foundationAssessmentBlueprintSchema.shape.jobId,
+  assessmentObjectives: foundationAssessmentBlueprintSchema.shape.assessmentObjectives,
+  assessmentRequirements: foundationAssessmentBlueprintSchema.shape.assessmentRequirements,
+  components: foundationAssessmentBlueprintSchema.shape.components,
+  commandDemands: foundationAssessmentBlueprintSchema.shape.commandDemands,
+  evidenceExpectations: foundationAssessmentBlueprintSchema.shape.evidenceExpectations,
+  quantitativeRequirements: foundationAssessmentBlueprintSchema.shape.quantitativeRequirements,
+  quantitativeCoveragePlan: foundationAssessmentBlueprintSchema.shape.quantitativeCoveragePlan,
+  synopticRequirements: foundationAssessmentBlueprintSchema.shape.synopticRequirements,
 })
 
 const foundationRemediationProviderOutputSchema = z.object({
@@ -104,6 +112,8 @@ async function normaliseRemediationOutput(
         ...replacement,
         correctedArtifact: foundationAssessmentBlueprintSchema.parse({
           ...replacement.correctedArtifact,
+          schemaVersion: remediationInput.assessmentBlueprint.schemaVersion,
+          quantitativeCoveragePlan: remediationInput.assessmentBlueprint.quantitativeCoveragePlan,
           boardAlignmentFingerprint: remediationInput.boardAlignment.fingerprint,
           courseKnowledgeModelFingerprint,
         }),
@@ -168,6 +178,7 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
+          'Do not change Assessment Blueprint schemaVersion or quantitativeCoveragePlan. Those fields are compiler-owned and Revision deterministically preserves them after your semantic correction.',
           'Do not return or attempt to calculate Course Truth or dependency SHA fingerprints. Revision deterministically restores and validates those fields after your corrected semantic output is returned.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
           'Resolve exactly the finding IDs represented by triggerReview blocking/material findings.',
