@@ -2,9 +2,9 @@
 
 **Status:** Active implementation plan — authority approved via PR #290; Issue #289 In Progress  
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`  
+**Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`; `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3B real-course qualification — move substantive Course Truth semantics into governed rights-safe compilation input, then harden the pre-calibration Paper 2 / Paper 3 assembly boundary exposed by the fifth independent-review proof.
+**Current increment:** Slice 3B real-course qualification — release the AQA 7132 pre-calibration Paper 2 / Paper 3 assembly guard, then compile one fresh Foundation from the released semantic seed + assembly boundary before any further paid independent-review proof.
 
 ## Purpose
 
@@ -32,6 +32,8 @@ Released implementation includes:
 - `foundation-assurance.ts` — Foundation-specific deterministic assurance;
 - `foundation-independent-review.ts` — fresh-context independent review, targeted remediation and deterministic re-assurance loop; and
 - `foundation-independent-review-live-adapter.ts` — bounded live review/remediation provider boundary.
+
+The current pre-calibration hardening additionally introduces `foundation-precalibration-assembly.ts` as the AQA 7132 profile boundary that prevents uncalibrated Paper 2 / Paper 3 Question Families from claiming unsupported constituent mark/timing precision during initial compilation or targeted remediation. Detailed implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
 
 The legacy orchestrator, old whole-course assurance factory and old worker factories remain in the repository during migration but are not canonical Foundation runtime dependencies.
 
@@ -194,29 +196,33 @@ The final two material findings were:
 
 Do not raise the remediation-cycle limit and do not rerun the retained run-#15 candidate.
 
-#### Current post-fifth-proof hardening
+#### Post-fifth-proof upstream hardening
 
-The current work is split into two short governed changes so the evidence ownership remains explicit.
+The fifth-proof findings are being converted into two explicit upstream controls rather than additional remediation cycles.
 
-**A. Course Truth semantic evidence seed**
+**A. Course Truth semantic evidence seed — released through PR #308**
 
-The Revision-owned AQA Business seed now needs to carry substantive candidate semantics for all 82 atomic knowledge/skill obligations instead of topic labels alone. Where applicable it should include definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
+The Revision-owned AQA Business seed now carries substantive candidate semantics for all 82 atomic knowledge/skill obligations rather than topic labels alone. Where applicable this includes definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
 
-The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. This is a source-seed/fingerprint change, so the next Foundation proof must compile a fresh candidate.
+The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. The semantic-seed change is material Foundation source evidence, so the next Foundation proof must compile a fresh candidate.
 
 Architecture decision: `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`.
 
-**B. Pre-calibration assessment assembly boundary**
+**B. Pre-calibration assessment assembly boundary — current PR**
 
-A separate following slice must prevent remediation from manufacturing rigid constituent mark/timing patterns where Board Alignment supports only aggregate structure and the Question Family remains `not_calibrated`. Exact verified paper totals/shape must remain enforceable, but unsupported internal allocations should remain bounded/flexible until qualified calibration establishes them.
+The current hardening prevents initial generation or remediation from manufacturing rigid constituent Paper 2 / Paper 3 mark/timing patterns where Board Alignment supports only aggregate structure and the Question Family remains `not_calibrated`.
 
-No paid Slice 3B proof should run after only part A. Both part A and part B must be released first.
+For AQA 7132, exact component totals/timings and verified approximate paper shape remain enforceable, while the compiler owns an aggregate-only Question Family response shape and a component-wide pre-calibration mark envelope. Provider-authored exact constituent allocations outside that compiler-owned shape fail closed. Targeted remediation passes through the same normalizer.
 
-Once both are released, the required sequence is:
+Architecture decision: `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`. Implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
 
-1. run a fresh main-only Foundation live proof to retain a new Foundation Candidate derived from the changed semantic seed;
-2. verify the exact new Foundation artifact/fingerprint and zero learner assets;
-3. bind Slice 3B proof input to that new retained candidate;
+No paid Slice 3B proof should run until this second hardening is released.
+
+Once ADR-0021 and ADR-0022 are both released, the required sequence is:
+
+1. run one fresh main-only Foundation live proof to retain a new Foundation Candidate derived from the changed semantic seed and pre-calibration assembly boundary;
+2. verify the exact new Foundation artifact/fingerprint, 82-node semantic Course Truth, quantitative `30 / 300` gate, pre-calibration Question Families and zero learner assets;
+3. bind Slice 3B proof input to that exact new retained candidate;
 4. rerun deterministic assurance and one fresh-context independent-review/remediation proof; and
 5. enter Slice 3C only if the exact version reaches deterministic PASS plus independent-review PASS.
 
@@ -296,4 +302,4 @@ Slice 3B is operationally complete only when an exact **current** Foundation Can
 5. deterministic re-assurance of the remediated candidate; and
 6. another fresh independent review of the exact remediated fingerprint reaching PASS within the bounded cycle limit.
 
-The fifth proof demonstrates that the mechanism works but that the current candidate still needs stronger upstream semantic evidence and a safer pre-calibration assessment-assembly boundary. Only a newly compiled exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.
+The fifth proof demonstrates that the review/remediation mechanism works. ADR-0021 has moved substantive semantic evidence upstream, and ADR-0022 now hardens the pre-calibration Paper 2/Paper 3 assembly boundary. After both changes are released, only a newly compiled exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.

@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
+- Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
 - Content Factory reliability qualification harness / paid-pilot pause → `docs/technical/Content Factory Reliability Qualification Harness.md`
@@ -56,7 +57,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -160,6 +161,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory current staged target / migration plan → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
+- Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`
 - Content Factory v2 implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`

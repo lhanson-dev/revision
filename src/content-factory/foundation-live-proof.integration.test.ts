@@ -12,6 +12,7 @@ import {
   createAqaAlevelBusiness7132FoundationLiveWorkers,
   createOpenAIFoundationLiveProvider,
 } from './foundation-live-adapter'
+import { withAqa7132PreCalibrationAssemblyGuard } from './foundation-precalibration-assembly'
 import { loadGovernedFoundationSourceRightsRules } from './foundation-source-rights-registry'
 import {
   AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED,
@@ -125,17 +126,20 @@ describe('Foundation live real-course proof', () => {
     const store = new EvidenceArtifactStore()
     const requested = createFoundationJob({ jobId, createdAt: now })
     const compiling = advanceFoundationJob(requested, 'compiling', now)
+    const workers = withAqa7132PreCalibrationAssemblyGuard(
+      createAqaAlevelBusiness7132FoundationLiveWorkers({ provider }),
+    )
 
     const result = await compileFoundationJob({
       job: compiling,
       candidateId,
       officialUrls: [AQA_A_LEVEL_BUSINESS_7132_URLS.specification],
       founderInstruction: 'Compile a new governed AQA A-level Business 7132 Foundation for the 2027 examination cohort. Establish Course Truth and Exam Truth only. Generate no learner-facing assets.',
-      workers: createAqaAlevelBusiness7132FoundationLiveWorkers({ provider }),
+      workers,
       artifactStore: store,
       sourceRightsRules: rights.rules,
       now,
-      producerVersion: 'foundation-live-adapter-v2',
+      producerVersion: 'foundation-live-adapter-v3',
       implementationHeadSha: headSha,
     })
 
@@ -210,7 +214,7 @@ describe('Foundation live real-course proof', () => {
       `- Learner-facing assets generated: **${learnerAssetCount}**`,
       `- Foundation assurance status: \`${result.candidate.deterministicAssurance.status}\` / independent review \`${result.candidate.independentReview.status}\``,
       '',
-      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed seed and new atomic coverage/quantitative contracts; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
+      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed seed and new atomic coverage/quantitative/pre-calibration assembly contracts; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
     ].join('\n'))
 
     expect(result.job.state).toBe('compiling')
