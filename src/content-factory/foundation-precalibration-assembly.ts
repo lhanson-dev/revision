@@ -7,10 +7,6 @@ import type {
   FoundationCompilationWorkers,
   FoundationWorkerExecution,
 } from './foundation-compilation'
-import {
-  foundationRemediationWorkerOutputSchema,
-  type FoundationIndependentReviewWorkers,
-} from './foundation-independent-review'
 
 type PreCalibrationAssemblyPolicy = {
   questionFamilyId: string
@@ -65,28 +61,70 @@ function unsupportedAllocationText(family: QuestionFamily) {
   ))
 }
 
-export function normaliseAqa7132PreCalibrationQuestionFamily(
-  value: unknown,
+function policyBindingProblems(
+  family: QuestionFamily,
   assessmentBlueprint: FoundationAssessmentBlueprint,
-): QuestionFamily {
-  const family = questionFamilySchema.parse(value)
+) {
   const policy = policyByFamilyId.get(family.id)
-  if (!policy) return family
+  if (!policy) return { policy: undefined, component: undefined, problems: [] as string[] }
 
+  const problems: string[] = []
   const component = assessmentBlueprint.components.find((entry) => entry.componentId === policy.componentId)
   if (!component || !component.questionFamilyIds.includes(policy.questionFamilyId)) {
-    throw new Error(`Pre-calibration policy ${policy.questionFamilyId} is not bound to Exam Truth component ${policy.componentId}`)
-  }
-  if (component.markTotal === undefined) {
-    throw new Error(`Pre-calibration policy ${policy.questionFamilyId} requires a verified component mark total`)
+    problems.push(`Pre-calibration policy ${policy.questionFamilyId} is not bound to Exam Truth component ${policy.componentId}`)
+  } else if (component.markTotal === undefined) {
+    problems.push(`Pre-calibration policy ${policy.questionFamilyId} requires a verified component mark total`)
   }
 
   const sourceRequirement = assessmentBlueprint.assessmentRequirements.find(
     (requirement) => requirement.id === policy.sourceAssessmentRequirementId,
   )
   if (!sourceRequirement || !sourceRequirement.componentScope.includes(policy.componentId)) {
-    throw new Error(`Pre-calibration policy ${policy.questionFamilyId} is missing source assessment requirement ${policy.sourceAssessmentRequirementId}`)
+    problems.push(`Pre-calibration policy ${policy.questionFamilyId} is missing source assessment requirement ${policy.sourceAssessmentRequirementId}`)
   }
+
+  return { policy, component, problems }
+}
+
+export function aqa7132PreCalibrationAssemblyProblems(
+  value: unknown,
+  assessmentBlueprint: FoundationAssessmentBlueprint,
+): string[] {
+  const family = questionFamilySchema.parse(value)
+  const { policy, component, problems } = policyBindingProblems(family, assessmentBlueprint)
+  if (!policy) return []
+
+  if (family.calibrationStatus !== 'not_calibrated') {
+    problems.push(`Question Family ${family.id} may not claim calibration before qualified Foundation calibration`)
+  }
+
+  const unsupported = unsupportedAllocationText(family)
+  if (unsupported) {
+    problems.push(`Question Family ${family.id} contains unsupported exact constituent mark/timing allocation: ${unsupported}`)
+  }
+
+  if (component?.markTotal !== undefined) {
+    if (family.markRange.min !== 1 || family.markRange.max !== component.markTotal) {
+      problems.push(`Question Family ${family.id} must retain the compiler-owned component-wide pre-calibration mark envelope 1-${component.markTotal}`)
+    }
+  }
+
+  if (family.responseShape !== policy.responseShape) {
+    problems.push(`Question Family ${family.id} must retain the compiler-owned aggregate-only pre-calibration response shape`)
+  }
+
+  return problems
+}
+
+export function normaliseAqa7132PreCalibrationQuestionFamily(
+  value: unknown,
+  assessmentBlueprint: FoundationAssessmentBlueprint,
+): QuestionFamily {
+  const family = questionFamilySchema.parse(value)
+  const { policy, component, problems } = policyBindingProblems(family, assessmentBlueprint)
+  if (!policy) return family
+  if (problems.length > 0) throw new Error(problems.join('; '))
+  if (!component?.markTotal) throw new Error(`Pre-calibration policy ${policy.questionFamilyId} requires a verified component mark total`)
 
   if (family.calibrationStatus !== 'not_calibrated') {
     throw new Error(`Question Family ${family.id} may not claim calibration during Foundation compilation/remediation`)
@@ -136,43 +174,6 @@ export function withAqa7132PreCalibrationAssemblyGuard(
             family,
             input.assessmentBlueprint,
           )),
-        }
-      } catch (error) {
-        return contractFailure(execution, error)
-      }
-    },
-  }
-}
-
-export function withAqa7132PreCalibrationRemediationGuard(
-  workers: FoundationIndependentReviewWorkers,
-): FoundationIndependentReviewWorkers {
-  return {
-    independentReview(input) {
-      return workers.independentReview(input)
-    },
-    async remediate(input) {
-      const execution = await workers.remediate(input)
-      if (execution.status !== 'success') return execution
-
-      try {
-        const parsed = foundationRemediationWorkerOutputSchema.parse(execution.output)
-        return {
-          ...execution,
-          output: {
-            ...parsed,
-            replacements: parsed.replacements.map((replacement) => (
-              replacement.artifactKind === 'question_family'
-                ? {
-                    ...replacement,
-                    correctedArtifact: normaliseAqa7132PreCalibrationQuestionFamily(
-                      replacement.correctedArtifact,
-                      input.assessmentBlueprint,
-                    ),
-                  }
-                : replacement
-            )),
-          },
         }
       } catch (error) {
         return contractFailure(execution, error)
