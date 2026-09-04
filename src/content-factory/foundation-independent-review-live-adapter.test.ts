@@ -164,6 +164,7 @@ describe('Foundation independent-review live adapter', () => {
     expect(provider.calls[0].routeKind).toBe('generation')
     expect(provider.calls[0].workerId).toBe('content-factory.foundation.targeted-remediation')
     expect(provider.calls[0].instructions).toContain('Do not modify Source Rights, Board Alignment or Foundation coverage')
+    expect(provider.calls[0].instructions).toContain('Do not change Assessment Blueprint schemaVersion or quantitativeCoveragePlan')
     expect(provider.calls[0].instructions).toContain('Do not return or attempt to calculate Course Truth or dependency SHA fingerprints')
     expect(provider.calls[0].payload).toMatchObject({
       remediationIdentity: { reviewedCommit, foundationFingerprint },
@@ -171,12 +172,12 @@ describe('Foundation independent-review live adapter', () => {
     })
   })
 
-  it('restores compiler-owned fingerprints locally when remediation returns semantic Course Truth and Exam Truth only', async () => {
+  it('restores fingerprints and preserves compiler-owned v2 Exam Truth invariants when remediation returns semantic output', async () => {
     const correctedCourseSemantic = {
       schemaVersion: 1 as const,
       jobId: 'foundation-live-review-job',
       nodes: [{
-        id: 'business-objectives',
+        id: 'business-objectives.k01',
         kind: 'concept' as const,
         summary: 'Businesses set objectives that can conflict and require deliberate trade-offs between priorities.',
         prerequisiteIds: [],
@@ -190,15 +191,18 @@ describe('Foundation independent-review live adapter', () => {
         evidenceTypes: ['explain', 'apply'],
       }],
     }
-    const correctedExamSemantic = {
+    const providerExamSemantic = {
       schemaVersion: 1 as const,
       jobId: 'foundation-live-review-job',
       assessmentObjectives: [{ id: 'ao1', weightingPercent: 20 }],
-      assessmentRequirements: [{ id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'] }],
+      assessmentRequirements: [
+        { id: 'written-exam', summary: 'Written examination', componentScope: ['paper-1'] },
+        { id: 'quantitative-minimum', summary: 'Quantitative skills are assessed at a minimum of 10% of overall marks.', componentScope: ['paper-1'] },
+      ],
       components: [{ componentId: 'paper-1', questionFamilyIds: ['short-explain'], markTotal: 100, timingMinutes: 120, constraints: ['written examination'] }],
       commandDemands: [{ command: 'explain', cognitiveDemand: 'develop a linked explanation', componentScope: ['paper-1'] }],
       evidenceExpectations: ['Use accurate business knowledge and make relevant trade-offs explicit.'],
-      quantitativeRequirements: [],
+      quantitativeRequirements: ['Provider attempts to return semantic quantitative guidance only.'],
       synopticRequirements: [],
     }
     const provider = new SchemaValidatingRemediationProvider({
@@ -213,7 +217,7 @@ describe('Foundation independent-review live adapter', () => {
         {
           artifactKind: 'assessment_blueprint',
           oldRef: 'foundation/assessment-blueprint.json',
-          correctedArtifact: correctedExamSemantic,
+          correctedArtifact: providerExamSemantic,
         },
       ],
     })
@@ -223,8 +227,20 @@ describe('Foundation independent-review live adapter', () => {
       fingerprint: 'source-course-fingerprint',
       nodes: correctedCourseSemantic.nodes.map((node) => ({ ...node, summary: 'Businesses set objectives that guide decisions.' })),
     })
+    const quantitativeCoveragePlan = {
+      sourceAssessmentRequirementId: 'quantitative-minimum' as const,
+      scope: 'qualification_total' as const,
+      minimumOverallPercent: 10,
+      totalAssessmentMarks: 100,
+      minimumQuantitativeMarks: 10,
+      eligibleQuestionFamilyIds: ['short-explain'],
+      generationValidation: 'sum_quantitative_marks_gte_minimum' as const,
+      interpretationCreditRequired: true,
+    }
     const sourceExam = foundationAssessmentBlueprintSchema.parse({
-      ...correctedExamSemantic,
+      ...providerExamSemantic,
+      schemaVersion: 2,
+      quantitativeCoveragePlan,
       boardAlignmentFingerprint: 'source-board-fingerprint',
       courseKnowledgeModelFingerprint: sourceCourse.fingerprint,
     })
@@ -249,6 +265,8 @@ describe('Foundation independent-review live adapter', () => {
     const expectedCourseFingerprint = await fingerprintFoundationArtifact(correctedCourseSemantic)
 
     expect(correctedCourse.fingerprint).toBe(expectedCourseFingerprint)
+    expect(correctedExam.schemaVersion).toBe(2)
+    expect(correctedExam.quantitativeCoveragePlan).toEqual(quantitativeCoveragePlan)
     expect(correctedExam.boardAlignmentFingerprint).toBe('source-board-fingerprint')
     expect(correctedExam.courseKnowledgeModelFingerprint).toBe(expectedCourseFingerprint)
   })
