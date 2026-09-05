@@ -17,6 +17,7 @@ export const foundationCoverageObligationSchema = z.object({
   curriculumPath: z.array(nonEmptyStringSchema).min(1),
   summary: nonEmptyStringSchema,
   semanticItemIds: z.array(identifierSchema).min(1),
+  requiredTerms: z.array(nonEmptyStringSchema).default([]),
   sourceRefs: z.array(identifierSchema).min(1),
 })
 
@@ -31,18 +32,28 @@ function assertUnique(values: string[], label: string) {
   }
 }
 
+function normaliseEvidenceText(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .replace(/[–—−]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 export function canonicalKnowledgeNodeId(item: Pick<FoundationSemanticCoverageItem, 'requirementId' | 'knowledgeItemIndex'>) {
   return `${item.requirementId}.k${String(item.knowledgeItemIndex + 1).padStart(2, '0')}`
 }
 
 /**
- * Proves Foundation Course Truth completeness against the applicable leaf requirements
+ * Proves Foundation Course Truth completeness against the applicable requirements
  * in a source-led curriculum hierarchy.
  *
- * The curriculum hierarchy defines what must be covered. Revision's semantic seed defines
- * how those requirements are represented for Course Truth generation. No fixed topic or node
- * count is part of this gate: completeness means every applicable curriculum leaf maps to
- * governed semantic content and every declared mapping resolves.
+ * The source-led hierarchy defines what must be covered. Revision's semantic seed defines
+ * how those obligations are represented for Course Truth generation. No fixed topic or node
+ * count is part of this gate: completeness means every applicable obligation maps to governed
+ * semantic content, every mapping resolves, and any mechanically checkable named scope/boundary
+ * recorded on the source obligation is present in the mapped semantics.
  */
 export function assertRequirementLedCoverage(input: {
   obligations: FoundationCoverageObligation[]
@@ -63,13 +74,22 @@ export function assertRequirementLedCoverage(input: {
 
   for (const obligation of obligations) {
     assertUnique(obligation.semanticItemIds, `semantic_mapping_on_${obligation.obligationId}`)
+    const mappedItems: FoundationSemanticCoverageItem[] = []
     for (const semanticItemId of obligation.semanticItemIds) {
       const semanticItem = semanticById.get(semanticItemId)
       if (!semanticItem) {
         throw new Error(`unmapped_curriculum_requirement:${obligation.obligationId}:${semanticItemId}`)
       }
+      mappedItems.push(semanticItem)
       mappedSemanticIds.add(semanticItemId)
       mappedCanonicalNodeIds.add(canonicalKnowledgeNodeId(semanticItem))
+    }
+
+    const mappedEvidence = normaliseEvidenceText(mappedItems.map((item) => item.text).join(' '))
+    for (const requiredTerm of obligation.requiredTerms) {
+      if (!mappedEvidence.includes(normaliseEvidenceText(requiredTerm))) {
+        throw new Error(`missing_required_curriculum_scope:${obligation.obligationId}:${requiredTerm}`)
+      }
     }
   }
 
