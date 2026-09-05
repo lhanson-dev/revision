@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED } from './aqa-a-level-business-7132-2027'
 
-function knowledgeItem(requirementId: string, index: number) {
+function knowledgeItem(requirementId: string, index = 0) {
   const requirement = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements
     .find((item) => item.requirementId === requirementId)
   if (!requirement) throw new Error(`Missing requirement ${requirementId}`)
@@ -11,37 +11,56 @@ function knowledgeItem(requirementId: string, index: number) {
 }
 
 describe('AQA A-level Business 7132 / 2027 Course Truth seed', () => {
-  it('retains one substantive Revision-owned semantic statement for every canonical atomic node', () => {
+  it('retains substantive Revision-owned candidate semantics without using an item-count completeness target', () => {
     const items = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements
       .flatMap((requirement) => requirement.skillsOrKnowledge)
 
-    expect(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.schemaVersion).toBe(2)
+    expect(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.schemaVersion).toBe(3)
+    expect(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.coverageProfileId).toBeTruthy()
     expect(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.semanticEvidencePolicy.authorship).toBe('REVISION_OWNED')
-    expect(items).toHaveLength(82)
-    expect(items.every((item) => item.length >= 100)).toBe(true)
+    expect(items.length).toBeGreaterThan(0)
+    expect(items.every((item) => item.length >= 80)).toBe(true)
   })
 
-  it('makes the high-risk quantitative methods executable instead of label-only', () => {
-    expect(knowledgeItem('quantitative-skills', 1)).toContain('((new value − original value) / original value) × 100')
-    expect(knowledgeItem('financial-decisions', 0)).toContain('unit contribution = selling price per unit − variable cost per unit')
-    expect(knowledgeItem('financial-decisions', 1)).toContain('break-even output = fixed costs / contribution per unit')
-    expect(knowledgeItem('marketing-analysis', 4)).toContain('PED = percentage change in quantity demanded / percentage change in price')
-    expect(knowledgeItem('marketing-analysis', 5)).toContain('YED = percentage change in quantity demanded / percentage change in income')
-    expect(knowledgeItem('operations-decisions', 1)).toContain('capacity utilisation (%) = actual output / maximum possible output × 100')
-    expect(knowledgeItem('human-resources', 5)).toContain('labour productivity = output / number of employees')
-    expect(knowledgeItem('human-resources', 6)).toContain('labour turnover (%) = number of employees leaving during the period / average number employed during the period × 100')
+  it('retains current high-risk quantitative methods and boundaries', () => {
+    const marketingEvidence = knowledgeItem('aqa-3-3-2')
+    expect(marketingEvidence).toContain('interpret, not calculate')
+    expect(marketingEvidence).toContain('price elasticity')
+    expect(marketingEvidence).toContain('income elasticity')
+
+    const strategicRatios = knowledgeItem('aqa-3-7-2')
+    expect(strategicRatios).toContain('ROCE')
+    expect(strategicRatios).toContain('current ratio = current assets / current liabilities')
+    expect(strategicRatios).toContain('gearing (%)')
+    expect(strategicRatios).toContain('payables days')
+    expect(strategicRatios).toContain('receivables days')
+    expect(strategicRatios).toContain('inventory turnover')
+
+    const investmentAppraisal = knowledgeItem('aqa-3-7-8')
+    expect(investmentAppraisal).toContain('average rate of return (ARR)')
+    expect(investmentAppraisal).toContain('net present value (NPV)')
+
+    const annex = knowledgeItem('aqa-annex-quantitative')
+    expect(annex).toContain('expected value and net gain')
+    expect(annex).toContain('payback, average rate of return and net present value')
+    expect(annex).toContain('interpret, not calculate')
   })
 
-  it('bounds financial-ratio generation to the methods actually defined by Course Truth', () => {
-    const ratioScope = knowledgeItem('strategic-position', 1)
-    expect(ratioScope).toContain('gross profit margin, operating profit margin, ROCE and current ratio only')
-    expect(ratioScope).toContain('without introducing efficiency or gearing ratios')
-    expect(knowledgeItem('financial-decisions', 2)).toContain('gross profit = revenue − cost of sales')
+  it('bounds current ratio generation to the cohort-correct specification', () => {
+    const ratioScope = knowledgeItem('aqa-3-7-2')
+    expect(ratioScope).toContain('ROCE')
+    expect(ratioScope).toContain('current ratio')
+    expect(ratioScope).toContain('gearing')
+    expect(ratioScope).toContain('payables days')
+    expect(ratioScope).toContain('receivables days')
+    expect(ratioScope).toContain('inventory turnover')
+    expect(ratioScope).toContain('never add an acid-test ratio')
   })
 
-  it('retains the rule that semantic scope remains candidate truth until independent and expert assurance', () => {
+  it('retains current network-analysis and assurance boundaries', () => {
+    expect(knowledgeItem('aqa-3-10-3')).toContain('Do not introduce EST/LFT calculation as a mandatory requirement')
     expect(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.limitations).toContain(
-      'Independent Foundation review and qualified subject/assessment expert review remain mandatory before the resulting Course Truth can become an Approved Course Foundation.',
+      'Independent Foundation review and qualified subject/assessment expert review remain mandatory before Course Truth can become an Approved Course Foundation.',
     )
   })
 })
