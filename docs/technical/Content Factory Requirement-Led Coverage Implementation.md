@@ -57,15 +57,7 @@ Curriculum
 
 The depth may vary by specification. The important rule is that every applicable lowest-level curriculum requirement is represented and mapped.
 
-Each leaf retains at least:
-
-- stable requirement identity;
-- official/source reference;
-- hierarchy/path;
-- concise governed requirement meaning;
-- source references and cohort applicability;
-- Course Truth node reference(s); and
-- coverage status / explicit limitation where applicable.
+Each leaf retains at least stable requirement identity, official/source reference, hierarchy/path, concise governed requirement meaning, source/cohort applicability, Course Truth node reference(s), and coverage status or explicit limitation.
 
 A parent topic cannot be marked complete solely because some child content exists.
 
@@ -80,18 +72,7 @@ Qualification
       -> Exam Truth artifact/field(s)
 ```
 
-This covers, where applicable:
-
-- component/paper structure;
-- compulsory/optional rules;
-- marks, timing and weighting;
-- question/response structure;
-- assessment objectives and demands;
-- quantitative/practical/synoptic/source requirements;
-- response expectations;
-- marking/rubric principles;
-- valid alternative reasoning behaviour; and
-- explicit pre-calibration boundaries.
+This covers, where applicable, component structure, compulsory/optional rules, marks/timing/weighting, question/response structure, assessment objectives and demands, quantitative/practical/synoptic/source requirements, response expectations, marking/rubric principles, valid alternative reasoning behaviour, and explicit pre-calibration boundaries.
 
 Every applicable requirement must map to Board Alignment, Assessment Blueprint, Question Family or other governed Exam Truth representation.
 
@@ -108,7 +89,7 @@ Official numeric assessment facts remain enforceable because they are requiremen
 
 ## Reusable deterministic guard
 
-`src/content-factory/requirement-led-coverage.ts` is the first reusable implementation piece. It provides fail-closed source-requirement-to-semantic reconciliation for Course Truth without encoding an expected count and now retains each requirement's curriculum path so the hierarchy can be rendered for assurance/review.
+`src/content-factory/requirement-led-coverage.ts` is the first reusable implementation piece. It provides fail-closed source-requirement-to-semantic reconciliation for Course Truth without encoding an expected count and retains each requirement's curriculum path so the hierarchy can be rendered for assurance/review.
 
 A parallel Exam Truth reconciliation boundary must perform the same function for assessment/marking requirements.
 
@@ -116,40 +97,28 @@ Neither map may derive its complete requirement set by reflecting the Foundation
 
 ## Assurance integration
 
-### Deterministic assurance
-
 Deterministic Foundation assurance must receive the two maps and check that all applicable mappings resolve to the exact retained Foundation artifacts/fingerprints.
 
-### Fresh-context independent review
+Fresh-context independent review must receive the same source-led maps, not merely Revision's generated artifact set. Its job includes challenging whether the curriculum/exam interpretation is sufficient for the stated course/cohort.
 
-Independent review must receive the two source-led maps, not merely Revision's generated artifact set. Its job includes challenging whether the curriculum/exam interpretation is sufficient for the stated course/cohort.
+The portable qualified-human package must include the exact maps and their mappings. Any missing or partial applicable line prevents the package being presented as approval-ready.
 
-### Qualified-human approval pack
-
-The portable human-review package must include the exact maps and their mappings.
-
-The intended reviewer experience is simple:
+A reviewer should be able to inspect a simple representation such as:
 
 ```text
 Curriculum coverage
   3.1 ...                            COVERED
     3.1.x ...                        COVERED -> Course Truth ...
     3.1.y ...                        COVERED -> Course Truth ...
-  3.2 ...                            COVERED
-    ...
 
 Exam coverage
   Paper 1
     total marks/timing               COVERED -> Board Alignment ...
     response structure               COVERED -> Exam Truth ...
     marking/assessment requirement   COVERED -> ...
-  Paper 2
-    ...
 ```
 
-Any missing/partial line prevents the package being presented as approval-ready.
-
-The human can then focus on whether the mappings are correct, accurate, sufficiently deep and assessment-authentic rather than having to discover omitted syllabus lines from scratch.
+The human can then focus on whether the maps and content are correct, accurate, sufficiently deep and assessment-authentic rather than having to rediscover omitted syllabus lines from scratch.
 
 `docs/technical/Content Factory Foundation Expert Review Contract.md` is updated in this branch to record that the historical retained AQA package remains evidence of the earlier implementation state and that a replacement approval-ready package must include the two reconciliation maps.
 
