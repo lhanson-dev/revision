@@ -80,10 +80,32 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
     expect(aqa7132PreCalibrationAssemblyProblems(corrected, blueprint())).toEqual([])
   })
 
+  it('allows verified aggregate component timing while constituent allocations remain unfixed', () => {
+    const corrected = normaliseAqa7132PreCalibrationQuestionFamily({
+      ...family('paper2-data-response', 'paper-2'),
+      analysisRequirements: [
+        'Validate the component-level 120-minute response-time envelope while leaving constituent timings unfixed until qualified calibration.',
+      ],
+    }, blueprint())
+
+    expect(corrected.analysisRequirements).toContain(
+      'Validate the component-level 120-minute response-time envelope while leaving constituent timings unfixed until qualified calibration.',
+    )
+    expect(corrected.markRange).toEqual({ min: 1, max: 100 })
+    expect(aqa7132PreCalibrationAssemblyProblems(corrected, blueprint())).toEqual([])
+  })
+
   it('fails closed when exact constituent mark/timing allocations are hidden outside responseShape', () => {
     expect(() => normaliseAqa7132PreCalibrationQuestionFamily({
       ...family('paper3-case-study', 'paper-3'),
       evaluationRequirements: ['Finish with two 25-mark strategic judgements.'],
+    }, blueprint())).toThrow('unsupported exact constituent mark/timing allocation')
+  })
+
+  it('still rejects exact constituent timings even when the sentence also mentions the paper', () => {
+    expect(() => normaliseAqa7132PreCalibrationQuestionFamily({
+      ...family('paper2-data-response', 'paper-2'),
+      analysisRequirements: ['Within the paper, each data-response set should use a 40-minute allocation.'],
     }, blueprint())).toThrow('unsupported exact constituent mark/timing allocation')
   })
 

@@ -35,8 +35,10 @@ const policyByFamilyId = new Map(
     .map((policy) => [policy.questionFamilyId, policy] as const),
 )
 
-const exactMarkOrMinuteAllocation = /\b\d+\s*(?:-|–|—|\s)*(?:mark|marks|minute|minutes)\b/i
+const exactMarkOrMinuteAllocation = /\b(\d+)\s*(?:-|–|—|\s)*(mark|marks|minute|minutes)\b/gi
 const allocationSequence = /\b\d+(?:\s*(?:\/|,|and)\s*\d+){2,}\b/i
+const aggregateFactContext = /\b(?:component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall)\b/i
+const constituentAllocationContext = /\b(?:each|per|question|sub[-\s]?question|constituent|individual|data-response\s+set|case-study\s+question)\b/i
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
@@ -54,11 +56,38 @@ function providerAuthoredText(family: QuestionFamily) {
   ]
 }
 
-function unsupportedAllocationText(family: QuestionFamily) {
-  return providerAuthoredText(family).find((value) => (
-    exactMarkOrMinuteAllocation.test(value)
-    || allocationSequence.test(value)
-  ))
+type AssessmentComponent = FoundationAssessmentBlueprint['components'][number]
+
+function isAllowedAggregateComponentFact(
+  text: string,
+  match: RegExpMatchArray,
+  component: AssessmentComponent | undefined,
+) {
+  if (!component || match.index === undefined) return false
+
+  const amount = Number(match[1])
+  const unit = match[2]?.toLowerCase()
+  const expected = unit?.startsWith('mark') ? component.markTotal : component.timingMinutes
+  if (expected === undefined || amount !== expected) return false
+
+  const contextStart = Math.max(0, match.index - 56)
+  const contextEnd = Math.min(text.length, match.index + match[0].length + 24)
+  const localContext = text.slice(contextStart, contextEnd)
+
+  return aggregateFactContext.test(localContext)
+    && !constituentAllocationContext.test(localContext)
+}
+
+function unsupportedAllocationText(
+  family: QuestionFamily,
+  component: AssessmentComponent | undefined,
+) {
+  return providerAuthoredText(family).find((value) => {
+    if (allocationSequence.test(value)) return true
+
+    const exactAllocations = [...value.matchAll(exactMarkOrMinuteAllocation)]
+    return exactAllocations.some((match) => !isAllowedAggregateComponentFact(value, match, component))
+  })
 }
 
 function policyBindingProblems(
@@ -98,7 +127,7 @@ export function aqa7132PreCalibrationAssemblyProblems(
     problems.push(`Question Family ${family.id} may not claim calibration before qualified Foundation calibration`)
   }
 
-  const unsupported = unsupportedAllocationText(family)
+  const unsupported = unsupportedAllocationText(family, component)
   if (unsupported) {
     problems.push(`Question Family ${family.id} contains unsupported exact constituent mark/timing allocation: ${unsupported}`)
   }
@@ -130,7 +159,7 @@ export function normaliseAqa7132PreCalibrationQuestionFamily(
     throw new Error(`Question Family ${family.id} may not claim calibration during Foundation compilation/remediation`)
   }
 
-  const unsupported = unsupportedAllocationText(family)
+  const unsupported = unsupportedAllocationText(family, component)
   if (unsupported) {
     throw new Error(`Question Family ${family.id} contains unsupported exact constituent mark/timing allocation outside compiler-owned response shape: ${unsupported}`)
   }

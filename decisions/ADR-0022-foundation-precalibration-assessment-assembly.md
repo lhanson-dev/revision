@@ -1,6 +1,6 @@
 # ADR-0022 — Foundation pre-calibration assessment assembly boundary
 
-**Status:** Proposed for Founder approval with the implementing PR  
+**Status:** Accepted — Founder-approved and released through PR #309  
 **Date:** 4 September 2026  
 **Decision owner:** Founder / Content Factory  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`
@@ -75,3 +75,13 @@ The `1..100` Question Family mark envelope is explicitly a **pre-calibration non
 - A new Foundation fingerprint/version is expected because the semantic seed changed under ADR-0021; historical retained candidates are not mutated.
 - Remediation capacity is no longer spent manufacturing unsupported exact Paper 2/Paper 3 constituent patterns merely to satisfy a request for structural precision.
 - If independent or expert review later establishes a supported calibrated constituent pattern, that becomes a new governed Foundation change rather than an implicit model invention.
+
+## Implementation clarification — Slice 3B Run #19, 5 September 2026
+
+The first post-release Slice 3B proof showed that this decision also requires a deterministic distinction between an exact **aggregate component fact** and an exact **constituent allocation**.
+
+The phrase `component-level 120-minute response-time envelope` is an allowed reference to the already-verified whole-component timing. It must not be rejected merely because it contains an exact numeric timing. By contrast, a statement such as `each data-response set should use a 40-minute allocation` remains a forbidden constituent timing claim before qualified calibration.
+
+The same distinction applies to independent review. A reviewer may challenge contradictions with verified component totals, timings, compulsory shape or supported approximate structure, but the deliberate absence of exact constituent mark/timing calibration is not itself a material defect while the Question Family remains governed as `not_calibrated`. A reviewer must not require unsupported exact constituent precision simply to make the family appear more operationally specific.
+
+This clarification does not change the ADR decision. It makes the existing ownership boundary explicit for deterministic classification and reviewer instructions.

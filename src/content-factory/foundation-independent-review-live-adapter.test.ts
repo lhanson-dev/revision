@@ -147,6 +147,8 @@ describe('Foundation independent-review live adapter', () => {
     expect(provider.calls[0].routeKind).toBe('independent_review')
     expect(provider.calls[0].workerId).toBe('content-factory.foundation.independent-review')
     expect(provider.calls[0].instructions).toContain('Do not browse or reconstruct awarding-body prose')
+    expect(provider.calls[0].instructions).toContain('the absence of exact constituent allocations is not by itself a blocking or material finding')
+    expect(provider.calls[0].instructions).toContain('Do not recommend invented constituent mark/timing bands')
     expect(provider.calls[0].payload).toMatchObject({
       reviewIdentity: { reviewedCommit, foundationFingerprint },
       artifactIndex: [],
@@ -165,6 +167,7 @@ describe('Foundation independent-review live adapter', () => {
     expect(provider.calls[0].workerId).toBe('content-factory.foundation.targeted-remediation')
     expect(provider.calls[0].instructions).toContain('Do not modify Source Rights, Board Alignment or Foundation coverage')
     expect(provider.calls[0].instructions).toContain('Do not remove or rewrite the Assessment Blueprint requirement referenced by quantitativeCoveragePlan.sourceAssessmentRequirementId')
+    expect(provider.calls[0].instructions).toContain('Exact whole-component facts already present in Exam Truth')
     expect(provider.calls[0].instructions).toContain('Do not return or attempt to calculate Course Truth or dependency SHA fingerprints')
     expect(provider.calls[0].payload).toMatchObject({
       remediationIdentity: { reviewedCommit, foundationFingerprint },

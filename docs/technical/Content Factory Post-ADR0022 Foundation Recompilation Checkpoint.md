@@ -1,6 +1,6 @@
 # Content Factory Post-ADR0022 Foundation Recompilation Checkpoint
 
-**Status:** Fresh post-ADR-0021 / ADR-0022 Foundation compilation retained; Slice 3B source rebind in progress  
+**Status:** Fresh Foundation retained and rebound through PR #310; first post-hardening Slice 3B proof failed closed on reviewer/normaliser boundary; targeted repair in progress  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Related implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`  
@@ -8,7 +8,7 @@
 
 ## Purpose
 
-Record the fresh Foundation compilation required after the fifth retained Slice 3B proof exposed two upstream educational/assessment ownership gaps and PRs #308 and #309 released the corresponding deterministic hardening.
+Record the fresh Foundation compilation required after the fifth retained Slice 3B proof exposed two upstream educational/assessment ownership gaps, the subsequent source rebind, and the first post-hardening Slice 3B assurance outcome without rewriting earlier proof history.
 
 This is append-only implementation evidence. It does not reinterpret earlier Slice 3B proofs and does not change normative Content Factory authority.
 
@@ -16,7 +16,7 @@ This is append-only implementation evidence. It does not reinterpret earlier Sli
 
 PR #308 released the Revision-owned semantic Course Truth seed for all 82 atomic AQA Business obligations. The seed now provides candidate definitions, relationships, quantitative methods/formulae, interpretation boundaries and explicit method scope rather than topic labels alone.
 
-PR #309 released the AQA 7132 pre-calibration assessment-assembly guard. While Paper 2 and Paper 3 Question Families remain `not_calibrated`, Revision now preserves verified aggregate component structure but prevents model generation/remediation from inventing unsupported exact constituent mark or timing patterns.
+PR #309 released the AQA 7132 pre-calibration assessment-assembly guard. While Paper 2 and Paper 3 Question Families remain `not_calibrated`, Revision preserves verified aggregate component structure but prevents model generation/remediation from inventing unsupported exact constituent mark or timing patterns.
 
 PR #309 merged and production-verified on approved `main` commit `599704ff77bc2f1e782f4804b142614a043700c7`.
 
@@ -59,15 +59,13 @@ The retained exact artifact shows the released assembly boundary is active:
 
 This is the intended pre-calibration state. It is not a claim that Paper 2 or Paper 3 internal assembly has been qualified by a human assessment expert.
 
-## Slice 3B source rebind
+## Slice 3B source rebind — released through PR #310
 
-The released independent-review workflow is still pinned to the earlier retained v2 Foundation from workflow run `33896487722`, fingerprint `950c002c325e4d6a980d2588c707b3c541a3316b9fe5b7ce446fd51b1e481fac`.
+PR #310 changed only the retained source identity used by `.github/workflows/content-factory-foundation-independent-review-proof.yml` from the earlier v2 Foundation to the exact fresh artifact above.
 
-That candidate predates the semantic-seed and pre-calibration assembly hardening and must not be used for the next Slice 3B qualification proof.
+PR #310 merged as `519766280f9acd4b0687a99cdd914dae33ce9cd1`. Post-merge Revision CI #1578, Pages #242 and `revision/path-to-live` all passed on that exact merge commit.
 
-The current governed rebind changes only the retained source identity used by `.github/workflows/content-factory-foundation-independent-review-proof.yml` to the exact fresh artifact above. The workflow already performs deterministic assurance on the exact retained candidate before fresh-context review and deterministic re-assurance after any material remediation.
-
-The rebind does **not** change:
+The rebind did **not** change:
 
 - source-rights rules;
 - deterministic assurance severity;
@@ -79,19 +77,69 @@ The rebind does **not** change:
 - qualified expert-review requirements; or
 - the zero-learner-asset boundary.
 
+## First post-hardening Slice 3B proof — workflow `33954158017`
+
+The governed **Content Factory Foundation Independent Review Proof** ran on released `main` `519766280f9acd4b0687a99cdd914dae33ce9cd1` against exact source Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`.
+
+Retained evidence artifact:
+
+- artifact id: `9965804707`;
+- artifact name: `content-factory-foundation-independent-review-proof-519766280f9acd4b0687a99cdd914dae33ce9cd1`;
+- artifact digest: `sha256:7da6a687a5c4f18a316354818f130c3848c97af58231729838086cb92716ca6e`.
+
+Evidence:
+
+- source artifact/digest verification passed;
+- deterministic assurance status: `pass`;
+- independent review status: `fail_hold`;
+- fresh independent-review contexts: `1`;
+- retained remediation contexts: `0` because remediation failed before a corrected candidate could be persisted;
+- provider non-completed-response diagnostics: none;
+- conservative provider spend: `$0.167342 / $12.00`;
+- learner-facing assets: `0`;
+- final Foundation fingerprint remained the unchanged source fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`.
+
+The reviewer raised two material findings asking for more operational Paper 2 and Paper 3 constituent mark/timing assembly precision. To the extent those corrections require exact constituent mark/time bands before qualified calibration, they conflict with the deliberate ADR-0022 pre-calibration non-claim and are not supported by current governed evidence.
+
+The remediation worker attempted to stay within the pre-calibration boundary. It included the valid aggregate phrase:
+
+`component-level 120-minute response-time envelope`
+
+and explicitly avoided fixed constituent timings. The local normaliser nevertheless rejected that text as though the exact `120-minute` component fact were an unsupported constituent allocation.
+
+Exact blocker:
+
+`remediation worker failure: provider_contract_failure: remediation_normalisation: Question Family paper2-data-response contains unsupported exact constituent mark/timing allocation outside compiler-owned response shape: Validate the component-level 120-minute response-time envelope and ensure each data-response set contains a viable balance of focused knowledge or interpretation, contextual application, developed analysis and supported judgement without asserting fixed constituent timings before qualified calibration.`
+
+This is an implementation/reviewer-contract defect. It is not evidence that the Foundation should invent fixed constituent timings and is not a reason to weaken the guard or raise the remediation-cycle limit.
+
+## Run #19 bounded repair
+
+The required repair is:
+
+1. preserve ADR-0022 unchanged: Paper 2 and Paper 3 stay aggregate-only while `not_calibrated`;
+2. instruct the independent reviewer that deliberate absence of constituent calibration is not, by itself, a blocking/material defect;
+3. prohibit reviewer recommendations that invent exact constituent mark/timing bands unsupported by supplied governed evidence;
+4. permit exact mark/timing values only when they match verified Exam Truth component totals/timings and are locally expressed as aggregate component/paper facts; and
+5. continue to reject per-question/per-set values, exact constituent sequences and other unsupported precision.
+
+Regression assurance covers the exact Run #19 aggregate `120-minute` phrase and a counterexample where a paper sentence still assigns `40-minute` timing to each data-response set.
+
+No material Foundation artifact changes in this repair. Therefore the same retained source Foundation remains the correct next proof input. A fresh Foundation compile is not required solely because the review/normalisation implementation changed.
+
 ## Progression boundary
 
-After this source rebind is exact-head assured, Founder-approved, merged and production-verified, run **one** governed Slice 3B proof against Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`.
+After the Run #19 repair is exact-head assured, Founder-approved, merged and production-verified:
 
-Do not rerun an older retained candidate as a substitute and do not blindly rerun a failed proof without diagnosing its retained evidence.
-
-Slice 3B may progress to Slice 3C only if the exact current Foundation finishes with both:
-
-1. deterministic assurance `pass`; and
-2. fresh-context independent review `pass` with no unresolved blocking/material finding after any permitted targeted remediation.
+1. run one fresh Slice 3B proof against the same exact retained source Foundation;
+2. require deterministic assurance PASS on the new reviewed implementation commit;
+3. require a genuinely fresh independent-review context;
+4. permit only evidence-supported smallest-safe remediation;
+5. rerun deterministic assurance after every material correction; and
+6. enter Slice 3C only if the exact final Foundation version reaches deterministic PASS plus independent-review PASS.
 
 Even a clean Slice 3B PASS is not qualified expert approval. Slice 3C remains mandatory before `foundation_approved` and before any Learn, Practice or Exam Prep asset factory may start.
 
 ## Documentation impact
 
-This checkpoint records the exact fresh compilation and source-binding handoff under existing Content Factory authority. No normative authority or ADR change is required. Historical proof records remain unchanged.
+This checkpoint records the exact fresh compilation, released source rebind, Run #19 evidence and bounded implementation correction under existing Content Factory authority. No new normative authority or architecture decision is required. Earlier proof evidence remains historically intact.
