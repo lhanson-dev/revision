@@ -4,7 +4,7 @@
 **Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`; `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3B real-course qualification — release the AQA 7132 pre-calibration Paper 2 / Paper 3 assembly guard, then compile one fresh Foundation from the released semantic seed + assembly boundary before any further paid independent-review proof.
+**Current increment:** Slice 3C qualified expert review and immutable approval — package the exact passed AQA 7132 Foundation for real qualified subject/assessment review, import structured human evidence, then approve only the exact human-reviewed fingerprint.
 
 ## Purpose
 
@@ -33,7 +33,9 @@ Released implementation includes:
 - `foundation-independent-review.ts` — fresh-context independent review, targeted remediation and deterministic re-assurance loop; and
 - `foundation-independent-review-live-adapter.ts` — bounded live review/remediation provider boundary.
 
-The current pre-calibration hardening additionally introduces `foundation-precalibration-assembly.ts` as the AQA 7132 profile boundary that prevents uncalibrated Paper 2 / Paper 3 Question Families from claiming unsupported constituent mark/timing precision during initial compilation or targeted remediation. Detailed implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
+The released pre-calibration hardening additionally includes `foundation-precalibration-assembly.ts` as the AQA 7132 profile boundary that prevents uncalibrated Paper 2 / Paper 3 Question Families from claiming unsupported constituent mark/timing precision during initial compilation or targeted remediation. Detailed implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
+
+The current Slice 3C implementation adds `foundation-expert-review.ts` as the portable exact-fingerprint qualified-human review contract. Detailed implementation record: `docs/technical/Content Factory Foundation Expert Review Contract.md`.
 
 The legacy orchestrator, old whole-course assurance factory and old worker factories remain in the repository during migration but are not canonical Foundation runtime dependencies.
 
@@ -110,9 +112,9 @@ The Foundation-native deterministic assurance engine re-reads the exact persiste
 
 The retained AQA Business Foundation passed deterministic assurance with 18 checks, zero failures and zero learner assets. Detailed implementation record: `docs/technical/Content Factory Foundation Assurance Implementation.md`.
 
-### Current Slice 3B — fresh-context independent Foundation review and remediation
+### Completed Slice 3B — fresh-context independent Foundation review and remediation
 
-Core implementation was released through PR #298, with operational proof controls/repairs through PRs #299–#303 and subsequent v2 Foundation/rebinding/remediation hardening through PRs #304–#307.
+Core implementation was released through PR #298, with operational proof controls/repairs through PRs #299–#303 and subsequent v2 Foundation/rebinding/remediation hardening through PRs #304–#311.
 
 The released boundary provides:
 
@@ -198,43 +200,60 @@ Do not raise the remediation-cycle limit and do not rerun the retained run-#15 c
 
 #### Post-fifth-proof upstream hardening
 
-The fifth-proof findings are being converted into two explicit upstream controls rather than additional remediation cycles.
+The fifth-proof findings were converted into two explicit upstream controls rather than additional remediation cycles.
 
 **A. Course Truth semantic evidence seed — released through PR #308**
 
 The Revision-owned AQA Business seed now carries substantive candidate semantics for all 82 atomic knowledge/skill obligations rather than topic labels alone. Where applicable this includes definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
 
-The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. The semantic-seed change is material Foundation source evidence, so the next Foundation proof must compile a fresh candidate.
+The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. The semantic-seed change is material Foundation source evidence, so the subsequent Foundation proof compiled a fresh candidate.
 
 Architecture decision: `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`.
 
-**B. Pre-calibration assessment assembly boundary — current PR**
+**B. Pre-calibration assessment assembly boundary — released through PR #309; reviewer/normaliser boundary repaired through PR #311**
 
-The current hardening prevents initial generation or remediation from manufacturing rigid constituent Paper 2 / Paper 3 mark/timing patterns where Board Alignment supports only aggregate structure and the Question Family remains `not_calibrated`.
+The released hardening prevents initial generation or remediation from manufacturing rigid constituent Paper 2 / Paper 3 mark/timing patterns where Board Alignment supports only aggregate structure and the Question Family remains `not_calibrated`.
 
 For AQA 7132, exact component totals/timings and verified approximate paper shape remain enforceable, while the compiler owns an aggregate-only Question Family response shape and a component-wide pre-calibration mark envelope. Provider-authored exact constituent allocations outside that compiler-owned shape fail closed. Targeted remediation passes through the same normalizer.
 
+PR #311 additionally distinguishes verified whole-component mark/timing facts from prohibited constituent allocations and instructs independent review not to manufacture calibration detail that ADR-0022 deliberately leaves for qualified human review.
+
 Architecture decision: `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`. Implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
 
-No paid Slice 3B proof should run until this second hardening is released.
+#### Slice 3B completion proof — 5 September 2026
 
-Once ADR-0021 and ADR-0022 are both released, the required sequence is:
+After ADR-0021 and ADR-0022 hardening, the governed sequence completed:
 
-1. run one fresh main-only Foundation live proof to retain a new Foundation Candidate derived from the changed semantic seed and pre-calibration assembly boundary;
-2. verify the exact new Foundation artifact/fingerprint, 82-node semantic Course Truth, quantitative `30 / 300` gate, pre-calibration Question Families and zero learner assets;
-3. bind Slice 3B proof input to that exact new retained candidate;
-4. rerun deterministic assurance and one fresh-context independent-review/remediation proof; and
-5. enter Slice 3C only if the exact version reaches deterministic PASS plus independent-review PASS.
+1. fresh Foundation live proof `33938173128` retained Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca` with 82-node semantic Course Truth, quantitative `30 / 300` plan, pre-calibration Paper 2/Paper 3 Question Families and zero learner assets;
+2. PR #310 rebound Slice 3B to that exact retained candidate;
+3. the first post-rebind proof exposed an implementation false positive at the pre-calibration reviewer/normaliser boundary;
+4. PR #311 repaired that boundary without weakening ADR-0022; and
+5. workflow run `33956520875` on released `main` `2f2ae89f8280e3b0c1091346258e56f993f61f77` completed cleanly.
 
-This remains an implementation/technical-documentation change under existing authority. Source-rights rules, independent-review severity, the three-cycle limit and qualified expert review are not weakened.
+Retained Run `33956520875` evidence:
 
-### Slice 3C — qualified expert review and immutable approval
+- exact Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`;
+- deterministic assurance `pass`;
+- fresh-context independent review `pass`;
+- independent-review findings `0`;
+- targeted remediation cycles `0`;
+- unresolved blockers `0`;
+- conservative independent-review provider spend `$0.0731 / $12.00`;
+- learner-facing assets `0`;
+- retained artifact id `9966542905`;
+- retained artifact digest `sha256:df5b8fd23f7ed2b4fd03c64af7a8f59cf84abc1621b7a86b9f3f42a210c9c111`.
+
+Slice 3B is therefore operationally complete for the exact retained AQA Foundation. This is assurance evidence only; it is not qualified human approval.
+
+### Current Slice 3C — qualified expert review and immutable approval
 
 Implement qualified subject/assessment expert-review package/contract, structured expert findings/evidence, reviewer identity/timestamps, known limitations, version-lineage validation and durable immutable Approved Course Foundation persistence.
 
+The first Slice 3C increment establishes a portable exact-fingerprint human-review package and structured qualified-review submission contract. The package may be created only for a Candidate with deterministic PASS, independent-review PASS and no unresolved blockers. Human qualification coverage must span both subject and assessment scope and retain qualification-evidence references. A material/blocking human finding requires `fail_hold` and may not be converted into approval by AI or automation.
+
 Success proof for Slice 3 is the real AQA Business Foundation reaching `foundation_approved` on an exact assured/reviewed version while learner-facing asset count remains zero.
 
-A second AI review is not expert approval. Slice 3C remains a separate human qualification gate even if Slice 3B passes cleanly.
+A second AI review is not expert approval. Slice 3C remains a separate human qualification gate even though Slice 3B has passed cleanly.
 
 ## Subsequent implementation sequence
 
@@ -291,7 +310,7 @@ As implementation lands:
 - update Content Operations documentation only when that surface changes; and
 - update `INDEX.md` when implementation ownership, architecture-decision discoverability or source-of-truth relationships materially change.
 
-## Operational completion condition for Slice 3B
+## Completed operational condition for Slice 3B
 
 Slice 3B is operationally complete only when an exact **current** Foundation Candidate has:
 
@@ -302,4 +321,4 @@ Slice 3B is operationally complete only when an exact **current** Foundation Can
 5. deterministic re-assurance of the remediated candidate; and
 6. another fresh independent review of the exact remediated fingerprint reaching PASS within the bounded cycle limit.
 
-The fifth proof demonstrates that the review/remediation mechanism works. ADR-0021 has moved substantive semantic evidence upstream, and ADR-0022 now hardens the pre-calibration Paper 2/Paper 3 assembly boundary. After both changes are released, only a newly compiled exact Foundation version with deterministic PASS and independent-review PASS may progress to Slice 3C qualified expert review.
+Workflow run `33956520875` satisfies this condition for Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca` on released review implementation commit `2f2ae89f8280e3b0c1091346258e56f993f61f77`. The exact version may now progress to Slice 3C qualified expert review, but it remains unapproved until genuine qualified human evidence is recorded and the immutable approval gate succeeds.
