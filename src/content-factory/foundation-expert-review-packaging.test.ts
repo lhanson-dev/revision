@@ -78,13 +78,15 @@ describe('Foundation expert review packaging', () => {
     })).toThrow(/artifact identity does not match package/)
   })
 
-  it('produces a human handoff template without claiming a reviewer or approval', () => {
+  it('produces a neutral human handoff template without claiming a reviewer, decision or approval', () => {
     const template = buildFoundationExpertReviewSubmissionTemplate(reviewPackage())
     expect(template.reviewers[0]?.reviewerId).toBe('<qualified-reviewer-id>')
     expect(template.evidenceRefs[0]).toBe('<completed-review-evidence-ref>')
+    expect(template.decision).toBe('<pass-or-fail_hold>')
 
     const instructions = renderFoundationExpertReviewInstructions(reviewPackage())
     expect(instructions).toContain('AI review is not a substitute')
+    expect(instructions).toContain('do not assume a pass')
     expect(instructions).toContain(fingerprint)
   })
 })
