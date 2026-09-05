@@ -79,7 +79,7 @@ export function buildFoundationExpertReviewSubmissionTemplate(reviewPackageInput
         qualificationEvidenceRefs: ['<qualification-evidence-ref>'],
       },
     ],
-    decision: 'pass',
+    decision: '<pass-or-fail_hold>',
     findings: [],
     evidenceRefs: ['<completed-review-evidence-ref>'],
     knownLimitations: reviewPackage.knownLimitations,
@@ -104,7 +104,7 @@ export function renderFoundationExpertReviewInstructions(reviewPackageInput: Fou
     `Review the complete resolved artifact set for educational accuracy, curriculum scope, assessment authenticity, internal consistency and any known limitations. Record every blocking, material or minor issue against the exact artifact reference in the supplied submission template.\n\n` +
     `A blocking or material finding requires fail_hold. A pass is valid only when no blocking or material findings remain.\n\n` +
     `## Exact artifact set\n\n${artifactLines}\n\n` +
-    `## Return format\n\nComplete submission-template.json without changing the jobId, candidateId, reviewedCommit or foundationFingerprint. Add reviewer identity, qualification evidence, findings, evidence references and review timestamp.\n`
+    `## Return format\n\nComplete submission-template.json without changing the jobId, candidateId, reviewedCommit or foundationFingerprint. Replace the decision placeholder explicitly with pass or fail_hold based on the completed review; do not assume a pass. Add reviewer identity, qualification evidence, findings, evidence references and review timestamp.\n`
 }
 
 export function assertFoundationExpertReviewSubmissionTemplateShape(template: unknown) {
