@@ -32,6 +32,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_URLS = {
   assessment: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/specification-at-a-glance',
   scheme: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment',
   subjectContent: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/subject-content',
+  paper1June2023MarkScheme: 'https://filestore.aqa.org.uk/sample-papers-and-mark-schemes/2023/june/AQA-71321-MS-JUN23.PDF',
   dfeSubjectContent: 'https://www.gov.uk/government/publications/gce-as-and-a-level-for-business',
   ofqualAssessmentObjectives: 'https://www.gov.uk/government/publications/assessment-objectives-ancient-languages-geography-and-mfl/gcse-as-and-a-level-assessment-objectives',
   libreTextsBusiness: 'https://biz.libretexts.org/Courses/Cosumnes_River_College/Bus_300%3A_Business_Fundamentals_%28Brown%29',
@@ -66,12 +67,13 @@ const boardAlignment: Omit<BoardAlignment, 'fingerprint' | 'jobId'> = {
   ],
   assessmentRequirements: [
     { id: 'paper1-structure', summary: 'Paper 1 is a compulsory two-hour, 100-mark paper with 15 one-mark MCQs, short-answer questions worth 35 marks and two 25-mark essay responses selected from choices.', componentScope: ['paper-1'], sourceRefs: ['aqa-7132-assessment'] },
+    { id: 'paper1-nine-mark-analysis', summary: 'Current AQA Paper 1 assessment evidence includes a 9-mark analyse response family.', componentScope: ['paper-1'], sourceRefs: ['aqa-7132-paper1-june2023-mark-scheme'] },
     { id: 'paper2-structure', summary: 'Paper 2 is a compulsory two-hour, 100-mark paper containing three compulsory data-response questions worth approximately 33 marks each.', componentScope: ['paper-2'], sourceRefs: ['aqa-7132-assessment'] },
     { id: 'paper3-structure', summary: 'Paper 3 is a compulsory two-hour, 100-mark paper containing one compulsory case study followed by approximately six questions.', componentScope: ['paper-3'], sourceRefs: ['aqa-7132-assessment'] },
     { id: 'all-content-all-papers', summary: 'All three papers may assess content from across the full A-level Business course.', componentScope: allComponents, sourceRefs: ['aqa-7132-assessment'] },
     { id: quantitativeRequirementId, summary: `Quantitative skills are assessed at a minimum of ${quantitativeMinimumPercent}% of the overall A-level marks.`, componentScope: allComponents, sourceRefs: ['dfe-business-subject-content'] },
   ],
-  sourceRefs: ['aqa-7132-specification', 'aqa-7132-assessment', 'aqa-7132-scheme', 'dfe-business-subject-content', 'ofqual-business-assessment-objectives'],
+  sourceRefs: ['aqa-7132-specification', 'aqa-7132-assessment', 'aqa-7132-scheme', 'aqa-7132-paper1-june2023-mark-scheme', 'dfe-business-subject-content', 'ofqual-business-assessment-objectives'],
   verificationStatus: 'verified',
 }
 
@@ -80,6 +82,7 @@ const structuredEvidence = foundationStructuredEvidenceSchema.parse({
     { id: 'identity-7132', sourceRef: 'aqa-7132-specification', category: 'course_identity', value: 'AQA A-level Business 7132', verificationStatus: 'verified' },
     { id: 'cohort-2027', sourceRef: 'aqa-7132-specification', category: 'cohort', value: 'Outgoing specification remains in use for cohorts taking examinations in 2027.', verificationStatus: 'verified' },
     { id: 'paper1', sourceRef: 'aqa-7132-assessment', category: 'component', value: 'Paper 1: 2 hours, 100 marks, 33.3%.', verificationStatus: 'verified' },
+    { id: 'paper1-nine-mark-analysis', sourceRef: 'aqa-7132-paper1-june2023-mark-scheme', category: 'assessment_requirement', value: 'Paper 1 assessment evidence includes a 9-mark analyse response family.', verificationStatus: 'verified' },
     { id: 'paper2', sourceRef: 'aqa-7132-assessment', category: 'component', value: 'Paper 2: 2 hours, 100 marks, 33.3%.', verificationStatus: 'verified' },
     { id: 'paper3', sourceRef: 'aqa-7132-assessment', category: 'component', value: 'Paper 3: 2 hours, 100 marks, 33.3%.', verificationStatus: 'verified' },
     { id: 'ao-set', sourceRef: 'ofqual-business-assessment-objectives', category: 'assessment_objective', value: ['AO1', 'AO2', 'AO3', 'AO4'], verificationStatus: 'verified' },
@@ -96,6 +99,7 @@ const externalSourceList = z.array(foundationDiscoveredSourceSchema).parse([
   { id: 'aqa-7132-specification', url: AQA_A_LEVEL_BUSINESS_7132_URLS.specification, title: 'AQA A-level Business 7132 specification', issuer: 'AQA', sourceType: 'specification', educationalRole: ['course identity', 'cohort alignment'] },
   { id: 'aqa-7132-assessment', url: AQA_A_LEVEL_BUSINESS_7132_URLS.assessment, title: 'AQA A-level Business 7132 specification at a glance', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['component and assessment-format alignment'] },
   { id: 'aqa-7132-scheme', url: AQA_A_LEVEL_BUSINESS_7132_URLS.scheme, title: 'AQA A-level Business 7132 scheme of assessment', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['assessment-objective and assessment-rule alignment'] },
+  { id: 'aqa-7132-paper1-june2023-mark-scheme', url: AQA_A_LEVEL_BUSINESS_7132_URLS.paper1June2023MarkScheme, title: 'AQA A-level Business 7132/1 mark scheme — June 2023', issuer: 'AQA', sourceType: 'assessment', educationalRole: ['reference-only current Paper 1 response-family calibration evidence'], versionOrDate: 'June 2023; reference-only runtime preflight required' },
   { id: 'aqa-7132-subject-content', url: AQA_A_LEVEL_BUSINESS_7132_URLS.subjectContent, title: 'AQA A-level Business 7132 subject content', issuer: 'AQA', sourceType: 'subject_content', educationalRole: ['structured Board Alignment reference only'] },
 ])
 
@@ -144,6 +148,15 @@ async function checkedText(fetchImpl: typeof fetch, url: string, markers: string
   }
 }
 
+async function checkedPdf(fetchImpl: typeof fetch, url: string) {
+  const response = await fetchImpl(url, { headers: { 'User-Agent': 'Revision-Foundation-Live-Proof/1.0' } })
+  if (!response.ok) throw new Error(`foundation_source_preflight_http_${response.status}:${url}`)
+  const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
+  if (!contentType.includes('pdf')) throw new Error(`foundation_source_preflight_expected_pdf:${url}`)
+  const bytes = await response.arrayBuffer()
+  if (bytes.byteLength === 0) throw new Error(`foundation_source_preflight_empty_pdf:${url}`)
+}
+
 export async function preflightAqaAlevelBusiness7132Sources(fetchImpl: typeof fetch = fetch) {
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.dfeSubjectContent, ['business', 'open government licence'])
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.ofqualAssessmentObjectives, ['assessment objectives', 'business', 'open government licence'])
@@ -152,6 +165,7 @@ export async function preflightAqaAlevelBusiness7132Sources(fetchImpl: typeof fe
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.specification, ['a-level business', '7132', 'outgoing', '2027'])
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.assessment, ['paper 1', '100 marks', 'paper 2', 'paper 3'])
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.scheme, ['assessment objectives', 'ao1', 'ao4'])
+  await checkedPdf(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.paper1June2023MarkScheme)
   await checkedText(fetchImpl, AQA_A_LEVEL_BUSINESS_7132_URLS.revisionCourseTruthSeed, [AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID, 'governed_main_only'])
 }
 
