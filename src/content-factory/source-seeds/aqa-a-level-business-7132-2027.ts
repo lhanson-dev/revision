@@ -1,15 +1,17 @@
 import type { FoundationCurriculumRequirementInput } from '../foundation-compilation'
+import { AQA_A_LEVEL_BUSINESS_7132_2027_COVERAGE_PROFILE_ID } from './aqa-a-level-business-7132-2027-coverage'
 
 export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID = 'revision-aqa-7132-2027-course-truth-seed'
 
 export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
-  schemaVersion: 2 as const,
+  schemaVersion: 3 as const,
   seedId: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
+  coverageProfileId: AQA_A_LEVEL_BUSINESS_7132_2027_COVERAGE_PROFILE_ID,
   status: 'governed_main_only' as const,
-  purpose: 'Revision-owned structured curriculum and semantic evidence seed for the AQA A-level Business 7132 / 2027 Foundation proof. It is a compilation input, not an approved Course Foundation.',
+  purpose: 'Revision-owned structured semantic evidence seed for the AQA A-level Business 7132 / 2027 Foundation. It is reconciled to an independent source-led coverage profile and is a compilation input, not an approved Course Foundation.',
   semanticEvidencePolicy: {
     authorship: 'REVISION_OWNED' as const,
-    role: 'Provide substantive candidate subject semantics to the Foundation compiler so downstream workers do not need to invent definitions, methods, formulae or scope from model memory.',
+    role: 'Provide substantive candidate subject semantics after source-led curriculum reconciliation so downstream workers do not invent definitions, methods, formulae or scope from model memory.',
     upstreamEvidenceRefs: ['dfe-business-subject-content', 'libretexts-business-fundamentals'],
     assuranceStatus: 'candidate_only_pending_independent_and_expert_review' as const,
   },
@@ -24,129 +26,182 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
     },
   ],
   limitations: [
-    'This seed is Revision-owned candidate Course Truth evidence and is not a claim of qualified-human curriculum completeness.',
-    'AQA REFERENCE_ONLY material is not an upstream curriculum-truth source for this seed; AQA contributes only controlled Board Alignment facts elsewhere in the live profile.',
-    'The semantic statements deliberately define the generative scope of each atomic node. The compiler must not broaden a named method set, ratio set or formula set beyond this seed unless a later governed source update explicitly adds it.',
-    'Independent Foundation review and qualified subject/assessment expert review remain mandatory before the resulting Course Truth can become an Approved Course Foundation.',
+    'This seed is Revision-owned candidate Course Truth evidence and is not qualified-human approval.',
+    'AQA REFERENCE_ONLY material controls course/cohort alignment and the source-led coverage profile; protected AQA prose is not a generative source and is not reproduced here.',
+    'The independent coverage profile defines what must be represented. The semantic seed must not narrow that requirement universe or broaden named method sets from model memory.',
+    'Independent Foundation review and qualified subject/assessment expert review remain mandatory before Course Truth can become an Approved Course Foundation.',
   ],
   requirements: [
-    requirement('business-purpose-forms-environment', 'Business purpose, forms and external environment', [
-      'Business objectives: distinguish financial and non-financial objectives, explain that objectives provide direction and decision criteria, and evaluate how priorities can change with ownership, scale, lifecycle, performance and stakeholder pressure.',
-      'Profit and cash flow: distinguish profit from cash, explain that a profitable business can still face cash-flow difficulty, and connect revenue, costs, cash inflows, cash outflows and timing when interpreting business performance.',
-      'Ownership forms: distinguish sole traders, partnerships and limited companies by ownership, control, liability, access to finance and continuity, and explain how the legal/ownership form can affect objectives and decision making.',
-      'Shareholders and stakeholders: distinguish owners from wider stakeholder groups, identify their different interests and influence, and explain why decisions can create trade-offs between returns, employment, customers, suppliers, communities and other interests.',
-      'External influences: analyse how economic, legal, political, technological, social, competitive and environmental changes can affect demand, costs, risk, opportunities and strategic choices; avoid treating external factors as automatically positive or negative.',
+    requirement('aqa-3-0-course-context', '3.0', 'Course-wide business context', [
+      'Across the course, apply business ideas to varied business contexts and analyse interrelated functional decisions rather than isolated silos. Evaluate competition, technology, stakeholders, uncertainty, data quality, ethical and environmental consequences, and use quantitative and non-quantitative evidence including index numbers where relevant.',
     ]),
-    requirement('leadership-management-decisions', 'Management, leadership and decision making', [
-      'Management and leadership: distinguish coordinating/planning organisational work from influencing and motivating people, while recognising that managers may perform both roles and that effectiveness depends on context rather than a single universal style.',
-      'Leadership styles: compare more directive and more participative approaches by decision speed, employee involvement, expertise, motivation and situational fit; do not assume one style is always superior.',
-      'Decision making: frame a decision around objectives, evidence, alternatives, constraints, likely consequences and uncertainty, then justify a choice rather than treating a model or calculation as an automatic answer.',
-      'Risk and uncertainty: distinguish outcomes with estimable probabilities from deeper uncertainty, explain how both affect decision quality, and use sensitivity/scenario thinking without presenting forecasts as certainties.',
-      'Stakeholder trade-offs: identify who gains, who bears costs or risks, how stakeholder power differs, and how short-term and long-term consequences can conflict when evaluating a decision.',
+    requirement('aqa-3-0-strategic-context', '3.0 Strategic decision making', 'Strategic decision-making context', [
+      'Strategic decisions build on functional decision making and should consider technology, Corporate Social Responsibility, ethical and environmental consequences, forecasting, feasibility, risk, uncertainty and stakeholders. Conclusions should be evidence-based and conditional on context rather than model-driven.',
     ]),
-    requirement('marketing-analysis', 'Marketing objectives, research, markets and demand', [
-      'Marketing objectives: connect marketing goals such as sales growth, market share, customer retention, brand position or entry into a new segment to wider business objectives and measurable outcomes.',
-      'Market research: distinguish primary from secondary and qualitative from quantitative evidence, evaluate sample/source reliability and relevance, and explain that research reduces uncertainty rather than guaranteeing demand.',
-      'Segmentation and targeting: divide a market using meaningful customer characteristics, assess segment attractiveness and fit, and select target segments without assuming that the largest segment is automatically the best.',
-      'Positioning: explain how a business seeks a distinctive place in customers\' perceptions relative to competitors and how product, price, promotion, distribution and brand signals must support the intended position.',
-      'Price elasticity of demand: calculate PED = percentage change in quantity demanded / percentage change in price; interpret absolute magnitude as elastic (>1), unit elastic (=1) or inelastic (<1), use the sign to recognise the usual inverse relationship, and avoid claiming elasticity is fixed across all prices or time periods.',
-      'Income elasticity of demand: calculate YED = percentage change in quantity demanded / percentage change in income; interpret positive values as normal-good behaviour and negative values as inferior-good behaviour in the observed context, while recognising magnitude and classification can vary by market and income range.',
+
+    requirement('aqa-3-1-1', '3.1.1', 'Business nature and purpose', [
+      'Explain business purpose and distinguish objectives such as profit, growth, survival, cash flow, social and ethical aims. Connect objectives to mission and changing circumstances. Calculate and interpret revenue, fixed costs, variable costs, total costs and profit while distinguishing accounting profit from cash flow.',
     ]),
-    requirement('marketing-decisions', 'Marketing mix and competitive marketing decisions', [
-      'Product decisions: evaluate product features, quality, range, lifecycle, differentiation and development choices by customer needs, competitive position, cost and strategic fit rather than treating product change as inherently beneficial.',
-      'Pricing: compare pricing approaches using objectives, demand sensitivity, costs, competition, positioning and capacity constraints, and explain how price changes can affect both volume and contribution/profit.',
-      'Promotion: distinguish communication objectives and methods, assess reach, targeting, message, cost and measurable response, and evaluate promotion as part of an integrated marketing decision rather than an isolated activity.',
-      'Distribution: compare direct and intermediary channels by market reach, control, convenience, speed, cost and customer experience; recognise that channel choices can differ across products and segments.',
-      'Branding: explain how brand identity and associations can support recognition, differentiation, loyalty and price positioning, while recognising that brand investment does not guarantee customer preference or commercial success.',
-      'Digital marketing: evaluate digital channels using targeting, interaction, data, reach, conversion, reputation and privacy/implementation considerations; avoid assuming digital channels are automatically cheaper or more effective.',
+    requirement('aqa-3-1-2', '3.1.2', 'Business forms', [
+      'Compare sole traders, private limited companies, public limited companies, public sector organisations, non-profit organisations and social enterprises. Explain unlimited liability and limited liability, ordinary share capital, market capitalisation and dividends, and analyse how ownership, control, finance and performance can affect share price and objectives.',
     ]),
-    requirement('operations-decisions', 'Operational objectives, performance, quality and supply', [
-      'Productivity: calculate productivity as output / input for the stated resource base, compare like-for-like measures, and explain that higher productivity can lower unit cost or raise capacity but may involve quality, workforce or investment trade-offs.',
-      'Capacity utilisation: calculate capacity utilisation (%) = actual output / maximum possible output × 100; interpret spare versus highly utilised capacity and evaluate implications for unit cost, flexibility, queues, maintenance, quality and expansion decisions.',
-      'Unit costs: calculate unit cost = total cost / units of output for the stated period and scope; explain economies/diseconomies and volume effects without assuming lower unit cost always means better overall performance.',
-      'Quality: distinguish quality control from broader quality assurance/continuous improvement approaches, and evaluate prevention, inspection, consistency, customer expectations, cost and reputational consequences.',
-      'Inventory: explain the role and cost of raw materials, work-in-progress and finished-goods inventory, and evaluate the trade-off between availability/resilience and holding, obsolescence and cash costs.',
-      'Lean operations: explain waste reduction, flow, continuous improvement and inventory discipline as coordinated operating principles; evaluate implementation requirements and avoid equating lean with simply cutting resources.',
-      'Supply chains: analyse supplier choice, lead times, dependency, logistics, quality, cost, resilience and ethical/environmental exposure, including the trade-off between efficiency and redundancy.',
-      'Technology: evaluate automation, data systems and digital production/operations tools by productivity, quality, flexibility, capital cost, skills, integration, cyber/operational risk and strategic fit.',
+    requirement('aqa-3-1-3', '3.1.3', 'External business environment', [
+      'Analyse how competition, market conditions, incomes, interest rates, demographic change, environmental pressures and fair trade can alter business costs, demand, opportunities, constraints and objectives. External influences are contextual rather than automatically favourable or adverse.',
     ]),
-    requirement('financial-performance', 'Financial objectives, profit, cash flow and budgets', [
-      'Revenue costs and profit: calculate revenue = selling price × quantity sold and profit = total revenue − total costs; distinguish fixed and variable costs for the stated context and interpret profit changes using both revenue and cost drivers.',
-      'Cash flow: calculate net cash flow = cash inflows − cash outflows and closing balance = opening balance + net cash flow; distinguish cash timing from profit recognition and identify causes/consequences of cash shortages or surpluses.',
-      'Budgets: explain budgets as quantified plans for revenues, costs, cash or resources, use them for coordination and control, and evaluate usefulness using realism, participation, flexibility and changing conditions.',
-      'Variance analysis: calculate variance as actual − budget for a clearly stated measure, identify whether the business consequence is favourable or adverse from context rather than sign alone, and investigate causes before assigning responsibility.',
-      'Cash-flow forecasting: construct and interpret forecast inflows, outflows, net cash flow and balances over time, identify projected liquidity pressure, and evaluate actions while recognising forecasts depend on assumptions.',
+
+    requirement('aqa-3-2-1', '3.2.1', 'Management and leadership', [
+      'Distinguish management from leadership and compare autocratic, paternalistic, democratic and laissez-faire leadership. Use the Tannenbaum Schmidt continuum to analyse how leader freedom and subordinate participation can vary, and judge effectiveness from the situation rather than assuming one style is universally best.',
     ]),
-    requirement('financial-decisions', 'Financial analysis, investment and funding decisions', [
-      'Contribution: calculate unit contribution = selling price per unit − variable cost per unit and total contribution = unit contribution × output; use contribution to analyse product/volume decisions without treating contribution as profit because fixed costs remain.',
-      'Break-even: calculate break-even output = fixed costs / contribution per unit and margin of safety = actual or forecast output − break-even output; interpret how price, variable cost and fixed cost changes move break-even and recognise the model assumes simplified cost/revenue behaviour.',
-      'Profitability ratios: calculate gross profit = revenue − cost of sales, gross profit margin (%) = gross profit / revenue × 100, operating profit margin (%) = operating profit / revenue × 100, and ROCE (%) = operating profit / capital employed × 100; define capital employed consistently with the financial data supplied and interpret ratios comparatively rather than in isolation.',
-      'Investment appraisal: calculate and interpret payback using cumulative net cash flows and average rate of return (ARR) = average annual accounting profit / initial investment × 100 where the supplied data supports it; compare methods by timing, profitability and risk rather than treating one metric as decisive.',
-      'Sources of finance: distinguish internal and external, short- and long-term finance, and evaluate sources using amount, duration, cost, repayment/cash-flow impact, security, control, risk and business circumstances.',
-      'Financial decision making: combine financial calculations with qualitative evidence, objectives, risk, time horizon and stakeholder consequences; check assumptions and data quality and avoid making a recommendation from one indicator alone.',
+    requirement('aqa-3-2-2', '3.2.2', 'Management decision making', [
+      'Compare scientific or data-led decision making with intuition. Construct and interpret decision trees using probabilities, expected value and net gains where appropriate. Evaluate risks, rewards, uncertainty and opportunity cost, and analyse how mission, objectives, ethics and resource constraints affect decisions.',
     ]),
-    requirement('human-resources', 'Human-resource objectives, organisation, motivation and employee relations', [
-      'Workforce performance: assess workforce outcomes using productivity, quality, absence, retention, skills, service and engagement evidence, recognising that one metric alone may not identify the underlying cause.',
-      'Organisational design: compare spans of control, layers, centralisation/decentralisation and functional/divisional or team structures by communication, accountability, expertise, speed, control, motivation and scale.',
-      'Motivation: explain how financial and non-financial factors can affect effort, satisfaction and retention, apply motivational ideas as context-dependent lenses, and avoid presenting any theory as a guaranteed prescription.',
-      'Employee involvement: evaluate consultation, participation, teamworking and delegated responsibility by information quality, commitment, speed, management control and workforce capability.',
-      'Employee relations: analyse cooperation, conflict, representation, communication, negotiation and change impacts, considering both employer objectives and employee interests.',
-      'Labour productivity: calculate labour productivity = output / number of employees (or labour hours when that denominator is explicitly supplied), compare consistent periods/units, and interpret changes alongside quality, capital intensity and workforce conditions.',
-      'Labour turnover: calculate labour turnover (%) = number of employees leaving during the period / average number employed during the period × 100; evaluate recruitment, training, knowledge-loss and morale consequences while recognising some turnover can be functional.',
+    requirement('aqa-3-2-3', '3.2.3', 'Stakeholder management', [
+      'Identify stakeholder interests and potential conflict, distinguish stakeholder power and interest, and use power-interest reasoning to judge management priorities. Evaluate communication and consultation as relationship-management choices rather than automatic solutions.',
     ]),
-    requirement('strategic-position', 'Analysing the strategic position of a business', [
-      'Mission and objectives: distinguish broad organisational purpose from specific strategic objectives, assess consistency between them, and explain how measurable objectives provide criteria for evaluating strategic options.',
-      'Financial ratio analysis: for this Foundation, the explicitly modelled ratio set is gross profit margin, operating profit margin, ROCE and current ratio only. Calculate current ratio = current assets / current liabilities and use the profitability formulae defined in financial-decisions.k03; compare trends/benchmarks and interpret causes and limitations without introducing efficiency or gearing ratios unless later governed evidence explicitly adds them.',
-      'SWOT: classify genuinely internal strengths/weaknesses and external opportunities/threats, connect factors to specific strategic implications, and avoid using SWOT as a substitute for evidence or prioritisation.',
-      'External environment: analyse macroeconomic, political/legal, social, technological, competitive and environmental forces by their causal effect on demand, cost, capability, risk and opportunity, including interactions between factors.',
-      'Competitive position: assess position using customer value, differentiation, cost, capabilities, market evidence and competitor behaviour, and distinguish a durable advantage from a temporary performance outcome.',
-      'Investment appraisal: use the governed payback and ARR methods from financial-decisions.k04 when comparing strategic investments, combine results with risk and qualitative fit, and avoid introducing ungoverned appraisal methods.',
-      'Decision trees: calculate expected monetary value for mutually exclusive branches as probability × monetary outcome summed across outcomes, subtract option costs where supplied, and use the result as one input while recognising probabilities and monetary estimates are uncertain.',
+
+    requirement('aqa-3-3-cross-cutting', '3.3', 'Marketing cross-cutting context', [
+      'Marketing decisions should integrate technology, ethical and environmental considerations, competition, competitiveness and the interrelationship between marketing and operations, finance and human resources.',
     ]),
-    requirement('strategic-direction', 'Choosing strategic direction', [
-      'Strategic objectives: translate mission and business priorities into longer-term measurable aims, identify tensions between growth, profit, risk, social or stakeholder objectives, and use them to evaluate options.',
-      'Markets and products: compare deeper penetration, new-market development, product/service development and broader diversification choices by capability, demand, investment, risk and fit without assuming growth is always desirable.',
-      'Competitive positioning: compare lower-cost and differentiated value propositions by customer needs, cost structure, capabilities, imitation risk and consistency of the activity system; avoid treating generic labels as complete strategies.',
-      'Strategic choices and trade-offs: compare options against objectives, resources, risk, implementation feasibility, stakeholder effects and opportunity cost, making explicit what must be sacrificed or accepted with each choice.',
+    requirement('aqa-3-3-1', '3.3.1', 'Marketing objectives', [
+      'Set and evaluate marketing objectives using measures such as sales volume, sales value, market size, market and sales growth, market share and brand loyalty. Calculate relevant growth/share/size measures where data permit and connect them to wider business objectives.',
     ]),
-    requirement('strategic-methods', 'Strategic methods for pursuing strategy', [
-      'Organic growth: explain growth using internal expansion of products, capacity, customers or locations, and evaluate control, speed, finance, capability development and execution risk.',
-      'Mergers and takeovers: distinguish negotiated combination from acquisition of control, evaluate strategic rationale and potential synergies against valuation, finance, integration, culture and execution risks.',
-      'Internationalisation: evaluate entry into overseas markets using demand, competition, culture, regulation, exchange-rate/logistics exposure, scale, control and entry-mode risk.',
-      'Innovation: distinguish product/service and process innovation, connect innovation to customer value, productivity or strategic renewal, and evaluate uncertainty, investment, capability and timing.',
-      'Digital technology: evaluate how digital platforms, data, automation and connectivity can reshape channels, operations and business models while considering investment, skills, cybersecurity, dependency and adoption risk.',
-      'Strategic alliances: explain cooperative arrangements between independent organisations, assess access to capabilities/markets/resources against coordination, control, knowledge-sharing and partner-dependency risks.',
+    requirement('aqa-3-3-2', '3.3.2', 'Markets and customers', [
+      'Evaluate primary and secondary research and qualitative and quantitative data. Compare random, stratified and quota sampling. Interpret correlation, confidence intervals and extrapolation while recognising uncertainty and avoiding automatic causal claims. For price elasticity and income elasticity, interpret, not calculate, the supplied elasticity information and analyse effects on demand and revenue.',
     ]),
-    requirement('strategic-change', 'Managing strategic change', [
-      'Organisational culture: explain shared norms, assumptions and behaviours as influences on coordination and decision making, and evaluate how culture can enable or obstruct a strategy without treating it as easily changed by declaration.',
-      'Change management: plan change around rationale, stakeholders, communication, participation, resources, sequencing, monitoring and adaptation, recognising that resistance can contain useful information rather than being purely irrational.',
-      'Leadership of change: evaluate how leaders create direction, credibility, communication, participation and accountability during change, with approach adapted to urgency, capability and stakeholder impact.',
-      'Barriers to change: identify structural, cultural, financial, capability, incentive, information and stakeholder barriers, diagnose causes and choose proportionate responses rather than applying generic change techniques.',
-      'Implementation risk: identify execution dependencies, resource constraints, timing, unintended consequences and adoption risks, use milestones/contingencies where useful, and distinguish implementation failure from a flawed strategic choice.',
+    requirement('aqa-3-3-3', '3.3.3', 'Segmentation targeting and positioning', [
+      'Segment markets using demographic, geographic, income and behavioural variables. Compare niche and mass marketing, select target segments using attractiveness and capability fit, and use market mapping to assess positioning and competitive gaps.',
     ]),
-    requirement('quantitative-skills', 'Quantitative skills in business', [
-      'Ratios and averages: calculate a ratio from consistently defined numerator and denominator values and calculate an arithmetic mean = sum of observations / number of observations; interpret the measure in context and do not compare ratios built from inconsistent definitions.',
-      'Percentages and percentage change: calculate percentage of a total = part / whole × 100 and percentage change = ((new value − original value) / original value) × 100; preserve the grouping around the change before division and interpret both direction and magnitude.',
-      'Index numbers: interpret an index relative to its stated base (commonly 100) and calculate relative change consistently from the base or between indexed periods; do not mistake an index value for an absolute quantity.',
-      'Cost revenue profit and break-even: apply revenue = price × quantity, profit = revenue − total cost, contribution per unit = price − variable cost per unit, break-even output = fixed costs / contribution per unit and margin of safety = actual or forecast output − break-even output, with consistent units.',
-      'Investment appraisal: apply the governed payback and ARR methods defined in financial-decisions.k04, check the timing/meaning of cash-flow versus accounting-profit inputs, and interpret the result alongside risk and qualitative evidence.',
-      'Elasticity: apply PED = percentage change in quantity demanded / percentage change in price and YED = percentage change in quantity demanded / percentage change in income using correctly grouped percentage changes; interpret sign and magnitude in the stated market context.',
-      'Graphical and numerical interpretation: read axes, units, scales, totals, percentages and trends accurately; compare relevant values, identify relationships without automatically inferring causation, and use numerical evidence to support analysis or evaluation.',
+    requirement('aqa-3-3-4', '3.3.4', 'Marketing mix', [
+      'Use the full 7Ps as an integrated marketing mix: product, price, promotion, place/distribution, people, process and physical environment. Apply the Boston Matrix and product life cycle to product decisions; evaluate penetration and price skimming; analyse branding, social media and viral marketing; compare multi-channel distribution; and evaluate integrated marketing mix choices, digital marketing and e-commerce in context.',
     ]),
-    requirement('synoptic-business-judgement', 'Synoptic business judgement', [
-      'Interrelationships between business functions: trace how a decision in marketing, operations, finance or people management changes constraints and outcomes elsewhere, including feedback effects rather than analysing functions as isolated silos.',
-      'Contextual analysis: select evidence that is material to the specific organisation, market, objective and time horizon, explain the causal chain from evidence to consequence, and avoid generic points detached from the case.',
-      'Quantitative and qualitative evidence: combine calculations/data with non-numerical evidence, check reliability and assumptions, and explain where the two forms of evidence reinforce or qualify each other.',
-      'Evaluation: compare the significance and limitations of competing arguments using context, objectives, risk, time and stakeholder effects, rather than adding an unsupported concluding assertion.',
-      'Evidence-based judgement: reach a clear conditional or prioritised conclusion supported by the strongest relevant evidence, state decisive assumptions or contingencies, and show why rejected alternatives are less suitable in the stated context.',
+
+    requirement('aqa-3-4-cross-cutting', '3.4', 'Operations cross-cutting context', [
+      'Operational decisions should integrate technology, ethical and environmental considerations, competition, competitiveness and the interrelationship between operations and marketing, finance and human resources.',
+    ]),
+    requirement('aqa-3-4-1', '3.4.1', 'Operational objectives', [
+      'Evaluate operational objectives for costs, quality, speed of response, flexibility and environmental objectives. Explain how operational choices can create added value and how objectives can conflict.',
+    ]),
+    requirement('aqa-3-4-2', '3.4.2', 'Operational performance', [
+      'Calculate and interpret labour productivity, unit costs, capacity and capacity utilisation. Use consistent units and periods, diagnose causes of change, and evaluate consequences for cost, quality, flexibility, service and investment decisions.',
+    ]),
+    requirement('aqa-3-4-3', '3.4.3', 'Efficiency and productivity', [
+      'Analyse efficiency and labour productivity, capacity decisions and lean operations. Compare Just in Time and Just in Case inventory approaches, labour intensive and capital intensive resource mixes, and the effects of technology on efficiency, quality, flexibility and risk.',
+    ]),
+    requirement('aqa-3-4-4', '3.4.4', 'Quality', [
+      'Distinguish quality assurance from quality control and evaluate their contribution, cost and implementation difficulty. Analyse the operational, financial, customer and reputational consequences of poor quality.',
+    ]),
+    requirement('aqa-3-4-5', '3.4.5', 'Inventory and supply chains', [
+      'Evaluate ways to match supply and demand, including outsourcing, temporary and part time labour and producing to order. Interpret inventory control charts using lead time, re-order levels, buffer inventory and re-order quantities. Evaluate suppliers and supply chain choices for cost, quality, speed, dependency and resilience.',
+    ]),
+
+    requirement('aqa-3-5-cross-cutting', '3.5', 'Finance cross-cutting context', [
+      'Financial decisions should integrate technology, competition, ethical and environmental considerations, competitiveness and the interrelationship between finance and marketing, operations and human resources.',
+    ]),
+    requirement('aqa-3-5-1', '3.5.1', 'Financial objectives', [
+      'Set and evaluate financial objectives including return on investment, revenue, costs, profit and cash flow. Distinguish gross profit, operating profit and profit for the year and explain why profit and cash can move differently.',
+    ]),
+    requirement('aqa-3-5-2', '3.5.2', 'Financial performance', [
+      'Construct and interpret budgets and cash-flow forecasts and calculate variance, judging favourable or adverse meaning from context. Apply break-even, margin of safety, contribution per unit and total contribution. Calculate and interpret gross profit and profit from operations/profit for the year where appropriate, and analyse payables and receivables timing when assessing cash-flow performance.',
+    ]),
+    requirement('aqa-3-5-3', '3.5.3', 'Sources of finance', [
+      'Compare internal and external, short- and long-term sources including debt factoring, overdrafts, retained profits, share capital, loans, venture capital and crowd funding. Evaluate amount, duration, cost, repayment/cash-flow effect, security, control and risk.',
+    ]),
+    requirement('aqa-3-5-4', '3.5.4', 'Improving cash flow and profits', [
+      'Evaluate methods of improving cash flow, profits and profitability and the difficulties or trade-offs attached to them. A recommendation should combine quantitative effects with operational, marketing, workforce and strategic consequences.',
+    ]),
+
+    requirement('aqa-3-6-cross-cutting', '3.6', 'Human resources cross-cutting context', [
+      'Human-resource decisions should integrate technology, ethical and environmental considerations, labour market conditions, competition, competitiveness and the interrelationship between people decisions and marketing, operations and finance.',
+    ]),
+    requirement('aqa-3-6-1', '3.6.1', 'Human resource objectives', [
+      'Evaluate HR objectives including employee engagement, talent development, training, diversity and the number, skills and location of employees. Compare soft and hard HRM approaches and their situational implications.',
+    ]),
+    requirement('aqa-3-6-2', '3.6.2', 'Human resource performance', [
+      'Calculate and interpret labour turnover, labour productivity, employee costs as percentage of turnover and labour cost per unit. Compare consistent periods and diagnose business causes and consequences rather than treating any single measure as a complete judgement.',
+    ]),
+    requirement('aqa-3-6-3', '3.6.3', 'Organisational design and HR flow', [
+      'Compare functional, product-based, regional and matrix structures. Analyse authority, span of control, hierarchy, delegation, centralisation and decentralisation. Use a human resource plan to consider recruitment, training, redeployment and redundancy as the workforce changes.',
+    ]),
+    requirement('aqa-3-6-4', '3.6.4', 'Motivation and engagement', [
+      'Apply Taylor, Maslow and Herzberg as context-dependent motivation theories. Evaluate financial methods including piece rate, commission, salary and performance-related pay, and non-financial methods including empowerment, team working, flexible working, job enrichment and job rotation. Do not treat any theory or method as universally effective.',
+    ]),
+    requirement('aqa-3-6-5', '3.6.5', 'Employer-employee relations', [
+      'Evaluate employee involvement and employer-employee relations, including the role of trade unions and works councils. Analyse communication, representation, negotiation and relations from both employer and employee perspectives.',
+    ]),
+
+    requirement('aqa-3-7-1', '3.7.1', 'Mission objectives and strategy', [
+      'Distinguish mission, corporate objectives, functional objectives, strategy and tactics. Analyse ownership influences and short termism, and use SWOT to connect internal strengths/weaknesses and external opportunities/threats to strategic implications rather than as a substitute for evidence.',
+    ]),
+    requirement('aqa-3-7-2', '3.7.2', 'Strategic financial ratio analysis', [
+      'Calculate and interpret return on capital employed (ROCE) = operating profit / capital employed × 100 and current ratio = current assets / current liabilities. Calculate gearing (%) = non-current liabilities / (total equity + non-current liabilities) × 100. Calculate payables days = payables / cost of sales × 365, receivables days = receivables / revenue × 365, and inventory turnover = cost of sales / average inventories. Compare trends and benchmarks, explain causes and limitations, and never add an acid-test ratio unless a future governed specification explicitly requires it.',
+    ]),
+    requirement('aqa-3-7-3', '3.7.3', 'Overall business performance', [
+      'Assess overall performance using operations, human resource and marketing evidence as well as finance. Identify core competences, compare short- and long-term performance, and apply Elkington Triple Bottom Line using Profit, People and Planet as a balanced performance lens rather than a mechanical answer.',
+    ]),
+    requirement('aqa-3-7-4', '3.7.4', 'Political and legal change', [
+      'Analyse political and legal change through competition policy, labour market rules, environmental legislation, support for enterprise, regulators, infrastructure and international trade. Explain causal impacts on demand, cost, capability, risk and strategic choice.',
+    ]),
+    requirement('aqa-3-7-5', '3.7.5', 'Economic change', [
+      'Interpret UK and global economic change using GDP, taxation, exchange rates and inflation and analyse fiscal and monetary policy effects. Compare open trade and protectionism and evaluate consequences for demand, costs, investment, competitiveness and risk.',
+    ]),
+    requirement('aqa-3-7-6', '3.7.6', 'Social and technological change', [
+      'Analyse migration, consumer lifestyle change and online businesses. Evaluate Corporate Social Responsibility and the stakeholder versus shareholder debate, and apply Carroll CSR Pyramid as a structured lens. Analyse technological change for cost, demand, capability, risk and strategic position.',
+    ]),
+    requirement('aqa-3-7-7', '3.7.7', 'Competitive environment', [
+      'Apply Porter Five Forces through entry threat, buyer power, supplier power, rivalry and substitute threat. Use the forces to analyse competitive intensity, profit potential and strategic options while recognising that market conditions can change.',
+    ]),
+    requirement('aqa-3-7-8', '3.7.8', 'Investment appraisal', [
+      'Calculate and interpret payback using cumulative net cash flows, average rate of return (ARR) using average annual accounting profit / initial investment × 100, and net present value (NPV) by applying supplied discount factors to future net cash flows and deducting the initial investment. Evaluate investment criteria using non-financial factors, risk and uncertainty; no single appraisal result is automatically decisive.',
+    ]),
+
+    requirement('aqa-3-8-1', '3.8.1', 'Markets and products strategic direction', [
+      'Apply Ansoff to compare market penetration, market development, new product development and diversification. Evaluate each direction using demand, capability, investment, risk and strategic fit rather than assuming growth is always desirable.',
+    ]),
+    requirement('aqa-3-8-2', '3.8.2', 'Strategic positioning', [
+      'Apply Porter strategic positioning through low cost, differentiation and focus. Evaluate influences on positioning and whether the chosen activity system can create and sustain competitive advantage.',
+    ]),
+
+    requirement('aqa-3-9-1', '3.9.1', 'Change in scale', [
+      'Evaluate organic and external growth and retrenchment. Analyse technical, purchasing and managerial economies, diseconomies, economies of scope, synergy and overtrading. Compare mergers, takeovers, ventures and franchising and distinguish vertical, horizontal and conglomerate integration.',
+    ]),
+    requirement('aqa-3-9-2', '3.9.2', 'Innovation', [
+      'Distinguish product and process innovation and evaluate pressures for innovation. Analyse Kaizen, research and development, intrapreneurship and benchmarking as ways to support innovation, and explain the role of patents and copyrights in protecting intellectual property.',
+    ]),
+    requirement('aqa-3-9-3', '3.9.3', 'Globalisation and internationalisation', [
+      'Analyse globalisation and emerging economies. Compare international entry through export, licensing, alliances and direct investment. Evaluate off-shoring and re-shoring and the implications of becoming a multinational, including local responsiveness and cost reduction.',
+    ]),
+    requirement('aqa-3-9-4', '3.9.4', 'Digital technology', [
+      'Evaluate the pressures for and strategic value of automation, e-commerce, big data and data mining, including capability, investment, skills, privacy/cyber risk, dependency and competitive consequences.',
+    ]),
+
+    requirement('aqa-3-10-1', '3.10.1', 'Managing change', [
+      'Distinguish internal change and external change and incremental change from disruptive change. Apply Lewin force-field analysis to pressures for and against change. Evaluate restructuring, delayering, flexible employment contracts and organic versus mechanistic organisation. Analyse knowledge as a change capability and apply Kotter and Schlesinger approaches to resistance in context.',
+    ]),
+    requirement('aqa-3-10-2', '3.10.2', 'Organisational culture', [
+      'Explain the importance and influences of organisational culture and the difficulty of changing it. Apply Handy culture types: task culture, role culture, power culture and person culture, using them as diagnostic lenses rather than deterministic prescriptions.',
+    ]),
+    requirement('aqa-3-10-3', '3.10.3', 'Strategic implementation', [
+      'Evaluate leadership, communications and organisational structure in implementation. For network analysis, interpret network diagrams, perform amendment of a network diagram where required, identify the critical path and calculate or identify total float. Do not introduce EST/LFT calculation as a mandatory requirement unless future governed evidence explicitly requires it.',
+    ]),
+    requirement('aqa-3-10-4', '3.10.4', 'Strategy problems and failure', [
+      'Analyse the difficulty of strategic decisions and implementation, distinguish planned and emergent strategy, diagnose strategic drift and strategic performance, and evaluate strategic planning, contingency planning and crisis management.',
+    ]),
+
+    requirement('aqa-annex-quantitative', 'Annex: quantitative skills in business', 'Quantitative skills in business', [
+      'Apply course-required quantitative skills including ratios, averages, percentages, percentage change and index numbers; market size, market share and market growth; cost/revenue/profit and break-even; labour productivity, capacity utilisation and labour turnover; ROCE, current ratio, gearing, payables days, receivables days and inventory turnover; expected value and net gain; and payback, average rate of return and net present value. For price and income elasticity, interpret, not calculate, the supplied elasticity evidence. Use quantitative evidence in context and check assumptions, units and data quality.',
     ]),
   ] satisfies FoundationCurriculumRequirementInput[],
 }
 
-function requirement(requirementId: string, revisionArea: string, skillsOrKnowledge: string[]): FoundationCurriculumRequirementInput {
+function requirement(
+  requirementId: string,
+  officialReference: string,
+  revisionArea: string,
+  skillsOrKnowledge: string[],
+): FoundationCurriculumRequirementInput {
   return {
     requirementId,
-    officialReference: `Revision governed Course Truth seed requirement: ${requirementId}`,
+    officialReference,
     requirementSummary: revisionArea,
     skillsOrKnowledge,
     componentScope: ['paper-1', 'paper-2', 'paper-3'],
