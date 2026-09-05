@@ -27,12 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_RUN_ID: '33896487722'
-      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-48e547c44c5def0e22b3f33b1e5f762f1cd93ce4
-      SOURCE_ARTIFACT_DIGEST: sha256:c151f91c92313771a805eef10615951f674a85bd66519b83ff242cedbc58a18a
-      SOURCE_HEAD_SHA: 48e547c44c5def0e22b3f33b1e5f762f1cd93ce4
-      FOUNDATION_FINGERPRINT: 950c002c325e4d6a980d2588c707b3c541a3316b9fe5b7ce446fd51b1e481fac
-      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-independent-review-source/aqa-a-level-business-7132-foundation-48e547c44c5d-1788540075670.json
+      SOURCE_RUN_ID: '33938173128'
+      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-599704ff77bc2f1e782f4804b142614a043700c7
+      SOURCE_ARTIFACT_DIGEST: sha256:ba590273474bae9325bcc7b1a3add4e73bd5498c60d75cf1c603ed71ce56a16e
+      SOURCE_HEAD_SHA: 599704ff77bc2f1e782f4804b142614a043700c7
+      FOUNDATION_FINGERPRINT: 8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca
+      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-independent-review-source/aqa-a-level-business-7132-foundation-599704ff77bc-1788574070566.json
     steps:
       - name: Checkout approved main
         uses: actions/checkout@v6
