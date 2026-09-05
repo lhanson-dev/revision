@@ -5,6 +5,7 @@ import {
   type FoundationExpertReviewPackage,
 } from './foundation-expert-review'
 import { foundationReviewableArtifactKindSchema } from './foundation-independent-review'
+import { foundationExpertReviewCoverageReconciliationSchema } from './foundation-expert-review-reconciliation'
 
 const nonEmptyStringSchema = z.string().min(1)
 const commitShaSchema = z.string().regex(/^[0-9a-f]{40}$/)
@@ -16,13 +17,13 @@ export const foundationExpertReviewResolvedArtifactSchema = z.object({
   value: z.unknown(),
 })
 
-export const foundationExpertReviewBundleSchema = z.object({
-  schemaVersion: z.literal(1),
-  artifactType: z.literal('foundation_expert_review_bundle'),
-  packagingCommit: commitShaSchema,
-  reviewPackage: foundationExpertReviewPackageSchema,
-  resolvedArtifacts: z.array(foundationExpertReviewResolvedArtifactSchema).min(1),
-}).superRefine((bundle, context) => {
+function validateResolvedArtifacts(
+  bundle: {
+    reviewPackage: FoundationExpertReviewPackage
+    resolvedArtifacts: Array<z.infer<typeof foundationExpertReviewResolvedArtifactSchema>>
+  },
+  context: z.RefinementCtx,
+) {
   const packaged = new Map(bundle.reviewPackage.artifacts.map((artifact) => [artifact.artifactRef, artifact] as const))
   const resolved = new Map(bundle.resolvedArtifacts.map((artifact) => [artifact.artifactRef, artifact] as const))
 
@@ -49,15 +50,55 @@ export const foundationExpertReviewBundleSchema = z.object({
       context.addIssue({ code: 'custom', path: ['resolvedArtifacts'], message: `Expert review bundle contains artifact outside package ${artifactRef}` })
     }
   }
+}
+
+const foundationExpertReviewBundleV1Schema = z.object({
+  schemaVersion: z.literal(1),
+  artifactType: z.literal('foundation_expert_review_bundle'),
+  packagingCommit: commitShaSchema,
+  reviewPackage: foundationExpertReviewPackageSchema,
+  resolvedArtifacts: z.array(foundationExpertReviewResolvedArtifactSchema).min(1),
+}).superRefine(validateResolvedArtifacts)
+
+export const foundationExpertReviewBundleV2Schema = z.object({
+  schemaVersion: z.literal(2),
+  artifactType: z.literal('foundation_expert_review_bundle'),
+  packagingCommit: commitShaSchema,
+  reviewPackage: foundationExpertReviewPackageSchema,
+  resolvedArtifacts: z.array(foundationExpertReviewResolvedArtifactSchema).min(1),
+  coverageReconciliation: foundationExpertReviewCoverageReconciliationSchema,
+}).superRefine((bundle, context) => {
+  validateResolvedArtifacts(bundle, context)
+  const resolvedRefs = new Set(bundle.resolvedArtifacts.map((artifact) => artifact.artifactRef))
+  const reconciliationRefs = [
+    bundle.coverageReconciliation.sourceLicenceRegisterRef,
+    ...bundle.coverageReconciliation.curriculum.flatMap((item) => item.resolvedArtifactRefs),
+    ...bundle.coverageReconciliation.exam.flatMap((item) => item.resolvedArtifactRefs),
+  ]
+  for (const artifactRef of reconciliationRefs) {
+    if (!resolvedRefs.has(artifactRef)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['coverageReconciliation'],
+        message: `Coverage reconciliation references artifact outside exact review bundle ${artifactRef}`,
+      })
+    }
+  }
 })
+
+export const foundationExpertReviewBundleSchema = z.union([
+  foundationExpertReviewBundleV1Schema,
+  foundationExpertReviewBundleV2Schema,
+])
 
 export function buildFoundationExpertReviewBundle(input: {
   packagingCommit: string
   reviewPackage: FoundationExpertReviewPackage
   resolvedArtifacts: Array<z.infer<typeof foundationExpertReviewResolvedArtifactSchema>>
+  coverageReconciliation: z.infer<typeof foundationExpertReviewCoverageReconciliationSchema>
 }) {
-  return foundationExpertReviewBundleSchema.parse({
-    schemaVersion: 1,
+  return foundationExpertReviewBundleV2Schema.parse({
+    schemaVersion: 2,
     artifactType: 'foundation_expert_review_bundle',
     ...input,
   })
@@ -87,8 +128,10 @@ export function buildFoundationExpertReviewSubmissionTemplate(reviewPackageInput
   }
 }
 
-export function renderFoundationExpertReviewInstructions(reviewPackageInput: FoundationExpertReviewPackage) {
-  const reviewPackage = foundationExpertReviewPackageSchema.parse(reviewPackageInput)
+export function renderFoundationExpertReviewInstructions(bundleInput: z.infer<typeof foundationExpertReviewBundleV2Schema>) {
+  const bundle = foundationExpertReviewBundleV2Schema.parse(bundleInput)
+  const reviewPackage = bundle.reviewPackage
+  const reconciliation = bundle.coverageReconciliation
   const artifactLines = reviewPackage.artifacts
     .map((artifact, index) => `${index + 1}. ${artifact.artifactKind} — ${artifact.artifactRef} — ${artifact.fingerprint}`)
     .join('\n')
@@ -97,13 +140,16 @@ export function renderFoundationExpertReviewInstructions(reviewPackageInput: Fou
     `Course: ${reviewPackage.candidate.courseIdentity.awardingBody} ${reviewPackage.candidate.courseIdentity.qualification} ${reviewPackage.candidate.courseIdentity.subject} ${reviewPackage.candidate.courseIdentity.specificationId}\n\n` +
     `Foundation fingerprint: ${reviewPackage.foundationFingerprint}\n` +
     `Candidate: ${reviewPackage.candidateId}\n` +
-    `Reviewed implementation commit: ${reviewPackage.reviewedCommit}\n\n` +
+    `Reviewed implementation commit: ${reviewPackage.reviewedCommit}\n` +
+    `Curriculum reconciliation: ${reconciliation.curriculumProfileId} — ${reconciliation.curriculum.length} applicable obligations — ${reconciliation.status}\n` +
+    `Exam reconciliation: ${reconciliation.examProfileId} — ${reconciliation.exam.length} applicable obligations — ${reconciliation.status}\n\n` +
     `## Human qualification requirement\n\n` +
     `The completed review must be performed by a genuinely qualified human reviewer or reviewer set covering both subject and assessment expertise. AI review is not a substitute. Record qualification evidence references in the submission.\n\n` +
     `## Review task\n\n` +
     `Review the complete resolved artifact set for educational accuracy, curriculum scope, assessment authenticity, internal consistency and any known limitations. Record every blocking, material or minor issue against the exact artifact reference in the supplied submission template.\n\n` +
-    `Do not treat prior deterministic assurance or independent AI review as proof that the curriculum/exam requirement universe itself is complete. Use the Foundation coverage model as the source-led curriculum checklist: challenge whether its official references and requirement set cover the complete applicable curriculum for this exact cohort, then verify that Course Truth satisfies those requirements accurately and at sufficient depth.\n\n` +
-    `Separately challenge Exam Truth against the applicable assessment specification and current governed exam evidence. Verify component structure, question/response families, assessment-objective demand, quantitative requirements, marking/response expectations and any explicit pre-calibration boundaries. If an applicable curriculum or exam requirement is absent from the supplied reconciliation, that omission is itself a Foundation defect.\n\n` +
+    `The supplied coverage-reconciliation.json is a mandatory review artifact. It exposes the source-led curriculum and exam requirement universes separately from the generated Foundation, together with their source references and exact Course Truth / Exam Truth artifact mappings. Do not infer completeness solely from the generated artifact structure.\n\n` +
+    `Do not treat prior deterministic assurance or independent AI review as proof that the curriculum/exam requirement universe itself is correct. Challenge whether the Curriculum Coverage Map covers the complete applicable curriculum for this exact cohort, then verify that Course Truth satisfies every obligation accurately and at sufficient depth.\n\n` +
+    `Separately challenge the Exam Coverage Map against the applicable assessment specification and current governed exam evidence. Verify component structure, question/response families, assessment-objective demand, quantitative requirements, marking/response expectations and any explicit pre-calibration boundaries. If an applicable curriculum or exam requirement is absent from the reconciliation, that omission is itself a Foundation defect.\n\n` +
     `A blocking or material finding requires fail_hold. A pass is valid only when no blocking or material findings remain.\n\n` +
     `## Exact artifact set\n\n${artifactLines}\n\n` +
     `## Return format\n\nComplete submission-template.json without changing the jobId, candidateId, reviewedCommit or foundationFingerprint. Replace the decision placeholder explicitly with pass or fail_hold based on the completed review; do not assume a pass. Add reviewer identity, qualification evidence, findings, evidence references and review timestamp.\n`
@@ -116,7 +162,8 @@ export function assertFoundationExpertReviewSubmissionTemplateShape(template: un
   return value
 }
 
-export type FoundationExpertReviewBundle = z.infer<typeof foundationExpertReviewBundleSchema>
+export type FoundationExpertReviewBundle = z.infer<typeof foundationExpertReviewBundleV2Schema>
+export type HistoricalFoundationExpertReviewBundle = z.infer<typeof foundationExpertReviewBundleV1Schema>
 
 // Exported only to keep the durable submission schema co-located with packaging consumers.
 export { foundationExpertReviewSubmissionSchema }
