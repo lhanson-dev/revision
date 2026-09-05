@@ -10,6 +10,7 @@ import {
   type FoundationIndependentReviewArtifactStore,
   type FoundationIndependentReviewWorkers,
 } from './foundation-independent-review'
+import { withAqa7132SourceLedReviewCoverageGuard } from './foundation-aqa7132-review-coverage-guard'
 
 function unique(values: Iterable<string>) {
   return [...new Set([...values].filter((value) => value.trim().length > 0))]
@@ -68,6 +69,23 @@ export async function bindFoundationGenerationContextProvenance(input: {
   })
 }
 
+function reviewWorkersForFoundation(
+  job: FoundationJob,
+  workers: FoundationIndependentReviewWorkers,
+) {
+  const identity = job.candidate?.courseIdentity
+  const cohort = job.candidate?.cohortValidity
+  const isAqa7132For2027 = identity?.awardingBody === 'AQA'
+    && identity.subject === 'Business'
+    && identity.qualification === 'A-level'
+    && identity.specificationId === '7132'
+    && cohort?.lastAssessment === '2027'
+
+  return isAqa7132For2027
+    ? withAqa7132SourceLedReviewCoverageGuard(workers)
+    : workers
+}
+
 /**
  * Canonical Slice 3B entry point when review begins from a persisted/reconstructed
  * Foundation Candidate plus its retained compilation run ledger.
@@ -91,7 +109,7 @@ export async function runFoundationIndependentReviewWithGenerationEvidence(input
   return runFoundationIndependentReviewAndRemediation({
     job,
     artifactStore: input.artifactStore,
-    workers: input.workers,
+    workers: reviewWorkersForFoundation(job, input.workers),
     reviewedCommit: input.reviewedCommit,
     now: input.now,
     additionalForbiddenContextIds: input.additionalForbiddenContextIds,
