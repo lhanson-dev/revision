@@ -51,7 +51,7 @@ const policyByFamilyId = new Map(
 
 const exactMarkOrMinuteAllocation = /\b(\d+)\s*(?:-|–|—|\s)*(mark|marks|minute|minutes)\b/gi
 const allocationSequence = /\b\d+(?:\s*(?:\/|,|and)\s*\d+){2,}\b/i
-const aggregateFactContext = /\b(?:component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall)\b/i
+const aggregateFactContext = /\b(?:component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall|assembled[-\s]+set)\b/i
 const constituentAllocationContext = /\b(?:each|per|question|sub[-\s]?question|constituent|individual|data-response\s+set|case-study\s+question)\b/i
 
 function errorMessage(error: unknown) {
