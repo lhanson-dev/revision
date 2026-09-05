@@ -1,115 +1,137 @@
-# Content Factory Requirement-Led Coverage Amendment
+# Content Factory Foundation Curriculum and Exam Coverage Amendment
 
 **Status:** Proposed active amendment — Founder instruction 5 September 2026; requires Founder-approved merge  
 **Owner:** Founder / Product / Content Operations  
-**Applies to:** `Content Factory Foundation and Asset Production Model.md`, Foundation coverage, Course Truth, Exam Truth, Learn, Practice, Exam Prep and asset assurance  
-**Purpose:** Make curriculum and exam completeness requirement-led rather than quota-led.
+**Applies to:** `Content Factory Foundation and Asset Production Model.md`, Foundation coverage, Course Truth, Exam Truth and Foundation approval packaging  
+**Purpose:** Make Foundation completeness explicitly prove full curriculum coverage and full exam/marking coverage before approval.
 
 ## Governing rule
 
-Revision must produce **whatever is required to cover the complete applicable curriculum and exam requirements for the exact course and cohort**.
+A Foundation is complete only when Revision can prove two things for the exact course and cohort:
 
-The number of curriculum obligations, Course Truth nodes, explanations, worked examples, flashcards, questions, drills, cases, simulations or other artifacts is an **output of that coverage need**. It is never a production target and never evidence of completeness by itself.
+1. **Curriculum coverage** — every applicable curriculum area, topic, subtopic and required knowledge/skill is represented in Course Truth.
+2. **Exam coverage** — every applicable exam component, structure rule, assessment objective/demand, quantitative or other assessment requirement, response expectation and marking principle needed for authentic assessment is represented in Exam Truth.
 
-A course, Foundation or asset set must not pass because it reached a predetermined quantity.
+The Foundation Factory is not creating learner-facing Learn, Practice or Exam Prep material at this stage. This control is solely about establishing and approving the complete Course Truth and Exam Truth on which those later factories will depend.
 
-## Requirement-led completeness
+## Curriculum coverage map
 
-Before Foundation coverage may be called complete, Revision must establish an explicit source-led obligation set for the exact course/cohort. The obligation set must include all applicable curriculum/specification and assessment requirements needed to establish Course Truth and Exam Truth.
+Revision must establish a source-led curriculum hierarchy for the exact course/cohort.
 
-Completeness is proven by reconciliation:
+The normal shape is:
 
-1. every applicable obligation is represented;
-2. every obligation maps to governed Foundation semantics or Exam Truth as appropriate;
-3. every mapping resolves to retained evidence;
-4. no applicable obligation remains unmapped, partial or silently omitted; and
-5. exclusions, non-applicability and genuine source limitations are explicit rather than inferred from absence.
+`curriculum area → topic → subtopic / explicit requirement → Course Truth representation`
 
-The acceptance condition is therefore **zero applicable unmapped obligations**, not a required count of obligations or artifacts.
+The hierarchy may be deeper or shallower where the specification requires it. The structure comes from the applicable curriculum/specification, not from a configured target number of topics or nodes.
 
-The obligation count may differ materially by subject, awarding body, qualification, specification, component and cohort. A validator must not encode an expected universal or course-specific obligation count merely to prove completeness.
+Every lowest-level applicable curriculum requirement must map to retained Course Truth semantics. Parent headings do not prove that all of their children are covered.
 
-## Course Truth decomposition
+A curriculum map is complete only when:
 
-Course Truth should be decomposed only as far as needed to represent the governed curriculum accurately and make downstream teaching/evidence mappings reliable.
+- all applicable areas/topics/subtopics from the authoritative source have been captured;
+- every applicable lowest-level requirement has a Course Truth mapping;
+- every mapping resolves to retained governed content/evidence;
+- no requirement remains missing, partial or silently omitted; and
+- exclusions, non-applicability and cohort-specific boundaries are explicit.
 
-One specification requirement may require several canonical knowledge/skill nodes; another may require one. The number of nodes follows the semantic structure of the requirement.
+## Exam coverage map
 
-A compiler may require that every governed atomic semantic item has a canonical node, but this proves only **internal reconciliation after the requirement universe has been proven**. It must not substitute for source-to-requirement completeness.
+Revision must separately establish a source-led model of how the exact course is assessed.
 
-## Exam Truth completeness
+The normal shape is:
 
-Exam Truth follows the same rule.
+`qualification → paper/component → structure and rules → assessment/marking requirement → Exam Truth representation`
 
-Revision must capture the applicable component structure, assessment objectives, quantitative/practical/synoptic requirements, command/cognitive demands, response families, marking constraints and other assessment rules needed to produce authentic Revision-owned Exam Prep.
+This includes, where applicable:
 
-Exact numbers that are themselves official assessment facts — for example component marks, timings, weighting, an official minimum quantitative percentage or a verified question count/shape — remain enforceable facts. They are not content-production quotas.
+- papers/components and their compulsory/optional status;
+- marks, timings and weightings;
+- question/response structure and supported question families;
+- assessment objectives and cognitive/command demands;
+- quantitative, practical, synoptic, data/source or other assessment requirements;
+- response expectations and levels/rubric principles where applicable;
+- marking behaviour and valid alternative reasoning routes where required; and
+- explicit pre-calibration or evidence limits where exact detail is not yet governed.
 
-Unsupported precision must not be invented merely to make an exam model appear complete.
+Every applicable exam/marking requirement must map to retained Exam Truth. Unsupported precision must not be invented merely to make the model appear complete.
 
-## Learner asset production
+## Completeness rule
 
-Learn, Practice and Exam Prep are all **coverage-driven, not quota-driven**.
+The Foundation may claim complete coverage only when both maps reconcile completely:
 
-For each applicable approved Foundation obligation, an asset factory must determine the amount and form of material required for its purpose.
+- **zero applicable curriculum requirements unmapped to Course Truth**; and
+- **zero applicable exam/marking requirements unmapped to Exam Truth**.
 
-- **Learn:** produce enough teaching material to explain the approved Course Truth clearly, including the examples, methods, misconceptions, relationships and representations that are educationally needed.
-- **Practice:** produce enough valid opportunities to retrieve, apply and demonstrate the approved Course Truth with appropriate breadth, variation and difficulty.
-- **Exam Prep:** produce enough assessment preparation to cover applicable Exam Truth and Course Truth, including representative command, context, quantitative, synoptic, timing and marking demands where required.
+The number of curriculum areas, topics, subtopics, semantic nodes, papers or assessment requirements is an output of the authoritative course and exam definition. It is not a production target.
 
-One obligation may justify multiple assets; another may justify one. No global target such as a fixed number of notes, flashcards, questions or mocks may determine whether coverage is complete.
+Official numeric facts remain enforceable where the source specifies them. Examples include paper marks, timing, weighting, an official quantitative minimum or a verified question count/shape. Those are exam facts, not generated-content quotas.
 
-## Counts and telemetry
+## Approval-pack rule
 
-Counts may still be retained for:
+A qualified-human Foundation approval pack must not present only Revision's generated Foundation artifacts and ask the reviewer to infer whether they are complete.
 
-- operational telemetry;
-- cost/capacity planning;
-- regression diagnosis;
-- comparing run shape;
-- detecting accidental loss or duplication when a known artifact set is intentionally unchanged; and
-- describing what an implementation happened to produce.
+The pack must include or resolve the exact source-led reconciliation evidence showing:
 
-Counts must not be used as educational-completeness acceptance criteria unless the number itself is an externally governed fact of the curriculum or assessment structure.
+1. the complete curriculum hierarchy applicable to the course/cohort;
+2. the mapping from every applicable lowest-level curriculum requirement to Course Truth;
+3. the complete applicable exam/marking requirement set;
+4. the mapping from every applicable exam/marking requirement to Exam Truth; and
+5. any explicit exclusions, uncertainties, limitations or pre-calibration boundaries.
 
-Examples:
+The reviewer can then challenge both:
 
-- valid: `Paper 1 is 100 marks` where that is a verified assessment fact;
-- valid: `this run generated 137 practice items` as telemetry;
-- invalid: `the course is complete because it has 100 flashcards`;
-- invalid: `the Foundation is complete because it has 82 Course Truth nodes`;
-- invalid: `every course must generate the same number of explanations or questions`.
+- whether Revision captured the correct requirement universe; and
+- whether the resulting Course Truth and Exam Truth represent it accurately and at the right depth.
+
+The approval pack must not rely on internal Foundation consistency as a substitute for external specification completeness.
 
 ## Fail-closed rule
 
-If the source-led requirement universe cannot be established or reconciled with sufficient confidence, the Foundation must not claim complete coverage.
+If the curriculum hierarchy or exam/marking requirement set cannot be established or fully reconciled, the Foundation remains incomplete/blocked and must not proceed to qualified-human approval packaging.
 
-The correct state is blocked/incomplete with the missing obligation evidence exposed. The factory must not shrink the obligation set to fit existing generated content, infer completeness from asset volume, or rely on later human review to discover omissions that deterministic source reconciliation can expose earlier.
+The system must not:
 
-## Human review role
+- derive the complete requirement universe solely from the semantic seed it is trying to validate;
+- treat a parent topic heading as proof that all underlying requirements are covered;
+- infer completeness because Course Truth exactly matches an internally generated coverage set; or
+- rely on the qualified human as the primary detector of an explicit missing specification requirement that could have been exposed by source reconciliation earlier.
 
-Qualified human review remains mandatory where the Foundation model requires it. Human review judges educational accuracy, depth, emphasis, assessment authenticity and other matters that cannot be reduced to deterministic mapping.
+## Human-review role
 
-Human review is **not** the primary mechanism for discovering that an explicit curriculum or exam requirement was absent from the machine-readable obligation set. That class of omission should be prevented upstream by requirement-led coverage reconciliation.
+Qualified human review remains mandatory.
+
+The human reviewer should judge matters that require educational and assessment expertise, including:
+
+- whether the interpreted curriculum/exam requirement universe is correct for the cohort;
+- factual and conceptual accuracy;
+- sufficient depth and emphasis;
+- assessment authenticity;
+- marking and response expectations;
+- ambiguity or alternative valid interpretations; and
+- whether any source boundary has been misapplied.
+
+The human review is stronger when the complete curriculum and exam maps are visible rather than hidden behind generated artifact structure.
 
 ## Relationship to existing authority
 
-This amendment clarifies and strengthens the existing rules in `Content Factory Foundation and Asset Production Model.md` that:
+This amendment clarifies the existing Foundation Production Model, which already requires:
 
-- every material examinable curriculum requirement must be represented;
-- generated asset volume cannot compensate for a missing Course Truth requirement;
-- Practice volume is coverage-driven, not quota-driven; and
-- success is not raw content volume.
+- complete curriculum/specification coverage;
+- complete Course Truth;
+- complete Exam Truth; and
+- qualified Foundation approval before learner-facing asset production.
 
-Where any historical implementation, test, technical document, proof record or earlier workflow language treats a fixed produced quantity as evidence of curriculum/exam completeness, this amendment governs the forward process. Historical evidence remains unchanged as a record of what happened at the time.
+The failure exposed by the AQA Business review was therefore an implementation/assurance gap: the new Foundation path proved consistency against its own narrower requirement seed instead of proving that seed against the complete applicable curriculum and exam definition.
+
+Historical records remain unchanged.
 
 ## Documentation and implementation consequence
 
 Current implementation must:
 
-- establish a source-led curriculum/exam obligation ledger or equivalent machine-readable contract before declaring Foundation coverage complete;
-- deterministically reject applicable unmapped obligations;
-- reconcile Course Truth and Exam Truth to that obligation universe;
-- remove fixed artifact counts from completeness acceptance criteria;
-- retain counts only where they serve telemetry or a genuinely governed numeric fact; and
-- update technical documentation and ADRs when the implementation boundary changes.
+- establish a source-led curriculum hierarchy/coverage map before declaring Course Truth complete;
+- establish a source-led exam/marking coverage map before declaring Exam Truth complete;
+- deterministically reject unmapped applicable requirements;
+- make both reconciliation maps part of the Foundation assurance and qualified-human review evidence set;
+- preserve source/cohort boundaries and explicit uncertainty; and
+- update current technical documentation and ADRs for the changed assurance boundary.
