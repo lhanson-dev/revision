@@ -1,6 +1,6 @@
 # Content Factory Foundation Curriculum and Exam Coverage Amendment
 
-**Status:** Proposed active amendment — Founder instruction 5 September 2026; requires Founder-approved merge  
+**Status:** Active v1.0 — Founder-approved via PR #318  
 **Owner:** Founder / Product / Content Operations  
 **Applies to:** `Content Factory Foundation and Asset Production Model.md`, Foundation coverage, Course Truth, Exam Truth and Foundation approval packaging  
 **Purpose:** Make Foundation completeness explicitly prove full curriculum coverage and full exam/marking coverage before approval.
