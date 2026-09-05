@@ -108,13 +108,11 @@ Official numeric assessment facts remain enforceable because they are requiremen
 
 ## Reusable deterministic guard
 
-`src/content-factory/requirement-led-coverage.ts` is the first reusable implementation piece. It provides fail-closed source-requirement-to-semantic reconciliation without encoding an expected count.
-
-The implementation should evolve so that the retained curriculum hierarchy can be rendered for assurance/review while the deterministic gate operates on its applicable leaf requirements.
+`src/content-factory/requirement-led-coverage.ts` is the first reusable implementation piece. It provides fail-closed source-requirement-to-semantic reconciliation for Course Truth without encoding an expected count and now retains each requirement's curriculum path so the hierarchy can be rendered for assurance/review.
 
 A parallel Exam Truth reconciliation boundary must perform the same function for assessment/marking requirements.
 
-The guard must never derive its complete requirement set by reflecting the semantic seed being validated.
+Neither map may derive its complete requirement set by reflecting the Foundation seed being validated.
 
 ## Assurance integration
 
@@ -153,6 +151,8 @@ Any missing/partial line prevents the package being presented as approval-ready.
 
 The human can then focus on whether the mappings are correct, accurate, sufficiently deep and assessment-authentic rather than having to discover omitted syllabus lines from scratch.
 
+`docs/technical/Content Factory Foundation Expert Review Contract.md` is updated in this branch to record that the historical retained AQA package remains evidence of the earlier implementation state and that a replacement approval-ready package must include the two reconciliation maps.
+
 ## AQA 7132 remediation sequence
 
 Before another AQA 7132 / 2027 Foundation goes to qualified-human review:
@@ -173,4 +173,4 @@ No learner-facing assets are produced in this sequence.
 
 The normative clarification is recorded in `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md` and ADR-0023.
 
-Historical ADRs and retained proof artifacts are not rewritten. The current Foundation technical documentation and expert-review packaging documentation must be updated as the two-map boundary is implemented.
+Historical ADRs and retained proof artifacts are not rewritten. The current expert-review packaging technical record is updated because the human-review package is part of the assurance failure being corrected.
