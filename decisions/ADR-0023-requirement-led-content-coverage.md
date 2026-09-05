@@ -1,4 +1,4 @@
-# ADR-0023 — Requirement-led Content Factory coverage
+# ADR-0023 — Foundation curriculum and exam coverage reconciliation
 
 **Status:** Proposed for Founder approval with the implementing PR  
 **Date:** 5 September 2026  
@@ -7,98 +7,98 @@
 
 ## Context
 
-Human review of the AQA A-level Business content exposed a control failure that fixed-volume and seed-internal checks could not detect. The system could prove that a generated Foundation contained the exact canonical nodes derived from its governed semantic seed while still failing to prove that the seed itself represented every applicable curriculum and exam obligation.
+Human review of the AQA A-level Business Foundation exposed a specific assurance failure.
 
-The legacy Business content pack also asserted fixed produced quantities — for example formula, flashcard and question counts — alongside a claim of complete curriculum coverage. Those quantities can detect accidental implementation drift, but they cannot establish educational completeness.
+Revision's governing model already required complete Course Truth and complete Exam Truth before qualified-human Foundation approval. The new Foundation implementation nevertheless proved completeness only against the requirement set already present inside its governed semantic seed.
 
-The failure mode is structural: if the input requirement universe is incomplete, a perfectly deterministic compiler can produce a perfectly reconciled but incomplete Foundation.
+That created a self-consistency loop:
+
+`semantic seed → coverage model → Course Truth → deterministic assurance → independent review → human approval pack`
+
+If the semantic seed omitted an applicable specification requirement, the downstream controls could still pass because they proved that Revision had represented everything in the seed, not that the seed represented everything in the applicable curriculum.
+
+The independent review used the supplied Foundation artifacts and rights-safe source metadata rather than a separately verified complete specification reconciliation. The qualified-human review package likewise contained the exact generated Foundation artifacts but no explicit source-led map demonstrating that every curriculum and exam requirement had been captured.
+
+For AQA Business this was particularly avoidable because an earlier repository source-and-coverage record already described a substantially fuller curriculum scope. That earlier evidence was not carried forward as an enforced completeness input to the Foundation-native pipeline.
 
 ## Decision
 
-Content Factory completeness becomes **requirement-led rather than quota-led**.
+Foundation completeness will be proved through two explicit source-led reconciliations before approval:
 
-For an exact course/cohort, the factory must establish a source-led curriculum/exam obligation universe and reconcile the Foundation to it before coverage may be called complete.
+1. **Curriculum Coverage Map** — the applicable curriculum hierarchy and lowest-level requirements mapped to Course Truth.
+2. **Exam Coverage Map** — the applicable paper/component, assessment and marking requirements mapped to Exam Truth.
 
 The acceptance condition is:
 
-> every applicable obligation is represented and mapped; zero applicable obligations remain unmapped.
+> zero applicable curriculum requirements unmapped to Course Truth, and zero applicable exam/marking requirements unmapped to Exam Truth.
 
-There is no target number of obligations, Course Truth nodes or learner assets. Their counts are outputs of the curriculum, assessment model and educational need.
+The number of areas, topics, subtopics, semantic nodes or assessment requirements is determined by the authoritative course and cohort. No fixed count is a completeness target.
 
-A requirement may map to one semantic item or several. A semantic item may support one or more source-led obligations where that relationship is explicit and valid. The decomposition depth follows the semantics, not a numeric target.
+## Curriculum model
 
-## Numeric facts versus production quotas
+The normal curriculum structure is:
 
-The decision does not prohibit numbers.
+`area → topic → subtopic / explicit requirement → Course Truth`
 
-Externally governed numeric facts remain deterministic controls, including where applicable:
+The specification may use different levels, so the implementation must permit the hierarchy to vary by course.
 
-- paper/component marks;
-- timings;
-- weightings;
-- verified question counts or approximate paper shape;
-- official quantitative-assessment minimums; and
-- other explicit curriculum/assessment numeric requirements.
+A parent topic cannot be marked complete merely because some content exists beneath it. Every applicable lowest-level requirement must be represented and traceable.
 
-By contrast, generated-content quantities are not completeness controls. Examples include numbers of notes, formulas, knowledge nodes, flashcards, questions, drills, cases or mocks.
+## Exam model
 
-Generated counts may remain as telemetry, regression diagnostics or cost/capacity evidence.
+The normal assessment structure is:
 
-## Compiler boundary
+`qualification → paper/component → assessment/marking requirement → Exam Truth`
 
-A reusable deterministic requirement-led coverage guard is introduced before downstream semantic completeness can be trusted.
+The map includes all applicable facts and rules needed to understand how the course is examined, including component structure, marks/timing/weighting, assessment objectives and demands, quantitative or other assessment requirements, response expectations, marking/rubric principles and explicit calibration boundaries.
 
-It validates that:
+Externally governed numeric facts remain deterministic controls. Unsupported constituent precision must not be invented.
 
-- obligation IDs and semantic item IDs are unique;
-- every obligation maps to existing governed semantic content;
-- every declared mapping resolves;
-- semantic content is reconciled to an obligation or deliberately marked supplemental; and
-- missing mappings fail closed with the obligation ID exposed.
+## Assurance boundary
 
-This guard does **not** discover the curriculum by itself. Each course profile still needs an evidence-governed obligation ledger or equivalent source-led contract. A ledger derived only by copying the current semantic seed would reproduce the original failure and is not sufficient.
+The two maps are upstream assurance inputs, not outputs inferred from generated Foundation content.
+
+Deterministic assurance must prove that:
+
+- every captured curriculum leaf maps to Course Truth;
+- every captured exam/marking requirement maps to Exam Truth;
+- mappings resolve to the exact retained Foundation artifacts; and
+- no applicable requirement is silently omitted.
+
+Independent review must receive enough source-led reconciliation evidence to challenge whether the requirement universe itself is sufficient, rather than reviewing only Revision's internally generated artifacts.
+
+Qualified-human approval packaging must include the same curriculum and exam reconciliation evidence so the reviewer can inspect both completeness and educational/assessment quality.
 
 ## AQA A-level Business consequence
 
-The existing AQA 7132 / 2027 semantic seed and prior retained proofs remain historical evidence. Their fixed node count is not a future acceptance target.
+The retained AQA 7132 / 2027 Foundation proof and its human-review package remain historical evidence of the previous implementation state. They are not retroactively rewritten.
 
-Before another AQA 7132 Foundation can be claimed curriculum-complete, the profile must establish and reconcile a source-led obligation ledger that includes the applicable curriculum and exam scope. Known human-review examples such as full marketing-mix scope, required strategic financial methods/ratios and assessment interpretation boundaries must be represented because the source requires them, not because a target count is being increased.
+Before another AQA 7132 Foundation can proceed to qualified-human approval:
 
-Any resulting change in obligation or node count is expected and is not itself a defect.
+1. establish the complete cohort-correct curriculum hierarchy from governed sources;
+2. establish the complete cohort-correct exam/marking requirement set;
+3. reconcile both against the existing Foundation seed/artifacts;
+4. correct omissions or contradictions exposed by that reconciliation;
+5. compile a fresh Foundation Candidate and fingerprint; and
+6. rerun deterministic assurance, independent review and qualified-human review using the new reconciliation evidence.
 
-## Learner-asset consequence
+The obligation or node count may change. That is an output of correct coverage, not the goal.
 
-Learn, Practice and Exam Prep factories inherit the same principle.
+## Deliberately excluded
 
-- Learn produces enough material to teach all applicable approved Course Truth.
-- Practice produces enough valid evidence opportunities to cover the required knowledge/skills with suitable breadth, variation and difficulty.
-- Exam Prep produces enough material to prepare for all applicable Exam Truth and Course Truth demands.
+This decision does not govern the quantity of Learn, Practice or Exam Prep material. Those learner-facing factories have not started in the current Foundation workstream and are outside this remediation.
 
-No asset factory is complete merely because a configured quantity has been generated.
-
-## Assurance consequence
-
-Deterministic assurance should distinguish three questions:
-
-1. **Requirement-universe completeness** — have all applicable source-led obligations been captured?
-2. **Foundation reconciliation** — does each captured obligation map to governed Course Truth/Exam Truth?
-3. **Asset coverage** — do downstream assets adequately cover the approved Foundation obligations for their educational purpose?
-
-Internal reconciliation cannot substitute for the first question.
-
-Qualified human review remains required for educational accuracy, depth, emphasis and assessment authenticity, but should not be relied upon as the primary detector of machine-readable omissions that source-led reconciliation can prevent.
+It also does not replace qualified educational/assessment judgement with a mechanical checklist. The maps prove explicit coverage; human experts still judge interpretation, depth, emphasis, authenticity and marking quality.
 
 ## Historical records
 
-ADR-0021 remains historically correct that the then-current proof retained 82 canonical atomic obligations. That number describes that implementation state; it is not a continuing target and must not be used to judge future completeness.
-
-Historical proof artifacts and review records are not rewritten.
+ADR-0021 and previous Foundation proof artifacts remain historically true about what that implementation generated and assured. They must not be rewritten to imply the new reconciliation boundary existed at that time.
 
 ## Documentation impact
 
 This decision is implemented with:
 
 - `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`;
-- `src/content-factory/requirement-led-coverage.ts` and its regression tests;
-- removal of fixed generated-asset quantities from Business completeness assertions; and
-- an update to current Foundation compilation technical documentation describing the new fail-closed boundary and the remaining course-profile ledger responsibility.
+- reusable deterministic source-to-Foundation coverage reconciliation code and tests;
+- current Foundation technical documentation describing the two-map boundary; and
+- updates to Foundation assurance/review packaging so the maps become part of the reviewed evidence set.
