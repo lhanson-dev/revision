@@ -10,6 +10,7 @@ import {
   buildFoundationExpertReviewSubmissionTemplate,
   renderFoundationExpertReviewInstructions,
 } from './foundation-expert-review-packaging'
+import { buildAqa7132FoundationExpertReviewCoverageReconciliation } from './foundation-expert-review-reconciliation'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -111,7 +112,7 @@ describe('Foundation retained artifact write classification', () => {
 describe('Foundation retained real-course expert review package proof', () => {
   const proofIt = proofEnabled ? it : it.skip
 
-  proofIt('assembles the exact assured AQA 7132 Foundation into a portable qualified-human review bundle', async () => {
+  proofIt('assembles the exact assured AQA 7132 Foundation and explicit source-led reconciliation into a portable qualified-human review bundle', async () => {
     const sourceProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')
     const reviewProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH')
     const expectedSourceHead = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA')
@@ -164,22 +165,33 @@ describe('Foundation retained real-course expert review package proof', () => {
       }
     })
 
+    const coverageReconciliation = buildAqa7132FoundationExpertReviewCoverageReconciliation({
+      candidate: reviewProof.finalCandidate,
+      resolvedArtifacts,
+    })
     const bundle = buildFoundationExpertReviewBundle({
       packagingCommit,
       reviewPackage,
       resolvedArtifacts,
+      coverageReconciliation,
     })
     const submissionTemplate = buildFoundationExpertReviewSubmissionTemplate(reviewPackage)
-    const instructions = renderFoundationExpertReviewInstructions(reviewPackage)
+    const instructions = renderFoundationExpertReviewInstructions(bundle)
 
+    expect(bundle.schemaVersion).toBe(2)
     expect(bundle.reviewPackage.foundationFingerprint).toBe(expectedSourceFingerprint)
     expect(bundle.resolvedArtifacts).toHaveLength(reviewPackage.artifacts.length)
-    expect(bundle.resolvedArtifacts).toHaveLength(10)
+    expect(bundle.resolvedArtifacts).toHaveLength(5 + reviewProof.finalCandidate.questionFamilies.length)
+    expect(bundle.coverageReconciliation.status).toBe('complete')
+    expect(bundle.coverageReconciliation.curriculum.length).toBeGreaterThan(0)
+    expect(bundle.coverageReconciliation.exam.length).toBeGreaterThan(0)
     expect(reviewPackage.requiredReviewScopes).toEqual(['subject', 'assessment'])
+    expect(instructions).toContain('coverage-reconciliation.json')
 
     await mkdir(`${evidenceDirectory}/artifacts`, { recursive: true })
     await writeFile(`${evidenceDirectory}/expert-review-bundle.json`, JSON.stringify(bundle, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/review-package.json`, JSON.stringify(reviewPackage, null, 2), 'utf-8')
+    await writeFile(`${evidenceDirectory}/coverage-reconciliation.json`, JSON.stringify(coverageReconciliation, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/submission-template.json`, JSON.stringify(submissionTemplate, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/review-instructions.md`, instructions, 'utf-8')
 
@@ -192,7 +204,7 @@ describe('Foundation retained real-course expert review package proof', () => {
     }
 
     await writeFile(`${evidenceDirectory}/manifest.json`, JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       artifactType: 'foundation_real_course_expert_review_package_evidence',
       recordedAt: new Date().toISOString(),
       repository: repo,
@@ -210,6 +222,13 @@ describe('Foundation retained real-course expert review package proof', () => {
         workflowRunId: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_RUN_ID'),
         artifactName: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_NAME'),
         artifactDigest: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_DIGEST'),
+      },
+      coverageReconciliation: {
+        status: coverageReconciliation.status,
+        curriculumProfileId: coverageReconciliation.curriculumProfileId,
+        curriculumObligationCount: coverageReconciliation.curriculum.length,
+        examProfileId: coverageReconciliation.examProfileId,
+        examObligationCount: coverageReconciliation.exam.length,
       },
       requiredReviewScopes: reviewPackage.requiredReviewScopes,
       artifactCount: bundle.resolvedArtifacts.length,
