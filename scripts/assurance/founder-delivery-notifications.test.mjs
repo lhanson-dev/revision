@@ -6,6 +6,7 @@ import {
 } from './founder-delivery-notifications.mjs'
 
 const headSha = 'a'.repeat(40)
+const baseSha = 'c'.repeat(40)
 const mergeSha = 'b'.repeat(40)
 
 function ciRun(overrides = {}) {
@@ -31,7 +32,7 @@ function pr(overrides = {}) {
     title: 'Example governed change',
     html_url: 'https://github.com/lhanson-dev/revision/pull/313',
     head: { sha: headSha },
-    base: { repo: { full_name: 'lhanson-dev/revision' } },
+    base: { ref: 'main', repo: { full_name: 'lhanson-dev/revision' } },
     ...overrides,
   }
 }
@@ -70,8 +71,15 @@ function mergedPr(overrides = {}) {
   }
 }
 
+function currentMain() {
+  return {
+    currentBaseSha: baseSha,
+    ciBaseSha: baseSha,
+  }
+}
+
 describe('Founder delivery notification planning', () => {
-  it('notifies the Founder when exact-head CI is green and approval is still required', () => {
+  it('notifies the Founder when exact-head CI is green against current main and approval is still required', () => {
     const run = ciRun()
     const result = planCiNotification({
       run,
@@ -79,6 +87,7 @@ describe('Founder delivery notification planning', () => {
       pr: pr(),
       comments: [],
       founderLogin: 'lhanson-dev',
+      ...currentMain(),
     })
 
     expect(result.type).toBe('comment')
@@ -95,9 +104,30 @@ describe('Founder delivery notification planning', () => {
       pr: pr(),
       comments: [],
       founderLogin: 'lhanson-dev',
+      ...currentMain(),
     })
 
     expect(result).toEqual({ type: 'skip', reason: 'not_latest_exact_head_ci' })
+  })
+
+  it('asks for integration attention instead of Founder approval when main moved after CI', () => {
+    const run = ciRun()
+    const newerMain = 'd'.repeat(40)
+    const result = planCiNotification({
+      run,
+      latestRun: run,
+      pr: pr(),
+      comments: [],
+      founderLogin: 'lhanson-dev',
+      currentBaseSha: newerMain,
+      ciBaseSha: baseSha,
+    })
+
+    expect(result.type).toBe('comment')
+    expect(result.kind).toBe('integration_attention')
+    expect(result.body).toContain('Delivery integration refresh needed')
+    expect(result.body).toContain('Check PR #313')
+    expect(result.body).not.toContain('Approve merge PR #313')
   })
 
   it('does not request approval when valid exact-head Founder evidence already follows CI', () => {
@@ -108,6 +138,7 @@ describe('Founder delivery notification planning', () => {
       pr: pr(),
       comments: [approvalComment()],
       founderLogin: 'lhanson-dev',
+      ...currentMain(),
     })
 
     expect(result).toEqual({ type: 'skip', reason: 'valid_founder_approval_already_exists' })
@@ -121,6 +152,7 @@ describe('Founder delivery notification planning', () => {
       pr: pr(),
       comments: [],
       founderLogin: 'lhanson-dev',
+      ...currentMain(),
     })
 
     expect(result.type).toBe('comment')
