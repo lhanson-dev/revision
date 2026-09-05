@@ -163,7 +163,13 @@ function candidate() {
     independentReview: { status: 'pending' as const, evidenceRefs: [] },
     unresolvedBlockers: [],
     knownLimitations: [],
-    provenance: { createdAt: '2026-09-05T00:00:00Z', producerVersion: 'test', sourceSetFingerprint: 'source-set' },
+    provenance: {
+      createdAt: '2026-09-05T00:00:00Z',
+      producerVersion: 'test',
+      sourceSetFingerprint: 'source-set',
+      generationContextIds: [],
+      assuranceContextIds: [],
+    },
   }
 }
 
