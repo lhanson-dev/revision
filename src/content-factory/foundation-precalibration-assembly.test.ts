@@ -31,10 +31,13 @@ function blueprint() {
     courseKnowledgeModelFingerprint: 'course-fingerprint',
     assessmentObjectives: [{ id: 'ao1' }, { id: 'ao2' }, { id: 'ao3' }, { id: 'ao4' }],
     assessmentRequirements: [
+      { id: 'paper1-structure', summary: 'Paper 1 is a compulsory two-hour, 100-mark paper.', componentScope: ['paper-1'] },
       { id: 'paper2-structure', summary: 'Three compulsory data-response questions worth approximately 33 marks each.', componentScope: ['paper-2'] },
       { id: 'paper3-structure', summary: 'One compulsory case study followed by approximately six questions.', componentScope: ['paper-3'] },
+      { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
     ],
     components: [
+      { componentId: 'paper-1', questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay'], markTotal: 100, timingMinutes: 120, constraints: ['written examination'] },
       { componentId: 'paper-2', questionFamilyIds: ['paper2-data-response'], markTotal: 100, timingMinutes: 120, constraints: ['three compulsory data-response questions'] },
       { componentId: 'paper-3', questionFamilyIds: ['paper3-case-study'], markTotal: 100, timingMinutes: 120, constraints: ['one compulsory case study followed by approximately six questions'] },
     ],
@@ -121,26 +124,46 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
     ]))
   })
 
-  it('normalises initial Question Family compilation before persistence', async () => {
+  it('normalises initial Question Family compilation and proves the source-led exam obligation set', async () => {
     const rawWorkers = {
+      async compileExamTruth() {
+        return success(blueprint())
+      },
       async compileQuestionFamilies() {
-        return success([family('paper2-data-response', 'paper-2')])
+        return success([
+          family('paper1-mcq', 'paper-1'),
+          family('paper1-short-answer', 'paper-1'),
+          family('paper1-essay', 'paper-1'),
+          family('paper1-nine-mark-analysis', 'paper-1'),
+          family('paper2-data-response', 'paper-2'),
+          family('paper3-case-study', 'paper-3'),
+        ])
       },
     } as unknown as FoundationCompilationWorkers
     const guarded = withAqa7132PreCalibrationAssemblyGuard(rawWorkers)
 
+    const examExecution = await guarded.compileExamTruth({} as Parameters<FoundationCompilationWorkers['compileExamTruth']>[0])
+    expect(examExecution.status).toBe('success')
+    if (examExecution.status !== 'success') throw new Error(examExecution.error)
+    const examTruth = foundationAssessmentBlueprintSchema.parse(examExecution.output)
+
     const result = await guarded.compileQuestionFamilies({
-      assessmentBlueprint: blueprint(),
+      assessmentBlueprint: examTruth,
     } as Parameters<FoundationCompilationWorkers['compileQuestionFamilies']>[0])
 
     expect(result.status).toBe('success')
     if (result.status !== 'success') throw new Error(result.error)
-    expect(result.output).toEqual([
+    expect(result.output).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'paper1-nine-mark-analysis',
+        markRange: { min: 9, max: 9 },
+        responseShape: expect.stringContaining('9-mark analyse'),
+      }),
       expect.objectContaining({
         id: 'paper2-data-response',
         markRange: { min: 1, max: 100 },
-        responseShape: expect.stringContaining('constituent mark and timing allocations remain unfixed'),
+        responseShape: expect.stringContaining('three or four parts'),
       }),
-    ])
+    ]))
   })
 })
