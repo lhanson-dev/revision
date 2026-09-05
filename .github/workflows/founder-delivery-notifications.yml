@@ -1,0 +1,44 @@
+name: Founder Delivery Notifications
+
+on:
+  workflow_run:
+    workflows:
+      - Revision CI
+      - Deploy Revision to Pages
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: read
+  statuses: read
+
+jobs:
+  notify-founder:
+    name: Publish Founder delivery notification
+    if: >-
+      (github.event.workflow_run.name == 'Revision CI' &&
+       github.event.workflow_run.event == 'pull_request') ||
+      (github.event.workflow_run.name == 'Deploy Revision to Pages' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout trusted default-branch coordinator
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+
+      - name: Publish durable Founder notification when action or continuation is ready
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REVISION_FOUNDER_GITHUB_LOGIN: lhanson-dev
+          REVISION_WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: node scripts/assurance/founder-delivery-notifications.mjs
