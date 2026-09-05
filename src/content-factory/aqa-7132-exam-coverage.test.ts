@@ -92,7 +92,7 @@ describe('AQA 7132 / 2027 source-led Exam Truth coverage', () => {
   it('fails when Paper 2 loses its three-or-four-part structure', () => {
     const examTruth = blueprint()
     const paper2 = examTruth.components.find((component) => component.componentId === 'paper-2')!
-    paper2.constraints = paper2.constraints.filter((value) => !value.includes('three or four parts'))
+    paper2.constraints = paper2.constraints.map((value) => value.replace(' and each is made up of three or four parts.', '.'))
 
     expect(() => assertExamRequirementCoverage({
       obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
