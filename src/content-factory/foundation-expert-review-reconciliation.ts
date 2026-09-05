@@ -1,9 +1,6 @@
 import { z } from 'zod'
-import {
-  courseKnowledgeModelSchema,
-  foundationReviewableArtifactKindSchema,
-  questionFamilySchema,
-} from './foundation-independent-review'
+import { courseKnowledgeModelSchema, questionFamilySchema } from './schema'
+import { foundationReviewableArtifactKindSchema } from './foundation-independent-review'
 import {
   foundationAssessmentBlueprintSchema,
   foundationCoverageModelSchema,
@@ -83,7 +80,7 @@ function semanticItemsFromSeed(): FoundationSemanticCoverageItem[] {
 }
 
 function requireExactArtifact(
-  candidate: FoundationCandidate,
+  _candidate: FoundationCandidate,
   resolvedArtifacts: Array<z.infer<typeof resolvedArtifactSchema>>,
   artifactKind: z.infer<typeof foundationReviewableArtifactKindSchema>,
   artifactRef: string,
