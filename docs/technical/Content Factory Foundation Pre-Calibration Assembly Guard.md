@@ -1,6 +1,6 @@
 # Content Factory Foundation Pre-Calibration Assembly Guard
 
-**Status:** Current implementation record — released through PR #309; Slice 3B Run #19 reviewer/normaliser repair in progress  
+**Status:** Current implementation record — released through PR #319; fresh Foundation live proof #5 aggregate-total detector repair in progress  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Decision:** `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`  
 **Applies to:** AQA A-level Business 7132 / 2027 Foundation profile
@@ -42,10 +42,10 @@ The component totals/timings themselves remain exact in Exam Truth. The broad Qu
 
 The guard must distinguish two different kinds of numeric statement:
 
-- **allowed aggregate fact:** a verified whole-component fact such as a Paper 2 `120-minute` timing or `100-mark` total, clearly described as component/paper-level; and
+- **allowed aggregate fact:** a verified whole-component fact such as a Paper 2 `120-minute` timing or `100-mark` total, clearly described as component/paper-level or as the total of the complete assembled question set; and
 - **forbidden constituent allocation:** a fixed number or sequence attached to an individual question, sub-question, set or other constituent demand before qualified calibration.
 
-The deterministic detector therefore permits only exact values that match the governed component total/timing and are locally described as aggregate component/paper facts. It continues to fail closed on per-question/per-set values, exact constituent sequences, and unsupported precision hidden in provider-authored semantic fields.
+The deterministic detector therefore permits only exact values that match the governed component total/timing and are locally described as aggregate component/paper facts or the total of the complete assembled set. It continues to fail closed on per-question/per-set values, exact constituent sequences, and unsupported precision hidden in provider-authored semantic fields. Constituent language such as `each`, `per`, `question` or `sub-question` still overrides aggregate wording and fails closed.
 
 ## Entry points
 
@@ -87,6 +87,11 @@ The current live compilation and remediation paths normalize before persistence.
 - deterministic detection of persisted drift; and
 - normalization of initial Question Family compilation.
 
+`foundation-precalibration-aggregate-context.test.ts` additionally locks the exact live-proof #5 case:
+
+- `Ensure the assembled set totals 100 marks.` is accepted because `100` is the verified Paper 3 whole-component total and no constituent allocation is asserted; and
+- `Each question in the assembled set should receive 20 marks.` remains rejected as an unsupported constituent allocation.
+
 The independent-review live-adapter suite locks the reviewer/remediation instructions so pre-calibration non-claims are not silently converted into invented precision. Full repository CI remains mandatory before merge.
 
 ## Slice 3B Run #19 evidence — 5 September 2026
@@ -115,6 +120,24 @@ The correct repair is therefore to:
 
 The retained Run #19 source candidate remains valid proof input because no material Foundation truth changed. After this implementation repair is released, one fresh Slice 3B proof may review the same exact source Foundation under the new reviewed implementation commit. A new Foundation compilation is not required solely for this normaliser/reviewer-contract correction.
 
+## Fresh Foundation live proof #5 evidence — 5 September 2026
+
+After PRs #318 and #319 were released, workflow `33992012077` launched a fresh AQA 7132 / 2027 Foundation compilation from `main` commit `fa0ec5624e31e47576957433ab8258a10e8265d2`.
+
+The proof reached the live Question Family generation stage and then failed closed before a Foundation Candidate/fingerprint was retained. The provider-produced Paper 3 family contained the sentence:
+
+`Ensure the assembled set totals 100 marks.`
+
+The deterministic guard rejected that sentence as an unsupported exact constituent allocation. This was a false positive because:
+
+- Paper 3's whole-component total of 100 marks is already governed Exam Truth;
+- the sentence refers to the complete assembled set rather than allocating marks to any constituent question; and
+- no exact sub-question or timing pattern was introduced.
+
+No learner-facing assets were generated and no failed Candidate was promoted. The evidence-upload step ran, but the test failed before creating the proof-evidence directory, so no new Foundation fingerprint exists from run #5.
+
+The narrow repair is to recognise `assembled set` as valid aggregate context only when the numeric value exactly equals the verified component total/timing and no constituent-allocation language is present. This does not broaden the permitted assessment truth and does not weaken ADR-0022.
+
 ## Source and rights impact
 
 None. This hardening does not put additional AQA source text into generative context and does not change source-use classifications. It works only from already-governed structured Board Alignment facts and Revision-owned Question Family contracts.
@@ -125,12 +148,12 @@ None. No learner-facing asset is created or changed. The change affects Foundati
 
 ## Next governed step
 
-After the Run #19 reviewer/normaliser repair is exact-head assured, Founder-approved, merged and production-verified:
+After this aggregate-context repair is exact-head assured, Founder-approved, merged and production-verified:
 
-1. rerun one governed Slice 3B proof against the same exact retained source Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`;
-2. require deterministic assurance PASS on the new reviewed implementation commit;
-3. require a genuinely fresh independent-review context;
-4. allow only evidence-supported smallest-safe remediation; and
-5. enter Slice 3C only if the exact final Foundation version reaches deterministic PASS plus independent-review PASS.
+1. rerun the fresh AQA 7132 / 2027 Foundation live proof from the new approved `main`;
+2. require the compiler to complete source-led curriculum and exam reconciliation with zero learner assets;
+3. retain the new exact Foundation Candidate/fingerprint and proof evidence;
+4. bind deterministic assurance to that new proof; and
+5. continue to fresh-context independent review and qualified-human packaging only if the exact candidate passes the preceding gates.
 
-Do not increase the three-cycle remediation limit and do not manufacture constituent calibration merely to satisfy a reviewer request that is unsupported by governed evidence.
+Do not increase the remediation limit and do not manufacture constituent calibration merely to satisfy provider or reviewer wording unsupported by governed evidence.
