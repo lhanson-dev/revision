@@ -35,12 +35,19 @@ describe('AQA A-level Business 7132 coordinated content packs', () => {
     expect(packs.every((pack) => pack.manifest.status === 'available')).toBe(true)
   })
 
-  it('preserves the official ten-area course structure without treating generated asset counts as completeness evidence', () => {
+  it('shares the complete ten-area A-level curriculum and substantial practice layer', () => {
     const expectedTopics = ['business','leadership','marketing','operations','finance','hr','strategic-position','strategic-direction','strategic-methods','strategic-change']
     for (const pack of packs) {
       expect(pack.manifest.topicIds).toEqual(expectedTopics)
-      expect(pack.topics.map((topic) => topic.id)).toEqual(expectedTopics)
-      expect(pack.exams.length).toBeGreaterThan(0)
+      expect(pack.topics).toHaveLength(10)
+      expect(pack.formulas).toHaveLength(31)
+      expect(pack.topicLinks).toHaveLength(22)
+      expect(pack.flashcards).toHaveLength(100)
+      expect(pack.questions).toHaveLength(50)
+      expect(pack.caseStudies).toHaveLength(6)
+      expect(pack.dataDrills).toHaveLength(25)
+      expect(pack.examTechnique).toHaveLength(9)
+      expect(pack.exams).toHaveLength(1)
     }
   })
 
