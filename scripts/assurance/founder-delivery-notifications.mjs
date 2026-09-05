@@ -3,6 +3,7 @@ import { latestApprovalForHead, latestCiRunForHead } from './release-lineage.mjs
 
 const notificationKinds = {
   founderAction: 'revision-founder-action:v1',
+  integrationAttention: 'revision-integration-attention:v1',
   ciAttention: 'revision-ci-attention:v1',
   productionReady: 'revision-production-ready:v1',
   productionAttention: 'revision-production-attention:v1',
@@ -59,7 +60,15 @@ export function findExistingNotification(comments, dedupeMarker) {
   return comments.find((comment) => typeof comment?.body === 'string' && comment.body.includes(dedupeMarker)) ?? null
 }
 
-export function planCiNotification({ run, latestRun, pr, comments, founderLogin }) {
+export function planCiNotification({
+  run,
+  latestRun,
+  pr,
+  comments,
+  founderLogin,
+  currentBaseSha,
+  ciBaseSha,
+}) {
   if (run?.name !== 'Revision CI' || run?.event !== 'pull_request') {
     return { type: 'skip', reason: 'not_pull_request_revision_ci' }
   }
@@ -80,6 +89,33 @@ export function planCiNotification({ run, latestRun, pr, comments, founderLogin 
   const prNumber = pr.number
   const prUrl = pr.html_url ?? `https://github.com/${pr.base?.repo?.full_name ?? ''}/pull/${prNumber}`
 
+  if (!currentBaseSha || !ciBaseSha || currentBaseSha !== ciBaseSha) {
+    const marker = `${notificationKinds.integrationAttention} head_sha=${headSha} current_base=${currentBaseSha ?? 'unknown'}`
+    return {
+      type: 'comment',
+      kind: 'integration_attention',
+      dedupeMarker: marker,
+      body: [
+        hiddenMarker(notificationKinds.integrationAttention, {
+          head_sha: headSha,
+          current_base: currentBaseSha ?? 'unknown',
+        }),
+        `@${founderLogin} **Delivery integration refresh needed**`,
+        '',
+        `PR #${prNumber} — **${pr.title ?? 'Revision change'}** — has CI evidence, but that run is not proven against the current \`main\` baseline.`,
+        '',
+        `Next action in ChatGPT: \`Check PR #${prNumber}\``,
+        '',
+        `Exact head: \`${headSha}\`  `,
+        `CI base: \`${ciBaseSha ?? 'unknown'}\`  `,
+        `Current main: \`${currentBaseSha ?? 'unknown'}\`  `,
+        `PR: ${prUrl}`,
+        '',
+        'Founder merge approval is not being requested until current-main integration and fresh assurance are established.',
+      ].join('\n'),
+    }
+  }
+
   if (run.conclusion === 'success') {
     if (hasValidFounderApprovalAfterRun({
       comments,
@@ -99,7 +135,7 @@ export function planCiNotification({ run, latestRun, pr, comments, founderLogin 
         hiddenMarker(notificationKinds.founderAction, { head_sha: headSha }),
         `@${founderLogin} **Founder action required**`,
         '',
-        `PR #${prNumber} — **${pr.title ?? 'Revision change'}** — has passed the latest exact-head Revision CI and is ready for your production decision.`,
+        `PR #${prNumber} — **${pr.title ?? 'Revision change'}** — has passed the latest exact-head Revision CI against current \`main\` and is ready for your production decision.`,
         '',
         `Next action in ChatGPT: \`Approve merge PR #${prNumber}\``,
         '',
@@ -242,7 +278,21 @@ export async function publishFounderDeliveryNotification(options = {}) {
     )
     const latestRun = latestCiRunForHead(ciPayload?.workflow_runs, headSha)
     const comments = await githubJson(`${apiUrl}/repos/${repository}/issues/${prNumber}/comments?per_page=100`, token)
-    const plan = planCiNotification({ run, latestRun, pr, comments, founderLogin })
+    const baseRef = pr?.base?.ref
+    const baseBranch = baseRef
+      ? await githubJson(`${apiUrl}/repos/${repository}/branches/${encodeURIComponent(baseRef)}`, token)
+      : null
+    const currentBaseSha = baseBranch?.commit?.sha ?? null
+    const ciBaseSha = run.pull_requests?.[0]?.base?.sha ?? null
+    const plan = planCiNotification({
+      run,
+      latestRun,
+      pr,
+      comments,
+      founderLogin,
+      currentBaseSha,
+      ciBaseSha,
+    })
     return postNotification({ apiUrl, repository, token, prNumber, plan, comments })
   }
 
