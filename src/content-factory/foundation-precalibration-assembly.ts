@@ -2,11 +2,25 @@ import {
   questionFamilySchema,
   type QuestionFamily,
 } from './schema'
-import type {
-  FoundationAssessmentBlueprint,
-  FoundationCompilationWorkers,
-  FoundationWorkerExecution,
+import {
+  foundationAssessmentBlueprintSchema,
+  type FoundationAssessmentBlueprint,
+  type FoundationCompilationWorkers,
+  type FoundationCurriculumRequirementInput,
+  type FoundationWorkerExecution,
 } from './foundation-compilation'
+import {
+  assertExamRequirementCoverage,
+  assertRequirementLedCoverage,
+  type FoundationSemanticCoverageItem,
+} from './requirement-led-coverage'
+import {
+  buildAqaAlevelBusiness7132CurriculumObligations,
+} from './source-seeds/aqa-a-level-business-7132-2027-coverage'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
+  buildAqaAlevelBusiness7132ExamEvidenceItems,
+} from './source-seeds/aqa-a-level-business-7132-2027-exam-coverage'
 
 type PreCalibrationAssemblyPolicy = {
   questionFamilyId: string
@@ -20,7 +34,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES: readonl
     questionFamilyId: 'paper2-data-response',
     componentId: 'paper-2',
     sourceAssessmentRequirementId: 'paper2-structure',
-    responseShape: 'Three compulsory data-response questions; constituent mark and timing allocations remain unfixed until qualified calibration.',
+    responseShape: 'Three compulsory data-response questions, each made up of three or four parts; constituent mark and timing allocations remain unfixed until qualified calibration.',
   },
   {
     questionFamilyId: 'paper3-case-study',
@@ -175,13 +189,105 @@ export function normaliseAqa7132PreCalibrationQuestionFamily(
   })
 }
 
+function semanticItemsFromRequirements(
+  requirements: FoundationCurriculumRequirementInput[],
+): FoundationSemanticCoverageItem[] {
+  return requirements.flatMap((requirement) => requirement.skillsOrKnowledge.map((text, knowledgeItemIndex) => ({
+    id: `${requirement.requirementId}.s${String(knowledgeItemIndex + 1).padStart(2, '0')}`,
+    requirementId: requirement.requirementId,
+    officialReference: requirement.officialReference,
+    knowledgeItemIndex,
+    text,
+  })))
+}
+
+function assertAqa7132CurriculumCoverage(requirements: FoundationCurriculumRequirementInput[]) {
+  const semanticItems = semanticItemsFromRequirements(requirements)
+  const obligations = buildAqaAlevelBusiness7132CurriculumObligations(semanticItems)
+  assertRequirementLedCoverage({ obligations, semanticItems })
+}
+
+function appendUnique(values: string[], additions: string[]) {
+  return [...new Set([...values, ...additions])]
+}
+
+function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentBlueprint {
+  const blueprint = foundationAssessmentBlueprintSchema.parse(value)
+  const components = blueprint.components.map((component) => {
+    if (component.componentId === 'paper-1') {
+      return {
+        ...component,
+        questionFamilyIds: appendUnique(component.questionFamilyIds, ['paper1-nine-mark-analysis']),
+        constraints: appendUnique(component.constraints, [
+          'Paper 1 is a 2 hours, 100 marks component.',
+          'Section A has 15 one-mark MCQs; Section B has 35 marks of short-answer questions; Sections C and D each require a choice of one 25-mark essay from two.',
+          'Current Paper 1 assessment evidence includes a 9-mark analyse response family.',
+        ]),
+      }
+    }
+    if (component.componentId === 'paper-2') {
+      return {
+        ...component,
+        constraints: appendUnique(component.constraints, [
+          'Paper 2 is a 2 hours, 100 marks component.',
+          'Three compulsory data-response questions are worth approximately 33 marks each and each is made up of three or four parts.',
+        ]),
+      }
+    }
+    if (component.componentId === 'paper-3') {
+      return {
+        ...component,
+        constraints: appendUnique(component.constraints, [
+          'Paper 3 is a 2 hours, 100 marks component.',
+          'One compulsory case study is followed by approximately six questions.',
+        ]),
+      }
+    }
+    return component
+  })
+
+  return foundationAssessmentBlueprintSchema.parse({
+    ...blueprint,
+    components,
+    evidenceExpectations: appendUnique(blueprint.evidenceExpectations, [
+      'All content may be assessed across Paper 1, Paper 2 and Paper 3.',
+      'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+      'At least 10% of the overall A-level marks assess quantitative skills.',
+    ]),
+  })
+}
+
+function normalisePaper1NineMarkFamily(value: QuestionFamily) {
+  if (value.id !== 'paper1-nine-mark-analysis') return value
+  return questionFamilySchema.parse({
+    ...value,
+    title: 'Paper 1 9-mark analyse response',
+    assessmentObjectiveIds: value.assessmentObjectiveIds.filter((id) => id !== 'ao4'),
+    markRange: { min: 9, max: 9 },
+    responseShape: 'One 9-mark analyse response requiring developed contextual analysis.',
+    skillProfile: appendUnique(value.skillProfile, ['9-mark analyse response']),
+    analysisRequirements: appendUnique(value.analysisRequirements, ['Analyse the stated business issue through developed contextual chains of reasoning.']),
+    calibrationStatus: 'not_calibrated',
+  })
+}
+
+function assertAqa7132ExamCoverage(
+  assessmentBlueprint: FoundationAssessmentBlueprint,
+  questionFamilies: QuestionFamily[],
+) {
+  assertExamRequirementCoverage({
+    obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
+    evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(assessmentBlueprint, questionFamilies),
+  })
+}
+
 function contractFailure(
   execution: Extract<FoundationWorkerExecution<unknown>, { status: 'success' }>,
   error: unknown,
 ): FoundationWorkerExecution<unknown> {
   return {
     status: 'failure',
-    error: `provider_contract_failure: pre_calibration_assembly: ${errorMessage(error)}`,
+    error: `provider_contract_failure: aqa_7132_foundation_guard: ${errorMessage(error)}`,
     provenance: execution.provenance,
   }
 }
@@ -191,18 +297,43 @@ export function withAqa7132PreCalibrationAssemblyGuard(
 ): FoundationCompilationWorkers {
   return {
     ...workers,
+    async compileCoverage(input) {
+      const execution = await workers.compileCoverage(input)
+      if (execution.status !== 'success') return execution
+      try {
+        assertAqa7132CurriculumCoverage(input.requirements)
+        return execution
+      } catch (error) {
+        return contractFailure(execution, error)
+      }
+    },
+    async compileExamTruth(input) {
+      const execution = await workers.compileExamTruth(input)
+      if (execution.status !== 'success') return execution
+      try {
+        return {
+          ...execution,
+          output: normaliseAqa7132ExamTruth(execution.output),
+        }
+      } catch (error) {
+        return contractFailure(execution, error)
+      }
+    },
     async compileQuestionFamilies(input) {
       const execution = await workers.compileQuestionFamilies(input)
       if (execution.status !== 'success') return execution
 
       try {
         const families = questionFamilySchema.array().parse(execution.output)
-        return {
-          ...execution,
-          output: families.map((family) => normaliseAqa7132PreCalibrationQuestionFamily(
+          .map(normalisePaper1NineMarkFamily)
+          .map((family) => normaliseAqa7132PreCalibrationQuestionFamily(
             family,
             input.assessmentBlueprint,
-          )),
+          ))
+        assertAqa7132ExamCoverage(input.assessmentBlueprint, families)
+        return {
+          ...execution,
+          output: families,
         }
       } catch (error) {
         return contractFailure(execution, error)
