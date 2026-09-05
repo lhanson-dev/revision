@@ -1,6 +1,6 @@
 # Content Factory Foundation Expert Review Contract
 
-**Status:** Slice 3C implementation record — qualified-human contract released through PR #312; retained AQA expert-review package increment in progress  
+**Status:** Slice 3C implementation record — qualified-human contract released through PR #312; retained AQA expert-review package released through PR #313; retained proof parser repair in progress  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -71,7 +71,7 @@ Validation fails closed if the submission targets a different candidate, commit,
 
 ## Current retained-package increment
 
-The next implementation step packages the exact retained AQA Foundation into a form a human can actually inspect rather than presenting only artifact references.
+The retained package implementation packages the exact retained AQA Foundation into a form a human can actually inspect rather than presenting only artifact references.
 
 `src/content-factory/foundation-expert-review-packaging.ts` adds a bundle boundary that requires every packaged artifact reference, type and fingerprint to have an exact resolved value. Missing, mismatched or extra artifact values fail closed.
 
@@ -80,7 +80,7 @@ The retained package proof combines two already-retained evidence sources:
 1. Foundation Live Proof run `33938173128`, which contains the 10 persisted Foundation artifacts and their values;
 2. independent-review proof run `33956520875`, which contains the exact final Candidate plus deterministic and independent-review PASS evidence.
 
-This is valid for the retained AQA candidate because Run `33956520875` completed with zero remediation cycles and the final Foundation fingerprint remained `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`. The implementation also overlays any retained review/remediation artifact writes before resolving package content so stale source values cannot silently win.
+This is valid for the retained AQA candidate because Run `33956520875` completed with zero remediation cycles and the final Foundation fingerprint remained `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`. The implementation overlays retained review/remediation writes only when they are reviewable Foundation artifact kinds, so stale source values cannot silently win while assurance-report evidence remains separate from the human-review content set.
 
 The governed packaging workflow is `.github/workflows/content-factory-foundation-expert-review-package.yml`. It:
 
@@ -98,6 +98,25 @@ The governed packaging workflow is `.github/workflows/content-factory-foundation
 
 The package workflow itself does not approve, calibrate or remediate educational content. It is a deterministic handoff step only.
 
+## First retained-package proof and parser repair
+
+PR #313 was released on `main` as merge commit `b99c1b72502f5062457eb5fac776c597951bdeeb`. The first retained package workflow run `33978025112` correctly verified both retained proof digests and downloaded the exact Foundation and assurance evidence, but failed before package assembly because the proof parser incorrectly required every `newArtifacts` entry from the independent-review evidence to use a reviewable Foundation content kind.
+
+Run `33956520875` legitimately records two additional assurance-evidence writes:
+
+- `foundation_deterministic_assurance_report`;
+- `foundation_independent_review_report`.
+
+Those records are evidence of assurance, not reviewable Foundation content and not candidates for the package artifact overlay. The repair therefore:
+
+- accepts retained `newArtifacts` with their persisted artifact kind;
+- classifies each write against the canonical `foundationReviewableArtifactKindSchema` before overlay;
+- overlays only reviewable Foundation artifact writes;
+- ignores assurance-report writes for content resolution while retaining their existing evidence references; and
+- adds a normal-CI regression test proving assurance-report writes cannot enter the reviewable artifact overlay.
+
+This is a proof-parser correction only. It does not change Foundation truth, assurance outcomes, human-review requirements, approval state or learner assets.
+
 ## Deliberately excluded
 
 This increment does **not**:
@@ -113,7 +132,7 @@ This increment does **not**:
 
 ## Next governed step
 
-After this retained-package increment is released and its main-only proof succeeds:
+After the retained-package proof succeeds:
 
 1. provide the exact retained package to a real qualified subject/assessment reviewer or reviewer set;
 2. collect a completed structured submission plus qualification and review evidence;
@@ -124,4 +143,4 @@ After this retained-package increment is released and its main-only proof succee
 
 ## Documentation impact
 
-This is an implementation/technical-documentation increment under existing Content Factory authority. It does not change normative policy and does not require a new ADR. The active staged implementation plan already identifies Slice 3C as the current increment, so no authority/index relocation is required.
+This is an implementation/technical-documentation repair under existing Content Factory authority. It does not change normative policy and does not require a new ADR. The active staged implementation plan already identifies Slice 3C as the current increment, so no authority/index relocation is required.

@@ -23,6 +23,13 @@ const storedArtifactSchema = z.object({
   value: z.unknown(),
 })
 
+const retainedArtifactWriteSchema = z.object({
+  kind: z.string().min(1),
+  fingerprint: z.string().min(1),
+  ref: z.string().min(1),
+  value: z.unknown(),
+})
+
 const sourceProofSchema = z.object({
   schemaVersion: z.literal(1),
   artifactType: z.literal('foundation_live_real_course_proof_evidence'),
@@ -57,8 +64,14 @@ const reviewProofSchema = z.object({
   finalCandidate: foundationCandidateSchema,
   learnerAssetCount: z.number().int().nonnegative(),
   finalPass: z.literal(true),
-  newArtifacts: z.array(storedArtifactSchema).default([]),
+  newArtifacts: z.array(retainedArtifactWriteSchema).default([]),
 })
+
+function toReviewableStoredArtifact(artifact: z.infer<typeof retainedArtifactWriteSchema>) {
+  const kind = foundationReviewableArtifactKindSchema.safeParse(artifact.kind)
+  if (!kind.success) return null
+  return storedArtifactSchema.parse({ ...artifact, kind: kind.data })
+}
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -76,6 +89,24 @@ async function readUtf8File(path: string) {
 function safeArtifactFilename(index: number, kind: string) {
   return `${String(index + 1).padStart(2, '0')}-${kind}.json`
 }
+
+describe('Foundation retained artifact write classification', () => {
+  it('keeps assurance-report evidence out of the reviewable Foundation artifact overlay', () => {
+    expect(toReviewableStoredArtifact({
+      kind: 'foundation_deterministic_assurance_report',
+      fingerprint: 'assurance-fingerprint',
+      ref: 'foundation:assurance-report',
+      value: { status: 'pass' },
+    })).toBeNull()
+
+    expect(toReviewableStoredArtifact({
+      kind: 'question_family',
+      fingerprint: 'question-family-fingerprint',
+      ref: 'foundation:question-family',
+      value: { status: 'not_calibrated' },
+    })?.kind).toBe('question_family')
+  })
+})
 
 describe('Foundation retained real-course expert review package proof', () => {
   const proofIt = proofEnabled ? it : it.skip
@@ -112,8 +143,12 @@ describe('Foundation retained real-course expert review package proof', () => {
     })
 
     const availableArtifacts = new Map<string, z.infer<typeof storedArtifactSchema>>()
-    for (const artifact of [...sourceProof.artifacts, ...reviewProof.newArtifacts]) {
+    for (const artifact of sourceProof.artifacts) {
       availableArtifacts.set(artifact.ref, artifact)
+    }
+    for (const artifact of reviewProof.newArtifacts) {
+      const reviewableArtifact = toReviewableStoredArtifact(artifact)
+      if (reviewableArtifact) availableArtifacts.set(reviewableArtifact.ref, reviewableArtifact)
     }
 
     const resolvedArtifacts = reviewPackage.artifacts.map((expected) => {
