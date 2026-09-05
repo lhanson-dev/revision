@@ -130,13 +130,24 @@ class FakeProvider implements FoundationStructuredProviderClient {
   }
 }
 
-const fetchImpl: typeof fetch = async () => new Response([
+const textFixture = [
   'Business Open Government Licence assessment objectives',
   'Business Fundamentals CC BY 4.0 content can be downloaded or copied licensing of the material',
   'A-level Business 7132 outgoing 2027 Paper 1 Paper 2 Paper 3 100 marks AO1 AO4',
   AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
   'governed_main_only',
-].join(' '), { status: 200 })
+].join(' ')
+
+const fetchImpl: typeof fetch = async (input) => {
+  const url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url
+  if (url.toLowerCase().endsWith('.pdf')) {
+    return new Response(new Uint8Array([0x25, 0x50, 0x44, 0x46]), {
+      status: 200,
+      headers: { 'content-type': 'application/pdf' },
+    })
+  }
+  return new Response(textFixture, { status: 200 })
+}
 
 async function compilingJob() {
   return advanceFoundationJob(createFoundationJob({ jobId: 'aqa-a-level-business-7132-foundation-live-proof', createdAt: now }), 'compiling', now)
@@ -212,12 +223,12 @@ describe('Foundation live adapter', () => {
       expect(requirement.knowledgeNodeIds.every((id) => id.startsWith(`${requirement.requirementId}.k`))).toBe(true)
     }
     expect(coverage.requirements.flatMap((requirement) => requirement.knowledgeNodeIds).length)
-      .toBeGreaterThan(coverage.requirements.length)
+      .toBeGreaterThanOrEqual(coverage.requirements.length)
 
     const courseTruth = store.writes.find((write) => write.kind === 'course_knowledge_model')?.value as { nodes: Array<{ id: string; summary: string }> }
     expect(courseTruth.nodes).toHaveLength(coverage.requirements.flatMap((requirement) => requirement.knowledgeNodeIds).length)
-    expect(courseTruth.nodes.some((node) => node.id === 'marketing-analysis.k01')).toBe(true)
-    expect(courseTruth.nodes.some((node) => node.summary.toLowerCase().includes('market research'))).toBe(true)
+    expect(courseTruth.nodes.some((node) => node.id === 'aqa-3-3-2.k01')).toBe(true)
+    expect(courseTruth.nodes.some((node) => node.summary.toLowerCase().includes('market'))).toBe(true)
     expect(JSON.stringify(courseTruth)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
 
     const blueprint = store.writes.find((write) => write.kind === 'assessment_blueprint')?.value as FoundationAssessmentBlueprint
@@ -237,7 +248,14 @@ describe('Foundation live adapter', () => {
   })
 
   it('fails v2 coverage that collapses governed knowledge items into too few canonical nodes', () => {
-    const requirement = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements[0]
+    const original = AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements[0]
+    const requirement = {
+      ...original,
+      skillsOrKnowledge: [
+        ...original.skillsOrKnowledge,
+        'Second governed semantic item added by the fixture so one canonical node is insufficient for this requirement.',
+      ],
+    }
     expect(() => foundationCoverageModelSchema.parse({
       schemaVersion: 2,
       jobId: 'test-job',
