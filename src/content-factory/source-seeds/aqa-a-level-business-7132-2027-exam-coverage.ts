@@ -30,7 +30,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS: FoundationExamCove
     ['Paper 1', 'Question demand'],
     'Current Paper 1 assessment evidence includes a 9-mark analyse response family and the Foundation must represent that authentic demand.',
     ['9-mark', 'analyse'],
-    ['aqa-7132-assessment-resources'],
+    ['aqa-7132-paper1-june2023-mark-scheme'],
   ),
   obligation(
     'aqa-exam-paper2-structure',
