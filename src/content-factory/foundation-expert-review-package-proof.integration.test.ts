@@ -181,7 +181,7 @@ describe('Foundation retained real-course expert review package proof', () => {
     expect(bundle.schemaVersion).toBe(2)
     expect(bundle.reviewPackage.foundationFingerprint).toBe(expectedSourceFingerprint)
     expect(bundle.resolvedArtifacts).toHaveLength(reviewPackage.artifacts.length)
-    expect(bundle.resolvedArtifacts).toHaveLength(10)
+    expect(bundle.resolvedArtifacts).toHaveLength(5 + reviewProof.finalCandidate.questionFamilies.length)
     expect(bundle.coverageReconciliation.status).toBe('complete')
     expect(bundle.coverageReconciliation.curriculum.length).toBeGreaterThan(0)
     expect(bundle.coverageReconciliation.exam.length).toBeGreaterThan(0)
