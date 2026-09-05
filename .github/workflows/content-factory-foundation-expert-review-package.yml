@@ -1,0 +1,106 @@
+name: Content Factory Foundation Expert Review Package
+
+on:
+  workflow_dispatch:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: content-factory-foundation-expert-review-package
+  cancel-in-progress: false
+
+jobs:
+  foundation-expert-review-package:
+    name: Assemble retained real-course Foundation expert review package
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       github.event.comment.body == 'revision-run-foundation-expert-review-package:v1')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN_ID: '33938173128'
+      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-599704ff77bc2f1e782f4804b142614a043700c7
+      SOURCE_ARTIFACT_DIGEST: sha256:ba590273474bae9325bcc7b1a3add4e73bd5498c60d75cf1c603ed71ce56a16e
+      SOURCE_HEAD_SHA: 599704ff77bc2f1e782f4804b142614a043700c7
+      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-expert-review-source/aqa-a-level-business-7132-foundation-599704ff77bc-1788574070566.json
+      REVIEW_RUN_ID: '33956520875'
+      REVIEW_ARTIFACT_NAME: content-factory-foundation-independent-review-proof-2f2ae89f8280e3b0c1091346258e56f993f61f77
+      REVIEW_ARTIFACT_DIGEST: sha256:df5b8fd23f7ed2b4fd03c64af7a8f59cf84abc1621b7a86b9f3f42a210c9c111
+      REVIEWED_COMMIT: 2f2ae89f8280e3b0c1091346258e56f993f61f77
+      REVIEW_PROOF_PATH: .artifacts/content-factory-foundation-expert-review-assurance/aqa-a-level-business-7132-foundation-599704ff77bc-1788574070566-independent-review.json
+      FOUNDATION_FINGERPRINT: 8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca
+    steps:
+      - name: Checkout approved main
+        uses: actions/checkout@v6
+
+      - name: Verify retained proof identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_digest="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts" --jq ".artifacts[] | select(.name == \"${SOURCE_ARTIFACT_NAME}\") | .digest")"
+          review_digest="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${REVIEW_RUN_ID}/artifacts" --jq ".artifacts[] | select(.name == \"${REVIEW_ARTIFACT_NAME}\") | .digest")"
+          test "${source_digest}" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "${review_digest}" = "${REVIEW_ARTIFACT_DIGEST}"
+
+      - name: Download retained Foundation and assurance proofs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .artifacts/content-factory-foundation-expert-review-source
+          mkdir -p .artifacts/content-factory-foundation-expert-review-assurance
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir .artifacts/content-factory-foundation-expert-review-source
+          gh run download "${REVIEW_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${REVIEW_ARTIFACT_NAME}" \
+            --dir .artifacts/content-factory-foundation-expert-review-assurance
+          test -f "${SOURCE_PROOF_PATH}"
+          test -f "${REVIEW_PROOF_PATH}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Assemble retained qualified-human review package
+        env:
+          CONTENT_FACTORY_FOUNDATION_EXPERT_REVIEW_PACKAGE_PROOF: '1'
+          CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH: ${{ env.SOURCE_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH: ${{ env.REVIEW_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA: ${{ env.SOURCE_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_FOUNDATION_REVIEWED_COMMIT: ${{ env.REVIEWED_COMMIT }}
+          CONTENT_FACTORY_PACKAGING_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_RUN_ID: ${{ env.SOURCE_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_NAME: ${{ env.SOURCE_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_DIGEST: ${{ env.SOURCE_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_RUN_ID: ${{ env.REVIEW_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_NAME: ${{ env.REVIEW_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_DIGEST: ${{ env.REVIEW_ARTIFACT_DIGEST }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npx vitest run src/content-factory/foundation-expert-review-package-proof.integration.test.ts --reporter=verbose
+
+      - name: Upload expert review package
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-foundation-expert-review-package-${{ github.sha }}
+          path: .artifacts/content-factory-foundation-expert-review-package/
+          if-no-files-found: error
+          retention-days: 30
