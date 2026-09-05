@@ -53,6 +53,9 @@ const exactMarkOrMinuteAllocation = /\b(\d+)\s*(?:-|–|—|\s)*(mark|marks|minu
 const allocationSequence = /\b\d+(?:\s*(?:\/|,|and)\s*\d+){2,}\b/i
 const aggregateFactContext = /\b(?:component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall|assembled[-\s]+set)\b/i
 const constituentAllocationContext = /\b(?:each|per|question|sub[-\s]?question|constituent|individual|data-response\s+set|case-study\s+question)\b/i
+const approximateFactContext = /\b(?:approximately|approx(?:imately)?\.?|about|around|roughly)\b/i
+const dataResponseQuestionContext = /\bdata[-\s]?response questions?\b/i
+const marksEachContext = /\bmarks?\s+each\b/i
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
@@ -71,6 +74,7 @@ function providerAuthoredText(family: QuestionFamily) {
 }
 
 type AssessmentComponent = FoundationAssessmentBlueprint['components'][number]
+type AssessmentRequirement = FoundationAssessmentBlueprint['assessmentRequirements'][number]
 
 function isAllowedAggregateComponentFact(
   text: string,
@@ -92,15 +96,43 @@ function isAllowedAggregateComponentFact(
     && !constituentAllocationContext.test(localContext)
 }
 
+function isAllowedSourceBackedApproximatePaper2Fact(
+  text: string,
+  match: RegExpMatchArray,
+  sourceRequirement: AssessmentRequirement | undefined,
+) {
+  if (!sourceRequirement || sourceRequirement.id !== 'paper2-structure' || match.index === undefined) return false
+
+  const amount = Number(match[1])
+  const unit = match[2]?.toLowerCase()
+  if (amount !== 33 || !unit?.startsWith('mark')) return false
+
+  const contextStart = Math.max(0, match.index - 96)
+  const contextEnd = Math.min(text.length, match.index + match[0].length + 40)
+  const localContext = text.slice(contextStart, contextEnd)
+  const sourceContext = sourceRequirement.summary
+
+  return approximateFactContext.test(localContext)
+    && dataResponseQuestionContext.test(localContext)
+    && marksEachContext.test(localContext)
+    && approximateFactContext.test(sourceContext)
+    && dataResponseQuestionContext.test(sourceContext)
+    && /\b33\s*(?:-|–|—|\s)*(?:mark|marks)\s+each\b/i.test(sourceContext)
+}
+
 function unsupportedAllocationText(
   family: QuestionFamily,
   component: AssessmentComponent | undefined,
+  sourceRequirement: AssessmentRequirement | undefined,
 ) {
   return providerAuthoredText(family).find((value) => {
     if (allocationSequence.test(value)) return true
 
     const exactAllocations = [...value.matchAll(exactMarkOrMinuteAllocation)]
-    return exactAllocations.some((match) => !isAllowedAggregateComponentFact(value, match, component))
+    return exactAllocations.some((match) => (
+      !isAllowedAggregateComponentFact(value, match, component)
+      && !isAllowedSourceBackedApproximatePaper2Fact(value, match, sourceRequirement)
+    ))
   })
 }
 
@@ -109,7 +141,14 @@ function policyBindingProblems(
   assessmentBlueprint: FoundationAssessmentBlueprint,
 ) {
   const policy = policyByFamilyId.get(family.id)
-  if (!policy) return { policy: undefined, component: undefined, problems: [] as string[] }
+  if (!policy) {
+    return {
+      policy: undefined,
+      component: undefined,
+      sourceRequirement: undefined,
+      problems: [] as string[],
+    }
+  }
 
   const problems: string[] = []
   const component = assessmentBlueprint.components.find((entry) => entry.componentId === policy.componentId)
@@ -126,7 +165,7 @@ function policyBindingProblems(
     problems.push(`Pre-calibration policy ${policy.questionFamilyId} is missing source assessment requirement ${policy.sourceAssessmentRequirementId}`)
   }
 
-  return { policy, component, problems }
+  return { policy, component, sourceRequirement, problems }
 }
 
 export function aqa7132PreCalibrationAssemblyProblems(
@@ -134,14 +173,19 @@ export function aqa7132PreCalibrationAssemblyProblems(
   assessmentBlueprint: FoundationAssessmentBlueprint,
 ): string[] {
   const family = questionFamilySchema.parse(value)
-  const { policy, component, problems } = policyBindingProblems(family, assessmentBlueprint)
+  const {
+    policy,
+    component,
+    sourceRequirement,
+    problems,
+  } = policyBindingProblems(family, assessmentBlueprint)
   if (!policy) return []
 
   if (family.calibrationStatus !== 'not_calibrated') {
     problems.push(`Question Family ${family.id} may not claim calibration before qualified Foundation calibration`)
   }
 
-  const unsupported = unsupportedAllocationText(family, component)
+  const unsupported = unsupportedAllocationText(family, component, sourceRequirement)
   if (unsupported) {
     problems.push(`Question Family ${family.id} contains unsupported exact constituent mark/timing allocation: ${unsupported}`)
   }
@@ -164,7 +208,12 @@ export function normaliseAqa7132PreCalibrationQuestionFamily(
   assessmentBlueprint: FoundationAssessmentBlueprint,
 ): QuestionFamily {
   const family = questionFamilySchema.parse(value)
-  const { policy, component, problems } = policyBindingProblems(family, assessmentBlueprint)
+  const {
+    policy,
+    component,
+    sourceRequirement,
+    problems,
+  } = policyBindingProblems(family, assessmentBlueprint)
   if (!policy) return family
   if (problems.length > 0) throw new Error(problems.join('; '))
   if (!component?.markTotal) throw new Error(`Pre-calibration policy ${policy.questionFamilyId} requires a verified component mark total`)
@@ -173,7 +222,7 @@ export function normaliseAqa7132PreCalibrationQuestionFamily(
     throw new Error(`Question Family ${family.id} may not claim calibration during Foundation compilation/remediation`)
   }
 
-  const unsupported = unsupportedAllocationText(family, component)
+  const unsupported = unsupportedAllocationText(family, component, sourceRequirement)
   if (unsupported) {
     throw new Error(`Question Family ${family.id} contains unsupported exact constituent mark/timing allocation outside compiler-owned response shape: ${unsupported}`)
   }
