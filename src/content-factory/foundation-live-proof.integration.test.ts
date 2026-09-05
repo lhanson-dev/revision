@@ -214,7 +214,7 @@ describe('Foundation live real-course proof', () => {
       `- Learner-facing assets generated: **${learnerAssetCount}**`,
       `- Foundation assurance status: \`${result.candidate.deterministicAssurance.status}\` / independent review \`${result.candidate.independentReview.status}\``,
       '',
-      'This proves the live Foundation compilation boundary only. Compiler completeness is against the exact governed seed and new atomic coverage/quantitative/pre-calibration assembly contracts; it is not a claim of qualified-human curriculum completeness or Foundation approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
+      'This proves the live Foundation compilation boundary only. Compiler completeness includes the exact source-led curriculum and exam reconciliation enforced for AQA 7132 / 2027, the governed semantic seed and the quantitative/pre-calibration assembly contracts. It is not qualified-human approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
     ].join('\n'))
 
     expect(result.job.state).toBe('compiling')
