@@ -14,6 +14,7 @@ export const foundationSemanticCoverageItemSchema = z.object({
 export const foundationCoverageObligationSchema = z.object({
   obligationId: identifierSchema,
   officialReference: nonEmptyStringSchema,
+  curriculumPath: z.array(nonEmptyStringSchema).min(1),
   summary: nonEmptyStringSchema,
   semanticItemIds: z.array(identifierSchema).min(1),
   sourceRefs: z.array(identifierSchema).min(1),
@@ -35,13 +36,13 @@ export function canonicalKnowledgeNodeId(item: Pick<FoundationSemanticCoverageIt
 }
 
 /**
- * Proves Foundation curriculum completeness against an explicit source-led obligation ledger.
+ * Proves Foundation Course Truth completeness against the applicable leaf requirements
+ * in a source-led curriculum hierarchy.
  *
- * The ledger defines what must be covered. The semantic seed defines how Revision expresses
- * those obligations for generation. No fixed topic, node or asset count is part of this gate.
- * Completeness means every applicable obligation maps to at least one governed semantic item,
- * every mapping resolves, and no governed semantic item silently sits outside the ledger unless
- * it is explicitly declared supplemental.
+ * The curriculum hierarchy defines what must be covered. Revision's semantic seed defines
+ * how those requirements are represented for Course Truth generation. No fixed topic or node
+ * count is part of this gate: completeness means every applicable curriculum leaf maps to
+ * governed semantic content and every declared mapping resolves.
  */
 export function assertRequirementLedCoverage(input: {
   obligations: FoundationCoverageObligation[]
@@ -65,7 +66,7 @@ export function assertRequirementLedCoverage(input: {
     for (const semanticItemId of obligation.semanticItemIds) {
       const semanticItem = semanticById.get(semanticItemId)
       if (!semanticItem) {
-        throw new Error(`unmapped_curriculum_or_exam_obligation:${obligation.obligationId}:${semanticItemId}`)
+        throw new Error(`unmapped_curriculum_requirement:${obligation.obligationId}:${semanticItemId}`)
       }
       mappedSemanticIds.add(semanticItemId)
       mappedCanonicalNodeIds.add(canonicalKnowledgeNodeId(semanticItem))
@@ -81,7 +82,7 @@ export function assertRequirementLedCoverage(input: {
     .map((item) => item.id)
     .filter((id) => !mappedSemanticIds.has(id) && !supplemental.has(id))
   if (ungovernedSemanticItems.length > 0) {
-    throw new Error(`semantic_items_without_coverage_obligation:${ungovernedSemanticItems.join(',')}`)
+    throw new Error(`semantic_items_without_curriculum_requirement:${ungovernedSemanticItems.join(',')}`)
   }
 
   return {
