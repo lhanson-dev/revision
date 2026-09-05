@@ -1,6 +1,6 @@
 # Founder Delivery Notifications
 
-**Status:** implementation candidate  
+**Status:** active; bootstrap notification-permission repair in progress  
 **Date:** 2026-09-05  
 **Authority:** `50-engineering-standards/Release & Deployment Standard.md`, `70-ai-operating-system/AI Agent Constitution.md`, `80-company-workflows/Governed Implementation Workflow.md`  
 **Related control:** `docs/technical/Founder Approval Gate.md`
@@ -96,11 +96,21 @@ Permissions are limited to:
 
 - Actions read;
 - repository contents read;
-- pull-request read;
-- commit-status read; and
-- Issues write solely so the GitHub Actions identity can post the durable PR notification.
+- commit-status read;
+- Issues write for issue/PR conversation access; and
+- pull-request write solely so the GitHub Actions identity can create the durable PR conversation notification.
 
 The notification comment cannot satisfy `revision/founder-approval`. The approval gate still requires the exact machine-readable marker created for the Founder after explicit approval, and repository merge-boundary enforcement remains unchanged.
+
+## Bootstrap evidence and permission repair
+
+PR #314 introduced the notifier and merged as `f61011bb76e73676cc731c9cb954b38a5a78dd07`. Its governed production path completed successfully through release lineage, backend readiness, build, Pages deployment, production smoke and durable path-to-live publication.
+
+The first real `Founder Delivery Notifications` run then correctly identified PR #314 and attempted to post the production-ready comment, but GitHub rejected the PR comment request with HTTP 403 `Resource not accessible by integration`.
+
+The workflow token showed `Issues: write` but only `PullRequests: read`. The repair changes only that permission to `pull-requests: write`, which is required for the PR conversation write surface. No product, approval, merge or notification-decision logic changes.
+
+The repair is not considered complete until a real trusted workflow-run invocation successfully posts a durable notification on a PR.
 
 ## ChatGPT boundary
 
@@ -134,6 +144,8 @@ Regression tests cover:
 - exact production success producing a ready-to-continue notification;
 - production failure producing attention; and
 - duplicate marker suppression.
+
+The bootstrap repair additionally requires a real post-merge workflow smoke because repository token permissions cannot be proven by unit tests alone.
 
 ## Documentation impact
 
