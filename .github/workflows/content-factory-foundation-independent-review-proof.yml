@@ -27,12 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_RUN_ID: '33938173128'
-      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-599704ff77bc2f1e782f4804b142614a043700c7
-      SOURCE_ARTIFACT_DIGEST: sha256:ba590273474bae9325bcc7b1a3add4e73bd5498c60d75cf1c603ed71ce56a16e
-      SOURCE_HEAD_SHA: 599704ff77bc2f1e782f4804b142614a043700c7
-      FOUNDATION_FINGERPRINT: 8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca
-      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-independent-review-source/aqa-a-level-business-7132-foundation-599704ff77bc-1788574070566.json
+      SOURCE_RUN_ID: '34017938933'
+      SOURCE_ARTIFACT_ID: '9984534245'
+      SOURCE_ARTIFACT_NAME: content-factory-foundation-live-proof-5734f266a551069b27ea9a158a37c7ef93db9bb6
+      SOURCE_ARTIFACT_DIGEST: sha256:0b11868b48bfdbdeb5fd8db5fbca4378e62e227f37949347c97175e87aa2622a
+      SOURCE_HEAD_SHA: 5734f266a551069b27ea9a158a37c7ef93db9bb6
+      FOUNDATION_FINGERPRINT: 843eb478fb43585315b2ea38a69e1499abae10b1227e9bade54dc6117d272976
+      SOURCE_PROOF_PATH: .artifacts/content-factory-foundation-independent-review-source/aqa-a-level-business-7132-foundation-5734f266a551-1788677993717.json
     steps:
       - name: Checkout approved main
         uses: actions/checkout@v6
@@ -41,8 +42,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          actual_digest="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts" --jq ".artifacts[] | select(.name == \"${SOURCE_ARTIFACT_NAME}\") | .digest")"
+          artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}")"
+          actual_name="$(jq -r '.name' <<<"${artifact_json}")"
+          actual_digest="$(jq -r '.digest' <<<"${artifact_json}")"
+          actual_run_id="$(jq -r '.workflow_run.id' <<<"${artifact_json}")"
+          actual_head_sha="$(jq -r '.workflow_run.head_sha' <<<"${artifact_json}")"
+          test "${actual_name}" = "${SOURCE_ARTIFACT_NAME}"
           test "${actual_digest}" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "${actual_run_id}" = "${SOURCE_RUN_ID}"
+          test "${actual_head_sha}" = "${SOURCE_HEAD_SHA}"
 
       - name: Download retained Foundation live proof
         env:
