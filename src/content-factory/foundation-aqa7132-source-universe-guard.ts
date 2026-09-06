@@ -1,8 +1,11 @@
 import {
+  boardAlignmentSchema,
+  courseKnowledgeModelSchema,
+} from './schema'
+import {
   foundationDiscoveredSourceSchema,
   foundationStructuredEvidenceSchema,
   type FoundationCompilationWorkers,
-  type FoundationCurriculumRequirementInput,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import { assertFoundationSourceUniverse } from './foundation-source-universe'
@@ -17,26 +20,131 @@ export const AQA_A_LEVEL_BUSINESS_7132_SOURCE_UNIVERSE_URLS = {
 } as const
 
 const formulaSourceId = 'aqa-7131-7132-formulae-key-data'
+const subjectContentSourceId = 'aqa-7132-subject-content'
 
-const quantitativeAlignmentByRequirement: Record<string, string[]> = {
-  'aqa-3-1-2': [
-    'Calculate market capitalisation as number of issued shares multiplied by current share price.',
-  ],
-  'aqa-3-4-1': [
-    'Calculate added value as sales revenue minus the costs of bought-in goods and services.',
-  ],
-  'aqa-3-5-1': [
-    'Calculate return on investment (%) as profit from the investment divided by cost of the investment, multiplied by 100.',
-  ],
-  'aqa-3-5-2': [
-    'Calculate gross profit as revenue minus cost of sales; operating profit as gross profit minus operating expenses; and profit for the year as operating profit plus profit from other activities minus net finance costs and tax.',
-    'Calculate gross profit margin (%) as gross profit divided by revenue multiplied by 100; operating profit margin (%) as operating profit divided by revenue multiplied by 100; and profit for year margin (%) as profit for the year divided by revenue multiplied by 100.',
-    'Use the AQA recommended variance convention: variance equals budgeted figure minus actual figure, then interpret favourable or adverse meaning from the business context.',
-  ],
-  'aqa-3-6-2': [
-    'Use the AQA recommended labour turnover (%) presentation: number of staff leaving divided by number of staff employed by the business, multiplied by 100. Alternative formulae may be valid when used appropriately and supported by the data supplied.',
-  ],
+type AqaAlignmentRule = {
+  fact: {
+    id: string
+    sourceRef: string
+    category: 'quantitative_requirement' | 'other_alignment'
+    value: string
+    verificationStatus: 'verified'
+  }
+  requirementId: string
+  formulas?: string[]
+  summarySuffix?: string
+  misconceptions?: string[]
+  applicationContexts?: string[]
 }
+
+/**
+ * Qualification-specific facts from REFERENCE_ONLY AQA material are retained as
+ * Board Alignment facts. They never become curriculum sourceRefs or protected source
+ * text supplied to a generative worker. The deterministic Course Truth overlay below
+ * applies only these deliberately approved factual conventions and binds them back to
+ * their Board Alignment fact IDs.
+ */
+const aqaAlignmentRules: AqaAlignmentRule[] = [
+  {
+    fact: {
+      id: 'aqa-quant-market-capitalisation',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'Market capitalisation uses issued shares multiplied by current share price.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-1-2',
+    formulas: ['Market capitalisation = number of issued shares × current share price'],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-added-value',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'Added value uses sales revenue less the cost of bought-in goods and services.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-4-1',
+    formulas: ['Added value = sales revenue − cost of bought-in goods and services'],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-return-on-investment',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'Return on investment percentage uses profit from the investment divided by its cost, multiplied by 100.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-5-1',
+    formulas: ['Return on investment (%) = profit from investment ÷ cost of investment × 100'],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-profit-measures',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'Qualification calculations distinguish gross profit, operating profit and profit for the year using their constituent revenue, cost, other-activity, finance-cost and tax figures.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-5-2',
+    formulas: [
+      'Gross profit = revenue − cost of sales',
+      'Operating profit = gross profit − operating expenses',
+      'Profit for the year = operating profit + profit from other activities − net finance costs − tax',
+    ],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-profit-margins',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'Gross, operating and profit-for-year margins each express the relevant profit measure as a percentage of revenue.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-5-2',
+    formulas: [
+      'Gross profit margin (%) = gross profit ÷ revenue × 100',
+      'Operating profit margin (%) = operating profit ÷ revenue × 100',
+      'Profit for the year margin (%) = profit for the year ÷ revenue × 100',
+    ],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-variance-convention',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'The current qualification formula guide presents variance as budgeted figure minus actual figure; favourable or adverse meaning still depends on the business context.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-5-2',
+    formulas: ['Variance = budgeted figure − actual figure'],
+    misconceptions: ['Do not infer favourable or adverse performance from the sign of a variance without considering whether the figure is a cost, revenue or other measure.'],
+  },
+  {
+    fact: {
+      id: 'aqa-quant-labour-turnover',
+      sourceRef: formulaSourceId,
+      category: 'quantitative_requirement',
+      value: 'The current qualification formula guide presents labour turnover as staff leaving divided by staff employed, multiplied by 100; an alternative formula may be valid where the supplied data and context support it.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-6-2',
+    formulas: ['Labour turnover (%) = number of staff leaving ÷ number of staff employed × 100'],
+    applicationContexts: ['Use the denominator supported by the supplied data and explain any justified alternative convention rather than hard-coding average employment in every context.'],
+  },
+  {
+    fact: {
+      id: 'aqa-method-critical-path',
+      sourceRef: subjectContentSourceId,
+      category: 'other_alignment',
+      value: 'Critical-path analysis identifies the longest-duration start-to-finish route through a network; that route determines the shortest possible project completion time.',
+      verificationStatus: 'verified',
+    },
+    requirementId: 'aqa-3-10-3',
+    summarySuffix: 'For qualification alignment, identify the critical path as the longest-duration start-to-finish route through the network; it determines the shortest possible project completion time.',
+    misconceptions: ['Zero total float is a property associated with critical activities; it is not a substitute for identifying the longest-duration start-to-finish route.'],
+  },
+]
 
 function success<T>(execution: Extract<FoundationWorkerExecution<T>, { status: 'success' }>, output: T): FoundationWorkerExecution<T> {
   return { ...execution, output }
@@ -64,21 +172,8 @@ async function assertPdf(fetchImpl: typeof fetch, url: string) {
   if (bytes.byteLength === 0) throw new Error(`empty_pdf:${url}`)
 }
 
-function enrichRequirements(requirements: FoundationCurriculumRequirementInput[]) {
-  return requirements.map((requirement) => {
-    const quantitativeFacts = quantitativeAlignmentByRequirement[requirement.requirementId] ?? []
-    const criticalPathFact = requirement.requirementId === 'aqa-3-10-3'
-      ? ['Identify the critical path as the longest-duration start-to-finish route through the network; it determines the shortest possible project completion time, with zero total float as a related property of critical activities.']
-      : []
-    if (quantitativeFacts.length === 0 && criticalPathFact.length === 0) return requirement
-    return {
-      ...requirement,
-      skillsOrKnowledge: [...requirement.skillsOrKnowledge, ...quantitativeFacts, ...criticalPathFact],
-      sourceRefs: quantitativeFacts.length > 0
-        ? [...new Set([...requirement.sourceRefs, formulaSourceId])]
-        : requirement.sourceRefs,
-    }
-  })
+function alignmentRequirementIds() {
+  return new Set(aqaAlignmentRules.map((rule) => rule.fact.id))
 }
 
 export function withAqa7132SourceUniverseGuard(
@@ -126,12 +221,57 @@ export function withAqa7132SourceUniverseGuard(
       if (execution.status !== 'success') return execution
       try {
         const evidence = foundationStructuredEvidenceSchema.parse(execution.output)
+        const existingFactIds = new Set(evidence.boardAlignmentFacts.map((fact) => fact.id))
         return success(execution, foundationStructuredEvidenceSchema.parse({
           ...evidence,
-          curriculumRequirements: enrichRequirements(evidence.curriculumRequirements),
+          boardAlignmentFacts: [
+            ...evidence.boardAlignmentFacts,
+            ...aqaAlignmentRules
+              .filter((rule) => !existingFactIds.has(rule.fact.id))
+              .map((rule) => rule.fact),
+          ],
         }))
       } catch (error) {
         return failure('structured-evidence', error)
+      }
+    },
+    async compileBoardAlignment(input) {
+      const execution = await workers.compileBoardAlignment(input)
+      if (execution.status !== 'success') return execution
+      try {
+        const alignment = boardAlignmentSchema.parse(execution.output)
+        const inputFacts = new Map(input.facts.map((fact) => [fact.id, fact] as const))
+        for (const rule of aqaAlignmentRules) {
+          const fact = inputFacts.get(rule.fact.id)
+          if (!fact || fact.verificationStatus !== 'verified') {
+            throw new Error(`missing_verified_alignment_fact:${rule.fact.id}`)
+          }
+          if (fact.sourceRef !== rule.fact.sourceRef) {
+            throw new Error(`alignment_fact_source_mismatch:${rule.fact.id}:${fact.sourceRef}`)
+          }
+        }
+
+        const controlledIds = alignmentRequirementIds()
+        const retainedRequirements = alignment.assessmentRequirements.filter((requirement) => !controlledIds.has(requirement.id))
+        const componentScope = input.identity.components.map((component) => component.id)
+        return success(execution, boardAlignmentSchema.parse({
+          ...alignment,
+          assessmentRequirements: [
+            ...retainedRequirements,
+            ...aqaAlignmentRules.map((rule) => ({
+              id: rule.fact.id,
+              summary: rule.fact.value,
+              componentScope,
+              sourceRefs: [rule.fact.sourceRef],
+            })),
+          ],
+          sourceRefs: [...new Set([
+            ...alignment.sourceRefs,
+            ...aqaAlignmentRules.map((rule) => rule.fact.sourceRef),
+          ])],
+        }))
+      } catch (error) {
+        return failure('board-alignment', error)
       }
     },
     async compileCoverage(input) {
@@ -150,6 +290,37 @@ export function withAqa7132SourceUniverseGuard(
         return failure('coverage', error)
       }
       return workers.compileCoverage(input)
+    },
+    async compileCourseTruth(input) {
+      const execution = await workers.compileCourseTruth(input)
+      if (execution.status !== 'success') return execution
+      try {
+        const alignmentIds = new Set(input.boardAlignment.assessmentRequirements.map((requirement) => requirement.id))
+        for (const rule of aqaAlignmentRules) {
+          if (!alignmentIds.has(rule.fact.id)) throw new Error(`course_truth_missing_alignment_fact:${rule.fact.id}`)
+        }
+
+        const model = courseKnowledgeModelSchema.parse(execution.output)
+        const nodeIdsByRequirement = new Map(
+          input.coverageModel.requirements.map((requirement) => [requirement.requirementId, new Set(requirement.knowledgeNodeIds)] as const),
+        )
+        const nodes = model.nodes.map((node) => {
+          const rules = aqaAlignmentRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
+          if (rules.length === 0) return node
+          const suffixes = rules.map((rule) => rule.summarySuffix).filter((value): value is string => Boolean(value))
+          return {
+            ...node,
+            summary: suffixes.length > 0 ? `${node.summary} ${suffixes.join(' ')}` : node.summary,
+            formulas: [...new Set([...node.formulas, ...rules.flatMap((rule) => rule.formulas ?? [])])],
+            misconceptions: [...new Set([...node.misconceptions, ...rules.flatMap((rule) => rule.misconceptions ?? [])])],
+            applicationContexts: [...new Set([...node.applicationContexts, ...rules.flatMap((rule) => rule.applicationContexts ?? [])])],
+            boardAlignmentRefs: [...new Set([...node.boardAlignmentRefs, ...rules.map((rule) => rule.fact.id)])],
+          }
+        })
+        return success(execution, courseKnowledgeModelSchema.parse({ ...model, nodes }))
+      } catch (error) {
+        return failure('course-truth-alignment', error)
+      }
     },
   }
 }
