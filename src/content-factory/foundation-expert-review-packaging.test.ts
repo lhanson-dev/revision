@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { foundationExpertReviewPackageSchema } from './foundation-expert-review'
+import { currentFoundationExpertReviewPackageSchema } from './foundation-expert-review'
 import {
   buildFoundationExpertReviewBundle,
   buildFoundationExpertReviewSubmissionTemplate,
@@ -10,8 +10,8 @@ const fingerprint = 'a'.repeat(64)
 const reviewedCommit = 'b'.repeat(40)
 
 function reviewPackage() {
-  return foundationExpertReviewPackageSchema.parse({
-    schemaVersion: 1,
+  return currentFoundationExpertReviewPackageSchema.parse({
+    schemaVersion: 2,
     artifactType: 'foundation_expert_review_package',
     jobId: 'aqa-a-level-business-7132',
     candidateId: 'aqa-a-level-business-7132-candidate-1',
@@ -37,12 +37,39 @@ function reviewPackage() {
       independentReview: { status: 'pass', foundationFingerprint: fingerprint, evidenceRefs: ['review.json'] },
       unresolvedBlockers: [],
       knownLimitations: [],
-      provenance: { createdAt: '2026-09-05T09:00:00Z', producerVersion: 'test', sourceSetFingerprint: 'source-set' },
+      provenance: {
+        createdAt: '2026-09-05T09:00:00Z',
+        producerVersion: 'test',
+        sourceSetFingerprint: 'source-set',
+        generationContextIds: ['generation-context'],
+        assuranceContextIds: ['independent-review-context'],
+      },
     },
     requiredReviewScopes: ['subject', 'assessment'],
     artifacts: [{ artifactKind: 'source_licence_register', artifactRef: 'foundation/sources.json', fingerprint: 'sources-v1' }],
     deterministicAssuranceEvidenceRefs: ['deterministic.json'],
     independentReviewEvidenceRefs: ['review.json'],
+    sourceUniverse: {
+      profileId: 'aqa-7132-source-universe',
+      requiredSourceIds: ['aqa-7132-specification', 'aqa-7131-7132-formulae-key-data'],
+    },
+    externalSourceChallenge: {
+      schemaVersion: 1,
+      artifactType: 'foundation_external_source_challenge_report',
+      challengeId: 'external-challenge-1',
+      jobId: 'aqa-a-level-business-7132',
+      candidateId: 'aqa-a-level-business-7132-candidate-1',
+      reviewedCommit,
+      foundationFingerprint: fingerprint,
+      sourceUniverseProfileId: 'aqa-7132-source-universe',
+      challengedSourceIds: ['aqa-7132-specification', 'aqa-7131-7132-formulae-key-data'],
+      reviewerContextId: 'external-source-challenge-context',
+      excludedContextIds: ['generation-context', 'independent-review-context'],
+      decision: 'pass',
+      findings: [],
+      evidenceRefs: ['external-challenge.json'],
+      createdAt: '2026-09-05T09:00:00Z',
+    },
     knownLimitations: [],
     createdAt: '2026-09-05T09:00:00Z',
   })
@@ -90,7 +117,7 @@ function resolvedArtifacts() {
 }
 
 describe('Foundation expert review packaging', () => {
-  it('binds resolved artifact values and coverage reconciliation to the exact package identity', () => {
+  it('binds resolved artifact values, coverage reconciliation and external challenge to the exact package identity', () => {
     const bundle = buildFoundationExpertReviewBundle({
       packagingCommit: reviewedCommit,
       reviewPackage: reviewPackage(),
@@ -101,6 +128,7 @@ describe('Foundation expert review packaging', () => {
     expect(bundle.schemaVersion).toBe(2)
     expect(bundle.resolvedArtifacts).toHaveLength(1)
     expect(bundle.reviewPackage.foundationFingerprint).toBe(fingerprint)
+    expect(bundle.reviewPackage.externalSourceChallenge.decision).toBe('pass')
     expect(bundle.coverageReconciliation.status).toBe('complete')
   })
 
@@ -149,6 +177,7 @@ describe('Foundation expert review packaging', () => {
     const instructions = renderFoundationExpertReviewInstructions(bundle)
     expect(instructions).toContain('AI review is not a substitute')
     expect(instructions).toContain('coverage-reconciliation.json')
+    expect(instructions).toContain('External-source challenge')
     expect(instructions).toContain('do not assume a pass')
     expect(instructions).toContain(fingerprint)
   })
