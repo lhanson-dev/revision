@@ -1,11 +1,31 @@
 import { describe, expect, it } from 'vitest'
 import { assertExamRequirementCoverage } from './requirement-led-coverage'
 import { foundationAssessmentBlueprintSchema } from './foundation-compilation'
-import { questionFamilySchema } from './schema'
+import {
+  serializeFoundationAssessmentObjectiveCoveragePlan,
+  type FoundationAssessmentObjectiveCoveragePlan,
+} from './foundation-assessment-objective-coverage'
 import {
   AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
   buildAqaAlevelBusiness7132ExamEvidenceItems,
 } from './source-seeds/aqa-a-level-business-7132-2027-exam-coverage'
+
+const aoPlan: FoundationAssessmentObjectiveCoveragePlan = {
+  schemaVersion: 1,
+  sourceAssessmentRequirementId: 'aqa-exam-ao-weighting',
+  scope: 'qualification_total',
+  totalAssessmentMarks: 300,
+  objectives: [
+    { assessmentObjectiveId: 'ao1', minWeightingPercent: 22, maxWeightingPercent: 25 },
+    { assessmentObjectiveId: 'ao2', minWeightingPercent: 24, maxWeightingPercent: 27 },
+    { assessmentObjectiveId: 'ao3', minWeightingPercent: 25, maxWeightingPercent: 28 },
+    { assessmentObjectiveId: 'ao4', minWeightingPercent: 23, maxWeightingPercent: 26 },
+  ],
+  accountingBasis: 'primary_assessment_objective_marks',
+  multiObjectiveTreatment: 'each_mark_allocated_once_to_a_primary_objective',
+  generationValidation: 'sum_assessment_objective_marks_within_ranges',
+  questionFamilyCoverageRequired: true,
+}
 
 function blueprint() {
   return foundationAssessmentBlueprintSchema.parse({
@@ -15,21 +35,22 @@ function blueprint() {
     courseKnowledgeModelFingerprint: 'course',
     assessmentObjectives: [{ id: 'ao1' }, { id: 'ao2' }, { id: 'ao3' }, { id: 'ao4' }],
     assessmentRequirements: [
-      { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
+      { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper1', 'paper2', 'paper3'] },
+      { id: 'aqa-exam-ao-weighting', summary: 'AO1 22-25%, AO2 24-27%, AO3 25-28%, AO4 23-26%.', componentScope: ['paper1', 'paper2', 'paper3'] },
     ],
     components: [
       {
-        componentId: 'paper-1',
-        questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-nine-mark-analysis', 'paper1-essay'],
+        componentId: 'paper1',
+        questionFamilyIds: ['paper1-mcq', 'paper1-short-response', 'paper1-extended-response'],
         markTotal: 100,
         timingMinutes: 120,
         constraints: [
           'Paper 1 is a 2 hours, 100 marks component.',
-          'Section A has 15 one-mark MCQs; Section B has 35 marks of short-answer questions; Sections C and D each require a choice of one 25-mark essay from two.',
+          'Paper 1 contains 15 one-mark MCQs, 35 marks of short-answer questions and two 25-mark essay questions.',
         ],
       },
       {
-        componentId: 'paper-2',
+        componentId: 'paper2',
         questionFamilyIds: ['paper2-data-response'],
         markTotal: 100,
         timingMinutes: 120,
@@ -39,7 +60,7 @@ function blueprint() {
         ],
       },
       {
-        componentId: 'paper-3',
+        componentId: 'paper3',
         questionFamilyIds: ['paper3-case-study'],
         markTotal: 100,
         timingMinutes: 120,
@@ -53,6 +74,7 @@ function blueprint() {
       'All content may be assessed across Paper 1, Paper 2 and Paper 3.',
       'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
       'At least 10% of the overall A-level marks assess quantitative skills.',
+      serializeFoundationAssessmentObjectiveCoveragePlan(aoPlan),
     ],
     commandDemands: [],
     quantitativeRequirements: [],
@@ -60,43 +82,35 @@ function blueprint() {
   })
 }
 
-function nineMarkFamily() {
-  return questionFamilySchema.parse({
-    schemaVersion: 1,
-    id: 'paper1-nine-mark-analysis',
-    title: 'Paper 1 9-mark analyse response',
-    assessmentObjectiveIds: ['ao1', 'ao2', 'ao3'],
-    skillProfile: ['9-mark analyse response'],
-    componentScope: ['paper-1'],
-    markRange: { min: 9, max: 9 },
-    responseShape: 'One 9-mark analyse response requiring developed contextual analysis.',
-    contextRequirements: [],
-    applicationRequirements: ['apply relevant business knowledge'],
-    analysisRequirements: ['analyse the stated business issue'],
-    evaluationRequirements: [],
-    commonFailureModes: ['undeveloped assertion'],
-    markingPackTemplateVersion: 'foundation-v1',
-    calibrationStatus: 'not_calibrated',
-  })
-}
-
 describe('AQA 7132 / 2027 source-led Exam Truth coverage', () => {
-  it('covers the current governed exam obligation set', () => {
+  it('covers the current governed qualification exam obligation set without historical constituent mark patterns', () => {
     const examTruth = blueprint()
+    expect(AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS.map((item) => item.obligationId))
+      .not.toContain('aqa-exam-paper1-nine-mark-analysis')
     expect(() => assertExamRequirementCoverage({
       obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
-      evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(examTruth, [nineMarkFamily()]),
+      evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(examTruth, []),
     })).not.toThrow()
+  })
+
+  it('fails when the machine-readable AO accounting contract is absent', () => {
+    const examTruth = blueprint()
+    examTruth.evidenceExpectations = examTruth.evidenceExpectations.filter((value) => !value.startsWith('revision:ao-coverage-plan:v1:'))
+
+    expect(() => assertExamRequirementCoverage({
+      obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
+      evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(examTruth, []),
+    })).toThrow('missing_required_exam_scope:aqa-exam-ao-weighting:revision:ao-coverage-plan:v1:')
   })
 
   it('fails when Paper 2 loses its three-or-four-part structure', () => {
     const examTruth = blueprint()
-    const paper2 = examTruth.components.find((component) => component.componentId === 'paper-2')!
+    const paper2 = examTruth.components.find((component) => component.componentId === 'paper2')!
     paper2.constraints = paper2.constraints.map((value) => value.replace(' and each is made up of three or four parts.', '.'))
 
     expect(() => assertExamRequirementCoverage({
       obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
-      evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(examTruth, [nineMarkFamily()]),
+      evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(examTruth, []),
     })).toThrow('missing_required_exam_scope:aqa-exam-paper2-structure:three or four parts')
   })
 })
