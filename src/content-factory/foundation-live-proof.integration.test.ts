@@ -12,6 +12,7 @@ import {
   createAqaAlevelBusiness7132FoundationLiveWorkers,
   createOpenAIFoundationLiveProvider,
 } from './foundation-live-adapter'
+import { withAqa7132SourceUniverseGuard } from './foundation-aqa7132-source-universe-guard'
 import { withAqa7132PreCalibrationAssemblyGuard } from './foundation-precalibration-assembly'
 import { loadGovernedFoundationSourceRightsRules } from './foundation-source-rights-registry'
 import {
@@ -130,7 +131,9 @@ describe('Foundation live real-course proof', () => {
     const requested = createFoundationJob({ jobId, createdAt: now })
     const compiling = advanceFoundationJob(requested, 'compiling', now)
     const workers = withAqa7132PreCalibrationAssemblyGuard(
-      createAqaAlevelBusiness7132FoundationLiveWorkers({ provider }),
+      withAqa7132SourceUniverseGuard(
+        createAqaAlevelBusiness7132FoundationLiveWorkers({ provider }),
+      ),
     )
 
     const result = await compileFoundationJob({
@@ -142,7 +145,7 @@ describe('Foundation live real-course proof', () => {
       artifactStore: store,
       sourceRightsRules: rights.rules,
       now,
-      producerVersion: 'foundation-live-adapter-v3',
+      producerVersion: 'foundation-live-adapter-v4-source-universe',
       implementationHeadSha: headSha,
     })
 
@@ -153,6 +156,7 @@ describe('Foundation live real-course proof', () => {
     const providerRuns = result.workerRuns.filter((run) => run.provenance.provider === 'openai')
     const courseTruthArtifact = store.artifacts.find((artifact) => artifact.kind === 'course_knowledge_model')
     const coverageArtifact = store.artifacts.find((artifact) => artifact.kind === 'foundation_coverage_model')
+    const sourceRegisterArtifact = store.artifacts.find((artifact) => artifact.kind === 'source_licence_register')
     const assessmentBlueprintArtifact = store.artifacts.find((artifact) => artifact.kind === 'assessment_blueprint')
     const courseTruthNodeCount = (courseTruthArtifact?.value as { nodes?: unknown[] } | undefined)?.nodes?.length ?? 0
     const canonicalCoverageRequirements = (coverageArtifact?.value as { requirements?: Array<{ requirementId?: string; knowledgeNodeIds?: unknown[] }> } | undefined)
@@ -166,6 +170,9 @@ describe('Foundation live real-course proof', () => {
     const sourceLedCurriculumRequirementIds = AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_REQUIREMENTS
       .map((requirement) => requirement.requirementId)
       .sort()
+    const sourceIds = (sourceRegisterArtifact?.value as { sources?: Array<{ id?: string }> } | undefined)?.sources
+      ?.map((source) => source.id)
+      .filter((id): id is string => Boolean(id)) ?? []
     const quantitativeCoveragePlan = (assessmentBlueprintArtifact?.value as FoundationAssessmentBlueprint | undefined)?.quantitativeCoveragePlan ?? null
     const evidence = {
       schemaVersion: 1,
@@ -198,6 +205,7 @@ describe('Foundation live real-course proof', () => {
       sourceLedCurriculumRequirementCount: sourceLedCurriculumRequirementIds.length,
       sourceLedCurriculumRequirementIds,
       canonicalCoverageRequirementIds,
+      sourceIds,
       quantitativeCoveragePlan,
       learnerAssetCount,
       workerRuns: result.workerRuns,
@@ -211,7 +219,7 @@ describe('Foundation live real-course proof', () => {
     await mkdir(evidenceDirectory, { recursive: true })
     await writeFile(`${evidenceDirectory}/${jobId}.json`, JSON.stringify(evidence, null, 2), 'utf-8')
     await addIssueComment(repo, token, 289, [
-      'Slice 2B live Foundation proof completed.',
+      'Foundation live proof completed.',
       '',
       `- Job: \`${jobId}\``,
       `- Course: **AQA A-level Business 7132 — 2027 cohort**`,
@@ -222,6 +230,8 @@ describe('Foundation live real-course proof', () => {
       `- Source-led curriculum requirements: **${sourceLedCurriculumRequirementIds.length}**`,
       `- Canonical Course Truth nodes: **${courseTruthNodeCount}**`,
       `- Canonical coverage nodes: **${canonicalCoverageNodeCount}**`,
+      `- Formulae/key-data source present: **${sourceIds.includes('aqa-7131-7132-formulae-key-data') ? 'yes' : 'no'}**`,
+      `- Specification-update source present: **${sourceIds.includes('aqa-7131-7132-specification-updates-2023') ? 'yes' : 'no'}**`,
       `- Quantitative aggregate minimum: **${quantitativeCoveragePlan?.minimumQuantitativeMarks ?? 'unavailable'} / ${quantitativeCoveragePlan?.totalAssessmentMarks ?? 'unavailable'} marks**`,
       `- Course Truth compiler-complete: **${result.candidate.courseTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
       `- Exam Truth compiler-complete: **${result.candidate.examTruthCompleteness === 'complete' ? 'yes' : 'no'}**`,
@@ -230,7 +240,7 @@ describe('Foundation live real-course proof', () => {
       `- Learner-facing assets generated: **${learnerAssetCount}**`,
       `- Foundation assurance status: \`${result.candidate.deterministicAssurance.status}\` / independent review \`${result.candidate.independentReview.status}\``,
       '',
-      'This proves the live Foundation compilation boundary only. Compiler completeness includes the exact source-led curriculum and exam reconciliation enforced for AQA 7132 / 2027, the governed semantic seed and the quantitative/pre-calibration assembly contracts. It is not qualified-human approval. No Learn, Practice, assessment items, mocks or Marking Packs were generated.',
+      'This proves the live Foundation compilation boundary only. The source-universe gate now independently requires the current AQA formulae/key-data and specification-update resources before source-led curriculum/exam coverage may claim completeness. It is not qualified-human approval.',
     ].join('\n'))
 
     expect(result.job.state).toBe('compiling')
@@ -241,6 +251,8 @@ describe('Foundation live real-course proof', () => {
     expect(providerRuns.map((run) => run.stage)).toEqual(['course_truth', 'exam_truth', 'question_families'])
     expect(canonicalCoverageRequirementIds).toEqual(sourceLedCurriculumRequirementIds)
     expect(courseTruthNodeCount).toBe(canonicalCoverageNodeCount)
+    expect(sourceIds).toContain('aqa-7131-7132-formulae-key-data')
+    expect(sourceIds).toContain('aqa-7131-7132-specification-updates-2023')
     expect(quantitativeCoveragePlan).toMatchObject({ minimumOverallPercent: 10, minimumQuantitativeMarks: 30, totalAssessmentMarks: 300 })
     expect(JSON.stringify(courseTruthArtifact?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
     expect(learnerAssetCount).toBe(0)
