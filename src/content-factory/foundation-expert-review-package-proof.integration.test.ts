@@ -58,6 +58,7 @@ const reviewProofSchema = z.object({
     candidateId: z.string().min(1),
     foundationFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   }),
+  finalCandidateId: z.string().min(1),
   finalFoundationFingerprint: z.string().regex(/^[0-9a-f]{64}$/),
   deterministicAssuranceStatus: z.literal('pass'),
   independentReviewStatus: z.literal('pass'),
@@ -116,7 +117,8 @@ describe('Foundation retained real-course expert review package proof', () => {
     const sourceProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')
     const reviewProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH')
     const expectedSourceHead = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA')
-    const expectedSourceFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_FINGERPRINT')
+    const expectedSourceFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_FINGERPRINT')
+    const expectedFoundationFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_FINGERPRINT')
     const expectedReviewedCommit = requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEWED_COMMIT')
     const packagingCommit = requiredEnv('CONTENT_FACTORY_PACKAGING_COMMIT')
     const repo = requiredEnv('GITHUB_REPOSITORY')
@@ -129,12 +131,13 @@ describe('Foundation retained real-course expert review package proof', () => {
     expect(sourceProof.contentHeadSha).toBe(expectedSourceHead)
     expect(sourceProof.foundationFingerprint).toBe(expectedSourceFingerprint)
     expect(reviewProof.sourceProof.foundationFingerprint).toBe(expectedSourceFingerprint)
-    expect(reviewProof.finalFoundationFingerprint).toBe(expectedSourceFingerprint)
+    expect(reviewProof.sourceProof.candidateId).toBe(sourceProof.candidateId)
+    expect(reviewProof.finalFoundationFingerprint).toBe(expectedFoundationFingerprint)
     expect(reviewProof.reviewedCommit).toBe(expectedReviewedCommit)
     expect(sourceProof.learnerAssetCount).toBe(0)
     expect(reviewProof.learnerAssetCount).toBe(0)
-    expect(reviewProof.finalCandidate.candidateId).toBe(sourceProof.candidateId)
-    expect(await computeFoundationFingerprint(reviewProof.finalCandidate)).toBe(expectedSourceFingerprint)
+    expect(reviewProof.finalCandidate.candidateId).toBe(reviewProof.finalCandidateId)
+    expect(await computeFoundationFingerprint(reviewProof.finalCandidate)).toBe(expectedFoundationFingerprint)
 
     const reviewPackage = await buildFoundationExpertReviewPackage({
       jobId: sourceProof.jobId,
@@ -179,7 +182,7 @@ describe('Foundation retained real-course expert review package proof', () => {
     const instructions = renderFoundationExpertReviewInstructions(bundle)
 
     expect(bundle.schemaVersion).toBe(2)
-    expect(bundle.reviewPackage.foundationFingerprint).toBe(expectedSourceFingerprint)
+    expect(bundle.reviewPackage.foundationFingerprint).toBe(expectedFoundationFingerprint)
     expect(bundle.resolvedArtifacts).toHaveLength(reviewPackage.artifacts.length)
     expect(bundle.resolvedArtifacts).toHaveLength(5 + reviewProof.finalCandidate.questionFamilies.length)
     expect(bundle.coverageReconciliation.status).toBe('complete')
