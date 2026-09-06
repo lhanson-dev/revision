@@ -42,6 +42,12 @@ const sourceLicenceRegister = sourceLicenceRegisterSchema.parse({
       checkerMethod: 'test', sourceFingerprint: 'aqa-subject-content-fingerprint', revalidationConditions: [],
     },
     {
+      id: 'aqa-7132-scheme', issuer: 'AQA', urlOrReference: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment', sourceType: 'assessment',
+      educationalRole: ['alignment only'], useClass: 'REFERENCE_ONLY', permissionBasis: 'test', aiInputPermitted: false,
+      derivedCommercialUsePermitted: false, attributionRequirements: [], restrictions: ['alignment-facts-only'], checkedAt: '2026-09-06T12:00:00Z',
+      checkerMethod: 'test', sourceFingerprint: 'aqa-scheme-fingerprint', revalidationConditions: [],
+    },
+    {
       id: 'aqa-7131-7132-formulae-key-data', issuer: 'AQA', urlOrReference: 'https://filestore.aqa.org.uk/resources/business/AQA-7131-7132-FORMULAE.PDF', sourceType: 'quantitative_or_skills_annex',
       educationalRole: ['alignment only'], useClass: 'REFERENCE_ONLY', permissionBasis: 'test', aiInputPermitted: false,
       derivedCommercialUsePermitted: false, attributionRequirements: [], restrictions: ['alignment-facts-only'], checkedAt: '2026-09-06T12:00:00Z',
@@ -77,7 +83,7 @@ const baseAlignment = boardAlignmentSchema.parse({
   components: identity.components,
   assessmentObjectives: [],
   assessmentRequirements: [],
-  sourceRefs: ['aqa-7132-subject-content'],
+  sourceRefs: ['aqa-7132-subject-content', 'aqa-7132-scheme'],
   verificationStatus: 'verified',
 })
 
@@ -129,7 +135,7 @@ const baseWorkers: FoundationCompilationWorkers = {
 }
 
 describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
-  it('keeps AQA formulae out of curriculum sources while retaining qualification facts in Board Alignment and Course Truth provenance', async () => {
+  it('retains controlled curriculum and exam facts in Board Alignment without leaking AQA sources into Course Truth provenance', async () => {
     const workers = withAqa7132SourceUniverseGuard(baseWorkers)
     const structured = await workers.resolveStructuredEvidence({
       jobId: 'test-job', officialUrls: ['https://www.aqa.org.uk/subjects/business'], identity, sourceLicenceRegister,
@@ -142,6 +148,13 @@ describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
       .not.toContain('aqa-7131-7132-formulae-key-data')
     expect(resolvedEvidence.boardAlignmentFacts.find((fact) => fact.id === 'aqa-quant-variance-convention')?.sourceRef)
       .toBe('aqa-7131-7132-formulae-key-data')
+    expect(resolvedEvidence.boardAlignmentFacts.find((fact) => fact.id === 'aqa-exam-ao-weighting'))
+      .toMatchObject({
+        sourceRef: 'aqa-7132-scheme',
+        category: 'assessment_requirement',
+        value: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+        verificationStatus: 'verified',
+      })
 
     const alignmentExecution = await workers.compileBoardAlignment({
       jobId: 'test-job', identity, sourceLicenceRegister, facts: resolvedEvidence.boardAlignmentFacts,
@@ -152,6 +165,12 @@ describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
 
     expect(alignment.assessmentRequirements.find((requirement) => requirement.id === 'aqa-quant-variance-convention')?.sourceRefs)
       .toEqual(['aqa-7131-7132-formulae-key-data'])
+    expect(alignment.assessmentRequirements.find((requirement) => requirement.id === 'aqa-exam-ao-weighting'))
+      .toMatchObject({
+        summary: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+        componentScope: ['paper-1', 'paper-2', 'paper-3'],
+        sourceRefs: ['aqa-7132-scheme'],
+      })
 
     const courseExecution = await workers.compileCourseTruth({
       jobId: 'test-job', identity, sourceLicenceRegister, boardAlignment: alignment, coverageModel, requirements: evidence.curriculumRequirements,
@@ -168,5 +187,6 @@ describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
     expect(financeNode.boardAlignmentRefs).toContain('aqa-quant-variance-convention')
     expect(criticalPathNode.summary).toContain('longest-duration start-to-finish route')
     expect(criticalPathNode.boardAlignmentRefs).toContain('aqa-method-critical-path')
+    expect(courseTruth.nodes.flatMap((node) => node.boardAlignmentRefs)).not.toContain('aqa-exam-ao-weighting')
   })
 })
