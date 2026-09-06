@@ -1,13 +1,21 @@
 import {
   boardAlignmentSchema,
   courseKnowledgeModelSchema,
+  questionFamilySchema,
 } from './schema'
 import {
+  foundationAssessmentBlueprintSchema,
   foundationDiscoveredSourceSchema,
   foundationStructuredEvidenceSchema,
   type FoundationCompilationWorkers,
   type FoundationWorkerExecution,
 } from './foundation-compilation'
+import {
+  FOUNDATION_ASSESSMENT_OBJECTIVE_COVERAGE_PLAN_PREFIX,
+  assertFoundationAssessmentObjectiveCoveragePlan,
+  serializeFoundationAssessmentObjectiveCoveragePlan,
+  type FoundationAssessmentObjectiveCoveragePlan,
+} from './foundation-assessment-objective-coverage'
 import { assertFoundationSourceUniverse } from './foundation-source-universe'
 import {
   AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE,
@@ -22,6 +30,24 @@ export const AQA_A_LEVEL_BUSINESS_7132_SOURCE_UNIVERSE_URLS = {
 const formulaSourceId = 'aqa-7131-7132-formulae-key-data'
 const subjectContentSourceId = 'aqa-7132-subject-content'
 const schemeSourceId = 'aqa-7132-scheme'
+const historicalPaper1NineMarkId = 'paper1-nine-mark-analysis'
+
+const aqaAssessmentObjectiveCoveragePlan: FoundationAssessmentObjectiveCoveragePlan = {
+  schemaVersion: 1,
+  sourceAssessmentRequirementId: 'aqa-exam-ao-weighting',
+  scope: 'qualification_total',
+  totalAssessmentMarks: 300,
+  objectives: [
+    { assessmentObjectiveId: 'ao1', minWeightingPercent: 22, maxWeightingPercent: 25 },
+    { assessmentObjectiveId: 'ao2', minWeightingPercent: 24, maxWeightingPercent: 27 },
+    { assessmentObjectiveId: 'ao3', minWeightingPercent: 25, maxWeightingPercent: 28 },
+    { assessmentObjectiveId: 'ao4', minWeightingPercent: 23, maxWeightingPercent: 26 },
+  ],
+  accountingBasis: 'primary_assessment_objective_marks',
+  multiObjectiveTreatment: 'each_mark_allocated_once_to_a_primary_objective',
+  generationValidation: 'sum_assessment_objective_marks_within_ranges',
+  questionFamilyCoverageRequired: true,
+}
 
 type AqaAlignmentFact = {
   id: string
@@ -38,6 +64,12 @@ type AqaCourseAlignmentRule = {
   summarySuffix?: string
   misconceptions?: string[]
   applicationContexts?: string[]
+}
+
+type RevisionCourseProcedureRule = {
+  requirementId: string
+  applicationContexts: string[]
+  misconceptions?: string[]
 }
 
 type AqaBoardAlignmentRule = {
@@ -154,6 +186,48 @@ const aqaCourseAlignmentRules: AqaCourseAlignmentRule[] = [
 ]
 
 /**
+ * Revision-owned procedure overlays make quantitative Course Truth actionable at
+ * initial compilation. They are original structured methods, not copied protected
+ * awarding-body text, and therefore do not add REFERENCE_ONLY sourceRefs.
+ */
+const revisionCourseProcedureRules: RevisionCourseProcedureRule[] = [
+  {
+    requirementId: 'aqa-3-2-2',
+    applicationContexts: [
+      'For quantitative decision analysis: define the decision objective and alternatives; identify the relevant figures, units and probabilities; apply the permitted calculation to each alternative; compare the results; interpret the result alongside risk, uncertainty and stakeholder effects; state any material limitation.',
+    ],
+    misconceptions: ['A numerically highest option is not automatically the best business decision when qualitative risk, uncertainty or stakeholder consequences materially change the judgement.'],
+  },
+  {
+    requirementId: 'aqa-3-4-2',
+    applicationContexts: [
+      'For quantitative operations analysis: identify the operational objective and constraint; identify the relevant capacity, output, productivity or cost inputs; calculate the required measure using consistent units and time periods; compare alternatives or benchmarks; interpret the operational consequence; qualify the conclusion for constraints and risk.',
+    ],
+    misconceptions: ['Do not compare operational ratios built from inconsistent capacity bases, units or time periods.'],
+  },
+  {
+    requirementId: 'aqa-3-5-2',
+    applicationContexts: [
+      'For financial-performance calculations: identify the requested profit, margin or variance measure; select the governed formula; substitute the supplied figures; calculate with the correct unit or percentage; compare with the relevant benchmark or period; interpret the business meaning; state any limitation that affects the conclusion.',
+    ],
+  },
+  {
+    requirementId: 'aqa-3-10-3',
+    applicationContexts: [
+      'For critical-path calculations: identify activities, durations and dependencies; construct or interpret the network; calculate route totals and any required timing values; identify the longest start-to-finish route as the critical path; use float or timing information to prioritise activity; interpret the operational action and trade-off.',
+    ],
+    misconceptions: ['The shortest route through a network is not the critical path.'],
+  },
+  {
+    requirementId: 'aqa-annex-quantitative',
+    applicationContexts: [
+      'For any supported quantitative method: identify the required method or formula; select the correct inputs and units; substitute the data; calculate; check reasonableness and rounding; interpret the result in business context; compare or qualify the result where the question requires judgement.',
+    ],
+    misconceptions: ['A calculation alone is incomplete when the assessment demand also requires interpretation, analysis or evaluation.'],
+  },
+]
+
+/**
  * Exam-only qualification facts remain in Board Alignment and are available to the
  * Exam Truth compiler, but they are not overlaid onto curriculum Course Truth nodes.
  */
@@ -204,6 +278,32 @@ function alignmentRequirementIds() {
   return new Set(allAqaAlignmentRules.map((rule) => rule.fact.id))
 }
 
+function isHistoricalPaper1PatternText(value: string) {
+  const text = value.toLowerCase().replace(/[–—−]/g, '-')
+  return text.includes(historicalPaper1NineMarkId)
+    || ((text.includes('9-mark') || text.includes('9 mark')) && text.includes('analyse'))
+}
+
+function controlledPaperConstraints(componentId: string, existing: string[]) {
+  if (componentId === 'paper1') {
+    return [
+      'Paper 1 totals 100 marks and lasts 2 hours.',
+      'Paper 1 contains 15 one-mark multiple-choice questions, worth 15 marks in total.',
+      'Paper 1 contains 35 marks of short-answer questions.',
+      'Paper 1 contains two 25-mark essay questions.',
+      'Historical constituent mark patterns are calibration evidence only and are not mandatory qualification structure.',
+    ]
+  }
+  if (componentId === 'paper2') {
+    return [
+      'Paper 2 totals 100 marks and lasts 2 hours.',
+      'Paper 2 contains three compulsory data-response question sets.',
+      'Each Paper 2 data-response set is approximately 33 marks; this is set-level qualification structure and does not prescribe constituent question marks.',
+    ]
+  }
+  return existing.filter((constraint) => !isHistoricalPaper1PatternText(constraint))
+}
+
 export function withAqa7132SourceUniverseGuard(
   workers: FoundationCompilationWorkers,
   fetchImpl: typeof fetch = fetch,
@@ -249,11 +349,12 @@ export function withAqa7132SourceUniverseGuard(
       if (execution.status !== 'success') return execution
       try {
         const evidence = foundationStructuredEvidenceSchema.parse(execution.output)
-        const existingFactIds = new Set(evidence.boardAlignmentFacts.map((fact) => fact.id))
+        const retainedFacts = evidence.boardAlignmentFacts.filter((fact) => fact.id !== historicalPaper1NineMarkId)
+        const existingFactIds = new Set(retainedFacts.map((fact) => fact.id))
         return success(execution, foundationStructuredEvidenceSchema.parse({
           ...evidence,
           boardAlignmentFacts: [
-            ...evidence.boardAlignmentFacts,
+            ...retainedFacts,
             ...allAqaAlignmentRules
               .filter((rule) => !existingFactIds.has(rule.fact.id))
               .map((rule) => rule.fact),
@@ -280,7 +381,11 @@ export function withAqa7132SourceUniverseGuard(
         }
 
         const controlledIds = alignmentRequirementIds()
-        const retainedRequirements = alignment.assessmentRequirements.filter((requirement) => !controlledIds.has(requirement.id))
+        const retainedRequirements = alignment.assessmentRequirements.filter((requirement) =>
+          !controlledIds.has(requirement.id)
+          && requirement.id !== historicalPaper1NineMarkId
+          && !isHistoricalPaper1PatternText(requirement.summary),
+        )
         const componentScope = input.identity.components.map((component) => component.id)
         return success(execution, boardAlignmentSchema.parse({
           ...alignment,
@@ -333,21 +438,107 @@ export function withAqa7132SourceUniverseGuard(
           input.coverageModel.requirements.map((requirement) => [requirement.requirementId, new Set(requirement.knowledgeNodeIds)] as const),
         )
         const nodes = model.nodes.map((node) => {
-          const rules = aqaCourseAlignmentRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
-          if (rules.length === 0) return node
-          const suffixes = rules.map((rule) => rule.summarySuffix).filter((value): value is string => Boolean(value))
+          const alignmentRules = aqaCourseAlignmentRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
+          const procedureRules = revisionCourseProcedureRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
+          if (alignmentRules.length === 0 && procedureRules.length === 0) return node
+          const suffixes = alignmentRules.map((rule) => rule.summarySuffix).filter((value): value is string => Boolean(value))
           return {
             ...node,
             summary: suffixes.length > 0 ? `${node.summary} ${suffixes.join(' ')}` : node.summary,
-            formulas: [...new Set([...node.formulas, ...rules.flatMap((rule) => rule.formulas ?? [])])],
-            misconceptions: [...new Set([...node.misconceptions, ...rules.flatMap((rule) => rule.misconceptions ?? [])])],
-            applicationContexts: [...new Set([...node.applicationContexts, ...rules.flatMap((rule) => rule.applicationContexts ?? [])])],
-            boardAlignmentRefs: [...new Set([...node.boardAlignmentRefs, ...rules.map((rule) => rule.fact.id)])],
+            formulas: [...new Set([...node.formulas, ...alignmentRules.flatMap((rule) => rule.formulas ?? [])])],
+            misconceptions: [...new Set([
+              ...node.misconceptions,
+              ...alignmentRules.flatMap((rule) => rule.misconceptions ?? []),
+              ...procedureRules.flatMap((rule) => rule.misconceptions ?? []),
+            ])],
+            applicationContexts: [...new Set([
+              ...node.applicationContexts,
+              ...alignmentRules.flatMap((rule) => rule.applicationContexts ?? []),
+              ...procedureRules.flatMap((rule) => rule.applicationContexts),
+            ])],
+            boardAlignmentRefs: [...new Set([...node.boardAlignmentRefs, ...alignmentRules.map((rule) => rule.fact.id)])],
           }
         })
         return success(execution, courseKnowledgeModelSchema.parse({ ...model, nodes }))
       } catch (error) {
         return failure('course-truth-alignment', error)
+      }
+    },
+    async compileExamTruth(input) {
+      const execution = await workers.compileExamTruth(input)
+      if (execution.status !== 'success') return execution
+      try {
+        const blueprint = foundationAssessmentBlueprintSchema.parse(execution.output)
+        const assessmentRequirements = blueprint.assessmentRequirements.filter((requirement) =>
+          requirement.id !== historicalPaper1NineMarkId && !isHistoricalPaper1PatternText(requirement.summary),
+        )
+        const aoRequirement = {
+          id: 'aqa-exam-ao-weighting',
+          summary: 'Qualification-level AO ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%; generated assessment marks must be accounted once to a primary AO and validated against these ranges.',
+          componentScope: input.identity.components.map((component) => component.id),
+        }
+        const withoutAoRequirement = assessmentRequirements.filter((requirement) => requirement.id !== aoRequirement.id)
+        const aoCoverageContract = serializeFoundationAssessmentObjectiveCoveragePlan(aqaAssessmentObjectiveCoveragePlan)
+
+        const components = blueprint.components.map((component) => {
+          const controlledMarkTotal = ['paper1', 'paper2', 'paper3'].includes(component.componentId) ? 100 : component.markTotal
+          const controlledTiming = ['paper1', 'paper2', 'paper3'].includes(component.componentId) ? 120 : component.timingMinutes
+          const filteredFamilyIds = component.questionFamilyIds.filter((id) => id !== historicalPaper1NineMarkId)
+          const questionFamilyIds = component.componentId === 'paper1'
+            ? [...new Set(['paper1-mcq', 'paper1-short-response', 'paper1-extended-response', ...filteredFamilyIds])]
+            : component.componentId === 'paper2'
+              ? ['paper2-data-response']
+              : filteredFamilyIds
+          return {
+            ...component,
+            markTotal: controlledMarkTotal,
+            timingMinutes: controlledTiming,
+            questionFamilyIds,
+            constraints: controlledPaperConstraints(component.componentId, component.constraints),
+          }
+        })
+
+        const normalized = foundationAssessmentBlueprintSchema.parse({
+          ...blueprint,
+          assessmentObjectives: aqaAssessmentObjectiveCoveragePlan.objectives.map((objective) => ({ id: objective.assessmentObjectiveId })),
+          assessmentRequirements: [...withoutAoRequirement, aoRequirement],
+          components,
+          evidenceExpectations: [
+            ...blueprint.evidenceExpectations.filter((expectation) =>
+              !expectation.startsWith(FOUNDATION_ASSESSMENT_OBJECTIVE_COVERAGE_PLAN_PREFIX)
+              && !isHistoricalPaper1PatternText(expectation),
+            ),
+            aoCoverageContract,
+          ],
+        })
+        return success(execution, normalized)
+      } catch (error) {
+        return failure('exam-truth-alignment', error)
+      }
+    },
+    async compileQuestionFamilies(input) {
+      const execution = await workers.compileQuestionFamilies(input)
+      if (execution.status !== 'success') return execution
+      try {
+        const families = questionFamilySchema.array().parse(execution.output)
+          .filter((family) => family.id !== historicalPaper1NineMarkId)
+          .map((family) => {
+            if (family.id !== 'paper2-data-response') return family
+            return questionFamilySchema.parse({
+              ...family,
+              componentScope: ['paper2'],
+              markRange: { min: 100, max: 100 },
+              responseShape: 'Set-level family representing the complete 100-mark Paper 2: three compulsory data-response question sets of approximately 33 marks each. Constituent question marks are not prescribed by this Foundation.',
+            })
+          })
+        assertFoundationAssessmentObjectiveCoveragePlan({
+          blueprint: input.assessmentBlueprint,
+          questionFamilies: families,
+          expectedPlan: aqaAssessmentObjectiveCoveragePlan,
+        })
+        return success(execution, families)
+      } catch (error) {
+        return failure('question-family-alignment', error)
       }
     },
   }
