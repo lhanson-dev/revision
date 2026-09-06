@@ -18,6 +18,9 @@ import {
   AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED,
   AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
 } from './source-seeds/aqa-a-level-business-7132-2027'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_REQUIREMENTS,
+} from './source-seeds/aqa-a-level-business-7132-2027-coverage'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -152,8 +155,17 @@ describe('Foundation live real-course proof', () => {
     const coverageArtifact = store.artifacts.find((artifact) => artifact.kind === 'foundation_coverage_model')
     const assessmentBlueprintArtifact = store.artifacts.find((artifact) => artifact.kind === 'assessment_blueprint')
     const courseTruthNodeCount = (courseTruthArtifact?.value as { nodes?: unknown[] } | undefined)?.nodes?.length ?? 0
-    const canonicalCoverageNodeCount = (coverageArtifact?.value as { requirements?: Array<{ knowledgeNodeIds?: unknown[] }> } | undefined)
-      ?.requirements?.reduce((total, requirement) => total + (requirement.knowledgeNodeIds?.length ?? 0), 0) ?? 0
+    const canonicalCoverageRequirements = (coverageArtifact?.value as { requirements?: Array<{ requirementId?: string; knowledgeNodeIds?: unknown[] }> } | undefined)
+      ?.requirements ?? []
+    const canonicalCoverageNodeCount = canonicalCoverageRequirements
+      .reduce((total, requirement) => total + (requirement.knowledgeNodeIds?.length ?? 0), 0)
+    const canonicalCoverageRequirementIds = canonicalCoverageRequirements
+      .map((requirement) => requirement.requirementId)
+      .filter((requirementId): requirementId is string => Boolean(requirementId))
+      .sort()
+    const sourceLedCurriculumRequirementIds = AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_REQUIREMENTS
+      .map((requirement) => requirement.requirementId)
+      .sort()
     const quantitativeCoveragePlan = (assessmentBlueprintArtifact?.value as FoundationAssessmentBlueprint | undefined)?.quantitativeCoveragePlan ?? null
     const evidence = {
       schemaVersion: 1,
@@ -183,6 +195,9 @@ describe('Foundation live real-course proof', () => {
       independentReviewStatus: result.candidate.independentReview.status,
       courseTruthNodeCount,
       canonicalCoverageNodeCount,
+      sourceLedCurriculumRequirementCount: sourceLedCurriculumRequirementIds.length,
+      sourceLedCurriculumRequirementIds,
+      canonicalCoverageRequirementIds,
       quantitativeCoveragePlan,
       learnerAssetCount,
       workerRuns: result.workerRuns,
@@ -204,6 +219,7 @@ describe('Foundation live real-course proof', () => {
       `- Foundation fingerprint: \`${foundationFingerprint}\``,
       `- Rights registry: \`${rights.approvalEvidenceRef}\``,
       `- Governed Course Truth seed: \`${AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID}\``,
+      `- Source-led curriculum requirements: **${sourceLedCurriculumRequirementIds.length}**`,
       `- Canonical Course Truth nodes: **${courseTruthNodeCount}**`,
       `- Canonical coverage nodes: **${canonicalCoverageNodeCount}**`,
       `- Quantitative aggregate minimum: **${quantitativeCoveragePlan?.minimumQuantitativeMarks ?? 'unavailable'} / ${quantitativeCoveragePlan?.totalAssessmentMarks ?? 'unavailable'} marks**`,
@@ -223,8 +239,8 @@ describe('Foundation live real-course proof', () => {
     expect(result.candidate.deterministicAssurance.status).toBe('pending')
     expect(result.candidate.independentReview.status).toBe('pending')
     expect(providerRuns.map((run) => run.stage)).toEqual(['course_truth', 'exam_truth', 'question_families'])
+    expect(canonicalCoverageRequirementIds).toEqual(sourceLedCurriculumRequirementIds)
     expect(courseTruthNodeCount).toBe(canonicalCoverageNodeCount)
-    expect(courseTruthNodeCount).toBeGreaterThan(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED.requirements.length)
     expect(quantitativeCoveragePlan).toMatchObject({ minimumOverallPercent: 10, minimumQuantitativeMarks: 30, totalAssessmentMarks: 300 })
     expect(JSON.stringify(courseTruthArtifact?.value)).toContain(AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID)
     expect(learnerAssetCount).toBe(0)
