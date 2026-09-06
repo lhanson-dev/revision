@@ -56,9 +56,30 @@ describe('AQA 7132 pre-calibration aggregate-total context', () => {
     )).not.toThrow()
   })
 
+  it('allows an aggregate component timing when the same sentence also discusses constituent question content', () => {
+    expect(() => normaliseAqa7132PreCalibrationQuestionFamily(
+      family(['Validate the component-level 120-minute response-time envelope and ensure each case-study question contains a viable balance of knowledge, application, analysis and evaluation without asserting fixed constituent timings.']),
+      blueprint(),
+    )).not.toThrow()
+  })
+
+  it('allows a common-failure description that explicitly warns against treating the aggregate envelope as a constituent allocation', () => {
+    expect(() => normaliseAqa7132PreCalibrationQuestionFamily(
+      family(['Treating the aggregate 100-mark question-set envelope as the mark allocation for one constituent case-study question.']),
+      blueprint(),
+    )).not.toThrow()
+  })
+
   it('still rejects constituent allocation language even when it contains an assembled-set phrase', () => {
     expect(() => normaliseAqa7132PreCalibrationQuestionFamily(
       family(['Each question in the assembled set should receive 20 marks.']),
+      blueprint(),
+    )).toThrow('unsupported exact constituent mark/timing allocation')
+  })
+
+  it('still rejects assigning the full component total to each constituent question', () => {
+    expect(() => normaliseAqa7132PreCalibrationQuestionFamily(
+      family(['Each question should receive the component-level 100-mark total.']),
       blueprint(),
     )).toThrow('unsupported exact constituent mark/timing allocation')
   })
