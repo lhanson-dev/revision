@@ -9,6 +9,11 @@ import {
 
 const reviewedCommit = 'a'.repeat(40)
 const now = '2026-09-05T10:00:00+01:00'
+const jobId = 'aqa-a-level-business-7132'
+const sourceUniverse = {
+  profileId: 'aqa-7132-2027-source-universe',
+  requiredSourceIds: ['aqa-7132-specification', 'aqa-7131-7132-formulae-key-data'],
+}
 
 function artifact(ref: string, fingerprint: string) {
   return { ref, fingerprint }
@@ -52,8 +57,8 @@ async function assuredCandidate(overrides: Partial<FoundationCandidate> = {}) {
       producerVersion: 'foundation-live-adapter-v3',
       sourceSetFingerprint: 'source-set-v1',
       implementationHeadSha: reviewedCommit,
-      generationContextIds: [],
-      assuranceContextIds: [],
+      generationContextIds: ['generation-context-1'],
+      assuranceContextIds: ['independent-review-context-1'],
     },
     ...overrides,
   })
@@ -70,6 +75,38 @@ async function assuredCandidate(overrides: Partial<FoundationCandidate> = {}) {
       foundationFingerprint,
       evidenceRefs: ['foundation/independent-review.json'],
     },
+  })
+}
+
+async function passingChallenge(candidate: FoundationCandidate, overrides: Record<string, unknown> = {}) {
+  return {
+    schemaVersion: 1 as const,
+    artifactType: 'foundation_external_source_challenge_report' as const,
+    challengeId: 'aqa-7132-external-source-challenge-1',
+    jobId,
+    candidateId: candidate.candidateId,
+    reviewedCommit,
+    foundationFingerprint: await computeFoundationFingerprint(candidate),
+    sourceUniverseProfileId: sourceUniverse.profileId,
+    challengedSourceIds: sourceUniverse.requiredSourceIds,
+    reviewerContextId: 'external-source-challenge-context-1',
+    excludedContextIds: [...candidate.provenance.generationContextIds, ...candidate.provenance.assuranceContextIds],
+    decision: 'pass' as const,
+    findings: [],
+    evidenceRefs: ['foundation/external-source-challenge.json'],
+    createdAt: now,
+    ...overrides,
+  }
+}
+
+async function buildPackage(candidate: FoundationCandidate, challengeOverrides: Record<string, unknown> = {}) {
+  return buildFoundationExpertReviewPackage({
+    jobId,
+    candidate,
+    reviewedCommit,
+    createdAt: now,
+    sourceUniverse,
+    externalSourceChallenge: await passingChallenge(candidate, challengeOverrides),
   })
 }
 
@@ -102,16 +139,14 @@ function passingSubmission(reviewPackage: Awaited<ReturnType<typeof buildFoundat
 }
 
 describe('Foundation qualified expert review contract', () => {
-  it('packages only an exact Foundation that has already passed deterministic and independent assurance', async () => {
+  it('packages only an exact Foundation that passed deterministic, independent and external-source assurance', async () => {
     const candidate = await assuredCandidate()
-    const reviewPackage = await buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate,
-      reviewedCommit,
-      createdAt: now,
-    })
+    const reviewPackage = await buildPackage(candidate)
 
+    expect(reviewPackage.schemaVersion).toBe(2)
     expect(reviewPackage.foundationFingerprint).toBe(candidate.deterministicAssurance.foundationFingerprint)
+    expect(reviewPackage.externalSourceChallenge.decision).toBe('pass')
+    expect(reviewPackage.sourceUniverse).toEqual(sourceUniverse)
     expect(reviewPackage.requiredReviewScopes).toEqual(['subject', 'assessment'])
     expect(reviewPackage.artifacts.map((artifactEntry) => artifactEntry.artifactKind)).toEqual([
       'source_licence_register',
@@ -126,37 +161,60 @@ describe('Foundation qualified expert review contract', () => {
 
   it('fails closed when independent review has not passed', async () => {
     const candidate = await assuredCandidate()
-    await expect(buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: foundationCandidateSchema.parse({
-        ...candidate,
-        independentReview: { status: 'pending', evidenceRefs: [] },
-      }),
-      reviewedCommit,
-      createdAt: now,
-    })).rejects.toThrow(/passing independent Foundation review/)
+    const pending = foundationCandidateSchema.parse({
+      ...candidate,
+      independentReview: { status: 'pending', evidenceRefs: [] },
+    })
+    await expect(buildPackage(pending)).rejects.toThrow(/passing independent Foundation review/)
   })
 
   it('fails closed when assurance evidence is stale for the packaged Foundation fingerprint', async () => {
     const candidate = await assuredCandidate()
-    await expect(buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: foundationCandidateSchema.parse({
-        ...candidate,
-        courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
-      }),
-      reviewedCommit,
-      createdAt: now,
-    })).rejects.toThrow(/stale deterministic assurance evidence/)
+    const stale = foundationCandidateSchema.parse({
+      ...candidate,
+      courseKnowledgeModel: artifact('foundation/course-truth.json', 'course-truth-v2'),
+    })
+    await expect(buildPackage(stale)).rejects.toThrow(/stale deterministic assurance evidence/)
+  })
+
+  it('fails closed when the external-source challenge reports a material finding', async () => {
+    const candidate = await assuredCandidate()
+    await expect(buildPackage(candidate, {
+      decision: 'fail_hold',
+      findings: [{
+        id: 'missing-official-formula-source',
+        severity: 'material',
+        issueType: 'source_universe',
+        sourceRefs: ['aqa-7131-7132-formulae-key-data'],
+        finding: 'A material official quantitative source is not reconciled.',
+        requiredCorrection: 'Reopen source discovery and rebuild the Foundation.',
+      }],
+    })).rejects.toThrow(/passing external-source challenge/)
+  })
+
+  it('fails closed when the external-source challenge is stale for the Foundation fingerprint', async () => {
+    const candidate = await assuredCandidate()
+    await expect(buildPackage(candidate, {
+      foundationFingerprint: 'b'.repeat(64),
+    })).rejects.toThrow(/stale for the exact Foundation fingerprint/)
+  })
+
+  it('fails closed when the external-source challenge omits a required source', async () => {
+    const candidate = await assuredCandidate()
+    await expect(buildPackage(candidate, {
+      challengedSourceIds: ['aqa-7132-specification'],
+    })).rejects.toThrow(/omitted required source aqa-7131-7132-formulae-key-data/)
+  })
+
+  it('fails closed when the external-source challenge reuses an earlier assurance context', async () => {
+    const candidate = await assuredCandidate()
+    await expect(buildPackage(candidate, {
+      reviewerContextId: 'independent-review-context-1',
+    })).rejects.toThrow(/fresh context|reused/)
   })
 
   it('accepts qualified human coverage split across subject and assessment reviewers', async () => {
-    const reviewPackage = await buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: await assuredCandidate(),
-      reviewedCommit,
-      createdAt: now,
-    })
+    const reviewPackage = await buildPackage(await assuredCandidate())
     const submission = passingSubmission(reviewPackage)
 
     expect(validateFoundationExpertReviewSubmission(reviewPackage, submission)).toEqual(
@@ -165,12 +223,7 @@ describe('Foundation qualified expert review contract', () => {
   })
 
   it('rejects a submission without required assessment qualification coverage', async () => {
-    const reviewPackage = await buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: await assuredCandidate(),
-      reviewedCommit,
-      createdAt: now,
-    })
+    const reviewPackage = await buildPackage(await assuredCandidate())
     const submission = passingSubmission(reviewPackage)
     submission.reviewers = [submission.reviewers[0]]
 
@@ -180,12 +233,7 @@ describe('Foundation qualified expert review contract', () => {
   })
 
   it('rejects a passing decision when a qualified reviewer reports a material finding', async () => {
-    const reviewPackage = await buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: await assuredCandidate(),
-      reviewedCommit,
-      createdAt: now,
-    })
+    const reviewPackage = await buildPackage(await assuredCandidate())
     const submission = {
       ...passingSubmission(reviewPackage),
       findings: [{
@@ -206,12 +254,7 @@ describe('Foundation qualified expert review contract', () => {
   })
 
   it('rejects findings against artifacts outside the exact packaged Foundation', async () => {
-    const reviewPackage = await buildFoundationExpertReviewPackage({
-      jobId: 'aqa-a-level-business-7132',
-      candidate: await assuredCandidate(),
-      reviewedCommit,
-      createdAt: now,
-    })
+    const reviewPackage = await buildPackage(await assuredCandidate())
     const submission = {
       ...passingSubmission(reviewPackage),
       decision: 'fail_hold' as const,
