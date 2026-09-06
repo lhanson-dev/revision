@@ -103,12 +103,13 @@ class RetainedProofAssuranceStore implements FoundationAssuranceArtifactStore {
 describe('Foundation retained real-course deterministic assurance proof', () => {
   const proofIt = proofEnabled ? it : it.skip
 
-  proofIt('assures the exact AQA Business Foundation Candidate retained by Live Proof #2 without regenerating content', async () => {
+  proofIt('assures the exact retained AQA Business Foundation Candidate without regenerating content', async () => {
     const sourceProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')
     const expectedSourceHead = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA')
     const expectedFoundationFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_FINGERPRINT')
     const reviewedCommit = requiredEnv('CONTENT_FACTORY_REVIEWED_COMMIT')
     const sourceRunId = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_RUN_ID')
+    const sourceArtifactId = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_ID')
     const sourceArtifactName = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_NAME')
     const sourceArtifactDigest = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_DIGEST')
     const repo = requiredEnv('GITHUB_REPOSITORY')
@@ -147,6 +148,7 @@ describe('Foundation retained real-course deterministic assurance proof', () => 
       reviewedCommit,
       sourceProof: {
         workflowRunId: sourceRunId,
+        artifactId: sourceArtifactId,
         artifactName: sourceArtifactName,
         artifactDigest: sourceArtifactDigest,
         contentHeadSha: sourceProof.contentHeadSha,
@@ -172,6 +174,7 @@ describe('Foundation retained real-course deterministic assurance proof', () => 
       'Slice 3A real-course deterministic Foundation assurance proof completed.',
       '',
       `- Source proof workflow run: \`${sourceRunId}\``,
+      `- Source proof artifact: \`${sourceArtifactId}\``,
       `- Source content head: \`${sourceProof.contentHeadSha}\``,
       `- Assurance reviewed commit: \`${reviewedCommit}\``,
       `- Course: **AQA A-level Business 7132 — 2027 cohort**`,
