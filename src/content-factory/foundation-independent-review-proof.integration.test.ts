@@ -323,7 +323,12 @@ describe('Foundation retained real-course independent review proof', () => {
       ? await computeFoundationFingerprint(finalCandidate)
       : null
     const reviewContextIds = result.reviewReports.map((report) => report.reviewer.contextId)
-    const remediationContextIds = result.remediationRecords.map((record) => record.remediationWorker.contextId)
+    const remediationNoChangeRecords = result.remediationNoChangeRecords ?? []
+    const remediationNoChangeRefs = result.remediationNoChangeRefs ?? []
+    const remediationContextIds = [
+      ...result.remediationRecords.map((record) => record.remediationWorker.contextId),
+      ...remediationNoChangeRecords.map((record) => record.remediationWorker.contextId),
+    ]
     const providerContextIds = [...reviewContextIds, ...remediationContextIds]
     const budget = provider.budgetSnapshot?.() ?? { conservativeConsumedUsd: 0 }
     const operationalBlockers = unresolvedOperationalBlockers(result.job)
@@ -368,6 +373,8 @@ describe('Foundation retained real-course independent review proof', () => {
       reviewRefs: result.reviewRefs,
       remediationRecords: result.remediationRecords,
       remediationRefs: result.remediationRefs,
+      remediationNoChangeRecords,
+      remediationNoChangeRefs,
       newArtifacts: store.writes,
       finalCandidate,
       learnerAssetCount: sourceProof.learnerAssetCount,
@@ -394,7 +401,8 @@ describe('Foundation retained real-course independent review proof', () => {
       `- Fresh independent review contexts: **${reviewContextIds.length}**`,
       `- Targeted remediation contexts: **${remediationContextIds.length}**`,
       `- Material/blocking findings encountered across review cycles: **${materialFindingCount}**`,
-      `- Remediation cycles retained: **${result.remediationRecords.length}**`,
+      `- Successful remediation cycles retained: **${result.remediationRecords.length}**`,
+      `- No-change remediation attempts retained: **${remediationNoChangeRecords.length}**`,
       `- Final Foundation fingerprint: \`${finalFoundationFingerprint ?? 'unavailable'}\``,
       `- Final deterministic assurance: **${finalCandidate?.deterministicAssurance.status ?? 'unavailable'}**`,
       `- Final independent review: **${finalCandidate?.independentReview.status ?? 'unavailable'}**`,
