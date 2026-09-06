@@ -21,15 +21,18 @@ export const AQA_A_LEVEL_BUSINESS_7132_SOURCE_UNIVERSE_URLS = {
 
 const formulaSourceId = 'aqa-7131-7132-formulae-key-data'
 const subjectContentSourceId = 'aqa-7132-subject-content'
+const schemeSourceId = 'aqa-7132-scheme'
 
-type AqaAlignmentRule = {
-  fact: {
-    id: string
-    sourceRef: string
-    category: 'quantitative_requirement' | 'other_alignment'
-    value: string
-    verificationStatus: 'verified'
-  }
+type AqaAlignmentFact = {
+  id: string
+  sourceRef: string
+  category: 'assessment_requirement' | 'quantitative_requirement' | 'other_alignment'
+  value: string
+  verificationStatus: 'verified'
+}
+
+type AqaCourseAlignmentRule = {
+  fact: AqaAlignmentFact
   requirementId: string
   formulas?: string[]
   summarySuffix?: string
@@ -37,14 +40,18 @@ type AqaAlignmentRule = {
   applicationContexts?: string[]
 }
 
+type AqaBoardAlignmentRule = {
+  fact: AqaAlignmentFact
+}
+
 /**
  * Qualification-specific facts from REFERENCE_ONLY AQA material are retained as
  * Board Alignment facts. They never become curriculum sourceRefs or protected source
  * text supplied to a generative worker. The deterministic Course Truth overlay below
- * applies only these deliberately approved factual conventions and binds them back to
- * their Board Alignment fact IDs.
+ * applies only deliberately approved curriculum-facing factual conventions and binds
+ * them back to their Board Alignment fact IDs.
  */
-const aqaAlignmentRules: AqaAlignmentRule[] = [
+const aqaCourseAlignmentRules: AqaCourseAlignmentRule[] = [
   {
     fact: {
       id: 'aqa-quant-market-capitalisation',
@@ -146,6 +153,27 @@ const aqaAlignmentRules: AqaAlignmentRule[] = [
   },
 ]
 
+/**
+ * Exam-only qualification facts remain in Board Alignment and are available to the
+ * Exam Truth compiler, but they are not overlaid onto curriculum Course Truth nodes.
+ */
+const aqaBoardAlignmentRules: AqaBoardAlignmentRule[] = [
+  {
+    fact: {
+      id: 'aqa-exam-ao-weighting',
+      sourceRef: schemeSourceId,
+      category: 'assessment_requirement',
+      value: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+      verificationStatus: 'verified',
+    },
+  },
+]
+
+const allAqaAlignmentRules = [
+  ...aqaCourseAlignmentRules,
+  ...aqaBoardAlignmentRules,
+]
+
 function success<T>(execution: Extract<FoundationWorkerExecution<T>, { status: 'success' }>, output: T): FoundationWorkerExecution<T> {
   return { ...execution, output }
 }
@@ -173,7 +201,7 @@ async function assertPdf(fetchImpl: typeof fetch, url: string) {
 }
 
 function alignmentRequirementIds() {
-  return new Set(aqaAlignmentRules.map((rule) => rule.fact.id))
+  return new Set(allAqaAlignmentRules.map((rule) => rule.fact.id))
 }
 
 export function withAqa7132SourceUniverseGuard(
@@ -226,7 +254,7 @@ export function withAqa7132SourceUniverseGuard(
           ...evidence,
           boardAlignmentFacts: [
             ...evidence.boardAlignmentFacts,
-            ...aqaAlignmentRules
+            ...allAqaAlignmentRules
               .filter((rule) => !existingFactIds.has(rule.fact.id))
               .map((rule) => rule.fact),
           ],
@@ -241,7 +269,7 @@ export function withAqa7132SourceUniverseGuard(
       try {
         const alignment = boardAlignmentSchema.parse(execution.output)
         const inputFacts = new Map(input.facts.map((fact) => [fact.id, fact] as const))
-        for (const rule of aqaAlignmentRules) {
+        for (const rule of allAqaAlignmentRules) {
           const fact = inputFacts.get(rule.fact.id)
           if (!fact || fact.verificationStatus !== 'verified') {
             throw new Error(`missing_verified_alignment_fact:${rule.fact.id}`)
@@ -258,7 +286,7 @@ export function withAqa7132SourceUniverseGuard(
           ...alignment,
           assessmentRequirements: [
             ...retainedRequirements,
-            ...aqaAlignmentRules.map((rule) => ({
+            ...allAqaAlignmentRules.map((rule) => ({
               id: rule.fact.id,
               summary: rule.fact.value,
               componentScope,
@@ -267,7 +295,7 @@ export function withAqa7132SourceUniverseGuard(
           ],
           sourceRefs: [...new Set([
             ...alignment.sourceRefs,
-            ...aqaAlignmentRules.map((rule) => rule.fact.sourceRef),
+            ...allAqaAlignmentRules.map((rule) => rule.fact.sourceRef),
           ])],
         }))
       } catch (error) {
@@ -296,7 +324,7 @@ export function withAqa7132SourceUniverseGuard(
       if (execution.status !== 'success') return execution
       try {
         const alignmentIds = new Set(input.boardAlignment.assessmentRequirements.map((requirement) => requirement.id))
-        for (const rule of aqaAlignmentRules) {
+        for (const rule of aqaCourseAlignmentRules) {
           if (!alignmentIds.has(rule.fact.id)) throw new Error(`course_truth_missing_alignment_fact:${rule.fact.id}`)
         }
 
@@ -305,7 +333,7 @@ export function withAqa7132SourceUniverseGuard(
           input.coverageModel.requirements.map((requirement) => [requirement.requirementId, new Set(requirement.knowledgeNodeIds)] as const),
         )
         const nodes = model.nodes.map((node) => {
-          const rules = aqaAlignmentRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
+          const rules = aqaCourseAlignmentRules.filter((rule) => nodeIdsByRequirement.get(rule.requirementId)?.has(node.id))
           if (rules.length === 0) return node
           const suffixes = rules.map((rule) => rule.summarySuffix).filter((value): value is string => Boolean(value))
           return {
