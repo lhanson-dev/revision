@@ -121,6 +121,15 @@ export const foundationRemediationWorkerOutputSchema = z.object({
   resolutionNotes: z.array(nonEmptyStringSchema).min(1),
 })
 
+const foundationRemediationArtifactReplacementRecordSchema = z.object({
+  artifactKind: z.enum(['course_knowledge_model', 'assessment_blueprint', 'question_family']),
+  oldRef: nonEmptyStringSchema,
+  newRef: nonEmptyStringSchema,
+  oldFingerprint: nonEmptyStringSchema,
+  newFingerprint: nonEmptyStringSchema,
+  directFindingIds: z.array(identifierSchema).default([]),
+})
+
 export const foundationRemediationRecordSchema = z.object({
   schemaVersion: z.literal(1),
   artifactType: z.literal('foundation_remediation_record'),
@@ -132,14 +141,7 @@ export const foundationRemediationRecordSchema = z.object({
   remediationWorker: foundationWorkerEvidenceSchema,
   resolvedFindingIds: z.array(identifierSchema).min(1),
   resolutionNotes: z.array(nonEmptyStringSchema).min(1),
-  replacements: z.array(z.object({
-    artifactKind: z.enum(['course_knowledge_model', 'assessment_blueprint', 'question_family']),
-    oldRef: nonEmptyStringSchema,
-    newRef: nonEmptyStringSchema,
-    oldFingerprint: nonEmptyStringSchema,
-    newFingerprint: nonEmptyStringSchema,
-    directFindingIds: z.array(identifierSchema).default([]),
-  })).min(1),
+  replacements: z.array(foundationRemediationArtifactReplacementRecordSchema).min(1),
   remediatedCandidateId: identifierSchema,
   remediatedFoundationFingerprint: sha256Schema,
   deterministicReassurance: z.object({
@@ -150,15 +152,35 @@ export const foundationRemediationRecordSchema = z.object({
   createdAt: nonEmptyStringSchema,
 })
 
+export const foundationRemediationNoChangeRecordSchema = z.object({
+  schemaVersion: z.literal(1),
+  artifactType: z.literal('foundation_remediation_no_change_record'),
+  jobId: identifierSchema,
+  sourceCandidateId: identifierSchema,
+  sourceFoundationFingerprint: sha256Schema,
+  triggerReviewRef: nonEmptyStringSchema,
+  reviewedCommit: commitShaSchema,
+  remediationWorker: foundationWorkerEvidenceSchema,
+  attemptedFindingIds: z.array(identifierSchema).min(1),
+  resolutionNotes: z.array(nonEmptyStringSchema).min(1),
+  replacements: z.array(foundationRemediationArtifactReplacementRecordSchema).min(1),
+  attemptedCandidateId: identifierSchema,
+  unchangedFoundationFingerprint: sha256Schema,
+  outcome: z.literal('no_material_change'),
+  createdAt: nonEmptyStringSchema,
+})
+
 export type FoundationReviewableArtifactKind = z.infer<typeof foundationReviewableArtifactKindSchema>
 export type FoundationIndependentReviewFinding = z.infer<typeof foundationIndependentReviewFindingSchema>
 export type FoundationIndependentReviewReport = z.infer<typeof foundationIndependentReviewReportSchema>
 export type FoundationRemediationRecord = z.infer<typeof foundationRemediationRecordSchema>
+export type FoundationRemediationNoChangeRecord = z.infer<typeof foundationRemediationNoChangeRecordSchema>
 
 export type FoundationIndependentReviewArtifactKind =
   | 'foundation_deterministic_assurance_report'
   | 'foundation_independent_review_report'
   | 'foundation_remediation_record'
+  | 'foundation_remediation_no_change_record'
   | 'course_knowledge_model'
   | 'assessment_blueprint'
   | 'question_family'
@@ -587,7 +609,32 @@ async function applyRemediation(input: {
     },
   })
   const remediatedFingerprint = await computeFoundationFingerprint(remediatedCandidate)
-  if (remediatedFingerprint === sourceFingerprint) throw new Error('Blocking/material Foundation remediation must produce a materially different Foundation fingerprint')
+  if (remediatedFingerprint === sourceFingerprint) {
+    const record = foundationRemediationNoChangeRecordSchema.parse({
+      schemaVersion: 1,
+      artifactType: 'foundation_remediation_no_change_record',
+      jobId: job.jobId,
+      sourceCandidateId: sourceCandidate.candidateId,
+      sourceFoundationFingerprint: sourceFingerprint,
+      triggerReviewRef: input.reviewRef,
+      reviewedCommit: input.reviewedCommit,
+      remediationWorker: workerEvidence(input.execution.provenance),
+      attemptedFindingIds: output.resolvedFindingIds,
+      resolutionNotes: output.resolutionNotes,
+      replacements: records,
+      attemptedCandidateId: remediatedCandidate.candidateId,
+      unchangedFoundationFingerprint: remediatedFingerprint,
+      outcome: 'no_material_change',
+      createdAt: input.now,
+    })
+    const write = await input.artifactStore.writeJson({
+      jobId: job.jobId,
+      kind: 'foundation_remediation_no_change_record',
+      fingerprint: await fingerprintFoundationArtifact(record),
+      value: record,
+    })
+    return { outcome: 'no_change' as const, job, record, recordRef: write.ref }
+  }
 
   const remediatedJob = foundationJobSchema.parse({ ...job, candidate: remediatedCandidate, updatedAt: input.now })
   const reassured = await runDeterministicFoundationAssurance({
@@ -622,7 +669,7 @@ async function applyRemediation(input: {
     fingerprint: await fingerprintFoundationArtifact(record),
     value: record,
   })
-  return { job: reassured.job, record, recordRef: write.ref, deterministicReport: reassured.report }
+  return { outcome: 'changed' as const, job: reassured.job, record, recordRef: write.ref, deterministicReport: reassured.report }
 }
 
 function safeBlockerId(value: string) {
@@ -656,6 +703,8 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
   reviewRefs: string[]
   remediationRecords: FoundationRemediationRecord[]
   remediationRefs: string[]
+  remediationNoChangeRecords?: FoundationRemediationNoChangeRecord[]
+  remediationNoChangeRefs?: string[]
 }> {
   let job = foundationJobSchema.parse(input.job)
   const reviewedCommit = commitShaSchema.parse(input.reviewedCommit)
@@ -811,6 +860,24 @@ export async function runFoundationIndependentReviewAndRemediation(input: {
       now: input.now,
       cycle,
     })
+    if (remediated.outcome === 'no_change') {
+      job = updateOperationalMetadata(job, { contextIds: [remediationExecution.provenance.contextId], now: input.now })
+      const findingIds = material.map((finding) => finding.id).join(', ')
+      return {
+        job: blockFoundationJob(job, {
+          id: safeBlockerId(`foundation-remediation-no-material-change-${remediationExecution.provenance.id}`),
+          reason: `Targeted Foundation remediation claimed to resolve blocking/material findings but normalised to the unchanged Foundation fingerprint. Findings remain unresolved. Review evidence: ${reviewWrite.ref}. Finding IDs: ${findingIds}. Remediation evidence: ${remediated.recordRef}.`,
+          createdAt: input.now,
+        }),
+        reviewReports,
+        reviewRefs,
+        remediationRecords,
+        remediationRefs,
+        remediationNoChangeRecords: [remediated.record],
+        remediationNoChangeRefs: [remediated.recordRef],
+      }
+    }
+
     job = remediated.job
     remediationRecords.push(remediated.record)
     remediationRefs.push(remediated.recordRef)
