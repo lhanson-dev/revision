@@ -13,11 +13,16 @@ import {
   assertRequirementLedCoverage,
   type FoundationSemanticCoverageItem,
 } from './requirement-led-coverage'
+import { assertFoundationSourceUniverse } from './foundation-source-universe'
 import { buildAqaAlevelBusiness7132CurriculumObligations } from './source-seeds/aqa-a-level-business-7132-2027-coverage'
 import {
   AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
   buildAqaAlevelBusiness7132ExamEvidenceItems,
 } from './source-seeds/aqa-a-level-business-7132-2027-exam-coverage'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE,
+  AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE_PROFILE_ID,
+} from './source-seeds/aqa-a-level-business-7132-2027-source-universe'
 
 function semanticItemsFromRequirements(
   requirements: FoundationCurriculumRequirementInput[],
@@ -36,6 +41,19 @@ function assertCurriculumCoverage(requirements: FoundationCurriculumRequirementI
   assertRequirementLedCoverage({
     obligations: buildAqaAlevelBusiness7132CurriculumObligations(semanticItems),
     semanticItems,
+  })
+}
+
+function assertSourceUniverse(sourceEvidence: Parameters<FoundationIndependentReviewWorkers['independentReview']>[0]['sourceEvidence']) {
+  assertFoundationSourceUniverse({
+    profileId: AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE_PROFILE_ID,
+    requirements: AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE,
+    sourceEvidence: sourceEvidence.map((source) => ({
+      id: source.id,
+      issuer: source.issuer,
+      sourceType: source.sourceType,
+      useClass: source.useClass,
+    })),
   })
 }
 
@@ -61,6 +79,7 @@ function failure(
 }
 
 function assertReviewInputCoverage(input: Parameters<FoundationIndependentReviewWorkers['independentReview']>[0]) {
+  assertSourceUniverse(input.sourceEvidence)
   assertCurriculumCoverage(input.coverageModel.requirements)
   assertExamCoverage(input.assessmentBlueprint, input.questionFamilies)
 }
@@ -115,6 +134,7 @@ export function withAqa7132SourceLedReviewCoverageGuard(
     },
     async remediate(input) {
       try {
+        assertSourceUniverse(input.sourceEvidence)
         assertCurriculumCoverage(input.coverageModel.requirements)
         assertExamCoverage(input.assessmentBlueprint, input.questionFamilies)
       } catch (error) {

@@ -5,12 +5,17 @@ import { foundationCandidateSchema } from './foundation-schema'
 import { computeFoundationFingerprint } from './foundation-lifecycle'
 import { foundationReviewableArtifactKindSchema } from './foundation-independent-review'
 import { buildFoundationExpertReviewPackage } from './foundation-expert-review'
+import { foundationExternalSourceChallengeReportSchema } from './foundation-external-source-challenge'
 import {
   buildFoundationExpertReviewBundle,
   buildFoundationExpertReviewSubmissionTemplate,
   renderFoundationExpertReviewInstructions,
 } from './foundation-expert-review-packaging'
 import { buildAqa7132FoundationExpertReviewCoverageReconciliation } from './foundation-expert-review-reconciliation'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE,
+  AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE_PROFILE_ID,
+} from './source-seeds/aqa-a-level-business-7132-2027-source-universe'
 
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
@@ -113,9 +118,10 @@ describe('Foundation retained artifact write classification', () => {
 describe('Foundation retained real-course expert review package proof', () => {
   const proofIt = proofEnabled ? it : it.skip
 
-  proofIt('assembles the exact assured AQA 7132 Foundation and explicit source-led reconciliation into a portable qualified-human review bundle', async () => {
+  proofIt('assembles only an externally challenged exact AQA 7132 Foundation into a portable qualified-human review bundle', async () => {
     const sourceProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')
     const reviewProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH')
+    const externalChallengePath = requiredEnv('CONTENT_FACTORY_FOUNDATION_EXTERNAL_SOURCE_CHALLENGE_PATH')
     const expectedSourceHead = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA')
     const expectedSourceFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_FINGERPRINT')
     const expectedFoundationFingerprint = requiredEnv('CONTENT_FACTORY_FOUNDATION_FINGERPRINT')
@@ -125,6 +131,9 @@ describe('Foundation retained real-course expert review package proof', () => {
 
     const sourceProof = sourceProofSchema.parse(JSON.parse(await readUtf8File(sourceProofPath)))
     const reviewProof = reviewProofSchema.parse(JSON.parse(await readUtf8File(reviewProofPath)))
+    const externalSourceChallenge = foundationExternalSourceChallengeReportSchema.parse(
+      JSON.parse(await readUtf8File(externalChallengePath)),
+    )
 
     expect(sourceProof.repository).toBe(repo)
     expect(reviewProof.repository).toBe(repo)
@@ -139,11 +148,17 @@ describe('Foundation retained real-course expert review package proof', () => {
     expect(reviewProof.finalCandidate.candidateId).toBe(reviewProof.finalCandidateId)
     expect(await computeFoundationFingerprint(reviewProof.finalCandidate)).toBe(expectedFoundationFingerprint)
 
+    const sourceUniverse = {
+      profileId: AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE_PROFILE_ID,
+      requiredSourceIds: AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE.map((requirement) => requirement.sourceId),
+    }
     const reviewPackage = await buildFoundationExpertReviewPackage({
       jobId: sourceProof.jobId,
       candidate: reviewProof.finalCandidate,
       reviewedCommit: reviewProof.reviewedCommit,
       createdAt: new Date().toISOString(),
+      sourceUniverse,
+      externalSourceChallenge,
     })
 
     const availableArtifacts = new Map<string, z.infer<typeof storedArtifactSchema>>()
@@ -182,7 +197,9 @@ describe('Foundation retained real-course expert review package proof', () => {
     const instructions = renderFoundationExpertReviewInstructions(bundle)
 
     expect(bundle.schemaVersion).toBe(2)
+    expect(bundle.reviewPackage.schemaVersion).toBe(2)
     expect(bundle.reviewPackage.foundationFingerprint).toBe(expectedFoundationFingerprint)
+    expect(bundle.reviewPackage.externalSourceChallenge.decision).toBe('pass')
     expect(bundle.resolvedArtifacts).toHaveLength(reviewPackage.artifacts.length)
     expect(bundle.resolvedArtifacts).toHaveLength(5 + reviewProof.finalCandidate.questionFamilies.length)
     expect(bundle.coverageReconciliation.status).toBe('complete')
@@ -190,10 +207,12 @@ describe('Foundation retained real-course expert review package proof', () => {
     expect(bundle.coverageReconciliation.exam.length).toBeGreaterThan(0)
     expect(reviewPackage.requiredReviewScopes).toEqual(['subject', 'assessment'])
     expect(instructions).toContain('coverage-reconciliation.json')
+    expect(instructions).toContain('External-source challenge')
 
     await mkdir(`${evidenceDirectory}/artifacts`, { recursive: true })
     await writeFile(`${evidenceDirectory}/expert-review-bundle.json`, JSON.stringify(bundle, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/review-package.json`, JSON.stringify(reviewPackage, null, 2), 'utf-8')
+    await writeFile(`${evidenceDirectory}/external-source-challenge.json`, JSON.stringify(externalSourceChallenge, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/coverage-reconciliation.json`, JSON.stringify(coverageReconciliation, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/submission-template.json`, JSON.stringify(submissionTemplate, null, 2), 'utf-8')
     await writeFile(`${evidenceDirectory}/review-instructions.md`, instructions, 'utf-8')
@@ -207,7 +226,7 @@ describe('Foundation retained real-course expert review package proof', () => {
     }
 
     await writeFile(`${evidenceDirectory}/manifest.json`, JSON.stringify({
-      schemaVersion: 2,
+      schemaVersion: 3,
       artifactType: 'foundation_real_course_expert_review_package_evidence',
       recordedAt: new Date().toISOString(),
       repository: repo,
@@ -225,6 +244,14 @@ describe('Foundation retained real-course expert review package proof', () => {
         workflowRunId: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_RUN_ID'),
         artifactName: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_NAME'),
         artifactDigest: requiredEnv('CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_DIGEST'),
+      },
+      sourceUniverse: reviewPackage.sourceUniverse,
+      externalSourceChallenge: {
+        challengeId: externalSourceChallenge.challengeId,
+        decision: externalSourceChallenge.decision,
+        reviewerContextId: externalSourceChallenge.reviewerContextId,
+        challengedSourceCount: externalSourceChallenge.challengedSourceIds.length,
+        evidenceRefs: externalSourceChallenge.evidenceRefs,
       },
       coverageReconciliation: {
         status: coverageReconciliation.status,

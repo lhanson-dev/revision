@@ -28,7 +28,7 @@ export type FoundationSourceRightsRegistry = z.infer<typeof foundationSourceRigh
 export const FOUNDATION_SOURCE_RIGHTS_REGISTRY: FoundationSourceRightsRegistry = foundationSourceRightsRegistrySchema.parse({
   schemaVersion: 1,
   registryId: 'revision-foundation-source-rights',
-  registryVersion: 2,
+  registryVersion: 3,
   status: 'governed_main_only',
   authorityRef: '40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md',
   approvalEvidence: {
@@ -94,14 +94,14 @@ export const FOUNDATION_SOURCE_RIGHTS_REGISTRY: FoundationSourceRightsRegistry =
       id: 'aqa-reference-only-alignment',
       issuer: 'AQA',
       hostnames: ['www.aqa.org.uk', 'filestore.aqa.org.uk'],
-      sourceTypes: ['specification', 'assessment', 'subject_content'],
+      sourceTypes: ['specification', 'assessment', 'subject_content', 'quantitative_or_skills_annex', 'amendment_or_notice'],
       useClass: 'REFERENCE_ONLY',
-      permissionBasis: 'Conservative implementation of the Founder-approved source licensing standard: awarding-body material is restricted to controlled structured Board Alignment unless broader rights are separately recorded.',
+      permissionBasis: 'Conservative implementation of the Founder-approved source licensing standard: awarding-body material is restricted to controlled structured alignment facts unless broader rights are separately recorded.',
       aiInputPermitted: false,
       derivedCommercialUsePermitted: false,
       attributionRequirements: [],
       restrictions: ['alignment-facts-only', 'no-generative-source-text', 'no-protected-question-or-mark-scheme-ingestion'],
-      revalidationConditions: ['AQA specification, assessment evidence, terms, copyright policy, qualification cohort or Revision source-use policy changes.'],
+      revalidationConditions: ['AQA specification, assessment evidence, formulae/key-data resources, amendments/notices, terms, copyright policy, qualification cohort or Revision source-use policy changes.'],
     },
   ],
 })

@@ -2,8 +2,11 @@ name: Content Factory Foundation Expert Review Package
 
 on:
   workflow_dispatch:
-  issue_comment:
-    types: [created]
+    inputs:
+      external_source_challenge_json:
+        description: 'Passing structured foundation_external_source_challenge_report JSON for the exact candidate/fingerprint'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,13 +19,7 @@ concurrency:
 jobs:
   foundation-expert-review-package:
     name: Assemble retained real-course Foundation expert review package
-    if: >-
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'issue_comment' &&
-       github.event.issue.number == 289 &&
-       github.event.comment.user.login == 'lhanson-dev' &&
-       github.event.comment.author_association == 'OWNER' &&
-       github.event.comment.body == 'revision-run-foundation-expert-review-package:v1')
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -40,6 +37,7 @@ jobs:
       REVIEWED_COMMIT: d7607b0d30f97fb750956dbb573404373aae1a4d
       REVIEW_PROOF_PATH: .artifacts/content-factory-foundation-expert-review-assurance/aqa-a-level-business-7132-foundation-5734f266a551-1788677993717-independent-review.json
       FOUNDATION_FINGERPRINT: 09acd5d79698fa029c9b9b53138878c893940eed5c6b2534695aaba6c7779456
+      EXTERNAL_CHALLENGE_PATH: .artifacts/content-factory-foundation-expert-review-challenge/external-source-challenge.json
     steps:
       - name: Checkout approved main
         uses: actions/checkout@v6
@@ -86,6 +84,14 @@ jobs:
           test -f "${SOURCE_PROOF_PATH}"
           test -f "${REVIEW_PROOF_PATH}"
 
+      - name: Materialize fresh external-source challenge evidence
+        env:
+          EXTERNAL_SOURCE_CHALLENGE_JSON: ${{ inputs.external_source_challenge_json }}
+        run: |
+          mkdir -p "$(dirname "${EXTERNAL_CHALLENGE_PATH}")"
+          printf '%s' "${EXTERNAL_SOURCE_CHALLENGE_JSON}" > "${EXTERNAL_CHALLENGE_PATH}"
+          jq -e '.artifactType == "foundation_external_source_challenge_report"' "${EXTERNAL_CHALLENGE_PATH}" >/dev/null
+
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -103,6 +109,7 @@ jobs:
           CONTENT_FACTORY_FOUNDATION_EXPERT_REVIEW_PACKAGE_PROOF: '1'
           CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH: ${{ env.SOURCE_PROOF_PATH }}
           CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH: ${{ env.REVIEW_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_EXTERNAL_SOURCE_CHALLENGE_PATH: ${{ env.EXTERNAL_CHALLENGE_PATH }}
           CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA: ${{ env.SOURCE_HEAD_SHA }}
           CONTENT_FACTORY_FOUNDATION_SOURCE_FINGERPRINT: ${{ env.SOURCE_FOUNDATION_FINGERPRINT }}
           CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
