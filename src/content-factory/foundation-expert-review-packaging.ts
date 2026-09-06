@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import {
-  foundationExpertReviewPackageSchema,
+  currentFoundationExpertReviewPackageSchema,
+  historicalFoundationExpertReviewPackageSchema,
   foundationExpertReviewSubmissionSchema,
   type FoundationExpertReviewPackage,
 } from './foundation-expert-review'
@@ -17,10 +18,13 @@ export const foundationExpertReviewResolvedArtifactSchema = z.object({
   value: z.unknown(),
 })
 
+type ResolvedArtifact = z.infer<typeof foundationExpertReviewResolvedArtifactSchema>
+type PackageArtifactIdentity = { artifactKind: string; artifactRef: string; fingerprint: string }
+
 function validateResolvedArtifacts(
   bundle: {
-    reviewPackage: FoundationExpertReviewPackage
-    resolvedArtifacts: Array<z.infer<typeof foundationExpertReviewResolvedArtifactSchema>>
+    reviewPackage: { artifacts: PackageArtifactIdentity[] }
+    resolvedArtifacts: ResolvedArtifact[]
   },
   context: z.RefinementCtx,
 ) {
@@ -56,7 +60,7 @@ const foundationExpertReviewBundleV1Schema = z.object({
   schemaVersion: z.literal(1),
   artifactType: z.literal('foundation_expert_review_bundle'),
   packagingCommit: commitShaSchema,
-  reviewPackage: foundationExpertReviewPackageSchema,
+  reviewPackage: historicalFoundationExpertReviewPackageSchema,
   resolvedArtifacts: z.array(foundationExpertReviewResolvedArtifactSchema).min(1),
 }).superRefine(validateResolvedArtifacts)
 
@@ -64,7 +68,7 @@ export const foundationExpertReviewBundleV2Schema = z.object({
   schemaVersion: z.literal(2),
   artifactType: z.literal('foundation_expert_review_bundle'),
   packagingCommit: commitShaSchema,
-  reviewPackage: foundationExpertReviewPackageSchema,
+  reviewPackage: currentFoundationExpertReviewPackageSchema,
   resolvedArtifacts: z.array(foundationExpertReviewResolvedArtifactSchema).min(1),
   coverageReconciliation: foundationExpertReviewCoverageReconciliationSchema,
 }).superRefine((bundle, context) => {
@@ -94,7 +98,7 @@ export const foundationExpertReviewBundleSchema = z.union([
 export function buildFoundationExpertReviewBundle(input: {
   packagingCommit: string
   reviewPackage: FoundationExpertReviewPackage
-  resolvedArtifacts: Array<z.infer<typeof foundationExpertReviewResolvedArtifactSchema>>
+  resolvedArtifacts: ResolvedArtifact[]
   coverageReconciliation: z.infer<typeof foundationExpertReviewCoverageReconciliationSchema>
 }) {
   return foundationExpertReviewBundleV2Schema.parse({
@@ -105,7 +109,7 @@ export function buildFoundationExpertReviewBundle(input: {
 }
 
 export function buildFoundationExpertReviewSubmissionTemplate(reviewPackageInput: FoundationExpertReviewPackage) {
-  const reviewPackage = foundationExpertReviewPackageSchema.parse(reviewPackageInput)
+  const reviewPackage = currentFoundationExpertReviewPackageSchema.parse(reviewPackageInput)
   return {
     schemaVersion: 1,
     artifactType: 'foundation_expert_review_submission',
@@ -132,6 +136,7 @@ export function renderFoundationExpertReviewInstructions(bundleInput: z.infer<ty
   const bundle = foundationExpertReviewBundleV2Schema.parse(bundleInput)
   const reviewPackage = bundle.reviewPackage
   const reconciliation = bundle.coverageReconciliation
+  const challenge = reviewPackage.externalSourceChallenge
   const artifactLines = reviewPackage.artifacts
     .map((artifact, index) => `${index + 1}. ${artifact.artifactKind} — ${artifact.artifactRef} — ${artifact.fingerprint}`)
     .join('\n')
@@ -141,14 +146,18 @@ export function renderFoundationExpertReviewInstructions(bundleInput: z.infer<ty
     `Foundation fingerprint: ${reviewPackage.foundationFingerprint}\n` +
     `Candidate: ${reviewPackage.candidateId}\n` +
     `Reviewed implementation commit: ${reviewPackage.reviewedCommit}\n` +
+    `Source universe: ${reviewPackage.sourceUniverse.profileId} — ${reviewPackage.sourceUniverse.requiredSourceIds.length} required sources\n` +
+    `External-source challenge: ${challenge.challengeId} — ${challenge.decision} — ${challenge.challengedSourceIds.length} sources challenged\n` +
     `Curriculum reconciliation: ${reconciliation.curriculumProfileId} — ${reconciliation.curriculum.length} applicable obligations — ${reconciliation.status}\n` +
     `Exam reconciliation: ${reconciliation.examProfileId} — ${reconciliation.exam.length} applicable obligations — ${reconciliation.status}\n\n` +
     `## Human qualification requirement\n\n` +
     `The completed review must be performed by a genuinely qualified human reviewer or reviewer set covering both subject and assessment expertise. AI review is not a substitute. Record qualification evidence references in the submission.\n\n` +
+    `## Pre-human assurance boundary\n\n` +
+    `This package was allowed to exist only after deterministic assurance, ordinary fresh-context independent review and a separate fresh-context external-source challenge passed for this exact Foundation fingerprint. The external challenge deliberately assumed Revision's own source/requirement universe could be incomplete and challenged it against the independently declared source universe. These controls reduce avoidable omissions; they do not replace expert judgement.\n\n` +
     `## Review task\n\n` +
     `Review the complete resolved artifact set for educational accuracy, curriculum scope, assessment authenticity, internal consistency and any known limitations. Record every blocking, material or minor issue against the exact artifact reference in the supplied submission template.\n\n` +
     `The supplied coverage-reconciliation.json is a mandatory review artifact. It exposes the source-led curriculum and exam requirement universes separately from the generated Foundation, together with their source references and exact Course Truth / Exam Truth artifact mappings. Do not infer completeness solely from the generated artifact structure.\n\n` +
-    `Do not treat prior deterministic assurance or independent AI review as proof that the curriculum/exam requirement universe itself is correct. Challenge whether the Curriculum Coverage Map covers the complete applicable curriculum for this exact cohort, then verify that Course Truth satisfies every obligation accurately and at sufficient depth.\n\n` +
+    `Do not treat prior deterministic assurance, independent AI review or the external-source challenge as proof that the curriculum/exam requirement universe itself is correct. Challenge whether the Curriculum Coverage Map covers the complete applicable curriculum for this exact cohort, then verify that Course Truth satisfies every obligation accurately and at sufficient depth.\n\n` +
     `Separately challenge the Exam Coverage Map against the applicable assessment specification and current governed exam evidence. Verify component structure, question/response families, assessment-objective demand, quantitative requirements, marking/response expectations and any explicit pre-calibration boundaries. If an applicable curriculum or exam requirement is absent from the reconciliation, that omission is itself a Foundation defect.\n\n` +
     `A blocking or material finding requires fail_hold. A pass is valid only when no blocking or material findings remain.\n\n` +
     `## Exact artifact set\n\n${artifactLines}\n\n` +
