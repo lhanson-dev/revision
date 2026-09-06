@@ -5,6 +5,10 @@ import {
 } from './foundation-schema'
 import { computeFoundationFingerprint } from './foundation-lifecycle'
 import { foundationReviewableArtifactKindSchema } from './foundation-independent-review'
+import {
+  foundationExternalSourceChallengeReportSchema,
+  validateFoundationExternalSourceChallenge,
+} from './foundation-external-source-challenge'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -25,8 +29,7 @@ export const foundationExpertReviewArtifactSchema = z.object({
   fingerprint: nonEmptyStringSchema,
 })
 
-export const foundationExpertReviewPackageSchema = z.object({
-  schemaVersion: z.literal(1),
+const foundationExpertReviewPackageBaseSchema = z.object({
   artifactType: z.literal('foundation_expert_review_package'),
   jobId: identifierSchema,
   candidateId: identifierSchema,
@@ -40,6 +43,24 @@ export const foundationExpertReviewPackageSchema = z.object({
   knownLimitations: z.array(nonEmptyStringSchema).default([]),
   createdAt: nonEmptyStringSchema,
 })
+
+export const historicalFoundationExpertReviewPackageSchema = foundationExpertReviewPackageBaseSchema.extend({
+  schemaVersion: z.literal(1),
+})
+
+export const currentFoundationExpertReviewPackageSchema = foundationExpertReviewPackageBaseSchema.extend({
+  schemaVersion: z.literal(2),
+  sourceUniverse: z.object({
+    profileId: identifierSchema,
+    requiredSourceIds: z.array(identifierSchema).min(1),
+  }),
+  externalSourceChallenge: foundationExternalSourceChallengeReportSchema,
+})
+
+export const foundationExpertReviewPackageSchema = z.union([
+  currentFoundationExpertReviewPackageSchema,
+  historicalFoundationExpertReviewPackageSchema,
+])
 
 export const foundationExpertReviewFindingSchema = z.object({
   id: identifierSchema,
@@ -123,6 +144,11 @@ export async function buildFoundationExpertReviewPackage(input: {
   candidate: FoundationCandidate
   reviewedCommit: string
   createdAt: string
+  sourceUniverse: {
+    profileId: string
+    requiredSourceIds: string[]
+  }
+  externalSourceChallenge: unknown
 }) {
   const candidate = foundationCandidateSchema.parse(input.candidate)
   if (candidate.deterministicAssurance.status !== 'pass') {
@@ -143,8 +169,26 @@ export async function buildFoundationExpertReviewPackage(input: {
     throw new Error('Qualified expert review package contains stale independent review evidence')
   }
 
-  return foundationExpertReviewPackageSchema.parse({
-    schemaVersion: 1,
+  const sourceUniverse = z.object({
+    profileId: identifierSchema,
+    requiredSourceIds: z.array(identifierSchema).min(1),
+  }).parse(input.sourceUniverse)
+  const externalSourceChallenge = validateFoundationExternalSourceChallenge({
+    report: input.externalSourceChallenge,
+    jobId: input.jobId,
+    candidateId: candidate.candidateId,
+    reviewedCommit: input.reviewedCommit,
+    foundationFingerprint,
+    requiredSourceUniverseProfileId: sourceUniverse.profileId,
+    requiredSourceIds: sourceUniverse.requiredSourceIds,
+    forbiddenContextIds: [
+      ...candidate.provenance.generationContextIds,
+      ...candidate.provenance.assuranceContextIds,
+    ],
+  })
+
+  return currentFoundationExpertReviewPackageSchema.parse({
+    schemaVersion: 2,
     artifactType: 'foundation_expert_review_package',
     jobId: input.jobId,
     candidateId: candidate.candidateId,
@@ -155,6 +199,8 @@ export async function buildFoundationExpertReviewPackage(input: {
     artifacts: expectedArtifacts(candidate),
     deterministicAssuranceEvidenceRefs: candidate.deterministicAssurance.evidenceRefs,
     independentReviewEvidenceRefs: candidate.independentReview.evidenceRefs,
+    sourceUniverse,
+    externalSourceChallenge,
     knownLimitations: candidate.knownLimitations,
     createdAt: input.createdAt,
   })
@@ -203,6 +249,7 @@ export function validateFoundationExpertReviewSubmission(
   return submission
 }
 
-export type FoundationExpertReviewPackage = z.infer<typeof foundationExpertReviewPackageSchema>
+export type FoundationExpertReviewPackage = z.infer<typeof currentFoundationExpertReviewPackageSchema>
+export type HistoricalFoundationExpertReviewPackage = z.infer<typeof historicalFoundationExpertReviewPackageSchema>
 export type FoundationExpertReviewSubmission = z.infer<typeof foundationExpertReviewSubmissionSchema>
 export type FoundationExpertReviewFinding = z.infer<typeof foundationExpertReviewFindingSchema>
