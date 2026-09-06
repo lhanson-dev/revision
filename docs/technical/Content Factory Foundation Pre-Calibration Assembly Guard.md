@@ -1,6 +1,6 @@
 # Content Factory Foundation Pre-Calibration Assembly Guard
 
-**Status:** Current implementation record — released through PR #320; fresh Foundation live proof #7 source-backed approximate Paper 2 shape repair in progress  
+**Status:** Current implementation record — released through PR #320; aggregate/constituent context classifier repair in progress  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
 **Decision:** `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`  
 **Applies to:** AQA A-level Business 7132 / 2027 Foundation profile
@@ -46,7 +46,9 @@ The guard must distinguish three different kinds of numeric statement:
 - **allowed source-backed approximate shape:** the profile-specific verified Paper 2 statement that its three compulsory data-response questions are worth approximately 33 marks each; and
 - **forbidden constituent allocation:** a fixed number or sequence attached to an individual question, sub-question, set or other constituent demand before qualified calibration when that precision is not established by governed Exam Truth.
 
-The deterministic detector therefore permits exact whole-component values only when they equal the governed component total/timing and are locally described as aggregate component/paper facts or the total of the complete assembled set.
+The deterministic detector therefore permits an exact whole-component value only when it equals the governed component total/timing, the numeric phrase is locally bound to aggregate component/paper/set context, and the value is not directly assigned to a constituent. Merely mentioning a constituent question elsewhere in the same sentence does not turn an otherwise valid aggregate fact into a constituent allocation.
+
+Direct constituent assignment remains fail-closed. Examples include `each question should receive 20 marks`, `100 marks per question`, `one 100-mark question`, or assigning the full component total to each constituent question. The classifier checks the grammatical relationship around the numeric phrase rather than rejecting any sentence that happens to contain both aggregate and constituent terminology.
 
 For the separate Paper 2 approximate-shape fact, the detector permits `33 marks each` only when all of the following are true:
 
@@ -98,10 +100,13 @@ The current live compilation and remediation paths normalize before persistence.
 - deterministic detection of persisted drift; and
 - normalization of initial Question Family compilation.
 
-`foundation-precalibration-aggregate-context.test.ts` locks the exact live-proof #5 case:
+`foundation-precalibration-aggregate-context.test.ts` locks the aggregate/constituent classifier boundary:
 
-- `Ensure the assembled set totals 100 marks.` is accepted because `100` is the verified Paper 3 whole-component total and no constituent allocation is asserted; and
-- `Each question in the assembled set should receive 20 marks.` remains rejected as an unsupported constituent allocation.
+- `Ensure the assembled set totals 100 marks.` is accepted because `100` is the verified whole-component total and no constituent allocation is asserted;
+- a verified `component-level 120-minute response-time envelope` remains accepted even when the sentence goes on to discuss what each constituent question should contain;
+- a common-failure description such as `Treating the aggregate 100-mark question-set envelope as the mark allocation for one constituent ... question` remains accepted because it is describing the aggregate envelope and the number itself is not assigned to the constituent;
+- `Each question in the assembled set should receive 20 marks.` remains rejected as an unsupported constituent allocation; and
+- assigning the full `100-mark` component total to each constituent question remains rejected.
 
 `foundation-precalibration-source-backed-approximate-context.test.ts` locks the live-proof #7 boundary:
 
@@ -171,9 +176,28 @@ The narrow implementation repair is source-bound rather than keyword-permissive:
 
 This repair does not change ADR-0022 or the active requirement-led coverage authority. It corrects current implementation so it enforces those existing decisions accurately.
 
+## Slice 3B retained proof blocker — 6 September 2026
+
+A later retained AQA 7132 / 2027 Foundation Candidate from source proof run `34049089770` on `main` `ea8b1143270f70477dc5964f863c0e8e764bf3d5` produced Foundation fingerprint `4171ecaf91a6dc50bfcec334f1727892a6767fe7ff25eae1db1f034d6c9a103d` and passed deterministic Foundation assurance with 19 checks and zero failures.
+
+Fresh-context independent review then entered targeted remediation and failed closed in remediation normalisation on this Paper 2 common-failure description:
+
+`Treating the aggregate 100-mark question-set envelope as the mark allocation for one constituent data-response question.`
+
+The existing detector incorrectly rejected the sentence because its aggregate `100-mark` fact and the later constituent terminology occurred in the same local context. The number itself is not an asserted constituent allocation; the sentence explicitly describes the incorrect mapping as a failure mode.
+
+This is the same classifier class as the earlier `component-level 120-minute response-time envelope` false positive: aggregate truth was rejected because constituent terminology appeared elsewhere in the sentence. The repair therefore changes the detector from a broad co-occurrence test to a relationship test:
+
+- the amount must still equal the governed whole-component mark/timing value;
+- the numeric phrase must still have explicit aggregate component/paper/set context;
+- a number directly assigned to `each`, `per`, an individual/constituent question or equivalent remains rejected; and
+- unrelated constituent terminology later in the sentence no longer invalidates the aggregate fact.
+
+No compiler-owned response shape, source-rights rule, Foundation authority or pre-calibration policy is relaxed. The Foundation remains blocked until this implementation change is released and the exact retained candidate clears deterministic re-assurance plus a genuinely fresh independent review.
+
 ## Documentation impact check
 
-No normative authority or ADR change is required for the live-proof #7 repair. The active authority and ADR already require the behaviour being restored. This technical record is updated because the implementation classifier and proof history changed. Historical proof outcomes above remain unchanged.
+No normative authority or ADR change is required for this classifier repair. The active authority and ADR already require aggregate component facts to remain usable while unsupported constituent precision fails closed. This technical record is updated because the implementation classifier and proof history changed. Historical proof outcomes above remain unchanged.
 
 ## Source and rights impact
 
@@ -185,12 +209,14 @@ None. No learner-facing asset is created or changed. The change affects Foundati
 
 ## Next governed step
 
-After the live-proof #7 classifier repair is exact-head assured, Founder-approved, merged and production-verified:
+After the aggregate/constituent classifier repair is exact-head assured, Founder-approved, merged and production-verified:
 
-1. rerun the fresh AQA 7132 / 2027 Foundation live proof from the new approved `main`;
-2. require the compiler to complete source-led curriculum and exam reconciliation with zero learner assets;
-3. retain the new exact Foundation Candidate/fingerprint and proof evidence;
-4. bind deterministic assurance to that new proof; and
-5. continue to fresh-context independent review and qualified-human packaging only if the exact candidate passes the preceding gates.
+1. bind deterministic Foundation re-assurance to the retained exact source candidate/fingerprint from run `34049089770`;
+2. require the exact candidate to pass the released deterministic layer under the new implementation;
+3. run a genuinely fresh-context independent Foundation review against that exact candidate;
+4. require any targeted remediation to remain within the same pre-calibration evidence boundary; and
+5. continue to external-source challenge and qualified-human packaging only if the exact candidate passes the preceding gates.
+
+A fresh Foundation source compilation is not required merely because this repair changes assurance/remediation classification rather than Course Truth or Exam Truth generation. If any later remediation materially changes the Foundation fingerprint, the resulting exact version must be re-assured and re-reviewed under the normal governed dependency rules.
 
 Do not increase the remediation limit and do not manufacture constituent calibration merely to satisfy provider or reviewer wording unsupported by governed evidence.
