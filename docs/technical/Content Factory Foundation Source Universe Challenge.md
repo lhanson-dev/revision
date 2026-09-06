@@ -17,8 +17,8 @@ The released Source Universe / challenge design includes:
 - `foundation-aqa7132-source-universe-guard.ts` — AQA live compilation guard;
 - AQA Formulae and key data plus the September-2023 specification-update notice as mandatory `REFERENCE_ONLY` sources;
 - source-rights registry support for awarding-body `quantitative_or_skills_annex` and `amendment_or_notice` resources;
-- controlled structured quantitative alignment facts in the Foundation compilation path;
-- live-proof evidence asserting both new sources are retained in the exact Source Licence Register;
+- controlled structured quantitative and assessment alignment facts in the Foundation compilation path;
+- live-proof evidence asserting required Source Universe sources are retained in the exact Source Licence Register;
 - independent-review fail-closed checks preventing review/remediation when the required Source Universe is incomplete;
 - `foundation-external-source-challenge.ts` — a portable exact-fingerprint external-source challenge contract; and
 - expert-review package schema v2, which requires a passing challenge bound to the exact job, Candidate, implementation commit, Foundation fingerprint and Source Universe before packaging can succeed.
@@ -34,14 +34,15 @@ That failure establishes an important implementation boundary:
 - AQA `REFERENCE_ONLY` sources may define verified structured qualification-alignment facts;
 - those sources must not become curriculum `sourceRefs` and must not be treated as OPEN/derived curriculum authority;
 - controlled factual conventions may be retained in Board Alignment and applied deterministically to the exact Course Truth nodes they govern;
-- Course Truth retains permitted curriculum-source provenance separately and records the relevant Board Alignment IDs for qualification-specific conventions; and
+- exam-only qualification facts may remain in Board Alignment for Exam Truth without being overlaid onto Course Truth;
+- Course Truth retains permitted curriculum-source provenance separately and records the relevant Board Alignment IDs for qualification-specific curriculum conventions; and
 - protected AQA prose remains outside generative worker inputs.
 
-The guard therefore retains formula/convention facts as verified Board Alignment assessment requirements and deterministically binds their IDs to affected Course Truth nodes. This preserves the distinction between curriculum truth and qualification alignment required by the source-licensing authority instead of weakening the rights gate.
+The guard therefore retains formula/convention facts as verified Board Alignment assessment requirements and deterministically binds their IDs to affected Course Truth nodes. Exam-only facts remain Board Alignment evidence. This preserves the distinction between curriculum truth and qualification alignment required by the source-licensing authority instead of weakening the rights gate.
 
 ## AQA quantitative alignment facts
 
-The controlled alignment facts cover the defects found by the 6 September AI pre-review:
+The controlled curriculum-facing alignment facts cover the defects found by the 6 September AI pre-review:
 
 - market capitalisation calculation;
 - added-value calculation;
@@ -64,17 +65,18 @@ Retained evidence:
 - Candidate `aqa-a-level-business-7132-foundation-d33cc60ac450-1788699965172-candidate-1`;
 - Foundation fingerprint `5555deac45fb38e20cf72a4b828d0965a48793fcaad1051bd1ba5ecbbab80ee7`;
 - Course Truth: 49 source-led curriculum requirements and 49 Course Truth nodes, complete;
-- Exam Truth: complete;
-- learner-facing assets: zero; and
-- deterministic and independent assurance remain pending for this exact fingerprint.
+- Exam Truth: complete; and
+- learner-facing assets: zero.
 
-This proof supersedes earlier AQA candidates for current assurance purposes. Historical candidates and failed proofs remain retained as historical evidence and must not be rewritten or reused as the current Foundation.
+After reusable exact-source binding was released through PR #329, deterministic assurance run `34046485206` passed against that exact retained proof and fingerprint.
+
+This proof superseded earlier AQA candidates for its assurance attempt. Historical candidates and failed proofs remain retained as historical evidence and must not be rewritten or reused as the current Foundation.
 
 ## Exact-source proof-chain binding
 
 The successful fresh proof exposed an operational weakness in the retained assurance workflows: deterministic assurance and independent review were still hard-coded to an earlier proof identity. Running them unchanged would have assured the wrong Foundation.
 
-The proof-chain trigger is therefore being hardened so both workflows accept an explicit exact source-proof identity instead of repository-edited constants. The reusable trigger contract carries only:
+PR #329 released a reusable proof-chain trigger so both workflows accept an explicit exact source-proof identity instead of repository-edited constants. The reusable trigger contract carries only:
 
 - the successful Foundation Live Proof run ID;
 - the retained artifact ID;
@@ -92,6 +94,23 @@ The workflow then independently verifies that:
 - it generated zero learner-facing assets.
 
 Malformed, incomplete, duplicated or unknown trigger fields fail closed before assurance starts. Both workflow-dispatch and Founder-owned Issue #289 triggers use the same parser and validation rules. This removes repeated one-off workflow rebind PRs without weakening exact-fingerprint provenance.
+
+## Independent-review AO-weighting traceability finding
+
+Fresh-context independent-review run `34046520661` on 6 September 2026 correctly failed the exact Foundation fingerprint `5555deac45fb38e20cf72a4b828d0965a48793fcaad1051bd1ba5ecbbab80ee7` with one material finding: the Assessment Blueprint stated the current AQA overall AO ranges (`AO1 22-25%`, `AO2 24-27%`, `AO3 25-28%`, `AO4 23-26%`) but the retained Board Alignment did not contain a governed assessment requirement that sourced those values.
+
+The figures themselves are valid current AQA scheme-of-assessment facts. The defect was traceability: Exam Truth contained a qualification-specific assertion without the structured Board Alignment fact required to justify it. The remediation worker then failed closed because source-led review coverage treated the same AO ranges as required exam scope, exposing an inconsistency between required exam scope and retained provenance.
+
+The repair therefore:
+
+- retains `aqa-7132-scheme` as the existing mandatory `REFERENCE_ONLY` Source Universe source for assessment-objective and assessment-rule facts;
+- adds controlled Board Alignment fact `aqa-exam-ao-weighting`, sourced only to `aqa-7132-scheme`;
+- persists that fact as an exam-wide Board Alignment assessment requirement covering Paper 1, Paper 2 and Paper 3;
+- makes the fact available to Exam Truth through the existing Board Alignment input;
+- does not add the AQA scheme source to curriculum requirements or Course Truth `sourceRefs`; and
+- does not overlay this exam-only fact onto Course Truth nodes.
+
+This is an implementation/provenance correction under existing Source Universe and source-rights authority, not a new educational policy or a relaxation of source controls. Because Board Alignment and Exam Truth are material Foundation dependencies, the failed fingerprint `5555deac45fb38e20cf72a4b828d0965a48793fcaad1051bd1ba5ecbbab80ee7` must not continue through approval. After release, a completely fresh Foundation Live Proof is required, followed by deterministic assurance and fresh-context independent review on the new fingerprint.
 
 ## External-source challenge boundary
 
@@ -121,7 +140,9 @@ Normal CI must prove:
 - an incorrect source-rights classification fails closed;
 - AQA formula/convention sources never enter curriculum requirement `sourceRefs`;
 - controlled AQA quantitative facts remain attributable through Board Alignment;
-- affected Course Truth nodes retain permitted curriculum sources while recording the governing Board Alignment fact IDs;
+- the AQA overall AO ranges are retained as `aqa-exam-ao-weighting` sourced to `aqa-7132-scheme`;
+- the AO-weighting fact remains exam-only and does not enter Course Truth `boardAlignmentRefs` or source provenance;
+- affected Course Truth nodes retain permitted curriculum sources while recording only the governing curriculum-facing Board Alignment fact IDs;
 - exact-source proof trigger parsing succeeds for valid Issue #289 and workflow-dispatch inputs;
 - malformed, missing, duplicate and unknown proof-trigger fields fail closed;
 - a material external-source challenge finding blocks expert packaging;
@@ -130,8 +151,8 @@ Normal CI must prove:
 - reuse of an earlier Foundation context fails closed; and
 - existing Foundation compilation/review and historical-package readability remain green.
 
-The fresh corrected fingerprint `5555deac45fb38e20cf72a4b828d0965a48793fcaad1051bd1ba5ecbbab80ee7` must now pass deterministic assurance and independent review before the external-source challenge is produced. No historical AQA Candidate may be reused.
+No historical or failed AQA Candidate may be reused. After this AO-weighting traceability repair is released, the next valid assurance chain starts from a new main-only AQA 7132 / 2027 Foundation Live Proof and its new fingerprint.
 
 ## Documentation impact
 
-This technical change does not alter normative product or source-rights authority. It strengthens current implementation provenance and records the successful fresh Foundation proof. Historical Live Proof #21 and all earlier proof/review evidence remain unchanged. The active Foundation implementation plan should be updated with the final assurance/review evidence as the corrected fingerprint progresses through the remaining gates.
+This technical change does not alter normative product or source-rights authority. It strengthens current implementation provenance and records both the successful live/deterministic proof evidence and the subsequent independent-review traceability failure. Historical Live Proof #21, run `34035019903`, deterministic run `34046485206`, independent-review run `34046520661` and all earlier evidence remain historically unchanged. The active Foundation implementation plan should be updated with final assurance/review evidence only after a new corrected fingerprint progresses through the remaining gates.
