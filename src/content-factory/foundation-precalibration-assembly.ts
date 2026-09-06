@@ -51,11 +51,13 @@ const policyByFamilyId = new Map(
 
 const exactMarkOrMinuteAllocation = /\b(\d+)\s*(?:-|–|—|\s)*(mark|marks|minute|minutes)\b/gi
 const allocationSequence = /\b\d+(?:\s*(?:\/|,|and)\s*\d+){2,}\b/i
-const aggregateFactContext = /\b(?:component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall|assembled[-\s]+set)\b/i
-const constituentAllocationContext = /\b(?:each|per|question|sub[-\s]?question|constituent|individual|data-response\s+set|case-study\s+question)\b/i
+const aggregateFactContext = /\b(?:aggregate|component(?:-level|\s+level|\s+total)?|paper(?:-level|\s+level|\s+total)?|whole[-\s]+paper|overall|assembled[-\s]+set|question[-\s]+set(?:\s+envelope)?|response[-\s]+time\s+envelope)\b/i
 const approximateFactContext = /\b(?:approximately|approx(?:imately)?\.?|about|around|roughly)\b/i
 const dataResponseQuestionContext = /\bdata[-\s]?response questions?\b/i
 const marksEachContext = /\bmarks?\s+each\b/i
+const constituentSubjectBeforeAllocation = /\b(?:each|every|individual|constituent|one)\s+(?:data[-\s]?response\s+(?:question|set)|case[-\s]?study\s+question|sub[-\s]?question|question)\b[^.!?;:]{0,56}\b(?:is|are|worth|receive|receives|receiving|gets?|has|have|carry|carries|allocated|assigned|given|should\s+receive|should\s+get)\b[^.!?;:]{0,32}$/i
+const constituentAllocationAfterAmount = /^\s*(?:(?:each|per)\b|(?:to|for)\s+(?:each|every|one|an?\s+individual|one\s+constituent)\b|(?:allocated|assigned|given)\s+(?:to\s+)?(?:each|every|one|an?\s+individual|one\s+constituent)\b|(?:(?:an?|the|one)\s+)?(?:(?:individual|constituent)\s+)?(?:data[-\s]?response\s+(?:question|set)|case[-\s]?study\s+question|sub[-\s]?question|question)\b(?![-\s]?set\b))/i
+const aggregateNounBeforeConstituentAllocation = /^\s*(?:(?:component|paper|overall|assembled[-\s]+set|question[-\s]+set)\s+(?:total|envelope)|(?:total|envelope))?\s*(?:is\s+)?(?:allocated|assigned|given)\s+(?:to\s+)?(?:each|every|one|an?\s+individual|one\s+constituent)\b/i
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
@@ -76,6 +78,21 @@ function providerAuthoredText(family: QuestionFamily) {
 type AssessmentComponent = FoundationAssessmentBlueprint['components'][number]
 type AssessmentRequirement = FoundationAssessmentBlueprint['assessmentRequirements'][number]
 
+function directlyAllocatesMatchToConstituent(
+  text: string,
+  match: RegExpMatchArray,
+) {
+  if (match.index === undefined) return false
+
+  const before = text.slice(Math.max(0, match.index - 120), match.index)
+  const afterStart = match.index + match[0].length
+  const after = text.slice(afterStart, Math.min(text.length, afterStart + 120))
+
+  return constituentSubjectBeforeAllocation.test(before)
+    || constituentAllocationAfterAmount.test(after)
+    || aggregateNounBeforeConstituentAllocation.test(after)
+}
+
 function isAllowedAggregateComponentFact(
   text: string,
   match: RegExpMatchArray,
@@ -88,12 +105,12 @@ function isAllowedAggregateComponentFact(
   const expected = unit?.startsWith('mark') ? component.markTotal : component.timingMinutes
   if (expected === undefined || amount !== expected) return false
 
-  const contextStart = Math.max(0, match.index - 56)
-  const contextEnd = Math.min(text.length, match.index + match[0].length + 24)
+  const contextStart = Math.max(0, match.index - 72)
+  const contextEnd = Math.min(text.length, match.index + match[0].length + 56)
   const localContext = text.slice(contextStart, contextEnd)
 
+  if (directlyAllocatesMatchToConstituent(text, match)) return false
   return aggregateFactContext.test(localContext)
-    && !constituentAllocationContext.test(localContext)
 }
 
 function isAllowedSourceBackedApproximatePaper2Fact(
