@@ -164,6 +164,19 @@ export const foundationQuantitativeCoveragePlanSchema = z.object({
   interpretationCreditRequired: z.boolean(),
 })
 
+export const foundationAssessmentObjectiveCoveragePlanSchema = z.object({
+  sourceAssessmentRequirementId: identifierSchema,
+  scope: z.literal('qualification_total'),
+  totalAssessmentMarks: z.number().int().positive(),
+  objectives: z.array(z.object({
+    objectiveId: identifierSchema,
+    minPercent: z.number().nonnegative().max(100),
+    maxPercent: z.number().nonnegative().max(100),
+  }).refine((objective) => objective.maxPercent >= objective.minPercent, 'Assessment-objective percentage range is invalid')).min(1),
+  generationValidation: z.literal('sum_assessment_objective_marks_within_ranges'),
+  allocationRequiredAt: z.literal('marking_pack_generation'),
+})
+
 export const foundationAssessmentBlueprintSchema = z.object({
   schemaVersion: z.union([z.literal(1), z.literal(2)]),
   jobId: identifierSchema,
@@ -193,48 +206,110 @@ export const foundationAssessmentBlueprintSchema = z.object({
   evidenceExpectations: z.array(nonEmptyStringSchema).default([]),
   quantitativeRequirements: z.array(nonEmptyStringSchema).default([]),
   quantitativeCoveragePlan: foundationQuantitativeCoveragePlanSchema.optional(),
+  assessmentObjectiveCoveragePlan: foundationAssessmentObjectiveCoveragePlanSchema.optional(),
   synopticRequirements: z.array(nonEmptyStringSchema).default([]),
 }).superRefine((blueprint, context) => {
-  const plan = blueprint.quantitativeCoveragePlan
-  if (!plan) return
-
-  if (!blueprint.assessmentRequirements.some((requirement) => requirement.id === plan.sourceAssessmentRequirementId)) {
-    context.addIssue({
-      code: 'custom',
-      path: ['quantitativeCoveragePlan', 'sourceAssessmentRequirementId'],
-      message: 'Quantitative coverage plan must reference an Exam Truth assessment requirement',
-    })
-  }
-
   const markTotals = blueprint.components.map((component) => component.markTotal)
-  if (markTotals.every((mark): mark is number => mark !== undefined)) {
-    const total = markTotals.reduce((sum, mark) => sum + mark, 0)
-    if (plan.totalAssessmentMarks !== total) {
+  const completeMarkTotal = markTotals.every((mark): mark is number => mark !== undefined)
+    ? markTotals.reduce((sum, mark) => sum + mark, 0)
+    : undefined
+
+  const quantitativePlan = blueprint.quantitativeCoveragePlan
+  if (quantitativePlan) {
+    if (!blueprint.assessmentRequirements.some((requirement) => requirement.id === quantitativePlan.sourceAssessmentRequirementId)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['quantitativeCoveragePlan', 'sourceAssessmentRequirementId'],
+        message: 'Quantitative coverage plan must reference an Exam Truth assessment requirement',
+      })
+    }
+
+    if (completeMarkTotal !== undefined && quantitativePlan.totalAssessmentMarks !== completeMarkTotal) {
       context.addIssue({
         code: 'custom',
         path: ['quantitativeCoveragePlan', 'totalAssessmentMarks'],
-        message: `Quantitative coverage plan total marks must equal component marks (${total})`,
+        message: `Quantitative coverage plan total marks must equal component marks (${completeMarkTotal})`,
       })
+    }
+
+    const requiredMinimum = Math.ceil((quantitativePlan.totalAssessmentMarks * quantitativePlan.minimumOverallPercent) / 100)
+    if (quantitativePlan.minimumQuantitativeMarks !== requiredMinimum) {
+      context.addIssue({
+        code: 'custom',
+        path: ['quantitativeCoveragePlan', 'minimumQuantitativeMarks'],
+        message: `Quantitative coverage plan minimum marks must equal the percentage-derived minimum (${requiredMinimum})`,
+      })
+    }
+
+    const familyIds = new Set(blueprint.components.flatMap((component) => component.questionFamilyIds))
+    for (const [index, familyId] of quantitativePlan.eligibleQuestionFamilyIds.entries()) {
+      if (!familyIds.has(familyId)) {
+        context.addIssue({
+          code: 'custom',
+          path: ['quantitativeCoveragePlan', 'eligibleQuestionFamilyIds', index],
+          message: `Quantitative coverage plan references unknown Question Family ${familyId}`,
+        })
+      }
     }
   }
 
-  const requiredMinimum = Math.ceil((plan.totalAssessmentMarks * plan.minimumOverallPercent) / 100)
-  if (plan.minimumQuantitativeMarks !== requiredMinimum) {
-    context.addIssue({
-      code: 'custom',
-      path: ['quantitativeCoveragePlan', 'minimumQuantitativeMarks'],
-      message: `Quantitative coverage plan minimum marks must equal the percentage-derived minimum (${requiredMinimum})`,
-    })
-  }
-
-  const familyIds = new Set(blueprint.components.flatMap((component) => component.questionFamilyIds))
-  for (const [index, familyId] of plan.eligibleQuestionFamilyIds.entries()) {
-    if (!familyIds.has(familyId)) {
+  const objectivePlan = blueprint.assessmentObjectiveCoveragePlan
+  if (objectivePlan) {
+    if (!blueprint.assessmentRequirements.some((requirement) => requirement.id === objectivePlan.sourceAssessmentRequirementId)) {
       context.addIssue({
         code: 'custom',
-        path: ['quantitativeCoveragePlan', 'eligibleQuestionFamilyIds', index],
-        message: `Quantitative coverage plan references unknown Question Family ${familyId}`,
+        path: ['assessmentObjectiveCoveragePlan', 'sourceAssessmentRequirementId'],
+        message: 'Assessment-objective coverage plan must reference an Exam Truth assessment requirement',
       })
+    }
+
+    if (completeMarkTotal !== undefined && objectivePlan.totalAssessmentMarks !== completeMarkTotal) {
+      context.addIssue({
+        code: 'custom',
+        path: ['assessmentObjectiveCoveragePlan', 'totalAssessmentMarks'],
+        message: `Assessment-objective coverage plan total marks must equal component marks (${completeMarkTotal})`,
+      })
+    }
+
+    const planIds = objectivePlan.objectives.map((objective) => objective.objectiveId)
+    if (new Set(planIds).size !== planIds.length) {
+      context.addIssue({
+        code: 'custom',
+        path: ['assessmentObjectiveCoveragePlan', 'objectives'],
+        message: 'Assessment-objective coverage plan must not contain duplicate objective IDs',
+      })
+    }
+    const blueprintIds = blueprint.assessmentObjectives.map((objective) => objective.id)
+    if (!sameSet(planIds, blueprintIds)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['assessmentObjectiveCoveragePlan', 'objectives'],
+        message: 'Assessment-objective coverage plan must cover exactly the Exam Truth assessment objectives',
+      })
+    }
+
+    const minTotal = objectivePlan.objectives.reduce((sum, objective) => sum + objective.minPercent, 0)
+    const maxTotal = objectivePlan.objectives.reduce((sum, objective) => sum + objective.maxPercent, 0)
+    if (minTotal > 100 || maxTotal < 100) {
+      context.addIssue({
+        code: 'custom',
+        path: ['assessmentObjectiveCoveragePlan', 'objectives'],
+        message: 'Assessment-objective percentage ranges must admit a valid 100% qualification-total allocation',
+      })
+    }
+
+    const ranges = new Map(objectivePlan.objectives.map((objective) => [objective.objectiveId, objective]))
+    for (const [index, objective] of blueprint.assessmentObjectives.entries()) {
+      const range = ranges.get(objective.id)
+      if (range && objective.weightingPercent !== undefined && (
+        objective.weightingPercent < range.minPercent || objective.weightingPercent > range.maxPercent
+      )) {
+        context.addIssue({
+          code: 'custom',
+          path: ['assessmentObjectives', index, 'weightingPercent'],
+          message: `Assessment-objective weighting for ${objective.id} falls outside its governed qualification-total range`,
+        })
+      }
     }
   }
 })
@@ -247,6 +322,7 @@ export type FoundationCurriculumRequirementInput = z.infer<typeof foundationCurr
 export type FoundationCoverageModel = z.infer<typeof foundationCoverageModelSchema>
 export type FoundationAssessmentBlueprint = z.infer<typeof foundationAssessmentBlueprintSchema>
 export type FoundationQuantitativeCoveragePlan = z.infer<typeof foundationQuantitativeCoveragePlanSchema>
+export type FoundationAssessmentObjectiveCoveragePlan = z.infer<typeof foundationAssessmentObjectiveCoveragePlanSchema>
 
 export type FoundationWorkerExecutionProvenance = {
   id: string
@@ -832,6 +908,9 @@ function validateQuestionFamilies(
       const component = blueprint.components.find((candidate) => candidate.componentId === componentId)!
       if (component.markTotal !== undefined && family.markRange.max > component.markTotal) {
         throw new Error(`Question Family ${family.id} mark range exceeds Exam Truth component ${componentId} total`)
+      }
+      if (family.aggregateMarkTotal !== undefined && component.markTotal !== undefined && family.aggregateMarkTotal > component.markTotal) {
+        throw new Error(`Question Family ${family.id} aggregate mark total exceeds Exam Truth component ${componentId} total`)
       }
     }
   }
