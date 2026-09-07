@@ -13,6 +13,7 @@ import {
   AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE,
   AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE_PROFILE_ID,
 } from './source-seeds/aqa-a-level-business-7132-2027-source-universe'
+import { AQA_A_LEVEL_BUSINESS_7132_ADDITIONAL_QUANTITATIVE_ALIGNMENT_RULES } from './source-seeds/aqa-a-level-business-7132-quantitative-alignment'
 
 export const AQA_A_LEVEL_BUSINESS_7132_SOURCE_UNIVERSE_URLS = {
   formulaeKeyData: 'https://filestore.aqa.org.uk/resources/business/AQA-7131-7132-FORMULAE.PDF',
@@ -52,6 +53,7 @@ type AqaBoardAlignmentRule = {
  * them back to their Board Alignment fact IDs.
  */
 const aqaCourseAlignmentRules: AqaCourseAlignmentRule[] = [
+  ...AQA_A_LEVEL_BUSINESS_7132_ADDITIONAL_QUANTITATIVE_ALIGNMENT_RULES,
   {
     fact: {
       id: 'aqa-quant-market-capitalisation',
@@ -177,7 +179,6 @@ const allAqaAlignmentRules = [
 function success<T>(execution: Extract<FoundationWorkerExecution<T>, { status: 'success' }>, output: T): FoundationWorkerExecution<T> {
   return { ...execution, output }
 }
-
 function failure(stage: string, error: unknown): FoundationWorkerExecution<unknown> {
   return {
     status: 'failure',
