@@ -44,6 +44,15 @@ export const AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES: readonl
   },
 ] as const
 
+export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID = 'aqa-exam-ao-weighting'
+export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.'
+export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES = [
+  { objectiveId: 'ao1', minPercent: 22, maxPercent: 25 },
+  { objectiveId: 'ao2', minPercent: 24, maxPercent: 27 },
+  { objectiveId: 'ao3', minPercent: 25, maxPercent: 28 },
+  { objectiveId: 'ao4', minPercent: 23, maxPercent: 26 },
+] as const
+
 const policyByFamilyId = new Map(
   AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES
     .map((policy) => [policy.questionFamilyId, policy] as const),
@@ -61,6 +70,12 @@ const aggregateNounBeforeConstituentAllocation = /^\s*(?:(?:component|paper|over
 
 function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
+}
+
+function sameSet(left: Iterable<string>, right: Iterable<string>) {
+  const a = new Set(left)
+  const b = new Set(right)
+  return a.size === b.size && [...a].every((value) => b.has(value))
 }
 
 function providerAuthoredText(family: QuestionFamily) {
@@ -211,6 +226,9 @@ export function aqa7132PreCalibrationAssemblyProblems(
     if (family.markRange.min !== 1 || family.markRange.max !== component.markTotal) {
       problems.push(`Question Family ${family.id} must retain the compiler-owned component-wide pre-calibration mark envelope 1-${component.markTotal}`)
     }
+    if (family.aggregateMarkTotal !== component.markTotal) {
+      problems.push(`Question Family ${family.id} complete-set aggregate mark total must equal the governed component total ${component.markTotal}`)
+    }
   }
 
   if (family.responseShape !== policy.responseShape) {
@@ -250,6 +268,7 @@ export function normaliseAqa7132PreCalibrationQuestionFamily(
       min: 1,
       max: component.markTotal,
     },
+    aggregateMarkTotal: component.markTotal,
     responseShape: policy.responseShape,
     calibrationStatus: 'not_calibrated',
   })
@@ -277,8 +296,84 @@ function appendUnique(values: string[], additions: string[]) {
   return [...new Set([...values, ...additions])]
 }
 
-function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentBlueprint {
+export function aqa7132AssessmentObjectiveCoverageProblems(
+  blueprintInput: unknown,
+): string[] {
+  const blueprint = foundationAssessmentBlueprintSchema.parse(blueprintInput)
+  const problems: string[] = []
+  const sourceRequirement = blueprint.assessmentRequirements.find(
+    (requirement) => requirement.id === AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  )
+  if (!sourceRequirement) {
+    problems.push(`Exam Truth is missing Board Alignment requirement ${AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID}`)
+  } else {
+    if (sourceRequirement.summary !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY) {
+      problems.push('AQA assessment-objective range requirement does not preserve the governed Board Alignment summary')
+    }
+    if (!sameSet(sourceRequirement.componentScope, ['paper-1', 'paper-2', 'paper-3'])) {
+      problems.push('AQA assessment-objective range requirement must remain qualification-wide across Paper 1, Paper 2 and Paper 3')
+    }
+  }
+
+  if (!sameSet(blueprint.assessmentObjectives.map((objective) => objective.id), AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((objective) => objective.objectiveId))) {
+    problems.push('AQA Exam Truth must retain exactly AO1, AO2, AO3 and AO4')
+  }
+  for (const objective of blueprint.assessmentObjectives) {
+    if (objective.weightingPercent !== undefined) {
+      problems.push(`AQA assessment objective ${objective.id} must retain its governed qualification-total range rather than an invented exact weighting`)
+    }
+  }
+
+  const componentMarks = blueprint.components.map((component) => component.markTotal)
+  const totalAssessmentMarks = componentMarks.every((mark): mark is number => mark !== undefined)
+    ? componentMarks.reduce((sum, mark) => sum + mark, 0)
+    : undefined
+  const plan = blueprint.assessmentObjectiveCoveragePlan
+  if (!plan) {
+    problems.push('AQA Exam Truth is missing the qualification-total assessment-objective coverage plan')
+    return problems
+  }
+  if (plan.sourceAssessmentRequirementId !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID) {
+    problems.push('AQA assessment-objective coverage plan is not bound to the governed Board Alignment range requirement')
+  }
+  if (totalAssessmentMarks === undefined || plan.totalAssessmentMarks !== totalAssessmentMarks) {
+    problems.push('AQA assessment-objective coverage plan must use the complete qualification mark total')
+  }
+  if (plan.generationValidation !== 'sum_assessment_objective_marks_within_ranges' || plan.allocationRequiredAt !== 'marking_pack_generation') {
+    problems.push('AQA assessment-objective coverage plan must retain compiler-owned aggregate generation validation')
+  }
+
+  const governedRanges = new Map(AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((range) => [range.objectiveId, range]))
+  if (!sameSet(plan.objectives.map((objective) => objective.objectiveId), governedRanges.keys())) {
+    problems.push('AQA assessment-objective coverage plan must retain exactly the governed AO range set')
+  }
+  for (const objective of plan.objectives) {
+    const governed = governedRanges.get(objective.objectiveId)
+    if (!governed || governed.minPercent !== objective.minPercent || governed.maxPercent !== objective.maxPercent) {
+      problems.push(`AQA assessment-objective coverage range for ${objective.objectiveId} does not match Board Alignment`)
+    }
+  }
+  return problems
+}
+
+export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentBlueprint {
   const blueprint = foundationAssessmentBlueprintSchema.parse(value)
+  const sourceRequirement = blueprint.assessmentRequirements.find(
+    (requirement) => requirement.id === AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  )
+  if (!sourceRequirement) {
+    throw new Error(`AQA Exam Truth requires Board Alignment requirement ${AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID}`)
+  }
+  if (sourceRequirement.summary !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY) {
+    throw new Error('AQA Exam Truth assessment-objective ranges must preserve the governed Board Alignment summary')
+  }
+  if (!sameSet(sourceRequirement.componentScope, ['paper-1', 'paper-2', 'paper-3'])) {
+    throw new Error('AQA assessment-objective range requirement must remain qualification-wide across all three papers')
+  }
+  if (!sameSet(blueprint.assessmentObjectives.map((objective) => objective.id), AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((objective) => objective.objectiveId))) {
+    throw new Error('AQA Exam Truth must retain exactly AO1, AO2, AO3 and AO4 before aggregate AO validation can be compiled')
+  }
+
   const components = blueprint.components.map((component) => {
     if (component.componentId === 'paper-1') {
       return {
@@ -312,15 +407,34 @@ function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentBlueprin
     return component
   })
 
-  return foundationAssessmentBlueprintSchema.parse({
+  const componentMarks = components.map((component) => component.markTotal)
+  if (!componentMarks.every((mark): mark is number => mark !== undefined)) {
+    throw new Error('AQA assessment-objective coverage plan requires verified mark totals for all three papers')
+  }
+  const totalAssessmentMarks = componentMarks.reduce((sum, mark) => sum + mark, 0)
+
+  const normalised = foundationAssessmentBlueprintSchema.parse({
     ...blueprint,
+    assessmentObjectives: blueprint.assessmentObjectives.map((objective) => ({ id: objective.id })),
     components,
+    assessmentObjectiveCoveragePlan: {
+      sourceAssessmentRequirementId: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+      scope: 'qualification_total',
+      totalAssessmentMarks,
+      objectives: AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((objective) => ({ ...objective })),
+      generationValidation: 'sum_assessment_objective_marks_within_ranges',
+      allocationRequiredAt: 'marking_pack_generation',
+    },
     evidenceExpectations: appendUnique(blueprint.evidenceExpectations, [
       'All content may be assessed across Paper 1, Paper 2 and Paper 3.',
-      'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+      sourceRequirement.summary,
       'At least 10% of the overall A-level marks assess quantitative skills.',
     ]),
   })
+
+  const problems = aqa7132AssessmentObjectiveCoverageProblems(normalised)
+  if (problems.length > 0) throw new Error(problems.join('; '))
+  return normalised
 }
 
 function normalisePaper1NineMarkFamily(value: QuestionFamily) {
@@ -341,6 +455,12 @@ function assertAqa7132ExamCoverage(
   assessmentBlueprint: FoundationAssessmentBlueprint,
   questionFamilies: QuestionFamily[],
 ) {
+  const aggregateProblems = [
+    ...aqa7132AssessmentObjectiveCoverageProblems(assessmentBlueprint),
+    ...questionFamilies.flatMap((family) => aqa7132PreCalibrationAssemblyProblems(family, assessmentBlueprint)),
+  ]
+  if (aggregateProblems.length > 0) throw new Error(aggregateProblems.join('; '))
+
   assertExamRequirementCoverage({
     obligations: AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
     evidenceItems: buildAqaAlevelBusiness7132ExamEvidenceItems(assessmentBlueprint, questionFamilies),
