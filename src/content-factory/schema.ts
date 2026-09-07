@@ -333,6 +333,7 @@ export const questionFamilySchema = z.object({
     min: z.number().int().nonnegative(),
     max: z.number().int().positive(),
   }).refine((range) => range.max >= range.min, 'Question-family mark range is invalid'),
+  aggregateMarkTotal: z.number().int().positive().optional(),
   responseShape: nonEmptyStringSchema,
   contextRequirements: z.array(nonEmptyStringSchema).default([]),
   applicationRequirements: z.array(nonEmptyStringSchema).default([]),
