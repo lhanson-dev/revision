@@ -11,6 +11,7 @@ import {
 } from './foundation-compilation'
 import type { FoundationStructuredProviderClient } from './foundation-live-adapter'
 import {
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
   normaliseAqa7132ExamTruth,
   normaliseAqa7132PreCalibrationQuestionFamily,
 } from './foundation-precalibration-assembly'
@@ -115,6 +116,12 @@ async function normaliseCourseKnowledgeModelReplacement(
   })
 }
 
+function usesAqa7132AggregateAoBoundary(remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0]) {
+  return remediationInput.assessmentBlueprint.assessmentRequirements.some(
+    (requirement) => requirement.id === AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  )
+}
+
 async function normaliseRemediationOutput(
   providerOutput: unknown,
   remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
@@ -157,7 +164,9 @@ async function normaliseRemediationOutput(
       })
       return {
         ...replacement,
-        correctedArtifact: normaliseAqa7132ExamTruth(semanticCorrection),
+        correctedArtifact: usesAqa7132AggregateAoBoundary(remediationInput)
+          ? normaliseAqa7132ExamTruth(semanticCorrection)
+          : semanticCorrection,
       }
     }
 
