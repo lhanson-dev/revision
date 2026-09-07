@@ -46,12 +46,16 @@ export const AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES: readonl
 
 export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID = 'aqa-exam-ao-weighting'
 export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.'
-export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES = [
+export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES: ReadonlyArray<{
+  objectiveId: string
+  minPercent: number
+  maxPercent: number
+}> = [
   { objectiveId: 'ao1', minPercent: 22, maxPercent: 25 },
   { objectiveId: 'ao2', minPercent: 24, maxPercent: 27 },
   { objectiveId: 'ao3', minPercent: 25, maxPercent: 28 },
   { objectiveId: 'ao4', minPercent: 23, maxPercent: 26 },
-] as const
+]
 
 const policyByFamilyId = new Map(
   AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES
