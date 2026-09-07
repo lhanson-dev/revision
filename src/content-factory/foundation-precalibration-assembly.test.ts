@@ -5,7 +5,12 @@ import {
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import {
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY,
+  AQA_A_LEVEL_BUSINESS_7132_AO_RANGES,
+  aqa7132AssessmentObjectiveCoverageProblems,
   aqa7132PreCalibrationAssemblyProblems,
+  normaliseAqa7132ExamTruth,
   normaliseAqa7132PreCalibrationQuestionFamily,
   withAqa7132PreCalibrationAssemblyGuard,
 } from './foundation-precalibration-assembly'
@@ -35,6 +40,7 @@ function blueprint() {
       { id: 'paper2-structure', summary: 'Three compulsory data-response questions worth approximately 33 marks each.', componentScope: ['paper-2'] },
       { id: 'paper3-structure', summary: 'One compulsory case study followed by approximately six questions.', componentScope: ['paper-3'] },
       { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
+      { id: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID, summary: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY, componentScope: ['paper-1', 'paper-2', 'paper-3'] },
     ],
     components: [
       { componentId: 'paper-1', questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay'], markTotal: 100, timingMinutes: 120, constraints: ['written examination'] },
@@ -69,13 +75,14 @@ function family(id: string, componentId: string) {
 }
 
 describe('Foundation pre-calibration assessment assembly guard', () => {
-  it('replaces rigid Paper 3 mark/timing assembly with the compiler-owned uncalibrated envelope', () => {
+  it('replaces rigid Paper 3 mark/timing assembly with the compiler-owned uncalibrated envelope and exact complete-set total', () => {
     const corrected = normaliseAqa7132PreCalibrationQuestionFamily(
       family('paper3-case-study', 'paper-3'),
       blueprint(),
     )
 
     expect(corrected.markRange).toEqual({ min: 1, max: 100 })
+    expect(corrected.aggregateMarkTotal).toBe(100)
     expect(corrected.responseShape).toContain('approximately six questions')
     expect(corrected.responseShape).toContain('remain unfixed until qualified calibration')
     expect(corrected.responseShape).not.toContain('5/10/15/20/25/25')
@@ -95,6 +102,7 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
       'Validate the component-level 120-minute response-time envelope while leaving constituent timings unfixed until qualified calibration.',
     )
     expect(corrected.markRange).toEqual({ min: 1, max: 100 })
+    expect(corrected.aggregateMarkTotal).toBe(100)
     expect(aqa7132PreCalibrationAssemblyProblems(corrected, blueprint())).toEqual([])
   })
 
@@ -120,7 +128,51 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
 
     expect(problems).toEqual(expect.arrayContaining([
       expect.stringContaining('component-wide pre-calibration mark envelope'),
+      expect.stringContaining('complete-set aggregate mark total'),
       expect.stringContaining('aggregate-only pre-calibration response shape'),
+    ]))
+  })
+
+  it('materialises source-backed qualification AO ranges and removes invented exact AO targets', () => {
+    const corrected = normaliseAqa7132ExamTruth({
+      ...blueprint(),
+      assessmentObjectives: [
+        { id: 'ao1', weightingPercent: 23 },
+        { id: 'ao2', weightingPercent: 25 },
+        { id: 'ao3', weightingPercent: 26 },
+        { id: 'ao4', weightingPercent: 26 },
+      ],
+    })
+
+    expect(corrected.assessmentObjectives).toEqual([
+      { id: 'ao1' },
+      { id: 'ao2' },
+      { id: 'ao3' },
+      { id: 'ao4' },
+    ])
+    expect(corrected.assessmentObjectiveCoveragePlan).toEqual({
+      sourceAssessmentRequirementId: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+      scope: 'qualification_total',
+      totalAssessmentMarks: 300,
+      objectives: AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((objective) => ({ ...objective })),
+      generationValidation: 'sum_assessment_objective_marks_within_ranges',
+      allocationRequiredAt: 'marking_pack_generation',
+    })
+    expect(aqa7132AssessmentObjectiveCoverageProblems(corrected)).toEqual([])
+  })
+
+  it('detects an altered AO range plan rather than accepting provider precision', () => {
+    const corrected = normaliseAqa7132ExamTruth(blueprint())
+    expect(aqa7132AssessmentObjectiveCoverageProblems({
+      ...corrected,
+      assessmentObjectiveCoveragePlan: {
+        ...corrected.assessmentObjectiveCoveragePlan!,
+        objectives: corrected.assessmentObjectiveCoveragePlan!.objectives.map((objective) => (
+          objective.objectiveId === 'ao1' ? { ...objective, minPercent: 23 } : objective
+        )),
+      },
+    })).toEqual(expect.arrayContaining([
+      expect.stringContaining('ao1'),
     ]))
   })
 
@@ -162,7 +214,14 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
       expect.objectContaining({
         id: 'paper2-data-response',
         markRange: { min: 1, max: 100 },
+        aggregateMarkTotal: 100,
         responseShape: expect.stringContaining('three or four parts'),
+      }),
+      expect.objectContaining({
+        id: 'paper3-case-study',
+        markRange: { min: 1, max: 100 },
+        aggregateMarkTotal: 100,
+        responseShape: expect.stringContaining('approximately six questions'),
       }),
     ]))
   })

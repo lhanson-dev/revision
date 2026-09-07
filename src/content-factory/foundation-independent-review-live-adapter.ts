@@ -10,7 +10,11 @@ import {
   type FoundationWorkerExecution,
 } from './foundation-compilation'
 import type { FoundationStructuredProviderClient } from './foundation-live-adapter'
-import { normaliseAqa7132PreCalibrationQuestionFamily } from './foundation-precalibration-assembly'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  normaliseAqa7132ExamTruth,
+  normaliseAqa7132PreCalibrationQuestionFamily,
+} from './foundation-precalibration-assembly'
 import {
   foundationIndependentReviewFindingSchema,
   foundationIndependentReviewWorkerContracts,
@@ -112,31 +116,10 @@ async function normaliseCourseKnowledgeModelReplacement(
   })
 }
 
-function normaliseAssessmentRequirements(
-  semanticRequirements: z.infer<typeof remediationAssessmentBlueprintProviderSchema>['assessmentRequirements'],
-  remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
-) {
-  const current = remediationInput.assessmentBlueprint
-  const quantitativeCoveragePlan = current.quantitativeCoveragePlan
-  if (!quantitativeCoveragePlan) return semanticRequirements
-
-  const sourceRequirementId = quantitativeCoveragePlan.sourceAssessmentRequirementId
-  const sourceRequirementIndex = current.assessmentRequirements.findIndex((requirement) => requirement.id === sourceRequirementId)
-  const sourceRequirement = current.assessmentRequirements[sourceRequirementIndex]
-  if (!sourceRequirement) {
-    throw new Error(`Compiler-owned quantitative coverage plan references missing source assessment requirement ${sourceRequirementId}`)
-  }
-
-  const semanticIds = semanticRequirements.map((requirement) => requirement.id)
-  if (new Set(semanticIds).size !== semanticIds.length) {
-    throw new Error('Assessment Blueprint remediation may not contain duplicate assessment requirement IDs')
-  }
-
-  const normalised = semanticRequirements
-    .filter((requirement) => requirement.id !== sourceRequirementId)
-    .map((requirement) => ({ ...requirement }))
-  normalised.splice(Math.min(sourceRequirementIndex, normalised.length), 0, sourceRequirement)
-  return normalised
+function usesAqa7132AggregateAoBoundary(remediationInput: Parameters<FoundationIndependentReviewWorkers['remediate']>[0]) {
+  return remediationInput.assessmentBlueprint.assessmentRequirements.some(
+    (requirement) => requirement.id === AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  )
 }
 
 async function normaliseRemediationOutput(
@@ -170,16 +153,20 @@ async function normaliseRemediationOutput(
       if (!courseKnowledgeModelFingerprint) {
         throw new Error('Assessment Blueprint remediation requires a Course Truth fingerprint')
       }
+      const semanticCorrection = foundationAssessmentBlueprintSchema.parse({
+        ...replacement.correctedArtifact,
+        schemaVersion: remediationInput.assessmentBlueprint.schemaVersion,
+        assessmentObjectives: remediationInput.assessmentBlueprint.assessmentObjectives,
+        assessmentRequirements: remediationInput.assessmentBlueprint.assessmentRequirements,
+        quantitativeCoveragePlan: remediationInput.assessmentBlueprint.quantitativeCoveragePlan,
+        boardAlignmentFingerprint: remediationInput.boardAlignment.fingerprint,
+        courseKnowledgeModelFingerprint,
+      })
       return {
         ...replacement,
-        correctedArtifact: foundationAssessmentBlueprintSchema.parse({
-          ...replacement.correctedArtifact,
-          schemaVersion: remediationInput.assessmentBlueprint.schemaVersion,
-          assessmentRequirements: normaliseAssessmentRequirements(replacement.correctedArtifact.assessmentRequirements, remediationInput),
-          quantitativeCoveragePlan: remediationInput.assessmentBlueprint.quantitativeCoveragePlan,
-          boardAlignmentFingerprint: remediationInput.boardAlignment.fingerprint,
-          courseKnowledgeModelFingerprint,
-        }),
+        correctedArtifact: usesAqa7132AggregateAoBoundary(remediationInput)
+          ? normaliseAqa7132ExamTruth(semanticCorrection)
+          : semanticCorrection,
       }
     }
 
@@ -210,7 +197,9 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Do not rewrite for style and do not repeat deterministic schema checks unless they expose an educational consequence.',
           'Challenge conceptual correctness, curriculum sufficiency, depth, misconceptions, assessment authenticity, component fit, command demand, mark/timing realism and Question Family suitability.',
           'Respect deliberate pre-calibration boundaries recorded in the supplied artifacts. When a Question Family remains not_calibrated and its governed response shape explicitly leaves constituent marks/timings unfixed until qualified calibration, the absence of exact constituent allocations is not by itself a blocking or material finding.',
+          'For Paper 2/Paper 3, aggregateMarkTotal records the exact complete-set total while markRange remains the deliberate pre-calibration constituent envelope. Do not interpret the 1..component-total envelope as permission for an under-total assembled paper.',
           'Do not recommend invented constituent mark/timing bands, sequences or per-question timing allocations unless the supplied governed evidence already supports them. You may still flag contradictions with verified aggregate component totals, timings, compulsory shape or supported approximate structure.',
+          'When assessmentObjectiveCoveragePlan is present, treat it as the qualification-total AO generation/validation contract. Source-backed AO ranges do not require or justify invented exact AO percentage targets at Foundation stage.',
           'A richer constituent calibration may be a qualified-expert follow-up or known limitation rather than a current Foundation defect when the supplied evidence deliberately defers that calibration.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
           'Every finding must use an artifactRef and artifactKind exactly as supplied in artifactIndex.',
@@ -248,8 +237,10 @@ export function createFoundationIndependentReviewLiveWorkers(input: {
           'Preserve job identity, canonical Course Truth node IDs, Question Family IDs, sourceRefs and Board Alignment semantics unless the target finding specifically requires a permitted correction within that artifact.',
           'Do not modify Source Rights, Board Alignment or Foundation coverage; upstream findings are not routed to this worker.',
           'Dependency-only targets must be rebuilt/revalidated against the corrected upstream truth, not creatively expanded.',
+          'Assessment Blueprint assessmentObjectives and assessmentRequirements are Board Alignment-derived truth and Revision deterministically preserves them during remediation. Do not replace a source-backed range with an invented exact percentage.',
           'Do not remove or rewrite the Assessment Blueprint requirement referenced by quantitativeCoveragePlan.sourceAssessmentRequirementId. That verified source anchor, the Assessment Blueprint schemaVersion and quantitativeCoveragePlan are compiler-owned and Revision deterministically preserves them after your semantic correction.',
-          'For Paper 2/Paper 3 Question Families that remain not_calibrated, do not invent fixed constituent mark sequences or per-question timing allocations. Revision deterministically restores the governed aggregate-only response shape and component-wide mark envelope.',
+          'When the AQA assessment-objective range requirement is present, Revision owns assessmentObjectiveCoveragePlan and deterministically materialises qualification-total AO validation from the source-backed ranges. Do not invent exact AO weightingPercent targets.',
+          'For Paper 2/Paper 3 Question Families that remain not_calibrated, do not invent fixed constituent mark sequences or per-question timing allocations. Revision deterministically restores the governed aggregate-only response shape, component-wide mark envelope and exact complete-set aggregateMarkTotal.',
           'Exact whole-component facts already present in Exam Truth, such as a verified paper mark total or component timing, may be referenced only when clearly described as aggregate component-level facts; do not convert them into constituent allocations.',
           'Do not return or attempt to calculate Course Truth or dependency SHA fingerprints. Revision deterministically restores and validates those fields after your corrected semantic output is returned.',
           'Use only the supplied structured Foundation artifacts and rights-safe source metadata. Do not browse or reconstruct awarding-body prose.',
