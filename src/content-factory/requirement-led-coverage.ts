@@ -77,16 +77,17 @@ function evidenceContainsRequiredTerm(evidence: string, requiredTerm: string) {
   const term = normaliseEvidenceText(requiredTerm)
   if (evidence.includes(term)) return true
 
-  // Natural coordinated wording can omit a shared head noun without omitting the concept.
-  // Example: "external and internal environment" still names both "external environment"
-  // and "internal environment". Keep this exception narrow: only two-token named terms,
-  // with the required first token explicitly present before "and" and the shared head retained.
+  // Natural coordinated/comparative wording can omit a shared head noun without
+  // omitting either named concept. Examples: "external and internal environment"
+  // and "incremental from disruptive change". Keep this exception narrow: only
+  // two-token named terms, one explicit modifier on each side of a bounded connector,
+  // and the shared head must remain immediately after the second modifier.
   const tokens = term.split(' ')
   if (tokens.length !== 2) return false
 
   const [modifier, sharedHead] = tokens
   const coordinatedSharedHead = new RegExp(
-    `\\b${escapeRegExp(modifier)}\\s+and\\s+[a-z0-9']+\\s+${escapeRegExp(sharedHead)}\\b`,
+    `\\b${escapeRegExp(modifier)}\\s+(?:and|or|from|versus|vs|v)\\s+[a-z0-9']+\\s+${escapeRegExp(sharedHead)}\\b`,
   )
   return coordinatedSharedHead.test(evidence)
 }
