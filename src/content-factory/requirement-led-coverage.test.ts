@@ -70,13 +70,13 @@ describe('requirement-led Foundation curriculum coverage', () => {
       .toThrow('missing_required_curriculum_scope:aqa-3-3-4:7Ps')
   })
 
-  it('accepts coordinated shared-head wording while still requiring the named concept', () => {
+  it('accepts coordinated and comparative shared-head wording while still requiring the named concept', () => {
     const semanticItems: FoundationSemanticCoverageItem[] = [{
       id: 'example.s01',
       requirementId: 'example',
       officialReference: '1.0',
       knowledgeItemIndex: 0,
-      text: 'Evaluate the external and internal environment before deciding.',
+      text: 'Evaluate the external and internal environment, and distinguish incremental from disruptive change.',
     }]
     const obligations = [{
       obligationId: 'example',
@@ -84,13 +84,16 @@ describe('requirement-led Foundation curriculum coverage', () => {
       curriculumPath: ['Example'],
       summary: 'Example coordinated named scope.',
       semanticItemIds: ['example.s01'],
-      requiredTerms: ['external environment', 'internal environment'],
+      requiredTerms: ['external environment', 'internal environment', 'incremental change', 'disruptive change'],
       sourceRefs: ['source'],
     }]
 
     expect(() => assertRequirementLedCoverage({ obligations, semanticItems })).not.toThrow()
 
-    const narrowed = semanticItems.map((item) => ({ ...item, text: 'Evaluate the internal environment before deciding.' }))
+    const narrowed = semanticItems.map((item) => ({
+      ...item,
+      text: 'Evaluate the internal environment, and distinguish disruptive change.',
+    }))
     expect(() => assertRequirementLedCoverage({ obligations, semanticItems: narrowed }))
       .toThrow('missing_required_curriculum_scope:example:external environment')
   })
