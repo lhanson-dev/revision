@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
+  assertCourseTruthRequiredScopeRetention,
   assertRequirementLedCoverage,
+  canonicalKnowledgeNodeId,
   type FoundationSemanticCoverageItem,
 } from './requirement-led-coverage'
 import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED } from './source-seeds/aqa-a-level-business-7132-2027'
@@ -25,6 +27,16 @@ function governedReconciliation() {
   const semanticItems = semanticItemsFromGovernedSeed()
   const obligations = buildAqaAlevelBusiness7132CurriculumObligations(semanticItems)
   return { semanticItems, obligations }
+}
+
+function faithfulCourseTruthNodes(semanticItems: FoundationSemanticCoverageItem[]) {
+  return semanticItems.map((item) => ({
+    id: canonicalKnowledgeNodeId(item),
+    summary: item.text,
+    formulas: [],
+    misconceptions: [],
+    applicationContexts: [],
+  }))
 }
 
 describe('requirement-led Foundation curriculum coverage', () => {
@@ -58,11 +70,72 @@ describe('requirement-led Foundation curriculum coverage', () => {
       .toThrow('missing_required_curriculum_scope:aqa-3-3-4:7Ps')
   })
 
-  it('locks the current high-risk AQA 7132 scope and quantitative boundaries', () => {
+  it('accepts coordinated and comparative shared-head wording while still requiring the named concept', () => {
+    const semanticItems: FoundationSemanticCoverageItem[] = [{
+      id: 'example.s01',
+      requirementId: 'example',
+      officialReference: '1.0',
+      knowledgeItemIndex: 0,
+      text: 'Evaluate the external and internal environment, and distinguish incremental from disruptive change.',
+    }]
+    const obligations = [{
+      obligationId: 'example',
+      officialReference: '1.0',
+      curriculumPath: ['Example'],
+      summary: 'Example coordinated named scope.',
+      semanticItemIds: ['example.s01'],
+      requiredTerms: ['external environment', 'internal environment', 'incremental change', 'disruptive change'],
+      sourceRefs: ['source'],
+    }]
+
+    expect(() => assertRequirementLedCoverage({ obligations, semanticItems })).not.toThrow()
+
+    const narrowed = semanticItems.map((item) => ({
+      ...item,
+      text: 'Evaluate the internal environment, and distinguish disruptive change.',
+    }))
+    expect(() => assertRequirementLedCoverage({ obligations, semanticItems: narrowed }))
+      .toThrow('missing_required_curriculum_scope:example:external environment')
+  })
+
+  it('proves all governed named scope survives into final mapped Course Truth', () => {
+    const { semanticItems, obligations } = governedReconciliation()
+    expect(() => assertCourseTruthRequiredScopeRetention({
+      obligations,
+      semanticItems,
+      nodes: faithfulCourseTruthNodes(semanticItems),
+    })).not.toThrow()
+  })
+
+  it('fails when final Course Truth silently drops named scope that the governed seed retained', () => {
+    const { semanticItems, obligations } = governedReconciliation()
+    const nodes = faithfulCourseTruthNodes(semanticItems).map((node) => node.id === 'aqa-3-3-4.k01'
+      ? {
+          ...node,
+          summary: node.summary
+            .replace('social media and viral marketing', 'promotion channels')
+            .replace('multi-channel distribution', 'distribution'),
+        }
+      : node)
+
+    expect(() => assertCourseTruthRequiredScopeRetention({ obligations, semanticItems, nodes }))
+      .toThrow('missing_required_course_truth_scope:aqa-3-3-4:social media')
+  })
+
+  it('locks the reconciled high-risk AQA 7132 scope and quantitative boundaries', () => {
     const text = semanticItemsFromGovernedSeed().map((item) => item.text).join('\n').toLowerCase()
 
     for (const required of [
       '7ps',
+      'extension strategies',
+      'new product development',
+      'social media',
+      'viral marketing',
+      'multi-channel distribution',
+      'external environment including competition',
+      'employee and employer values',
+      'lean production',
+      'information management',
       'tannenbaum schmidt',
       'taylor',
       'maslow',

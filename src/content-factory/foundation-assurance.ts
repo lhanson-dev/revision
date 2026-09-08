@@ -26,6 +26,7 @@ import {
   computeFoundationFingerprint,
   recordDeterministicFoundationAssurance,
 } from './foundation-lifecycle'
+import { assertAqaAlevelBusiness7132CourseTruthRetention } from './foundation-aqa7132-curriculum-retention'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -464,6 +465,22 @@ function courseTruthProblems(jobId: string, bundle: LoadedFoundationArtifacts) {
   return problems
 }
 
+function courseTruthSemanticRetentionProblems(candidate: FoundationCandidate, bundle: LoadedFoundationArtifacts) {
+  const model = bundle.courseKnowledgeModel
+  if (!model) return []
+  const isAqa7132 = candidate.courseIdentity.awardingBody === 'AQA'
+    && candidate.courseIdentity.qualification === 'A-level'
+    && candidate.courseIdentity.specificationId === '7132'
+    && candidate.cohortValidity.lastAssessment === '2027'
+  if (!isAqa7132) return []
+  try {
+    assertAqaAlevelBusiness7132CourseTruthRetention(model)
+    return []
+  } catch (error) {
+    return [issueText(error)]
+  }
+}
+
 function examTruthProblems(jobId: string, candidate: FoundationCandidate, bundle: LoadedFoundationArtifacts) {
   const blueprint = bundle.assessmentBlueprint
   const alignment = bundle.boardAlignment
@@ -562,6 +579,7 @@ export async function runDeterministicFoundationAssurance(input: {
   const alignmentProblems = boardAlignmentProblems(job.jobId, candidate, bundle)
   const coverageIssues = coverageProblems(job.jobId, candidate, bundle)
   const courseIssues = courseTruthProblems(job.jobId, bundle)
+  const semanticRetentionIssues = courseTruthSemanticRetentionProblems(candidate, bundle)
   const examIssues = examTruthProblems(job.jobId, candidate, bundle)
   const familyIssues = questionFamilyProblems(candidate, bundle)
 
@@ -609,6 +627,14 @@ export async function runDeterministicFoundationAssurance(input: {
       !bundle.coverageModel || !bundle.courseKnowledgeModel || !bundle.sourceLicenceRegister || !bundle.boardAlignment ? 'Course Truth integrity cannot run because required artifacts are unavailable.' : courseIssues.length === 0 ? 'Course Truth exactly covers canonical Foundation nodes with governed source and Board Alignment traceability.' : courseIssues.join('; '),
       [candidate.courseKnowledgeModel.ref, candidate.coverageModel.ref],
       courseIssues,
+    ),
+    check(
+      'course-truth-semantic-retention',
+      bundle.courseKnowledgeModel ? (semanticRetentionIssues.length === 0 ? 'pass' : 'fail') : 'not_applicable',
+      !bundle.courseKnowledgeModel ? 'Course Truth semantic retention cannot run because Course Truth is unavailable.' : semanticRetentionIssues.length === 0 ? 'Final Course Truth retains all mechanically checkable named curriculum scope from the applicable source-led requirement profile.' : semanticRetentionIssues.join('; '),
+      [candidate.courseKnowledgeModel.ref, candidate.coverageModel.ref],
+      semanticRetentionIssues,
+      semanticRetentionIssues.length > 0 ? 'material' : 'informational',
     ),
     check(
       'exam-truth-integrity',

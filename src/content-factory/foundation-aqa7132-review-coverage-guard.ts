@@ -1,4 +1,9 @@
-import { questionFamilySchema, type QuestionFamily } from './schema'
+import {
+  courseKnowledgeModelSchema,
+  questionFamilySchema,
+  type CourseKnowledgeModel,
+  type QuestionFamily,
+} from './schema'
 import {
   foundationAssessmentBlueprintSchema,
   type FoundationCurriculumRequirementInput,
@@ -14,6 +19,7 @@ import {
   type FoundationSemanticCoverageItem,
 } from './requirement-led-coverage'
 import { assertFoundationSourceUniverse } from './foundation-source-universe'
+import { assertAqaAlevelBusiness7132CourseTruthRetention } from './foundation-aqa7132-curriculum-retention'
 import { buildAqaAlevelBusiness7132CurriculumObligations } from './source-seeds/aqa-a-level-business-7132-2027-coverage'
 import {
   AQA_A_LEVEL_BUSINESS_7132_2027_EXAM_OBLIGATIONS,
@@ -81,7 +87,25 @@ function failure(
 function assertReviewInputCoverage(input: Parameters<FoundationIndependentReviewWorkers['independentReview']>[0]) {
   assertSourceUniverse(input.sourceEvidence)
   assertCurriculumCoverage(input.coverageModel.requirements)
+  assertAqaAlevelBusiness7132CourseTruthRetention(input.courseKnowledgeModel)
   assertExamCoverage(input.assessmentBlueprint, input.questionFamilies)
+}
+
+function remediatedCourseTruth(
+  input: Parameters<FoundationIndependentReviewWorkers['remediate']>[0],
+  output: unknown,
+): CourseKnowledgeModel {
+  const parsed = foundationRemediationWorkerOutputSchema.parse(output)
+  let courseKnowledgeModel = input.courseKnowledgeModel
+
+  for (const replacement of parsed.replacements) {
+    if (replacement.artifactKind !== 'course_knowledge_model') continue
+    const oldEntry = input.artifactIndex.find((entry) => entry.artifactRef === replacement.oldRef && entry.artifactKind === 'course_knowledge_model')
+    if (!oldEntry) throw new Error(`Remediation replacement references unknown Course Truth artifact ${replacement.oldRef}`)
+    courseKnowledgeModel = courseKnowledgeModelSchema.parse(replacement.correctedArtifact)
+  }
+
+  return courseKnowledgeModel
 }
 
 function remediatedExamArtifacts(
@@ -136,6 +160,7 @@ export function withAqa7132SourceLedReviewCoverageGuard(
       try {
         assertSourceUniverse(input.sourceEvidence)
         assertCurriculumCoverage(input.coverageModel.requirements)
+        assertAqaAlevelBusiness7132CourseTruthRetention(input.courseKnowledgeModel)
         assertExamCoverage(input.assessmentBlueprint, input.questionFamilies)
       } catch (error) {
         return {
@@ -153,6 +178,7 @@ export function withAqa7132SourceLedReviewCoverageGuard(
       const execution = await workers.remediate(input)
       if (execution.status !== 'success') return execution
       try {
+        assertAqaAlevelBusiness7132CourseTruthRetention(remediatedCourseTruth(input, execution.output))
         const remediated = remediatedExamArtifacts(input, execution.output)
         assertExamCoverage(remediated.assessmentBlueprint, remediated.questionFamilies)
         return execution
