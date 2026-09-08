@@ -62,19 +62,34 @@ Requirement-led coverage tests now prove:
 
 The repository CI remains the integration authority for typecheck, unit/regression and wider governed assurance on the PR head.
 
+## Replacement proof #1 deterministic finding
+
+After the curriculum reconciliation release, Foundation Live Proof run `34275826891` compiled a genuinely new AQA 7132 / 2027 Candidate on approved `main` commit `a553416a1c4c741fd9a3a2f4f5e307e8c06270de`. The retained live artifact is `10075741986` and the new Foundation fingerprint is `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813`.
+
+Deterministic assurance run `34276705426` correctly failed closed with 20 checks total and one material failure:
+
+`missing_required_course_truth_scope:aqa-3-0-course-context:varied business contexts`
+
+Inspection of the exact retained Course Truth node showed that the curriculum concept had **not** been dropped. Node `aqa-3-0-course-context.k01` states that business analysis applies ideas "across varied contexts" and then retains the remaining course-wide scope. The current AQA 3.0 subject-content requirement is that students study business in a variety of contexts. The failed check therefore exposed an over-specific qualification retention anchor rather than a missing curriculum concept.
+
+The correction keeps the shared deterministic matcher strict. Only the AQA 7132 qualification-specific final-retention contract translates the synthetic seed anchor `varied business contexts` into two deterministic requirements: `business` and `varied contexts`. This allows the retained generated ordering while still requiring both the business domain and the varied-context concept in the canonical mapped node. The source-led pre-generation reconciliation remains unchanged and continues to require the full governed semantic seed.
+
+Regression assurance now includes the actual retained live-proof wording and proves it passes, while a Course Truth node narrowed to one fixed context still fails closed. The failed assurance run remains historical evidence and must not be reclassified as passing.
+
 ## Required new proof chain
 
-The failed retained fingerprint is historical evidence and must not be patched or reused for approval.
+The failed retained fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` is historical evidence and must not be patched or reused for approval.
 
-After this implementation is released to approved `main`, the next sequence is:
+The replacement fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` also remains blocked until the qualification-specific retention correction is released and deterministic assurance passes against the exact retained Candidate.
 
-1. compile a fresh AQA 7132 / 2027 Foundation Candidate from the corrected source-led profile and semantic seed;
-2. retain the new exact Candidate and Foundation fingerprint;
-3. run deterministic Foundation assurance, including `course-truth-semantic-retention`;
-4. run fresh-context independent Foundation review;
-5. remediate any blocking/material findings through the guarded path and rerun deterministic assurance plus fresh review;
-6. run a genuinely fresh external-source challenge against the resulting exact fingerprint; and
-7. only if every prior gate passes, assemble the qualified expert-review package and obtain qualified subject/assessment review.
+The required sequence is now:
+
+1. release the qualification-specific retention correction to approved `main`;
+2. rerun deterministic Foundation assurance against exact retained live artifact `10075741986` and fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` without regeneration;
+3. if deterministic assurance passes, run fresh-context independent Foundation review;
+4. remediate any blocking/material findings through the guarded path and rerun deterministic assurance plus fresh review;
+5. run a genuinely fresh external-source challenge against the resulting exact fingerprint; and
+6. only if every prior gate passes, assemble the qualified expert-review package and obtain qualified subject/assessment review.
 
 No learner-facing Learn, Practice or Exam Prep asset may start before the later exact Foundation version becomes `foundation_approved`.
 
@@ -82,4 +97,4 @@ No learner-facing Learn, Practice or Exam Prep asset may start before the later 
 
 No new normative authority is required. The remediation implements the existing Foundation completeness and external-challenge rules.
 
-Historical live-proof, deterministic-review, independent-review and external-challenge evidence remains unchanged. This document records the new implementation state and required replacement proof chain; it does not rewrite the failed candidate as passing.
+Historical live-proof, deterministic-review, independent-review and external-challenge evidence remains unchanged. This document records the new implementation state and required replacement proof chain; it does not rewrite either failed candidate or failed assurance run as passing.
