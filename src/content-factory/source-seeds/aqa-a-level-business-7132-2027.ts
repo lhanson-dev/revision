@@ -4,7 +4,7 @@ import { AQA_A_LEVEL_BUSINESS_7132_2027_COVERAGE_PROFILE_ID } from './aqa-a-leve
 export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID = 'revision-aqa-7132-2027-course-truth-seed'
 
 export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
-  schemaVersion: 4 as const,
+  schemaVersion: 3 as const,
   seedId: AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED_ID,
   coverageProfileId: AQA_A_LEVEL_BUSINESS_7132_2027_COVERAGE_PROFILE_ID,
   status: 'governed_main_only' as const,
@@ -29,7 +29,8 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
     'This seed is Revision-owned candidate Course Truth evidence and is not qualified-human approval.',
     'AQA REFERENCE_ONLY material controls course/cohort alignment and the source-led coverage profile; protected AQA prose is not a generative source and is not reproduced here.',
     'The independent coverage profile defines what must be represented. The semantic seed must not narrow that requirement universe or broaden named method sets from model memory.',
-    'Independent Foundation review, fresh external-source challenge and qualified subject/assessment expert review remain mandatory before Course Truth can become an Approved Course Foundation.',
+    'Independent Foundation review and qualified subject/assessment expert review remain mandatory before Course Truth can become an Approved Course Foundation.',
+    'A fresh external-source challenge must pass before the Foundation is described as ready for qualified expert review.',
   ],
   requirements: [
     requirement('aqa-3-0-course-context', '3.0', 'Course-wide business context', [
@@ -91,7 +92,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
       'Distinguish quality assurance from quality control and evaluate their contribution, benefits, cost and implementation difficulty. Analyse the operational, financial, customer and reputational consequences of poor quality.',
     ]),
     requirement('aqa-3-4-5', '3.4.5', 'Inventory and supply chains', [
-      'Evaluate ways to manage supply to match demand and the value of doing so, including outsourcing, temporary and part time labour and producing to order. Interpret inventory control charts using lead time, re-order levels, buffer inventory and re-order quantities and analyse influences on inventory held. Evaluate influences on supplier choice, effective and efficient supply-chain management and the value of outsourcing.',
+      'Evaluate ways to manage supply to match demand and the value of doing so, including outsourcing, temporary and part time labour and producing to order. Interpret inventory control charts using lead time, re-order levels, buffer inventory and re-order quantities and analyse influences on inventory held. Evaluate influences on the choice of suppliers, effective and efficient supply-chain management and the value of outsourcing.',
     ]),
 
     requirement('aqa-3-5-cross-cutting', '3.5', 'Finance cross-cutting context', [
