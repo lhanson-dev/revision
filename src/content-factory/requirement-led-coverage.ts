@@ -64,6 +64,7 @@ function normaliseEvidenceText(value: string) {
     .toLowerCase()
     .replace(/[’‘]/g, "'")
     .replace(/[–—−]/g, '-')
+    .replace(/-/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
 }
