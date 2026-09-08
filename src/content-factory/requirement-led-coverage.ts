@@ -69,6 +69,28 @@ function normaliseEvidenceText(value: string) {
     .trim()
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function evidenceContainsRequiredTerm(evidence: string, requiredTerm: string) {
+  const term = normaliseEvidenceText(requiredTerm)
+  if (evidence.includes(term)) return true
+
+  // Natural coordinated wording can omit a shared head noun without omitting the concept.
+  // Example: "external and internal environment" still names both "external environment"
+  // and "internal environment". Keep this exception narrow: only two-token named terms,
+  // with the required first token explicitly present before "and" and the shared head retained.
+  const tokens = term.split(' ')
+  if (tokens.length !== 2) return false
+
+  const [modifier, sharedHead] = tokens
+  const coordinatedSharedHead = new RegExp(
+    `\\b${escapeRegExp(modifier)}\\s+and\\s+[a-z0-9']+\\s+${escapeRegExp(sharedHead)}\\b`,
+  )
+  return coordinatedSharedHead.test(evidence)
+}
+
 function assertRequiredTerms(input: {
   obligationId: string
   requiredTerms: string[]
@@ -77,7 +99,7 @@ function assertRequiredTerms(input: {
 }) {
   const evidence = normaliseEvidenceText(input.evidenceText)
   for (const requiredTerm of input.requiredTerms) {
-    if (!evidence.includes(normaliseEvidenceText(requiredTerm))) {
+    if (!evidenceContainsRequiredTerm(evidence, requiredTerm)) {
       throw new Error(`${input.errorPrefix}:${input.obligationId}:${requiredTerm}`)
     }
   }
