@@ -1,6 +1,6 @@
 # Content Factory Foundation Expert Review Contract
 
-**Status:** Slice 3C implementation record — qualified-human contract and historical retained package released; PR #318 source-led completeness correction released; portable reconciliation hardening in follow-on implementation  
+**Status:** Slice 3C implementation record — qualified-human contract released; current AQA 7132 / 2027 progression is `FAIL HOLD` pending curriculum-reconciliation and semantic-retention remediation  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -10,6 +10,12 @@
 Define the qualified-human Foundation review boundary and the evidence that must accompany a Foundation before it can be treated as approval-ready.
 
 AI review must not stand in for the human gate. The human package must also expose enough source-led evidence for the reviewer to challenge whether Course Truth and Exam Truth cover the complete applicable curriculum and exam requirement universes.
+
+## Current AQA progression hold — 7/8 September 2026
+
+The fresh external-source challenge of Foundation fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` returned `fail_hold` after finding material curriculum-scope defects. That exact fingerprint must not be packaged for qualified expert review or become `foundation_approved`.
+
+The active remediation is recorded in `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md` and requires a new Foundation Candidate/fingerprint. Slice 3C resumes only after the replacement fingerprint passes deterministic assurance, fresh independent review and a new fresh-context external-source challenge.
 
 ## Assurance correction — 5 September 2026
 
@@ -25,8 +31,9 @@ The follow-on packaging hardening closes the remaining portable evidence gap by 
 
 A new approval-ready qualified-human package requires all of the following for the same exact Foundation fingerprint:
 
-- passing deterministic Foundation assurance;
+- passing deterministic Foundation assurance, including applicable Course Truth semantic-retention checks;
 - passing fresh-context independent Foundation review;
+- passing fresh-context external-source challenge against the current official/authoritative source universe;
 - no unresolved blocking Foundation findings;
 - exact resolved Foundation artifacts and fingerprints;
 - complete source-led curriculum reconciliation;
@@ -70,6 +77,9 @@ The reconciliation is derived from the governed source-led profiles. It does not
 The expert bundle must not be produced as approval-ready if:
 
 - any expected Foundation artifact is unavailable or has the wrong fingerprint;
+- deterministic Foundation assurance has not passed for the exact fingerprint;
+- fresh independent review has not passed for the exact fingerprint;
+- the external-source challenge is missing, stale, uses a forbidden prior context, omits a required source-universe member or has decision `fail_hold`;
 - the curriculum or exam profile does not match the exact course/cohort;
 - a curriculum obligation lacks its required semantic or Course Truth node mapping;
 - a required Course Truth node is absent;
@@ -99,7 +109,7 @@ The review must challenge:
 - source boundary interpretation; and
 - any missing applicable requirement.
 
-Prior deterministic or independent-AI PASS evidence must not be treated as proof that the source-led requirement universe itself is correct.
+Prior deterministic, independent-AI or external-source PASS evidence must not be treated as qualified-human subject/assessment approval.
 
 A blocking or material finding requires `fail_hold`. A pass is valid only when no blocking or material findings remain.
 
@@ -111,25 +121,28 @@ The submission template uses a neutral `<pass-or-fail_hold>` placeholder. It doe
 
 ## Historical AQA evidence
 
-The previously retained AQA package and its review remain historical evidence of the earlier implementation state.
+Previously retained AQA packages, reviews and challenge results remain historical evidence of their exact implementation states.
 
-The successful historical package was produced before the source-led completeness boundary existed. Its packaging integrity remains historically true, but it cannot be reused to approve the corrected Foundation.
+The successful historical package was produced before the source-led completeness boundary existed. Its packaging integrity remains historically true, but it cannot be reused to approve a corrected Foundation.
 
-The next qualified-human review must use a fresh Foundation Candidate/fingerprint produced after the PR #318 correction and a new bundle containing the explicit source-led reconciliation.
+The later fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` passed deterministic assurance and fresh independent review but subsequently failed the required external-source challenge. Those earlier passes remain historically true; they do not override the later `fail_hold` and do not permit expert-review progression.
 
-Historical proof and review records must not be rewritten to imply the new boundary existed at that time.
+The next qualified-human review must use a fresh Foundation Candidate/fingerprint produced after the curriculum-reconciliation and semantic-retention correction and a new bundle containing the exact source-led reconciliation plus a passing external-source challenge.
+
+Historical proof and review records must not be rewritten to imply the new boundary existed at the time.
 
 ## Fresh proof and review sequence
 
 The next AQA 7132 / 2027 sequence is:
 
-1. compile a fresh Foundation Candidate on approved `main` using the source-led curriculum and exam guards;
-2. retain its exact source proof, Candidate and Foundation fingerprint;
-3. run deterministic assurance against that exact retained proof;
+1. compile a fresh Foundation Candidate on approved `main` using the corrected source-led curriculum/exam guards and semantic seed;
+2. retain its exact source proof, Candidate and new Foundation fingerprint;
+3. run deterministic assurance against that exact retained proof, including the Course Truth semantic-retention invariant;
 4. run fresh-context independent review against the same exact fingerprint;
-5. remediate blocking/material findings only through the guarded remediation path and rerun affected assurance;
-6. assemble a schema-v2 expert bundle containing `coverage-reconciliation.json` and the exact Foundation artifacts; and
-7. obtain a new qualified-human subject/assessment decision.
+5. remediate blocking/material findings only through the guarded remediation path and rerun affected deterministic assurance plus fresh independent review;
+6. run a genuinely fresh external-source challenge against the exact resulting fingerprint and current required Source Universe;
+7. only after the external-source challenge passes, assemble the schema-v2 expert bundle containing `coverage-reconciliation.json`, the passing challenge report and the exact Foundation artifacts; and
+8. obtain a new qualified-human subject/assessment decision.
 
 Only a later passing human submission can support Approved Course Foundation v1.
 
@@ -146,6 +159,4 @@ This work does not:
 
 ## Documentation impact
 
-PR #318 approved the normative Foundation completeness change through the requirement-led coverage amendment and ADR-0023.
-
-The current portable reconciliation hardening is implementation of that approved decision. It updates current technical documentation and tests but does not require a new product or governance decision.
+The current curriculum-reconciliation and semantic-retention remediation implements existing authority rather than changing Foundation policy. The exact failed fingerprint remains historical `FAIL HOLD` evidence, while this document now reflects the external-source challenge as a mandatory precondition of qualified expert packaging.
