@@ -43,6 +43,14 @@ export type FoundationCoverageObligation = z.infer<typeof foundationCoverageObli
 export type FoundationExamEvidenceItem = z.infer<typeof foundationExamEvidenceItemSchema>
 export type FoundationExamCoverageObligation = z.infer<typeof foundationExamCoverageObligationSchema>
 
+export type FoundationCourseTruthRetentionNode = {
+  id: string
+  summary: string
+  formulas?: string[]
+  misconceptions?: string[]
+  applicationContexts?: string[]
+}
+
 function assertUnique(values: string[], label: string) {
   const seen = new Set<string>()
   for (const value of values) {
@@ -143,6 +151,57 @@ export function assertRequirementLedCoverage(input: {
     semanticItemIds: [...mappedSemanticIds],
     canonicalKnowledgeNodeIds: [...mappedCanonicalNodeIds],
   }
+}
+
+/**
+ * Proves that material named scope which survived source-led reconciliation also survives
+ * the generative boundary into final Course Truth. This deliberately checks governed
+ * requiredTerms rather than requiring generated prose to reproduce the semantic seed verbatim.
+ */
+export function assertCourseTruthRequiredScopeRetention(input: {
+  obligations: FoundationCoverageObligation[]
+  semanticItems: FoundationSemanticCoverageItem[]
+  nodes: FoundationCourseTruthRetentionNode[]
+}) {
+  const obligations = z.array(foundationCoverageObligationSchema).min(1).parse(input.obligations)
+  const semanticItems = z.array(foundationSemanticCoverageItemSchema).min(1).parse(input.semanticItems)
+  const nodes = input.nodes
+
+  assertUnique(nodes.map((node) => node.id), 'course_truth_node_id')
+  const semanticById = new Map(semanticItems.map((item) => [item.id, item]))
+  const nodeById = new Map(nodes.map((node) => [node.id, node]))
+  const checkedNodeIds = new Set<string>()
+
+  for (const obligation of obligations) {
+    const expectedNodeIds = obligation.semanticItemIds.map((semanticItemId) => {
+      const semanticItem = semanticById.get(semanticItemId)
+      if (!semanticItem) {
+        throw new Error(`unmapped_curriculum_requirement:${obligation.obligationId}:${semanticItemId}`)
+      }
+      return canonicalKnowledgeNodeId(semanticItem)
+    })
+
+    const mappedNodes = expectedNodeIds.map((nodeId) => {
+      const node = nodeById.get(nodeId)
+      if (!node) throw new Error(`missing_course_truth_node_for_curriculum_requirement:${obligation.obligationId}:${nodeId}`)
+      checkedNodeIds.add(nodeId)
+      return node
+    })
+
+    assertRequiredTerms({
+      obligationId: obligation.obligationId,
+      requiredTerms: obligation.requiredTerms,
+      evidenceText: mappedNodes.flatMap((node) => [
+        node.summary,
+        ...(node.formulas ?? []),
+        ...(node.misconceptions ?? []),
+        ...(node.applicationContexts ?? []),
+      ]).join(' '),
+      errorPrefix: 'missing_required_course_truth_scope',
+    })
+  }
+
+  return { checkedNodeIds: [...checkedNodeIds] }
 }
 
 /**
