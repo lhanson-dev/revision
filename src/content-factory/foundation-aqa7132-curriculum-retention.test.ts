@@ -34,6 +34,31 @@ describe('AQA 7132 final Course Truth semantic retention', () => {
     expect(() => assertAqaAlevelBusiness7132CourseTruthRetention(model())).not.toThrow()
   })
 
+  it('accepts the retained live-proof wording for the course-wide varied-context requirement', () => {
+    const liveWording = model()
+    liveWording.nodes = liveWording.nodes.map((node) => node.id === 'aqa-3-0-course-context.k01'
+      ? {
+          ...node,
+          summary: node.summary.replace(
+            'Across the course, apply business ideas to varied business contexts',
+            'Business analysis applies ideas across varied contexts',
+          ),
+        }
+      : node)
+
+    expect(() => assertAqaAlevelBusiness7132CourseTruthRetention(liveWording)).not.toThrow()
+  })
+
+  it('still rejects Course Truth that drops the varied-context requirement', () => {
+    const narrowed = model()
+    narrowed.nodes = narrowed.nodes.map((node) => node.id === 'aqa-3-0-course-context.k01'
+      ? { ...node, summary: node.summary.replace('varied business contexts', 'one fixed context') }
+      : node)
+
+    expect(() => assertAqaAlevelBusiness7132CourseTruthRetention(narrowed))
+      .toThrow('missing_required_course_truth_scope:aqa-3-0-course-context:varied contexts')
+  })
+
   it('rejects the historical 3.3.4 silent-narrowing failure mode', () => {
     const narrowed = model()
     narrowed.nodes = narrowed.nodes.map((node) => node.id === 'aqa-3-3-4.k01'
