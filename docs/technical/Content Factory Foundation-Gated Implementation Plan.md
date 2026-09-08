@@ -1,10 +1,10 @@
 # Content Factory Foundation-Gated Implementation Plan
 
 **Status:** Active implementation plan — authority approved via PR #290; Issue #289 In Progress  
-**Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`  
-**Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`; `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`  
+**Decision authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`  
+**Architecture decisions:** `decisions/ADR-0020-content-factory-foundation-gate.md`; `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`; `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`; `decisions/ADR-0023-foundation-requirement-led-coverage.md`  
 **Source-rights authority:** `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
-**Current increment:** Slice 3C qualified expert review and immutable approval — package the exact passed AQA 7132 Foundation for real qualified subject/assessment review, import structured human evidence, then approve only the exact human-reviewed fingerprint.
+**Current increment:** AQA 7132 / 2027 Foundation curriculum reconciliation and deterministic Course Truth semantic-retention remediation after the fresh external-source challenge returned `fail_hold`. Slice 3C qualified expert review is paused until a replacement Foundation Candidate/fingerprint passes live proof, deterministic assurance, fresh independent review and a fresh external-source challenge.
 
 ## Purpose
 
@@ -12,7 +12,7 @@ Implement the Content Factory as a staged production system where an exact cours
 
 The governing sequence is:
 
-`course request → Course Truth + Exam Truth → deterministic assurance → independent review/remediation → qualified expert approval → Approved Course Foundation → learner asset factories`
+`course request → Course Truth + Exam Truth → deterministic assurance → independent review/remediation → fresh external-source challenge → qualified expert approval → Approved Course Foundation → learner asset factories`
 
 The historical v2 factory remains implementation evidence and a source of reusable controls. It is not the orchestration shape to extend.
 
@@ -20,7 +20,7 @@ The historical v2 factory remains implementation evidence and a source of reusab
 
 The current Foundation runtime is separate from the legacy `ContentFactoryJob` topology.
 
-Released implementation includes:
+Released/current implementation includes:
 
 - `foundation-schema.ts` — Foundation Candidate / Approved Course Foundation contracts;
 - `foundation-lifecycle.ts` — small Foundation lifecycle, exact-fingerprint assurance binding, approval gate and version-lineage invariants;
@@ -29,13 +29,24 @@ Released implementation includes:
 - `foundation-live-adapter.ts` — Foundation-native live source/profile/provider workers;
 - `foundation-live-proof.integration.test.ts` — real-course live proof harness;
 - `.github/workflows/content-factory-foundation-live-proof.yml` — main-only bounded paid proof workflow;
-- `foundation-assurance.ts` — Foundation-specific deterministic assurance;
-- `foundation-independent-review.ts` — fresh-context independent review, targeted remediation and deterministic re-assurance loop; and
-- `foundation-independent-review-live-adapter.ts` — bounded live review/remediation provider boundary.
+- `requirement-led-coverage.ts` — source-led curriculum/exam reconciliation and portable final Course Truth named-scope retention;
+- `foundation-assurance.ts` — Foundation-specific deterministic assurance, including applicable Course Truth semantic retention;
+- `foundation-independent-review.ts` — fresh-context independent review, targeted remediation and deterministic re-assurance loop;
+- `foundation-independent-review-live-adapter.ts` — bounded live review/remediation provider boundary;
+- `foundation-external-source-challenge.ts` — exact-fingerprint fresh external-source challenge contract before expert-review readiness; and
+- `foundation-expert-review.ts` — portable exact-fingerprint qualified-human review contract which requires a passing external-source challenge.
 
-The released pre-calibration hardening additionally includes `foundation-precalibration-assembly.ts` as the AQA 7132 profile boundary that prevents uncalibrated Paper 2 / Paper 3 Question Families from claiming unsupported constituent mark/timing precision during initial compilation or targeted remediation. Detailed implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
+The AQA 7132 profile additionally includes:
 
-The current Slice 3C implementation adds `foundation-expert-review.ts` as the portable exact-fingerprint qualified-human review contract. Detailed implementation record: `docs/technical/Content Factory Foundation Expert Review Contract.md`.
+- `foundation-precalibration-assembly.ts` — prevents uncalibrated Paper 2 / Paper 3 Question Families from claiming unsupported constituent mark/timing precision during initial compilation or targeted remediation; and
+- `foundation-aqa7132-curriculum-retention.ts` — binds the portable final-Course-Truth retention invariant to the current AQA 7132 / 2027 source-led curriculum profile and Revision-owned semantic seed.
+
+Detailed current implementation records:
+
+- `docs/technical/Content Factory Foundation Assurance Implementation.md`;
+- `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`;
+- `docs/technical/Content Factory Foundation Expert Review Contract.md`; and
+- `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md`.
 
 The legacy orchestrator, old whole-course assurance factory and old worker factories remain in the repository during migration but are not canonical Foundation runtime dependencies.
 
@@ -70,13 +81,15 @@ Exception states:
 - `blocked` — operational interruption, resumable to the exact prior working stage after blockers resolve;
 - `superseded` — terminal record for a replaced candidate/version.
 
-Identity, rights, Board Alignment, coverage, Course Truth and Exam Truth are activities within `compiling`. Deterministic assurance, independent review and bounded remediation are activities within `assuring`. Qualified human review occurs in `expert_review`. No learner-asset generation transition exists inside this lifecycle.
+Identity, rights, Board Alignment, source universe, requirement-led coverage, Course Truth and Exam Truth are activities within `compiling`. Deterministic assurance, independent review, bounded remediation and the external-source challenge are pre-expert approval assurance activities. Qualified human review occurs in `expert_review`. No learner-asset generation transition exists inside this lifecycle.
 
 ## Foundation fingerprint/version invariant
 
 The aggregate Foundation fingerprint is deterministic SHA-256 over material educational/assessment dependency identity: exact course/cohort, Source Licence Register, Board Alignment, Foundation coverage, Course Truth, Exam Truth, Question Families and source-set fingerprint.
 
 Artifact storage refs, review timestamps, assurance evidence refs and worker context IDs do not define educational identity. For the same `foundationId`, the same material fingerprint retains the version and changed material truth creates a newer version. Source-rights revalidation timestamps remain audit metadata and do not alone create a new Foundation identity.
+
+A material curriculum denominator or semantic-seed correction therefore requires a fresh Candidate/fingerprint even when the seed schema shape itself is unchanged.
 
 ## Completed Slice 1 — Foundation schema and lifecycle
 
@@ -98,7 +111,7 @@ Foundation Live Proof #2 / workflow run `33802600001` completed successfully on 
 
 Retained evidence established compiler-complete Course Truth and Exam Truth against the then-current governed seed/compilation contract, governed source-rights evidence, three live OpenAI worker runs, conservative provider spend `$0.0824 / $12.00`, learner-facing assets generated `0`, and deterministic/independent assurance correctly pending.
 
-That proof established the live compilation boundary only. Slice 3B later demonstrated that compiler completeness against the original 14 broad Course Truth nodes was not sufficient educational evidence for an Approved Course Foundation. The historical Slice 2B result remains valid for the contract that existed at the time and is not retroactively described as independently sufficient.
+That proof established the live compilation boundary only. Later assurance demonstrated that compiler completeness against an internal denominator was not sufficient educational evidence for an Approved Course Foundation. The historical Slice 2B result remains valid for the contract that existed at the time and is not retroactively described as independently sufficient.
 
 ## Slice 3 — Foundation assurance and approval
 
@@ -110,7 +123,9 @@ Goal: make the Foundation approval gate operationally trustworthy and prove one 
 
 The Foundation-native deterministic assurance engine re-reads the exact persisted Candidate dependency set and checks artifact readability/fingerprints, source-rights safety, exact identity/cohort/alignment, Foundation coverage, Course Truth traceability, Exam Truth binding and Question Family validity.
 
-The retained AQA Business Foundation passed deterministic assurance with 18 checks, zero failures and zero learner assets. Detailed implementation record: `docs/technical/Content Factory Foundation Assurance Implementation.md`.
+Subsequent hardening adds source-led completeness controls and, for applicable AQA 7132 / 2027 Candidates, a material `course-truth-semantic-retention` check so final generated Course Truth cannot silently drop mechanically checkable named curriculum scope while retaining the same canonical nodes.
+
+Detailed implementation record: `docs/technical/Content Factory Foundation Assurance Implementation.md`.
 
 ### Completed Slice 3B — fresh-context independent Foundation review and remediation
 
@@ -189,14 +204,14 @@ Evidence:
 - final Foundation fingerprint `7fb036361c544f9acfd276f23e4f7c9c6007144e83b6a363395dd9dee12070f2`;
 - final state blocked only because material findings remained after the governed three-cycle limit.
 
-This proof confirms that the technical review/remediation machinery is functioning. The remaining work is educational/assessment ownership upstream of the retry loop.
+This proof confirmed the technical review/remediation machinery was functioning, while the remaining findings required upstream educational/assessment ownership rather than more retries.
 
 The final two material findings were:
 
 1. **Financial-ratio scope is not enactable.** The Course Truth node described a wider ratio-method scope than the formulas/methods it actually defined, so controlled generation could not know whether efficiency/gearing methods were required or prohibited.
 2. **Paper 3 internal demand is over-specified before calibration.** Remediation created a rigid six-question `5/10/15/20/25/25` mark sequence with matching `6/12/18/24/30/30` minute guidance while the Question Family remained `not_calibrated`.
 
-Do not raise the remediation-cycle limit and do not rerun the retained run-#15 candidate.
+Do not raise the remediation-cycle limit and do not rerun that retained candidate.
 
 #### Post-fifth-proof upstream hardening
 
@@ -204,9 +219,7 @@ The fifth-proof findings were converted into two explicit upstream controls rath
 
 **A. Course Truth semantic evidence seed — released through PR #308**
 
-The Revision-owned AQA Business seed now carries substantive candidate semantics for all 82 atomic knowledge/skill obligations rather than topic labels alone. Where applicable this includes definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
-
-The financial-ratio obligation is deliberately bounded to the methods the candidate actually defines rather than claiming undefined efficiency/gearing coverage. The semantic-seed change is material Foundation source evidence, so the subsequent Foundation proof compiled a fresh candidate.
+The Revision-owned AQA Business seed carries substantive candidate semantics for atomic knowledge/skill obligations rather than topic labels alone. Where applicable this includes definitions, relationships, exact quantitative methods/formulae, interpretation boundaries and explicit method scope. The Course Truth worker remains prohibited from broadening this scope from model memory.
 
 Architecture decision: `decisions/ADR-0021-foundation-course-truth-semantic-seed.md`.
 
@@ -216,44 +229,77 @@ The released hardening prevents initial generation or remediation from manufactu
 
 For AQA 7132, exact component totals/timings and verified approximate paper shape remain enforceable, while the compiler owns an aggregate-only Question Family response shape and a component-wide pre-calibration mark envelope. Provider-authored exact constituent allocations outside that compiler-owned shape fail closed. Targeted remediation passes through the same normalizer.
 
-PR #311 additionally distinguishes verified whole-component mark/timing facts from prohibited constituent allocations and instructs independent review not to manufacture calibration detail that ADR-0022 deliberately leaves for qualified human review.
-
 Architecture decision: `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`. Implementation record: `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`.
 
-#### Slice 3B completion proof — 5 September 2026
+#### Historical Slice 3B clean checkpoint — 5 September 2026
 
-After ADR-0021 and ADR-0022 hardening, the governed sequence completed:
+After ADR-0021 and ADR-0022 hardening, workflow run `33956520875` on released `main` `2f2ae89f8280e3b0c1091346258e56f993f61f77` completed deterministic assurance and fresh independent review cleanly for Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`, with zero learner-facing assets.
 
-1. fresh Foundation live proof `33938173128` retained Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca` with 82-node semantic Course Truth, quantitative `30 / 300` plan, pre-calibration Paper 2/Paper 3 Question Families and zero learner assets;
-2. PR #310 rebound Slice 3B to that exact retained candidate;
-3. the first post-rebind proof exposed an implementation false positive at the pre-calibration reviewer/normaliser boundary;
-4. PR #311 repaired that boundary without weakening ADR-0022; and
-5. workflow run `33956520875` on released `main` `2f2ae89f8280e3b0c1091346258e56f993f61f77` completed cleanly.
+That remains historical evidence of the internal assurance contract at that point. Later requirement-led/source-universe hardening and the external-source challenge demonstrated that internal PASS evidence alone does not establish external specification completeness.
 
-Retained Run `33956520875` evidence:
+### Requirement-led/source-universe hardening and external challenge
 
-- exact Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca`;
-- deterministic assurance `pass`;
-- fresh-context independent review `pass`;
-- independent-review findings `0`;
-- targeted remediation cycles `0`;
-- unresolved blockers `0`;
-- conservative independent-review provider spend `$0.0731 / $12.00`;
-- learner-facing assets `0`;
-- retained artifact id `9966542905`;
-- retained artifact digest `sha256:df5b8fd23f7ed2b4fd03c64af7a8f59cf84abc1621b7a86b9f3f42a210c9c111`.
+PR #318 introduced independently source-led Curriculum Coverage Map and Exam Coverage Map requirements so generated Foundation artifacts cannot define their own completeness denominator. Follow-on source-universe hardening moved the independent denominator upstream again and made a fresh external-source challenge mandatory before expert-review readiness.
 
-Slice 3B is therefore operationally complete for the exact retained AQA Foundation. This is assurance evidence only; it is not qualified human approval.
+The external-source challenge deliberately assumes Revision's Source Universe and requirement universe may be incomplete or wrong and independently checks current permitted official/authoritative evidence before the qualified-human package is built.
 
-### Current Slice 3C — qualified expert review and immutable approval
+The expert-review runtime now fails closed unless the exact current Foundation fingerprint has:
 
-Implement qualified subject/assessment expert-review package/contract, structured expert findings/evidence, reviewer identity/timestamps, known limitations, version-lineage validation and durable immutable Approved Course Foundation persistence.
+- deterministic assurance PASS;
+- fresh independent-review PASS;
+- no unresolved blockers;
+- the required Source Universe; and
+- a fresh external-source challenge PASS using a reviewer context excluded from all generation and prior assurance contexts.
 
-The first Slice 3C increment establishes a portable exact-fingerprint human-review package and structured qualified-review submission contract. The package may be created only for a Candidate with deterministic PASS, independent-review PASS and no unresolved blockers. Human qualification coverage must span both subject and assessment scope and retain qualification-evidence references. A material/blocking human finding requires `fail_hold` and may not be converted into approval by AI or automation.
+### Current remediation — AQA 7132 curriculum reconciliation and Course Truth semantic retention
 
-Success proof for Slice 3 is the real AQA Business Foundation reaching `foundation_approved` on an exact assured/reviewed version while learner-facing asset count remains zero.
+The fresh external-source challenge performed against Foundation fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` returned **`fail_hold`**.
 
-A second AI review is not expert approval. Slice 3C remains a separate human qualification gate even though Slice 3B has passed cleanly.
+It found two material defect classes:
+
+1. **Requirement-universe incompleteness.** The governed AQA curriculum denominator/semantic seed omitted explicit current 3.3.4 and 3.6.1 scope, so the internal completeness result was green against an incomplete denominator.
+2. **Semantic-retention loss.** The governed 3.3.4 semantic input included social media, viral marketing and multi-channel distribution, but final Course Truth silently dropped those named requirements.
+
+The full current-specification reconciliation additionally exposed further explicit scope that had been underrepresented, including 3.2.2 external environment including competition as an influence on decision making.
+
+The remediation therefore:
+
+- reconciles the complete AQA 7132 / 2027 source-led curriculum profile and Revision-owned semantic seed rather than patching only the reported strings;
+- keeps protected AQA material `REFERENCE_ONLY` and outside generative model context;
+- adds portable deterministic final-Course-Truth required-scope retention;
+- binds that invariant to the AQA 7132 / 2027 profile;
+- adds `course-truth-semantic-retention` as a material deterministic Foundation assurance check;
+- applies the same invariant before fresh independent review and after Course Truth remediation; and
+- retains regression tests for the exact historical 3.3.4 silent-narrowing failure.
+
+Detailed implementation record: `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md`.
+
+The failed fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` is historical evidence. It must not be patched, reused for qualified expert review or become `foundation_approved`.
+
+#### Required replacement proof chain
+
+After the remediation is merged to approved `main`, the next AQA 7132 / 2027 sequence is:
+
+1. compile a fresh Foundation Candidate and retain its new exact Foundation fingerprint;
+2. run live Foundation proof on approved `main`;
+3. run deterministic assurance on that exact Candidate, including `course-truth-semantic-retention`;
+4. run fresh-context independent Foundation review;
+5. if material remediation is required, create a new Candidate/fingerprint and rerun deterministic assurance plus another fresh independent review;
+6. run a genuinely fresh external-source challenge against the exact resulting fingerprint and current required Source Universe;
+7. only if the external-source challenge passes, assemble the qualified expert-review package; and
+8. obtain genuine qualified subject/assessment review before immutable `foundation_approved` persistence.
+
+No learner-facing assets may be created as part of this replacement proof.
+
+### Paused Slice 3C — qualified expert review and immutable approval
+
+The portable qualified subject/assessment expert-review package/contract already exists, including structured expert findings/evidence, reviewer identity/qualification evidence, known limitations, exact fingerprint binding and fail-closed external-source challenge validation.
+
+Slice 3C is **paused for AQA 7132 / 2027** because the current retained fingerprint failed the mandatory external-source challenge. A second AI review is not expert approval, but neither should the qualified human be used as the primary detector of explicit source omissions that the preceding gates can detect.
+
+Slice 3C resumes only for a replacement Foundation fingerprint which clears the complete pre-human assurance chain.
+
+Success proof for Slice 3 is the real AQA Business Foundation reaching `foundation_approved` on an exact current-source-assured, independently reviewed, external-challenge-passed and qualified-human-reviewed version while learner-facing asset count remains zero.
 
 ## Subsequent implementation sequence
 
@@ -297,6 +343,8 @@ Do not inherit the old full-course Q1–Q8 sequence merely for compatibility.
 
 For every slice use schema/unit tests for lifecycle and invariants, deterministic validator tests including simultaneous defects where relevant, dependency invalidation tests, no hidden mutation of approved Foundation artifacts, explicit provider-call/cost boundaries, fresh-context review separation where review exists, historical regressions only for retained components, and exact-head CI before governed merge.
 
+For Foundation completeness specifically, internal structural consistency is not sufficient. The implementation must also prove the independently established Source Universe/requirement denominator, final Course Truth semantic retention where mechanically checkable, and fresh external-source challenge separation before qualified-human review readiness.
+
 Paid live proof evidence supplements these controls; it does not replace exact-head CI or Founder approval.
 
 ## Documentation maintenance
@@ -304,21 +352,21 @@ Paid live proof evidence supplements these controls; it does not replace exact-h
 As implementation lands:
 
 - maintain this plan as the staged implementation owner;
-- keep Foundation lifecycle, compilation and assurance implementation records aligned;
+- keep Foundation lifecycle, compilation, assurance, external-challenge and expert-review implementation records aligned;
 - keep `docs/technical/Content Factory Architecture.md` aligned to the current Foundation runtime rather than legacy orchestration;
 - retain pilot/remediation/proof records as history;
 - update Content Operations documentation only when that surface changes; and
 - update `INDEX.md` when implementation ownership, architecture-decision discoverability or source-of-truth relationships materially change.
 
-## Completed operational condition for Slice 3B
+## Current operational condition before Slice 3C
 
-Slice 3B is operationally complete only when an exact **current** Foundation Candidate has:
+A current exact Foundation Candidate may progress to Slice 3C only when all of the following hold for the same exact fingerprint:
 
 1. deterministic PASS bound to the exact current implementation commit and Foundation fingerprint;
-2. a provider review context proven distinct from retained generation/review/remediation contexts;
-3. retained structured review evidence;
-4. if required, smallest-safe material remediation creating a new candidate/fingerprint;
-5. deterministic re-assurance of the remediated candidate; and
-6. another fresh independent review of the exact remediated fingerprint reaching PASS within the bounded cycle limit.
+2. a fresh independent-review context proven distinct from retained generation/review/remediation contexts;
+3. retained structured independent-review evidence with no unresolved blocking/material finding;
+4. if required, smallest-safe material remediation creating a new candidate/fingerprint followed by deterministic re-assurance and another fresh independent review;
+5. complete Source Universe and source-led curriculum/exam reconciliation for the exact course/cohort; and
+6. a fresh external-source challenge PASS against that exact fingerprint, current required source universe and a reviewer context excluded from all prior generation/assurance contexts.
 
-Workflow run `33956520875` satisfies this condition for Foundation fingerprint `8c3786491943091da31325812af0386a531b5c634513dfcece2147273bb022ca` on released review implementation commit `2f2ae89f8280e3b0c1091346258e56f993f61f77`. The exact version may now progress to Slice 3C qualified expert review, but it remains unapproved until genuine qualified human evidence is recorded and the immutable approval gate succeeds.
+No currently retained AQA 7132 / 2027 Foundation satisfies this progression condition. The latest challenged fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` is `fail_hold` and must be replaced through the governed recompilation/proof chain above.
