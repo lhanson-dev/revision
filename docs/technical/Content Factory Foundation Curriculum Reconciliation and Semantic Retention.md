@@ -28,7 +28,7 @@ The reconciliation corrects the reported omissions and additional explicit scope
 - explicit value/difficulty/influence relationships where the previous seed named the topic but under-described the examinable relationship, including operational efficiency/lean production, financial analysis, organisational design, strategic position, innovation, globalisation and change; and
 - current named method/scope wording needed for deterministic retention checks.
 
-The seed schema version is advanced because the material Foundation compilation input changed. The existing seed identity remains stable, while its material fingerprint changes and therefore any newly compiled Foundation Candidate must receive a new aggregate Foundation fingerprint.
+The semantic-seed schema remains version 3 because the data shape has not changed. Its material content changes, so the compiled Course Truth/coverage artifacts and aggregate Foundation fingerprint must change even though the schema version remains stable. Any newly compiled Foundation Candidate therefore receives a new aggregate Foundation fingerprint.
 
 ## Deterministic semantic-retention control
 
