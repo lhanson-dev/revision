@@ -1,6 +1,7 @@
 import type { CourseKnowledgeModel } from './schema'
 import {
   assertCourseTruthRequiredScopeRetention,
+  type FoundationCoverageObligation,
   type FoundationSemanticCoverageItem,
 } from './requirement-led-coverage'
 import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED } from './source-seeds/aqa-a-level-business-7132-2027'
@@ -18,6 +19,27 @@ export function aqaAlevelBusiness7132SemanticCoverageItems(): FoundationSemantic
   )
 }
 
+function courseTruthRetentionObligations(semanticItems: FoundationSemanticCoverageItem[]): FoundationCoverageObligation[] {
+  return buildAqaAlevelBusiness7132CurriculumObligations(semanticItems).map((obligation) => {
+    if (obligation.obligationId !== 'aqa-3-0-course-context') return obligation
+
+    // AQA 3.0 requires business to be studied in a variety of contexts. The governed
+    // semantic seed renders that as "varied business contexts", while final Course Truth
+    // may safely render the same concept as "Business ... varied contexts". Keep the
+    // generic matcher strict and make this qualification-specific retention contract
+    // require both the business domain and the varied-context concept without depending
+    // on one generated word order.
+    return {
+      ...obligation,
+      requiredTerms: obligation.requiredTerms.flatMap((requiredTerm) =>
+        requiredTerm === 'varied business contexts'
+          ? ['business', 'varied contexts']
+          : [requiredTerm],
+      ),
+    }
+  })
+}
+
 /**
  * Qualification-profile guard for the current AQA 7132 / 2027 Foundation.
  *
@@ -28,7 +50,7 @@ export function aqaAlevelBusiness7132SemanticCoverageItems(): FoundationSemantic
 export function assertAqaAlevelBusiness7132CourseTruthRetention(courseKnowledgeModel: CourseKnowledgeModel) {
   const semanticItems = aqaAlevelBusiness7132SemanticCoverageItems()
   return assertCourseTruthRequiredScopeRetention({
-    obligations: buildAqaAlevelBusiness7132CurriculumObligations(semanticItems),
+    obligations: courseTruthRetentionObligations(semanticItems),
     semanticItems,
     nodes: courseKnowledgeModel.nodes,
   })
