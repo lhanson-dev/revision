@@ -70,6 +70,31 @@ describe('requirement-led Foundation curriculum coverage', () => {
       .toThrow('missing_required_curriculum_scope:aqa-3-3-4:7Ps')
   })
 
+  it('accepts coordinated shared-head wording while still requiring the named concept', () => {
+    const semanticItems: FoundationSemanticCoverageItem[] = [{
+      id: 'example.s01',
+      requirementId: 'example',
+      officialReference: '1.0',
+      knowledgeItemIndex: 0,
+      text: 'Evaluate the external and internal environment before deciding.',
+    }]
+    const obligations = [{
+      obligationId: 'example',
+      officialReference: '1.0',
+      curriculumPath: ['Example'],
+      summary: 'Example coordinated named scope.',
+      semanticItemIds: ['example.s01'],
+      requiredTerms: ['external environment', 'internal environment'],
+      sourceRefs: ['source'],
+    }]
+
+    expect(() => assertRequirementLedCoverage({ obligations, semanticItems })).not.toThrow()
+
+    const narrowed = semanticItems.map((item) => ({ ...item, text: 'Evaluate the internal environment before deciding.' }))
+    expect(() => assertRequirementLedCoverage({ obligations, semanticItems: narrowed }))
+      .toThrow('missing_required_curriculum_scope:example:external environment')
+  })
+
   it('proves all governed named scope survives into final mapped Course Truth', () => {
     const { semanticItems, obligations } = governedReconciliation()
     expect(() => assertCourseTruthRequiredScopeRetention({
