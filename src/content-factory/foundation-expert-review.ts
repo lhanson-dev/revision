@@ -15,6 +15,8 @@ const nonEmptyStringSchema = z.string().min(1)
 const commitShaSchema = z.string().regex(/^[0-9a-f]{40}$/)
 const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/)
 
+export const FOUNDATION_PRECALIBRATION_ASSESSMENT_LIMITATION = 'Question Family assessment characteristics remain pre-calibration where artifacts are marked not_calibrated. Exact constituent mark, assessment-objective and response-demand allocations must not be represented as calibrated assessment truth or used for unrestricted final learner-owned assessment generation until the governed calibration gate passes.'
+
 export const foundationExpertReviewScopeSchema = z.enum(['subject', 'assessment'])
 
 export const foundationExpertReviewerSchema = z.object({
@@ -201,7 +203,10 @@ export async function buildFoundationExpertReviewPackage(input: {
     independentReviewEvidenceRefs: candidate.independentReview.evidenceRefs,
     sourceUniverse,
     externalSourceChallenge,
-    knownLimitations: candidate.knownLimitations,
+    knownLimitations: [...new Set([
+      ...candidate.knownLimitations,
+      FOUNDATION_PRECALIBRATION_ASSESSMENT_LIMITATION,
+    ])],
     createdAt: input.createdAt,
   })
 }
