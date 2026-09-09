@@ -60,6 +60,8 @@ Requirement-led coverage tests now prove:
 - the previously observed 3.3.4 loss of social media / viral marketing / multi-channel distribution fails at final Course Truth retention; and
 - the corrected high-risk terms, including extension strategies, new product development, external environment including competition and alignment of employee/employer values, remain locked in the governed seed.
 
+The AQA qualification-specific retention regressions additionally prove that the original governed 3.0 wording passes, the exact retained live paraphrase passes, true loss of varied-context scope fails, true loss of functional interrelationship fails, contradictory wording that treats functions as isolated fails, and the historical 3.3.4 / 3.6.1 omission modes remain blocked.
+
 The repository CI remains the integration authority for typecheck, unit/regression and wider governed assurance on the PR head.
 
 ## Replacement proof #1 deterministic finding
@@ -72,19 +74,33 @@ Deterministic assurance run `34276705426` correctly failed closed with 20 checks
 
 Inspection of the exact retained Course Truth node showed that the curriculum concept had **not** been dropped. Node `aqa-3-0-course-context.k01` states that business analysis applies ideas "across varied contexts" and then retains the remaining course-wide scope. The current AQA 3.0 subject-content requirement is that students study business in a variety of contexts. The failed check therefore exposed an over-specific qualification retention anchor rather than a missing curriculum concept.
 
-The correction keeps the shared deterministic matcher strict. For the AQA 7132 course-context obligation, the qualification-specific guard first tests the original governed anchor `varied business contexts`. Only when that exact anchor alone is absent does it retry the same obligation with the bounded equivalent requiring both `business` and `varied contexts`. Every other required term on the obligation is unchanged, every other curriculum obligation continues through the shared strict matcher, and any failure other than the missing original context anchor is rethrown rather than relaxed. This accepts the governed seed form and the retained live generated ordering without introducing fuzzy semantic matching.
+PR #337 kept the shared deterministic matcher strict and added one qualification-specific bounded equivalent for this wording: the governed `varied business contexts` anchor could alternatively be proven by requiring both `business` and `varied contexts`. The failed assurance run remains historical evidence and must not be reclassified as passing.
 
-Regression assurance includes the actual retained live-proof wording and proves it passes, while a Course Truth node narrowed to one fixed context still fails closed. The faithful governed-seed wording remains a passing baseline, and the existing 3.3.4 and 3.6.1 omission regressions remain independently enforceable. The failed assurance run remains historical evidence and must not be reclassified as passing.
+## Replacement proof #2 deterministic finding
+
+After PR #337 was released to approved `main` commit `322923823dfc1077bd64fff4b78999418574074a`, deterministic assurance was rerun against the **same retained Candidate**, live artifact `10075741986` and Foundation fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` without regeneration.
+
+Assurance run `34319393013` again failed closed with 20 checks total and one material failure:
+
+`missing_required_course_truth_scope:aqa-3-0-course-context:interrelated`
+
+All source-proof identity and artifact-binding checks passed before the deterministic assurance stage. Inspection of the exact retained node shows the relationship was retained: it says business analysis "connects functional decisions rather than treating functions as isolated." The governed seed expresses the same course-wide requirement as analysing "interrelated functional decisions rather than isolated silos." This is therefore a second over-specific wording anchor on the same AQA 3.0 obligation, not evidence that the retained Candidate dropped the relationship between business functions.
+
+The follow-on correction still leaves `assertCourseTruthRequiredScopeRetention` unchanged and strict. Only the AQA 7132 / 2027 course-context wrapper may try a finite set of qualification-specific alternatives. The original governed terms remain the first accepted form. The already approved varied-context alternative remains bounded to `business` plus `varied contexts`. The new interrelationship alternative requires **both** `connects functional decisions` and `rather than treating functions as isolated`, preserving the positive relationship and the explicit rejection of siloed treatment. The wrapper tries only the finite combinations of those two known wording alternatives and rethrows any failure outside those exact course-context anchors. No fuzzy matching, stemming, model judgement or generic relaxation is introduced.
+
+A negative regression deliberately uses wording that says it "connects functional decisions but treats functions as isolated" and must fail. This prevents the alternative from passing merely because a few related words are present while the substantive relationship is reversed.
+
+Assurance run `34319393013` and artifact `10091270939` remain historical failed evidence. They must not be rewritten or treated as passing after remediation.
 
 ## Required new proof chain
 
 The failed retained fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` is historical evidence and must not be patched or reused for approval.
 
-The replacement fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` also remains blocked until the qualification-specific retention correction is released and deterministic assurance passes against the exact retained Candidate.
+The replacement fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` also remains blocked until the complete qualification-specific course-context retention correction is released and deterministic assurance passes against the exact retained Candidate.
 
 The required sequence is now:
 
-1. release the qualification-specific retention correction to approved `main`;
+1. release the complete bounded AQA 3.0 course-context retention correction to approved `main`;
 2. rerun deterministic Foundation assurance against exact retained live artifact `10075741986` and fingerprint `d8923a6779facfa14f796d2a11e2df50542d37ba7fada02285a27d5096cfd813` without regeneration;
 3. if deterministic assurance passes, run fresh-context independent Foundation review;
 4. remediate any blocking/material findings through the guarded path and rerun deterministic assurance plus fresh review;
@@ -97,4 +113,4 @@ No learner-facing Learn, Practice or Exam Prep asset may start before the later 
 
 No new normative authority is required. The remediation implements the existing Foundation completeness and external-challenge rules.
 
-Historical live-proof, deterministic-review, independent-review and external-challenge evidence remains unchanged. This document records the new implementation state and required replacement proof chain; it does not rewrite either failed candidate or failed assurance run as passing.
+Historical live-proof, deterministic-review, independent-review and external-challenge evidence remains unchanged. This document records the current implementation state and required replacement proof chain; it does not rewrite any failed candidate or failed assurance run as passing.
