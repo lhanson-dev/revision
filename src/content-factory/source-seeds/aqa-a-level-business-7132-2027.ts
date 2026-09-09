@@ -146,7 +146,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
       'Interpret UK and global economic change using GDP, taxation, exchange rates and inflation and analyse fiscal and monetary policy effects. Compare open trade and protectionism and evaluate consequences for strategic and functional decisions, demand, costs, investment, competitiveness and risk.',
     ]),
     requirement('aqa-3-7-6', '3.7.6', 'Social and technological change', [
-      'Analyse migration, consumer lifestyle and buying-behaviour change and the growth of online businesses. Evaluate reasons for and against Corporate Social Responsibility, pressures for socially responsible behaviour and the stakeholder versus shareholder debate, and apply Carroll CSR Pyramid as a structured lens. Analyse technological change for functional areas, strategy, cost, demand, capability and risk.',
+      'Analyse demographic changes and population movements and their consequences for strategic and functional decision making. Apply this broader scope to familiar and unseen scenarios, including examples such as migration, consumer lifestyle and buying behaviour changes and the growth of online businesses, without treating those examples as the complete requirement. Evaluate reasons for and against Corporate Social Responsibility, pressures for socially responsible behaviour and the stakeholder versus shareholder debate, and apply Carroll CSR Pyramid as a structured lens. Analyse technological change for functional areas, strategy, cost, demand, capability and risk.',
     ]),
     requirement('aqa-3-7-7', '3.7.7', 'Competitive environment', [
       'Apply Porter Five Forces through entry threat including barriers to entry, buyer power, supplier power, rivalry and substitute threat. Analyse how and why the forces can change and use them to judge competitive intensity, profit potential and strategic and functional choices.',
@@ -189,7 +189,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED = {
     ]),
 
     requirement('aqa-annex-quantitative', 'Annex: quantitative skills in business', 'Quantitative skills in business', [
-      'Apply course-required quantitative skills including ratios, averages, percentages, percentage change and index numbers; market size, market share and market growth; cost/revenue/profit and break-even; labour productivity, capacity utilisation and labour turnover; ROCE, current ratio, gearing, payables days, receivables days and inventory turnover; expected value and net gain; and payback, average rate of return and net present value. For price and income elasticity, interpret, not calculate, the supplied elasticity evidence. Use quantitative evidence in context and check assumptions, units and data quality.',
+      'Apply course-required quantitative skills across ratios, averages, fractions, percentages and percentage changes; construct and interpret a range of standard graphical forms; use and interpret index numbers; calculate and interpret cost, revenue, profit and break-even information; apply investment appraisal; and interpret, not calculate, price and income elasticity where supplied. Use quantitative and non-quantitative information together to make decisions, and interpret, apply and analyse information in written, graphical and numerical forms. Quantitative assessment must include at least Level 2 mathematical skills and comprise at least 10% of A-level marks. Use evidence in context and check assumptions, units and data quality.',
     ]),
   ] satisfies FoundationCurriculumRequirementInput[],
 }
