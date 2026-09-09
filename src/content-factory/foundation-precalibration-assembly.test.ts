@@ -8,6 +8,7 @@ import {
   AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
   AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY,
   AQA_A_LEVEL_BUSINESS_7132_AO_RANGES,
+  AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS,
   aqa7132AssessmentObjectiveCoverageProblems,
   aqa7132PreCalibrationAssemblyProblems,
   normaliseAqa7132ExamTruth,
@@ -159,6 +160,40 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
       allocationRequiredAt: 'marking_pack_generation',
     })
     expect(aqa7132AssessmentObjectiveCoverageProblems(corrected)).toEqual([])
+  })
+
+  it('materialises and deterministically checks paper-level AO ranges and complete quantitative constraints', () => {
+    const corrected = normaliseAqa7132ExamTruth(blueprint())
+
+    expect(corrected.components.find((component) => component.componentId === 'paper-1')?.constraints)
+      .toContain('Paper 1 assessment-objective ranges: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%.')
+    expect(corrected.components.find((component) => component.componentId === 'paper-2')?.constraints)
+      .toContain('Paper 2 assessment-objective ranges: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%.')
+    expect(corrected.components.find((component) => component.componentId === 'paper-3')?.constraints)
+      .toContain('Paper 3 assessment-objective ranges: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.')
+    expect(corrected.evidenceExpectations).toEqual(expect.arrayContaining([...AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS]))
+    expect(aqa7132AssessmentObjectiveCoverageProblems(corrected)).toEqual([])
+  })
+
+  it('fails deterministic assurance if a paper AO range or quantitative constraint is removed', () => {
+    const corrected = normaliseAqa7132ExamTruth(blueprint())
+    const missingPaperRange = {
+      ...corrected,
+      components: corrected.components.map((component) => component.componentId === 'paper-2'
+        ? { ...component, constraints: component.constraints.filter((constraint) => !constraint.startsWith('Paper 2 assessment-objective ranges:')) }
+        : component),
+    }
+    expect(aqa7132AssessmentObjectiveCoverageProblems(missingPaperRange)).toEqual(expect.arrayContaining([
+      expect.stringContaining('paper-2 is missing its governed component-level AO ranges'),
+    ]))
+
+    const missingQuantitativeConstraint = {
+      ...corrected,
+      evidenceExpectations: corrected.evidenceExpectations.filter((entry) => entry !== AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS[1]),
+    }
+    expect(aqa7132AssessmentObjectiveCoverageProblems(missingQuantitativeConstraint)).toEqual(expect.arrayContaining([
+      expect.stringContaining('Level 2 mathematical skills'),
+    ]))
   })
 
   it('detects an altered AO range plan rather than accepting provider precision', () => {
