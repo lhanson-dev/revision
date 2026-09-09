@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { foundationAssessmentBlueprintSchema } from './foundation-compilation'
 import { questionFamilySchema } from './schema'
 import { buildAqa7132FoundationExpertReviewCoverageReconciliation } from './foundation-expert-review-reconciliation'
+import {
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID,
+  AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY,
+  normaliseAqa7132ExamTruth,
+} from './foundation-precalibration-assembly'
 import { canonicalKnowledgeNodeId, type FoundationSemanticCoverageItem } from './requirement-led-coverage'
 import { AQA_A_LEVEL_BUSINESS_7132_2027_COURSE_TRUTH_SEED } from './source-seeds/aqa-a-level-business-7132-2027'
 
@@ -55,7 +59,7 @@ function courseKnowledgeModel() {
 }
 
 function assessmentBlueprint() {
-  return foundationAssessmentBlueprintSchema.parse({
+  return normaliseAqa7132ExamTruth({
     schemaVersion: 2,
     jobId: 'aqa-7132-reconciliation-test',
     boardAlignmentFingerprint: 'board-value-fingerprint',
@@ -63,6 +67,8 @@ function assessmentBlueprint() {
     assessmentObjectives: [{ id: 'ao1' }, { id: 'ao2' }, { id: 'ao3' }, { id: 'ao4' }],
     assessmentRequirements: [
       { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
+      { id: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID, summary: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY, componentScope: ['paper-1', 'paper-2', 'paper-3'] },
+      { id: 'aqa-exam-quantitative-minimum', summary: 'At least 10% of the overall A-level marks assess quantitative skills.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
     ],
     components: [
       {
@@ -98,11 +104,19 @@ function assessmentBlueprint() {
     ],
     evidenceExpectations: [
       'All content may be assessed across Paper 1, Paper 2 and Paper 3.',
-      'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
-      'At least 10% of the overall A-level marks assess quantitative skills.',
     ],
     commandDemands: [],
     quantitativeRequirements: [],
+    quantitativeCoveragePlan: {
+      sourceAssessmentRequirementId: 'aqa-exam-quantitative-minimum',
+      scope: 'qualification_total',
+      minimumOverallPercent: 10,
+      totalAssessmentMarks: 300,
+      minimumQuantitativeMarks: 30,
+      eligibleQuestionFamilyIds: ['paper1-nine-mark-analysis', 'paper2-data-response', 'paper3-case-study'],
+      generationValidation: 'sum_quantitative_marks_gte_minimum',
+      interpretationCreditRequired: true,
+    },
     synopticRequirements: [],
   })
 }
