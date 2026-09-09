@@ -23,6 +23,10 @@ describe('AQA A-level Business 7132 / 2027 Course Truth seed', () => {
   })
 
   it('retains current high-risk quantitative methods and boundaries', () => {
+    const decisionTrees = knowledgeItem('aqa-3-2-2')
+    expect(decisionTrees).toContain('expected value')
+    expect(decisionTrees).toContain('net gains')
+
     const marketingEvidence = knowledgeItem('aqa-3-3-2')
     expect(marketingEvidence).toContain('interpret, not calculate')
     expect(marketingEvidence).toContain('price elasticity')
@@ -41,8 +45,12 @@ describe('AQA A-level Business 7132 / 2027 Course Truth seed', () => {
     expect(investmentAppraisal).toContain('net present value (NPV)')
 
     const annex = knowledgeItem('aqa-annex-quantitative')
-    expect(annex).toContain('expected value and net gain')
-    expect(annex).toContain('payback, average rate of return and net present value')
+    expect(annex).toContain('ratios, averages, fractions, percentages and percentage changes')
+    expect(annex).toContain('standard graphical forms')
+    expect(annex).toContain('quantitative and non-quantitative information together')
+    expect(annex).toContain('written, graphical and numerical forms')
+    expect(annex).toContain('Level 2 mathematical skills')
+    expect(annex).toContain('at least 10%')
     expect(annex).toContain('interpret, not calculate')
   })
 
