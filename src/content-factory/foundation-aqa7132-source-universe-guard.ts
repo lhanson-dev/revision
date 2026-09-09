@@ -165,7 +165,7 @@ const aqaBoardAlignmentRules: AqaBoardAlignmentRule[] = [
       id: 'aqa-exam-ao-weighting',
       sourceRef: schemeSourceId,
       category: 'assessment_requirement',
-      value: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+      value: 'Current assessment-objective ranges are AO1 22–25%, AO2 24–27%, AO3 25–28%, AO4 23–26%. Paper 1 ranges are AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%. Paper 2 ranges are AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%. Paper 3 ranges are AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.',
       verificationStatus: 'verified',
     },
   },
