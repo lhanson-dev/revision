@@ -42,6 +42,7 @@ function blueprint() {
       { id: 'paper3-structure', summary: 'One compulsory case study followed by approximately six questions.', componentScope: ['paper-3'] },
       { id: 'all-content-all-papers', summary: 'All content may be assessed across all three papers.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
       { id: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID, summary: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY, componentScope: ['paper-1', 'paper-2', 'paper-3'] },
+      { id: 'aqa-exam-quantitative-minimum', summary: 'At least 10% of the overall A-level marks assess quantitative skills.', componentScope: ['paper-1', 'paper-2', 'paper-3'] },
     ],
     components: [
       { componentId: 'paper-1', questionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay'], markTotal: 100, timingMinutes: 120, constraints: ['written examination'] },
@@ -51,6 +52,16 @@ function blueprint() {
     commandDemands: [],
     evidenceExpectations: [],
     quantitativeRequirements: [],
+    quantitativeCoveragePlan: {
+      sourceAssessmentRequirementId: 'aqa-exam-quantitative-minimum',
+      scope: 'qualification_total',
+      minimumOverallPercent: 10,
+      totalAssessmentMarks: 300,
+      minimumQuantitativeMarks: 30,
+      eligibleQuestionFamilyIds: ['paper1-mcq', 'paper1-short-answer', 'paper1-essay', 'paper2-data-response', 'paper3-case-study'],
+      generationValidation: 'sum_quantitative_marks_gte_minimum',
+      interpretationCreditRequired: true,
+    },
     synopticRequirements: [],
   })
 }
