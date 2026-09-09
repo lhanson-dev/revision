@@ -261,14 +261,14 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
         outputSchema: courseTruthEnrichmentSchema,
         strictOutput: true,
         instructions: [
-          'Create exactly one atomic canonical Course Truth node for every supplied canonical knowledge item and no extra nodes.',
-          'Preserve every supplied node id exactly. Each node summary must explain only its named knowledgeItem rather than collapsing the wider requirement into a topical overview.',
-          'For each item, state the subject distinction, relationship, application boundary, misconception or calculation convention when the governed seed supports it.',
+          'Create exactly one atomic Course Truth enrichment for every supplied canonical knowledge item and no extra nodes.',
+          'Preserve every supplied node id exactly. The compiler owns each canonical summary from the governed Revision-owned knowledgeItem; do not treat your summary wording as authoritative curriculum scope.',
+          'For each item, enrich the structured kind, relationships, formulae, misconceptions, application contexts, depth and evidence types only where the governed seed supports them.',
           'Use only the factual scope supplied in the governed Revision-owned seed. Do not introduce unsupported facts, formulas or claims from model memory.',
           'If the seed does not support a precise formula or dependency, return an empty formula/dependency list rather than inventing detail.',
           'Do not invent source or Board Alignment references; those are attached deterministically after your semantic output.',
           'Use prerequisiteIds and relatedIds only from the supplied canonical node IDs and only when the seed clearly supports the relationship.',
-          'Summaries must be independent Revision-authored wording and must not reconstruct awarding-body text.',
+          'Any summary field required by the provider schema is non-canonical enrichment and will be replaced deterministically by the exact governed Revision-owned knowledgeItem.',
         ].join('\n'),
         payload: {
           courseIdentity: boardAlignment.courseIdentity,
@@ -285,13 +285,14 @@ export function createAqaAlevelBusiness7132FoundationLiveWorkers(input: {
       if (!exactNodeSet(enrichment.nodes, canonicalNodes.map((item) => item.id))) {
         return { ...execution, status: 'failure', error: 'provider_contract_failure: Course Truth provider must return exactly the canonical atomic knowledge node IDs' }
       }
-      const requirementByNodeId = new Map(canonicalNodes.map((node) => [node.id, node.requirementId]))
+      const canonicalByNodeId = new Map(canonicalNodes.map((node) => [node.id, node]))
       const requirementsById = new Map(requirements.map((item) => [item.requirementId, item]))
       const nodes = enrichment.nodes.map((node) => {
-        const requirementId = requirementByNodeId.get(node.id)!
-        const governed = requirementsById.get(requirementId)!
+        const canonical = canonicalByNodeId.get(node.id)!
+        const governed = requirementsById.get(canonical.requirementId)!
         return {
           ...node,
+          summary: canonical.knowledgeItem,
           sourceRefs: governed.sourceRefs,
           boardAlignmentRefs: [...new Set([...governed.componentScope, ...allAos])],
         }
