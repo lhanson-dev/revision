@@ -3,6 +3,7 @@ import { foundationCandidateSchema, type FoundationCandidate } from './foundatio
 import { computeFoundationFingerprint } from './foundation-lifecycle'
 import {
   buildFoundationExpertReviewPackage,
+  FOUNDATION_PRECALIBRATION_ASSESSMENT_LIMITATION,
   foundationExpertReviewSubmissionSchema,
   validateFoundationExpertReviewSubmission,
 } from './foundation-expert-review'
@@ -148,6 +149,7 @@ describe('Foundation qualified expert review contract', () => {
     expect(reviewPackage.externalSourceChallenge.decision).toBe('pass')
     expect(reviewPackage.sourceUniverse).toEqual(sourceUniverse)
     expect(reviewPackage.requiredReviewScopes).toEqual(['subject', 'assessment'])
+    expect(reviewPackage.knownLimitations).toContain(FOUNDATION_PRECALIBRATION_ASSESSMENT_LIMITATION)
     expect(reviewPackage.artifacts.map((artifactEntry) => artifactEntry.artifactKind)).toEqual([
       'source_licence_register',
       'board_alignment',
