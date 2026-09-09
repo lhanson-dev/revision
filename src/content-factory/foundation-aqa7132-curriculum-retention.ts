@@ -20,8 +20,8 @@ export function aqaAlevelBusiness7132SemanticCoverageItems(): FoundationSemantic
 }
 
 type CourseContextAlternative = {
-  variedContexts: boolean
-  interrelatedFunctions: boolean
+  variedContexts?: boolean
+  interrelatedFunctions?: boolean
 }
 
 function courseContextAlternative(
@@ -42,41 +42,62 @@ function courseContextAlternative(
   }
 }
 
-const courseContextAnchorFailures = new Set([
-  'missing_required_course_truth_scope:aqa-3-0-course-context:varied business contexts',
-  'missing_required_course_truth_scope:aqa-3-0-course-context:varied contexts',
-  'missing_required_course_truth_scope:aqa-3-0-course-context:interrelated',
-  'missing_required_course_truth_scope:aqa-3-0-course-context:connects functional decisions',
-  'missing_required_course_truth_scope:aqa-3-0-course-context:rather than treating functions as isolated',
-])
+const missingVariedBusinessContexts =
+  'missing_required_course_truth_scope:aqa-3-0-course-context:varied business contexts'
+const missingInterrelatedFunctions =
+  'missing_required_course_truth_scope:aqa-3-0-course-context:interrelated'
+
+function assertCourseContextObligation(input: {
+  obligation: FoundationCoverageObligation
+  semanticItems: FoundationSemanticCoverageItem[]
+  courseKnowledgeModel: CourseKnowledgeModel
+}) {
+  return assertCourseTruthRequiredScopeRetention({
+    obligations: [input.obligation],
+    semanticItems: input.semanticItems,
+    nodes: input.courseKnowledgeModel.nodes,
+  })
+}
 
 function assertAqaCourseContextRetention(input: {
   obligation: FoundationCoverageObligation
   semanticItems: FoundationSemanticCoverageItem[]
   courseKnowledgeModel: CourseKnowledgeModel
 }) {
-  const attempts = [
-    input.obligation,
-    courseContextAlternative(input.obligation, { variedContexts: true, interrelatedFunctions: false }),
-    courseContextAlternative(input.obligation, { variedContexts: false, interrelatedFunctions: true }),
-    courseContextAlternative(input.obligation, { variedContexts: true, interrelatedFunctions: true }),
-  ]
+  try {
+    return assertCourseContextObligation(input)
+  } catch (error) {
+    if (!(error instanceof Error)) throw error
 
-  let lastAnchorFailure: Error | null = null
-  for (const obligation of attempts) {
-    try {
-      return assertCourseTruthRequiredScopeRetention({
-        obligations: [obligation],
-        semanticItems: input.semanticItems,
-        nodes: input.courseKnowledgeModel.nodes,
+    if (error.message === missingInterrelatedFunctions) {
+      return assertCourseContextObligation({
+        ...input,
+        obligation: courseContextAlternative(input.obligation, { interrelatedFunctions: true }),
       })
-    } catch (error) {
-      if (!(error instanceof Error) || !courseContextAnchorFailures.has(error.message)) throw error
-      lastAnchorFailure = error
+    }
+
+    if (error.message !== missingVariedBusinessContexts) throw error
+
+    const variedContextAlternative = courseContextAlternative(input.obligation, { variedContexts: true })
+    try {
+      return assertCourseContextObligation({
+        ...input,
+        obligation: variedContextAlternative,
+      })
+    } catch (variedContextError) {
+      if (!(variedContextError instanceof Error) || variedContextError.message !== missingInterrelatedFunctions) {
+        throw variedContextError
+      }
+
+      return assertCourseContextObligation({
+        ...input,
+        obligation: courseContextAlternative(input.obligation, {
+          variedContexts: true,
+          interrelatedFunctions: true,
+        }),
+      })
     }
   }
-
-  throw lastAnchorFailure ?? new Error('missing_aqa_course_context_retention_result')
 }
 
 /**
@@ -89,8 +110,8 @@ function assertAqaCourseContextRetention(input: {
  * AQA 3.0 has two tightly bounded wording alternatives proven by the retained live Candidate:
  * "varied business contexts" may render as "Business ... varied contexts", and "interrelated"
  * functional decisions may render as "connects functional decisions rather than treating
- * functions as isolated". These alternatives are finite and qualification-specific; every
- * other required term and obligation remains governed by the strict shared matcher.
+ * functions as isolated". Each alternative is attempted only after its exact governed anchor
+ * fails; every other required term and obligation remains governed by the strict shared matcher.
  */
 export function assertAqaAlevelBusiness7132CourseTruthRetention(courseKnowledgeModel: CourseKnowledgeModel) {
   const semanticItems = aqaAlevelBusiness7132SemanticCoverageItems()
