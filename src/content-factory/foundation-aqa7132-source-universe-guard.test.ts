@@ -11,6 +11,7 @@ import {
   type FoundationCompilationWorkers,
 } from './foundation-compilation'
 import { withAqa7132SourceUniverseGuard } from './foundation-aqa7132-source-universe-guard'
+import { AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY } from './foundation-precalibration-assembly'
 
 const identity = foundationIdentityResolutionSchema.parse({
   courseIdentity: { subject: 'Business', qualification: 'A-level', awardingBody: 'AQA', specificationId: '7132' },
@@ -152,7 +153,7 @@ describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
       .toMatchObject({
         sourceRef: 'aqa-7132-scheme',
         category: 'assessment_requirement',
-        value: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+        value: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY,
         verificationStatus: 'verified',
       })
 
@@ -167,7 +168,7 @@ describe('AQA 7132 REFERENCE_ONLY alignment boundary', () => {
       .toEqual(['aqa-7131-7132-formulae-key-data'])
     expect(alignment.assessmentRequirements.find((requirement) => requirement.id === 'aqa-exam-ao-weighting'))
       .toMatchObject({
-        summary: 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.',
+        summary: AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY,
         componentScope: ['paper-1', 'paper-2', 'paper-3'],
         sourceRefs: ['aqa-7132-scheme'],
       })
