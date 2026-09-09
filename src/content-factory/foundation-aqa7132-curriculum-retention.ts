@@ -19,44 +19,64 @@ export function aqaAlevelBusiness7132SemanticCoverageItems(): FoundationSemantic
   )
 }
 
-function courseContextAlternative(obligation: FoundationCoverageObligation): FoundationCoverageObligation {
+type CourseContextAlternative = {
+  variedContexts: boolean
+  interrelatedFunctions: boolean
+}
+
+function courseContextAlternative(
+  obligation: FoundationCoverageObligation,
+  alternative: CourseContextAlternative,
+): FoundationCoverageObligation {
   return {
     ...obligation,
-    requiredTerms: obligation.requiredTerms.flatMap((requiredTerm) =>
-      requiredTerm === 'varied business contexts'
-        ? ['business', 'varied contexts']
-        : [requiredTerm],
-    ),
+    requiredTerms: obligation.requiredTerms.flatMap((requiredTerm) => {
+      if (alternative.variedContexts && requiredTerm === 'varied business contexts') {
+        return ['business', 'varied contexts']
+      }
+      if (alternative.interrelatedFunctions && requiredTerm === 'interrelated') {
+        return ['connects functional decisions', 'rather than treating functions as isolated']
+      }
+      return [requiredTerm]
+    }),
   }
 }
+
+const courseContextAnchorFailures = new Set([
+  'missing_required_course_truth_scope:aqa-3-0-course-context:varied business contexts',
+  'missing_required_course_truth_scope:aqa-3-0-course-context:varied contexts',
+  'missing_required_course_truth_scope:aqa-3-0-course-context:interrelated',
+  'missing_required_course_truth_scope:aqa-3-0-course-context:connects functional decisions',
+  'missing_required_course_truth_scope:aqa-3-0-course-context:rather than treating functions as isolated',
+])
 
 function assertAqaCourseContextRetention(input: {
   obligation: FoundationCoverageObligation
   semanticItems: FoundationSemanticCoverageItem[]
   courseKnowledgeModel: CourseKnowledgeModel
 }) {
-  try {
-    return assertCourseTruthRequiredScopeRetention({
-      obligations: [input.obligation],
-      semanticItems: input.semanticItems,
-      nodes: input.courseKnowledgeModel.nodes,
-    })
-  } catch (error) {
-    const expectedAlternativeFailure =
-      'missing_required_course_truth_scope:aqa-3-0-course-context:varied business contexts'
-    if (!(error instanceof Error) || error.message !== expectedAlternativeFailure) throw error
+  const attempts = [
+    input.obligation,
+    courseContextAlternative(input.obligation, { variedContexts: true, interrelatedFunctions: false }),
+    courseContextAlternative(input.obligation, { variedContexts: false, interrelatedFunctions: true }),
+    courseContextAlternative(input.obligation, { variedContexts: true, interrelatedFunctions: true }),
+  ]
 
-    // AQA 3.0 requires business to be studied in a variety of contexts. The governed
-    // semantic seed renders that as "varied business contexts", while final Course Truth
-    // may safely render the same concept as "Business ... varied contexts". Only this one
-    // qualification-specific anchor has a bounded alternative; every other required term
-    // and every other obligation remains governed by the strict shared matcher.
-    return assertCourseTruthRequiredScopeRetention({
-      obligations: [courseContextAlternative(input.obligation)],
-      semanticItems: input.semanticItems,
-      nodes: input.courseKnowledgeModel.nodes,
-    })
+  let lastAnchorFailure: Error | null = null
+  for (const obligation of attempts) {
+    try {
+      return assertCourseTruthRequiredScopeRetention({
+        obligations: [obligation],
+        semanticItems: input.semanticItems,
+        nodes: input.courseKnowledgeModel.nodes,
+      })
+    } catch (error) {
+      if (!(error instanceof Error) || !courseContextAnchorFailures.has(error.message)) throw error
+      lastAnchorFailure = error
+    }
   }
+
+  throw lastAnchorFailure ?? new Error('missing_aqa_course_context_retention_result')
 }
 
 /**
@@ -65,6 +85,12 @@ function assertAqaCourseContextRetention(input: {
  * Source-led obligations define the named curriculum scope. The governed semantic seed
  * supplies the canonical node mapping. Final Course Truth must retain every mechanically
  * checkable named requirement after generative enrichment; exact seed prose is not required.
+ *
+ * AQA 3.0 has two tightly bounded wording alternatives proven by the retained live Candidate:
+ * "varied business contexts" may render as "Business ... varied contexts", and "interrelated"
+ * functional decisions may render as "connects functional decisions rather than treating
+ * functions as isolated". These alternatives are finite and qualification-specific; every
+ * other required term and obligation remains governed by the strict shared matcher.
  */
 export function assertAqaAlevelBusiness7132CourseTruthRetention(courseKnowledgeModel: CourseKnowledgeModel) {
   const semanticItems = aqaAlevelBusiness7132SemanticCoverageItems()
