@@ -45,7 +45,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES: readonl
 ] as const
 
 export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID = 'aqa-exam-ao-weighting'
-export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current overall assessment-objective ranges are AO1 22-25%, AO2 24-27%, AO3 25-28% and AO4 23-26%.'
+export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current AO ranges apply both across the qualification and within each paper. Overall: AO1 22–25%, AO2 24–27%, AO3 25–28%, AO4 23–26%. Paper 1: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%. Paper 2: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%. Paper 3: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.'
 export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES: ReadonlyArray<{
   objectiveId: string
   minPercent: number
@@ -56,6 +56,35 @@ export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES: ReadonlyArray<{
   { objectiveId: 'ao3', minPercent: 25, maxPercent: 28 },
   { objectiveId: 'ao4', minPercent: 23, maxPercent: 26 },
 ]
+
+export const AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES = {
+  'paper-1': [
+    { objectiveId: 'ao1', minPercent: 9, maxPercent: 11 },
+    { objectiveId: 'ao2', minPercent: 9, maxPercent: 11 },
+    { objectiveId: 'ao3', minPercent: 5, maxPercent: 8 },
+    { objectiveId: 'ao4', minPercent: 5, maxPercent: 8 },
+  ],
+  'paper-2': [
+    { objectiveId: 'ao1', minPercent: 6, maxPercent: 8 },
+    { objectiveId: 'ao2', minPercent: 8, maxPercent: 11 },
+    { objectiveId: 'ao3', minPercent: 8, maxPercent: 11 },
+    { objectiveId: 'ao4', minPercent: 6, maxPercent: 9 },
+  ],
+  'paper-3': [
+    { objectiveId: 'ao1', minPercent: 5, maxPercent: 8 },
+    { objectiveId: 'ao2', minPercent: 5, maxPercent: 7 },
+    { objectiveId: 'ao3', minPercent: 9, maxPercent: 12 },
+    { objectiveId: 'ao4', minPercent: 9, maxPercent: 12 },
+  ],
+} as const
+
+export const AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS = [
+  'At least 10% of the overall A-level marks assess quantitative skills.',
+  'Quantitative assessment must include at least Level 2 mathematical skills.',
+  'Quantitative assessment must require calculation and interpretation/application rather than calculation-only coverage.',
+  'Quantitative assessment must include handling information in written, graphical and numerical forms, including constructing and interpreting standard graphical forms.',
+  'Quantitative assessment must require quantitative and non-quantitative information to be used together for decision making.',
+] as const
 
 const policyByFamilyId = new Map(
   AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES
@@ -296,8 +325,15 @@ function assertAqa7132CurriculumCoverage(requirements: FoundationCurriculumRequi
   assertRequirementLedCoverage({ obligations, semanticItems })
 }
 
-function appendUnique(values: string[], additions: string[]) {
+function appendUnique(values: string[], additions: readonly string[]) {
   return [...new Set([...values, ...additions])]
+}
+
+function componentAoConstraint(componentId: keyof typeof AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES) {
+  const paperLabel = componentId === 'paper-1' ? 'Paper 1' : componentId === 'paper-2' ? 'Paper 2' : 'Paper 3'
+  return `${paperLabel} assessment-objective ranges: ${AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES[componentId]
+    .map((range) => `${range.objectiveId.toUpperCase()} ${range.minPercent}–${range.maxPercent}%`)
+    .join(', ')}.`
 }
 
 export function aqa7132AssessmentObjectiveCoverageProblems(
@@ -328,6 +364,18 @@ export function aqa7132AssessmentObjectiveCoverageProblems(
     }
   }
 
+  for (const componentId of Object.keys(AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES) as Array<keyof typeof AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES>) {
+    const component = blueprint.components.find((entry) => entry.componentId === componentId)
+    if (!component) {
+      problems.push(`AQA Exam Truth is missing ${componentId} for component-level AO validation`)
+      continue
+    }
+    const requiredConstraint = componentAoConstraint(componentId)
+    if (!component.constraints.includes(requiredConstraint)) {
+      problems.push(`AQA Exam Truth ${componentId} is missing its governed component-level AO ranges`)
+    }
+  }
+
   const componentMarks = blueprint.components.map((component) => component.markTotal)
   const totalAssessmentMarks = componentMarks.every((mark): mark is number => mark !== undefined)
     ? componentMarks.reduce((sum, mark) => sum + mark, 0)
@@ -335,28 +383,46 @@ export function aqa7132AssessmentObjectiveCoverageProblems(
   const plan = blueprint.assessmentObjectiveCoveragePlan
   if (!plan) {
     problems.push('AQA Exam Truth is missing the qualification-total assessment-objective coverage plan')
-    return problems
-  }
-  if (plan.sourceAssessmentRequirementId !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID) {
-    problems.push('AQA assessment-objective coverage plan is not bound to the governed Board Alignment range requirement')
-  }
-  if (totalAssessmentMarks === undefined || plan.totalAssessmentMarks !== totalAssessmentMarks) {
-    problems.push('AQA assessment-objective coverage plan must use the complete qualification mark total')
-  }
-  if (plan.generationValidation !== 'sum_assessment_objective_marks_within_ranges' || plan.allocationRequiredAt !== 'marking_pack_generation') {
-    problems.push('AQA assessment-objective coverage plan must retain compiler-owned aggregate generation validation')
-  }
+  } else {
+    if (plan.sourceAssessmentRequirementId !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID) {
+      problems.push('AQA assessment-objective coverage plan is not bound to the governed Board Alignment range requirement')
+    }
+    if (totalAssessmentMarks === undefined || plan.totalAssessmentMarks !== totalAssessmentMarks) {
+      problems.push('AQA assessment-objective coverage plan must use the complete qualification mark total')
+    }
+    if (plan.generationValidation !== 'sum_assessment_objective_marks_within_ranges' || plan.allocationRequiredAt !== 'marking_pack_generation') {
+      problems.push('AQA assessment-objective coverage plan must retain compiler-owned aggregate generation validation')
+    }
 
-  const governedRanges = new Map(AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((range) => [range.objectiveId, range]))
-  if (!sameSet(plan.objectives.map((objective) => objective.objectiveId), governedRanges.keys())) {
-    problems.push('AQA assessment-objective coverage plan must retain exactly the governed AO range set')
-  }
-  for (const objective of plan.objectives) {
-    const governed = governedRanges.get(objective.objectiveId)
-    if (!governed || governed.minPercent !== objective.minPercent || governed.maxPercent !== objective.maxPercent) {
-      problems.push(`AQA assessment-objective coverage range for ${objective.objectiveId} does not match Board Alignment`)
+    const governedRanges = new Map(AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((range) => [range.objectiveId, range]))
+    if (!sameSet(plan.objectives.map((objective) => objective.objectiveId), governedRanges.keys())) {
+      problems.push('AQA assessment-objective coverage plan must retain exactly the governed AO range set')
+    }
+    for (const objective of plan.objectives) {
+      const governed = governedRanges.get(objective.objectiveId)
+      if (!governed || governed.minPercent !== objective.minPercent || governed.maxPercent !== objective.maxPercent) {
+        problems.push(`AQA assessment-objective coverage range for ${objective.objectiveId} does not match Board Alignment`)
+      }
     }
   }
+
+  const quantitativePlan = blueprint.quantitativeCoveragePlan
+  if (!quantitativePlan) {
+    problems.push('AQA Exam Truth is missing the quantitative coverage plan')
+  } else {
+    if (quantitativePlan.minimumOverallPercent !== 10 || quantitativePlan.minimumQuantitativeMarks !== 30 || quantitativePlan.totalAssessmentMarks !== 300) {
+      problems.push('AQA quantitative coverage plan must enforce at least 10% / 30 marks across the 300-mark qualification')
+    }
+    if (!quantitativePlan.interpretationCreditRequired) {
+      problems.push('AQA quantitative coverage plan must require interpretation credit')
+    }
+  }
+  for (const requirement of AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS) {
+    if (!blueprint.evidenceExpectations.includes(requirement)) {
+      problems.push(`AQA Exam Truth is missing quantitative assessment constraint: ${requirement}`)
+    }
+  }
+
   return problems
 }
 
@@ -387,6 +453,7 @@ export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentB
           'Paper 1 is a 2 hours, 100 marks component.',
           'Section A has 15 one-mark MCQs; Section B has 35 marks of short-answer questions; Sections C and D each require a choice of one 25-mark essay from two.',
           'Current Paper 1 assessment evidence includes a 9-mark analyse response family.',
+          componentAoConstraint('paper-1'),
         ]),
       }
     }
@@ -396,6 +463,7 @@ export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentB
         constraints: appendUnique(component.constraints, [
           'Paper 2 is a 2 hours, 100 marks component.',
           'Three compulsory data-response questions are worth approximately 33 marks each and each is made up of three or four parts.',
+          componentAoConstraint('paper-2'),
         ]),
       }
     }
@@ -405,6 +473,7 @@ export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentB
         constraints: appendUnique(component.constraints, [
           'Paper 3 is a 2 hours, 100 marks component.',
           'One compulsory case study is followed by approximately six questions.',
+          componentAoConstraint('paper-3'),
         ]),
       }
     }
@@ -432,7 +501,7 @@ export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentB
     evidenceExpectations: appendUnique(blueprint.evidenceExpectations, [
       'All content may be assessed across Paper 1, Paper 2 and Paper 3.',
       sourceRequirement.summary,
-      'At least 10% of the overall A-level marks assess quantitative skills.',
+      ...AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS,
     ]),
   })
 
