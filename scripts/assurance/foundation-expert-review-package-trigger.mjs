@@ -12,6 +12,9 @@ const requiredFields = [
   'foundation_fingerprint',
 ]
 
+const issueCommentOnlyFields = ['external_source_challenge_comment_id']
+const allowedIssueCommentFields = new Set([...requiredFields, ...issueCommentOnlyFields])
+
 function requireValue(value, name) {
   if (!value) throw new Error(`${name} is required.`)
   return value
@@ -52,38 +55,101 @@ export function validateFoundationExpertReviewPackageSource(source) {
   return validated
 }
 
+export function parseFoundationExpertReviewPackageIssueComment(body, expectedMarker) {
+  requireValue(expectedMarker, 'expectedMarker')
+  if (typeof body !== 'string') throw new Error('Issue-comment trigger body is required.')
+
+  const lines = body
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+
+  if (lines[0] !== expectedMarker) {
+    throw new Error(`Issue-comment trigger marker must be exactly ${expectedMarker}.`)
+  }
+
+  const source = {}
+  for (const line of lines.slice(1)) {
+    const match = line.match(/^([a-z_]+):\s*(\S+)$/)
+    if (!match) throw new Error(`Invalid trigger line: ${line}`)
+
+    const [, key, value] = match
+    if (!allowedIssueCommentFields.has(key)) throw new Error(`Unknown trigger field: ${key}`)
+    if (source[key]) throw new Error(`Duplicate trigger field: ${key}`)
+    source[key] = value
+  }
+
+  for (const field of [...requiredFields, ...issueCommentOnlyFields]) {
+    if (!source[field]) throw new Error(`Missing trigger field: ${field}`)
+  }
+
+  return {
+    ...validateFoundationExpertReviewPackageSource(source),
+    external_source_challenge_comment_id: validateDecimal(
+      source.external_source_challenge_comment_id,
+      'external_source_challenge_comment_id',
+    ),
+  }
+}
+
+export function resolveFoundationExpertReviewPackageSource({
+  eventName,
+  issueCommentBody,
+  expectedMarker,
+  workflowInputs = {},
+}) {
+  if (eventName === 'issue_comment') {
+    return parseFoundationExpertReviewPackageIssueComment(issueCommentBody, expectedMarker)
+  }
+
+  if (eventName === 'workflow_dispatch') {
+    return {
+      ...validateFoundationExpertReviewPackageSource(workflowInputs),
+      external_source_challenge_comment_id: null,
+    }
+  }
+
+  throw new Error(`Unsupported expert-review package trigger event: ${eventName || 'unknown'}`)
+}
+
 export function appendFoundationExpertReviewPackageSourceEnv(source, githubEnvPath) {
   requireValue(githubEnvPath, 'GITHUB_ENV')
   const validated = validateFoundationExpertReviewPackageSource(source)
-  appendFileSync(
-    githubEnvPath,
-    [
-      `SOURCE_RUN_ID=${validated.source_run_id}`,
-      `SOURCE_ARTIFACT_ID=${validated.source_artifact_id}`,
-      `SOURCE_HEAD_SHA=${validated.source_head_sha}`,
-      `SOURCE_FOUNDATION_FINGERPRINT=${validated.source_foundation_fingerprint}`,
-      `REVIEW_RUN_ID=${validated.review_run_id}`,
-      `REVIEW_ARTIFACT_ID=${validated.review_artifact_id}`,
-      `REVIEWED_COMMIT=${validated.reviewed_commit}`,
-      `FOUNDATION_FINGERPRINT=${validated.foundation_fingerprint}`,
-    ].join('\n') + '\n',
-  )
+  const lines = [
+    `SOURCE_RUN_ID=${validated.source_run_id}`,
+    `SOURCE_ARTIFACT_ID=${validated.source_artifact_id}`,
+    `SOURCE_HEAD_SHA=${validated.source_head_sha}`,
+    `SOURCE_FOUNDATION_FINGERPRINT=${validated.source_foundation_fingerprint}`,
+    `REVIEW_RUN_ID=${validated.review_run_id}`,
+    `REVIEW_ARTIFACT_ID=${validated.review_artifact_id}`,
+    `REVIEWED_COMMIT=${validated.reviewed_commit}`,
+    `FOUNDATION_FINGERPRINT=${validated.foundation_fingerprint}`,
+  ]
+  if (source.external_source_challenge_comment_id) {
+    lines.push(`EXTERNAL_SOURCE_CHALLENGE_COMMENT_ID=${validateDecimal(
+      source.external_source_challenge_comment_id,
+      'external_source_challenge_comment_id',
+    )}`)
+  }
+  appendFileSync(githubEnvPath, `${lines.join('\n')}\n`)
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
-    if (process.env.GITHUB_EVENT_NAME !== 'workflow_dispatch') {
-      throw new Error(`Unsupported expert-review package trigger event: ${process.env.GITHUB_EVENT_NAME || 'unknown'}`)
-    }
-    const source = validateFoundationExpertReviewPackageSource({
-      source_run_id: process.env.REVISION_INPUT_SOURCE_RUN_ID,
-      source_artifact_id: process.env.REVISION_INPUT_SOURCE_ARTIFACT_ID,
-      source_head_sha: process.env.REVISION_INPUT_SOURCE_HEAD_SHA,
-      source_foundation_fingerprint: process.env.REVISION_INPUT_SOURCE_FOUNDATION_FINGERPRINT,
-      review_run_id: process.env.REVISION_INPUT_REVIEW_RUN_ID,
-      review_artifact_id: process.env.REVISION_INPUT_REVIEW_ARTIFACT_ID,
-      reviewed_commit: process.env.REVISION_INPUT_REVIEWED_COMMIT,
-      foundation_fingerprint: process.env.REVISION_INPUT_FOUNDATION_FINGERPRINT,
+    const source = resolveFoundationExpertReviewPackageSource({
+      eventName: process.env.GITHUB_EVENT_NAME,
+      issueCommentBody: process.env.REVISION_TRIGGER_BODY,
+      expectedMarker: process.env.REVISION_TRIGGER_MARKER,
+      workflowInputs: {
+        source_run_id: process.env.REVISION_INPUT_SOURCE_RUN_ID,
+        source_artifact_id: process.env.REVISION_INPUT_SOURCE_ARTIFACT_ID,
+        source_head_sha: process.env.REVISION_INPUT_SOURCE_HEAD_SHA,
+        source_foundation_fingerprint: process.env.REVISION_INPUT_SOURCE_FOUNDATION_FINGERPRINT,
+        review_run_id: process.env.REVISION_INPUT_REVIEW_RUN_ID,
+        review_artifact_id: process.env.REVISION_INPUT_REVIEW_ARTIFACT_ID,
+        reviewed_commit: process.env.REVISION_INPUT_REVIEWED_COMMIT,
+        foundation_fingerprint: process.env.REVISION_INPUT_FOUNDATION_FINGERPRINT,
+      },
     })
     appendFoundationExpertReviewPackageSourceEnv(source, process.env.GITHUB_ENV)
     console.log(JSON.stringify(source, null, 2))

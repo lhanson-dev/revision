@@ -39,10 +39,13 @@ on:
         description: Passing structured foundation_external_source_challenge_report JSON for the exact final candidate/fingerprint
         required: true
         type: string
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
   actions: read
+  issues: read
 
 concurrency:
   group: content-factory-foundation-expert-review-package
@@ -51,7 +54,13 @@ concurrency:
 jobs:
   foundation-expert-review-package:
     name: Assemble retained real-course Foundation expert review package
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       startsWith(github.event.comment.body, 'revision-run-foundation-expert-review-package:v1'))
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -59,6 +68,8 @@ jobs:
     steps:
       - name: Checkout approved main
         uses: actions/checkout@v6
+        with:
+          ref: main
 
       - name: Set up Node
         uses: actions/setup-node@v6
@@ -68,14 +79,16 @@ jobs:
 
       - name: Resolve exact Foundation proof identities
         env:
-          REVISION_INPUT_SOURCE_RUN_ID: ${{ inputs.source_run_id }}
-          REVISION_INPUT_SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id }}
-          REVISION_INPUT_SOURCE_HEAD_SHA: ${{ inputs.source_head_sha }}
-          REVISION_INPUT_SOURCE_FOUNDATION_FINGERPRINT: ${{ inputs.source_foundation_fingerprint }}
-          REVISION_INPUT_REVIEW_RUN_ID: ${{ inputs.review_run_id }}
-          REVISION_INPUT_REVIEW_ARTIFACT_ID: ${{ inputs.review_artifact_id }}
-          REVISION_INPUT_REVIEWED_COMMIT: ${{ inputs.reviewed_commit }}
-          REVISION_INPUT_FOUNDATION_FINGERPRINT: ${{ inputs.foundation_fingerprint }}
+          REVISION_TRIGGER_MARKER: revision-run-foundation-expert-review-package:v1
+          REVISION_TRIGGER_BODY: ${{ github.event.comment.body || '' }}
+          REVISION_INPUT_SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
+          REVISION_INPUT_SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id || '' }}
+          REVISION_INPUT_SOURCE_HEAD_SHA: ${{ inputs.source_head_sha || '' }}
+          REVISION_INPUT_SOURCE_FOUNDATION_FINGERPRINT: ${{ inputs.source_foundation_fingerprint || '' }}
+          REVISION_INPUT_REVIEW_RUN_ID: ${{ inputs.review_run_id || '' }}
+          REVISION_INPUT_REVIEW_ARTIFACT_ID: ${{ inputs.review_artifact_id || '' }}
+          REVISION_INPUT_REVIEWED_COMMIT: ${{ inputs.reviewed_commit || '' }}
+          REVISION_INPUT_FOUNDATION_FINGERPRINT: ${{ inputs.foundation_fingerprint || '' }}
         run: node scripts/assurance/foundation-expert-review-package-trigger.mjs
 
       - name: Verify retained proof identities
@@ -176,10 +189,29 @@ jobs:
 
       - name: Materialize fresh external-source challenge evidence
         env:
-          EXTERNAL_SOURCE_CHALLENGE_JSON: ${{ inputs.external_source_challenge_json }}
+          GH_TOKEN: ${{ github.token }}
+          EXTERNAL_SOURCE_CHALLENGE_JSON: ${{ inputs.external_source_challenge_json || '' }}
         run: |
           mkdir -p "$(dirname "${EXTERNAL_CHALLENGE_PATH}")"
-          printf '%s' "${EXTERNAL_SOURCE_CHALLENGE_JSON}" > "${EXTERNAL_CHALLENGE_PATH}"
+          if [[ -n "${EXTERNAL_SOURCE_CHALLENGE_COMMENT_ID:-}" ]]; then
+            challenge_comment_path='.artifacts/content-factory-foundation-expert-review-challenge/source-comment.md'
+            gh api "repos/${GITHUB_REPOSITORY}/issues/comments/${EXTERNAL_SOURCE_CHALLENGE_COMMENT_ID}" --jq '.body' > "${challenge_comment_path}"
+            CHALLENGE_COMMENT_PATH="${challenge_comment_path}" node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs'
+
+          const body = readFileSync(process.env.CHALLENGE_COMMENT_PATH, 'utf-8')
+          const jsonBlocks = [...body.matchAll(/```json\s*([\s\S]*?)```/g)]
+          const challenge = jsonBlocks
+            .map((match) => {
+              try { return JSON.parse(match[1]) } catch { return null }
+            })
+            .find((value) => value?.artifactType === 'foundation_external_source_challenge_report')
+          if (!challenge) throw new Error('External-source challenge comment does not contain a structured challenge JSON block')
+          writeFileSync(process.env.EXTERNAL_CHALLENGE_PATH, JSON.stringify(challenge), 'utf-8')
+          NODE
+          else
+            printf '%s' "${EXTERNAL_SOURCE_CHALLENGE_JSON}" > "${EXTERNAL_CHALLENGE_PATH}"
+          fi
           jq -e '.artifactType == "foundation_external_source_challenge_report"' "${EXTERNAL_CHALLENGE_PATH}" >/dev/null
 
       - name: Pin npm

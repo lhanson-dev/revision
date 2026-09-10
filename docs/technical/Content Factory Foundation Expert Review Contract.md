@@ -1,6 +1,6 @@
 # Content Factory Foundation Expert Review Contract
 
-**Status:** Slice 3C implementation record — qualified-human contract released; current AQA 7132 / 2027 progression is `FAIL HOLD` pending curriculum-reconciliation and semantic-retention remediation  
+**Status:** Slice 3C implementation record — qualified-human contract released; current AQA 7132 / 2027 Foundation has passed deterministic assurance, fresh independent review and fresh external-source challenge and is awaiting qualified-human package/review  
 **Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
 **Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
@@ -11,11 +11,41 @@ Define the qualified-human Foundation review boundary and the evidence that must
 
 AI review must not stand in for the human gate. The human package must also expose enough source-led evidence for the reviewer to challenge whether Course Truth and Exam Truth cover the complete applicable curriculum and exam requirement universes.
 
+## Current AQA progression — 10 September 2026
+
+The replacement AQA 7132 / 2027 Foundation Candidate on released `main` commit `061f8eb5629db10b30c7a337ba0a57d0dd35a75e` has Foundation fingerprint `c952a21c2e479f961d71735ca9dae656e2f8c988e8b524c7b828fcc4f595e077`.
+
+For that exact fingerprint:
+
+- the retained Foundation Live Proof passed;
+- deterministic Foundation assurance passed;
+- genuinely fresh-context independent review passed with no findings or remediation;
+- a separate genuinely fresh external-source challenge passed against the current required Source Universe; and
+- learner-facing asset count remains zero.
+
+This permits assembly of the qualified-human expert review package. It does **not** constitute qualified-human review or Foundation approval.
+
+## Founder-owned operator trigger — 10 September 2026
+
+The expert-review package workflow supports both its existing `workflow_dispatch` route and a governed Issue #289 `issue_comment` route.
+
+The comment route exists to remove error-prone manual entry of the multi-field workflow form. It does not infer or relax any proof identity. A valid trigger must still supply the exact source run/artifact, source commit/fingerprint, independent-review run/artifact, reviewed commit/final fingerprint, and the Issue comment ID containing the schema-complete external-source challenge record.
+
+The workflow runs only when the comment:
+
+- is created on Issue #289;
+- is authored by repository owner `lhanson-dev` with `OWNER` association; and
+- starts with `revision-run-foundation-expert-review-package:v1`.
+
+The trigger parser fails closed on unknown, duplicate, missing or malformed fields. The workflow then fetches the referenced external-source challenge comment from the same repository, extracts the structured `foundation_external_source_challenge_report`, and passes it through the existing package schema plus exact job/candidate/commit/fingerprint/source-universe/context validation.
+
+This means an authorised automation or connected GitHub client can post the fully bound trigger for the Founder without requiring the Founder to copy values between interfaces. The resulting package still records `humanReviewStatus: pending` and `foundationApprovalStatus: not_approved`.
+
 ## Current AQA progression hold — 7/8 September 2026
 
 The fresh external-source challenge of Foundation fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` returned `fail_hold` after finding material curriculum-scope defects. That exact fingerprint must not be packaged for qualified expert review or become `foundation_approved`.
 
-The active remediation is recorded in `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md` and requires a new Foundation Candidate/fingerprint. Slice 3C resumes only after the replacement fingerprint passes deterministic assurance, fresh independent review and a new fresh-context external-source challenge.
+The active remediation is recorded in `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md` and required a new Foundation Candidate/fingerprint. That historical hold remains true for the failed fingerprint and is not rewritten by the later replacement candidate.
 
 ## Assurance correction — 5 September 2026
 
@@ -127,13 +157,11 @@ The successful historical package was produced before the source-led completenes
 
 The later fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` passed deterministic assurance and fresh independent review but subsequently failed the required external-source challenge. Those earlier passes remain historically true; they do not override the later `fail_hold` and do not permit expert-review progression.
 
-The next qualified-human review must use a fresh Foundation Candidate/fingerprint produced after the curriculum-reconciliation and semantic-retention correction and a new bundle containing the exact source-led reconciliation plus a passing external-source challenge.
-
-Historical proof and review records must not be rewritten to imply the new boundary existed at the time.
+The current replacement fingerprint must use its own exact bundle and a new qualified-human decision. Historical proof and review records must not be rewritten to imply the new boundary existed at the time.
 
 ## Fresh proof and review sequence
 
-The next AQA 7132 / 2027 sequence is:
+The AQA 7132 / 2027 sequence is:
 
 1. compile a fresh Foundation Candidate on approved `main` using the corrected source-led curriculum/exam guards and semantic seed;
 2. retain its exact source proof, Candidate and new Foundation fingerprint;
@@ -141,7 +169,7 @@ The next AQA 7132 / 2027 sequence is:
 4. run fresh-context independent review against the same exact fingerprint;
 5. remediate blocking/material findings only through the guarded remediation path and rerun affected deterministic assurance plus fresh independent review;
 6. run a genuinely fresh external-source challenge against the exact resulting fingerprint and current required Source Universe;
-7. only after the external-source challenge passes, assemble the schema-v2 expert bundle containing `coverage-reconciliation.json`, the passing challenge report and the exact Foundation artifacts; and
+7. only after the external-source challenge passes, assemble the schema-v2 expert bundle containing `coverage-reconciliation.json`, the passing challenge report and the exact Foundation artifacts, using either the exact-field workflow dispatch or the governed Founder-owned Issue #289 trigger; and
 8. obtain a new qualified-human subject/assessment decision.
 
 Only a later passing human submission can support Approved Course Foundation v1.
@@ -152,11 +180,11 @@ This work does not:
 
 - perform or simulate qualified human review;
 - invent reviewer credentials;
-- approve the historical failing Foundation;
+- approve any historical failing Foundation;
 - create Approved Course Foundation v1;
 - generate Learn, Practice or Exam Prep assets; or
 - rewrite historical proof evidence.
 
 ## Documentation impact
 
-The current curriculum-reconciliation and semantic-retention remediation implements existing authority rather than changing Foundation policy. The exact failed fingerprint remains historical `FAIL HOLD` evidence, while this document now reflects the external-source challenge as a mandatory precondition of qualified expert packaging.
+The Issue-comment trigger changes only how already-required exact packaging inputs are supplied. It implements the existing Foundation assurance and qualified-human boundary; it does not change normative authority, reviewer qualification requirements, evidence requirements, approval semantics or downstream asset gates.
