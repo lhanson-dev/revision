@@ -45,7 +45,7 @@ export const AQA_A_LEVEL_BUSINESS_7132_PRECALIBRATION_ASSEMBLY_POLICIES: readonl
 ] as const
 
 export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID = 'aqa-exam-ao-weighting'
-export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current AO ranges apply both across the qualification and within each paper. Overall: AO1 22–25%, AO2 24–27%, AO3 25–28%, AO4 23–26%. Paper 1: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%. Paper 2: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%. Paper 3: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.'
+export const AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY = 'Current AQA assessment-objective weightings use the full qualification total as the percentage denominator. Overall qualification weighting: AO1 22–25%, AO2 24–27%, AO3 25–28%, AO4 23–26%. Component weightings, expressed as percentage contributions to that qualification total: Paper 1: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%. Paper 2: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%. Paper 3: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%. These component figures are not within-paper percentages.'
 export const AQA_A_LEVEL_BUSINESS_7132_AO_RANGES: ReadonlyArray<{
   objectiveId: string
   minPercent: number
@@ -331,7 +331,7 @@ function appendUnique(values: string[], additions: readonly string[]) {
 
 function componentAoConstraint(componentId: keyof typeof AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES) {
   const paperLabel = componentId === 'paper-1' ? 'Paper 1' : componentId === 'paper-2' ? 'Paper 2' : 'Paper 3'
-  return `${paperLabel} assessment-objective ranges: ${AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES[componentId]
+  return `${paperLabel} assessment-objective contribution to qualification-total weighting: ${AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES[componentId]
     .map((range) => `${range.objectiveId.toUpperCase()} ${range.minPercent}–${range.maxPercent}%`)
     .join(', ')}.`
 }
@@ -348,10 +348,10 @@ export function aqa7132AssessmentObjectiveCoverageProblems(
     problems.push(`Exam Truth is missing Board Alignment requirement ${AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID}`)
   } else {
     if (sourceRequirement.summary !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY) {
-      problems.push('AQA assessment-objective range requirement does not preserve the governed Board Alignment summary')
+      problems.push('AQA assessment-objective weighting requirement does not preserve the governed Board Alignment summary')
     }
     if (!sameSet(sourceRequirement.componentScope, ['paper-1', 'paper-2', 'paper-3'])) {
-      problems.push('AQA assessment-objective range requirement must remain qualification-wide across Paper 1, Paper 2 and Paper 3')
+      problems.push('AQA assessment-objective weighting requirement must remain qualification-wide across Paper 1, Paper 2 and Paper 3')
     }
   }
 
@@ -367,12 +367,12 @@ export function aqa7132AssessmentObjectiveCoverageProblems(
   for (const componentId of Object.keys(AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES) as Array<keyof typeof AQA_A_LEVEL_BUSINESS_7132_COMPONENT_AO_RANGES>) {
     const component = blueprint.components.find((entry) => entry.componentId === componentId)
     if (!component) {
-      problems.push(`AQA Exam Truth is missing ${componentId} for component-level AO validation`)
+      problems.push(`AQA Exam Truth is missing ${componentId} for qualification-total component AO validation`)
       continue
     }
     const requiredConstraint = componentAoConstraint(componentId)
     if (!component.constraints.includes(requiredConstraint)) {
-      problems.push(`AQA Exam Truth ${componentId} is missing its governed component-level AO ranges`)
+      problems.push(`AQA Exam Truth ${componentId} is missing its governed qualification-total AO contribution ranges`)
     }
   }
 
@@ -385,7 +385,7 @@ export function aqa7132AssessmentObjectiveCoverageProblems(
     problems.push('AQA Exam Truth is missing the qualification-total assessment-objective coverage plan')
   } else {
     if (plan.sourceAssessmentRequirementId !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID) {
-      problems.push('AQA assessment-objective coverage plan is not bound to the governed Board Alignment range requirement')
+      problems.push('AQA assessment-objective coverage plan is not bound to the governed Board Alignment weighting requirement')
     }
     if (totalAssessmentMarks === undefined || plan.totalAssessmentMarks !== totalAssessmentMarks) {
       problems.push('AQA assessment-objective coverage plan must use the complete qualification mark total')
@@ -435,10 +435,10 @@ export function normaliseAqa7132ExamTruth(value: unknown): FoundationAssessmentB
     throw new Error(`AQA Exam Truth requires Board Alignment requirement ${AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_ID}`)
   }
   if (sourceRequirement.summary !== AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY) {
-    throw new Error('AQA Exam Truth assessment-objective ranges must preserve the governed Board Alignment summary')
+    throw new Error('AQA Exam Truth assessment-objective weightings must preserve the governed Board Alignment summary')
   }
   if (!sameSet(sourceRequirement.componentScope, ['paper-1', 'paper-2', 'paper-3'])) {
-    throw new Error('AQA assessment-objective range requirement must remain qualification-wide across all three papers')
+    throw new Error('AQA assessment-objective weighting requirement must remain qualification-wide across all three papers')
   }
   if (!sameSet(blueprint.assessmentObjectives.map((objective) => objective.id), AQA_A_LEVEL_BUSINESS_7132_AO_RANGES.map((objective) => objective.objectiveId))) {
     throw new Error('AQA Exam Truth must retain exactly AO1, AO2, AO3 and AO4 before aggregate AO validation can be compiled')
