@@ -173,29 +173,35 @@ describe('Foundation pre-calibration assessment assembly guard', () => {
     expect(aqa7132AssessmentObjectiveCoverageProblems(corrected)).toEqual([])
   })
 
-  it('materialises and deterministically checks paper-level AO ranges and complete quantitative constraints', () => {
+  it('materialises and deterministically checks qualification-total component AO contributions and complete quantitative constraints', () => {
     const corrected = normaliseAqa7132ExamTruth(blueprint())
 
+    expect(AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY)
+      .toContain('full qualification total as the percentage denominator')
+    expect(AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY)
+      .toContain('not within-paper percentages')
+    expect(AQA_A_LEVEL_BUSINESS_7132_AO_REQUIREMENT_SUMMARY)
+      .not.toContain('within each paper')
     expect(corrected.components.find((component) => component.componentId === 'paper-1')?.constraints)
-      .toContain('Paper 1 assessment-objective ranges: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%.')
+      .toContain('Paper 1 assessment-objective contribution to qualification-total weighting: AO1 9–11%, AO2 9–11%, AO3 5–8%, AO4 5–8%.')
     expect(corrected.components.find((component) => component.componentId === 'paper-2')?.constraints)
-      .toContain('Paper 2 assessment-objective ranges: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%.')
+      .toContain('Paper 2 assessment-objective contribution to qualification-total weighting: AO1 6–8%, AO2 8–11%, AO3 8–11%, AO4 6–9%.')
     expect(corrected.components.find((component) => component.componentId === 'paper-3')?.constraints)
-      .toContain('Paper 3 assessment-objective ranges: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.')
+      .toContain('Paper 3 assessment-objective contribution to qualification-total weighting: AO1 5–8%, AO2 5–7%, AO3 9–12%, AO4 9–12%.')
     expect(corrected.evidenceExpectations).toEqual(expect.arrayContaining([...AQA_A_LEVEL_BUSINESS_7132_QUANTITATIVE_REQUIREMENTS]))
     expect(aqa7132AssessmentObjectiveCoverageProblems(corrected)).toEqual([])
   })
 
-  it('fails deterministic assurance if a paper AO range or quantitative constraint is removed', () => {
+  it('fails deterministic assurance if a component AO contribution or quantitative constraint is removed', () => {
     const corrected = normaliseAqa7132ExamTruth(blueprint())
     const missingPaperRange = {
       ...corrected,
       components: corrected.components.map((component) => component.componentId === 'paper-2'
-        ? { ...component, constraints: component.constraints.filter((constraint) => !constraint.startsWith('Paper 2 assessment-objective ranges:')) }
+        ? { ...component, constraints: component.constraints.filter((constraint) => !constraint.startsWith('Paper 2 assessment-objective contribution to qualification-total weighting:')) }
         : component),
     }
     expect(aqa7132AssessmentObjectiveCoverageProblems(missingPaperRange)).toEqual(expect.arrayContaining([
-      expect.stringContaining('paper-2 is missing its governed component-level AO ranges'),
+      expect.stringContaining('paper-2 is missing its governed qualification-total AO contribution ranges'),
     ]))
 
     const missingQuantitativeConstraint = {
