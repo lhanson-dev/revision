@@ -47,6 +47,21 @@ Does implementation conform to active authority?
 - [ ] Not applicable
 - [ ] No — explain
 
+## High-risk AI-led assurance
+Complete the four `###` sections below for every Level 3 / High or Level 4 / Critical PR. Level 1/2 PRs may leave the instructional comments untouched.
+
+### Assurance invariants
+<!-- State the authority-derived behaviours/security/data/scoring/release invariants that must remain true. Do not derive correctness only from the completed implementation. -->
+
+### Failure and abuse hypotheses
+<!-- State plausible wrong, malicious, partial-failure, retry/duplicate, boundary or recovery behaviours the assurance must catch. -->
+
+### Adversarial review
+<!-- Record the fresh-context adversarial review: what was challenged, findings/remediation, and residual uncertainty. Do not claim human technical review unless one actually occurred. -->
+
+### Test sensitivity
+<!-- Identify at least one plausible incorrect implementation the tests would detect, and the negative/fault-injection/mutation/equivalent evidence that distinguishes safe from unsafe behaviour. -->
+
 ## Evidence and testing
 What demonstrates the change is safe and correct?
 

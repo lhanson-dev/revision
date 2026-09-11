@@ -13,6 +13,7 @@ Use this file to find the governing source before substantive work.
 - Engineering baseline → `50-engineering-standards/Engineering Standards.md`
 - Architecture rules → `50-engineering-standards/Architecture Principles.md`
 - Testing/assurance → `50-engineering-standards/Testing & Assurance Standard.md`
+- AI-led development assurance / compensating controls without routine human technical review → `50-engineering-standards/AI-Led Development Assurance Standard.md`
 - Security → `50-engineering-standards/Security Standard.md`
 - Release/deployment → `50-engineering-standards/Release & Deployment Standard.md`
 - Prototype / Staging / Production path-to-live topology → `docs/technical/Path to Live Environments.md`
@@ -21,6 +22,7 @@ Use this file to find the governing source before substantive work.
 - Operations/health → `50-engineering-standards/Observability & Operations Standard.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
+- AI-led adversarial/critical-test/security assurance implementation → `docs/technical/AI-Led Assurance Implementation.md`
 - Approved architecture target → `docs/technical/Target System Architecture.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
@@ -117,8 +119,10 @@ Use this file to find the governing source before substantive work.
 
 ## AI and workflows
 - AI rules and approval boundaries → `70-ai-operating-system/`
+- AI adversarial assurance review rules → `70-ai-operating-system/AI Assurance Review Rules.md`
 - Product feature definition, measurement and packaging → `80-company-workflows/Feature Definition and Measurement Workflow.md`
 - Governed implementation / canonical runtime verification → `80-company-workflows/Governed Implementation Workflow.md`
+- AI-led Level 3/4 assurance workflow → `80-company-workflows/AI-Led Assurance Workflow.md`
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
@@ -141,6 +145,7 @@ Use this file to find the governing source before substantive work.
 - Founder approval pre-merge status gate → `docs/technical/Founder Approval Gate.md`
 - Founder assurance implementation → `docs/technical/Founder Assurance Implementation.md`
 - Risk-based assurance-plan implementation → `docs/technical/Risk-Based Assurance Plan Implementation.md`
+- AI-led adversarial/critical-test/security assurance implementation → `docs/technical/AI-Led Assurance Implementation.md`
 - Release-lineage recovery checkpoints → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Learner Courses / course-membership implementation → `docs/technical/Learner Courses Implementation.md`
 - Student first-use onboarding / GJ-01 implementation → `docs/technical/Student First-Use Onboarding Implementation.md`
