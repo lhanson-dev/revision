@@ -16,6 +16,9 @@ Current authority includes:
 - `Scope and Capability Taxonomy.md`
 - `Core User Journeys.md`
 - `Information Architecture.md`
+- `Subscription Plans and Entitlements.md`
+
+The proposed `Subscription Plans and Entitlements v0.5 Amendment.md` records the 24 August 2026 Founder-directed clarification for Student / Parent / Teacher / School commercial routes, subscription clarity and the Student-first independence rule. It remains proposed until its governed PR is merged; once merged it amends v0.4 on the topics it explicitly identifies.
 
 Together these documents define the current product foundation for the student-first Revision experience.
 
@@ -26,6 +29,8 @@ Together these documents define the current product foundation for the student-f
 The canonical feature inventory is:
 
 - `backlog/Product Feature Backlog.md`
+
+Feature analysis and decision records may sit alongside the canonical inventory, including FI-specific analysis files. Presence in an analysis file does not replace the canonical inventory lifecycle state and does not make a feature implementation-ready.
 
 Presence in the backlog does **not** make an idea approved product scope. Backlog items must be deliberately promoted into the appropriate root-level product authority through the governed branch/PR process before they become normative product direction.
 
