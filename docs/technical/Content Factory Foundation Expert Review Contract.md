@@ -1,56 +1,190 @@
 # Content Factory Foundation Expert Review Contract
 
-**Status:** Qualified-human contract released under the existing runtime; AI-assured predecessor state proposed by ADR-0024 and not yet implemented
-**Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
+**Status:** Slice 3C implementation record — qualified-human contract released; current AQA 7132 / 2027 Foundation has passed deterministic assurance, fresh independent review and fresh external-source challenge and is awaiting qualified-human package/review  
+**Parent initiative:** Issue #289 — Content Factory — foundation-gated course production  
+**Authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Requirement-Led Coverage Amendment.md`  
 **Implementation plan:** `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 
 ## Purpose
 
-Define the qualified-human Foundation review boundary. AI assurance must not stand in for the human gate.
+Define the qualified-human Foundation review boundary and the evidence that must accompany a Foundation before it can be treated as approval-ready.
 
-Under ADR-0024 the target model separates two decisions:
+AI review must not stand in for the human gate. The human package must also expose enough source-led evidence for the reviewer to challenge whether Course Truth and Exam Truth cover the complete applicable curriculum and exam requirement universes.
 
-- `ai_assured`: exact Candidate has passed the governed machine/AI assurance chain and may support controlled internal asset derivation;
-- `foundation_approved`: the exact fingerprint has additionally passed qualified-human subject/assessment review and may support learner-publication eligibility.
+## Current AQA progression — 10 September 2026
 
-The released runtime on `main` does not yet contain `ai_assured`; until implementation lands, existing fail-closed expert-review and asset gates remain operational truth.
+The replacement AQA 7132 / 2027 Foundation Candidate on released `main` commit `061f8eb5629db10b30c7a337ba0a57d0dd35a75e` has Foundation fingerprint `c952a21c2e479f961d71735ca9dae656e2f8c988e8b524c7b828fcc4f595e077`.
 
-## Approval-ready human package
+For that exact fingerprint:
 
-A qualified-human package requires, for the same exact Foundation fingerprint:
+- the retained Foundation Live Proof passed;
+- deterministic Foundation assurance passed;
+- genuinely fresh-context independent review passed with no findings or remediation;
+- a separate genuinely fresh external-source challenge passed against the current required Source Universe; and
+- learner-facing asset count remains zero.
 
-- passing deterministic Foundation assurance;
+This permits assembly of the qualified-human expert review package. It does **not** constitute qualified-human review or Foundation approval.
+
+## Founder-owned operator trigger — 10 September 2026
+
+The expert-review package workflow supports both its existing `workflow_dispatch` route and a governed Issue #289 `issue_comment` route.
+
+The comment route exists to remove error-prone manual entry of the multi-field workflow form. It does not infer or relax any proof identity. A valid trigger must still supply the exact source run/artifact, source commit/fingerprint, independent-review run/artifact, reviewed commit/final fingerprint, and the Issue comment ID containing the schema-complete external-source challenge record.
+
+The workflow runs only when the comment:
+
+- is created on Issue #289;
+- is authored by repository owner `lhanson-dev` with `OWNER` association; and
+- starts with `revision-run-foundation-expert-review-package:v1`.
+
+The trigger parser fails closed on unknown, duplicate, missing or malformed fields. The workflow then fetches the referenced external-source challenge comment from the same repository, extracts the structured `foundation_external_source_challenge_report`, and passes it through the existing package schema plus exact job/candidate/commit/fingerprint/source-universe/context validation.
+
+This means an authorised automation or connected GitHub client can post the fully bound trigger for the Founder without requiring the Founder to copy values between interfaces. The resulting package still records `humanReviewStatus: pending` and `foundationApprovalStatus: not_approved`.
+
+## Current AQA progression hold — 7/8 September 2026
+
+The fresh external-source challenge of Foundation fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` returned `fail_hold` after finding material curriculum-scope defects. That exact fingerprint must not be packaged for qualified expert review or become `foundation_approved`.
+
+The active remediation is recorded in `docs/technical/Content Factory Foundation Curriculum Reconciliation and Semantic Retention.md` and required a new Foundation Candidate/fingerprint. That historical hold remains true for the failed fingerprint and is not rewritten by the later replacement candidate.
+
+## Assurance correction — 5 September 2026
+
+Qualified-human review of the historical retained AQA Foundation showed that the old package was exact and internally consistent but did not itself prove that the Foundation represented the complete applicable curriculum and exam requirement universe.
+
+The defect was not stale artifact packaging. The package resolved the exact generated Foundation artifacts, but it did not separately expose the source-led denominator and the mapping from every applicable requirement to Course Truth / Exam Truth.
+
+PR #318 corrected the upstream Foundation boundary by introducing independently source-led Curriculum Coverage Map and Exam Coverage Map requirements and fail-closed compilation/review/remediation guards.
+
+The follow-on packaging hardening closes the remaining portable evidence gap by making that reconciliation directly inspectable in the qualified-human bundle.
+
+## Current approval-ready package boundary
+
+A new approval-ready qualified-human package requires all of the following for the same exact Foundation fingerprint:
+
+- passing deterministic Foundation assurance, including applicable Course Truth semantic-retention checks;
 - passing fresh-context independent Foundation review;
-- passing fresh-context external-source challenge against the current required Source Universe;
-- no unresolved blocking/material Foundation findings;
-- exact resolved Foundation artifacts/fingerprints;
-- complete source-led curriculum and exam reconciliation; and
-- a neutral human-decision submission requiring genuine subject and assessment qualification evidence.
+- passing fresh-context external-source challenge against the current official/authoritative source universe;
+- no unresolved blocking Foundation findings;
+- exact resolved Foundation artifacts and fingerprints;
+- complete source-led curriculum reconciliation;
+- complete source-led exam reconciliation; and
+- a neutral human-decision submission template requiring genuine subject and assessment qualification evidence.
 
 These are prerequisites for human review, not substitutes for it.
 
-When the ADR-0024 runtime lands, the package must additionally prove that the supplied exact fingerprint is the current `ai_assured` Candidate. Human review being pending must remain a pending state rather than being converted into `fail_hold`.
+## Explicit coverage reconciliation
+
+The current portable bundle uses schema version 2 and includes `coverage-reconciliation.json` alongside the exact generated Foundation artifacts.
+
+For AQA 7132 / 2027 the reconciliation exposes:
+
+### Curriculum
+
+- the source-led curriculum profile identity;
+- every applicable curriculum obligation;
+- official and source references;
+- curriculum hierarchy/path and concise requirement meaning;
+- mechanically checkable named scope where applicable;
+- semantic-item mappings; and
+- exact canonical Course Truth node mappings.
+
+### Exam
+
+- the source-led exam profile identity;
+- every applicable exam/assessment obligation;
+- official and source references;
+- exam hierarchy/path and concise requirement meaning;
+- mechanically checkable required scope;
+- evidence-item identities; and
+- the exact Board Alignment, Assessment Blueprint and relevant Question Family artifact references supporting each obligation.
+
+The package also verifies that every source reference used by the reconciliation resolves in the exact packaged Source Licence Register.
+
+The reconciliation is derived from the governed source-led profiles. It does not create a second competing authority or allow the generated Foundation to define its own completeness denominator.
+
+## Fail-closed packaging
+
+The expert bundle must not be produced as approval-ready if:
+
+- any expected Foundation artifact is unavailable or has the wrong fingerprint;
+- deterministic Foundation assurance has not passed for the exact fingerprint;
+- fresh independent review has not passed for the exact fingerprint;
+- the external-source challenge is missing, stale, uses a forbidden prior context, omits a required source-universe member or has decision `fail_hold`;
+- the curriculum or exam profile does not match the exact course/cohort;
+- a curriculum obligation lacks its required semantic or Course Truth node mapping;
+- a required Course Truth node is absent;
+- an exam obligation fails source-led reconciliation;
+- a required source reference is absent from the Source Licence Register; or
+- the reconciliation points to an artifact outside the exact resolved review bundle.
+
+This makes the completeness evidence independently visible to the qualified human rather than relying only on instructions to infer it from generated artifacts.
 
 ## Human review task
 
-The qualified reviewer or reviewer set must cover both subject and assessment expertise and provide qualification evidence references. The reviewer inspects the explicit source-led curriculum/exam reconciliation and the exact Foundation artifacts to which it maps.
+The qualified reviewer or reviewer set must cover both `subject` and `assessment` expertise and provide qualification evidence references.
 
-The review challenges requirement-universe correctness, Course Truth coverage/accuracy/depth, Exam Truth and assessment structure, question/response families, assessment-objective demand, quantitative requirements, response/marking expectations, pre-calibration boundaries, factual/conceptual accuracy, internal consistency, source-boundary interpretation and missing applicable requirements.
+The reviewer must inspect both:
 
-Prior deterministic, independent-AI, external-source or `ai_assured` PASS evidence must not be treated as qualified-human approval.
+1. the explicit source-led curriculum/exam reconciliation; and
+2. the exact Foundation artifacts to which it maps.
 
-A blocking or material human finding requires hold/remediation. A pass is valid only when no blocking or material findings remain.
+The review must challenge:
 
-## Fingerprint consequence
+- whether the requirement universe itself is correct for the exact cohort;
+- whether Course Truth represents every curriculum obligation accurately and at sufficient depth;
+- whether Exam Truth represents the applicable assessment specification and current governed evidence;
+- component structure, question/response families, assessment-objective demand and quantitative requirements;
+- response and marking expectations and explicit pre-calibration boundaries;
+- factual/conceptual accuracy and internal consistency;
+- source boundary interpretation; and
+- any missing applicable requirement.
 
-Human approval is valid only for the exact reviewed fingerprint. If review requires a material correction, the corrected Candidate receives a new fingerprint and must return through the applicable assurance chain before approval. Any pre-production assets bound to the superseded fingerprint remain release-ineligible and must follow the ADR-0024 invalidation/re-assurance rule.
+Prior deterministic, independent-AI or external-source PASS evidence must not be treated as qualified-human subject/assessment approval.
 
-If the reviewer approves the exact AI-assured fingerprint unchanged, the Foundation may become `foundation_approved`. This does not by itself publish assets; asset-specific assurance and release controls still apply.
+A blocking or material finding requires `fail_hold`. A pass is valid only when no blocking or material findings remain.
 
-## Historical evidence
+## Neutral decision handoff
 
-Historical AQA packages, PASS/`fail_hold` results and proof records remain evidence of their exact implementation state. They are not rewritten to claim that `ai_assured` existed before ADR-0024 or that an AI PASS was human approval.
+`src/content-factory/foundation-expert-review.ts` retains the durable qualified-human package/submission contract.
+
+The submission template uses a neutral `<pass-or-fail_hold>` placeholder. It does not invent reviewer identity, qualifications, evidence or a decision. The exact `jobId`, `candidateId`, reviewed implementation commit and Foundation fingerprint cannot be changed by the human submission.
+
+## Historical AQA evidence
+
+Previously retained AQA packages, reviews and challenge results remain historical evidence of their exact implementation states.
+
+The successful historical package was produced before the source-led completeness boundary existed. Its packaging integrity remains historically true, but it cannot be reused to approve a corrected Foundation.
+
+The later fingerprint `0d90fccdca657fc1d9dae0e16b663071fc08bdcec3323f3a95fa24e36242380e` passed deterministic assurance and fresh independent review but subsequently failed the required external-source challenge. Those earlier passes remain historically true; they do not override the later `fail_hold` and do not permit expert-review progression.
+
+The current replacement fingerprint must use its own exact bundle and a new qualified-human decision. Historical proof and review records must not be rewritten to imply the new boundary existed at the time.
+
+## Fresh proof and review sequence
+
+The AQA 7132 / 2027 sequence is:
+
+1. compile a fresh Foundation Candidate on approved `main` using the corrected source-led curriculum/exam guards and semantic seed;
+2. retain its exact source proof, Candidate and new Foundation fingerprint;
+3. run deterministic assurance against that exact retained proof, including the Course Truth semantic-retention invariant;
+4. run fresh-context independent review against the same exact fingerprint;
+5. remediate blocking/material findings only through the guarded remediation path and rerun affected deterministic assurance plus fresh independent review;
+6. run a genuinely fresh external-source challenge against the exact resulting fingerprint and current required Source Universe;
+7. only after the external-source challenge passes, assemble the schema-v2 expert bundle containing `coverage-reconciliation.json`, the passing challenge report and the exact Foundation artifacts, using either the exact-field workflow dispatch or the governed Founder-owned Issue #289 trigger; and
+8. obtain a new qualified-human subject/assessment decision.
+
+Only a later passing human submission can support Approved Course Foundation v1.
+
+## Deliberately excluded
+
+This work does not:
+
+- perform or simulate qualified human review;
+- invent reviewer credentials;
+- approve any historical failing Foundation;
+- create Approved Course Foundation v1;
+- generate Learn, Practice or Exam Prep assets; or
+- rewrite historical proof evidence.
 
 ## Documentation impact
 
-This document records the target qualified-human boundary while explicitly preserving current implementation truth. Runtime/schema/orchestration changes and tests are still required before `ai_assured` can be treated as released.
+The Issue-comment trigger changes only how already-required exact packaging inputs are supplied. It implements the existing Foundation assurance and qualified-human boundary; it does not change normative authority, reviewer qualification requirements, evidence requirements, approval semantics or downstream asset gates.
