@@ -116,7 +116,9 @@ async function challengeReport(
 }
 
 async function aiAssured(candidateInput = candidate()) {
-  let { job, foundationFingerprint } = await assuringWithAiReview(candidateInput)
+  const reviewed = await assuringWithAiReview(candidateInput)
+  let { job } = reviewed
+  const { foundationFingerprint } = reviewed
   if (!job.candidate) throw new Error('Expected Foundation Candidate')
   job = await recordFoundationExternalSourceChallenge(job, {
     report: await challengeReport(job.candidate, foundationFingerprint),
@@ -128,7 +130,9 @@ async function aiAssured(candidateInput = candidate()) {
 
 describe('AI-assured adversarial safety boundaries', () => {
   it('durably records an external-source fail_hold but refuses ai_assured progression', async () => {
-    let { job, foundationFingerprint } = await assuringWithAiReview()
+    const reviewed = await assuringWithAiReview()
+    let { job } = reviewed
+    const { foundationFingerprint } = reviewed
     if (!job.candidate) throw new Error('Expected Foundation Candidate')
 
     job = await recordFoundationExternalSourceChallenge(job, {
