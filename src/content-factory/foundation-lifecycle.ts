@@ -220,6 +220,12 @@ export async function recordFoundationExternalSourceChallenge(
   if (unresolvedOperationalBlockers(job).length > 0) {
     throw new Error('Resolve all Foundation job blockers before recording external-source challenge evidence')
   }
+  if (!input.requiredSourceUniverseProfileId) {
+    throw new Error('External-source challenge requires the governed source-universe profile')
+  }
+  if (!Array.isArray(input.requiredSourceIds) || input.requiredSourceIds.length === 0) {
+    throw new Error('External-source challenge requires the governed source-universe source list')
+  }
 
   const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
   const reviewedCommit = job.candidate.provenance.implementationHeadSha
