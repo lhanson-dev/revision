@@ -1,12 +1,12 @@
 # ADR-0024 — AI-Assured Foundation Pre-Production Gate
 
-**Status:** Proposed
-**Date:** 2026-09-17
+**Status:** Accepted — Founder-approved via PR #343  
+**Decision date:** 2026-09-18  
 **Decision owner:** Founder
 
 ## Context
 
-The Foundation-first Content Factory currently prohibits learner-asset generation until qualified-human Foundation approval. The AQA 7132 proof programme has established a substantial machine/AI assurance chain: deterministic assurance, fresh-context independent review/remediation and a genuinely fresh external-source challenge, all bound to an exact Foundation fingerprint.
+The Foundation-first Content Factory prohibited learner-asset generation until qualified-human Foundation approval. The AQA 7132 proof programme established a substantial machine/AI assurance chain: deterministic assurance, fresh-context independent review/remediation and a genuinely fresh external-source challenge, all bound to an exact Foundation fingerprint.
 
 Keeping qualified-human review as a prerequisite to any downstream asset generation makes the human gate a serial development dependency even where the Candidate has no unresolved blocking or material AI-assurance finding. Treating AI PASS as final Foundation approval would instead erase the deliberate distinction between machine assurance and qualified-human educational approval.
 
@@ -30,7 +30,7 @@ Historical proof and review records are not rewritten.
 
 ## Alternatives rejected
 
-**Keep human approval before all asset generation.** Preserves the current model but unnecessarily serializes internal development after the complete AI assurance chain passes.
+**Keep human approval before all asset generation.** Preserves the previous model but unnecessarily serializes internal development after the complete AI assurance chain passes.
 
 **Treat AI PASS as Approved Course Foundation.** Rejected because it would misrepresent the assurance source and weaken qualified-human approval semantics.
 
@@ -38,4 +38,4 @@ Historical proof and review records are not rewritten.
 
 ## Documentation impact
 
-The targeted normative amendment is `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`. The existing Foundation/Asset Production Model and historical technical records are preserved rather than rewritten. `docs/technical/Content Factory AI-Assured Foundation Gate.md` defines the target runtime contract. Runtime/schema/orchestration/test changes are a subsequent implementation slice.
+The targeted normative amendment is `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`. The existing Foundation/Asset Production Model and historical technical records are preserved rather than rewritten. `docs/technical/Content Factory AI-Assured Foundation Gate.md` defines the current implementation contract; runtime/schema/orchestration/test implementation is governed separately from this historical decision record.
