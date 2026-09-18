@@ -10,6 +10,7 @@ import {
   advanceFoundationJob,
   computeFoundationFingerprint,
   createFoundationJob,
+  markFoundationAiAssured,
   setFoundationCandidate,
 } from './foundation-lifecycle'
 import { foundationCandidateSchema, type FoundationCandidate, type FoundationJob } from './foundation-schema'
@@ -333,6 +334,7 @@ describe('Foundation deterministic assurance', () => {
     expect(failedCheckIds).toContain('question-family-integrity')
     expect(failedCheckIds.length).toBeGreaterThanOrEqual(3)
     expect(result.job.candidate?.deterministicAssurance.status).toBe('fail')
-    expect(() => advanceFoundationJob(result.job, 'expert_review', now)).toThrow(/Deterministic Foundation assurance must pass/)
+    await expect(markFoundationAiAssured(result.job, now)).rejects.toThrow(/Deterministic Foundation assurance must pass/)
+    expect(() => advanceFoundationJob(result.job, 'expert_review', now)).toThrow(/transition assuring -> expert_review is not allowed/)
   })
 })
