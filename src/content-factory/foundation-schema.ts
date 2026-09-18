@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { cohortValiditySchema, courseIdentitySchema } from './schema'
+import { foundationExternalSourceChallengeReportSchema } from './foundation-external-source-challenge'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -10,6 +11,7 @@ export const foundationWorkingStateSchema = z.enum([
   'requested',
   'compiling',
   'assuring',
+  'ai_assured',
   'expert_review',
 ])
 
@@ -112,6 +114,7 @@ export const foundationCandidateSchema = z.object({
   questionFamilies: z.array(foundationArtifactRefSchema).default([]),
   deterministicAssurance: foundationAssuranceResultSchema,
   independentReview: foundationIndependentReviewResultSchema,
+  externalSourceChallenge: foundationExternalSourceChallengeReportSchema.optional(),
   unresolvedBlockers: z.array(foundationCandidateBlockerSchema).default([]),
   knownLimitations: z.array(nonEmptyStringSchema).default([]),
   provenance: z.object({
@@ -137,11 +140,43 @@ export const foundationCandidateSchema = z.object({
 
   const deterministicFingerprint = candidate.deterministicAssurance.foundationFingerprint
   const reviewFingerprint = candidate.independentReview.foundationFingerprint
+  const challengeFingerprint = candidate.externalSourceChallenge?.foundationFingerprint
   if (deterministicFingerprint && reviewFingerprint && deterministicFingerprint !== reviewFingerprint) {
     context.addIssue({
       code: 'custom',
       path: ['independentReview', 'foundationFingerprint'],
       message: 'Deterministic assurance and independent review must assess the same Foundation fingerprint',
+    })
+  }
+  if (deterministicFingerprint && challengeFingerprint && deterministicFingerprint !== challengeFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['externalSourceChallenge', 'foundationFingerprint'],
+      message: 'External-source challenge must assess the same Foundation fingerprint as deterministic assurance',
+    })
+  }
+  if (reviewFingerprint && challengeFingerprint && reviewFingerprint !== challengeFingerprint) {
+    context.addIssue({
+      code: 'custom',
+      path: ['externalSourceChallenge', 'foundationFingerprint'],
+      message: 'External-source challenge must assess the same Foundation fingerprint as independent review',
+    })
+  }
+  if (candidate.externalSourceChallenge?.candidateId !== undefined
+    && candidate.externalSourceChallenge.candidateId !== candidate.candidateId) {
+    context.addIssue({
+      code: 'custom',
+      path: ['externalSourceChallenge', 'candidateId'],
+      message: 'External-source challenge must identify the exact Foundation Candidate',
+    })
+  }
+  if (candidate.provenance.implementationHeadSha
+    && candidate.externalSourceChallenge?.reviewedCommit
+    && candidate.externalSourceChallenge.reviewedCommit !== candidate.provenance.implementationHeadSha) {
+    context.addIssue({
+      code: 'custom',
+      path: ['externalSourceChallenge', 'reviewedCommit'],
+      message: 'External-source challenge must assess the Candidate implementation commit',
     })
   }
 })
@@ -252,7 +287,7 @@ export const foundationJobSchema = z.object({
     })
   }
 
-  if (['assuring', 'expert_review'].includes(job.state) && !job.candidate) {
+  if (['assuring', 'ai_assured', 'expert_review'].includes(job.state) && !job.candidate) {
     context.addIssue({
       code: 'custom',
       path: ['candidate'],
@@ -260,6 +295,39 @@ export const foundationJobSchema = z.object({
     })
   }
 
+  if (job.state === 'ai_assured' && job.candidate) {
+    if (job.candidate.deterministicAssurance.status !== 'pass') {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'deterministicAssurance', 'status'],
+        message: 'ai_assured requires passing deterministic Foundation assurance',
+      })
+    }
+    if (job.candidate.independentReview.status !== 'pass') {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'independentReview', 'status'],
+        message: 'ai_assured requires passing independent Foundation review',
+      })
+    }
+    if (job.candidate.externalSourceChallenge?.decision !== 'pass') {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'externalSourceChallenge', 'decision'],
+        message: 'ai_assured requires a passing external-source challenge',
+      })
+    }
+    if (job.candidate.unresolvedBlockers.length > 0) {
+      context.addIssue({
+        code: 'custom',
+        path: ['candidate', 'unresolvedBlockers'],
+        message: 'ai_assured cannot retain unresolved candidate blockers',
+      })
+    }
+  }
+
+  // Historical expert_review jobs did not persist the external-source challenge on the Candidate.
+  // They remain readable, but lifecycle mutation functions require current ai_assured evidence before new approval.
   if (job.state === 'expert_review' && job.candidate) {
     if (job.candidate.deterministicAssurance.status !== 'pass') {
       context.addIssue({
