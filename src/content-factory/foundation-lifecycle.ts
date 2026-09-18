@@ -208,8 +208,8 @@ export async function recordFoundationExternalSourceChallenge(
   jobInput: FoundationJob,
   input: {
     report: unknown
-    requiredSourceUniverseProfileId?: string
-    requiredSourceIds?: string[]
+    requiredSourceUniverseProfileId: string
+    requiredSourceIds: string[]
   },
   updatedAt: string,
 ): Promise<FoundationJob> {
@@ -239,6 +239,7 @@ export async function recordFoundationExternalSourceChallenge(
       ...job.candidate.provenance.generationContextIds,
       ...job.candidate.provenance.assuranceContextIds,
     ],
+    requirePass: false,
   })
 
   return foundationJobSchema.parse({
