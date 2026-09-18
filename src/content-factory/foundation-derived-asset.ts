@@ -1,6 +1,9 @@
 import { z } from 'zod'
 import { foundationJobSchema, type FoundationJob } from './foundation-schema'
-import { computeFoundationFingerprint } from './foundation-lifecycle'
+import {
+  assertApprovedFoundationIntegrity,
+  computeFoundationFingerprint,
+} from './foundation-lifecycle'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -27,16 +30,6 @@ export const foundationDerivedAssetSchema = z.object({
   }
 })
 
-function candidateForInternalDerivation(job: FoundationJob) {
-  if (job.state === 'foundation_approved' && job.approvedFoundation) {
-    return job.approvedFoundation.candidate
-  }
-  if (['ai_assured', 'expert_review'].includes(job.state) && job.candidate) {
-    return job.candidate
-  }
-  throw new Error('Internal Foundation-derived asset production requires ai_assured, expert_review or foundation_approved state')
-}
-
 export async function createFoundationDerivedAsset(input: {
   job: FoundationJob
   assetId: string
@@ -44,18 +37,30 @@ export async function createFoundationDerivedAsset(input: {
   createdAt: string
 }) {
   const job = foundationJobSchema.parse(input.job)
-  const candidate = candidateForInternalDerivation(job)
-  const foundationFingerprint = await computeFoundationFingerprint(candidate)
 
-  if (candidate.deterministicAssurance.status !== 'pass'
-    || candidate.independentReview.status !== 'pass'
-    || candidate.externalSourceChallenge?.decision !== 'pass') {
-    throw new Error('Internal asset derivation requires the complete AI-assurance chain to pass')
-  }
-  if (candidate.deterministicAssurance.foundationFingerprint !== foundationFingerprint
-    || candidate.independentReview.foundationFingerprint !== foundationFingerprint
-    || candidate.externalSourceChallenge.foundationFingerprint !== foundationFingerprint) {
-    throw new Error('Internal asset derivation requires exact-fingerprint AI-assurance evidence')
+  let candidate
+  let foundationFingerprint: string
+
+  if (job.state === 'foundation_approved' && job.approvedFoundation) {
+    const approvedFoundation = await assertApprovedFoundationIntegrity(job.approvedFoundation)
+    candidate = approvedFoundation.candidate
+    foundationFingerprint = approvedFoundation.foundationFingerprint
+  } else if (['ai_assured', 'expert_review'].includes(job.state) && job.candidate) {
+    candidate = job.candidate
+    foundationFingerprint = await computeFoundationFingerprint(candidate)
+
+    if (candidate.deterministicAssurance.status !== 'pass'
+      || candidate.independentReview.status !== 'pass'
+      || candidate.externalSourceChallenge?.decision !== 'pass') {
+      throw new Error('Internal asset derivation requires the complete AI-assurance chain to pass')
+    }
+    if (candidate.deterministicAssurance.foundationFingerprint !== foundationFingerprint
+      || candidate.independentReview.foundationFingerprint !== foundationFingerprint
+      || candidate.externalSourceChallenge.foundationFingerprint !== foundationFingerprint) {
+      throw new Error('Internal asset derivation requires exact-fingerprint AI-assurance evidence')
+    }
+  } else {
+    throw new Error('Internal Foundation-derived asset production requires ai_assured, expert_review or foundation_approved state')
   }
 
   return foundationDerivedAssetSchema.parse({
@@ -99,9 +104,6 @@ export function getFoundationDerivedAssetReleaseProblems(
   }
   if (job.approvedFoundation.foundationFingerprint !== asset.foundationFingerprint) {
     problems.push('Derived asset is stale because its Foundation fingerprint is not the approved fingerprint')
-  }
-  if (job.approvedFoundation.candidate.candidateId !== asset.foundationCandidateId) {
-    problems.push('Derived asset is stale because its Foundation Candidate is not the approved Candidate')
   }
 
   return problems
