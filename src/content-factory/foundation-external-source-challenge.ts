@@ -55,6 +55,9 @@ export type FoundationExternalSourceChallengeReport = z.infer<typeof foundationE
  *
  * REFERENCE_ONLY source text is not made generative input by this contract. The report records
  * challenge evidence produced through an approved external browsing/reference-only process.
+ *
+ * `requirePass` defaults true for downstream expert-package use. Lifecycle persistence sets it
+ * false so a valid fail_hold report can be durably retained while still preventing progression.
  */
 export function validateFoundationExternalSourceChallenge(input: {
   report: unknown
@@ -65,13 +68,16 @@ export function validateFoundationExternalSourceChallenge(input: {
   requiredSourceUniverseProfileId?: string
   requiredSourceIds?: string[]
   forbiddenContextIds: string[]
+  requirePass?: boolean
 }) {
   const report = foundationExternalSourceChallengeReportSchema.parse(input.report)
   if (report.jobId !== input.jobId) throw new Error('External-source challenge does not match the Foundation job')
   if (report.candidateId !== input.candidateId) throw new Error('External-source challenge does not match the exact Foundation Candidate')
   if (report.reviewedCommit !== input.reviewedCommit) throw new Error('External-source challenge does not match the reviewed implementation commit')
   if (report.foundationFingerprint !== input.foundationFingerprint) throw new Error('External-source challenge is stale for the exact Foundation fingerprint')
-  if (report.decision !== 'pass') throw new Error('Qualified expert review package requires a passing external-source challenge')
+  if ((input.requirePass ?? true) && report.decision !== 'pass') {
+    throw new Error('Qualified expert review package requires a passing external-source challenge')
+  }
   if (input.requiredSourceUniverseProfileId && report.sourceUniverseProfileId !== input.requiredSourceUniverseProfileId) {
     throw new Error('External-source challenge used the wrong source-universe profile')
   }
