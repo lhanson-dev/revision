@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { foundationCandidateSchema, type FoundationCandidate } from './foundation-schema'
+import {
+  foundationCandidateSchema,
+  type ApprovedCourseFoundation,
+  type FoundationCandidate,
+} from './foundation-schema'
 import {
   advanceFoundationJob,
   approveFoundation,
@@ -99,7 +103,11 @@ async function aiAssuredJob(candidateInput = candidate()) {
   return { job: await markFoundationAiAssured(job, now), foundationFingerprint }
 }
 
-async function approvedJob(candidateInput = candidate(), version = 1, previous = null) {
+async function approvedJob(
+  candidateInput = candidate(),
+  version = 1,
+  previous: ApprovedCourseFoundation | null = null,
+) {
   const { job: aiJob, foundationFingerprint } = await aiAssuredJob(candidateInput)
   const expertJob = advanceFoundationJob(aiJob, 'expert_review', now)
   const job = await approveFoundation(expertJob, {
