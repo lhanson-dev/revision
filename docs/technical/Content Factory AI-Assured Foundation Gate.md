@@ -1,6 +1,7 @@
 # Content Factory AI-Assured Foundation Gate
 
 **Status:** Active implementation contract  
+**Implementation:** PR #344  
 **Authority:** `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`  
 **Decision:** `decisions/ADR-0024-ai-assured-foundation-preproduction-gate.md`
 
