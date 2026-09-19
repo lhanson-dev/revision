@@ -65,6 +65,31 @@ Generation contexts are retained so later independent asset assurance can use fr
 
 Generation does **not** set asset assurance to PASS.
 
+## Retained live production proof
+
+`Content Factory Foundation Internal Learning Proof` operationalises the producer for the current AQA A-level Business 7132 — 2027 pilot.
+
+The proof does not rebuild or reinterpret the Foundation. It consumes two retained evidence packages by exact workflow run, artifact identity, digest and fingerprint:
+
+1. the Foundation Live Proof package containing the exact structured Foundation artifacts; and
+2. the AI-Assured Foundation Proof package proving the same exact Foundation fingerprint reached `ai_assured`.
+
+The workflow verifies both packages before any model call, reconstructs the `ai_assured` job from the retained final Candidate, and then extracts the exact Coverage Model and Course Knowledge Model whose fingerprints are recorded on that Candidate.
+
+The generation implementation commit is recorded separately from the historical Foundation Candidate implementation commit. A newer asset-generator implementation therefore does not mutate Foundation identity or claim that the Foundation itself was regenerated.
+
+For the current Business proof:
+
+- the provider model is `gpt-5.6-terra`;
+- generation uses medium reasoning effort;
+- each bounded call is limited to 4,000 output tokens;
+- the provider client enforces a **US$12 hard spend ceiling** before starting further calls, which remains below the active US$20 complete-course production ceiling; and
+- the retained evidence records per-run provider/model/retry provenance and final-response usage cost where supplied by the provider.
+
+The sum of reported final-response `usageCost` values is explicitly **not** represented as retry-complete total spend. The provider's internal hard-ceiling accounting remains the operational spend control.
+
+The proof fails closed if exact evidence identity, fingerprints, Foundation state, structured artifact ownership, generation contracts or spend controls fail. Whether PASS or fail-hold, it cannot mark an asset assured or learner-publication eligible.
+
 ## Release safety
 
 The runtime does not register pre-production content in the ordinary production `content/**` registry.
@@ -79,12 +104,12 @@ The existing `assertFoundationDerivedAssetReleaseEligible` guard remains the rel
 
 ## Next implementation slices
 
-1. release a retained live Business Learn/Practice production proof using the exact AI-assured Business Foundation;
-2. add independent asset assurance/remediation over that retained generated bundle;
-3. add a test-only internal site preview adapter that consumes the retained bundle without entering Production Pages;
+1. execute and retain the live Business Learn/Practice production proof using the exact AI-assured Business Foundation;
+2. add fresh-context independent asset assurance/remediation over that retained generated bundle;
+3. add a test-only internal site preview adapter that consumes the retained assured bundle without entering Production Pages;
 4. implement the separate Exam Prep Factory using Course Truth + Exam Truth; and
 5. after qualified-human approval of the exact Foundation fingerprint, promote otherwise-valid assured assets through the learner-release controls.
 
 ## Documentation impact
 
-ADR-0025 records the architecture choice. No normative authority changes are introduced by this implementation.
+ADR-0025 records the architecture choice. The retained proof workflow operationalises that existing decision and does not change normative Content Factory authority. `INDEX.md` points to this implementation contract and the ADR-0025 decision history.
