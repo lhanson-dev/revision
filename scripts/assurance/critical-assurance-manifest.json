@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "protectedFiles": [
+    {
+      "path": "supabase/tests/database-assurance.test.sql",
+      "controls": ["DATA-01", "SEC-01", "SEC-03"]
+    },
+    {
+      "path": "supabase/tests/learner-plan-assurance.test.sql",
+      "controls": ["DATA-06", "SEC-05"]
+    },
+    {
+      "path": "supabase/tests/starting-check-assurance.test.sql",
+      "controls": ["DATA-04"]
+    },
+    {
+      "path": "supabase/tests/student-first-use-assurance.test.sql",
+      "controls": ["DATA-07", "JRN-08"]
+    },
+    {
+      "path": "tests/integration/supabase-persistence.test.ts",
+      "controls": ["DATA-02", "DATA-05"]
+    },
+    {
+      "path": "tests/integration/edge-operations.test.ts",
+      "controls": ["SEC-02", "SEC-04", "SEC-05"]
+    },
+    {
+      "path": "tests/e2e/database-persistence.spec.ts",
+      "controls": ["DATA-02", "DATA-05", "JRN-04", "JRN-06", "JRN-08"]
+    },
+    {
+      "path": "tests/e2e/student-first-use.spec.ts",
+      "controls": ["JRN-08"]
+    },
+    {
+      "path": "scripts/assurance/change-classifier.mjs",
+      "controls": ["PTL-04"]
+    },
+    {
+      "path": "scripts/assurance/release-lineage.mjs",
+      "controls": ["PTL-02", "PTL-03", "PTL-05"]
+    },
+    {
+      "path": "scripts/assurance/founder-approval-status.mjs",
+      "controls": ["PTL-05"]
+    }
+  ],
+  "requiredWorkflowSnippets": [
+    "node scripts/assurance/validate-critical-assurance.mjs",
+    "supabase test db supabase/tests/database-assurance.test.sql",
+    "supabase test db supabase/tests/learner-plan-assurance.test.sql",
+    "supabase test db supabase/tests/starting-check-assurance.test.sql",
+    "supabase test db supabase/tests/student-first-use-assurance.test.sql",
+    "npx vitest run tests/integration/supabase-persistence.test.ts",
+    "npx vitest run tests/integration/edge-operations.test.ts",
+    "npx playwright test tests/e2e/database-persistence.spec.ts --project=desktop"
+  ],
+  "minimumControlIds": [
+    "PTL-02",
+    "PTL-03",
+    "PTL-04",
+    "PTL-05",
+    "JRN-04",
+    "JRN-06",
+    "JRN-08",
+    "DATA-01",
+    "DATA-02",
+    "DATA-04",
+    "DATA-05",
+    "DATA-06",
+    "DATA-07",
+    "SEC-01",
+    "SEC-02",
+    "SEC-03",
+    "SEC-04",
+    "SEC-05"
+  ]
+}

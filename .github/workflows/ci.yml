@@ -17,6 +17,7 @@ jobs:
     outputs:
       risk_level: ${{ steps.plan-output.outputs.risk_level }}
       risk_label: ${{ steps.plan-output.outputs.risk_label }}
+      dependency_vulnerability_analysis: ${{ steps.plan-output.outputs.dependency_vulnerability_analysis }}
     steps:
       - name: Checkout full change history
         uses: actions/checkout@v6
@@ -38,11 +39,19 @@ jobs:
           node <<'NODE'
           const fs = require('fs')
           const plan = JSON.parse(fs.readFileSync('assurance-plan.json', 'utf8'))
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\n`)
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n`)
+          const required = Object.entries(plan.requiredAssurance)
+            .filter(([, enabled]) => enabled)
+            .map(([name]) => `- ${name}`)
+            .join('\n')
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `risk_level=${plan.risk.level}\nrisk_label=${plan.risk.label}\ndependency_vulnerability_analysis=${plan.requiredAssurance.dependencyVulnerabilityAnalysis}\n`)
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Assurance plan\n\n**Risk:** Level ${plan.risk.level} / ${plan.risk.label}\n\n**Selection mode:** ${plan.selectionMode}\n\n### Reasons\n${plan.risk.reasons.map((reason) => `- ${reason}`).join('\n')}\n\n### Affected domains\n${plan.risk.affectedDomains.map((domain) => `- ${domain}`).join('\n')}\n\n### Required assurance\n${required}\n`)
           NODE
       - name: Scan repository for privileged secrets and config
         run: node scripts/assurance/scan-secrets.mjs
+      - name: Validate critical assurance integrity
+        run: node scripts/assurance/validate-critical-assurance.mjs
+      - name: Validate Level 3/4 PR assurance evidence
+        run: node scripts/assurance/validate-high-risk-pr-evidence.mjs --plan assurance-plan.json --event "$GITHUB_EVENT_PATH"
       - name: Upload assurance plan evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -51,6 +60,41 @@ jobs:
           path: assurance-plan.json
           if-no-files-found: error
           retention-days: 30
+
+  independent-security:
+    name: Independent security and dependency analysis
+    needs: assurance-plan
+    if: github.event_name == 'pull_request' && fromJSON(needs.assurance-plan.outputs.risk_level) >= 3
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        if: fromJSON(needs.assurance-plan.outputs.dependency_vulnerability_analysis)
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+      - name: Pin npm
+        if: fromJSON(needs.assurance-plan.outputs.dependency_vulnerability_analysis)
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Audit locked dependencies for high/critical vulnerabilities
+        if: fromJSON(needs.assurance-plan.outputs.dependency_vulnerability_analysis)
+        timeout-minutes: 3
+        run: npm audit --audit-level=high --fetch-timeout=60000 --fetch-retries=1
+      - name: Initialize CodeQL
+        timeout-minutes: 5
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          build-mode: none
+      - name: Analyze JavaScript and TypeScript with CodeQL
+        timeout-minutes: 10
+        uses: github/codeql-action/analyze@v4
 
   foundation-quality:
     name: Foundation quality
