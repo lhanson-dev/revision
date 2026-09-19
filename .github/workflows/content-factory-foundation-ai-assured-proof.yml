@@ -1,0 +1,217 @@
+name: Content Factory Foundation AI-Assured Proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Successful Foundation Live Proof run ID
+        required: true
+        type: string
+      source_artifact_id:
+        description: Retained Foundation Live Proof artifact ID
+        required: true
+        type: string
+      source_head_sha:
+        description: Exact released main SHA used by the live proof
+        required: true
+        type: string
+      source_foundation_fingerprint:
+        description: Exact Foundation fingerprint retained by the live proof before independent review
+        required: true
+        type: string
+      review_run_id:
+        description: Successful Foundation Independent Review Proof run ID
+        required: true
+        type: string
+      review_artifact_id:
+        description: Retained Foundation Independent Review Proof artifact ID
+        required: true
+        type: string
+      reviewed_commit:
+        description: Exact Candidate implementation SHA used by the independent review proof
+        required: true
+        type: string
+      foundation_fingerprint:
+        description: Exact final Foundation fingerprint that passed independent review
+        required: true
+        type: string
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: content-factory-foundation-ai-assured-proof
+  cancel-in-progress: false
+
+jobs:
+  foundation-ai-assured-proof:
+    name: Fresh external challenge and AI assurance gate
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       startsWith(github.event.comment.body, 'revision-run-foundation-ai-assured-proof:v1'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact approved-main event SHA
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Resolve exact Foundation proof identities
+        env:
+          REVISION_TRIGGER_MARKER: revision-run-foundation-ai-assured-proof:v1
+          REVISION_TRIGGER_BODY: ${{ github.event.comment.body || '' }}
+          REVISION_INPUT_SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
+          REVISION_INPUT_SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id || '' }}
+          REVISION_INPUT_SOURCE_HEAD_SHA: ${{ inputs.source_head_sha || '' }}
+          REVISION_INPUT_SOURCE_FOUNDATION_FINGERPRINT: ${{ inputs.source_foundation_fingerprint || '' }}
+          REVISION_INPUT_REVIEW_RUN_ID: ${{ inputs.review_run_id || '' }}
+          REVISION_INPUT_REVIEW_ARTIFACT_ID: ${{ inputs.review_artifact_id || '' }}
+          REVISION_INPUT_REVIEWED_COMMIT: ${{ inputs.reviewed_commit || '' }}
+          REVISION_INPUT_FOUNDATION_FINGERPRINT: ${{ inputs.foundation_fingerprint || '' }}
+        run: node scripts/assurance/foundation-ai-assured-proof-trigger.mjs
+
+      - name: Verify retained proof identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}")"
+          test "$(jq -r '.name' <<<"${source_run_json}")" = 'Content Factory Foundation Live Proof'
+          test "$(jq -r '.status' <<<"${source_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${source_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${source_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${source_run_json}")" = "${SOURCE_HEAD_SHA}"
+
+          source_artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}")"
+          source_expected_name="content-factory-foundation-live-proof-${SOURCE_HEAD_SHA}"
+          source_name="$(jq -r '.name' <<<"${source_artifact_json}")"
+          source_digest="$(jq -r '.digest' <<<"${source_artifact_json}")"
+          source_run_id="$(jq -r '.workflow_run.id' <<<"${source_artifact_json}")"
+          source_head_sha="$(jq -r '.workflow_run.head_sha' <<<"${source_artifact_json}")"
+          source_expired="$(jq -r '.expired' <<<"${source_artifact_json}")"
+          test "${source_name}" = "${source_expected_name}"
+          test "${source_run_id}" = "${SOURCE_RUN_ID}"
+          test "${source_head_sha}" = "${SOURCE_HEAD_SHA}"
+          test "${source_expired}" = 'false'
+          test -n "${source_digest}"
+          test "${source_digest}" != 'null'
+
+          review_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${REVIEW_RUN_ID}")"
+          test "$(jq -r '.name' <<<"${review_run_json}")" = 'Content Factory Foundation Independent Review Proof'
+          test "$(jq -r '.status' <<<"${review_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${review_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${review_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${review_run_json}")" = "${REVIEWED_COMMIT}"
+
+          review_artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${REVIEW_ARTIFACT_ID}")"
+          review_expected_name="content-factory-foundation-independent-review-proof-${REVIEWED_COMMIT}"
+          review_name="$(jq -r '.name' <<<"${review_artifact_json}")"
+          review_digest="$(jq -r '.digest' <<<"${review_artifact_json}")"
+          review_run_id="$(jq -r '.workflow_run.id' <<<"${review_artifact_json}")"
+          review_head_sha="$(jq -r '.workflow_run.head_sha' <<<"${review_artifact_json}")"
+          review_expired="$(jq -r '.expired' <<<"${review_artifact_json}")"
+          test "${review_name}" = "${review_expected_name}"
+          test "${review_run_id}" = "${REVIEW_RUN_ID}"
+          test "${review_head_sha}" = "${REVIEWED_COMMIT}"
+          test "${review_expired}" = 'false'
+          test -n "${review_digest}"
+          test "${review_digest}" != 'null'
+
+          echo "SOURCE_ARTIFACT_NAME=${source_name}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ARTIFACT_DIGEST=${source_digest}" >> "${GITHUB_ENV}"
+          echo "REVIEW_ARTIFACT_NAME=${review_name}" >> "${GITHUB_ENV}"
+          echo "REVIEW_ARTIFACT_DIGEST=${review_digest}" >> "${GITHUB_ENV}"
+
+      - name: Download and verify retained Foundation proofs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_dir='.artifacts/content-factory-foundation-ai-assured-source'
+          review_dir='.artifacts/content-factory-foundation-ai-assured-review'
+          mkdir -p "${source_dir}" "${review_dir}"
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir "${source_dir}"
+          gh run download "${REVIEW_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${REVIEW_ARTIFACT_NAME}" \
+            --dir "${review_dir}"
+
+          mapfile -t source_files < <(find "${source_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          mapfile -t review_files < <(find "${review_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          test "${#source_files[@]}" -eq 1
+          test "${#review_files[@]}" -eq 1
+          source_proof_path="${source_files[0]}"
+          review_proof_path="${review_files[0]}"
+
+          test "$(jq -r '.artifactType' "${source_proof_path}")" = 'foundation_live_real_course_proof_evidence'
+          test "$(jq -r '.contentHeadSha' "${source_proof_path}")" = "${SOURCE_HEAD_SHA}"
+          test "$(jq -r '.foundationFingerprint' "${source_proof_path}")" = "${SOURCE_FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.learnerAssetCount' "${source_proof_path}")" = '0'
+
+          test "$(jq -r '.artifactType' "${review_proof_path}")" = 'foundation_real_course_independent_review_proof_evidence'
+          test "$(jq -r '.reviewedCommit' "${review_proof_path}")" = "${REVIEWED_COMMIT}"
+          test "$(jq -r '.sourceProof.workflowRunId' "${review_proof_path}")" = "${SOURCE_RUN_ID}"
+          test "$(jq -r '.sourceProof.artifactName' "${review_proof_path}")" = "${SOURCE_ARTIFACT_NAME}"
+          test "$(jq -r '.sourceProof.artifactDigest' "${review_proof_path}")" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "$(jq -r '.sourceProof.contentHeadSha' "${review_proof_path}")" = "${SOURCE_HEAD_SHA}"
+          test "$(jq -r '.sourceProof.foundationFingerprint' "${review_proof_path}")" = "${SOURCE_FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.finalFoundationFingerprint' "${review_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.deterministicAssuranceStatus' "${review_proof_path}")" = 'pass'
+          test "$(jq -r '.independentReviewStatus' "${review_proof_path}")" = 'pass'
+          test "$(jq -r '.finalCandidateUnresolvedBlockers | length' "${review_proof_path}")" = '0'
+          test "$(jq -r '.finalPass' "${review_proof_path}")" = 'true'
+          test "$(jq -r '.learnerAssetCount' "${review_proof_path}")" = '0'
+
+          echo "SOURCE_PROOF_PATH=${source_proof_path}" >> "${GITHUB_ENV}"
+          echo "REVIEW_PROOF_PATH=${review_proof_path}" >> "${GITHUB_ENV}"
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run fresh external-source challenge and AI assurance gate
+        env:
+          CONTENT_FACTORY_FOUNDATION_AI_ASSURED_PROOF: '1'
+          CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH: ${{ env.SOURCE_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_PROOF_PATH: ${{ env.REVIEW_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_HEAD_SHA: ${{ env.SOURCE_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_FINGERPRINT: ${{ env.SOURCE_FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_FOUNDATION_REVIEWED_COMMIT: ${{ env.REVIEWED_COMMIT }}
+          CONTENT_FACTORY_CHALLENGE_IMPLEMENTATION_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_RUN_ID: ${{ env.SOURCE_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_NAME: ${{ env.SOURCE_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_DIGEST: ${{ env.SOURCE_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_RUN_ID: ${{ env.REVIEW_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_NAME: ${{ env.REVIEW_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_REVIEW_ARTIFACT_DIGEST: ${{ env.REVIEW_ARTIFACT_DIGEST }}
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npx vitest run src/content-factory/foundation-ai-assured-proof.integration.test.ts --reporter=verbose
+
+      - name: Upload AI-assured Foundation proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-foundation-ai-assured-proof-${{ github.sha }}
+          path: .artifacts/content-factory-foundation-ai-assured-proof/
+          if-no-files-found: error
+          retention-days: 30
