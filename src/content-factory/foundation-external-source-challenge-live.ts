@@ -41,8 +41,8 @@ export const foundationExternalSourceLiveCheckSchema = z.object({
 export type FoundationExternalSourceLiveCheck = z.infer<typeof foundationExternalSourceLiveCheckSchema>
 
 type ResolvedArtifact = z.infer<typeof resolvedArtifactSchema>
-
 type ChallengeFinding = FoundationExternalSourceChallengeReport['findings'][number]
+type SourceUniverseRequirement = (typeof AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE)[number]
 
 function artifactByRef(
   candidate: FoundationCandidate,
@@ -57,9 +57,9 @@ function artifactByRef(
   return artifact
 }
 
-function sha256(bytes: ArrayBuffer) {
-  return globalThis.crypto.subtle.digest('SHA-256', bytes)
-    .then((digest) => Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join(''))
+async function sha256(bytes: ArrayBuffer) {
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', bytes)
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
 function safeUrl(value: string) {
@@ -70,9 +70,14 @@ function safeUrl(value: string) {
   }
 }
 
-function sourceContractFindings(source: z.infer<typeof sourceLicenceRecordSchema>, expected: (typeof AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE)[number]) {
+export function validateAqa7132ReferenceOnlySourceContract(
+  sourceInput: unknown,
+  expected: SourceUniverseRequirement,
+): ChallengeFinding[] {
+  const source = sourceLicenceRecordSchema.parse(sourceInput)
   const findings: ChallengeFinding[] = []
   const base = `source-${expected.sourceId.replace(/[^a-z0-9._-]/g, '-')}`
+
   if (source.issuer !== expected.issuer) {
     findings.push({
       id: `${base}-issuer-mismatch`,
@@ -103,6 +108,7 @@ function sourceContractFindings(source: z.infer<typeof sourceLicenceRecordSchema
       requiredCorrection: 'Restore the governed AQA reference-only rights classification before any downstream derivation.',
     })
   }
+
   const url = safeUrl(source.urlOrReference)
   if (!url || url.protocol !== 'https:' || !allowedAqaHosts.has(url.hostname)) {
     findings.push({
@@ -117,7 +123,7 @@ function sourceContractFindings(source: z.infer<typeof sourceLicenceRecordSchema
   return findings
 }
 
-async function inspectReferenceOnlySource(input: {
+export async function inspectAqaReferenceOnlySource(input: {
   source: z.infer<typeof sourceLicenceRecordSchema>
   fetchImpl: typeof fetch
   checkedAt: string
@@ -227,11 +233,12 @@ export async function runAqa7132LiveExternalSourceChallenge(input: {
       continue
     }
 
-    findings.push(...sourceContractFindings(source, expected))
-    if (sourceContractFindings(source, expected).length > 0) continue
+    const contractFindings = validateAqa7132ReferenceOnlySourceContract(source, expected)
+    findings.push(...contractFindings)
+    if (contractFindings.length > 0) continue
 
     try {
-      const check = await inspectReferenceOnlySource({ source, fetchImpl, checkedAt })
+      const check = await inspectAqaReferenceOnlySource({ source, fetchImpl, checkedAt })
       sourceChecks.push(check)
       evidenceRefs.push(`external-source:${check.sourceId}:sha256:${check.contentSha256}`)
     } catch (error) {
