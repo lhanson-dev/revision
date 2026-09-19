@@ -108,13 +108,34 @@ function selectedPracticeModes(unit: ExecutableLearningWorkUnit): PracticeMode[]
   return practiceModeValues.filter((mode) => unit.learningModes.includes(mode))
 }
 
-function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
+function requiredTeachingPointSchema(requiredTeachingPoints: string[], workUnitId: string) {
+  if (requiredTeachingPoints.length === 0) {
+    throw new Error(`Learning work unit ${workUnitId} supplied no required teaching points`)
+  }
+  const unique = [...new Set(requiredTeachingPoints)]
+  if (unique.length !== requiredTeachingPoints.length) {
+    throw new Error(`Learning work unit ${workUnitId} supplied duplicate required teaching points`)
+  }
+  return z.enum(requiredTeachingPoints as [string, ...string[]])
+}
+
+function learningCoverageEvidenceProviderSchema(requiredTeachingPoints: string[], workUnitId: string) {
+  const teachingPoint = requiredTeachingPointSchema(requiredTeachingPoints, workUnitId)
+  return z.array(providerLearningTeachingPointEvidenceSchema.extend({ teachingPoint })).length(requiredTeachingPoints.length)
+}
+
+function practiceCoverageEvidenceProviderSchema(requiredTeachingPoints: string[], workUnitId: string) {
+  const teachingPoint = requiredTeachingPointSchema(requiredTeachingPoints, workUnitId)
+  return z.array(providerPracticeTeachingPointEvidenceSchema.extend({ teachingPoint })).length(requiredTeachingPoints.length)
+}
+
+function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit, requiredTeachingPoints: string[]) {
   const base = z.strictObject({
     title: providerNonEmptyStringSchema,
     introduction: providerNonEmptyStringSchema,
     misconceptions: z.array(providerMisconceptionSchema),
     nextAction: providerNonEmptyStringSchema,
-    coverageEvidence: z.array(providerLearningTeachingPointEvidenceSchema).min(1),
+    coverageEvidence: learningCoverageEvidenceProviderSchema(requiredTeachingPoints, unit.id),
   })
   const explanation = unit.learningModes.includes('explanation')
   const workedExample = unit.learningModes.includes('worked_example')
@@ -129,8 +150,8 @@ function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
   throw new Error(`Learning work unit ${unit.id} selected no provider learning mode`)
 }
 
-function normaliseLearningProviderOutput(output: unknown, unit: ExecutableLearningWorkUnit) {
-  const parsed = learningProviderOutputSchema(unit).parse(output) as {
+function normaliseLearningProviderOutput(output: unknown, unit: ExecutableLearningWorkUnit, requiredTeachingPoints: string[]) {
+  const parsed = learningProviderOutputSchema(unit, requiredTeachingPoints).parse(output) as {
     title: string
     introduction: string
     misconceptions: Array<{ misconception: string; correction: string }>
@@ -156,7 +177,7 @@ function normaliseLearningProviderOutput(output: unknown, unit: ExecutableLearni
   })
 }
 
-function practiceProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
+function practiceProviderOutputSchema(unit: ExecutableLearningWorkUnit, requiredTeachingPoints: string[]) {
   const selected = selectedPracticeModes(unit)
   if (selected.length === 0) throw new Error(`Practice work unit ${unit.id} selected no provider practice mode`)
   const activityShape: Record<string, z.ZodArray<typeof providerPracticeActivitySchema>> = {}
@@ -165,13 +186,13 @@ function practiceProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
     title: providerNonEmptyStringSchema,
     instructions: providerNonEmptyStringSchema,
     activitiesByMode: z.strictObject(activityShape),
-    coverageEvidence: z.array(providerPracticeTeachingPointEvidenceSchema).min(1),
+    coverageEvidence: practiceCoverageEvidenceProviderSchema(requiredTeachingPoints, unit.id),
   })
 }
 
-function normalisePracticeProviderOutput(output: unknown, unit: ExecutableLearningWorkUnit) {
+function normalisePracticeProviderOutput(output: unknown, unit: ExecutableLearningWorkUnit, requiredTeachingPoints: string[]) {
   const selected = selectedPracticeModes(unit)
-  const parsed = practiceProviderOutputSchema(unit).parse(output) as {
+  const parsed = practiceProviderOutputSchema(unit, requiredTeachingPoints).parse(output) as {
     title: string
     instructions: string
     activitiesByMode: Record<string, ProviderPracticeActivity[]>
@@ -611,7 +632,7 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
     },
 
     async generateLearningCollateral(input) {
-      const outputSchema = learningProviderOutputSchema(input.workUnit)
+      const outputSchema = learningProviderOutputSchema(input.workUnit, input.requiredTeachingPoints)
       const execution = await client.run({
         workerId: 'content-factory.learning-collateral',
         contractVersion: '4',
@@ -621,12 +642,12 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
         instructions: 'Create concise but substantial student learning collateral for the exact work unit and supplied course identity. Explicitly teach every requiredTeachingPoint in the learner content; do not merely mention it in metadata. coverageEvidence must contain every requiredTeachingPoint exactly once, using the exact supplied teachingPoint string. For each teaching point, return a structured location that points to the single generated learner-content field where that point is taught; do not copy or paraphrase the evidence text. Use 1-based indexes. For scalar introduction and next_action locations use itemIndex=1 and detailIndex=1; for section explanations use detailIndex=1; for section key points use itemIndex for the section and detailIndex for the key point; for worked-example setup/conclusion use detailIndex=1 and for steps use detailIndex for the step; for misconception corrections use itemIndex for the misconception and detailIndex=1. Revision resolves the location deterministically into the exact verbatim evidence string before assurance. Use subject-authentic examples or contexts where they improve understanding, surface misconceptions, and end with a useful next action. Revision already owns the selected learning modes and all generated artifact identifiers: return only the fields present in the schema. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         payload: input,
       })
-      return normaliseSuccess(execution, (output) => normaliseLearningProviderOutput(output, input.workUnit))
+      return normaliseSuccess(execution, (output) => normaliseLearningProviderOutput(output, input.workUnit, input.requiredTeachingPoints))
     },
 
     async generatePracticeCollateral(input) {
       const selectedModes = selectedPracticeModes(input.workUnit)
-      const outputSchema = practiceProviderOutputSchema(input.workUnit)
+      const outputSchema = practiceProviderOutputSchema(input.workUnit, input.requiredTeachingPoints)
       const execution = await client.run({
         workerId: 'content-factory.practice-collateral',
         contractVersion: '4',
@@ -636,7 +657,7 @@ export function createOpenAIModelAssistedWorkers(config: OpenAIContentFactoryAda
         instructions: `Create active practice only for the Blueprint-owned mode buckets present in the schema: ${selectedModes.join(', ')}. Provide at least one useful activity in every supplied bucket. Collectively the activities must exercise every requiredTeachingPoint rather than silently omitting part of the curriculum. coverageEvidence must contain every requiredTeachingPoint exactly once, using the exact supplied teachingPoint string. For each teaching point, return a structured location with the exact generated practice mode, 1-based activityIndex and field (prompt, expectedResponse, explanation or improvementAction) where the point is genuinely practised; do not copy or paraphrase the evidence text. Revision resolves that location deterministically into the exact verbatim evidence string before assurance. Revision injects the mode and activity identifiers deterministically after validation, so do not return either field on activities. Each activity must have an answer expectation, explanation and specific improvement action. Use application or quantitative reasoning only when the supplied knowledge supports it. Keep all examples and contexts subject-authentic. Do not imitate protected exam questions.`,
         payload: input,
       })
-      return normaliseSuccess(execution, (output) => normalisePracticeProviderOutput(output, input.workUnit))
+      return normaliseSuccess(execution, (output) => normalisePracticeProviderOutput(output, input.workUnit, input.requiredTeachingPoints))
     },
 
     async compileAssessmentBlueprint(input) {
