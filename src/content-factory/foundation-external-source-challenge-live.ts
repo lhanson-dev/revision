@@ -45,7 +45,7 @@ type ChallengeFinding = FoundationExternalSourceChallengeReport['findings'][numb
 type SourceUniverseRequirement = (typeof AQA_A_LEVEL_BUSINESS_7132_2027_SOURCE_UNIVERSE)[number]
 
 function artifactByRef(
-  candidate: FoundationCandidate,
+  _candidate: FoundationCandidate,
   artifacts: ResolvedArtifact[],
   artifactKind: z.infer<typeof foundationReviewableArtifactKindSchema>,
   artifactRef: string,
