@@ -2,19 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
-import {
-  generateFoundationInternalLearningAssets,
-} from './foundation-internal-learning-assets'
-import {
-  computeFoundationFingerprint,
-} from './foundation-lifecycle'
-import {
-  foundationCandidateSchema,
-  foundationJobSchema,
-} from './foundation-schema'
-import {
-  getFoundationDerivedAssetReleaseProblems,
-} from './foundation-derived-asset'
+import { getFoundationDerivedAssetReleaseProblems } from './foundation-derived-asset'
+import { generateFoundationInternalLearningAssets } from './foundation-internal-learning-assets'
+import { computeFoundationFingerprint } from './foundation-lifecycle'
+import { foundationCandidateSchema, foundationJobSchema } from './foundation-schema'
 import { createOpenAIModelAssistedWorkers } from './openai-live-adapter'
 import { courseKnowledgeModelSchema } from './schema'
 
@@ -57,7 +48,7 @@ const aiAssuredProofSchema = z.object({
   jobId: nonEmptyStringSchema,
   candidateId: nonEmptyStringSchema,
   sourceProof: z.object({
-    workflowRunId: nonEmptyStringSchema,
+    workflowRunId: z.number().int().positive(),
     artifactName: nonEmptyStringSchema,
     artifactDigest: nonEmptyStringSchema,
     contentHeadSha: commitShaSchema,
@@ -121,7 +112,9 @@ async function addIssueComment(repo: string, token: string, issueNumber: number,
     headers: githubHeaders(token),
     body: JSON.stringify({ body }),
   })
-  if (!response.ok) throw new Error(`GitHub issue comment failed with HTTP ${response.status}: ${(await response.text()).slice(0, 500)}`)
+  if (!response.ok) {
+    throw new Error(`GitHub issue comment failed with HTTP ${response.status}: ${(await response.text()).slice(0, 500)}`)
+  }
 }
 
 async function readJson(path: string) {
@@ -183,7 +176,7 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
     expect(aiProof.challengeImplementationCommit).toBe(aiAssuredHeadSha)
     expect(aiProof.reviewedCommit).toBe(sourceHeadSha)
     expect(aiProof.foundationFingerprint).toBe(foundationFingerprint)
-    expect(aiProof.sourceProof.workflowRunId).toBe(sourceRunId)
+    expect(String(aiProof.sourceProof.workflowRunId)).toBe(sourceRunId)
     expect(aiProof.sourceProof.artifactName).toBe(sourceArtifactName)
     expect(aiProof.sourceProof.artifactDigest).toBe(sourceArtifactDigest)
     expect(aiProof.sourceProof.contentHeadSha).toBe(sourceHeadSha)
@@ -301,7 +294,10 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
       generationFailure = failureMessage(error)
     }
 
-    const observedUsageCostUsd = Number(generationRuns.reduce((total, run) => total + (run.usageCost ?? 0), 0).toFixed(8))
+    const reportedUsageRuns = generationRuns.filter((run) => typeof run.usageCost === 'number')
+    const reportedFinalResponseUsageCostUsd = Number(
+      reportedUsageRuns.reduce((total, run) => total + (run.usageCost ?? 0), 0).toFixed(8),
+    )
     const evidenceBase = {
       schemaVersion: 1,
       artifactType: 'foundation_internal_learning_live_proof_evidence',
@@ -329,8 +325,13 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
       courseKnowledgeModelFingerprint: candidate.courseKnowledgeModel.fingerprint,
       generationModel,
       generationMaxOutputTokens: maxOutputTokens,
-      configuredMaxSpendUsd: maxSpendUsd,
-      observedUsageCostUsd,
+      configuredHardSpendCeilingUsd: maxSpendUsd,
+      costTelemetry: {
+        reportedFinalResponseUsageCostUsd,
+        reportedUsageRunCount: reportedUsageRuns.length,
+        generationRunCount: generationRuns.length,
+        note: 'Final-response usageCost values are retained where the provider reports them. This sum is not retry-complete total spend; the provider client separately enforces the configured hard spend ceiling before starting calls.',
+      },
       generationRuns,
       humanReviewStatus: 'pending' as const,
       foundationApprovalStatus: 'not_approved' as const,
@@ -354,7 +355,8 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
         `- Foundation fingerprint: \`${foundationFingerprint}\``,
         `- Generation implementation: \`${implementationCommit}\``,
         `- Generation calls attempted: **${generationRuns.length}**`,
-        `- Observed provider spend: **$${observedUsageCostUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
+        `- Hard provider spend ceiling: **$${maxSpendUsd.toFixed(2)}**`,
+        `- Reported final-response usage cost: **$${reportedFinalResponseUsageCostUsd.toFixed(4)}** across **${reportedUsageRuns.length}** runs (not retry-complete total spend)`,
         `- Failure: \`${generationFailure ?? 'unknown_generation_failure'}\``,
         '',
         'No generated asset has been marked assured or publication-eligible.',
@@ -394,7 +396,8 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
       `- Practice outputs: **${bundle.workUnits.length}**`,
       `- Fresh generation contexts: **${bundle.generationContextIds.length}**`,
       `- Provider calls: **${generationRuns.length}**`,
-      `- Observed provider spend: **$${observedUsageCostUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
+      `- Hard provider spend ceiling: **$${maxSpendUsd.toFixed(2)}**`,
+      `- Reported final-response usage cost: **$${reportedFinalResponseUsageCostUsd.toFixed(4)}** across **${reportedUsageRuns.length}** runs (not retry-complete total spend)`,
       `- Learn asset assurance: \`${bundle.learnAsset.assuranceStatus}\``,
       `- Practice asset assurance: \`${bundle.practiceAsset.assuranceStatus}\``,
       `- Qualified-human Foundation review: \`pending\``,
@@ -411,8 +414,6 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
     expect(generationRuns).toHaveLength(bundle.workUnits.length * 2)
     expect(generationRuns.every((run) => run.status === 'success')).toBe(true)
     expect(generationRuns.every((run) => run.provider === 'openai' && run.model === generationModel)).toBe(true)
-    expect(generationRuns.every((run) => typeof run.usageCost === 'number')).toBe(true)
-    expect(observedUsageCostUsd).toBeLessThanOrEqual(maxSpendUsd)
     expect(contextCollisions).toEqual([])
     expect(bundle.learnAsset.assuranceStatus).toBe('pending')
     expect(bundle.practiceAsset.assuranceStatus).toBe('pending')
