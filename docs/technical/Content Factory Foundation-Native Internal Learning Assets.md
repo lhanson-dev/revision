@@ -46,7 +46,13 @@ The model is not allowed to decide whether governed curriculum requirements shou
 
 Awarding-body source prose is not supplied.
 
-Each returned Learn/Practice output must provide auditable teaching-point evidence. The evidence validator proves every assigned teaching point is represented by an exact excerpt from generated learner content.
+Each returned Learn/Practice output must provide auditable teaching-point evidence. The provider-facing structured-output contract constrains `coverageEvidence` to the exact number of required teaching points and only permits the exact governed teaching-point strings supplied for that work unit. Revision then resolves each structured evidence location into generated learner text, and the downstream evidence validator remains the final deterministic proof that every assigned teaching point is represented exactly as required.
+
+### Retained proof #3 contract finding
+
+The retained Business proof run `35458295457` reached real Learn/Practice generation and correctly fail-held on the `Management and Leadership` Learn work unit after the provider returned structurally valid output that did not evidence the exact governed teaching point. Eleven generation calls had been made at that point; the retained failure evidence reports `$0.191054` of final-response usage cost, which is not represented as retry-complete total spend.
+
+The failure exposed implementation drift between the worker instruction and the structured provider schema: the instruction required every teaching point exactly once, while the schema previously required only a non-empty evidence array. The repair binds evidence cardinality and allowed teaching-point labels directly into the strict provider schema for both Learn and Practice. The existing downstream exact teaching-point validator is unchanged and remains fail-closed. The failed run remains historical evidence and is not rewritten.
 
 ## Provenance and state
 
@@ -112,4 +118,4 @@ The existing `assertFoundationDerivedAssetReleaseEligible` guard remains the rel
 
 ## Documentation impact
 
-ADR-0025 records the architecture choice. The retained proof workflow operationalises that existing decision and does not change normative Content Factory authority. `INDEX.md` points to this implementation contract and the ADR-0025 decision history.
+ADR-0025 records the architecture choice. The retained proof workflow operationalises that existing decision and does not change normative Content Factory authority. This implementation record retains the proof #3 failure and the provider-contract hardening that follows from it; no normative authority or ADR change is required. `INDEX.md` points to this implementation contract and the ADR-0025 decision history.
