@@ -40,6 +40,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
+- Content Factory AI-assured Foundation lifecycle / pre-production asset and release gate → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
@@ -57,7 +58,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0022-foundation-precalibration-assessment-assembly.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0024-ai-assured-foundation-preproduction-gate.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -122,6 +123,7 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
+- Current Content Factory AI-assured Foundation sequencing amendment → `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`
 - Earlier Content Factory orchestration controls / legacy sequencing → `80-company-workflows/Content Factory Operating Model.md`
 - Content Factory reliability qualification / legacy end-to-end proof controls → `80-company-workflows/Content Factory Reliability Qualification Standard.md`
 - Content Factory v2 automated course build / legacy expert-review-ready sequencing → `80-company-workflows/Content Factory v2 Expert Review Ready Amendment.md`
@@ -161,6 +163,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory current staged target / migration plan → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
+- Content Factory AI-assured Foundation runtime / pre-production release boundary → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`

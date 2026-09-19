@@ -11,11 +11,16 @@ import {
   type FoundationState,
   type FoundationWorkingState,
 } from './foundation-schema'
+import {
+  validateFoundationExternalSourceChallenge,
+  type FoundationExternalSourceChallengeReport,
+} from './foundation-external-source-challenge'
 
 const transitionMap: Record<FoundationState, readonly FoundationState[]> = {
   requested: ['compiling', 'superseded'],
   compiling: ['assuring', 'superseded'],
-  assuring: ['expert_review', 'superseded'],
+  assuring: ['ai_assured', 'superseded'],
+  ai_assured: ['expert_review', 'superseded'],
   expert_review: ['foundation_approved', 'superseded'],
   foundation_approved: ['superseded'],
   blocked: ['superseded'],
@@ -26,18 +31,27 @@ function unresolvedOperationalBlockers(job: FoundationJob) {
   return job.blockers.filter((blocker) => !blocker.resolvedAt)
 }
 
-function candidateApprovalProblems(candidate: FoundationCandidate) {
+function candidateAiAssuranceProblems(candidate: FoundationCandidate) {
   return [
     candidate.deterministicAssurance.status !== 'pass'
-      ? 'Deterministic Foundation assurance must pass before expert approval'
+      ? 'Deterministic Foundation assurance must pass before AI assurance'
       : null,
     candidate.independentReview.status !== 'pass'
-      ? 'Independent Foundation review must pass before expert approval'
+      ? 'Independent Foundation review must pass before AI assurance'
+      : null,
+    candidate.externalSourceChallenge?.decision !== 'pass'
+      ? 'Fresh external-source challenge must pass before AI assurance'
       : null,
     candidate.unresolvedBlockers.length > 0
       ? 'Foundation Candidate has unresolved blockers'
       : null,
   ].filter((problem): problem is string => Boolean(problem))
+}
+
+function candidateApprovalProblems(candidate: FoundationCandidate) {
+  return [
+    ...candidateAiAssuranceProblems(candidate),
+  ]
 }
 
 function canonicalJson(value: unknown): string {
@@ -118,6 +132,7 @@ export function setFoundationCandidate(
       ...candidate,
       deterministicAssurance: { status: 'pending', evidenceRefs: [] },
       independentReview: { status: 'pending', evidenceRefs: [] },
+      externalSourceChallenge: undefined,
     },
     updatedAt,
   })
@@ -189,6 +204,60 @@ export async function recordIndependentFoundationReview(
   })
 }
 
+export async function recordFoundationExternalSourceChallenge(
+  jobInput: FoundationJob,
+  input: {
+    report: unknown
+    requiredSourceUniverseProfileId: string
+    requiredSourceIds: string[]
+  },
+  updatedAt: string,
+): Promise<FoundationJob> {
+  const job = foundationJobSchema.parse(jobInput)
+  if (job.state !== 'assuring' || !job.candidate) {
+    throw new Error('External-source challenge may be recorded only while assuring')
+  }
+  if (unresolvedOperationalBlockers(job).length > 0) {
+    throw new Error('Resolve all Foundation job blockers before recording external-source challenge evidence')
+  }
+  if (!input.requiredSourceUniverseProfileId) {
+    throw new Error('External-source challenge requires the governed source-universe profile')
+  }
+  if (!Array.isArray(input.requiredSourceIds) || input.requiredSourceIds.length === 0) {
+    throw new Error('External-source challenge requires the governed source-universe source list')
+  }
+
+  const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
+  const reviewedCommit = job.candidate.provenance.implementationHeadSha
+  if (!reviewedCommit) {
+    throw new Error('External-source challenge requires the Candidate implementation commit')
+  }
+
+  const report = validateFoundationExternalSourceChallenge({
+    report: input.report,
+    jobId: job.jobId,
+    candidateId: job.candidate.candidateId,
+    reviewedCommit,
+    foundationFingerprint,
+    requiredSourceUniverseProfileId: input.requiredSourceUniverseProfileId,
+    requiredSourceIds: input.requiredSourceIds,
+    forbiddenContextIds: [
+      ...job.candidate.provenance.generationContextIds,
+      ...job.candidate.provenance.assuranceContextIds,
+    ],
+    requirePass: false,
+  })
+
+  return foundationJobSchema.parse({
+    ...job,
+    candidate: {
+      ...job.candidate,
+      externalSourceChallenge: report,
+    },
+    updatedAt,
+  })
+}
+
 export function getFoundationTransitionProblems(
   jobInput: FoundationJob,
   target: FoundationState,
@@ -208,9 +277,13 @@ export function getFoundationTransitionProblems(
   switch (target) {
     case 'assuring':
       return job.candidate ? [] : ['A complete Foundation Candidate is required before assurance']
+    case 'ai_assured':
+      return job.candidate
+        ? candidateAiAssuranceProblems(job.candidate)
+        : ['A complete Foundation Candidate is required before AI assurance']
     case 'expert_review':
       return job.candidate
-        ? candidateApprovalProblems(job.candidate)
+        ? candidateAiAssuranceProblems(job.candidate)
         : ['A complete Foundation Candidate is required before expert review']
     case 'foundation_approved':
       return ['Use approveFoundation to enter foundation_approved with exact approval evidence']
@@ -219,9 +292,38 @@ export function getFoundationTransitionProblems(
   }
 }
 
+export async function markFoundationAiAssured(
+  jobInput: FoundationJob,
+  updatedAt: string,
+): Promise<FoundationJob> {
+  const job = foundationJobSchema.parse(jobInput)
+  if (job.state !== 'assuring' || !job.candidate) {
+    throw new Error('AI assurance is allowed only from assuring with a complete Foundation Candidate')
+  }
+  const problems = getFoundationTransitionProblems(job, 'ai_assured')
+  if (problems.length > 0) throw new Error(problems.join('; '))
+
+  const foundationFingerprint = await computeFoundationFingerprint(job.candidate)
+  if (job.candidate.deterministicAssurance.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('Deterministic Foundation assurance is stale for the current Foundation fingerprint')
+  }
+  if (job.candidate.independentReview.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('Independent Foundation review is stale for the current Foundation fingerprint')
+  }
+  if (job.candidate.externalSourceChallenge?.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('External-source challenge is stale for the current Foundation fingerprint')
+  }
+
+  return foundationJobSchema.parse({
+    ...job,
+    state: 'ai_assured',
+    updatedAt,
+  })
+}
+
 export function advanceFoundationJob(
   jobInput: FoundationJob,
-  target: Exclude<FoundationState, 'foundation_approved' | 'blocked'>,
+  target: Exclude<FoundationState, 'foundation_approved' | 'blocked' | 'ai_assured'>,
   updatedAt: string,
 ): FoundationJob {
   const job = foundationJobSchema.parse(jobInput)
@@ -241,7 +343,7 @@ export function blockFoundationJob(
   blocker: { id: string; reason: string; createdAt: string },
 ): FoundationJob {
   const job = foundationJobSchema.parse(jobInput)
-  if (!['requested', 'compiling', 'assuring', 'expert_review'].includes(job.state)) {
+  if (!['requested', 'compiling', 'assuring', 'ai_assured', 'expert_review'].includes(job.state)) {
     throw new Error(`Foundation state ${job.state} cannot be blocked`)
   }
 
@@ -324,6 +426,9 @@ export async function approveFoundation(
   if (job.candidate.independentReview.foundationFingerprint !== foundationFingerprint) {
     throw new Error('Independent Foundation review is stale for the current Foundation fingerprint')
   }
+  if (job.candidate.externalSourceChallenge?.foundationFingerprint !== foundationFingerprint) {
+    throw new Error('External-source challenge is stale for the current Foundation fingerprint')
+  }
   if (input.approval.foundationFingerprint !== foundationFingerprint) {
     throw new Error('Qualified approval evidence does not match the exact current Foundation fingerprint')
   }
@@ -368,6 +473,10 @@ export async function assertApprovedFoundationIntegrity(foundationInput: Approve
   if (foundation.candidate.independentReview.foundationFingerprint !== expectedFingerprint) {
     throw new Error('Approved Course Foundation contains stale independent review evidence')
   }
+  if (foundation.candidate.externalSourceChallenge
+    && foundation.candidate.externalSourceChallenge.foundationFingerprint !== expectedFingerprint) {
+    throw new Error('Approved Course Foundation contains stale external-source challenge evidence')
+  }
   if (foundation.approval.foundationFingerprint !== expectedFingerprint) {
     throw new Error('Approved Course Foundation contains approval evidence for a different fingerprint')
   }
@@ -396,3 +505,5 @@ export function assertFoundationVersionInvariant(
     throw new Error('Changed Foundation inputs require a newer foundationVersion')
   }
 }
+
+export type RecordedFoundationExternalSourceChallenge = FoundationExternalSourceChallengeReport

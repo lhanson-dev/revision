@@ -1,8 +1,8 @@
 # Content Factory AI-Assured Foundation Gate Amendment
 
-**Status:** Proposed — Founder approval required through PR #343
-**Date:** 17 September 2026
-**Amends:** `Content Factory Foundation and Asset Production Model.md`
+**Status:** Active — Founder-approved via PR #343  
+**Decision date:** 18 September 2026  
+**Amends:** `Content Factory Foundation and Asset Production Model.md`  
 **Decision record:** `decisions/ADR-0024-ai-assured-foundation-preproduction-gate.md`
 
 ## Purpose
@@ -37,7 +37,7 @@ If qualified-human review changes material Foundation truth, the corrected Candi
 
 ## Lifecycle amendment
 
-The target Foundation lifecycle becomes:
+The Foundation lifecycle is:
 
 `requested → compiling → assuring → ai_assured → expert_review → foundation_approved`
 
@@ -45,10 +45,10 @@ The target Foundation lifecycle becomes:
 
 ## Historical evidence and rollout
 
-Do not rewrite historical proof, review, challenge or `fail_hold` records. Existing historical AI PASS evidence must not automatically be relabelled `ai_assured`. The current runtime must first implement and validate the new exact-state contract, or a fresh proof must establish it.
+Do not rewrite historical proof, review, challenge or `fail_hold` records. Existing historical AI PASS evidence must not automatically be relabelled `ai_assured`. A Candidate may acquire the new state only through runtime evidence that satisfies the exact-state contract or through a fresh proof under that contract.
 
-The released runtime remains implementation truth until schema, lifecycle, orchestration, fingerprint binding, release guards and tests are changed and proved.
+Implementation truth remains governed by code and current technical documentation. Historical records that pre-date this amendment remain readable as history without retrospective promotion to `ai_assured`.
 
 ## Documentation impact
 
-This targeted amendment changes only the sequencing/gate clauses described above. The parent authority and its detailed existing content remain intact. ADR-0024 records the decision and `docs/technical/Content Factory AI-Assured Foundation Gate.md` defines the target implementation contract. Historical technical documents are preserved unchanged until the runtime implementation slice lands.
+This targeted amendment changes only the sequencing/gate clauses described above. The parent authority and its detailed existing content remain intact. ADR-0024 records the decision and `docs/technical/Content Factory AI-Assured Foundation Gate.md` defines the runtime contract. Historical technical documents remain historically accurate rather than being rewritten.
