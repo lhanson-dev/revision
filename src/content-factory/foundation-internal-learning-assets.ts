@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
 import {
+  courseLearningNodePlanSchema,
+  deriveCourseLearningNodePlan,
+} from './course-learning-blueprint'
+import {
   createFoundationDerivedAsset,
   foundationDerivedAssetSchema,
 } from './foundation-derived-asset'
@@ -22,6 +26,8 @@ export const foundationInternalLearningWorkUnitSchema = executableLearningWorkUn
   revisionArea: nonEmptyStringSchema,
   sourceRefs: z.array(identifierSchema).min(1),
   requiredTeachingPoints: z.array(nonEmptyStringSchema).min(1),
+  planningModel: z.enum(['legacy_v1', 'course_learning_blueprint_v1']).default('legacy_v1'),
+  nodePlans: z.array(courseLearningNodePlanSchema).default([]),
 })
 
 export const foundationInternalLearningAssetBundleSchema = z.object({
@@ -78,7 +84,7 @@ function slug(value: string) {
     .replace(/^-+|-+$/g, '')
 }
 
-function unique(values: string[]) {
+function unique<T extends string>(values: T[]) {
   return [...new Set(values)]
 }
 
@@ -129,6 +135,7 @@ export function planFoundationInternalLearningWorkUnits(input: {
   return [...groups.entries()].map(([revisionArea, requirements], index) => {
     const nodeIds = unique(requirements.flatMap((requirement) => requirement.knowledgeNodeIds))
     const nodes = nodeIds.map((id) => nodeMap.get(id)!)
+    const nodePlans = nodes.map((node) => deriveCourseLearningNodePlan(node))
     const baseId = slug(revisionArea) || `revision-area-${index + 1}`
     let id = `foundation-${baseId}`
     let suffix = 2
@@ -138,14 +145,14 @@ export function planFoundationInternalLearningWorkUnits(input: {
     }
     usedIds.add(id)
 
-    const modes: Array<'explanation' | 'worked_example' | 'retrieval' | 'application' | 'quantitative'> = [
+    const modes: Array<'explanation' | 'worked_example' | 'retrieval' | 'short_answer' | 'application' | 'quantitative'> = [
       'explanation',
       'retrieval',
     ]
-    if (nodes.some((node) => node.formulas.length > 0)) {
-      modes.push('worked_example', 'quantitative')
+    if (nodePlans.some((plan) => plan.learnTreatments.includes('worked_example') || plan.learnTreatments.includes('procedure_modelling'))) {
+      modes.push('worked_example')
     }
-    if (nodes.some((node) => node.applicationContexts.length > 0)) modes.push('application')
+    for (const plan of nodePlans) modes.push(...plan.practiceModes)
 
     return foundationInternalLearningWorkUnitSchema.parse({
       id,
@@ -161,7 +168,12 @@ export function planFoundationInternalLearningWorkUnits(input: {
         ...requirements.flatMap((requirement) => requirement.sourceRefs),
         ...nodes.flatMap((node) => node.sourceRefs),
       ]),
-      requiredTeachingPoints: unique(requirements.flatMap((requirement) => requirement.skillsOrKnowledge)),
+      requiredTeachingPoints: unique([
+        ...requirements.flatMap((requirement) => requirement.skillsOrKnowledge),
+        ...nodePlans.flatMap((plan) => plan.requiredTeachingPoints),
+      ]),
+      planningModel: 'course_learning_blueprint_v1',
+      nodePlans,
     })
   })
 }
