@@ -135,16 +135,17 @@ function generationWorkers(): Pick<LearningPracticeWorkers, 'generateLearningCol
     async generateLearningCollateral(input) {
       context += 1
       const points = input.requiredTeachingPoints
+      const misconceptionPoints = points.filter((point) => point.startsWith('Misconception to diagnose and repair ['))
       return {
         status: 'success',
         output: {
           title: input.workUnit.title,
           introduction: points.join(' '),
-          sections: [{ id: 'section-1', title: 'Explanation', explanation: points.join(' '), keyPoints: points }],
-          workedExamples: [{ id: 'worked-1', title: 'Worked example', setup: points.join(' '), steps: ['Apply the formula correctly.'], conclusion: 'Interpret the result.' }],
-          misconceptions: [],
+          sections: [{ id: 'section-1', title: 'Explanation', explanation: points[0], keyPoints: points }],
+          workedExamples: [{ id: 'worked-1', title: 'Worked example', setup: points[0], steps: points, conclusion: points.at(-1) ?? points[0] }],
+          misconceptions: misconceptionPoints.map((point, index) => ({ misconception: `Fixture misconception ${index + 1}`, correction: point })),
           nextAction: 'Practise the same knowledge.',
-          coverageEvidence: points.map((teachingPoint) => ({ teachingPoint, evidence: points.join(' ') })),
+          coverageEvidence: points.map((teachingPoint) => ({ teachingPoint, evidence: teachingPoint })),
         },
         provenance: { id: `learn-run-${context}`, contextId: `learn-context-${context}`, contractVersion: '4', provider: 'test', model: 'fixture', retryCount: 0 },
       }
@@ -158,15 +159,15 @@ function generationWorkers(): Pick<LearningPracticeWorkers, 'generateLearningCol
         output: {
           title: input.workUnit.title,
           instructions: 'Complete each activity.',
-          activities: modes.map((mode, index) => ({
-            id: `activity-${index + 1}`,
+          activities: modes.flatMap((mode, modeIndex) => points.map((point, pointIndex) => ({
+            id: `activity-${modeIndex + 1}-${pointIndex + 1}`,
             mode,
-            prompt: points.join(' '),
-            expectedResponse: points.join(' '),
-            explanation: points.join(' '),
+            prompt: `Demonstrate ${point}`,
+            expectedResponse: point,
+            explanation: point,
             improvementAction: 'Revisit the explanation.',
-          })),
-          coverageEvidence: points.map((teachingPoint) => ({ teachingPoint, evidence: points.join(' ') })),
+          }))),
+          coverageEvidence: points.map((teachingPoint) => ({ teachingPoint, evidence: teachingPoint })),
         },
         provenance: { id: `practice-run-${context}`, contextId: `practice-context-${context}`, contractVersion: '4', provider: 'test', model: 'fixture', retryCount: 0 },
       }
