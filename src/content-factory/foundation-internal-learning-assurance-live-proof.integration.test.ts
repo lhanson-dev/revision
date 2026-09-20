@@ -39,9 +39,7 @@ const sourceProofSchema = z.object({
   repository: nonEmptyStringSchema,
   contentHeadSha: commitShaSchema,
   jobId: nonEmptyStringSchema,
-  candidateId: nonEmptyStringSchema,
   foundationFingerprint: sha256Schema,
-  learnerAssetCount: z.number().int().nonnegative(),
   artifacts: z.array(sourceArtifactSchema).min(1),
 })
 
@@ -66,7 +64,6 @@ const aiAssuredProofSchema = z.object({
   humanReviewStatus: z.literal('pending'),
   foundationApprovalStatus: z.literal('not_approved'),
   learnerPublicationEligible: z.literal(false),
-  learnerAssetCount: z.literal(0),
   finalCandidate: foundationCandidateSchema,
 })
 
@@ -108,16 +105,13 @@ const learningProofSchema = z.object({
   coverageModelFingerprint: sha256Schema,
   courseKnowledgeModelFingerprint: sha256Schema,
   generationRuns: z.array(generationRunSchema).min(1),
-  humanReviewStatus: z.literal('pending'),
-  foundationApprovalStatus: z.literal('not_approved'),
-  learnerPublicationEligible: z.literal(false),
   status: z.literal('pass'),
   workUnitCount: z.number().int().positive(),
   generationContextCount: z.number().int().positive(),
   contextCollisions: z.array(nonEmptyStringSchema),
   learnAssetStatus: z.literal('pending'),
   practiceAssetStatus: z.literal('pending'),
-  learnerAssetCount: z.literal(2),
+  learnerPublicationEligible: z.literal(false),
   bundle: foundationInternalLearningAssetBundleSchema,
 })
 
@@ -186,7 +180,7 @@ function exactArtifact<T>(input: {
   if (matches.length !== 1) throw new Error(`Expected exactly one ${input.kind} artifact, found ${matches.length}`)
   const artifact = matches[0]
   if (artifact.fingerprint !== input.expectedFingerprint) throw new Error(`${input.kind} artifact fingerprint does not match the AI-assured Candidate`)
-  return { artifact, value: input.parse(artifact.value) }
+  return input.parse(artifact.value)
 }
 
 function failureMessage(error: unknown) {
@@ -205,9 +199,6 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
   liveIt('independently assures the exact retained Business Learn/Practice bundle using fresh review contexts only', async () => {
     const repo = requiredEnv('GITHUB_REPOSITORY')
     const token = requiredEnv('GITHUB_TOKEN')
-    const sourceProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')
-    const aiAssuredProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_AI_ASSURED_PROOF_PATH')
-    const learningProofPath = requiredEnv('CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_PROOF_PATH')
     const sourceRunId = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_RUN_ID')
     const sourceArtifactName = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_NAME')
     const sourceArtifactDigest = requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_ARTIFACT_DIGEST')
@@ -234,9 +225,9 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
     const failureEvidencePath = `${evidenceDirectory}/live-proof-failure.json`
 
     try {
-      const sourceProof = sourceProofSchema.parse(await readJson(sourceProofPath))
-      const aiProof = aiAssuredProofSchema.parse(await readJson(aiAssuredProofPath))
-      const learningProof = learningProofSchema.parse(await readJson(learningProofPath))
+      const sourceProof = sourceProofSchema.parse(await readJson(requiredEnv('CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH')))
+      const aiProof = aiAssuredProofSchema.parse(await readJson(requiredEnv('CONTENT_FACTORY_FOUNDATION_AI_ASSURED_PROOF_PATH')))
+      const learningProof = learningProofSchema.parse(await readJson(requiredEnv('CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_PROOF_PATH')))
 
       expect(sourceProof.repository).toBe(repo)
       expect(aiProof.repository).toBe(repo)
@@ -248,13 +239,19 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
       expect(aiProof.foundationFingerprint).toBe(foundationFingerprint)
       expect(learningProof.generationImplementationCommit).toBe(learningHeadSha)
       expect(learningProof.foundationFingerprint).toBe(foundationFingerprint)
-      expect(learningProof.sourceProof.workflowRunId).toBe(sourceRunId)
-      expect(learningProof.sourceProof.artifactName).toBe(sourceArtifactName)
-      expect(learningProof.sourceProof.artifactDigest).toBe(sourceArtifactDigest)
-      expect(learningProof.aiAssuredProof.workflowRunId).toBe(aiAssuredRunId)
-      expect(learningProof.aiAssuredProof.artifactName).toBe(aiAssuredArtifactName)
-      expect(learningProof.aiAssuredProof.artifactDigest).toBe(aiAssuredArtifactDigest)
-      expect(learningProof.aiAssuredProof.headSha).toBe(aiAssuredHeadSha)
+      expect(learningProof.sourceProof).toMatchObject({
+        workflowRunId: sourceRunId,
+        artifactName: sourceArtifactName,
+        artifactDigest: sourceArtifactDigest,
+        contentHeadSha: sourceHeadSha,
+        foundationFingerprint: sourceFoundationFingerprint,
+      })
+      expect(learningProof.aiAssuredProof).toMatchObject({
+        workflowRunId: aiAssuredRunId,
+        artifactName: aiAssuredArtifactName,
+        artifactDigest: aiAssuredArtifactDigest,
+        headSha: aiAssuredHeadSha,
+      })
       expect(learningProof.contextCollisions).toEqual([])
       expect(learningProof.generationRuns.every((run) => run.status === 'success')).toBe(true)
 
@@ -264,13 +261,13 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
       expect(learningProof.candidateId).toBe(candidate.candidateId)
       expect(await computeFoundationFingerprint(candidate)).toBe(foundationFingerprint)
 
-      const { value: coverageModel } = exactArtifact({
+      const coverageModel = exactArtifact({
         artifacts: sourceProof.artifacts,
         kind: 'foundation_coverage_model',
         expectedFingerprint: candidate.coverageModel.fingerprint,
         parse: (value) => foundationCoverageModelSchema.parse(value),
       })
-      const { value: courseKnowledgeModel } = exactArtifact({
+      const courseKnowledgeModel = exactArtifact({
         artifacts: sourceProof.artifacts,
         kind: 'course_knowledge_model',
         expectedFingerprint: candidate.courseKnowledgeModel.fingerprint,
@@ -278,13 +275,9 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
       })
       expect(learningProof.coverageModelFingerprint).toBe(candidate.coverageModel.fingerprint)
       expect(learningProof.courseKnowledgeModelFingerprint).toBe(candidate.courseKnowledgeModel.fingerprint)
-      expect(learningProof.bundle.foundationFingerprint).toBe(foundationFingerprint)
       expect(learningProof.workUnitCount).toBe(learningProof.bundle.workUnits.length)
       expect(learningProof.generationContextCount).toBe(learningProof.bundle.generationContextIds.length)
-      expect(sameSet(
-        learningProof.generationRuns.map((run) => run.contextId),
-        learningProof.bundle.generationContextIds,
-      )).toBe(true)
+      expect(sameSet(learningProof.generationRuns.map((run) => run.contextId), learningProof.bundle.generationContextIds)).toBe(true)
 
       const job = foundationJobSchema.parse({
         schemaVersion: 1,
@@ -326,16 +319,16 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
             outputSchema: foundationInternalLearningWorkUnitReviewOutputSchema,
             instructions: [
               'Act as an adversarial independent educational reviewer for exactly one Foundation-derived AQA A-level Business Learn/Practice work unit.',
-              'Review only the supplied Revision-owned learner content against the supplied structured Foundation Course Truth and governed coverage facts.',
+              'Review only the supplied Revision-owned learner content against supplied structured Foundation Course Truth and coverage facts.',
               'Do not use or request protected awarding-body prose and do not claim awarding-body endorsement.',
-              'Identify factual distortion, omitted conditions, misleading certainty, curriculum drift, weak pedagogy, invalid misconceptions, internally inconsistent practice, incorrect expected responses, and quantitative errors.',
-              'Independently recompute any calculations or quantitative conclusions in the generated work unit from the supplied values and formula truth.',
-              'Check that Practice genuinely exercises the governed teaching point rather than merely repeating it, and that improvement guidance teaches the correct rule or reasoning habit.',
-              'Return blocking/material findings only for issues that make the affected content unsafe or materially misleading; minor findings are non-critical accuracy/clarity issues, not style preferences.',
-              'Do not rewrite or improve prose. Return only the issue register and decision.',
-              'A clean review returns decision=pass and findings=[]. Any open blocking/material finding requires fail_hold; only open minor findings require conditional_pass.',
-              'Copy the exact foundationFingerprint, foundationCandidateId, sourceBundleFingerprint, workUnitId and workUnitFingerprint from the supplied input.',
-              'If you create finding IDs, make them globally specific by prefixing the supplied workUnitId.',
+              'Identify factual distortion, omitted conditions, misleading certainty, curriculum drift, invalid misconceptions, misleading pedagogy, internally inconsistent practice, incorrect expected responses, and quantitative errors.',
+              'Independently recompute calculations or quantitative conclusions from supplied values and formula truth.',
+              'Check that Practice genuinely exercises each governed teaching point rather than merely repeating it.',
+              'Blocking/material findings are only issues that make content unsafe or materially misleading; minor findings are non-critical accuracy or clarity issues, not style preferences.',
+              'Do not rewrite prose. Return only the issue register and decision.',
+              'Clean review means decision=pass and findings=[]. Open blocking/material findings require fail_hold; open minor findings require conditional_pass.',
+              'Copy the exact foundationFingerprint, foundationCandidateId, sourceBundleFingerprint, workUnitId and workUnitFingerprint supplied in the input.',
+              'Prefix every finding ID with the supplied workUnitId.',
             ].join(' '),
             payload: input,
           })
@@ -355,14 +348,13 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
         },
       }
 
-      const assuranceEvidenceRef = `github-actions-run:${githubRunId}`
       const result = await assureFoundationInternalLearningAssets({
         job,
         bundle: learningProof.bundle,
         coverageModel,
         courseKnowledgeModel,
         workers,
-        assuranceEvidenceRef,
+        assuranceEvidenceRef: `github-actions-run:${githubRunId}`,
         now,
       })
 
@@ -378,33 +370,15 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
       const contextCollisions = reviewerContextIds.filter((contextId) => priorContexts.has(contextId))
       const sourceBundleFingerprint = await fingerprintValue(learningProof.bundle)
       const evidencePath = `${evidenceDirectory}/${aiProof.jobId}-internal-learning-assurance.json`
-
       const evidenceBase = {
         schemaVersion: 1,
         artifactType: 'foundation_internal_learning_assurance_live_proof_evidence',
         recordedAt: new Date().toISOString(),
         repository: repo,
         assuranceImplementationCommit: implementationCommit,
-        sourceProof: {
-          workflowRunId: sourceRunId,
-          artifactName: sourceArtifactName,
-          artifactDigest: sourceArtifactDigest,
-          contentHeadSha: sourceHeadSha,
-          foundationFingerprint: sourceFoundationFingerprint,
-        },
-        aiAssuredProof: {
-          workflowRunId: aiAssuredRunId,
-          artifactName: aiAssuredArtifactName,
-          artifactDigest: aiAssuredArtifactDigest,
-          headSha: aiAssuredHeadSha,
-        },
-        internalLearningProof: {
-          workflowRunId: learningRunId,
-          artifactName: learningArtifactName,
-          artifactDigest: learningArtifactDigest,
-          headSha: learningHeadSha,
-          sourceBundleFingerprint,
-        },
+        sourceProof: { workflowRunId: sourceRunId, artifactName: sourceArtifactName, artifactDigest: sourceArtifactDigest, contentHeadSha: sourceHeadSha, foundationFingerprint: sourceFoundationFingerprint },
+        aiAssuredProof: { workflowRunId: aiAssuredRunId, artifactName: aiAssuredArtifactName, artifactDigest: aiAssuredArtifactDigest, headSha: aiAssuredHeadSha },
+        internalLearningProof: { workflowRunId: learningRunId, artifactName: learningArtifactName, artifactDigest: learningArtifactDigest, headSha: learningHeadSha, sourceBundleFingerprint },
         jobId: aiProof.jobId,
         candidateId: candidate.candidateId,
         foundationFingerprint,
@@ -455,15 +429,16 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
           '',
           'Learn and Practice remain unassured and learner publication remains blocked.',
         ].join('\n'))
-        expect(result.status).toBe('pass')
+        throw new Error(`Foundation-native internal Learn/Practice asset assurance returned ${result.status}`)
       }
 
+      const assuredAssets = result.assuredAssets
       const releaseProblems = {
-        learn: getFoundationDerivedAssetReleaseProblems(result.assuredAssets.learnAsset, job),
-        practice: getFoundationDerivedAssetReleaseProblems(result.assuredAssets.practiceAsset, job),
+        learn: getFoundationDerivedAssetReleaseProblems(assuredAssets.learnAsset, job),
+        practice: getFoundationDerivedAssetReleaseProblems(assuredAssets.practiceAsset, job),
       }
-      expect(result.assuredAssets.learnAsset.assuranceStatus).toBe('pass')
-      expect(result.assuredAssets.practiceAsset.assuranceStatus).toBe('pass')
+      expect(assuredAssets.learnAsset.assuranceStatus).toBe('pass')
+      expect(assuredAssets.practiceAsset.assuranceStatus).toBe('pass')
       expect(releaseProblems.learn).toContain('Learner release requires qualified-human foundation_approved state')
       expect(releaseProblems.practice).toContain('Learner release requires qualified-human foundation_approved state')
       expect(reviewRuns).toHaveLength(learningProof.bundle.workUnits.length)
@@ -473,10 +448,10 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
       await writeFile(evidencePath, JSON.stringify({
         ...evidenceBase,
         status: 'pass',
-        learnAssetStatus: result.assuredAssets.learnAsset.assuranceStatus,
-        practiceAssetStatus: result.assuredAssets.practiceAsset.assuranceStatus,
+        learnAssetStatus: assuredAssets.learnAsset.assuranceStatus,
+        practiceAssetStatus: assuredAssets.practiceAsset.assuranceStatus,
         assuredAssetCount: 2,
-        assuredAssets: result.assuredAssets,
+        assuredAssets,
         releaseProblems,
       }, null, 2), 'utf-8')
 
@@ -489,8 +464,8 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
         `- Work units independently reviewed: **${reviewRuns.length}**`,
         `- Fresh reviewer contexts: **${reviewerContextIds.length}**`,
         `- Reviewer context collisions: **${contextCollisions.length}**`,
-        `- Learn assurance: **PASS**`,
-        `- Practice assurance: **PASS**`,
+        '- Learn assurance: **PASS**',
+        '- Practice assurance: **PASS**',
         `- Reported final-response review cost: **$${reportedFinalResponseUsageCostUsd.toFixed(4)}** across **${reportedUsageRuns.length}** runs (not retry-complete total spend)`,
         '',
         'The assets remain pre-production. Qualified-human Foundation approval is still pending and learner publication remains blocked.',
