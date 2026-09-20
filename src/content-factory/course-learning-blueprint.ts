@@ -136,12 +136,13 @@ function practiceModesFor(node: KnowledgeNode, classifications: CourseLearningCl
 }
 
 function requiredTeachingPointsForNode(node: KnowledgeNode) {
+  const nodeMarker = `[${node.id}]`
   return unique([
-    `Course Truth: ${node.summary}`,
-    ...node.formulas.map((formula) => `Formula or quantitative procedure: ${formula}`),
-    ...node.misconceptions.map((misconception) => `Misconception to diagnose and repair: ${misconception}`),
-    ...node.applicationContexts.map((context) => `Required application context: ${context}`),
-    ...node.evidenceTypes.map((evidenceType) => `Required evidence demand: ${evidenceType}`),
+    `Course Truth ${nodeMarker}: ${node.summary}`,
+    ...node.formulas.map((formula) => `Formula or quantitative procedure ${nodeMarker}: ${formula}`),
+    ...node.misconceptions.map((misconception) => `Misconception to diagnose and repair ${nodeMarker}: ${misconception}`),
+    ...node.applicationContexts.map((context) => `Required application context ${nodeMarker}: ${context}`),
+    ...node.evidenceTypes.map((evidenceType) => `Required evidence demand ${nodeMarker}: ${evidenceType}`),
   ])
 }
 
