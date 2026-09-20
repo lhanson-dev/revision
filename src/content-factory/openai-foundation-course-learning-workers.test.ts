@@ -27,32 +27,44 @@ const knowledgeNodes = [{
   evidenceTypes: ['quantitative calculation', 'interpretation', 'contextual evaluation'],
 }]
 
+const classifications = [
+  'formula_quantitative' as const,
+  'procedure_skill' as const,
+  'application_context' as const,
+  'evaluation_judgement' as const,
+  'misconception_risk' as const,
+]
+
+const learnTreatments = [
+  'core_explanation' as const,
+  'worked_example' as const,
+  'guided_example' as const,
+  'example_non_example' as const,
+  'self_explanation_prompt' as const,
+  'misconception_repair' as const,
+]
+
+const practiceCapabilities = [
+  'retrieval' as const,
+  'calculation' as const,
+  'interpretation' as const,
+  'procedure_execution' as const,
+  'contextual_application' as const,
+  'contextual_judgement' as const,
+  'misconception_diagnostic' as const,
+]
+
 const learningDesign = {
   schemaVersion: 1 as const,
-  classifications: [
-    'formula_quantitative' as const,
-    'procedure_skill' as const,
-    'application_context' as const,
-    'evaluation_judgement' as const,
-    'misconception_risk' as const,
-  ],
-  learnTreatments: [
-    'core_explanation' as const,
-    'worked_example' as const,
-    'guided_example' as const,
-    'example_non_example' as const,
-    'self_explanation_prompt' as const,
-    'misconception_repair' as const,
-  ],
-  practiceCapabilities: [
-    'retrieval' as const,
-    'calculation' as const,
-    'interpretation' as const,
-    'procedure_execution' as const,
-    'contextual_application' as const,
-    'contextual_judgement' as const,
-    'misconception_diagnostic' as const,
-  ],
+  nodes: [{
+    nodeId: 'quantitative-decision',
+    classifications,
+    learnTreatments,
+    practiceCapabilities,
+  }],
+  classifications,
+  learnTreatments,
+  practiceCapabilities,
   sourceNodeIds: ['quantitative-decision'],
 }
 
@@ -260,13 +272,20 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
       fetchImpl,
       maxRetries: 0,
     })
+    const badLearnTreatments = ['core_explanation' as const]
+    const badPracticeCapabilities = ['retrieval' as const, 'construction' as const, 'contextual_application' as const]
     const badWorkUnit = {
       ...workUnit,
       learningModes: [...(['explanation', 'retrieval', 'short_answer', 'application'] as const)],
       learningDesign: {
         ...learningDesign,
-        learnTreatments: ['core_explanation' as const],
-        practiceCapabilities: ['retrieval' as const, 'construction' as const, 'contextual_application' as const],
+        nodes: [{
+          ...learningDesign.nodes[0],
+          learnTreatments: badLearnTreatments,
+          practiceCapabilities: badPracticeCapabilities,
+        }],
+        learnTreatments: badLearnTreatments,
+        practiceCapabilities: badPracticeCapabilities,
       },
     }
 
