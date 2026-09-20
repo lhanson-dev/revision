@@ -58,11 +58,11 @@ describe('Foundation-native Course Learning Blueprint migration', () => {
     ]))
     expect(plan.requiredTeachingPoints).toEqual(expect.arrayContaining([
       'Use quantitative evidence in context.',
-      'Course Truth: Calculate and interpret a percentage measure.',
-      'Misconception to diagnose and repair: A percentage can be interpreted without considering its context.',
-      'Required application context: percentage comparison',
-      'Required evidence demand: quantitative calculation',
-      'Required evidence demand: contextual decision making',
+      'Course Truth [node-1]: Calculate and interpret a percentage measure.',
+      'Misconception to diagnose and repair [node-1]: A percentage can be interpreted without considering its context.',
+      'Required application context [node-1]: percentage comparison',
+      'Required evidence demand [node-1]: quantitative calculation',
+      'Required evidence demand [node-1]: contextual decision making',
     ]))
   })
 
