@@ -266,7 +266,11 @@ export async function runFoundationInternalLearningDeterministicAssurance(input:
     if (coverage.jobId !== job.jobId || knowledgeModel.jobId !== job.jobId) throw new Error('Assurance inputs must belong to the exact Foundation job')
   })
   check('deterministic-work-unit-plan', () => {
-    const expected = planFoundationInternalLearningWorkUnits({ coverageModel: coverage, courseKnowledgeModel: knowledgeModel })
+    const plannerVersion = bundle.planningContractVersion === 'course-learning-blueprint-v2' ? 2 : 1
+    const expected = planFoundationInternalLearningWorkUnits(
+      { coverageModel: coverage, courseKnowledgeModel: knowledgeModel },
+      { plannerVersion },
+    )
     const actual = bundle.workUnits.map((workUnit) => workUnit.plan)
     if (!sameValue(expected, actual)) throw new Error('Generated bundle work-unit plan does not match the deterministic Foundation plan')
   })
