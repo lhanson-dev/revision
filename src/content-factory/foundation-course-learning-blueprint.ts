@@ -198,12 +198,10 @@ export function learningModesForFoundationCourseLearningDesign(design: Foundatio
   if ([
     'discrimination',
     'short_constructed_response',
-    'interpretation',
     'procedure_execution',
     'construction',
     'reasoning_chain',
     'compare_justify',
-    'misconception_diagnostic',
   ].some((capability) => capabilities.has(capability as FoundationPracticeCapability))) modes.push('short_answer')
   if ([
     'graph_data_interpretation',
