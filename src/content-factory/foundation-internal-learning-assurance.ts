@@ -83,6 +83,20 @@ export const foundationInternalLearningDeterministicAssuranceSchema = z.object({
   createdAt: nonEmptyStringSchema,
 })
 
+const workUnitReviewRecordSchema = z.object({
+  workUnitId: identifierSchema,
+  workUnitFingerprint: sha256Schema,
+  reviewerRunId: nonEmptyStringSchema,
+  reviewerContextId: nonEmptyStringSchema,
+  contractVersion: nonEmptyStringSchema,
+  provider: nonEmptyStringSchema.optional(),
+  model: nonEmptyStringSchema.optional(),
+  retryCount: z.number().int().nonnegative().optional(),
+  usageCost: z.number().nonnegative().optional(),
+  decision: z.enum(['pass', 'conditional_pass', 'fail_hold']),
+  findingIds: z.array(identifierSchema).default([]),
+})
+
 export const foundationInternalLearningIndependentReviewSchema = z.object({
   schemaVersion: z.literal(1),
   artifactType: z.literal('foundation_internal_learning_independent_review'),
@@ -90,19 +104,7 @@ export const foundationInternalLearningIndependentReviewSchema = z.object({
   foundationCandidateId: identifierSchema,
   sourceBundleFingerprint: sha256Schema,
   decision: z.enum(['pass', 'conditional_pass', 'fail_hold']),
-  workUnitReviews: z.array(z.object({
-    workUnitId: identifierSchema,
-    workUnitFingerprint: sha256Schema,
-    reviewerRunId: nonEmptyStringSchema,
-    reviewerContextId: nonEmptyStringSchema,
-    contractVersion: nonEmptyStringSchema,
-    provider: nonEmptyStringSchema.optional(),
-    model: nonEmptyStringSchema.optional(),
-    retryCount: z.number().int().nonnegative().optional(),
-    usageCost: z.number().nonnegative().optional(),
-    decision: z.enum(['pass', 'conditional_pass', 'fail_hold']),
-    findingIds: z.array(identifierSchema).default([]),
-  })).min(1),
+  workUnitReviews: z.array(workUnitReviewRecordSchema).min(1),
   findings: z.array(foundationInternalLearningAssuranceFindingSchema).default([]),
   reviewerContextIds: z.array(nonEmptyStringSchema).min(1),
   createdAt: nonEmptyStringSchema,
@@ -121,9 +123,9 @@ export type FoundationInternalLearningIndependentReview = z.infer<typeof foundat
 export type FoundationInternalLearningRemediationTarget = z.infer<typeof foundationInternalLearningRemediationTargetSchema>
 
 type BundleWorkUnit = FoundationInternalLearningAssetBundle['workUnits'][number]
-
 type ParsedCoverage = z.infer<typeof foundationCoverageModelSchema>
 type ParsedKnowledgeModel = z.infer<typeof courseKnowledgeModelSchema>
+type ScopedFinding = FoundationInternalLearningAssuranceFinding & { workUnitId: string }
 
 export interface FoundationInternalLearningAssuranceWorkers {
   independentReview(input: {
@@ -192,7 +194,7 @@ function sameValue(left: unknown, right: unknown) {
   return JSON.stringify(left) === JSON.stringify(right)
 }
 
-function remediationTargets(findings: Array<FoundationInternalLearningAssuranceFinding & { workUnitId: string }>) {
+function remediationTargets(findings: ScopedFinding[]) {
   const grouped = new Map<string, FoundationInternalLearningRemediationTarget>()
   for (const finding of findings) {
     if (finding.severity === 'no_issue' || finding.resolutionStatus !== 'open') continue
@@ -292,14 +294,13 @@ export async function runFoundationInternalLearningDeterministicAssurance(input:
     }
   })
 
-  const decision = checks.some((item) => item.status === 'fail') ? 'fail' : 'pass'
   return foundationInternalLearningDeterministicAssuranceSchema.parse({
     schemaVersion: 1,
     artifactType: 'foundation_internal_learning_deterministic_assurance',
     foundationFingerprint,
     foundationCandidateId: candidate.candidateId,
     sourceBundleFingerprint,
-    decision,
+    decision: checks.some((item) => item.status === 'fail') ? 'fail' : 'pass',
     checks,
     createdAt: input.now,
   })
@@ -346,8 +347,8 @@ export async function assureFoundationInternalLearningAssets(input: {
     ...(input.additionalForbiddenContextIds ?? []),
   ])
   const reviewerContextIds = new Set<string>()
-  const reviews: z.infer<typeof foundationInternalLearningIndependentReviewSchema>['workUnitReviews'] = []
-  const findings: Array<FoundationInternalLearningAssuranceFinding & { workUnitId: string }> = []
+  const reviews: z.infer<typeof workUnitReviewRecordSchema>[] = []
+  const findings: ScopedFinding[] = []
 
   for (const workUnit of bundle.workUnits) {
     const workUnitFingerprint = await fingerprintValue(workUnit)
@@ -419,7 +420,7 @@ export async function assureFoundationInternalLearningAssets(input: {
     sourceBundleFingerprint: deterministicAssurance.sourceBundleFingerprint,
     decision,
     workUnitReviews: reviews,
-    findings: findings.map(({ workUnitId: _workUnitId, ...finding }) => finding),
+    findings: findings.map((finding) => foundationInternalLearningAssuranceFindingSchema.parse(finding)),
     reviewerContextIds: [...reviewerContextIds],
     createdAt: input.now,
   })
