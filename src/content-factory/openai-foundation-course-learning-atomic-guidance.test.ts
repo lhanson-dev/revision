@@ -140,7 +140,7 @@ describe('Foundation provider v5 atomic evidence guidance', () => {
     await workers.generatePracticeCollateral(input)
 
     expect(instructions).toHaveLength(1)
-    expect(instructions[0]).toContain('1-based activityIndex')
+    expect(instructions[0]).toContain('1-based Practice evidence activityIndex')
     expect(instructions[0]).toContain('must reference an activity that actually exists in the named activitiesByMode bucket')
     expect(instructions[0]).toContain('if that bucket contains one activity, use activityIndex=1')
     expect(instructions[0]).toContain('never explanation or improvementAction')
