@@ -137,6 +137,14 @@ The review is adversarial rather than editorial. It is asked to identify factual
 
 The review returns a machine-readable decision and issue register. A clean work unit returns `pass`; open minor findings require `conditional_pass`; open blocking/material findings require `fail_hold`.
 
+The provider-facing review contract must bind the exact Foundation fingerprint, Candidate ID, generated-bundle fingerprint, work-unit ID and work-unit fingerprint into the structured-output schema. Those identity fields are system-owned provenance, not reviewer judgements. The downstream assurance boundary independently compares the returned values again and remains fail-closed if a provider, adapter or future contract bypass returns different provenance.
+
+### Retained asset-assurance proof #1 identity-contract finding
+
+The first retained Business asset-assurance proof, workflow run `35497826282`, correctly fail-held while independently reviewing `foundation-human-resource-objectives`. All retained source, AI-assured Foundation and generated-learning artifact identity checks had passed, but the provider returned a different `workUnitFingerprint` from the exact fingerprint supplied for that work unit. The downstream verifier rejected the response with `Independent review for foundation-human-resource-objectives covered the wrong work-unit fingerprint` rather than accepting an ambiguously bound review.
+
+The failure exposed a provider-contract weakness: contract version `1` instructed the model to copy the exact identity fields, but the structured-output schema only required syntactically valid identifiers and SHA-256 values. The contract-version `2` repair binds all five review identity fields to exact literal values in the provider-facing JSON schema before the call is made. The reviewer continues to own only the educational decision and findings. Existing post-response identity comparisons are retained as defence in depth. The failed run and its retained failure artifact remain historical evidence and are not rewritten.
+
 ### Remediation and assurance state
 
 Findings are converted into smallest-scope remediation targets by work unit and affected asset kind (`learn`, `practice` or `both`). Non-pass assurance does not mark either aggregate asset assured.
@@ -210,4 +218,4 @@ Passing Foundation-native asset assurance while the Foundation remains `ai_assur
 
 ## Documentation impact
 
-ADR-0025 records the Foundation-native generation architecture. ADR-0026 records the Foundation-native asset-assurance boundary. This implementation record preserves the earlier proof #3 failure, records the successful proof #5 generation evidence, and defines the retained fresh-context assurance proof without changing normative Content Factory authority. Historical evidence is not rewritten.
+ADR-0025 records the Foundation-native generation architecture. ADR-0026 records the Foundation-native asset-assurance boundary. This implementation record preserves the earlier proof #3 failure, records the successful proof #5 generation evidence, records the first asset-assurance proof's identity-contract failure and the contract-v2 repair, and defines the retained fresh-context assurance proof without changing normative Content Factory authority. Historical evidence is not rewritten.
