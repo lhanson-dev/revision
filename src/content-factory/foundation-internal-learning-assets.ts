@@ -1,6 +1,9 @@
 import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
 import {
+  deriveFoundationCourseLearningAtomicTeachingPoints,
+} from './foundation-course-learning-atomic-obligations'
+import {
   foundationCourseLearningDesignSchema,
   deriveFoundationCourseLearningDesign,
   learningModesForFoundationCourseLearningDesign,
@@ -178,6 +181,11 @@ export function planFoundationInternalLearningWorkUnits(input: {
       if (nodes.some((node) => node.applicationContexts.length > 0)) learningModes.push('application')
     }
 
+    const requiredTeachingPoints = unique([
+      ...requirements.flatMap((requirement) => requirement.skillsOrKnowledge),
+      ...(plannerVersion === 2 ? deriveFoundationCourseLearningAtomicTeachingPoints(nodes) : []),
+    ])
+
     return foundationInternalLearningWorkUnitSchema.parse({
       id,
       title: revisionArea,
@@ -192,7 +200,7 @@ export function planFoundationInternalLearningWorkUnits(input: {
         ...requirements.flatMap((requirement) => requirement.sourceRefs),
         ...nodes.flatMap((node) => node.sourceRefs),
       ]),
-      requiredTeachingPoints: unique(requirements.flatMap((requirement) => requirement.skillsOrKnowledge)),
+      requiredTeachingPoints,
       ...(learningDesign ? { learningDesign } : {}),
     })
   })
