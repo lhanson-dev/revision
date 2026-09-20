@@ -49,6 +49,36 @@ The planner maps those obligations onto bounded generation modes. Generative wor
 
 The implementation is qualification-neutral. It does not hard-code Business topics, requirement IDs or asset templates.
 
+## Atomic Course Truth obligations
+
+Node-level treatment and capability evidence alone is insufficient where one Course Truth node contains several distinct structured facts. A single worked example, misconception repair or application activity must not silently satisfy every formula, misconception, context or evidence demand attached to that node.
+
+For `course-learning-blueprint-v2`, planning therefore expands the exact structured Course Truth into additional node-bound teaching obligations for:
+
+- the node summary;
+- every explicit formula or quantitative procedure;
+- every explicit misconception;
+- every governed application context; and
+- every structured evidence demand.
+
+Each derived obligation carries the exact node ID in assurance metadata. Two nodes with identical-looking contexts, evidence labels or statements remain separate obligations and cannot satisfy one another accidentally.
+
+These atomic labels are deterministic derivatives of existing Foundation truth. They are not new curriculum truth and are not required to appear verbatim in learner-facing content.
+
+The provider evidence boundary also constrains where atomic obligations may be evidenced:
+
+- Course Truth summaries must be taught in the Learn explanation body;
+- explicit formulas/procedures must be worked through in a Learn worked example and actively exercised in quantitative Practice;
+- misconceptions must be evidenced through an explicit Learn correction and active diagnostic Practice rather than passive feedback only;
+- governed application contexts must be actively exercised in application Practice; and
+- structured evidence demands that imply a deterministic Practice mode must be evidenced in that compatible mode.
+
+All atomic Practice obligations must resolve to an active prompt or expected response, not only to explanatory feedback or an improvement instruction.
+
+This atomic layer complements rather than replaces node-level treatment/capability evidence. The resulting proof chain is:
+
+`structured Course Truth fact → exact node → required Learn treatment / Practice capability → exact generated-content evidence location`.
+
 ## Generation-worker contract v5
 
 A deterministic plan is insufficient if the provider can ignore its treatment metadata. Foundation-native v2 work units therefore use a dedicated Learn/Practice provider contract version `5`.
@@ -56,18 +86,19 @@ A deterministic plan is insufficient if the provider can ignore its treatment me
 The v5 boundary:
 
 1. requires the exact `learningDesign` on every v2 work unit;
-2. keeps exact governed teaching-point evidence from contract v4;
+2. keeps exact governed teaching-point evidence from contract v4 and expands it with deterministic node-bound atomic Course Truth obligations;
 3. requires one provider evidence binding for every exact `(nodeId, Learn treatment)` obligation;
 4. requires one provider evidence binding for every exact `(nodeId, Practice capability)` obligation;
-5. prevents an obligation satisfied for one node from satisfying the same treatment/capability on another node;
+5. prevents an obligation satisfied for one node from satisfying the same treatment/capability or atomic fact on another node;
 6. resolves each binding to an exact generated content field before accepting provider output;
-7. binds capability classes to the deterministic Practice mode that can validly exercise them, for example construction/procedure to `short_answer`, calculation to `quantitative`, and framework/contextual judgement to `application`;
-8. fails closed when a capability is evidenced in an incompatible mode; and
-9. leaves semantic sufficiency to the separate fresh-context independent asset reviewer, which receives both the deterministic plan and the generated content.
+7. enforces the exact-placement rules for atomic formulas/procedures, misconceptions, application contexts and mode-bearing evidence demands;
+8. binds capability classes to the deterministic Practice mode that can validly exercise them, for example construction/procedure to `short_answer`, calculation to `quantitative`, and framework/contextual judgement to `application`;
+9. fails closed when a capability or atomic obligation is evidenced in an incompatible/passive location; and
+10. leaves semantic sufficiency to the separate fresh-context independent asset reviewer, which receives both the deterministic plan and the generated content.
 
 The existing generic/legacy provider path remains contract v4. Routing to v5 occurs only when the work unit carries the v2 `learningDesign`, so retained v4 evidence is not reinterpreted.
 
-This split is deliberate: deterministic planning owns **what must be taught or practised**; the structured provider boundary proves that generated content contains an auditable implementation point for every node-level obligation; independent review judges whether that implementation is educationally and factually adequate.
+This split is deliberate: deterministic planning owns **what must be taught or practised**; the structured provider boundary proves that generated content contains an auditable implementation point for every node-level and atomic obligation; independent review judges whether that implementation is educationally and factually adequate.
 
 ## Provider spend boundary
 
@@ -79,7 +110,7 @@ This prevents a configured provider spend ceiling from being treated as two inde
 
 The aggregate internal-learning bundle remains schema version 1 for compatibility, but gains an explicit optional `planningContractVersion`.
 
-Absence of that field means the retained historical `legacy-v1` planner. New generation writes `course-learning-blueprint-v2` explicitly and each v2 work-unit plan retains its deterministic node-level and aggregate learning-design metadata.
+Absence of that field means the retained historical `legacy-v1` planner. New generation writes `course-learning-blueprint-v2` explicitly and each v2 work-unit plan retains its deterministic node-level and aggregate learning-design metadata plus the expanded required-teaching-point set derived from exact Course Truth.
 
 Deterministic asset assurance reconstructs the planner version declared by the bundle before comparing the expected and retained work-unit plans. This preserves exact historical replay while preventing a v2 bundle from being assured against legacy rules.
 
@@ -103,8 +134,10 @@ This decision implements the first governed planner and generation-contract migr
 
 The workflow authority still requires a portability proof using at least one materially different qualification before Revision treats the planner as generally proven for multi-subject production.
 
+A non-Business regression fixture may demonstrate that deterministic derivation is not coupled to Business vocabulary, but that is an implementation check only and does not replace the governed portability proof.
+
 Exam Prep remains a separate future factory combining Course Truth, Exam Truth and Course Learning Blueprint obligations.
 
 ## Documentation impact
 
-`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` is updated to describe the planner-version boundary, provider contract v5, provider spend boundary and retained fail-hold evidence. The existing `INDEX.md` already locates the governing Course Learning Blueprint, workflow amendment and Content Factory technical contract, so no authority-location change is required for this implementation ADR. The existing Course Learning Blueprint and workflow amendment remain the normative design authority; this ADR records how the current runtime implements that approved decision.
+`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` remains the implementation contract for the planner-version boundary, provider contract v5, provider spend boundary and retained fail-hold evidence; this ADR additionally records the atomic Course Truth obligation and exact-placement rule now enforced by the runtime. The already-approved Course Learning Blueprint authority and workflow amendment remain normative design authority and are not weakened by this implementation decision. `INDEX.md` must include ADR-0027 in the technical decision-history range when this PR is accepted.
