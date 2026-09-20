@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
 import {
+  validateCourseLearningBlueprintLearningEvidence,
+  validateCourseLearningBlueprintPracticeEvidence,
+} from './course-learning-blueprint-evidence'
+import {
   courseLearningNodePlanSchema,
   deriveCourseLearningNodePlan,
 } from './course-learning-blueprint'
@@ -192,6 +196,13 @@ function validateLearning(outputInput: unknown, unit: FoundationInternalLearning
     searchableContent: output,
     artifactLabel: `Foundation Learn work unit ${unit.id}`,
   })
+  if (unit.planningModel === 'course_learning_blueprint_v1') {
+    validateCourseLearningBlueprintLearningEvidence({
+      output,
+      nodePlans: unit.nodePlans,
+      workUnitId: unit.id,
+    })
+  }
   return output
 }
 
@@ -217,6 +228,13 @@ function validatePractice(outputInput: unknown, unit: FoundationInternalLearning
     searchableContent: output,
     artifactLabel: `Foundation Practice work unit ${unit.id}`,
   })
+  if (unit.planningModel === 'course_learning_blueprint_v1') {
+    validateCourseLearningBlueprintPracticeEvidence({
+      output,
+      nodePlans: unit.nodePlans,
+      workUnitId: unit.id,
+    })
+  }
   return output
 }
 
