@@ -24,11 +24,14 @@ The first version:
 1. derives node classifications only from structured Course Knowledge Model fields and governed evidence metadata, not from generated learner content;
 2. selects mandatory Learn treatments and active Practice modes mechanically from those classifications;
 3. promotes every structured Course Truth summary, formula/procedure, misconception, application context and evidence demand into the work unit's required teaching-point contract;
-4. continues to use the existing strict provider schema and downstream teaching-point evidence validator, so those derived obligations cannot be silently omitted from generation metadata;
-5. retains the existing Foundation fingerprint, Candidate identity, Coverage Model fingerprint, Course Knowledge Model fingerprint, source references and fresh-context controls unchanged;
-6. identifies new work units with `planningModel = course_learning_blueprint_v1` and retains legacy-plan parsing for historical evidence;
-7. reconstructs the same deterministic plan during asset assurance, so a retained legacy bundle cannot accidentally be treated as if it satisfied the new Blueprint contract; and
-8. remains qualification-agnostic: classification and treatment rules operate on structured educational characteristics rather than Business-specific topic names.
+4. binds every derived teaching-point label to its exact Course Truth node ID so two nodes cannot satisfy one another through a coincidentally identical context or evidence label;
+5. retains the existing strict provider schema and downstream teaching-point evidence validator, then adds deterministic node/treatment evidence validation before a Foundation-native generated work unit is accepted;
+6. requires every Blueprint node to be actively exercised in every Practice mode selected for that node, rather than accepting the existence of one mode somewhere in the wider revision-area work unit;
+7. requires formula/procedure evidence to be worked through in Learn and actively exercised in quantitative Practice, governed application contexts to be exercised in application Practice, and governed misconceptions to be explicitly repaired in Learn and actively diagnosed in Practice;
+8. retains the existing Foundation fingerprint, Candidate identity, Coverage Model fingerprint, Course Knowledge Model fingerprint, source references and fresh-context controls unchanged;
+9. identifies new work units with `planningModel = course_learning_blueprint_v1` and retains legacy-plan parsing for historical evidence;
+10. reconstructs the same deterministic plan during asset assurance, so a retained legacy bundle cannot accidentally be treated as if it satisfied the new Blueprint contract; and
+11. remains qualification-agnostic: classification and treatment rules operate on structured educational characteristics rather than Business-specific topic names.
 
 ## Classification boundary
 
@@ -47,7 +50,7 @@ The planner must not guess a classification merely because a word appears in fre
 
 ## Atomic derived obligations
 
-A broad Foundation curriculum requirement can legitimately contain several structured sub-obligations. To reduce the risk that one broad evidence location masks missing educational work, Blueprint v1 expands each node into required teaching points for:
+A broad Foundation curriculum requirement can legitimately contain several structured sub-obligations. To reduce the risk that one broad evidence location masks missing educational work, Blueprint v1 expands each node into node-bound required teaching points for:
 
 - the node's Course Truth summary;
 - every explicit formula or quantitative procedure;
@@ -55,13 +58,34 @@ A broad Foundation curriculum requirement can legitimately contain several struc
 - every governed application context; and
 - every declared evidence demand.
 
-These are derived planning obligations, not new curriculum truth. They are mechanically traceable to the exact Course Knowledge Model and must not introduce subject content that is absent from the Foundation.
+These are derived planning obligations, not new curriculum truth. They are mechanically traceable to the exact Course Knowledge Model and must not introduce subject content that is absent from the Foundation. The node identifier exists in assurance metadata only; it is not required to appear in learner-facing prose.
+
+## Node-specific treatment evidence
+
+Work-unit-level mode presence is insufficient because a revision area can contain several Course Truth nodes. Blueprint v1 therefore verifies the treatment against the same node that caused the treatment to be selected.
+
+For Practice:
+
+- every node must have active prompt/answer evidence in every Practice mode selected for that node;
+- a quantitative node cannot satisfy `quantitative` merely because another node in the same work unit has a calculation;
+- formula/procedure obligations must be evidenced in an active quantitative prompt/answer;
+- each governed application-context obligation must be evidenced in active application Practice; and
+- misconception obligations must appear in an active task rather than only in feedback/explanation text.
+
+For Learn:
+
+- every node must have evidence in the explanation body;
+- a node requiring a worked example or procedure model must have node-specific evidence in a worked example;
+- each explicit formula/procedure obligation must be evidenced within a worked example; and
+- each governed misconception must be evidenced in an explicit misconception correction.
+
+The existing provider contract already resolves provider-supplied structured locations into exact generated fields. Blueprint validation operates on those resolved exact fields, so this tightening does not require metadata labels to be copied into learner-facing content and does not weaken the provider schema.
 
 ## Historical evidence and regeneration
 
 The successful retained generation run `35468029336` and failed assurance run `35504427790` remain historical evidence of the legacy planning contract. They are not rewritten.
 
-Because the deterministic plan has changed, the correct remediation path is to regenerate affected learner assets from the unchanged Foundation using `course_learning_blueprint_v1`, then run deterministic and fresh-context independent asset assurance again. The implementation must not mutate the old retained bundle in place.
+Because the deterministic plan and acceptance gate have changed, the correct remediation path is to regenerate affected learner assets from the unchanged Foundation using `course_learning_blueprint_v1`, then run deterministic and fresh-context independent asset assurance again. The implementation must not mutate the old retained bundle in place.
 
 ## Human and release boundaries
 
@@ -75,7 +99,7 @@ A non-Business fixture is included to prove that the derivation mechanism is not
 
 The Content Factory now has a stronger deterministic translation layer between curriculum truth and learner content. Generative workers still own wording, examples and questions, but they no longer receive only a broad revision-area instruction when the Foundation already exposes more specific formulas, contexts, misconceptions and evidence demands.
 
-Provider output may become larger and slightly more expensive because more obligations must be evidenced. This is an intentional quality trade-off within the existing Content Factory quality-first bootstrap policy; live proof cost and output-size telemetry must be checked before the planner is promoted beyond the Business remediation proof.
+Provider output may become larger and slightly more expensive because more obligations must be evidenced, and weak generated outputs may fail earlier because they cannot prove the selected treatment for the exact node. This is an intentional quality trade-off within the existing Content Factory quality-first bootstrap policy; live proof cost, failure and output-size telemetry must be checked before the planner is promoted beyond the Business remediation proof.
 
 ## Documentation impact
 
