@@ -41,7 +41,16 @@ This contract remains available only so retained historical bundles can be recon
 
 New Foundation-native generation explicitly writes `planningContractVersion: course-learning-blueprint-v2`.
 
-Each work-unit plan retains deterministic `learningDesign` metadata derived from structured Course Knowledge Model facts. The planner can classify and select obligations for:
+The planner classifies each canonical Course Knowledge Model node independently. For every source node it retains:
+
+- node ID;
+- classifications;
+- required Learn treatments; and
+- required Practice capabilities.
+
+The work-unit `learningDesign` also retains deterministic unions of those node-level obligations. The schema fails closed if node IDs do not exactly match `sourceNodeIds`, if duplicate node-design records exist, or if any aggregate classification/treatment/capability set differs from the union of the node-level records.
+
+The planner can classify and select obligations for:
 
 - concepts;
 - comparison/discrimination;
@@ -55,14 +64,9 @@ Each work-unit plan retains deterministic `learningDesign` metadata derived from
 - misconception diagnosis; and
 - explicitly structured synoptic/exam-response demands.
 
-The work-unit learning design records:
+The derivation uses governed structured Course Knowledge Model facts rather than generated learner content, including node kind, formulas, misconceptions, application contexts and evidence types.
 
-- classifications;
-- required Learn treatments;
-- required Practice capabilities; and
-- exact source knowledge-node IDs.
-
-The planner maps those obligations onto bounded Learn/Practice generation modes. This allows construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
+The planner maps the work-unit union onto bounded Learn/Practice generation modes. This allows construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
 
 ## Foundation v2 generation contract
 
@@ -95,6 +99,12 @@ The provider instructions describe the educational action required by each capab
 
 Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether the claimed treatment or capability was genuinely implemented at the required depth.
 
+### Provider spend boundary
+
+The generic/base v4 stack and Foundation learning v5 stack use separate provider clients. `createOpenAIModelAssistedWorkers` therefore binds one provider-budget family per factory instance and fails closed if code attempts to mix base-v4 and Foundation-v5 calls in that same instance.
+
+This prevents the configured hard provider spend ceiling from being silently split into two independent ceilings. Current Foundation-native v2 generation uses only the v5 Learn/Practice family. A future flow that intentionally combines the two families must first introduce a shared spend ledger rather than weakening the current ceiling semantics.
+
 ## Generation and evidence
 
 `generateFoundationInternalLearningAssets` uses Course Learning Blueprint v2 planning for new bundles.
@@ -102,7 +112,7 @@ Provider evidence is a generation-contract control, not a substitute for indepen
 The worker input contains:
 
 - exact course identity;
-- deterministic work-unit scope and learning design;
+- deterministic work-unit scope and node-level/aggregate learning design;
 - structured knowledge-node summaries, formulas, misconceptions, application contexts, depth and evidence types; and
 - exact governed teaching points.
 
@@ -116,7 +126,7 @@ A generated bundle retains:
 - Course identity;
 - exact Coverage Model and Course Knowledge Model fingerprints;
 - planning-contract version;
-- deterministic work-unit plans and v2 learning-design metadata where applicable;
+- deterministic work-unit plans and v2 node-level/aggregate learning-design metadata where applicable;
 - generation context IDs; and
 - pending Learn and Practice derived-asset records.
 
@@ -217,4 +227,4 @@ Business is the first reference proof, not evidence that the planner is generall
 
 ## Documentation impact
 
-ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner plus v5 provider-contract migration. This document records current implementation truth plus retained proof history without rewriting prior evidence.
+ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner plus v5 provider-contract and spend-boundary migration. This document records current implementation truth plus retained proof history without rewriting prior evidence.
