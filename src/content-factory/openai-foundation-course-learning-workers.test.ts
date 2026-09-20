@@ -98,7 +98,7 @@ function responseBody(output: unknown) {
 }
 
 describe('Foundation Course Learning Blueprint provider contract v5', () => {
-  it('binds every selected Learn treatment and Practice capability into strict generated-content evidence', async () => {
+  it('binds every selected node-level Learn treatment and Practice capability into strict generated-content evidence', async () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
@@ -109,8 +109,8 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
       expect(body.text.format.strict).toBe(true)
 
       if (call === 1) {
-        expect(body.instructions).toContain('Learn treatments')
-        expect(body.instructions).toContain('treatmentEvidence')
+        expect(body.instructions).toContain('node-level Learn treatments')
+        expect(body.instructions).toContain('nodeId+treatment')
         expect(body.text.format.schema.properties).toHaveProperty('treatmentEvidence')
         return new Response(JSON.stringify(responseBody({
           title: 'Quantitative decision',
@@ -140,18 +140,18 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
             location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 },
           }],
           treatmentEvidence: [
-            { treatment: 'core_explanation', location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 } },
-            { treatment: 'worked_example', location: { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 } },
-            { treatment: 'guided_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 2 } },
-            { treatment: 'example_non_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 } },
-            { treatment: 'self_explanation_prompt', location: { area: 'next_action', itemIndex: 1, detailIndex: 1 } },
-            { treatment: 'misconception_repair', location: { area: 'misconception_correction', itemIndex: 1, detailIndex: 1 } },
+            { nodeId: 'quantitative-decision', treatment: 'core_explanation', location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 } },
+            { nodeId: 'quantitative-decision', treatment: 'worked_example', location: { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 } },
+            { nodeId: 'quantitative-decision', treatment: 'guided_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 2 } },
+            { nodeId: 'quantitative-decision', treatment: 'example_non_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 } },
+            { nodeId: 'quantitative-decision', treatment: 'self_explanation_prompt', location: { area: 'next_action', itemIndex: 1, detailIndex: 1 } },
+            { nodeId: 'quantitative-decision', treatment: 'misconception_repair', location: { area: 'misconception_correction', itemIndex: 1, detailIndex: 1 } },
           ],
         })), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
 
-      expect(body.instructions).toContain('Practice capabilities')
-      expect(body.instructions).toContain('capabilityEvidence')
+      expect(body.instructions).toContain('node-level Practice capabilities')
+      expect(body.instructions).toContain('nodeId+capability')
       expect(body.text.format.schema.properties).toHaveProperty('capabilityEvidence')
       return new Response(JSON.stringify(responseBody({
         title: 'Quantitative decision practice',
@@ -187,13 +187,13 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
           location: { mode: 'application', activityIndex: 1, field: 'prompt' },
         }],
         capabilityEvidence: [
-          { capability: 'retrieval', location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' } },
-          { capability: 'calculation', location: { mode: 'quantitative', activityIndex: 1, field: 'prompt' } },
-          { capability: 'interpretation', location: { mode: 'quantitative', activityIndex: 1, field: 'expectedResponse' } },
-          { capability: 'procedure_execution', location: { mode: 'short_answer', activityIndex: 1, field: 'prompt' } },
-          { capability: 'contextual_application', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
-          { capability: 'contextual_judgement', location: { mode: 'application', activityIndex: 1, field: 'expectedResponse' } },
-          { capability: 'misconception_diagnostic', location: { mode: 'retrieval', activityIndex: 1, field: 'explanation' } },
+          { nodeId: 'quantitative-decision', capability: 'retrieval', location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' } },
+          { nodeId: 'quantitative-decision', capability: 'calculation', location: { mode: 'quantitative', activityIndex: 1, field: 'prompt' } },
+          { nodeId: 'quantitative-decision', capability: 'interpretation', location: { mode: 'quantitative', activityIndex: 1, field: 'expectedResponse' } },
+          { nodeId: 'quantitative-decision', capability: 'procedure_execution', location: { mode: 'short_answer', activityIndex: 1, field: 'prompt' } },
+          { nodeId: 'quantitative-decision', capability: 'contextual_application', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
+          { nodeId: 'quantitative-decision', capability: 'contextual_judgement', location: { mode: 'application', activityIndex: 1, field: 'expectedResponse' } },
+          { nodeId: 'quantitative-decision', capability: 'misconception_diagnostic', location: { mode: 'retrieval', activityIndex: 1, field: 'explanation' } },
         ],
       })), { status: 200, headers: { 'Content-Type': 'application/json' } })
     }) as typeof fetch
@@ -259,9 +259,9 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
         location: { mode: 'short_answer', activityIndex: 1, field: 'prompt' },
       }],
       capabilityEvidence: [
-        { capability: 'retrieval', location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' } },
-        { capability: 'construction', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
-        { capability: 'contextual_application', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
+        { nodeId: 'quantitative-decision', capability: 'retrieval', location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' } },
+        { nodeId: 'quantitative-decision', capability: 'construction', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
+        { nodeId: 'quantitative-decision', capability: 'contextual_application', location: { mode: 'application', activityIndex: 1, field: 'prompt' } },
       ],
     })), { status: 200, headers: { 'Content-Type': 'application/json' } })) as typeof fetch
 
@@ -300,7 +300,7 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
 
     expect(result.status).toBe('failure')
     if (result.status === 'success') throw new Error('Expected provider contract failure')
-    expect(result.error).toContain('Blueprint capability construction must be exercised in short_answer')
+    expect(result.error).toContain('Blueprint capability construction for node quantitative-decision must be exercised in short_answer')
     expect(result.provenance.contractVersion).toBe('5')
   })
 })
