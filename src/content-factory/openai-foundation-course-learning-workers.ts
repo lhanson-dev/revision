@@ -22,6 +22,10 @@ import {
   type ProviderLearningTeachingPointEvidence,
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
+import {
+  foundationAtomicLearningEvidenceGuidance,
+  foundationAtomicPracticeEvidenceGuidance,
+} from './foundation-course-learning-atomic-obligations'
 
 const nonEmptyStringSchema = z.string().min(1)
 const practiceModeValues = ['retrieval', 'flashcard', 'short_answer', 'application', 'quantitative'] as const
@@ -375,6 +379,7 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'When guided_example is selected, include a scaffolded or partially completed step/prompt that reduces support relative to the full worked example.',
           'When comparison, causal-chain, process, synoptic-link or self-explanation treatments are selected, make that thinking explicit rather than merely naming the concept.',
           'Explicitly teach every requiredTeachingPoint in learner content. coverageEvidence must contain every requiredTeachingPoint exactly once and point to an exact generated field.',
+          foundationAtomicLearningEvidenceGuidance(),
           'Use 1-based evidence indexes. Scalar introduction and next_action use itemIndex=1/detailIndex=1; section explanations use detailIndex=1; section key points use section itemIndex and key-point detailIndex; worked-example setup/conclusion use detailIndex=1; worked-example steps use the step detailIndex; misconception corrections use misconception itemIndex/detailIndex=1.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         ].join(' '),
@@ -403,7 +408,8 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'Implement every required capability for every named node. Return capabilityEvidence exactly once per nodeId+capability pair and point to the exact generated activity field where the learner genuinely has to perform it. A capability exercised for one node does not satisfy the same capability on another node.',
           'retrieval must require recall; discrimination must require distinguishing alternatives; calculation must require doing a calculation from supplied values; interpretation must require interpreting a result/data rather than naming it; procedure_execution must require performing the method; construction must require constructing or completing the relevant representation/output; graph_data_interpretation must provide enough chart/graph/data information to interpret; contextual_application must use a materially different concrete context; reasoning_chain must require linked mechanism/consequence reasoning; compare_justify must require a supported comparison; framework_application must provide facts that require applying the framework; contextual_judgement must provide defined competing evidence and require a supported conditional judgement; misconception_diagnostic must discriminate a plausible error from the correct idea; mixed_synoptic_selection must require selecting relevant knowledge across connected material.',
           'Provide at least one useful activity in every supplied mode bucket. One well-designed activity may satisfy multiple compatible node-level capabilities only when the capabilityEvidence locations genuinely demonstrate each one.',
-          'Collectively exercise every requiredTeachingPoint. coverageEvidence must contain every requiredTeachingPoint exactly once and point to an exact prompt, expectedResponse, explanation or improvementAction.',
+          'Collectively exercise every requiredTeachingPoint. coverageEvidence must contain every requiredTeachingPoint exactly once. For non-atomic teaching points, evidence may point to an exact prompt, expectedResponse, explanation or improvementAction; atomic obligations follow the stricter rules below.',
+          foundationAtomicPracticeEvidenceGuidance(input.requiredTeachingPoints),
           'Each activity must include an answer expectation, explanation and specific improvement action. Use only supplied structured facts and subject-authentic contexts. Do not imitate protected exam questions.',
         ].join(' '),
         payload: input,

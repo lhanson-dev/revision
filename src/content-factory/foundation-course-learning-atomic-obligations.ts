@@ -110,6 +110,40 @@ function evidenceDemandMode(teachingPoint: string): ProviderPracticeTeachingPoin
   return null
 }
 
+/**
+ * Provider-v5 generation guidance derived from the same deterministic rules used
+ * by the post-generation validator. Keeping the instructions here prevents the
+ * provider prompt and fail-closed evidence boundary from drifting apart.
+ */
+export function foundationAtomicLearningEvidenceGuidance() {
+  return [
+    'Atomic coverageEvidence placement rules are mandatory and override generic evidence-location guidance.',
+    'Course Truth [nodeId] summaries must point to section_explanation or section_key_point, never introduction or next_action.',
+    'Formula or quantitative procedure [nodeId] obligations must point to worked_example_setup, worked_example_step or worked_example_conclusion.',
+    'Misconception to diagnose and repair [nodeId] obligations must point to misconception_correction.',
+    'Required application context [nodeId] and Required evidence demand [nodeId] obligations must point to an exact Learn field that genuinely teaches that exact node-bound obligation.',
+  ].join(' ')
+}
+
+export function foundationAtomicPracticeEvidenceGuidance(requiredTeachingPoints: string[]) {
+  const modeAssignments = requiredTeachingPoints
+    .filter((teachingPoint) => teachingPoint.startsWith(evidenceDemandPrefix))
+    .map((teachingPoint) => ({ teachingPoint, mode: evidenceDemandMode(teachingPoint) }))
+    .filter((entry): entry is { teachingPoint: string; mode: ProviderPracticeTeachingPointEvidence['location']['mode'] } => Boolean(entry.mode))
+    .map((entry) => `${entry.teachingPoint} -> ${entry.mode}`)
+
+  return [
+    'Atomic coverageEvidence placement rules are mandatory and override generic evidence-location guidance.',
+    'Every atomic Course Truth obligation must point to an active Practice prompt or expectedResponse, never explanation or improvementAction.',
+    'Formula or quantitative procedure [nodeId] obligations must use quantitative Practice.',
+    'Required application context [nodeId] obligations must use application Practice.',
+    'Misconception to diagnose and repair [nodeId] obligations must use retrieval Practice.',
+    modeAssignments.length > 0
+      ? `Required evidence demand mode assignments for this work unit: ${modeAssignments.join('; ')}.`
+      : 'Required evidence demand [nodeId] obligations with no deterministic mode assignment may use any selected compatible Practice mode, but must still use an active prompt or expectedResponse.',
+  ].join(' ')
+}
+
 export function validateFoundationAtomicLearningEvidenceLocations(
   evidence: ProviderLearningTeachingPointEvidence[],
 ) {

@@ -1,6 +1,6 @@
 # Content Factory Foundation-Native Atomic Learning Obligations
 
-**Status:** Proposed implementation contract with ADR-0027 / PR #354  
+**Status:** Current implementation contract after ADR-0027 / PR #354  
 **Authority:** `10-product-governance/Course Learning Blueprint.md`; `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`; `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`; ADR-0027
 
 ## Purpose
@@ -52,6 +52,19 @@ Additional mode ownership applies where the structured fact itself determines th
 
 Evidence demands that do not mechanically imply one of those modes retain the active-task requirement without inventing a mode from free-form prose.
 
+## Provider instruction / validator alignment
+
+Provider contract v5 must tell the generation worker the same deterministic evidence-placement rules that the post-generation resolver enforces.
+
+The provider instructions therefore derive atomic evidence guidance from `foundation-course-learning-atomic-obligations.ts`, the same implementation boundary that performs the fail-closed validation. In particular:
+
+- Learn explicitly tells the provider that Course Truth summaries belong in section explanation/key-point fields, formulas/procedures in worked-example fields, and misconceptions in explicit misconception corrections;
+- Practice explicitly tells the provider that atomic evidence must use an active `prompt` or `expectedResponse`, never passive `explanation` or `improvementAction` fields;
+- Practice tells the provider the deterministic formula, context and misconception mode ownership; and
+- deterministic evidence-demand mode assignments for the exact work unit are included in the generation instruction.
+
+Generic provider guidance cannot broaden these atomic rules. This prevents a structurally valid provider response from being asked to choose evidence locations that the resolver will deterministically reject.
+
 ## Relationship to provider contract v5
 
 Atomic obligations operate alongside the existing v5 node-level proof:
@@ -76,7 +89,9 @@ The implementation includes regression coverage proving that:
 - two nodes with identical-looking structured facts produce separate node-bound obligations;
 - a non-Business science node produces the same qualification-neutral derivation behaviour;
 - formula and misconception Learn evidence fails closed when placed outside the required educational structure;
-- application, misconception and quantitative Practice evidence fails closed when passive or placed in the wrong mode; and
+- application, misconception and quantitative Practice evidence fails closed when passive or placed in the wrong mode;
+- provider-v5 Learn instructions expose the exact atomic Learn placement restrictions enforced by the resolver;
+- provider-v5 Practice instructions expose the active-field rule plus deterministic atomic mode ownership; and
 - correctly placed atomic evidence is accepted.
 
 The non-Business fixture is an implementation regression only. It does not satisfy the wider governed multi-subject portability proof required before general qualification.
@@ -85,9 +100,30 @@ The non-Business fixture is an implementation regression only. It does not satis
 
 The retained Business generation run `35468029336` and fail-hold assurance run `35504427790` remain immutable legacy evidence. They are not reinterpreted under the atomic v2 contract.
 
-After ADR-0027 / PR #354 is accepted, the next Business proof must generate a new bundle from the unchanged retained Foundation using `course-learning-blueprint-v2`, then run deterministic and fresh-context independent asset assurance against that exact new bundle.
+### First v2/v5 Business generation attempt — provider-guidance fail-hold
 
-The historical 16 findings are not considered resolved until the regenerated bundle passes the governed assurance sequence.
+After PR #354 became Live, a new Business generation was triggered from the unchanged retained Foundation fingerprint `1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee`.
+
+Run `35529282623` executed on merged-main commit `cbb36d46b3291e57c766834299e4a526c46b9e42`. Exact source and AI-assured Foundation validation succeeded before generation. The first Learn work unit, `foundation-course-wide-business-context`, then failed closed because provider contract v5 returned the course-wide atomic Course Truth summary at a location that did not satisfy the deterministic Learn evidence-placement rule.
+
+The retained failure artifact is:
+
+- artifact ID `10610951512`;
+- digest `sha256:d46fb219c8c17486a80b3407cf2397115ab3e76264f15b51678d723fe42f00a2`;
+- generation implementation commit `cbb36d46b3291e57c766834299e4a526c46b9e42`;
+- provider contract version `5`;
+- one provider generation call;
+- reported response cost `$0.034234`;
+- learner asset count `0`; and
+- overall status `fail_hold`.
+
+This was not a Foundation truth failure. The provider-v5 instruction required exact `coverageEvidence` but did not state the stricter atomic evidence-placement rules later enforced by the resolver. The Practice instruction also generically permitted `explanation` / `improvementAction` evidence even though atomic Practice validation correctly rejects those passive fields.
+
+The failed run is immutable proof evidence and must not be reclassified or overwritten. The remediation aligns provider guidance to the existing deterministic validator; it does not relax the atomic rules or alter the Foundation.
+
+After the remediation is merged and Live, the next Business proof must be a new generation run with new provider contexts from the same unchanged retained Foundation, followed by deterministic and fresh-context independent asset assurance against that exact new bundle.
+
+The historical 16 findings are not considered resolved until a regenerated bundle passes the governed assurance sequence.
 
 ## Release boundary
 
