@@ -134,6 +134,7 @@ export function foundationAtomicPracticeEvidenceGuidance(requiredTeachingPoints:
 
   return [
     'Atomic coverageEvidence placement rules are mandatory and override generic evidence-location guidance.',
+    'Every Practice evidence location uses a 1-based activityIndex and must reference an activity that actually exists in the named activitiesByMode bucket; if that bucket contains one activity, use activityIndex=1.',
     'Every atomic Course Truth obligation must point to an active Practice prompt or expectedResponse, never explanation or improvementAction.',
     'Formula or quantitative procedure [nodeId] obligations must use quantitative Practice.',
     'Required application context [nodeId] obligations must use application Practice.',
