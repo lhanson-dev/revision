@@ -13,6 +13,7 @@ Current authority includes:
 - `Product Promise.md`
 - `Product Principles.md`
 - `Product System Model.md`
+- `Course Learning Blueprint.md`
 - `Scope and Capability Taxonomy.md`
 - `Core User Journeys.md`
 - `Information Architecture.md`
