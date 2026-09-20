@@ -81,9 +81,33 @@ Each node now adds explicit required teaching points for:
 4. every required application context; and
 5. every declared evidence demand.
 
-These points enter the existing strict Learn/Practice provider contract. The provider must return exact coverage evidence for every required point, and the downstream validator resolves that evidence against generated learner text.
+Each derived label also carries the exact node ID in assurance metadata. This prevents two different nodes with the same context or evidence description from satisfying one another accidentally. The node marker is metadata only and is not required in learner-facing prose.
+
+These points enter the existing strict Learn/Practice provider contract. The provider must return exact coverage evidence for every required point, and the downstream validator resolves that evidence into the exact generated learner field.
 
 This is intended to prevent a broad requirement such as “quantitative skills” from passing generation while individual structured contexts such as ratios, graphs or investment appraisal silently disappear.
+
+## Node-specific treatment evidence gate
+
+`src/content-factory/course-learning-blueprint-evidence.ts` adds a deterministic gate after provider evidence has been resolved into exact generated fields.
+
+The gate checks the selected treatment against the same Course Truth node that caused it to be selected rather than merely checking that a mode exists somewhere in the wider revision-area work unit.
+
+For Practice:
+
+- every node must have active prompt/expected-answer evidence in every Practice mode selected for that node;
+- formula/procedure obligations must be actively exercised in quantitative Practice;
+- every governed application context must be actively exercised in application Practice; and
+- misconception obligations must appear in an active task rather than being confined to feedback/explanation text.
+
+For Learn:
+
+- every node must be evidenced in the explanation body;
+- nodes requiring worked examples/procedure modelling must have node-specific evidence in a worked example;
+- formula/procedure obligations must be evidenced inside a worked example; and
+- governed misconceptions must be evidenced inside explicit misconception corrections.
+
+The existing provider contract already returns structured locations and Revision resolves those locations into the complete referenced generated field before this gate runs. The stricter Blueprint validation therefore does not require provider metadata strings to appear in student-facing text and does not replace independent educational review.
 
 ## Relationship to the retained Business findings
 
@@ -92,9 +116,10 @@ The new planner targets the systemic failure modes from run `35504427790` withou
 Examples:
 
 - a quantitative evidence demand now triggers quantitative Practice even when the node has no explicit formula string;
-- every formula becomes an explicit generation obligation;
-- every structured application context becomes an explicit obligation rather than optional inspiration;
-- every misconception becomes an explicit repair obligation; and
+- a calculation for one node cannot make a different quantitative node pass;
+- every formula becomes an explicit generation obligation and must be worked through in Learn and calculated in Practice;
+- every structured application context becomes an explicit obligation and must be exercised in application Practice rather than optional inspiration;
+- every misconception becomes an explicit repair and diagnostic obligation; and
 - comparison, analysis and evaluation metadata change the learning treatment instead of being left entirely to provider discretion.
 
 The retained failed content is not edited in place.
@@ -106,10 +131,11 @@ After PR #353 is merged through the normal Founder gate, the governed Business r
 1. use the unchanged retained AI-assured AQA A-level Business 7132 — 2027 Foundation;
 2. generate a new Foundation-native Learn/Practice bundle using `course_learning_blueprint_v1`;
 3. retain fresh generation contexts and the exact Foundation/Candidate fingerprints;
-4. run deterministic asset assurance against the new plan;
-5. run fresh-context independent educational review of every work unit;
-6. inspect whether the 16 prior findings are actually absent rather than assuming the planner change fixed them; and
-7. if findings remain, remediate the smallest affected Blueprint/asset scope according to the governing remediation rule.
+4. require every generated work unit to pass the node-specific Blueprint treatment evidence gate;
+5. run deterministic asset assurance against the new plan;
+6. run fresh-context independent educational review of every work unit;
+7. inspect whether the 16 prior findings are actually absent rather than assuming the planner change fixed them; and
+8. if findings remain, remediate the smallest affected Blueprint/asset scope according to the governing remediation rule.
 
 The previous generation run `35468029336` and assurance run `35504427790` remain immutable historical evidence.
 
