@@ -67,4 +67,4 @@ Exam Prep remains a separate future factory combining Course Truth, Exam Truth a
 
 ## Documentation impact
 
-`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` is updated to describe the planner-version boundary and retained fail-hold evidence. `INDEX.md` is updated for this ADR. The existing Course Learning Blueprint and workflow amendment remain the normative design authority; this ADR records how the current runtime implements that approved decision.
+`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` is updated to describe the planner-version boundary and retained fail-hold evidence. The existing `INDEX.md` already locates the governing Course Learning Blueprint, workflow amendment and Content Factory technical contract, so no authority-location change is required for this implementation ADR. The existing Course Learning Blueprint and workflow amendment remain the normative design authority; this ADR records how the current runtime implements that approved decision.
