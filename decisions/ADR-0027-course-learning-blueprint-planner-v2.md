@@ -43,7 +43,7 @@ The derivation uses structured Course Knowledge Model metadata, including:
 - formula presence;
 - misconceptions;
 - application contexts; and
-- structured evidence types such as calculation, construction, interpretation, framework application, analysis, evaluation and diagnosis.
+- structured evidence types such as calculation, construction, diagram/graph interpretation or amendment, framework application, analysis, evaluation, interrelationship and cross-functional evidence.
 
 The planner maps those obligations onto bounded generation modes. Generative workers remain responsible for wording, examples, activities and feedback; they do not decide whether a governed treatment obligation exists.
 
@@ -57,16 +57,17 @@ The v5 boundary:
 
 1. requires the exact `learningDesign` on every v2 work unit;
 2. keeps exact governed teaching-point evidence from contract v4;
-3. requires one provider evidence binding for every selected Learn treatment;
-4. requires one provider evidence binding for every selected Practice capability;
-5. resolves each binding to an exact generated content field before accepting provider output;
-6. binds capability classes to the deterministic Practice mode that can validly exercise them, for example construction/procedure to `short_answer`, calculation to `quantitative`, and framework/contextual judgement to `application`;
-7. fails closed when a capability is evidenced in an incompatible mode; and
-8. leaves semantic sufficiency to the separate fresh-context independent asset reviewer, which receives both the deterministic plan and the generated content.
+3. requires one provider evidence binding for every exact `(nodeId, Learn treatment)` obligation;
+4. requires one provider evidence binding for every exact `(nodeId, Practice capability)` obligation;
+5. prevents an obligation satisfied for one node from satisfying the same treatment/capability on another node;
+6. resolves each binding to an exact generated content field before accepting provider output;
+7. binds capability classes to the deterministic Practice mode that can validly exercise them, for example construction/procedure to `short_answer`, calculation to `quantitative`, and framework/contextual judgement to `application`;
+8. fails closed when a capability is evidenced in an incompatible mode; and
+9. leaves semantic sufficiency to the separate fresh-context independent asset reviewer, which receives both the deterministic plan and the generated content.
 
 The existing generic/legacy provider path remains contract v4. Routing to v5 occurs only when the work unit carries the v2 `learningDesign`, so retained v4 evidence is not reinterpreted.
 
-This split is deliberate: deterministic planning owns **what must be taught or practised**; the structured provider boundary proves that generated content contains an auditable implementation point for every obligation; independent review judges whether that implementation is educationally and factually adequate.
+This split is deliberate: deterministic planning owns **what must be taught or practised**; the structured provider boundary proves that generated content contains an auditable implementation point for every node-level obligation; independent review judges whether that implementation is educationally and factually adequate.
 
 ## Provider spend boundary
 
