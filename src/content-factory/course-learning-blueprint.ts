@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { courseKnowledgeModelSchema } from './schema'
+import { courseKnowledgeModelSchema, courseKnowledgeNodeSchema } from './schema'
 
 const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
@@ -152,7 +152,7 @@ function requiredTeachingPointsForNode(node: KnowledgeNode) {
  * mechanically visible formula, misconception, context or evidence demand.
  */
 export function deriveCourseLearningNodePlan(nodeInput: unknown): CourseLearningNodePlan {
-  const node = courseKnowledgeModelSchema.shape.nodes.element.parse(nodeInput)
+  const node = courseKnowledgeNodeSchema.parse(nodeInput)
   const classifications = classificationsForNode(node)
 
   return courseLearningNodePlanSchema.parse({
