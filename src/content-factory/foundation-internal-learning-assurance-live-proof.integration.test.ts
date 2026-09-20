@@ -4,9 +4,9 @@ import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
 import {
   assureFoundationInternalLearningAssets,
-  foundationInternalLearningWorkUnitReviewOutputSchema,
   type FoundationInternalLearningAssuranceWorkers,
 } from './foundation-internal-learning-assurance'
+import { foundationInternalLearningBoundReviewOutputSchema } from './foundation-internal-learning-review-contract'
 import { getFoundationDerivedAssetReleaseProblems } from './foundation-derived-asset'
 import { foundationInternalLearningAssetBundleSchema } from './foundation-internal-learning-assets'
 import { computeFoundationFingerprint } from './foundation-lifecycle'
@@ -314,9 +314,15 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
         async independentReview(input) {
           const execution = await client.run({
             workerId: 'content-factory.foundation-internal-learning-independent-review',
-            contractVersion: '1',
+            contractVersion: '2',
             routeKind: 'independent_review',
-            outputSchema: foundationInternalLearningWorkUnitReviewOutputSchema,
+            outputSchema: foundationInternalLearningBoundReviewOutputSchema({
+              foundationFingerprint: input.foundationFingerprint,
+              foundationCandidateId: input.foundationCandidateId,
+              sourceBundleFingerprint: input.sourceBundleFingerprint,
+              workUnitId: input.plan.id,
+              workUnitFingerprint: input.workUnitFingerprint,
+            }),
             instructions: [
               'Act as an adversarial independent educational reviewer for exactly one Foundation-derived AQA A-level Business Learn/Practice work unit.',
               'Review only the supplied Revision-owned learner content against supplied structured Foundation Course Truth and coverage facts.',
@@ -327,7 +333,7 @@ describe('Foundation-native live internal Learn/Practice asset assurance proof',
               'Blocking/material findings are only issues that make content unsafe or materially misleading; minor findings are non-critical accuracy or clarity issues, not style preferences.',
               'Do not rewrite prose. Return only the issue register and decision.',
               'Clean review means decision=pass and findings=[]. Open blocking/material findings require fail_hold; open minor findings require conditional_pass.',
-              'Copy the exact foundationFingerprint, foundationCandidateId, sourceBundleFingerprint, workUnitId and workUnitFingerprint supplied in the input.',
+              'Identity fields are fixed by the response contract. Judge the supplied work unit only and do not reinterpret its provenance.',
               'Prefix every finding ID with the supplied workUnitId.',
             ].join(' '),
             payload: input,
