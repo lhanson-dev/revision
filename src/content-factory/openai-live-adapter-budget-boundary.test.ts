@@ -56,6 +56,7 @@ describe('OpenAI live adapter provider budget boundary', () => {
         location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' },
       }],
       capabilityEvidence: [{
+        nodeId: 'node-1',
         capability: 'retrieval',
         location: { mode: 'retrieval', activityIndex: 1, field: 'prompt' },
       }],
