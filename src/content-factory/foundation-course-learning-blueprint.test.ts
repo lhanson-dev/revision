@@ -64,6 +64,8 @@ describe('Foundation Course Learning Blueprint v2', () => {
     const node = knowledgeModel().nodes[0]
     const design = deriveFoundationCourseLearningDesign([node])
 
+    expect(design.nodes).toHaveLength(1)
+    expect(design.nodes[0]).toMatchObject({ nodeId: 'quantitative-construction-node' })
     expect(design.classifications).toEqual(expect.arrayContaining([
       'formula_quantitative',
       'procedure_skill',
@@ -114,6 +116,7 @@ describe('Foundation Course Learning Blueprint v2', () => {
     expect(legacy[0].learningDesign).toBeUndefined()
     expect(legacy[0].learningModes).toEqual(['explanation', 'retrieval', 'application'])
 
+    expect(v2[0].learningDesign?.nodes).toHaveLength(1)
     expect(v2[0].learningDesign?.practiceCapabilities).toEqual(expect.arrayContaining([
       'calculation',
       'construction',
@@ -124,6 +127,70 @@ describe('Foundation Course Learning Blueprint v2', () => {
       'worked_example',
       'short_answer',
       'quantitative',
+    ]))
+  })
+
+  it('recognises governed diagram-amendment and cross-functional evidence labels without Business-specific IDs', () => {
+    const model = courseKnowledgeModelSchema.parse({
+      schemaVersion: 1,
+      jobId,
+      fingerprint: 'diagram-and-synoptic-v1',
+      nodes: [
+        {
+          id: 'diagram-skill',
+          kind: 'skill',
+          summary: 'Interpret and amend a governed diagram.',
+          prerequisiteIds: [],
+          relatedIds: [],
+          formulas: [],
+          misconceptions: [],
+          applicationContexts: ['project planning'],
+          depth: 'advanced',
+          sourceRefs: ['governed-source'],
+          boardAlignmentRefs: [],
+          evidenceTypes: ['diagram interpretation', 'diagram amendment', 'calculation'],
+        },
+        {
+          id: 'cross-functional-concept',
+          kind: 'concept',
+          summary: 'Connect decisions across functions.',
+          prerequisiteIds: [],
+          relatedIds: [],
+          formulas: [],
+          misconceptions: [],
+          applicationContexts: ['integrated decision'],
+          depth: 'advanced',
+          sourceRefs: ['governed-source'],
+          boardAlignmentRefs: [],
+          evidenceTypes: ['interrelationship analysis', 'cross-functional evaluation'],
+        },
+      ],
+    })
+
+    const design = deriveFoundationCourseLearningDesign(model.nodes)
+    const diagram = design.nodes.find((node) => node.nodeId === 'diagram-skill')
+    const crossFunctional = design.nodes.find((node) => node.nodeId === 'cross-functional-concept')
+
+    expect(diagram?.practiceCapabilities).toEqual(expect.arrayContaining([
+      'calculation',
+      'construction',
+      'graph_data_interpretation',
+      'procedure_execution',
+    ]))
+    expect(diagram?.learnTreatments).toEqual(expect.arrayContaining([
+      'worked_example',
+      'guided_example',
+      'purposeful_visual',
+    ]))
+    expect(crossFunctional?.classifications).toEqual(expect.arrayContaining([
+      'analysis_reasoning',
+      'evaluation_judgement',
+      'synoptic_connection',
+    ]))
+    expect(crossFunctional?.practiceCapabilities).toEqual(expect.arrayContaining([
+      'reasoning_chain',
+      'contextual_judgement',
+      'mixed_synoptic_selection',
     ]))
   })
 })
