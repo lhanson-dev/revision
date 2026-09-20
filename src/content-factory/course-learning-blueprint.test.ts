@@ -44,10 +44,10 @@ describe('Course Learning Blueprint deterministic node planning', () => {
     ]))
     expect(plan.practiceModes).toEqual(expect.arrayContaining(['retrieval', 'quantitative', 'application']))
     expect(plan.requiredTeachingPoints).toEqual(expect.arrayContaining([
-      'Required application context: ratios and percentages',
-      'Required application context: graphs',
-      'Required evidence demand: quantitative calculation',
-      'Misconception to diagnose and repair: A numerical result can be interpreted without context.',
+      'Required application context [quantitative-skill]: ratios and percentages',
+      'Required application context [quantitative-skill]: graphs',
+      'Required evidence demand [quantitative-skill]: quantitative calculation',
+      'Misconception to diagnose and repair [quantitative-skill]: A numerical result can be interpreted without context.',
     ]))
   })
 
@@ -97,6 +97,15 @@ describe('Course Learning Blueprint deterministic node planning', () => {
     ]))
     expect(plan.learnTreatments).toEqual(expect.arrayContaining(['worked_example', 'procedure_modelling', 'modelled_reasoning']))
     expect(plan.practiceModes).toEqual(expect.arrayContaining(['quantitative', 'application']))
-    expect(plan.requiredTeachingPoints).toContain('Formula or quantitative procedure: rate = change in quantity / time')
+    expect(plan.requiredTeachingPoints).toContain('Formula or quantitative procedure [science-rate-skill]: rate = change in quantity / time')
+  })
+
+  it('binds otherwise identical atomic obligations to their exact node identities', () => {
+    const first = deriveCourseLearningNodePlan(node({ id: 'first-node', applicationContexts: ['shared context'] }))
+    const second = deriveCourseLearningNodePlan(node({ id: 'second-node', applicationContexts: ['shared context'] }))
+
+    expect(first.requiredTeachingPoints).toContain('Required application context [first-node]: shared context')
+    expect(second.requiredTeachingPoints).toContain('Required application context [second-node]: shared context')
+    expect(first.requiredTeachingPoints).not.toContain('Required application context [second-node]: shared context')
   })
 })
