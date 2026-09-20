@@ -54,49 +54,98 @@ export const foundationPracticeCapabilitySchema = z.enum([
   'mixed_synoptic_selection',
 ])
 
+export const foundationCourseLearningNodeDesignSchema = z.object({
+  nodeId: identifierSchema,
+  classifications: z.array(foundationLearningClassificationSchema).min(1),
+  learnTreatments: z.array(foundationLearnTreatmentSchema).min(1),
+  practiceCapabilities: z.array(foundationPracticeCapabilitySchema).min(1),
+})
+
+function unique<T extends string>(values: T[]) {
+  return [...new Set(values)]
+}
+
+function sameStringSet(left: string[], right: string[]) {
+  const a = [...new Set(left)].sort()
+  const b = [...new Set(right)].sort()
+  return a.length === b.length && a.every((value, index) => value === b[index])
+}
+
 export const foundationCourseLearningDesignSchema = z.object({
   schemaVersion: z.literal(1),
+  nodes: z.array(foundationCourseLearningNodeDesignSchema).min(1),
   classifications: z.array(foundationLearningClassificationSchema).min(1),
   learnTreatments: z.array(foundationLearnTreatmentSchema).min(1),
   practiceCapabilities: z.array(foundationPracticeCapabilitySchema).min(1),
   sourceNodeIds: z.array(identifierSchema).min(1),
+}).superRefine((design, context) => {
+  const nodeIds = design.nodes.map((node) => node.nodeId)
+  if (new Set(nodeIds).size !== nodeIds.length) {
+    context.addIssue({
+      code: 'custom',
+      path: ['nodes'],
+      message: 'Course Learning Blueprint must contain exactly one design record per source node',
+    })
+  }
+  if (!sameStringSet(nodeIds, design.sourceNodeIds)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['sourceNodeIds'],
+      message: 'Course Learning Blueprint sourceNodeIds must exactly match node-level design IDs',
+    })
+  }
+
+  const expectedClassifications = unique(design.nodes.flatMap((node) => node.classifications))
+  const expectedTreatments = unique(design.nodes.flatMap((node) => node.learnTreatments))
+  const expectedCapabilities = unique(design.nodes.flatMap((node) => node.practiceCapabilities))
+  if (!sameStringSet(expectedClassifications, design.classifications)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['classifications'],
+      message: 'Work-unit classifications must equal the union of node-level classifications',
+    })
+  }
+  if (!sameStringSet(expectedTreatments, design.learnTreatments)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['learnTreatments'],
+      message: 'Work-unit Learn treatments must equal the union of node-level treatments',
+    })
+  }
+  if (!sameStringSet(expectedCapabilities, design.practiceCapabilities)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['practiceCapabilities'],
+      message: 'Work-unit Practice capabilities must equal the union of node-level capabilities',
+    })
+  }
 })
 
 export type FoundationCourseLearningDesign = z.infer<typeof foundationCourseLearningDesignSchema>
+export type FoundationCourseLearningNodeDesign = z.infer<typeof foundationCourseLearningNodeDesignSchema>
 export type FoundationLearningClassification = z.infer<typeof foundationLearningClassificationSchema>
 export type FoundationLearnTreatment = z.infer<typeof foundationLearnTreatmentSchema>
 export type FoundationPracticeCapability = z.infer<typeof foundationPracticeCapabilitySchema>
 
 type KnowledgeNode = z.infer<typeof courseKnowledgeModelSchema>['nodes'][number]
 
-function unique<T extends string>(values: T[]) {
-  return [...new Set(values)]
-}
-
-function evidenceText(nodes: KnowledgeNode[]) {
-  return nodes
-    .flatMap((node) => node.evidenceTypes)
-    .map((value) => value.trim().toLowerCase())
-}
-
 function hasEvidence(evidence: string[], ...terms: string[]) {
   return evidence.some((value) => terms.some((term) => value.includes(term)))
 }
 
-export function deriveFoundationCourseLearningDesign(nodesInput: unknown): FoundationCourseLearningDesign {
-  const nodes = z.array(courseKnowledgeModelSchema.shape.nodes.element).min(1).parse(nodesInput)
-  const evidence = evidenceText(nodes)
+function deriveFoundationCourseLearningNodeDesign(node: KnowledgeNode): FoundationCourseLearningNodeDesign {
+  const evidence = node.evidenceTypes.map((value) => value.trim().toLowerCase())
   const classifications: FoundationLearningClassification[] = []
   const learnTreatments: FoundationLearnTreatment[] = ['core_explanation']
   const practiceCapabilities: FoundationPracticeCapability[] = ['retrieval']
 
-  const hasFormula = nodes.some((node) => node.kind === 'formula' || node.formulas.length > 0)
+  const hasFormula = node.kind === 'formula' || node.formulas.length > 0
     || hasEvidence(evidence, 'quantitative', 'calculation', 'ratio', 'numerical')
-  const hasProcedure = nodes.some((node) => node.kind === 'skill')
+  const hasProcedure = node.kind === 'skill'
     || hasEvidence(evidence, 'procedure', 'method', 'construction')
-  const hasApplication = nodes.some((node) => node.applicationContexts.length > 0)
+  const hasApplication = node.applicationContexts.length > 0
     || hasEvidence(evidence, 'application', 'contextual', 'case')
-  const hasMisconception = nodes.some((node) => node.misconceptions.length > 0)
+  const hasMisconception = node.misconceptions.length > 0
   const hasComparison = hasEvidence(evidence, 'compare', 'comparison', 'discriminat', 'distinguish')
   const hasAnalysis = hasEvidence(evidence, 'analysis', 'analyse', 'reasoning', 'diagnosis', 'diagnostic')
   const hasEvaluation = hasEvidence(evidence, 'evaluation', 'evaluate', 'judgement', 'judgment', 'decision making')
@@ -109,7 +158,7 @@ export function deriveFoundationCourseLearningDesign(nodesInput: unknown): Found
   const hasSynoptic = hasEvidence(evidence, 'synoptic', 'cross-topic', 'cross topic', 'integrat', 'mixed-topic', 'mixed topic')
   const hasExamResponse = hasEvidence(evidence, 'exam response', 'extended response', 'essay', 'source response')
 
-  if (nodes.some((node) => node.kind === 'concept')) classifications.push('concept')
+  if (node.kind === 'concept') classifications.push('concept')
   if (hasComparison) classifications.push('comparison_discrimination')
   if (hasCausal) classifications.push('relationship_causal')
   if (hasProcess) classifications.push('process_sequence')
@@ -177,12 +226,25 @@ export function deriveFoundationCourseLearningDesign(nodesInput: unknown): Found
 
   if (classifications.length === 0) classifications.push('concept')
 
-  return foundationCourseLearningDesignSchema.parse({
-    schemaVersion: 1,
+  return foundationCourseLearningNodeDesignSchema.parse({
+    nodeId: node.id,
     classifications: unique(classifications),
     learnTreatments: unique(learnTreatments),
     practiceCapabilities: unique(practiceCapabilities),
-    sourceNodeIds: unique(nodes.map((node) => node.id)),
+  })
+}
+
+export function deriveFoundationCourseLearningDesign(nodesInput: unknown): FoundationCourseLearningDesign {
+  const nodes = z.array(courseKnowledgeModelSchema.shape.nodes.element).min(1).parse(nodesInput)
+  const nodeDesigns = nodes.map(deriveFoundationCourseLearningNodeDesign)
+
+  return foundationCourseLearningDesignSchema.parse({
+    schemaVersion: 1,
+    nodes: nodeDesigns,
+    classifications: unique(nodeDesigns.flatMap((node) => node.classifications)),
+    learnTreatments: unique(nodeDesigns.flatMap((node) => node.learnTreatments)),
+    practiceCapabilities: unique(nodeDesigns.flatMap((node) => node.practiceCapabilities)),
+    sourceNodeIds: nodes.map((node) => node.id),
   })
 }
 
