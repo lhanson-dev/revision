@@ -1,6 +1,6 @@
 # Content Factory Foundation-Native Internal Learning Assets
 
-**Status:** Current pre-production implementation contract after ADR-0025, ADR-0026 and proposed ADR-0027  
+**Status:** Current pre-production implementation contract after ADR-0025, ADR-0026 and ADR-0027  
 **Authority:** `10-product-governance/Course Learning Blueprint.md`; `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`; `80-company-workflows/Content Accuracy Assurance Gate.md`
 
 ## Purpose
@@ -98,6 +98,8 @@ The current capability-to-mode boundary includes:
 - interpretation → the strongest applicable selected mode, preferring quantitative or application where present.
 
 The provider instructions describe the educational action required by each capability. For example, `construction` must require the learner to construct or complete the relevant output rather than merely recall it, while `contextual_judgement` must supply defined competing evidence and require a supported conditional judgement.
+
+For atomic Course Truth obligations, provider-v5 instructions must also expose the same deterministic evidence-placement rules enforced by the resolver. Learn explicitly owns Course Truth summaries to section explanation/key-point fields, formulas/procedures to worked-example fields and misconceptions to explicit correction fields. Practice explicitly requires atomic evidence in active `prompt` / `expectedResponse` fields and supplies deterministic mode ownership for formulas, application contexts, misconceptions and classifiable evidence demands. Generic evidence guidance cannot broaden those stricter atomic rules.
 
 Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether each claimed node-level treatment or capability was genuinely implemented at the required depth.
 
@@ -198,20 +200,43 @@ The findings included missing or insufficient construction, graph/chart, quantit
 
 The run is retained evidence. It is not reclassified as a pass and the generated content is not edited in place.
 
-## Remediation path after proof #2
+### Generation proof #6 — first v2/v5 provider-guidance fail-hold
 
-The systemic planning/generation-contract defect is addressed by ADR-0027, `course-learning-blueprint-v2` and Foundation provider contract v5.
+After planner-v2/provider-v5 became Live in PR #354, run `35529282623` attempted a new Business generation from the unchanged retained Foundation fingerprint `1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee` on merged-main commit `cbb36d46b3291e57c766834299e4a526c46b9e42`.
 
-This does not assert that the 16 historical findings are resolved. The governed next sequence is:
+Source and AI-assured Foundation retrieval, identity and fingerprint checks passed. The first Learn work unit, `foundation-course-wide-business-context`, then correctly failed closed at the provider-v5 evidence resolver because the provider returned the atomic Course Truth summary at a location outside the required Learn explanation body.
 
-1. merge the planner-v2/provider-v5 implementation only after exact-head assurance and explicit Founder approval;
-2. generate a new retained Business Learn/Practice bundle with new contexts under `course-learning-blueprint-v2` and provider contract v5;
-3. run deterministic and fresh-context independent assurance against that exact new bundle;
-4. remediate any remaining asset-local findings at smallest safe scope;
-5. if v2/v5 exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream; and
-6. proceed to internal preview only after the exact new bundle passes the applicable asset-assurance gate.
+Retained failure evidence:
 
-The separate human Foundation approval requirement remains unchanged.
+- artifact ID `10610951512`;
+- digest `sha256:d46fb219c8c17486a80b3407cf2397115ab3e76264f15b51678d723fe42f00a2`;
+- provider contract version `5`;
+- provider/model `openai / gpt-5.6-terra`;
+- one provider generation call;
+- reported response cost `$0.034234`;
+- learner asset count `0`;
+- overall status `fail_hold`;
+- Foundation not human-approved; learner publication false.
+
+Root-cause analysis found an implementation contradiction rather than a Foundation defect: provider-v5 asked for exact coverage evidence but did not tell the Learn worker the stricter atomic location rules that the deterministic resolver subsequently enforced. Its generic Practice instruction also permitted `explanation` / `improvementAction` evidence even though atomic Practice validation correctly requires active `prompt` / `expectedResponse` evidence.
+
+The remediation keeps the validator and approved Blueprint rules unchanged and derives provider instruction guidance from the same atomic-obligation implementation boundary. Run `35529282623` remains immutable fail-hold evidence and is not retried or relabelled.
+
+## Remediation path after proof #6
+
+The systemic planner-v2/provider-v5 architecture remains valid; the defect is the provider instruction/validator mismatch exposed by the first live v2 proof.
+
+The governed next sequence is:
+
+1. align provider-v5 instructions with the existing deterministic atomic evidence rules and retain regression coverage for the live failure;
+2. merge that implementation repair only after exact-head assurance and explicit Founder approval;
+3. generate a **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2` / provider v5;
+4. run deterministic and fresh-context independent assurance against that exact new bundle;
+5. remediate any remaining asset-local findings at smallest safe scope;
+6. if v2/v5 exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream; and
+7. proceed to internal preview only after the exact new bundle passes the applicable asset-assurance gate.
+
+The historical 16 findings from asset-assurance proof #2 are not considered resolved until a regenerated bundle passes the governed assurance sequence. The separate human Foundation approval requirement remains unchanged.
 
 ## Release safety
 
