@@ -71,6 +71,7 @@ Use this file to find the governing source before substantive work.
 - Product promise → `10-product-governance/Product Promise.md`
 - Product principles → `10-product-governance/Product Principles.md`
 - Product system model / structured learner intelligence / Weakness Repair / adaptive recall foundations → `10-product-governance/Product System Model.md`
+- Course learning design / learning-node classification / Learn-Practice-Exam Prep treatment selection → `10-product-governance/Course Learning Blueprint.md`
 - Adaptive revision planner / Plan / REV planning behaviour → `10-product-governance/Adaptive Revision Planning.md`
 - Returning Student Home hierarchy / REV hero / Today's plan / direct first-task launch → `10-product-governance/Returning Student Home Experience.md`
 - Scope and capability taxonomy → `10-product-governance/Scope and Capability Taxonomy.md`
@@ -124,6 +125,7 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
+- Content Factory Course Learning Blueprint derivation / deterministic treatment planning → `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`
 - Current Content Factory AI-assured Foundation sequencing amendment → `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`
 - Earlier Content Factory orchestration controls / legacy sequencing → `80-company-workflows/Content Factory Operating Model.md`
 - Content Factory reliability qualification / legacy end-to-end proof controls → `80-company-workflows/Content Factory Reliability Qualification Standard.md`
@@ -184,6 +186,7 @@ Use this file to find the governing source before substantive work.
 - Content Operations Admin implementation → `docs/technical/Content Operations Admin Implementation.md`
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Material decision history → `decisions/`
+- Course Learning Blueprint research/evidence and AQA Business 7132 reference application → `research/Course Learning Blueprint Evidence and AQA Business 7132 Reference - 2026-09-20.md`
 - Teen audience UX research reference → `research/Teen Audience UX Research - 15 to 18 Year Olds.md`
 - Other research/exploration → `research/`
 - Point-in-time reviews → `audits/`
