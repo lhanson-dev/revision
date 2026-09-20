@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import type { ExecutableLearningWorkUnit } from './learning-and-practice'
 import { createOpenAIModelAssistedWorkers } from './openai-live-adapter'
 
 const route = {
@@ -28,6 +29,20 @@ const learningDesign = {
   learnTreatments: ['core_explanation' as const],
   practiceCapabilities: ['retrieval' as const],
   sourceNodeIds: ['node-1'],
+}
+
+type FoundationV2WorkUnit = ExecutableLearningWorkUnit & { learningDesign: typeof learningDesign }
+
+const foundationWorkUnit: FoundationV2WorkUnit = {
+  id: 'foundation-node-1',
+  title: 'Concept',
+  requirementIds: ['requirement-1'],
+  knowledgeNodeIds: ['node-1'],
+  learningModes: ['explanation', 'retrieval'],
+  requiredOutputs: ['learning', 'practice'],
+  scope: 'course',
+  componentIds: [],
+  learningDesign,
 }
 
 function completed(output: unknown) {
@@ -74,17 +89,7 @@ describe('OpenAI live adapter provider budget boundary', () => {
     const first = await workers.generatePracticeCollateral({
       jobId: 'foundation-budget-boundary',
       courseIdentity,
-      workUnit: {
-        id: 'foundation-node-1',
-        title: 'Concept',
-        requirementIds: ['requirement-1'],
-        knowledgeNodeIds: ['node-1'],
-        learningModes: ['explanation', 'retrieval'],
-        requiredOutputs: ['learning', 'practice'],
-        scope: 'course',
-        componentIds: [],
-        learningDesign,
-      },
+      workUnit: foundationWorkUnit,
       knowledgeModelFingerprint: 'knowledge-model-v1',
       requiredTeachingPoints: ['understand the concept'],
       knowledgeNodes: [{
