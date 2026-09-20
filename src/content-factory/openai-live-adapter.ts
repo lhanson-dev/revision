@@ -47,25 +47,72 @@ function hasFoundationCourseLearningDesign(workUnit: unknown) {
   )
 }
 
+type ProviderBudgetFamily = 'base-v4' | 'foundation-learning-v5'
+
 export function createOpenAIModelAssistedWorkers(
   config: OpenAIContentFactoryAdapterConfig,
 ): OpenAIModelAssistedWorkers {
   const baseWorkers = createBaseOpenAIModelAssistedWorkers(config)
   const foundationLearningWorkers = createOpenAIFoundationCourseLearningWorkers(config)
+  let providerBudgetFamily: ProviderBudgetFamily | undefined
+
+  const claimBudgetFamily = (next: ProviderBudgetFamily) => {
+    if (providerBudgetFamily && providerBudgetFamily !== next) {
+      throw new Error(
+        `content_factory_provider_budget_boundary: cannot mix ${providerBudgetFamily} and ${next} workers in one provider factory instance`,
+      )
+    }
+    providerBudgetFamily = next
+  }
 
   return {
-    ...baseWorkers,
+    async compileKnowledgeModel(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.compileKnowledgeModel(input)
+    },
+    async planLearningBlueprint(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.planLearningBlueprint(input)
+    },
     async generateLearningCollateral(input) {
       if (hasFoundationCourseLearningDesign(input.workUnit)) {
+        claimBudgetFamily('foundation-learning-v5')
         return foundationLearningWorkers.generateLearningCollateral(input)
       }
+      claimBudgetFamily('base-v4')
       return baseWorkers.generateLearningCollateral(input)
     },
     async generatePracticeCollateral(input) {
       if (hasFoundationCourseLearningDesign(input.workUnit)) {
+        claimBudgetFamily('foundation-learning-v5')
         return foundationLearningWorkers.generatePracticeCollateral(input)
       }
+      claimBudgetFamily('base-v4')
       return baseWorkers.generatePracticeCollateral(input)
+    },
+    async compileAssessmentBlueprint(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.compileAssessmentBlueprint(input)
+    },
+    async generateQuestionFamilies(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.generateQuestionFamilies(input)
+    },
+    async generateAssessmentItem(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.generateAssessmentItem(input)
+    },
+    async generateMarkingPack(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.generateMarkingPack(input)
+    },
+    async independentReview(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.independentReview(input)
+    },
+    async remediate(input) {
+      claimBudgetFamily('base-v4')
+      return baseWorkers.remediate(input)
     },
   }
 }
