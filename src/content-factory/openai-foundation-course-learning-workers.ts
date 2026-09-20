@@ -16,6 +16,7 @@ import {
 } from './openai-provider-adapter'
 import {
   providerLearningTeachingPointEvidenceSchema,
+  providerPracticeEvidenceLocationGuidance,
   providerPracticeTeachingPointEvidenceSchema,
   resolveLearningCoverageEvidence,
   resolvePracticeCoverageEvidence,
@@ -409,6 +410,7 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'retrieval must require recall; discrimination must require distinguishing alternatives; calculation must require doing a calculation from supplied values; interpretation must require interpreting a result/data rather than naming it; procedure_execution must require performing the method; construction must require constructing or completing the relevant representation/output; graph_data_interpretation must provide enough chart/graph/data information to interpret; contextual_application must use a materially different concrete context; reasoning_chain must require linked mechanism/consequence reasoning; compare_justify must require a supported comparison; framework_application must provide facts that require applying the framework; contextual_judgement must provide defined competing evidence and require a supported conditional judgement; misconception_diagnostic must discriminate a plausible error from the correct idea; mixed_synoptic_selection must require selecting relevant knowledge across connected material.',
           'Provide at least one useful activity in every supplied mode bucket. One well-designed activity may satisfy multiple compatible node-level capabilities only when the capabilityEvidence locations genuinely demonstrate each one.',
           'Collectively exercise every requiredTeachingPoint. coverageEvidence must contain every requiredTeachingPoint exactly once. For non-atomic teaching points, evidence may point to an exact prompt, expectedResponse, explanation or improvementAction; atomic obligations follow the stricter rules below.',
+          providerPracticeEvidenceLocationGuidance(),
           foundationAtomicPracticeEvidenceGuidance(input.requiredTeachingPoints),
           'Each activity must include an answer expectation, explanation and specific improvement action. Use only supplied structured facts and subject-authentic contexts. Do not imitate protected exam questions.',
         ].join(' '),

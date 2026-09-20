@@ -38,6 +38,10 @@ export const providerPracticeTeachingPointEvidenceSchema = z.strictObject({
 export type ProviderLearningTeachingPointEvidence = z.infer<typeof providerLearningTeachingPointEvidenceSchema>
 export type ProviderPracticeTeachingPointEvidence = z.infer<typeof providerPracticeTeachingPointEvidenceSchema>
 
+export function providerPracticeEvidenceLocationGuidance() {
+  return 'Use 1-based Practice evidence activityIndex values. Each coverageEvidence or capabilityEvidence location must reference an activity that actually exists in the named activitiesByMode bucket; if that bucket contains one activity, use activityIndex=1.'
+}
+
 type ProviderLearningContent = {
   introduction: string
   sections?: Array<{ explanation: string; keyPoints: string[] }>
