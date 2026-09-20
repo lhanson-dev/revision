@@ -64,7 +64,7 @@ The planner can classify and select obligations for:
 - misconception diagnosis; and
 - explicitly structured synoptic/exam-response demands.
 
-The derivation uses governed structured Course Knowledge Model facts rather than generated learner content, including node kind, formulas, misconceptions, application contexts and evidence types.
+The derivation uses governed structured Course Knowledge Model facts rather than generated learner content, including node kind, formulas, misconceptions, application contexts and evidence types. Structured evidence labels used by the retained Business Foundation include generic signals such as quantitative calculation, diagram interpretation/amendment, comparative analysis, interrelationship analysis and cross-functional evaluation; the planner recognises those signal classes without hard-coding Business requirement IDs.
 
 The planner maps the work-unit union onto bounded Learn/Practice generation modes. This allows construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
 
@@ -75,7 +75,8 @@ New Foundation-native v2 work units are routed through provider contract version
 The v5 Learn boundary requires:
 
 - every governed teaching point exactly once in `coverageEvidence`;
-- every selected Learn treatment exactly once in `treatmentEvidence`;
+- every exact `(nodeId, Learn treatment)` obligation exactly once in `treatmentEvidence`;
+- a treatment satisfied for one node not to satisfy the same treatment on another node;
 - every treatment-evidence entry to resolve to an exact generated content field;
 - worked-example evidence to point to a worked-example field; and
 - misconception-repair evidence to point to an actual misconception correction.
@@ -83,7 +84,8 @@ The v5 Learn boundary requires:
 The v5 Practice boundary requires:
 
 - every governed teaching point exactly once in `coverageEvidence`;
-- every selected Practice capability exactly once in `capabilityEvidence`;
+- every exact `(nodeId, Practice capability)` obligation exactly once in `capabilityEvidence`;
+- a capability satisfied for one node not to satisfy the same capability on another node;
 - every capability-evidence entry to resolve to an exact generated activity field; and
 - capabilities to be evidenced through the deterministic mode capable of exercising them.
 
@@ -97,7 +99,7 @@ The current capability-to-mode boundary includes:
 
 The provider instructions describe the educational action required by each capability. For example, `construction` must require the learner to construct or complete the relevant output rather than merely recall it, while `contextual_judgement` must supply defined competing evidence and require a supported conditional judgement.
 
-Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether the claimed treatment or capability was genuinely implemented at the required depth.
+Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether each claimed node-level treatment or capability was genuinely implemented at the required depth.
 
 ### Provider spend boundary
 
@@ -116,7 +118,7 @@ The worker input contains:
 - structured knowledge-node summaries, formulas, misconceptions, application contexts, depth and evidence types; and
 - exact governed teaching points.
 
-Generation fails closed if the v2 learning design is missing or the provider cannot satisfy the strict treatment/capability evidence contract. Successful generation still leaves the aggregate Learn and Practice derived assets at `pending`; generation does not imply asset assurance.
+Generation fails closed if the v2 learning design is missing or the provider cannot satisfy the strict node-level treatment/capability evidence contract. Successful generation still leaves the aggregate Learn and Practice derived assets at `pending`; generation does not imply asset assurance.
 
 ## Provenance
 
