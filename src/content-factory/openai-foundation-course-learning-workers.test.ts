@@ -61,8 +61,15 @@ const workUnit = {
   title: 'Quantitative decision',
   requirementIds: ['quantitative-decision'],
   knowledgeNodeIds: ['quantitative-decision'],
-  learningModes: ['explanation', 'worked_example', 'retrieval', 'short_answer', 'application', 'quantitative'] as const,
-  requiredOutputs: ['learning', 'practice'] as const,
+  learningModes: [...([
+    'explanation',
+    'worked_example',
+    'retrieval',
+    'short_answer',
+    'application',
+    'quantitative',
+  ] as const)],
+  requiredOutputs: [...(['learning', 'practice'] as const)],
   scope: 'course' as const,
   componentIds: [],
   learningDesign,
@@ -255,7 +262,7 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
     })
     const badWorkUnit = {
       ...workUnit,
-      learningModes: ['explanation', 'retrieval', 'short_answer', 'application'] as const,
+      learningModes: [...(['explanation', 'retrieval', 'short_answer', 'application'] as const)],
       learningDesign: {
         ...learningDesign,
         learnTreatments: ['core_explanation' as const],
