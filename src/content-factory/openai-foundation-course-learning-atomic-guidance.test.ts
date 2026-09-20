@@ -133,13 +133,16 @@ describe('Foundation provider v5 atomic evidence guidance', () => {
     expect(instructions[0]).toContain('Misconception to diagnose and repair [nodeId] obligations must point to misconception_correction')
   })
 
-  it('tells Practice generation that atomic evidence must be active and uses the same deterministic mode mapping', async () => {
+  it('tells Practice generation that atomic evidence must be active, address real 1-based activities and use the same deterministic mode mapping', async () => {
     const instructions: string[] = []
     const workers = workersWithInstructionCapture(instructions)
 
     await workers.generatePracticeCollateral(input)
 
     expect(instructions).toHaveLength(1)
+    expect(instructions[0]).toContain('1-based activityIndex')
+    expect(instructions[0]).toContain('must reference an activity that actually exists in the named activitiesByMode bucket')
+    expect(instructions[0]).toContain('if that bucket contains one activity, use activityIndex=1')
     expect(instructions[0]).toContain('never explanation or improvementAction')
     expect(instructions[0]).toContain('Formula or quantitative procedure [nodeId] obligations must use quantitative Practice')
     expect(instructions[0]).toContain('Required application context [nodeId] obligations must use application Practice')
