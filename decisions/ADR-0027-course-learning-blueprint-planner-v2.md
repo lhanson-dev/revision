@@ -27,7 +27,17 @@ The historical planner remains available solely so retained v1 bundles can be re
 
 ### `course-learning-blueprint-v2`
 
-New Foundation-native generation uses a deterministic learning-design object on every work unit. It derives classifications, Learn treatments and Practice capabilities from structured Course Knowledge Model metadata, including:
+New Foundation-native generation uses deterministic learning-design metadata derived from structured Course Knowledge Model facts.
+
+The planner classifies **each canonical knowledge/skill node** independently and records that node's:
+
+- classifications;
+- Learn treatments; and
+- Practice capabilities.
+
+The work-unit learning design then retains the exact node-level records plus deterministic unions of classifications, treatments and capabilities for bounded generation. The schema fails closed if the node IDs do not exactly match the work-unit source-node set or if an aggregate union differs from its node-level records.
+
+The derivation uses structured Course Knowledge Model metadata, including:
 
 - node kind;
 - formula presence;
@@ -58,11 +68,17 @@ The existing generic/legacy provider path remains contract v4. Routing to v5 occ
 
 This split is deliberate: deterministic planning owns **what must be taught or practised**; the structured provider boundary proves that generated content contains an auditable implementation point for every obligation; independent review judges whether that implementation is educationally and factually adequate.
 
+## Provider spend boundary
+
+The base v4 worker stack and Foundation v5 learning worker use separate provider clients. A single factory instance therefore fails closed if code attempts to mix those two worker families.
+
+This prevents a configured provider spend ceiling from being treated as two independent ceilings within one logical run. Foundation-native v2 generation uses the v5 family for its Learn/Practice calls; legacy/generic flows use the base family. A future architecture that intentionally combines those families must first introduce one shared spend ledger rather than silently weakening the existing hard-ceiling control.
+
 ## Compatibility and provenance
 
 The aggregate internal-learning bundle remains schema version 1 for compatibility, but gains an explicit optional `planningContractVersion`.
 
-Absence of that field means the retained historical `legacy-v1` planner. New generation writes `course-learning-blueprint-v2` explicitly and each v2 work-unit plan retains its deterministic learning-design metadata.
+Absence of that field means the retained historical `legacy-v1` planner. New generation writes `course-learning-blueprint-v2` explicitly and each v2 work-unit plan retains its deterministic node-level and aggregate learning-design metadata.
 
 Deterministic asset assurance reconstructs the planner version declared by the bundle before comparing the expected and retained work-unit plans. This preserves exact historical replay while preventing a v2 bundle from being assured against legacy rules.
 
@@ -90,4 +106,4 @@ Exam Prep remains a separate future factory combining Course Truth, Exam Truth a
 
 ## Documentation impact
 
-`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` is updated to describe the planner-version boundary, provider contract v5 and retained fail-hold evidence. The existing `INDEX.md` already locates the governing Course Learning Blueprint, workflow amendment and Content Factory technical contract, so no authority-location change is required for this implementation ADR. The existing Course Learning Blueprint and workflow amendment remain the normative design authority; this ADR records how the current runtime implements that approved decision.
+`docs/technical/Content Factory Foundation-Native Internal Learning Assets.md` is updated to describe the planner-version boundary, provider contract v5, provider spend boundary and retained fail-hold evidence. The existing `INDEX.md` already locates the governing Course Learning Blueprint, workflow amendment and Content Factory technical contract, so no authority-location change is required for this implementation ADR. The existing Course Learning Blueprint and workflow amendment remain the normative design authority; this ADR records how the current runtime implements that approved decision.
