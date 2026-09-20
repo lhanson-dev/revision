@@ -25,7 +25,7 @@ The runtime fails closed when supplied artifacts do not match the exact Candidat
 
 `planFoundationInternalLearningWorkUnits` remains deterministic and groups governed Foundation requirements by `revisionArea` while retaining exact requirement IDs, knowledge-node IDs, source references and teaching points.
 
-The planner now has two explicit contracts.
+The planner has two explicit contracts.
 
 ### `legacy-v1`
 
@@ -62,13 +62,42 @@ The work-unit learning design records:
 - required Practice capabilities; and
 - exact source knowledge-node IDs.
 
-The planner maps those obligations onto the existing bounded Learn/Practice generation modes. This allows, for example, construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
+The planner maps those obligations onto bounded Learn/Practice generation modes. This allows construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
 
-Generative workers remain responsible for learner-facing wording, examples, activities and feedback. They do not decide that a deterministic treatment obligation can be omitted.
+## Foundation v2 generation contract
+
+New Foundation-native v2 work units are routed through provider contract version `5`. Legacy/generic work units without `learningDesign` continue through provider contract v4.
+
+The v5 Learn boundary requires:
+
+- every governed teaching point exactly once in `coverageEvidence`;
+- every selected Learn treatment exactly once in `treatmentEvidence`;
+- every treatment-evidence entry to resolve to an exact generated content field;
+- worked-example evidence to point to a worked-example field; and
+- misconception-repair evidence to point to an actual misconception correction.
+
+The v5 Practice boundary requires:
+
+- every governed teaching point exactly once in `coverageEvidence`;
+- every selected Practice capability exactly once in `capabilityEvidence`;
+- every capability-evidence entry to resolve to an exact generated activity field; and
+- capabilities to be evidenced through the deterministic mode capable of exercising them.
+
+The current capability-to-mode boundary includes:
+
+- retrieval and misconception diagnosis → `retrieval`;
+- calculation → `quantitative`;
+- discrimination, procedure execution, construction, reasoning-chain and compare/justify work → `short_answer`;
+- graph/data interpretation, contextual application, framework application, contextual judgement and mixed-synoptic selection → `application`; and
+- interpretation → the strongest applicable selected mode, preferring quantitative or application where present.
+
+The provider instructions describe the educational action required by each capability. For example, `construction` must require the learner to construct or complete the relevant output rather than merely recall it, while `contextual_judgement` must supply defined competing evidence and require a supported conditional judgement.
+
+Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether the claimed treatment or capability was genuinely implemented at the required depth.
 
 ## Generation and evidence
 
-`generateFoundationInternalLearningAssets` now uses Course Learning Blueprint v2 planning for new bundles.
+`generateFoundationInternalLearningAssets` uses Course Learning Blueprint v2 planning for new bundles.
 
 The worker input contains:
 
@@ -77,7 +106,7 @@ The worker input contains:
 - structured knowledge-node summaries, formulas, misconceptions, application contexts, depth and evidence types; and
 - exact governed teaching points.
 
-Each returned Learn/Practice output must still provide exact auditable teaching-point evidence. Generation does not set asset assurance to PASS.
+Generation fails closed if the v2 learning design is missing or the provider cannot satisfy the strict treatment/capability evidence contract. Successful generation still leaves the aggregate Learn and Practice derived assets at `pending`; generation does not imply asset assurance.
 
 ## Provenance
 
@@ -90,6 +119,8 @@ A generated bundle retains:
 - deterministic work-unit plans and v2 learning-design metadata where applicable;
 - generation context IDs; and
 - pending Learn and Practice derived-asset records.
+
+Worker-run evidence separately records provider contract version `5` for v2 Learn/Practice calls.
 
 ## Foundation-native asset assurance
 
@@ -151,21 +182,21 @@ All source/provenance checks passed and the substantive fresh-context review com
 - Practice asset still `pending`; and
 - learner publication still false.
 
-The findings included missing or insufficient construction, graph/chart, quantitative, diagnostic, framework and contextual-evaluation practice as well as several asset-local factual/pedagogical issues. This pattern demonstrated that the legacy planner's `formula present / context present` treatment selection was not rich enough to implement the approved Course Learning Blueprint.
+The findings included missing or insufficient construction, graph/chart, quantitative, diagnostic, framework and contextual-evaluation practice as well as several asset-local factual/pedagogical issues. This pattern demonstrated that the legacy planner's `formula present / context present` treatment selection and generic mode-only generation contract were not rich enough to implement the approved Course Learning Blueprint.
 
 The run is retained evidence. It is not reclassified as a pass and the generated content is not edited in place.
 
 ## Remediation path after proof #2
 
-The systemic planner defect is addressed by ADR-0027 and the `course-learning-blueprint-v2` contract.
+The systemic planning/generation-contract defect is addressed by ADR-0027, `course-learning-blueprint-v2` and Foundation provider contract v5.
 
-The governed next sequence is:
+This does not assert that the 16 historical findings are resolved. The governed next sequence is:
 
-1. merge the planner-v2 implementation only after exact-head assurance and explicit Founder approval;
-2. generate a new retained Business Learn/Practice bundle with new contexts under `course-learning-blueprint-v2`;
+1. merge the planner-v2/provider-v5 implementation only after exact-head assurance and explicit Founder approval;
+2. generate a new retained Business Learn/Practice bundle with new contexts under `course-learning-blueprint-v2` and provider contract v5;
 3. run deterministic and fresh-context independent assurance against that exact new bundle;
 4. remediate any remaining asset-local findings at smallest safe scope;
-5. if v2 planning exposes missing/incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream; and
+5. if v2/v5 exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream; and
 6. proceed to internal preview only after the exact new bundle passes the applicable asset-assurance gate.
 
 The separate human Foundation approval requirement remains unchanged.
@@ -186,4 +217,4 @@ Business is the first reference proof, not evidence that the planner is generall
 
 ## Documentation impact
 
-ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner migration. This document records current implementation truth plus retained proof history without rewriting prior evidence.
+ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner plus v5 provider-contract migration. This document records current implementation truth plus retained proof history without rewriting prior evidence.
