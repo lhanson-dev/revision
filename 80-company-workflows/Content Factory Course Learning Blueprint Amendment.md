@@ -1,6 +1,6 @@
 # Content Factory Course Learning Blueprint Amendment
 
-**Status:** Proposed workflow amendment — pending Founder approval and merge  
+**Status:** Active workflow authority — approved and merged in PR #351  
 **Owner:** Founder / Product / Content Operations  
 **Purpose:** Insert the governed Course Learning Blueprint between Approved Course Foundation and learner-asset planning.
 
@@ -213,15 +213,15 @@ If the defect comes from missing/incorrect Course Truth or Exam Truth, reopen th
 
 ## Implementation migration
 
-The current Foundation-native internal learning planner uses a simpler contract:
+The retained Foundation-native internal learning planner used a simpler historical contract:
 
 - explanation + retrieval for every work unit;
 - worked example + quantitative practice when formula knowledge exists; and
 - application practice when application contexts exist.
 
-That remains historical/current implementation evidence until implementation changes.
+That remains historical implementation evidence and must remain reconstructable for retained bundles.
 
-Migration should:
+The implementation migration must:
 
 1. preserve the existing proven Foundation binding, work-unit traceability, fresh-context review and release controls;
 2. introduce a versioned Course Learning Blueprint representation;
@@ -229,13 +229,13 @@ Migration should:
 4. expand Learn/Practice worker contracts to consume the selected treatments;
 5. update deterministic asset assurance to verify treatment obligations;
 6. prove Business reference cases; and
-7. prove portability on a materially different subject before replacing the old planner as the default production implementation.
+7. prove portability on a materially different subject before the new planner is treated as generally qualified for multi-subject production.
 
 ## Documentation impact
 
-If approved, `INDEX.md` should identify:
+`INDEX.md` identifies:
 
 - `10-product-governance/Course Learning Blueprint.md` as the product authority for course learning design; and
 - this amendment as the workflow rule connecting that authority to Content Factory asset production.
 
-When implementation begins, update the relevant technical Content Factory documentation and create an ADR if the blueprint becomes a new durable architecture boundary/schema.
+Implementation changes must update the relevant technical Content Factory documentation and create/update ADRs when the blueprint becomes or changes a durable architecture boundary/schema.

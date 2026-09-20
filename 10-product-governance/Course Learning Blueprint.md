@@ -1,6 +1,6 @@
 # Course Learning Blueprint
 
-**Status:** Proposed product authority — pending Founder approval and merge  
+**Status:** Active product authority — approved and merged in PR #351  
 **Owner:** Founder / Product / Educational Content  
 **Purpose:** Define the qualification-agnostic learning-design model that transforms an Approved Course Foundation into coherent Learn, Practice and Exam Prep experiences.
 
@@ -623,8 +623,8 @@ Revision must not standardise course production around:
 
 ## Documentation impact
 
-If approved, this document becomes product authority for course learning design and fills the previously implicit `Learning Blueprint` responsibility referenced by `Product System Model.md`.
+This document is active product authority for course learning design and fills the previously implicit `Learning Blueprint` responsibility referenced by `Product System Model.md`.
 
 Content Factory production workflows must require blueprint derivation before learner-asset planning/generation. Technical Content Factory documentation and implementation must be updated when that production change is implemented.
 
-This authority does not itself claim that the current Content Factory runtime already implements the blueprint.
+This authority does not itself claim that any particular Content Factory runtime implementation has passed its governed portability proof.

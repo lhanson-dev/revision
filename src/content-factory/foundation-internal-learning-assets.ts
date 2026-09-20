@@ -1,6 +1,14 @@
 import { z } from 'zod'
 import { foundationCoverageModelSchema } from './foundation-compilation'
 import {
+  deriveFoundationCourseLearningAtomicTeachingPoints,
+} from './foundation-course-learning-atomic-obligations'
+import {
+  foundationCourseLearningDesignSchema,
+  deriveFoundationCourseLearningDesign,
+  learningModesForFoundationCourseLearningDesign,
+} from './foundation-course-learning-blueprint'
+import {
   createFoundationDerivedAsset,
   foundationDerivedAssetSchema,
 } from './foundation-derived-asset'
@@ -18,15 +26,22 @@ const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
 const nonEmptyStringSchema = z.string().min(1)
 const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/)
 
+export const foundationInternalLearningPlanningContractSchema = z.enum([
+  'legacy-v1',
+  'course-learning-blueprint-v2',
+])
+
 export const foundationInternalLearningWorkUnitSchema = executableLearningWorkUnitSchema.extend({
   revisionArea: nonEmptyStringSchema,
   sourceRefs: z.array(identifierSchema).min(1),
   requiredTeachingPoints: z.array(nonEmptyStringSchema).min(1),
+  learningDesign: foundationCourseLearningDesignSchema.optional(),
 })
 
 export const foundationInternalLearningAssetBundleSchema = z.object({
   schemaVersion: z.literal(1),
   artifactType: z.literal('foundation_internal_learning_asset_bundle'),
+  planningContractVersion: foundationInternalLearningPlanningContractSchema.optional(),
   foundationFingerprint: sha256Schema,
   foundationCandidateId: identifierSchema,
   courseIdentity: courseIdentitySchema,
@@ -65,10 +80,23 @@ export const foundationInternalLearningAssetBundleSchema = z.object({
       })
     }
   }
+
+  if (bundle.planningContractVersion === 'course-learning-blueprint-v2') {
+    bundle.workUnits.forEach((workUnit, index) => {
+      if (!workUnit.plan.learningDesign) {
+        context.addIssue({
+          code: 'custom',
+          path: ['workUnits', index, 'plan', 'learningDesign'],
+          message: 'Course Learning Blueprint v2 work units must retain deterministic learning design',
+        })
+      }
+    })
+  }
 })
 
 export type FoundationInternalLearningAssetBundle = z.infer<typeof foundationInternalLearningAssetBundleSchema>
 export type FoundationInternalLearningWorkUnit = z.infer<typeof foundationInternalLearningWorkUnitSchema>
+export type FoundationInternalLearningPlannerVersion = 1 | 2
 
 function slug(value: string) {
   return value
@@ -78,7 +106,7 @@ function slug(value: string) {
     .replace(/^-+|-+$/g, '')
 }
 
-function unique(values: string[]) {
+function unique<T extends string>(values: T[]) {
   return [...new Set(values)]
 }
 
@@ -98,9 +126,10 @@ function safeNode(node: z.infer<typeof courseKnowledgeModelSchema>['nodes'][numb
 export function planFoundationInternalLearningWorkUnits(input: {
   coverageModel: unknown
   courseKnowledgeModel: unknown
-}) {
+}, options: { plannerVersion?: FoundationInternalLearningPlannerVersion } = {}) {
   const coverage = foundationCoverageModelSchema.parse(input.coverageModel)
   const model = courseKnowledgeModelSchema.parse(input.courseKnowledgeModel)
+  const plannerVersion = options.plannerVersion ?? 1
   if (coverage.jobId !== model.jobId) {
     throw new Error('Foundation coverage and Course Knowledge Model must belong to the same Foundation job')
   }
@@ -138,14 +167,24 @@ export function planFoundationInternalLearningWorkUnits(input: {
     }
     usedIds.add(id)
 
-    const modes: Array<'explanation' | 'worked_example' | 'retrieval' | 'application' | 'quantitative'> = [
-      'explanation',
-      'retrieval',
-    ]
-    if (nodes.some((node) => node.formulas.length > 0)) {
-      modes.push('worked_example', 'quantitative')
+    let learningModes: Array<'explanation' | 'worked_example' | 'retrieval' | 'flashcard' | 'short_answer' | 'application' | 'quantitative'>
+    let learningDesign: z.infer<typeof foundationCourseLearningDesignSchema> | undefined
+
+    if (plannerVersion === 2) {
+      learningDesign = deriveFoundationCourseLearningDesign(nodes)
+      learningModes = learningModesForFoundationCourseLearningDesign(learningDesign)
+    } else {
+      learningModes = ['explanation', 'retrieval']
+      if (nodes.some((node) => node.formulas.length > 0)) {
+        learningModes.push('worked_example', 'quantitative')
+      }
+      if (nodes.some((node) => node.applicationContexts.length > 0)) learningModes.push('application')
     }
-    if (nodes.some((node) => node.applicationContexts.length > 0)) modes.push('application')
+
+    const requiredTeachingPoints = unique([
+      ...requirements.flatMap((requirement) => requirement.skillsOrKnowledge),
+      ...(plannerVersion === 2 ? deriveFoundationCourseLearningAtomicTeachingPoints(nodes) : []),
+    ])
 
     return foundationInternalLearningWorkUnitSchema.parse({
       id,
@@ -153,7 +192,7 @@ export function planFoundationInternalLearningWorkUnits(input: {
       revisionArea,
       requirementIds: requirements.map((requirement) => requirement.requirementId),
       knowledgeNodeIds: nodeIds,
-      learningModes: unique(modes),
+      learningModes: unique(learningModes),
       requiredOutputs: ['learning', 'practice'],
       scope: 'course',
       componentIds: [],
@@ -161,7 +200,8 @@ export function planFoundationInternalLearningWorkUnits(input: {
         ...requirements.flatMap((requirement) => requirement.sourceRefs),
         ...nodes.flatMap((node) => node.sourceRefs),
       ]),
-      requiredTeachingPoints: unique(requirements.flatMap((requirement) => requirement.skillsOrKnowledge)),
+      requiredTeachingPoints,
+      ...(learningDesign ? { learningDesign } : {}),
     })
   })
 }
@@ -249,7 +289,10 @@ export async function generateFoundationInternalLearningAssets(input: {
     throw new Error('Learn and Practice assets must derive from the same Foundation fingerprint')
   }
 
-  const plans = planFoundationInternalLearningWorkUnits({ coverageModel: coverage, courseKnowledgeModel: model })
+  const plans = planFoundationInternalLearningWorkUnits(
+    { coverageModel: coverage, courseKnowledgeModel: model },
+    { plannerVersion: 2 },
+  )
   const generationContextIds: string[] = []
   const workUnits: FoundationInternalLearningAssetBundle['workUnits'] = []
 
@@ -294,6 +337,7 @@ export async function generateFoundationInternalLearningAssets(input: {
   return foundationInternalLearningAssetBundleSchema.parse({
     schemaVersion: 1,
     artifactType: 'foundation_internal_learning_asset_bundle',
+    planningContractVersion: 'course-learning-blueprint-v2',
     foundationFingerprint: learnAsset.foundationFingerprint,
     foundationCandidateId: learnAsset.foundationCandidateId,
     courseIdentity: job.candidate.courseIdentity,

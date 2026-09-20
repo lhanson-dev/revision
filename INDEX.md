@@ -42,6 +42,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 - Content Factory AI-assured Foundation lifecycle / pre-production asset and release gate → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation-native internal Learn/Practice production, assurance and retained live proofs → `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`
+- Content Factory Foundation-native atomic Course Truth learning obligations / exact Learn-Practice evidence placement → `docs/technical/Content Factory Foundation-Native Atomic Learning Obligations.md`
 - Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory v2 automated course-build implementation plan → `docs/technical/Content Factory v2 Implementation Plan.md`
 - Content Factory v2 live external provider/source pilot implementation → `docs/technical/Content Factory v2 Live Adapter Pilot.md`
@@ -59,7 +60,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0026-foundation-native-learning-asset-assurance.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0027-course-learning-blueprint-planner-v2.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -168,6 +169,7 @@ Use this file to find the governing source before substantive work.
 - Content Factory current staged target / migration plan → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 - Content Factory AI-assured Foundation runtime / pre-production release boundary → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation-native internal Learn/Practice production, assurance and retained live proofs → `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`
+- Content Factory Foundation-native atomic Course Truth learning obligations / exact Learn-Practice evidence placement → `docs/technical/Content Factory Foundation-Native Atomic Learning Obligations.md`
 - Content Factory Foundation pre-calibration Paper 2 / Paper 3 assembly guard → `docs/technical/Content Factory Foundation Pre-Calibration Assembly Guard.md`
 - Content Factory architecture → `docs/technical/Content Factory Architecture.md`
 - Content Factory v0.1 implementation → `docs/technical/Content Factory v0.1 Foundation Implementation.md`

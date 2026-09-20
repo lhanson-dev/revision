@@ -1,4 +1,8 @@
 import { z } from 'zod'
+import {
+  validateFoundationAtomicLearningEvidenceLocations,
+  validateFoundationAtomicPracticeEvidenceLocations,
+} from './foundation-course-learning-atomic-obligations'
 
 const nonEmptyStringSchema = z.string().min(1)
 const oneBasedIndexSchema = z.number().int().min(1)
@@ -111,6 +115,7 @@ export function resolveLearningCoverageEvidence(
   evidence: ProviderLearningTeachingPointEvidence[],
   content: ProviderLearningContent,
 ) {
+  validateFoundationAtomicLearningEvidenceLocations(evidence)
   return evidence.map((entry) => ({
     teachingPoint: entry.teachingPoint,
     evidence: resolveLearningLocation(content, entry.location),
@@ -121,6 +126,7 @@ export function resolvePracticeCoverageEvidence(
   evidence: ProviderPracticeTeachingPointEvidence[],
   content: ProviderPracticeContent,
 ) {
+  validateFoundationAtomicPracticeEvidenceLocations(evidence)
   return evidence.map((entry) => {
     const activities = content.activitiesByMode[entry.location.mode]
     const activity = indexed(activities, entry.location.activityIndex, `${entry.location.mode} activity`)
