@@ -142,20 +142,30 @@ function deriveFoundationCourseLearningNodeDesign(node: KnowledgeNode): Foundati
   const hasFormula = node.kind === 'formula' || node.formulas.length > 0
     || hasEvidence(evidence, 'quantitative', 'calculation', 'ratio', 'numerical')
   const hasProcedure = node.kind === 'skill'
-    || hasEvidence(evidence, 'procedure', 'method', 'construction')
+    || hasEvidence(evidence, 'procedure', 'method', 'construction', 'amendment')
   const hasApplication = node.applicationContexts.length > 0
     || hasEvidence(evidence, 'application', 'contextual', 'case')
   const hasMisconception = node.misconceptions.length > 0
-  const hasComparison = hasEvidence(evidence, 'compare', 'comparison', 'discriminat', 'distinguish')
+  const hasComparison = hasEvidence(evidence, 'compare', 'comparison', 'comparative', 'discriminat', 'distinguish')
   const hasAnalysis = hasEvidence(evidence, 'analysis', 'analyse', 'reasoning', 'diagnosis', 'diagnostic')
   const hasEvaluation = hasEvidence(evidence, 'evaluation', 'evaluate', 'judgement', 'judgment', 'decision making')
   const hasFramework = hasEvidence(evidence, 'framework', 'model application')
-  const hasConstruction = hasEvidence(evidence, 'construction', 'construct', 'completion')
-  const hasGraphInterpretation = hasEvidence(evidence, 'graph', 'chart', 'data interpretation', 'graphical interpretation')
+  const hasConstruction = hasEvidence(evidence, 'construction', 'construct', 'completion', 'diagram amendment', 'amendment')
+  const hasGraphInterpretation = hasEvidence(evidence, 'graph', 'chart', 'diagram interpretation', 'data interpretation', 'graphical interpretation')
   const hasInterpretation = hasEvidence(evidence, 'interpretation', 'interpret', 'data-quality', 'data quality')
   const hasCausal = hasEvidence(evidence, 'causal', 'cause', 'consequence', 'mechanism')
   const hasProcess = hasEvidence(evidence, 'sequence', 'process', 'ordered stages')
-  const hasSynoptic = hasEvidence(evidence, 'synoptic', 'cross-topic', 'cross topic', 'integrat', 'mixed-topic', 'mixed topic')
+  const hasSynoptic = hasEvidence(
+    evidence,
+    'synoptic',
+    'cross-topic',
+    'cross topic',
+    'cross-functional',
+    'interrelationship',
+    'integrat',
+    'mixed-topic',
+    'mixed topic',
+  )
   const hasExamResponse = hasEvidence(evidence, 'exam response', 'extended response', 'essay', 'source response')
 
   if (node.kind === 'concept') classifications.push('concept')
