@@ -193,14 +193,18 @@ async function aiAssuredJob(candidateInput: FoundationCandidate = candidate()) {
 function workerOutputForTeachingPoints(points: string[], mode: 'learning' | 'practice', modes: string[] = []) {
   const evidence = points.map((point) => ({ teachingPoint: point, evidence: point }))
   if (mode === 'learning') {
+    const misconceptionPoints = points.filter((point) => point.startsWith('Misconception to diagnose and repair ['))
     return {
       title: 'Generated learning',
       introduction: `Learn ${points.join('; ')}.`,
-      sections: [{ id: 'section-1', title: 'Core explanation', explanation: points.join('; '), keyPoints: points }],
+      sections: [{ id: 'section-1', title: 'Core explanation', explanation: points[0], keyPoints: points }],
       workedExamples: modes.includes('worked_example')
-        ? [{ id: 'worked-1', title: 'Worked example', setup: points.join('; '), steps: ['Apply the governed concept.'], conclusion: 'Interpret the result.' }]
+        ? [{ id: 'worked-1', title: 'Worked example', setup: points[0], steps: points, conclusion: points.at(-1) ?? points[0] }]
         : [],
-      misconceptions: [],
+      misconceptions: misconceptionPoints.map((point, index) => ({
+        misconception: `Fixture misconception ${index + 1}`,
+        correction: point,
+      })),
       nextAction: 'Practise the same governed knowledge.',
       coverageEvidence: evidence,
     }
@@ -209,14 +213,14 @@ function workerOutputForTeachingPoints(points: string[], mode: 'learning' | 'pra
   return {
     title: 'Generated practice',
     instructions: `Practise ${points.join('; ')}.`,
-    activities: selected.map((activityMode, index) => ({
-      id: `activity-${index + 1}`,
+    activities: selected.flatMap((activityMode, modeIndex) => points.map((point, pointIndex) => ({
+      id: `activity-${modeIndex + 1}-${pointIndex + 1}`,
       mode: activityMode,
-      prompt: `Demonstrate ${points.join('; ')}`,
-      expectedResponse: points.join('; '),
-      explanation: points.join('; '),
+      prompt: `Demonstrate ${point}`,
+      expectedResponse: point,
+      explanation: point,
       improvementAction: 'Revisit the governed learning explanation.',
-    })),
+    }))),
     coverageEvidence: evidence,
   }
 }
