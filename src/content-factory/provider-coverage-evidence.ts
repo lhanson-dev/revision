@@ -38,6 +38,10 @@ export const providerPracticeTeachingPointEvidenceSchema = z.strictObject({
 export type ProviderLearningTeachingPointEvidence = z.infer<typeof providerLearningTeachingPointEvidenceSchema>
 export type ProviderPracticeTeachingPointEvidence = z.infer<typeof providerPracticeTeachingPointEvidenceSchema>
 
+export function providerLearningEvidenceLocationGuidance() {
+  return 'Use 1-based Learn evidence indexes. Every coverageEvidence or treatmentEvidence location must reference generated content that actually exists. For section_key_point, itemIndex must reference an existing section and detailIndex an existing keyPoints entry in that section. For worked_example_step, itemIndex must reference an existing worked example and detailIndex an existing steps entry. Never cite an itemIndex or detailIndex beyond the generated arrays.'
+}
+
 export function providerPracticeEvidenceLocationGuidance() {
   return 'Use 1-based Practice evidence activityIndex values. Each coverageEvidence or capabilityEvidence location must reference an activity that actually exists in the named activitiesByMode bucket; if that bucket contains one activity, use activityIndex=1.'
 }

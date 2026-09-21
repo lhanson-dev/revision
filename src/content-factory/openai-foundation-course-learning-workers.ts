@@ -15,6 +15,7 @@ import {
   type OpenAIContentFactoryAdapterConfig,
 } from './openai-provider-adapter'
 import {
+  providerLearningEvidenceLocationGuidance,
   providerLearningTeachingPointEvidenceSchema,
   providerPracticeEvidenceLocationGuidance,
   providerPracticeTeachingPointEvidenceSchema,
@@ -380,6 +381,7 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'When guided_example is selected, include a scaffolded or partially completed step/prompt that reduces support relative to the full worked example.',
           'When comparison, causal-chain, process, synoptic-link or self-explanation treatments are selected, make that thinking explicit rather than merely naming the concept.',
           'Explicitly teach every requiredTeachingPoint in learner content. coverageEvidence must contain every requiredTeachingPoint exactly once and point to an exact generated field.',
+          providerLearningEvidenceLocationGuidance(),
           foundationAtomicLearningEvidenceGuidance(),
           'Use 1-based evidence indexes. Scalar introduction and next_action use itemIndex=1/detailIndex=1; section explanations use detailIndex=1; section key points use section itemIndex and key-point detailIndex; worked-example setup/conclusion use detailIndex=1; worked-example steps use the step detailIndex; misconception corrections use misconception itemIndex/detailIndex=1.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
