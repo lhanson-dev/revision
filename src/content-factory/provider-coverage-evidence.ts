@@ -21,8 +21,7 @@ export const providerLearningTeachingPointEvidenceSchema = z.strictObject({
       'misconception_correction',
       'next_action',
     ]),
-    itemIndex: oneBasedIndexSchema,
-    detailIndex: oneBasedIndexSchema,
+    evidenceText: nonEmptyStringSchema,
   }),
 })
 
@@ -39,7 +38,7 @@ export type ProviderLearningTeachingPointEvidence = z.infer<typeof providerLearn
 export type ProviderPracticeTeachingPointEvidence = z.infer<typeof providerPracticeTeachingPointEvidenceSchema>
 
 export function providerLearningEvidenceLocationGuidance() {
-  return 'Use 1-based Learn evidence indexes. Every coverageEvidence or treatmentEvidence location must reference generated content that actually exists. For section_key_point, itemIndex must reference an existing section and detailIndex an existing keyPoints entry in that section. For worked_example_step, itemIndex must reference an existing worked example and detailIndex an existing steps entry. Never cite an itemIndex or detailIndex beyond the generated arrays.'
+  return 'For every Learn coverageEvidence or treatmentEvidence location, set area to the exact generated field type and copy evidenceText verbatim from that generated field. Do not paraphrase, summarise or reconstruct evidenceText. The copied evidenceText must occur exactly once among generated fields of the named area so the fail-closed resolver can bind it unambiguously.'
 }
 
 export function providerPracticeEvidenceLocationGuidance() {
@@ -71,9 +70,27 @@ function indexed<T>(values: T[] | undefined, oneBasedIndex: number, label: strin
   return value
 }
 
-function requireScalarLocation(itemIndex: number, detailIndex: number, label: string) {
-  if (itemIndex !== 1 || detailIndex !== 1) {
-    throw new Error(`Coverage evidence location for ${label} must use itemIndex=1 and detailIndex=1`)
+function learningAreaValues(
+  content: ProviderLearningContent,
+  area: ProviderLearningTeachingPointEvidence['location']['area'],
+) {
+  switch (area) {
+    case 'introduction':
+      return [content.introduction]
+    case 'section_explanation':
+      return (content.sections ?? []).map((section) => section.explanation)
+    case 'section_key_point':
+      return (content.sections ?? []).flatMap((section) => section.keyPoints)
+    case 'worked_example_setup':
+      return (content.workedExamples ?? []).map((example) => example.setup)
+    case 'worked_example_step':
+      return (content.workedExamples ?? []).flatMap((example) => example.steps)
+    case 'worked_example_conclusion':
+      return (content.workedExamples ?? []).map((example) => example.conclusion)
+    case 'misconception_correction':
+      return content.misconceptions.map((misconception) => misconception.correction)
+    case 'next_action':
+      return [content.nextAction]
   }
 }
 
@@ -81,42 +98,15 @@ function resolveLearningLocation(
   content: ProviderLearningContent,
   location: ProviderLearningTeachingPointEvidence['location'],
 ) {
-  switch (location.area) {
-    case 'introduction':
-      requireScalarLocation(location.itemIndex, location.detailIndex, 'introduction')
-      return content.introduction
-    case 'section_explanation': {
-      if (location.detailIndex !== 1) throw new Error('Section explanation coverage evidence must use detailIndex=1')
-      return indexed(content.sections, location.itemIndex, 'section').explanation
-    }
-    case 'section_key_point':
-      return indexed(
-        indexed(content.sections, location.itemIndex, 'section').keyPoints,
-        location.detailIndex,
-        `key point in section ${location.itemIndex}`,
-      )
-    case 'worked_example_setup': {
-      if (location.detailIndex !== 1) throw new Error('Worked-example setup coverage evidence must use detailIndex=1')
-      return indexed(content.workedExamples, location.itemIndex, 'worked example').setup
-    }
-    case 'worked_example_step':
-      return indexed(
-        indexed(content.workedExamples, location.itemIndex, 'worked example').steps,
-        location.detailIndex,
-        `step in worked example ${location.itemIndex}`,
-      )
-    case 'worked_example_conclusion': {
-      if (location.detailIndex !== 1) throw new Error('Worked-example conclusion coverage evidence must use detailIndex=1')
-      return indexed(content.workedExamples, location.itemIndex, 'worked example').conclusion
-    }
-    case 'misconception_correction': {
-      if (location.detailIndex !== 1) throw new Error('Misconception correction coverage evidence must use detailIndex=1')
-      return indexed(content.misconceptions, location.itemIndex, 'misconception').correction
-    }
-    case 'next_action':
-      requireScalarLocation(location.itemIndex, location.detailIndex, 'next action')
-      return content.nextAction
+  const matches = learningAreaValues(content, location.area)
+    .filter((value) => value === location.evidenceText)
+  if (matches.length === 0) {
+    throw new Error(`Coverage evidence text does not exactly match generated ${location.area}`)
   }
+  if (matches.length > 1) {
+    throw new Error(`Coverage evidence text is ambiguous within generated ${location.area}`)
+  }
+  return matches[0]
 }
 
 export function resolveLearningCoverageEvidence(
