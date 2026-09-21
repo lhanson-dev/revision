@@ -120,13 +120,20 @@ function workersWithInstructionCapture(instructions: string[]) {
 }
 
 describe('Foundation provider v5 atomic evidence guidance', () => {
-  it('tells Learn generation the exact atomic locations enforced after generation', async () => {
+  it('tells Learn generation the exact atomic locations and existing generated indexes enforced after generation', async () => {
     const instructions: string[] = []
     const workers = workersWithInstructionCapture(instructions)
 
     await workers.generateLearningCollateral(input)
 
     expect(instructions).toHaveLength(1)
+    expect(instructions[0]).toContain('1-based Learn evidence indexes')
+    expect(instructions[0]).toContain('must reference generated content that actually exists')
+    expect(instructions[0]).toContain('section_key_point')
+    expect(instructions[0]).toContain('existing keyPoints entry in that section')
+    expect(instructions[0]).toContain('worked_example_step')
+    expect(instructions[0]).toContain('existing steps entry')
+    expect(instructions[0]).toContain('Never cite an itemIndex or detailIndex beyond the generated arrays')
     expect(instructions[0]).toContain('Atomic coverageEvidence placement rules are mandatory')
     expect(instructions[0]).toContain('Course Truth [nodeId] summaries must point to section_explanation or section_key_point')
     expect(instructions[0]).toContain('Formula or quantitative procedure [nodeId] obligations must point to worked_example_setup, worked_example_step or worked_example_conclusion')
