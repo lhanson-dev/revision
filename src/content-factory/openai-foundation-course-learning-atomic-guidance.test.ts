@@ -87,7 +87,7 @@ const knowledgeNodes = [{
 }]
 
 const input = {
-  jobId: 'provider-v5-guidance-regression',
+  jobId: 'provider-guidance-regression',
   courseIdentity: {
     subject: 'Business',
     qualification: 'A-level',
@@ -119,28 +119,27 @@ function workersWithInstructionCapture(instructions: string[]) {
   })
 }
 
-describe('Foundation provider v5 atomic evidence guidance', () => {
-  it('tells Learn generation the exact atomic locations and existing generated indexes enforced after generation', async () => {
+describe('Foundation provider atomic evidence guidance', () => {
+  it('tells Learn v6 generation to bind evidence to unique verbatim generated text while preserving atomic placement', async () => {
     const instructions: string[] = []
     const workers = workersWithInstructionCapture(instructions)
 
     await workers.generateLearningCollateral(input)
 
     expect(instructions).toHaveLength(1)
-    expect(instructions[0]).toContain('1-based Learn evidence indexes')
-    expect(instructions[0]).toContain('must reference generated content that actually exists')
-    expect(instructions[0]).toContain('section_key_point')
-    expect(instructions[0]).toContain('existing keyPoints entry in that section')
-    expect(instructions[0]).toContain('worked_example_step')
-    expect(instructions[0]).toContain('existing steps entry')
-    expect(instructions[0]).toContain('Never cite an itemIndex or detailIndex beyond the generated arrays')
+    expect(instructions[0]).toContain('copy evidenceText verbatim from that generated field')
+    expect(instructions[0]).toContain('Do not paraphrase, summarise or reconstruct evidenceText')
+    expect(instructions[0]).toContain('must occur exactly once among generated fields of the named area')
+    expect(instructions[0]).toContain('area plus evidenceText copied verbatim')
+    expect(instructions[0]).toContain('Do not invent array indexes or positional references')
+    expect(instructions[0]).not.toContain('Use 1-based evidence indexes')
     expect(instructions[0]).toContain('Atomic coverageEvidence placement rules are mandatory')
     expect(instructions[0]).toContain('Course Truth [nodeId] summaries must point to section_explanation or section_key_point')
     expect(instructions[0]).toContain('Formula or quantitative procedure [nodeId] obligations must point to worked_example_setup, worked_example_step or worked_example_conclusion')
     expect(instructions[0]).toContain('Misconception to diagnose and repair [nodeId] obligations must point to misconception_correction')
   })
 
-  it('tells Practice generation that atomic evidence must be active, address real 1-based activities and use the same deterministic mode mapping', async () => {
+  it('tells Practice v5 generation that atomic evidence must be active, address real 1-based activities and use the same deterministic mode mapping', async () => {
     const instructions: string[] = []
     const workers = workersWithInstructionCapture(instructions)
 
