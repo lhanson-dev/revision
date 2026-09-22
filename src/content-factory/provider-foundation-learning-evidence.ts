@@ -197,7 +197,7 @@ export function providerFoundationLearningBindingGuidance(
   return [
     'Bind evidence only after the Learn content is final.',
     'The payload supplies the finalized generated fields with deterministic fieldId, area and text values.',
-    'Return exactly the required evidence-binding object. Every required evidence ID is a mandatory property in the response schema, and each property value must be one of the exact supplied fieldIds.',
+    'Return exactly the required evidence-binding object. every required evidence ID is a mandatory property in the response schema, and each property value must be one of the exact supplied fieldIds.',
     'Choose the field whose existing text genuinely proves the obligation. Multiple compatible obligations may point to the same field when that single field genuinely proves each one.',
     'Do not copy or rewrite learner text, invent fieldIds, create positional indexes, or add machine markers.',
     `Coverage evidence IDs: ${coverage}.`,
