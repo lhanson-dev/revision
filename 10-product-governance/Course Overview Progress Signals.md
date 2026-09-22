@@ -22,7 +22,7 @@ Define the Founder-approved progress signals shown alongside REV guidance on the
 The Course Overview is a decision surface, not a full progress dashboard. It should give the learner a concise answer to two different questions:
 
 1. **How strong does my demonstrated exam performance currently look?**
-2. **Across how much of this course does Revision have enough useful performance evidence to judge me meaningfully?**
+2. **Across how much of this course has Revision actually observed assessed work rather than just content exposure?**
 
 Those questions are represented by **Exam Readiness** and **Evidence Coverage**.
 
@@ -41,25 +41,27 @@ This deliberately supersedes the earlier Course Learning Blueprint wording that 
 
 Exam Readiness remains the demonstrated-performance judgement governed by the existing evidence/readiness rules.
 
-Where there is not yet enough qualifying evidence, the Overview should use a plain state such as **Building** rather than manufacture a percentage.
+Where there is not yet enough varied qualifying evidence, the Overview should use a plain state such as **Building** rather than manufacture a percentage.
 
 Exam Readiness answers how well the learner currently appears able to perform, not how much content they have opened or completed.
 
 ## Evidence Coverage
 
-Evidence Coverage is an **evidence-breadth** signal.
+Evidence Coverage is an **assessed-evidence breadth** signal.
 
 It answers:
 
-> **Across how many course topics does Revision have enough qualifying scored evidence to make a meaningful topic-level judgement?**
+> **Across how many course topics does Revision have qualifying scored evidence from the learner's active work?**
 
-A display such as `10 / 10 topics` therefore means Revision has sufficient evidence breadth across all ten topics. It does **not** mean all ten topics are strong, mastered or exam ready.
+A display such as `10 / 10 topics` therefore means Revision has seen qualifying assessed work across all ten topics. It does **not** mean all ten topics are strong, mastered or exam ready.
+
+This distinction is intentional. `Evidence Coverage 10 / 10` can legitimately coexist with `Exam Readiness: Building` when every topic has some qualifying assessed evidence but the evidence is not yet sufficiently varied or substantial for the readiness model to publish a supported readiness score.
 
 ### What counts
 
-A topic counts toward Evidence Coverage only when the available scored Practice / Exam Prep evidence is sufficiently broad and substantial to support at least a meaningful topic-level judgement under the governed topic-readiness evidence threshold.
+A topic counts toward Evidence Coverage when Revision holds at least one **qualifying scored learning-evidence result** for that topic from active Practice or Exam Prep work under the governed evidence model.
 
-The qualifying rule should reuse the governed readiness evidence-sufficiency model rather than invent a separate cosmetic threshold purely for the UI.
+The qualifying result must represent actual learner performance rather than mere exposure. The implementation should reuse the same accepted scored evidence/provenance rules used by learner readiness rather than creating a page-view or completion proxy.
 
 ### What does not count
 
@@ -68,21 +70,18 @@ Evidence Coverage must not increase merely because the learner:
 - opened or viewed Learn content;
 - completed passive reading or viewing;
 - spent time on a topic;
-- encountered a topic in navigation;
-- completed only a low-strength starting check; or
-- produced one incidental result that is insufficient to support a meaningful topic judgement.
-
-Starting-check evidence remains excluded under its existing provenance rules.
+- encountered a topic in navigation; or
+- completed a starting/diagnostic check whose provenance is deliberately excluded from ongoing learner evidence.
 
 ### Breadth is not strength
 
 Evidence Coverage and Exam Readiness must remain distinct.
 
-A learner can have high Evidence Coverage and low Exam Readiness: Revision may have enough evidence across the whole course to know that several areas need work.
+Evidence Coverage answers **where Revision has assessed evidence**. Exam Readiness answers **what that evidence supports about likely performance**.
 
-Weak or incorrect performance can still contribute to a topic becoming **evidence-covered** once the evidence set is sufficient to judge that topic reliably. The weakness should be reflected in readiness and recommendation logic rather than making the evidence disappear.
+Weak or incorrect performance can therefore still make a topic evidence-covered: it is useful evidence that Revision has observed the learner on that topic. The weak result should reduce readiness and influence the next recommendation rather than making the topic disappear from coverage.
 
-Conversely, a learner may perform strongly in a small number of topics while Evidence Coverage remains low because Revision has not yet observed enough of the rest of the course.
+Conversely, a learner may perform strongly in a small number of topics while Evidence Coverage remains low because Revision has not yet observed assessed work across the rest of the course.
 
 ## Course Overview placement
 
@@ -110,4 +109,4 @@ The dedicated Progress section remains responsible for deeper interpretation inc
 
 This authority records the Founder decision of 22 September 2026 to use Evidence Coverage, rather than content Reviewed, as the Course Overview breadth signal and to position the progress pair separately from the proactive REV recommendation on desktop.
 
-Implementation must update the current technical documentation and assurance so Evidence Coverage cannot silently regress into a page-view or completion metric. Historical evidence and earlier design records remain unchanged.
+Implementation must update the current technical documentation and assurance so Evidence Coverage cannot silently regress into a page-view or completion metric or be mistaken for mastery/readiness. Historical evidence and earlier design records remain unchanged.
