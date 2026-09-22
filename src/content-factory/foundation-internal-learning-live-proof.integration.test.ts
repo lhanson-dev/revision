@@ -78,6 +78,72 @@ type GenerationRun = {
   error?: string
 }
 
+type ProviderRun = {
+  status: GenerationRun['status']
+  error?: string
+  id: string
+  contextId: string
+  contractVersion: string
+  provider?: string
+  model?: string
+  retryCount?: number
+  usageCost?: number
+}
+
+type LoggedExecution = {
+  status: GenerationRun['status']
+  error?: string
+  provenance: {
+    id: string
+    contextId: string
+    contractVersion: string
+    provider?: string
+    model?: string
+    retryCount?: number
+    usageCost?: number
+    providerRuns?: ProviderRun[]
+  }
+}
+
+function appendGenerationRuns(
+  generationRuns: GenerationRun[],
+  stage: GenerationRun['stage'],
+  workUnitId: string,
+  execution: LoggedExecution,
+) {
+  const providerRuns = execution.provenance.providerRuns
+  if (providerRuns && providerRuns.length > 0) {
+    generationRuns.push(...providerRuns.map((run) => ({
+      stage,
+      workUnitId,
+      status: run.status,
+      runId: run.id,
+      contextId: run.contextId,
+      contractVersion: run.contractVersion,
+      provider: run.provider,
+      model: run.model,
+      retryCount: run.retryCount,
+      usageCost: run.usageCost,
+      ...(run.error ? { error: run.error } : {}),
+    })))
+    return
+  }
+
+  generationRuns.push({
+    stage,
+    workUnitId,
+    status: execution.status,
+    runId: execution.provenance.id,
+    contextId: execution.provenance.contextId,
+    contractVersion: execution.provenance.contractVersion,
+    provider: execution.provenance.provider,
+    model: execution.provenance.model,
+    retryCount: execution.provenance.retryCount,
+    usageCost: execution.provenance.usageCost,
+    ...(execution.error ? { error: execution.error } : {}),
+  })
+}
+
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
   if (!value) throw new Error(`provider_secret_missing_or_runtime_config_missing:${name}`)
@@ -243,36 +309,12 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
       const workers = {
         async generateLearningCollateral(input: Parameters<typeof baseWorkers.generateLearningCollateral>[0]) {
           const execution = await baseWorkers.generateLearningCollateral(input)
-          generationRuns.push({
-            stage: 'learn',
-            workUnitId: input.workUnit.id,
-            status: execution.status,
-            runId: execution.provenance.id,
-            contextId: execution.provenance.contextId,
-            contractVersion: execution.provenance.contractVersion,
-            provider: execution.provenance.provider,
-            model: execution.provenance.model,
-            retryCount: execution.provenance.retryCount,
-            usageCost: execution.provenance.usageCost,
-            ...('error' in execution ? { error: execution.error } : {}),
-          })
+          appendGenerationRuns(generationRuns, 'learn', input.workUnit.id, execution as LoggedExecution)
           return execution
         },
         async generatePracticeCollateral(input: Parameters<typeof baseWorkers.generatePracticeCollateral>[0]) {
           const execution = await baseWorkers.generatePracticeCollateral(input)
-          generationRuns.push({
-            stage: 'practice',
-            workUnitId: input.workUnit.id,
-            status: execution.status,
-            runId: execution.provenance.id,
-            contextId: execution.provenance.contextId,
-            contractVersion: execution.provenance.contractVersion,
-            provider: execution.provenance.provider,
-            model: execution.provenance.model,
-            retryCount: execution.provenance.retryCount,
-            usageCost: execution.provenance.usageCost,
-            ...('error' in execution ? { error: execution.error } : {}),
-          })
+          appendGenerationRuns(generationRuns, 'practice', input.workUnit.id, execution as LoggedExecution)
           return execution
         },
       }
@@ -410,14 +452,20 @@ describe('Foundation-native live internal Learn/Practice production proof', () =
         'The generated bundle is retained for the next independent asset-assurance slice. It is internal pre-production evidence only and has not entered the production learner-content registry.',
       ].join('\n'))
 
+      const learnRuns = generationRuns.filter((run) => run.stage === 'learn')
+      const practiceRuns = generationRuns.filter((run) => run.stage === 'practice')
       expect(bundle.foundationFingerprint).toBe(foundationFingerprint)
       expect(bundle.foundationCandidateId).toBe(candidate.candidateId)
       expect(bundle.coverageModelFingerprint).toBe(candidate.coverageModel.fingerprint)
       expect(bundle.knowledgeModelFingerprint).toBe(candidate.courseKnowledgeModel.fingerprint)
       expect(bundle.workUnits).toHaveLength(expectedWorkUnitCount)
-      expect(generationRuns).toHaveLength(bundle.workUnits.length * 2)
+      expect(learnRuns).toHaveLength(bundle.workUnits.length * 2)
+      expect(practiceRuns).toHaveLength(bundle.workUnits.length)
+      expect(learnRuns.every((run) => run.contractVersion === '9')).toBe(true)
+      expect(practiceRuns.every((run) => run.contractVersion === '5')).toBe(true)
       expect(generationRuns.every((run) => run.status === 'success')).toBe(true)
       expect(generationRuns.every((run) => run.provider === 'openai' && run.model === generationModel)).toBe(true)
+      expect(new Set(generationRuns.map((run) => run.contextId))).toEqual(new Set(bundle.generationContextIds))
       expect(contextCollisions).toEqual([])
       expect(bundle.learnAsset.assuranceStatus).toBe('pending')
       expect(bundle.practiceAsset.assuranceStatus).toBe('pending')
