@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { validateFoundationAtomicLearningEvidenceLocations } from './foundation-course-learning-atomic-obligations'
+import type { ProviderLearningTeachingPointEvidence } from './provider-coverage-evidence'
 
 const nonEmptyStringSchema = z.string().min(1)
 
@@ -77,7 +78,12 @@ export function resolveFoundationLearningCoverageEvidence(
   evidence: ProviderFoundationLearningTeachingPointEvidence[],
   content: ProviderFoundationLearningContent,
 ) {
-  validateFoundationAtomicLearningEvidenceLocations(evidence)
+  // The shared atomic validator only reads teachingPoint and location.area. Cast
+  // across the versioned locator shape so v6 can reuse the same placement rules
+  // without changing the legacy v4 numeric evidence contract.
+  validateFoundationAtomicLearningEvidenceLocations(
+    evidence as unknown as ProviderLearningTeachingPointEvidence[],
+  )
   return evidence.map((entry) => ({
     teachingPoint: entry.teachingPoint,
     evidence: resolveFoundationLearningLocation(content, entry.location),
