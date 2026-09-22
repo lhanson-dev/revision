@@ -17,6 +17,7 @@ import {
 } from './catalogue-model'
 import { findCatalogueCourse } from './learner-programme'
 import type { PaperSection } from './navigation'
+import { RevPresence } from './RevPresence'
 import { Button, LoadingState, Status } from './ui'
 
 type CourseExperienceScreenProps = {
@@ -46,6 +47,26 @@ function activityLabel(activity: 'flashcards' | 'quick-check' | 'exam-question')
   return 'Quick check'
 }
 
+function recommendationHeading(topic: string, activity: 'flashcards' | 'quick-check' | 'exam-question') {
+  if (activity === 'flashcards') return `Let's refresh ${topic}`
+  if (activity === 'exam-question') return `Let's use ${topic} in an exam question`
+  return `Let's practise ${topic}`
+}
+
+function recommendationCopy(recommendation: NonNullable<ModuleLearningState['recommendation']>) {
+  if (recommendation.evidenceCount === 0) {
+    return `We haven't got enough evidence on this topic yet. A ${activityLabel(recommendation.activity).toLowerCase()} will give us a useful starting point.`
+  }
+  if (recommendation.readinessScore === null) {
+    if (recommendation.activity === 'flashcards') return `You've started building evidence here. A quick knowledge refresh will help strengthen the picture before we ask more of you.`
+    if (recommendation.activity === 'exam-question') return `You've built a useful base here. The next helpful step is to see how that knowledge holds up in an exam-style response.`
+    return `You've started building evidence here. A little more application practice will help us see what is secure and what is worth revisiting.`
+  }
+  if (recommendation.activity === 'flashcards') return `Your recent work suggests the underlying knowledge is the best place to focus next. A short refresh should make the next application task easier.`
+  if (recommendation.activity === 'exam-question') return `Your knowledge and application evidence are in place. The next useful step is checking how well that transfers into an exam response.`
+  return `Your recent work suggests application is the most useful thing to strengthen next. A focused quick check should help.`
+}
+
 function ProgressSummary({ state, label }: { state: ModuleLearningState; label: string }) {
   return (
     <div className="progress-overview">
@@ -53,6 +74,33 @@ function ProgressSummary({ state, label }: { state: ModuleLearningState; label: 
       <article><small>Scored activities</small><strong>{state.readiness.evidenceCount}</strong><p>Evidence used by this readiness model.</p></article>
       <article><small>{label}</small><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong><p>{state.readiness.score === null ? 'More varied evidence is needed before showing a score.' : `${state.readiness.confidence} confidence based on the evidence available.`}</p></article>
     </div>
+  )
+}
+
+function CourseOverviewPosition({ state }: { state: ModuleLearningState }) {
+  const coverage = state.topicCount === 0 ? 0 : Math.round((state.evidencedTopics / state.topicCount) * 100)
+  return (
+    <section className="course-overview-position" aria-labelledby="course-position-title">
+      <div className="course-overview-position-heading">
+        <div>
+          <p className="eyebrow">Your course position</p>
+          <h2 id="course-position-title">What we know so far</h2>
+        </div>
+      </div>
+      <div className="course-overview-position-grid">
+        <article>
+          <div className="course-position-row"><span>Exam readiness</span><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong></div>
+          {state.readiness.score === null
+            ? <p>{state.readiness.progress.message}</p>
+            : <><progress max="100" value={state.readiness.score} aria-label={`Exam readiness ${state.readiness.score}%`} /><p>{state.readiness.confidence} confidence from the evidence available.</p></>}
+        </article>
+        <article>
+          <div className="course-position-row"><span>Evidence coverage</span><strong>{state.evidencedTopics} / {state.topicCount}</strong></div>
+          <progress max="100" value={coverage} aria-label={`Evidence recorded for ${state.evidencedTopics} of ${state.topicCount} course topics`} />
+          <p>{state.evidencedTopics === 0 ? 'Your course picture will build as you complete scored activities.' : 'Topics with at least one recorded learning result.'}</p>
+        </article>
+      </div>
+    </section>
   )
 }
 
@@ -146,25 +194,34 @@ export function CourseExperienceScreen({
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
         <div className="breadcrumbs"><button onClick={onOpenCourses}>Courses</button><span>›</span><span>{label}</span></div>
-        <header className="page-heading paper-heading"><p className="eyebrow">{course.examBoardName} · specification {course.specificationCode}</p><h1 id="course-page-title">{label}</h1><p>Learn and practise the shared course syllabus here. Paper-specific formats, techniques and full simulations sit inside Exam Prep.</p></header>
+        <header className="page-heading paper-heading"><p className="eyebrow">{course.examBoardName} · specification {course.specificationCode}</p><h1 id="course-page-title">{label}</h1><p>{section === 'overview' ? 'Learn, practise and prepare for the exam from one course view.' : 'Learn and practise the shared course syllabus here. Paper-specific formats, techniques and full simulations sit inside Exam Prep.'}</p></header>
         <nav className="course-nav" aria-label={`${label} navigation`}>
           {sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenCourseSection(course.id, item)}>{sectionLabels[item]}</button>)}
         </nav>
 
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
 
-        {section === 'overview' && <div className="paper-section-content">
-          <section className="paper-recommendation" aria-labelledby="course-recommendation-title">
-            <div><p className="eyebrow">REV · {label}</p><h2 id="course-recommendation-title">Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p>{recommendation && <p className="muted">{recommendation.limitation}</p>}</div>
-            {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>Go to {recommendationSection === 'exam-prep' ? 'Exam Prep' : 'Practice'}</Button>}
+        {section === 'overview' && <div className="paper-section-content course-overview-content">
+          <section className="course-overview-recommendation" aria-labelledby="course-recommendation-title">
+            <div className="course-overview-recommendation-presence"><RevPresence size="conversation" state="resting" decorative /></div>
+            <div className="course-overview-recommendation-copy">
+              <p className="eyebrow">REV · your next useful step</p>
+              <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
+              <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
+              {recommendation && <p className="course-overview-recommendation-note">{recommendation.limitation}</p>}
+              <div className="course-overview-recommendation-actions">
+                {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
+                {recommendation && <button className="course-overview-why" type="button" title={recommendation.evidenceSummary}>Why this?</button>}
+              </div>
+            </div>
           </section>
-          <section className="section-choice-grid" aria-label={`${label} sections`}>
-            <button className="section-choice" onClick={() => onOpenCourseSection(course.id, 'learn')}><span className="section-icon">L</span><strong>Learn</strong><span>Understand the syllabus once at course level.</span></button>
-            {sections.includes('practice') && <button className="section-choice" onClick={() => onOpenCourseSection(course.id, 'practice')}><span className="section-icon">P</span><strong>Practice</strong><span>Flashcards, quick checks, application and calculations.</span></button>}
-            {sections.includes('exam-prep') && <button className="section-choice" onClick={() => onOpenCourseSection(course.id, 'exam-prep')}><span className="section-icon">E</span><strong>Exam Prep</strong><span>Paper-specific questions, technique and full simulations.</span></button>}
-            <button className="section-choice" onClick={() => onOpenCourseSection(course.id, 'progress')}><span className="section-icon">✓</span><strong>Progress</strong><span>Course coverage, evidence and readiness.</span></button>
+
+          <CourseOverviewPosition state={state} />
+
+          <section className="home-section course-overview-topics" aria-labelledby="course-topics-title">
+            <div className="section-heading"><div><p className="eyebrow">Course structure</p><h2 id="course-topics-title">Course topics</h2><p>Choose an area to explore, or follow REV’s recommendation above.</p></div></div>
+            <div className="topic-list-grid">{topics.map((topic) => { const hasEvidence = state.evidence.some((item) => item.topicId === topic.id); return <article key={topic.id}><span className={`evidence-dot ${hasEvidence ? 'has-evidence' : ''}`} aria-hidden="true"></span><div><strong>{topic.shortTitle}</strong><p>{hasEvidence ? 'Evidence recorded' : 'No scored evidence yet'}</p></div></article> })}</div>
           </section>
-          <section className="home-section" aria-labelledby="course-topics-title"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2 id="course-topics-title">Course topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => { const hasEvidence = state.evidence.some((item) => item.topicId === topic.id); return <article key={topic.id}><span className={`evidence-dot ${hasEvidence ? 'has-evidence' : ''}`} aria-hidden="true"></span><div><strong>{topic.shortTitle}</strong><p>{hasEvidence ? 'Evidence recorded' : 'No scored evidence yet'}</p></div></article> })}</div></section>
         </div>}
 
         {section === 'learn' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="learn" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('practice') && <div className="cross-section-next"><div><strong>Ready to test it?</strong><span>Move into Practice without creating a duplicate paper-level syllabus.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'practice')}>Go to Practice</Button></div>}</div>}
