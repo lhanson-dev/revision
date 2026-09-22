@@ -9,8 +9,8 @@ owner: "Founder"
 effective_date: "2026-09-22"
 last_reviewed: "2026-09-22"
 content_review_status: "founder-approved"
-source_of_truth_for: ["Course Overview progress panel", "Evidence Coverage learner-facing meaning", "Course Overview Exam Readiness and Evidence Coverage hierarchy"]
-depends_on: ["Course Learning Blueprint", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Product UX Principles"]
+source_of_truth_for: ["Course Overview progress panel", "Topics Secure learner-facing meaning", "Course Overview Exam Readiness and Topics Secure hierarchy"]
+depends_on: ["Course Learning Blueprint", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Product UX Principles", "Product System Model"]
 supersedes: ["Course Learning Blueprint Overview wording that specifies Reviewed plus Exam Readiness as the concise Overview progress pair"]
 ---
 # Course Overview Progress Signals
@@ -22,18 +22,18 @@ Define the Founder-approved progress signals shown alongside REV guidance on the
 The Course Overview is a decision surface, not a full progress dashboard. It should give the learner a concise answer to two different questions:
 
 1. **How strong does my demonstrated exam performance currently look?**
-2. **Across how much of this course has Revision actually observed assessed work rather than just content exposure?**
+2. **Across how much of this course does the evidence currently support that I know and can use the material?**
 
-Those questions are represented by **Exam Readiness** and **Evidence Coverage**.
+Those questions are represented by **Exam Readiness** and **Topics Secure**.
 
 ## Governing decision
 
 The Course Overview progress pair is:
 
 - **Exam Readiness**; and
-- **Evidence Coverage**.
+- **Topics Secure**.
 
-`Reviewed` remains a legitimate secondary content-exposure signal elsewhere in the product, especially the dedicated Progress experience. It is not the primary coverage signal in the Course Overview progress panel.
+`Reviewed` remains a legitimate secondary content-exposure signal elsewhere in the product, especially the dedicated Progress experience. A separate evidence-breadth/observation measure may also be useful deeper in Progress, but neither is the primary knowledge-progress signal on Course Overview.
 
 This deliberately supersedes the earlier Course Learning Blueprint wording that described the Overview pair as Reviewed plus Exam Readiness.
 
@@ -43,45 +43,73 @@ Exam Readiness remains the demonstrated-performance judgement governed by the ex
 
 Where there is not yet enough varied qualifying evidence, the Overview should use a plain state such as **Building** rather than manufacture a percentage.
 
-Exam Readiness answers how well the learner currently appears able to perform, not how much content they have opened or completed.
+Exam Readiness answers how well the learner currently appears able to perform under the relevant exam demands, not how much content they have opened or completed.
 
-## Evidence Coverage
+## Topics Secure
 
-Evidence Coverage is an **assessed-evidence breadth** signal.
+Topics Secure is a **demonstrated-knowledge breadth** signal.
 
 It answers:
 
-> **Across how many course topics does Revision have qualifying scored evidence from the learner's active work?**
+> **Across how many course topics does the available evidence currently support a positive judgement that the learner knows and can use the material?**
 
-A display such as `10 / 10 topics` therefore means Revision has seen qualifying assessed work across all ten topics. It does **not** mean all ten topics are strong, mastered or exam ready.
+A display such as `10 / 10 topics` means all ten topics currently meet Revision's governed evidence standard for being secure. It must not mean merely that the learner has opened the topic, attempted something, or produced one scored result.
 
-This distinction is intentional. `Evidence Coverage 10 / 10` can legitimately coexist with `Exam Readiness: Building` when every topic has some qualifying assessed evidence but the evidence is not yet sufficiently varied or substantial for the readiness model to publish a supported readiness score.
+`10 / 10 topics secure` is therefore a materially stronger claim than `evidence seen in 10 / 10 topics`.
 
-### What counts
+It does not mean the learner has answered every question correctly, can never weaken later, or is guaranteed a particular exam result. It means the accumulated evidence for every topic is currently strong enough to support the learner-facing judgement **secure**.
 
-A topic counts toward Evidence Coverage when Revision holds at least one **qualifying scored learning-evidence result** for that topic from active Practice or Exam Prep work under the governed evidence model.
+### What a topic must demonstrate
 
-The qualifying result must represent actual learner performance rather than mere exposure. The implementation should reuse the same accepted scored evidence/provenance rules used by learner readiness rather than creating a page-view or completion proxy.
+A topic may count as Secure only when both of these are true:
 
-### What does not count
+1. **Evidence sufficiency** — there is enough qualifying, varied and relevant learner-performance evidence to support a meaningful topic-level judgement; and
+2. **Performance sufficiency** — the demonstrated performance meets the governed standard for secure knowledge/application for that topic.
 
-Evidence Coverage must not increase merely because the learner:
+The product must not turn evidence presence into achievement. A weak result is useful evidence, but it does not make the topic Secure merely because Revision has now observed the learner doing work there.
+
+### Evidence quality and breadth
+
+The Secure judgement should use the same underlying curriculum/evidence model that powers learner intelligence rather than a cosmetic completion counter.
+
+Evidence may come from validated Practice and Exam Prep activity where that activity can genuinely demonstrate the relevant knowledge or skill. The evidence set should reflect the topic's governed learning and assessment demands; repeated success in one narrow format must not prove a broader skill that the format cannot validly assess.
+
+For example, repeated flashcard success may strongly support recall but cannot by itself establish secure applied reasoning or extended evaluation where those are material demands of the topic.
+
+### What does not count as Secure
+
+A topic must not become Secure merely because the learner:
 
 - opened or viewed Learn content;
 - completed passive reading or viewing;
-- spent time on a topic;
-- encountered a topic in navigation; or
-- completed a starting/diagnostic check whose provenance is deliberately excluded from ongoing learner evidence.
+- spent time on the topic;
+- encountered it in navigation;
+- completed one incidental scored item;
+- completed only a starting/diagnostic check whose provenance is deliberately excluded from ongoing progress evidence; or
+- repeatedly used an activity type that does not validly assess the material claim being made.
 
-### Breadth is not strength
+### Secure is evidence-based, not permanent
 
-Evidence Coverage and Exam Readiness must remain distinct.
+Topics Secure is a current judgement, not a permanent badge.
 
-Evidence Coverage answers **where Revision has assessed evidence**. Exam Readiness answers **what that evidence supports about likely performance**.
+New evidence may strengthen, weaken or overturn an earlier Secure state. Older evidence may also become less persuasive when recency matters. If a topic is no longer sufficiently supported, the count may decrease and the product should explain why constructively.
 
-Weak or incorrect performance can therefore still make a topic evidence-covered: it is useful evidence that Revision has observed the learner on that topic. The weak result should reduce readiness and influence the next recommendation rather than making the topic disappear from coverage.
+The learner should never have to complete every available Practice format simply to make the number rise. Alternative validated routes may establish the same underlying knowledge or skill where they provide equivalent evidence.
 
-Conversely, a learner may perform strongly in a small number of topics while Evidence Coverage remains low because Revision has not yet observed assessed work across the rest of the course.
+### Secure is distinct from Exam Readiness
+
+Topics Secure and Exam Readiness are deliberately related but not identical.
+
+- **Topics Secure** shows the breadth of the course for which Revision currently has sufficiently strong evidence of knowledge/application.
+- **Exam Readiness** shows how well the learner appears able to turn that knowledge and skill into performance under the relevant exam demands.
+
+A learner can therefore have many Secure topics while still needing exam-technique, timing or authentic-paper practice. Conversely, strong performance on a limited part of the course must not imply that the whole course is Secure.
+
+## Threshold and calibration rule
+
+The exact performance threshold, weighting and evidence requirements for `Secure` are evidence and implementation questions. They must be deliberately calibrated and assured against the governed course/evidence model rather than invented solely to make the UI display a convenient count.
+
+Until that rule is implemented and validated, the product must not relabel a simple `topics with evidence` count as `Topics Secure`.
 
 ## Course Overview placement
 
@@ -103,10 +131,10 @@ On tablet and phone, the same information may stack beneath the recommendation a
 
 The Overview uses only concise orientation signals.
 
-The dedicated Progress section remains responsible for deeper interpretation including topic-level evidence, Reviewed/content-exposure state, evidence confidence, change over time and explanation of what the learner should do next.
+The dedicated Progress section remains responsible for deeper interpretation including topic-level Secure/developing/insufficient-evidence state, Reviewed/content exposure, evidence breadth and confidence, change over time and explanation of what the learner should do next.
 
 ## Documentation impact
 
-This authority records the Founder decision of 22 September 2026 to use Evidence Coverage, rather than content Reviewed, as the Course Overview breadth signal and to position the progress pair separately from the proactive REV recommendation on desktop.
+This authority records the Founder decision of 22 September 2026 to make the Course Overview breadth signal a demonstrated-knowledge measure rather than an activity/evidence-observation measure, and to position that signal separately from the proactive REV recommendation on desktop.
 
-Implementation must update the current technical documentation and assurance so Evidence Coverage cannot silently regress into a page-view or completion metric or be mistaken for mastery/readiness. Historical evidence and earlier design records remain unchanged.
+Implementation must update the current technical documentation and assurance so `Topics Secure` cannot silently regress into a page-view, completion or `has any evidence` counter. Historical evidence and earlier design records remain unchanged.
