@@ -100,13 +100,9 @@
   letter-spacing: -.038em;
 }
 
-.planner-runtime .course-overview-recommendation-copy > p:not(.eyebrow):not(.course-overview-recommendation-note) {
+.planner-runtime .course-overview-recommendation-copy > p:not(.eyebrow) {
   max-width: 690px;
   color: rgba(255, 255, 255, .79);
-}
-
-.planner-runtime .course-overview-recommendation-note {
-  color: rgba(255, 255, 255, .58);
 }
 
 .planner-runtime .course-overview-recommendation-actions {
@@ -117,14 +113,50 @@
   align-self: stretch;
   min-width: 0;
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: 0;
   padding-left: 28px;
   border-left: 1px solid rgba(255, 255, 255, .15);
 }
 
-.planner-runtime .course-overview-progress-panel > .eyebrow {
-  margin-bottom: 10px;
+.planner-runtime .course-overview-progress-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding-bottom: 10px;
+}
+
+.planner-runtime .course-overview-progress-header > .eyebrow {
+  margin: 3px 0 0;
+}
+
+.planner-runtime .course-overview-exam-date {
+  min-width: 118px;
+  display: grid;
+  gap: 2px;
+  text-align: right;
+}
+
+.planner-runtime .course-overview-exam-date small,
+.planner-runtime .course-overview-progress-signal small {
+  color: rgba(255, 255, 255, .62);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .course-overview-exam-date strong,
+.planner-runtime .course-overview-progress-signal strong {
+  color: var(--neutral-0);
+  font-size: var(--type-body-size);
+  line-height: 1.3;
+}
+
+.planner-runtime .course-overview-exam-date span,
+.planner-runtime .course-overview-progress-signal span {
+  color: rgba(255, 255, 255, .58);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
 }
 
 .planner-runtime .course-overview-progress-signal {
@@ -133,26 +165,9 @@
   padding: 14px 0;
 }
 
+.planner-runtime .course-overview-progress-header + .course-overview-progress-signal,
 .planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
   border-top: 1px solid rgba(255, 255, 255, .13);
-}
-
-.planner-runtime .course-overview-progress-signal small {
-  color: rgba(255, 255, 255, .62);
-  font-size: var(--type-caption-size);
-  line-height: var(--type-caption-line);
-}
-
-.planner-runtime .course-overview-progress-signal strong {
-  color: var(--neutral-0);
-  font-size: var(--type-body-size);
-  line-height: 1.3;
-}
-
-.planner-runtime .course-overview-progress-signal span {
-  color: rgba(255, 255, 255, .58);
-  font-size: var(--type-body-s-size);
-  line-height: var(--type-body-s-line);
 }
 
 .planner-runtime .course-overview-conversation {
@@ -258,13 +273,17 @@
     border-top: 1px solid rgba(255, 255, 255, .15);
   }
 
-  .planner-runtime .course-overview-progress-panel > .eyebrow {
+  .planner-runtime .course-overview-progress-header {
     grid-column: 1 / -1;
-    margin-bottom: -4px;
+    padding-bottom: 2px;
   }
 
   .planner-runtime .course-overview-progress-signal {
     padding: 8px 0 0;
+  }
+
+  .planner-runtime .course-overview-progress-header + .course-overview-progress-signal {
+    border-top: 0;
   }
 
   .planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
@@ -313,15 +332,20 @@
     margin-top: 12px;
   }
 
-  .planner-runtime .course-overview-progress-panel > .eyebrow {
+  .planner-runtime .course-overview-progress-header {
     grid-column: auto;
-    margin-bottom: 2px;
+    padding-bottom: 8px;
+  }
+
+  .planner-runtime .course-overview-exam-date {
+    min-width: 0;
   }
 
   .planner-runtime .course-overview-progress-signal {
     padding: 12px 0;
   }
 
+  .planner-runtime .course-overview-progress-header + .course-overview-progress-signal,
   .planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
     padding-left: 0;
     border-left: 0;
