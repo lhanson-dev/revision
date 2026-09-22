@@ -4,6 +4,10 @@ import type { LearningEvidence } from '../engine/evidence/evidence'
 import { topicKnowledgeLabel } from '../engine/knowledge/topic-knowledge'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
+import {
+  loadUpcomingPublicExamAssessments,
+  type CourseExamAssessment,
+} from '../services/planning/course-exam-date-service'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import {
@@ -12,6 +16,7 @@ import {
   createCourseLearningState,
   createModuleLearningState,
   paperLabel,
+  type CatalogueCourse,
   type CatalogueSubject,
   type CourseSection,
   type ModuleLearningState,
@@ -36,6 +41,8 @@ type CourseExperienceScreenProps = {
   onOpenRev: (draft?: string) => void
 }
 
+type ExamDateStatus = 'loading' | 'ready' | 'error'
+
 const sectionLabels: Record<CourseSection, string> = {
   overview: 'Overview',
   learn: 'Learn',
@@ -51,23 +58,70 @@ function activityLabel(activity: 'flashcards' | 'quick-check' | 'exam-question')
 }
 
 function recommendationHeading(topic: string, activity: 'flashcards' | 'quick-check' | 'exam-question') {
-  if (activity === 'flashcards') return `Let's refresh ${topic}`
+  if (activity === 'flashcards') return `Let's refresh ${topic} with flashcards`
   if (activity === 'exam-question') return `Let's use ${topic} in an exam question`
-  return `Let's practise ${topic}`
+  return `Let's practise ${topic} with a quick check`
 }
 
 function recommendationCopy(recommendation: NonNullable<ModuleLearningState['recommendation']>) {
+  if (recommendation.activity === 'flashcards') {
+    return recommendation.readinessScore === null
+      ? 'Flashcards are the best next step because REV needs a stronger picture of your core recall before moving on to more application work.'
+      : 'Flashcards are the best next step because recall is currently the weakest part of the evidence for this topic.'
+  }
+
+  if (recommendation.activity === 'exam-question') {
+    return 'An exam question is the best next step because REV needs to see how this knowledge performs in an exam-style response.'
+  }
+
   if (recommendation.evidenceCount === 0) {
-    return `We haven't got enough evidence on this topic yet. A ${activityLabel(recommendation.activity).toLowerCase()} will give us a useful starting point.`
+    return 'A quick check is the best starting point because REV has no scored evidence for this topic yet. It will show how well you can apply what you know.'
   }
-  if (recommendation.readinessScore === null) {
-    if (recommendation.activity === 'flashcards') return `You've started building evidence here. A quick knowledge refresh will help strengthen the picture before we ask more of you.`
-    if (recommendation.activity === 'exam-question') return `You've built a useful base here. The next helpful step is to see how that knowledge holds up in an exam-style response.`
-    return `You've started building evidence here. A little more application practice will help us see what you know well and what is worth revisiting.`
-  }
-  if (recommendation.activity === 'flashcards') return `Your recent work suggests the underlying knowledge is the best place to focus next. A short refresh should make the next application task easier.`
-  if (recommendation.activity === 'exam-question') return `Your knowledge and application evidence are in place. The next useful step is checking how well that transfers into an exam response.`
-  return `Your recent work suggests application is the most useful thing to strengthen next. A focused quick check should help.`
+
+  return recommendation.readinessScore === null
+    ? 'A quick check is the best next step because REV needs more evidence of how well you can apply the knowledge, not just recall it.'
+    : 'A quick check is the best next step because application is currently the weakest part of the evidence for this topic.'
+}
+
+function localDateKey(date: Date) {
+  const year = date.getFullYear()
+  const month = `${date.getMonth() + 1}`.padStart(2, '0')
+  const day = `${date.getDate()}`.padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function formatExamDate(value: string) {
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    .format(new Date(`${value}T12:00:00`))
+}
+
+function examCountdown(value: string, now = new Date()) {
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+  const target = new Date(`${value}T00:00:00`).getTime()
+  const days = Math.max(0, Math.ceil((target - today) / 86_400_000))
+  if (days === 0) return 'Today'
+  if (days === 1) return '1 day to go'
+  return `${days} days to go`
+}
+
+function findNextCourseExam(
+  assessments: readonly CourseExamAssessment[],
+  course: CatalogueCourse,
+  catalogue: readonly CatalogueSubject[],
+  memberships: readonly LearnerCourseMembership[],
+) {
+  const moduleIds = new Set(course.modules.map((adapter) => adapter.manifest.id))
+  const activeCourseIds = new Set(memberships.map((membership) => membership.courseId))
+  const activeSubjectCourseCount = catalogue
+    .flatMap((subject) => subject.courses)
+    .filter((candidate) => candidate.subjectId === course.subjectId && activeCourseIds.has(candidate.id))
+    .length
+
+  return assessments.find((assessment) => {
+    if (assessment.courseId) return assessment.courseId === course.id
+    if (assessment.moduleId) return moduleIds.has(assessment.moduleId)
+    return assessment.subjectId === course.subjectId && activeSubjectCourseCount === 1
+  }) ?? null
 }
 
 function ProgressSummary({ state, label }: { state: ModuleLearningState; label: string }) {
@@ -80,7 +134,15 @@ function ProgressSummary({ state, label }: { state: ModuleLearningState; label: 
   )
 }
 
-function CourseOverviewProgressPanel({ state }: { state: ModuleLearningState }) {
+function CourseOverviewProgressPanel({
+  state,
+  nextExam,
+  examDateStatus,
+}: {
+  state: ModuleLearningState
+  nextExam: CourseExamAssessment | null
+  examDateStatus: ExamDateStatus
+}) {
   const { good, medium, low, notEnoughEvidence } = state.topicKnowledge.distribution
   const supportedTopics = good + medium + low
   const knowledgeSummary = [
@@ -91,7 +153,16 @@ function CourseOverviewProgressPanel({ state }: { state: ModuleLearningState }) 
 
   return (
     <aside className="course-overview-progress-panel" aria-label="Your progress">
-      <p className="eyebrow">Your progress</p>
+      <div className="course-overview-progress-header">
+        <p className="eyebrow">Your progress</p>
+        <div className="course-overview-exam-date">
+          <small>Exam date</small>
+          {examDateStatus === 'loading' && <><strong>Loading…</strong><span>Checking your next public exam.</span></>}
+          {examDateStatus === 'error' && <><strong>Unavailable</strong><span>Could not load your exam date.</span></>}
+          {examDateStatus === 'ready' && !nextExam && <><strong>Not set yet</strong><span>Add a public exam date in Plan.</span></>}
+          {examDateStatus === 'ready' && nextExam && <><strong>{formatExamDate(nextExam.assessmentDate)}</strong><span>{examCountdown(nextExam.assessmentDate)}</span></>}
+        </div>
+      </div>
       <div className="course-overview-progress-signal">
         <small>Exam readiness</small>
         <strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong>
@@ -127,6 +198,8 @@ export function CourseExperienceScreen({
   const [savingEvidence, setSavingEvidence] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [revPrompt, setRevPrompt] = useState('')
+  const [examAssessments, setExamAssessments] = useState<CourseExamAssessment[]>([])
+  const [examDateStatus, setExamDateStatus] = useState<ExamDateStatus>('loading')
 
   useEffect(() => {
     let current = true
@@ -143,6 +216,23 @@ export function CourseExperienceScreen({
       })
       .finally(() => {
         if (current) setLoading(false)
+      })
+    return () => { current = false }
+  }, [active, client, resolved, userId])
+
+  useEffect(() => {
+    let current = true
+    if (!resolved || !active) return () => { current = false }
+    loadUpcomingPublicExamAssessments(client, userId, localDateKey(new Date()))
+      .then((items) => {
+        if (!current) return
+        setExamAssessments(items)
+        setExamDateStatus('ready')
+      })
+      .catch(() => {
+        if (!current) return
+        setExamAssessments([])
+        setExamDateStatus('error')
       })
     return () => { current = false }
   }, [active, client, resolved, userId])
@@ -201,6 +291,7 @@ export function CourseExperienceScreen({
     const recommendation = state.recommendation
     const recommendationTopic = state.recommendationTopic
     const recommendationSection: CourseSection = recommendation?.activity === 'exam-question' ? 'exam-prep' : 'practice'
+    const nextExam = findNextCourseExam(examAssessments, course, catalogue, memberships)
 
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
@@ -221,13 +312,11 @@ export function CourseExperienceScreen({
                 <p className="eyebrow">Your next useful step in {subject.name}</p>
                 <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
                 <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
-                {recommendation && <p className="course-overview-recommendation-note">{recommendation.limitation}</p>}
                 <div className="course-overview-recommendation-actions">
                   {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
-                  {recommendation && <button className="course-overview-why" type="button" title={recommendation.evidenceSummary}>Why this?</button>}
                 </div>
               </div>
-              <CourseOverviewProgressPanel state={state} />
+              <CourseOverviewProgressPanel state={state} nextExam={nextExam} examDateStatus={examDateStatus} />
             </div>
             <div className="course-overview-conversation">
               <div className="course-overview-conversation-copy"><strong>Got something else on your mind?</strong><span>Ask REV about this course, a topic, or what you want to work on.</span></div>
