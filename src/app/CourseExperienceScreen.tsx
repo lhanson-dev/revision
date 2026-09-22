@@ -223,7 +223,6 @@ export function CourseExperienceScreen({
   useEffect(() => {
     let current = true
     if (!resolved || !active) return () => { current = false }
-    setExamDateStatus('loading')
     loadUpcomingPublicExamAssessments(client, userId, localDateKey(new Date()))
       .then((items) => {
         if (!current) return
