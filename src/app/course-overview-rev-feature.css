@@ -24,18 +24,18 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 178px minmax(0, 1fr);
-  gap: 34px;
+  grid-template-columns: 160px minmax(0, 1fr) minmax(250px, 300px);
+  gap: 30px;
   align-items: center;
   padding: 34px 38px 30px;
 }
 
 .planner-runtime .course-overview-recommendation-presence {
-  min-height: 178px;
+  min-height: 160px;
 }
 
 .planner-runtime .course-overview-recommendation .rev-presence-hero {
-  --rev-size: 178px;
+  --rev-size: 160px;
   width: var(--rev-size);
   max-width: none;
   margin: 0;
@@ -81,7 +81,7 @@
 }
 
 .planner-runtime .course-overview-recommendation-copy {
-  max-width: 760px;
+  max-width: 700px;
 }
 
 .planner-runtime .course-overview-recommendation-copy .powered-by-rev {
@@ -109,41 +109,50 @@
   color: rgba(255, 255, 255, .58);
 }
 
-.planner-runtime .course-overview-signals {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
+.planner-runtime .course-overview-recommendation-actions {
   margin-top: 22px;
-  border-top: 1px solid rgba(255, 255, 255, .13);
-  border-bottom: 1px solid rgba(255, 255, 255, .13);
 }
 
-.planner-runtime .course-overview-signals > div {
-  min-width: 168px;
+.planner-runtime .course-overview-progress-panel {
+  align-self: stretch;
+  min-width: 0;
   display: grid;
-  gap: 3px;
-  padding: 13px 24px 13px 0;
+  align-content: center;
+  gap: 0;
+  padding-left: 28px;
+  border-left: 1px solid rgba(255, 255, 255, .15);
 }
 
-.planner-runtime .course-overview-signals > div + div {
-  padding-left: 24px;
-  border-left: 1px solid rgba(255, 255, 255, .13);
+.planner-runtime .course-overview-progress-panel > .eyebrow {
+  margin-bottom: 10px;
 }
 
-.planner-runtime .course-overview-signals small {
-  color: rgba(255, 255, 255, .58);
+.planner-runtime .course-overview-progress-signal {
+  display: grid;
+  gap: 4px;
+  padding: 14px 0;
+}
+
+.planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
+  border-top: 1px solid rgba(255, 255, 255, .13);
+}
+
+.planner-runtime .course-overview-progress-signal small {
+  color: rgba(255, 255, 255, .62);
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-line);
 }
 
-.planner-runtime .course-overview-signals strong {
+.planner-runtime .course-overview-progress-signal strong {
   color: var(--neutral-0);
   font-size: var(--type-body-size);
-  line-height: var(--type-body-line);
+  line-height: 1.3;
 }
 
-.planner-runtime .course-overview-recommendation-actions {
-  margin-top: 22px;
+.planner-runtime .course-overview-progress-signal span {
+  color: rgba(255, 255, 255, .58);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
 }
 
 .planner-runtime .course-overview-conversation {
@@ -240,6 +249,30 @@
     width: var(--rev-size);
   }
 
+  .planner-runtime .course-overview-progress-panel {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    padding: 18px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, .15);
+  }
+
+  .planner-runtime .course-overview-progress-panel > .eyebrow {
+    grid-column: 1 / -1;
+    margin-bottom: -4px;
+  }
+
+  .planner-runtime .course-overview-progress-signal {
+    padding: 8px 0 0;
+  }
+
+  .planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
+    padding-left: 24px;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, .13);
+  }
+
   .planner-runtime .course-overview-conversation {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -274,18 +307,25 @@
     line-height: var(--type-h3-line);
   }
 
-  .planner-runtime .course-overview-signals {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+  .planner-runtime .course-overview-progress-panel {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 12px;
   }
 
-  .planner-runtime .course-overview-signals > div {
-    min-width: 0;
-    padding: 12px 12px 12px 0;
+  .planner-runtime .course-overview-progress-panel > .eyebrow {
+    grid-column: auto;
+    margin-bottom: 2px;
   }
 
-  .planner-runtime .course-overview-signals > div + div {
-    padding-left: 12px;
+  .planner-runtime .course-overview-progress-signal {
+    padding: 12px 0;
+  }
+
+  .planner-runtime .course-overview-progress-signal + .course-overview-progress-signal {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, .13);
   }
 
   .planner-runtime .course-overview-conversation {
