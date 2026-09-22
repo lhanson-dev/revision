@@ -1,5 +1,6 @@
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
+import { summariseTopicKnowledge, type TopicKnowledgeSummary } from '../engine/knowledge/topic-knowledge'
 import { assessPaperReadiness, recommendNextActivity, type ReadinessResult, type RevisionRecommendation } from '../engine/readiness/readiness'
 export type { CourseSection } from './navigation'
 
@@ -26,6 +27,7 @@ export type ModuleLearningState = {
   adapter: LearningContentAdapter
   evidence: readonly LearningEvidence[]
   readiness: ReadinessResult
+  topicKnowledge: TopicKnowledgeSummary
   recommendation: RevisionRecommendation | null
   recommendationTopic: ReturnType<LearningContentAdapter['getTopic']>
   evidencedTopics: number
@@ -109,6 +111,7 @@ export function createModuleLearningState(adapter: LearningContentAdapter, allEv
     adapter,
     evidence,
     readiness: assessPaperReadiness(moduleId, topicIds, evidence),
+    topicKnowledge: summariseTopicKnowledge(moduleId, topicIds, evidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
     evidencedTopics: new Set(evidence.map((item) => item.topicId)).size,
@@ -129,6 +132,7 @@ export function createCourseLearningState(course: CatalogueCourse, allEvidence: 
     adapter,
     evidence,
     readiness: assessPaperReadiness(canonicalModuleId, topicIds, normalizedEvidence),
+    topicKnowledge: summariseTopicKnowledge(canonicalModuleId, topicIds, normalizedEvidence),
     recommendation,
     recommendationTopic: recommendation ? adapter.getTopic(recommendation.topicId) : undefined,
     evidencedTopics: new Set(evidence.map((item) => item.topicId)).size,

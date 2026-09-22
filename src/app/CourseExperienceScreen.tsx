@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningEvidence } from '../engine/evidence/evidence'
+import { topicKnowledgeLabel } from '../engine/knowledge/topic-knowledge'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
 import type { LearnerCourseMembership } from '../services/courses/learner-course-service'
 import { ExamSimulator } from './ExamSimulator'
@@ -62,7 +63,7 @@ function recommendationCopy(recommendation: NonNullable<ModuleLearningState['rec
   if (recommendation.readinessScore === null) {
     if (recommendation.activity === 'flashcards') return `You've started building evidence here. A quick knowledge refresh will help strengthen the picture before we ask more of you.`
     if (recommendation.activity === 'exam-question') return `You've built a useful base here. The next helpful step is to see how that knowledge holds up in an exam-style response.`
-    return `You've started building evidence here. A little more application practice will help us see what is secure and what is worth revisiting.`
+    return `You've started building evidence here. A little more application practice will help us see what you know well and what is worth revisiting.`
   }
   if (recommendation.activity === 'flashcards') return `Your recent work suggests the underlying knowledge is the best place to focus next. A short refresh should make the next application task easier.`
   if (recommendation.activity === 'exam-question') return `Your knowledge and application evidence are in place. The next useful step is checking how well that transfers into an exam response.`
@@ -79,12 +80,29 @@ function ProgressSummary({ state, label }: { state: ModuleLearningState; label: 
   )
 }
 
-function CourseOverviewSignals({ state }: { state: ModuleLearningState }) {
+function CourseOverviewProgressPanel({ state }: { state: ModuleLearningState }) {
+  const { good, medium, low, notEnoughEvidence } = state.topicKnowledge.distribution
+  const supportedTopics = good + medium + low
+  const knowledgeSummary = [
+    good > 0 ? `${good} Good` : '',
+    medium > 0 ? `${medium} Medium` : '',
+    low > 0 ? `${low} Low` : '',
+  ].filter(Boolean).join(' · ')
+
   return (
-    <div className="course-overview-signals" aria-label="Course progress context">
-      <div><small>Exam readiness</small><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong></div>
-      <div><small>Evidence coverage</small><strong>{state.evidencedTopics} / {state.topicCount} topics</strong></div>
-    </div>
+    <aside className="course-overview-progress-panel" aria-label="Your progress">
+      <p className="eyebrow">Your progress</p>
+      <div className="course-overview-progress-signal">
+        <small>Exam readiness</small>
+        <strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong>
+        <span>{state.readiness.score === null ? 'More varied evidence is needed before showing a score.' : `${state.readiness.confidence} evidence confidence.`}</span>
+      </div>
+      <div className="course-overview-progress-signal">
+        <small>Topic knowledge</small>
+        <strong>{supportedTopics === 0 ? 'Not enough evidence' : knowledgeSummary}</strong>
+        <span>{notEnoughEvidence > 0 ? `${notEnoughEvidence} ${notEnoughEvidence === 1 ? 'topic needs' : 'topics need'} more scored evidence.` : 'Based on scored Practice and Exam Prep evidence.'}</span>
+      </div>
+    </aside>
   )
 }
 
@@ -204,12 +222,12 @@ export function CourseExperienceScreen({
                 <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
                 <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
                 {recommendation && <p className="course-overview-recommendation-note">{recommendation.limitation}</p>}
-                <CourseOverviewSignals state={state} />
                 <div className="course-overview-recommendation-actions">
                   {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
                   {recommendation && <button className="course-overview-why" type="button" title={recommendation.evidenceSummary}>Why this?</button>}
                 </div>
               </div>
+              <CourseOverviewProgressPanel state={state} />
             </div>
             <div className="course-overview-conversation">
               <div className="course-overview-conversation-copy"><strong>Got something else on your mind?</strong><span>Ask REV about this course, a topic, or what you want to work on.</span></div>
@@ -222,7 +240,7 @@ export function CourseExperienceScreen({
 
           <section className="home-section course-overview-topics" aria-labelledby="course-topics-title">
             <div className="section-heading"><div><p className="eyebrow">Course structure</p><h2 id="course-topics-title">Course topics</h2><p>Choose an area to explore, or follow REV’s recommendation above.</p></div></div>
-            <div className="topic-list-grid">{topics.map((topic) => { const hasEvidence = state.evidence.some((item) => item.topicId === topic.id); return <article key={topic.id}><span className={`evidence-dot ${hasEvidence ? 'has-evidence' : ''}`} aria-hidden="true"></span><div><strong>{topic.shortTitle}</strong><p>{hasEvidence ? 'Evidence recorded' : 'No scored evidence yet'}</p></div></article> })}</div>
+            <div className="topic-list-grid">{topics.map((topic) => { const knowledge = state.topicKnowledge.topics.find((item) => item.topicId === topic.id); return <article key={topic.id}><div><strong>{topic.shortTitle}</strong><p>Topic knowledge · {topicKnowledgeLabel(knowledge?.band ?? 'not-enough-evidence')}</p></div></article> })}</div>
           </section>
         </div>}
 
