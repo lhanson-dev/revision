@@ -32,21 +32,43 @@ The surface shows:
 - feature-scale canonical `RevPresence` / Living E in Resting state;
 - the governed `PoweredByRev` compact identity component;
 - the existing deterministic course recommendation;
-- the existing evidence-based learner-facing recommendation reason; and
+- an activity-explicit recommendation heading, for example `Let's refresh Marketing with flashcards` or `Let's practise Marketing with a quick check`;
+- a concise plain-language reason that explains why REV selected that activity type from the available evidence; and
 - the existing direct start action into Practice or Exam Prep according to the recommendation.
 
 The recommendation logic remains owned by the existing readiness/recommendation engine. Topic Knowledge does not replace or silently alter that recommendation algorithm.
+
+Course Overview deliberately does not render the engine's generic recommendation `limitation` sentence or a separate `Why this?` button. The recommendation itself must carry the useful explanation in plain language. The engine may retain its structured reason, evidence summary and limitation fields for other product/trust uses; removing the redundant visual controls does not remove those underlying truth safeguards.
+
+The learner-facing explanation maps the deterministic recommendation to the educational reason for the format:
+
+- **Flashcards** — check or strengthen underlying recall when recall is missing or is the weaker supported evidence family;
+- **Quick check** — establish or strengthen application evidence where application is missing or weaker than recall; and
+- **Exam question** — test transfer into exam-style performance once earlier evidence supports moving into that demand.
 
 ### Progress context
 
 On desktop, a distinct right-hand progress panel sits alongside the recommendation. It shows:
 
+- **next public exam date + countdown** at the top of the panel when a truthful learner assessment date is available;
 - **Exam Readiness** — the existing readiness result, using `Building` until the governed readiness evidence threshold is met; and
 - **Topic Knowledge** — a distribution of the same per-topic `Low / Medium / Good / Not enough evidence` states used by the Course Overview topic list.
 
 The progress panel is deliberately secondary to the recommendation. It is separated visually by a restrained divider rather than being presented as a competing hero card.
 
-On tablet and phone the same progress panel stacks below the recommendation and above the conversation route.
+Exam date context is read from the learner's existing `revision_assessments` planner data through `src/services/planning/course-exam-date-service.ts`. The Course Overview query is deliberately narrow: active, upcoming `public_exam` assessments only.
+
+The next exam is associated to the current course using the strongest available identity in this order:
+
+1. explicit `courseId` match;
+2. explicit `moduleId` match where that module belongs to the course; or
+3. subject-only legacy assessment data only when the learner has exactly one active course for that subject, so the match is unambiguous.
+
+The first matching upcoming assessment is shown because the query is ordered by assessment date. If no truthful date is available, the panel says `Not set yet` and points the learner to Plan rather than fabricating a date. A read failure is shown as `Unavailable` rather than silently presenting stale or invented information.
+
+The countdown is derived in the browser from the saved assessment date and the learner's current local calendar day, using plain copy such as `45 days to go`, `1 day to go`, or `Today`.
+
+On tablet and phone the same progress context stacks below the recommendation and above the conversation route.
 
 ### The student leads
 
@@ -129,15 +151,15 @@ The Course Overview does not copy Home's exact scale or composition. Home remain
 
 Desktop uses:
 
-`Living E | REV recommendation | progress panel`
+`Living E | REV recommendation | exam date + progress panel`
 
 followed by the full-width conversation route.
 
-Tablet keeps Living E and recommendation together and moves the progress panel below them.
+Tablet keeps Living E and recommendation together and moves the exam/progress panel below them.
 
 Phone stacks the semantic order:
 
-`Living E / Powered by REV → recommendation + reason + action → Exam Readiness + Topic Knowledge → Ask REV`
+`Living E / Powered by REV → recommendation + reason + action → exam date + Exam Readiness + Topic Knowledge → Ask REV`
 
 The persistent tablet/mobile Ask REV dock remains unchanged. The inline field is contextual to the decision surface rather than a second persistent action.
 
@@ -157,6 +179,9 @@ The Course Overview browser assurance checks:
 
 - feature-scale Living E presence;
 - governed `Powered by REV` attribution;
+- activity-explicit recommendation wording and a visible plain-language reason;
+- absence of the retired `Why this?` control and redundant generic limitation sentence;
+- next public exam date and a live countdown when truthful course-linked assessment data is available;
 - the separate progress panel;
 - Exam Readiness and Topic Knowledge labels;
 - the truthful `Not enough evidence` empty state;
@@ -185,6 +210,8 @@ This implementation does not roll the compact conversation strip across every pr
 
 ## Documentation impact
 
-This document records the current Course Overview implementation, Topic Knowledge v1 mechanics, responsive hierarchy and accepted evidence-lineage limitation. It does not rewrite historical GJ-03 evidence or prior Home implementation records.
+This document records the current Course Overview implementation, Topic Knowledge v1 mechanics, recommendation-explanation fidelity, exam-date context, responsive hierarchy and accepted evidence-lineage limitation. It does not rewrite historical GJ-03 evidence or prior Home implementation records.
+
+No normative authority change is required for the recommendation/exam-date fidelity correction: existing authority already requires REV to explain its recommendation credibly and the Course Overview blueprint already calls for upcoming assessment date/context where available. Historical design and proof evidence remain unchanged.
 
 The active product/experience authority remains the source of what should be true. If future calibration changes Topic Knowledge thresholds without changing its governed meaning, this implementation record and assurance must be updated with the new current mechanics.
