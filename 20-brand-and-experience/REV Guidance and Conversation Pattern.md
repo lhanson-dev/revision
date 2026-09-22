@@ -114,7 +114,9 @@ with the shared conversational strip beneath.
 
 On constrained screens the progress region may stack beneath the recommendation and above the Ask REV strip.
 
-For Course Overview, the governed progress pair is **Exam Readiness** and **Evidence Coverage** as defined in `10-product-governance/Course Overview Progress Signals.md`.
+For Course Overview, the governed progress pair is **Exam Readiness** and **Topics Secure** as defined in `10-product-governance/Course Overview Progress Signals.md`.
+
+`Topics Secure` is a performance-backed knowledge signal, not a count of topics merely viewed or attempted. A weak result may give Revision useful evidence about a topic without making that topic Secure.
 
 ## Conversation rules
 
@@ -128,7 +130,7 @@ The pattern should use plain learner-facing language. Preferred framing includes
 
 `Got something else on your mind?` is the preferred standard treatment for primary learner page headers unless the local page job requires a clearer equivalent.
 
-Do not frame the conversation path as an exception, override or failure to follow a recommendation.
+Do not frame the conversation path as an exception, override or failure to follow the recommendation.
 
 Where the screen already has a persistent Ask REV shell action, the inline input remains valid because it serves a different purpose: it makes the page context immediately conversational. The persistent action continues to guarantee global availability.
 
@@ -182,7 +184,7 @@ Course Overview uses **course scope**.
 
 REV should recommend the most useful next action inside the selected course, using course-level evidence and approved course recommendation logic. It should explain the reason and provide the direct start action.
 
-On desktop, Course Overview should keep the recommendation dominant on the left and show the concise **Exam Readiness + Evidence Coverage** progress panel separately on the right. The shared `Got something else on your mind?` / `Ask REV anything…` strip sits beneath the decision area.
+On desktop, Course Overview should keep the recommendation dominant on the left and show the concise **Exam Readiness + Topics Secure** progress panel separately on the right. The shared `Got something else on your mind?` / `Ask REV anything…` strip sits beneath the decision area.
 
 The conversation layer should receive the current course context automatically so the learner does not need to restate which course they are viewing.
 
@@ -225,7 +227,7 @@ The existing persistent tablet/mobile Ask REV dock remains governed and should n
 
 Version 1.1 records the Founder-approved decision of 22 September 2026 to standardise `Got something else on your mind?` / `Ask REV anything…` as a compact shared treatment across primary learner page headers while keeping proactive REV recommendations selective and context-specific.
 
-It also separates concise progress signals from proactive recommendation copy on desktop REV-led headers, with Course Overview using the governed Exam Readiness + Evidence Coverage pair.
+It also separates concise progress signals from proactive recommendation copy on desktop REV-led headers, with Course Overview using the governed Exam Readiness + Topics Secure pair.
 
 This deliberately expands prominent inline Ask REV use beyond REV-led recommendation surfaces while preserving existing Living E identity, persistent Ask REV navigation, recommendation logic boundaries and evidence truth rules.
 
