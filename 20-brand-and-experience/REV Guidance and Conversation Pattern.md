@@ -4,14 +4,14 @@ document_id: "revision-rev-guidance-and-conversation-pattern"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.1"
+version: "1.2"
 owner: "Founder"
 effective_date: "2026-09-22"
 last_reviewed: "2026-09-22"
 content_review_status: "founder-approved"
 source_of_truth_for: ["REV-led decision surfaces", "proactive REV guidance and reactive Ask REV pattern", "primary learner-header Ask REV conversation strip", "REV feature-header identity treatment", "Powered by REV use on governed REV-led decision surfaces", "inline Ask REV use on learner headers", "REV recommendation scope by screen context"]
 depends_on: ["Product Strategy", "Product UX Principles", "Visual Brand System", "Identity Asset Usage Rules", "Global Learner Navigation", "Returning Student Home Experience", "Course Learning Blueprint", "Course Overview Progress Signals"]
-supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces"]
+supersedes: ["Identity Asset Usage Rules limitation of Powered by REV to the Returning Student Home hero", "Global Learner Navigation wording treating the prominent inline Ask REV input as Home-specific", "Returning Student Home ordering that separates the promoted first task from the REV feature moment", "REV Guidance and Conversation Pattern v1.0 limitation of the prominent inline Ask REV treatment to REV-led decision surfaces", "REV Guidance and Conversation Pattern v1.1 Topics Secure terminology"]
 ---
 # REV Guidance and Conversation Pattern
 
@@ -114,9 +114,9 @@ with the shared conversational strip beneath.
 
 On constrained screens the progress region may stack beneath the recommendation and above the Ask REV strip.
 
-For Course Overview, the governed progress pair is **Exam Readiness** and **Topics Secure** as defined in `10-product-governance/Course Overview Progress Signals.md`.
+For Course Overview, the governed progress pair is **Exam Readiness** and **Topic Knowledge** as defined in `10-product-governance/Course Overview Progress Signals.md`.
 
-`Topics Secure` is a performance-backed knowledge signal, not a count of topics merely viewed or attempted. A weak result may give Revision useful evidence about a topic without making that topic Secure.
+`Topic Knowledge` is an evidence-backed judgement of how well the learner currently knows and can use each topic. Its learner-facing bands are Low / Medium / Good, with an insufficient-evidence state where Revision cannot yet make a responsible judgement. It is not a content-viewing or simple activity counter.
 
 ## Conversation rules
 
@@ -184,7 +184,9 @@ Course Overview uses **course scope**.
 
 REV should recommend the most useful next action inside the selected course, using course-level evidence and approved course recommendation logic. It should explain the reason and provide the direct start action.
 
-On desktop, Course Overview should keep the recommendation dominant on the left and show the concise **Exam Readiness + Topics Secure** progress panel separately on the right. The shared `Got something else on your mind?` / `Ask REV anything…` strip sits beneath the decision area.
+On desktop, Course Overview should keep the recommendation dominant on the left and show the concise **Exam Readiness + Topic Knowledge** progress panel separately on the right. The Topic Knowledge summary should use the same governed Low / Medium / Good topic model and should roll up transparently rather than invent a competing score.
+
+The shared `Got something else on your mind?` / `Ask REV anything…` strip sits beneath the decision area.
 
 The conversation layer should receive the current course context automatically so the learner does not need to restate which course they are viewing.
 
@@ -225,10 +227,8 @@ The existing persistent tablet/mobile Ask REV dock remains governed and should n
 
 ## Documentation impact
 
-Version 1.1 records the Founder-approved decision of 22 September 2026 to standardise `Got something else on your mind?` / `Ask REV anything…` as a compact shared treatment across primary learner page headers while keeping proactive REV recommendations selective and context-specific.
+Version 1.2 records the Founder-approved decision of 22 September 2026 to use **Topic Knowledge** rather than `Topics Secure` as the plain learner-facing knowledge-progress concept. Topic Knowledge uses Low / Medium / Good topic bands, remains distinct from evidence confidence and Exam Readiness, and can roll up transparently to subject/course progress.
 
-It also separates concise progress signals from proactive recommendation copy on desktop REV-led headers, with Course Overview using the governed Exam Readiness + Topics Secure pair.
-
-This deliberately expands prominent inline Ask REV use beyond REV-led recommendation surfaces while preserving existing Living E identity, persistent Ask REV navigation, recommendation logic boundaries and evidence truth rules.
+Version 1.1 standardised `Got something else on your mind?` / `Ask REV anything…` as a compact shared treatment across primary learner page headers while keeping proactive REV recommendations selective and context-specific, and separated concise progress signals from proactive recommendation copy on desktop REV-led headers.
 
 Implementation changes must update their relevant technical documentation and visual assurance baselines in the same governed change. Historical prototypes and prior design evidence remain historically accurate and must not be rewritten.
