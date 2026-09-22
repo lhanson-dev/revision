@@ -97,8 +97,8 @@ function responseBody(output: unknown) {
   }
 }
 
-describe('Foundation Course Learning Blueprint provider contracts Learn v7 / Practice v5', () => {
-  it('derives selected node-level Learn treatment evidence from inline markers and keeps Practice evidence strict', async () => {
+describe('Foundation Course Learning Blueprint provider contracts Learn v8 / Practice v5', () => {
+  it('derives selected node-level Learn treatment evidence from typed field metadata and keeps Practice evidence strict', async () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
@@ -110,33 +110,60 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v7 / Pra
 
       if (call === 1) {
         expect(body.instructions).toContain('node-level Learn treatments')
-        expect(body.instructions).toContain('[[REV-C1]]')
-        expect(body.instructions).toContain('[[REV-T1]]')
+        expect(body.instructions).toContain('coverage_1')
+        expect(body.instructions).toContain('treatment_1')
+        expect(body.instructions).toContain('text plus evidenceIds')
         expect(body.text.format.schema.properties).not.toHaveProperty('coverageEvidence')
         expect(body.text.format.schema.properties).not.toHaveProperty('treatmentEvidence')
+        expect(JSON.stringify(body.text.format.schema)).toContain('evidenceIds')
+        expect(JSON.stringify(body.text.format.schema)).toContain('coverage_1')
         return new Response(JSON.stringify(responseBody({
           title: 'Quantitative decision',
-          introduction: 'A useful measure needs calculation, interpretation and contextual judgement.',
+          introduction: {
+            text: 'A useful measure needs calculation, interpretation and contextual judgement.',
+            evidenceIds: [],
+          },
           sections: [{
             title: 'Meaning and context',
-            explanation: 'Interpret the result against the decision context and compare it with a plausible alternative. [[REV-C1]] [[REV-T1]]',
+            explanation: {
+              text: 'Interpret the result against the decision context and compare it with a plausible alternative.',
+              evidenceIds: ['coverage_1', 'treatment_1'],
+            },
             keyPoints: [
-              'Example: a stronger result may still be unsuitable when the context changes. [[REV-T4]]',
-              'Guided step: identify the inputs first, then decide which interpretation is supported. [[REV-T3]]',
-              'Self-explain why the same numerical result could support a different judgement in another context.',
+              {
+                text: 'Example: a stronger result may still be unsuitable when the context changes.',
+                evidenceIds: ['treatment_4'],
+              },
+              {
+                text: 'Guided step: identify the inputs first, then decide which interpretation is supported.',
+                evidenceIds: ['treatment_3'],
+              },
+              {
+                text: 'Self-explain why the same numerical result could support a different judgement in another context.',
+                evidenceIds: [],
+              },
             ],
           }],
           workedExamples: [{
             title: 'Worked calculation',
-            setup: 'A business result is 80 from an input of 40.',
-            steps: ['Calculate 80 / 40 = 2. [[REV-T2]]', 'Interpret what 2 means before making a decision.'],
-            conclusion: 'The calculation is evidence, not the whole judgement.',
+            setup: { text: 'A business result is 80 from an input of 40.', evidenceIds: [] },
+            steps: [
+              { text: 'Calculate 80 / 40 = 2.', evidenceIds: ['treatment_2'] },
+              { text: 'Interpret what 2 means before making a decision.', evidenceIds: [] },
+            ],
+            conclusion: { text: 'The calculation is evidence, not the whole judgement.', evidenceIds: [] },
           }],
           misconceptions: [{
             misconception: 'A calculated result is sufficient without interpretation.',
-            correction: 'A result must be interpreted against the supplied context before a judgement is made. [[REV-T6]]',
+            correction: {
+              text: 'A result must be interpreted against the supplied context before a judgement is made.',
+              evidenceIds: ['treatment_6'],
+            },
           }],
-          nextAction: 'Explain why the calculation alone cannot determine the decision. [[REV-T5]]',
+          nextAction: {
+            text: 'Explain why the calculation alone cannot determine the decision.',
+            evidenceIds: ['treatment_5'],
+          },
         })), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
 
@@ -205,9 +232,10 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v7 / Pra
       knowledgeNodes,
     })
     expect(learning.status).toBe('success')
-    expect(learning.provenance.contractVersion).toBe('7')
+    expect(learning.provenance.contractVersion).toBe('8')
     if (learning.status !== 'success') throw new Error('Expected Learn success')
-    expect(JSON.stringify(learning.output)).not.toContain('[[REV-')
+    expect(JSON.stringify(learning.output)).not.toContain('evidenceIds')
+    expect(JSON.stringify(learning.output)).not.toContain('coverage_1')
 
     const practice = await workers.generatePracticeCollateral({
       jobId: 'foundation-v2-test',

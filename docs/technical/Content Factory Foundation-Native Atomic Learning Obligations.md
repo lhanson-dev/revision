@@ -1,6 +1,6 @@
 # Content Factory Foundation-Native Atomic Learning Obligations
 
-**Status:** Current implementation contract after ADR-0027; Learn provider contract v7 / Practice provider contract v5  
+**Status:** Current implementation contract after ADR-0027; Learn provider contract v8 / Practice provider contract v5  
 **Authority:** `10-product-governance/Course Learning Blueprint.md`; `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`; `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`; ADR-0027
 
 ## Purpose
@@ -36,11 +36,14 @@ The provider evidence resolver remains the exact-location boundary. When a teach
 - Misconception obligations must resolve to an explicit misconception correction.
 - Other atomic facts still require exact coverage evidence through the normal teaching-point contract.
 
-Learn provider contract v7 uses short deterministic machine markers embedded directly in the generated learner-content field that provides the evidence. The provider does not return a separate Learn evidence-reference structure.
+Learn provider contract v8 expresses evidence ownership as typed metadata on the generated learner-content field itself. The provider does not return a separate Learn evidence-reference array, duplicate generated evidence text or place machine markers inside learner prose.
 
-Before generation the system derives one coverage marker for every required teaching point and one treatment marker for every required `nodeId + Learn treatment` pair. The provider must place each supplied marker exactly once in the actual field that implements that obligation. The resolver records the field/area where the marker occurs, validates the placement, derives retained evidence from that field and strips all valid markers before learner content is retained.
+Before generation the system derives one `coverage_N` evidence ID for every required teaching point and one `treatment_N` evidence ID for every required `nodeId + Learn treatment` pair. Every evidence-bearing field object contains:
 
-Missing, duplicated or unknown markers fail closed. There is no fuzzy, nearest-item, copied-text or positional fallback.
+- `text` — learner-facing prose; and
+- `evidenceIds` — zero or more schema-constrained deterministic obligation IDs owned by that exact field.
+
+The resolver records the field/area that owns each ID, requires every expected ID exactly once, validates atomic/treatment placement and retains only the learner-facing text. Missing, duplicated or unknown IDs fail closed. Legacy inline marker text also fails closed. There is no fuzzy, nearest-item, copied-text or positional fallback.
 
 ### Practice
 
@@ -66,33 +69,34 @@ Provider instructions must state the same deterministic evidence-placement rules
 
 The instructions therefore derive atomic evidence guidance from `foundation-course-learning-atomic-obligations.ts`, the same implementation boundary that performs fail-closed validation. In particular:
 
-- Learn v7 tells the provider that Course Truth summaries belong in section explanation/key-point fields, formulas/procedures in worked-example fields, and misconceptions in explicit misconception corrections;
-- Learn v7 supplies deterministic coverage/treatment markers and requires each marker exactly once in the actual learner-content field that proves the obligation;
-- Learn v7 removes the separate self-referential Learn evidence arrays used by earlier provider contracts;
+- Learn v8 tells the provider that Course Truth summaries belong in section explanation/key-point fields, formulas/procedures in worked-example fields, and misconceptions in explicit misconception corrections;
+- Learn v8 supplies deterministic coverage/treatment evidence IDs and requires each ID exactly once in the `evidenceIds` metadata of the actual learner-content field that proves the obligation;
+- Learn v8 keeps those IDs out of learner-facing text and removes evidence metadata before retained learner output is formed;
 - Practice v5 explicitly tells the provider that atomic evidence must use an active `prompt` or `expectedResponse`, never passive `explanation` or `improvementAction` fields;
 - Practice v5 tells the provider the deterministic formula, context and misconception mode ownership; and
 - deterministic evidence-demand mode assignments for the exact work unit are included in the generation instruction.
 
 Generic provider guidance cannot broaden these atomic rules. This prevents structurally valid output from being accepted when the actual generated field does not satisfy the deterministic obligation.
 
-The Learn v7 inline-marker contract deliberately avoids both earlier self-reference forms:
+The Learn v8 typed-field contract deliberately avoids all three earlier self-reference/annotation failure forms:
 
-- provider-v5 model-guessed indexes into variable-length `sections`, `keyPoints`, `workedExamples` and `steps`; and
-- provider-v6 duplicated copies of generated learner text in a separate evidence field.
+- provider-v5 model-guessed indexes into variable-length `sections`, `keyPoints`, `workedExamples` and `steps`;
+- provider-v6 duplicated copies of generated learner text in a separate evidence field; and
+- provider-v7 free-text machine markers whose completeness could not be required by the structured output schema.
 
 It does not clamp invalid evidence, redirect it to another field or impose fixed content-array sizes. Those approaches would either weaken evidence integrity or conflict with the Course Learning Blueprint requirement that learning treatment be requirement-driven rather than quota-driven.
 
 Practice evidence indexing remains a generic provider-evidence concern. The shared `provider-coverage-evidence.ts` boundary continues to own the corresponding provider guidance and fail-closed resolution.
 
-## Relationship to Learn v7 and Practice v5 provider contracts
+## Relationship to Learn v8 and Practice v5 provider contracts
 
 Atomic obligations operate alongside the node-level proof:
 
 1. the planner derives node classifications, Learn treatments and Practice capabilities;
 2. it expands exact structured Course Truth facts into node-bound atomic required teaching points;
-3. Learn provider contract v7 assigns deterministic coverage and treatment markers before generation;
-4. the provider places each Learn marker in the exact generated field implementing that obligation;
-5. the resolver derives the actual field/area from marker location, validates atomic/treatment placement and strips the markers before retention;
+3. Learn provider contract v8 assigns deterministic coverage and treatment evidence IDs before generation;
+4. the provider assigns each Learn evidence ID to the `evidenceIds` metadata of the exact generated field implementing that obligation;
+5. the resolver derives the actual field/area from typed ownership, validates atomic/treatment placement and discards evidence metadata before retention;
 6. Practice provider contract v5 requires exact coverage evidence for every required teaching point plus exact `(nodeId, Practice capability)` evidence using existing activity locations;
 7. the evidence resolvers reject missing, duplicated, passive or incompatible evidence; and
 8. fresh-context independent review still judges whether the resulting content is educationally and factually sufficient.
@@ -110,11 +114,13 @@ The implementation includes regression coverage proving that:
 - two nodes with identical-looking structured facts produce separate node-bound obligations;
 - a non-Business science node produces the same qualification-neutral derivation behaviour;
 - formula and misconception Learn evidence fails closed when placed outside the required educational structure;
-- Learn v7 derives evidence from the actual marked generated field and removes markers before retention;
-- Learn v7 fails closed for missing, duplicated or unknown markers;
-- Learn v7 preserves node-level treatment placement such as worked-example and misconception-repair ownership;
+- Learn v8 derives evidence from the actual generated field that owns the typed evidence ID and retains only learner text;
+- Learn v8 requires typed `evidenceIds` metadata in the provider schema and constrains values to supplied IDs;
+- Learn v8 fails closed for missing, duplicated or unknown evidence IDs;
+- Learn v8 rejects legacy inline marker text;
+- Learn v8 preserves node-level treatment placement such as worked-example and misconception-repair ownership;
 - application, misconception and quantitative Practice evidence fails closed when passive or placed in the wrong mode;
-- Learn v7 instructions expose inline marker mappings and no longer request copied text or array indexes;
+- Learn v8 instructions expose typed evidence-ID mappings and no longer request markers, copied text or array indexes;
 - Practice v5 instructions expose the active-field rule plus deterministic atomic mode ownership;
 - Practice v5 instructions explicitly state the resolver's 1-based activity indexing and existing-mode-bucket reference rule; and
 - correctly placed evidence is accepted.
@@ -180,7 +186,7 @@ That repeated live failure established that numeric Learn references were struct
 
 Historical provider-v5 failure evidence remains historically true and must not be rewritten under later contracts.
 
-### Provider-v6 copied-text fail-hold and provider-v7 remediation
+### Provider-v6 copied-text fail-hold
 
 After PR #359 became fully Live, run `35726339624` used Learn provider contract v6 against the unchanged Foundation on merged-main commit `6811e11555437a77960f90f500f69b1dc5d31563`.
 
@@ -201,15 +207,36 @@ Retained evidence:
 
 This proved that v6 retained another self-reference: the provider had to generate learner text and separately reproduce that exact text in the evidence structure. The resolver correctly rejected the mismatch.
 
-Provider v7 therefore removes separate Learn evidence references and derives evidence from deterministic inline markers placed in the generated field itself. Full evidence and remediation rationale are retained in `docs/technical/Content Factory Foundation Learn Evidence Binding Remediation.md`.
-
 Historical v6 failure evidence remains immutable.
+
+### Provider-v7 inline-marker fail-hold and provider-v8 remediation
+
+PR #362 moved Foundation-v2 Learn to provider v7 inline evidence markers. After that change became fully Live, run `35747978726` executed on merged-main commit `fc5c894254820a806d3779e3846737930cac42e0` against the unchanged Foundation.
+
+The first Learn call for `foundation-course-wide-business-context` failed closed with:
+
+`provider_contract_failure: Missing Learn evidence marker [[REV-C2]]`
+
+Retained evidence:
+
+- artifact ID `10703917081`;
+- digest `sha256:938ac10f0d49c518115e95cc8aa541a8ee2f05beb83417c99c48b544a17ca90b`;
+- one provider call;
+- zero retries;
+- reported final-response usage cost `$0.027354`;
+- learner asset count `0`;
+- Foundation human review pending; and
+- learner publication false.
+
+The resolver correctly failed closed. The defect was that the JSON schema could not structurally require every free-text marker to appear inside generated prose. Provider v8 therefore moves evidence ownership into typed `evidenceIds` metadata on each generated learner-content field. Full evidence and remediation rationale are retained in `docs/technical/Content Factory Foundation Learn Evidence Binding Remediation.md`.
+
+Historical v7 failure evidence remains immutable.
 
 ## Governed next proof path
 
-1. Merge the Learn v7 inline-evidence repair only after exact-head assurance and explicit Founder approval.
+1. Merge the Learn v8 typed-evidence repair only after exact-head assurance and explicit Founder approval.
 2. Confirm the merged change through the governed path-to-live evidence.
-3. Generate exactly one **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2`, Learn provider v7 and Practice provider v5.
+3. Generate exactly one **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2`, Learn provider v8 and Practice provider v5.
 4. Run deterministic and genuinely fresh-context independent assurance against that exact new bundle only if generation succeeds.
 5. Remediate any remaining asset-local findings at the smallest safe scope.
 6. If the new contract exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream.
