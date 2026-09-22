@@ -140,7 +140,7 @@ async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | 
   }, role)
 }
 
-test('course overview and exam prep use semantic dark surfaces and readable accents', async ({ page }) => {
+test('course overview uses the governed REV feature treatment and semantic dark surfaces', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
 
@@ -153,15 +153,23 @@ test('course overview and exam prep use semantic dark surfaces and readable acce
 
   const overviewRecommendation = page.locator('.course-overview-recommendation')
   await expect(overviewRecommendation).toBeVisible()
+  await expect(overviewRecommendation.locator('.rev-presence-hero')).toHaveCount(1)
+  await expect(overviewRecommendation.getByText('Powered by', { exact: true })).toBeVisible()
+  await expect(overviewRecommendation.locator('.course-overview-signals')).toBeVisible()
+  await expect(overviewRecommendation.getByText('Got something else on your mind?', { exact: true })).toBeVisible()
+
   const recommendationSurface = await backgroundRoleStyles(overviewRecommendation, '--color-inverse-action')
   expect(recommendationSurface.actual).toBe(recommendationSurface.expected)
   expect(recommendationSurface.actual).not.toBe('rgb(255, 255, 255)')
 
-  const overviewPosition = page.locator('.course-overview-position')
-  await expect(overviewPosition).toBeVisible()
-  const overviewSurface = await themeStyles(overviewPosition, 'surface')
-  expect(overviewSurface.actual).toBe(overviewSurface.expected)
-  expect(overviewSurface.actual).not.toBe('rgb(255, 255, 255)')
+  const courseRevForm = overviewRecommendation.locator('.course-overview-rev-form')
+  await courseRevForm.getByRole('textbox').fill('Help me with this course')
+  await courseRevForm.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  const revDialog = page.getByRole('dialog', { name: 'Ask REV' })
+  await expect(revDialog).toBeVisible()
+  await expect(revDialog.locator('.planner-rev-input input')).toHaveValue('Help me with this course')
+  await revDialog.getByRole('button', { name: 'Close Ask REV' }).click()
+  await expect(revDialog).toHaveCount(0)
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
