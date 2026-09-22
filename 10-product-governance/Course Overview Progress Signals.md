@@ -105,6 +105,8 @@ Topics Secure and Exam Readiness are deliberately related but not identical.
 
 A learner can therefore have many Secure topics while still needing exam-technique, timing or authentic-paper practice. Conversely, strong performance on a limited part of the course must not imply that the whole course is Secure.
 
+If the learner sees `10 / 10 topics secure`, they should reasonably understand that Revision's evidence supports secure knowledge/application across the full course topic set. The product must never use that display when all Revision knows is that the learner has attempted something in each topic.
+
 ## Threshold and calibration rule
 
 The exact performance threshold, weighting and evidence requirements for `Secure` are evidence and implementation questions. They must be deliberately calibrated and assured against the governed course/evidence model rather than invented solely to make the UI display a convenient count.
