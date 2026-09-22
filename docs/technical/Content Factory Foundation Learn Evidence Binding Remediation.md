@@ -1,11 +1,11 @@
 # Content Factory Foundation Learn Evidence Binding Remediation
 
-**Status:** Current implementation remediation evidence — provider-v7 repair in progress  
+**Status:** Current implementation remediation evidence — provider-v8 repair in progress  
 **Authority:** `10-product-governance/Course Learning Blueprint.md`; `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`; `docs/technical/Content Factory Foundation-Native Atomic Learning Obligations.md`; ADR-0027
 
 ## Purpose
 
-Record the retained Business Learn evidence-binding fail-holds and the structural remediation sequence from provider-v5 numeric references, through provider-v6 copied-text references, to provider-v7 inline evidence markers.
+Record the retained Business Learn evidence-binding fail-holds and the structural remediation sequence from provider-v5 numeric references, through provider-v6 copied-text references and provider-v7 free-text inline markers, to provider-v8 typed field-owned evidence metadata.
 
 These remediations change only the Foundation-v2 Learn provider evidence-binding contract. They do not change Course Truth, the Course Learning Blueprint, the generic/legacy provider-v4 Learn path, Practice evidence semantics, Foundation approval requirements, learner publication rules, provider output capacity or the hard generation spend ceiling.
 
@@ -83,35 +83,83 @@ The resolver again behaved correctly. The failure demonstrates that v6 still con
 
 This is not evidence of a Foundation truth defect and does not justify weakening evidence validation.
 
-## Provider v7 Learn inline evidence binding
+## Provider v7 remediation
 
-Provider v7 removes separate Learn evidence references altogether.
+PR #362 removed separate Learn evidence references and derived evidence from short deterministic machine markers placed directly inside generated learner-content fields.
 
-Before generation, the deterministic worker derives short machine-only markers for:
+Before generation, the worker derived one coverage marker for every required teaching point and one treatment marker for every required `nodeId + Learn treatment` obligation. The resolver required each expected marker exactly once, validated the actual marked field, derived evidence from that field and stripped valid markers before retention.
 
-- every required teaching-point coverage obligation; and
-- every exact `nodeId + Learn treatment` obligation.
+This removed both numeric pointers and copied-text self-reference. Generic/legacy Learn remained v4 and Practice remained v5.
 
-The provider places each supplied marker exactly once **inside the learner-content field that actually proves the obligation**. For example, a Course Truth marker belongs in an explanation/key-point field, a formula/procedure marker belongs in a worked-example field, and a misconception marker belongs in the explicit correction.
+## Retained seventh fail-hold — provider v7
 
-The resolver then:
+After PR #362 became fully Live, exactly one new Business generation was triggered from the same retained Foundation fingerprint.
 
-1. traverses the generated Learn fields;
-2. records the actual field/area containing each marker;
-3. requires every expected marker exactly once;
-4. rejects unknown or duplicated markers;
-5. applies the existing deterministic atomic and treatment-placement rules to the actual marked field;
+Generation run `35747978726` executed against merged-main commit:
+
+`fc5c894254820a806d3779e3846737930cac42e0`
+
+The source-proof and AI-assured Foundation checks all passed. Generation used Learn provider contract `7`, Practice provider contract `5`, model `gpt-5.6-terra`, 8,000 maximum output tokens and the unchanged `$12` hard spend ceiling.
+
+The first Learn call for `foundation-course-wide-business-context` failed closed with:
+
+`provider_contract_failure: Missing Learn evidence marker [[REV-C2]]`
+
+Retained proof:
+
+- workflow run `35747978726`;
+- artifact ID `10703917081`;
+- artifact digest `sha256:938ac10f0d49c518115e95cc8aa541a8ee2f05beb83417c99c48b544a17ca90b`;
+- one provider generation call;
+- zero retries;
+- reported final-response usage cost `$0.027354`;
+- learner asset count `0`;
+- human review status `pending`;
+- Foundation approval status `not_approved`; and
+- learner publication eligibility `false`.
+
+The resolver correctly failed closed. The defect is that v7 still expressed evidence ownership only through free-text marker instructions. The structured JSON schema required the learner-content strings but could not require a provider to place every supplied marker inside those strings. The provider therefore omitted one required coverage marker even though the content call itself completed.
+
+This is not a Foundation truth defect. It shows that free-text marker placement is still too weak a provider contract for deterministic evidence completeness.
+
+## Provider v8 typed field-owned evidence
+
+Provider v8 makes evidence ownership an explicit typed property of every learner-content field returned by the provider.
+
+Each evidence-bearing field is generated as:
+
+```text
+{
+  text: <learner-facing prose>,
+  evidenceIds: <zero or more schema-constrained obligation IDs>
+}
+```
+
+Before generation, the deterministic worker derives:
+
+- one `coverage_N` ID for every required teaching point; and
+- one `treatment_N` ID for every exact `nodeId + Learn treatment` obligation.
+
+The provider schema requires every learner-content field object to contain both `text` and `evidenceIds`. The `evidenceIds` values are constrained to the exact supplied IDs. The resolver then:
+
+1. traverses the generated field objects;
+2. records the actual field/area that owns each evidence ID;
+3. requires every supplied ID exactly once across the generated content;
+4. rejects unknown or duplicated IDs;
+5. applies the existing deterministic atomic and treatment-placement rules to the actual owning field;
 6. derives retained coverage evidence from that field; and
-7. removes all valid machine markers before learner content is retained.
+7. retains only learner-facing `text`, discarding evidence metadata before learner assets are formed.
+
+Legacy `[[REV-*]]` marker text is rejected rather than silently accepted or stripped.
 
 The provider no longer has to:
 
 - guess array indexes;
 - repeat generated learner text in a second evidence structure;
 - calculate positional references; or
-- rely on fuzzy/nearest matching.
+- remember to insert free-text machine markers into prose.
 
-A field may carry multiple markers only when it genuinely satisfies multiple compatible obligations. Marker presence does not itself prove semantic quality; fresh-context independent assurance remains required after successful generation.
+A field may own multiple compatible evidence IDs only when its text genuinely proves each obligation. Typed ownership does not itself prove semantic quality; fresh-context independent assurance remains required after successful generation.
 
 ## Practice remains provider v5
 
@@ -119,22 +167,25 @@ Foundation-v2 Practice continues to use provider contract `5` and its fail-close
 
 ## Regression protection
 
-Provider-v7 regression coverage must prove that Foundation-v2 Learn:
+Provider-v8 regression coverage must prove that Foundation-v2 Learn:
 
-- derives coverage evidence from the actual marked generated field;
-- strips markers before retained learner output;
-- fails closed when an expected marker is missing;
-- fails closed when a marker is duplicated;
-- fails closed for unknown marker identities;
+- derives coverage evidence from the actual field that owns the typed evidence ID;
+- discards typed evidence metadata before retained learner output;
+- requires the `evidenceIds` property structurally on generated learner fields;
+- constrains evidence IDs to the supplied deterministic identifiers;
+- fails closed when an expected evidence ID is missing;
+- fails closed when an evidence ID is duplicated;
+- fails closed for unknown evidence identities in direct resolver use;
+- rejects legacy inline marker text;
 - preserves atomic Course Truth/formula/misconception placement rules;
 - preserves node-level treatment placement rules such as worked-example and misconception-repair ownership;
-- exposes marker mappings clearly in provider instructions;
-- no longer exposes v6 copied-text or v5 numeric Learn evidence instructions; and
+- exposes ID mappings clearly in provider instructions;
+- no longer requests v7 markers, v6 copied text or v5 numeric Learn evidence references; and
 - does not change generic/legacy provider-v4 Learn or Practice-v5 behaviour.
 
 ## Governed next step
 
-The provider-v7 repair must pass exact-head Revision CI, receive explicit Founder merge approval for its PR, merge through the governed path and be confirmed Live before another paid Business generation is allowed.
+The provider-v8 repair must pass exact-head Revision CI, receive explicit Founder merge approval for its PR, merge through the governed path and be confirmed Live before another paid Business generation is allowed.
 
 After it is Live, trigger exactly one new Business generation from the unchanged retained Foundation. If that succeeds, inspect the retained bundle and then run deterministic plus genuinely fresh-context independent asset assurance against that exact bundle.
 
@@ -144,6 +195,6 @@ The qualified-human Foundation review remains pending and learner publication re
 
 ## Documentation impact
 
-No normative authority change is required. The active Course Learning Blueprint already requires exact, requirement-driven evidence and prohibits fixed-format quotas. Provider v7 is a localized implementation-contract correction within the existing ADR-0027 architecture boundary, so no new ADR is required.
+No normative authority change is required. The active Course Learning Blueprint already requires exact, requirement-driven evidence and prohibits fixed-format quotas. Provider v8 is a localized implementation-contract correction within the existing ADR-0027 architecture boundary, so no new ADR is required.
 
-Historical provider-v5 and provider-v6 fail-holds remain immutable evidence and must not be rewritten as successful generation results.
+Historical provider-v5, provider-v6 and provider-v7 fail-holds remain immutable evidence and must not be rewritten as successful generation results.
