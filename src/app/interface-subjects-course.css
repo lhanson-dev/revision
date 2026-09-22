@@ -307,6 +307,209 @@
   box-shadow: var(--focus-ring);
 }
 
+/* GJ-03 Course Overview: approved composition inside the existing Revision shell. */
+.planner-runtime .course-overview-content {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.planner-runtime .course-overview-recommendation {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-8);
+  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 34%, var(--color-inverse-action));
+  border-radius: var(--radius-feature);
+  background: var(--color-inverse-action);
+  color: var(--color-inverse-action-text);
+  box-shadow: var(--shadow-raised);
+}
+
+.planner-runtime .course-overview-recommendation::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: -112px;
+  top: -148px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-primary-teal) 9%, transparent);
+  pointer-events: none;
+}
+
+.planner-runtime .course-overview-recommendation-presence {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.planner-runtime .course-overview-recommendation .rev-presence {
+  width: 104px;
+  max-width: 100%;
+}
+
+.planner-runtime .course-overview-recommendation-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.planner-runtime .course-overview-recommendation .eyebrow {
+  margin: 0 0 var(--space-2);
+  color: color-mix(in srgb, var(--brand-soft-aqua) 86%, white);
+}
+
+.planner-runtime .course-overview-recommendation h2 {
+  margin: 0;
+  color: var(--color-inverse-action-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+  letter-spacing: -.025em;
+}
+
+.planner-runtime .course-overview-recommendation-copy > p:not(.eyebrow):not(.course-overview-recommendation-note) {
+  max-width: 660px;
+  margin: var(--space-3) 0 0;
+  color: color-mix(in srgb, var(--color-inverse-action-text) 82%, transparent);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .course-overview-recommendation-note {
+  max-width: 660px;
+  margin: var(--space-3) 0 0;
+  color: color-mix(in srgb, var(--color-inverse-action-text) 64%, transparent);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .course-overview-recommendation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.planner-runtime .course-overview-recommendation .primary {
+  min-height: var(--control-height-large);
+  padding-inline: var(--space-6);
+  background: var(--color-action);
+  color: var(--color-action-text);
+}
+
+.planner-runtime .course-overview-why {
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: color-mix(in srgb, var(--brand-soft-aqua) 90%, white);
+  font: inherit;
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  cursor: pointer;
+}
+
+.planner-runtime .course-overview-why:hover,
+.planner-runtime .course-overview-why:focus-visible {
+  background: color-mix(in srgb, var(--brand-soft-aqua) 10%, transparent);
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary-teal) 32%, transparent);
+}
+
+.planner-runtime .course-overview-position {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+}
+
+.planner-runtime .course-overview-position-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+}
+
+.planner-runtime .course-overview-position-heading .eyebrow {
+  margin-bottom: var(--space-1);
+}
+
+.planner-runtime .course-overview-position-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-5);
+}
+
+.planner-runtime .course-overview-position-grid article {
+  min-width: 0;
+}
+
+.planner-runtime .course-position-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.planner-runtime .course-position-row span {
+  font-size: var(--type-body-size);
+  font-weight: 650;
+}
+
+.planner-runtime .course-position-row strong {
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+}
+
+.planner-runtime .course-overview-position progress {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+  accent-color: var(--brand-primary-teal);
+}
+
+.planner-runtime .course-overview-position progress::-webkit-progress-bar {
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .course-overview-position progress::-webkit-progress-value {
+  border-radius: var(--radius-pill);
+  background: var(--brand-primary-teal);
+}
+
+.planner-runtime .course-overview-position progress::-moz-progress-bar {
+  border-radius: var(--radius-pill);
+  background: var(--brand-primary-teal);
+}
+
+.planner-runtime .course-overview-position-grid p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .course-overview-topics .section-heading p:last-child {
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
 @media (max-width: 960px) {
   .planner-runtime .subject-rev,
   .planner-runtime .paper-recommendation {
@@ -316,6 +519,16 @@
 
   .planner-runtime .topic-list-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planner-runtime .course-overview-recommendation {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  .planner-runtime .course-overview-recommendation .rev-presence {
+    width: 80px;
   }
 }
 
@@ -340,6 +553,46 @@
 
   .planner-runtime .course-nav {
     top: 68px;
+  }
+
+  .planner-runtime .course-overview-content {
+    gap: var(--space-6);
+  }
+
+  .planner-runtime .course-overview-recommendation {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .planner-runtime .course-overview-recommendation-presence {
+    justify-items: start;
+  }
+
+  .planner-runtime .course-overview-recommendation .rev-presence {
+    width: 72px;
+  }
+
+  .planner-runtime .course-overview-recommendation h2 {
+    font-size: var(--type-h3-size);
+    line-height: var(--type-h3-line);
+  }
+
+  .planner-runtime .course-overview-recommendation-actions {
+    align-items: stretch;
+  }
+
+  .planner-runtime .course-overview-recommendation-actions .primary {
+    width: 100%;
+  }
+
+  .planner-runtime .course-overview-position {
+    padding: var(--space-5);
+  }
+
+  .planner-runtime .course-overview-position-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 }
 

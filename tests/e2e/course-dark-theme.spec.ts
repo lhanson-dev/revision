@@ -126,7 +126,7 @@ async function themeStyles(locator: Locator, kind: 'surface' | 'accent') {
   }, kind)
 }
 
-async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft') {
+async function backgroundRoleStyles(locator: Locator, role: '--color-surface' | '--color-surface-soft' | '--color-inverse-action') {
   return locator.evaluate((element, requestedRole) => {
     const style = getComputedStyle(element)
     const probe = document.createElement('span')
@@ -151,16 +151,17 @@ test('course overview and exam prep use semantic dark surfaces and readable acce
   await clickNavigation(page, 'AQA AS Business')
   await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
 
-  const overviewCard = page.locator('.section-choice').first()
-  await expect(overviewCard).toBeVisible()
-  expect(await themeStyles(overviewCard, 'surface')).toEqual(expect.objectContaining({ actual: expect.any(String), expected: expect.any(String) }))
-  const overviewSurface = await themeStyles(overviewCard, 'surface')
+  const overviewRecommendation = page.locator('.course-overview-recommendation')
+  await expect(overviewRecommendation).toBeVisible()
+  const recommendationSurface = await backgroundRoleStyles(overviewRecommendation, '--color-inverse-action')
+  expect(recommendationSurface.actual).toBe(recommendationSurface.expected)
+  expect(recommendationSurface.actual).not.toBe('rgb(255, 255, 255)')
+
+  const overviewPosition = page.locator('.course-overview-position')
+  await expect(overviewPosition).toBeVisible()
+  const overviewSurface = await themeStyles(overviewPosition, 'surface')
   expect(overviewSurface.actual).toBe(overviewSurface.expected)
   expect(overviewSurface.actual).not.toBe('rgb(255, 255, 255)')
-
-  const overviewIcon = overviewCard.locator('.section-icon')
-  const iconAccent = await themeStyles(overviewIcon, 'accent')
-  expect(iconAccent.actual).toBe(iconAccent.expected)
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
