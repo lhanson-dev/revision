@@ -111,10 +111,9 @@ function evidenceDemandMode(teachingPoint: string): ProviderPracticeTeachingPoin
 }
 
 /**
- * Provider generation guidance derived from the same deterministic rules used by
- * the post-generation validator. Keeping the instructions here prevents the
- * provider prompt and fail-closed evidence boundary from drifting apart across
- * contract versions.
+ * Provider-v5 generation guidance derived from the same deterministic rules used
+ * by the post-generation validator. Keeping the instructions here prevents the
+ * provider prompt and fail-closed evidence boundary from drifting apart.
  */
 export function foundationAtomicLearningEvidenceGuidance() {
   return [
