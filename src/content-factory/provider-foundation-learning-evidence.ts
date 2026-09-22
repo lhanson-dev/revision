@@ -3,6 +3,7 @@ import type { FoundationLearnTreatment } from './foundation-course-learning-blue
 import type { ProviderLearningTeachingPointEvidence } from './provider-coverage-evidence'
 
 const markerPattern = /\[\[REV-(C|T)(\d+)\]\]/g
+const markerLikePattern = /\[\[REV-[^\]]+\]\]/g
 
 export type FoundationLearningEvidenceArea =
   | 'introduction'
@@ -93,7 +94,7 @@ function cleanText(value: string) {
 }
 
 function extractTokens(value: string) {
-  return [...value.matchAll(markerPattern)].map((match) => `[[REV-${match[1]}${match[2]}]]`)
+  return [...value.matchAll(markerLikePattern)].map((match) => match[0])
 }
 
 function field(
@@ -182,13 +183,13 @@ export function resolveFoundationLearningInlineEvidence(
   validateCoveragePlacement(occurrences)
   validateTreatmentPlacement(occurrences)
 
+  const occurrenceByToken = new Map(occurrences.map((occurrence) => [occurrence.token, occurrence]))
+
   return {
     content: cleaned,
-    coverageEvidence: occurrences
-      .filter((occurrence) => occurrence.kind === 'coverage')
-      .map((occurrence) => ({
-        teachingPoint: occurrence.teachingPoint!,
-        evidence: occurrence.evidence,
-      })),
+    coverageEvidence: requiredTeachingPoints.map((teachingPoint, index) => ({
+      teachingPoint,
+      evidence: occurrenceByToken.get(coverageToken(index))!.evidence,
+    })),
   }
 }
