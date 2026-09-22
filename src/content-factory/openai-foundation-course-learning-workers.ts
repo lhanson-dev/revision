@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import {
   foundationCourseLearningDesignSchema,
-  type FoundationLearnTreatment,
   type FoundationPracticeCapability,
 } from './foundation-course-learning-blueprint'
 import {
@@ -102,10 +101,6 @@ function exactStringSet(actual: string[], expected: string[], label: string) {
   }
 }
 
-function learningTreatmentObligationKey(nodeId: string, treatment: string) {
-  return `${nodeId}::${treatment}`
-}
-
 function practiceCapabilityObligationKey(nodeId: string, capability: string) {
   return `${nodeId}::${capability}`
 }
@@ -117,11 +112,6 @@ function learningTreatmentObligations(
     nodeId: node.nodeId,
     treatment,
   })))
-}
-
-function expectedLearningTreatmentObligations(design: z.infer<typeof foundationCourseLearningDesignSchema>) {
-  return learningTreatmentObligations(design)
-    .map((obligation) => learningTreatmentObligationKey(obligation.nodeId, obligation.treatment))
 }
 
 function expectedPracticeCapabilityObligations(design: z.infer<typeof foundationCourseLearningDesignSchema>) {
