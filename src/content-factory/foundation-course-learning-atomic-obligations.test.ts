@@ -76,14 +76,14 @@ describe('Foundation Course Learning Blueprint atomic obligations', () => {
     expect(() => validateFoundationAtomicLearningEvidenceLocations([
       {
         teachingPoint: 'Formula or quantitative procedure [node-1]: result = output / input',
-        location: { area: 'section_key_point', evidenceText: 'Formula appears here only.' },
+        location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 },
       },
     ])).toThrow('must be worked through in a Learn worked example')
 
     expect(() => validateFoundationAtomicLearningEvidenceLocations([
       {
         teachingPoint: 'Misconception to diagnose and repair [node-1]: A result is always favourable.',
-        location: { area: 'section_explanation', evidenceText: 'A result is not automatically favourable.' },
+        location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 },
       },
     ])).toThrow('must be evidenced in an explicit Learn misconception correction')
   })
@@ -115,15 +115,15 @@ describe('Foundation Course Learning Blueprint atomic obligations', () => {
     expect(() => validateFoundationAtomicLearningEvidenceLocations([
       {
         teachingPoint: 'Course Truth [node-1]: A governed concept.',
-        location: { area: 'section_explanation', evidenceText: 'A governed concept.' },
+        location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 },
       },
       {
         teachingPoint: 'Formula or quantitative procedure [node-1]: result = output / input',
-        location: { area: 'worked_example_step', evidenceText: 'Calculate output divided by input.' },
+        location: { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 },
       },
       {
         teachingPoint: 'Misconception to diagnose and repair [node-1]: A result is always favourable.',
-        location: { area: 'misconception_correction', evidenceText: 'A result is not automatically favourable.' },
+        location: { area: 'misconception_correction', itemIndex: 1, detailIndex: 1 },
       },
     ])).not.toThrow()
 
