@@ -9,7 +9,7 @@ describe('provider coverage evidence atomic Blueprint integration', () => {
     expect(() => resolveLearningCoverageEvidence([
       {
         teachingPoint: 'Formula or quantitative procedure [node-1]: result = output / input',
-        location: { area: 'section_key_point', evidenceText: 'Formula appears here only.' },
+        location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 },
       },
     ], {
       introduction: 'Introduction',
@@ -58,7 +58,7 @@ describe('provider coverage evidence atomic Blueprint integration', () => {
     const learning = resolveLearningCoverageEvidence([
       {
         teachingPoint: 'Formula or quantitative procedure [node-1]: result = output / input',
-        location: { area: 'worked_example_step', evidenceText: 'Calculate output divided by input.' },
+        location: { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 },
       },
     ], {
       introduction: 'Introduction',
