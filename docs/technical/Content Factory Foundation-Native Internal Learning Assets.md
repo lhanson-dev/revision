@@ -7,7 +7,9 @@
 
 Define the Foundation-native Learn/Practice production and assurance boundary after a Foundation reaches the explicitly permitted pre-production state.
 
-This runtime is pre-production only. It creates Revision-owned Learn and Practice material from an exact Foundation, retains deterministic planning provenance, independently challenges the generated content in fresh contexts and keeps learner publication blocked until all existing release gates are satisfied.
+This runtime is pre-production only. It creates Revision-owned Learn and Practice material from an exact Foundation, retains deterministic planning and provider provenance, independently challenges generated content in fresh contexts and keeps learner publication blocked until all existing release gates are satisfied.
+
+Detailed Learn evidence-binding remediation history is retained in `Content Factory Foundation Learn Evidence Binding Remediation.md`. Atomic obligation rules are retained in `Content Factory Foundation-Native Atomic Learning Obligations.md`.
 
 ## Inputs and Foundation binding
 
@@ -21,130 +23,163 @@ Production requires:
 
 The runtime fails closed when supplied artifacts do not match the exact Candidate/job fingerprints. Awarding-body source prose is not supplied to downstream generation workers.
 
+An AI-assured Foundation may be used only for the explicitly governed internal derivation/testing path. Qualified-human `foundation_approved` status remains mandatory before learner publication.
+
 ## Versioned learning planning
 
 `planFoundationInternalLearningWorkUnits` remains deterministic and groups governed Foundation requirements by `revisionArea` while retaining exact requirement IDs, knowledge-node IDs, source references and teaching points.
 
-The planner has two explicit contracts.
-
 ### `legacy-v1`
 
-The retained historical planner selects:
-
-- explanation + retrieval for every work unit;
-- worked example + quantitative practice when formula knowledge exists; and
-- application practice when application contexts exist.
-
-This contract remains available only so retained historical bundles can be reconstructed against the exact rules that created them. Absence of `planningContractVersion` on an existing bundle is interpreted as this historical planner. Historical bundle fingerprints and proof evidence are not rewritten.
+The historical planner selects explanation/retrieval by default, plus quantitative/worked-example and application modes where the retained legacy rules require them. It remains available only for exact historical replay. Existing legacy bundles are not reinterpreted under newer planning rules.
 
 ### `course-learning-blueprint-v2`
 
 New Foundation-native generation explicitly writes `planningContractVersion: course-learning-blueprint-v2`.
 
-The planner classifies each canonical Course Knowledge Model node independently. For every source node it retains:
+For every exact source node the planner retains:
 
 - node ID;
-- classifications;
+- deterministic educational classifications;
 - required Learn treatments; and
 - required Practice capabilities.
 
-The work-unit `learningDesign` also retains deterministic unions of those node-level obligations. The schema fails closed if node IDs do not exactly match `sourceNodeIds`, if duplicate node-design records exist, or if any aggregate classification/treatment/capability set differs from the union of the node-level records.
+The work unit also retains the exact aggregate unions. The schema fails closed if node IDs do not match `sourceNodeIds`, duplicate node-design records exist, or aggregate classifications/treatments/capabilities differ from the node-level union.
 
-The planner can classify and select obligations for:
+Planning derives from governed structured Course Knowledge Model facts, including node kind, formulas, misconceptions, application contexts, depth and evidence types. The planner is qualification-neutral and does not hard-code Business topics or requirement IDs.
 
-- concepts;
-- comparison/discrimination;
-- causal/process reasoning where structured evidence supports it;
-- quantitative/formula work, including structured quantitative evidence even when a formula string is absent;
-- procedure/skill execution;
-- application/context transfer;
-- analysis/reasoning;
-- evaluation/judgement;
-- framework application;
-- misconception diagnosis; and
-- explicitly structured synoptic/exam-response demands.
+## Atomic Course Truth obligations
 
-The derivation uses governed structured Course Knowledge Model facts rather than generated learner content, including node kind, formulas, misconceptions, application contexts and evidence types. Structured evidence labels used by the retained Business Foundation include generic signals such as quantitative calculation, diagram interpretation/amendment, comparative analysis, interrelationship analysis and cross-functional evaluation; the planner recognises those signal classes without hard-coding Business requirement IDs.
+For v2 work units, the planner additionally derives node-bound teaching obligations for:
 
-The planner maps the work-unit union onto bounded Learn/Practice generation modes. This allows construction, interpretation, framework application or contextual judgement obligations to select more than generic retrieval without introducing Business-specific templates.
+- each node summary;
+- every explicit formula/quantitative procedure;
+- every explicit misconception;
+- every governed application context; and
+- every structured evidence demand.
 
-## Foundation v2 generation contract
+These labels are deterministic metadata derived from Foundation truth; they do not create new curriculum truth and are not required to appear verbatim in learner-facing prose.
 
-New Foundation-native v2 work units route Learn through provider contract version `8` and Practice through provider contract version `5`. Legacy/generic work units without `learningDesign` continue through provider contract v4.
+The exact placement rules are defined in `Content Factory Foundation-Native Atomic Learning Obligations.md` and remain fail-closed.
 
-### Learn v8
+## Foundation-v2 provider contracts
 
-The Learn v8 boundary requires:
+New Foundation-v2 work units route:
 
-- every governed teaching point to be owned exactly once by typed field-level evidence metadata;
-- every exact `(nodeId, Learn treatment)` obligation to be owned exactly once by typed field-level evidence metadata;
-- a treatment satisfied for one node not to satisfy the same treatment on another node;
-- every learner-content field to return `text` plus an `evidenceIds` array whose values are schema-constrained to the supplied deterministic IDs;
-- every required evidence ID to be owned by the exact generated field whose learner text genuinely proves the obligation;
-- worked-example evidence to be owned by a worked-example field;
-- misconception-repair evidence to be owned by an actual misconception correction; and
-- only learner-facing text to survive normalization into retained content.
+- **Learn through provider contract v9**; and
+- **Practice through provider contract v5**.
 
-The worker derives one `coverage_N` ID per required teaching point and one `treatment_N` ID per required node/treatment obligation. The provider schema requires the `evidenceIds` property on each learner-content field and constrains allowed values. The resolver fails closed if an expected ID is missing, duplicated or owned by an incompatible field. Legacy free-text `[[REV-*]]` marker text is rejected.
+Generic/legacy work units without v2 `learningDesign` continue through the generic provider-v4 route.
 
-This v8 contract replaces three earlier Learn evidence-reference designs that proved unreliable in paid Business proofs: provider-guessed numeric indexes (v5), copied generated text (v6) and free-text inline markers not structurally enforceable by the output schema (v7). The retained fail-holds remain historical evidence and are documented in `Content Factory Foundation Learn Evidence Binding Remediation.md`.
+### Learn v9 — generate, then bind
+
+Learn v9 uses two bounded provider stages under the same Foundation learning client and the same hard spend ledger.
+
+#### Stage 1 — generate final learner content
+
+The first provider call generates the full learner-facing Learn object from the exact work unit, required teaching points, structured Course Truth facts and deterministic Learn treatments.
+
+The output contains learner content only. It does not contain:
+
+- evidence IDs;
+- field IDs;
+- copied evidence text;
+- machine markers; or
+- numeric evidence pointers.
+
+The generation instruction still states the deterministic educational placement requirements: Course Truth summaries in the explanation body, formulas/procedures in worked examples, misconception repair in correction fields, and all required teaching points taught in the final content.
+
+#### Deterministic field registry
+
+After content generation succeeds, Revision enumerates the finalized fields and assigns deterministic machine IDs such as:
+
+- `introduction`;
+- `section_1_explanation`;
+- `section_1_key_point_1`;
+- `worked_example_1_setup`;
+- `worked_example_1_step_1`;
+- `worked_example_1_conclusion`;
+- `misconception_1_correction`; and
+- `next_action`.
+
+Every registry entry retains the exact generated text and its governed Learn evidence area.
+
+#### Stage 2 — bind every deterministic obligation
+
+The second provider call receives the final field registry and deterministic evidence obligations. Its strict output schema contains one **required top-level property for every evidence obligation**:
+
+- `coverage_N` for each required teaching point; and
+- `treatment_N` for each exact `nodeId + Learn treatment` pair.
+
+Every property value is an enum of field IDs that actually exist in the final generated content.
+
+The resolver then:
+
+1. checks that the binding set exactly matches the deterministic obligation set;
+2. resolves each field ID to an actual generated field;
+3. derives exact evidence text from that field;
+4. applies the existing atomic and treatment-placement rules; and
+5. creates the retained learner output without any binding metadata.
+
+This design eliminates the previous self-reference classes demonstrated by live proofs: pre-guessed array indexes (v5), copied generated text (v6), free-text markers (v7), and globally incomplete typed IDs distributed across dynamic fields (v8).
+
+No fuzzy matching, nearest-item fallback, evidence clamping or fixed content-array quota is used.
 
 ### Practice v5
 
-The Practice v5 boundary requires:
+Practice v5 remains unchanged. It requires:
 
 - every governed teaching point exactly once in `coverageEvidence`;
 - every exact `(nodeId, Practice capability)` obligation exactly once in `capabilityEvidence`;
-- a capability satisfied for one node not to satisfy the same capability on another node;
-- every capability-evidence entry to resolve to an exact generated activity field; and
-- capabilities to be evidenced through the deterministic mode capable of exercising them.
+- every capability entry to resolve to an exact generated activity field; and
+- each capability to be evidenced through the deterministic Practice mode capable of exercising it.
 
-The current capability-to-mode boundary includes:
+Atomic Practice obligations must resolve to active `prompt` or `expectedResponse` fields. Formula/procedure, application-context, misconception and classifiable evidence-demand obligations retain the deterministic mode rules defined in the atomic-learning implementation contract.
 
-- retrieval and misconception diagnosis → `retrieval`;
-- calculation → `quantitative`;
-- discrimination, procedure execution, construction, reasoning-chain and compare/justify work → `short_answer`;
-- graph/data interpretation, contextual application, framework application, contextual judgement and mixed-synoptic selection → `application`; and
-- interpretation → the strongest applicable selected mode, preferring quantitative or application where present.
+## Provider spend boundary
 
-The provider instructions describe the educational action required by each capability. For example, `construction` must require the learner to construct or complete the relevant output rather than merely recall it, while `contextual_judgement` must supply defined competing evidence and require a supported conditional judgement.
+The generic/base provider stack and Foundation-v2 learning stack remain separate provider-client families. A factory instance must not silently split one configured spend ceiling across multiple independent Foundation clients.
 
-For atomic Course Truth obligations, provider instructions expose the same deterministic evidence-placement rules enforced by the resolvers. Learn owns Course Truth summaries to section explanation/key-point fields, formulas/procedures to worked-example fields and misconceptions to explicit correction fields. Practice requires atomic evidence in active `prompt` / `expectedResponse` fields and supplies deterministic mode ownership for formulas, application contexts, misconceptions and classifiable evidence demands. Generic evidence guidance cannot broaden those stricter atomic rules.
+Both Learn v9 stages and Practice v5 use the Foundation-specific provider client and therefore share the same configured hard generation spend ledger. The current live workflow ceiling remains `$12`.
 
-Provider evidence is a generation-contract control, not a substitute for independent educational judgement. The fresh-context asset reviewer still receives the deterministic work-unit plan plus the generated Learn/Practice content and decides whether each claimed node-level treatment or capability was genuinely implemented at the required depth.
-
-### Provider spend boundary
-
-The generic/base v4 stack and Foundation-v2 learning stack use separate provider clients. `createOpenAIModelAssistedWorkers` therefore binds one provider-budget family per factory instance and fails closed if code attempts to mix base-v4 and Foundation-v2 calls in that same instance.
-
-This prevents the configured hard provider spend ceiling from being silently split into two independent ceilings. Current Foundation-native v2 generation uses only the Foundation-specific Learn v8 / Practice v5 family. A future flow that intentionally combines the generic and Foundation-specific families must first introduce a shared spend ledger rather than weakening the current ceiling semantics.
-
-## Generation and evidence
+## Generation and retained evidence
 
 `generateFoundationInternalLearningAssets` uses Course Learning Blueprint v2 planning for new bundles.
 
-The worker input contains:
+Successful generation produces one pending Learn derived asset and one pending Practice derived asset bound to the exact Foundation fingerprint and Candidate. Generation does not imply asset assurance.
 
-- exact course identity;
-- deterministic work-unit scope and node-level/aggregate learning design;
-- structured knowledge-node summaries, formulas, misconceptions, application contexts, depth and evidence types; and
-- exact governed teaching points.
-
-Generation fails closed if the v2 learning design is missing or the provider cannot satisfy the strict node-level treatment/capability evidence contract. Successful generation still leaves the aggregate Learn and Practice derived assets at `pending`; generation does not imply asset assurance.
-
-## Provenance
-
-A generated bundle retains:
+A retained bundle includes:
 
 - exact Foundation fingerprint and Candidate ID;
-- Course identity;
 - exact Coverage Model and Course Knowledge Model fingerprints;
+- course identity;
 - planning-contract version;
-- deterministic work-unit plans and v2 node-level/aggregate learning-design metadata where applicable;
-- generation context IDs; and
-- pending Learn and Practice derived-asset records.
+- deterministic work-unit plans and v2 learning design;
+- generated Learn and Practice content;
+- **every provider generation context used to create that content**; and
+- pending Learn/Practice derived-asset records.
 
-Worker-run evidence separately records provider contract version `8` for v2 Learn calls and provider contract version `5` for v2 Practice calls.
+For Learn v9, both the content-generation context and evidence-binding context are retained. Practice v5 contributes its own generation context.
+
+## Live-proof telemetry
+
+The governed Internal Learning Proof records each underlying provider call rather than treating v9 Learn as one opaque call.
+
+For each provider call it retains:
+
+- stage (`learn` or `practice`);
+- work-unit ID;
+- provider run ID;
+- provider context ID;
+- contract version;
+- status/error;
+- provider/model;
+- retry count; and
+- reported final-response usage cost where supplied.
+
+This means the v9 proof records two Learn calls and one Practice call per successfully completed work unit.
+
+The same context set is retained in the generated bundle. Downstream assurance checks the retained generation-run context set against the bundle context set before fresh independent review.
 
 ## Foundation-native asset assurance
 
@@ -154,125 +189,69 @@ Before independent review, deterministic assurance verifies:
 
 - eligible Foundation state;
 - exact Foundation/Candidate/artifact identity;
-- the retained work-unit plan against the correct planner contract declared by the bundle;
+- retained work-unit plans against the declared planner contract;
 - generated Learn/Practice mode and teaching-point contracts;
 - generation-context uniqueness and separation from earlier Foundation/assurance contexts; and
 - pending aggregate asset state.
 
-A v2 bundle is reconstructed with the v2 planner. A historical bundle without a planning-contract field is reconstructed with legacy v1. This prevents new assets from being assured against weaker historical rules while preserving exact replay of retained evidence.
+Each work unit is then challenged in a genuinely fresh independent context. Review covers factual distortion, omitted conditions, misleading certainty, curriculum drift, pedagogy, misconceptions, expected-response correctness and quantitative consistency.
 
-Each deterministic work unit is then challenged in an independent fresh context. Review remains adversarial and covers factual distortion, omitted conditions, misleading certainty, curriculum drift, pedagogy, misconceptions, expected-response correctness and quantitative consistency. Non-pass findings remain smallest-scope remediation targets by work unit and asset kind.
+Provider evidence binding is not semantic assurance. A structurally valid v9 binding only proves that every deterministic obligation points to an existing generated field in an allowed location. The independent reviewer still decides whether that field genuinely teaches the obligation adequately and accurately.
 
 ## Retained proof history
 
-Historical evidence remains unchanged.
+Historical evidence is not rewritten.
 
-### Generation proof #3 — teaching-point evidence contract finding
+Important retained checkpoints include:
 
-Run `35458295457` reached real generation and correctly fail-held on `Management and Leadership` because structurally valid output did not evidence the exact governed teaching point. The repair bound teaching-point evidence cardinality and exact labels into the provider schema. The retained failed run remains historical evidence.
+- successful legacy Business generation run `35468029336`, which produced 49 Learn + 49 Practice outputs under the historical planner;
+- fresh-context legacy asset assurance run `35504427790`, which correctly fail-held with 16 findings across 15 remediation targets and led to planner-v2/ADR-0027;
+- provider-v5 through provider-v8 Learn evidence-binding fail-holds, all of which retained zero learner assets and kept learner publication false.
 
-### Generation proof #5 — successful legacy production
+The most recent paid proof before provider v9 is run `35752632982` on implementation commit `c5d288347a50c176394efd5e7a124655dc4c83df`. It completed 36 of 37 provider calls successfully, including 18 complete Learn/Practice work units, before Learn work unit `foundation-inventory-and-supply-chains` failed closed because evidence ID `treatment_5` was omitted globally.
 
-Run `35468029336` successfully produced the complete retained Business bundle from Foundation fingerprint `1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee` on implementation commit `1444af1f7a3c33e8902b0c148a5e18ec8634235b`.
+Retained v8 artifact:
 
-Retained artifact:
-
-- artifact ID `10592980673`;
-- digest `sha256:4d463ff3a8d6473a53b8fab1ee1074195ed41a2938ac8801b2db4359fc0a2863`;
-- 49 deterministic legacy work units;
-- 49 Learn + 49 Practice provider calls;
-- zero provider retries;
-- 98 unique generation contexts;
-- provider/model `openai / gpt-5.6-terra`;
-- reported final-response usage cost `$1.766944`;
-- Learn and Practice assets left `pending`;
-- Foundation not human-approved; learner publication false.
-
-This retained bundle is historical `legacy-v1` evidence and is not mutated by the planner-v2 migration.
-
-### Asset-assurance proof #1 — identity-contract finding
-
-Run `35497826282` correctly fail-held because the provider returned the wrong work-unit fingerprint for `foundation-human-resource-objectives`. The provider-facing review contract was repaired to bind all five system-owned identity fields to exact literals while retaining downstream comparisons as defence in depth. The retained failed run remains historical evidence.
-
-### Asset-assurance proof #2 — educational fail-hold
-
-Run `35504427790` executed against approved-main commit `39c7da983d618b56ac6df6205e000e0031b5f1af` and the exact retained generation bundle from run `35468029336`.
-
-All source/provenance checks passed and the substantive fresh-context review completed all 49 work units. The run then correctly returned `fail_hold` with:
-
-- 16 findings;
-- 15 smallest-scope remediation targets;
-- Learn asset still `pending`;
-- Practice asset still `pending`; and
-- learner publication still false.
-
-The findings included missing or insufficient construction, graph/chart, quantitative, diagnostic, framework and contextual-evaluation practice as well as several asset-local factual/pedagogical issues. This pattern demonstrated that the legacy planner's `formula present / context present` treatment selection and generic mode-only generation contract were not rich enough to implement the approved Course Learning Blueprint.
-
-The run is retained evidence. It is not reclassified as a pass and the generated content is not edited in place.
-
-### Generation proof #6 — first v2/v5 provider-guidance fail-hold
-
-After planner-v2/provider-v5 became Live in PR #354, run `35529282623` attempted a new Business generation from the unchanged retained Foundation fingerprint `1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee` on merged-main commit `cbb36d46b3291e57c766834299e4a526c46b9e42`.
-
-Source and AI-assured Foundation retrieval, identity and fingerprint checks passed. The first Learn work unit, `foundation-course-wide-business-context`, then correctly failed closed at the provider-v5 evidence resolver because the provider returned the atomic Course Truth summary at a location outside the required Learn explanation body.
-
-Retained failure evidence:
-
-- artifact ID `10610951512`;
-- digest `sha256:d46fb219c8c17486a80b3407cf2397115ab3fe76264f15b51678d723fe42f00a2`;
-- provider contract version `5`;
-- provider/model `openai / gpt-5.6-terra`;
-- one provider generation call;
-- reported response cost `$0.034234`;
+- ID `10708295095`;
+- digest `sha256:b05a337a5fbf32ea3b42d7c8296dcffb23bfbfbcfa3f2372d8b2dd9e8ff42c88`;
+- reported final-response usage cost `$1.245618`;
+- zero retries;
 - learner asset count `0`;
-- overall status `fail_hold`;
-- Foundation not human-approved; learner publication false.
+- Foundation human review pending; and
+- learner publication false.
 
-Root-cause analysis found an implementation contradiction rather than a Foundation defect: provider-v5 asked for exact coverage evidence but did not tell the Learn worker the stricter atomic location rules that the deterministic resolver subsequently enforced. Its generic Practice instruction also permitted `explanation` / `improvementAction` evidence even though atomic Practice validation correctly requires active `prompt` / `expectedResponse` evidence.
+Exact v5-v8 evidence, earlier proof IDs and remediation rationale are retained in `Content Factory Foundation Learn Evidence Binding Remediation.md` and the repository's historical commits. They are not reclassified under v9.
 
-The remediation kept the validator and approved Blueprint rules unchanged and derived provider instruction guidance from the same atomic-obligation implementation boundary. Run `35529282623` remains immutable fail-hold evidence and is not retried or relabelled.
+## Governed next sequence
 
-### Later Learn evidence-binding fail-holds
+The current provider-v9 change must:
 
-Subsequent paid Business proofs exposed three additional Learn-only provider-contract weaknesses while leaving the exact Foundation unchanged:
+1. pass exact-head Revision CI;
+2. receive explicit Founder approval for the exact PR;
+3. merge through the governed path and become confirmed Live;
+4. trigger exactly one new Business generation from the unchanged retained Foundation;
+5. run deterministic and genuinely fresh-context independent asset assurance only if that generation succeeds;
+6. remediate any remaining asset-local findings at smallest safe scope; and
+7. reopen the Foundation Candidate/version if the new evidence exposes missing or incorrect Course Truth rather than inventing truth downstream.
 
-- provider v5 numeric locator failure repeated in run `35633958590` after explicit index guidance, proving model-guessed pointers into variable-length arrays were structurally unreliable;
-- provider v6 copied-text binding failed on the first Learn call in run `35726339624`, proving exact cross-field text duplication remained structurally unreliable; and
-- provider v7 inline markers failed on the first Learn call in run `35747978726` because required marker `[[REV-C2]]` was omitted, proving free-text marker completeness was not structurally enforceable by the provider schema.
-
-All three runs fail-held with zero learner assets and learner publication false. Their exact retained artifacts, digests, costs and remediation rationale are preserved in `Content Factory Foundation Learn Evidence Binding Remediation.md` and `Content Factory Foundation-Native Atomic Learning Obligations.md`.
-
-## Current remediation path
-
-The approved Course Learning Blueprint and Foundation remain unchanged. The current repair is provider Learn contract v8 typed field-owned evidence.
-
-The governed next sequence is:
-
-1. pass exact-head Revision CI for the Learn v8 implementation and regression suite;
-2. obtain explicit Founder merge approval and merge through the governed path;
-3. confirm the merged change is Live;
-4. generate exactly one **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2`, Learn v8 and Practice v5;
-5. run deterministic and genuinely fresh-context independent assurance against that exact new bundle only if generation succeeds;
-6. remediate any remaining asset-local findings at smallest safe scope;
-7. if the new contract exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream; and
-8. proceed to internal preview only after the exact new bundle passes the applicable asset-assurance gate.
-
-The historical 16 findings from asset-assurance proof #2 are not considered resolved until a regenerated bundle passes the governed assurance sequence. The separate human Foundation approval requirement remains unchanged.
+Do not run asset assurance against a failed generation bundle.
 
 ## Release safety
 
-Pre-production content is not registered in the normal learner-content registry and must not enter Production Pages merely because generation or asset assurance succeeds.
+Pre-production generated content is not learner publication.
 
-`assertFoundationDerivedAssetReleaseEligible` remains the final release guard. Learner publication still requires:
+`assertFoundationDerivedAssetReleaseEligible` continues to require:
 
 1. derived-asset assurance PASS;
 2. qualified-human `foundation_approved` state; and
-3. exact equality between the asset Foundation fingerprint and the approved Foundation fingerprint.
+3. exact equality between the asset Foundation fingerprint and approved Foundation fingerprint.
+
+The current Business Foundation remains AI-assured only; qualified-human Foundation review is pending and learner publication remains false.
 
 ## Portability limit
 
-Business is the first reference proof, not evidence that the planner is generally qualified for every subject. The approved workflow still requires a materially different qualification/subject proof before Revision claims general multi-subject portability.
+Business is the first reference proof, not evidence that the planner is generally qualified for every subject. A materially different qualification/subject proof remains required before Revision claims general multi-subject portability.
 
 ## Documentation impact
 
-ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner plus the Foundation-specific provider-contract/spend-boundary migration. This document records current implementation truth plus retained proof history without rewriting prior evidence. Learn v8 is a localized implementation-contract correction within that existing architecture boundary; it does not require a new ADR or normative authority change.
+ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner and exact provider-evidence boundary. Provider v9 is a localized implementation-contract correction inside that existing architecture. It does not change normative product/workflow authority, so no new ADR is required.
