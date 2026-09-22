@@ -120,18 +120,19 @@ function workersWithInstructionCapture(instructions: string[]) {
 }
 
 describe('Foundation provider atomic evidence guidance', () => {
-  it('tells Learn v6 generation to bind evidence to unique verbatim generated text while preserving atomic placement', async () => {
+  it('tells Learn v7 generation to place short evidence markers in the actual generated field while preserving atomic placement', async () => {
     const instructions: string[] = []
     const workers = workersWithInstructionCapture(instructions)
 
     await workers.generateLearningCollateral(input)
 
     expect(instructions).toHaveLength(1)
-    expect(instructions[0]).toContain('copy evidenceText verbatim from that generated field')
-    expect(instructions[0]).toContain('Do not paraphrase, summarise or reconstruct evidenceText')
-    expect(instructions[0]).toContain('must occur exactly once among generated fields of the named area')
-    expect(instructions[0]).toContain('area plus evidenceText copied verbatim')
-    expect(instructions[0]).toContain('Do not invent array indexes or positional references')
+    expect(instructions[0]).toContain('Learn evidence uses inline machine markers')
+    expect(instructions[0]).toContain('Place each supplied marker exactly once')
+    expect(instructions[0]).toContain('not evidence arrays, copied text, indexes or positional references')
+    expect(instructions[0]).toContain('[[REV-C1]]')
+    expect(instructions[0]).toContain('[[REV-T1]]')
+    expect(instructions[0]).not.toContain('copy evidenceText verbatim')
     expect(instructions[0]).not.toContain('Use 1-based evidence indexes')
     expect(instructions[0]).toContain('Atomic coverageEvidence placement rules are mandatory')
     expect(instructions[0]).toContain('Course Truth [nodeId] summaries must point to section_explanation or section_key_point')

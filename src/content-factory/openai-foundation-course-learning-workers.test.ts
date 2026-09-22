@@ -97,8 +97,8 @@ function responseBody(output: unknown) {
   }
 }
 
-describe('Foundation Course Learning Blueprint provider contracts Learn v6 / Practice v5', () => {
-  it('binds every selected node-level Learn treatment and Practice capability into strict generated-content evidence', async () => {
+describe('Foundation Course Learning Blueprint provider contracts Learn v7 / Practice v5', () => {
+  it('derives selected node-level Learn treatment evidence from inline markers and keeps Practice evidence strict', async () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
@@ -110,85 +110,33 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v6 / Pra
 
       if (call === 1) {
         expect(body.instructions).toContain('node-level Learn treatments')
-        expect(body.instructions).toContain('nodeId+treatment')
-        expect(body.text.format.schema.properties).toHaveProperty('treatmentEvidence')
+        expect(body.instructions).toContain('[[REV-C1]]')
+        expect(body.instructions).toContain('[[REV-T1]]')
+        expect(body.text.format.schema.properties).not.toHaveProperty('coverageEvidence')
+        expect(body.text.format.schema.properties).not.toHaveProperty('treatmentEvidence')
         return new Response(JSON.stringify(responseBody({
           title: 'Quantitative decision',
           introduction: 'A useful measure needs calculation, interpretation and contextual judgement.',
           sections: [{
             title: 'Meaning and context',
-            explanation: 'Interpret the result against the decision context and compare it with a plausible alternative.',
+            explanation: 'Interpret the result against the decision context and compare it with a plausible alternative. [[REV-C1]] [[REV-T1]]',
             keyPoints: [
-              'Example: a stronger result may still be unsuitable when the context changes.',
-              'Guided step: identify the inputs first, then decide which interpretation is supported.',
+              'Example: a stronger result may still be unsuitable when the context changes. [[REV-T4]]',
+              'Guided step: identify the inputs first, then decide which interpretation is supported. [[REV-T3]]',
               'Self-explain why the same numerical result could support a different judgement in another context.',
             ],
           }],
           workedExamples: [{
             title: 'Worked calculation',
             setup: 'A business result is 80 from an input of 40.',
-            steps: ['Calculate 80 / 40 = 2.', 'Interpret what 2 means before making a decision.'],
+            steps: ['Calculate 80 / 40 = 2. [[REV-T2]]', 'Interpret what 2 means before making a decision.'],
             conclusion: 'The calculation is evidence, not the whole judgement.',
           }],
           misconceptions: [{
             misconception: 'A calculated result is sufficient without interpretation.',
-            correction: 'A result must be interpreted against the supplied context before a judgement is made.',
+            correction: 'A result must be interpreted against the supplied context before a judgement is made. [[REV-T6]]',
           }],
-          nextAction: 'Explain why the calculation alone cannot determine the decision.',
-          coverageEvidence: [{
-            teachingPoint: requiredTeachingPoints[0],
-            location: {
-              area: 'section_explanation',
-              evidenceText: 'Interpret the result against the decision context and compare it with a plausible alternative.',
-            },
-          }],
-          treatmentEvidence: [
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'core_explanation',
-              location: {
-                area: 'section_explanation',
-                evidenceText: 'Interpret the result against the decision context and compare it with a plausible alternative.',
-              },
-            },
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'worked_example',
-              location: { area: 'worked_example_step', evidenceText: 'Calculate 80 / 40 = 2.' },
-            },
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'guided_example',
-              location: {
-                area: 'section_key_point',
-                evidenceText: 'Guided step: identify the inputs first, then decide which interpretation is supported.',
-              },
-            },
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'example_non_example',
-              location: {
-                area: 'section_key_point',
-                evidenceText: 'Example: a stronger result may still be unsuitable when the context changes.',
-              },
-            },
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'self_explanation_prompt',
-              location: {
-                area: 'next_action',
-                evidenceText: 'Explain why the calculation alone cannot determine the decision.',
-              },
-            },
-            {
-              nodeId: 'quantitative-decision',
-              treatment: 'misconception_repair',
-              location: {
-                area: 'misconception_correction',
-                evidenceText: 'A result must be interpreted against the supplied context before a judgement is made.',
-              },
-            },
-          ],
+          nextAction: 'Explain why the calculation alone cannot determine the decision. [[REV-T5]]',
         })), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
 
@@ -257,7 +205,9 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v6 / Pra
       knowledgeNodes,
     })
     expect(learning.status).toBe('success')
-    expect(learning.provenance.contractVersion).toBe('6')
+    expect(learning.provenance.contractVersion).toBe('7')
+    if (learning.status !== 'success') throw new Error('Expected Learn success')
+    expect(JSON.stringify(learning.output)).not.toContain('[[REV-')
 
     const practice = await workers.generatePracticeCollateral({
       jobId: 'foundation-v2-test',

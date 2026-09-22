@@ -1,6 +1,6 @@
 # Content Factory Foundation-Native Atomic Learning Obligations
 
-**Status:** Current implementation contract after ADR-0027; Learn provider contract v6 / Practice provider contract v5  
+**Status:** Current implementation contract after ADR-0027; Learn provider contract v7 / Practice provider contract v5  
 **Authority:** `10-product-governance/Course Learning Blueprint.md`; `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`; `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`; ADR-0027
 
 ## Purpose
@@ -27,7 +27,7 @@ Legacy-v1 planning is unchanged. Atomic expansion applies only when the work uni
 
 ## Provider evidence placement
 
-The provider coverage-evidence resolver remains the exact-location boundary. When a teaching-point label is an atomic v2 obligation, the resolver applies additional deterministic placement rules before accepting the provider evidence.
+The provider evidence resolver remains the exact-location boundary. When a teaching-point label is an atomic v2 obligation, the resolver applies deterministic placement rules before accepting the generated evidence.
 
 ### Learn
 
@@ -36,7 +36,11 @@ The provider coverage-evidence resolver remains the exact-location boundary. Whe
 - Misconception obligations must resolve to an explicit misconception correction.
 - Other atomic facts still require exact coverage evidence through the normal teaching-point contract.
 
-Learn provider contract v6 binds evidence to generated content by `area + evidenceText`. `evidenceText` must be copied verbatim from the generated field and must have exactly one exact match among generated fields of the named area. Missing, paraphrased or ambiguous evidence fails closed. There is no fuzzy, nearest-item or positional fallback.
+Learn provider contract v7 uses short deterministic machine markers embedded directly in the generated learner-content field that provides the evidence. The provider does not return a separate Learn evidence-reference structure.
+
+Before generation the system derives one coverage marker for every required teaching point and one treatment marker for every required `nodeId + Learn treatment` pair. The provider must place each supplied marker exactly once in the actual field that implements that obligation. The resolver records the field/area where the marker occurs, validates the placement, derives retained evidence from that field and strips all valid markers before learner content is retained.
+
+Missing, duplicated or unknown markers fail closed. There is no fuzzy, nearest-item, copied-text or positional fallback.
 
 ### Practice
 
@@ -60,31 +64,38 @@ Practice remains on provider contract v5. Its evidence location is `mode + activ
 
 Provider instructions must state the same deterministic evidence-placement rules that the post-generation resolver enforces.
 
-The instructions therefore derive atomic evidence guidance from `foundation-course-learning-atomic-obligations.ts`, the same implementation boundary that performs the fail-closed validation. In particular:
+The instructions therefore derive atomic evidence guidance from `foundation-course-learning-atomic-obligations.ts`, the same implementation boundary that performs fail-closed validation. In particular:
 
-- Learn v6 explicitly tells the provider that Course Truth summaries belong in section explanation/key-point fields, formulas/procedures in worked-example fields, and misconceptions in explicit misconception corrections;
-- Learn v6 requires `evidenceText` to be copied verbatim from the exact generated field in the declared area and to be uniquely resolvable;
+- Learn v7 tells the provider that Course Truth summaries belong in section explanation/key-point fields, formulas/procedures in worked-example fields, and misconceptions in explicit misconception corrections;
+- Learn v7 supplies deterministic coverage/treatment markers and requires each marker exactly once in the actual learner-content field that proves the obligation;
+- Learn v7 removes the separate self-referential Learn evidence arrays used by earlier provider contracts;
 - Practice v5 explicitly tells the provider that atomic evidence must use an active `prompt` or `expectedResponse`, never passive `explanation` or `improvementAction` fields;
 - Practice v5 tells the provider the deterministic formula, context and misconception mode ownership; and
 - deterministic evidence-demand mode assignments for the exact work unit are included in the generation instruction.
 
-Generic provider guidance cannot broaden these atomic rules. This prevents a structurally valid provider response from being asked to choose evidence locations that the resolver will deterministically reject.
+Generic provider guidance cannot broaden these atomic rules. This prevents structurally valid output from being accepted when the actual generated field does not satisfy the deterministic obligation.
 
-The Learn v6 exact-text binding deliberately avoids model-guessed indexes into variable-length `sections`, `keyPoints`, `workedExamples` and `steps`. It does not clamp invalid evidence, redirect it to another field or impose fixed content-array sizes. Those approaches would either weaken evidence integrity or conflict with the Course Learning Blueprint requirement that learning treatment be requirement-driven rather than quota-driven.
+The Learn v7 inline-marker contract deliberately avoids both earlier self-reference forms:
 
-Practice evidence indexing remains a generic provider-evidence concern rather than an atomic rule. The shared `provider-coverage-evidence.ts` boundary owns the corresponding provider guidance and fail-closed resolution.
+- provider-v5 model-guessed indexes into variable-length `sections`, `keyPoints`, `workedExamples` and `steps`; and
+- provider-v6 duplicated copies of generated learner text in a separate evidence field.
 
-## Relationship to Learn v6 and Practice v5 provider contracts
+It does not clamp invalid evidence, redirect it to another field or impose fixed content-array sizes. Those approaches would either weaken evidence integrity or conflict with the Course Learning Blueprint requirement that learning treatment be requirement-driven rather than quota-driven.
+
+Practice evidence indexing remains a generic provider-evidence concern. The shared `provider-coverage-evidence.ts` boundary continues to own the corresponding provider guidance and fail-closed resolution.
+
+## Relationship to Learn v7 and Practice v5 provider contracts
 
 Atomic obligations operate alongside the node-level proof:
 
 1. the planner derives node classifications, Learn treatments and Practice capabilities;
-2. it also expands exact structured Course Truth facts into node-bound atomic required teaching points;
-3. Learn provider contract v6 requires exact coverage evidence for every required teaching point using a named area plus uniquely matching verbatim generated text;
-4. Learn v6 separately requires exact `(nodeId, Learn treatment)` evidence through the same binding mechanism;
-5. Practice provider contract v5 requires exact coverage evidence for every required teaching point plus exact `(nodeId, Practice capability)` evidence using existing activity locations;
-6. the evidence resolver rejects atomic facts placed in passive or incompatible locations and rejects missing or ambiguous Learn evidence; and
-7. fresh-context independent review still judges whether the resulting content is educationally and factually sufficient.
+2. it expands exact structured Course Truth facts into node-bound atomic required teaching points;
+3. Learn provider contract v7 assigns deterministic coverage and treatment markers before generation;
+4. the provider places each Learn marker in the exact generated field implementing that obligation;
+5. the resolver derives the actual field/area from marker location, validates atomic/treatment placement and strips the markers before retention;
+6. Practice provider contract v5 requires exact coverage evidence for every required teaching point plus exact `(nodeId, Practice capability)` evidence using existing activity locations;
+7. the evidence resolvers reject missing, duplicated, passive or incompatible evidence; and
+8. fresh-context independent review still judges whether the resulting content is educationally and factually sufficient.
 
 The intended proof chain is:
 
@@ -99,12 +110,14 @@ The implementation includes regression coverage proving that:
 - two nodes with identical-looking structured facts produce separate node-bound obligations;
 - a non-Business science node produces the same qualification-neutral derivation behaviour;
 - formula and misconception Learn evidence fails closed when placed outside the required educational structure;
-- Learn v6 resolves a uniquely matching verbatim generated field and fails closed for absent/paraphrased or ambiguous evidence text;
+- Learn v7 derives evidence from the actual marked generated field and removes markers before retention;
+- Learn v7 fails closed for missing, duplicated or unknown markers;
+- Learn v7 preserves node-level treatment placement such as worked-example and misconception-repair ownership;
 - application, misconception and quantitative Practice evidence fails closed when passive or placed in the wrong mode;
-- Learn v6 instructions expose the exact atomic Learn placement restrictions enforced by the resolver and prohibit array-index/positional evidence references;
+- Learn v7 instructions expose inline marker mappings and no longer request copied text or array indexes;
 - Practice v5 instructions expose the active-field rule plus deterministic atomic mode ownership;
 - Practice v5 instructions explicitly state the resolver's 1-based activity indexing and existing-mode-bucket reference rule; and
-- correctly placed atomic evidence is accepted.
+- correctly placed evidence is accepted.
 
 The non-Business fixture is an implementation regression only. It does not satisfy the wider governed multi-subject portability proof required before general qualification.
 
@@ -157,21 +170,46 @@ The exact failure was `provider_contract_failure: Coverage evidence location ref
 
 This is not a Foundation truth defect and does not justify weakening the resolver. The Practice provider instructions omitted the generic locator rule already enforced by `provider-coverage-evidence.ts`: evidence indexes are 1-based and must reference an activity that exists in the selected mode bucket. The remediation exposed that existing rule to the provider from the shared resolver boundary and added regression coverage for the live failure. The retained run remains immutable fail-hold evidence.
 
-### Later Learn numeric-locator fail-holds and provider v6 remediation
+### Later provider-v5 Learn numeric-locator fail-holds
 
 The later v2/v5 Business proofs established that prompt guidance alone could not make Learn's self-referential numeric evidence pointers reliable. Run `35582938563` failed closed when Learn evidence cited section 2 key point 5 that did not exist. PR #358 then made the numeric indexing constraints explicit without weakening validation.
 
 After #358 became Live, run `35633958590` reproduced the same defect class on `foundation-marketing-objectives`: Learn evidence cited section 2 key point 4 that did not exist. The retained proof had 19 provider calls, 18 successes, 9 complete Learn/Practice work units, zero retries and reported final-response usage cost `$0.674106`. Its retained artifact is `10655638851` with digest `sha256:15a115db50ce62cbf22a7e18a8adfd61befbaff0a040cde2548bd72ab370b08c`.
 
-That repeated live failure demonstrated a structural provider-contract weakness rather than a Foundation defect. The current remediation versions Learn evidence binding to provider contract v6 and replaces generated-array indexes with fail-closed `area + evidenceText` exact binding. Full fifth-proof evidence and remediation rationale are retained in `docs/technical/Content Factory Foundation Learn Evidence Binding Remediation.md`.
+That repeated live failure established that numeric Learn references were structurally unreliable rather than merely under-instructed. PR #359 moved Foundation-v2 Learn to provider v6 exact-text binding.
 
-Historical v5 failure evidence remains historically true and must not be rewritten under the v6 contract.
+Historical provider-v5 failure evidence remains historically true and must not be rewritten under later contracts.
+
+### Provider-v6 copied-text fail-hold and provider-v7 remediation
+
+After PR #359 became fully Live, run `35726339624` used Learn provider contract v6 against the unchanged Foundation on merged-main commit `6811e11555437a77960f90f500f69b1dc5d31563`.
+
+The first Learn call for `foundation-course-wide-business-context` failed closed with:
+
+`provider_contract_failure: Coverage evidence text does not exactly match generated section_explanation`
+
+Retained evidence:
+
+- artifact ID `10693164409`;
+- digest `sha256:8818ebd9f31d53f05af6576266b50d8b96a4e8fcb83590003586936230f968c9`;
+- one provider call;
+- zero retries;
+- reported final-response usage cost `$0.043836`;
+- learner asset count `0`;
+- Foundation human review pending; and
+- learner publication false.
+
+This proved that v6 retained another self-reference: the provider had to generate learner text and separately reproduce that exact text in the evidence structure. The resolver correctly rejected the mismatch.
+
+Provider v7 therefore removes separate Learn evidence references and derives evidence from deterministic inline markers placed in the generated field itself. Full evidence and remediation rationale are retained in `docs/technical/Content Factory Foundation Learn Evidence Binding Remediation.md`.
+
+Historical v6 failure evidence remains immutable.
 
 ## Governed next proof path
 
-1. Merge the Learn v6 evidence-binding repair only after exact-head assurance and explicit Founder approval.
+1. Merge the Learn v7 inline-evidence repair only after exact-head assurance and explicit Founder approval.
 2. Confirm the merged change through the governed path-to-live evidence.
-3. Generate exactly one **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2`, Learn provider v6 and Practice provider v5.
+3. Generate exactly one **new** Business Learn/Practice bundle with new contexts from the unchanged retained Foundation under `course-learning-blueprint-v2`, Learn provider v7 and Practice provider v5.
 4. Run deterministic and genuinely fresh-context independent assurance against that exact new bundle only if generation succeeds.
 5. Remediate any remaining asset-local findings at the smallest safe scope.
 6. If the new contract exposes missing or incorrect Course Truth, reopen the Foundation Candidate/version rather than inventing truth downstream.
