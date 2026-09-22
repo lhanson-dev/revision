@@ -74,10 +74,25 @@ async function seedSession(page: Page) {
   await page.route('**/rest/v1/learner_course_events**', async (route) => {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        {
+          assessment_id: '00000000-0000-4000-8000-000000000777',
+          subject_id: 'business',
+          course_id: asCourseId,
+          module_id: null,
+          title: 'AS Business public exam',
+          assessment_date: '2099-06-10',
+        },
+      ]),
+    })
+  })
 
   for (const endpoint of [
     'learning_evidence',
-    'revision_assessments',
     'revision_availability_exceptions',
     'revision_planning_preferences',
     'revision_activity_events',
@@ -155,9 +170,16 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await expect(overviewRecommendation).toBeVisible()
   await expect(overviewRecommendation.locator('.rev-presence-hero')).toHaveCount(1)
   await expect(overviewRecommendation.getByText('Powered by', { exact: true })).toBeVisible()
+  await expect(overviewRecommendation.getByRole('heading', { name: /with a quick check$/i })).toBeVisible()
+  await expect(overviewRecommendation.getByText(/A quick check is the best starting point because REV has no scored evidence/i)).toBeVisible()
+  await expect(overviewRecommendation.getByRole('button', { name: 'Why this?', exact: true })).toHaveCount(0)
+  await expect(overviewRecommendation.getByText('Evidence is still limited, so this recommendation is based on coverage and the results available so far rather than a readiness score.', { exact: true })).toHaveCount(0)
 
   const progressPanel = overviewRecommendation.locator('.course-overview-progress-panel')
   await expect(progressPanel).toBeVisible()
+  await expect(progressPanel.getByText('Exam date', { exact: true })).toBeVisible()
+  await expect(progressPanel.getByText('10 Jun 2099', { exact: true })).toBeVisible()
+  await expect(progressPanel.getByText(/\d+ days to go|1 day to go|Today/)).toBeVisible()
   await expect(progressPanel.getByText('Exam readiness', { exact: true })).toBeVisible()
   await expect(progressPanel.getByText('Topic knowledge', { exact: true })).toBeVisible()
   await expect(progressPanel.getByText('Not enough evidence', { exact: true })).toBeVisible()
