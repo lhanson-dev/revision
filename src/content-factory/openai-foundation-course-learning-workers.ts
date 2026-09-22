@@ -21,10 +21,9 @@ import {
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
 import {
-  providerFoundationLearningEvidenceLocationGuidance as providerLearningEvidenceLocationGuidance,
-  providerFoundationLearningTeachingPointEvidenceSchema as providerLearningTeachingPointEvidenceSchema,
-  resolveFoundationLearningCoverageEvidence as resolveLearningCoverageEvidence,
-  type ProviderFoundationLearningTeachingPointEvidence as ProviderLearningTeachingPointEvidence,
+  providerFoundationLearningInlineEvidenceGuidance,
+  resolveFoundationLearningInlineEvidence,
+  type FoundationLearningTreatmentObligation,
 } from './provider-foundation-learning-evidence'
 import {
   foundationAtomicLearningEvidenceGuidance,
@@ -63,12 +62,6 @@ const providerPracticeActivitySchema = z.strictObject({
 })
 
 type ProviderPracticeActivity = z.infer<typeof providerPracticeActivitySchema>
-
-type LearningTreatmentEvidence = {
-  nodeId: string
-  treatment: FoundationLearnTreatment
-  location: z.infer<typeof providerLearningTeachingPointEvidenceSchema>['location']
-}
 
 type PracticeCapabilityEvidence = {
   nodeId: string
@@ -117,10 +110,18 @@ function practiceCapabilityObligationKey(nodeId: string, capability: string) {
   return `${nodeId}::${capability}`
 }
 
+function learningTreatmentObligations(
+  design: z.infer<typeof foundationCourseLearningDesignSchema>,
+): FoundationLearningTreatmentObligation[] {
+  return design.nodes.flatMap((node) => node.learnTreatments.map((treatment) => ({
+    nodeId: node.nodeId,
+    treatment,
+  })))
+}
+
 function expectedLearningTreatmentObligations(design: z.infer<typeof foundationCourseLearningDesignSchema>) {
-  return design.nodes.flatMap((node) => node.learnTreatments.map((treatment) => (
-    learningTreatmentObligationKey(node.nodeId, treatment)
-  )))
+  return learningTreatmentObligations(design)
+    .map((obligation) => learningTreatmentObligationKey(obligation.nodeId, obligation.treatment))
 }
 
 function expectedPracticeCapabilityObligations(design: z.infer<typeof foundationCourseLearningDesignSchema>) {
@@ -167,26 +168,13 @@ function expectedPracticeMode(
   }
 }
 
-function learningProviderOutputSchema(
-  unit: ExecutableLearningWorkUnit,
-  requiredTeachingPoints: string[],
-) {
-  const design = requiredLearningDesign(unit)
-  const teachingPoint = exactEnum(requiredTeachingPoints, `Learning work unit ${unit.id} requiredTeachingPoints`)
-  const nodeId = exactEnum(design.sourceNodeIds, `Learning work unit ${unit.id} sourceNodeIds`)
-  const treatment = exactEnum(design.learnTreatments, `Learning work unit ${unit.id} learnTreatments`)
+function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
+  requiredLearningDesign(unit)
   const base = z.strictObject({
     title: nonEmptyStringSchema,
     introduction: nonEmptyStringSchema,
     misconceptions: z.array(providerMisconceptionSchema),
     nextAction: nonEmptyStringSchema,
-    coverageEvidence: z.array(providerLearningTeachingPointEvidenceSchema.extend({ teachingPoint }))
-      .length(requiredTeachingPoints.length),
-    treatmentEvidence: z.array(z.strictObject({
-      nodeId,
-      treatment,
-      location: providerLearningTeachingPointEvidenceSchema.shape.location,
-    })).length(expectedLearningTreatmentObligations(design).length),
   })
 
   const explanation = unit.learningModes.includes('explanation')
@@ -202,64 +190,41 @@ function learningProviderOutputSchema(
   throw new Error(`Foundation Learning Blueprint work unit ${unit.id} selected no Learn mode`)
 }
 
-function validateLearningTreatmentLocations(evidence: LearningTreatmentEvidence[]) {
-  for (const entry of evidence) {
-    if (entry.treatment === 'worked_example' && !entry.location.area.startsWith('worked_example_')) {
-      throw new Error('worked_example treatment evidence must point to a worked-example field')
-    }
-    if (entry.treatment === 'misconception_repair' && entry.location.area !== 'misconception_correction') {
-      throw new Error('misconception_repair treatment evidence must point to a misconception correction')
-    }
-  }
-}
-
 function normaliseLearningProviderOutput(
   output: unknown,
   unit: ExecutableLearningWorkUnit,
   requiredTeachingPoints: string[],
 ) {
   const design = requiredLearningDesign(unit)
-  const parsed = learningProviderOutputSchema(unit, requiredTeachingPoints).parse(output) as {
+  const parsed = learningProviderOutputSchema(unit).parse(output) as {
     title: string
     introduction: string
     misconceptions: Array<{ misconception: string; correction: string }>
     nextAction: string
-    coverageEvidence: ProviderLearningTeachingPointEvidence[]
-    treatmentEvidence: LearningTreatmentEvidence[]
     sections?: Array<{ title: string; explanation: string; keyPoints: string[] }>
     workedExamples?: Array<{ title: string; setup: string; steps: string[]; conclusion: string }>
   }
 
-  exactStringSet(parsed.coverageEvidence.map((entry) => entry.teachingPoint), requiredTeachingPoints, 'Learning coverageEvidence')
-  exactStringSet(
-    parsed.treatmentEvidence.map((entry) => learningTreatmentObligationKey(entry.nodeId, entry.treatment)),
-    expectedLearningTreatmentObligations(design),
-    'Learning node treatmentEvidence',
-  )
-  validateLearningTreatmentLocations(parsed.treatmentEvidence)
-
-  resolveLearningCoverageEvidence(
-    parsed.treatmentEvidence.map((entry) => ({
-      teachingPoint: learningTreatmentObligationKey(entry.nodeId, entry.treatment),
-      location: entry.location,
-    })),
+  const resolved = resolveFoundationLearningInlineEvidence(
     parsed,
+    requiredTeachingPoints,
+    learningTreatmentObligations(design),
   )
 
   return learningCollateralWorkerOutputSchema.parse({
-    title: parsed.title,
-    introduction: parsed.introduction,
-    sections: (parsed.sections ?? []).map((section, index) => ({
+    title: resolved.content.title,
+    introduction: resolved.content.introduction,
+    sections: resolved.content.sections.map((section, index) => ({
       id: `${unit.id}-section-${index + 1}`,
       ...section,
     })),
-    workedExamples: (parsed.workedExamples ?? []).map((example, index) => ({
+    workedExamples: resolved.content.workedExamples.map((example, index) => ({
       id: `${unit.id}-worked-example-${index + 1}`,
       ...example,
     })),
-    misconceptions: parsed.misconceptions,
-    nextAction: parsed.nextAction,
-    coverageEvidence: resolveLearningCoverageEvidence(parsed.coverageEvidence, parsed),
+    misconceptions: resolved.content.misconceptions,
+    nextAction: resolved.content.nextAction,
+    coverageEvidence: resolved.coverageEvidence,
   })
 }
 
@@ -365,27 +330,26 @@ export function createOpenAIFoundationCourseLearningWorkers(
   return {
     async generateLearningCollateral(input) {
       const design = requiredLearningDesign(input.workUnit)
+      const treatmentObligations = learningTreatmentObligations(design)
       const nodeTreatmentSummary = design.nodes
         .map((node) => `${node.nodeId}: ${node.learnTreatments.join(', ')}`)
         .join('; ')
       const execution = await client.run({
         workerId: 'content-factory.learning-collateral',
-        contractVersion: '6',
+        contractVersion: '7',
         routeKind: 'generation',
-        outputSchema: learningProviderOutputSchema(input.workUnit, input.requiredTeachingPoints),
+        outputSchema: learningProviderOutputSchema(input.workUnit),
         strictOutput: true,
         instructions: [
           'Create substantial student Learn content for the exact work unit and supplied course identity.',
           `The deterministic Course Learning Blueprint requires these node-level Learn treatments: ${nodeTreatmentSummary}. Implement every treatment for every named node; a treatment implemented for one node does not satisfy the same treatment on another node.`,
-          'Return treatmentEvidence exactly once for every required nodeId+treatment pair, pointing to the exact generated field where that treatment is implemented for that node.',
-          'For worked_example, treatmentEvidence must point to a worked-example field. For misconception_repair, it must point to the correction of a genuine plausible misconception.',
           'When purposeful_visual is selected, represent the relationship clearly in the text-only contract using a compact table, flow, matrix, labelled sequence or graph-style representation inside a section; do not claim that an image was rendered.',
           'When guided_example is selected, include a scaffolded or partially completed step/prompt that reduces support relative to the full worked example.',
           'When comparison, causal-chain, process, synoptic-link or self-explanation treatments are selected, make that thinking explicit rather than merely naming the concept.',
-          'Explicitly teach every requiredTeachingPoint in learner content. coverageEvidence must contain every requiredTeachingPoint exactly once and point to an exact generated field.',
-          providerLearningEvidenceLocationGuidance(),
+          'Explicitly teach every requiredTeachingPoint in learner content.',
+          providerFoundationLearningInlineEvidenceGuidance(input.requiredTeachingPoints, treatmentObligations),
           foundationAtomicLearningEvidenceGuidance(),
-          'Learn evidence locations use only area plus evidenceText copied verbatim from the generated field. Do not invent array indexes or positional references.',
+          'For worked_example treatments, place the treatment marker in a worked-example field. For misconception_repair, place the treatment marker in the correction of a genuine plausible misconception.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         ].join(' '),
         payload: input,
