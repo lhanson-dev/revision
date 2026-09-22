@@ -15,15 +15,17 @@ import {
   type OpenAIContentFactoryAdapterConfig,
 } from './openai-provider-adapter'
 import {
-  providerLearningEvidenceLocationGuidance,
-  providerLearningTeachingPointEvidenceSchema,
   providerPracticeEvidenceLocationGuidance,
   providerPracticeTeachingPointEvidenceSchema,
-  resolveLearningCoverageEvidence,
   resolvePracticeCoverageEvidence,
-  type ProviderLearningTeachingPointEvidence,
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
+import {
+  providerFoundationLearningEvidenceLocationGuidance as providerLearningEvidenceLocationGuidance,
+  providerFoundationLearningTeachingPointEvidenceSchema as providerLearningTeachingPointEvidenceSchema,
+  resolveFoundationLearningCoverageEvidence as resolveLearningCoverageEvidence,
+  type ProviderFoundationLearningTeachingPointEvidence as ProviderLearningTeachingPointEvidence,
+} from './provider-foundation-learning-evidence'
 import {
   foundationAtomicLearningEvidenceGuidance,
   foundationAtomicPracticeEvidenceGuidance,
@@ -368,7 +370,7 @@ export function createOpenAIFoundationCourseLearningWorkers(
         .join('; ')
       const execution = await client.run({
         workerId: 'content-factory.learning-collateral',
-        contractVersion: '5',
+        contractVersion: '6',
         routeKind: 'generation',
         outputSchema: learningProviderOutputSchema(input.workUnit, input.requiredTeachingPoints),
         strictOutput: true,
@@ -383,7 +385,7 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'Explicitly teach every requiredTeachingPoint in learner content. coverageEvidence must contain every requiredTeachingPoint exactly once and point to an exact generated field.',
           providerLearningEvidenceLocationGuidance(),
           foundationAtomicLearningEvidenceGuidance(),
-          'Use 1-based evidence indexes. Scalar introduction and next_action use itemIndex=1/detailIndex=1; section explanations use detailIndex=1; section key points use section itemIndex and key-point detailIndex; worked-example setup/conclusion use detailIndex=1; worked-example steps use the step detailIndex; misconception corrections use misconception itemIndex/detailIndex=1.',
+          'Learn evidence locations use only area plus evidenceText copied verbatim from the generated field. Do not invent array indexes or positional references.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         ].join(' '),
         payload: input,

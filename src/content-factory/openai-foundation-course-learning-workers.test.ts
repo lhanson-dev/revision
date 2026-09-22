@@ -97,7 +97,7 @@ function responseBody(output: unknown) {
   }
 }
 
-describe('Foundation Course Learning Blueprint provider contract v5', () => {
+describe('Foundation Course Learning Blueprint provider contracts Learn v6 / Practice v5', () => {
   it('binds every selected node-level Learn treatment and Practice capability into strict generated-content evidence', async () => {
     let call = 0
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
@@ -137,15 +137,57 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
           nextAction: 'Explain why the calculation alone cannot determine the decision.',
           coverageEvidence: [{
             teachingPoint: requiredTeachingPoints[0],
-            location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 },
+            location: {
+              area: 'section_explanation',
+              evidenceText: 'Interpret the result against the decision context and compare it with a plausible alternative.',
+            },
           }],
           treatmentEvidence: [
-            { nodeId: 'quantitative-decision', treatment: 'core_explanation', location: { area: 'section_explanation', itemIndex: 1, detailIndex: 1 } },
-            { nodeId: 'quantitative-decision', treatment: 'worked_example', location: { area: 'worked_example_step', itemIndex: 1, detailIndex: 1 } },
-            { nodeId: 'quantitative-decision', treatment: 'guided_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 2 } },
-            { nodeId: 'quantitative-decision', treatment: 'example_non_example', location: { area: 'section_key_point', itemIndex: 1, detailIndex: 1 } },
-            { nodeId: 'quantitative-decision', treatment: 'self_explanation_prompt', location: { area: 'next_action', itemIndex: 1, detailIndex: 1 } },
-            { nodeId: 'quantitative-decision', treatment: 'misconception_repair', location: { area: 'misconception_correction', itemIndex: 1, detailIndex: 1 } },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'core_explanation',
+              location: {
+                area: 'section_explanation',
+                evidenceText: 'Interpret the result against the decision context and compare it with a plausible alternative.',
+              },
+            },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'worked_example',
+              location: { area: 'worked_example_step', evidenceText: 'Calculate 80 / 40 = 2.' },
+            },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'guided_example',
+              location: {
+                area: 'section_key_point',
+                evidenceText: 'Guided step: identify the inputs first, then decide which interpretation is supported.',
+              },
+            },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'example_non_example',
+              location: {
+                area: 'section_key_point',
+                evidenceText: 'Example: a stronger result may still be unsuitable when the context changes.',
+              },
+            },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'self_explanation_prompt',
+              location: {
+                area: 'next_action',
+                evidenceText: 'Explain why the calculation alone cannot determine the decision.',
+              },
+            },
+            {
+              nodeId: 'quantitative-decision',
+              treatment: 'misconception_repair',
+              location: {
+                area: 'misconception_correction',
+                evidenceText: 'A result must be interpreted against the supplied context before a judgement is made.',
+              },
+            },
           ],
         })), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
@@ -215,7 +257,7 @@ describe('Foundation Course Learning Blueprint provider contract v5', () => {
       knowledgeNodes,
     })
     expect(learning.status).toBe('success')
-    expect(learning.provenance.contractVersion).toBe('5')
+    expect(learning.provenance.contractVersion).toBe('6')
 
     const practice = await workers.generatePracticeCollateral({
       jobId: 'foundation-v2-test',
