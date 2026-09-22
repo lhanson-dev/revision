@@ -155,8 +155,21 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await expect(overviewRecommendation).toBeVisible()
   await expect(overviewRecommendation.locator('.rev-presence-hero')).toHaveCount(1)
   await expect(overviewRecommendation.getByText('Powered by', { exact: true })).toBeVisible()
-  await expect(overviewRecommendation.locator('.course-overview-signals')).toBeVisible()
+
+  const progressPanel = overviewRecommendation.locator('.course-overview-progress-panel')
+  await expect(progressPanel).toBeVisible()
+  await expect(progressPanel.getByText('Exam readiness', { exact: true })).toBeVisible()
+  await expect(progressPanel.getByText('Topic knowledge', { exact: true })).toBeVisible()
+  await expect(progressPanel.getByText('Not enough evidence', { exact: true })).toBeVisible()
   await expect(overviewRecommendation.getByText('Got something else on your mind?', { exact: true })).toBeVisible()
+
+  if (!isResponsiveLayout(page)) {
+    const recommendationBox = await overviewRecommendation.locator('.course-overview-recommendation-copy').boundingBox()
+    const progressBox = await progressPanel.boundingBox()
+    expect(recommendationBox).not.toBeNull()
+    expect(progressBox).not.toBeNull()
+    expect(progressBox!.x).toBeGreaterThan(recommendationBox!.x)
+  }
 
   const recommendationSurface = await backgroundRoleStyles(overviewRecommendation, '--color-inverse-action')
   expect(recommendationSurface.actual).toBe(recommendationSurface.expected)
