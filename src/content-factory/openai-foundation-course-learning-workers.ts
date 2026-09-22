@@ -20,9 +20,11 @@ import {
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
 import {
-  providerFoundationLearningInlineEvidenceGuidance,
-  resolveFoundationLearningInlineEvidence,
+  providerFoundationLearningEvidenceFieldSchema,
+  providerFoundationLearningTypedEvidenceGuidance,
+  resolveFoundationLearningTypedEvidence,
   type FoundationLearningTreatmentObligation,
+  type ProviderFoundationLearningEvidenceField,
 } from './provider-foundation-learning-evidence'
 import {
   foundationAtomicLearningEvidenceGuidance,
@@ -34,24 +36,6 @@ const practiceModeValues = ['retrieval', 'flashcard', 'short_answer', 'applicati
 
 type PracticeMode = typeof practiceModeValues[number]
 type FoundationWorkUnit = ExecutableLearningWorkUnit & { learningDesign?: unknown }
-
-const providerMisconceptionSchema = z.strictObject({
-  misconception: nonEmptyStringSchema,
-  correction: nonEmptyStringSchema,
-})
-
-const providerLearningSectionSchema = z.strictObject({
-  title: nonEmptyStringSchema,
-  explanation: nonEmptyStringSchema,
-  keyPoints: z.array(nonEmptyStringSchema).min(1),
-})
-
-const providerWorkedExampleSchema = z.strictObject({
-  title: nonEmptyStringSchema,
-  setup: nonEmptyStringSchema,
-  steps: z.array(nonEmptyStringSchema).min(1),
-  conclusion: nonEmptyStringSchema,
-})
 
 const providerPracticeActivitySchema = z.strictObject({
   prompt: nonEmptyStringSchema,
@@ -158,25 +142,45 @@ function expectedPracticeMode(
   }
 }
 
-function learningProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
-  requiredLearningDesign(unit)
+function learningProviderOutputSchema(
+  unit: ExecutableLearningWorkUnit,
+  requiredTeachingPoints: string[],
+) {
+  const design = requiredLearningDesign(unit)
+  const treatmentObligations = learningTreatmentObligations(design)
+  const evidenceField = providerFoundationLearningEvidenceFieldSchema(requiredTeachingPoints, treatmentObligations)
+  const misconception = z.strictObject({
+    misconception: nonEmptyStringSchema,
+    correction: evidenceField,
+  })
+  const section = z.strictObject({
+    title: nonEmptyStringSchema,
+    explanation: evidenceField,
+    keyPoints: z.array(evidenceField).min(1),
+  })
+  const workedExample = z.strictObject({
+    title: nonEmptyStringSchema,
+    setup: evidenceField,
+    steps: z.array(evidenceField).min(1),
+    conclusion: evidenceField,
+  })
   const base = z.strictObject({
     title: nonEmptyStringSchema,
-    introduction: nonEmptyStringSchema,
-    misconceptions: z.array(providerMisconceptionSchema),
-    nextAction: nonEmptyStringSchema,
+    introduction: evidenceField,
+    misconceptions: z.array(misconception),
+    nextAction: evidenceField,
   })
 
   const explanation = unit.learningModes.includes('explanation')
-  const workedExample = unit.learningModes.includes('worked_example')
-  if (explanation && workedExample) {
+  const hasWorkedExample = unit.learningModes.includes('worked_example')
+  if (explanation && hasWorkedExample) {
     return base.extend({
-      sections: z.array(providerLearningSectionSchema).min(1),
-      workedExamples: z.array(providerWorkedExampleSchema).min(1),
+      sections: z.array(section).min(1),
+      workedExamples: z.array(workedExample).min(1),
     })
   }
-  if (explanation) return base.extend({ sections: z.array(providerLearningSectionSchema).min(1) })
-  if (workedExample) return base.extend({ workedExamples: z.array(providerWorkedExampleSchema).min(1) })
+  if (explanation) return base.extend({ sections: z.array(section).min(1) })
+  if (hasWorkedExample) return base.extend({ workedExamples: z.array(workedExample).min(1) })
   throw new Error(`Foundation Learning Blueprint work unit ${unit.id} selected no Learn mode`)
 }
 
@@ -186,16 +190,28 @@ function normaliseLearningProviderOutput(
   requiredTeachingPoints: string[],
 ) {
   const design = requiredLearningDesign(unit)
-  const parsed = learningProviderOutputSchema(unit).parse(output) as {
+  const parsed = learningProviderOutputSchema(unit, requiredTeachingPoints).parse(output) as {
     title: string
-    introduction: string
-    misconceptions: Array<{ misconception: string; correction: string }>
-    nextAction: string
-    sections?: Array<{ title: string; explanation: string; keyPoints: string[] }>
-    workedExamples?: Array<{ title: string; setup: string; steps: string[]; conclusion: string }>
+    introduction: ProviderFoundationLearningEvidenceField
+    misconceptions: Array<{
+      misconception: string
+      correction: ProviderFoundationLearningEvidenceField
+    }>
+    nextAction: ProviderFoundationLearningEvidenceField
+    sections?: Array<{
+      title: string
+      explanation: ProviderFoundationLearningEvidenceField
+      keyPoints: ProviderFoundationLearningEvidenceField[]
+    }>
+    workedExamples?: Array<{
+      title: string
+      setup: ProviderFoundationLearningEvidenceField
+      steps: ProviderFoundationLearningEvidenceField[]
+      conclusion: ProviderFoundationLearningEvidenceField
+    }>
   }
 
-  const resolved = resolveFoundationLearningInlineEvidence(
+  const resolved = resolveFoundationLearningTypedEvidence(
     parsed,
     requiredTeachingPoints,
     learningTreatmentObligations(design),
@@ -326,9 +342,9 @@ export function createOpenAIFoundationCourseLearningWorkers(
         .join('; ')
       const execution = await client.run({
         workerId: 'content-factory.learning-collateral',
-        contractVersion: '7',
+        contractVersion: '8',
         routeKind: 'generation',
-        outputSchema: learningProviderOutputSchema(input.workUnit),
+        outputSchema: learningProviderOutputSchema(input.workUnit, input.requiredTeachingPoints),
         strictOutput: true,
         instructions: [
           'Create substantial student Learn content for the exact work unit and supplied course identity.',
@@ -337,9 +353,9 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'When guided_example is selected, include a scaffolded or partially completed step/prompt that reduces support relative to the full worked example.',
           'When comparison, causal-chain, process, synoptic-link or self-explanation treatments are selected, make that thinking explicit rather than merely naming the concept.',
           'Explicitly teach every requiredTeachingPoint in learner content.',
-          providerFoundationLearningInlineEvidenceGuidance(input.requiredTeachingPoints, treatmentObligations),
+          providerFoundationLearningTypedEvidenceGuidance(input.requiredTeachingPoints, treatmentObligations),
           foundationAtomicLearningEvidenceGuidance(),
-          'For worked_example treatments, place the treatment marker in a worked-example field. For misconception_repair, place the treatment marker in the correction of a genuine plausible misconception.',
+          'For worked_example treatments, assign the treatment evidence ID to a worked-example field object. For misconception_repair, assign the treatment evidence ID to the correction field object for a genuine plausible misconception.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         ].join(' '),
         payload: input,
