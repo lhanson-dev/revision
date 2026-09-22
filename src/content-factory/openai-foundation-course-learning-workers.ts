@@ -20,11 +20,12 @@ import {
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
 import {
-  providerFoundationLearningEvidenceFieldSchema,
-  providerFoundationLearningTypedEvidenceGuidance,
-  resolveFoundationLearningTypedEvidence,
+  enumerateFoundationLearningFields,
+  providerFoundationLearningBindingGuidance,
+  providerFoundationLearningBindingSchema,
+  resolveFoundationLearningBoundEvidence,
   type FoundationLearningTreatmentObligation,
-  type ProviderFoundationLearningEvidenceField,
+  type ProviderFoundationLearningContent,
 } from './provider-foundation-learning-evidence'
 import {
   foundationAtomicLearningEvidenceGuidance,
@@ -36,6 +37,23 @@ const practiceModeValues = ['retrieval', 'flashcard', 'short_answer', 'applicati
 
 type PracticeMode = typeof practiceModeValues[number]
 type FoundationWorkUnit = ExecutableLearningWorkUnit & { learningDesign?: unknown }
+type ProviderExecution = Awaited<ReturnType<OpenAIStructuredWorkerClient['run']>>
+
+type ProviderRunRecord = {
+  status: ProviderExecution['status']
+  error?: string
+  id: string
+  contextId: string
+  contractVersion: string
+  provider?: string
+  model?: string
+  retryCount?: number
+  usageCost?: number
+}
+
+type ProviderRunAwareProvenance = ProviderExecution['provenance'] & {
+  providerRuns?: ProviderRunRecord[]
+}
 
 const providerPracticeActivitySchema = z.strictObject({
   prompt: nonEmptyStringSchema,
@@ -142,33 +160,27 @@ function expectedPracticeMode(
   }
 }
 
-function learningProviderOutputSchema(
-  unit: ExecutableLearningWorkUnit,
-  requiredTeachingPoints: string[],
-) {
-  const design = requiredLearningDesign(unit)
-  const treatmentObligations = learningTreatmentObligations(design)
-  const evidenceField = providerFoundationLearningEvidenceFieldSchema(requiredTeachingPoints, treatmentObligations)
+function learningContentProviderOutputSchema(unit: ExecutableLearningWorkUnit) {
   const misconception = z.strictObject({
     misconception: nonEmptyStringSchema,
-    correction: evidenceField,
+    correction: nonEmptyStringSchema,
   })
   const section = z.strictObject({
     title: nonEmptyStringSchema,
-    explanation: evidenceField,
-    keyPoints: z.array(evidenceField).min(1),
+    explanation: nonEmptyStringSchema,
+    keyPoints: z.array(nonEmptyStringSchema).min(1),
   })
   const workedExample = z.strictObject({
     title: nonEmptyStringSchema,
-    setup: evidenceField,
-    steps: z.array(evidenceField).min(1),
-    conclusion: evidenceField,
+    setup: nonEmptyStringSchema,
+    steps: z.array(nonEmptyStringSchema).min(1),
+    conclusion: nonEmptyStringSchema,
   })
   const base = z.strictObject({
     title: nonEmptyStringSchema,
-    introduction: evidenceField,
+    introduction: nonEmptyStringSchema,
     misconceptions: z.array(misconception),
-    nextAction: evidenceField,
+    nextAction: nonEmptyStringSchema,
   })
 
   const explanation = unit.learningModes.includes('explanation')
@@ -184,35 +196,20 @@ function learningProviderOutputSchema(
   throw new Error(`Foundation Learning Blueprint work unit ${unit.id} selected no Learn mode`)
 }
 
+function parsedLearningContent(output: unknown, unit: ExecutableLearningWorkUnit): ProviderFoundationLearningContent {
+  return learningContentProviderOutputSchema(unit).parse(output) as ProviderFoundationLearningContent
+}
+
 function normaliseLearningProviderOutput(
-  output: unknown,
+  content: ProviderFoundationLearningContent,
+  bindings: Record<string, string>,
   unit: ExecutableLearningWorkUnit,
   requiredTeachingPoints: string[],
 ) {
   const design = requiredLearningDesign(unit)
-  const parsed = learningProviderOutputSchema(unit, requiredTeachingPoints).parse(output) as {
-    title: string
-    introduction: ProviderFoundationLearningEvidenceField
-    misconceptions: Array<{
-      misconception: string
-      correction: ProviderFoundationLearningEvidenceField
-    }>
-    nextAction: ProviderFoundationLearningEvidenceField
-    sections?: Array<{
-      title: string
-      explanation: ProviderFoundationLearningEvidenceField
-      keyPoints: ProviderFoundationLearningEvidenceField[]
-    }>
-    workedExamples?: Array<{
-      title: string
-      setup: ProviderFoundationLearningEvidenceField
-      steps: ProviderFoundationLearningEvidenceField[]
-      conclusion: ProviderFoundationLearningEvidenceField
-    }>
-  }
-
-  const resolved = resolveFoundationLearningTypedEvidence(
-    parsed,
+  const resolved = resolveFoundationLearningBoundEvidence(
+    content,
+    bindings,
     requiredTeachingPoints,
     learningTreatmentObligations(design),
   )
@@ -232,6 +229,52 @@ function normaliseLearningProviderOutput(
     nextAction: resolved.content.nextAction,
     coverageEvidence: resolved.coverageEvidence,
   })
+}
+
+function providerRunRecord(execution: ProviderExecution, errorOverride?: string): ProviderRunRecord {
+  return {
+    status: errorOverride ? 'failure' : execution.status,
+    ...(errorOverride ? { error: errorOverride } : ('error' in execution ? { error: execution.error } : {})),
+    id: execution.provenance.id,
+    contextId: execution.provenance.contextId,
+    contractVersion: execution.provenance.contractVersion,
+    provider: execution.provenance.provider,
+    model: execution.provenance.model,
+    retryCount: execution.provenance.retryCount,
+    usageCost: execution.provenance.usageCost,
+  }
+}
+
+function compositeLearningProvenance(
+  executions: ProviderExecution[],
+  records: ProviderRunRecord[],
+): ProviderRunAwareProvenance {
+  const first = executions[0]
+  const usageCosts = executions
+    .map((execution) => execution.provenance.usageCost)
+    .filter((value): value is number => typeof value === 'number')
+  const retryCounts = executions
+    .map((execution) => execution.provenance.retryCount)
+    .filter((value): value is number => typeof value === 'number')
+
+  return {
+    id: executions.map((execution) => execution.provenance.id).join('+'),
+    contextId: first.provenance.contextId,
+    contractVersion: '9',
+    provider: first.provenance.provider,
+    model: first.provenance.model,
+    ...(retryCounts.length > 0 ? { retryCount: retryCounts.reduce((total, value) => total + value, 0) } : {}),
+    ...(usageCosts.length > 0 ? { usageCost: Number(usageCosts.reduce((total, value) => total + value, 0).toFixed(8)) } : {}),
+    providerRuns: records,
+  }
+}
+
+function learningFailure(executions: ProviderExecution[], records: ProviderRunRecord[], error: string) {
+  return {
+    status: 'failure' as const,
+    error: `provider_contract_failure: ${error}`,
+    provenance: compositeLearningProvenance(executions, records) as ProviderExecution['provenance'],
+  }
 }
 
 function practiceProviderOutputSchema(
@@ -313,7 +356,7 @@ function normalisePracticeProviderOutput(
 }
 
 function downgradeSuccess(
-  execution: Awaited<ReturnType<OpenAIStructuredWorkerClient['run']>>,
+  execution: ProviderExecution,
   normalise: (output: unknown) => unknown,
 ) {
   if (execution.status !== 'success') return execution
@@ -340,11 +383,12 @@ export function createOpenAIFoundationCourseLearningWorkers(
       const nodeTreatmentSummary = design.nodes
         .map((node) => `${node.nodeId}: ${node.learnTreatments.join(', ')}`)
         .join('; ')
-      const execution = await client.run({
+
+      const contentExecution = await client.run({
         workerId: 'content-factory.learning-collateral',
-        contractVersion: '8',
+        contractVersion: '9',
         routeKind: 'generation',
-        outputSchema: learningProviderOutputSchema(input.workUnit, input.requiredTeachingPoints),
+        outputSchema: learningContentProviderOutputSchema(input.workUnit),
         strictOutput: true,
         instructions: [
           'Create substantial student Learn content for the exact work unit and supplied course identity.',
@@ -353,14 +397,87 @@ export function createOpenAIFoundationCourseLearningWorkers(
           'When guided_example is selected, include a scaffolded or partially completed step/prompt that reduces support relative to the full worked example.',
           'When comparison, causal-chain, process, synoptic-link or self-explanation treatments are selected, make that thinking explicit rather than merely naming the concept.',
           'Explicitly teach every requiredTeachingPoint in learner content.',
-          providerFoundationLearningTypedEvidenceGuidance(input.requiredTeachingPoints, treatmentObligations),
-          foundationAtomicLearningEvidenceGuidance(),
-          'For worked_example treatments, assign the treatment evidence ID to a worked-example field object. For misconception_repair, assign the treatment evidence ID to the correction field object for a genuine plausible misconception.',
+          'Teach Course Truth summaries in section explanations or key points. Work explicit formulas or quantitative procedures through in worked-example fields. Put misconception repair in explicit misconception correction fields. Teach required application contexts and evidence demands in the learner content where they are actually explained or demonstrated.',
+          'Do not include evidence IDs, field IDs, machine markers, numeric evidence pointers or copied evidence structures in learner-facing text. Evidence is bound in a separate second pass after this content is final.',
           'Use only supplied structured facts. Keep contexts subject-authentic. Do not mention source URLs, protected awarding-body wording, official mark schemes or endorsement.',
         ].join(' '),
         payload: input,
       })
-      return downgradeSuccess(execution, (output) => normaliseLearningProviderOutput(output, input.workUnit, input.requiredTeachingPoints))
+      if (contentExecution.status !== 'success') return contentExecution
+
+      let content: ProviderFoundationLearningContent
+      let fields
+      try {
+        content = parsedLearningContent(contentExecution.output, input.workUnit)
+        fields = enumerateFoundationLearningFields(content)
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'invalid finalized Foundation Learn content'
+        return learningFailure(
+          [contentExecution],
+          [providerRunRecord(contentExecution, `provider_contract_failure: ${message}`)],
+          message,
+        )
+      }
+
+      const bindingExecution = await client.run({
+        workerId: 'content-factory.learning-evidence-binding',
+        contractVersion: '9',
+        routeKind: 'generation',
+        outputSchema: providerFoundationLearningBindingSchema(content, input.requiredTeachingPoints, treatmentObligations),
+        strictOutput: true,
+        instructions: [
+          providerFoundationLearningBindingGuidance(input.requiredTeachingPoints, treatmentObligations),
+          foundationAtomicLearningEvidenceGuidance(),
+          'For worked_example treatments, bind the treatment evidence ID to a worked-example field. For misconception_repair, bind the treatment evidence ID to a genuine misconception correction field.',
+          'Do not alter the finalized learner content. Return only the required field-ID bindings.',
+        ].join(' '),
+        payload: {
+          jobId: input.jobId,
+          courseIdentity: input.courseIdentity,
+          workUnitId: input.workUnit.id,
+          learningDesign: design,
+          requiredTeachingPoints: input.requiredTeachingPoints,
+          treatmentObligations,
+          fields,
+        },
+      })
+      if (bindingExecution.status !== 'success') {
+        return {
+          status: bindingExecution.status,
+          error: bindingExecution.error,
+          provenance: compositeLearningProvenance(
+            [contentExecution, bindingExecution],
+            [providerRunRecord(contentExecution), providerRunRecord(bindingExecution)],
+          ) as ProviderExecution['provenance'],
+        }
+      }
+
+      try {
+        const output = normaliseLearningProviderOutput(
+          content,
+          bindingExecution.output as Record<string, string>,
+          input.workUnit,
+          input.requiredTeachingPoints,
+        )
+        return {
+          status: 'success' as const,
+          output,
+          provenance: compositeLearningProvenance(
+            [contentExecution, bindingExecution],
+            [providerRunRecord(contentExecution), providerRunRecord(bindingExecution)],
+          ) as ProviderExecution['provenance'],
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'unknown Foundation Learn evidence-binding contract error'
+        return learningFailure(
+          [contentExecution, bindingExecution],
+          [
+            providerRunRecord(contentExecution),
+            providerRunRecord(bindingExecution, `provider_contract_failure: ${message}`),
+          ],
+          message,
+        )
+      }
     },
 
     async generatePracticeCollateral(input) {

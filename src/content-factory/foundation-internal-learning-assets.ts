@@ -98,6 +98,11 @@ export type FoundationInternalLearningAssetBundle = z.infer<typeof foundationInt
 export type FoundationInternalLearningWorkUnit = z.infer<typeof foundationInternalLearningWorkUnitSchema>
 export type FoundationInternalLearningPlannerVersion = 1 | 2
 
+type ProviderRunAwareProvenance = {
+  contextId: string
+  providerRuns?: Array<{ contextId: string }>
+}
+
 function slug(value: string) {
   return value
     .trim()
@@ -108,6 +113,12 @@ function slug(value: string) {
 
 function unique<T extends string>(values: T[]) {
   return [...new Set(values)]
+}
+
+function generationContextIdsForProvenance(provenance: { contextId: string }) {
+  const providerRuns = (provenance as ProviderRunAwareProvenance).providerRuns
+  if (providerRuns && providerRuns.length > 0) return providerRuns.map((run) => run.contextId)
+  return [provenance.contextId]
 }
 
 function safeNode(node: z.infer<typeof courseKnowledgeModelSchema>['nodes'][number]) {
@@ -314,7 +325,7 @@ export async function generateFoundationInternalLearningAssets(input: {
     if (learningExecution.status !== 'success') {
       throw new Error(`Foundation Learn generation failed for ${plan.id}: ${learningExecution.error}`)
     }
-    generationContextIds.push(learningExecution.provenance.contextId)
+    generationContextIds.push(...generationContextIdsForProvenance(learningExecution.provenance))
     const learning = validateLearning(learningExecution.output, plan)
 
     const practiceExecution = await input.workers.generatePracticeCollateral({
@@ -328,7 +339,7 @@ export async function generateFoundationInternalLearningAssets(input: {
     if (practiceExecution.status !== 'success') {
       throw new Error(`Foundation Practice generation failed for ${plan.id}: ${practiceExecution.error}`)
     }
-    generationContextIds.push(practiceExecution.provenance.contextId)
+    generationContextIds.push(...generationContextIdsForProvenance(practiceExecution.provenance))
     const practice = validatePractice(practiceExecution.output, plan)
 
     workUnits.push({ plan, learning, practice })

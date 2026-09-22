@@ -20,30 +20,31 @@ export type FoundationLearningTreatmentObligation = {
   treatment: FoundationLearnTreatment
 }
 
-export type ProviderFoundationLearningEvidenceField = {
-  text: string
-  evidenceIds: string[]
-}
-
-type ProviderFoundationLearningContent = {
+export type ProviderFoundationLearningContent = {
   title: string
-  introduction: ProviderFoundationLearningEvidenceField
+  introduction: string
   sections?: Array<{
     title: string
-    explanation: ProviderFoundationLearningEvidenceField
-    keyPoints: ProviderFoundationLearningEvidenceField[]
+    explanation: string
+    keyPoints: string[]
   }>
   workedExamples?: Array<{
     title: string
-    setup: ProviderFoundationLearningEvidenceField
-    steps: ProviderFoundationLearningEvidenceField[]
-    conclusion: ProviderFoundationLearningEvidenceField
+    setup: string
+    steps: string[]
+    conclusion: string
   }>
   misconceptions: Array<{
     misconception: string
-    correction: ProviderFoundationLearningEvidenceField
+    correction: string
   }>
-  nextAction: ProviderFoundationLearningEvidenceField
+  nextAction: string
+}
+
+export type ProviderFoundationLearningField = {
+  fieldId: string
+  area: FoundationLearningEvidenceArea
+  text: string
 }
 
 type EvidenceDefinition = {
@@ -86,26 +87,103 @@ function evidenceDefinitions(
   ]
 }
 
-function exactEvidenceIdSchema(
+function cleanText(value: string, area: FoundationLearningEvidenceArea) {
+  const text = nonEmptyStringSchema.parse(value).trim()
+  if (!text) throw new Error(`Learn field ${area} is empty`)
+  if (text.includes('[[REV-')) {
+    throw new Error(`Learn field ${area} contains legacy inline evidence marker text`)
+  }
+  return text
+}
+
+function cleanContent(content: ProviderFoundationLearningContent) {
+  return {
+    title: nonEmptyStringSchema.parse(content.title).trim(),
+    introduction: cleanText(content.introduction, 'introduction'),
+    sections: (content.sections ?? []).map((section) => ({
+      title: nonEmptyStringSchema.parse(section.title).trim(),
+      explanation: cleanText(section.explanation, 'section_explanation'),
+      keyPoints: section.keyPoints.map((keyPoint) => cleanText(keyPoint, 'section_key_point')),
+    })),
+    workedExamples: (content.workedExamples ?? []).map((example) => ({
+      title: nonEmptyStringSchema.parse(example.title).trim(),
+      setup: cleanText(example.setup, 'worked_example_setup'),
+      steps: example.steps.map((step) => cleanText(step, 'worked_example_step')),
+      conclusion: cleanText(example.conclusion, 'worked_example_conclusion'),
+    })),
+    misconceptions: content.misconceptions.map((misconception) => ({
+      misconception: nonEmptyStringSchema.parse(misconception.misconception).trim(),
+      correction: cleanText(misconception.correction, 'misconception_correction'),
+    })),
+    nextAction: cleanText(content.nextAction, 'next_action'),
+  }
+}
+
+export function enumerateFoundationLearningFields(
+  contentInput: ProviderFoundationLearningContent,
+): ProviderFoundationLearningField[] {
+  const content = cleanContent(contentInput)
+  return [
+    { fieldId: 'introduction', area: 'introduction' as const, text: content.introduction },
+    ...content.sections.flatMap((section, sectionIndex) => [
+      {
+        fieldId: `section_${sectionIndex + 1}_explanation`,
+        area: 'section_explanation' as const,
+        text: section.explanation,
+      },
+      ...section.keyPoints.map((keyPoint, keyPointIndex) => ({
+        fieldId: `section_${sectionIndex + 1}_key_point_${keyPointIndex + 1}`,
+        area: 'section_key_point' as const,
+        text: keyPoint,
+      })),
+    ]),
+    ...content.workedExamples.flatMap((example, exampleIndex) => [
+      {
+        fieldId: `worked_example_${exampleIndex + 1}_setup`,
+        area: 'worked_example_setup' as const,
+        text: example.setup,
+      },
+      ...example.steps.map((step, stepIndex) => ({
+        fieldId: `worked_example_${exampleIndex + 1}_step_${stepIndex + 1}`,
+        area: 'worked_example_step' as const,
+        text: step,
+      })),
+      {
+        fieldId: `worked_example_${exampleIndex + 1}_conclusion`,
+        area: 'worked_example_conclusion' as const,
+        text: example.conclusion,
+      },
+    ]),
+    ...content.misconceptions.map((misconception, misconceptionIndex) => ({
+      fieldId: `misconception_${misconceptionIndex + 1}_correction`,
+      area: 'misconception_correction' as const,
+      text: misconception.correction,
+    })),
+    { fieldId: 'next_action', area: 'next_action' as const, text: content.nextAction },
+  ]
+}
+
+function exactFieldIdSchema(fields: ProviderFoundationLearningField[]) {
+  const fieldIds = fields.map((field) => field.fieldId)
+  if (fieldIds.length === 0) throw new Error('Foundation Learn evidence binding requires at least one generated field')
+  return z.enum(fieldIds as [string, ...string[]])
+}
+
+export function providerFoundationLearningBindingSchema(
+  content: ProviderFoundationLearningContent,
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
-  const ids = evidenceDefinitions(requiredTeachingPoints, treatmentObligations).map((definition) => definition.id)
-  if (ids.length === 0) throw new Error('Foundation Learn evidence contract requires at least one obligation')
-  return z.enum(ids as [string, ...string[]])
+  const fieldId = exactFieldIdSchema(enumerateFoundationLearningFields(content))
+  const shape: Record<string, typeof fieldId> = {}
+  for (const definition of evidenceDefinitions(requiredTeachingPoints, treatmentObligations)) {
+    shape[definition.id] = fieldId
+  }
+  if (Object.keys(shape).length === 0) throw new Error('Foundation Learn evidence contract requires at least one obligation')
+  return z.strictObject(shape)
 }
 
-export function providerFoundationLearningEvidenceFieldSchema(
-  requiredTeachingPoints: string[],
-  treatmentObligations: FoundationLearningTreatmentObligation[],
-) {
-  return z.strictObject({
-    text: nonEmptyStringSchema,
-    evidenceIds: z.array(exactEvidenceIdSchema(requiredTeachingPoints, treatmentObligations)),
-  })
-}
-
-export function providerFoundationLearningTypedEvidenceGuidance(
+export function providerFoundationLearningBindingGuidance(
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
@@ -117,33 +195,14 @@ export function providerFoundationLearningTypedEvidenceGuidance(
     .join('; ')
 
   return [
-    'Learn evidence is typed metadata owned by each generated learner-content field.',
-    'Every learner-content field object has text plus evidenceIds. Write only learner-facing prose in text. Put each supplied evidence ID exactly once in the evidenceIds array of the exact field whose text genuinely proves that obligation. Use an empty evidenceIds array when a field proves no supplied obligation. A field may own more than one compatible evidence ID when its text genuinely proves each one.',
-    'Do not put evidence IDs, machine markers, indexes, copied evidence text or positional references inside learner-facing text. Do not invent evidence IDs. The schema restricts evidenceIds to the supplied identifiers and the resolver fails closed unless every supplied identifier is owned exactly once.',
+    'Bind evidence only after the Learn content is final.',
+    'The payload supplies the finalized generated fields with deterministic fieldId, area and text values.',
+    'Return exactly the required evidence-binding object. every required evidence ID is a mandatory property in the response schema, and each property value must be one of the exact supplied fieldIds.',
+    'Choose the field whose existing text genuinely proves the obligation. Multiple compatible obligations may point to the same field when that single field genuinely proves each one.',
+    'Do not copy or rewrite learner text, invent fieldIds, create positional indexes, or add machine markers.',
     `Coverage evidence IDs: ${coverage}.`,
     `Treatment evidence IDs: ${treatments}.`,
   ].join(' ')
-}
-
-function field(
-  area: FoundationLearningEvidenceArea,
-  value: ProviderFoundationLearningEvidenceField,
-  definitionsById: Map<string, EvidenceDefinition>,
-  occurrences: EvidenceOccurrence[],
-) {
-  const evidence = value.text.trim()
-  if (!evidence) throw new Error(`Learn field ${area} is empty`)
-  if (evidence.includes('[[REV-')) {
-    throw new Error(`Learn field ${area} contains legacy inline evidence marker text`)
-  }
-
-  for (const id of value.evidenceIds) {
-    const definition = definitionsById.get(id)
-    if (!definition) throw new Error(`Unexpected Learn evidence ID ${id}`)
-    occurrences.push({ ...definition, area, evidence })
-  }
-
-  return evidence
 }
 
 function validateCoveragePlacement(occurrences: EvidenceOccurrence[]) {
@@ -171,53 +230,41 @@ function validateTreatmentPlacement(occurrences: EvidenceOccurrence[]) {
   }
 }
 
-export function resolveFoundationLearningTypedEvidence(
-  content: ProviderFoundationLearningContent,
+export function resolveFoundationLearningBoundEvidence(
+  contentInput: ProviderFoundationLearningContent,
+  bindingsInput: Record<string, string>,
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
+  const content = cleanContent(contentInput)
+  const fields = enumerateFoundationLearningFields(content)
+  const fieldsById = new Map(fields.map((field) => [field.fieldId, field]))
   const definitions = evidenceDefinitions(requiredTeachingPoints, treatmentObligations)
-  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
-  const occurrences: EvidenceOccurrence[] = []
-
-  const cleaned = {
-    title: content.title,
-    introduction: field('introduction', content.introduction, definitionsById, occurrences),
-    sections: (content.sections ?? []).map((section) => ({
-      title: section.title,
-      explanation: field('section_explanation', section.explanation, definitionsById, occurrences),
-      keyPoints: section.keyPoints.map((keyPoint) => (
-        field('section_key_point', keyPoint, definitionsById, occurrences)
-      )),
-    })),
-    workedExamples: (content.workedExamples ?? []).map((example) => ({
-      title: example.title,
-      setup: field('worked_example_setup', example.setup, definitionsById, occurrences),
-      steps: example.steps.map((step) => (
-        field('worked_example_step', step, definitionsById, occurrences)
-      )),
-      conclusion: field('worked_example_conclusion', example.conclusion, definitionsById, occurrences),
-    })),
-    misconceptions: content.misconceptions.map((misconception) => ({
-      misconception: misconception.misconception,
-      correction: field('misconception_correction', misconception.correction, definitionsById, occurrences),
-    })),
-    nextAction: field('next_action', content.nextAction, definitionsById, occurrences),
+  const expectedIds = definitions.map((definition) => definition.id)
+  const actualIds = Object.keys(bindingsInput)
+  const missing = expectedIds.filter((id) => !actualIds.includes(id))
+  const unexpected = actualIds.filter((id) => !expectedIds.includes(id))
+  if (missing.length > 0 || unexpected.length > 0) {
+    throw new Error(`Learn evidence bindings do not match deterministic obligations; missing=${missing.join(', ') || 'none'} unexpected=${unexpected.join(', ') || 'none'}`)
   }
 
-  for (const definition of definitions) {
-    const matches = occurrences.filter((occurrence) => occurrence.id === definition.id)
-    if (matches.length === 0) throw new Error(`Missing Learn evidence ID ${definition.id}`)
-    if (matches.length > 1) throw new Error(`Learn evidence ID ${definition.id} must be owned exactly once`)
-  }
+  const occurrences = definitions.map((definition): EvidenceOccurrence => {
+    const fieldId = bindingsInput[definition.id]
+    const selectedField = fieldsById.get(fieldId)
+    if (!selectedField) throw new Error(`Learn evidence binding ${definition.id} references unknown field ${fieldId}`)
+    return {
+      ...definition,
+      area: selectedField.area,
+      evidence: selectedField.text,
+    }
+  })
 
   validateCoveragePlacement(occurrences)
   validateTreatmentPlacement(occurrences)
 
   const occurrenceById = new Map(occurrences.map((occurrence) => [occurrence.id, occurrence]))
-
   return {
-    content: cleaned,
+    content,
     coverageEvidence: requiredTeachingPoints.map((teachingPoint, index) => ({
       teachingPoint,
       evidence: occurrenceById.get(coverageEvidenceId(index))!.evidence,
