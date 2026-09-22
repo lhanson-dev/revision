@@ -97,73 +97,86 @@ function responseBody(output: unknown) {
   }
 }
 
-describe('Foundation Course Learning Blueprint provider contracts Learn v8 / Practice v5', () => {
-  it('derives selected node-level Learn treatment evidence from typed field metadata and keeps Practice evidence strict', async () => {
+describe('Foundation Course Learning Blueprint provider contracts Learn v9 / Practice v5', () => {
+  it('generates final Learn content, binds every obligation to an existing field, and keeps Practice evidence strict', async () => {
     let call = 0
+    const seenContextBodies: string[] = []
     const fetchImpl = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
       call += 1
-      const body = JSON.parse(String(init?.body)) as {
+      const bodyText = String(init?.body)
+      seenContextBodies.push(bodyText)
+      const body = JSON.parse(bodyText) as {
         instructions: string
-        text: { format: { strict: boolean; schema: { properties?: Record<string, unknown> } } }
+        input: string
+        text: { format: { strict: boolean; schema: { properties?: Record<string, unknown>; required?: string[] } } }
       }
       expect(body.text.format.strict).toBe(true)
 
       if (call === 1) {
         expect(body.instructions).toContain('node-level Learn treatments')
-        expect(body.instructions).toContain('coverage_1')
-        expect(body.instructions).toContain('treatment_1')
-        expect(body.instructions).toContain('text plus evidenceIds')
-        expect(body.text.format.schema.properties).not.toHaveProperty('coverageEvidence')
-        expect(body.text.format.schema.properties).not.toHaveProperty('treatmentEvidence')
-        expect(JSON.stringify(body.text.format.schema)).toContain('evidenceIds')
-        expect(JSON.stringify(body.text.format.schema)).toContain('coverage_1')
+        expect(body.instructions).toContain('Evidence is bound in a separate second pass after this content is final')
+        expect(body.instructions).not.toContain('text plus evidenceIds')
+        expect(JSON.stringify(body.text.format.schema)).not.toContain('evidenceIds')
+        expect(JSON.stringify(body.text.format.schema)).not.toContain('coverage_1')
         return new Response(JSON.stringify(responseBody({
           title: 'Quantitative decision',
-          introduction: {
-            text: 'A useful measure needs calculation, interpretation and contextual judgement.',
-            evidenceIds: [],
-          },
+          introduction: 'A useful measure needs calculation, interpretation and contextual judgement.',
           sections: [{
             title: 'Meaning and context',
-            explanation: {
-              text: 'Interpret the result against the decision context and compare it with a plausible alternative.',
-              evidenceIds: ['coverage_1', 'treatment_1'],
-            },
+            explanation: 'Interpret the result against the decision context and compare it with a plausible alternative.',
             keyPoints: [
-              {
-                text: 'Example: a stronger result may still be unsuitable when the context changes.',
-                evidenceIds: ['treatment_4'],
-              },
-              {
-                text: 'Guided step: identify the inputs first, then decide which interpretation is supported.',
-                evidenceIds: ['treatment_3'],
-              },
-              {
-                text: 'Self-explain why the same numerical result could support a different judgement in another context.',
-                evidenceIds: [],
-              },
+              'Example: a stronger result may still be unsuitable when the context changes.',
+              'Guided step: identify the inputs first, then decide which interpretation is supported.',
             ],
           }],
           workedExamples: [{
             title: 'Worked calculation',
-            setup: { text: 'A business result is 80 from an input of 40.', evidenceIds: [] },
+            setup: 'A business result is 80 from an input of 40.',
             steps: [
-              { text: 'Calculate 80 / 40 = 2.', evidenceIds: ['treatment_2'] },
-              { text: 'Interpret what 2 means before making a decision.', evidenceIds: [] },
+              'Calculate 80 / 40 = 2.',
+              'Interpret what 2 means before making a decision.',
             ],
-            conclusion: { text: 'The calculation is evidence, not the whole judgement.', evidenceIds: [] },
+            conclusion: 'The calculation is evidence, not the whole judgement.',
           }],
           misconceptions: [{
             misconception: 'A calculated result is sufficient without interpretation.',
-            correction: {
-              text: 'A result must be interpreted against the supplied context before a judgement is made.',
-              evidenceIds: ['treatment_6'],
-            },
+            correction: 'A result must be interpreted against the supplied context before a judgement is made.',
           }],
-          nextAction: {
-            text: 'Explain why the calculation alone cannot determine the decision.',
-            evidenceIds: ['treatment_5'],
-          },
+          nextAction: 'Self-explain why the same numerical result could support a different judgement in another context.',
+        })), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }
+
+      if (call === 2) {
+        expect(body.instructions).toContain('Bind evidence only after the Learn content is final')
+        expect(body.instructions).toContain('every required evidence ID is a mandatory property')
+        expect(body.instructions).toContain('exact supplied fieldIds')
+        expect(body.instructions).toContain('coverage_1')
+        expect(body.instructions).toContain('treatment_1')
+        expect(body.text.format.schema.properties).toHaveProperty('coverage_1')
+        expect(body.text.format.schema.properties).toHaveProperty('treatment_1')
+        expect(body.text.format.schema.properties).toHaveProperty('treatment_6')
+        expect(body.text.format.schema.required).toEqual(expect.arrayContaining([
+          'coverage_1',
+          'treatment_1',
+          'treatment_2',
+          'treatment_3',
+          'treatment_4',
+          'treatment_5',
+          'treatment_6',
+        ]))
+        expect(JSON.stringify(body.text.format.schema)).toContain('section_1_explanation')
+        expect(JSON.stringify(body.text.format.schema)).toContain('worked_example_1_step_1')
+        const bindingPayload = JSON.parse(body.input) as { fields: Array<{ fieldId: string; text: string }> }
+        expect(bindingPayload.fields.some((field) => field.fieldId === 'section_1_explanation')).toBe(true)
+        expect(bindingPayload.fields.some((field) => field.text.includes('Interpret the result'))).toBe(true)
+        return new Response(JSON.stringify(responseBody({
+          coverage_1: 'section_1_explanation',
+          treatment_1: 'section_1_explanation',
+          treatment_2: 'worked_example_1_step_1',
+          treatment_3: 'section_1_key_point_2',
+          treatment_4: 'section_1_key_point_1',
+          treatment_5: 'next_action',
+          treatment_6: 'misconception_1_correction',
         })), { status: 200, headers: { 'Content-Type': 'application/json' } })
       }
 
@@ -232,10 +245,17 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v8 / Pra
       knowledgeNodes,
     })
     expect(learning.status).toBe('success')
-    expect(learning.provenance.contractVersion).toBe('8')
+    expect(learning.provenance.contractVersion).toBe('9')
     if (learning.status !== 'success') throw new Error('Expected Learn success')
-    expect(JSON.stringify(learning.output)).not.toContain('evidenceIds')
+    expect(JSON.stringify(learning.output)).not.toContain('fieldId')
     expect(JSON.stringify(learning.output)).not.toContain('coverage_1')
+    expect(JSON.stringify(learning.output)).not.toContain('treatment_1')
+    const providerRuns = (learning.provenance as typeof learning.provenance & {
+      providerRuns?: Array<{ contextId: string; contractVersion: string; status: string }>
+    }).providerRuns
+    expect(providerRuns).toHaveLength(2)
+    expect(providerRuns?.every((run) => run.contractVersion === '9' && run.status === 'success')).toBe(true)
+    expect(new Set(providerRuns?.map((run) => run.contextId)).size).toBe(2)
 
     const practice = await workers.generatePracticeCollateral({
       jobId: 'foundation-v2-test',
@@ -247,7 +267,8 @@ describe('Foundation Course Learning Blueprint provider contracts Learn v8 / Pra
     })
     expect(practice.status).toBe('success')
     expect(practice.provenance.contractVersion).toBe('5')
-    expect(fetchImpl).toHaveBeenCalledTimes(2)
+    expect(fetchImpl).toHaveBeenCalledTimes(3)
+    expect(seenContextBodies).toHaveLength(3)
   })
 
   it('fails closed when a deterministic Practice capability is evidenced in the wrong mode', async () => {
