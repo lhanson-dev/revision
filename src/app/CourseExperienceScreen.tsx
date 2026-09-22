@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
@@ -17,6 +17,7 @@ import {
 } from './catalogue-model'
 import { findCatalogueCourse } from './learner-programme'
 import type { PaperSection } from './navigation'
+import { PoweredByRev } from './RevCompactWordmark'
 import { RevPresence } from './RevPresence'
 import { Button, LoadingState, Status } from './ui'
 
@@ -31,6 +32,7 @@ type CourseExperienceScreenProps = {
   onOpenCourses: () => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
   onOpenModuleSection: (courseId: string, moduleId: string, section: PaperSection) => void
+  onOpenRev: (draft?: string) => void
 }
 
 const sectionLabels: Record<CourseSection, string> = {
@@ -77,30 +79,12 @@ function ProgressSummary({ state, label }: { state: ModuleLearningState; label: 
   )
 }
 
-function CourseOverviewPosition({ state }: { state: ModuleLearningState }) {
-  const coverage = state.topicCount === 0 ? 0 : Math.round((state.evidencedTopics / state.topicCount) * 100)
+function CourseOverviewSignals({ state }: { state: ModuleLearningState }) {
   return (
-    <section className="course-overview-position" aria-labelledby="course-position-title">
-      <div className="course-overview-position-heading">
-        <div>
-          <p className="eyebrow">Your course position</p>
-          <h2 id="course-position-title">What we know so far</h2>
-        </div>
-      </div>
-      <div className="course-overview-position-grid">
-        <article>
-          <div className="course-position-row"><span>Exam readiness</span><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong></div>
-          {state.readiness.score === null
-            ? <p>{state.readiness.progress.message}</p>
-            : <><progress max="100" value={state.readiness.score} aria-label={`Exam readiness ${state.readiness.score}%`} /><p>{state.readiness.confidence} confidence from the evidence available.</p></>}
-        </article>
-        <article>
-          <div className="course-position-row"><span>Evidence coverage</span><strong>{state.evidencedTopics} / {state.topicCount}</strong></div>
-          <progress max="100" value={coverage} aria-label={`Evidence recorded for ${state.evidencedTopics} of ${state.topicCount} course topics`} />
-          <p>{state.evidencedTopics === 0 ? 'Your course picture will build as you complete scored activities.' : 'Topics with at least one recorded learning result.'}</p>
-        </article>
-      </div>
-    </section>
+    <div className="course-overview-signals" aria-label="Course progress context">
+      <div><small>Exam readiness</small><strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong></div>
+      <div><small>Evidence coverage</small><strong>{state.evidencedTopics} / {state.topicCount} topics</strong></div>
+    </div>
   )
 }
 
@@ -115,6 +99,7 @@ export function CourseExperienceScreen({
   onOpenCourses,
   onOpenCourseSection,
   onOpenModuleSection,
+  onOpenRev,
 }: CourseExperienceScreenProps) {
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
   const active = memberships.some((membership) => membership.courseId === courseId)
@@ -123,6 +108,7 @@ export function CourseExperienceScreen({
   const [evidenceError, setEvidenceError] = useState('')
   const [savingEvidence, setSavingEvidence] = useState(false)
   const [saveError, setSaveError] = useState('')
+  const [revPrompt, setRevPrompt] = useState('')
 
   useEffect(() => {
     let current = true
@@ -157,6 +143,13 @@ export function CourseExperienceScreen({
     } finally {
       setSavingEvidence(false)
     }
+  }
+
+  function submitRevPrompt(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const text = revPrompt.trim()
+    onOpenRev(text || undefined)
+    setRevPrompt('')
   }
 
   if (!resolved) {
@@ -203,20 +196,29 @@ export function CourseExperienceScreen({
 
         {section === 'overview' && <div className="paper-section-content course-overview-content">
           <section className="course-overview-recommendation" aria-labelledby="course-recommendation-title">
-            <div className="course-overview-recommendation-presence"><RevPresence size="conversation" state="resting" decorative /></div>
-            <div className="course-overview-recommendation-copy">
-              <p className="eyebrow">REV · your next useful step</p>
-              <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
-              <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
-              {recommendation && <p className="course-overview-recommendation-note">{recommendation.limitation}</p>}
-              <div className="course-overview-recommendation-actions">
-                {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
-                {recommendation && <button className="course-overview-why" type="button" title={recommendation.evidenceSummary}>Why this?</button>}
+            <div className="course-overview-recommendation-main">
+              <div className="course-overview-recommendation-presence"><RevPresence size="hero" state="resting" decorative /></div>
+              <div className="course-overview-recommendation-copy">
+                <PoweredByRev />
+                <p className="eyebrow">Your next useful step in {subject.name}</p>
+                <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
+                <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
+                {recommendation && <p className="course-overview-recommendation-note">{recommendation.limitation}</p>}
+                <CourseOverviewSignals state={state} />
+                <div className="course-overview-recommendation-actions">
+                  {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
+                  {recommendation && <button className="course-overview-why" type="button" title={recommendation.evidenceSummary}>Why this?</button>}
+                </div>
               </div>
             </div>
+            <div className="course-overview-conversation">
+              <div className="course-overview-conversation-copy"><strong>Got something else on your mind?</strong><span>Ask REV about this course, a topic, or what you want to work on.</span></div>
+              <form className="course-overview-rev-form" onSubmit={submitRevPrompt}>
+                <input value={revPrompt} maxLength={240} onChange={(event) => setRevPrompt(event.target.value)} placeholder="Ask REV anything…" aria-label={`Ask REV about ${label}`} />
+                <button type="submit">Ask REV</button>
+              </form>
+            </div>
           </section>
-
-          <CourseOverviewPosition state={state} />
 
           <section className="home-section course-overview-topics" aria-labelledby="course-topics-title">
             <div className="section-heading"><div><p className="eyebrow">Course structure</p><h2 id="course-topics-title">Course topics</h2><p>Choose an area to explore, or follow REV’s recommendation above.</p></div></div>

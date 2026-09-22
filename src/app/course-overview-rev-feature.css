@@ -1,0 +1,315 @@
+/* Founder-approved REV guidance + conversation pattern for Course Overview. */
+
+.planner-runtime .course-overview-recommendation {
+  display: block;
+  padding: 0;
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 30%, var(--brand-deep-teal));
+  background:
+    radial-gradient(circle at 8% 18%, rgba(43, 182, 163, .16), transparent 20rem),
+    radial-gradient(circle at 92% 86%, rgba(230, 251, 244, .07), transparent 22rem),
+    var(--brand-deep-teal);
+  color: var(--neutral-0);
+  box-shadow: 0 18px 46px rgba(15, 47, 54, .12);
+}
+
+.planner-runtime .course-overview-recommendation::after {
+  width: 360px;
+  height: 360px;
+  right: -150px;
+  top: -210px;
+  background: radial-gradient(circle, rgba(43, 182, 163, .10), transparent 68%);
+}
+
+.planner-runtime .course-overview-recommendation-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 178px minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+  padding: 34px 38px 30px;
+}
+
+.planner-runtime .course-overview-recommendation-presence {
+  min-height: 178px;
+}
+
+.planner-runtime .course-overview-recommendation .rev-presence-hero {
+  --rev-size: 178px;
+  width: var(--rev-size);
+  max-width: none;
+  margin: 0;
+}
+
+/* Match the established Home Living E language: crisp bars inside a soft white/aqua bloom. */
+.planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo {
+  inset: 24%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(255, 255, 255, .34) 0 18%,
+    rgba(255, 255, 255, .24) 25%,
+    rgba(230, 251, 244, .82) 38%,
+    rgba(230, 251, 244, .34) 54%,
+    rgba(43, 182, 163, .13) 70%,
+    transparent 90%
+  );
+  opacity: .98;
+  filter: blur(13px);
+}
+
+.planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::before,
+.planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::after {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, .14) 0 24%,
+    rgba(230, 251, 244, .17) 40%,
+    rgba(43, 182, 163, .07) 60%,
+    transparent 84%
+  );
+}
+
+.planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::before {
+  inset: -42%;
+  opacity: .70;
+  filter: blur(21px);
+}
+
+.planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::after {
+  inset: -72%;
+  opacity: .40;
+  filter: blur(34px);
+}
+
+.planner-runtime .course-overview-recommendation-copy {
+  max-width: 760px;
+}
+
+.planner-runtime .course-overview-recommendation-copy .powered-by-rev {
+  margin-bottom: 16px;
+}
+
+.planner-runtime .course-overview-recommendation .eyebrow {
+  margin: 0 0 var(--space-2);
+  color: color-mix(in srgb, var(--brand-soft-aqua) 84%, white);
+}
+
+.planner-runtime .course-overview-recommendation h2 {
+  max-width: 700px;
+  font-size: clamp(1.8rem, 3.1vw, 2.45rem);
+  line-height: 1.08;
+  letter-spacing: -.038em;
+}
+
+.planner-runtime .course-overview-recommendation-copy > p:not(.eyebrow):not(.course-overview-recommendation-note) {
+  max-width: 690px;
+  color: rgba(255, 255, 255, .79);
+}
+
+.planner-runtime .course-overview-recommendation-note {
+  color: rgba(255, 255, 255, .58);
+}
+
+.planner-runtime .course-overview-signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .13);
+  border-bottom: 1px solid rgba(255, 255, 255, .13);
+}
+
+.planner-runtime .course-overview-signals > div {
+  min-width: 168px;
+  display: grid;
+  gap: 3px;
+  padding: 13px 24px 13px 0;
+}
+
+.planner-runtime .course-overview-signals > div + div {
+  padding-left: 24px;
+  border-left: 1px solid rgba(255, 255, 255, .13);
+}
+
+.planner-runtime .course-overview-signals small {
+  color: rgba(255, 255, 255, .58);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+
+.planner-runtime .course-overview-signals strong {
+  color: var(--neutral-0);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .course-overview-recommendation-actions {
+  margin-top: 22px;
+}
+
+.planner-runtime .course-overview-conversation {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(220px, .62fr) minmax(320px, 1.38fr);
+  gap: 28px;
+  align-items: center;
+  padding: 22px 38px 24px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .035);
+}
+
+.planner-runtime .course-overview-conversation-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.planner-runtime .course-overview-conversation-copy strong {
+  color: var(--neutral-0);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.planner-runtime .course-overview-conversation-copy span {
+  color: rgba(255, 255, 255, .62);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .course-overview-rev-form {
+  min-width: 0;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 6px 6px 17px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+}
+
+.planner-runtime .course-overview-rev-form:focus-within {
+  border-color: rgba(43, 182, 163, .78);
+  box-shadow: 0 0 0 3px rgba(43, 182, 163, .18), 0 12px 28px rgba(0, 0, 0, .12);
+}
+
+.planner-runtime .course-overview-rev-form input {
+  min-width: 0;
+  min-height: 42px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--brand-graphite);
+  font-size: var(--type-body-size);
+}
+
+.planner-runtime .course-overview-rev-form input::placeholder {
+  color: #657276;
+}
+
+.planner-runtime .course-overview-rev-form button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 13px;
+  background: var(--brand-primary-teal);
+  color: var(--brand-graphite);
+  font-weight: 760;
+  cursor: pointer;
+}
+
+.planner-runtime .course-overview-rev-form button:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 960px) {
+  .planner-runtime .course-overview-recommendation-main {
+    grid-template-columns: 142px minmax(0, 1fr);
+    gap: 24px;
+    padding: 28px 30px 26px;
+  }
+
+  .planner-runtime .course-overview-recommendation-presence {
+    min-height: 142px;
+  }
+
+  .planner-runtime .course-overview-recommendation .rev-presence-hero {
+    --rev-size: 142px;
+    width: var(--rev-size);
+  }
+
+  .planner-runtime .course-overview-conversation {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px 30px 22px;
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime .course-overview-recommendation-main {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 24px 22px 22px;
+  }
+
+  .planner-runtime .course-overview-recommendation-presence {
+    min-height: 112px;
+    justify-items: start;
+  }
+
+  .planner-runtime .course-overview-recommendation .rev-presence-hero {
+    --rev-size: 112px;
+    width: var(--rev-size);
+  }
+
+  .planner-runtime .course-overview-recommendation-copy .powered-by-rev {
+    margin-top: -4px;
+    margin-bottom: 13px;
+  }
+
+  .planner-runtime .course-overview-recommendation h2 {
+    font-size: var(--type-h3-size);
+    line-height: var(--type-h3-line);
+  }
+
+  .planner-runtime .course-overview-signals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .planner-runtime .course-overview-signals > div {
+    min-width: 0;
+    padding: 12px 12px 12px 0;
+  }
+
+  .planner-runtime .course-overview-signals > div + div {
+    padding-left: 12px;
+  }
+
+  .planner-runtime .course-overview-conversation {
+    padding: 18px 22px 20px;
+  }
+
+  .planner-runtime .course-overview-rev-form {
+    grid-template-columns: 1fr;
+    padding: 7px;
+  }
+
+  .planner-runtime .course-overview-rev-form input {
+    padding: 0 10px;
+  }
+
+  .planner-runtime .course-overview-rev-form button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo,
+  .planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::before,
+  .planner-runtime .course-overview-recommendation .rev-presence-hero .rev-halo::after {
+    filter: blur(13px);
+  }
+}
