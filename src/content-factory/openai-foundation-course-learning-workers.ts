@@ -15,15 +15,17 @@ import {
   type OpenAIContentFactoryAdapterConfig,
 } from './openai-provider-adapter'
 import {
-  providerLearningEvidenceLocationGuidance,
-  providerLearningTeachingPointEvidenceSchema,
   providerPracticeEvidenceLocationGuidance,
   providerPracticeTeachingPointEvidenceSchema,
-  resolveLearningCoverageEvidence,
   resolvePracticeCoverageEvidence,
-  type ProviderLearningTeachingPointEvidence,
   type ProviderPracticeTeachingPointEvidence,
 } from './provider-coverage-evidence'
+import {
+  providerFoundationLearningEvidenceLocationGuidance as providerLearningEvidenceLocationGuidance,
+  providerFoundationLearningTeachingPointEvidenceSchema as providerLearningTeachingPointEvidenceSchema,
+  resolveFoundationLearningCoverageEvidence as resolveLearningCoverageEvidence,
+  type ProviderFoundationLearningTeachingPointEvidence as ProviderLearningTeachingPointEvidence,
+} from './provider-foundation-learning-evidence'
 import {
   foundationAtomicLearningEvidenceGuidance,
   foundationAtomicPracticeEvidenceGuidance,
