@@ -1,9 +1,9 @@
+import { z } from 'zod'
 import { validateFoundationAtomicLearningEvidenceLocations } from './foundation-course-learning-atomic-obligations'
 import type { FoundationLearnTreatment } from './foundation-course-learning-blueprint'
 import type { ProviderLearningTeachingPointEvidence } from './provider-coverage-evidence'
 
-const markerPattern = /\[\[REV-(C|T)(\d+)\]\]/g
-const markerLikePattern = /\[\[REV-[^\]]+\]\]/g
+const nonEmptyStringSchema = z.string().min(1)
 
 export type FoundationLearningEvidenceArea =
   | 'introduction'
@@ -20,48 +20,65 @@ export type FoundationLearningTreatmentObligation = {
   treatment: FoundationLearnTreatment
 }
 
-type ProviderFoundationLearningContent = {
-  title: string
-  introduction: string
-  sections?: Array<{ title: string; explanation: string; keyPoints: string[] }>
-  workedExamples?: Array<{ title: string; setup: string; steps: string[]; conclusion: string }>
-  misconceptions: Array<{ misconception: string; correction: string }>
-  nextAction: string
+export type ProviderFoundationLearningEvidenceField = {
+  text: string
+  evidenceIds: string[]
 }
 
-type MarkerDefinition = {
-  token: string
+type ProviderFoundationLearningContent = {
+  title: string
+  introduction: ProviderFoundationLearningEvidenceField
+  sections?: Array<{
+    title: string
+    explanation: ProviderFoundationLearningEvidenceField
+    keyPoints: ProviderFoundationLearningEvidenceField[]
+  }>
+  workedExamples?: Array<{
+    title: string
+    setup: ProviderFoundationLearningEvidenceField
+    steps: ProviderFoundationLearningEvidenceField[]
+    conclusion: ProviderFoundationLearningEvidenceField
+  }>
+  misconceptions: Array<{
+    misconception: string
+    correction: ProviderFoundationLearningEvidenceField
+  }>
+  nextAction: ProviderFoundationLearningEvidenceField
+}
+
+type EvidenceDefinition = {
+  id: string
   kind: 'coverage' | 'treatment'
   teachingPoint?: string
   nodeId?: string
   treatment?: FoundationLearnTreatment
 }
 
-type MarkerOccurrence = MarkerDefinition & {
+type EvidenceOccurrence = EvidenceDefinition & {
   area: FoundationLearningEvidenceArea
   evidence: string
 }
 
-function coverageToken(index: number) {
-  return `[[REV-C${index + 1}]]`
+function coverageEvidenceId(index: number) {
+  return `coverage_${index + 1}`
 }
 
-function treatmentToken(index: number) {
-  return `[[REV-T${index + 1}]]`
+function treatmentEvidenceId(index: number) {
+  return `treatment_${index + 1}`
 }
 
-function markerDefinitions(
+function evidenceDefinitions(
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
   return [
-    ...requiredTeachingPoints.map((teachingPoint, index): MarkerDefinition => ({
-      token: coverageToken(index),
+    ...requiredTeachingPoints.map((teachingPoint, index): EvidenceDefinition => ({
+      id: coverageEvidenceId(index),
       kind: 'coverage',
       teachingPoint,
     })),
-    ...treatmentObligations.map((obligation, index): MarkerDefinition => ({
-      token: treatmentToken(index),
+    ...treatmentObligations.map((obligation, index): EvidenceDefinition => ({
+      id: treatmentEvidenceId(index),
       kind: 'treatment',
       nodeId: obligation.nodeId,
       treatment: obligation.treatment,
@@ -69,53 +86,67 @@ function markerDefinitions(
   ]
 }
 
-export function providerFoundationLearningInlineEvidenceGuidance(
+function exactEvidenceIdSchema(
+  requiredTeachingPoints: string[],
+  treatmentObligations: FoundationLearningTreatmentObligation[],
+) {
+  const ids = evidenceDefinitions(requiredTeachingPoints, treatmentObligations).map((definition) => definition.id)
+  if (ids.length === 0) throw new Error('Foundation Learn evidence contract requires at least one obligation')
+  return z.enum(ids as [string, ...string[]])
+}
+
+export function providerFoundationLearningEvidenceFieldSchema(
+  requiredTeachingPoints: string[],
+  treatmentObligations: FoundationLearningTreatmentObligation[],
+) {
+  return z.strictObject({
+    text: nonEmptyStringSchema,
+    evidenceIds: z.array(exactEvidenceIdSchema(requiredTeachingPoints, treatmentObligations)),
+  })
+}
+
+export function providerFoundationLearningTypedEvidenceGuidance(
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
   const coverage = requiredTeachingPoints
-    .map((teachingPoint, index) => `${coverageToken(index)} = ${teachingPoint}`)
+    .map((teachingPoint, index) => `${coverageEvidenceId(index)} = ${teachingPoint}`)
     .join('; ')
   const treatments = treatmentObligations
-    .map((obligation, index) => `${treatmentToken(index)} = ${obligation.nodeId}::${obligation.treatment}`)
+    .map((obligation, index) => `${treatmentEvidenceId(index)} = ${obligation.nodeId}::${obligation.treatment}`)
     .join('; ')
 
   return [
-    'Learn evidence uses inline machine markers, not evidence arrays, copied text, indexes or positional references.',
-    'Place each supplied marker exactly once inside the exact learner-content field that genuinely proves that obligation. Put the marker at the end of the relevant field text. A field may contain more than one marker when it genuinely satisfies more than one obligation.',
-    'Do not place markers in titles or other metadata. Do not alter marker spelling, punctuation or numbering. The system removes all valid markers before learner content is retained.',
-    `Coverage markers: ${coverage}.`,
-    `Treatment markers: ${treatments}.`,
+    'Learn evidence is typed metadata owned by each generated learner-content field.',
+    'Every learner-content field object has text plus evidenceIds. Write only learner-facing prose in text. Put each supplied evidence ID exactly once in the evidenceIds array of the exact field whose text genuinely proves that obligation. Use an empty evidenceIds array when a field proves no supplied obligation. A field may own more than one compatible evidence ID when its text genuinely proves each one.',
+    'Do not put evidence IDs, machine markers, indexes, copied evidence text or positional references inside learner-facing text. Do not invent evidence IDs. The schema restricts evidenceIds to the supplied identifiers and the resolver fails closed unless every supplied identifier is owned exactly once.',
+    `Coverage evidence IDs: ${coverage}.`,
+    `Treatment evidence IDs: ${treatments}.`,
   ].join(' ')
-}
-
-function cleanText(value: string) {
-  return value.replace(markerPattern, '').replace(/\s{2,}/g, ' ').trim()
-}
-
-function extractTokens(value: string) {
-  return [...value.matchAll(markerLikePattern)].map((match) => match[0])
 }
 
 function field(
   area: FoundationLearningEvidenceArea,
-  value: string,
-  definitionsByToken: Map<string, MarkerDefinition>,
-  occurrences: MarkerOccurrence[],
+  value: ProviderFoundationLearningEvidenceField,
+  definitionsById: Map<string, EvidenceDefinition>,
+  occurrences: EvidenceOccurrence[],
 ) {
-  const evidence = cleanText(value)
-  if (!evidence) throw new Error(`Learn field ${area} is empty after inline evidence markers are removed`)
+  const evidence = value.text.trim()
+  if (!evidence) throw new Error(`Learn field ${area} is empty`)
+  if (evidence.includes('[[REV-')) {
+    throw new Error(`Learn field ${area} contains legacy inline evidence marker text`)
+  }
 
-  for (const token of extractTokens(value)) {
-    const definition = definitionsByToken.get(token)
-    if (!definition) throw new Error(`Unexpected Learn evidence marker ${token}`)
+  for (const id of value.evidenceIds) {
+    const definition = definitionsById.get(id)
+    if (!definition) throw new Error(`Unexpected Learn evidence ID ${id}`)
     occurrences.push({ ...definition, area, evidence })
   }
 
   return evidence
 }
 
-function validateCoveragePlacement(occurrences: MarkerOccurrence[]) {
+function validateCoveragePlacement(occurrences: EvidenceOccurrence[]) {
   const evidence = occurrences
     .filter((occurrence) => occurrence.kind === 'coverage')
     .map((occurrence) => ({
@@ -129,7 +160,7 @@ function validateCoveragePlacement(occurrences: MarkerOccurrence[]) {
   validateFoundationAtomicLearningEvidenceLocations(evidence as ProviderLearningTeachingPointEvidence[])
 }
 
-function validateTreatmentPlacement(occurrences: MarkerOccurrence[]) {
+function validateTreatmentPlacement(occurrences: EvidenceOccurrence[]) {
   for (const occurrence of occurrences.filter((entry) => entry.kind === 'treatment')) {
     if (occurrence.treatment === 'worked_example' && !occurrence.area.startsWith('worked_example_')) {
       throw new Error('worked_example treatment evidence must point to a worked-example field')
@@ -140,56 +171,56 @@ function validateTreatmentPlacement(occurrences: MarkerOccurrence[]) {
   }
 }
 
-export function resolveFoundationLearningInlineEvidence(
+export function resolveFoundationLearningTypedEvidence(
   content: ProviderFoundationLearningContent,
   requiredTeachingPoints: string[],
   treatmentObligations: FoundationLearningTreatmentObligation[],
 ) {
-  const definitions = markerDefinitions(requiredTeachingPoints, treatmentObligations)
-  const definitionsByToken = new Map(definitions.map((definition) => [definition.token, definition]))
-  const occurrences: MarkerOccurrence[] = []
+  const definitions = evidenceDefinitions(requiredTeachingPoints, treatmentObligations)
+  const definitionsById = new Map(definitions.map((definition) => [definition.id, definition]))
+  const occurrences: EvidenceOccurrence[] = []
 
   const cleaned = {
     title: content.title,
-    introduction: field('introduction', content.introduction, definitionsByToken, occurrences),
+    introduction: field('introduction', content.introduction, definitionsById, occurrences),
     sections: (content.sections ?? []).map((section) => ({
       title: section.title,
-      explanation: field('section_explanation', section.explanation, definitionsByToken, occurrences),
+      explanation: field('section_explanation', section.explanation, definitionsById, occurrences),
       keyPoints: section.keyPoints.map((keyPoint) => (
-        field('section_key_point', keyPoint, definitionsByToken, occurrences)
+        field('section_key_point', keyPoint, definitionsById, occurrences)
       )),
     })),
     workedExamples: (content.workedExamples ?? []).map((example) => ({
       title: example.title,
-      setup: field('worked_example_setup', example.setup, definitionsByToken, occurrences),
+      setup: field('worked_example_setup', example.setup, definitionsById, occurrences),
       steps: example.steps.map((step) => (
-        field('worked_example_step', step, definitionsByToken, occurrences)
+        field('worked_example_step', step, definitionsById, occurrences)
       )),
-      conclusion: field('worked_example_conclusion', example.conclusion, definitionsByToken, occurrences),
+      conclusion: field('worked_example_conclusion', example.conclusion, definitionsById, occurrences),
     })),
     misconceptions: content.misconceptions.map((misconception) => ({
       misconception: misconception.misconception,
-      correction: field('misconception_correction', misconception.correction, definitionsByToken, occurrences),
+      correction: field('misconception_correction', misconception.correction, definitionsById, occurrences),
     })),
-    nextAction: field('next_action', content.nextAction, definitionsByToken, occurrences),
+    nextAction: field('next_action', content.nextAction, definitionsById, occurrences),
   }
 
   for (const definition of definitions) {
-    const matches = occurrences.filter((occurrence) => occurrence.token === definition.token)
-    if (matches.length === 0) throw new Error(`Missing Learn evidence marker ${definition.token}`)
-    if (matches.length > 1) throw new Error(`Learn evidence marker ${definition.token} must appear exactly once`)
+    const matches = occurrences.filter((occurrence) => occurrence.id === definition.id)
+    if (matches.length === 0) throw new Error(`Missing Learn evidence ID ${definition.id}`)
+    if (matches.length > 1) throw new Error(`Learn evidence ID ${definition.id} must be owned exactly once`)
   }
 
   validateCoveragePlacement(occurrences)
   validateTreatmentPlacement(occurrences)
 
-  const occurrenceByToken = new Map(occurrences.map((occurrence) => [occurrence.token, occurrence]))
+  const occurrenceById = new Map(occurrences.map((occurrence) => [occurrence.id, occurrence]))
 
   return {
     content: cleaned,
     coverageEvidence: requiredTeachingPoints.map((teachingPoint, index) => ({
       teachingPoint,
-      evidence: occurrenceByToken.get(coverageToken(index))!.evidence,
+      evidence: occurrenceById.get(coverageEvidenceId(index))!.evidence,
     })),
   }
 }
