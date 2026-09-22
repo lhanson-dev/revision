@@ -4,14 +4,14 @@ document_id: "revision-course-overview-progress-signals"
 document_type: "product-authority"
 authority: "product-governance"
 status: "active"
-version: "1.0"
+version: "1.1"
 owner: "Founder"
 effective_date: "2026-09-22"
 last_reviewed: "2026-09-22"
 content_review_status: "founder-approved"
-source_of_truth_for: ["Course Overview progress panel", "Topics Secure learner-facing meaning", "Course Overview Exam Readiness and Topics Secure hierarchy"]
+source_of_truth_for: ["Course Overview progress panel", "Topic Knowledge learner-facing meaning", "Course Overview Exam Readiness and Topic Knowledge hierarchy", "subject-level Topic Knowledge roll-up"]
 depends_on: ["Course Learning Blueprint", "REV Guidance and Conversation Pattern", "Claims and Progress Governance", "Product UX Principles", "Product System Model"]
-supersedes: ["Course Learning Blueprint Overview wording that specifies Reviewed plus Exam Readiness as the concise Overview progress pair"]
+supersedes: ["Course Learning Blueprint Overview wording that specifies Reviewed plus Exam Readiness as the concise Overview progress pair", "Course Overview Progress Signals v1.0 Topics Secure terminology"]
 ---
 # Course Overview Progress Signals
 
@@ -22,20 +22,20 @@ Define the Founder-approved progress signals shown alongside REV guidance on the
 The Course Overview is a decision surface, not a full progress dashboard. It should give the learner a concise answer to two different questions:
 
 1. **How strong does my demonstrated exam performance currently look?**
-2. **Across how much of this course does the evidence currently support that I know and can use the material?**
+2. **How well does the evidence currently say I know and can use the course topics?**
 
-Those questions are represented by **Exam Readiness** and **Topics Secure**.
+Those questions are represented by **Exam Readiness** and **Topic Knowledge**.
 
 ## Governing decision
 
 The Course Overview progress pair is:
 
 - **Exam Readiness**; and
-- **Topics Secure**.
+- **Topic Knowledge**.
+
+`Topic Knowledge` is the learner-facing name for Revision's evidence-backed understanding / knowledge-and-application judgement. It deliberately replaces the earlier `Topics Secure` terminology because `Secure` is less plain and can be misread as a technical or permanent classification.
 
 `Reviewed` remains a legitimate secondary content-exposure signal elsewhere in the product, especially the dedicated Progress experience. A separate evidence-breadth/observation measure may also be useful deeper in Progress, but neither is the primary knowledge-progress signal on Course Overview.
-
-This deliberately supersedes the earlier Course Learning Blueprint wording that described the Overview pair as Reviewed plus Exam Readiness.
 
 ## Exam Readiness
 
@@ -45,73 +45,98 @@ Where there is not yet enough varied qualifying evidence, the Overview should us
 
 Exam Readiness answers how well the learner currently appears able to perform under the relevant exam demands, not how much content they have opened or completed.
 
-## Topics Secure
+## Topic Knowledge
 
-Topics Secure is a **demonstrated-knowledge breadth** signal.
+Topic Knowledge answers the learner question:
 
-It answers:
+> **How well do I currently know this topic?**
 
-> **Across how many course topics does the available evidence currently support a positive judgement that the learner knows and can use the material?**
+The preferred learner-facing bands are:
 
-A display such as `10 / 10 topics` means all ten topics currently meet Revision's governed evidence standard for being secure. It must not mean merely that the learner has opened the topic, attempted something, or produced one scored result.
+- **Low**;
+- **Medium**; and
+- **Good**.
 
-`10 / 10 topics secure` is therefore a materially stronger claim than `evidence seen in 10 / 10 topics`.
+These bands describe demonstrated knowledge and application from valid learner-performance evidence. They are not a count of content viewed, activities attempted or evidence merely observed.
 
-It does not mean the learner has answered every question correctly, can never weaken later, or is guaranteed a particular exam result. It means the accumulated evidence for every topic is currently strong enough to support the learner-facing judgement **secure**.
+The exact numerical boundaries, weighting and evidence sufficiency rules may be refined as Revision calibrates the model. Changing those mechanics does not require changing the learner-facing concept, provided the resulting judgement continues to satisfy the evidence and claims rules in this authority.
 
-### What a topic must demonstrate
+### Evidence sufficiency and performance
 
-A topic may count as Secure only when both of these are true:
+A topic-level judgement must consider both:
 
-1. **Evidence sufficiency** — there is enough qualifying, varied and relevant learner-performance evidence to support a meaningful topic-level judgement; and
-2. **Performance sufficiency** — the demonstrated performance meets the governed standard for secure knowledge/application for that topic.
+1. **Evidence sufficiency** — whether there is enough relevant, varied and representative learner-performance evidence to support a meaningful judgement; and
+2. **Demonstrated performance** — what that evidence says about the learner's ability to recall, understand and use the relevant knowledge and skills.
 
-The product must not turn evidence presence into achievement. A weak result is useful evidence, but it does not make the topic Secure merely because Revision has now observed the learner doing work there.
+One incidental scored result is not enough to justify a strong topic-level judgement. Repeated success in one narrow activity type must not prove broader skills that the activity cannot validly assess.
 
-### Evidence quality and breadth
+Where evidence is too limited to support Low / Medium / Good responsibly, the product should use a plain insufficient-evidence state rather than manufacture certainty.
 
-The Secure judgement should use the same underlying curriculum/evidence model that powers learner intelligence rather than a cosmetic completion counter.
+### What does not improve Topic Knowledge by itself
 
-Evidence may come from validated Practice and Exam Prep activity where that activity can genuinely demonstrate the relevant knowledge or skill. The evidence set should reflect the topic's governed learning and assessment demands; repeated success in one narrow format must not prove a broader skill that the format cannot validly assess.
-
-For example, repeated flashcard success may strongly support recall but cannot by itself establish secure applied reasoning or extended evaluation where those are material demands of the topic.
-
-### What does not count as Secure
-
-A topic must not become Secure merely because the learner:
+Topic Knowledge must not improve merely because the learner:
 
 - opened or viewed Learn content;
 - completed passive reading or viewing;
 - spent time on the topic;
 - encountered it in navigation;
-- completed one incidental scored item;
+- attempted an activity without demonstrating the underlying knowledge or skill;
 - completed only a starting/diagnostic check whose provenance is deliberately excluded from ongoing progress evidence; or
 - repeatedly used an activity type that does not validly assess the material claim being made.
 
-### Secure is evidence-based, not permanent
+Weak or incorrect performance is still useful evidence because it helps Revision understand what needs attention, but it should not be converted into a positive knowledge claim merely because evidence now exists.
 
-Topics Secure is a current judgement, not a permanent badge.
+### Topic Knowledge is current, not permanent
 
-New evidence may strengthen, weaken or overturn an earlier Secure state. Older evidence may also become less persuasive when recency matters. If a topic is no longer sufficiently supported, the count may decrease and the product should explain why constructively.
+Topic Knowledge is a current evidence-based judgement. Newer, broader or contradictory evidence may move a topic between bands in either direction.
 
-The learner should never have to complete every available Practice format simply to make the number rise. Alternative validated routes may establish the same underlying knowledge or skill where they provide equivalent evidence.
+The learner should never have to complete every available Practice format simply to improve the status. Alternative validated routes may establish the same underlying knowledge or skill where they provide suitable evidence.
 
-### Secure is distinct from Exam Readiness
+### Topic Knowledge is not evidence confidence
 
-Topics Secure and Exam Readiness are deliberately related but not identical.
+Do not label this metric `Topic Confidence`.
 
-- **Topics Secure** shows the breadth of the course for which Revision currently has sufficiently strong evidence of knowledge/application.
-- **Exam Readiness** shows how well the learner appears able to turn that knowledge and skill into performance under the relevant exam demands.
+Revision separately needs to represent **confidence in the evidence behind a judgement**. A learner could currently have a Good Topic Knowledge judgement while Revision still has limited confidence in that judgement because the evidence is narrow, old or inconsistent.
 
-A learner can therefore have many Secure topics while still needing exam-technique, timing or authentic-paper practice. Conversely, strong performance on a limited part of the course must not imply that the whole course is Secure.
+Learner-facing wording should keep these concepts distinct:
 
-If the learner sees `10 / 10 topics secure`, they should reasonably understand that Revision's evidence supports secure knowledge/application across the full course topic set. The product must never use that display when all Revision knows is that the learner has attempted something in each topic.
+- **Topic Knowledge** — how well the available evidence says the learner knows and can use the material;
+- **Evidence confidence** — how strong, broad, recent and reliable the evidence behind that judgement is.
 
-## Threshold and calibration rule
+### Topic Knowledge is distinct from Exam Readiness
 
-The exact performance threshold, weighting and evidence requirements for `Secure` are evidence and implementation questions. They must be deliberately calibrated and assured against the governed course/evidence model rather than invented solely to make the UI display a convenient count.
+Topic Knowledge and Exam Readiness are deliberately related but not identical.
 
-Until that rule is implemented and validated, the product must not relabel a simple `topics with evidence` count as `Topics Secure`.
+- **Topic Knowledge** shows how well the learner appears to know and use the underlying subject material.
+- **Exam Readiness** shows how well that knowledge and skill appears likely to transfer into performance under the relevant exam demands.
+
+A learner may therefore have several Good topics while still needing exam-technique, timing or authentic-paper practice. Conversely, strong exam-style performance on a limited part of the course must not imply uniformly Good knowledge across the whole subject.
+
+## Subject-level roll-up
+
+The same Topic Knowledge model should roll up transparently from topics to the subject/course level.
+
+The preferred summary is a distribution rather than a pseudo-precise average, for example:
+
+- `6 topics Good`;
+- `3 topics Medium`;
+- `1 topic Low`.
+
+This lets the learner see overall progress and remaining weak areas without implying that a single percentage precisely represents subject knowledge.
+
+A future aggregate score may be introduced only if evidence and calibration justify it. It must not replace the transparent underlying topic picture merely for visual simplicity.
+
+## Calibration rule
+
+The exact band boundaries, weighting, recency treatment and evidence requirements are evidence and implementation questions. They must be deliberately calibrated and assured against the governed course/evidence model rather than invented solely to make the UI display convenient labels.
+
+The first implementation may use a deliberately simple calibrated model and evolve it later, provided:
+
+- the learner-facing meaning remains truthful;
+- evidence breadth and validity are respected;
+- passive activity is not mistaken for knowledge;
+- uncertainty is not hidden; and
+- later changes remain backward-explainable and assured.
 
 ## Course Overview placement
 
@@ -133,10 +158,14 @@ On tablet and phone, the same information may stack beneath the recommendation a
 
 The Overview uses only concise orientation signals.
 
-The dedicated Progress section remains responsible for deeper interpretation including topic-level Secure/developing/insufficient-evidence state, Reviewed/content exposure, evidence breadth and confidence, change over time and explanation of what the learner should do next.
+The dedicated Progress section remains responsible for deeper interpretation including topic-level Topic Knowledge, Reviewed/content exposure, evidence breadth and confidence, change over time and explanation of what the learner should do next.
+
+Progress across a whole subject/course should reuse the same Topic Knowledge bands and roll-up logic rather than create a competing measure with different semantics.
 
 ## Documentation impact
 
-This authority records the Founder decision of 22 September 2026 to make the Course Overview breadth signal a demonstrated-knowledge measure rather than an activity/evidence-observation measure, and to position that signal separately from the proactive REV recommendation on desktop.
+Version 1.1 records the Founder decision of 22 September 2026 to replace `Topics Secure` with the plainer **Topic Knowledge** model, using learner-facing Low / Medium / Good bands and a transparent subject-level distribution.
 
-Implementation must update the current technical documentation and assurance so `Topics Secure` cannot silently regress into a page-view, completion or `has any evidence` counter. Historical evidence and earlier design records remain unchanged.
+This is a terminology and product-model refinement, not permission to weaken the evidence standard. Implementation must still prove that Topic Knowledge is based on demonstrated knowledge/application rather than page views, completion or simple evidence presence.
+
+The precise mechanics may be calibrated and improved later without reopening the learner-facing concept, provided the governing evidence semantics remain intact. Historical evidence and earlier design records remain unchanged.
