@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resolveLearningCoverageEvidence } from './provider-coverage-evidence'
+import { resolveFoundationLearningCoverageEvidence } from './provider-foundation-learning-evidence'
 
 const content = {
   introduction: 'Introduction text',
@@ -22,9 +22,9 @@ const content = {
   nextAction: 'Next action',
 }
 
-describe('provider Learn evidence binding', () => {
+describe('Foundation provider Learn v6 evidence binding', () => {
   it('resolves a unique verbatim evidence string within the declared generated area', () => {
-    expect(resolveLearningCoverageEvidence([
+    expect(resolveFoundationLearningCoverageEvidence([
       {
         teachingPoint: 'Generic teaching point',
         location: {
@@ -41,7 +41,7 @@ describe('provider Learn evidence binding', () => {
   })
 
   it('fails closed when evidenceText does not exactly exist in the declared area', () => {
-    expect(() => resolveLearningCoverageEvidence([
+    expect(() => resolveFoundationLearningCoverageEvidence([
       {
         teachingPoint: 'Generic teaching point',
         location: {
@@ -61,7 +61,7 @@ describe('provider Learn evidence binding', () => {
       ],
     }
 
-    expect(() => resolveLearningCoverageEvidence([
+    expect(() => resolveFoundationLearningCoverageEvidence([
       {
         teachingPoint: 'Generic teaching point',
         location: {
@@ -73,7 +73,7 @@ describe('provider Learn evidence binding', () => {
   })
 
   it('preserves atomic Learn placement rules before resolving exact text', () => {
-    expect(() => resolveLearningCoverageEvidence([
+    expect(() => resolveFoundationLearningCoverageEvidence([
       {
         teachingPoint: 'Course Truth [node-1]: Exact course truth',
         location: {
