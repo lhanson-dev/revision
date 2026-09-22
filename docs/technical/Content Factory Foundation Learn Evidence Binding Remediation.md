@@ -7,7 +7,7 @@
 
 Record the fifth `course-learning-blueprint-v2` Business generation fail-hold and the structural Learn evidence-binding repair introduced after provider-contract-v5 prompt guidance proved insufficient.
 
-This remediation changes only the Learn provider evidence-location contract. It does not change Course Truth, the Course Learning Blueprint, Practice evidence semantics, Foundation approval requirements, learner publication rules, provider output capacity or the hard generation spend ceiling.
+This remediation changes only the Foundation-v2 Learn provider evidence-location contract. It does not change Course Truth, the Course Learning Blueprint, the generic/legacy provider-v4 Learn path, Practice evidence semantics, Foundation approval requirements, learner publication rules, provider output capacity or the hard generation spend ceiling.
 
 ## Retained fifth fail-hold evidence
 
@@ -51,9 +51,9 @@ The correct response is not to clamp invalid indexes, redirect them to a nearby 
 
 ## Provider v6 Learn evidence binding
 
-Learn generation now uses provider contract version `6` for evidence locations.
+Foundation-native `course-learning-blueprint-v2` Learn generation now uses provider contract version `6` for evidence locations. The v6 schema and resolver are isolated to the dedicated Foundation learning-worker route; generic/legacy Learn generation continues to use the existing provider-v4 numeric evidence contract unchanged.
 
-A Learn evidence location contains:
+A Foundation-v2 Learn evidence location contains:
 
 - `area`: the governed generated field type, such as `section_explanation`, `section_key_point`, `worked_example_step` or `misconception_correction`; and
 - `evidenceText`: text copied verbatim from the exact generated field that provides the evidence.
@@ -72,19 +72,20 @@ No fuzzy or positional fallback is permitted.
 
 ## Practice remains provider v5
 
-The repeated live failure is specific to Learn's nested variable-length content arrays. Practice retains provider contract version `5` and its existing fail-closed `mode + activityIndex + field` evidence contract. The earlier Practice locator defect has not recurred in the later Business proofs.
+The repeated live failure is specific to Learn's nested variable-length content arrays. Foundation-v2 Practice retains provider contract version `5` and its existing fail-closed `mode + activityIndex + field` evidence contract. The earlier Practice locator defect has not recurred in the later Business proofs.
 
 This separation keeps the remediation at the smallest evidenced scope rather than changing an unaffected contract.
 
 ## Regression protection
 
-The repair includes tests proving that Learn evidence:
+The repair includes tests proving that Foundation-v2 Learn evidence:
 
 - resolves only from a unique verbatim value in the declared generated area;
 - fails closed when the text is absent;
 - fails closed when the same text is ambiguous in that area;
-- continues to enforce atomic Learn placement before accepting evidence; and
-- is instructed to use `area + evidenceText`, not guessed array indexes.
+- continues to enforce atomic Learn placement before accepting evidence;
+- is instructed to use `area + evidenceText`, not guessed array indexes; and
+- does not alter the shared provider-v4 Learn evidence schema or its existing generic/legacy regression coverage.
 
 The existing Practice v5 guidance regression remains in place.
 
