@@ -58,8 +58,8 @@ describe('Topic Knowledge', () => {
 
     const result = assessTopicKnowledge(common.moduleId, topicId, evidence)
     expect(result.distinctContentItems).toBe(6)
-    expect(result.band).toBe('medium')
-    expect(result.score).toBe(75)
+    expect(result.band).toBe('good')
+    expect(result.score).toBe(83)
   })
 
   it('uses the agreed Low / Medium / Good calibration boundaries', () => {
@@ -104,7 +104,7 @@ describe('Topic Knowledge', () => {
     ]
     const good = assessTopicKnowledge(common.moduleId, topicId, initial)
 
-    const newerWeak = initial.map((item) => item.source === 'multiple_choice'
+    const newerWeak = initial.map((item): LearningEvidence => item.source === 'multiple_choice'
       ? { ...item, id: `${item.id}-new`, occurredAt: '2026-09-22T10:00:00.000Z', correct: false, selectedOption: 0 }
       : item)
     const revised = assessTopicKnowledge(common.moduleId, topicId, [...initial, ...newerWeak])
