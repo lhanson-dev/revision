@@ -223,6 +223,25 @@ function foundationCandidateContexts(job: z.infer<typeof foundationJobSchema>) {
   ])
 }
 
+export function validateFoundationInternalLearningGenerationContexts(input: {
+  generationContextIds: string[]
+  workUnitCount: number
+  forbiddenContextIds?: string[]
+}) {
+  const minimumContextCount = input.workUnitCount * 2
+  if (input.generationContextIds.length < minimumContextCount) {
+    throw new Error(`Expected at least ${minimumContextCount} generation contexts, found ${input.generationContextIds.length}`)
+  }
+  if (new Set(input.generationContextIds).size !== input.generationContextIds.length) {
+    throw new Error('Generation contexts must be unique across all Learn and Practice provider calls')
+  }
+  const forbiddenContexts = new Set(input.forbiddenContextIds ?? [])
+  const collisions = input.generationContextIds.filter((contextId) => forbiddenContexts.has(contextId))
+  if (collisions.length > 0) {
+    throw new Error(`Generation contexts collide with prior Foundation/assurance contexts: ${collisions.join(', ')}`)
+  }
+}
+
 export async function runFoundationInternalLearningDeterministicAssurance(input: {
   job: unknown
   bundle: unknown
@@ -278,19 +297,14 @@ export async function runFoundationInternalLearningDeterministicAssurance(input:
     for (const workUnit of bundle.workUnits) validateWorkUnit(workUnit)
   })
   check('generation-context-integrity', () => {
-    const expectedContextCount = bundle.workUnits.length * 2
-    if (bundle.generationContextIds.length !== expectedContextCount) {
-      throw new Error(`Expected ${expectedContextCount} generation contexts, found ${bundle.generationContextIds.length}`)
-    }
-    if (new Set(bundle.generationContextIds).size !== bundle.generationContextIds.length) {
-      throw new Error('Generation contexts must be unique across Learn and Practice calls')
-    }
-    const earlierContexts = new Set([
-      ...foundationCandidateContexts(job),
-      ...(input.additionalForbiddenContextIds ?? []),
-    ])
-    const collisions = bundle.generationContextIds.filter((contextId) => earlierContexts.has(contextId))
-    if (collisions.length > 0) throw new Error(`Generation contexts collide with prior Foundation/assurance contexts: ${collisions.join(', ')}`)
+    validateFoundationInternalLearningGenerationContexts({
+      generationContextIds: bundle.generationContextIds,
+      workUnitCount: bundle.workUnits.length,
+      forbiddenContextIds: [
+        ...foundationCandidateContexts(job),
+        ...(input.additionalForbiddenContextIds ?? []),
+      ],
+    })
   })
   check('generated-assets-pending', () => {
     if (bundle.learnAsset.assuranceStatus !== 'pending' || bundle.practiceAsset.assuranceStatus !== 'pending') {
