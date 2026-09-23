@@ -1,5 +1,6 @@
 export { BrandAsset, brandAssetSources, type BrandAssetName, type BrandAssetProps } from './BrandAsset'
 export { Button, IconButton, SegmentedControl, SelectField, TextAreaField, TextField, type ButtonProps, type ButtonSize, type ButtonVariant, type IconButtonProps, type SegmentedControlProps, type SelectFieldProps, type TextAreaFieldProps, type TextFieldProps } from './controls'
+export { EducationalTreatment, type EducationalTreatmentKind, type EducationalTreatmentProps } from './EducationalTreatment'
 export { Status, type StatusProps, type StatusTone } from './feedback'
 export { Icon, type IconName, type IconProps, type IconSize } from './Icon'
 export { EmptyState, LoadingState, PageHeader, Surface, type EmptyStateProps, type LoadingStateProps, type PageHeaderProps, type SurfaceElement, type SurfaceProps, type SurfaceVariant } from './layout'
