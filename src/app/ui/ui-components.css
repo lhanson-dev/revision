@@ -145,6 +145,88 @@
   line-height: var(--type-body-s-line);
 }
 
+.ui-educational-treatment {
+  --educational-accent: var(--subject-accent, var(--brand-mist));
+  --educational-accent-soft: var(--subject-accent-soft, var(--color-surface-soft));
+  --educational-accent-ink: var(--subject-accent-ink, var(--color-accent-text));
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.ui-educational-treatment__header {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.ui-educational-treatment__label {
+  color: var(--educational-accent-ink);
+  font-size: var(--type-label-size);
+  font-weight: 750;
+  line-height: var(--type-label-line);
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+
+.ui-educational-treatment__title {
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.ui-educational-treatment__body {
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.ui-educational-treatment__body > :first-child {
+  margin-top: 0;
+}
+
+.ui-educational-treatment__body > :last-child {
+  margin-bottom: 0;
+}
+
+.ui-educational-treatment--key-idea {
+  border-left: 4px solid var(--educational-accent);
+  background: var(--educational-accent-soft);
+}
+
+.ui-educational-treatment--example {
+  border-color: color-mix(in srgb, var(--educational-accent) 36%, var(--color-border));
+  background: color-mix(in srgb, var(--educational-accent) 13%, var(--color-surface));
+}
+
+.ui-educational-treatment--worked-example {
+  border-color: color-mix(in srgb, var(--educational-accent) 45%, var(--color-border));
+  background: var(--color-surface-soft);
+}
+
+.ui-educational-treatment--relationship {
+  margin-block: var(--space-8);
+  padding-inline: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.ui-educational-treatment--misconception {
+  background: color-mix(in srgb, var(--brand-mist) 54%, var(--color-surface));
+}
+
+.ui-educational-treatment--recap {
+  border-color: color-mix(in srgb, var(--educational-accent) 34%, var(--color-border));
+  background: var(--educational-accent-soft);
+}
+
 /* Overlay shells intentionally do not own placement. Modal/drawer consumers keep
  * feature or channel composition while the shared shell owns interaction and
  * surface semantics. Popovers retain relative positioning for local anchoring. */
@@ -181,8 +263,13 @@
     margin-bottom: var(--space-6);
   }
 
-  .ui-surface-component {
+  .ui-surface-component,
+  .ui-educational-treatment {
     padding: var(--space-5);
+  }
+
+  .ui-educational-treatment--relationship {
+    padding-inline: 0;
   }
 }
 
@@ -196,7 +283,12 @@
     line-height: var(--type-body-line);
   }
 
-  .ui-surface-component {
+  .ui-surface-component,
+  .ui-educational-treatment {
     padding: var(--space-4);
+  }
+
+  .ui-educational-treatment--relationship {
+    padding-inline: 0;
   }
 }
