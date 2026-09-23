@@ -69,6 +69,7 @@ export const learnBlockSchema = z.discriminatedUnion('type', [
 export const learnPageSchema = z.object({
   id: slugSchema,
   topicId: slugSchema,
+  sourceSectionIds: z.array(slugSchema).optional(),
   title: z.string().min(1),
   orientation: z.string().min(1),
   blocks: z.array(learnBlockSchema).min(1),
