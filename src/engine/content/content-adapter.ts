@@ -51,29 +51,51 @@ export type LearningContentAdapter = {
   getExam: (examId: string) => Exam | undefined
 }
 
+function legacyLearnGroup(topic: Topic, section: Topic['sections'][number]) {
+  return {
+    id: `${topic.id}-${section.id}-guide`,
+    title: section.title,
+    pages: [{
+      id: `${topic.id}-${section.id}`,
+      topicId: topic.id,
+      sourceSectionIds: [section.id],
+      title: section.title,
+      orientation: `Understand the key ideas in ${section.title.toLowerCase()} and how they connect to the wider topic.`,
+      blocks: [{ type: 'explanation' as const, paragraphs: section.points }],
+    }],
+  }
+}
+
 function legacyLearnChapter(topic: Topic): LearnChapter {
   return {
     id: topic.id,
     topicId: topic.id,
     title: topic.title,
-    groups: [{
-      id: `${topic.id}-guide`,
-      title: 'Topic guide',
-      pages: topic.sections.map((section) => ({
-        id: `${topic.id}-${section.id}`,
-        topicId: topic.id,
-        title: section.title,
-        orientation: `Understand the key ideas in ${section.title.toLowerCase()} and how they connect to the wider topic.`,
-        blocks: [{ type: 'explanation' as const, paragraphs: section.points }],
-      })),
-    }],
+    groups: topic.sections.map((section) => legacyLearnGroup(topic, section)),
+  }
+}
+
+function mergeAuthoredChapter(topic: Topic, authored: LearnChapter): LearnChapter {
+  const coveredSections = new Set(
+    authored.groups.flatMap((group) => group.pages.flatMap((page) => page.sourceSectionIds ?? [])),
+  )
+  const remainingLegacyGroups = topic.sections
+    .filter((section) => !coveredSections.has(section.id))
+    .map((section) => legacyLearnGroup(topic, section))
+
+  return {
+    ...authored,
+    groups: [...authored.groups, ...remainingLegacyGroups],
   }
 }
 
 function buildLearnCourse(topics: readonly Topic[], authored?: LearnCourse): LearnCourse {
   const authoredByTopic = new Map(authored?.chapters.map((chapter) => [chapter.topicId, chapter]) ?? [])
   return {
-    chapters: topics.map((topic) => authoredByTopic.get(topic.id) ?? legacyLearnChapter(topic)),
+    chapters: topics.map((topic) => {
+      const authoredChapter = authoredByTopic.get(topic.id)
+      return authoredChapter ? mergeAuthoredChapter(topic, authoredChapter) : legacyLearnChapter(topic)
+    }),
   }
 }
 
