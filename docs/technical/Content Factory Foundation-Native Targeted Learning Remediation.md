@@ -61,8 +61,9 @@ Before any provider call, the runtime fails closed unless:
 3. the independent review's `sourceBundleFingerprint` matches the exact retained bundle;
 4. the current deterministic Course Learning Blueprint v2 plan exactly matches the retained source plan;
 5. every targeted work unit exists in that plan;
-6. every target finding belongs to that exact reviewed work unit; and
-7. the target set covers every and only open finding retained by the source review.
+6. every target finding belongs to that exact reviewed work unit;
+7. every target asset side exactly matches the reviewed finding's `assetKind`; and
+8. the target set covers every and only open finding retained by the source review.
 
 A passing review cannot enter remediation.
 
