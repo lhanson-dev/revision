@@ -30,6 +30,7 @@ const remediationFindingSchema = z.object({
   id: identifierSchema,
   severity: z.enum(['blocking', 'material', 'minor']),
   issueType: nonEmptyStringSchema,
+  assetKind: z.enum(['learn', 'practice', 'both']),
   evidence: z.array(nonEmptyStringSchema).min(1),
   finding: nonEmptyStringSchema,
   recommendedCorrection: nonEmptyStringSchema,
@@ -200,9 +201,13 @@ function groupedTargets(input: {
     const parsed = foundationInternalLearningRemediationTargetSchema.parse(target)
     const entry = grouped.get(parsed.workUnitId) ?? { learn: new Set<string>(), practice: new Set<string>() }
     for (const findingId of parsed.findingIds) {
-      if (!findingMap.has(findingId)) throw new Error(`Remediation target references unknown open finding ${findingId}`)
+      const finding = findingMap.get(findingId)
+      if (!finding) throw new Error(`Remediation target references unknown open finding ${findingId}`)
       if (findingWorkUnits.get(findingId) !== parsed.workUnitId) {
         throw new Error(`Remediation finding ${findingId} does not belong to work unit ${parsed.workUnitId}`)
+      }
+      if (finding.assetKind !== parsed.assetKind) {
+        throw new Error(`Remediation finding ${findingId} targets ${finding.assetKind}, not ${parsed.assetKind}`)
       }
       if (parsed.assetKind === 'learn' || parsed.assetKind === 'both') entry.learn.add(findingId)
       if (parsed.assetKind === 'practice' || parsed.assetKind === 'both') entry.practice.add(findingId)
