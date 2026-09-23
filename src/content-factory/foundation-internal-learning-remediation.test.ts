@@ -327,7 +327,7 @@ describe('Foundation-native targeted Learn/Practice remediation', () => {
     ])
   })
 
-  it('fails closed when targets do not cover every open finding or a remediation context reuses prior evidence context', async () => {
+  it('fails closed when target scope is incomplete, mis-scoped or reuses prior evidence context', async () => {
     const { job, bundle, independentReview, remediationTargets } = await sourceFixture('practice')
 
     await expect(remediateFoundationInternalLearningAssets({
@@ -343,6 +343,20 @@ describe('Foundation-native targeted Learn/Practice remediation', () => {
         async remediatePracticeCollateral() { throw new Error('must not run') },
       },
     })).rejects.toThrow(/cover every and only open assurance finding/)
+
+    await expect(remediateFoundationInternalLearningAssets({
+      job,
+      sourceBundle: bundle,
+      coverageModel,
+      courseKnowledgeModel,
+      independentReview,
+      remediationTargets: remediationTargets.map((target) => ({ ...target, assetKind: 'learn' as const })),
+      now: remediationNow,
+      workers: {
+        async remediateLearningCollateral() { throw new Error('must not run') },
+        async remediatePracticeCollateral() { throw new Error('must not run') },
+      },
+    })).rejects.toThrow(/targets practice, not learn/)
 
     await expect(remediateFoundationInternalLearningAssets({
       job,
