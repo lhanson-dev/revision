@@ -76,6 +76,20 @@ Page composition should express the job of the experience:
 
 Shared tokens, components, icon language, typography and accessibility create coherence. Composition, information density and visual rhythm may differ when the user job differs.
 
+## Existing-surface visual baseline gate
+
+When the journey review changes an **existing Revision product surface**, the visual design must begin from the current approved product rather than from a blank-canvas or generic app concept.
+
+Before any material visual mock-up or prototype is presented for approval, apply `Existing Surface Visual Baseline Gate.md`.
+
+This requires the designer or AI agent to inspect current approved `main`, the exact canonical route/runtime, inherited learner shell, relevant current implementation/CSS, approved Interface System sources, subject-accent rules and any available approved visual-regression or design-acceptance baseline.
+
+The review must distinguish what is being **preserved** from what is deliberately being **changed**. Existing identity, navigation, typography, colour roles, component language and responsive shell behaviour do not reset merely because a page needs a different composition.
+
+If the available mock-up method cannot represent the inherited Revision shell with sufficient fidelity, constrain the artefact to the bounded area being changed rather than fabricating surrounding UI.
+
+A proposal that could plausibly belong to an unrelated education product fails this gate even if the local content hierarchy is otherwise strong.
+
 ## Content and design are reviewed together
 
 Do not conduct a cosmetic design pass over content that has not earned its place.
@@ -149,6 +163,8 @@ The matrix should make at least these fields explicit:
 
 The implementation PR then references that agreed journey/screen contract rather than inventing page hierarchy during coding.
 
+For an existing-surface visual change, the review output must also retain the preserve/change boundary and identify the current visual baseline that was inspected.
+
 ## Acceptance questions
 
 Before a journey increment is considered complete, ask:
@@ -157,6 +173,8 @@ Before a journey increment is considered complete, ask:
 - Can they reach useful value without unnecessary navigation or configuration?
 - Is one action clearly primary where the journey needs one?
 - Does the page look and behave like Revision without looking interchangeable with every other page?
+- If this is an existing surface, does the proposal visibly inherit the current approved Revision shell and design grammar before applying the deliberate change?
+- Can each material departure from the current visual baseline be named and justified?
 - Does content hierarchy match user priority?
 - Does REV add contextually useful intelligence rather than noise?
 - Are all material states intentional, including first-use, empty, loading, error, completed and recovery states?
@@ -166,6 +184,6 @@ Before a journey increment is considered complete, ask:
 
 ## Documentation impact
 
-This workflow operationalises `10-product-governance/Core User Journeys.md`, `20-brand-and-experience/Product UX Principles.md`, the approved Visual Brand System and the Interface System operating standard.
+This workflow operationalises `10-product-governance/Core User Journeys.md`, `20-brand-and-experience/Product UX Principles.md`, the approved Visual Brand System, `Existing Surface Visual Baseline Gate.md` and the Interface System operating standard.
 
 When a journey review discovers that the product should behave differently, amend the relevant normative authority in the same governed change before or with implementation. When only implementation is being aligned to existing authority, update code, assurance and technical documentation without rewriting historical audit evidence.
