@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { topicKnowledgeLabel } from '../engine/knowledge/topic-knowledge'
 import { createSupabaseEvidenceStore, loadLearningEvidence, recordLearningEvidence } from '../services/progress/learning-evidence-service'
@@ -10,6 +11,7 @@ import {
 } from '../services/planning/course-exam-date-service'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
+import { LearnReadingWorkspace } from './LearnReadingWorkspace'
 import {
   availableCourseSections,
   availablePaperSections,
@@ -35,9 +37,13 @@ type CourseExperienceScreenProps = {
   courseId: string
   moduleId?: string | null
   section: CourseSection | PaperSection
+  learnPageId?: string | null
+  practiceTopicId?: string | null
   onOpenCourses: () => void
   onOpenCourseSection: (courseId: string, section: CourseSection) => void
   onOpenModuleSection: (courseId: string, moduleId: string, section: PaperSection) => void
+  onOpenLearnPage: (pageId: string) => void
+  onOpenPracticeTopic: (topicId: string) => void
   onOpenRev: (draft?: string) => void
 }
 
@@ -124,6 +130,16 @@ function findNextCourseExam(
   }) ?? null
 }
 
+function withPreferredTopic(adapter: LearningContentAdapter, topicId?: string | null): LearningContentAdapter {
+  if (!topicId) return adapter
+  const preferred = adapter.getTopic(topicId)
+  if (!preferred) return adapter
+  return {
+    ...adapter,
+    listTopics: () => [preferred, ...adapter.listTopics().filter((topic) => topic.id !== topicId)],
+  }
+}
+
 function ProgressSummary({ state, label }: { state: ModuleLearningState; label: string }) {
   return (
     <div className="progress-overview">
@@ -185,9 +201,13 @@ export function CourseExperienceScreen({
   courseId,
   moduleId,
   section: requestedSection,
+  learnPageId,
+  practiceTopicId,
   onOpenCourses,
   onOpenCourseSection,
   onOpenModuleSection,
+  onOpenLearnPage,
+  onOpenPracticeTopic,
   onOpenRev,
 }: CourseExperienceScreenProps) {
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
@@ -287,6 +307,7 @@ export function CourseExperienceScreen({
     const sections = availableCourseSections(course)
     const section = sections.includes(requestedSection as CourseSection) ? requestedSection as CourseSection : 'overview'
     const adapter = course.learningAdapter
+    const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
     const topics = adapter.listTopics()
     const recommendation = state.recommendation
     const recommendationTopic = state.recommendationTopic
@@ -333,9 +354,9 @@ export function CourseExperienceScreen({
           </section>
         </div>}
 
-        {section === 'learn' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="learn" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('practice') && <div className="cross-section-next"><div><strong>Ready to test it?</strong><span>Move into Practice without creating a duplicate paper-level syllabus.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'practice')}>Go to Practice</Button></div>}</div>}
+        {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
 
-        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="practice" recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
+        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
         {section === 'exam-prep' && <div className="paper-section-content">
           <FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />
@@ -380,6 +401,7 @@ export function CourseExperienceScreen({
   if (!adapter) {
     return <main className="dashboard page-screen"><Status tone="warning">This component is not available within {label}.</Status><Button onClick={() => onOpenCourseSection(course.id, 'overview')}>Back to course</Button></main>
   }
+  const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
   const state = createModuleLearningState(adapter, evidence)
   const sections = availablePaperSections(adapter)
   const section = sections.includes(requestedSection as PaperSection) ? requestedSection as PaperSection : 'overview'
@@ -394,8 +416,8 @@ export function CourseExperienceScreen({
       <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
       {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
-      {section === 'learn' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="learn" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} /></div>}
-      {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} /></div>}
+      {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
+      {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} /></div>}
       {section === 'exam-prep' && <div className="paper-section-content"><FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={recommendation?.activity === 'exam-question' ? recommendation : null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} />{adapter.listExams().map((exam) => <section className="exam-simulator-section" aria-label={`${adapter.manifest.paper.name} simulator`} key={exam.id}><ExamSimulator exam={exam} moduleId={adapter.manifest.id} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} /></section>)}</div>}
       {section === 'progress' && <div className="paper-section-content"><ProgressSummary state={state} label="Component readiness" /></div>}
     </main>
