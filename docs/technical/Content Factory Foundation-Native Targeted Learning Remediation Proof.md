@@ -31,10 +31,12 @@ The retained assurance proof contains 20 open findings across 17 target records.
 The trigger requires exact identities for:
 
 - the successful retained generation run, artifact and implementation SHA;
-- the successful retained assurance run, artifact and implementation SHA; and
+- the completed retained assurance run whose exact semantic result is `fail_hold`, together with its artifact and implementation SHA; and
 - the exact Foundation fingerprint.
 
-The workflow fails closed unless both retained run/artifact identities are successful, unexpired, digest-bound and exact-head matches.
+The retained assurance workflow deliberately exits non-zero when independent semantic assurance returns `fail_hold`. Therefore retained assurance run `35836291040` has GitHub conclusion `failure` while still carrying the valid uploaded `fail_hold` evidence that creates the remediation target set. The remediation proof binds this exact state fail-closed: it requires the generation run to conclude `success`, the bound assurance run to be `completed` with conclusion `failure`, and the downloaded assurance artifact itself to prove `status=fail_hold`, deterministic assurance `pass`, independent review `fail_hold`, exact lineage and non-publication state. It does not accept an arbitrary failed assurance run.
+
+The workflow fails closed unless the generation and assurance run/artifact identities match those exact expected states, are unexpired, digest-bound and exact-head matches.
 
 ## Transitive Foundation lineage
 
@@ -123,4 +125,6 @@ Learner publication still requires both fresh asset assurance PASS and qualified
 
 This proof runner implements the already-governed smallest-safe-scope remediation and fresh re-assurance sequence. It does not change normative product/workflow authority and does not require a new ADR.
 
-Historical generation and assurance artifacts remain immutable. The first paid remediation execution must occur only after this workflow implementation is separately approved, merged and confirmed Live.
+Historical generation and assurance artifacts remain immutable. Remediation proof run `35994489923` remains historical evidence of the pre-provider identity-check defect: it stopped before remediation because the runner incorrectly expected a `success` GitHub conclusion for a retained semantic `fail_hold`. The correction records the actual fail-closed run/artifact relationship rather than changing the earlier assurance result.
+
+A provider-spend remediation execution must occur only from an approved, merged and confirmed-Live proof runner.
