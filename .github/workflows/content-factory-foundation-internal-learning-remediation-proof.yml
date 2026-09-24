@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       assurance_run_id:
-        description: Successful retained internal Learn/Practice assurance run ID
+        description: Completed retained internal Learn/Practice fail-hold assurance run ID
         required: true
         type: string
       assurance_artifact_id:
@@ -105,7 +105,9 @@ jobs:
           assurance_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${ASSURANCE_RUN_ID}")"
           test "$(jq -r '.name' <<<"${assurance_run_json}")" = 'Content Factory Foundation Internal Learning Assurance Proof'
           test "$(jq -r '.status' <<<"${assurance_run_json}")" = 'completed'
-          test "$(jq -r '.conclusion' <<<"${assurance_run_json}")" = 'success'
+          # The retained semantic result is fail_hold, so the assurance workflow intentionally exits non-zero.
+          # Requiring an exact failure here preserves the fail-closed binding instead of accepting arbitrary conclusions.
+          test "$(jq -r '.conclusion' <<<"${assurance_run_json}")" = 'failure'
           test "$(jq -r '.head_branch' <<<"${assurance_run_json}")" = 'main'
           test "$(jq -r '.head_sha' <<<"${assurance_run_json}")" = "${ASSURANCE_HEAD_SHA}"
 
