@@ -1,3 +1,4 @@
+import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
   availablePaperSections,
@@ -56,11 +57,70 @@ function SectionLinks({
             key={section}
             className="runtime-context-nav-item runtime-context-nav-section"
             aria-label={`${contextLabel} ${label}`}
-            aria-current={active ? 'page' : undefined}
+            aria-current={active && section !== 'learn' ? 'page' : undefined}
             onClick={() => onNavigate(destination(section))}
           >
             <span>{label}</span>
           </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function LearnTree({
+  adapter,
+  route,
+  onNavigate,
+  destination,
+}: {
+  adapter: LearningContentAdapter
+  route: AppRoute
+  onNavigate: (route: AppRoute) => void
+  destination: (pageId: string) => AppRoute
+}) {
+  if ((route.kind !== 'course' && route.kind !== 'module') || route.section !== 'learn') return null
+  const chapters = adapter.listLearnChapters()
+  const firstPage = chapters[0]?.groups[0]?.pages[0]
+  const activePageId = route.learnPageId ?? firstPage?.id ?? null
+  const activeChapter = chapters.find((chapter) => chapter.groups.some((group) => group.pages.some((page) => page.id === activePageId))) ?? chapters[0]
+
+  return (
+    <div className="runtime-context-nav-level runtime-context-nav-learn" aria-label="Learn contents">
+      {chapters.map((chapter) => {
+        const chapterActive = chapter.id === activeChapter?.id
+        const chapterFirstPage = chapter.groups[0]?.pages[0]
+        return (
+          <div className="runtime-context-nav-node runtime-context-nav-learn-chapter" key={chapter.id}>
+            <button
+              className="runtime-context-nav-item runtime-context-nav-learn-chapter-button"
+              aria-expanded={chapterActive}
+              onClick={() => chapterFirstPage && onNavigate(destination(chapterFirstPage.id))}
+            >
+              <span>{chapter.title}</span>
+            </button>
+            {chapterActive && (
+              <div className="runtime-context-nav-level runtime-context-nav-learn-groups">
+                {chapter.groups.map((group) => (
+                  <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
+                    <span className="runtime-context-nav-group-label">{group.title}</span>
+                    <div className="runtime-context-nav-level runtime-context-nav-learn-pages">
+                      {group.pages.map((page) => (
+                        <button
+                          key={page.id}
+                          className="runtime-context-nav-item runtime-context-nav-learn-page"
+                          aria-current={page.id === activePageId ? 'page' : undefined}
+                          onClick={() => onNavigate(destination(page.id))}
+                        >
+                          <span>{page.title}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         )
       })}
     </div>
@@ -96,13 +156,21 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                   <span>{label}</span>
                 </button>
                 {selected && route.kind === 'course' && (
-                  <SectionLinks
-                    route={route}
-                    sections={availableCourseSections(course)}
-                    contextLabel={label}
-                    onNavigate={onNavigate}
-                    destination={(section) => learnerCourseRoute(course.id, section as CourseSection)}
-                  />
+                  <>
+                    <SectionLinks
+                      route={route}
+                      sections={availableCourseSections(course)}
+                      contextLabel={label}
+                      onNavigate={onNavigate}
+                      destination={(section) => learnerCourseRoute(course.id, section as CourseSection)}
+                    />
+                    <LearnTree
+                      adapter={course.learningAdapter}
+                      route={route}
+                      onNavigate={onNavigate}
+                      destination={(pageId) => learnerCourseRoute(course.id, 'learn', { learnPageId: pageId })}
+                    />
+                  </>
                 )}
               </div>
             )
@@ -131,14 +199,22 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                         >
                           <span>{module.manifest.paper.name}</span>
                         </button>
-                        {moduleSelected && (
-                          <SectionLinks
-                            route={route}
-                            sections={availablePaperSections(module)}
-                            contextLabel={`${label} ${module.manifest.paper.name}`}
-                            onNavigate={onNavigate}
-                            destination={(section) => learnerModuleRoute(course.id, module.manifest.id, section as PaperSection)}
-                          />
+                        {moduleSelected && route.kind === 'module' && (
+                          <>
+                            <SectionLinks
+                              route={route}
+                              sections={availablePaperSections(module)}
+                              contextLabel={`${label} ${module.manifest.paper.name}`}
+                              onNavigate={onNavigate}
+                              destination={(section) => learnerModuleRoute(course.id, module.manifest.id, section as PaperSection)}
+                            />
+                            <LearnTree
+                              adapter={module}
+                              route={route}
+                              onNavigate={onNavigate}
+                              destination={(pageId) => learnerModuleRoute(course.id, module.manifest.id, 'learn', { learnPageId: pageId })}
+                            />
+                          </>
                         )}
                       </div>
                     )
