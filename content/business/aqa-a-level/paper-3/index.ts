@@ -1,6 +1,7 @@
 import { contentPackSchema } from '../../../schema'
 import { manifest } from './manifest'
 import { topics } from '../shared/topics'
+import { learn } from '../shared/learn'
 import { formulas, topicLinks } from '../shared/learning'
 import { flashcards } from '../shared/flashcards'
 import { questions } from '../shared/questions'
@@ -13,6 +14,7 @@ import { exams } from './exam'
 export const businessAqaALevel7132Paper3 = contentPackSchema.parse({
   manifest,
   topics,
+  learn,
   formulas,
   topicLinks,
   flashcards,
