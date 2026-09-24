@@ -9,7 +9,7 @@ Define the Foundation-native Learn/Practice production and assurance boundary af
 
 This runtime is pre-production only. It creates Revision-owned Learn and Practice material from an exact Foundation, retains deterministic planning and provider provenance, independently challenges generated content in fresh contexts and keeps learner publication blocked until all existing release gates are satisfied.
 
-Detailed Learn evidence-binding remediation history is retained in `Content Factory Foundation Learn Evidence Binding Remediation.md`. Atomic obligation rules are retained in `Content Factory Foundation-Native Atomic Learning Obligations.md`.
+Detailed Learn evidence-binding remediation history is retained in `Content Factory Foundation Learn Evidence Binding Remediation.md`. Atomic obligation rules are retained in `Content Factory Foundation-Native Atomic Learning Obligations.md`. Targeted asset-local remediation and corrected-bundle re-assurance are retained in `Content Factory Foundation-Native Targeted Learning Remediation Proof.md`.
 
 ## Inputs and Foundation binding
 
@@ -140,7 +140,7 @@ Atomic Practice obligations must resolve to active `prompt` or `expectedResponse
 
 The generic/base provider stack and Foundation-v2 learning stack remain separate provider-client families. A factory instance must not silently split one configured spend ceiling across multiple independent Foundation clients.
 
-Both Learn v9 stages and Practice v5 use the Foundation-specific provider client and therefore share the same configured hard generation spend ledger. The current live workflow ceiling remains `$12`.
+Both Learn v9 stages and Practice v5 use the Foundation-specific provider client and therefore share the same configured hard generation spend ledger. The current live generation/remediation/review proof ceilings remain `$12` per independently configured proof client.
 
 ## Generation and retained evidence
 
@@ -160,6 +160,8 @@ A retained bundle includes:
 - pending Learn/Practice derived-asset records.
 
 For Learn v9, both the content-generation context and evidence-binding context are retained. Practice v5 contributes its own generation context.
+
+A targeted remediation bundle preserves original generation contexts and adds every remediation provider context. Changed asset sides return to `pending`. Untargeted asset sides remain byte-for-byte equivalent at their structured object boundary.
 
 ## Live-proof telemetry
 
@@ -181,9 +183,11 @@ This means the v9 proof records two Learn calls and one Practice call per succes
 
 The same context set is retained in the generated bundle. Downstream assurance checks the retained generation-run context set against the bundle context set before fresh independent review.
 
+Targeted remediation retains the same per-call provenance for every regenerated asset side and records all remediation context IDs in the corrected bundle so they become forbidden to later independent reviewers.
+
 ## Foundation-native asset assurance
 
-`runFoundationInternalLearningDeterministicAssurance` and `assureFoundationInternalLearningAssets` remain the Foundation-native assurance boundary.
+`runFoundationInternalLearningDeterministicAssurance` and `assureFoundationInternalLearningAssets` remain the Foundation-native assurance boundary for original and corrected bundles.
 
 Before independent review, deterministic assurance verifies:
 
@@ -196,6 +200,8 @@ Before independent review, deterministic assurance verifies:
 
 Each work unit is then challenged in a genuinely fresh independent context. Review covers factual distortion, omitted conditions, misleading certainty, curriculum drift, pedagogy, misconceptions, expected-response correctness and quantitative consistency.
 
+For corrected-bundle re-assurance, the adapter additionally supplies all reviewer contexts from the earlier asset assurance as forbidden contexts. Because the corrected bundle itself retains both original generation and remediation contexts, the new reviewer is separated from Foundation contexts, original generation, remediation and all prior asset-review contexts.
+
 Provider evidence binding is not semantic assurance. A structurally valid v9 binding only proves that every deterministic obligation points to an existing generated field in an allowed location. The independent reviewer still decides whether that field genuinely teaches the obligation adequately and accurately.
 
 ## Retained proof history
@@ -206,39 +212,33 @@ Important retained checkpoints include:
 
 - successful legacy Business generation run `35468029336`, which produced 49 Learn + 49 Practice outputs under the historical planner;
 - fresh-context legacy asset assurance run `35504427790`, which correctly fail-held with 16 findings across 15 remediation targets and led to planner-v2/ADR-0027;
-- provider-v5 through provider-v8 Learn evidence-binding fail-holds, all of which retained zero learner assets and kept learner publication false.
+- provider-v5 through provider-v8 Learn evidence-binding fail-holds, all of which retained zero learner assets and kept learner publication false;
+- successful Blueprint-v2/provider-v9 Business generation run `35789048198`, artifact `10723573827`;
+- fresh independent assurance run `35836291040`, artifact `10739757463`, which deterministically passed but semantically `fail_hold` with 20 open findings across 17 remediation targets;
+- successful targeted remediation run `35996162981`, artifact `10806996448`, which addressed those 20 retained findings across 15 work units / 20 asset sides using 25 fresh remediation contexts, while leaving both assets pending; and
+- corrected bundle fingerprint `8452d1ef17ef56f626b2711c536083c9fce138015f90f0dde85885db15780cb9`, which is the exact input to the separate re-assurance proof.
 
-The most recent paid proof before provider v9 is run `35752632982` on implementation commit `c5d288347a50c176394efd5e7a124655dc4c83df`. It completed 36 of 37 provider calls successfully, including 18 complete Learn/Practice work units, before Learn work unit `foundation-inventory-and-supply-chains` failed closed because evidence ID `treatment_5` was omitted globally.
+The historical failed remediation run `35994489923` remains evidence of the pre-provider identity-check defect and is not reclassified after the runner correction.
 
-Retained v8 artifact:
-
-- ID `10708295095`;
-- digest `sha256:b05a337a5fbf32ea3b42d7c8296dcffb23bfbfbcfa3f2372d8b2dd9e8ff42c88`;
-- reported final-response usage cost `$1.245618`;
-- zero retries;
-- learner asset count `0`;
-- Foundation human review pending; and
-- learner publication false.
-
-Exact v5-v8 evidence, earlier proof IDs and remediation rationale are retained in `Content Factory Foundation Learn Evidence Binding Remediation.md` and the repository's historical commits. They are not reclassified under v9.
+Exact earlier provider-v5-v8 evidence and remediation rationale remain in `Content Factory Foundation Learn Evidence Binding Remediation.md` and repository history.
 
 ## Governed next sequence
 
-The current provider-v9 change must:
+The current Business Learn/Practice sequence is:
 
-1. pass exact-head Revision CI;
-2. receive explicit Founder approval for the exact PR;
-3. merge through the governed path and become confirmed Live;
-4. trigger exactly one new Business generation from the unchanged retained Foundation;
-5. run deterministic and genuinely fresh-context independent asset assurance only if that generation succeeds;
-6. remediate any remaining asset-local findings at smallest safe scope; and
-7. reopen the Foundation Candidate/version if the new evidence exposes missing or incorrect Course Truth rather than inventing truth downstream.
+1. targeted remediation capability — implemented and merged;
+2. retained targeted-remediation proof — successful on run `35996162981`;
+3. separate corrected-bundle re-assurance adapter — implemented through the governed PR process;
+4. after that adapter is approved, merged and confirmed Live, run exactly one retained re-assurance against corrected bundle fingerprint `8452d1ef17ef56f626b2711c536083c9fce138015f90f0dde85885db15780cb9`;
+5. if deterministic or semantic re-assurance reveals blocking/material asset-local findings, remediate again at the smallest safe scope and revalidate;
+6. if evidence reveals missing or incorrect Course Truth, reopen the Foundation Candidate/version instead of inventing truth downstream; and
+7. regardless of asset-assurance result, keep learner publication blocked until qualified-human `foundation_approved` exists for the exact Foundation fingerprint.
 
-Do not run asset assurance against a failed generation bundle.
+Do not broaden this slice into Exam Prep or publication.
 
 ## Release safety
 
-Pre-production generated content is not learner publication.
+Pre-production generated or corrected content is not learner publication.
 
 `assertFoundationDerivedAssetReleaseEligible` continues to require:
 
@@ -254,4 +254,4 @@ Business is the first reference proof, not evidence that the planner is generall
 
 ## Documentation impact
 
-ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner and exact provider-evidence boundary. Provider v9 is a localized implementation-contract correction inside that existing architecture. It does not change normative product/workflow authority, so no new ADR is required.
+ADR-0025 records Foundation-native generation, ADR-0026 records Foundation-native asset assurance, and ADR-0027 records the versioned Course Learning Blueprint planner and exact provider-evidence boundary. Targeted remediation and corrected-bundle re-assurance implement the already-governed remediation/revalidation rule inside that architecture. They do not change normative product/workflow authority, so no new ADR is required.
