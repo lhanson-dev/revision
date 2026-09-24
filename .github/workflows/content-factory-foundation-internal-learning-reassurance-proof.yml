@@ -1,0 +1,313 @@
+name: Content Factory Foundation Internal Learning Re-Assurance Proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      remediation_run_id:
+        description: Successful retained targeted Learn/Practice remediation run ID
+        required: true
+        type: string
+      remediation_artifact_id:
+        description: Retained targeted remediation artifact ID
+        required: true
+        type: string
+      remediation_head_sha:
+        description: Exact approved-main SHA that executed retained targeted remediation
+        required: true
+        type: string
+      foundation_fingerprint:
+        description: Exact AI-assured Foundation fingerprint bound to the corrected bundle
+        required: true
+        type: string
+      result_bundle_fingerprint:
+        description: Exact corrected bundle fingerprint retained by the remediation proof
+        required: true
+        type: string
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: content-factory-foundation-internal-learning-reassurance-proof
+  cancel-in-progress: false
+
+jobs:
+  foundation-internal-learning-reassurance-proof:
+    name: Re-assure corrected internal Learn and Practice assets
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       startsWith(github.event.comment.body, 'revision-run-foundation-internal-learning-reassurance-proof:v1'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact approved-main event SHA
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Resolve exact retained re-assurance proof identity
+        env:
+          REVISION_TRIGGER_MARKER: revision-run-foundation-internal-learning-reassurance-proof:v1
+          REVISION_TRIGGER_BODY: ${{ github.event.comment.body || '' }}
+          REVISION_INPUT_REMEDIATION_RUN_ID: ${{ inputs.remediation_run_id || '' }}
+          REVISION_INPUT_REMEDIATION_ARTIFACT_ID: ${{ inputs.remediation_artifact_id || '' }}
+          REVISION_INPUT_REMEDIATION_HEAD_SHA: ${{ inputs.remediation_head_sha || '' }}
+          REVISION_INPUT_FOUNDATION_FINGERPRINT: ${{ inputs.foundation_fingerprint || '' }}
+          REVISION_INPUT_RESULT_BUNDLE_FINGERPRINT: ${{ inputs.result_bundle_fingerprint || '' }}
+        run: node scripts/assurance/foundation-internal-learning-reassurance-proof-trigger.mjs
+
+      - name: Verify exact retained remediation identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          remediation_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${REMEDIATION_RUN_ID}")"
+          test "$(jq -r '.name' <<<"${remediation_run_json}")" = 'Content Factory Foundation Internal Learning Remediation Proof'
+          test "$(jq -r '.status' <<<"${remediation_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${remediation_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${remediation_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${remediation_run_json}")" = "${REMEDIATION_HEAD_SHA}"
+
+          remediation_artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${REMEDIATION_ARTIFACT_ID}")"
+          remediation_expected_name="content-factory-foundation-internal-learning-remediation-proof-${REMEDIATION_HEAD_SHA}"
+          remediation_name="$(jq -r '.name' <<<"${remediation_artifact_json}")"
+          remediation_digest="$(jq -r '.digest' <<<"${remediation_artifact_json}")"
+          test "${remediation_name}" = "${remediation_expected_name}"
+          test "$(jq -r '.workflow_run.id' <<<"${remediation_artifact_json}")" = "${REMEDIATION_RUN_ID}"
+          test "$(jq -r '.workflow_run.head_sha' <<<"${remediation_artifact_json}")" = "${REMEDIATION_HEAD_SHA}"
+          test "$(jq -r '.expired' <<<"${remediation_artifact_json}")" = 'false'
+          test -n "${remediation_digest}"
+          test "${remediation_digest}" != 'null'
+
+          echo "REMEDIATION_ARTIFACT_NAME=${remediation_name}" >> "${GITHUB_ENV}"
+          echo "REMEDIATION_ARTIFACT_DIGEST=${remediation_digest}" >> "${GITHUB_ENV}"
+
+      - name: Download corrected bundle and derive exact upstream lineage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          remediation_dir='.artifacts/content-factory-foundation-reassurance-remediation'
+          source_dir='.artifacts/content-factory-foundation-reassurance-foundation-source'
+          ai_dir='.artifacts/content-factory-foundation-reassurance-ai-source'
+          learning_dir='.artifacts/content-factory-foundation-reassurance-learning-source'
+          assurance_dir='.artifacts/content-factory-foundation-reassurance-assurance-source'
+          mkdir -p "${remediation_dir}" "${source_dir}" "${ai_dir}" "${learning_dir}" "${assurance_dir}"
+
+          gh run download "${REMEDIATION_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --name "${REMEDIATION_ARTIFACT_NAME}" --dir "${remediation_dir}"
+
+          remediation_proof_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_internal_learning_remediation_live_proof_evidence" and .status == "pass"' "${file}" >/dev/null; then
+              test -z "${remediation_proof_path}"
+              remediation_proof_path="${file}"
+            fi
+          done < <(find "${remediation_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          test -n "${remediation_proof_path}"
+
+          test "$(jq -r '.remediationImplementationCommit' "${remediation_proof_path}")" = "${REMEDIATION_HEAD_SHA}"
+          test "$(jq -r '.foundationFingerprint' "${remediation_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.resultBundleFingerprint' "${remediation_proof_path}")" = "${RESULT_BUNDLE_FINGERPRINT}"
+          test "$(jq -r '.remediationRecord.resultBundleFingerprint' "${remediation_proof_path}")" = "${RESULT_BUNDLE_FINGERPRINT}"
+          test "$(jq -r '.addressedFindingCount > 0' "${remediation_proof_path}")" = 'true'
+          test "$(jq -r '.remediationContextCount > 0' "${remediation_proof_path}")" = 'true'
+          test "$(jq -r '.remediationContextCollisions | length' "${remediation_proof_path}")" = '0'
+          test "$(jq -r '.learnAssetStatus' "${remediation_proof_path}")" = 'pending'
+          test "$(jq -r '.practiceAssetStatus' "${remediation_proof_path}")" = 'pending'
+          test "$(jq -r '.assuredAssetCount' "${remediation_proof_path}")" = '0'
+          test "$(jq -r '.foundationApprovalStatus' "${remediation_proof_path}")" = 'not_approved'
+          test "$(jq -r '.learnerPublicationEligible' "${remediation_proof_path}")" = 'false'
+
+          source_run_id="$(jq -r '.sourceProof.workflowRunId' "${remediation_proof_path}")"
+          source_artifact_name="$(jq -r '.sourceProof.artifactName' "${remediation_proof_path}")"
+          source_artifact_digest="$(jq -r '.sourceProof.artifactDigest' "${remediation_proof_path}")"
+          source_head_sha="$(jq -r '.sourceProof.contentHeadSha' "${remediation_proof_path}")"
+          ai_run_id="$(jq -r '.aiAssuredProof.workflowRunId' "${remediation_proof_path}")"
+          ai_artifact_name="$(jq -r '.aiAssuredProof.artifactName' "${remediation_proof_path}")"
+          ai_artifact_digest="$(jq -r '.aiAssuredProof.artifactDigest' "${remediation_proof_path}")"
+          ai_head_sha="$(jq -r '.aiAssuredProof.headSha' "${remediation_proof_path}")"
+          learning_run_id="$(jq -r '.sourceLearningProof.workflowRunId' "${remediation_proof_path}")"
+          learning_artifact_name="$(jq -r '.sourceLearningProof.artifactName' "${remediation_proof_path}")"
+          learning_artifact_digest="$(jq -r '.sourceLearningProof.artifactDigest' "${remediation_proof_path}")"
+          learning_head_sha="$(jq -r '.sourceLearningProof.headSha' "${remediation_proof_path}")"
+          learning_bundle_fingerprint="$(jq -r '.sourceLearningProof.sourceBundleFingerprint' "${remediation_proof_path}")"
+          assurance_run_id="$(jq -r '.sourceAssuranceProof.workflowRunId' "${remediation_proof_path}")"
+          assurance_artifact_name="$(jq -r '.sourceAssuranceProof.artifactName' "${remediation_proof_path}")"
+          assurance_artifact_digest="$(jq -r '.sourceAssuranceProof.artifactDigest' "${remediation_proof_path}")"
+          assurance_head_sha="$(jq -r '.sourceAssuranceProof.headSha' "${remediation_proof_path}")"
+          assurance_review_fingerprint="$(jq -r '.sourceAssuranceProof.reviewFingerprint' "${remediation_proof_path}")"
+
+          source_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${source_run_id}")"
+          test "$(jq -r '.name' <<<"${source_run_json}")" = 'Content Factory Foundation Live Proof'
+          test "$(jq -r '.status' <<<"${source_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${source_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${source_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${source_run_json}")" = "${source_head_sha}"
+
+          ai_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${ai_run_id}")"
+          test "$(jq -r '.name' <<<"${ai_run_json}")" = 'Content Factory Foundation AI-Assured Proof'
+          test "$(jq -r '.status' <<<"${ai_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${ai_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${ai_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${ai_run_json}")" = "${ai_head_sha}"
+
+          learning_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${learning_run_id}")"
+          test "$(jq -r '.name' <<<"${learning_run_json}")" = 'Content Factory Foundation Internal Learning Proof'
+          test "$(jq -r '.status' <<<"${learning_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${learning_run_json}")" = 'success'
+          test "$(jq -r '.head_branch' <<<"${learning_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${learning_run_json}")" = "${learning_head_sha}"
+
+          assurance_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${assurance_run_id}")"
+          test "$(jq -r '.name' <<<"${assurance_run_json}")" = 'Content Factory Foundation Internal Learning Assurance Proof'
+          test "$(jq -r '.status' <<<"${assurance_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${assurance_run_json}")" = 'failure'
+          test "$(jq -r '.head_branch' <<<"${assurance_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${assurance_run_json}")" = "${assurance_head_sha}"
+
+          verify_artifact() {
+            local run_id="$1" name="$2" digest="$3" head_sha="$4"
+            local artifacts_json
+            artifacts_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts")"
+            test "$(jq --arg name "${name}" '[.artifacts[] | select(.name == $name)] | length' <<<"${artifacts_json}")" = '1'
+            test "$(jq -r --arg name "${name}" '.artifacts[] | select(.name == $name) | .digest' <<<"${artifacts_json}")" = "${digest}"
+            test "$(jq -r --arg name "${name}" '.artifacts[] | select(.name == $name) | .expired' <<<"${artifacts_json}")" = 'false'
+            test "$(jq -r --arg name "${name}" '.artifacts[] | select(.name == $name) | .workflow_run.head_sha' <<<"${artifacts_json}")" = "${head_sha}"
+          }
+          verify_artifact "${source_run_id}" "${source_artifact_name}" "${source_artifact_digest}" "${source_head_sha}"
+          verify_artifact "${ai_run_id}" "${ai_artifact_name}" "${ai_artifact_digest}" "${ai_head_sha}"
+          verify_artifact "${learning_run_id}" "${learning_artifact_name}" "${learning_artifact_digest}" "${learning_head_sha}"
+          verify_artifact "${assurance_run_id}" "${assurance_artifact_name}" "${assurance_artifact_digest}" "${assurance_head_sha}"
+
+          gh run download "${source_run_id}" --repo "${GITHUB_REPOSITORY}" --name "${source_artifact_name}" --dir "${source_dir}"
+          gh run download "${ai_run_id}" --repo "${GITHUB_REPOSITORY}" --name "${ai_artifact_name}" --dir "${ai_dir}"
+          gh run download "${learning_run_id}" --repo "${GITHUB_REPOSITORY}" --name "${learning_artifact_name}" --dir "${learning_dir}"
+          gh run download "${assurance_run_id}" --repo "${GITHUB_REPOSITORY}" --name "${assurance_artifact_name}" --dir "${assurance_dir}"
+
+          source_proof_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_live_real_course_proof_evidence"' "${file}" >/dev/null; then
+              test -z "${source_proof_path}"
+              source_proof_path="${file}"
+            fi
+          done < <(find "${source_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          ai_proof_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_real_course_ai_assured_proof_evidence"' "${file}" >/dev/null; then
+              test -z "${ai_proof_path}"
+              ai_proof_path="${file}"
+            fi
+          done < <(find "${ai_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          learning_proof_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_internal_learning_live_proof_evidence" and .status == "pass"' "${file}" >/dev/null; then
+              test -z "${learning_proof_path}"
+              learning_proof_path="${file}"
+            fi
+          done < <(find "${learning_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          assurance_proof_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_internal_learning_assurance_live_proof_evidence" and .status == "fail_hold"' "${file}" >/dev/null; then
+              test -z "${assurance_proof_path}"
+              assurance_proof_path="${file}"
+            fi
+          done < <(find "${assurance_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          test -n "${source_proof_path}"
+          test -n "${ai_proof_path}"
+          test -n "${learning_proof_path}"
+          test -n "${assurance_proof_path}"
+
+          test "$(jq -r '.contentHeadSha' "${source_proof_path}")" = "${source_head_sha}"
+          test "$(jq -r '.foundationFingerprint' "${source_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.learnerAssetCount' "${source_proof_path}")" = '0'
+          test "$(jq -r '.challengeImplementationCommit' "${ai_proof_path}")" = "${ai_head_sha}"
+          test "$(jq -r '.reviewedCommit' "${ai_proof_path}")" = "${source_head_sha}"
+          test "$(jq -r '.foundationFingerprint' "${ai_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.finalState' "${ai_proof_path}")" = 'ai_assured'
+          test "$(jq -r '.foundationApprovalStatus' "${ai_proof_path}")" = 'not_approved'
+          test "$(jq -r '.learnerPublicationEligible' "${ai_proof_path}")" = 'false'
+          test "$(jq -r '.generationImplementationCommit' "${learning_proof_path}")" = "${learning_head_sha}"
+          test "$(jq -r '.foundationFingerprint' "${learning_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.learnAssetStatus' "${learning_proof_path}")" = 'pending'
+          test "$(jq -r '.practiceAssetStatus' "${learning_proof_path}")" = 'pending'
+          test "$(jq -r '.assuranceImplementationCommit' "${assurance_proof_path}")" = "${assurance_head_sha}"
+          test "$(jq -r '.foundationFingerprint' "${assurance_proof_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.deterministicAssurance.decision' "${assurance_proof_path}")" = 'pass'
+          test "$(jq -r '.independentReview.decision' "${assurance_proof_path}")" = 'fail_hold'
+          test "$(jq -r '.independentReview.reviewerContextIds | length > 0' "${assurance_proof_path}")" = 'true'
+          test "$(jq -r '.internalLearningProof.sourceBundleFingerprint' "${assurance_proof_path}")" = "${learning_bundle_fingerprint}"
+          test "$(jq -r '.foundationApprovalStatus' "${assurance_proof_path}")" = 'not_approved'
+          test "$(jq -r '.learnerPublicationEligible' "${assurance_proof_path}")" = 'false'
+
+          echo "SOURCE_PROOF_PATH=${source_proof_path}" >> "${GITHUB_ENV}"
+          echo "AI_ASSURED_PROOF_PATH=${ai_proof_path}" >> "${GITHUB_ENV}"
+          echo "LEARNING_PROOF_PATH=${learning_proof_path}" >> "${GITHUB_ENV}"
+          echo "ASSURANCE_PROOF_PATH=${assurance_proof_path}" >> "${GITHUB_ENV}"
+          echo "REMEDIATION_PROOF_PATH=${remediation_proof_path}" >> "${GITHUB_ENV}"
+          echo "SOURCE_LEARNING_RUN_ID=${learning_run_id}" >> "${GITHUB_ENV}"
+          echo "SOURCE_LEARNING_ARTIFACT_NAME=${learning_artifact_name}" >> "${GITHUB_ENV}"
+          echo "SOURCE_LEARNING_ARTIFACT_DIGEST=${learning_artifact_digest}" >> "${GITHUB_ENV}"
+          echo "SOURCE_LEARNING_HEAD_SHA=${learning_head_sha}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ASSURANCE_RUN_ID=${assurance_run_id}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ASSURANCE_ARTIFACT_NAME=${assurance_artifact_name}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ASSURANCE_ARTIFACT_DIGEST=${assurance_artifact_digest}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ASSURANCE_HEAD_SHA=${assurance_head_sha}" >> "${GITHUB_ENV}"
+          echo "SOURCE_ASSURANCE_REVIEW_FINGERPRINT=${assurance_review_fingerprint}" >> "${GITHUB_ENV}"
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Deterministically validate and freshly re-assure corrected assets
+        env:
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REASSURANCE_PROOF: '1'
+          CONTENT_FACTORY_FOUNDATION_SOURCE_PROOF_PATH: ${{ env.SOURCE_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_AI_ASSURED_PROOF_PATH: ${{ env.AI_ASSURED_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_PROOF_PATH: ${{ env.LEARNING_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_ASSURANCE_PROOF_PATH: ${{ env.ASSURANCE_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_PROOF_PATH: ${{ env.REMEDIATION_PROOF_PATH }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_RUN_ID: ${{ env.REMEDIATION_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_ARTIFACT_NAME: ${{ env.REMEDIATION_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_ARTIFACT_DIGEST: ${{ env.REMEDIATION_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_HEAD_SHA: ${{ env.REMEDIATION_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_RESULT_BUNDLE_FINGERPRINT: ${{ env.RESULT_BUNDLE_FINGERPRINT }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_RUN_ID: ${{ env.SOURCE_LEARNING_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ARTIFACT_NAME: ${{ env.SOURCE_LEARNING_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ARTIFACT_DIGEST: ${{ env.SOURCE_LEARNING_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_HEAD_SHA: ${{ env.SOURCE_LEARNING_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ASSURANCE_RUN_ID: ${{ env.SOURCE_ASSURANCE_RUN_ID }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ASSURANCE_ARTIFACT_NAME: ${{ env.SOURCE_ASSURANCE_ARTIFACT_NAME }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ASSURANCE_ARTIFACT_DIGEST: ${{ env.SOURCE_ASSURANCE_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_SOURCE_ASSURANCE_HEAD_SHA: ${{ env.SOURCE_ASSURANCE_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_REASSURANCE_IMPLEMENTATION_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_REASSURANCE_MAX_SPEND_USD: '12'
+          CONTENT_FACTORY_REASSURANCE_MAX_OUTPUT_TOKENS: '5000'
+          CONTENT_FACTORY_REASSURANCE_MODEL: gpt-5.6-terra
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx vitest run src/content-factory/foundation-internal-learning-reassurance-live-proof.integration.test.ts --reporter=verbose
+
+      - name: Upload retained corrected learning re-assurance proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-foundation-internal-learning-reassurance-proof-${{ github.sha }}
+          path: .artifacts/content-factory-foundation-internal-learning-reassurance-proof/
+          if-no-files-found: error
+          retention-days: 30
