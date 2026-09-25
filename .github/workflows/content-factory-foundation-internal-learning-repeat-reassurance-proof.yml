@@ -239,6 +239,7 @@ jobs:
 
       - name: Deterministically validate and freshly re-assure latest corrected assets
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REPEAT_REASSURANCE_PROOF: '1'
           CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REMEDIATION_RUN_ID: ${{ env.REMEDIATION_RUN_ID }}

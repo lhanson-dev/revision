@@ -254,6 +254,7 @@ jobs:
 
       - name: Targetedly remediate latest re-assurance findings
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REPEAT_REMEDIATION_PROOF: '1'
           CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REASSURANCE_RUN_ID: ${{ env.REASSURANCE_RUN_ID }}
