@@ -11,19 +11,6 @@ const identity = {
 }
 
 describe('Foundation internal learning review contract', () => {
-  it('deterministically injects system-owned provenance when the provider returns judgement only', () => {
-    const schema = foundationInternalLearningBoundReviewOutputSchema(identity)
-    const judgement = {
-      decision: 'pass' as const,
-      findings: [],
-    }
-
-    expect(schema.parse(judgement)).toEqual({
-      ...identity,
-      ...judgement,
-    })
-  })
-
   it('overwrites provider-supplied identity rather than trusting model-authored provenance', () => {
     const schema = foundationInternalLearningBoundReviewOutputSchema(identity)
     const parsed = schema.parse({
@@ -36,19 +23,19 @@ describe('Foundation internal learning review contract', () => {
       findings: [],
     })
 
-    expect(parsed.foundationFingerprint).toBe(identity.foundationFingerprint)
-    expect(parsed.foundationCandidateId).toBe(identity.foundationCandidateId)
-    expect(parsed.sourceBundleFingerprint).toBe(identity.sourceBundleFingerprint)
-    expect(parsed.workUnitId).toBe(identity.workUnitId)
-    expect(parsed.workUnitFingerprint).toBe(identity.workUnitFingerprint)
+    expect(parsed).toEqual({
+      ...identity,
+      decision: 'pass',
+      findings: [],
+    })
   })
 
-  it('keeps provider-facing identity optional while retaining exact system defaults', () => {
+  it('keeps the established provider-facing identity shape without exact literal constraints', () => {
     const jsonSchema = z.toJSONSchema(
       foundationInternalLearningBoundReviewOutputSchema(identity),
     ) as {
       required?: string[]
-      properties?: Record<string, { default?: unknown }>
+      properties?: Record<string, { const?: unknown; type?: unknown }>
     }
 
     for (const field of [
@@ -58,14 +45,10 @@ describe('Foundation internal learning review contract', () => {
       'workUnitId',
       'workUnitFingerprint',
     ]) {
-      expect(jsonSchema.required ?? []).not.toContain(field)
+      expect(jsonSchema.required ?? []).toContain(field)
+      expect(jsonSchema.properties?.[field]?.type).toBe('string')
+      expect(jsonSchema.properties?.[field]?.const).toBeUndefined()
     }
-
-    expect(jsonSchema.properties?.foundationFingerprint?.default).toBe(identity.foundationFingerprint)
-    expect(jsonSchema.properties?.foundationCandidateId?.default).toBe(identity.foundationCandidateId)
-    expect(jsonSchema.properties?.sourceBundleFingerprint?.default).toBe(identity.sourceBundleFingerprint)
-    expect(jsonSchema.properties?.workUnitId?.default).toBe(identity.workUnitId)
-    expect(jsonSchema.properties?.workUnitFingerprint?.default).toBe(identity.workUnitFingerprint)
   })
 
   it('still validates the system-supplied identity before constructing the provider contract', () => {
