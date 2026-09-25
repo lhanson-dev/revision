@@ -159,7 +159,7 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
-  if (state === 'learn') await expect(page.locator('.focused-learn')).toBeVisible()
+  if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.focused-exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
