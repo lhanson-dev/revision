@@ -150,6 +150,8 @@ After that correction reached Live, v2 re-assurance workflow run `36134527993` a
 
 The original cycle 2 remediation artifact `10854463735` from run `36115708856` retains `sourceReassuranceProof.reviewFingerprint` as `9f7ed5af13c2be07dba670c4f99e6a4ea4cc2ee7711b00f092572ab061b9461c`, exactly matching the remediation record's source-review fingerprint. The recovery schema now requires and preserves that field and the recovery proof checks the two retained values agree before re-attestation. A normal CI regression test proves the identity parser does not discard the fingerprint. This does not alter learner content or regenerate the corrected bundle. The safe replay remains: zero-provider recovery from the original retained remediation artifact, followed by one genuinely fresh v2 re-assurance after the corrected runner is approved, merged and Live.
 
+After PR #387 reached Live, zero-provider recovery workflow run `36138862001` revalidated the exact original failed remediation run and artifact, then failed inside the local re-attestation test before writing a recovered artifact. The pass evidence contained the required review fingerprint, but the companion historical failure evidence from the original proof run predated that field and therefore legitimately omitted it. No provider or model call was available on the recovery path. The compatibility correction keeps `reviewFingerprint` mandatory on the pass evidence and still requires it to equal `remediationRecord.sourceReviewFingerprint`; only the historical failure-evidence parser accepts the older identity shape and compares the common retained source-reassurance fields. This preserves the stronger pass-evidence provenance check without rewriting historical evidence or manufacturing a field that was never recorded.
+
 ## Provider and spend boundary
 
 Repeat remediation retains the existing remediation provider contract:
@@ -166,7 +168,7 @@ Repeat re-assurance retains the existing review contract:
 - hard provider spend ceiling `$12`;
 - provider retries maximum `2`.
 
-No paid repeat-remediation or repeat-re-assurance proof may be triggered until the relevant runner is approved, merged and confirmed Live.
+No paid repeat-remediation or repeat re-assurance proof may be triggered until the relevant runner is approved, merged and confirmed Live.
 
 ## Publication and Foundation boundary
 
@@ -182,6 +184,6 @@ Exam Prep is outside this proof path.
 
 This implementation applies the already-approved smallest-safe remediation and fresh-context revalidation rules. It does not change normative Content Factory authority and does not require a new ADR.
 
-The first generation, first assurance, first remediation, first corrected-bundle re-assurance, original cycle 2 remediation, recovered cycle 2 remediation and both failed pre-provider cycle 2 re-assurance runs remain immutable historical evidence. Repeat-cycle evidence is additive.
+The first generation, first assurance, first remediation, first corrected-bundle re-assurance, original cycle 2 remediation, recovered cycle 2 remediation, both failed pre-provider cycle 2 re-assurance runs and the failed zero-provider recovery run remain immutable historical evidence. Repeat-cycle evidence is additive.
 
 `INDEX.md` does not require a new authority entry because this document introduces no new source of normative truth; the existing Content Factory technical-document entries remain the implementation index for this proof family.

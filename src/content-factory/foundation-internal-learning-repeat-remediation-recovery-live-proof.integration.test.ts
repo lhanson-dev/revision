@@ -19,9 +19,11 @@ const retainedIdentitySchema = z.object({
   artifactName: nonEmptyStringSchema,
   artifactDigest: nonEmptyStringSchema,
 })
-const sourceReassuranceIdentitySchema = retainedIdentitySchema.extend({
+const sourceReassuranceBaseIdentitySchema = retainedIdentitySchema.extend({
   headSha: commitShaSchema,
   correctedBundleFingerprint: sha256Schema,
+})
+const sourceReassuranceIdentitySchema = sourceReassuranceBaseIdentitySchema.extend({
   reviewFingerprint: sha256Schema,
 })
 const remediationRunSchema = z.object({
@@ -69,7 +71,7 @@ const sourceFailureSchema = z.object({
   status: z.literal('fail_hold'),
   repository: nonEmptyStringSchema,
   remediationImplementationCommit: commitShaSchema,
-  sourceReassuranceProof: sourceReassuranceIdentitySchema,
+  sourceReassuranceProof: sourceReassuranceBaseIdentitySchema,
   foundationFingerprint: sha256Schema,
   assuredAssetCount: z.literal(0),
   humanReviewStatus: z.literal('pending'),
@@ -118,7 +120,7 @@ const expectedPendingReleaseProblems = [
 describe('Foundation-native retained repeat remediation recovery proof', () => {
   const liveIt = liveEnabled ? it : it.skip
 
-  it('preserves the source re-assurance review fingerprint in the retained recovery identity', () => {
+  it('requires the source review fingerprint on pass evidence while accepting its historical absence from failure evidence', () => {
     const identity = {
       workflowRunId: '36058013508',
       artifactName: 'content-factory-foundation-internal-learning-reassurance-proof-9282d1a3b134150962d3b76f531f271f17d8e509',
@@ -129,6 +131,9 @@ describe('Foundation-native retained repeat remediation recovery proof', () => {
     }
 
     expect(sourceReassuranceIdentitySchema.parse(identity)).toEqual(identity)
+    const { reviewFingerprint, ...historicalFailureIdentity } = identity
+    expect(reviewFingerprint).toMatch(/^[0-9a-f]{64}$/)
+    expect(sourceReassuranceBaseIdentitySchema.parse(historicalFailureIdentity)).toEqual(historicalFailureIdentity)
   })
 
   liveIt('re-attests a completed corrected bundle without another provider call', async () => {
@@ -153,7 +158,7 @@ describe('Foundation-native retained repeat remediation recovery proof', () => {
     expect(failure.remediationImplementationCommit).toBe(sourceHeadSha)
     expect(source.foundationFingerprint).toBe(foundationFingerprint)
     expect(failure.foundationFingerprint).toBe(foundationFingerprint)
-    expect(failure.sourceReassuranceProof).toEqual(source.sourceReassuranceProof)
+    expect(failure.sourceReassuranceProof).toEqual(sourceReassuranceBaseIdentitySchema.parse(source.sourceReassuranceProof))
     expect(source.sourceReassuranceProof.reviewFingerprint).toBe(source.remediationRecord.sourceReviewFingerprint)
     expect(failure.failure).toContain('Learner release requires derived-asse')
 
