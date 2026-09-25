@@ -1,0 +1,149 @@
+name: Content Factory Foundation Internal Learning Repeat Remediation Proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Failed repeat-remediation run that retained a completed corrected bundle
+        required: true
+        type: string
+      source_artifact_id:
+        description: Exact retained artifact ID from the failed repeat-remediation run
+        required: true
+        type: string
+      source_head_sha:
+        description: Exact approved-main SHA that executed the failed repeat-remediation run
+        required: true
+        type: string
+      source_artifact_digest:
+        description: Exact sha256 digest of the retained failed-run artifact
+        required: true
+        type: string
+      foundation_fingerprint:
+        description: Exact AI-assured Foundation fingerprint bound to the corrected bundle
+        required: true
+        type: string
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: content-factory-foundation-internal-learning-repeat-remediation-recovery-proof
+  cancel-in-progress: false
+
+jobs:
+  foundation-internal-learning-repeat-remediation-recovery-proof:
+    name: Recover retained repeat remediation proof without provider calls
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.number == 289 &&
+       github.event.comment.user.login == 'lhanson-dev' &&
+       github.event.comment.author_association == 'OWNER' &&
+       startsWith(github.event.comment.body, 'revision-recover-foundation-internal-learning-remediation-proof:v1'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact approved-main event SHA
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Resolve exact retained recovery source identity
+        env:
+          REVISION_TRIGGER_MARKER: revision-recover-foundation-internal-learning-remediation-proof:v1
+          REVISION_TRIGGER_BODY: ${{ github.event.comment.body || '' }}
+          REVISION_INPUT_SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
+          REVISION_INPUT_SOURCE_ARTIFACT_ID: ${{ inputs.source_artifact_id || '' }}
+          REVISION_INPUT_SOURCE_HEAD_SHA: ${{ inputs.source_head_sha || '' }}
+          REVISION_INPUT_SOURCE_ARTIFACT_DIGEST: ${{ inputs.source_artifact_digest || '' }}
+          REVISION_INPUT_FOUNDATION_FINGERPRINT: ${{ inputs.foundation_fingerprint || '' }}
+        run: node scripts/assurance/foundation-internal-learning-repeat-remediation-recovery-proof-trigger.mjs
+
+      - name: Verify failed run and exact retained artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_run_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RECOVERY_SOURCE_RUN_ID}")"
+          test "$(jq -r '.name' <<<"${source_run_json}")" = 'Content Factory Foundation Internal Learning Repeat Remediation Proof'
+          test "$(jq -r '.status' <<<"${source_run_json}")" = 'completed'
+          test "$(jq -r '.conclusion' <<<"${source_run_json}")" = 'failure'
+          test "$(jq -r '.head_branch' <<<"${source_run_json}")" = 'main'
+          test "$(jq -r '.head_sha' <<<"${source_run_json}")" = "${RECOVERY_SOURCE_HEAD_SHA}"
+
+          source_artifact_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${RECOVERY_SOURCE_ARTIFACT_ID}")"
+          expected_name="content-factory-foundation-internal-learning-remediation-proof-${RECOVERY_SOURCE_HEAD_SHA}"
+          artifact_name="$(jq -r '.name' <<<"${source_artifact_json}")"
+          test "${artifact_name}" = "${expected_name}"
+          test "$(jq -r '.workflow_run.id' <<<"${source_artifact_json}")" = "${RECOVERY_SOURCE_RUN_ID}"
+          test "$(jq -r '.workflow_run.head_sha' <<<"${source_artifact_json}")" = "${RECOVERY_SOURCE_HEAD_SHA}"
+          test "$(jq -r '.digest' <<<"${source_artifact_json}")" = "${RECOVERY_SOURCE_ARTIFACT_DIGEST}"
+          test "$(jq -r '.expired' <<<"${source_artifact_json}")" = 'false'
+          echo "RECOVERY_SOURCE_ARTIFACT_NAME=${artifact_name}" >> "${GITHUB_ENV}"
+
+      - name: Download and identify retained pass and failure evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          source_dir='.artifacts/content-factory-foundation-repeat-remediation-recovery-source'
+          mkdir -p "${source_dir}"
+          gh run download "${RECOVERY_SOURCE_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --name "${RECOVERY_SOURCE_ARTIFACT_NAME}" --dir "${source_dir}"
+
+          pass_path=''
+          failure_path=''
+          while IFS= read -r file; do
+            if jq -e '.artifactType == "foundation_internal_learning_remediation_live_proof_evidence" and .status == "pass"' "${file}" >/dev/null; then
+              test -z "${pass_path}"
+              pass_path="${file}"
+            fi
+            if jq -e '.artifactType == "foundation_internal_learning_repeat_remediation_live_proof_failure_evidence" and .status == "fail_hold"' "${file}" >/dev/null; then
+              test -z "${failure_path}"
+              failure_path="${file}"
+            fi
+          done < <(find "${source_dir}" -maxdepth 1 -type f -name '*.json' -print)
+          test -n "${pass_path}"
+          test -n "${failure_path}"
+          test "$(jq -r '.remediationImplementationCommit' "${pass_path}")" = "${RECOVERY_SOURCE_HEAD_SHA}"
+          test "$(jq -r '.remediationImplementationCommit' "${failure_path}")" = "${RECOVERY_SOURCE_HEAD_SHA}"
+          test "$(jq -r '.foundationFingerprint' "${pass_path}")" = "${FOUNDATION_FINGERPRINT}"
+          test "$(jq -r '.foundationFingerprint' "${failure_path}")" = "${FOUNDATION_FINGERPRINT}"
+          echo "CONTENT_FACTORY_RECOVERY_SOURCE_PASS_PATH=${pass_path}" >> "${GITHUB_ENV}"
+          echo "CONTENT_FACTORY_RECOVERY_SOURCE_FAILURE_PATH=${failure_path}" >> "${GITHUB_ENV}"
+
+      - name: Pin npm
+        run: npm --version
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Re-attest retained corrected bundle without provider calls
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CONTENT_FACTORY_FOUNDATION_INTERNAL_LEARNING_REPEAT_REMEDIATION_RECOVERY_PROOF: '1'
+          CONTENT_FACTORY_RECOVERY_SOURCE_RUN_ID: ${{ env.RECOVERY_SOURCE_RUN_ID }}
+          CONTENT_FACTORY_RECOVERY_SOURCE_ARTIFACT_NAME: ${{ env.RECOVERY_SOURCE_ARTIFACT_NAME }}
+          CONTENT_FACTORY_RECOVERY_SOURCE_ARTIFACT_DIGEST: ${{ env.RECOVERY_SOURCE_ARTIFACT_DIGEST }}
+          CONTENT_FACTORY_RECOVERY_SOURCE_HEAD_SHA: ${{ env.RECOVERY_SOURCE_HEAD_SHA }}
+          CONTENT_FACTORY_FOUNDATION_FINGERPRINT: ${{ env.FOUNDATION_FINGERPRINT }}
+          CONTENT_FACTORY_RECOVERY_IMPLEMENTATION_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_RECOVERY_SOURCE_PASS_PATH: ${{ env.CONTENT_FACTORY_RECOVERY_SOURCE_PASS_PATH }}
+          CONTENT_FACTORY_RECOVERY_SOURCE_FAILURE_PATH: ${{ env.CONTENT_FACTORY_RECOVERY_SOURCE_FAILURE_PATH }}
+        run: npx vitest run src/content-factory/foundation-internal-learning-repeat-remediation-recovery-live-proof.integration.test.ts --reporter=verbose
+
+      - name: Upload recovered retained repeat learning remediation proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-foundation-internal-learning-remediation-proof-${{ github.sha }}
+          path: .artifacts/content-factory-foundation-internal-learning-repeat-remediation-recovery-proof
+          if-no-files-found: error
+          retention-days: 30
