@@ -620,8 +620,8 @@ describe('Foundation-native retained repeat Learn/Practice remediation proof', (
       expect(new Set(remediationRuns.map((run) => run.contextId))).toEqual(new Set(remediationRecord.remediationContextIds))
       expect(bundle.learnAsset.assuranceStatus).toBe('pending')
       expect(bundle.practiceAsset.assuranceStatus).toBe('pending')
-      expect(releaseProblems.learn).toContain('Learner release requires derived-asset assurance pass')
-      expect(releaseProblems.practice).toContain('Learner release requires derived-asset assurance pass')
+      expect(releaseProblems.learn).toContain('Derived asset assurance must pass before learner release')
+      expect(releaseProblems.practice).toContain('Derived asset assurance must pass before learner release')
       expect(releaseProblems.learn).toContain('Learner release requires qualified-human foundation_approved state')
       expect(releaseProblems.practice).toContain('Learner release requires qualified-human foundation_approved state')
     } catch (error) {
