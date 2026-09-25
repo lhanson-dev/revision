@@ -124,8 +124,7 @@ jobs:
           test "$(jq -r '.addressedFindingCount > 0' "${remediation_proof_path}")" = 'true'
           test "$(jq -r '.remediationContextCount > 0' "${remediation_proof_path}")" = 'true'
           test "$(jq -r '.remediationContextCollisions | length' "${remediation_proof_path}")" = '0'
-          test "$(jq -r '.remediationRecord.priorReviewerContextIds | length > 0' "${remediation_proof_path}")" = 'true'
-          test "$(jq -r '[.remediationRecord.priorReviewerContextIds[]] | length == ([.remediationRecord.priorReviewerContextIds[]] | unique | length)' "${remediation_proof_path}")" = 'true'
+          node scripts/assurance/validate-foundation-internal-learning-prior-reviewer-contexts.mjs "${remediation_proof_path}" >/dev/null
           test "$(jq -r '.learnAssetStatus' "${remediation_proof_path}")" = 'pending'
           test "$(jq -r '.practiceAssetStatus' "${remediation_proof_path}")" = 'pending'
           test "$(jq -r '.assuredAssetCount' "${remediation_proof_path}")" = '0'
