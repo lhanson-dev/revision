@@ -47,12 +47,34 @@ The corrected contract must prove in normal CI that:
 
 No Course Truth, Exam Truth, learner content, remediation output, Foundation approval state or publication rule changes as part of this correction.
 
+## Post-correction live re-assurance evidence
+
+PR #390 was merged and confirmed Live at `fea7308d96f6ff0ddfc03f8137395bf35bf89ed9`. Its governed production release passed release lineage, production backend readiness, build, Pages deployment, production smoke and durable path-to-live verification.
+
+Exactly one fresh v2 re-assurance was then triggered against recovered remediation run `36140767632`, artifact `10866767131`, and corrected bundle fingerprint `577d1d3c344112f2b79332332ff5d18d091994533909669ccc477bcce45db860`.
+
+The resulting re-assurance run was `36150592345` on implementation commit `fea7308d96f6ff0ddfc03f8137395bf35bf89ed9`. All retained-lineage checks passed and the fresh semantic review reached the 45th work unit, `foundation-managing-change`, before the OpenAI API returned HTTP 429 because the API account had no credits remaining.
+
+Retained failure evidence:
+
+- artifact `10871169668`;
+- artifact digest `sha256:886fcc97499b0e36ee6add6b334f16f768c68faddfaf87d4cdf6f4b098b4eaae`;
+- corrected bundle fingerprint `577d1d3c344112f2b79332332ff5d18d091994533909669ccc477bcce45db860`;
+- assured asset count `0`;
+- human review `pending`;
+- Foundation approval `not_approved`;
+- learner publication eligible `false`.
+
+This is an external provider billing/infrastructure blocker, not a semantic `fail_hold` and not evidence of a Foundation defect. Because the assurance loop is sequential, reaching work unit 45 means the preceding 44 work-unit executions returned successfully enough for the loop to continue. However, the current fallback artifact does not retain those partial review outputs, reviewer contexts or cost telemetry. They therefore cannot be treated as assurance evidence, reused, or counted toward a passing asset decision. Historical run `36150592345` remains immutable.
+
 ## Safe replay
 
-After this implementation is approved, merged and confirmed Live, exactly one fresh v2 re-assurance may be run against recovered remediation run `36140767632` / artifact `10866767131` and corrected bundle fingerprint `577d1d3c344112f2b79332332ff5d18d091994533909669ccc477bcce45db860`.
+Do not regenerate remediation content.
 
-Do not regenerate remediation content. If fresh semantic assurance returns blocking/material findings, continue with smallest-safe targeted remediation. If it exposes a credible Foundation defect, reopen the Foundation instead. If it passes, Learn and Practice may become assured but learner publication remains blocked until qualified-human `foundation_approved` state is recorded.
+No further paid re-assurance should be triggered while the provider account has no credits. Once provider credits are restored, run exactly one new fresh v2 re-assurance against recovered remediation run `36140767632` / artifact `10866767131` and corrected bundle fingerprint `577d1d3c344112f2b79332332ff5d18d091994533909669ccc477bcce45db860`.
+
+The new run must use fresh reviewer contexts and independently review all 49 work units; the 44 unretained partial reviews from run `36150592345` are not reusable evidence. If fresh semantic assurance returns blocking/material findings, continue with smallest-safe targeted remediation. If it exposes a credible Foundation defect, reopen the Foundation instead. If it passes, Learn and Practice may become assured but learner publication remains blocked until qualified-human `foundation_approved` state is recorded.
 
 ## Documentation impact
 
-This is an implementation correction under existing Content Factory authority. It introduces no new normative authority and requires no ADR. Historical proof artifacts and failed runs remain immutable.
+This remains an implementation/evidence record under existing Content Factory authority. It introduces no new normative authority and requires no ADR. Historical proof artifacts and failed runs remain immutable.
