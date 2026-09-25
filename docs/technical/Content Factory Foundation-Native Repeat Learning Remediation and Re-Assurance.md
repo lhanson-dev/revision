@@ -121,6 +121,31 @@ For cycle 2 this means all 98 earlier Learn/Practice reviewer contexts are exclu
 
 A clean result may set the corrected Learn and Practice derived-asset assurance states to `pass`. A `fail_hold` or `conditional_pass` retains zero assured assets and creates the next smallest-safe remediation target set. Either way, qualified-human Foundation approval remains a separate release gate and learner publication remains false while the Foundation state is only `ai_assured`.
 
+## Cycle 2 retained recovery and re-assurance gate correction
+
+The cycle 2 targeted remediation provider work completed on run `36115708856`, but its original proof harness failed after generation because it asserted superseded release-blocker wording. The retained corrected bundle was therefore recovered without regeneration after the governed recovery implementation reached Live:
+
+- recovered remediation proof run `36131773705`;
+- recovered remediation artifact `10862030803`;
+- recovered artifact digest `sha256:36cbb93c0eb6255868a783d0d7a4caf7eb07669aae6e452c41a8da1501a43fc6`;
+- recovery implementation/main head `ceaf836cedda50bcaf10ffddb07ced4f4cbf2eaf`;
+- corrected bundle fingerprint `577d1d3c344112f2b79332332ff5d18d091994533909669ccc477bcce45db860`;
+- addressed findings: `12 / 12`;
+- remediated work units: `12`;
+- remediated asset sides: `14`;
+- retained successful remediation contexts: `18`;
+- cumulative prior reviewer contexts: `98`;
+- remediation-context collisions: `0`;
+- provider calls repeated by recovery: `0`;
+- Learn assurance: `pending`;
+- Practice assurance: `pending`;
+- Foundation approval: `not_approved`;
+- learner publication eligible: `false`.
+
+The first v2 re-assurance attempt against that recovered proof was workflow run `36131935630`. It produced no semantic assurance result and made no review-provider calls. The run failed closed during pre-provider cumulative-lineage validation because a shell `jq` uniqueness expression changed its input root to an array and then attempted to read `.remediationRecord` from that array.
+
+The corrected implementation validates the retained `priorReviewerContextIds` with a deterministic Node validator before any provider call. The validator requires a non-empty array of non-empty strings with no duplicates. Regression tests cover valid, missing, empty, malformed and duplicate context sets. This changes only the proof gate implementation; it does not alter the recovered bundle, its provenance, the 98-context independence requirement, assurance state, Foundation state or publication eligibility.
+
 ## Provider and spend boundary
 
 Repeat remediation retains the existing remediation provider contract:
@@ -153,6 +178,6 @@ Exam Prep is outside this proof path.
 
 This implementation applies the already-approved smallest-safe remediation and fresh-context revalidation rules. It does not change normative Content Factory authority and does not require a new ADR.
 
-The first generation, first assurance, first remediation and first corrected-bundle re-assurance artifacts remain immutable historical evidence. Repeat-cycle evidence is additive.
+The first generation, first assurance, first remediation, first corrected-bundle re-assurance, recovered cycle 2 remediation and failed pre-provider cycle 2 re-assurance artifacts/runs remain immutable historical evidence. Repeat-cycle evidence is additive.
 
 `INDEX.md` does not require a new authority entry because this document introduces no new source of normative truth; the existing Content Factory technical-document entries remain the implementation index for this proof family.
