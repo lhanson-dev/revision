@@ -1,5 +1,4 @@
 import { readFile } from 'node:fs/promises'
-import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
 const liveReviewRunners = [
@@ -11,7 +10,8 @@ const liveReviewRunners = [
 describe('Foundation-native learning review provider contract', () => {
   for (const runner of liveReviewRunners) {
     it(`requires strict structured output in ${runner}`, async () => {
-      const source = await readFile(fileURLToPath(new URL(runner, import.meta.url)), 'utf-8')
+      const sourcePath = decodeURIComponent(new URL(runner, import.meta.url).pathname)
+      const source = await readFile(sourcePath, 'utf-8')
 
       expect(source).toContain('foundationInternalLearningBoundReviewOutputSchema')
       expect(source).toContain('strictOutput: true')
