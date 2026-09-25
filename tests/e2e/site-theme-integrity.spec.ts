@@ -214,7 +214,8 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Course overview')
 
   await clickNavigation(page, 'AQA AS Business Learn')
-  await expect(page.getByRole('heading', { name: /Learn · AQA AS Business/ })).toBeVisible()
+  await expect(page.locator('article.learn-reading-page')).toBeVisible()
+  await expect(page.getByRole('navigation', { name: 'Learn location' })).toBeVisible()
   await auditRuntime(page, 'Learn')
 
   await clickNavigation(page, 'AQA AS Business Practice')

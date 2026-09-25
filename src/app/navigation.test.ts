@@ -36,6 +36,30 @@ describe('learner navigation model', () => {
     expect(parseRoute(routeHash(route))).toEqual(route)
   })
 
+  it('round-trips a course Learn page through the URL', () => {
+    const route = learnerCourseRoute('aqa:aqa-a-level:7132', 'learn', { learnPageId: 'limited-companies-and-shareholders' })
+    const hash = routeHash(route)
+
+    expect(hash).toBe('#/courses/aqa%3Aaqa-a-level%3A7132/learn/limited-companies-and-shareholders')
+    expect(parseRoute(hash)).toEqual(route)
+  })
+
+  it('round-trips a course Practice topic through the URL', () => {
+    const route = learnerCourseRoute('aqa:aqa-a-level:7132', 'practice', { topicId: 'finance' })
+    const hash = routeHash(route)
+
+    expect(hash).toBe('#/courses/aqa%3Aaqa-a-level%3A7132/practice/finance')
+    expect(parseRoute(hash)).toEqual(route)
+  })
+
+  it('round-trips component Learn and Practice context', () => {
+    const learn = learnerModuleRoute('aqa:aqa-as:7131', 'business-aqa-as-paper-2', 'learn', { learnPageId: 'page-one' })
+    const practice = learnerModuleRoute('aqa:aqa-as:7131', 'business-aqa-as-paper-2', 'practice', { topicId: 'business' })
+
+    expect(parseRoute(routeHash(learn))).toEqual(learn)
+    expect(parseRoute(routeHash(practice))).toEqual(practice)
+  })
+
   it('accepts legacy Subjects links but emits the Courses route family', () => {
     const legacyCourse = parseRoute('#/subjects/business/courses/aqa%3Aaqa-a-level%3A7132/exam-prep')
     expect(legacyCourse.kind).toBe('course')

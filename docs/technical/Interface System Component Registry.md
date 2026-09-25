@@ -1,7 +1,7 @@
 # Revision Interface System Component Registry
 
-**Status:** B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete  
-**Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`  
+**Status:** B2.5 reusable foundation live; B7.1–B7.5 ownership/component/compatibility acceptance complete; Learn educational treatment extension In Progress under #381  
+**Authority:** `20-brand-and-experience/Visual Brand System.md`, `20-brand-and-experience/Product UX Principles.md`, `20-brand-and-experience/Educational Treatment System.md`  
 **Operating standard:** `docs/technical/Interface System Operating Standard.md`  
 **Runtime location:** `src/app/ui/`
 
@@ -9,7 +9,7 @@
 
 Give contributors one implementation reference for recurring Revision interface anatomy so a new page starts by selecting existing components, icons and assets rather than recreating equivalent styling locally.
 
-This registry is implementation guidance. The Visual Brand System remains normative authority.
+This registry is implementation guidance. The Visual Brand System and applicable focused experience authority remain normative authority.
 
 ## Import boundary
 
@@ -20,6 +20,7 @@ import {
   BrandAsset,
   Button,
   DrawerShell,
+  EducationalTreatment,
   EmptyState,
   Icon,
   IconButton,
@@ -62,6 +63,31 @@ Use the relative path appropriate to the feature location. Do not import interna
 | `Menu` / `MenuItem` | Recurring menu/progressive disclosure | current-page state | dense unrelated button groups |
 | `Icon` | Controlled rounded-line product icon | inline/compact/standard/large | Living E identity, emoji controls or page-local icon libraries |
 | `BrandAsset` | Canonical Revision identity asset selection | wordmark, Living E resting, Living E nav | redrawing or approximating identity marks |
+| `EducationalTreatment` | Shared learner-facing anatomy for recurring educational meanings | `key-idea`, `example`, `worked-example`, `relationship`, `comparison`, `quantitative`, `misconception`, `recap` | ordinary explanatory prose, semantic status messages, page-local subject-specific variants or template stuffing |
+
+## Educational treatment contract
+
+`EducationalTreatment` was introduced through Issue #381 to implement the shared Educational Treatment System centrally rather than allowing Learn or individual subjects to invent local callout families.
+
+The component owns the common wrapper anatomy:
+
+- semantic treatment kind;
+- controlled label;
+- optional title;
+- shared spacing, border/surface relationship and typography; and
+- subject-accent parameterisation through the central subject-accent tokens.
+
+The feature renderer owns content-specific structure inside that wrapper. For example:
+
+- a Key Idea may contain a definition list;
+- a Worked Example may contain ordered stages;
+- a Relationship treatment may contain a semantic ordered causal/process chain;
+- a Comparison may contain structured comparison columns; and
+- a Quantitative treatment may contain a structured chart plus data/text equivalent.
+
+Normal teaching explanation is deliberately **not** an `EducationalTreatment`; prose remains the default reading surface. Misconception treatments are educational clarification, not `Status` Warning/Error surfaces. Primary Teal remains REV/action colour rather than subject decoration.
+
+Subject differences may alter only the restrained governed subject recognition cue. They do not change treatment anatomy, hierarchy, semantic meaning, radius/shadow conventions or interaction behaviour.
 
 ## Shared modal/drawer interaction contract
 
@@ -94,7 +120,7 @@ Choose the family before styling composition:
 
 REV, Exam/Performance, Guidance and other specialist families remain governed by the Visual Brand System. Add a reusable shared variant only when its recurring job is proven; do not stretch Standard/Feature merely for appearance.
 
-A reading page is not automatically a collection of `Surface` cards. B7.5 explicitly keeps Learn as one reading workspace with section dividers rather than nested bordered containers.
+A reading page is not automatically a collection of `Surface` cards. The current Learn implementation keeps the teaching article as the dominant surface and uses `EducationalTreatment` only for educationally meaningful departures from normal prose.
 
 ## Button selection
 
@@ -118,13 +144,22 @@ Do not replace accessible native behaviour merely to make a control visually unu
 
 Specialist evidence controls such as AO mark allocation may remain feature-owned because they combine bounded numeric entry with assessment semantics. The exception is about interaction meaning, not permission to create a new visual foundation.
 
-## Current B7.5 common-control consumers
+## Current focused Learn / Practice consumers
 
-B7.5 extends shared-control consumption in two previously partial areas.
+### Learn
 
-### Focused Learn / Practice
+`LearnReadingWorkspace` uses:
 
-`FocusedLearningWorkspace` uses:
+- ordinary semantic article/headings/paragraphs for teaching prose;
+- `EducationalTreatment` for shared educational treatment families;
+- shared `Button` for contextual REV, previous/next and Practice handoff actions; and
+- structured native HTML/SVG for relationship, comparison and quantitative visuals.
+
+`src/app/learn-reading.css` owns Learn composition/responsive rendering while consuming central Interface System/subject-accent tokens. `src/app/learn-navigation.css` owns only the progressive disclosure of the active Learn branch inside the existing learner navigation.
+
+### Practice
+
+`FocusedLearningWorkspace` continues to use:
 
 - `SelectField` for topic choice;
 - `SegmentedControl` + `Button` for activity mode selection;
@@ -133,7 +168,7 @@ B7.5 extends shared-control consumption in two previously partial areas.
 
 Multiple-choice option rows and AO marking inputs remain specialist assessment controls.
 
-### Admin / Content Operations
+## Admin / Content Operations
 
 `ContentOperations` uses:
 
@@ -149,6 +184,8 @@ Admin stat cards, sub-navigation, trends, tables, health rows and operational te
 `Status` always includes a controlled semantic icon and visible semantic label in addition to colour. This protects meaning for colour-vision differences and when styles fail to load.
 
 `EmptyState` and `LoadingState` are calm supporting patterns. Feature code supplies truthful domain copy; the component supplies consistent anatomy.
+
+Educational content such as a misconception must not use `Status` merely because it describes something a learner could get wrong.
 
 ## Icons
 
@@ -218,35 +255,10 @@ The retired `interface-theme-integrity.css` file is not an extension point. B7.5
 </Surface>
 ```
 
-This is intentionally ordinary. Page identity should come from the product job and composition, not from inventing new controls or decorative values.
+For educational treatment content:
 
-## Assurance
-
-The shared system is protected by:
-
-- component rendering/semantic tests in `src/app/ui/ui-components.test.tsx`;
-- enterprise token/component/icon/asset checks in `scripts/assurance/interface-system-governance.test.mjs`;
-- final bridge/component/composition checks in `scripts/assurance/b7-final-acceptance.test.mjs`;
-- site-wide semantic theme checks;
-- `tests/e2e/overlay-focus.spec.ts` for shared modal/drawer interaction;
-- `tests/e2e/b7-final-acceptance.spec.ts` for fixed-dock clearance/timed-exam suppression;
-- `tests/e2e/interface-visual-regression.spec.ts` for the bounded 18-state Light/Dark visual matrix; and
-- normal risk-classified Revision CI/path-to-live controls.
-
-B7 shell icon/identity ownership additionally has fail-closed static contracts in `b7-shell-icon-ownership.test.mjs` and `b7-identity-glyph-ownership.test.mjs`.
-
-B7.5 final acceptance was production-verified through PR #148 / merge `e1ebaf6f25d9348bb1a56926b33eaa748a334a97`, exact-head Revision CI #869 and governed production run `32656318718`.
-
-## Extension rule
-
-Before adding a new shared component or variant:
-
-1. identify the recurring product job;
-2. confirm existing components cannot express it cleanly;
-3. map it to governing surface/control/semantic rules;
-4. implement it centrally using design tokens;
-5. provide relevant accessibility/theme/responsive states;
-6. add assurance; and
-7. update this registry when the public component contract changes.
-
-A one-page visual preference is not sufficient reason to expand the shared registry.
+```tsx
+<EducationalTreatment kind="example" label="Example" title="Applied context">
+  <p>Use normal learner-facing content here.</p>
+</EducationalTreatment>
+```

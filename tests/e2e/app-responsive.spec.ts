@@ -355,9 +355,12 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   }
 
   await asCourseNav.getByRole('button', { name: 'Learn' }).click()
-  await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Topic notes' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Link topics' })).toBeVisible()
+  const learnArticle = page.locator('article.learn-reading-page')
+  await expect(learnArticle).toBeVisible()
+  await expect(learnArticle.getByRole('heading', { level: 2 })).toBeVisible()
+  await expect(page.getByRole('navigation', { name: 'Learn location' })).toBeVisible()
+  await expect(page.getByRole('tab', { name: 'Topic notes' })).toHaveCount(0)
+  await expect(page.getByRole('tab', { name: 'Link topics' })).toHaveCount(0)
   await expectNoPageOverflow(page)
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()

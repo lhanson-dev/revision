@@ -1,3 +1,4 @@
+import type { LearnChapter, LearnCourse, LearnPage } from '../../../content/learn-schema'
 import type {
   CaseStudy,
   ContentManifest,
@@ -36,6 +37,9 @@ export type LearningContentAdapter = {
   catalogueEntry: CatalogueEntry
   listTopics: () => readonly Topic[]
   getTopic: (topicId: TopicId) => Topic | undefined
+  getLearnCourse: () => LearnCourse
+  listLearnChapters: () => readonly LearnChapter[]
+  getLearnPage: (pageId: string) => LearnPage | undefined
   listFormulas: () => readonly Formula[]
   listTopicLinks: (topicId?: TopicId) => readonly TopicLink[]
   listFlashcards: (topicId?: TopicId) => readonly Flashcard[]
@@ -47,8 +51,58 @@ export type LearningContentAdapter = {
   getExam: (examId: string) => Exam | undefined
 }
 
+function legacyLearnGroup(topic: Topic, section: Topic['sections'][number]) {
+  return {
+    id: `${topic.id}-${section.id}-guide`,
+    title: section.title,
+    pages: [{
+      id: `${topic.id}-${section.id}`,
+      topicId: topic.id,
+      sourceSectionIds: [section.id],
+      title: section.title,
+      orientation: `Understand the key ideas in ${section.title.toLowerCase()} and how they connect to the wider topic.`,
+      blocks: [{ type: 'explanation' as const, paragraphs: section.points }],
+    }],
+  }
+}
+
+function legacyLearnChapter(topic: Topic): LearnChapter {
+  return {
+    id: topic.id,
+    topicId: topic.id,
+    title: topic.title,
+    groups: topic.sections.map((section) => legacyLearnGroup(topic, section)),
+  }
+}
+
+function mergeAuthoredChapter(topic: Topic, authored: LearnChapter): LearnChapter {
+  const coveredSections = new Set(
+    authored.groups.flatMap((group) => group.pages.flatMap((page) => page.sourceSectionIds ?? [])),
+  )
+  const remainingLegacyGroups = topic.sections
+    .filter((section) => !coveredSections.has(section.id))
+    .map((section) => legacyLearnGroup(topic, section))
+
+  return {
+    ...authored,
+    groups: [...authored.groups, ...remainingLegacyGroups],
+  }
+}
+
+function buildLearnCourse(topics: readonly Topic[], authored?: LearnCourse): LearnCourse {
+  const authoredByTopic = new Map(authored?.chapters.map((chapter) => [chapter.topicId, chapter]) ?? [])
+  return {
+    chapters: topics.map((topic) => {
+      const authoredChapter = authoredByTopic.get(topic.id)
+      return authoredChapter ? mergeAuthoredChapter(topic, authoredChapter) : legacyLearnChapter(topic)
+    }),
+  }
+}
+
 export function createLearningContentAdapter(pack: ContentPack): LearningContentAdapter {
   const topics = [...pack.topics].sort((left, right) => left.order - right.order)
+  const learnCourse = buildLearnCourse(topics, pack.learn)
+  const learnPages = learnCourse.chapters.flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
 
   return {
     manifest: pack.manifest,
@@ -71,6 +125,9 @@ export function createLearningContentAdapter(pack: ContentPack): LearningContent
     },
     listTopics: () => topics,
     getTopic: (topicId) => topics.find((topic) => topic.id === topicId),
+    getLearnCourse: () => learnCourse,
+    listLearnChapters: () => learnCourse.chapters,
+    getLearnPage: (pageId) => learnPages.find((page) => page.id === pageId),
     listFormulas: () => pack.formulas,
     listTopicLinks: (topicId) => topicId ? pack.topicLinks.filter((item) => item.topic === topicId) : pack.topicLinks,
     listFlashcards: (topicId) => topicId ? pack.flashcards.filter((item) => item.topic === topicId) : pack.flashcards,
