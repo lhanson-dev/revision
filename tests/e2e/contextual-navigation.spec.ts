@@ -159,11 +159,15 @@ test('Courses expands saved courses and only the active course into focused sect
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business Learn')
-  await expect(page.getByRole('heading', { name: 'Learn · AQA AS Business' })).toBeVisible()
+  await expect(page.locator('article.learn-reading-page')).toBeVisible()
+  await expect(page.getByRole('navigation', { name: 'Learn location' })).toBeVisible()
 
   nav = await navigation(page)
   coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
-  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
+  const learnContents = coursesTree.locator('[aria-label="Learn contents"]')
+  await expect(learnContents).toBeVisible()
+  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveCount(1)
   await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
   await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business Learn', exact: true })).toHaveCount(0)
 })
