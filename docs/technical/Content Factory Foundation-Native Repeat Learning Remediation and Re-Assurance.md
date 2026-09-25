@@ -146,6 +146,10 @@ The first v2 re-assurance attempt against that recovered proof was workflow run 
 
 The corrected implementation validates the retained `priorReviewerContextIds` with a deterministic Node validator before any provider call. The validator requires a non-empty array of non-empty strings with no duplicates. Regression tests cover valid, missing, empty, malformed and duplicate context sets. This changes only the proof gate implementation; it does not alter the recovered bundle, its provenance, the 98-context independence requirement, assurance state, Foundation state or publication eligibility.
 
+After that correction reached Live, v2 re-assurance workflow run `36134527993` again failed closed before dependency installation or any review-provider call. The reviewer-context validator passed. The next lineage comparison exposed a separate recovery-provenance compatibility defect: the recovery parser's `sourceReassuranceProof` schema did not declare `reviewFingerprint`, so Zod stripped that field while re-attesting the otherwise unchanged remediation evidence. The downstream re-assurance runner correctly requires that fingerprint to match `remediationRecord.sourceReviewFingerprint` and therefore rejected the recovered proof rather than weakening provenance validation.
+
+The original cycle 2 remediation artifact `10854463735` from run `36115708856` retains `sourceReassuranceProof.reviewFingerprint` as `9f7ed5af13c2be07dba670c4f99e6a4ea4cc2ee7711b00f092572ab061b9461c`, exactly matching the remediation record's source-review fingerprint. The recovery schema now requires and preserves that field and the recovery proof checks the two retained values agree before re-attestation. A normal CI regression test proves the identity parser does not discard the fingerprint. This does not alter learner content or regenerate the corrected bundle. The safe replay remains: zero-provider recovery from the original retained remediation artifact, followed by one genuinely fresh v2 re-assurance after the corrected runner is approved, merged and Live.
+
 ## Provider and spend boundary
 
 Repeat remediation retains the existing remediation provider contract:
@@ -178,6 +182,6 @@ Exam Prep is outside this proof path.
 
 This implementation applies the already-approved smallest-safe remediation and fresh-context revalidation rules. It does not change normative Content Factory authority and does not require a new ADR.
 
-The first generation, first assurance, first remediation, first corrected-bundle re-assurance, recovered cycle 2 remediation and failed pre-provider cycle 2 re-assurance artifacts/runs remain immutable historical evidence. Repeat-cycle evidence is additive.
+The first generation, first assurance, first remediation, first corrected-bundle re-assurance, original cycle 2 remediation, recovered cycle 2 remediation and both failed pre-provider cycle 2 re-assurance runs remain immutable historical evidence. Repeat-cycle evidence is additive.
 
 `INDEX.md` does not require a new authority entry because this document introduces no new source of normative truth; the existing Content Factory technical-document entries remain the implementation index for this proof family.
