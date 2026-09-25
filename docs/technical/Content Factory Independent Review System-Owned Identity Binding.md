@@ -16,9 +16,9 @@ The provider-facing review contract therefore treats these identity fields as sy
 - `workUnitId`; and
 - `workUnitFingerprint`.
 
-The caller validates the exact identity before constructing the review contract. Provider output may omit those fields or return arbitrary strings; parsing deterministically overwrites them with the validated caller-owned identity. The downstream assurance boundary still verifies the fully bound identity against the exact work unit before accepting a review result.
+The caller validates the exact identity before constructing the review contract. The provider-facing JSON shape retains these existing string fields for compatibility, but no longer constrains them to exact machine literals. Parsing deterministically overwrites whatever provider string is returned with the validated caller-owned identity. The downstream assurance boundary still verifies the fully bound identity against the exact work unit before accepting a review result.
 
-This avoids asking a model to reproduce long machine fingerprints merely to prove provenance. Educational judgement remains model-owned; provenance remains deterministic and fail-closed.
+This avoids making review success depend on a model reproducing long machine fingerprints exactly. Educational judgement remains model-owned; provenance remains deterministic and fail-closed.
 
 ## Evidence prompting this correction
 
@@ -41,10 +41,9 @@ Because the current fallback failure artifact records only the terminal failure 
 
 The corrected contract must prove in normal CI that:
 
-1. judgement-only provider output receives the exact caller-owned identity;
-2. provider-supplied identity strings cannot override caller-owned provenance;
-3. provider-facing identity fields are optional and carry the exact system defaults; and
-4. invalid caller-owned identity is rejected before provider execution.
+1. provider-supplied identity strings cannot override caller-owned provenance;
+2. provider-facing identity fields retain their established required-string shape but no longer encode exact literal constraints; and
+3. invalid caller-owned identity is rejected before provider execution.
 
 No Course Truth, Exam Truth, learner content, remediation output, Foundation approval state or publication rule changes as part of this correction.
 
