@@ -18,17 +18,17 @@ const foundationInternalLearningReviewIdentitySchema = foundationInternalLearnin
 })
 
 function systemOwnedIdentityField(value: string) {
-  return z.string().optional().default(value).overwrite(() => value)
+  return z.string().overwrite(() => value)
 }
 
 /**
  * Bind provider-facing structured output to the exact provenance of the work unit
  * being reviewed. The reviewer owns the educational judgement, not identity fields.
  *
- * Identity is therefore system-owned: provider output may omit these fields or return
- * an arbitrary string, but parsing deterministically overwrites it with the validated
- * caller-supplied value. The downstream assurance boundary still checks the fully
- * bound values again so an adapter or future contract regression fails closed.
+ * Identity is therefore system-owned: the provider returns the existing string fields,
+ * but parsing deterministically overwrites their values with validated caller-supplied
+ * provenance. The downstream assurance boundary still checks the fully bound values
+ * again so an adapter or future contract regression fails closed.
  */
 export function foundationInternalLearningBoundReviewOutputSchema(
   identity: FoundationInternalLearningReviewIdentity,
