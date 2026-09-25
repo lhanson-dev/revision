@@ -1,29 +1,30 @@
-import assert from 'node:assert/strict'
-import test from 'node:test'
+import { describe, expect, it } from 'vitest'
 import { validateFoundationInternalLearningPriorReviewerContexts } from './validate-foundation-internal-learning-prior-reviewer-contexts.mjs'
 
 function proof(priorReviewerContextIds) {
   return { remediationRecord: { priorReviewerContextIds } }
 }
 
-test('accepts a non-empty unique prior reviewer context list', () => {
-  assert.deepEqual(
-    validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 'reviewer-2'])),
-    ['reviewer-1', 'reviewer-2'],
-  )
-})
+describe('prior reviewer context validation', () => {
+  it('accepts a non-empty unique prior reviewer context list', () => {
+    expect(validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 'reviewer-2']))).toEqual([
+      'reviewer-1',
+      'reviewer-2',
+    ])
+  })
 
-test('rejects missing, empty or non-array prior reviewer contexts', () => {
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts({}), /non-empty array/)
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts(proof([])), /non-empty array/)
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts(proof('reviewer-1')), /non-empty array/)
-})
+  it('rejects missing, empty or non-array prior reviewer contexts', () => {
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts({})).toThrow('non-empty array')
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts(proof([]))).toThrow('non-empty array')
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts(proof('reviewer-1'))).toThrow('non-empty array')
+  })
 
-test('rejects blank or non-string reviewer context ids', () => {
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', ' '])), /non-empty strings/)
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 2])), /non-empty strings/)
-})
+  it('rejects blank or non-string reviewer context ids', () => {
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', ' ']))).toThrow('non-empty strings')
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 2]))).toThrow('non-empty strings')
+  })
 
-test('rejects duplicate reviewer context ids', () => {
-  assert.throws(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 'reviewer-1'])), /must be unique/)
+  it('rejects duplicate reviewer context ids', () => {
+    expect(() => validateFoundationInternalLearningPriorReviewerContexts(proof(['reviewer-1', 'reviewer-1']))).toThrow('must be unique')
+  })
 })
