@@ -22,6 +22,7 @@ const retainedIdentitySchema = z.object({
 const sourceReassuranceIdentitySchema = retainedIdentitySchema.extend({
   headSha: commitShaSchema,
   correctedBundleFingerprint: sha256Schema,
+  reviewFingerprint: sha256Schema,
 })
 const remediationRunSchema = z.object({
   status: z.literal('success'),
@@ -117,6 +118,19 @@ const expectedPendingReleaseProblems = [
 describe('Foundation-native retained repeat remediation recovery proof', () => {
   const liveIt = liveEnabled ? it : it.skip
 
+  it('preserves the source re-assurance review fingerprint in the retained recovery identity', () => {
+    const identity = {
+      workflowRunId: '36058013508',
+      artifactName: 'content-factory-foundation-internal-learning-reassurance-proof-9282d1a3b134150962d3b76f531f271f17d8e509',
+      artifactDigest: 'sha256:353cbb14fd05f64f65d6c6f3b9ad39ab481765ab98916adce494aa2ab7091c0b',
+      headSha: '9282d1a3b134150962d3b76f531f271f17d8e509',
+      correctedBundleFingerprint: '8452d1ef17ef56f626b2711c536083c9fce138015f90f0dde85885db15780cb9',
+      reviewFingerprint: '9f7ed5af13c2be07dba670c4f99e6a4ea4cc2ee7711b00f092572ab061b9461c',
+    }
+
+    expect(sourceReassuranceIdentitySchema.parse(identity)).toEqual(identity)
+  })
+
   liveIt('re-attests a completed corrected bundle without another provider call', async () => {
     const repo = requiredEnv('GITHUB_REPOSITORY')
     const token = requiredEnv('GITHUB_TOKEN')
@@ -140,6 +154,7 @@ describe('Foundation-native retained repeat remediation recovery proof', () => {
     expect(source.foundationFingerprint).toBe(foundationFingerprint)
     expect(failure.foundationFingerprint).toBe(foundationFingerprint)
     expect(failure.sourceReassuranceProof).toEqual(source.sourceReassuranceProof)
+    expect(source.sourceReassuranceProof.reviewFingerprint).toBe(source.remediationRecord.sourceReviewFingerprint)
     expect(failure.failure).toContain('Learner release requires derived-asse')
 
     expect(source.addressedFindingCount).toBe(source.sourceOpenFindingCount)
