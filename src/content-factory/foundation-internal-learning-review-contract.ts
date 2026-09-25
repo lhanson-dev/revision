@@ -9,12 +9,14 @@ export interface FoundationInternalLearningReviewIdentity {
   workUnitFingerprint: string
 }
 
-const foundationInternalLearningReviewIdentitySchema = foundationInternalLearningWorkUnitReviewOutputSchema.pick({
-  foundationFingerprint: true,
-  foundationCandidateId: true,
-  sourceBundleFingerprint: true,
-  workUnitId: true,
-  workUnitFingerprint: true,
+const identifierSchema = z.string().min(1).regex(/^[a-z0-9][a-z0-9._-]*$/)
+const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/)
+const foundationInternalLearningReviewIdentitySchema = z.object({
+  foundationFingerprint: sha256Schema,
+  foundationCandidateId: identifierSchema,
+  sourceBundleFingerprint: sha256Schema,
+  workUnitId: identifierSchema,
+  workUnitFingerprint: sha256Schema,
 })
 
 function systemOwnedIdentityField(value: string) {
