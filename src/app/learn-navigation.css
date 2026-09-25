@@ -1,0 +1,84 @@
+/* Issue #381 — progressive disclosure for the active Learn branch. */
+
+.runtime-context-nav-learn {
+  margin: 3px 0 5px 18px;
+  padding-left: 9px;
+  border-left: 1px solid color-mix(in srgb, var(--subject-accent, var(--brand-mist)) 52%, var(--color-border));
+}
+
+.runtime-context-nav-learn-chapter-button {
+  min-height: 31px !important;
+  color: var(--color-text) !important;
+  font-size: 12px;
+  font-weight: 700 !important;
+}
+
+.runtime-context-nav-learn-chapter-button[aria-expanded="true"] {
+  color: var(--subject-accent-ink, var(--color-accent-text)) !important;
+}
+
+.runtime-context-nav-learn-groups {
+  gap: 5px;
+  margin: 1px 0 5px 8px;
+  padding-left: 8px;
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 68%, transparent);
+}
+
+.runtime-context-nav-learn-group {
+  gap: 1px;
+}
+
+.runtime-context-nav-learn-group .runtime-context-nav-group-label {
+  padding: 7px 8px 4px;
+  white-space: normal;
+  text-overflow: initial;
+  line-height: 1.25;
+}
+
+.runtime-context-nav-learn-pages {
+  gap: 1px;
+  margin-left: 5px;
+  padding-left: 7px;
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 56%, transparent);
+}
+
+.runtime-context-nav-learn-page {
+  min-height: 30px !important;
+  padding: 5px 8px !important;
+  font-size: 11.5px;
+  font-weight: 550 !important;
+}
+
+.runtime-context-nav-learn-page > span {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: initial;
+  line-height: 1.3;
+}
+
+.runtime-context-nav-learn-page[aria-current="page"] {
+  background: color-mix(in srgb, var(--subject-accent-soft, var(--color-surface-soft)) 70%, var(--color-surface)) !important;
+  color: var(--color-text) !important;
+}
+
+.runtime-context-nav-learn-page[aria-current="page"]::before {
+  background: var(--subject-accent, var(--brand-primary-teal));
+}
+
+@media (max-width: 960px) {
+  .runtime-mobile-drawer .runtime-context-nav-learn {
+    margin-left: 14px;
+    padding-left: 10px;
+  }
+
+  .runtime-mobile-drawer .runtime-context-nav-learn-chapter-button,
+  .runtime-mobile-drawer .runtime-context-nav-learn-page {
+    min-height: 40px !important;
+    font-size: 13px;
+  }
+
+  .runtime-mobile-drawer .runtime-context-nav-learn-group .runtime-context-nav-group-label {
+    padding-block: 9px 5px;
+    font-size: 12px;
+  }
+}

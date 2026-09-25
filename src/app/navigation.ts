@@ -2,14 +2,19 @@ export type PaperSection = 'overview' | 'learn' | 'practice' | 'exam-prep' | 'pr
 export type CourseSection = PaperSection
 export type AdminSection = 'users' | 'activity' | 'health' | 'assurance' | 'content' | 'planner'
 
+export type LearningRouteContext = {
+  learnPageId?: string | null
+  topicId?: string | null
+}
+
 export type AppRoute =
   | { kind: 'home' }
   | { kind: 'plan' }
   | { kind: 'courses' }
   | { kind: 'subjects' }
   | { kind: 'subject'; subjectId: string }
-  | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection }
-  | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection }
+  | { kind: 'course'; subjectId: string; courseId: string; section: CourseSection; learnPageId?: string | null; topicId?: string | null }
+  | { kind: 'module'; subjectId: string; courseId: string; moduleId: string; section: PaperSection; learnPageId?: string | null; topicId?: string | null }
   | { kind: 'progress' }
   | { kind: 'rev' }
   | { kind: 'admin'; section?: AdminSection }
@@ -22,22 +27,24 @@ export const coursesRoute = (): AppRoute => ({ kind: 'courses' })
 // routeHash() always emits the governed Courses route family.
 export const subjectsRoute = (): AppRoute => ({ kind: 'subjects' })
 export const subjectRoute = (subjectId: string): AppRoute => ({ kind: 'subject', subjectId })
-export const courseRoute = (subjectId: string, courseId: string, section: CourseSection = 'overview'): AppRoute => ({ kind: 'course', subjectId, courseId, section })
-export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({ kind: 'module', subjectId, courseId: '', moduleId, section })
+export const courseRoute = (subjectId: string, courseId: string, section: CourseSection = 'overview', context: LearningRouteContext = {}): AppRoute => ({ kind: 'course', subjectId, courseId, section, ...context })
+export const moduleRoute = (subjectId: string, moduleId: string, section: PaperSection = 'overview', context: LearningRouteContext = {}): AppRoute => ({ kind: 'module', subjectId, courseId: '', moduleId, section, ...context })
 
-export const learnerCourseRoute = (courseId: string, section: CourseSection = 'overview'): AppRoute => ({
+export const learnerCourseRoute = (courseId: string, section: CourseSection = 'overview', context: LearningRouteContext = {}): AppRoute => ({
   kind: 'course',
   subjectId: '',
   courseId,
   section,
+  ...context,
 })
 
-export const learnerModuleRoute = (courseId: string, moduleId: string, section: PaperSection = 'overview'): AppRoute => ({
+export const learnerModuleRoute = (courseId: string, moduleId: string, section: PaperSection = 'overview', context: LearningRouteContext = {}): AppRoute => ({
   kind: 'module',
   subjectId: '',
   courseId,
   moduleId,
   section,
+  ...context,
 })
 
 export const progressRoute = (): AppRoute => ({ kind: 'progress' })
@@ -53,10 +60,16 @@ export function routeHash(route: AppRoute) {
     case 'courses':
     case 'subjects':
     case 'subject': return '#/courses'
-    case 'course': return `#/courses/${clean(route.courseId)}/${route.section}`
+    case 'course': {
+      if (route.section === 'learn' && route.learnPageId) return `#/courses/${clean(route.courseId)}/learn/${clean(route.learnPageId)}`
+      if (route.section === 'practice' && route.topicId) return `#/courses/${clean(route.courseId)}/practice/${clean(route.topicId)}`
+      return `#/courses/${clean(route.courseId)}/${route.section}`
+    }
     case 'module': {
-      if (route.courseId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/${route.section}`
-      return '#/courses'
+      if (!route.courseId) return '#/courses'
+      if (route.section === 'learn' && route.learnPageId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/learn/${clean(route.learnPageId)}`
+      if (route.section === 'practice' && route.topicId) return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/practice/${clean(route.topicId)}`
+      return `#/courses/${clean(route.courseId)}/components/${clean(route.moduleId)}/${route.section}`
     }
     case 'progress': return '#/progress'
     case 'rev': return '#/rev'
@@ -91,10 +104,27 @@ export function parseRoute(hash: string): AppRoute {
 
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
 
+  if (parts[0] === 'courses' && parts.length === 4) {
+    const courseId = decode(parts[1])
+    const section = parts[2]
+    const contextId = decode(parts[3])
+    if (courseId && contextId && section === 'learn') return learnerCourseRoute(courseId, 'learn', { learnPageId: contextId })
+    if (courseId && contextId && section === 'practice') return learnerCourseRoute(courseId, 'practice', { topicId: contextId })
+  }
+
   if (parts[0] === 'courses' && parts.length === 3) {
     const courseId = decode(parts[1])
     const section = parts[2]
     if (courseId && validSection(section)) return learnerCourseRoute(courseId, section)
+  }
+
+  if (parts[0] === 'courses' && parts[2] === 'components' && parts.length === 6) {
+    const courseId = decode(parts[1])
+    const moduleId = decode(parts[3])
+    const section = parts[4]
+    const contextId = decode(parts[5])
+    if (courseId && moduleId && contextId && section === 'learn') return learnerModuleRoute(courseId, moduleId, 'learn', { learnPageId: contextId })
+    if (courseId && moduleId && contextId && section === 'practice') return learnerModuleRoute(courseId, moduleId, 'practice', { topicId: contextId })
   }
 
   if (parts[0] === 'courses' && parts[2] === 'components' && parts.length === 5) {

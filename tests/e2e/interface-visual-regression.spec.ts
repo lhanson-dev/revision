@@ -36,13 +36,24 @@ const cases: ReadonlyArray<VisualCase> = [
  * canonical Linux browser assurance after the corrected Home implementation.
  * The four Home captures were manually inspected for Powered by REV, the
  * stronger white/aqua halo, larger REV scale and full-width bottom Ask REV row
- * before pinning. Other surfaces retain the established pixel-diff contract.
+ * before pinning.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
   'phone:light': '4694f69d434c93fb38898c49bd07a12ab3ad3c868acec2c437228600c838fe09',
   'phone:dark': 'bbbd497afd73781340db983ba80f10b680bdf4005dd9733235f3db2af02da396',
   'desktop:light': '02fec44dfee9baefc5264b340f0d136a0c5e060ad2f90989693dc743fe6d78d9',
   'desktop:dark': 'cd7ec87330c04abf603ef05c6855dd481056bcb8010510d28b0f4f5a90844831',
+}
+
+/**
+ * Reading-first Learn baselines captured from exact-head browser assurance for
+ * Issue #381. Both desktop light and dark captures were manually inspected
+ * against the approved Learn hierarchy before pinning. The images are attached
+ * to every CI run, while the digest makes any pixel change fail closed.
+ */
+const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
+  'desktop:light': '1c12a6f51e3e107c76884ca87f22980151acb041e583105fa03045a72b450853',
+  'desktop:dark': '0ee012cd0577cabc2c4fc62f0a9a850a6c42bdc91b1e72c538c2ad541d71296a',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
@@ -159,7 +170,7 @@ async function openState(page: Page, state: VisualState) {
   await expect(page.locator('.planner-runtime')).toBeVisible()
   await expect(page.locator('.loading-shell')).toHaveCount(0)
 
-  if (state === 'learn') await expect(page.locator('.focused-learn')).toBeVisible()
+  if (state === 'learn') await expect(page.locator('article.learn-reading-page')).toBeVisible()
   if (state === 'practice') await expect(page.locator('.focused-practice')).toBeVisible()
   if (state === 'exam-prep' || state === 'timed-exam') await expect(page.locator('.focused-exam-prep')).toBeVisible()
   if (state === 'admin') await expect(page.getByRole('heading', { name: 'Revision Operations' })).toBeVisible()
@@ -183,15 +194,18 @@ for (const visualCase of cases) {
     await seedSession(page, visualCase.theme, visualCase.state === 'admin')
     await openState(page, visualCase.state)
 
-    if (visualCase.state === 'home') {
+    if (visualCase.state === 'home' || visualCase.state === 'learn') {
       const screenshot = await page.screenshot({
         animations: 'disabled',
         caret: 'hide',
         fullPage: false,
       })
-      await testInfo.attach(`home-${visualCase.theme}-${visualCase.project}.png`, { body: screenshot, contentType: 'image/png' })
+      await testInfo.attach(`${visualCase.state}-${visualCase.theme}-${visualCase.project}.png`, { body: screenshot, contentType: 'image/png' })
       const digest = createHash('sha256').update(screenshot).digest('hex')
-      expect(digest).toBe(approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`])
+      const approved = visualCase.state === 'home'
+        ? approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+        : approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+      expect(digest).toBe(approved)
       return
     }
 

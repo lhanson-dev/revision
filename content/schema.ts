@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { learnCourseSchema } from './learn-schema'
 
 const slugSchema = z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
 
@@ -155,6 +156,7 @@ function assertUniqueIds(items: ReadonlyArray<{ id: string }>, label: string, co
 export const contentPackSchema = z.object({
   manifest: contentManifestSchema,
   topics: z.array(topicSchema).min(1),
+  learn: learnCourseSchema.optional(),
   formulas: z.array(formulaSchema),
   topicLinks: z.array(topicLinkSchema),
   flashcards: z.array(flashcardSchema),
@@ -172,6 +174,16 @@ export const contentPackSchema = z.object({
   })
   pack.topics.forEach((topic, index) => {
     if (!manifestTopics.has(topic.id)) context.addIssue({ code: 'custom', path: ['topics', index, 'id'], message: `Topic ${topic.id} is not declared by the manifest` })
+  })
+  pack.learn?.chapters.forEach((chapter, chapterIndex) => {
+    if (!manifestTopics.has(chapter.topicId)) {
+      context.addIssue({ code: 'custom', path: ['learn', 'chapters', chapterIndex, 'topicId'], message: `Learn chapter ${chapter.id} references unknown topic ${chapter.topicId}` })
+    }
+    chapter.groups.forEach((group, groupIndex) => group.pages.forEach((page, pageIndex) => {
+      if (!manifestTopics.has(page.topicId)) {
+        context.addIssue({ code: 'custom', path: ['learn', 'chapters', chapterIndex, 'groups', groupIndex, 'pages', pageIndex, 'topicId'], message: `Learn page ${page.id} references unknown topic ${page.topicId}` })
+      }
+    }))
   })
 
   const topicReferences = [

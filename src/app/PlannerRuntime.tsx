@@ -68,12 +68,12 @@ function learnerName(user: User) {
 
 function canonicalRoute(route: AppRoute) {
   if (route.kind === 'subjects' || route.kind === 'subject') return coursesRoute()
-  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section)
+  if (route.kind === 'course') return learnerCourseRoute(route.courseId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId })
   if (route.kind === 'module') {
     const resolved = route.courseId
       ? { course: { id: route.courseId } }
       : findCourseForModule(catalogue, route.moduleId)
-    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section) : coursesRoute()
+    return resolved ? learnerModuleRoute(resolved.course.id, route.moduleId, route.section, { learnPageId: route.learnPageId, topicId: route.topicId }) : coursesRoute()
   }
   return route
 }
@@ -268,9 +268,9 @@ export function PlannerRuntime() {
   } else if (route.kind === 'progress') {
     screen = <ProgrammeProgressScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseProgress={(courseId) => navigate(learnerCourseRoute(courseId, 'progress'))} />
   } else if (route.kind === 'course') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerCourseRoute(route.courseId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerCourseRoute(route.courseId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'module') {
-    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenRev={openRev} />
+    screen = <CourseExperienceScreen client={supabase} userId={user.id} catalogue={catalogue} memberships={memberships} courseId={route.courseId} moduleId={route.moduleId} section={route.section} learnPageId={route.learnPageId} practiceTopicId={route.topicId} onOpenCourses={() => navigate(coursesRoute())} onOpenCourseSection={(courseId, section: CourseSection) => navigate(learnerCourseRoute(courseId, section))} onOpenModuleSection={(courseId, moduleId, section: PaperSection) => navigate(learnerModuleRoute(courseId, moduleId, section))} onOpenLearnPage={(pageId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'learn', { learnPageId: pageId }))} onOpenPracticeTopic={(topicId) => navigate(learnerModuleRoute(route.courseId, route.moduleId, 'practice', { topicId }))} onOpenRev={openRev} />
   } else if (route.kind === 'admin') {
     if (!adminAccessResolved) screen = <main className="loading-shell">Checking Admin access…</main>
     else if (!isAdmin) screen = <main className="dashboard screen-dashboard page-screen" aria-labelledby="admin-access-title"><header className="page-heading"><p className="eyebrow">Account</p><h1 id="admin-access-title">Admin access unavailable</h1><p>This account does not have permission to open Revision Admin.</p></header><button className="primary" onClick={() => navigate(homeRoute())}>Back to Home</button></main>

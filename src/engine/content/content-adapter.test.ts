@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
+import { businessAqaALevel7132Paper1 } from '../../../content/business/aqa-a-level/paper-1'
 import { businessAqaAsPaper2 } from '../../../content/business/aqa-as/paper-2'
 import { contentPackSchema } from '../../../content/schema'
 import { createLearningContentAdapter } from './content-adapter'
@@ -17,6 +18,30 @@ describe('shared content adapter', () => {
     expect(adapter.listExamTechnique()).toHaveLength(6)
     expect(adapter.listExamTechnique()[0]?.id).toBe('blt-analysis')
     expect(adapter.listExams()[0]?.totalMarks).toBe(80)
+  })
+
+  it('builds a complete Learn hierarchy while preserving richer authored pages', () => {
+    const adapter = createLearningContentAdapter(businessAqaALevel7132Paper1)
+    const topics = adapter.listTopics()
+    const chapters = adapter.listLearnChapters()
+
+    expect(chapters).toHaveLength(topics.length)
+    expect(chapters.map((chapter) => chapter.topicId)).toEqual(topics.map((topic) => topic.id))
+
+    const limitedCompanies = adapter.getLearnPage('limited-companies-and-shareholders')
+    expect(limitedCompanies?.blocks.some((block) => block.type === 'comparison')).toBe(true)
+
+    const breakEven = adapter.getLearnPage('understanding-break-even')
+    expect(breakEven?.blocks.some((block) => block.type === 'quantitative')).toBe(true)
+
+    const businessTopic = topics.find((topic) => topic.id === 'business')
+    const businessChapter = chapters.find((chapter) => chapter.topicId === 'business')
+    const coveredSourceSections = new Set(
+      businessChapter?.groups.flatMap((group) => group.pages.flatMap((page) => page.sourceSectionIds ?? [])) ?? [],
+    )
+
+    expect(businessTopic).toBeDefined()
+    expect(businessTopic?.sections.every((section) => coveredSourceSections.has(section.id))).toBe(true)
   })
 
   it('exposes catalogue metadata from the same manifests used by learning', () => {
@@ -92,6 +117,8 @@ describe('shared content adapter', () => {
     const adapter = createLearningContentAdapter(futurePack)
     expect(adapter.getTopic('algebra')?.title).toBe('Algebra')
     expect(adapter.listExamTechnique()).toEqual([])
+    expect(adapter.listLearnChapters()).toHaveLength(1)
+    expect(adapter.listLearnChapters()[0]?.groups[0]?.pages[0]?.title).toBe('Linear equations')
   })
 
   it('rejects content that references a topic outside its manifest', () => {
