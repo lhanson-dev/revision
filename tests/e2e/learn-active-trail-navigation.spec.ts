@@ -134,6 +134,16 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
   await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText('Learn')
 
   let nav = await navigation(page)
+  const learnSectionButton = nav.getByRole('button', { name: 'AQA AS Business Learn', exact: true })
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'true')
+  const hashBeforeLearnDisclosure = await page.evaluate(() => window.location.hash)
+  await learnSectionButton.click()
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'false')
+  await expect(nav.getByLabel('Learn contents')).toHaveCount(0)
+  expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeLearnDisclosure)
+  await learnSectionButton.click()
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'true')
+
   let learnContents = nav.getByLabel('Learn contents')
   const businessChapter = learnContents.getByRole('button', { name: '1. What is Business?', exact: true })
   const activeSingleton = learnContents.locator('.runtime-context-nav-learn-singleton-page').filter({ hasText: 'Purpose, objectives & profit' })
@@ -202,4 +212,56 @@ test('Learn removes redundant singleton levels but preserves meaningful group-to
   await expect(breakEvenGroup).toHaveAttribute('aria-expanded', 'true')
   expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeGroupDisclosure)
   await expect(learnContents.getByRole('button', { name: 'Understanding break-even', exact: true })).toBeVisible()
+})
+
+test('Learn uses the shared course-section surface while preserving a readable article measure', async ({ page }) => {
+  await seedSession(page)
+  await page.goto(appPath)
+  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+
+  await clickNavigation(page, 'Courses')
+  await clickNavigation(page, 'AQA A-level Business')
+  await clickNavigation(page, 'AQA A-level Business Learn')
+
+  const learnSurface = page.locator('.learn-reading-workspace')
+  const learnArticle = page.locator('article.learn-reading-page')
+  await expect(learnSurface).toBeVisible()
+  const learnSurfaceBox = await learnSurface.boundingBox()
+  const learnArticleBox = await learnArticle.boundingBox()
+  expect(learnSurfaceBox && learnArticleBox).toBeTruthy()
+  expect(learnArticleBox!.width).toBeLessThanOrEqual(761)
+  expect(learnArticleBox!.width).toBeLessThan(learnSurfaceBox!.width)
+
+  const learnStyle = await learnSurface.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      backgroundColor: style.backgroundColor,
+      borderTopWidth: style.borderTopWidth,
+      borderTopStyle: style.borderTopStyle,
+      borderRadius: style.borderRadius,
+      paddingLeft: style.paddingLeft,
+      marginTop: style.marginTop,
+    }
+  })
+
+  const courseNavigation = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
+  await courseNavigation.getByRole('button', { name: 'Practice', exact: true }).click()
+  const practiceSurface = page.locator('.focused-practice')
+  await expect(practiceSurface).toBeVisible()
+  const practiceSurfaceBox = await practiceSurface.boundingBox()
+  expect(practiceSurfaceBox).toBeTruthy()
+  expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
+
+  const practiceStyle = await practiceSurface.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      backgroundColor: style.backgroundColor,
+      borderTopWidth: style.borderTopWidth,
+      borderTopStyle: style.borderTopStyle,
+      borderRadius: style.borderRadius,
+      paddingLeft: style.paddingLeft,
+      marginTop: style.marginTop,
+    }
+  })
+  expect(learnStyle).toEqual(practiceStyle)
 })
