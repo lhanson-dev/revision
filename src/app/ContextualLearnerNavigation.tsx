@@ -36,6 +36,10 @@ function selectedCourseId(route: AppRoute) {
   return null
 }
 
+function scrollReadingSurfaceToTop() {
+  window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
+}
+
 function SectionLinks({
   route,
   sections,
@@ -82,11 +86,10 @@ function LearnTree({
   onNavigate: (route: AppRoute) => void
   destination: (pageId: string) => AppRoute
 }) {
-  if ((route.kind !== 'course' && route.kind !== 'module') || route.section !== 'learn') return null
-
-  const chapters = adapter.listLearnChapters()
+  const isLearnRoute = (route.kind === 'course' || route.kind === 'module') && route.section === 'learn'
+  const chapters = isLearnRoute ? adapter.listLearnChapters() : []
   const firstPage = chapters[0]?.groups[0]?.pages[0]
-  const requestedPageId = route.learnPageId ?? firstPage?.id ?? null
+  const requestedPageId = isLearnRoute ? route.learnPageId ?? firstPage?.id ?? null : null
   const activePage = chapters
     .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
     .find((page) => page.id === requestedPageId) ?? firstPage ?? null
@@ -94,13 +97,20 @@ function LearnTree({
   const activeChapter = chapters.find((chapter) => chapter.groups.some((group) => group.pages.some((page) => page.id === activePageId))) ?? chapters[0]
   const activeGroup = activeChapter?.groups.find((group) => group.pages.some((page) => page.id === activePageId)) ?? activeChapter?.groups[0]
 
-  const [expandedChapterId, setExpandedChapterId] = useState<string | null>(activeChapter?.id ?? null)
-  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(activeGroup?.id ?? null)
+  const [expandedChapterId, setExpandedChapterId] = useState<string | null>(null)
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!isLearnRoute) {
+      setExpandedChapterId(null)
+      setExpandedGroupId(null)
+      return
+    }
     setExpandedChapterId(activeChapter?.id ?? null)
     setExpandedGroupId(activeGroup?.id ?? null)
-  }, [activeChapter?.id, activeGroup?.id, activePageId])
+  }, [isLearnRoute, activeChapter?.id, activeGroup?.id, activePageId])
+
+  if (!isLearnRoute) return null
 
   function toggleChapter(chapterId: string) {
     const willExpand = expandedChapterId !== chapterId
@@ -116,6 +126,11 @@ function LearnTree({
 
   function toggleGroup(groupId: string) {
     setExpandedGroupId((current) => current === groupId ? null : groupId)
+  }
+
+  function openPage(pageId: string) {
+    onNavigate(destination(pageId))
+    scrollReadingSurfaceToTop()
   }
 
   return (
@@ -157,7 +172,7 @@ function LearnTree({
                               key={page.id}
                               className="runtime-context-nav-item runtime-context-nav-learn-page"
                               aria-current={page.id === activePageId ? 'page' : undefined}
-                              onClick={() => onNavigate(destination(page.id))}
+                              onClick={() => openPage(page.id)}
                             >
                               <span>{page.title}</span>
                             </button>
