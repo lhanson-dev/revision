@@ -1,6 +1,6 @@
 # Learn Active-Trail Navigation Refinement
 
-**Status:** Implemented on governed feature branch; pending PR assurance and Founder merge approval  
+**Status:** Active implementation record  
 **Date:** 26 September 2026  
 **Authority:** `10-product-governance/Global Learner Navigation.md`, `10-product-governance/Learn MVP Experience.md`, `20-brand-and-experience/Product UX Principles.md`  
 **Canonical runtime:** `/revision/app/` → `app/index.html` → `src/main.tsx` → `AuthGate` → `FirstUseBoundary` → `PlannerRuntime` → `ContextualLearnerNavigation` / `CourseExperienceScreen` → `LearnReadingWorkspace`
@@ -17,11 +17,49 @@ The previous Learn implementation expanded the active chapter and then rendered 
 
 That behaviour was broader than the product authority's intended minimum-context expansion.
 
+A production regression after the first active-trail implementation also exposed two layout defects:
+
+- the desktop navigation grid was allowed to stretch its rows vertically after the contextual course branch made the rail independently scrollable, creating large gaps between otherwise compact navigation links; and
+- the selected course was still represented as another indented navigation button, while the Learn contents tree was appended after all course sections rather than nested directly beneath Learn.
+
+The corrected implementation therefore treats the selected course as a hierarchy reset rather than another level of indented navigation.
+
+## Course hierarchy reset
+
+Inside a selected course, the contextual rail/drawer uses this visual and structural model:
+
+```text
+Courses
+
+SUBJECT
+Qualification · Exam board · Specification
+
+Overview
+Learn
+  chapter
+    group
+      teaching page
+Practice
+Exam Prep
+Progress
+```
+
+Rules:
+
+- `Courses` remains the learner-wide destination and route back to the course index;
+- the selected course is shown as a non-clickable identity heading using subject plus qualification / exam-board / specification metadata;
+- course sections restart from the first contextual navigation level rather than inheriting another course-level indent;
+- the Learn academic tree is rendered directly beneath Learn, before the sibling Practice / Exam Prep / Progress rows;
+- only academic descendants beneath Learn add progressive indentation; and
+- desktop contextual navigation is top-aligned so making the rail independently scrollable cannot stretch row spacing to fill the viewport.
+
+This is the intended interpretation of the governed `Courses → learner course → focused section → contextual academic contents` hierarchy: semantic nesting remains clear, but visual indentation is reset at the selected-course boundary so the rail stays readable.
+
 ## Active-trail behaviour
 
 The learner navigation now uses this resting model inside Learn:
 
-`Courses → selected course → Learn → chapters → active chapter groups → active group pages`
+`Courses → selected course identity → Learn → chapters → active chapter groups → active group pages`
 
 Rules:
 
@@ -51,11 +89,11 @@ No new Subject navigation hop is introduced.
 
 The canonical learner route remains `Courses → saved course → focused section`. Subject remains academic identity/discovery metadata, consistent with current navigation authority.
 
-The selected course receives stronger context treatment while its focused sections remain visually subordinate. This preserves course identity without representing every semantic level as another deep indent.
+The selected course is represented as course identity rather than a nested destination button while its focused sections form the first actionable contextual level. This preserves course identity without representing every semantic level as another deep indent.
 
 ## Teaching-page orientation
 
-The Learn article retains lightweight orientation above the page title and now explicitly begins with `Learn`, followed by the current chapter and group.
+The Learn article retains lightweight orientation above the page title and explicitly begins with `Learn`, followed by the current chapter and group.
 
 This complements the rail/drawer rather than creating another navigation system. The existing course identity and `Overview / Learn / Practice / Exam Prep / Progress` chrome remain the surrounding frame.
 
@@ -73,6 +111,7 @@ The existing responsive navigation model is unchanged:
 
 - desktop uses the persistent learner rail;
 - when the desktop course hierarchy exceeds the viewport, the navigation region scrolls independently so lower chapters remain reachable while REV identity, Ask REV and account access remain stable;
+- scrollability must not stretch navigation rows vertically: the navigation grid remains top-aligned with compact intrinsic row heights;
 - tablet/mobile use the governed navigation drawer;
 - selecting a teaching page on tablet/mobile navigates and closes the drawer through the existing shell behaviour;
 - reopening the drawer reconstructs the active trail from the new route; and
@@ -82,22 +121,27 @@ Touch targets remain at least the existing governed mobile navigation size.
 
 ## Implementation files
 
-- `src/app/ContextualLearnerNavigation.tsx` — active-trail state, chapter/group disclosure semantics, exact-page navigation and route reconstruction.
-- `src/app/contextual-navigation.css` — bounded contextual hierarchy, selected-course treatment, wrapping, disclosure layout and desktop overflow reachability.
-- `src/app/learn-navigation.css` — Learn-specific active-trail visual hierarchy with capped indentation.
+- `src/app/ContextualLearnerNavigation.tsx` — selected-course identity reset, section ordering, active-trail state, chapter/group disclosure semantics, exact-page navigation and route reconstruction.
+- `src/app/contextual-navigation.css` — compact top-aligned rail rows, selected-course hierarchy reset, course identity treatment, bounded contextual hierarchy, wrapping, disclosure layout and desktop overflow reachability.
+- `src/app/learn-navigation.css` — Learn-specific active-trail visual hierarchy with progressive but capped indentation beneath Learn.
 - `src/app/LearnReadingWorkspace.tsx` — `Learn → chapter → group` location context and top reset for sequential navigation.
 - `tests/e2e/learn-active-trail-navigation.spec.ts` — phone/tablet/desktop assurance for active trail, non-navigating disclosure controls, current-page reconstruction, scroll reset and overflow/reachability protection.
+- `tests/e2e/course-navigation-hierarchy.spec.ts` — regression assurance for compact desktop navigation spacing, selected-course hierarchy reset, section ordering and increasing Learn descendant indentation.
 
 ## Assurance requirement
 
 The governed PR must pass normal exact-head Revision CI and the targeted Playwright coverage across phone, tablet and desktop.
 
-The targeted test proves:
+The targeted tests prove:
 
+- global navigation rows do not stretch apart when the Courses branch is active;
+- the selected course is presented as identity rather than another indented destination;
+- course sections appear in the expected order and the Learn tree is nested directly beneath Learn;
 - the current chapter is expanded;
 - the current group is expanded;
 - sibling groups do not dump their pages into the rail;
 - chapter/group disclosure does not change route;
+- academic descendants indent progressively beneath Learn while the course-section level remains reset;
 - lower desktop chapters remain reachable when the course hierarchy exceeds the viewport;
 - Previous/Next lands on the new teaching page at the top;
 - route changes rebuild the correct active trail; and
@@ -105,6 +149,6 @@ The targeted test proves:
 
 ## Documentation impact
 
-No new normative navigation model is introduced. The active product authorities already require progressive disclosure, the active chapter/group/page hierarchy, one shared rail/drawer and avoidance of an always-expanded sitemap. This change is therefore an implementation clarification of existing approved authority rather than a competing authority change.
+No new normative navigation model is introduced. The active product authorities already require progressive disclosure, the active chapter/group/page hierarchy, one shared rail/drawer and avoidance of an always-expanded sitemap. The selected-course hierarchy reset is a clarification of how that authority is rendered without runaway indentation, not a competing navigation model.
 
 Historical design and assurance evidence remains unchanged. This record documents the current implementation refinement alongside the existing Learn reading and Interface System technical records.
