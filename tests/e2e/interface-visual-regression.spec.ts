@@ -32,30 +32,45 @@ const cases: ReadonlyArray<VisualCase> = [
 ]
 
 /**
- * Founder-directed Returning Student Home fidelity baseline captured from the
- * canonical Linux browser assurance after the corrected Home implementation.
- * The four Home captures were manually inspected for Powered by REV, the
- * stronger white/aqua halo, larger REV scale and full-width bottom Ask REV row
- * before pinning.
+ * Founder-directed Returning Student Home fidelity baselines. The desktop
+ * captures remain unchanged; the phone captures were manually re-inspected on
+ * 26 September 2026 after the shared learner-canvas correction and approved
+ * because only the intentional canvas geometry changed.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
-  'phone:light': '4694f69d434c93fb38898c49bd07a12ab3ad3c868acec2c437228600c838fe09',
-  'phone:dark': 'bbbd497afd73781340db983ba80f10b680bdf4005dd9733235f3db2af02da396',
+  'phone:light': 'c47ddbd3d9e97b349e4da7f706854a723d3067c33accd3e478dc9c6f7eb9955d',
+  'phone:dark': 'c81b3b3505b468b80e1ac2a26ff90d4977cfa34631cd62a460cd81b15fad6de2',
   'desktop:light': '02fec44dfee9baefc5264b340f0d136a0c5e060ad2f90989693dc743fe6d78d9',
   'desktop:dark': 'cd7ec87330c04abf603ef05c6855dd481056bcb8010510d28b0f4f5a90844831',
 }
 
 /**
- * Reading-first Learn baselines captured from exact-head browser assurance for
- * Issue #381. The active-trail desktop light and dark captures were manually
- * inspected after redundant singleton compression and the shared outer
- * course-section framing refinement on 26 September 2026. The images are
- * attached to every CI run, while the digest makes any later pixel change fail
- * closed.
+ * Reading-first Learn baselines captured from exact-head browser assurance.
+ * The desktop light and dark captures were manually re-inspected on
+ * 26 September 2026 after Learn was aligned to the shared learner canvas while
+ * retaining readable prose measure inside that canvas.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:light': '48719f024affccd8612f170a0d8a73e00ef9ba31c0055425476cda130529fb83',
-  'desktop:dark': 'cee4649289f9e886ca509c0015acaf282392d26cac6a3efda32126e373dbf3ef',
+  'desktop:light': '6da02c6f2196821db3ecd394c0a301ab8392f950269138e167500fb891db9f72',
+  'desktop:dark': '65268c6b02d9cd7bc8036b4e08b9385aad3765150ce702ba66f17d7816056270',
+}
+
+/**
+ * The learner surfaces whose outer geometry intentionally changes in this PR
+ * are pinned to the exact manually inspected CI captures. This is stricter than
+ * the normal 1% snapshot tolerance and prevents the baseline update from
+ * masking any additional pixel drift. Timed exam and Admin retain their
+ * existing snapshot baselines because their geometry is deliberately excluded.
+ */
+const approvedCanvasScreenshotDigests: Readonly<Record<string, string>> = {
+  'desktop:plan:light': 'db0d4795dc0081866013c4e3829d16d1d79bab6bafb7d2e9b918840a7927aa82',
+  'desktop:plan:dark': '209bab11fde1eef5e740eb47cc8aa99fb062c6d6742e8e2656e6f35aa284d54a',
+  'tablet:courses:light': '7f90c35f0fce95e9023ce43cba217aa5a91583a0247fe6f72fd6dd5181990146',
+  'tablet:courses:dark': '1a89d60f669cfb01806b6de1f2b0ddaaee74a5c307a604a29f3ace0b34b0114c',
+  'phone:practice:light': 'ab694df6d5432dcf3484f0982ffcfdad3560a2e7a94054e000b731cf9f07eb7a',
+  'phone:practice:dark': 'f71b477a920246db454a791d66e3cb0eff26fc0f1b1da4f2fbdd067ef3732154',
+  'tablet:exam-prep:light': '64811d0529ea9046dc3c7ff58d42c09cda83fe4163951d616c375e787012c464',
+  'tablet:exam-prep:dark': 'c173b970f55dcd07ead514c6048f721d5fb770f46d765cb3525df9995c5e1791',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
@@ -196,7 +211,9 @@ for (const visualCase of cases) {
     await seedSession(page, visualCase.theme, visualCase.state === 'admin')
     await openState(page, visualCase.state)
 
-    if (visualCase.state === 'home' || visualCase.state === 'learn') {
+    const canvasKey = `${visualCase.project}:${visualCase.state}:${visualCase.theme}`
+    const approvedCanvasDigest = approvedCanvasScreenshotDigests[canvasKey]
+    if (visualCase.state === 'home' || visualCase.state === 'learn' || approvedCanvasDigest) {
       const screenshot = await page.screenshot({
         animations: 'disabled',
         caret: 'hide',
@@ -206,7 +223,9 @@ for (const visualCase of cases) {
       const digest = createHash('sha256').update(screenshot).digest('hex')
       const approved = visualCase.state === 'home'
         ? approvedHomeScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
-        : approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+        : visualCase.state === 'learn'
+          ? approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
+          : approvedCanvasDigest
       expect(digest).toBe(approved)
       return
     }
