@@ -67,25 +67,26 @@ When a learner selects Previous or Next, Revision navigates to the adjacent teac
 
 This prevents learners landing midway down a newly selected article because the browser retained the previous page's scroll position.
 
-## Responsive behaviour
+## Responsive and viewport behaviour
 
 The existing responsive navigation model is unchanged:
 
 - desktop uses the persistent learner rail;
+- when the desktop course hierarchy exceeds the viewport, the navigation region scrolls independently so lower chapters remain reachable while REV identity, Ask REV and account access remain stable;
 - tablet/mobile use the governed navigation drawer;
 - selecting a teaching page on tablet/mobile navigates and closes the drawer through the existing shell behaviour;
 - reopening the drawer reconstructs the active trail from the new route; and
-- the drawer must not develop horizontal overflow as labels or hierarchy depth increase.
+- the rail/drawer must not develop horizontal overflow as labels or hierarchy depth increase.
 
 Touch targets remain at least the existing governed mobile navigation size.
 
 ## Implementation files
 
 - `src/app/ContextualLearnerNavigation.tsx` — active-trail state, chapter/group disclosure semantics, exact-page navigation and route reconstruction.
-- `src/app/contextual-navigation.css` — bounded contextual hierarchy, selected-course treatment, wrapping and disclosure layout.
+- `src/app/contextual-navigation.css` — bounded contextual hierarchy, selected-course treatment, wrapping, disclosure layout and desktop overflow reachability.
 - `src/app/learn-navigation.css` — Learn-specific active-trail visual hierarchy with capped indentation.
 - `src/app/LearnReadingWorkspace.tsx` — `Learn → chapter → group` location context and top reset for sequential navigation.
-- `tests/e2e/learn-active-trail-navigation.spec.ts` — phone/tablet/desktop assurance for active trail, non-navigating disclosure controls, current-page reconstruction, scroll reset and horizontal-overflow protection.
+- `tests/e2e/learn-active-trail-navigation.spec.ts` — phone/tablet/desktop assurance for active trail, non-navigating disclosure controls, current-page reconstruction, scroll reset and overflow/reachability protection.
 
 ## Assurance requirement
 
@@ -97,6 +98,7 @@ The targeted test proves:
 - the current group is expanded;
 - sibling groups do not dump their pages into the rail;
 - chapter/group disclosure does not change route;
+- lower desktop chapters remain reachable when the course hierarchy exceeds the viewport;
 - Previous/Next lands on the new teaching page at the top;
 - route changes rebuild the correct active trail; and
 - the rail/drawer does not horizontally overflow.
