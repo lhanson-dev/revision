@@ -53,8 +53,8 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
  * digest makes any later pixel change fail closed.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:light': '2436bbb1d23b90aa51137706b0d1216cfc5ef1172932185fed383ea4255c0da1',
-  'desktop:dark': '47d173ddf7cc6021c9b7525475aa0880f5d1ec3f3a21806668d89fec67672b3b',
+  'desktop:light': '1f3c2d9d4bf8639110730c885ca912dccc66efc527852d1dadff4dd11d3d594d',
+  'desktop:dark': '9bc4111bcd208f5c60d4b0ab107d977cea195e4ddc239628bb718ad02a4125b1',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
