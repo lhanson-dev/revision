@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
@@ -12,6 +13,7 @@ import {
   type CourseSection,
   type PaperSection,
 } from './navigation'
+import { Icon } from './ui'
 
 type ContextualLearnerNavigationProps = {
   route: AppRoute
@@ -56,6 +58,7 @@ function SectionLinks({
           <button
             key={section}
             className="runtime-context-nav-item runtime-context-nav-section"
+            data-active={active ? 'true' : undefined}
             aria-label={`${contextLabel} ${label}`}
             aria-current={active && section !== 'learn' ? 'page' : undefined}
             onClick={() => onNavigate(destination(section))}
@@ -80,44 +83,90 @@ function LearnTree({
   destination: (pageId: string) => AppRoute
 }) {
   if ((route.kind !== 'course' && route.kind !== 'module') || route.section !== 'learn') return null
+
   const chapters = adapter.listLearnChapters()
   const firstPage = chapters[0]?.groups[0]?.pages[0]
-  const activePageId = route.learnPageId ?? firstPage?.id ?? null
+  const requestedPageId = route.learnPageId ?? firstPage?.id ?? null
+  const activePage = chapters
+    .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
+    .find((page) => page.id === requestedPageId) ?? firstPage ?? null
+  const activePageId = activePage?.id ?? null
   const activeChapter = chapters.find((chapter) => chapter.groups.some((group) => group.pages.some((page) => page.id === activePageId))) ?? chapters[0]
+  const activeGroup = activeChapter?.groups.find((group) => group.pages.some((page) => page.id === activePageId)) ?? activeChapter?.groups[0]
+
+  const [expandedChapterId, setExpandedChapterId] = useState<string | null>(activeChapter?.id ?? null)
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(activeGroup?.id ?? null)
+
+  useEffect(() => {
+    setExpandedChapterId(activeChapter?.id ?? null)
+    setExpandedGroupId(activeGroup?.id ?? null)
+  }, [activeChapter?.id, activeGroup?.id, activePageId])
+
+  function toggleChapter(chapterId: string) {
+    const willExpand = expandedChapterId !== chapterId
+    setExpandedChapterId(willExpand ? chapterId : null)
+    if (!willExpand) {
+      setExpandedGroupId(null)
+      return
+    }
+    const chapter = chapters.find((item) => item.id === chapterId)
+    const routeGroup = chapter?.groups.find((group) => group.pages.some((page) => page.id === activePageId))
+    setExpandedGroupId(routeGroup?.id ?? null)
+  }
+
+  function toggleGroup(groupId: string) {
+    setExpandedGroupId((current) => current === groupId ? null : groupId)
+  }
 
   return (
     <div className="runtime-context-nav-level runtime-context-nav-learn" aria-label="Learn contents">
       {chapters.map((chapter) => {
-        const chapterActive = chapter.id === activeChapter?.id
-        const chapterFirstPage = chapter.groups[0]?.pages[0]
+        const chapterContainsActivePage = chapter.groups.some((group) => group.pages.some((page) => page.id === activePageId))
+        const chapterExpanded = chapter.id === expandedChapterId
         return (
           <div className="runtime-context-nav-node runtime-context-nav-learn-chapter" key={chapter.id}>
             <button
-              className="runtime-context-nav-item runtime-context-nav-learn-chapter-button"
-              aria-expanded={chapterActive}
-              onClick={() => chapterFirstPage && onNavigate(destination(chapterFirstPage.id))}
+              className="runtime-context-nav-item runtime-context-nav-disclosure runtime-context-nav-learn-chapter-button"
+              data-active={chapterContainsActivePage ? 'true' : undefined}
+              aria-expanded={chapterExpanded}
+              onClick={() => toggleChapter(chapter.id)}
             >
               <span>{chapter.title}</span>
+              <Icon name="chevron-right" size="compact" className="runtime-context-nav-disclosure-icon" />
             </button>
-            {chapterActive && (
+            {chapterExpanded && (
               <div className="runtime-context-nav-level runtime-context-nav-learn-groups">
-                {chapter.groups.map((group) => (
-                  <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
-                    <span className="runtime-context-nav-group-label">{group.title}</span>
-                    <div className="runtime-context-nav-level runtime-context-nav-learn-pages">
-                      {group.pages.map((page) => (
-                        <button
-                          key={page.id}
-                          className="runtime-context-nav-item runtime-context-nav-learn-page"
-                          aria-current={page.id === activePageId ? 'page' : undefined}
-                          onClick={() => onNavigate(destination(page.id))}
-                        >
-                          <span>{page.title}</span>
-                        </button>
-                      ))}
+                {chapter.groups.map((group) => {
+                  const groupContainsActivePage = group.pages.some((page) => page.id === activePageId)
+                  const groupExpanded = group.id === expandedGroupId
+                  return (
+                    <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
+                      <button
+                        className="runtime-context-nav-item runtime-context-nav-disclosure runtime-context-nav-group-button"
+                        data-active={groupContainsActivePage ? 'true' : undefined}
+                        aria-expanded={groupExpanded}
+                        onClick={() => toggleGroup(group.id)}
+                      >
+                        <span>{group.title}</span>
+                        <Icon name="chevron-right" size="compact" className="runtime-context-nav-disclosure-icon" />
+                      </button>
+                      {groupExpanded && (
+                        <div className="runtime-context-nav-level runtime-context-nav-learn-pages">
+                          {group.pages.map((page) => (
+                            <button
+                              key={page.id}
+                              className="runtime-context-nav-item runtime-context-nav-learn-page"
+                              aria-current={page.id === activePageId ? 'page' : undefined}
+                              onClick={() => onNavigate(destination(page.id))}
+                            >
+                              <span>{page.title}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
@@ -149,8 +198,10 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
             return (
               <div className="runtime-context-nav-node" key={course.id}>
                 <button
-                  className="runtime-context-nav-item"
+                  className={`runtime-context-nav-item runtime-context-nav-course${selected ? ' runtime-context-nav-course-selected' : ''}`}
+                  data-selected={selected ? 'true' : undefined}
                   aria-current={route.kind === 'course' && route.courseId === course.id && route.section === 'overview' ? 'page' : undefined}
+                  aria-expanded={selected}
                   onClick={() => onOpenCourse ? onOpenCourse(course.id, destination) : onNavigate(destination)}
                 >
                   <span>{label}</span>
@@ -179,8 +230,10 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
           return (
             <div className="runtime-context-nav-node" key={course.id}>
               <button
-                className="runtime-context-nav-item"
+                className={`runtime-context-nav-item runtime-context-nav-course${selected ? ' runtime-context-nav-course-selected' : ''}`}
+                data-selected={selected ? 'true' : undefined}
                 aria-current={selected && route.kind === 'course' ? 'page' : undefined}
+                aria-expanded={selected}
                 onClick={() => onOpenCourse ? onOpenCourse(course.id, learnerCourseRoute(course.id)) : onNavigate(learnerCourseRoute(course.id))}
               >
                 <span>{label}</span>
@@ -194,7 +247,9 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                       <div className="runtime-context-nav-node" key={module.manifest.id}>
                         <button
                           className="runtime-context-nav-item"
+                          data-selected={moduleSelected ? 'true' : undefined}
                           aria-current={moduleSelected && route.section === 'overview' ? 'page' : undefined}
+                          aria-expanded={moduleSelected}
                           onClick={() => onNavigate(destination)}
                         >
                           <span>{module.manifest.paper.name}</span>
