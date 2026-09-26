@@ -48,13 +48,13 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
 /**
  * Reading-first Learn baselines captured from exact-head browser assurance for
  * Issue #381. The active-trail desktop light and dark captures were manually
- * inspected after the selected-course hierarchy reset and compact-spacing
- * correction on 26 September 2026 before pinning. The images are attached to
- * every CI run, while the digest makes any later pixel change fail closed.
+ * inspected after the redundant singleton Learn wrapper was removed on
+ * 26 September 2026. The images are attached to every CI run, while the
+ * digest makes any later pixel change fail closed.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:light': 'e6ff82f69dc61a71b3afb4840afe6ce2900f3687ae20935177960b9e8f7e1da2',
-  'desktop:dark': '6c06f65c0d03dbeac94a7397bc94f271a9e54c30bcedbef284569c98d9c5c72c',
+  'desktop:light': '3e9986e6e8b91f87572b14d0cdeef4e89b9a2f2f6d9df1ea30036dea415dc931',
+  'desktop:dark': '2e3bcba1ef1003ca9c017b82a0dfc132a6a4344543ccab5e14cf07db041e9ca1',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
