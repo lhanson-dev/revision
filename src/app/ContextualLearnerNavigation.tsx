@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
@@ -77,10 +77,6 @@ function SectionLinks({
 }) {
   const learnActive = (route.kind === 'course' || route.kind === 'module') && route.section === 'learn'
   const [learnExpanded, setLearnExpanded] = useState(learnActive)
-
-  useEffect(() => {
-    setLearnExpanded(learnActive)
-  }, [learnActive])
 
   return (
     <div className="runtime-context-nav-level runtime-context-nav-sections">
@@ -281,6 +277,7 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
       <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
         <CourseIdentity subjectName={subject.name} course={course} />
         <SectionLinks
+          key={route.section}
           route={route}
           sections={availableCourseSections(course)}
           contextLabel={label}
@@ -325,6 +322,7 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
               </button>
               {moduleSelected && route.kind === 'module' && (
                 <SectionLinks
+                  key={route.section}
                   route={route}
                   sections={availablePaperSections(module)}
                   contextLabel={`${label} ${module.manifest.paper.name}`}
