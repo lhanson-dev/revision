@@ -25,13 +25,13 @@ async function seedSession(page: Page) {
         aud: 'authenticated',
         role: 'authenticated',
         email: 'active-trail-test@revision.invalid',
-        email_confirmed_at: '2026-09-26T05:00:00.000Z',
+        email_confirmed_at: '2026-08-23T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
         user_metadata: { first_name: 'Synthetic' },
         identities: [],
-        created_at: '2026-09-26T05:00:00.000Z',
-        updated_at: '2026-09-26T05:00:00.000Z',
+        created_at: '2026-08-23T12:00:00.000Z',
+        updated_at: '2026-08-23T12:00:00.000Z',
       },
     }))
   }, { key: storageKey, id: userId })
@@ -45,13 +45,13 @@ async function seedSession(page: Page) {
         aud: 'authenticated',
         role: 'authenticated',
         email: 'active-trail-test@revision.invalid',
-        email_confirmed_at: '2026-09-26T05:00:00.000Z',
+        email_confirmed_at: '2026-08-23T12:00:00.000Z',
         phone: '',
         app_metadata: { provider: 'email', providers: ['email'] },
         user_metadata: { first_name: 'Synthetic' },
         identities: [],
-        created_at: '2026-09-26T05:00:00.000Z',
-        updated_at: '2026-09-26T05:00:00.000Z',
+        created_at: '2026-08-23T12:00:00.000Z',
+        updated_at: '2026-08-23T12:00:00.000Z',
       }),
     })
   })
@@ -69,7 +69,7 @@ async function seedSession(page: Page) {
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify([
-        { user_id: userId, course_id: courseId, created_at: '2026-09-26T05:00:00.000Z' },
+        { user_id: userId, course_id: courseId, created_at: '2026-08-23T12:00:00.000Z' },
       ]),
     })
   })
@@ -128,32 +128,31 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
   await clickNavigation(page, 'AQA AS Business')
   await clickNavigation(page, 'AQA AS Business Learn')
 
-  await expect(page.getByRole('heading', { name: 'Business aims and objectives', level: 2 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Purpose, objectives & profit', level: 2 })).toBeVisible()
   await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText('Learn')
 
   let nav = await navigation(page)
   let learnContents = nav.getByLabel('Learn contents')
   const businessChapter = learnContents.getByRole('button', { name: '1. What is Business?', exact: true })
-  const understandingGroup = learnContents.getByRole('button', { name: 'Understanding businesses', exact: true })
-  const ownershipGroup = learnContents.getByRole('button', { name: 'Business ownership', exact: true })
+  const activeGroup = learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Purpose, objectives & profit' })
+  const siblingGroup = learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Business forms & ownership' })
 
   await expect(businessChapter).toHaveAttribute('aria-expanded', 'true')
-  await expect(understandingGroup).toHaveAttribute('aria-expanded', 'true')
-  await expect(ownershipGroup).toHaveAttribute('aria-expanded', 'false')
-  await expect(learnContents.getByRole('button', { name: 'Business aims and objectives', exact: true })).toHaveAttribute('aria-current', 'page')
-  await expect(learnContents.getByRole('button', { name: 'Revenue, costs and profit', exact: true })).toBeVisible()
-  await expect(learnContents.getByRole('button', { name: 'Limited companies and shareholders', exact: true })).toHaveCount(0)
+  await expect(activeGroup).toHaveAttribute('aria-expanded', 'true')
+  await expect(siblingGroup).toHaveAttribute('aria-expanded', 'false')
+  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveText('Purpose, objectives & profit')
+  await expect(siblingGroup.locator('xpath=..').locator('.runtime-context-nav-learn-pages')).toHaveCount(0)
 
   const hashBeforeDisclosure = await page.evaluate(() => window.location.hash)
-  await ownershipGroup.click()
-  await expect(ownershipGroup).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.getByRole('button', { name: 'Limited companies and shareholders', exact: true })).toBeVisible()
+  await siblingGroup.click()
+  await expect(siblingGroup).toHaveAttribute('aria-expanded', 'true')
+  await expect(siblingGroup.locator('xpath=..').locator('.runtime-context-nav-learn-pages')).toBeVisible()
   expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeDisclosure)
 
   const financeChapter = learnContents.getByRole('button', { name: '5. Financial Management', exact: true })
   await financeChapter.click()
   await expect(financeChapter).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.getByRole('button', { name: 'Break-even and profitability', exact: true })).toBeVisible()
+  await expect(businessChapter).toHaveAttribute('aria-expanded', 'false')
   expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeDisclosure)
 
   await closeResponsiveNavigation(page)
@@ -162,14 +161,14 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
 
   const sequentialNavigation = page.getByRole('navigation', { name: 'Teaching page navigation' })
   await sequentialNavigation.getByRole('button').filter({ hasText: 'Next' }).click()
-  await expect(page.getByRole('heading', { name: 'Revenue, costs and profit', level: 2 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business forms & ownership', level: 2 })).toBeVisible()
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5)
 
   nav = await navigation(page)
   learnContents = nav.getByLabel('Learn contents')
   await expect(learnContents.getByRole('button', { name: '1. What is Business?', exact: true })).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.getByRole('button', { name: 'Understanding businesses', exact: true })).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.getByRole('button', { name: 'Revenue, costs and profit', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Business forms & ownership' })).toHaveAttribute('aria-expanded', 'true')
+  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveText('Business forms & ownership')
 
   const drawerOrRail = isResponsiveLayout(page) ? page.getByRole('dialog', { name: 'Navigation menu' }) : page.locator('.runtime-sidebar')
   const overflow = await drawerOrRail.evaluate((element) => ({ scrollWidth: element.scrollWidth, clientWidth: element.clientWidth }))
