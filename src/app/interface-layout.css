@@ -1,0 +1,18 @@
+/*
+ * Shared learner layout geometry.
+ *
+ * The learner application uses one stable outer content canvas. Feature composition
+ * can vary inside it, but individual destinations must not invent a narrower or
+ * wider top-level page frame that makes the product jump horizontally.
+ */
+
+.planner-runtime main.dashboard {
+  width: 100%;
+  max-width: var(--layout-learner-canvas-max);
+  margin-inline: auto;
+}
+
+.planner-runtime .paper-section-content {
+  width: 100%;
+  min-width: 0;
+}
