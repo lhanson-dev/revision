@@ -83,6 +83,7 @@ Use this file to find the governing source before substantive work.
 - Authentication experience → `10-product-governance/Authentication Experience.md`
 - Information architecture / primary learner navigation → `10-product-governance/Information Architecture.md`
 - Global learner navigation / persistent Ask REV behaviour → `10-product-governance/Global Learner Navigation.md`
+- Stable learner content canvas / cross-site body alignment / prose-measure interpretation → `10-product-governance/Learner Content Canvas Amendment.md`
 - Shared course content vs paper/component placement → `10-product-governance/Course Content and Assessment Component Placement.md`
 - Candidate product features / prioritisation backlog → `10-product-governance/backlog/Product Feature Backlog.md` (non-authoritative until promoted)
 - Personalised Revision Intelligence strategy-to-feature mapping / strategic execution spine → `10-product-governance/backlog/Personalised Revision Intelligence Strategy Mapping.md` (non-authoritative lifecycle mapping)

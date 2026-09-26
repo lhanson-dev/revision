@@ -112,6 +112,10 @@
   --space-20: 80px;
   --space-24: 96px;
 
+  /* Shared learner layout roles. The canvas is stable; prose measure is internal. */
+  --layout-learner-canvas-max: 1100px;
+  --layout-prose-measure: 760px;
+
   /* Shared control and icon sizing from the approved control/icon system. */
   --control-height-compact: 36px;
   --control-height-standard: 44px;
