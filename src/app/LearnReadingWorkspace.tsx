@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { LearnBlock, LearnChapter, LearnGroup, LearnPage } from '../../content/learn-schema'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { Button, EducationalTreatment } from './ui'
@@ -181,11 +182,15 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
   const titleId = `learn-page-${current.page.id}`
   const revDraft = `Can you explain ${current.page.title} another way?`
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [current.page.id])
+
   return (
     <div className="learn-reading-workspace" data-subject-accent={adapter.manifest.subject.id}>
       <article className="learn-reading-page" aria-labelledby={titleId}>
         <nav className="learn-reading-context" aria-label="Learn location">
-          <span>{current.chapter.title}</span><span aria-hidden="true">›</span><span>{current.group.title}</span>
+          <span>Learn</span><span aria-hidden="true">›</span><span>{current.chapter.title}</span><span aria-hidden="true">›</span><span>{current.group.title}</span>
         </nav>
 
         <header className="learn-reading-header">
