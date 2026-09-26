@@ -37,6 +37,16 @@ function selectedCourseId(route: AppRoute) {
   return null
 }
 
+function normalizedNavigationLabel(value: string) {
+  return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase()
+}
+
+function redundantSingletonPage(group: ReturnType<LearningContentAdapter['listLearnChapters']>[number]['groups'][number]) {
+  if (group.pages.length !== 1) return null
+  const page = group.pages[0]
+  return normalizedNavigationLabel(group.title) === normalizedNavigationLabel(page.title) ? page : null
+}
+
 function scrollReadingSurfaceToTop() {
   window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
 }
@@ -156,6 +166,22 @@ function LearnTree({
               <div className="runtime-context-nav-level runtime-context-nav-learn-groups">
                 {chapter.groups.map((group) => {
                   const groupContainsActivePage = group.pages.some((page) => page.id === activePageId)
+                  const singletonPage = redundantSingletonPage(group)
+
+                  if (singletonPage) {
+                    return (
+                      <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
+                        <button
+                          className="runtime-context-nav-item runtime-context-nav-group-button runtime-context-nav-learn-singleton-page"
+                          aria-current={singletonPage.id === activePageId ? 'page' : undefined}
+                          onClick={() => openPage(singletonPage.id)}
+                        >
+                          <span>{group.title}</span>
+                        </button>
+                      </div>
+                    )
+                  }
+
                   const groupExpanded = group.id === expandedGroupId
                   return (
                     <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
