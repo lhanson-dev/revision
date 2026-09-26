@@ -28,7 +28,6 @@ import './app/contextual-navigation.css'
 import './app/learn-navigation.css'
 import './app/courses.css'
 import './app/interface-system.css'
-import './app/interface-layout.css'
 import './app/ui/ui-components.css'
 import './app/interface-plan-progress.css'
 import './app/interface-subjects-course.css'
@@ -42,6 +41,7 @@ import './app/subject-accents.css'
 import './app/returning-home.css'
 import './app/returning-home-fidelity.css'
 import './app/course-overview-rev-feature.css'
+import './app/interface-layout.css'
 
 const root = document.getElementById('root')
 
