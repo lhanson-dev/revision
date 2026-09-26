@@ -143,6 +143,10 @@
 
 .runtime-context-nav-section-chevron {
   flex: 0 0 auto;
+  transition: transform var(--motion-fast) var(--motion-ease-standard);
+}
+
+.runtime-context-nav-section-learn[aria-expanded="true"] .runtime-context-nav-section-chevron {
   transform: rotate(90deg);
 }
 
@@ -185,6 +189,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .runtime-context-nav-section-chevron,
   .runtime-context-nav-disclosure-icon {
     transition: none;
   }

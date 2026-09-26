@@ -4,10 +4,10 @@ document_id: "revision-learn-mvp-experience"
 document_type: "domain-authority"
 authority: "product-governance"
 status: "active"
-version: "1.7"
+version: "1.8"
 owner: "Founder / Product / Educational Content"
 effective_date: "2026-09-23"
-last_reviewed: "2026-09-23"
+last_reviewed: "2026-09-26"
 content_review_status: "founder-approved-design-direction"
 source_of_truth_for: ["Learn MVP learner experience", "Learn MVP content completeness", "Learn MVP format sequencing", "Learn MVP information architecture", "Learn MVP chapter granularity", "Learn MVP teaching-page anatomy", "Learn MVP navigation integration", "Learn MVP visual inheritance", "Learn MVP bounded page composition", "Learn MVP treatment application"]
 depends_on: ["Course Learning Blueprint", "Core User Journeys", "Product UX Principles", "Visual Brand System", "Educational Treatment System", "Subject Accent Colour System", "REV Guidance and Conversation Pattern", "Global Learner Navigation", "Evidence Trust and Educational Integrity"]
@@ -308,6 +308,10 @@ The current Revision **course page chrome remains the visual and navigational fr
 
 Once the learner enters a specific teaching page, the teaching content should begin directly beneath the existing course navigation. Learn must not insert another generic orientation layer that makes the learner re-establish where they are before reading.
 
+The Learn workspace should use the same **outer course-section surface grammar and available section width** as the other focused course sections where that shared frame exists: governed surface background, border, radius and section padding should align so Learn feels contained within the same product. This outer frame is product-shell consistency, not permission to turn the teaching article into a card dashboard.
+
+Inside that shared outer frame, the teaching article retains its restrained readable measure. The reading column should remain centred and approximately `760px` on desktop as the implementation baseline, while the surrounding Learn surface may span the practical course-section width just as Practice or Exam Prep does. Ordinary explanatory prose remains unboxed inside that reading column.
+
 The approved bounded composition therefore removes from the canonical Learn teaching-page experience:
 
 - the generic `Understand the content` / `Learn · [course]` workspace heading where it merely repeats the existing course context;
@@ -347,7 +351,10 @@ On desktop, the existing persistent left navigation rail remains the only left-s
 The default progressive-disclosure rule is:
 
 - the selected course expands into its focused sections;
-- **Learn** expands because it is the active focused section;
+- **Learn** expands by default because it is the active focused section;
+- while Learn remains active, selecting the Learn disclosure again may collapse or reopen its academic descendants without navigating away from the current teaching page or changing which section is active;
+- manual collapse changes only the visibility of the nested contents and does not change the current route, page identity or reading position;
+- when Learn is entered again from another focused section, its route-derived hierarchy opens by default so the learner's current chapter/group/page context is recoverable;
 - the Learn chapter list may remain visible where space permits;
 - only the active chapter expands into its groups;
 - only the active/relevant group needs to expose its teaching pages; and
@@ -357,7 +364,7 @@ The exact current teaching page receives the active state. Parent items remain c
 
 This nested expansion must remain restrained. The global/course rail must not become an always-expanded site map, and Learn must not add a second parallel contents navigation beside it.
 
-On tablet and mobile, the same hierarchy is exposed through the existing governed learner navigation drawer. Revision must not create a separate Learn-only contents drawer. Opening the normal learner menu should reconstruct the current course → Learn → chapter/group/page context through progressive disclosure; selecting a teaching page then closes the drawer and returns the learner to the reading surface.
+On tablet and mobile, the same hierarchy is exposed through the existing governed learner navigation drawer. Revision must not create a separate Learn-only contents drawer. Opening the normal learner menu should reconstruct the current course → Learn → chapter/group/page context through progressive disclosure. While that drawer is open, selecting the already-active Learn disclosure may collapse or reopen the nested Learn contents without changing route; selecting a teaching page then closes the drawer and returns the learner to the reading surface.
 
 The teaching article therefore receives the remaining practical content width. Local previous/next controls remain part of the article because they continue the reading sequence rather than duplicate navigation hierarchy.
 
@@ -410,6 +417,8 @@ Before a supported course can claim a complete Learn MVP, the governed productio
 - generated explanations have passed the applicable factual, educational, coverage and provenance assurance gates;
 - the course does not rely on placeholder text, thin bullet summaries or unexplained specification wording for material requirements;
 - the learner can reach every required topic through the governed course/Learn navigation;
+- the active Learn contents may be collapsed/reopened without losing the current teaching-page route and reopen from route context when Learn is entered;
+- the Learn workspace uses the shared course-section outer surface while retaining a restrained readable teaching-article measure;
 - Learn remains usable across phone, tablet and desktop;
 - Learn remains visually continuous with the current approved Revision shell, Interface System and applicable subject-accent treatment;
 - recurring educational treatments follow the shared Educational Treatment System rather than course-local styling; and

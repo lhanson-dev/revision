@@ -11,7 +11,13 @@
   --educational-accent-ink: var(--subject-accent-ink, var(--color-accent-text));
   width: 100%;
   margin-top: var(--space-5);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
   color: var(--color-text);
+  box-shadow: none;
+  font-family: var(--font-family-product);
 }
 
 .planner-runtime .learn-reading-page {
@@ -437,7 +443,7 @@
 }
 
 @media (max-width: 620px) {
-  .planner-runtime .learn-reading-workspace { margin-top: var(--space-4); }
+  .planner-runtime .learn-reading-workspace { padding: var(--space-5); }
   .planner-runtime .learn-reading-header { margin-bottom: var(--space-6); }
   .planner-runtime .learn-reading-header h2 { font-size: var(--type-h1-size); line-height: var(--type-h1-line); letter-spacing: -.025em; }
   .planner-runtime .learn-reading-header p,

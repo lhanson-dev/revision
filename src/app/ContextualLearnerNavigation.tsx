@@ -37,6 +37,16 @@ function selectedCourseId(route: AppRoute) {
   return null
 }
 
+function normalizedNavigationLabel(value: string) {
+  return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase()
+}
+
+function redundantSingletonPage(group: ReturnType<LearningContentAdapter['listLearnChapters']>[number]['groups'][number]) {
+  if (group.pages.length !== 1) return null
+  const page = group.pages[0]
+  return normalizedNavigationLabel(group.title) === normalizedNavigationLabel(page.title) ? page : null
+}
+
 function scrollReadingSurfaceToTop() {
   window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
 }
@@ -65,11 +75,15 @@ function SectionLinks({
   destination: (section: CourseSection | PaperSection) => AppRoute
   learnContents?: ReactNode
 }) {
+  const learnActive = (route.kind === 'course' || route.kind === 'module') && route.section === 'learn'
+  const [learnExpanded, setLearnExpanded] = useState(learnActive)
+
   return (
     <div className="runtime-context-nav-level runtime-context-nav-sections">
       {sections.map((section) => {
         const active = (route.kind === 'course' || route.kind === 'module') && route.section === section
         const label = sectionLabels[section]
+        const expanded = section === 'learn' && active && learnExpanded
         return (
           <div className="runtime-context-nav-section-node" key={section}>
             <button
@@ -77,13 +91,19 @@ function SectionLinks({
               data-active={active ? 'true' : undefined}
               aria-label={`${contextLabel} ${label}`}
               aria-current={active && section !== 'learn' ? 'page' : undefined}
-              aria-expanded={section === 'learn' ? active : undefined}
-              onClick={() => onNavigate(destination(section))}
+              aria-expanded={section === 'learn' ? expanded : undefined}
+              onClick={() => {
+                if (section === 'learn' && active) {
+                  setLearnExpanded((current) => !current)
+                  return
+                }
+                onNavigate(destination(section))
+              }}
             >
               <span>{label}</span>
-              {section === 'learn' && active && <Icon name="chevron-right" size="compact" className="runtime-context-nav-section-chevron" />}
+              {section === 'learn' && <Icon name="chevron-right" size="compact" className="runtime-context-nav-section-chevron" />}
             </button>
-            {section === 'learn' && active && learnContents}
+            {section === 'learn' && expanded && learnContents}
           </div>
         )
       })}
@@ -156,6 +176,22 @@ function LearnTree({
               <div className="runtime-context-nav-level runtime-context-nav-learn-groups">
                 {chapter.groups.map((group) => {
                   const groupContainsActivePage = group.pages.some((page) => page.id === activePageId)
+                  const singletonPage = redundantSingletonPage(group)
+
+                  if (singletonPage) {
+                    return (
+                      <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
+                        <button
+                          className="runtime-context-nav-item runtime-context-nav-group-button runtime-context-nav-learn-singleton-page"
+                          aria-current={singletonPage.id === activePageId ? 'page' : undefined}
+                          onClick={() => openPage(singletonPage.id)}
+                        >
+                          <span>{group.title}</span>
+                        </button>
+                      </div>
+                    )
+                  }
+
                   const groupExpanded = group.id === expandedGroupId
                   return (
                     <div className="runtime-context-nav-node runtime-context-nav-learn-group" key={group.id}>
@@ -241,6 +277,7 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
       <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
         <CourseIdentity subjectName={subject.name} course={course} />
         <SectionLinks
+          key={route.section}
           route={route}
           sections={availableCourseSections(course)}
           contextLabel={label}
@@ -285,6 +322,7 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
               </button>
               {moduleSelected && route.kind === 'module' && (
                 <SectionLinks
+                  key={route.section}
                   route={route}
                   sections={availablePaperSections(module)}
                   contextLabel={`${label} ${module.manifest.paper.name}`}

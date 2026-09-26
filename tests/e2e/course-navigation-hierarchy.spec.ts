@@ -131,13 +131,11 @@ test('desktop course navigation resets hierarchy under course identity and stays
   expect(verticalGap(overviewBox!, learnBox!)).toBeLessThanOrEqual(8)
 
   const chapter = learnNode.locator('.runtime-context-nav-learn-chapter-button').first()
-  const group = learnNode.locator('.runtime-context-nav-group-button').first()
-  const pageRow = learnNode.locator('.runtime-context-nav-learn-page').first()
+  const singletonPage = learnNode.locator('.runtime-context-nav-learn-singleton-page').first()
   const sectionX = learnBox!.x
   const chapterX = (await chapter.boundingBox())?.x ?? 0
-  const groupX = (await group.boundingBox())?.x ?? 0
-  const pageX = (await pageRow.boundingBox())?.x ?? 0
+  const singletonX = (await singletonPage.boundingBox())?.x ?? 0
   expect(chapterX).toBeGreaterThan(sectionX)
-  expect(groupX).toBeGreaterThan(chapterX)
-  expect(pageX).toBeGreaterThan(groupX)
+  expect(singletonX).toBeGreaterThan(chapterX)
+  await expect(singletonPage).not.toHaveAttribute('aria-expanded')
 })

@@ -1,8 +1,8 @@
 # Global Learner Navigation
 
-**Status:** Active authority — v0.9 proposal pending governed merge  
+**Status:** Active authority — v0.10 proposal pending governed merge  
 **Owner:** Founder  
-**Founder direction approved:** 2026-08-22; focused-section nested expansion extension approved 2026-09-23  
+**Founder direction approved:** 2026-08-22; focused-section nested expansion extension approved 2026-09-23; active focused-section disclosure refinement approved 2026-09-26  
 **Purpose:** Define the governed global learner navigation model, learner-course contextual expansion and persistent REV access pattern across desktop, tablet and mobile.
 
 ## Authority relationship
@@ -11,9 +11,9 @@ This document is the specific product authority for global learner navigation, c
 
 Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
 
-This v0.9 direction retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar, the v0.6 progressive disclosure of account utilities, the v0.7 decision that the active academic branch may expand contextually and the v0.8 move from Subjects to Courses.
+This v0.10 direction retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar, the v0.6 progressive disclosure of account utilities, the v0.7 decision that the active academic branch may expand contextually, the v0.8 move from Subjects to Courses and the v0.9 permission for the active focused section to expose deeper governed academic contents.
 
-It additionally permits the **currently active focused section** to expand further into its relevant academic contents where that helps the learner navigate the current job. This extension is governed by strict progressive disclosure so the learner shell remains one navigation system rather than becoming an always-expanded sitemap.
+It additionally makes the active focused-section row itself a disclosure control where it owns deeper contextual contents. That hierarchy opens by default from route context, but the learner may collapse or reopen those descendants without navigating away from the current page. This keeps the navigation predictable and gives the learner control over a long contextual tree without changing academic location.
 
 Subject remains valid academic metadata and a useful way to organise course discovery, but it is no longer a required everyday navigation hop for a learner opening a course they already study.
 
@@ -87,6 +87,9 @@ Subject remains part of the underlying governed academic/content hierarchy and c
 - On a component-specific route, the same principle applies using the applicable course/component path.
 - Only the selected course branch expands into focused sections. Other learner courses remain collapsed.
 - Where the active focused section has governed internal academic navigation, only that **active focused section** may expand further.
+- An active focused section with deeper contextual contents opens its route-derived descendants by default, but its focused-section disclosure may be selected again to collapse or reopen those descendants without changing the active route or current page.
+- Manual focused-section collapse affects presentation only. It must not change the current destination, page identity, reading/task position, evidence or learner state.
+- Entering that focused section again from another section reconstructs its route-derived contextual hierarchy by default.
 - Sibling focused sections remain collapsed while one focused section is expanded into deeper contents.
 - Deeper contextual expansion should normally reveal only the minimum hierarchy needed to show nearby choices and the learner's current position. For Learn, this means chapters may remain visible, the active chapter may expose groups and the active/relevant group may expose its teaching pages.
 - The exact current page receives an accessible active state; parent context remains visually clear but must not falsely claim `aria-current="page"`.
@@ -157,7 +160,7 @@ Ask REV receives the strongest branded emphasis. Ordinary destinations remain re
 
 When Courses is active, the learner's saved course list appears immediately beneath it. The selected course may then expose its focused sections. Child items use progressively quieter indentation and hierarchy rather than competing visually with the four global destinations.
 
-When the learner is inside a focused section with governed internal academic contents, that **same left rail** may progressively expand the active focused section. For Learn, the left rail therefore serves as the course contents navigation: Learn may reveal chapters, the active chapter may reveal groups, and the active/relevant group may reveal teaching pages. A separate Learn contents rail must not be added alongside it.
+When the learner is inside a focused section with governed internal academic contents, that **same left rail** may progressively expand the active focused section. For Learn, the left rail therefore serves as the course contents navigation: Learn opens with its current contextual hierarchy visible by default; selecting the already-active Learn row may collapse or reopen that hierarchy without changing the teaching page. A separate Learn contents rail must not be added alongside it.
 
 The reading or task surface should retain the remaining practical content width. Deeper rail items must use restrained indentation and typography so global destinations, course identity and focused-section context remain understandable.
 
@@ -219,9 +222,9 @@ Opening the top-left menu reveals a left-side drawer over the current screen. Th
 
 When the current route belongs to Courses, the same saved-course branch used on desktop appears beneath Courses. This is **route-scoped progressive disclosure**, not an always-open site tree: the learner's courses are visible within the active Courses branch and only the selected course expands into focused sections.
 
-If the active focused section has governed deeper academic contents, the **same drawer** may expose that active section's contextual hierarchy. For Learn, this means the normal learner drawer can reveal the current Learn chapter/group/teaching-page context. Revision must not introduce a separate Learn-only contents drawer.
+If the active focused section has governed deeper academic contents, the **same drawer** may expose that active section's contextual hierarchy. For Learn, this means the normal learner drawer opens with the current Learn chapter/group/teaching-page context visible by default. Selecting the already-active Learn row may collapse or reopen those nested contents while the drawer remains open and the route stays unchanged. Revision must not introduce a separate Learn-only contents drawer.
 
-Selecting a contextual child page navigates to that page and closes the drawer. Reopening the drawer reconstructs the hierarchy from the new current route so orientation is preserved.
+Selecting a contextual child page navigates to that page and closes the drawer. Reopening the drawer reconstructs the hierarchy from the current route so orientation is preserved, regardless of whether the hierarchy had previously been manually collapsed.
 
 The active destination/page is clearly indicated without relying on colour alone.
 
@@ -295,6 +298,7 @@ All navigation uses the approved Revision Brand System.
 - saved-course/contextual children smaller, indented and visually subordinate to their parent;
 - only the selected course expands into focused sections;
 - only the active focused section may expand into deeper contextual academic contents;
+- the active focused-section disclosure may collapse/reopen those deeper descendants without changing route;
 - deeper academic children use restrained hierarchy and progressive disclosure rather than making the rail an always-expanded sitemap;
 - one compact learner identity/account row at the bottom;
 - compact elevated account popover;
@@ -309,6 +313,7 @@ All navigation uses the approved Revision Brand System.
 - Home, Plan, Progress and Courses remain recognisable as global destinations;
 - the active Courses branch may expose saved courses and the selected course's focused sections using the same hierarchy as desktop;
 - only the active focused section may expose its governed deeper academic contents inside that same drawer;
+- the active focused-section disclosure may collapse/reopen those descendants while the drawer remains open and the route remains unchanged;
 - do not create a second contents drawer for a focused section such as Learn;
 - one compact learner account row at the bottom of the drawer, with account utilities hidden until that row is selected;
 - persistent bottom Ask REV dock uses Living E with restrained halo/state treatment;
@@ -328,6 +333,7 @@ Light and dark modes are first-class versions of the same navigation system. Inf
 - Do not turn the desktop rail or mobile drawer into an always-expanded sitemap or dumping ground for unrelated tools.
 - Expand only the selected course into its focused sections; do not expand every course simultaneously.
 - Expand deeper academic contents only within the **active focused section** and only to the minimum contextual depth useful for the current job.
+- Treat manual collapse of an active focused section's descendants as presentation state only; do not use it to change route, active page or learner evidence.
 - Do not add a second focused-section contents rail/drawer when the same hierarchy can be expressed through the governed global/course navigation.
 - Learn, Practice, Exam Prep and contextual Progress appear in navigation only within the selected course/component context; they do not become new learner-wide destinations.
 - Preserve subject, course/specification and paper/component identities in the academic/content model even though Subject is no longer a required learner navigation hop.
@@ -353,4 +359,4 @@ Focused-section nested expansion is an extension of the same governed learner na
 
 ## Documentation impact
 
-This v0.9 direction requires the Courses hierarchy and focused-section contextual expansion to remain aligned across `Information Architecture.md`, applicable focused-section authority such as `Learn MVP Experience.md`, planning/journey authority, the canonical learner-shell technical documentation, route/catalogue implementation, persistence/RLS implementation and responsive browser assurance. Historical Design Acceptance evidence remains historically true and should be appended/superseded rather than rewritten.
+This v0.10 direction requires the Courses hierarchy, focused-section contextual expansion and active focused-section disclosure behaviour to remain aligned across `Information Architecture.md`, applicable focused-section authority such as `Learn MVP Experience.md`, planning/journey authority, the canonical learner-shell technical documentation, route/catalogue implementation, persistence/RLS implementation and responsive browser assurance. Historical Design Acceptance evidence remains historically true and should be appended/superseded rather than rewritten.

@@ -172,6 +172,6 @@ test('Courses shows saved courses, then resets the selected course into its focu
   const learnSection = learnButton.locator('xpath=..')
   const learnContents = learnSection.getByLabel('Learn contents')
   await expect(learnContents).toBeVisible()
-  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveCount(1)
+  await expect(learnContents.locator('[aria-current="page"]')).toHaveCount(1)
   await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toHaveCount(0)
 })

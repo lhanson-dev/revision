@@ -3,7 +3,8 @@ import { expect, test, type Page } from '@playwright/test'
 const storageKey = 'sb-xwwhshpmeogswxfjtpvq-auth-token'
 const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000181'
-const courseId = 'aqa:aqa-as:7131'
+const asCourseId = 'aqa:aqa-as:7131'
+const aLevelCourseId = 'aqa:aqa-a-level:7132'
 
 function isResponsiveLayout(page: Page) {
   return (page.viewportSize()?.width ?? 0) <= 960
@@ -69,7 +70,8 @@ async function seedSession(page: Page) {
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify([
-        { user_id: userId, course_id: courseId, created_at: '2026-08-23T12:00:00.000Z' },
+        { user_id: userId, course_id: asCourseId, created_at: '2026-08-23T12:00:00.000Z' },
+        { user_id: userId, course_id: aLevelCourseId, created_at: '2026-08-23T12:00:01.000Z' },
       ]),
     })
   })
@@ -132,23 +134,29 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
   await expect(page.getByRole('navigation', { name: 'Learn location' })).toContainText('Learn')
 
   let nav = await navigation(page)
+  const learnSectionButton = nav.getByRole('button', { name: 'AQA AS Business Learn', exact: true })
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'true')
+  const hashBeforeLearnDisclosure = await page.evaluate(() => window.location.hash)
+  await learnSectionButton.click()
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'false')
+  await expect(nav.getByLabel('Learn contents')).toHaveCount(0)
+  expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeLearnDisclosure)
+  await learnSectionButton.click()
+  await expect(learnSectionButton).toHaveAttribute('aria-expanded', 'true')
+
   let learnContents = nav.getByLabel('Learn contents')
   const businessChapter = learnContents.getByRole('button', { name: '1. What is Business?', exact: true })
-  const activeGroup = learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Purpose, objectives & profit' })
-  const siblingGroup = learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Business forms & ownership' })
+  const activeSingleton = learnContents.locator('.runtime-context-nav-learn-singleton-page').filter({ hasText: 'Purpose, objectives & profit' })
+  const siblingSingleton = learnContents.locator('.runtime-context-nav-learn-singleton-page').filter({ hasText: 'Business forms & ownership' })
 
   await expect(businessChapter).toHaveAttribute('aria-expanded', 'true')
-  await expect(activeGroup).toHaveAttribute('aria-expanded', 'true')
-  await expect(siblingGroup).toHaveAttribute('aria-expanded', 'false')
-  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveText('Purpose, objectives & profit')
-  await expect(siblingGroup.locator('xpath=..').locator('.runtime-context-nav-learn-pages')).toHaveCount(0)
+  await expect(activeSingleton).toHaveAttribute('aria-current', 'page')
+  await expect(siblingSingleton).not.toHaveAttribute('aria-expanded')
+  await expect(learnContents.getByRole('button', { name: 'Purpose, objectives & profit', exact: true })).toHaveCount(1)
+  await expect(learnContents.getByRole('button', { name: 'Business forms & ownership', exact: true })).toHaveCount(1)
+  await expect(learnContents.locator('.runtime-context-nav-group-button[aria-expanded]').filter({ hasText: 'Purpose, objectives & profit' })).toHaveCount(0)
 
   const hashBeforeDisclosure = await page.evaluate(() => window.location.hash)
-  await siblingGroup.click()
-  await expect(siblingGroup).toHaveAttribute('aria-expanded', 'true')
-  await expect(siblingGroup.locator('xpath=..').locator('.runtime-context-nav-learn-pages')).toBeVisible()
-  expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeDisclosure)
-
   const financeChapter = learnContents.getByRole('button', { name: '5. Financial Management', exact: true })
   await financeChapter.click()
   await expect(financeChapter).toHaveAttribute('aria-expanded', 'true')
@@ -167,10 +175,93 @@ test('Learn uses an active-trail contents tree and page navigation returns to th
   nav = await navigation(page)
   learnContents = nav.getByLabel('Learn contents')
   await expect(learnContents.getByRole('button', { name: '1. What is Business?', exact: true })).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Business forms & ownership' })).toHaveAttribute('aria-expanded', 'true')
-  await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveText('Business forms & ownership')
+  await expect(learnContents.locator('.runtime-context-nav-learn-singleton-page').filter({ hasText: 'Business forms & ownership' })).toHaveAttribute('aria-current', 'page')
+  await expect(learnContents.getByRole('button', { name: 'Business forms & ownership', exact: true })).toHaveCount(1)
 
   const drawerOrRail = isResponsiveLayout(page) ? page.getByRole('dialog', { name: 'Navigation menu' }) : page.locator('.runtime-sidebar')
   const overflow = await drawerOrRail.evaluate((element) => ({ scrollWidth: element.scrollWidth, clientWidth: element.clientWidth }))
   expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth + 1)
+})
+
+test('Learn removes redundant singleton levels but preserves meaningful group-to-page hierarchy', async ({ page }) => {
+  await seedSession(page)
+  await page.goto(appPath)
+  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+
+  await clickNavigation(page, 'Courses')
+  await clickNavigation(page, 'AQA A-level Business')
+  await clickNavigation(page, 'AQA A-level Business Learn')
+
+  const nav = await navigation(page)
+  const learnContents = nav.getByLabel('Learn contents')
+  const financeChapter = learnContents.getByRole('button', { name: '5. Financial Management', exact: true })
+  await financeChapter.click()
+  await expect(financeChapter).toHaveAttribute('aria-expanded', 'true')
+
+  const objectives = learnContents.getByRole('button', { name: 'Objectives, cash & profit', exact: true })
+  await expect(objectives).toHaveCount(1)
+  await expect(objectives).toHaveClass(/runtime-context-nav-learn-singleton-page/)
+  await expect(objectives).not.toHaveAttribute('aria-expanded')
+
+  const breakEvenGroup = learnContents.locator('.runtime-context-nav-group-button').filter({ hasText: 'Break-even and profitability' })
+  await expect(breakEvenGroup).toHaveCount(1)
+  await expect(breakEvenGroup).toHaveAttribute('aria-expanded', 'false')
+
+  const hashBeforeGroupDisclosure = await page.evaluate(() => window.location.hash)
+  await breakEvenGroup.click()
+  await expect(breakEvenGroup).toHaveAttribute('aria-expanded', 'true')
+  expect(await page.evaluate(() => window.location.hash)).toBe(hashBeforeGroupDisclosure)
+  await expect(learnContents.getByRole('button', { name: 'Understanding break-even', exact: true })).toBeVisible()
+})
+
+test('Learn uses the shared course-section surface while preserving a readable article measure', async ({ page }) => {
+  await seedSession(page)
+  await page.goto(appPath)
+  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+
+  await clickNavigation(page, 'Courses')
+  await clickNavigation(page, 'AQA A-level Business')
+  await clickNavigation(page, 'AQA A-level Business Learn')
+
+  const learnSurface = page.locator('.learn-reading-workspace')
+  const learnArticle = page.locator('article.learn-reading-page')
+  await expect(learnSurface).toBeVisible()
+  const learnSurfaceBox = await learnSurface.boundingBox()
+  const learnArticleBox = await learnArticle.boundingBox()
+  expect(learnSurfaceBox && learnArticleBox).toBeTruthy()
+  expect(learnArticleBox!.width).toBeLessThanOrEqual(761)
+  expect(learnArticleBox!.width).toBeLessThan(learnSurfaceBox!.width)
+
+  const learnStyle = await learnSurface.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      backgroundColor: style.backgroundColor,
+      borderTopWidth: style.borderTopWidth,
+      borderTopStyle: style.borderTopStyle,
+      borderRadius: style.borderRadius,
+      paddingLeft: style.paddingLeft,
+      marginTop: style.marginTop,
+    }
+  })
+
+  const courseNavigation = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
+  await courseNavigation.getByRole('button', { name: 'Practice', exact: true }).click()
+  const practiceSurface = page.locator('.focused-practice')
+  await expect(practiceSurface).toBeVisible()
+  const practiceSurfaceBox = await practiceSurface.boundingBox()
+  expect(practiceSurfaceBox).toBeTruthy()
+  expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
+
+  const practiceStyle = await practiceSurface.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      backgroundColor: style.backgroundColor,
+      borderTopWidth: style.borderTopWidth,
+      borderTopStyle: style.borderTopStyle,
+      borderRadius: style.borderRadius,
+      paddingLeft: style.paddingLeft,
+      marginTop: style.marginTop,
+    }
+  })
+  expect(learnStyle).toEqual(practiceStyle)
 })
