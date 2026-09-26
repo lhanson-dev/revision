@@ -47,13 +47,14 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
 
 /**
  * Reading-first Learn baselines captured from exact-head browser assurance for
- * Issue #381. Both desktop light and dark captures were manually inspected
- * against the approved Learn hierarchy before pinning. The images are attached
- * to every CI run, while the digest makes any pixel change fail closed.
+ * Issue #381. The active-trail desktop light and dark captures were manually
+ * inspected after the Founder-approved navigation refinement on 26 September
+ * 2026 before pinning. The images are attached to every CI run, while the
+ * digest makes any later pixel change fail closed.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:light': '1c12a6f51e3e107c76884ca87f22980151acb041e583105fa03045a72b450853',
-  'desktop:dark': '0ee012cd0577cabc2c4fc62f0a9a850a6c42bdc91b1e72c538c2ad541d71296a',
+  'desktop:light': '1f3c2d9d4bf8639110730c885ca912dccc66efc527852d1dadff4dd11d3d594d',
+  'desktop:dark': '9bc4111bcd208f5c60d4b0ab107d977cea195e4ddc239628bb718ad02a4125b1',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
