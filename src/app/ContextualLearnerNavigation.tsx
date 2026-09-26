@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
   availablePaperSections,
+  type CatalogueCourse,
 } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import {
@@ -40,18 +41,29 @@ function scrollReadingSurfaceToTop() {
   window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
 }
 
+function CourseIdentity({ subjectName, course }: { subjectName: string; course: CatalogueCourse }) {
+  return (
+    <div className="runtime-context-nav-course-identity" aria-label={`${subjectName} ${course.qualificationName} ${course.examBoardName} ${course.specificationCode}`}>
+      <strong>{subjectName}</strong>
+      <span>{course.qualificationName} · {course.examBoardName} · {course.specificationCode}</span>
+    </div>
+  )
+}
+
 function SectionLinks({
   route,
   sections,
   contextLabel,
   onNavigate,
   destination,
+  learnContents,
 }: {
   route: AppRoute
   sections: readonly (CourseSection | PaperSection)[]
   contextLabel: string
   onNavigate: (route: AppRoute) => void
   destination: (section: CourseSection | PaperSection) => AppRoute
+  learnContents?: ReactNode
 }) {
   return (
     <div className="runtime-context-nav-level runtime-context-nav-sections">
@@ -59,16 +71,20 @@ function SectionLinks({
         const active = (route.kind === 'course' || route.kind === 'module') && route.section === section
         const label = sectionLabels[section]
         return (
-          <button
-            key={section}
-            className="runtime-context-nav-item runtime-context-nav-section"
-            data-active={active ? 'true' : undefined}
-            aria-label={`${contextLabel} ${label}`}
-            aria-current={active && section !== 'learn' ? 'page' : undefined}
-            onClick={() => onNavigate(destination(section))}
-          >
-            <span>{label}</span>
-          </button>
+          <div className="runtime-context-nav-section-node" key={section}>
+            <button
+              className={`runtime-context-nav-item runtime-context-nav-section${section === 'learn' ? ' runtime-context-nav-section-learn' : ''}`}
+              data-active={active ? 'true' : undefined}
+              aria-label={`${contextLabel} ${label}`}
+              aria-current={active && section !== 'learn' ? 'page' : undefined}
+              aria-expanded={section === 'learn' ? active : undefined}
+              onClick={() => onNavigate(destination(section))}
+            >
+              <span>{label}</span>
+              {section === 'learn' && active && <Icon name="chevron-right" size="compact" className="runtime-context-nav-section-chevron" />}
+            </button>
+            {section === 'learn' && active && learnContents}
+          </div>
         )
       })}
     </div>
@@ -180,111 +196,95 @@ function LearnTree({
 
 export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpenCourse }: ContextualLearnerNavigationProps) {
   const activeCourseId = selectedCourseId(route)
+  const activeProgrammeCourse = activeCourseId ? courses.find(({ course }) => course.id === activeCourseId) : undefined
+
+  if (!activeProgrammeCourse) {
+    return (
+      <div className="runtime-context-nav runtime-context-nav-index" role="group" aria-label="Courses navigation">
+        <div className="runtime-context-nav-level runtime-context-nav-courses">
+          {courses.map(({ course, label }) => (
+            <button
+              className="runtime-context-nav-item runtime-context-nav-course"
+              key={course.id}
+              onClick={() => onOpenCourse ? onOpenCourse(course.id, learnerCourseRoute(course.id)) : onNavigate(learnerCourseRoute(course.id))}
+            >
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  const { course, subject, label } = activeProgrammeCourse
+
+  if (course.sharedLearning && route.kind === 'course') {
+    const learnKey = route.section === 'learn' ? route.learnPageId ?? 'learn-default' : null
+    const learnContents = learnKey !== null ? (
+      <LearnTree
+        key={learnKey}
+        adapter={course.learningAdapter}
+        route={route}
+        onNavigate={onNavigate}
+        destination={(pageId) => learnerCourseRoute(course.id, 'learn', { learnPageId: pageId })}
+      />
+    ) : undefined
+
+    return (
+      <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
+        <CourseIdentity subjectName={subject.name} course={course} />
+        <SectionLinks
+          route={route}
+          sections={availableCourseSections(course)}
+          contextLabel={label}
+          onNavigate={onNavigate}
+          destination={(section) => learnerCourseRoute(course.id, section as CourseSection)}
+          learnContents={learnContents}
+        />
+      </div>
+    )
+  }
 
   return (
-    <div className="runtime-context-nav" role="group" aria-label="Courses navigation">
-      <div className="runtime-context-nav-level runtime-context-nav-courses">
-        <button
-          className="runtime-context-nav-item"
-          aria-current={route.kind === 'courses' ? 'page' : undefined}
-          onClick={() => onNavigate(coursesRoute())}
-        >
-          <span>All courses</span>
-        </button>
-
-        {courses.map(({ course, label }) => {
-          const selected = activeCourseId === course.id
-
-          if (course.sharedLearning) {
-            const destination = learnerCourseRoute(course.id)
-            const learnKey = route.kind === 'course' && route.courseId === course.id && route.section === 'learn'
-              ? route.learnPageId ?? 'learn-default'
-              : null
-            return (
-              <div className="runtime-context-nav-node" key={course.id}>
-                <button
-                  className={`runtime-context-nav-item runtime-context-nav-course${selected ? ' runtime-context-nav-course-selected' : ''}`}
-                  data-selected={selected ? 'true' : undefined}
-                  aria-current={route.kind === 'course' && route.courseId === course.id && route.section === 'overview' ? 'page' : undefined}
-                  aria-expanded={selected}
-                  onClick={() => onOpenCourse ? onOpenCourse(course.id, destination) : onNavigate(destination)}
-                >
-                  <span>{label}</span>
-                </button>
-                {selected && route.kind === 'course' && (
-                  <>
-                    <SectionLinks
-                      route={route}
-                      sections={availableCourseSections(course)}
-                      contextLabel={label}
-                      onNavigate={onNavigate}
-                      destination={(section) => learnerCourseRoute(course.id, section as CourseSection)}
-                    />
-                    {learnKey !== null && <LearnTree
-                      key={learnKey}
-                      adapter={course.learningAdapter}
-                      route={route}
-                      onNavigate={onNavigate}
-                      destination={(pageId) => learnerCourseRoute(course.id, 'learn', { learnPageId: pageId })}
-                    />}
-                  </>
-                )}
-              </div>
-            )
-          }
+    <div className="runtime-context-nav runtime-context-nav-selected-course" role="group" aria-label="Courses navigation">
+      <CourseIdentity subjectName={subject.name} course={course} />
+      <div className="runtime-context-nav-level runtime-context-nav-components">
+        {course.modules.map((module) => {
+          const moduleSelected = route.kind === 'module' && route.moduleId === module.manifest.id
+          const destination = learnerModuleRoute(course.id, module.manifest.id)
+          const learnKey = moduleSelected && route.kind === 'module' && route.section === 'learn'
+            ? route.learnPageId ?? 'learn-default'
+            : null
+          const learnContents = learnKey !== null && route.kind === 'module' ? (
+            <LearnTree
+              key={learnKey}
+              adapter={module}
+              route={route}
+              onNavigate={onNavigate}
+              destination={(pageId) => learnerModuleRoute(course.id, module.manifest.id, 'learn', { learnPageId: pageId })}
+            />
+          ) : undefined
 
           return (
-            <div className="runtime-context-nav-node" key={course.id}>
+            <div className="runtime-context-nav-node" key={module.manifest.id}>
               <button
-                className={`runtime-context-nav-item runtime-context-nav-course${selected ? ' runtime-context-nav-course-selected' : ''}`}
-                data-selected={selected ? 'true' : undefined}
-                aria-current={selected && route.kind === 'course' ? 'page' : undefined}
-                aria-expanded={selected}
-                onClick={() => onOpenCourse ? onOpenCourse(course.id, learnerCourseRoute(course.id)) : onNavigate(learnerCourseRoute(course.id))}
+                className="runtime-context-nav-item runtime-context-nav-component"
+                data-selected={moduleSelected ? 'true' : undefined}
+                aria-current={moduleSelected && route.section === 'overview' ? 'page' : undefined}
+                aria-expanded={moduleSelected}
+                onClick={() => onNavigate(destination)}
               >
-                <span>{label}</span>
+                <span>{module.manifest.paper.name}</span>
               </button>
-              {selected && (
-                <div className="runtime-context-nav-level runtime-context-nav-components">
-                  {course.modules.map((module) => {
-                    const moduleSelected = route.kind === 'module' && route.moduleId === module.manifest.id
-                    const destination = learnerModuleRoute(course.id, module.manifest.id)
-                    const learnKey = moduleSelected && route.kind === 'module' && route.section === 'learn'
-                      ? route.learnPageId ?? 'learn-default'
-                      : null
-                    return (
-                      <div className="runtime-context-nav-node" key={module.manifest.id}>
-                        <button
-                          className="runtime-context-nav-item"
-                          data-selected={moduleSelected ? 'true' : undefined}
-                          aria-current={moduleSelected && route.section === 'overview' ? 'page' : undefined}
-                          aria-expanded={moduleSelected}
-                          onClick={() => onNavigate(destination)}
-                        >
-                          <span>{module.manifest.paper.name}</span>
-                        </button>
-                        {moduleSelected && route.kind === 'module' && (
-                          <>
-                            <SectionLinks
-                              route={route}
-                              sections={availablePaperSections(module)}
-                              contextLabel={`${label} ${module.manifest.paper.name}`}
-                              onNavigate={onNavigate}
-                              destination={(section) => learnerModuleRoute(course.id, module.manifest.id, section as PaperSection)}
-                            />
-                            {learnKey !== null && <LearnTree
-                              key={learnKey}
-                              adapter={module}
-                              route={route}
-                              onNavigate={onNavigate}
-                              destination={(pageId) => learnerModuleRoute(course.id, module.manifest.id, 'learn', { learnPageId: pageId })}
-                            />}
-                          </>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
+              {moduleSelected && route.kind === 'module' && (
+                <SectionLinks
+                  route={route}
+                  sections={availablePaperSections(module)}
+                  contextLabel={`${label} ${module.manifest.paper.name}`}
+                  onNavigate={onNavigate}
+                  destination={(section) => learnerModuleRoute(course.id, module.manifest.id, section as PaperSection)}
+                  learnContents={learnContents}
+                />
               )}
             </div>
           )
