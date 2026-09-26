@@ -4,10 +4,10 @@ document_id: "revision-product-ux-principles"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "0.5"
+version: "0.6"
 owner: "Founder"
 effective_date: "2026-08-17"
-last_reviewed: "2026-08-23"
+last_reviewed: "2026-09-26"
 review_cadence: "quarterly"
 content_review_status: "reviewed"
 source_of_truth_for: ["learner experience principles"]
@@ -79,6 +79,20 @@ For example:
 - Admin may use higher information density while retaining the same foundations.
 
 Do not create visual variety through local design-system forks. Do not create consistency by turning every experience into the same grid of bordered cards.
+
+## Stable learner content canvas
+The learner application should use one stable horizontal content canvas so moving between primary destinations and course sections does not make the page appear to jump, shrink or widen unexpectedly.
+
+For ordinary learner screens:
+
+- the main content region uses the same governed maximum width, left/right alignment and responsive page gutters;
+- Home, Plan, Progress, Courses and the course-level Overview / Learn / Practice / Exam Prep / Progress experiences align to that same outer canvas;
+- section-specific composition may vary inside the canvas, but a feature must not create a narrower centred top-level page merely because its content job is different;
+- a readable long-form prose measure is an internal typographic treatment, not a separate page canvas: prose may use a shorter line length where useful, anchored within the shared content grid, while diagrams, treatments, examples, tables and other content may use more of the available width;
+- breakpoint changes to canvas width or gutters must be shared rather than invented page by page; and
+- deliberate exceptions such as a dedicated timed exam/performance surface or operational Admin workspace must be explicit, job-driven and documented rather than accidental drift.
+
+Consistency means stable product geometry, not identical content. Learn can look and behave like a rich digital textbook and Practice can look task-led while both still begin and end on the same product canvas.
 
 ## Explain before asking
 Every section or exercise must briefly explain what it is, why it matters and what the learner is aiming to achieve.
