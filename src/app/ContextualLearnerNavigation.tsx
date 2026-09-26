@@ -7,6 +7,7 @@ import {
 } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import {
+  coursesRoute,
   learnerCourseRoute,
   learnerModuleRoute,
   type AppRoute,
@@ -201,6 +202,13 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
     return (
       <div className="runtime-context-nav runtime-context-nav-index" role="group" aria-label="Courses navigation">
         <div className="runtime-context-nav-level runtime-context-nav-courses">
+          <button
+            className="runtime-context-nav-item"
+            aria-current={route.kind === 'courses' ? 'page' : undefined}
+            onClick={() => onNavigate(coursesRoute())}
+          >
+            <span>All courses</span>
+          </button>
           {courses.map(({ course, label }) => (
             <button
               className="runtime-context-nav-item runtime-context-nav-course"
