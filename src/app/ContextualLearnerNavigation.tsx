@@ -7,7 +7,6 @@ import {
 } from './catalogue-model'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import {
-  coursesRoute,
   learnerCourseRoute,
   learnerModuleRoute,
   type AppRoute,
