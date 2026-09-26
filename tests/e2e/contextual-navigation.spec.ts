@@ -167,9 +167,10 @@ test('Courses shows saved courses, then resets the selected course into its focu
 
   nav = await navigation(page)
   coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
-  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toHaveAttribute('aria-expanded', 'true')
-  const learnSection = coursesTree.locator('.runtime-context-nav-section-node').filter({ has: coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true }) })
-  const learnContents = learnSection.locator('[aria-label="Learn contents"]')
+  const learnButton = coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })
+  await expect(learnButton).toHaveAttribute('aria-expanded', 'true')
+  const learnSection = learnButton.locator('xpath=..')
+  const learnContents = learnSection.getByLabel('Learn contents')
   await expect(learnContents).toBeVisible()
   await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveCount(1)
   await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toHaveCount(0)
