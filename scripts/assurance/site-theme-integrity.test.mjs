@@ -14,6 +14,7 @@ const semanticLayers = [
   'first-use.css',
   'guidance.css',
   'interface-system.css',
+  'interface-layout.css',
   'ui/ui-components.css',
   'interface-plan-progress.css',
   'interface-subjects-course.css',
