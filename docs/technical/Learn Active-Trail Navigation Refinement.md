@@ -24,6 +24,10 @@ A production regression after the first active-trail implementation also exposed
 
 The corrected implementation therefore treats the selected course as a hierarchy reset rather than another level of indented navigation.
 
+A further production review exposed an unnecessary hierarchy level where legacy fallback learning sections are represented internally as a group containing one teaching page with the same title. Rendering both levels produced rows such as `Objectives, cash & profit → Objectives, cash & profit`, while authored structures such as `Break-even and profitability → Understanding break-even` correctly used different parent and child labels.
+
+The navigation now compresses only the redundant singleton case. The underlying content hierarchy and teaching-page routes remain unchanged.
+
 ## Course hierarchy reset
 
 Inside a selected course, the contextual rail/drawer uses this visual and structural model:
@@ -65,7 +69,9 @@ Rules:
 
 - all chapters remain discoverable in academic order;
 - only one chapter is expanded at a time;
-- only one group inside that chapter is expanded at a time;
+- only one meaningful multi-level group inside that chapter is expanded at a time;
+- a group containing exactly one teaching page with the same normalized title is rendered once as a direct teaching-page link at group depth rather than as a disclosure followed by a duplicate child;
+- a singleton group whose teaching-page title is meaningfully different remains a disclosure with its child teaching page, preserving structures such as `Break-even and profitability → Understanding break-even`;
 - the current teaching page receives `aria-current="page"` and the strongest local active treatment;
 - sibling groups and their teaching pages stay collapsed until the learner deliberately opens them;
 - changing teaching page reconstructs the active chapter/group trail from route state;
@@ -75,13 +81,15 @@ Rules:
 
 ## Disclosure semantics
 
-Chapter and group rows are disclosure controls, not teaching-page destinations.
+Chapter rows and meaningful group rows are disclosure controls, not teaching-page destinations.
 
-Selecting a chapter expands or collapses its groups. Selecting a group expands or collapses its teaching pages. Only a teaching-page row changes the learner's route.
+Selecting a chapter expands or collapses its groups. Selecting a meaningful group expands or collapses its teaching pages. Only a teaching-page row changes the learner's route.
 
-This removes the previous surprise behaviour where selecting a chapter could implicitly navigate to the first teaching page in that chapter.
+There is one presentation exception: when a group exists only to contain one teaching page with the same normalized label, the redundant disclosure level is omitted and that visible row acts directly as the teaching-page destination. This is a visual/navigation compression only; it does not rewrite the canonical Learn content model, page identity, sequencing or route.
 
-Disclosure controls expose `aria-expanded` and use the shared chevron icon. Reduced-motion preference disables the chevron transition through the existing Interface System motion rules.
+This removes both the previous surprise behaviour where selecting a chapter could implicitly navigate to the first teaching page in that chapter and the later duplicate-label behaviour where an internal fallback wrapper was exposed as a meaningful learner choice.
+
+Disclosure controls expose `aria-expanded` and use the shared chevron icon. Direct singleton teaching-page links do not expose `aria-expanded`. Reduced-motion preference disables the chevron transition through the existing Interface System motion rules.
 
 ## Course and subject hierarchy
 
@@ -121,11 +129,11 @@ Touch targets remain at least the existing governed mobile navigation size.
 
 ## Implementation files
 
-- `src/app/ContextualLearnerNavigation.tsx` — selected-course identity reset, section ordering, active-trail state, chapter/group disclosure semantics, exact-page navigation and route reconstruction.
+- `src/app/ContextualLearnerNavigation.tsx` — selected-course identity reset, section ordering, active-trail state, chapter/group disclosure semantics, redundant singleton compression, exact-page navigation and route reconstruction.
 - `src/app/contextual-navigation.css` — compact top-aligned rail rows, selected-course hierarchy reset, course identity treatment, bounded contextual hierarchy, wrapping, disclosure layout and desktop overflow reachability.
 - `src/app/learn-navigation.css` — Learn-specific active-trail visual hierarchy with progressive but capped indentation beneath Learn.
 - `src/app/LearnReadingWorkspace.tsx` — `Learn → chapter → group` location context and top reset for sequential navigation.
-- `tests/e2e/learn-active-trail-navigation.spec.ts` — phone/tablet/desktop assurance for active trail, non-navigating disclosure controls, current-page reconstruction, scroll reset and overflow/reachability protection.
+- `tests/e2e/learn-active-trail-navigation.spec.ts` — phone/tablet/desktop assurance for active trail, redundant singleton compression, preservation of meaningful parent/child groups, current-page reconstruction, scroll reset and overflow/reachability protection.
 - `tests/e2e/course-navigation-hierarchy.spec.ts` — regression assurance for compact desktop navigation spacing, selected-course hierarchy reset, section ordering and increasing Learn descendant indentation.
 
 ## Assurance requirement
@@ -138,9 +146,9 @@ The targeted tests prove:
 - the selected course is presented as identity rather than another indented destination;
 - course sections appear in the expected order and the Learn tree is nested directly beneath Learn;
 - the current chapter is expanded;
-- the current group is expanded;
-- sibling groups do not dump their pages into the rail;
-- chapter/group disclosure does not change route;
+- identical singleton group/page labels render once as a direct page link with no redundant disclosure control;
+- meaningfully different singleton group/page labels preserve the parent disclosure and child page;
+- meaningful chapter/group disclosure does not change route;
 - academic descendants indent progressively beneath Learn while the course-section level remains reset;
 - lower desktop chapters remain reachable when the course hierarchy exceeds the viewport;
 - Previous/Next lands on the new teaching page at the top;
@@ -149,6 +157,6 @@ The targeted tests prove:
 
 ## Documentation impact
 
-No new normative navigation model is introduced. The active product authorities already require progressive disclosure, the active chapter/group/page hierarchy, one shared rail/drawer and avoidance of an always-expanded sitemap. The selected-course hierarchy reset is a clarification of how that authority is rendered without runaway indentation, not a competing navigation model.
+No new normative navigation model is introduced. The active product authorities already require progressive disclosure, the active chapter/group/page hierarchy, one shared rail/drawer, minimum necessary hierarchy and avoidance of an always-expanded sitemap. Compressing a redundant singleton wrapper is an implementation clarification of those rules, not a change to the canonical learning-content hierarchy.
 
 Historical design and assurance evidence remains unchanged. This record documents the current implementation refinement alongside the existing Learn reading and Interface System technical records.
