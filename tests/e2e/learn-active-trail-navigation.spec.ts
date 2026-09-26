@@ -121,6 +121,14 @@ async function clickNavigation(page: Page, label: string) {
   if (isResponsiveLayout(page)) await expect(page.getByRole('dialog', { name: 'Navigation menu' })).toHaveCount(0)
 }
 
+async function dashboardGeometry(page: Page) {
+  const dashboard = page.locator('main.dashboard').first()
+  await expect(dashboard).toBeVisible()
+  const box = await dashboard.boundingBox()
+  expect(box).toBeTruthy()
+  return { x: box!.x, width: box!.width }
+}
+
 test('Learn uses an active-trail contents tree and page navigation returns to the top', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
@@ -214,7 +222,7 @@ test('Learn removes redundant singleton levels but preserves meaningful group-to
   await expect(learnContents.getByRole('button', { name: 'Understanding break-even', exact: true })).toBeVisible()
 })
 
-test('Learn uses the shared course-section surface while preserving a readable article measure', async ({ page }) => {
+test('Learn uses the shared course-section and body canvas while constraining only prose measure', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
@@ -225,12 +233,13 @@ test('Learn uses the shared course-section surface while preserving a readable a
 
   const learnSurface = page.locator('.learn-reading-workspace')
   const learnArticle = page.locator('article.learn-reading-page')
+  const learnProse = page.locator('.learn-reading-explanation p').first()
   await expect(learnSurface).toBeVisible()
+
   const learnSurfaceBox = await learnSurface.boundingBox()
   const learnArticleBox = await learnArticle.boundingBox()
-  expect(learnSurfaceBox && learnArticleBox).toBeTruthy()
-  expect(learnArticleBox!.width).toBeLessThanOrEqual(761)
-  expect(learnArticleBox!.width).toBeLessThan(learnSurfaceBox!.width)
+  const learnProseBox = await learnProse.boundingBox()
+  expect(learnSurfaceBox && learnArticleBox && learnProseBox).toBeTruthy()
 
   const learnStyle = await learnSurface.evaluate((element) => {
     const style = getComputedStyle(element)
@@ -240,17 +249,32 @@ test('Learn uses the shared course-section surface while preserving a readable a
       borderTopStyle: style.borderTopStyle,
       borderRadius: style.borderRadius,
       paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
       marginTop: style.marginTop,
     }
   })
 
+  const learnPaddingLeft = Number.parseFloat(learnStyle.paddingLeft)
+  const learnPaddingRight = Number.parseFloat(learnStyle.paddingRight)
+  expect(Math.abs(learnArticleBox!.x - (learnSurfaceBox!.x + learnPaddingLeft))).toBeLessThanOrEqual(1)
+  expect(Math.abs(
+    (learnArticleBox!.x + learnArticleBox!.width)
+      - (learnSurfaceBox!.x + learnSurfaceBox!.width - learnPaddingRight),
+  )).toBeLessThanOrEqual(1)
+  expect(Math.abs(learnProseBox!.x - learnArticleBox!.x)).toBeLessThanOrEqual(1)
+  expect(learnProseBox!.width).toBeLessThanOrEqual(761)
+
   const courseNavigation = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
   await courseNavigation.getByRole('button', { name: 'Practice', exact: true }).click()
   const practiceSurface = page.locator('.focused-practice')
+  const practiceHeading = practiceSurface.locator('.workspace-heading')
   await expect(practiceSurface).toBeVisible()
   const practiceSurfaceBox = await practiceSurface.boundingBox()
-  expect(practiceSurfaceBox).toBeTruthy()
+  const practiceHeadingBox = await practiceHeading.boundingBox()
+  expect(practiceSurfaceBox && practiceHeadingBox).toBeTruthy()
   expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
+  expect(Math.abs(learnArticleBox!.x - practiceHeadingBox!.x)).toBeLessThanOrEqual(1)
+  expect(Math.abs(learnArticleBox!.width - practiceHeadingBox!.width)).toBeLessThanOrEqual(1)
 
   const practiceStyle = await practiceSurface.evaluate((element) => {
     const style = getComputedStyle(element)
@@ -260,8 +284,29 @@ test('Learn uses the shared course-section surface while preserving a readable a
       borderTopStyle: style.borderTopStyle,
       borderRadius: style.borderRadius,
       paddingLeft: style.paddingLeft,
+      paddingRight: style.paddingRight,
       marginTop: style.marginTop,
     }
   })
   expect(learnStyle).toEqual(practiceStyle)
+})
+
+test('primary learner destinations retain one outer content canvas', async ({ page }) => {
+  await seedSession(page)
+  await page.goto(appPath)
+  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+
+  const homeGeometry = await dashboardGeometry(page)
+
+  for (const destination of ['Plan', 'Progress', 'Courses']) {
+    await clickNavigation(page, destination)
+    const geometry = await dashboardGeometry(page)
+    expect(Math.abs(geometry.x - homeGeometry.x)).toBeLessThanOrEqual(1)
+    expect(Math.abs(geometry.width - homeGeometry.width)).toBeLessThanOrEqual(1)
+  }
+
+  await clickNavigation(page, 'AQA A-level Business')
+  const courseGeometry = await dashboardGeometry(page)
+  expect(Math.abs(courseGeometry.x - homeGeometry.x)).toBeLessThanOrEqual(1)
+  expect(Math.abs(courseGeometry.width - homeGeometry.width)).toBeLessThanOrEqual(1)
 })
