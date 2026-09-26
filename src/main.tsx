@@ -41,7 +41,7 @@ import './app/subject-accents.css'
 import './app/returning-home.css'
 import './app/returning-home-fidelity.css'
 import './app/course-overview-rev-feature.css'
-import './app/interface-content-canvas.css'
+import './app/interface-layout.css'
 
 const root = document.getElementById('root')
 
