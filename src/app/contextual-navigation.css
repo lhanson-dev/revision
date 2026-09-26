@@ -97,7 +97,7 @@
 
 .runtime-context-nav-disclosure-icon {
   flex: 0 0 auto;
-  transition: transform var(--motion-fast) ease;
+  transition: transform var(--motion-fast) var(--motion-ease-standard);
 }
 
 .runtime-context-nav-disclosure[aria-expanded="true"] .runtime-context-nav-disclosure-icon {
