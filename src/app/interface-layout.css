@@ -1,18 +1,44 @@
 /*
  * Shared learner layout geometry.
  *
- * The learner application uses one stable outer content canvas. Feature composition
- * can vary inside it, but individual destinations must not invent a narrower or
- * wider top-level page frame that makes the product jump horizontally.
+ * The learner application uses one stable body-content canvas. Feature composition
+ * can vary inside it, but ordinary learner destinations must not invent narrower or
+ * wider top-level frames that make the product jump horizontally.
+ *
+ * Admin remains an explicit operational exception. Dedicated specialist performance
+ * surfaces may opt out through their own governed composition rather than inheriting
+ * this rule accidentally.
  */
 
-.planner-runtime main.dashboard {
-  width: 100%;
-  max-width: var(--layout-learner-canvas-max);
+.planner-runtime main.dashboard:not(.admin-operations),
+.planner-runtime main.home-focused-activity {
+  max-width: calc(var(--layout-learner-canvas-max) + var(--space-20));
   margin-inline: auto;
+  padding-inline: var(--space-10);
 }
 
 .planner-runtime .paper-section-content {
   width: 100%;
   min-width: 0;
+}
+
+@media (max-width: 1160px) and (min-width: 961px) {
+  .planner-runtime main.dashboard:not(.admin-operations),
+  .planner-runtime main.home-focused-activity {
+    padding-inline: calc(var(--space-6) + var(--space-1));
+  }
+}
+
+@media (max-width: 960px) {
+  .planner-runtime main.dashboard:not(.admin-operations),
+  .planner-runtime main.home-focused-activity {
+    padding-inline: var(--space-6);
+  }
+}
+
+@media (max-width: 620px) {
+  .planner-runtime main.dashboard:not(.admin-operations),
+  .planner-runtime main.home-focused-activity {
+    padding-inline: var(--space-5);
+  }
 }
