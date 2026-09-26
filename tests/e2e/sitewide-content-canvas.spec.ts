@@ -93,7 +93,7 @@ async function seedSession(page: Page) {
 
 async function pageCanvas(page: Page, hash: string) {
   await page.goto(`${appPath}${hash}`)
-  const canvas = page.locator('main.page-screen')
+  const canvas = page.locator('main.dashboard').first()
   await expect(canvas).toBeVisible()
   const box = await canvas.boundingBox()
   expect(box).toBeTruthy()
@@ -109,7 +109,7 @@ test('learner destinations keep one stable horizontal content canvas', async ({ 
   await seedSession(page)
 
   const baseline = await pageCanvas(page, '#/home')
-  for (const hash of ['#/plan', '#/progress', '#/courses']) {
+  for (const hash of ['#/plan', '#/progress', '#/courses', '#/rev']) {
     const current = await pageCanvas(page, hash)
     expectSameHorizontalCanvas(current, baseline)
   }
@@ -121,7 +121,7 @@ test('learner destinations keep one stable horizontal content canvas', async ({ 
   }
 })
 
-test('course sections align their body content and Learn does not narrow the top-level article canvas', async ({ page }) => {
+test('course sections align their body content while Learn constrains prose rather than its canvas', async ({ page }) => {
   await seedSession(page)
   const encodedCourse = encodeURIComponent(courseId)
 
@@ -140,12 +140,15 @@ test('course sections align their body content and Learn does not narrow the top
   await page.goto(`${appPath}#/courses/${encodedCourse}/learn`)
   const surface = page.locator('.learn-reading-workspace')
   const article = page.locator('article.learn-reading-page')
+  const prose = page.locator('.learn-reading-explanation p').first()
   await expect(surface).toBeVisible()
   await expect(article).toBeVisible()
+  await expect(prose).toBeVisible()
 
   const surfaceBox = await surface.boundingBox()
   const articleBox = await article.boundingBox()
-  expect(surfaceBox && articleBox).toBeTruthy()
+  const proseBox = await prose.boundingBox()
+  expect(surfaceBox && articleBox && proseBox).toBeTruthy()
 
   const insets = await surface.evaluate((element) => {
     const style = getComputedStyle(element)
@@ -159,4 +162,6 @@ test('course sections align their body content and Learn does not narrow the top
   const expectedWidth = surfaceBox!.width - insets.left - insets.right
   expect(Math.abs(articleBox!.x - expectedLeft)).toBeLessThanOrEqual(1)
   expect(Math.abs(articleBox!.width - expectedWidth)).toBeLessThanOrEqual(1)
+  expect(Math.abs(proseBox!.x - articleBox!.x)).toBeLessThanOrEqual(1)
+  expect(proseBox!.width).toBeLessThanOrEqual(761)
 })
