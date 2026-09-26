@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import type { LearnBlock, LearnChapter, LearnGroup, LearnPage } from '../../content/learn-schema'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import { Button, EducationalTreatment } from './ui'
@@ -21,6 +20,10 @@ function locatePages(adapter: LearningContentAdapter): LocatedPage[] {
   return adapter.listLearnChapters().flatMap((chapter) => chapter.groups.flatMap((group) => (
     group.pages.map((page) => ({ chapter, group, page }))
   )))
+}
+
+function scrollReadingSurfaceToTop() {
+  window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }))
 }
 
 function renderExplanation(block: Extract<LearnBlock, { type: 'explanation' }>, key: string) {
@@ -182,9 +185,10 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
   const titleId = `learn-page-${current.page.id}`
   const revDraft = `Can you explain ${current.page.title} another way?`
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-  }, [current.page.id])
+  function openSequentialPage(nextPageId: string) {
+    onOpenPage(nextPageId)
+    scrollReadingSurfaceToTop()
+  }
 
   return (
     <div className="learn-reading-workspace" data-subject-accent={adapter.manifest.subject.id}>
@@ -213,10 +217,10 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
 
         <nav className="learn-page-navigation" aria-label="Teaching page navigation">
           <div>
-            {previous && <Button variant="tertiary" onClick={() => onOpenPage(previous.page.id)}>← Previous<span>{previous.page.title}</span></Button>}
+            {previous && <Button variant="tertiary" onClick={() => openSequentialPage(previous.page.id)}>← Previous<span>{previous.page.title}</span></Button>}
           </div>
           <div>
-            {next && <Button variant="tertiary" onClick={() => onOpenPage(next.page.id)}>Next →<span>{next.page.title}</span></Button>}
+            {next && <Button variant="tertiary" onClick={() => openSequentialPage(next.page.id)}>Next →<span>{next.page.title}</span></Button>}
           </div>
         </nav>
 
