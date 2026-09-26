@@ -21,8 +21,8 @@
 }
 
 .planner-runtime .learn-reading-page {
-  width: min(100%, 760px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .planner-runtime .learn-reading-context {
@@ -50,7 +50,7 @@
 }
 
 .planner-runtime .learn-reading-header p {
-  max-width: 700px;
+  max-width: var(--layout-prose-measure);
   margin: var(--space-3) 0 0;
   color: var(--color-text-secondary);
   font-size: var(--type-body-l-size);
@@ -80,6 +80,7 @@
 }
 
 .planner-runtime .learn-reading-explanation p {
+  max-width: var(--layout-prose-measure);
   margin: 0;
   color: var(--color-text);
   font-size: var(--type-body-l-size);
@@ -437,7 +438,6 @@
 .planner-runtime .learn-page-navigation button span { color: var(--color-text-secondary); font-size: var(--type-body-s-size); }
 
 @media (max-width: 960px) {
-  .planner-runtime .learn-reading-page { width: min(100%, 760px); }
   .planner-runtime .ui-educational-treatment { padding: var(--space-5); }
   .planner-runtime .ui-educational-treatment--relationship { padding-inline: 0; }
 }
