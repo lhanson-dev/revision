@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import {
   availableCourseSections,
@@ -86,10 +86,9 @@ function LearnTree({
   onNavigate: (route: AppRoute) => void
   destination: (pageId: string) => AppRoute
 }) {
-  const isLearnRoute = (route.kind === 'course' || route.kind === 'module') && route.section === 'learn'
-  const chapters = isLearnRoute ? adapter.listLearnChapters() : []
+  const chapters = adapter.listLearnChapters()
   const firstPage = chapters[0]?.groups[0]?.pages[0]
-  const requestedPageId = isLearnRoute ? route.learnPageId ?? firstPage?.id ?? null : null
+  const requestedPageId = (route.kind === 'course' || route.kind === 'module') ? route.learnPageId ?? firstPage?.id ?? null : firstPage?.id ?? null
   const activePage = chapters
     .flatMap((chapter) => chapter.groups.flatMap((group) => group.pages))
     .find((page) => page.id === requestedPageId) ?? firstPage ?? null
@@ -97,20 +96,8 @@ function LearnTree({
   const activeChapter = chapters.find((chapter) => chapter.groups.some((group) => group.pages.some((page) => page.id === activePageId))) ?? chapters[0]
   const activeGroup = activeChapter?.groups.find((group) => group.pages.some((page) => page.id === activePageId)) ?? activeChapter?.groups[0]
 
-  const [expandedChapterId, setExpandedChapterId] = useState<string | null>(null)
-  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!isLearnRoute) {
-      setExpandedChapterId(null)
-      setExpandedGroupId(null)
-      return
-    }
-    setExpandedChapterId(activeChapter?.id ?? null)
-    setExpandedGroupId(activeGroup?.id ?? null)
-  }, [isLearnRoute, activeChapter?.id, activeGroup?.id, activePageId])
-
-  if (!isLearnRoute) return null
+  const [expandedChapterId, setExpandedChapterId] = useState<string | null>(activeChapter?.id ?? null)
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(activeGroup?.id ?? null)
 
   function toggleChapter(chapterId: string) {
     const willExpand = expandedChapterId !== chapterId
@@ -210,6 +197,9 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
 
           if (course.sharedLearning) {
             const destination = learnerCourseRoute(course.id)
+            const learnKey = route.kind === 'course' && route.courseId === course.id && route.section === 'learn'
+              ? route.learnPageId ?? 'learn-default'
+              : null
             return (
               <div className="runtime-context-nav-node" key={course.id}>
                 <button
@@ -230,12 +220,13 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                       onNavigate={onNavigate}
                       destination={(section) => learnerCourseRoute(course.id, section as CourseSection)}
                     />
-                    <LearnTree
+                    {learnKey !== null && <LearnTree
+                      key={learnKey}
                       adapter={course.learningAdapter}
                       route={route}
                       onNavigate={onNavigate}
                       destination={(pageId) => learnerCourseRoute(course.id, 'learn', { learnPageId: pageId })}
-                    />
+                    />}
                   </>
                 )}
               </div>
@@ -258,6 +249,9 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                   {course.modules.map((module) => {
                     const moduleSelected = route.kind === 'module' && route.moduleId === module.manifest.id
                     const destination = learnerModuleRoute(course.id, module.manifest.id)
+                    const learnKey = moduleSelected && route.kind === 'module' && route.section === 'learn'
+                      ? route.learnPageId ?? 'learn-default'
+                      : null
                     return (
                       <div className="runtime-context-nav-node" key={module.manifest.id}>
                         <button
@@ -278,12 +272,13 @@ export function ContextualLearnerNavigation({ route, courses, onNavigate, onOpen
                               onNavigate={onNavigate}
                               destination={(section) => learnerModuleRoute(course.id, module.manifest.id, section as PaperSection)}
                             />
-                            <LearnTree
+                            {learnKey !== null && <LearnTree
+                              key={learnKey}
                               adapter={module}
                               route={route}
                               onNavigate={onNavigate}
                               destination={(pageId) => learnerModuleRoute(course.id, module.manifest.id, 'learn', { learnPageId: pageId })}
-                            />
+                            />}
                           </>
                         )}
                       </div>
