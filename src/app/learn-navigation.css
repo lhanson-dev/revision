@@ -1,44 +1,47 @@
-/* Issue #381 — progressive disclosure for the active Learn branch. */
+/* Issue #381 — active-trail progressive disclosure for the Learn branch. */
 
 .runtime-context-nav-learn {
-  margin: 3px 0 5px 18px;
-  padding-left: 9px;
+  margin: 4px 0 6px 8px;
+  padding: 4px 0 4px 8px;
   border-left: 1px solid color-mix(in srgb, var(--subject-accent, var(--brand-mist)) 52%, var(--color-border));
 }
 
 .runtime-context-nav-learn-chapter-button {
-  min-height: 31px !important;
+  min-height: 32px !important;
   color: var(--color-text) !important;
   font-size: 12px;
   font-weight: 700 !important;
 }
 
-.runtime-context-nav-learn-chapter-button[aria-expanded="true"] {
+.runtime-context-nav-learn-chapter-button[data-active="true"] {
   color: var(--subject-accent-ink, var(--color-accent-text)) !important;
 }
 
 .runtime-context-nav-learn-groups {
-  gap: 5px;
-  margin: 1px 0 5px 8px;
-  padding-left: 8px;
-  border-left: 1px solid color-mix(in srgb, var(--color-border) 68%, transparent);
+  gap: 3px;
+  margin: 2px 0 4px;
 }
 
 .runtime-context-nav-learn-group {
   gap: 1px;
 }
 
-.runtime-context-nav-learn-group .runtime-context-nav-group-label {
-  padding: 7px 8px 4px;
-  white-space: normal;
-  text-overflow: initial;
-  line-height: 1.25;
+.runtime-context-nav-group-button {
+  min-height: 31px !important;
+  padding-left: 10px !important;
+  color: var(--color-text-secondary) !important;
+  font-size: 11.5px;
+  font-weight: 675 !important;
+}
+
+.runtime-context-nav-group-button[data-active="true"] {
+  color: var(--color-text) !important;
 }
 
 .runtime-context-nav-learn-pages {
   gap: 1px;
-  margin-left: 5px;
-  padding-left: 7px;
+  margin: 1px 0 3px 8px;
+  padding-left: 8px;
   border-left: 1px solid color-mix(in srgb, var(--color-border) 56%, transparent);
 }
 
@@ -67,18 +70,19 @@
 
 @media (max-width: 960px) {
   .runtime-mobile-drawer .runtime-context-nav-learn {
-    margin-left: 14px;
-    padding-left: 10px;
+    margin-left: 8px;
+    padding-left: 8px;
   }
 
   .runtime-mobile-drawer .runtime-context-nav-learn-chapter-button,
+  .runtime-mobile-drawer .runtime-context-nav-group-button,
   .runtime-mobile-drawer .runtime-context-nav-learn-page {
-    min-height: 40px !important;
+    min-height: 44px !important;
     font-size: 13px;
   }
 
-  .runtime-mobile-drawer .runtime-context-nav-learn-group .runtime-context-nav-group-label {
-    padding-block: 9px 5px;
-    font-size: 12px;
+  .runtime-mobile-drawer .runtime-context-nav-learn-pages {
+    margin-left: 6px;
+    padding-left: 7px;
   }
 }
