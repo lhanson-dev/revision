@@ -123,7 +123,7 @@ async function clickNavigation(page: Page, label: string) {
   }
 }
 
-test('Courses expands saved courses and only the active course into focused sections', async ({ page }) => {
+test('Courses shows saved courses, then resets the selected course into its focused-section hierarchy', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
@@ -149,13 +149,16 @@ test('Courses expands saved courses and only the active course into focused sect
 
   nav = await navigation(page)
   coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
-  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveAttribute('aria-current', 'page')
+  const identity = coursesTree.locator('.runtime-context-nav-course-identity')
+  await expect(identity).toContainText('Business')
+  await expect(identity).toContainText('AS · AQA · 7131')
+  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business', exact: true })).toHaveCount(0)
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toHaveCount(0)
   await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Overview', exact: true })).toHaveAttribute('aria-current', 'page')
   await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
   await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Practice', exact: true })).toBeVisible()
   await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Exam Prep', exact: true })).toBeVisible()
   await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Progress', exact: true })).toBeVisible()
-  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business Overview', exact: true })).toHaveCount(0)
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business Learn')
@@ -164,10 +167,11 @@ test('Courses expands saved courses and only the active course into focused sect
 
   nav = await navigation(page)
   coursesTree = nav.getByRole('group', { name: 'Courses navigation' })
-  await expect(coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })).toBeVisible()
-  const learnContents = coursesTree.locator('[aria-label="Learn contents"]')
+  const learnButton = coursesTree.getByRole('button', { name: 'AQA AS Business Learn', exact: true })
+  await expect(learnButton).toHaveAttribute('aria-expanded', 'true')
+  const learnSection = learnButton.locator('xpath=..')
+  const learnContents = learnSection.getByLabel('Learn contents')
   await expect(learnContents).toBeVisible()
   await expect(learnContents.locator('.runtime-context-nav-learn-page[aria-current="page"]')).toHaveCount(1)
-  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toBeVisible()
-  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business Learn', exact: true })).toHaveCount(0)
+  await expect(coursesTree.getByRole('button', { name: 'AQA A-level Business', exact: true })).toHaveCount(0)
 })

@@ -1,13 +1,14 @@
 /* Issue #381 — active-trail progressive disclosure for the Learn branch. */
 
 .runtime-context-nav-learn {
-  margin: 4px 0 6px 8px;
-  padding: 4px 0 4px 8px;
+  margin: 1px 0 3px 10px;
+  padding: 1px 0 2px 8px;
   border-left: 1px solid color-mix(in srgb, var(--subject-accent, var(--brand-mist)) 52%, var(--color-border));
 }
 
 .runtime-context-nav-learn-chapter-button {
   min-height: 32px !important;
+  padding: 5px 8px !important;
   color: var(--color-text) !important;
   font-size: 12px;
   font-weight: 700 !important;
@@ -18,8 +19,10 @@
 }
 
 .runtime-context-nav-learn-groups {
-  gap: 3px;
-  margin: 2px 0 4px;
+  gap: 2px;
+  margin: 1px 0 2px 8px;
+  padding-left: 7px;
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 66%, transparent);
 }
 
 .runtime-context-nav-learn-group {
@@ -28,7 +31,7 @@
 
 .runtime-context-nav-group-button {
   min-height: 31px !important;
-  padding-left: 10px !important;
+  padding: 5px 8px !important;
   color: var(--color-text-secondary) !important;
   font-size: 11.5px;
   font-weight: 675 !important;
@@ -40,8 +43,8 @@
 
 .runtime-context-nav-learn-pages {
   gap: 1px;
-  margin: 1px 0 3px 8px;
-  padding-left: 8px;
+  margin: 1px 0 2px 8px;
+  padding-left: 7px;
   border-left: 1px solid color-mix(in srgb, var(--color-border) 56%, transparent);
 }
 
@@ -65,12 +68,13 @@
 }
 
 .runtime-context-nav-learn-page[aria-current="page"]::before {
+  left: -8px;
   background: var(--subject-accent, var(--brand-primary-teal));
 }
 
 @media (max-width: 960px) {
   .runtime-mobile-drawer .runtime-context-nav-learn {
-    margin-left: 8px;
+    margin-left: 12px;
     padding-left: 8px;
   }
 
@@ -81,8 +85,9 @@
     font-size: 13px;
   }
 
+  .runtime-mobile-drawer .runtime-context-nav-learn-groups,
   .runtime-mobile-drawer .runtime-context-nav-learn-pages {
-    margin-left: 6px;
+    margin-left: 7px;
     padding-left: 7px;
   }
 }
