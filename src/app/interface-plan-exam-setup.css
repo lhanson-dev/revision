@@ -1,0 +1,109 @@
+/*
+ * Revision Plan — approved exam-setup refinement.
+ *
+ * Shared control anatomy remains owned by the Interface System. This file only
+ * owns the Plan-specific composition approved for the missing-exam setup state.
+ */
+
+.interface-plan-screen .plan-setup-exams {
+  position: relative;
+  display: block;
+}
+
+.interface-plan-screen .plan-setup-step-icon {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-soft-aqua) 72%, var(--color-surface));
+  color: var(--color-accent-text);
+}
+
+.interface-plan-screen .plan-setup-step-icon .ui-icon {
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+}
+
+.interface-plan-screen .plan-setup-copy {
+  width: 100%;
+  padding-right: 80px;
+}
+
+.interface-plan-screen .plan-setup-copy > p {
+  max-width: 880px;
+}
+
+.interface-plan-screen .plan-setup-copy > .plan-management-panel {
+  width: 100%;
+}
+
+.interface-plan-screen .plan-setup-copy .plan-other-assessment {
+  max-width: none;
+}
+
+.interface-plan-screen .plan-add-exam {
+  grid-template-columns: minmax(0, 1.35fr) minmax(250px, .72fr) auto;
+  gap: var(--space-4);
+}
+
+.interface-plan-screen .plan-add-exam .ui-field,
+.interface-plan-screen .plan-other-assessment .ui-field {
+  min-height: var(--field-height-standard);
+}
+
+.interface-plan-screen .plan-add-exam .ui-button {
+  min-width: 132px;
+}
+
+@media (max-width: 960px) {
+  .interface-plan-screen .plan-setup-step-icon {
+    top: var(--space-5);
+    right: var(--space-5);
+  }
+
+  .interface-plan-screen .plan-add-exam {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, .75fr);
+  }
+
+  .interface-plan-screen .plan-add-exam .ui-button {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 620px) {
+  .interface-plan-screen .plan-setup-step-icon {
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 48px;
+    height: 48px;
+  }
+
+  .interface-plan-screen .plan-setup-copy {
+    padding-right: 56px;
+  }
+
+  .interface-plan-screen .plan-setup-copy > p,
+  .interface-plan-screen .plan-setup-copy > .plan-management-panel {
+    padding-right: 0;
+  }
+
+  .interface-plan-screen .plan-add-exam {
+    grid-template-columns: 1fr;
+  }
+
+  .interface-plan-screen .plan-add-exam .ui-button {
+    grid-column: auto;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .interface-plan-screen .plan-other-assessment {
+    padding: var(--space-4);
+  }
+}
