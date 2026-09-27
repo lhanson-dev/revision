@@ -316,7 +316,22 @@ The preferred implementation path is bounded adaptation:
 - keep existing AI-assured/expert-review lifecycle semantics for exact courses; and
 - avoid reviving the legacy whole-course v2 orchestrator.
 
-A code change is not part of this documentation-only governance PR unless separately included and assured. The next implementation increment should be derived from this trial contract after Founder approval.
+### Business v0.2 promotion-provenance assurance
+
+Following the independent assurance HOLD recorded for the Business `v0.2-post-board-candidate`, promotion provenance is implemented as a sidecar assurance layer rather than by rewriting the historical research corpus.
+
+The bounded remediation consists of:
+
+- `research/business-subject-foundation/v0.2-post-board-candidate/PROMOTION_PROVENANCE_MATRIX.json`, which gives each of the 81 candidate nodes an explicit `subject_truth_sources` set and separately quarantines `board_challenge_or_mapping_sources`;
+- `research/business-subject-foundation/v0.2-post-board-candidate/SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json`, which records the current promotion-only source-rights basis, including licence profile, commercial-derivative permission, AI-context permission, attribution/restriction notes, check date and checker method;
+- `scripts/assurance/validate-business-subject-provenance.mjs`, which fails closed when node/index/matrix identity diverges, a promotion truth source is absent or rights-ineligible, an excluded source is used as subject truth, or awarding-body evidence is not quarantined consistently; and
+- an exact CI step in `Foundation quality` that runs the validator before the broader TypeScript/lint/test/build chain.
+
+The original node `sources` arrays remain historical research/corroboration provenance. They are not reinterpreted as the promotion truth basis. Awarding-body sources remain alignment/challenge evidence only. Historical source records are not rewritten to disguise later rights changes; where a source is no longer acceptable for commercial generative reuse, the promotion layer excludes it and uses a currently eligible replacement instead.
+
+A deterministic PASS of this validator is necessary but not sufficient for promotion. The exact remediated candidate must still receive fresh independent re-assurance for source/factual meaning, and a later governed decision must explicitly promote the candidate. This control does not alter publication authority or make the candidate learner-facing.
+
+The Business provenance control is a bounded implementation of existing source-rights and subject-foundation authority. Further trial implementation should continue to follow the controlled sequence above rather than treating this validator as a substitute for T3 or exact-course assurance.
 
 ## Documentation impact
 
