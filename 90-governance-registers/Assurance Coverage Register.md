@@ -13,14 +13,14 @@
 - CI/deployment results are dynamic operational evidence and must be read from their current source.
 - Update this register when a material journey/control, required assurance layer or evidence owner changes.
 
-## Current baseline — 2026-08-25
+## Current baseline — 2026-09-27 Plan refresh candidate
 
 | ID | Critical journey/control | Risk | Required assurance | Current evidence source | Status | Gap / next step |
 |---|---|---:|---|---|---|---|
 | AV-01 | Canonical production `/app/` is reachable and serves the built React artifact | High | Production smoke | `.github/workflows/deploy-pages.yml` production-smoke; protected Admin learner-app check | Covered | Retain exact-revision correlation |
 | PTL-01 | PR change passes required quality gates | High | Exact-head CI | `.github/workflows/ci.yml` | Covered | Retain exact-head evidence |
 | PTL-02 | `main` deploys and production smoke follows deploy | High | Deploy + smoke | `.github/workflows/deploy-pages.yml`; `revision/path-to-live` | Covered | Retain ordered fail-closed release chain |
-| PTL-03 | Frontend release is blocked unless governed lineage and required production backend capabilities are present | Critical | Approval lineage + backend readiness + deploy + smoke | `release-lineage.mjs`; `revision_release_readiness()`; deploy workflow; `revision/path-to-live` | Covered | FI-022 advances the required candidate contract to `plan-state-v1`; retain exact contract/function probes |
+| PTL-03 | Frontend release is blocked unless governed lineage and required production backend capabilities are present | Critical | Approval lineage + backend readiness + deploy + smoke | `release-lineage.mjs`; `revision_release_readiness()`; deploy workflow; `revision/path-to-live` | Covered | Current production remains `plan-state-v1`; Plan refresh candidate advances the required contract to `planner-week-v1` and must not merge/release until production is enabled and verified |
 | PTL-04 | Change risk/assurance needs are classified before main suites | High | Machine-readable change classification | `change-classifier.mjs`; assurance plan artifact | Covered | Selective execution remains separately governed |
 | PTL-05 | `main` cannot be casually bypassed outside governed PR/CI/Founder flow | Critical | Repository protection + release fail-closed | protected `main`; Founder approval gate; release lineage | Covered | Retain PR-only merge and no bypass discipline |
 | AUTH-01 | Sign-in entry is usable and provider gating fails closed | High | Browser | `tests/e2e/auth-entry.spec.ts` | Partial | Does not prove a real production sign-in transaction |
@@ -33,12 +33,12 @@
 | JRN-04 | Practice journey and evidence creation | High | Browser + persistence | DB browser journey; evidence service/engine tests | Covered | Retain persistence/reload assertions |
 | JRN-05 | Exam Prep / timed exam start | High | Responsive browser | `tests/e2e/app-responsive.spec.ts` | Covered for navigation/start | Full exam save/result lifecycle remains |
 | JRN-06 | Progress review from persisted learner evidence | High | Browser + persistence | DB browser journey; progress/evidence tests | Covered | Retain reconstruction after course changes |
-| JRN-07 | Adaptive planner setup, prioritisation, capacity and replanning context | High | Unit + browser + persistence | planner tests; Supabase integration; RLS CI | Covered | Retain deterministic reload/replan evidence |
+| JRN-07 | Adaptive planner setup, Day/Week/Month forecast, prioritisation, recurring daily capacity and replanning context | High | Unit + responsive browser + persistence | planner engine/model tests; Plan responsive/visual browser assurance; Supabase integration; RLS CI | Covered once candidate exact-head CI passes | Retain configured Week and missing-input setup states across phone/tablet/desktop; production `planner-week-v1` is a separate release prerequisite |
 | JRN-08 | GJ-01 new-Student first use reaches one exact saved course, cautious starting signal, exact useful revision, feedback and meaningful Home; skip/recovery and established-account bypass remain safe | High | Responsive browser + persistence + release lineage | `tests/e2e/student-first-use.spec.ts`; `tests/e2e/database-persistence.spec.ts`; Revision CI; governed Pages release | Covered at browser/persistence layer | A real production signup transaction remains outside automated smoke; retain exact deployed-revision lineage |
 | DATA-01 | Learner learning evidence cannot cross user boundaries | Critical | Database/RLS | `database-assurance.test.sql` | Covered | Retain owner/cross-user assertions |
 | DATA-02 | Learner evidence persists and reloads safely | Critical | Integration + browser | Supabase persistence + DB browser journey | Covered | Retain service/browser round trips |
 | DATA-03 | Admin/test accounts are excluded from learner metrics | High | SQL/integration | Admin metrics logic/verification | Partial | Add broader executable aggregate values where needed |
-| DATA-04 | Planner state is learner-owned and planning context does not become mastery evidence | Critical | Database/RLS + domain | pgTAP; Supabase persistence; planner tests | Covered | Retain context/evidence separation |
+| DATA-04 | Planner state/availability is learner-owned planning context and does not become mastery evidence | Critical | Database/RLS + domain | pgTAP including seven-day availability/readiness contract; Supabase persistence; planner tests | Covered once candidate exact-head CI passes | Retain context/evidence separation and recurring-day owner policy |
 | DATA-05 | Learner course membership/events remain learner-owned programme context and preserve evidence | Critical | Database/RLS + integration + browser | pgTAP; persistence; DB browser; composite PK | Covered | Retain duplicate/cross-user/remove/re-add cases |
 | DATA-06 | Learner plan state defaults safely, remains learner-owned read-only account context and does not become educational evidence | Critical | Database/RLS + domain | `learner-plan-assurance.test.sql`; learner plan resolver tests; production `plan-state-v1` verification | Covered | Before differentiated entitlements, revisit failure/security semantics through FI-002 |
 | DATA-07 | First-use account routing state and funnel events remain owner-scoped, bounded and separate from educational evidence/raw answers | Critical | Database/RLS + persistence | `student-first-use-assurance.test.sql`; database-backed browser persistence; onboarding service tests | Covered | Retain cross-user denial, browser event insert-only and evidence-separation assertions |
@@ -69,6 +69,14 @@ Security Advisor introduced no warning-level FI-022 vulnerability. Its informati
 
 FI-022 is **Live**. PR #159 merged as `df7d9b520fec60d4b804c49dfc2c441498f37b99`, and production workflow run `32755286006` passed governed release lineage, `plan-state-v1` backend readiness, build, GitHub Pages deployment, production smoke and durable `revision/path-to-live = success`. Assurance coverage remains current evidence for that live foundation; differentiated entitlement behaviour remains FI-002 scope.
 
+## Plan experience refresh assurance interpretation
+
+PR #403 is the governed candidate for the 27 September 2026 Plan experience refresh. It extends the existing FI-001 planner rather than creating a new planning authority or an LLM-owned scheduler.
+
+The candidate adds repeatable domain/database assurance for deterministic multi-day allocation, no duplicate allocation of one candidate within the derived schedule, visible unused capacity rather than invented work, recurring Monday-Sunday capacity, date exceptions, seven-day schema presence and the fail-closed `planner-week-v1` release-readiness contract. Responsive/visual browser assurance must prove both the configured Week-first Plan and missing-input setup treatment inside the existing learner shell/canvas.
+
+This section does **not** claim PR #403 is Live. JRN-07 / DATA-04 candidate coverage becomes current only after exact-head CI succeeds, the additive production migration has been independently verified, explicit Founder merge approval is recorded for the final head, merge completes and the governed release passes `planner-week-v1` readiness plus production smoke. Until then, current production remains the earlier `plan-state-v1` Plan implementation.
+
 ## Existing qualified gaps
 
 - AUTH-01 remains Partial because isolated/browser assurance is not a real production sign-in transaction.
@@ -77,6 +85,7 @@ FI-022 is **Live**. PR #159 merged as `df7d9b520fec60d4b804c49dfc2c441498f37b99`
 - DATA-03 remains Partial for value-level Admin/test aggregate exclusion breadth.
 - Content assurance remains independent of software CI and varies by governed content pack.
 - Supabase leaked-password protection remains a separate managed Auth warning and should be enabled/reverified before broad external acquisition or when the justified Supabase plan supports it.
+- PR #403 must not be treated as production coverage until its exact-head CI, production `planner-week-v1` enablement, Founder-approved merge and governed release evidence are complete.
 
 ## Maintenance model
 
