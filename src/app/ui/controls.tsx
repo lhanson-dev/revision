@@ -100,17 +100,15 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
   const controlledValue = dateValueFromProps(value)
   const [uncontrolledValue, setUncontrolledValue] = useState(() => dateValueFromProps(defaultValue))
   const currentValue = value === undefined ? uncontrolledValue : controlledValue
-  const selectedDate = parseIsoDate(currentValue)
-  const [visibleMonth, setVisibleMonth] = useState(() => {
-    const basis = selectedDate ?? new Date()
-    return new Date(basis.getFullYear(), basis.getMonth(), 1)
-  })
+  const initialDate = parseIsoDate(currentValue) ?? new Date()
+  const [visibleMonth, setVisibleMonth] = useState(() => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1))
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const nativeInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    const selectedDate = parseIsoDate(currentValue)
     if (!selectedDate) return
     setVisibleMonth((current) => sameMonth(current, selectedDate)
       ? current
@@ -153,11 +151,10 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
   function emitChange(nextValue: string) {
     if (value === undefined) setUncontrolledValue(nextValue)
     const input = nativeInputRef.current
-    if (input) {
-      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
-      setter?.call(input, nextValue)
-      onChange?.({ target: input, currentTarget: input } as ChangeEvent<HTMLInputElement>)
-    }
+    if (!input) return
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+    setter?.call(input, nextValue)
+    onChange?.({ target: input, currentTarget: input } as ChangeEvent<HTMLInputElement>)
   }
 
   function selectDate(nextValue: string) {
@@ -245,11 +242,7 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
   )
 }
 
-export function TextField({ label, hint, error, groupClassName, id, className, type, ...props }: TextFieldProps) {
-  if (type === 'date') {
-    return <DateTextField label={label} hint={hint} error={error} groupClassName={groupClassName} id={id} className={className} type={type} {...props} />
-  }
-
+function PlainTextField({ label, hint, error, groupClassName, id, className, type, ...props }: TextFieldProps) {
   const generatedId = useId()
   const controlId = id ?? generatedId
   const supportId = fieldSupportId(controlId, hint, error)
@@ -268,6 +261,10 @@ export function TextField({ label, hint, error, groupClassName, id, className, t
       {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
     </label>
   )
+}
+
+export function TextField(props: TextFieldProps) {
+  return props.type === 'date' ? <DateTextField {...props} /> : <PlainTextField {...props} />
 }
 
 export type TextAreaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & FieldSupportProps
