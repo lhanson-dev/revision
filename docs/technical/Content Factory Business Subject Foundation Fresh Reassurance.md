@@ -83,6 +83,16 @@ The proof is fail-closed.
 
 No automatic remediation occurs inside this proof. A FAIL/HOLD must create a separate bounded remediation cycle so the reassurance evidence remains independent historical evidence.
 
+## Provider-schema compatibility control
+
+The first live dispatch, GitHub Actions run `36348538728` against `main` `de125a505e960e06e1c2b1c6dfd36ee410faaa47`, did not reach a substantive reviewer decision. The deterministic provenance and package self-tests passed, but the first OpenAI Responses request was rejected before review because the generated structured-output schema emitted JSON Schema `format: "uri"` for the evidence URL field.
+
+This incident is an assurance-runner implementation failure, not a Business subject-foundation finding. No domain review completed and no PASS or FAIL/HOLD content verdict was produced.
+
+The runner therefore keeps the provider-facing evidence URL as a required non-empty string and applies URL validity plus registered-source host/path checks deterministically after the structured response is returned. Normal `--self-test` assurance now recursively rejects provider schemas containing unsupported `format` keywords and separately verifies that valid registered source URLs pass while malformed URLs fail the deterministic source-boundary check. This regression control runs before any live provider spend in both normal Foundation-quality CI and the live reassurance workflow.
+
+The failed run remains historical evidence and must not be reclassified as a content FAIL/HOLD after remediation.
+
 ## Cost control
 
 The initial proof uses `gpt-5.6-terra` at high reasoning effort with a US$5 hard reassurance ceiling. The runner reserves conservative capacity before each call and stops rather than silently reducing review quality when the ceiling would be exceeded.
@@ -121,11 +131,11 @@ The workflow:
 1. checks out that exact SHA;
 2. verifies it is still current `main`;
 3. reruns deterministic Business promotion-provenance validation;
-4. runs the reassurance runner self-test;
+4. runs the reassurance runner self-test, including structured-output schema compatibility and runtime URL/source-boundary regression checks;
 5. executes the fresh live reassurance using the separate provider contexts; and
 6. uploads the retained evidence artifact.
 
-The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract without incurring provider spend.
+The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and provider-schema regression controls without incurring provider spend.
 
 ## Progression after the proof
 

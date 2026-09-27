@@ -13,7 +13,7 @@ const text = z.string().min(1)
 const severity = z.enum(['blocking', 'material', 'minor'])
 const status = z.enum(['pass', 'minor_issue', 'material_issue', 'blocking_issue'])
 const completeness = z.enum(['complete', 'minor_gap', 'material_gap', 'blocking_gap'])
-const evidence = z.object({ source_id: text, url: z.string().url(), claim_checked: text, result: z.enum(['supports','partially_supports','does_not_support','contradicts']), summary: text })
+const evidence = z.object({ source_id: text, url: text, claim_checked: text, result: z.enum(['supports','partially_supports','does_not_support','contradicts']), summary: text })
 const finding = z.object({ id: text, severity, issue_type: text, node_ids: z.array(text), finding: text, evidence_source_ids: z.array(text).min(1), recommended_correction: text })
 const nodeAssessment = z.object({
   subject_id: text, status, factual_accuracy: status, level3_scope: status,
@@ -44,6 +44,15 @@ function exactSet(actual, expected, label) {
   if (a.length !== e.length || a.some((v,i) => v !== e[i])) throw new Error(`${label} mismatch`)
 }
 function schemaJson(schema) { const value = z.toJSONSchema(schema); delete value.$schema; return value }
+function assertProviderSchemaCompatible(schema, label) {
+  function visit(value, path = '$') {
+    if (Array.isArray(value)) { value.forEach((item,index) => visit(item,`${path}[${index}]`)); return }
+    if (!value || typeof value !== 'object') return
+    if (Object.hasOwn(value,'format')) throw new Error(`${label} uses unsupported JSON Schema format at ${path}: ${value.format}`)
+    for (const [key,child] of Object.entries(value)) visit(child,`${path}.${key}`)
+  }
+  visit(schema)
+}
 function responseText(body) {
   if (typeof body.output_text === 'string' && body.output_text.trim()) return body.output_text
   const chunks=[]
@@ -93,7 +102,14 @@ async function loadCandidate() {
   return {index,matrix,rows,sources,sourceById,specialist,domains,nodes,fingerprint:h.digest('hex')}
 }
 function sourceMeta(s){return {id:s.id,issuer:s.issuer,title:s.title,url:s.url,date_version:s.date_version,educational_role:s.educational_role,licence_profile:s.licence_profile,restrictions:s.restrictions,promotion_eligible:s.promotion_eligible}}
-function urlAllowed(item, sourceById) { const s=sourceById.get(item.source_id); if (!s?.promotion_eligible || host(item.url)!==host(s.url)) return false; const p=pathName(s.url), e=pathName(item.url); return p==='/' || e===p || e.startsWith(`${p}/`) }
+function urlAllowed(item, sourceById) {
+  try {
+    const s=sourceById.get(item.source_id)
+    if (!s?.promotion_eligible || host(item.url)!==host(s.url)) return false
+    const p=pathName(s.url), e=pathName(item.url)
+    return p==='/' || e===p || e.startsWith(`${p}/`)
+  } catch { return false }
+}
 function validateFindingSources(findings,allowed,label){ for(const f of findings) for(const id of f.evidence_source_ids) if(!allowed.has(id)) throw new Error(`${label} finding ${f.id} uses unpermitted ${id}`) }
 
 function domainPayload(c,d){
@@ -140,7 +156,16 @@ async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxO
 async function write(name,value){await mkdir(OUT,{recursive:true});await writeFile(`${OUT}/${name}`,`${JSON.stringify(value,null,2)}\n`)}
 async function summary(textValue){if(process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY,`${textValue}\n`)}
 
-async function selfTest(){const c=await loadCandidate();console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length},null,2))}
+async function selfTest(){
+  const c=await loadCandidate()
+  assertProviderSchemaCompatible(schemaJson(domainSchema),'domain reassurance schema')
+  assertProviderSchemaCompatible(schemaJson(subjectSchema),'whole-subject reassurance schema')
+  const sampleSource=c.sources.sources.find(s=>s.promotion_eligible)
+  if(!sampleSource) throw new Error('No promotion-eligible source available for URL validation self-test')
+  if(!urlAllowed({source_id:sampleSource.id,url:sampleSource.url},c.sourceById)) throw new Error('Registered promotion source URL failed runtime URL validation')
+  if(urlAllowed({source_id:sampleSource.id,url:'not-a-url'},c.sourceById)) throw new Error('Invalid URL passed runtime URL validation')
+  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass'},null,2))
+}
 async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
   const apiKey=process.env.OPENAI_API_KEY?.trim(); if(!apiKey) throw new Error('OPENAI_API_KEY required'); if(!Number.isFinite(MAX_SPEND)||MAX_SPEND<=0) throw new Error('CONTENT_FACTORY_MAX_SPEND_USD must be positive')
