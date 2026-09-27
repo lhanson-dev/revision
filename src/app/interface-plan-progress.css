@@ -537,7 +537,7 @@
 
 .plan-view-toolbar .ui-segmented-control button.active {
   background: var(--brand-deep-teal);
-  color: var(--color-inverse-text);
+  color: var(--color-inverse-action-text);
 }
 
 .plan-view-toolbar .ui-segmented-control button:focus-visible {
