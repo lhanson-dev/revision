@@ -80,8 +80,9 @@ test('Plan exam setup uses shared field sizing, a usable date calendar and left-
   await seedMissingPlanSetup(page)
   await page.goto(`${appPath}#/plan`)
 
-  const examSetup = page.getByRole('region', { name: 'Add your exams' })
+  const examSetup = page.locator('.plan-setup-exams')
   await expect(examSetup).toBeVisible()
+  await expect(examSetup.getByRole('heading', { name: 'Add your exams' })).toBeVisible()
 
   const examSelect = examSetup.getByLabel('Exam')
   const dateTrigger = examSetup.getByRole('button', { name: 'Exam date' })
