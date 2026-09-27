@@ -74,6 +74,7 @@
 }
 
 .ui-field-group {
+  position: relative;
   display: grid;
   gap: var(--space-2);
   color: var(--color-text);
@@ -91,7 +92,23 @@
   line-height: var(--type-body-s-line);
 }
 
+.ui-field,
+.ui-select-field {
+  box-sizing: border-box;
+  height: var(--field-height-standard);
+  min-height: var(--field-height-standard);
+  font-family: var(--font-family-product);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-line);
+}
+
+.ui-select-field {
+  padding-block: 0;
+}
+
 .ui-field--textarea {
+  height: auto;
   min-height: 160px;
   padding-block: var(--space-3);
   resize: vertical;
@@ -103,6 +120,148 @@
 
 .ui-field-support--error {
   color: var(--status-error-fg);
+}
+
+.ui-date-field-group {
+  min-width: 0;
+}
+
+.ui-date-field-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ui-date-field-trigger:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.ui-date-field-trigger > .ui-icon {
+  color: var(--color-text-secondary);
+}
+
+.ui-date-field-trigger > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-date-field-placeholder {
+  color: var(--color-text-secondary);
+}
+
+.ui-date-popover {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  width: min(360px, calc(100vw - 32px));
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+.ui-date-popover-header {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.ui-date-popover-header strong {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+.ui-date-nav {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.ui-date-nav:first-child .ui-icon {
+  transform: rotate(180deg);
+}
+
+.ui-date-nav:hover,
+.ui-date-nav:focus-visible {
+  background: var(--color-surface-soft);
+}
+
+.ui-date-nav:focus-visible,
+.ui-date-day:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.ui-date-weekdays,
+.ui-date-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.ui-date-weekdays span {
+  padding-block: var(--space-1);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-line);
+}
+
+.ui-date-day {
+  min-width: 0;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--type-body-s-size);
+  cursor: pointer;
+}
+
+.ui-date-day:hover:not(:disabled),
+.ui-date-day:focus-visible:not(:disabled) {
+  background: var(--color-surface-soft);
+}
+
+.ui-date-day[aria-pressed="true"] {
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-weight: var(--type-label-weight);
+}
+
+.ui-date-day[aria-current="date"]:not([aria-pressed="true"]) {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand-primary-teal) 56%, var(--color-border));
+}
+
+.ui-date-day--outside {
+  color: color-mix(in srgb, var(--color-text-secondary) 58%, transparent);
+}
+
+.ui-date-day:disabled {
+  cursor: not-allowed;
+  opacity: .35;
 }
 
 .ui-icon {
@@ -198,5 +357,19 @@
 
   .ui-surface-component {
     padding: var(--space-4);
+  }
+
+  .ui-date-popover {
+    position: fixed;
+    top: 50%;
+    right: var(--space-4);
+    left: var(--space-4);
+    width: auto;
+    max-height: calc(100dvh - 32px);
+    transform: translateY(-50%);
+  }
+
+  .ui-date-day {
+    height: 44px;
   }
 }
