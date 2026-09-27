@@ -30,7 +30,7 @@ const sameSet = (left, right) => {
 }
 
 const indexIds = index.domains.flatMap((domain) =>
-  domain.nodes.map((node) => node.subject_id),
+  Array.isArray(domain.ids) ? domain.ids : [],
 )
 
 const nodeFiles = fs
