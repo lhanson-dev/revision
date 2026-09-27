@@ -91,7 +91,6 @@ suite('isolated Supabase persistence assurance', () => {
     await expect(addLearnerCourse(learnerA.client, learnerA.user.id, asCourseId))
       .rejects.toThrow('That course is already in your programme.')
 
-    // RLS hides learner A rows from learner B even if B supplies A's user id.
     expect(await loadLearnerCourses(learnerB.client, learnerA.user.id)).toEqual([])
     await expect(addLearnerCourse(learnerB.client, learnerA.user.id, 'aqa:aqa-a-level:7132'))
       .rejects.toThrow('Could not add that course')
@@ -179,6 +178,15 @@ suite('isolated Supabase persistence assurance', () => {
     expect(reloaded.assessments).toContainEqual(assessment)
     expect(reloaded.availability).toEqual({
       userId: learnerA.user.id,
+      weeklyMinutes: {
+        monday: 90,
+        tuesday: 90,
+        wednesday: 90,
+        thursday: 90,
+        friday: 90,
+        saturday: 150,
+        sunday: 150,
+      },
       weekdayMinutes: 90,
       weekendMinutes: 150,
       timezone: 'Europe/London',

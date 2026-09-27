@@ -4,6 +4,7 @@ import type {
   RevisionAssessment,
   RevisionAvailabilityException,
   RevisionAvailabilityProfile,
+  RevisionDayOfWeek,
   RevisionPlanningPreference,
 } from '../services/planning/planner-service'
 import { buildAdaptivePlan, type PlannerCandidate, type PlannerDay, type PlannerResult } from '../engine/planning/planning'
@@ -33,6 +34,16 @@ function dayDifference(from: Date, toDate: string) {
   const target = new Date(`${toDate}T00:00:00`).getTime()
   return Math.ceil((target - start) / 86_400_000)
 }
+
+const weekDayByJsDay: readonly RevisionDayOfWeek[] = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+]
 
 export function courseIdForLearningState(state: ModuleLearningState) {
   if (state.course) return state.course.id
@@ -173,17 +184,17 @@ export function plannerDaysFromAvailability(
     if (!assessment.isActive) return max
     return Math.max(max, Math.max(0, dayDifference(now, assessment.assessmentDate)))
   }, 0)
-  const horizon = Math.min(60, Math.max(1, furthestRelevant + 1))
+  const horizon = Math.min(60, Math.max(1, furthestRelevant + 1, 28))
   const overrideByDate = new Map(exceptions.map((item) => [item.localDate, item.availableMinutes]))
 
   return Array.from({ length: horizon }, (_, offset) => {
     const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + offset)
     const dateKey = localDate(date)
     const overridden = overrideByDate.get(dateKey)
-    const weekend = date.getDay() === 0 || date.getDay() === 6
+    const dayKey = weekDayByJsDay[date.getDay()] ?? 'monday'
     return {
       date: dateKey,
-      availableMinutes: overridden ?? (weekend ? availability.weekendMinutes : availability.weekdayMinutes),
+      availableMinutes: overridden ?? availability.weeklyMinutes[dayKey],
     }
   })
 }

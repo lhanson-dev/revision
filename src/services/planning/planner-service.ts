@@ -5,6 +5,18 @@ export type AssessmentImportance = 'normal' | 'high'
 export type PlanningPreferenceType = 'prefer_subject' | 'reduce_subject' | 'prefer_activity'
 export type PlanningPreferenceSource = 'learner' | 'rev_negotiated'
 export type PlannerActivityEventType = 'offered' | 'started' | 'meaningfully_engaged' | 'completed' | 'chosen_alternative'
+export type RevisionDayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
+export type RevisionWeeklyAvailability = Record<RevisionDayOfWeek, number>
+
+export const revisionWeekDays: readonly RevisionDayOfWeek[] = [
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday',
+]
 
 export interface RevisionAssessment {
   assessmentId: string
@@ -22,6 +34,8 @@ export interface RevisionAssessment {
 
 export interface RevisionAvailabilityProfile {
   userId: string
+  weeklyMinutes: RevisionWeeklyAvailability
+  /** Compatibility aggregates retained while older planner consumers are retired. */
   weekdayMinutes: number
   weekendMinutes: number
   timezone: string
@@ -81,6 +95,13 @@ type AvailabilityRow = {
   user_id: string
   weekday_minutes: number
   weekend_minutes: number
+  monday_minutes?: number | null
+  tuesday_minutes?: number | null
+  wednesday_minutes?: number | null
+  thursday_minutes?: number | null
+  friday_minutes?: number | null
+  saturday_minutes?: number | null
+  sunday_minutes?: number | null
   timezone: string
 }
 
@@ -118,6 +139,59 @@ type ActivityEventRow = {
   activity_type: string | null
   occurred_at: string
   metadata: Record<string, unknown> | null
+}
+
+function clampMinutes(value: number) {
+  return Math.max(0, Math.min(1440, Math.round(Number.isFinite(value) ? value : 0)))
+}
+
+function legacyWeeklyAvailability(weekdayMinutes: number, weekendMinutes: number): RevisionWeeklyAvailability {
+  const weekday = clampMinutes(weekdayMinutes)
+  const weekend = clampMinutes(weekendMinutes)
+  return {
+    monday: weekday,
+    tuesday: weekday,
+    wednesday: weekday,
+    thursday: weekday,
+    friday: weekday,
+    saturday: weekend,
+    sunday: weekend,
+  }
+}
+
+function weeklyAvailabilityFromRow(row: AvailabilityRow): RevisionWeeklyAvailability {
+  const fallback = legacyWeeklyAvailability(row.weekday_minutes, row.weekend_minutes)
+  return {
+    monday: clampMinutes(row.monday_minutes ?? fallback.monday),
+    tuesday: clampMinutes(row.tuesday_minutes ?? fallback.tuesday),
+    wednesday: clampMinutes(row.wednesday_minutes ?? fallback.wednesday),
+    thursday: clampMinutes(row.thursday_minutes ?? fallback.thursday),
+    friday: clampMinutes(row.friday_minutes ?? fallback.friday),
+    saturday: clampMinutes(row.saturday_minutes ?? fallback.saturday),
+    sunday: clampMinutes(row.sunday_minutes ?? fallback.sunday),
+  }
+}
+
+function averageMinutes(values: readonly number[]) {
+  if (values.length === 0) return 0
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length)
+}
+
+function availabilityFromRow(row: AvailabilityRow): RevisionAvailabilityProfile {
+  const weeklyMinutes = weeklyAvailabilityFromRow(row)
+  return {
+    userId: row.user_id,
+    weeklyMinutes,
+    weekdayMinutes: averageMinutes([
+      weeklyMinutes.monday,
+      weeklyMinutes.tuesday,
+      weeklyMinutes.wednesday,
+      weeklyMinutes.thursday,
+      weeklyMinutes.friday,
+    ]),
+    weekendMinutes: averageMinutes([weeklyMinutes.saturday, weeklyMinutes.sunday]),
+    timezone: row.timezone,
+  }
 }
 
 function assessmentFromRow(row: AssessmentRow): RevisionAssessment {
@@ -179,7 +253,7 @@ export async function loadPlannerSetup(client: SupabaseClient, userId: string) {
       .order('assessment_date', { ascending: true }),
     client
       .from('revision_availability_profiles')
-      .select('user_id,weekday_minutes,weekend_minutes,timezone')
+      .select('user_id,weekday_minutes,weekend_minutes,monday_minutes,tuesday_minutes,wednesday_minutes,thursday_minutes,friday_minutes,saturday_minutes,sunday_minutes,timezone')
       .eq('user_id', userId)
       .maybeSingle(),
     client
@@ -212,14 +286,7 @@ export async function loadPlannerSetup(client: SupabaseClient, userId: string) {
 
   return {
     assessments: ((assessmentResult.data ?? []) as AssessmentRow[]).map(assessmentFromRow),
-    availability: availability
-      ? {
-          userId: availability.user_id,
-          weekdayMinutes: availability.weekday_minutes,
-          weekendMinutes: availability.weekend_minutes,
-          timezone: availability.timezone,
-        } satisfies RevisionAvailabilityProfile
-      : null,
+    availability: availability ? availabilityFromRow(availability) : null,
     exceptions: exceptions.map((row) => ({
       exceptionId: row.exception_id,
       userId: row.user_id,
@@ -287,10 +354,31 @@ export async function archiveAssessment(client: SupabaseClient, userId: string, 
 export async function saveAvailabilityProfile(
   client: SupabaseClient,
   userId: string,
-  value: { weekdayMinutes: number; weekendMinutes: number; timezone?: string },
+  value: {
+    weeklyMinutes?: Partial<RevisionWeeklyAvailability>
+    weekdayMinutes?: number
+    weekendMinutes?: number
+    timezone?: string
+  },
 ): Promise<RevisionAvailabilityProfile> {
-  const weekdayMinutes = Math.max(0, Math.min(1440, Math.round(value.weekdayMinutes)))
-  const weekendMinutes = Math.max(0, Math.min(1440, Math.round(value.weekendMinutes)))
+  const fallback = legacyWeeklyAvailability(value.weekdayMinutes ?? 0, value.weekendMinutes ?? 0)
+  const weeklyMinutes: RevisionWeeklyAvailability = {
+    monday: clampMinutes(value.weeklyMinutes?.monday ?? fallback.monday),
+    tuesday: clampMinutes(value.weeklyMinutes?.tuesday ?? fallback.tuesday),
+    wednesday: clampMinutes(value.weeklyMinutes?.wednesday ?? fallback.wednesday),
+    thursday: clampMinutes(value.weeklyMinutes?.thursday ?? fallback.thursday),
+    friday: clampMinutes(value.weeklyMinutes?.friday ?? fallback.friday),
+    saturday: clampMinutes(value.weeklyMinutes?.saturday ?? fallback.saturday),
+    sunday: clampMinutes(value.weeklyMinutes?.sunday ?? fallback.sunday),
+  }
+  const weekdayMinutes = averageMinutes([
+    weeklyMinutes.monday,
+    weeklyMinutes.tuesday,
+    weeklyMinutes.wednesday,
+    weeklyMinutes.thursday,
+    weeklyMinutes.friday,
+  ])
+  const weekendMinutes = averageMinutes([weeklyMinutes.saturday, weeklyMinutes.sunday])
   const timezone = value.timezone?.trim() || 'Europe/London'
 
   const { data, error } = await client
@@ -299,20 +387,21 @@ export async function saveAvailabilityProfile(
       user_id: userId,
       weekday_minutes: weekdayMinutes,
       weekend_minutes: weekendMinutes,
+      monday_minutes: weeklyMinutes.monday,
+      tuesday_minutes: weeklyMinutes.tuesday,
+      wednesday_minutes: weeklyMinutes.wednesday,
+      thursday_minutes: weeklyMinutes.thursday,
+      friday_minutes: weeklyMinutes.friday,
+      saturday_minutes: weeklyMinutes.saturday,
+      sunday_minutes: weeklyMinutes.sunday,
       timezone,
       updated_at: new Date().toISOString(),
     })
-    .select('user_id,weekday_minutes,weekend_minutes,timezone')
+    .select('user_id,weekday_minutes,weekend_minutes,monday_minutes,tuesday_minutes,wednesday_minutes,thursday_minutes,friday_minutes,saturday_minutes,sunday_minutes,timezone')
     .single()
 
   if (error) throw new Error(`Could not save availability: ${error.message}`)
-  const row = data as AvailabilityRow
-  return {
-    userId: row.user_id,
-    weekdayMinutes: row.weekday_minutes,
-    weekendMinutes: row.weekend_minutes,
-    timezone: row.timezone,
-  }
+  return availabilityFromRow(data as AvailabilityRow)
 }
 
 export async function saveAvailabilityException(
@@ -320,7 +409,7 @@ export async function saveAvailabilityException(
   userId: string,
   value: { localDate: string; availableMinutes: number; note?: string },
 ): Promise<RevisionAvailabilityException> {
-  const availableMinutes = Math.max(0, Math.min(1440, Math.round(value.availableMinutes)))
+  const availableMinutes = clampMinutes(value.availableMinutes)
   const { data, error } = await client
     .from('revision_availability_exceptions')
     .upsert({

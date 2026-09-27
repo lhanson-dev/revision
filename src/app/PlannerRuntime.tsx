@@ -260,7 +260,7 @@ export function PlannerRuntime() {
   } else if (route.kind === 'home') {
     screen = <PlannerHomeScreen client={supabase} userId={user.id} learnerName={learner} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenRev={() => openRev()} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'plan') {
-    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
+    screen = <PlanScreen client={supabase} userId={user.id} programme={programme} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} onOpenRev={openRev} />
   } else if (route.kind === 'rev') {
     screen = <PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} />
   } else if (route.kind === 'courses' || route.kind === 'subjects' || route.kind === 'subject') {

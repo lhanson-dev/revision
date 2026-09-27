@@ -78,6 +78,41 @@ describe('adaptive planner', () => {
     expect(plan.today[0].reasons).toContain('CAPACITY_CONSTRAINED')
   })
 
+  it('builds a deterministic multi-day schedule without duplicating a candidate', () => {
+    const plan = buildAdaptivePlan(
+      [
+        candidate({ id: 'a', topicId: 'finance', estimatedMinutes: 30, daysUntilAssessment: 2 }),
+        candidate({ id: 'b', topicId: 'marketing', estimatedMinutes: 30, daysUntilAssessment: 3 }),
+        candidate({ id: 'c', topicId: 'operations', estimatedMinutes: 30, daysUntilAssessment: 4 }),
+      ],
+      [
+        { date: '2026-08-19', availableMinutes: 30 },
+        { date: '2026-08-20', availableMinutes: 30 },
+        { date: '2026-08-21', availableMinutes: 30 },
+      ],
+    )
+
+    expect(plan.schedule).toHaveLength(3)
+    expect(plan.schedule.map((day) => day.items[0]?.candidateId)).toEqual(['a', 'b', 'c'])
+    expect(new Set(plan.schedule.flatMap((day) => day.items.map((item) => item.candidateId))).size).toBe(3)
+    expect(plan.today).toEqual(plan.schedule[0]?.items)
+  })
+
+  it('leaves free capacity visible rather than inventing low-value work', () => {
+    const plan = buildAdaptivePlan(
+      [candidate({ id: 'a', estimatedMinutes: 30 })],
+      [
+        { date: '2026-08-19', availableMinutes: 60 },
+        { date: '2026-08-20', availableMinutes: 60 },
+      ],
+    )
+
+    expect(plan.schedule[0]?.items).toHaveLength(1)
+    expect(plan.schedule[0]?.unallocatedMinutes).toBe(30)
+    expect(plan.schedule[1]?.items).toHaveLength(0)
+    expect(plan.schedule[1]?.unallocatedMinutes).toBe(60)
+  })
+
   it('does not create task debt: today is rebuilt from current ranked candidates and capacity', () => {
     const plan = buildAdaptivePlan(
       [

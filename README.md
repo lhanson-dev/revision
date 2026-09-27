@@ -25,17 +25,27 @@ The Courses branch projects only the authenticated learner's saved active course
 
 ### Adaptive Plan
 
-`#/plan` is the learner's wider adaptive programme. The current implementation supports:
+`#/plan` is the learner's wider adaptive programme. The 27 September 2026 Plan refresh keeps the governed learner shell and stable content canvas while making the plan itself, rather than setup forms or a second REV hero, the dominant job.
+
+The refreshed implementation supports:
 
 - learner-owned assessments with exact active-course identity, type, date and importance;
-- realistic weekday/weekend revision capacity;
+- public-exam setup using known course/paper structure where available, plus mocks/topic tests/other assessments;
+- realistic recurring **Monday-Sunday** revision capacity rather than one weekday and one weekend value;
 - date-specific capacity exceptions in the persistence model;
 - deterministic topic-level priority candidates derived from the same learning evidence used by Progress;
-- a current-day plan with plain-English recommendation reasons;
+- a deterministic multi-day derived schedule rather than persisted task appointments;
+- **Day / Week / Month** plan views with **Week as the default**;
+- lower future precision in Month so the product does not pretend distant tasks are fixed;
+- plain-English `Why this?` reasons for near-term tasks;
+- a concise explanation that the plan adapts using exams, realistic time and evolving evidence without exposing internal weighting or treating passive behaviour as mastery;
 - calm **Prioritising** behaviour when useful remaining workload exceeds realistic capacity;
+- secondary **Manage exams** and **Plan settings** controls after setup rather than permanent management forms;
 - bounded learner/REV planning preferences that can reshape sequencing without changing mastery/readiness evidence;
 - planner activity states including start, completion and deliberate alternative choice; and
 - automatic reconciliation of planner starts with later validated learning evidence where the match is reliable.
+
+When exam dates and/or recurring availability are missing, Plan becomes a bounded setup experience: add the missing exams, set realistic weekly study time, then let Revision generate the wider adaptive forecast. If only one input is missing, the learner is not forced to repeat the other.
 
 The plan is a current forecast, not a fixed timetable or task-debt ledger. Missed recommendations are not manually moved forward; Revision recalculates from the learner's latest state.
 
@@ -43,11 +53,11 @@ Learner-wide planning considers only the learner's active saved courses. Publish
 
 ### REV and the planner
 
-The dedicated Ask REV experience opens contextually with the learner's current planner/programme picture rather than as a menu of AI features. A learner can question the recommendation or ask to change the short-term balance. REV explains relevant cross-course consequences before a bounded planning preference is applied.
+The dedicated Ask REV experience opens contextually with the learner's current planner/programme picture rather than as a menu of AI features. Plan can open the same contextual conversation layer from its compact header input; it does not create a second chat implementation. A learner can question the recommendation or ask to change the short-term balance. REV explains relevant cross-course consequences before a bounded planning preference is applied.
 
 Planning preference is planning context only. It does not improve objective progress, mastery or readiness by itself.
 
-Course membership is also programme context only. Adding a course does not create learning evidence, and removing a course does not delete historical learning evidence.
+Course membership and availability are also programme context only. Adding a course, entering available time or following a planned task does not by itself create learning evidence, and removing a course does not delete historical learning evidence.
 
 Full generative tutoring/orchestration remains governed through the wider REV capability; FI-001 keeps the scheduling authority deterministic and explainable.
 
@@ -107,7 +117,7 @@ See:
 │   └── services/                      # Supabase learner-course, auth, progress and platform services
 ├── content/                           # governed typed learning content packs
 ├── supabase/                          # migrations, verification, Edge Functions and database support
-└── index.html                         # temporary redirect from /revision/ to /revision/app/
+└── index.html                         # temporary redirect from /revision/ to `/revision/app/`
 ```
 
 ## Content model, learner membership and automatic catalogue discovery
@@ -174,4 +184,4 @@ Planner and learner-course persistence are protected by learner-owner Supabase R
 
 GitHub Pages deploys the Vite `dist/` build from `main` using `.github/workflows/deploy-pages.yml`. The workflow publishes the React learner application plus the temporary root redirect, then smoke-tests the canonical `/app/` route and confirms retired legacy learner routes are no longer published.
 
-The frontend does not apply Supabase migrations itself. FI-020 advances the production backend-readiness contract to `courses-v1`; the Pages deployment must fail closed until production exposes the learner-course tables and the matching readiness contract.
+The frontend does not apply Supabase migrations itself. Production Supabase was enabled ahead of PR #403 on 27 September 2026 and now reports `planner-week-v1` with `ready: true`, including the seven recurring daily availability fields. The repository migration is reconciled to production ledger version `20260927161359`. This backend-ahead state is additive and backward-compatible, but the Plan refresh is not Live until the final PR head passes CI, receives explicit Founder merge approval, merges to `main`, and the governed Pages deployment passes the matching backend-readiness gate and production smoke.

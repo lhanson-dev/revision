@@ -1,9 +1,9 @@
 /*
- * Revision Interface System — Increment B2: Plan and Progress composition.
+ * Revision Interface System — Plan and Progress composition.
  *
- * Shared component anatomy now lives in src/app/ui/ui-components.css. This file
- * owns only Plan/Progress feature composition plus the bounded compatibility
- * treatment required by the current global Progress renderer.
+ * Shared component anatomy lives in src/app/ui/ui-components.css. This file owns
+ * only Plan/Progress feature composition and consumes the governed learner canvas,
+ * typography, colour, radius and interaction roles.
  */
 
 /* Global Progress still uses compatibility markup, so it consumes the same
@@ -38,7 +38,7 @@
   line-height: var(--type-body-l-line);
 }
 
-/* Plan-specific composition. Standard component anatomy comes from src/app/ui. */
+/* Refreshed Plan experience. */
 .interface-plan-screen {
   gap: var(--space-6);
 }
@@ -47,22 +47,292 @@
   margin: 0;
 }
 
-.interface-plan-screen .planner-panel {
+.interface-plan-screen .planner-panel,
+.interface-plan-screen .plan-management-panel,
+.interface-plan-screen .plan-upcoming-exams {
   gap: var(--space-4);
   box-shadow: none;
 }
 
-.interface-plan-screen .planner-today {
-  border-color: color-mix(in srgb, var(--brand-primary-teal) 24%, var(--color-border));
-  background: color-mix(in srgb, var(--color-surface) 90%, var(--brand-soft-aqua));
+.plan-page-header-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .85fr);
+  gap: var(--space-8);
+  align-items: end;
+}
+
+.plan-page-header-row .planner-heading {
+  margin: 0;
+}
+
+.plan-header-rev {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.plan-header-rev > span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.plan-header-rev form {
+  min-height: var(--control-height-large);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 4px 5px 4px var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-raised);
+}
+
+.plan-header-rev input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--type-body-size);
+}
+
+.plan-header-rev input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.plan-header-rev form:focus-within {
+  box-shadow: var(--focus-ring);
+}
+
+.plan-header-rev form button {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--brand-soft-aqua);
+  color: var(--brand-deep-teal);
+  cursor: pointer;
+}
+
+.plan-adaptive-explainer {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: start;
+  border-color: color-mix(in srgb, var(--brand-primary-teal) 18%, var(--color-border));
+  background: color-mix(in srgb, var(--color-surface-soft) 84%, var(--brand-soft-aqua));
+}
+
+.plan-adaptive-explainer > .ui-icon {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-primary-teal) 12%, var(--color-surface));
+  color: var(--color-accent-text);
+}
+
+.plan-adaptive-explainer strong,
+.plan-adaptive-explainer p {
+  display: block;
+  margin: 0;
+}
+
+.plan-adaptive-explainer p {
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  line-height: var(--type-body-line);
+}
+
+.plan-adaptive-explainer .plan-adaptive-detail {
+  margin-top: var(--space-3);
+  color: var(--color-text);
+}
+
+.plan-explainer-toggle,
+.plan-disclosure-link {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-accent-text);
+  font: inherit;
+  font-weight: var(--type-button-weight);
+  cursor: pointer;
+}
+
+.plan-explainer-toggle {
+  white-space: nowrap;
+}
+
+.plan-setup-flow {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.plan-setup-exams {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.plan-setup-step-icon {
+  min-height: 190px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-feature);
+  background: color-mix(in srgb, var(--brand-soft-aqua) 68%, var(--color-surface));
+  color: var(--brand-primary-teal);
+}
+
+.plan-setup-step-icon .ui-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.plan-setup-copy {
+  min-width: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.plan-setup-copy > h2,
+.plan-setup-copy > p {
+  margin: 0;
+}
+
+.plan-setup-copy > h2 {
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+}
+
+.plan-setup-copy > p {
+  max-width: 760px;
+  color: var(--color-text-secondary);
+}
+
+.plan-setup-copy > .plan-management-panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.plan-setup-copy > .plan-management-panel > .planner-panel-heading {
+  display: none;
+}
+
+.plan-awaiting {
+  min-height: 150px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.plan-awaiting .ui-icon {
+  color: var(--brand-primary-teal);
+}
+
+.plan-awaiting strong,
+.plan-awaiting p {
+  margin: 0;
+}
+
+.plan-awaiting p {
+  max-width: 720px;
+  color: var(--color-text-secondary);
+}
+
+.plan-overview-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 0;
+  align-items: stretch;
+  padding: var(--space-4) var(--space-5);
+}
+
+.plan-overview-item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: center;
+  padding-right: var(--space-5);
+}
+
+.plan-overview-item + .plan-overview-item {
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--color-border);
+}
+
+.plan-overview-item > .ui-icon {
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-primary-teal) 10%, var(--color-surface));
+  color: var(--color-accent-text);
+}
+
+.plan-overview-item div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.plan-overview-item span,
+.plan-overview-item small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.plan-overview-item strong {
+  overflow: hidden;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plan-overview-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-left: var(--space-5);
+  border-left: 1px solid var(--color-border);
+}
+
+.plan-overview-actions .ui-button {
+  justify-self: auto;
+  white-space: nowrap;
+}
+
+.plan-management-panel {
+  display: grid;
+  gap: var(--space-5);
 }
 
 .interface-plan-screen .planner-panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: var(--space-4);
 }
 
 .interface-plan-screen .planner-panel-heading h2,
-.interface-plan-screen .planner-panel > h2 {
+.interface-plan-screen .planner-panel > h2,
+.plan-management-panel h2,
+.plan-upcoming-exams h2 {
   margin: 0;
   color: var(--color-text);
   font-size: var(--type-h2-size);
@@ -71,23 +341,154 @@
   letter-spacing: -.025em;
 }
 
-.interface-plan-screen .planner-state {
-  min-height: var(--control-height-compact);
-  padding: 0 var(--space-3);
-  border: 1px solid color-mix(in srgb, var(--brand-primary-teal) 24%, var(--color-border));
-  border-radius: var(--radius-pill);
-  background: var(--color-surface-soft);
-  color: var(--color-accent-text);
-  font-size: var(--type-label-size);
-  font-weight: var(--type-label-weight);
-  line-height: var(--type-label-line);
+.interface-plan-screen .planner-panel-heading p {
+  max-width: 760px;
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
 }
 
-.interface-plan-screen .planner-assessment-copy p,
-.interface-plan-screen .planner-date-block span,
-.interface-plan-screen .planner-today-list p,
-.interface-plan-screen .planner-reasons {
+.plan-add-exam {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(180px, .8fr) auto;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+.plan-add-exam .ui-button {
+  min-height: var(--field-height-standard);
+}
+
+.plan-exam-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.plan-exam-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.plan-exam-list li > div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.plan-exam-list li > div:first-child > span:last-child,
+.plan-exam-date span {
   color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.plan-exam-date {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+
+.plan-disclosure-link {
+  justify-self: start;
+}
+
+.plan-other-assessment {
+  max-width: 760px;
+  padding: var(--space-5);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface-soft);
+}
+
+.interface-plan-screen .planner-field-grid,
+.interface-plan-screen .planner-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.interface-plan-screen .planner-field-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.plan-weekly-settings {
+  gap: var(--space-5);
+}
+
+.plan-weekly-capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.plan-capacity-day {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+}
+
+.plan-capacity-day > span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.plan-capacity-stepper {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 32px;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-2);
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+}
+
+.plan-capacity-stepper button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-accent-text);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.plan-capacity-stepper button:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.plan-capacity-stepper b {
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-label-size);
+}
+
+.plan-settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.plan-settings-footer > span {
+  max-width: 720px;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
 }
 
 .interface-plan-screen .planner-priority-note {
@@ -105,32 +506,274 @@
   color: var(--color-text-secondary);
 }
 
-.interface-plan-screen .planner-today-list,
-.interface-plan-screen .planner-assessments {
-  gap: 0;
+.plan-view-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 
-.interface-plan-screen .planner-today-list > li,
-.interface-plan-screen .planner-assessments > li {
-  border-color: var(--color-border);
+.plan-view-toolbar > strong {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
 }
 
-.interface-plan-screen .planner-today-list > li:first-child,
-.interface-plan-screen .planner-assessments > li:first-child {
-  border-top: 0;
+.plan-view-toolbar .ui-segmented-control {
+  width: fit-content;
 }
 
-.interface-plan-screen .planner-field-grid,
-.interface-plan-screen .planner-form {
+.plan-view-toolbar .ui-segmented-control button {
+  min-width: 92px;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-weight: var(--type-label-weight);
+  cursor: pointer;
+}
+
+.plan-view-toolbar .ui-segmented-control button.active {
+  background: var(--brand-deep-teal);
+  color: var(--color-inverse-action-text);
+}
+
+.plan-view-toolbar .ui-segmented-control button:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.plan-view-panel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.plan-view-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.plan-view-heading h2,
+.plan-view-heading p,
+.plan-view-heading > strong,
+.plan-view-heading > span {
+  margin: 0;
+}
+
+.plan-view-heading h2 {
+  color: var(--color-text);
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-line);
+}
+
+.plan-view-heading > strong,
+.plan-view-heading > span {
+  max-width: 520px;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  text-align: right;
+}
+
+.plan-week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.plan-week-day {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-soft);
+  overflow: hidden;
+}
+
+.plan-week-day > header {
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3) var(--space-3) var(--space-2);
+}
+
+.plan-week-day > header > span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.plan-week-day > header > b {
+  margin-top: var(--space-2);
+  font-size: var(--type-body-size);
+}
+
+.plan-week-day-items {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 var(--space-2) var(--space-2);
+}
+
+.plan-task {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  padding: var(--space-4) 44px var(--space-4) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--subject-accent);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.plan-task:hover,
+.plan-task:focus-visible {
+  border-color: color-mix(in srgb, var(--subject-accent) 60%, var(--color-border));
+  box-shadow: var(--shadow-raised);
+}
+
+.plan-task:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.plan-task-subject {
+  color: var(--subject-accent-ink);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+}
+
+.plan-task > span:not(.plan-task-subject),
+.plan-task > small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.plan-task > small {
+  margin-top: var(--space-2);
+}
+
+.plan-task > small b {
+  color: var(--color-text);
+}
+
+.plan-task-arrow {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.plan-task-compact {
+  padding: var(--space-3) 32px var(--space-3) var(--space-3);
+}
+
+.plan-task-compact .plan-task-arrow {
+  top: var(--space-3);
+  right: var(--space-2);
+}
+
+.plan-task-compact > small {
+  margin-top: var(--space-1);
+}
+
+.plan-no-task {
+  margin: 0;
+  padding: var(--space-4) var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  text-align: center;
+}
+
+.plan-day-list {
+  display: grid;
   gap: var(--space-3);
 }
 
-.interface-plan-screen .ui-button {
-  justify-self: start;
+.plan-day-list .plan-task {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-/* Global Progress composition. Progress remains delegated through App while B2
- * standardises the canonical #/progress surface without changing evidence logic. */
+.plan-month-weeks {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.plan-month-weeks > article {
+  display: grid;
+  grid-template-columns: minmax(140px, .7fr) minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: center;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+}
+
+.plan-month-weeks h3,
+.plan-month-weeks p {
+  margin: 0;
+}
+
+.plan-month-focus,
+.plan-month-exams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.plan-month-focus > span,
+.plan-month-exams > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 7px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.plan-month-focus > span[data-subject-accent] {
+  border-left: 3px solid var(--subject-accent);
+}
+
+.plan-upcoming-exams {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.plan-upcoming-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+}
+
+.plan-upcoming-grid article {
+  display: grid;
+  gap: 3px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--subject-accent);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+}
+
+.plan-upcoming-grid article span,
+.plan-upcoming-grid article small {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+/* Global Progress composition. Progress remains delegated through App while the
+ * interface system standardises the canonical #/progress surface. */
 .planner-runtime main[aria-labelledby="global-progress-title"] {
   color: var(--color-text);
 }
@@ -258,7 +901,79 @@
   color: var(--status-error-fg);
 }
 
+@media (max-width: 1180px) {
+  .plan-overview-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .plan-overview-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    margin-top: var(--space-4);
+    padding: var(--space-4) 0 0;
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+  }
+
+  .plan-weekly-capacity-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .plan-week-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 960px) {
+  .plan-page-header-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .plan-header-rev {
+    max-width: none;
+  }
+
+  .plan-setup-exams {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-setup-step-icon {
+    min-height: 120px;
+  }
+
+  .plan-setup-step-icon .ui-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .plan-overview-strip {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .plan-overview-item,
+  .plan-overview-item + .plan-overview-item {
+    padding: var(--space-3) 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .plan-overview-actions {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .plan-weekly-capacity-grid,
+  .plan-week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-month-weeks > article {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
   .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading {
     margin-bottom: var(--space-6);
   }
@@ -269,6 +984,79 @@
 }
 
 @media (max-width: 620px) {
+  .plan-adaptive-explainer {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .plan-adaptive-explainer > .ui-icon {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+  }
+
+  .plan-explainer-toggle {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .plan-add-exam,
+  .interface-plan-screen .planner-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-exam-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-exam-date {
+    justify-items: start;
+  }
+
+  .plan-weekly-capacity-grid,
+  .plan-week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-settings-footer,
+  .plan-view-toolbar,
+  .plan-view-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .plan-settings-footer .ui-button,
+  .plan-overview-actions .ui-button {
+    width: 100%;
+  }
+
+  .plan-overview-actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .plan-view-toolbar .ui-segmented-control {
+    width: 100%;
+  }
+
+  .plan-view-toolbar .ui-segmented-control button {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .plan-view-heading > strong,
+  .plan-view-heading > span {
+    text-align: left;
+  }
+
+  .plan-week-day {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .plan-week-day-items {
+    padding: var(--space-2);
+  }
+
   .planner-runtime main[aria-labelledby="global-progress-title"] > .page-heading h1 {
     letter-spacing: -.025em;
   }
@@ -300,6 +1088,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .plan-task,
   .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
     transition: none;
   }

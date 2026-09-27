@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(54);
+select plan(55);
 
 select ok(
   (select relrowsecurity from pg_class where oid = 'public.learning_evidence'::regclass),
@@ -237,9 +237,29 @@ select is(
 );
 
 select is(
+  (
+    select count(*)
+    from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'revision_availability_profiles'
+      and column_name in (
+        'monday_minutes',
+        'tuesday_minutes',
+        'wednesday_minutes',
+        'thursday_minutes',
+        'friday_minutes',
+        'saturday_minutes',
+        'sunday_minutes'
+      )
+  ),
+  7::bigint,
+  'planner availability exposes all seven recurring day capacities'
+);
+
+select is(
   public.revision_release_readiness()->>'contract',
-  'plan-state-v1',
-  'release readiness advertises the current plan-state-v1 contract'
+  'planner-week-v1',
+  'release readiness advertises the current planner-week-v1 contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,

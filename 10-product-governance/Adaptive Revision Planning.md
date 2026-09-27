@@ -1,9 +1,9 @@
 # Adaptive Revision Planning
 
-**Status:** Draft authority candidate — v0.3 proposal pending governed merge  
+**Status:** Active authority — v0.4 Founder-approved  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
-**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22.  
+**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27.  
 **Authority relationship:** This is the specific product authority for adaptive planning. Global navigation mechanics are governed more specifically by `Global Learner Navigation.md`; this document remains authoritative for planner behaviour and the way REV explains and negotiates the plan.
 
 ## Product outcome
@@ -32,7 +32,7 @@ Planning may use, where known and relevant:
 
 - the learner's active saved course set, including subject, qualification, specification and assessment scope;
 - assessment date and relative importance;
-- realistic normal weekday and weekend revision capacity;
+- realistic recurring availability for each day of the week;
 - individual availability exceptions;
 - specification coverage;
 - understanding/mastery evidence;
@@ -49,23 +49,34 @@ A learner must not be forced through a large diagnostic before the planner can b
 
 ## 2. Assessment setup
 
-Assessment setup should stay simple.
+Assessment setup should stay simple and should exploit information Revision already knows.
 
-- Public examinations should use known course/specification structure and scope where authoritative data exists.
+- Public examinations should use known course/specification and paper/component structure where authoritative data exists, so the learner normally supplies the missing date rather than retyping known exam identity.
 - Mocks should normally support broad course, paper or component scope.
 - Topic tests should begin with a small number of high-level course areas and progressively disclose deeper topic selection only when useful.
+- The learner must be able to add, edit and remove assessments from a bounded **Manage exams** experience without turning the main Plan surface into a permanent setup form.
 
-The learner should not have to select from an unnecessarily long syllabus list merely to add an assessment.
+The learner should not have to select from an unnecessarily long syllabus list or repeatedly enter information Revision already holds merely to add an assessment.
 
 ## 3. Availability
 
 Revision asks for **realistically available revision time**, not aspirational study hours.
 
-The default model should support:
+The default recurring model should support separate normal availability for:
 
-- normal weekday capacity;
-- normal weekend-day capacity; and
-- date-specific exceptions where normal availability does not apply.
+- Monday;
+- Tuesday;
+- Wednesday;
+- Thursday;
+- Friday;
+- Saturday; and
+- Sunday.
+
+It should also support date-specific exceptions where normal availability does not apply.
+
+The learner should be able to edit this recurring weekly pattern from **Plan settings**. During missing-plan setup, the same weekly pattern may be shown directly because it is required to build a realistic plan.
+
+Availability is capacity, not a target or proof of study. Revision must not shame a learner for entering low availability or treat entered time as learning evidence.
 
 The default plan is a flexible workload for a day, not an exact clock-based timetable. Exact scheduling may be introduced later as an optional mode if evidence shows it is useful.
 
@@ -89,6 +100,20 @@ Internal weighting must not be presented as false-precision learner scores.
 
 REV interprets and explains material decisions in natural language. It does not replace the planner calculation.
 
+### Learner-facing explanation of the adaptive plan
+
+Home and Plan should make the adaptive nature of the plan understandable in plain English without exposing proprietary weighting, thresholds or implementation detail.
+
+Plan should include a concise explanation using language equivalent to:
+
+> **Your plan adapts as you go.** Revision uses your exam dates, the time you realistically have available and evidence from how you're getting on to decide what is most useful to work on. As you revise and Revision gets stronger evidence about where you're strong and where you need more work, your plan updates automatically to make the best use of the time you have.
+
+A progressively disclosed explanation may say that Revision considers factors such as exam proximity, what the assessment covers, demonstrated learning/performance evidence, areas that are already strong, competing subject priorities and available time.
+
+Do not claim that Revision learns educational truth from every click, page view or minute spent. Passive behaviour may be planning context, but demonstrated learning evidence remains governed separately.
+
+The product should communicate the intended benefit as helping the learner make the best use of the time available and improve their preparation, not as guaranteeing a grade or outcome.
+
 ## 5. Recommendations must be understandable
 
 A recommendation should have one or more human-understandable reasons. Appropriate reasons include:
@@ -106,7 +131,9 @@ Revision may explain **mark opportunity** where this is grounded in known assess
 
 A learner-wide recommendation must resolve to an active saved course. Removing a course from the learner's programme prevents it from influencing new learner-wide recommendations without deleting historical evidence.
 
-## 6. Today and the wider plan
+Near-term scheduled tasks should expose a concise **Why this?** explanation so the student can understand why Revision placed that work there without seeing internal priority scores.
+
+## 6. Today and the wider Plan experience
 
 Home owns the immediate question: **What should I do now?**
 
@@ -115,18 +142,75 @@ Home should include:
 - REV's concise learner-wide recommendation or guidance; and
 - a smaller **Today's plan** summary that shows the current day's planned workload and links to Plan.
 
-Plan is a primary learner destination and shows the wider adaptive programme across the learner's active courses.
+Plan is a primary learner destination and shows the wider adaptive programme across the learner's active courses. Plan does not need a large proactive REV hero; the plan itself is the dominant job. The normal contextual Ask REV route remains available through the governed learner shell and may also use the compact shared learner-header conversation treatment.
 
-The Plan experience should default to a chronological model rather than a traditional calendar grid:
+### Default information hierarchy
 
-- **Today** — specific and actionable;
-- **Next few days** — reasonably specific;
-- **Later this week** — broader priorities;
-- **Upcoming** — assessments, workload outlook and broader future priorities.
+Once the minimum planning inputs exist, Plan should normally present:
 
-Precision should deliberately decline further into the future. The UI must communicate that the plan will adapt as revision happens, evidence changes and exams get closer.
+1. the normal Plan page orientation/header;
+2. a compact plain-English **Your plan adapts as you go** explanation;
+3. concise programme context such as the next exam, current-week realistic capacity and normal/prioritising state;
+4. secondary **Manage exams** and **Plan settings** controls;
+5. a **Day / Week / Month** view switch with **Week as the default**;
+6. the selected adaptive plan view; and
+7. upcoming examinations/milestones in a calm supporting treatment.
 
-A calendar-style representation may be offered later, but it must not redefine the product as a generic calendar or homework manager.
+The main Plan surface should not be dominated by permanent setup forms after the relevant data exists.
+
+### Day view
+
+Day is the most specific execution view.
+
+It may show:
+
+- the day's available revision capacity;
+- specific recommended activities in current priority order;
+- course/subject identity;
+- expected duration as a coarse estimate;
+- concise **Why this?** evidence/reason text; and
+- a direct start action for supported activities.
+
+Day remains a flexible workload rather than a clock timetable unless exact scheduling is separately approved.
+
+### Week view
+
+Week is the default Plan view and the main representation of the learner's current revision programme.
+
+It should show the current seven-day window with each day's realistic capacity and currently allocated useful work. Desktop may use a seven-day calendar-like composition where it remains readable inside the shared learner canvas. Tablet and phone must reflow into an appropriate stacked/scroll-within-page chronology without ordinary horizontal page scrolling.
+
+The week view is still an adaptive forecast. It must not imply that future activities are immutable appointments.
+
+### Month view
+
+Month is a strategic outlook, not a 30-day grid of falsely precise tasks.
+
+It should emphasise:
+
+- exam dates and important assessment milestones;
+- week-level subject or skill priorities;
+- broad workload/capacity outlook;
+- where exam-style work is likely to become more important; and
+- material constrained-capacity periods where useful.
+
+Exact task precision should deliberately decline further into the future. The learner should be able to see direction without being misled into believing Revision knows the exact task they will need weeks in advance.
+
+### Missing setup state
+
+Where the learner has active courses but has not supplied enough planning inputs, Plan should become a simple setup journey rather than showing empty management panels.
+
+The preferred order is:
+
+1. **Add your exams** — explain why exam dates matter and provide a clear route to add them; and
+2. **Your weekly study time** — capture realistic Monday-Sunday recurring availability.
+
+If one of those inputs already exists, do not force the learner to repeat it. The page should make clear that the plan will appear/update once sufficient inputs exist.
+
+If there are no active courses, Courses remains the prerequisite because Revision must not create a programme from unsaved catalogue courses.
+
+### Calendar boundary
+
+Day/Week/Month are representations of Revision's adaptive planning forecast, not permission to turn Revision into a generic calendar, homework manager or fixed personal timetable.
 
 ## 7. Recalculation
 
@@ -154,6 +238,8 @@ Revision must not require learners to move missed recommendations to another day
 If planned work is not completed, that fact becomes new context. The planner decides again what matters most using the learner's latest state and remaining time.
 
 There should be no punitive backlog, streak debt or failure state created merely because a previous recommendation was not followed.
+
+Day/Week/Month views must therefore display the latest forecast rather than accumulating overdue cards from earlier forecasts.
 
 ## 9. Activity state and reconciliation
 
@@ -236,6 +322,8 @@ Suggested prompts may be dynamic conversation starters, but natural text/convers
 
 Opening Ask REV from Home, Plan, Progress, Courses or an activity should preserve the current context so the learner does not need to explain where they came from. Desktop should normally preserve the underlying screen while a substantial conversation panel opens; tablet/mobile should use an appropriate sheet or overlay. A full REV workspace may still be offered for longer conversations.
 
+Plan may use the shared compact `Got something else on your mind?` / `Ask REV anything…` learner-header treatment, but it should remain visually secondary to the planner and must open the same contextual REV conversation layer.
+
 ## 13. Proactive support and notifications
 
 REV should be proactive primarily inside the product.
@@ -273,10 +361,10 @@ The first implementation must prove the core adaptive loop rather than every pos
 ### Required for MVP
 
 - add and edit assessments with date, type and simple scope;
-- capture realistic normal availability and date exceptions;
+- capture realistic recurring Monday-Sunday availability and date exceptions;
 - deterministic cross-course priority calculation across the learner's active programme;
 - today's recommendation and today's plan on Home;
-- dedicated Plan page with adaptive chronological view;
+- dedicated Plan page with Day / Week / Month adaptive views, with Week as the default and lower future precision;
 - event-triggered replanning plus quiet daily reconciliation;
 - clear recommendation reason codes / explanations;
 - learner ability to choose different work;
@@ -294,7 +382,7 @@ FI-020 learner-course membership is foundational programme context for these pla
 ### Deliberately not an MVP dependency
 
 - exact active-study-time inference;
-- generic calendar integration;
+- generic external calendar integration;
 - exact clock scheduling;
 - automatic ingestion of every official exam date;
 - sophisticated long-term grade forecasting;
@@ -454,3 +542,7 @@ This authority defines what the product should do. It does not itself prove that
 Before implementation begins, the Governed Implementation Workflow and AI Agent Constitution require the implementation team to prove the canonical learner route, runtime and entry point and to classify any duplicate/legacy surfaces.
 
 Implementation evidence must then be recorded in code and relevant technical documentation without redefining this product authority.
+
+## Documentation impact
+
+Version 0.4 records the Founder-approved Plan experience direction of 27 September 2026: schedule-first Day / Week / Month views with Week as the default, decreasing future precision, recurring Monday-Sunday availability, setup-first missing-plan states, a compact adaptive-plan explanation and secondary exam/settings management rather than permanent setup forms. It also records that Plan remains inside the governed learner navigation and stable learner content canvas and does not require a large proactive REV hero.

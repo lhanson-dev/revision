@@ -103,7 +103,10 @@ async function navigateGlobally(page: Page, destination: 'Plan' | 'Progress' | '
 }
 
 async function openAskRev(page: Page) {
-  await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  const trigger = isMobileLayout(page)
+    ? page.locator('.runtime-mobile-ask-rev-dock')
+    : page.locator('.runtime-ask-rev')
+  await trigger.click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
