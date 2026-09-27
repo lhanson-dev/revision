@@ -84,8 +84,9 @@ test('Plan exam setup uses shared field sizing, a usable date calendar and left-
   await expect(examSetup).toBeVisible()
   await expect(examSetup.getByRole('heading', { name: 'Add your exams' })).toBeVisible()
 
-  const examSelect = examSetup.getByLabel('Exam')
-  const dateTrigger = examSetup.getByRole('button', { name: 'Exam date' })
+  const addExamRow = examSetup.locator('.plan-add-exam')
+  const examSelect = addExamRow.locator('select')
+  const dateTrigger = addExamRow.locator('.ui-date-trigger')
   await expect(examSelect).toBeVisible()
   await expect(dateTrigger).toBeVisible()
 
