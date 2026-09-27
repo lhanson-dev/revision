@@ -1,0 +1,73 @@
+{
+  "status": "research_candidate_source_register_supplement",
+  "candidate_version": "v0.2-post-board-candidate",
+  "purpose": "Independent provenance supplement for named management and motivation frameworks retained as separately classified model nodes. Frameworks are taught as models/qualification conventions, not universal factual laws.",
+  "checked_at": "2026-09-27",
+  "sources": [
+    {
+      "id": "SRC-OPENSTAX-TAYLOR",
+      "issuer": "OpenStax / Rice University",
+      "title": "Principles of Management — Taylor-Made Management",
+      "url": "https://openstax.org/books/principles-management/pages/3-4-taylor-made-management",
+      "date_version": "current OpenStax edition/page checked 2026-09-27",
+      "educational_role": "Historical development, principles and limitations of Taylor/scientific management",
+      "source_use": "OPEN_CC_BY_4_0_SUBJECT_TO_ITEM_NOTICES",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "OpenStax textbook content is openly licensed subject to page/item attribution and exceptions; Revision teaching remains independently authored",
+      "limitations": "US management-history context; used for model provenance and educational framing rather than UK qualification scope",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-OPENSTAX-MOTIVATION",
+      "issuer": "OpenStax / Rice University",
+      "title": "Organizational Behavior — Content Theories of Motivation; Introduction to Business — Early Theories of Motivation",
+      "url": "https://openstax.org/books/organizational-behavior/pages/7-2-content-theories-of-motivation",
+      "date_version": "current OpenStax pages checked 2026-09-27",
+      "educational_role": "Maslow, Herzberg and related motivation theory context; McGregor provenance cross-checked in OpenStax Introduction to Business",
+      "source_use": "OPEN_CC_BY_4_0_SUBJECT_TO_ITEM_NOTICES",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "OpenStax textbook content is openly licensed subject to page/item attribution and exceptions; Revision teaching remains independently authored",
+      "limitations": "Classic theories have substantial empirical and contextual limitations; this source establishes the theory, not universal validity",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-OPENSTAX-MCGREGOR",
+      "issuer": "OpenStax / Rice University",
+      "title": "Introduction to Business — Motivation key terms and early theories",
+      "url": "https://openstax.org/books/introduction-business/pages/9-key-terms",
+      "date_version": "current OpenStax page checked 2026-09-27",
+      "educational_role": "Theory X and Theory Y definitions and management-assumption framing",
+      "source_use": "OPEN_CC_BY_4_0_SUBJECT_TO_ITEM_NOTICES",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "OpenStax textbook content is openly licensed subject to page/item attribution and exceptions; Revision teaching remains independently authored",
+      "limitations": "Binary theory is a management-assumption lens, not a validated personality classification",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-OPENSTAX-LEWIN",
+      "issuer": "OpenStax / Rice University",
+      "title": "Organizational Behavior — Managing Change",
+      "url": "https://openstax.org/books/organizational-behavior/pages/16-3-managing-change",
+      "date_version": "current OpenStax page checked 2026-09-27",
+      "educational_role": "Lewin planned-change model, purpose, context and limitations",
+      "source_use": "OPEN_CC_BY_4_0_SUBJECT_TO_ITEM_NOTICES",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "OpenStax textbook content is openly licensed subject to page/item attribution and exceptions; Revision teaching remains independently authored",
+      "limitations": "The three-stage model assumes periods of relative stability more strongly than many contemporary organisations experience",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIPD-OD",
+      "issuer": "CIPD",
+      "title": "Organisation development factsheet",
+      "url": "https://www.cipd.org/uk/knowledge/factsheets/organisational-development-factsheet/",
+      "date_version": "current factsheet checked 2026-09-27",
+      "educational_role": "Contemporary professional context for force-field analysis as one diagnostic/change tool among several",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "No broad commercial reuse permission relied upon; factual/professional reference only",
+      "limitations": "Professional organisation-development scope is broader than Level 3 Business and does not make force-field analysis a universal change law",
+      "confidence": "high"
+    }
+  ]
+}
