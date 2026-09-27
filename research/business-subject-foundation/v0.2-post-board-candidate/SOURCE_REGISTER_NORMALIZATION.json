@@ -1,0 +1,95 @@
+{
+  "status": "research_candidate_source_register_normalization",
+  "candidate_version": "v0.2-post-board-candidate",
+  "purpose": "Completes the source-register field contract for SOURCE_REGISTER.json without inventing unavailable publication metadata. Join this file to SOURCE_REGISTER.json by source id. Evidence and model supplements already use the richer native schema and are not re-normalized here.",
+  "research_checked_at": "2026-09-27",
+  "field_contract": {
+    "issuer": "SOURCE_REGISTER.json issuer",
+    "title": "SOURCE_REGISTER.json title",
+    "url_reference": "SOURCE_REGISTER.json url",
+    "date_version": "per_source_metadata date_version; where the source itself did not expose a specific revision date during the research capture, the field says so and records the research check date rather than fabricating a publication date",
+    "educational_role": "SOURCE_REGISTER.json role",
+    "licensing_reuse": "derived from SOURCE_REGISTER.json source_use according to licensing_profiles below",
+    "limitations": "derived from the source id's limitation_profile below",
+    "confidence": "SOURCE_REGISTER.json confidence"
+  },
+  "licensing_profiles": {
+    "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK": "Public-sector material used for factual/reference purposes. Check the page-specific copyright/reuse notice and any Open Government Licence conditions/exceptions before substantial reuse. No protected source prose is relied on by the candidate.",
+    "OPEN_OGL_SUBJECT_TO_EXCEPTIONS": "Use may be available under the Open Government Licence subject to source-specific exceptions, attribution and third-party material. Candidate teaching is independently authored and does not depend on copying source prose.",
+    "REFERENCE_ONLY": "Reference/fact-checking use only. No broad commercial reuse permission is assumed and no substantial source prose may enter generation.",
+    "REFERENCE_ONLY_UNTIL_ITEM_LICENCE_RECORDED": "Reference/fact-checking use only until the item-specific reuse licence is recorded. No substantial source prose may enter generation.",
+    "REFERENCE_ONLY_BOARD_ALIGNMENT": "Qualification alignment/reference only. Protected specification wording is not a reusable prose substrate and must not organise board-independent subject truth."
+  },
+  "limitation_profiles": {
+    "PUBLIC_AUTHORITY_OR_LEGISLATION": {
+      "limitations": "Authoritative for the specific legal, regulatory or public-policy fact but not a complete Business curriculum. Rules, guidance and policy can change; current application must be re-verified when time-sensitive.",
+      "source_ids": ["SRC-OFQUAL-LEVEL3", "SRC-GOV-BUSINESS-FORMS", "SRC-LEG-CA172", "SRC-CMA-COMPETITION", "SRC-CMA-DYNAMIC-PRICING", "SRC-HMT-GREEN-BOOK", "SRC-GOV-NETZERO", "SRC-CMA-GREEN-CLAIMS"]
+    },
+    "OFFICIAL_STATISTICS_OR_CENTRAL_BANK": {
+      "limitations": "Strong factual/methodological authority for the measured concept, but methodology may be more technical than Level 3 Business and does not by itself determine teaching scope or causal conclusions for a particular firm.",
+      "source_ids": ["SRC-ONS-PRODUCTIVITY", "SRC-ONS-MANAGEMENT", "SRC-BOE-INFLATION", "SRC-BOE-FX"]
+    },
+    "PROFESSIONAL_BODY": {
+      "limitations": "Professional-practice authority is useful for subject truth and application but can exceed Level 3 depth and is not a qualification specification. Reusable teaching must remain independently authored and bounded to the intended learner level.",
+      "source_ids": ["SRC-FRC-GOVERNANCE", "SRC-ICAEW-CASHFLOW", "SRC-ICAEW-FINANCE-GUIDE", "SRC-ACCA-WORKING-CAPITAL", "SRC-ACCA-RATIOS", "SRC-ACCA-INVESTMENT", "SRC-CIM-MARKETING", "SRC-CIM-7PS", "SRC-CIPD-RECRUITMENT", "SRC-CIPD-SELECTION", "SRC-CIPD-ENGAGEMENT", "SRC-CIPD-CULTURE", "SRC-CIPD-VOICE", "SRC-CMI-LEADERSHIP", "SRC-CIPS-SUPPLY"]
+    },
+    "INTERNATIONAL_RESEARCH_OR_PUBLIC_BODY": {
+      "limitations": "Provides high-quality comparative or research evidence but may not be UK-specific and can include specialist depth beyond a general UK Level 3 Business boundary. Transfer to the foundation requires contextual judgement.",
+      "source_ids": ["SRC-OECD-DIGITAL", "SRC-ILO-WORKING-CONDITIONS"]
+    },
+    "FRAMEWORK_ORIGINATOR": {
+      "limitations": "Useful for establishing a named framework's provenance and intended purpose, not for treating the framework as objective or universally predictive subject truth. Assumptions and criticisms remain explicit in the model register.",
+      "source_ids": ["SRC-HBS-FIVE-FORCES", "SRC-BCG-MATRIX"]
+    },
+    "AWARDING_BODY_POST_SEAL": {
+      "limitations": "Course-specific qualification evidence introduced only after the independent Phase 1 seal. It is used to test breadth/depth and identify deltas, never as the organising framework for the board-independent foundation and never as a prose source.",
+      "source_ids": ["SRC-AQA-7132", "SRC-AQA-7138", "SRC-OCR-H436", "SRC-PEARSON-ALEVEL", "SRC-EDUQAS-ALEVEL", "SRC-WJEC-ALEVEL", "SRC-CCEA-ALEVEL"]
+    }
+  },
+  "per_source_metadata": {
+    "SRC-OFQUAL-LEVEL3": {"date_version":"current handbook/guidance page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-GOV-BUSINESS-FORMS": {"date_version":"current GOV.UK guidance checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-LEG-CA172": {"date_version":"Companies Act 2006, section 172; current legislation presentation checked 2026-09-27"},
+    "SRC-ONS-PRODUCTIVITY": {"date_version":"current ONS methodology/QMI page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-ONS-MANAGEMENT": {"date_version":"latest ONS management-practices bulletin available during research; checked 2026-09-27"},
+    "SRC-BOE-INFLATION": {"date_version":"current Bank of England explainer checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-BOE-FX": {"date_version":"current Bank of England explainer checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-CMA-COMPETITION": {"date_version":"State of UK Competition Report 2024; checked 2026-09-27"},
+    "SRC-CMA-DYNAMIC-PRICING": {"date_version":"current CMA/GOV.UK guidance checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-FRC-GOVERNANCE": {"date_version":"current FRC Corporate Governance Code/guidance landing material checked 2026-09-27; exact item version not captured in initial register"},
+    "SRC-ICAEW-CASHFLOW": {"date_version":"current ICAEW Business Finance Guide page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-ICAEW-FINANCE-GUIDE": {"date_version":"current ICAEW Business Finance Guide page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-ACCA-WORKING-CAPITAL": {"date_version":"current ACCA technical article checked 2026-09-27; explicit article revision date not captured"},
+    "SRC-ACCA-RATIOS": {"date_version":"current ACCA technical article checked 2026-09-27; explicit article revision date not captured"},
+    "SRC-ACCA-INVESTMENT": {"date_version":"current ACCA technical article checked 2026-09-27; explicit article revision date not captured"},
+    "SRC-CIM-MARKETING": {"date_version":"current CIM page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-CIM-7PS": {"date_version":"current CIM resource checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-CIPD-RECRUITMENT": {"date_version":"current CIPD factsheet checked 2026-09-27; explicit revision date not captured in initial register"},
+    "SRC-CIPD-SELECTION": {"date_version":"current CIPD factsheet checked 2026-09-27; explicit revision date not captured in initial register"},
+    "SRC-CIPD-ENGAGEMENT": {"date_version":"current CIPD factsheet checked 2026-09-27; explicit revision date not captured in initial register"},
+    "SRC-CIPD-CULTURE": {"date_version":"current CIPD factsheet checked 2026-09-27; explicit revision date not captured in initial register"},
+    "SRC-CIPD-VOICE": {"date_version":"current CIPD factsheet checked 2026-09-27; explicit revision date not captured in initial register"},
+    "SRC-CMI-LEADERSHIP": {"date_version":"current CMI resource checked 2026-09-27; explicit revision date not captured"},
+    "SRC-CIPS-SUPPLY": {"date_version":"current CIPS resource checked 2026-09-27; explicit revision date not captured"},
+    "SRC-OECD-DIGITAL": {"date_version":"publication/resource version available during research; checked 2026-09-27; exact publication date not captured in initial register"},
+    "SRC-ILO-WORKING-CONDITIONS": {"date_version":"publication/resource version available during research; checked 2026-09-27; exact publication date not captured in initial register"},
+    "SRC-HBS-FIVE-FORCES": {"date_version":"current HBS Institute framework page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-BCG-MATRIX": {"date_version":"current BCG historical/framework page checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-HMT-GREEN-BOOK": {"date_version":"The Green Book 2026; checked 2026-09-27"},
+    "SRC-GOV-NETZERO": {"date_version":"current GOV.UK roadmap guidance checked 2026-09-27; explicit document revision date not captured"},
+    "SRC-CMA-GREEN-CLAIMS": {"date_version":"current CMA/GOV.UK Green Claims guidance checked 2026-09-27; explicit page revision date not captured"},
+    "SRC-AQA-7132": {"date_version":"currently published AQA 7132 subject-content/specification material checked post-seal on 2026-09-27"},
+    "SRC-AQA-7138": {"date_version":"currently published AQA 7138 specification/overview material checked post-seal on 2026-09-27"},
+    "SRC-OCR-H436": {"date_version":"current accredited OCR H436 specification PDF checked post-seal on 2026-09-27; document version not separately captured"},
+    "SRC-PEARSON-ALEVEL": {"date_version":"Pearson Edexcel A Level Business (2015) specification; current published copy checked post-seal on 2026-09-27"},
+    "SRC-EDUQAS-ALEVEL": {"date_version":"Eduqas A Level Business specification from 2015; current published copy checked post-seal on 2026-09-27"},
+    "SRC-WJEC-ALEVEL": {"date_version":"current WJEC AS/A Level Business qualification material checked post-seal on 2026-09-27; exact document version not captured"},
+    "SRC-CCEA-ALEVEL": {"date_version":"CCEA GCE Business Studies (2016) specification; current published copy checked post-seal on 2026-09-27"}
+  },
+  "coverage_check": {
+    "base_register_source_count": 38,
+    "normalised_source_count": 38,
+    "unassigned_source_ids": [],
+    "supplement_files_with_native_full_fields": ["SOURCE_REGISTER_EVIDENCE_SUPPLEMENT.json", "SOURCE_REGISTER_MODELS_SUPPLEMENT.json"]
+  }
+}
