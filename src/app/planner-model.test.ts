@@ -190,16 +190,16 @@ describe('planner model bridge', () => {
     const tinyCapacity: RevisionAvailabilityProfile = {
       ...availability,
       weeklyMinutes: {
-        monday: 5,
-        tuesday: 5,
-        wednesday: 5,
-        thursday: 5,
-        friday: 5,
-        saturday: 5,
-        sunday: 5,
+        monday: 1,
+        tuesday: 1,
+        wednesday: 1,
+        thursday: 1,
+        friday: 1,
+        saturday: 1,
+        sunday: 1,
       },
-      weekdayMinutes: 5,
-      weekendMinutes: 5,
+      weekdayMinutes: 1,
+      weekendMinutes: 1,
     }
     const snapshot = buildPlannerSnapshot([state], [assessment], tinyCapacity, [], [], now)
     expect(snapshot?.capacityState).toBe('prioritising')
