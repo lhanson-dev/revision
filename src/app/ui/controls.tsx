@@ -261,13 +261,20 @@ function DateTextField({
           className={classNames('ui-field', 'ui-date-input', Boolean(error) && 'ui-field--error', className)}
           aria-describedby={describedBy(props['aria-describedby'], supportId)}
           aria-invalid={error ? true : props['aria-invalid']}
-          aria-haspopup="dialog"
-          aria-expanded={open}
           onChange={handleDraftChange}
           onClick={openCalendar}
           onBlur={finishDraft}
         />
-        <button type="button" className="ui-date-picker-trigger" aria-label="Open date picker" aria-controls={`${controlId}-calendar`} aria-expanded={open} disabled={disabled} onClick={toggleCalendar}>
+        <button
+          type="button"
+          className="ui-date-picker-trigger"
+          aria-label="Open date picker"
+          aria-haspopup="dialog"
+          aria-controls={`${controlId}-calendar`}
+          aria-expanded={open}
+          disabled={disabled}
+          onClick={toggleCalendar}
+        >
           <Icon name="plan" size="compact" />
         </button>
         {name && <input type="hidden" name={name} value={selectedValue} />}
