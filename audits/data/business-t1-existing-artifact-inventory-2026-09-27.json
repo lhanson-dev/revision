@@ -1,0 +1,134 @@
+{
+  "inventoryId": "business-t1-existing-artifact-inventory-2026-09-27",
+  "status": "in_progress",
+  "asOf": "2026-09-27",
+  "course": "AQA A-level Business 7132",
+  "purpose": "Classify existing Business artifacts before any material is promoted into the reusable Subject Knowledge Foundation.",
+  "rules": {
+    "automaticSubjectPromotion": false,
+    "existingAssetsAreTruthDenominator": false,
+    "independentBaselineRequiredBeforeSubjectPromotion": true,
+    "historicalEvidenceMustBePreserved": true
+  },
+  "foundation": {
+    "currentCandidateFingerprint": "1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee",
+    "courseTruthNodeCount": 49,
+    "classification": "exact_course_evidence_and_subject_reconciliation_candidate",
+    "humanFoundationApproval": "pending_or_not_evidenced_complete_in_t1_chain"
+  },
+  "artifactGroups": [
+    {
+      "id": "source-seed",
+      "path": "src/content-factory/source-seeds/aqa-a-level-business-7132-2027.ts",
+      "classes": ["PROVENANCE_EVIDENCE", "SUBJECT_RECONCILIATION_CANDIDATE"],
+      "treatment": "reconcile_against_sealed_independent_business_baseline"
+    },
+    {
+      "id": "source-coverage-record",
+      "path": "content/business/aqa-a-level/SOURCE_AND_COVERAGE.md",
+      "classes": ["AQA_MAPPING_CANDIDATE", "PROVENANCE_EVIDENCE"],
+      "treatment": "preserve_for_exact_aqa_mapping_not_generic_subject_denominator"
+    },
+    {
+      "id": "current-aqa-ckm",
+      "fingerprint": "1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee",
+      "classes": ["SUBJECT_RECONCILIATION_CANDIDATE"],
+      "counts": {
+        "nodes": 49,
+        "calculationNodes": 8,
+        "knowledgeNodes": 41,
+        "formulas": 21,
+        "misconceptions": 65,
+        "applicationContexts": 114
+      },
+      "treatment": "item_level_reconciliation_required_before_subject_promotion"
+    },
+    {
+      "id": "aqa-board-alignment-coverage",
+      "fingerprint": "1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee",
+      "classes": ["AQA_MAPPING_CANDIDATE"],
+      "treatment": "preserve_as_exact_course_requirement_and_alignment_evidence"
+    },
+    {
+      "id": "aqa-exam-truth",
+      "fingerprint": "1508ce1cefdfad1082f1a388fb1ca6722499429026f705c0d6a2ace023e556ee",
+      "classes": ["AQA_EXAM_TRUTH_CANDIDATE"],
+      "treatment": "preserve_and_reconcile_against_current_exact_course_identity"
+    },
+    {
+      "id": "runtime-shared-pack",
+      "path": "content/business/aqa-a-level/shared/",
+      "files": [
+        "topics.ts",
+        "learn.ts",
+        "learning.ts",
+        "flashcards.ts",
+        "questions.ts",
+        "quantitative.ts",
+        "network-practice.ts",
+        "cases.ts",
+        "exam-technique.ts"
+      ],
+      "classes": ["SUBJECT_RECONCILIATION_CANDIDATE", "LEARN_ASSET_CANDIDATE", "PRACTICE_ASSET_CANDIDATE", "EXAM_PREP_CANDIDATE"],
+      "treatment": "separate_underlying_truth_from_learner_asset_and_reconcile_item_by_item"
+    },
+    {
+      "id": "runtime-paper-simulations",
+      "paths": [
+        "content/business/aqa-a-level/paper-1/exam.ts",
+        "content/business/aqa-a-level/paper-2/exam.ts",
+        "content/business/aqa-a-level/paper-3/exam.ts"
+      ],
+      "classes": ["EXAM_PREP_CANDIDATE"],
+      "treatment": "retain_as_aqa_specific_assets_and_validate_against_reconciled_exam_truth"
+    },
+    {
+      "id": "foundation-native-v1-learning-bundle",
+      "runId": 35468029336,
+      "artifactId": 10595421402,
+      "classes": ["HISTORICAL_ONLY"],
+      "counts": {"workUnits": 49, "learn": 49, "practice": 49},
+      "treatment": "retain_as_historical_pre_blueprint_learning_evidence"
+    },
+    {
+      "id": "blueprint-v2-learning-bundle",
+      "runId": 35789048198,
+      "artifactId": 10723573827,
+      "classes": ["LEARN_ASSET_CANDIDATE", "PRACTICE_ASSET_CANDIDATE"],
+      "counts": {"workUnits": 49},
+      "treatment": "preserve_exact_dependencies_and_reconcile_to_new_subject_course_projection_model"
+    },
+    {
+      "id": "blueprint-v2-independent-assurance",
+      "runId": 35836291040,
+      "artifactId": 10739757463,
+      "classes": ["ASSURANCE_EVIDENCE"],
+      "state": "fail_hold",
+      "counts": {"materialOrBlockingFindings": 20, "remediationTargets": 17},
+      "treatment": "preserve_findings_and_remediation_history"
+    },
+    {
+      "id": "targeted-remediation-cycle-1",
+      "runId": 35996162981,
+      "artifactId": 10806996448,
+      "classes": ["ASSURANCE_EVIDENCE"],
+      "treatment": "preserve_historical_remediation_chain"
+    },
+    {
+      "id": "targeted-remediation-cycle-3",
+      "runId": 36190542172,
+      "artifactId": 10887772691,
+      "resultBundleFingerprint": "93ff40d4343ef46527a33e2f360f3651e1eb0952c5a04545b6ef605942d69e57",
+      "classes": ["LEARN_ASSET_CANDIDATE", "PRACTICE_ASSET_CANDIDATE", "ASSURANCE_EVIDENCE"],
+      "treatment": "requires_fresh_live_reassurance_before_clean_reuse_classification"
+    }
+  ],
+  "openT1Work": [
+    "extract_item_level_ckm_source_and_assurance_ledger",
+    "extract_item_level_runtime_asset_ledger",
+    "extract_item_level_blueprint_v2_and_cycle3_asset_ledger",
+    "reconcile_runtime_static_and_content_factory_asset_estates",
+    "verify_no_later_live_reassurance_against_93ff40d_bundle",
+    "identify_material_business_artifacts_outside_current_repository_files_and_known_workflow_artifacts"
+  ]
+}
