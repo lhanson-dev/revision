@@ -1,0 +1,382 @@
+{
+  "domain": "Business Foundations",
+  "candidate_version": "v0.2-post-board-candidate",
+  "authority_status": "research_evidence_only",
+  "nodes": [
+    {
+      "subject_id": "BUS-FND-001",
+      "title": "Business activity, value creation and resource transformation",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "synoptic_connection"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": [],
+      "related_nodes": ["BUS-FND-005", "BUS-OPS-001", "BUS-FIN-003", "BUS-EVI-006"],
+      "teaching_content": {
+        "core_explanation": "A business organises scarce resources to create goods or services that customers or other users value. Those resources can include people, finance, materials, physical assets, information, technology, knowledge and relationships. Business activity can be understood as a transformation system: inputs are combined through activities and processes to produce outputs, and those outputs create consequences for customers, employees, owners, suppliers, communities and the organisation itself. Value creation is not the same thing as revenue or profit. A product can create high customer value but fail to capture enough revenue to cover its costs. A business can also generate revenue while destroying long-term value if quality is poor, customers do not return, employees leave or the activity creates liabilities that outweigh short-term gains. The useful whole-business model is therefore inputs -> transformation -> outputs -> customer/stakeholder response -> financial and non-financial outcomes -> feedback into future decisions. A strong learner should be able to trace how changing one resource or process can alter cost, quality, speed, flexibility, risk, customer experience and cash requirements elsewhere in the organisation.",
+        "why_it_matters": "This node provides the mental model that connects every later Business topic. It prevents the subject becoming a set of disconnected functions and makes it possible to reason from operational choices to customer, people and financial consequences.",
+        "definitions": [
+          "business activity: organised use of resources to create and exchange goods or services",
+          "input: a resource used in business activity",
+          "transformation: the activities that convert inputs into outputs",
+          "output: the good, service or result produced",
+          "value creation: increasing the usefulness or perceived benefit of an output to customers or other beneficiaries",
+          "value capture: the part of created value the organisation converts into revenue, margin, cash or another organisational benefit"
+        ],
+        "important_boundaries": [
+          "value creation is not identical to revenue",
+          "revenue is not identical to profit",
+          "profitability is not identical to cash generation",
+          "a commercial business can pursue several objectives rather than a single mechanical goal of maximising short-term profit",
+          "an activity that looks efficient inside one function can create costs elsewhere"
+        ],
+        "facts": [
+          "business activity involves scarcity and opportunity cost because resources have alternative uses",
+          "value can be financial and non-financial",
+          "business performance is produced by interacting decisions rather than by one function in isolation"
+        ],
+        "mechanisms": [
+          "better process design can reduce waste and improve cost or speed",
+          "higher service quality can increase retention but may require additional labour or capacity",
+          "additional product variety can increase customer value while increasing operational complexity",
+          "investment in capability can reduce current cash while improving future performance"
+        ],
+        "causal_relationships": [
+          "customer need -> value proposition -> resource/process requirements -> output -> customer response -> revenue/cash effects",
+          "resource constraint -> bottleneck -> delivery/quality consequences -> customer response -> financial outcome",
+          "short-term cost reduction -> possible capability/quality reduction -> future demand or risk effect"
+        ],
+        "examples": [
+          "A meal-delivery business may create customer value through speed and convenience, but if delivery costs exceed the contribution earned per order its growth can increase losses.",
+          "A premium hotel can add labour to improve personalised service. Customer value may rise, but the decision is only sustainable if the extra benefit supports occupancy, price, loyalty or another objective enough to justify the cost."
+        ],
+        "non_examples": [
+          "Calling a rise in sales 'value creation' without considering customer outcomes, costs or sustainability.",
+          "Treating finance, marketing, people and operations as independent activities with no shared constraints."
+        ],
+        "applications": [
+          "map the inputs, processes, outputs and outcomes of an unfamiliar business",
+          "identify the real bottleneck or constraint rather than assuming the problem sits where the symptom appears",
+          "evaluate whether an apparent improvement transfers cost or risk elsewhere"
+        ],
+        "real_world_transfer": [
+          "Explain why rapid sales growth can still weaken a business.",
+          "Identify which resource or process is preventing a business from delivering its promised value.",
+          "Distinguish a customer benefit from the mechanism by which the business captures economic value from it."
+        ],
+        "assumptions": ["The usefulness of the input-transformation-output model depends on defining the system boundary sensibly."],
+        "limitations": ["The model simplifies feedback loops, externalities and network relationships; real businesses often depend on partners and ecosystems outside the legal organisation."],
+        "misconceptions": [
+          {"incorrect_belief":"The purpose of every business is simply to maximise profit.","correction":"Financial viability matters, but organisations can pursue multiple objectives and short-term profit maximisation can conflict with long-term value, resilience or stated social purposes."},
+          {"incorrect_belief":"More sales means the business is performing better.","correction":"Sales can grow while margins, cash flow, service quality or returns deteriorate."}
+        ],
+        "analysis_dimensions": ["resource use", "customer value", "cost", "quality", "speed", "flexibility", "cash", "risk", "stakeholders"],
+        "evaluation_dimensions": ["objective", "time horizon", "capacity", "financial sustainability", "stakeholder effects", "reversibility"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": ["input-transformation-output as a teaching representation"],
+      "evidence_of_understanding": ["explain a business as an interacting transformation system", "trace a multi-step consequence from a functional decision", "distinguish value, revenue, profit and cash"],
+      "sources": ["SRC-OFQUAL-LEVEL3", "SRC-ONS-MANAGEMENT"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-002",
+      "title": "Entrepreneurship, enterprise and intrapreneurship",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "application_context", "evaluation_judgement"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-001"],
+      "related_nodes": ["BUS-FND-007", "BUS-FIN-008", "BUS-MKT-003", "BUS-STR-008"],
+      "teaching_content": {
+        "core_explanation": "Entrepreneurship is the process of identifying or shaping an opportunity, assembling resources and making decisions under uncertainty in order to create value. It should not be reduced to a stereotype about personality or a willingness to take large risks. Effective entrepreneurs often try to reduce avoidable uncertainty by gathering evidence, testing assumptions, starting with reversible experiments and committing resources in stages. Enterprise is the broader capacity to show initiative, organise resources and act on opportunities. Intrapreneurship describes entrepreneurial behaviour inside an established organisation, where employees or teams develop new products, processes or business models using organisational resources. Entrepreneurial decisions always have opportunity costs: time, money and attention committed to one idea cannot be committed to all alternatives. The quality of an entrepreneurial decision therefore depends on the opportunity, evidence, resource fit, downside exposure and ability to learn as new information arrives.",
+        "why_it_matters": "Entrepreneurial activity explains how new businesses and innovations emerge and teaches learners to reason about uncertainty, evidence, commitment and opportunity cost rather than treating business formation as a checklist.",
+        "definitions": [
+          "entrepreneur: a person who organises resources and makes decisions to pursue an opportunity under uncertainty",
+          "entrepreneurship: the process of opportunity pursuit and value creation under uncertainty",
+          "enterprise: initiative and organisation of resources to create value",
+          "intrapreneurship: entrepreneurial activity undertaken within an existing organisation",
+          "opportunity cost: the value of the next-best alternative forgone"
+        ],
+        "important_boundaries": [
+          "risk-taking is not the same as recklessness",
+          "an idea is not yet a viable opportunity until important assumptions can withstand evidence",
+          "entrepreneurial success is not proof that every original decision was rational",
+          "intrapreneurship can occur without founders or new legal entities"
+        ],
+        "facts": ["new ventures face uncertainty about demand, costs, capability, timing and competition", "small experiments can create information before full commitment", "resource constraints can encourage focus but can also prevent viable opportunities being exploited"],
+        "mechanisms": ["research and experimentation reduce some information gaps", "staged investment limits downside while evidence develops", "networks can provide finance, knowledge, suppliers and customers", "first-mover action can create learning or access advantages but also exposes the firm to greater uncertainty"],
+        "causal_relationships": ["opportunity hypothesis -> evidence gathering -> revised assumptions -> resource commitment -> market feedback", "resource scarcity -> prioritisation -> opportunity cost", "innovation inside an established firm -> possible capability/revenue gain but also internal conflict or cannibalisation"],
+        "examples": ["A founder tests willingness to pay with a small pilot before signing a long property lease.", "An employee in a large retailer develops an internal tool that later becomes a customer-facing service: this is intrapreneurial behaviour."],
+        "non_examples": ["Borrowing heavily before testing whether customers want the product and calling the exposure 'entrepreneurial risk-taking'.", "Treating every self-employed person as highly innovative by definition."],
+        "applications": ["separate assumptions from known evidence in a start-up proposal", "identify reversible and irreversible commitments", "compare organic experimentation with immediate large-scale launch"],
+        "real_world_transfer": ["Challenge a business plan whose demand assumptions have never been tested.", "Explain why a lower-risk pilot can increase decision quality even if it delays scale.", "Recognise intrapreneurship in an established organisation."],
+        "assumptions": ["The opportunity can be tested at least partly before full commitment; some markets have unavoidable uncertainty."],
+        "limitations": ["Entrepreneurial outcomes are affected by luck, timing, regulation and access to resources, so outcomes should not be used as perfect evidence of decision quality."],
+        "misconceptions": [
+          {"incorrect_belief":"Entrepreneurs are people who like taking risks.","correction":"Entrepreneurs operate under uncertainty; strong entrepreneurship often involves reducing, pricing and staging risk rather than seeking it."},
+          {"incorrect_belief":"A good idea is a business opportunity.","correction":"An opportunity also requires a viable customer problem, feasible delivery, resource access and a way to capture sufficient value."}
+        ],
+        "analysis_dimensions": ["evidence", "uncertainty", "resources", "opportunity cost", "timing", "capability"],
+        "evaluation_dimensions": ["downside", "reversibility", "market evidence", "resource fit", "learning value", "founder objectives"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": [],
+      "evidence_of_understanding": ["evaluate an opportunity under uncertainty", "explain why staged commitment can improve decision quality", "distinguish entrepreneurship, enterprise and intrapreneurship"],
+      "sources": ["SRC-OFQUAL-LEVEL3"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-003",
+      "title": "Ownership structures, legal personality and liability",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "comparison_discrimination", "application_context"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-002"],
+      "related_nodes": ["BUS-FND-004", "BUS-FIN-008", "BUS-FND-007"],
+      "teaching_content": {
+        "core_explanation": "Legal form determines important aspects of ownership, legal identity, liability, continuity, governance, finance and reporting. A sole trader owns the business personally; there is no separate company owned by shareholders, and the owner normally has unlimited liability for business debts. In an ordinary partnership, two or more people carry on business together under the relevant partnership arrangements and liability can remain personal. A limited company is a separate legal person from its shareholders: the company owns its assets and incurs its obligations, while shareholders' liability is normally limited to their investment. Directors manage the company and owe legal duties in that role. Limited liability reduces one type of owner exposure but does not mean directors have no responsibilities, creditors bear no risk, or personal guarantees can never create personal exposure. Choice of legal form is therefore contextual: a small low-risk activity may value simplicity and direct control, while a growing capital-intensive venture may place more value on continuity, access to equity finance and separation of ownership from the individual founder.",
+        "why_it_matters": "Legal form affects who owns the organisation, who controls it, who bears financial risk and how the business can raise capital and continue over time.",
+        "definitions": ["sole trader: a business owned by one individual", "partnership: a business relationship in which two or more people carry on business together", "limited company: a company with separate legal identity whose shareholders normally have limited liability", "limited liability: owner liability normally limited to the amount invested or committed under the legal form", "legal personality: recognition in law as an entity capable of owning property, entering contracts and bearing obligations"],
+        "important_boundaries": ["sole trader refers to ownership, not number of employees", "limited liability does not remove directors' duties", "ownership and management can overlap but are different roles", "incorporation can change legal and reporting obligations without guaranteeing commercial success"],
+        "facts": ["companies have legal identity separate from their shareholders", "shareholders own shares rather than directly owning each company asset", "legal form can influence finance options, reporting, continuity and control"],
+        "mechanisms": ["separate legal identity allows the company to continue despite changes in shareholders", "limited liability can make equity investment more attractive by bounding normal shareholder exposure", "external investors can dilute founders' ownership and influence"],
+        "causal_relationships": ["higher business risk/capital need -> greater value of liability separation and external capital -> possible incorporation", "equity issue -> more finance -> ownership dilution -> potential governance/control consequences"],
+        "examples": ["A freelance designer may remain a sole trader for simplicity; a manufacturing start-up seeking several investors may incorporate because the capital requirement, continuity and risk profile are different."],
+        "non_examples": ["Saying a sole trader must work alone.", "Saying a company director automatically owns the company.", "Saying limited liability means nobody can lose money if the company fails."],
+        "applications": ["recommend a legal form using risk, finance, control and continuity rather than generic advantages/disadvantages", "separate owner, director and employee roles in a case"],
+        "real_world_transfer": ["Explain why a founder might accept diluted ownership in exchange for equity finance.", "Recognise when a legal-form comparison ignores personal guarantees, governance or reporting."],
+        "assumptions": ["Specific legal/tax details can change and must be checked for the relevant jurisdiction and date."],
+        "limitations": ["High-level A-level categories simplify legal detail; liability can vary with conduct, guarantees, contracts and specific legal structures."],
+        "misconceptions": [
+          {"incorrect_belief":"A sole trader has only one worker.","correction":"The term refers to one owner; a sole trader can employ many people."},
+          {"incorrect_belief":"Limited liability means directors cannot be personally responsible for anything.","correction":"Limited liability primarily concerns shareholders; directors still have legal duties and personal exposure can arise in specific circumstances."}
+        ],
+        "analysis_dimensions": ["liability", "control", "finance", "continuity", "reporting", "risk"],
+        "evaluation_dimensions": ["scale", "capital need", "risk", "founder preferences", "administrative burden", "growth plan"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": [],
+      "evidence_of_understanding": ["distinguish legal forms and liability", "recommend a form for a contextual business", "distinguish owners from directors"],
+      "sources": ["SRC-GOV-BUSINESS-FORMS", "SRC-LEG-CA172"],
+      "confidence": "high",
+      "uncertainties": ["Course-specific legal terminology and tax treatment require current exact-course mapping."]
+    },
+    {
+      "subject_id": "BUS-FND-004",
+      "title": "Ownership, control, directors and corporate governance",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "evaluation_judgement"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-003"],
+      "related_nodes": ["BUS-FND-006", "BUS-STR-001", "BUS-EXT-005", "BUS-EXT-007"],
+      "teaching_content": {
+        "core_explanation": "Ownership and control can separate as organisations grow. Shareholders hold ownership interests in a company, while directors govern and managers exercise delegated authority over day-to-day and strategic decisions. Corporate governance is the system by which companies are directed, overseen and held accountable. It includes board responsibilities, reporting, internal control, risk oversight, remuneration, audit and relationships between those who supply capital and those who make decisions. Governance exists partly because information and incentives are unevenly distributed: managers may know more about the business than outside owners, and their personal incentives may not always align perfectly with owners or other affected stakeholders. Strong governance cannot guarantee good performance, but it can improve accountability, challenge, transparency and control. UK company law also makes clear that directors' duties involve more than mechanically maximising an immediate shareholder payout; long-term consequences and specified stakeholder interests form part of directors' decision context.",
+        "why_it_matters": "The node explains how authority and accountability work in larger organisations and why governance, incentives and stakeholder considerations matter when ownership is dispersed.",
+        "definitions": ["ownership: holding a legal/economic interest in the organisation", "control: practical authority to make or influence decisions", "director: a person responsible for governing a company and meeting directors' duties", "management: organising and directing business activity under delegated authority", "corporate governance: systems and relationships through which a company is directed, controlled and held accountable"],
+        "important_boundaries": ["ownership is not the same as management", "governance is not the same as daily management", "more governance rules do not automatically produce better decisions", "shareholder interests and short-term share price are not identical concepts"],
+        "facts": ["boards oversee major decisions and control systems", "governance structures are responses to accountability and information problems", "directors have statutory duties"],
+        "mechanisms": ["independent challenge can reduce unchecked managerial discretion", "reporting and audit can reduce information asymmetry", "remuneration design can align or distort incentives", "weak controls can allow risks or misconduct to accumulate"],
+        "causal_relationships": ["separation of ownership/control -> information and incentive risk -> governance mechanisms", "poor incentive design -> gaming/short-termism -> stakeholder/financial consequences", "effective oversight -> earlier challenge/risk visibility -> potential reduction in severe failures"],
+        "examples": ["A board challenges an acquisition whose growth target would raise debt and integration risk; that is governance, not simply operational management."],
+        "non_examples": ["Describing a line manager setting staff rotas as corporate governance.", "Assuming a large board automatically means strong governance."],
+        "applications": ["identify conflicts between ownership, managerial incentives and stakeholder interests", "evaluate how governance mechanisms might reduce but not eliminate agency problems"],
+        "real_world_transfer": ["Question whether a bonus metric encourages the behaviour owners and stakeholders actually want.", "Distinguish board oversight from executive implementation."],
+        "assumptions": ["Governance effectiveness depends on information quality, independence, competence, culture and enforcement, not structure alone."],
+        "limitations": ["Governance codes and legal requirements differ by organisation and jurisdiction; A-level teaching should focus on underlying purpose and mechanisms."],
+        "misconceptions": [
+          {"incorrect_belief":"Shareholders manage the company because they own it.","correction":"Shareholders own shares; directors and managers exercise governance and management authority under legal and organisational arrangements."},
+          {"incorrect_belief":"Corporate governance is just legal compliance.","correction":"Compliance is part of the context, but governance also concerns oversight, accountability, risk, incentives and decision challenge."}
+        ],
+        "analysis_dimensions": ["ownership", "control", "information", "incentives", "risk", "accountability", "stakeholders"],
+        "evaluation_dimensions": ["board independence", "information quality", "incentive design", "culture", "company size", "risk profile"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": [],
+      "evidence_of_understanding": ["explain separation of ownership and control", "evaluate a governance mechanism", "distinguish governance from management"],
+      "sources": ["SRC-LEG-CA172", "SRC-FRC-GOVERNANCE"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-005",
+      "title": "Purpose, mission, objectives and performance criteria",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "comparison_discrimination", "evaluation_judgement", "synoptic_connection"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-001"],
+      "related_nodes": ["BUS-FND-006", "BUS-STR-001", "BUS-FIN-001", "BUS-EVI-007"],
+      "teaching_content": {
+        "core_explanation": "Purpose, mission, objectives, measures and targets operate at different levels. Purpose addresses why the organisation exists and the value it intends to create. A mission statement communicates broad direction or identity. Objectives specify results the organisation intends to achieve. Measures indicate how selected aspects of performance will be observed, and targets attach an intended level or deadline to a measure. These should not be collapsed into one concept. Businesses frequently pursue several objectives at once: profitability, cash generation, growth, market share, customer outcomes, reliability, employee outcomes, innovation, survival or environmental performance. Objectives can support one another, but they can also conflict. For example, holding spare capacity can improve speed and resilience while lowering short-run utilisation; reducing inventory can release cash while raising stockout risk. Measures also influence behaviour. If a measure becomes the only target, employees may optimise the number rather than the underlying purpose, creating gaming or unintended consequences. Strong objective-setting therefore requires alignment between purpose, strategy, measures and behaviour.",
+        "why_it_matters": "Objectives give direction and criteria for choice, but they only improve decisions when learners understand trade-offs, measurement quality and behavioural consequences.",
+        "definitions": ["purpose: underlying reason the organisation exists", "mission: broad statement of direction or intended role", "objective: a result the organisation seeks", "measure/KPI: a metric used to observe performance", "target: a desired level or deadline for a measure"],
+        "important_boundaries": ["a measure is not the objective itself", "a target can improve focus but can also distort behaviour", "profit, cash and shareholder value are different measures", "SMART is a way of specifying objectives, not proof the objective is strategically good"],
+        "facts": ["organisations can pursue multiple objectives", "objectives often change with stage, ownership, environment and financial position", "non-financial indicators can be leading signals of future financial performance"],
+        "mechanisms": ["objectives prioritise resource allocation", "targets shape incentives and attention", "conflicting objectives create trade-offs", "feedback from performance measures can trigger corrective action"],
+        "causal_relationships": ["purpose -> strategic priorities -> objectives -> measures/targets -> decisions/behaviour -> outcomes", "poor metric design -> gaming/local optimisation -> weaker overall performance"],
+        "examples": ["A service business targets a shorter response time. If staff rush calls merely to hit the metric, first-contact resolution may fall; the measure has distorted the underlying customer objective."],
+        "non_examples": ["Calling revenue a business objective without specifying whether the goal is growth, level, timeframe or profitability constraints.", "Treating a KPI dashboard as a strategy."],
+        "applications": ["separate purpose, objective, measure and target in a case", "identify conflicts among financial and non-financial objectives", "challenge a metric that could drive dysfunctional behaviour"],
+        "real_world_transfer": ["Explain why meeting a target can still damage the underlying objective.", "Recommend a balanced set of measures for a stated business purpose."],
+        "assumptions": ["Measures are only useful if their definitions and data are reasonably reliable."],
+        "limitations": ["Some outcomes are difficult to measure directly; numerical precision can create false confidence."],
+        "misconceptions": [
+          {"incorrect_belief":"A KPI is an objective.","correction":"A KPI is a measure; an objective is the result the business is trying to achieve."},
+          {"incorrect_belief":"SMART objectives are automatically good objectives.","correction":"SMART improves specification, but the objective can still be strategically wrong or create harmful incentives."}
+        ],
+        "analysis_dimensions": ["purpose", "objective conflict", "measurement", "incentives", "time horizon", "stakeholders"],
+        "evaluation_dimensions": ["strategic alignment", "data quality", "behavioural effects", "trade-offs", "leading/lagging indicators"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": ["SMART as an objective-specification convention"],
+      "evidence_of_understanding": ["distinguish purpose/mission/objective/measure/target", "evaluate objective conflict", "identify behavioural risk from a target"],
+      "sources": ["SRC-ONS-MANAGEMENT", "SRC-FRC-GOVERNANCE"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-006",
+      "title": "Stakeholders, interests, power and conflict",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "evaluation_judgement", "synoptic_connection"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-001", "BUS-FND-005"],
+      "related_nodes": ["BUS-FND-004", "BUS-PEO-011", "BUS-EXT-005", "BUS-EVI-007"],
+      "teaching_content": {
+        "core_explanation": "Stakeholders are people or groups that affect, are affected by, or have a legitimate interest in an organisation's activities. Typical groups include owners, employees, customers, suppliers, lenders, government and local communities, but analysis should not stop at listing them. The central questions are: what does each stakeholder want, how does the decision affect them, how much power do they have to respond, and what secondary consequences follow? Interests can align or conflict. Employees and owners may both benefit from a financially healthy business, yet disagree about wages or restructuring. Extending supplier payment terms may improve the buyer's short-run cash position but weaken supplier liquidity, reliability and trust. Stakeholder power is contextual: a small supplier dependent on one major buyer has less bargaining power than a scarce specialist supplier, while a regulator has formal authority that customers may not. Strong evaluation therefore considers impact magnitude, likelihood, timing, power, strategic dependence, legal obligations and long-term relationships rather than assuming all stakeholders have equal influence.",
+        "why_it_matters": "Most business decisions redistribute benefits, costs, risk or control. Stakeholder reasoning helps learners evaluate decisions beyond a one-dimensional profit effect.",
+        "definitions": ["stakeholder: a party that affects or is affected by the organisation", "stakeholder interest: outcome or condition the stakeholder values", "stakeholder power: ability to influence the organisation or consequences of its decisions", "stakeholder conflict: tension between incompatible or competing interests"],
+        "important_boundaries": ["stakeholder analysis is not a list exercise", "stakeholders within one category can have different interests", "power is not fixed", "a decision can benefit a stakeholder in the short term and harm them later"],
+        "facts": ["businesses depend on relationships with multiple stakeholder groups", "power can come from law, contracts, finance, scarce resources, collective action or customer choice", "director decision-making in UK companies includes statutory consideration of long-term consequences and specified stakeholder interests"],
+        "mechanisms": ["stakeholder response can change demand, labour supply, finance access, supply reliability or regulatory risk", "dependency creates bargaining power", "trust can reduce transaction and monitoring costs while conflict can increase them"],
+        "causal_relationships": ["decision -> stakeholder impact -> stakeholder response -> operational/financial/reputational feedback", "dependence on stakeholder resource -> stakeholder bargaining power -> constraints on decision"],
+        "examples": ["A retailer lengthens supplier payment terms from 30 to 90 days. Its own working capital improves, but small suppliers may increase prices, reduce service or fail, raising supply risk."],
+        "non_examples": ["Writing 'employees want high pay, owners want profit' without explaining the decision mechanism, context or power."],
+        "applications": ["map stakeholder impacts and likely responses for a decision", "identify which stakeholder is strategically critical and why", "evaluate a trade-off over different time horizons"],
+        "real_world_transfer": ["Explain why a policy that improves short-run cash can damage supply reliability.", "Identify when a stakeholder with little formal ownership has high practical power."],
+        "assumptions": ["Stakeholder interests are inferred from evidence rather than stereotypes."],
+        "limitations": ["Stakeholder categories simplify diverse individuals; interests and power can change rapidly."],
+        "misconceptions": [
+          {"incorrect_belief":"Shareholders are the only stakeholders that matter to a company.","correction":"Shareholders have ownership interests, but business performance and legal/strategic decisions depend on multiple stakeholders."},
+          {"incorrect_belief":"Stakeholder conflict always means one side must lose.","correction":"Some conflicts can be reduced by redesigning the decision, changing timing or creating mutual gains, though genuine trade-offs also exist."}
+        ],
+        "analysis_dimensions": ["interest", "power", "dependency", "impact", "response", "time horizon", "legal duty"],
+        "evaluation_dimensions": ["magnitude", "likelihood", "reversibility", "strategic importance", "fairness", "long-term relationship"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": [], "common_errors": []},
+      "models_frameworks": ["stakeholder mapping can be used as an analytical aid but should not replace causal reasoning"],
+      "evidence_of_understanding": ["analyse stakeholder impact and response", "compare stakeholder power contextually", "make a justified judgement about competing interests"],
+      "sources": ["SRC-LEG-CA172", "SRC-FRC-GOVERNANCE"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-007",
+      "title": "Business size, growth and growth constraints",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "synoptic_connection", "evaluation_judgement"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-001"],
+      "related_nodes": ["BUS-FND-008", "BUS-FIN-006", "BUS-OPS-003", "BUS-STR-007"],
+      "teaching_content": {
+        "core_explanation": "Business size can be measured in several ways, including revenue, employment, output, assets, market share or geographic reach. These measures capture different aspects of scale and can rank the same businesses differently. Growth is an increase in one or more dimensions of activity or capability, but growth should not be confused with profitability, cash generation or value creation. Growth can improve economies of scale, market presence and bargaining power, yet it also creates requirements for capacity, working capital, people, systems, finance and management attention. A growing business may need to pay for additional inventory, labour and capacity before receiving cash from new customers. If activity expands faster than working capital or managerial capability, the business can become more fragile despite reporting higher sales or profit. Constraints on growth can therefore be financial, operational, market-based, organisational, regulatory or managerial. The quality of growth matters as much as the rate of growth.",
+        "why_it_matters": "Learners need to diagnose whether growth is sustainable and understand why expansion can create new risks rather than treating larger size as automatic success.",
+        "definitions": ["business size: scale of an organisation measured using a specified indicator", "growth: increase in an aspect of business activity/capability over time", "growth constraint: factor limiting the rate or quality of expansion", "overtrading: expansion that creates working-capital pressure beyond available finance"],
+        "important_boundaries": ["sales growth is not profit growth", "profit growth is not cash growth", "larger size is not automatically more efficient", "market-share growth can occur in a shrinking market"],
+        "facts": ["growth requires resources before all benefits are realised", "different size measures suit different comparisons", "growth can increase organisational complexity"],
+        "mechanisms": ["growth raises inventory/receivables/capacity needs", "scale can strengthen purchasing or fixed-cost spreading", "rapid recruitment can dilute experience/culture", "management systems may become inadequate as complexity increases"],
+        "causal_relationships": ["sales growth -> inventory/receivables -> working-capital requirement -> financing pressure", "growth -> more people/process interfaces -> coordination complexity -> possible diseconomies", "larger volume -> bargaining/fixed-cost effects -> possible lower average cost"],
+        "examples": ["A wholesaler wins a major contract and reports higher forecast profit, but must buy stock immediately while the customer pays in 90 days; the growth creates a cash gap."],
+        "non_examples": ["Using employee count alone to conclude which of two businesses is economically larger.", "Calling a 20% rise in revenue 'successful growth' without considering margin, cash and capacity."],
+        "applications": ["select an appropriate size measure", "diagnose a growth constraint", "evaluate growth quality and financing needs"],
+        "real_world_transfer": ["Explain why a profitable growing business can fail through lack of cash.", "Identify whether finance, capacity or management capability is the binding growth constraint."],
+        "assumptions": ["Growth metrics require a defined period and basis; nominal sales growth can be partly inflation."],
+        "limitations": ["A single metric cannot capture size, quality or resilience; growth can also occur through acquisitions, which changes comparability."],
+        "misconceptions": [
+          {"incorrect_belief":"Growth means success.","correction":"Growth can destroy value if margins, cash, quality or organisational capability do not support it."},
+          {"incorrect_belief":"A profitable business cannot overtrade.","correction":"Profit and cash timing differ; growth can consume working capital faster than cash is generated."}
+        ],
+        "analysis_dimensions": ["revenue", "cash", "capacity", "people", "systems", "market", "finance", "complexity"],
+        "evaluation_dimensions": ["growth quality", "funding", "scalability", "demand durability", "management capability", "time horizon"]
+      },
+      "quantitative_content": {"methods": ["percentage growth where relevant"], "worked_examples": [], "interpretation": ["size/growth measures require context and inflation awareness"], "common_errors": ["equating revenue growth with profit/cash growth"]},
+      "models_frameworks": [],
+      "evidence_of_understanding": ["compare business size measures", "trace growth into working-capital/capacity needs", "evaluate whether growth is sustainable"],
+      "sources": ["SRC-ICAEW-CASHFLOW", "SRC-ACCA-WORKING-CAPITAL"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-008",
+      "title": "Economies, diseconomies and economies of scope",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "comparison_discrimination"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-007", "BUS-FIN-002"],
+      "related_nodes": ["BUS-OPS-003", "BUS-OPS-004", "BUS-STR-007"],
+      "teaching_content": {
+        "core_explanation": "Economies of scale are reductions in average cost associated with increased scale of operation. They can arise because fixed costs are spread across more output, specialist labour/equipment is used more effectively, purchasing power improves, finance or marketing resources are shared, or processes become more efficient. The mechanism matters: simply becoming large does not automatically lower average cost. Diseconomies of scale arise when the costs of complexity, coordination, communication, bureaucracy or reduced responsiveness grow faster than the benefits of scale. Economies of scope are different from economies of scale: they occur when producing or distributing multiple products together uses shared resources more cheaply or effectively than producing them separately. Scale effects should also be distinguished from capacity utilisation. A factory can lower average cost by using existing capacity more fully without changing its long-run scale; that is not necessarily a new economy of scale.",
+        "why_it_matters": "Scale is central to cost advantage, growth and industry structure, but learners need causal mechanisms rather than the slogan that big firms are cheaper.",
+        "definitions": ["economies of scale: falling average cost as scale increases due to identifiable scale-related mechanisms", "diseconomies of scale: rising average cost or reduced effectiveness caused by excessive scale/complexity", "economies of scope: savings from sharing resources across different products or activities", "average cost: total cost divided by output"],
+        "important_boundaries": ["total cost can rise while average cost falls", "higher utilisation is not automatically an economy of scale", "purchasing discounts are one mechanism, not the definition", "diseconomies can be managerial/quality/service effects as well as accounting costs"],
+        "facts": ["fixed-cost spreading can reduce average cost", "specialisation can improve productivity", "large scale can create bureaucracy and coordination costs"],
+        "mechanisms": ["output growth -> fixed-cost spreading -> lower average fixed cost", "larger procurement volume -> bargaining power -> lower input price", "larger organisation -> more layers/interfaces -> slower communication -> possible diseconomies", "shared distribution/brand/technology -> lower combined cost across multiple products -> economies of scope"],
+        "causal_relationships": ["scale -> specialisation/capital utilisation/purchasing power -> average-cost effect", "scale -> complexity -> coordination delay/error -> cost/service effect"],
+        "examples": ["A software platform spreads a large development cost across more subscribers; average development cost per subscriber falls.", "A large retailer becomes slower at changing store procedures because approvals pass through many layers; the coordination cost is a diseconomy mechanism."],
+        "non_examples": ["A business raises output from 70% to 90% of existing capacity and calls all lower unit cost an economy of scale.", "Saying all large firms have lower costs than small firms."],
+        "applications": ["identify the specific source of an economy/diseconomy", "distinguish scale from utilisation and scope", "evaluate whether growth will preserve cost advantages"],
+        "real_world_transfer": ["Challenge an acquisition case that assumes size automatically creates synergy.", "Explain why a larger organisation can simultaneously have procurement economies and coordination diseconomies."],
+        "assumptions": ["Comparisons need broadly similar output quality and relevant time horizon."],
+        "limitations": ["Average-cost data can conceal service-quality or risk changes; digital businesses may have unusual marginal-cost structures."],
+        "misconceptions": [
+          {"incorrect_belief":"Economies of scale mean total costs fall when output rises.","correction":"They refer to average cost; total cost may increase while cost per unit falls."},
+          {"incorrect_belief":"Any unit-cost fall at higher output is an economy of scale.","correction":"The fall may come from fuller use of fixed capacity rather than a change in scale."}
+        ],
+        "analysis_dimensions": ["fixed cost", "specialisation", "purchasing", "technology", "coordination", "quality", "scope"],
+        "evaluation_dimensions": ["industry", "technology", "management capability", "output quality", "utilisation", "growth method"]
+      },
+      "quantitative_content": {"methods": ["average cost = total cost / output"], "worked_examples": ["If total cost is £500,000 at 10,000 units, average cost is £50 per unit; the cause of any change at 20,000 units must be analysed rather than assumed to be scale alone."], "interpretation": ["falling average cost can reflect multiple mechanisms"], "common_errors": ["confusing total and average cost", "confusing utilisation with scale"]},
+      "models_frameworks": [],
+      "evidence_of_understanding": ["explain a specific economy/diseconomy mechanism", "distinguish scale/scope/utilisation", "evaluate whether scale will improve competitiveness"],
+      "sources": ["SRC-ONS-PRODUCTIVITY"],
+      "confidence": "high",
+      "uncertainties": []
+    },
+    {
+      "subject_id": "BUS-FND-009",
+      "title": "External environment, risk and uncertainty",
+      "scope_classification": "CORE_LEVEL3",
+      "node_types": ["concept", "relationship_causal", "evaluation_judgement", "synoptic_connection"],
+      "recommended_depth": "A-level / UK Level 3",
+      "prerequisites": ["BUS-FND-001"],
+      "related_nodes": ["BUS-EXT-001", "BUS-EXT-002", "BUS-EXT-007", "BUS-EVI-003", "BUS-EVI-007"],
+      "teaching_content": {
+        "core_explanation": "Businesses operate within economic, political, legal, technological, social, environmental and competitive conditions they cannot fully control. External change matters through transmission mechanisms rather than generic labels. An interest-rate rise can increase borrowing costs, alter household spending and change asset/investment decisions, but the effect differs between a highly leveraged discretionary retailer and a cash-rich exporter. Risk describes exposure to uncertain outcomes where at least some outcomes and probabilities can be estimated or bounded. Uncertainty is broader: important future states or their probabilities may be poorly known. Businesses can reduce some exposure through insurance, diversification, hedging, contracts, buffers, staged commitments and contingency plans, but uncertainty cannot be eliminated. A decision under uncertainty should therefore consider plausible scenarios, sensitivity, downside severity, reversibility and ability to adapt rather than rely on one forecast.",
+        "why_it_matters": "This node underpins contextual analysis. It prevents students from writing that external factors are simply good or bad and introduces disciplined reasoning about uncertainty.",
+        "definitions": ["external environment: conditions outside direct organisational control that influence business decisions/outcomes", "risk: exposure to variable outcomes for which consequences and sometimes probabilities can be estimated", "uncertainty: lack of reliable knowledge about future outcomes and/or probabilities", "contingency: prepared response for a plausible adverse event"],
+        "important_boundaries": ["external does not mean uncontrollable consequences; firms can adapt", "risk and uncertainty are related but not identical", "a forecast is not a fact", "the same shock can help one business and harm another"],
+        "facts": ["business exposure depends on debt, customers, suppliers, geography, technology and regulation", "risk-transfer mechanisms usually transfer only specified consequences", "buffers can look inefficient in normal periods yet create resilience during disruption"],
+        "mechanisms": ["macro/regulatory change -> prices/income/cost/behaviour -> business-specific demand/cost/cash effect", "diversification -> reduced dependence on one source -> lower concentration risk but potentially more complexity", "buffer capacity/inventory -> higher carrying cost -> greater disruption tolerance"],
+        "causal_relationships": ["external shock -> exposure channel -> first-order effect -> stakeholder/functional responses -> second-order outcome", "uncertainty -> value of flexibility/reversibility -> decision design"],
+        "examples": ["Higher interest rates may hurt a debt-funded housebuilder through financing cost and customer affordability, while a cash-rich bank can experience different effects."],
+        "non_examples": ["Writing 'inflation is bad for business' without identifying which costs, prices, customer incomes or contracts transmit the effect.", "Calling an insured risk 'eliminated'."],
+        "applications": ["build a transmission chain from an external change", "distinguish risk from uncertainty", "compare mitigation options and residual exposure"],
+        "real_world_transfer": ["Explain why two businesses react differently to the same economic shock.", "Identify which uncertainty can be reduced by information and which requires flexibility or resilience."],
+        "assumptions": ["Risk estimates are only as useful as the underlying scenarios and probability information."],
+        "limitations": ["External categories overlap; PESTLE-type labels can encourage lists without mechanisms if used mechanically."],
+        "misconceptions": [
+          {"incorrect_belief":"Risk can be eliminated if a business plans well enough.","correction":"Risk can often be reduced or transferred partly; residual risk and uncertainty remain."},
+          {"incorrect_belief":"An external factor has the same direction of effect on every business.","correction":"Impact depends on exposure, customer response, cost structure, finance and strategic position."}
+        ],
+        "analysis_dimensions": ["exposure", "probability", "impact", "time horizon", "adaptation", "stakeholders", "cash"],
+        "evaluation_dimensions": ["severity", "likelihood", "reversibility", "resilience cost", "information quality", "option value"]
+      },
+      "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": ["scenario and sensitivity analysis support uncertainty reasoning"], "common_errors": ["treating point forecasts as certain"]},
+      "models_frameworks": ["PESTLE can structure scanning but is not itself causal analysis"],
+      "evidence_of_understanding": ["trace an external shock through a business", "distinguish risk/uncertainty", "evaluate mitigation and residual exposure"],
+      "sources": ["SRC-BOE-INFLATION", "SRC-HMT-GREEN-BOOK"],
+      "confidence": "high",
+      "uncertainties": []
+    }
+  ]
+}
