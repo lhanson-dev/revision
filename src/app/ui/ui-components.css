@@ -74,6 +74,7 @@
 }
 
 .ui-field-group {
+  position: relative;
   display: grid;
   gap: var(--space-2);
   color: var(--color-text);
@@ -159,6 +160,9 @@
 }
 
 .ui-date-popover {
+  position: absolute;
+  top: 100%;
+  left: 0;
   z-index: 30;
   width: min(360px, calc(100vw - 32px));
   display: grid;
@@ -338,7 +342,7 @@
   }
 
   .ui-date-popover {
-    width: 100%;
+    width: min(340px, calc(100vw - 48px));
   }
 
   .ui-date-day {
