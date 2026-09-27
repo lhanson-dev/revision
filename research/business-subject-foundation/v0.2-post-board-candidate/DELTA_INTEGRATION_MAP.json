@@ -1,0 +1,29 @@
+{
+  "candidate_version": "v0.2-post-board-candidate",
+  "authority_status": "research_evidence_only",
+  "source_delta_register": "../v0.1-pre-board-challenge/DELTA_REGISTER.json",
+  "principle": "The sealed Phase 1 baseline is immutable. This map records how post-seal board-challenge findings are represented in the unsealed candidate; it does not retrospectively edit Phase 1.",
+  "integrations": [
+    {"delta":"D-001","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-MKT-008"],"treatment":"YED meaning, formula/sign, normal/inferior-product interpretation, assumptions, limitations and decision use strengthened within the existing pricing/elasticity node."},
+    {"delta":"D-002","classification":"GENUINE_SUBJECT_FOUNDATION_GAP","status":"integrated_as_new_node","candidate_ids":["BUS-EVI-008"],"treatment":"New reusable Network analysis / Critical Path Analysis node covering dependencies, critical path, float, delay, resource/time/quality trade-offs and limitations. Independent APM evidence used for subject truth; board sources remain alignment evidence."},
+    {"delta":"D-003","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-EVI-003"],"treatment":"Forecasting now covers historical/trend evidence, time series, moving averages, seasonality, extrapolation, scenarios, sensitivity, structural change and forecast error at bounded Level 3 depth."},
+    {"delta":"D-004","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-MKT-001","BUS-MKT-003","BUS-MKT-009"],"treatment":"Customer journey, CRM/feedback, retention/loyalty, experience and marketing-operations interdependence are explicit facets of the strengthened marketing corpus."},
+    {"delta":"D-005","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-PEO-001","BUS-PEO-011"],"treatment":"Labour turnover/retention, absence and productivity measures are explicit, with formula-convention cautions, contextual interpretation and links to job design, wellbeing, culture and recruitment."},
+    {"delta":"D-006","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-FIN-009"],"treatment":"Investment appraisal includes NPV/time value/discounting at suitable Level 3 depth alongside payback and ARR, with sensitivity and non-financial limitations."},
+    {"delta":"D-007","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-EVI-004","BUS-EVI-007"],"treatment":"Cost-benefit analysis is represented as structured option appraisal with opportunity cost, non-financial/distributional effects, uncertainty, sensitivity and monetisation limits."},
+    {"delta":"D-008","classification":"MIXED","status":"integrated_with_course_specific_boundary_preserved","candidate_ids":["BUS-EXT-003","BUS-EXT-004"],"treatment":"Protectionism/trade-policy mechanics are treated as a genuine reusable gap; FDI/licensing/franchising/joint ventures/direct investment are strengthened subject depth; named international strategy frameworks remain course-specific rather than new factual truth."},
+    {"delta":"D-009","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-EXT-001"],"treatment":"Bounded fiscal/monetary transmission to business is explicit without turning the Business foundation into an Economics course."},
+    {"delta":"D-010","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated_as_course_selectable_facets","candidate_ids":["BUS-FIN-012"],"treatment":"EPS and ROE are available as optional reusable shareholder-ratio facets with calculation/interpretation limitations rather than universal mandatory depth."},
+    {"delta":"D-011","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-MKT-004","BUS-EVI-005"],"treatment":"Confidence intervals are included conceptually as sampling-uncertainty/precision evidence; advanced inferential mathematics remains course-selectable."},
+    {"delta":"D-012","classification":"SUBJECT_DEPTH_EXTENSION","status":"integrated","candidate_ids":["BUS-PEO-001","BUS-PEO-004","BUS-PEO-011","BUS-OPS-007","BUS-EXT-005","BUS-EXT-006"],"treatment":"Flexible/hybrid work, talent development, wellbeing and EDIB are explicit in People; supply-chain transparency/traceability/responsible sourcing are explicit in Operations; ESG/environmental-claim performance boundaries are explicit in External/Global."},
+    {"delta":"D-013","classification":"EXISTING_FOUNDATION_SUFFICIENT","status":"no_new_node_required","candidate_ids":["BUS-STR-008"],"treatment":"AI/disruptive technology remains an application of the existing digital-transformation/capability node; exact current applications belong in course mapping/examples."},
+    {"delta":"D-014","classification":"COURSE_SPECIFIC_SCOPE_OR_TERMINOLOGY","status":"boundary_preserved","candidate_ids":["BUS-MOD-001","BUS-MOD-002","BUS-MOD-003","BUS-MOD-004","BUS-MOD-005"],"treatment":"Five named-model nodes are serialized as models/qualification conventions with assumptions and criticisms. Individual board-required model sets remain separate course mapping, not proof of new subject fact."}
+  ],
+  "summary": {
+    "delta_count": 14,
+    "genuine_new_node_count": 1,
+    "genuine_gap_facet_integrated_without_new_node_count": 1,
+    "dominant_outcome": "depth_extension_of_existing_subject_architecture",
+    "major_domain_gap_found": false
+  }
+}

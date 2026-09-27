@@ -1,0 +1,99 @@
+{
+  "status": "research_candidate_source_register_supplement",
+  "candidate_version": "v0.2-post-board-candidate",
+  "purpose": "Provenance supplement for evidence, decision-making and integration sources introduced after the sealed baseline. These sources support independent subject truth; awarding-body sources remain alignment-only.",
+  "checked_at": "2026-09-27",
+  "sources": [
+    {
+      "id": "SRC-APM-SCHEDULING",
+      "issuer": "Association for Project Management",
+      "title": "What is scheduling in project management?",
+      "url": "https://www.apm.org.uk/resources/what-is-project-management/what-is-scheduling-in-project-management/",
+      "date_version": "current page checked 2026-09-27; cites APM Body of Knowledge 8th edition",
+      "educational_role": "Independent professional-body basis for project scheduling, critical path and schedule interpretation",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "No broad commercial reuse permission relied upon; factual reference only",
+      "limitations": "Professional project-management depth exceeds the Business Level 3 boundary in places; only transferable scheduling concepts are used",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-APM-GLOSSARY",
+      "issuer": "Association for Project Management",
+      "title": "Project management glossary",
+      "url": "https://www.apm.org.uk/resources/glossary/",
+      "date_version": "current page checked 2026-09-27",
+      "educational_role": "Definitions and boundaries for critical path, critical path analysis, network analysis, network diagram and total float",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "No broad commercial reuse permission relied upon; factual reference only",
+      "limitations": "Terminology reflects professional project management and must be simplified independently for Level 3 Business learners",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-APM-RESOURCE",
+      "issuer": "Association for Project Management",
+      "title": "What is resource optimisation?",
+      "url": "https://www.apm.org.uk/resources/what-is-project-management/what-is-resource-optimisation/",
+      "date_version": "current page checked 2026-09-27; cites APM Body of Knowledge 8th edition",
+      "educational_role": "Resource/time trade-offs and use of float in project schedules",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "No broad commercial reuse permission relied upon; factual reference only",
+      "limitations": "Resource-levelling detail beyond basic Business Level 3 treatment is out of scope unless required by an exact course",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ONS-SEASONAL",
+      "issuer": "Office for National Statistics",
+      "title": "Seasonal adjustment",
+      "url": "https://www.ons.gov.uk/methodology/methodologytopicsandstatisticalconcepts/seasonaladjustment",
+      "date_version": "current methodology page checked 2026-09-27",
+      "educational_role": "Independent statistical basis for trend, seasonality, irregular movement and moving-average concepts",
+      "source_use": "OPEN_OGL_SUBJECT_TO_EXCEPTIONS",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "Use subject to ONS/Open Government Licence terms and applicable exceptions; no source prose reproduced",
+      "limitations": "Official-statistics seasonal-adjustment methods are more advanced than the required Business Level 3 treatment",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ONS-UNCERTAINTY",
+      "issuer": "Office for National Statistics",
+      "title": "Uncertainty and how we measure it for our surveys",
+      "url": "https://www.ons.gov.uk/methodology/methodologytopicsandstatisticalconcepts/uncertaintyandhowwemeasureit",
+      "date_version": "current methodology page checked 2026-09-27",
+      "educational_role": "Sampling uncertainty, standard error, confidence intervals and distinction between sampling and non-sampling error",
+      "source_use": "OPEN_OGL_SUBJECT_TO_EXCEPTIONS",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "Use subject to ONS/Open Government Licence terms and applicable exceptions; no source prose reproduced",
+      "limitations": "Advanced inferential-statistics calculations remain outside the general Business foundation unless a qualification requires them",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ONS-STAT-CONCEPTS",
+      "issuer": "Office for National Statistics",
+      "title": "Methodology topics and statistical concepts",
+      "url": "https://www.ons.gov.uk/methodology/methodologytopicsandstatisticalconcepts",
+      "date_version": "current methodology index checked 2026-09-27",
+      "educational_role": "Statistical concepts including index numbers, sample design, estimation and evidence-quality interpretation",
+      "source_use": "OPEN_OGL_SUBJECT_TO_EXCEPTIONS",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "Use subject to ONS/Open Government Licence terms and applicable exceptions; no source prose reproduced",
+      "limitations": "Acts as a gateway to methods rather than a single exhaustive teaching source",
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-GAF-STATISTICS",
+      "issuer": "Government Analysis Function",
+      "title": "Advice for policy professionals using statistics and analysis",
+      "url": "https://analysisfunction.civilservice.gov.uk/policy-store/advice-for-policy-professionals-using-statistics/",
+      "date_version": "current guidance checked 2026-09-27",
+      "educational_role": "Independent public-sector explanation of correlation, causation, uncertainty and responsible evidence interpretation",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "licensing_reuse": "Public-sector guidance used for factual reference; applicable reuse notice must be checked before any substantial reuse",
+      "limitations": "Written for policy analysis rather than Business education; Revision teaching must remain independently authored and context-appropriate",
+      "confidence": "high"
+    }
+  ]
+}

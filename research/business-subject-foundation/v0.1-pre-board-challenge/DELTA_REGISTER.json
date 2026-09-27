@@ -1,0 +1,148 @@
+{
+  "baseline": {
+    "name": "Business Subject Knowledge Foundation Research Baseline v0.1-pre-board-challenge",
+    "seal_time": "2026-09-27T14:00:28+01:00",
+    "seal_commit": "83772e12b1ab3d8f42a1ac437995e59c091ba317",
+    "immutable": true,
+    "authority_status": "research_evidence_only"
+  },
+  "challenge_scope": {
+    "boards": [
+      "AQA",
+      "Cambridge OCR",
+      "Pearson Edexcel",
+      "Eduqas",
+      "WJEC",
+      "CCEA"
+    ],
+    "purpose": "post-seal breadth challenge only; not exact Course Truth mapping"
+  },
+  "deltas": [
+    {
+      "id": "D-001",
+      "title": "Income elasticity of demand (YED)",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-MKT-008"],
+      "board_evidence": ["AQA 7132", "Cambridge OCR H436", "Pearson Edexcel A Level Business", "Eduqas/WJEC A Level Business"],
+      "required_change": "Add a reusable YED facet covering meaning, formula/sign, normal and inferior products, calculation where required, interpretation, demand/revenue implications, planning implications, assumptions and limitations."
+    },
+    {
+      "id": "D-002",
+      "title": "Network analysis / Critical Path Analysis",
+      "classification": "GENUINE_SUBJECT_FOUNDATION_GAP",
+      "affected_subject_ids": [],
+      "suggested_domain": "Evidence, Decision-making and Integration / Operations",
+      "board_evidence": ["AQA 7132", "Pearson Edexcel A Level Business", "Eduqas/WJEC A Level Business"],
+      "required_change": "Add a reusable project-planning method covering activities/dependencies, sequencing, network diagrams, duration, critical path, total float, interpretation of delay, resource/time/quality trade-offs, limitations and cross-functional links."
+    },
+    {
+      "id": "D-003",
+      "title": "Sales forecasting methods",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-EVI-003"],
+      "board_evidence": ["Cambridge OCR H436", "Pearson Edexcel A Level Business", "Eduqas/WJEC A Level Business"],
+      "required_change": "Extend forecasting with historical data, trend, scatter/line of best fit, extrapolation, time series, moving averages where appropriate, qualitative forecasting methods, seasonality, structural change, forecast error and business decision use."
+    },
+    {
+      "id": "D-004",
+      "title": "Customer journey, CRM and customer-experience measurement",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-MKT-001", "BUS-MKT-003", "BUS-MKT-009"],
+      "board_evidence": ["AQA 7138", "Cambridge OCR H436"],
+      "required_change": "Add explicit customer-journey/CRM facets covering acquisition-to-advocacy, touchpoints, service, retention, CRM data, feedback/reviews, experience/loyalty measures, privacy and marketing-operations interdependence."
+    },
+    {
+      "id": "D-005",
+      "title": "Workforce performance metrics",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-PEO-001", "BUS-PEO-011"],
+      "board_evidence": ["Pearson Edexcel A Level Business", "Eduqas/WJEC A Level Business", "Cambridge OCR H436"],
+      "required_change": "Add labour turnover/retention, absenteeism and related workforce-performance measures, with calculations where appropriate, interpretation, context, causal limits and links to recruitment, wellbeing, management, culture and labour cost."
+    },
+    {
+      "id": "D-006",
+      "title": "Net Present Value / discounted investment appraisal depth",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-FIN-009"],
+      "board_evidence": ["Pearson Edexcel A Level Business", "Eduqas/WJEC A Level Business", "CCEA GCE Business Studies"],
+      "required_change": "Extend the existing investment-appraisal node with time value of money, discount factors/rates, NPV calculation at suitable Level 3 depth, interpretation, comparison with payback/ARR, sensitivity and non-financial decision factors."
+    },
+    {
+      "id": "D-007",
+      "title": "Cost-benefit analysis",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-EVI-004", "BUS-EVI-007"],
+      "board_evidence": ["Eduqas/WJEC A Level Business"],
+      "required_change": "Add cost-benefit analysis as a decision-method facet covering relevant financial/non-financial impacts, stakeholder distribution, time horizon, monetisation limits, opportunity cost, uncertainty, sensitivity and decision limitations."
+    },
+    {
+      "id": "D-008",
+      "title": "International trade, protectionism, FDI and market-entry methods",
+      "classification": "MIXED",
+      "subclassifications": {
+        "protectionism_trade_policy": "GENUINE_SUBJECT_FOUNDATION_GAP",
+        "FDI_market_entry": "SUBJECT_DEPTH_EXTENSION",
+        "named_international_strategy_frameworks": "COURSE_SPECIFIC_SCOPE_OR_TERMINOLOGY"
+      },
+      "affected_subject_ids": ["BUS-EXT-003", "BUS-EXT-004"],
+      "board_evidence": ["Pearson Edexcel A Level Business", "CCEA GCE Business Studies"],
+      "required_change": "Teach importing/exporting, FDI, licensing, franchising, joint ventures/direct investment, tariffs/quotas/subsidies/trading blocs at appropriate depth, and causal effects on cost, demand, competition, control, supply chains and exchange-rate exposure."
+    },
+    {
+      "id": "D-009",
+      "title": "Macroeconomic policy mechanisms",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-EXT-001"],
+      "board_evidence": ["CCEA GCE Business Studies"],
+      "required_change": "Add a bounded government-policy facet covering fiscal/monetary transmission to business, including taxation, government spending, interest rates and exchange-rate policy context without turning the Business foundation into an Economics course."
+    },
+    {
+      "id": "D-010",
+      "title": "Shareholder-specific ratios: EPS and ROE",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-FIN-012"],
+      "board_evidence": ["CCEA GCE Business Studies"],
+      "required_change": "Add optional reusable EPS/ROE facets with meaning, calculation, interpretation, limitations and course-selectable depth."
+    },
+    {
+      "id": "D-011",
+      "title": "Confidence intervals in marketing data",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-MKT-004", "BUS-EVI-005"],
+      "board_evidence": ["AQA 7132"],
+      "required_change": "Add a bounded conceptual confidence-interval facet linked to sampling uncertainty and evidence quality; advanced inferential-statistics mathematics remains out of scope unless an exact course requires it."
+    },
+    {
+      "id": "D-012",
+      "title": "Contemporary people, supply-chain and ESG facets",
+      "classification": "SUBJECT_DEPTH_EXTENSION",
+      "affected_subject_ids": ["BUS-PEO-001", "BUS-PEO-004", "BUS-PEO-011", "BUS-OPS-007", "BUS-EXT-005", "BUS-EXT-006"],
+      "board_evidence": ["AQA 7138", "Cambridge OCR H436"],
+      "required_change": "Make explicit EDIB, employee wellbeing/flexible work, integrated talent development, supply-chain transparency/traceability/responsible sourcing, and ESG measurement/reporting while preserving distinction between disclosure and genuine performance."
+    },
+    {
+      "id": "D-013",
+      "title": "AI and disruptive technology",
+      "classification": "EXISTING_FOUNDATION_SUFFICIENT",
+      "affected_subject_ids": ["BUS-STR-008"],
+      "board_evidence": ["AQA 7138", "Cambridge OCR H436"],
+      "required_change": "No new fundamental node required. Attach current AI/disruptive-technology applications to the existing digital-transformation/capability node and course mappings where specified."
+    },
+    {
+      "id": "D-014",
+      "title": "Named frameworks and theorists vary by board",
+      "classification": "COURSE_SPECIFIC_SCOPE_OR_TERMINOLOGY",
+      "affected_subject_ids": ["BUS-MOD-001", "BUS-MOD-002", "BUS-MOD-003", "BUS-MOD-004", "BUS-MOD-005"],
+      "board_evidence": ["AQA", "Pearson Edexcel", "Eduqas/WJEC", "CCEA"],
+      "required_change": "Expand the reusable models/framework register only where educationally justified, but map named board-required frameworks separately rather than treating their presence as proof of new factual subject truth."
+    }
+  ],
+  "challenge_conclusion": {
+    "major_domain_gap_found": false,
+    "architecture_reuse_hypothesis": "supported",
+    "clear_new_reusable_method_candidates": ["Network analysis / Critical Path Analysis"],
+    "likely_genuine_subject_gap_facets": ["Protectionism / trade-policy mechanics"],
+    "dominant_result": "bounded depth/facet extensions to existing independent subject nodes",
+    "next_step": "create an unsealed post-challenge candidate version containing accepted deltas, assure it independently, then map exact qualifications to the resulting subject foundation"
+  }
+}

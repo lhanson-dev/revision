@@ -1,0 +1,138 @@
+{
+  "baseline": "Business Subject Knowledge Foundation Research Baseline v0.1-pre-board-challenge",
+  "seal_time": "2026-09-27T14:00:28+01:00",
+  "status": "sealed_research_index",
+  "important_note": "This is the machine-readable node index only. It is not the full Deliverable 17 teaching corpus serialization and must not be mistaken for it.",
+  "counts": {
+    "substantive_subject_nodes": 75,
+    "named_model_nodes": 5,
+    "total_nodes": 80
+  },
+  "domains": [
+    {
+      "domain": "Business Foundations",
+      "nodes": [
+        {"subject_id":"BUS-FND-001","title":"Business activity, value creation and resource transformation"},
+        {"subject_id":"BUS-FND-002","title":"Entrepreneurship, enterprise and intrapreneurship"},
+        {"subject_id":"BUS-FND-003","title":"Ownership structures, legal personality and liability"},
+        {"subject_id":"BUS-FND-004","title":"Ownership, control, directors and corporate governance"},
+        {"subject_id":"BUS-FND-005","title":"Purpose, mission, objectives and performance criteria"},
+        {"subject_id":"BUS-FND-006","title":"Stakeholders, interests, power and conflict"},
+        {"subject_id":"BUS-FND-007","title":"Business size, growth and growth constraints"},
+        {"subject_id":"BUS-FND-008","title":"Economies, diseconomies and economies of scope"},
+        {"subject_id":"BUS-FND-009","title":"External environment, risk and uncertainty"}
+      ]
+    },
+    {
+      "domain": "Marketing",
+      "nodes": [
+        {"subject_id":"BUS-MKT-001","title":"Markets, demand and customer orientation"},
+        {"subject_id":"BUS-MKT-002","title":"Market size, market growth and market share"},
+        {"subject_id":"BUS-MKT-003","title":"Market research"},
+        {"subject_id":"BUS-MKT-004","title":"Sampling, bias and representativeness"},
+        {"subject_id":"BUS-MKT-005","title":"Segmentation, targeting and positioning"},
+        {"subject_id":"BUS-MKT-006","title":"Product, service, value proposition and product-life-cycle thinking"},
+        {"subject_id":"BUS-MKT-007","title":"Branding, differentiation and brand equity"},
+        {"subject_id":"BUS-MKT-008","title":"Pricing, elasticity and revenue effects"},
+        {"subject_id":"BUS-MKT-009","title":"Promotion, channels, digital marketing and the integrated marketing mix"}
+      ]
+    },
+    {
+      "domain": "Operations",
+      "nodes": [
+        {"subject_id":"BUS-OPS-001","title":"Operations objectives and performance trade-offs"},
+        {"subject_id":"BUS-OPS-002","title":"Production and process methods"},
+        {"subject_id":"BUS-OPS-003","title":"Capacity, bottlenecks and utilisation"},
+        {"subject_id":"BUS-OPS-004","title":"Productivity, efficiency and unit economics"},
+        {"subject_id":"BUS-OPS-005","title":"Lean operations, waste and continuous improvement"},
+        {"subject_id":"BUS-OPS-006","title":"Inventory and service trade-offs"},
+        {"subject_id":"BUS-OPS-007","title":"Procurement, supply chains and logistics"},
+        {"subject_id":"BUS-OPS-008","title":"Quality, quality control and quality assurance"},
+        {"subject_id":"BUS-OPS-009","title":"Location, outsourcing, offshoring and resilience"}
+      ]
+    },
+    {
+      "domain": "Finance",
+      "nodes": [
+        {"subject_id":"BUS-FIN-001","title":"Financial objectives and decision support"},
+        {"subject_id":"BUS-FIN-002","title":"Fixed, variable, total, average and relevant cost"},
+        {"subject_id":"BUS-FIN-003","title":"Revenue, profit, margins and contribution"},
+        {"subject_id":"BUS-FIN-004","title":"Break-even and margin of safety"},
+        {"subject_id":"BUS-FIN-005","title":"Cash flow, forecasting and profit-versus-cash"},
+        {"subject_id":"BUS-FIN-006","title":"Working capital, cash conversion and overtrading"},
+        {"subject_id":"BUS-FIN-007","title":"Budgets, forecasts and variance interpretation"},
+        {"subject_id":"BUS-FIN-008","title":"Sources of finance"},
+        {"subject_id":"BUS-FIN-009","title":"Investment appraisal"},
+        {"subject_id":"BUS-FIN-010","title":"Income statement"},
+        {"subject_id":"BUS-FIN-011","title":"Statement of financial position"},
+        {"subject_id":"BUS-FIN-012","title":"Profitability ratios and ROCE"},
+        {"subject_id":"BUS-FIN-013","title":"Liquidity ratios"},
+        {"subject_id":"BUS-FIN-014","title":"Gearing and limits of financial analysis"}
+      ]
+    },
+    {
+      "domain": "People and Organisation",
+      "nodes": [
+        {"subject_id":"BUS-PEO-001","title":"Workforce planning and job design"},
+        {"subject_id":"BUS-PEO-002","title":"Recruitment"},
+        {"subject_id":"BUS-PEO-003","title":"Selection, validity and fairness"},
+        {"subject_id":"BUS-PEO-004","title":"Training, learning and development"},
+        {"subject_id":"BUS-PEO-005","title":"Motivation"},
+        {"subject_id":"BUS-PEO-006","title":"Financial and non-financial reward"},
+        {"subject_id":"BUS-PEO-007","title":"Organisational structure, span of control and delegation"},
+        {"subject_id":"BUS-PEO-008","title":"Centralisation and decentralisation"},
+        {"subject_id":"BUS-PEO-009","title":"Organisational communication"},
+        {"subject_id":"BUS-PEO-010","title":"Leadership and management"},
+        {"subject_id":"BUS-PEO-011","title":"Culture, engagement, employee voice and relations"}
+      ]
+    },
+    {
+      "domain": "Strategy",
+      "nodes": [
+        {"subject_id":"BUS-STR-001","title":"Strategy, business model, objectives and tactics"},
+        {"subject_id":"BUS-STR-002","title":"Competitive advantage"},
+        {"subject_id":"BUS-STR-003","title":"SWOT and PESTLE"},
+        {"subject_id":"BUS-STR-004","title":"Ansoff product-market framework"},
+        {"subject_id":"BUS-STR-005","title":"Porter's Five Forces"},
+        {"subject_id":"BUS-STR-006","title":"BCG growth-share matrix"},
+        {"subject_id":"BUS-STR-007","title":"Organic growth, mergers, acquisitions, joint ventures and alliances"},
+        {"subject_id":"BUS-STR-008","title":"Innovation, R&D, IP and digital transformation"},
+        {"subject_id":"BUS-STR-009","title":"Organisational change, resistance and implementation"}
+      ]
+    },
+    {
+      "domain": "External and Global Business",
+      "nodes": [
+        {"subject_id":"BUS-EXT-001","title":"Growth, inflation, interest rates and labour-market conditions"},
+        {"subject_id":"BUS-EXT-002","title":"Competition, market power, consumer protection and regulation"},
+        {"subject_id":"BUS-EXT-003","title":"Globalisation and international business"},
+        {"subject_id":"BUS-EXT-004","title":"Exchange rates and competitiveness"},
+        {"subject_id":"BUS-EXT-005","title":"Ethics and corporate responsibility"},
+        {"subject_id":"BUS-EXT-006","title":"Sustainability, net zero and environmental claims"},
+        {"subject_id":"BUS-EXT-007","title":"Risk, contingency planning and crisis resilience"}
+      ]
+    },
+    {
+      "domain": "Evidence, Decision-making and Integration",
+      "nodes": [
+        {"subject_id":"BUS-EVI-001","title":"Percentages, percentage points, averages and index numbers"},
+        {"subject_id":"BUS-EVI-002","title":"Correlation, causation and evidence quality"},
+        {"subject_id":"BUS-EVI-003","title":"Forecasting, extrapolation, scenarios and sensitivity"},
+        {"subject_id":"BUS-EVI-004","title":"Decision trees and expected value"},
+        {"subject_id":"BUS-EVI-005","title":"Quantitative and qualitative data interpretation"},
+        {"subject_id":"BUS-EVI-006","title":"Functional interdependence and causal chains"},
+        {"subject_id":"BUS-EVI-007","title":"Whole-business judgement, trade-offs and strategic consistency"}
+      ]
+    },
+    {
+      "domain": "Named models and framework facets",
+      "nodes": [
+        {"subject_id":"BUS-MOD-001","title":"Taylor / scientific management"},
+        {"subject_id":"BUS-MOD-002","title":"Maslow"},
+        {"subject_id":"BUS-MOD-003","title":"Herzberg"},
+        {"subject_id":"BUS-MOD-004","title":"McGregor Theory X / Theory Y"},
+        {"subject_id":"BUS-MOD-005","title":"Lewin / force-field analysis"}
+      ]
+    }
+  ]
+}

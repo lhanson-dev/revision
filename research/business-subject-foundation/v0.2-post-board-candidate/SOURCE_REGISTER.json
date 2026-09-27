@@ -1,0 +1,386 @@
+{
+  "status": "research_candidate_source_register",
+  "purpose": "Source/provenance register for the strengthened post-board Business Subject Knowledge Foundation candidate. REFERENCE_ONLY sources support factual checking/alignment but are not prose substrates.",
+  "sources": [
+    {
+      "id": "SRC-OFQUAL-LEVEL3",
+      "issuer": "Ofqual",
+      "title": "Ofqual Handbook - design and development of qualifications / Level 3 expectations",
+      "url": "https://www.gov.uk/guidance/ofqual-handbook/section-e-design-and-development-of-qualifications",
+      "role": "Level 3 intellectual boundary and qualification context",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-GOV-BUSINESS-FORMS",
+      "issuer": "UK Government",
+      "title": "Set up a business / sole trader / partnership / LLP guidance",
+      "url": "https://www.gov.uk/set-up-business",
+      "role": "Legal forms, ownership and liability factual basis",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-LEG-CA172",
+      "issuer": "UK legislation",
+      "title": "Companies Act 2006 section 172",
+      "url": "https://www.legislation.gov.uk/ukpga/2006/46/section/172",
+      "role": "Directors' duties / long-term and stakeholder considerations",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ONS-PRODUCTIVITY",
+      "issuer": "Office for National Statistics",
+      "title": "Labour productivity quality and methodology information",
+      "url": "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/labourproductivity/methodologies/labourproductivityqmi",
+      "role": "Productivity definitions, measurement and interpretation",
+      "source_use": "OPEN_OGL_SUBJECT_TO_EXCEPTIONS",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ONS-MANAGEMENT",
+      "issuer": "Office for National Statistics",
+      "title": "Management practices in the UK",
+      "url": "https://www.ons.gov.uk/economy/economicoutputandproductivity/productivitymeasures/bulletins/managementpracticesintheuk/latest",
+      "role": "Management practices, targets, people practices and causal-evidence caution",
+      "source_use": "OPEN_OGL_SUBJECT_TO_EXCEPTIONS",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-BOE-INFLATION",
+      "issuer": "Bank of England",
+      "title": "Inflation explainer",
+      "url": "https://www.bankofengland.co.uk/explainers/what-is-inflation",
+      "role": "Inflation and monetary-policy transmission",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-BOE-FX",
+      "issuer": "Bank of England",
+      "title": "Who sets exchange rates?",
+      "url": "https://www.bankofengland.co.uk/explainers/who-sets-exchange-rates",
+      "role": "Exchange-rate mechanism and business implications",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CMA-COMPETITION",
+      "issuer": "Competition and Markets Authority",
+      "title": "State of UK Competition Report 2024",
+      "url": "https://www.gov.uk/government/publications/the-state-of-uk-competition-report-2024/the-state-of-uk-competition-report-2024",
+      "role": "Competition, market power and market functioning",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CMA-DYNAMIC-PRICING",
+      "issuer": "Competition and Markets Authority",
+      "title": "Dynamic pricing: tips for businesses",
+      "url": "https://www.gov.uk/government/publications/dynamic-pricing-tips-for-businesses",
+      "role": "Pricing, transparency and consumer-protection context",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-FRC-GOVERNANCE",
+      "issuer": "Financial Reporting Council",
+      "title": "Corporate Governance Code and guidance",
+      "url": "https://www.frc.org.uk/library/standards-codes-policy/corporate-governance/corporate-governance-code-guidance/",
+      "role": "Governance, boards, purpose, risk and control",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ICAEW-CASHFLOW",
+      "issuer": "ICAEW",
+      "title": "Managing your cashflow",
+      "url": "https://www.icaew.com/technical/corporate-finance/business-finance-guide/more-information/managing-your-cashflow",
+      "role": "Cash-flow forecasting and finance practice",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ICAEW-FINANCE-GUIDE",
+      "issuer": "ICAEW",
+      "title": "Business Finance Guide",
+      "url": "https://www.icaew.com/technical/corporate-finance/business-finance-guide/about",
+      "role": "Sources of finance and financing choice",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ACCA-WORKING-CAPITAL",
+      "issuer": "ACCA",
+      "title": "Working capital management",
+      "url": "https://www.accaglobal.com/gb/en/student/exam-support-resources/fundamentals-exams-study-resources/f9/technical-articles/wcm.html",
+      "role": "Working capital, liquidity/profitability trade-off and overtrading context",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ACCA-RATIOS",
+      "issuer": "ACCA",
+      "title": "Ratio analysis",
+      "url": "https://www.accaglobal.com/gb/en/student/exam-support-resources/fundamentals-exams-study-resources/f2/technical-articles/ratio-analysis.html",
+      "role": "Financial-ratio calculation and interpretation",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ACCA-INVESTMENT",
+      "issuer": "ACCA",
+      "title": "Investment appraisal",
+      "url": "https://www.accaglobal.com/uk/en/student/exam-support-resources/prodipsust-study-resources/technical-articles/investment-appraisal.html",
+      "role": "Payback, ARR, discounted cash flow and appraisal limitations",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIM-MARKETING",
+      "issuer": "Chartered Institute of Marketing",
+      "title": "Marketing principles",
+      "url": "https://www.cim.co.uk/learn-develop/training-development/view-all-courses/marketing-principles/",
+      "role": "Professional marketing scope, segmentation, positioning and decision context",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIM-7PS",
+      "issuer": "Chartered Institute of Marketing",
+      "title": "The 7Ps of marketing",
+      "url": "https://support.cim.co.uk/content-hub/quick-read/the-7ps-of-marketing/",
+      "role": "Integrated marketing-mix framework",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "medium-high"
+    },
+    {
+      "id": "SRC-CIPD-RECRUITMENT",
+      "issuer": "CIPD",
+      "title": "Recruitment factsheet",
+      "url": "https://www.cipd.org/uk/knowledge/factsheets/recruitment-factsheet/",
+      "role": "Recruitment process and evidence-informed people practice",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIPD-SELECTION",
+      "issuer": "CIPD",
+      "title": "Selection methods factsheet",
+      "url": "https://prod.cipd.org/uk/knowledge/factsheets/selection-factsheet/",
+      "role": "Selection validity, fairness and method choice",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIPD-ENGAGEMENT",
+      "issuer": "CIPD",
+      "title": "Employee engagement factsheet",
+      "url": "https://www.cipd.org/uk/knowledge/factsheets/engagement-factsheet/",
+      "role": "Engagement concept and distinction from related constructs",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIPD-CULTURE",
+      "issuer": "CIPD",
+      "title": "Organisation culture and change factsheet",
+      "url": "https://www.cipd.org/uk/knowledge/factsheets/organisation-culture-change-factsheet/",
+      "role": "Culture, climate and organisational change",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CIPD-VOICE",
+      "issuer": "CIPD",
+      "title": "Employee voice factsheet",
+      "url": "https://www.cipd.org/en/knowledge/factsheets/voice-factsheet/",
+      "role": "Employee voice and participation",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CMI-LEADERSHIP",
+      "issuer": "Chartered Management Institute",
+      "title": "Management and leadership styles",
+      "url": "https://www.managers.org.uk/knowledge-and-insights/resource/management-and-leadership-styles/",
+      "role": "Leadership/management style context",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "medium-high"
+    },
+    {
+      "id": "SRC-CIPS-SUPPLY",
+      "issuer": "Chartered Institute of Procurement and Supply",
+      "title": "Supply chain visibility",
+      "url": "https://1prd-dxp.cips.org/intelligence-hub/supply-chain-management/supply-chain-visibility",
+      "role": "Procurement, supply-chain visibility and resilience",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "medium-high"
+    },
+    {
+      "id": "SRC-OECD-DIGITAL",
+      "issuer": "OECD",
+      "title": "SME digitalisation for competitiveness",
+      "url": "https://www.oecd.org/en/publications/sme-digitalisation-for-competitiveness_197e3077-en.html",
+      "role": "Digitalisation, capability, productivity and SME constraints",
+      "source_use": "REFERENCE_ONLY_UNTIL_ITEM_LICENCE_RECORDED",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-ILO-WORKING-CONDITIONS",
+      "issuer": "International Labour Organization",
+      "title": "Can better working conditions improve the performance of SMEs?",
+      "url": "https://www.ilo.org/publications/can-better-working-conditions-improve-performance-smes-international",
+      "role": "Working conditions, people practices and performance evidence",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-HBS-FIVE-FORCES",
+      "issuer": "Harvard Business School Institute for Strategy and Competitiveness",
+      "title": "The Five Forces",
+      "url": "https://www.isc.hbs.edu/strategy/business-strategy/Pages/the-five-forces.aspx",
+      "role": "Framework purpose and authoritative provenance",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-BCG-MATRIX",
+      "issuer": "Boston Consulting Group",
+      "title": "Growth Share Matrix",
+      "url": "https://www.bcg.com/about/overview/our-history/growth-share-matrix",
+      "role": "Framework purpose and provenance",
+      "source_use": "REFERENCE_ONLY",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-HMT-GREEN-BOOK",
+      "issuer": "HM Treasury",
+      "title": "The Green Book 2026",
+      "url": "https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government/the-green-book-2026",
+      "role": "Decision appraisal, alternatives, uncertainty, risk and sensitivity",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-GOV-NETZERO",
+      "issuer": "UK Government",
+      "title": "Net Zero business sector roadmap guidelines",
+      "url": "https://www.gov.uk/government/publications/net-zero-business-sector-roadmap-guidelines",
+      "role": "Business decarbonisation and transition context",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CMA-GREEN-CLAIMS",
+      "issuer": "Competition and Markets Authority",
+      "title": "Green claims and your business",
+      "url": "https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims/green-claims-and-your-business",
+      "role": "Environmental claims, evidence boundaries and consumer protection",
+      "source_use": "OPEN_PUBLIC_SECTOR_WITH_NOTICE_CHECK",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-AQA-7132",
+      "issuer": "AQA",
+      "title": "A-level Business 7132 specification",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/subject-content",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-AQA-7138",
+      "issuer": "AQA",
+      "title": "A-level Business 7138 specification / overview",
+      "url": "https://www.aqa.org.uk/subjects/business/a-level/business-7138",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-OCR-H436",
+      "issuer": "Cambridge OCR",
+      "title": "A Level Business H436 specification",
+      "url": "https://www.ocr.org.uk/Images/716172-specification-accredited-a-level-gce-business-h436.pdf",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-PEARSON-ALEVEL",
+      "issuer": "Pearson Edexcel",
+      "title": "A Level Business (2015) specification",
+      "url": "https://qualifications.pearson.com/content/dam/pdf/A%20Level/Business%20Studies/2015/specification-and-sample-assessment-materials/9781446914694-gce2015-a-bus-web.pdf",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-EDUQAS-ALEVEL",
+      "issuer": "Eduqas",
+      "title": "A Level Business specification",
+      "url": "https://www.eduqas.co.uk/media/h4mljngz/eduqas-a-business-spec-from-2015.pdf",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-WJEC-ALEVEL",
+      "issuer": "WJEC",
+      "title": "AS/A Level Business qualification",
+      "url": "https://www.wjec.co.uk/qualifications/business-asa-level/",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    },
+    {
+      "id": "SRC-CCEA-ALEVEL",
+      "issuer": "CCEA",
+      "title": "GCE Business Studies specification",
+      "url": "https://ccea.org.uk/downloads/docs/Specifications/GCE/GCE%20Business%20Studies%20%282016%29/GCE%20Business%20Studies%20%282016%29-specification-Standard.pdf",
+      "role": "POST-SEAL qualification breadth / alignment evidence only",
+      "source_use": "REFERENCE_ONLY_BOARD_ALIGNMENT",
+      "substantial_text_may_enter_generation": false,
+      "confidence": "high"
+    }
+  ]
+}
