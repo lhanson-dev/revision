@@ -40,7 +40,7 @@ describe('Revision reusable interface components', () => {
     expect(markup).toContain('class="ui-field-support">Use the name shown on your timetable.')
     expect(markup).toContain('ui-field ui-field--textarea')
     expect(markup).toContain('class="ui-field-support">Write the answer before comparing guidance.')
-    expect(markup).toContain('ui-field ui-field--error')
+    expect(markup).toContain('ui-field ui-select-field ui-field--error')
     expect(markup).toContain('aria-invalid="true"')
   })
 

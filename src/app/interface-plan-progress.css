@@ -247,7 +247,6 @@
 .plan-awaiting p {
   margin: 0;
 }
-
 .plan-awaiting p {
   max-width: 720px;
   color: var(--color-text-secondary);
@@ -1091,5 +1090,65 @@
   .plan-task,
   .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary {
     transition: none;
+  }
+}
+
+/* Founder-approved Plan setup alignment refinement. Shared form anatomy stays in
+ * ui-components.css; this block owns only Plan empty-state composition. */
+.plan-setup-exams {
+  position: relative;
+  display: block;
+}
+
+.plan-setup-step-icon {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  min-height: 0;
+  border-radius: var(--radius-pill);
+}
+
+.plan-setup-step-icon .ui-icon {
+  width: var(--icon-size-large);
+  height: var(--icon-size-large);
+}
+
+.plan-setup-copy {
+  width: 100%;
+}
+
+.plan-setup-copy > .eyebrow,
+.plan-setup-copy > h2,
+.plan-setup-copy > p {
+  max-width: calc(100% - 88px);
+}
+
+.plan-setup-copy > .plan-management-panel {
+  margin-top: var(--space-2);
+}
+
+.plan-other-assessment {
+  max-width: none;
+}
+
+@media (max-width: 620px) {
+  .plan-setup-step-icon {
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 48px;
+    height: 48px;
+  }
+
+  .plan-setup-step-icon .ui-icon {
+    width: var(--icon-size-standard);
+    height: var(--icon-size-standard);
+  }
+
+  .plan-setup-copy > .eyebrow,
+  .plan-setup-copy > h2,
+  .plan-setup-copy > p {
+    max-width: calc(100% - 64px);
   }
 }

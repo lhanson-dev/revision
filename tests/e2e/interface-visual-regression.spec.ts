@@ -56,18 +56,18 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
 }
 
 /**
- * The learner surfaces whose outer geometry intentionally changes in this PR
- * are pinned to exact manually inspected CI captures. The refreshed Plan light
- * and dark captures were re-inspected on 27 September 2026 against the
- * Founder-approved Plan design, stable learner canvas and governed theme
- * treatment. This is stricter than the normal 1% snapshot tolerance and
- * prevents baseline updates from masking additional pixel drift. Timed exam and
- * Admin retain their existing snapshot baselines because their geometry is
- * deliberately excluded.
+ * The learner surfaces whose outer geometry intentionally changes are pinned to
+ * exact manually inspected CI captures. The Plan light and dark captures were
+ * re-inspected on 27 September 2026 after the Founder-approved form-alignment
+ * refinement: content begins on the learner-canvas edge, the calendar icon is a
+ * compact top-right treatment and the shared field geometry remains consistent.
+ * This is stricter than the normal 1% snapshot tolerance and prevents baseline
+ * updates from masking additional pixel drift. Timed exam and Admin retain their
+ * existing snapshot baselines because their geometry is deliberately excluded.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:plan:light': 'e241a1da02568df21fbe35961987c773558f64e29b738084f683f7c4d89ff531',
-  'desktop:plan:dark': 'c3b6207fae06941265f151659a48d1dd5fc8a65e13c2c63f0979c5c8d2e474df',
+  'desktop:plan:light': 'c1d1991486e9994cfaa3626fcc41eb44351551feee5187d98a703639581bdfb5',
+  'desktop:plan:dark': '4ab39f8fdc84f5b9d924a2d5851d4ffb7671399cfc34ad90e22d1d3f351e117c',
   'tablet:courses:light': '7f90c35f0fce95e9023ce43cba217aa5a91583a0247fe6f72fd6dd5181990146',
   'tablet:courses:dark': '1a89d60f669cfb01806b6de1f2b0ddaaee74a5c307a604a29f3ace0b34b0114c',
   'phone:practice:light': 'ab694df6d5432dcf3484f0982ffcfdad3560a2e7a94054e000b731cf9f07eb7a',
