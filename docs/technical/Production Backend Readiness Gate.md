@@ -1,6 +1,6 @@
 # Production Backend Readiness Gate
 
-**Status:** Active production control. Production Supabase currently exposes `plan-state-v1`; the 27 September 2026 Plan refresh proposes `planner-week-v1` and must not merge/release until that additive production capability is enabled and independently verified.  
+**Status:** Active production control. Production Supabase exposes `planner-week-v1` as of 27 September 2026 for PR #403 backend-ahead enablement; the Plan refresh must still pass exact-head assurance, explicit Founder merge approval, governed merge, deployment and production smoke before it is Live.  
 **Owner:** Engineering / Operations  
 **Governing authority:** `50-engineering-standards/Release & Deployment Standard.md`
 
@@ -81,43 +81,27 @@ It does not expose learner data, credentials, migration history or privileged op
 
 `plan-state-v1` added FI-022 learner plan-state capabilities while retaining every earlier requirement.
 
-The Plan experience refresh proposes `planner-week-v1`, which additionally requires explicit recurring Monday-Sunday planner availability on the existing learner-owned availability profile.
+`planner-week-v1` adds explicit recurring Monday-Sunday planner availability on the existing learner-owned availability profile while retaining every earlier requirement.
 
 Historical applied migrations remain forward-only and are not rewritten when the contract advances.
 
-## Current production `plan-state-v1` contract
+## Historical `plan-state-v1` contract
 
-Production applied:
+Production applied `20260824165737_add_learner_plan_state` on 24 August 2026.
 
-`20260824165737_add_learner_plan_state`
-
-on 24 August 2026.
-
-`plan-state-v1` requires the previous learner/profile/evidence/planner/course capabilities plus:
+`plan-state-v1` required the previous learner/profile/evidence/planner/course capabilities plus:
 
 - `public.learner_plan_state`;
 - `public.learner_plan_assignment_events`; and
 - `public.assign_learner_plan(uuid,text,uuid)`.
 
-Production verification immediately after enablement confirmed:
+Production verification after that enablement confirmed `ready: true`, learner-plan RLS/privilege boundaries, service-role-only assignment and a `SECURITY INVOKER` readiness RPC. Detailed evidence remains in `docs/technical/Learner Plan State Implementation.md`.
 
-- contract `plan-state-v1`;
-- aggregate `ready: true`;
-- RLS enabled on both plan tables;
-- authenticated own-plan read without browser plan writes;
-- assignment-event browser denial;
-- service-role-only execution of the plan-assignment RPC;
-- `revision_release_readiness()` remains `SECURITY INVOKER`;
-- all users present at migration time received compatibility Free state; and
-- rollback-safe synthetic-user verification proved new-user `registration_default` Free creation.
+## Current production `planner-week-v1` contract
 
-Detailed evidence is maintained in `docs/technical/Learner Plan State Implementation.md`.
+The Plan experience refresh uses the production-ledger migration identity:
 
-## Proposed `planner-week-v1` contract
-
-The Plan experience refresh introduces version-controlled migration:
-
-`20260927134400_add_recurring_weekly_planner_availability.sql`
+`20260927161359_add_recurring_weekly_planner_availability.sql`
 
 The migration is additive. It extends `public.revision_availability_profiles` with:
 
@@ -131,19 +115,31 @@ The migration is additive. It extends `public.revision_availability_profiles` wi
 
 Existing rows are backfilled from the prior weekday/weekend values. The legacy aggregate fields remain for backwards compatibility. The table's existing learner-owner RLS model remains the authorization boundary.
 
-The migration advances `revision_release_readiness()` to `planner-week-v1` only when all earlier required capabilities remain present and all seven new recurring-capacity columns exist.
+The migration advances `revision_release_readiness()` to `planner-week-v1` only when all earlier required capabilities remain present and all seven new recurring-capacity columns exist. `.github/workflows/deploy-pages.yml` on the Plan refresh branch expects the same contract.
 
-`.github/workflows/deploy-pages.yml` on the Plan refresh branch expects `planner-week-v1`. Therefore the branch is intentionally not production-releasable until production has been prepared. This is the same backend-ahead/fail-closed operating pattern used for earlier additive contracts.
+### Production enablement evidence — 27 September 2026
 
-Before Founder merge approval can safely be acted on, the production change requires:
+Immediately before enablement, production reported `plan-state-v1` with `ready: true`. Production contained one availability profile with valid legacy values of 120 weekday minutes and 120 weekend minutes, RLS was enabled, and none of the seven new columns existed.
 
-1. apply the additive migration through the governed Supabase migration path;
-2. verify existing rows were backfilled correctly without weakening RLS;
-3. verify `revision_release_readiness()` reports `planner-week-v1` and `ready: true`;
-4. run Supabase Security and Performance Advisors and review new findings; and
-5. reconcile the production migration ledger with the committed migration identity.
+The governed additive migration was then applied to the production Revision Supabase project. Independent post-change verification confirmed:
 
-Until those checks are complete, the frontend/repository PR may be reviewed and CI-tested but must not be treated as release-ready.
+- `revision_release_readiness()` reports `planner-week-v1` with aggregate `ready: true`;
+- the `weeklyAvailability` capability check is `true` and all earlier capability checks remain `true`;
+- the existing availability profile was backfilled exactly to 120 minutes on Monday through Sunday while retaining its legacy values;
+- `revision_availability_profiles` still has RLS enabled;
+- the authenticated owner policy remains `auth.uid() = user_id` for both `USING` and `WITH CHECK`;
+- `revision_release_readiness()` remains `SECURITY INVOKER` and stable;
+- routine execution remains deliberately limited to the expected roles after `PUBLIC` revocation; and
+- the production migration ledger records version `20260927161359` with name `add_recurring_weekly_planner_availability`.
+
+Security and Performance Advisor checks were run before and after the migration. The post-change findings are unchanged from the preflight baseline and introduce no Plan-specific warning or performance regression. The existing findings remain:
+
+- informational RLS/no-policy notice for `learner_plan_assignment_events`, reflecting its existing deny-browser design;
+- the separate leaked-password-protection warning;
+- informational unindexed `assigned_by` foreign-key suggestions on the existing learner-plan tables; and
+- existing unused-index notices.
+
+The production-backend prerequisite for PR #403 is therefore satisfied. This does **not** make the Plan refresh Live: exact final-head CI, Founder approval, merge, governed deployment and production smoke remain required.
 
 ## Required protected Edge Functions
 
@@ -163,9 +159,9 @@ A protected function may use privileged service-role capability only after its o
 
 Revision intentionally enables additive backend capability before merging the frontend/repository release that requires it. This allows the candidate deployment to fail closed if production has not been prepared.
 
-The same rule applies to `planner-week-v1`: production should advance to the additive weekly-capacity contract immediately before the governed frontend merge, after exact candidate migration review and before Founder-authorized merge/release. During that narrow window an older workflow expecting `plan-state-v1` would fail closed rather than silently accepting an unexpected contract.
+Production is currently in the bounded `planner-week-v1` backend-ahead window for PR #403. Current approved `main` still expects the earlier `plan-state-v1` contract, so unrelated production merges should not be introduced until PR #403 either completes its governed path or the backend contract is deliberately remediated through a governed change.
 
-This temporary mismatch is a release-control state by design; it must be bounded to the governed change and not left open while unrelated production releases proceed.
+This temporary mismatch is a release-control state by design. The schema change itself is additive and backward-compatible; the strict contract mismatch exists to stop an older release workflow silently accepting an unexpected backend state.
 
 ## Extending the contract
 
@@ -187,13 +183,13 @@ For a required Edge Function:
 4. add a safe readiness probe; and
 5. prove the probe verifies deployment/authentication without privileged credentials.
 
-After production application, reconcile repository migration filenames to the exact `supabase_migrations.schema_migrations` ledger version.
+After production application, reconcile repository migration filenames to the exact `supabase_migrations.schema_migrations` ledger version. PR #403 is reconciled to production version `20260927161359`.
 
 ## Security and advisor review
 
 Production schema changes require Security and Performance Advisor review.
 
-The `planner-week-v1` change adds columns only to an existing owner-protected table and does not deliberately add grants or policies. That reduces authorization surface area but does not remove the requirement to run advisor review and re-check effective grants/RLS after production application.
+The `planner-week-v1` change adds columns only to an existing owner-protected table and does not add grants or policies. Post-change advisor review on 27 September 2026 showed no new Plan-specific finding compared with the pre-migration baseline.
 
 The separate pre-existing leaked-password-protection warning remains outside this Plan change unless independently remediated.
 
