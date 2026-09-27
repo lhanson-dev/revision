@@ -111,14 +111,14 @@ function recordProviderAttempt({raw,label,attempt,maxOutputTokens,budget,context
 
 async function loadCandidate() {
   const read = async (name) => JSON.parse(await readFile(`${ROOT}/${name}`,'utf8'))
-  index=await read('NODE_INDEX.json'), matrix=await read('PROMOTION_PROVENANCE_MATRIX.json'), sources=await read('SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json'), specialist=await read('SPECIALIST_REGISTERS.json')
+  const index=await read('NODE_INDEX.json'), matrix=await read('PROMOTION_PROVENANCE_MATRIX.json'), sources=await read('SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json'), specialist=await read('SPECIALIST_REGISTERS.json')
   if (index.candidate_version !== 'v0.2-post-board-candidate' || index.candidate_node_count !== 81) throw new Error('Unexpected Business candidate identity/count')
   if (matrix.counts?.matrix_nodes !== 81) throw new Error('Promotion matrix is not 81 nodes')
   const sourceById=new Map(sources.sources.map(s=>[s.id,s])); const excluded=new Set((sources.legacy_promotion_exclusions||[]).map(s=>s.source_id))
   if (sourceById.size !== sources.sources.length) throw new Error('Duplicate promotion source IDs')
   for (const s of sources.sources) if (s.promotion_eligible !== true) throw new Error(`Promotion source ${s.id} is not explicitly eligible`)
   const rows=new Map(matrix.nodes.map(r=>[r.subject_id,r])); const domains=[]; const nodes=new Map(); const fingerprintParts=[]
-  for (const name of ['NODE_INDEX.json','PROMOTION_PROVENANCE_MATRIX.json','SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json',"SPECIALIST_REGISTERS.json']) fingerprintParts.push([name,await readFile(`${ROOT}/${name}`,'utf8')])
+  for (const name of ['NODE_INDEX.json','PROMOTION_PROVENANCE_MATRIX.json','SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json','SPECIALIST_REGISTERS.json']) fingerprintParts.push([name,await readFile(`${ROOT}/${name}`,'utf8')])
   for (const d of index.domains) {
     const raw=await readFile(`${ROOT}/${d.file}`,'utf8'); fingerprintParts.push([d.file,raw]); const file=JSON.parse(raw)
     exactSet(file.nodes.map(n=>n.subject_id),d.ids,`${d.domain} IDs`)
@@ -147,13 +147,13 @@ function urlAllowed(item, sourceById) {
 function validateFindingSources(findings,allowed,label){ for(const f of findings) for(const id of f.evidence_source_ids) if(!allowed.has(id)) throw new Error(`${label} finding ${f.id} uses unpermitted ${id}`) }
 
 function domainPayload(c,d){
-  const rows=d.nodes.map(n=>c.rows.get(n.subject_id)); const ids=uniq(rows.flatMap(r=>r.subject_truth_sources)); const sourceList=ids.map(id=>sourceMeta(c.sourceById.get(id))
+  const rows=d.nodes.map(n=>c.rows.get(n.subject_id)); const ids=uniq(rows.flatMap(r=>r.subject_truth_sources)); const sourceList=ids.map(id=>sourceMeta(c.sourceById.get(id)))
   return { review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,domain:d.domain}, rights_boundary:{permitted_subject_truth_sources:sourceList,prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,board_material_must_not_be_used:true}, provenance_rows:rows, related_node_catalog:uniq(d.nodes.flatMap(n=>n.related_nodes||[])).map(id=>c.nodes.get(id)).filter(Boolean).map(n=>({subject_id:n.subject_id,title:n.title,domain:n.domain})), nodes:d.nodes }
 }
 const domainInstructions=(d)=>[
   `Freshly and independently review the ${d.domain} domain of a reusable UK Level 3/A-level Business Subject Knowledge Foundation.`,
   'Do not rely on prior Revision assurance/remediation conclusions or exam-board specifications.',
-  'Use web search only against supplied promotion-permitted source publications. Never search, cite or reconstruct awarding-board material.',
+  'Use web search only against supplied promotion-permitted source publications. Never search, cite or reconstruct awarding-body material.',
   'Check every node: factual correctness, definitions/boundaries, causal claims, applications, assumptions, limitations, misconceptions, relationships and Level 3 appropriateness.',
   'Recompute quantitative formulas/worked examples. Treat models as models rather than universal laws; check purpose, use, limitations and misuse.',
   'For every node return at least one evidence item whose source_id is in that node subject_truth_sources and whose URL is the actual registered source page or a child page.',
@@ -168,40 +168,42 @@ function validateDomain(c,d,o){
   if(o.decision!==(material?'fail_hold':'pass')) throw new Error(`${d.domain} decision inconsistent with findings`)
 }
 
-function subjectPayload(c,reviews){return {review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,purpose:'deliberately independent whole-subject completeness/integration'},rights_boundary:{permitted_subject_truth_sources:c.sources.sources.filter(s=>s.promotion_eligible).map(sourceMeta),prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,board_material_must_not_be_used:true},domain_index:c.index.domains,nodes:c.domains.flatMap(d=>d.nodes.map(n=>({...n,domain:d.domain}))),specialist_registers:c.specialist,domain_review_summaries:reviews.map(r=>({domain:r.output.domain,decision:r.output.decision,domain_completeness:r.output.domain_completeness,domain_findings:r.output.domain_findings,known_limitations:r.output.known_limitations}))}}
+function subjectPayload(c,reviews){return {review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,purpose:'whole-subject completeness/integration'},rights_boundary:{permitted_subject_truth_sources:c.sources.sources.filter(s=>s.promotion_eligible).map(sourceMeta),prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,board_material_must_not_be_used:true},domain_index:c.index.domains,nodes:c.domains.flatMap(d=>d.nodes.map(n=>({...n,domain:d.domain}))),specialist_registers:c.specialist,domain_review_summaries:reviews.map(r=>({domain:r.output.domain,decision:r.output.decision,domain_completeness:r.output.domain_completeness,domain_findings:r.output.domain_findings,known_limitations:r.output.known_limitations}))}}
 const subjectInstructions=(c)=>[
   'Freshly and independently review the whole reusable UK Level 3/A-level Business Subject Knowledge Foundation.',
   'Do not rely on prior Revision research conclusions, remediation reports or exam-board taxonomies.',
-  'Use web search only against supplied promotion-permitted source publications; never use awarding-board/prohibited sources.',
-  `Ú[[™ÙHÚ]\ˆ[	ØËš[™^˜Ø[™Y]WÛ›ÙWØÛÝ[H›Ù\ÈÛÛXÝ]™[H›ÝšYHÛÚ\™[›Ý[™Y]™[È\Ú[™\ÜÈ[™\œÝ[™[™Ë˜ˆ	ÐÚXÚÈXZ›Ü‹YÛXZ[ˆÛÝ™\˜YÙKÜ›ÜÜËY[˜Ý[Û˜[™[][ÛœÚ\Ë™\™\]Z\Ú]\ËØ]\Ø[ÚZ[œË]X[]]]™HY]ÙË˜[YY[Ù[ËZ\ØÛÛ˜Ù\[Ûˆ›Ý[™\šY\Ë™X[]ÛÜ›˜[œÙ™\ˆ[™]šY[˜ÙKÙXÚ\Ú[Ûˆ™X\ÛÛš[™Ë‰Ëˆ	ÓÛÚÈ›ÜˆX]\šX[ÛZ\ÜÚ[ÛœË›Ø\™\Ú\YÛÛ[Z[˜][Û‹ÛÛ˜YXÝ[ÛœËÙ\XØ][Û‹Ý™\‹XY˜[˜ÙYÛÛ[™\Ù[Y\ÈÛÜ™KÜˆZ\ÜÚ[™È[Z]][ÛœËˆÜ[Û˜[[œšXÚY[\È›ÝHX]\šX[Ø\‰Ëˆ	Ð[žH›ØÚÚ[™ËÛX]\šX[š[™[™ÈÜˆÛÛ\][™\ÜÈØ\Oˆ˜Z[ÚÛ‰Ë—Kš›Ú[Š	×‰ÊB™[˜Ý[Ûˆ˜[Y]TÝXš™XÝ
-ËÊ^ÈÛÛœÝÛXZ[œÏXËš[™^™ÛXZ[œË›X\
-O™™ÛXZ[ŠNÈ^XÝÙ]
-Ëœ™]šY]ÙYÙÛXZ[œËÛXZ[œË	ÝÚÛK\ÝXš™XÝÛXZ[œÉÊNÈÛÛœÝ[ÝÙY[™]ÈÙ]
-ËœÛÝ\˜Ù\ËœÛÝ\˜Ù\Ë™š[\ŠÏOœËœ›Û[Ý[Û—Ù[YÚX›JK›X\
-ÏOœËšY
-JNÈ›ÜŠÛÛœÝHÙˆË™]šY[˜ÙJHYŠX[ÝÙYš\ÊKœÛÝ\˜ÙWÚY
-_]\›[ÝÙY
-KËœÛÝ\˜ÙPžRY
-JH›ÝÈ™]È\œ›ÜŠÚÛK\ÝXš™XÝ[˜[Y]šY[˜ÙH	ÙKœÛÝ\˜ÙWÚYX
-NÈ˜[Y]Qš[™[™ÔÛÝ\˜Ù\ÊË™š[™[™ÜË[ÝÙY	ÝÚÛK\ÝXš™XÝ	ÊNÈÛÛœÝX]\šX[[X]\šX[Ý]\ÊË˜ÛÝ™\˜YÙWÜÝ]\Ê_ÛË˜Ü›ÜÜ×ÙÛXZ[—ØÛÚ\™[˜ÙKËœ]X[]]]™WÜ™YÚ\Ý\—ÜÝ]\ËË›[Ù[×Ùœ˜[Y]ÛÜšÜ×ÜÝ]\ËË›Z\ØÛÛ˜Ù\[Û—Ø›Ý[™\žWÜÝ]\Î›Ë˜[œÙ™\—Ú[\™\[™[˜ÞWÜÝ]\×KœÛÛYJX]\šX[Ý]\Ê_Ë™š[™[™ÜËœÛÛYJX]\šX[š[™[™ÊNÈYŠË™XÚ\Ú[ÛˆOOJX]\šX[ÉÙ˜Z[ÚÛ	Î‰Ü\ÜÉÊJH›ÝÈ™]È\œ›ÜŠ	ÕÚÛK\ÝXš™XÝXÚ\Ú[Ûˆ[˜ÛÛœÚ\Ý[Ú]š[™[™ÜÉÊH}
+  'Use web search only against supplied promotion-permitted source publications; never use awarding-body/prohibited sources.',
+  `Challenge whether all ${c.index.candidate_node_count} nodes collectively provide coherent, bounded Level 3 Business understanding.`,
+  'Check major-domain coverage, cross-functional relationships, prerequisites, causal chains, quantitative methods, named models, misconception boundaries, real-world transfer and evidence/decision reasoning.',
+  'Look for material omissions, board-shaped contamination, contradictions/duplication, over-advanced content presented as core, or missing limitations. Optional enrichment is not a material gap.',
+  'Any blocking/material finding or completeness gap => fail_hold.',
+].join('\n')
+function validateSubject(c,o){ const domains=c.index.domains.map(d=>d.domain); exactSet(o.reviewed_domains,domains,'whole-subject domains'); const allowed=new Set(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>s.id)); for(const e of o.evidence) if(!allowed.has(e.source_id)||!urlAllowed(e,c.sourceById)) throw new Error(`Whole-subject invalid evidence ${e.source_id}`); validateFindingSources(o.findings,allowed,'whole-subject'); const material=materialStatus(o.coverage_status)||[o.cross_domain_coherence,o.quantitative_register_status,o.models_frameworks_status,o.misconception_boundary_status,o.transfer_interdependency_status].some(materialStatus)||o.findings.some(materialFinding); if(o.decision!==(material?'fail_hold':'pass')) throw new Error('Whole-subject decision inconsistent with findings') }
 
 async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxOutput,minSearch,budget,contexts,providerAttempts}){
   let outputLimit = maxOutput
   for (let attempt = 1; attempt <= MAX_PROVIDER_ATTEMPTS; attempt += 1) {
-    const r = reserve(payload,outputLimit,minSearch)
-    if (budget.usageUnavailable || budget.cost + r > MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: reserve ${r} after ${budget.cost} exceeds ${MAX_SPEND}`)
-    const body={model:MODEL,store:false,reasoning:{context:'current_turn',effort:'high'},max_output_tokens:outputLimit,instructions:['You are a bounded fresh-context assurance worker inside Revision Content Factory.','The supplied repository material is the candidate under challenge, not authority to defend.','Use web search only in allowed promotion-source domains. Return only the requested JSON.',instructions].join('\n'),input:JSON.stringify(payload),tools:[[{type:'web_search',search_context_size:'medium',filters:{allowed_domains:Jomains}}],tool_choice:'required',text:{format:{type:'json_schema',name:`revision-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,48)}`,strict:true,schema:schemaJson(schema)}}}
+    const r=reserve(payload,outputLimit,minSearch)
+    if(budget.cost+r>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: reserve ${r} after ${budget.cost} exceeds ${MAX_SPEND}`)
+    const body={model:MODEL,store:false,reasoning:{context:'current_turn',effort:'high'},max_output_tokens:outputLimit,instructions:['You are a bounded fresh-context assurance worker inside Revision Content Factory.','The supplied repository material is the candidate under challenge, not authority to defend.','Use web search only in allowed promotion-source domains. Return only the requested JSON.',instructions].join('\n'),input:JSON.stringify(payload),tools:[{type:'web_search',search_context_size:'medium',filters:{allowed_domains:domains}}],tool_choice:'required',text:{format:{type:'json_schema',name:`revision-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,48)}`,strict:true,schema:schemaJson(schema)}}}
     const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(body)})
     const raw=await response.json().catch(()=>({}))
+    const record=recordProviderAttempt({raw,label,attempt,maxOutputTokens:outputLimit,budget,contexts,providerAttempts,httpStatus:response.status})
     if(!response.ok) throw new Error(`${label} HTTP ${response.status}: ${JSON.stringify(raw).slice(0,1000)}`)
-    const record = recordProviderAttempt({raw,label,attempt,maxOutputTokens:outputLimit,budget,contexts,providerAttempts,httpStatus:response.status})
-    if(raw.status==='completed'){
-      if(record.webSearchCalls<minSearch) throw new Error(`${label} used ${record.webSearchCalls} web searches; minimum ${minSearch}`)
+    if(raw.status==='completed') {
+      const searches=record.webSearchCalls
+      if(searches<minSearch) throw new Error(`${label} used ${searches} web searches; minimum ${minSearch}`)
       const output=schema.parse(JSON.parse(responseText(raw)))
-      return {responseId:raw.id,output,usage:raw.usage||null,webSearchCalls:record.webSearchCalls,observedCostUsd:record.observedCostUsd,providerAttempts:attempt}
+      if(!raw.id) throw new Error(`${label} returned no provider response ID`)
+      return {responseId:raw.id,output,usage:raw.usage||null,webSearchCalls:searches,observedCostUsd:record.observedCostUsd,providerAttempts:providerAttempts.filter(a=>a.label===label)}
     }
-    if(!retryableIncomplete(raw,record.usageAvailable) || attempt >= MAX_PROVIDER_ATTEMPTS) throw new Error(`${label} provider status ${raw.status||'unknown'} (${raw.incomplete_details?.reason||'no incomplete reason'})`)
-    outputLimit = retryOutputLimit(outputLimit)
+    const reason=raw?.incomplete_details?.reason || null
+    const canRetry=attempt<MAX_PROVIDER_ATTEMPTS && retryableIncomplete(raw,record.usageAvailable)
+    if(!canRetry) throw new Error(`${label} provider status ${raw.status||'unknown'}${reason?` (${reason})`:''}; usage ${record.usageAvailable?'recorded':'unavailable'}`)
+    const nextOutputLimit=retryOutputLimit(outputLimit)
+    const retryReserve=reserve(payload,nextOutputLimit,minSearch)
+    if(budget.cost+retryReserve>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: retry reserve ${retryReserve} after ${budget.cost} exceeds ${MAX_SPEND}`)
+    outputLimit=nextOutputLimit
   }
   throw new Error(`${label} exhausted provider attempts`)
 }
@@ -213,20 +215,20 @@ async function selfTest(){
   assertProviderSchemaCompatible(schemaJson(domainSchema),'domain reassurance schema')
   assertProviderSchemaCompatible(schemaJson(subjectSchema),'whole-subject reassurance schema')
   const sampleSource=c.sources.sources.find(s=>s.promotion_eligible)
-  if(!sampleSource) throw new Error('No promotion-eligible source available for URL alidation self-test')
+  if(!sampleSource) throw new Error('No promotion-eligible source available for URL validation self-test')
   if(!urlAllowed({source_id:sampleSource.id,url:sampleSource.url},c.sourceById)) throw new Error('Registered promotion source URL failed runtime URL validation')
   if(urlAllowed({source_id:sampleSource.id,url:'not-a-url'},c.sourceById)) throw new Error('Invalid URL passed runtime URL validation')
 
-  const incomplete={id:'resp_selftest_incomplete',status:'incomplete',incomplete_details:{reason:'max_output_tokens'},usage:{input_tokens:1000,output_tokens:150,input_tokens_details:{cached_tokens:100}},output:[]}
-  const testBudget={cost:0,searches:0,usageUnavailable:false}, testContexts=new Set(), testAttempts=[]
-  const incompleteRecord=recordProviderAttempt({raw:incomplete,label:'selftest-incomplete',attempt:1,maxOutputTokens:6000,budget:testBudget,contexts:testContexts,providerAttempts:testAttempts,httpStatus:200})
-  if(!(testBudget.cost>0)) throw new Error('Incomplete response usage was not charged before retry handling')
+  const budget={cost:0,searches:0,usageUnavailable:false}, contexts=new Set(), attempts=[]
+  const incomplete={id:'resp_selftest_incomplete',status:'incomplete',incomplete_details:{reason:'max_output_tokens'},usage:{input_tokens:1000,input_tokens_details:{cached_tokens:100},output_tokens:500},output:[]}
+  const incompleteRecord=recordProviderAttempt({raw:incomplete,label:'selftest',attempt:1,maxOutputTokens:6000,budget,contexts,providerAttempts:attempts,httpStatus:200})
+  if(!(budget.cost>0)) throw new Error('Incomplete response usage was not charged before retry handling')
   if(!retryableIncomplete(incomplete,incompleteRecord.usageAvailable)) throw new Error('max_output_tokens incomplete response was not classified retryable')
   if(incompleteRecord.incompleteDetails?.reason!=='max_output_tokens') throw new Error('Incomplete details were not retained')
   const filtered={id:'resp_selftest_filtered',status:'incomplete',incomplete_details:{reason:'content_filter'},usage:{input_tokens:100,output_tokens:10},output:[]}
   const filteredBudget={cost:0,searches:0,usageUnavailable:false}, filteredContexts=new Set(), filteredAttempts=[]
   const filteredRecord=recordProviderAttempt({raw:filtered,label:'selftest-filtered',attempt:1,maxOutputTokens:6000,budget:filteredBudget,contexts:filteredContexts,providerAttempts:filteredAttempts,httpStatus:200})
-  if(retryableIncomplete(filtered,filteredRecord.usageAvaile)) throw new Error('Non-token incomplete response was incorrectly classified retryable')
+  if(retryableIncomplete(filtered,filteredRecord.usageAvailable)) throw new Error('Non-token incomplete response was incorrectly classified retryable')
   const missingUsage={id:'resp_selftest_no_usage',status:'incomplete',incomplete_details:{reason:'max_output_tokens'},output:[]}
   if(retryableIncomplete(missingUsage,false)) throw new Error('Incomplete response without usage was incorrectly classified retryable')
   if(retryOutputLimit(6000)<RETRY_MIN_OUTPUT_TOKENS) throw new Error('Retry output allowance is below the governed reasoning buffer floor')
@@ -237,7 +239,7 @@ async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
   const apiKey=process.env.OPENAI_API_KEY?.trim(); if(!apiKey) throw new Error('OPENAI_API_KEY required'); if(!Number.isFinite(MAX_SPEND)||MAX_SPEND<=0) throw new Error('CONTENT_FACTORY_MAX_SPEND_USD must be positive')
   const sha=process.env.REVISION_REVIEWED_MAIN_SHA?.trim(); if(!/^[0-9a-f]{40}$/.test(sha||'')) throw new Error('REVISION_REVIEWED_MAIN_SHA must be a SHA'); const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(); if(actual!==sha) throw new Error(`Checked out ${actual}, expected ${sha}`)
-  const c=await loadCandidate(), budget={cost:0,searches:0,usageUnavaile:false}, reviews=[], contexts=new Set(), providerAttempts=[], startedAt=new Date().toISOString()
+  const c=await loadCandidate(), budget={cost:0,searches:0,usageUnavailable:false}, reviews=[], contexts=new Set(), providerAttempts=[], startedAt=new Date().toISOString()
   try{
     for(const d of c.domains){const payload=domainPayload(c,d), allowed=uniq(payload.rights_boundary.permitted_subject_truth_sources.map(s=>host(s.url)));const r=await reviewCall({apiKey,label:`business-subject-${d.domain}`,schema:domainSchema,instructions:domainInstructions(d),payload,domains:allowed,maxOutput:6000,minSearch:Math.min(4,d.nodes.length),budget,contexts,providerAttempts});validateDomain(c,d,r.output);reviews.push({domain:d.domain,...r})}
     const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)));const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,minSearch:5,budget,contexts,providerAttempts});validateSubject(c,whole.output)
