@@ -76,6 +76,7 @@
 .ui-field-group {
   display: grid;
   gap: var(--space-2);
+  min-width: 0;
   color: var(--color-text);
 }
 
@@ -83,6 +84,10 @@
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   line-height: var(--type-label-line);
+}
+
+.ui-field {
+  box-sizing: border-box;
 }
 
 .ui-field-support {
@@ -103,6 +108,159 @@
 
 .ui-field-support--error {
   color: var(--status-error-fg);
+}
+
+.ui-select-control,
+.ui-date-control {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.ui-select-field {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: var(--space-10);
+}
+
+.ui-select-chevron {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-text-secondary);
+  border-bottom: 2px solid var(--color-text-secondary);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.ui-date-input {
+  padding-left: 48px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-date-picker-trigger {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.ui-date-picker-trigger:hover:not(:disabled),
+.ui-date-picker-trigger:focus-visible:not(:disabled) {
+  background: var(--color-surface-soft);
+  color: var(--color-accent-text);
+}
+
+.ui-date-picker-trigger:focus-visible,
+.ui-date-popover button:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.ui-date-picker-trigger:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.ui-date-popover {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 40;
+  width: min(360px, calc(100vw - 32px));
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--menu-radius);
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-overlay);
+}
+
+.ui-date-popover__header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.ui-date-popover__header strong {
+  text-align: center;
+  font-size: var(--type-body-size);
+}
+
+.ui-date-popover__header button {
+  min-height: 36px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-accent-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  cursor: pointer;
+}
+
+.ui-date-popover__header button:hover,
+.ui-date-popover__days button:hover:not(:disabled) {
+  background: var(--color-surface-soft);
+}
+
+.ui-date-popover__weekdays,
+.ui-date-popover__days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.ui-date-popover__weekdays span {
+  padding-block: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  text-align: center;
+}
+
+.ui-date-popover__days button {
+  min-width: 0;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-body-s-size);
+  cursor: pointer;
+}
+
+.ui-date-popover__days button.is-outside-month {
+  color: var(--color-text-secondary);
+  opacity: .56;
+}
+
+.ui-date-popover__days button.is-selected {
+  background: var(--color-action);
+  color: var(--color-action-text);
+  font-weight: var(--type-label-weight);
+}
+
+.ui-date-popover__days button:disabled {
+  cursor: not-allowed;
+  opacity: .28;
 }
 
 .ui-icon {
@@ -198,5 +356,12 @@
 
   .ui-surface-component {
     padding: var(--space-4);
+  }
+
+  .ui-date-popover {
+    right: auto;
+    left: 0;
+    width: min(344px, calc(100vw - 32px));
+    padding: var(--space-3);
   }
 }

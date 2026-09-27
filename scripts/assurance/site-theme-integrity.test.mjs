@@ -51,6 +51,7 @@ const retainedFeatureSources = new Set([
   'profile-edit.css',
   'mobile-navigation.css',
   'contextual-navigation.css',
+  'plan-setup-refinement.css',
   'returning-home.css',
   'returning-home-fidelity.css',
   'course-overview-rev-feature.css',
