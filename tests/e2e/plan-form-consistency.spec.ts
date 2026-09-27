@@ -85,31 +85,35 @@ test('Plan setup aligns content and uses consistent shared select/date controls'
   await seedPlanSetup(page)
   await page.goto(`${appPath}#/plan`)
 
-  const setup = page.getByRole('region', { name: 'Add your exams' })
-  const heading = page.getByRole('heading', { name: 'Add your exams' })
+  const setup = page.locator('.plan-setup-exams')
+  const heading = setup.getByRole('heading', { name: 'Add your exams' })
   const icon = setup.locator('.plan-setup-step-icon')
-  const exam = page.getByLabel('Exam', { exact: true })
-  const examDate = page.getByLabel('Exam date', { exact: true })
+  const exam = setup.getByLabel('Exam', { exact: true })
+  const examDate = setup.getByLabel('Exam date', { exact: true })
 
   await expect(setup).toBeVisible()
+  await expect(heading).toBeVisible()
   await expect(icon).toBeVisible()
   await expect(exam).toHaveClass(/ui-select-field/)
   await expect(examDate).toHaveClass(/ui-date-input/)
 
-  const [headingBox, iconBox, examBox, dateBox] = await Promise.all([
+  const [setupBox, headingBox, iconBox, examBox, dateBox] = await Promise.all([
+    setup.boundingBox(),
     heading.boundingBox(),
     icon.boundingBox(),
     exam.boundingBox(),
     examDate.boundingBox(),
   ])
+  expect(setupBox).not.toBeNull()
   expect(headingBox).not.toBeNull()
   expect(iconBox).not.toBeNull()
   expect(examBox).not.toBeNull()
   expect(dateBox).not.toBeNull()
-  if (!headingBox || !iconBox || !examBox || !dateBox) return
+  if (!setupBox || !headingBox || !iconBox || !examBox || !dateBox) return
 
   expect(Math.abs(headingBox.x - examBox.x)).toBeLessThanOrEqual(2)
-  expect(iconBox.x).toBeGreaterThan(headingBox.x + headingBox.width)
+  expect(iconBox.x).toBeGreaterThan(setupBox.x + setupBox.width / 2)
+  expect(iconBox.x + iconBox.width).toBeLessThanOrEqual(setupBox.x + setupBox.width)
   expect(iconBox.width).toBeLessThanOrEqual(60)
 
   const styles = await Promise.all([exam, examDate].map((locator) => locator.evaluate((element) => {
@@ -133,7 +137,7 @@ test('Plan setup aligns content and uses consistent shared select/date controls'
   await page.keyboard.press('Escape')
   await expect(calendar).toBeHidden()
 
-  await page.getByRole('button', { name: '+ Add a mock, topic test or other assessment' }).click()
+  await setup.getByRole('button', { name: '+ Add a mock, topic test or other assessment' }).click()
   const otherAssessment = setup.locator('.plan-other-assessment')
   await expect(otherAssessment).toBeVisible()
   const otherBox = await otherAssessment.boundingBox()
