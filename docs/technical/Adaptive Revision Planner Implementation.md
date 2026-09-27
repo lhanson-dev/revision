@@ -90,7 +90,7 @@ The implementation uses an explainable weighted heuristic rather than a trained 
 
 ### Multi-day schedule allocation
 
-`buildAdaptivePlan()` now allocates useful ranked candidates across the available planner days in deterministic priority order. Each candidate is allocated at most once in the current derived schedule. A day retains its remaining/unallocated capacity rather than being filled with invented low-value work.
+`buildAdaptivePlan()` allocates useful ranked candidates across the available planner days in deterministic priority order. Each candidate is allocated at most once in the current derived schedule. A day retains its remaining/unallocated capacity rather than being filled with invented low-value work.
 
 `today` remains the first scheduled day's items, so Home/existing today consumers continue to use the same deterministic source rather than a separate schedule calculation.
 
@@ -148,12 +148,14 @@ These tables reference the authenticated learner, use RLS, deny anonymous access
 
 ### Recurring weekly availability migration
 
-`20260927134400_add_recurring_weekly_planner_availability.sql` adds `monday_minutes` through `sunday_minutes` to the existing learner-owned availability profile. Existing rows are backfilled from the former weekday/weekend values:
+`20260927161359_add_recurring_weekly_planner_availability.sql` adds `monday_minutes` through `sunday_minutes` to the existing learner-owned availability profile. The filename is reconciled to the exact production Supabase migration-ledger version. Existing rows are backfilled from the former weekday/weekend values:
 
 - Monday-Friday inherit `weekday_minutes`;
 - Saturday-Sunday inherit `weekend_minutes`.
 
 The legacy aggregate columns remain for backwards compatibility. New saves persist the seven daily values and refresh the aggregate compatibility values. Existing row ownership/RLS remains unchanged because the migration extends the existing protected table rather than creating a new learner-data surface.
+
+Production enablement on 27 September 2026 verified `planner-week-v1` with `ready: true`, all seven capability checks present, the existing availability row correctly backfilled, RLS still enabled with the existing learner-owner policy, and the readiness RPC still `SECURITY INVOKER`. Pre/post Security and Performance Advisor findings were unchanged and introduced no Plan-specific finding.
 
 The current plan remains derived state. Revision persists learner/context inputs and relevant activity state, then recomputes planning outputs.
 
@@ -180,15 +182,16 @@ Repeatable assurance includes:
 - planner-model tests for distinct recurring daily capacity and date exceptions;
 - responsive Playwright coverage across Plan and the existing learner shell;
 - isolated database migration replay and pgTAP RLS/privilege assurance;
-- production backend-readiness checks for the required planner database contract and protected Edge Functions;
+- authenticated Supabase persistence/reload integration;
+- protected Edge-function assurance;
+- production backend-readiness checks for the required planner database contract; and
 - typecheck, lint, unit tests and production build in GitHub Actions.
 
-The Plan refresh also requires visual assurance at phone/tablet/desktop for both:
+The Plan refresh visual/browser assurance covers configured Week-view Plan and the missing-exam / missing-availability setup treatment across the governed responsive matrix. The approved Plan light/dark visual captures are pinned exactly after manual inspection rather than accepted through a broad tolerance.
 
-- configured Week-view Plan; and
-- missing-exam / missing-availability setup state.
+PR #403 exact head `0c98256dcc2e79d7526e115058fb1daeaca30f42` passed Revision CI before the production-ledger/documentation reconciliation. Because that reconciliation changes the PR head, final merge readiness still requires fresh exact-head CI for the final candidate.
 
-The Assurance Coverage Register deliberately retains Partial/Uncovered states for evidence that is not yet proven at the required layer, including database-backed browser persistence/reload integration and other previously recorded gaps. This change must not overstate those gaps as closed merely because unit/browser structure passes.
+The Assurance Coverage Register retains qualified gaps that are outside this Plan change and must not be overstated as closed.
 
 ## Backend release contract
 
@@ -196,7 +199,9 @@ The Plan refresh advances the required production readiness contract from `plan-
 
 `planner-week-v1` requires the existing learner-plan capabilities plus the seven recurring availability columns on `revision_availability_profiles`. `.github/workflows/deploy-pages.yml` expects the same contract.
 
-The production database must therefore be migrated and independently verified **before** a merge to `main` can produce a successful governed Pages release. Until production reports `planner-week-v1` with `ready: true`, the deployment gate is intentionally fail-closed.
+Production was enabled and independently verified on 27 September 2026 before merge. The live database reports `planner-week-v1` with `ready: true`; the production migration ledger records version `20260927161359`; backfill/RLS/function posture are verified; and post-change advisor results match the preflight baseline.
+
+Production is therefore backend-ready for the refreshed Plan release. The product change remains pending until final exact-head CI, explicit Founder merge approval, merge, governed deployment and production smoke complete.
 
 This readiness proof confirms required backend capability presence; it does not replace end-to-end persistence, security or journey assurance.
 
