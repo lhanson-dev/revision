@@ -194,7 +194,6 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-invalid={error ? true : props['aria-invalid']}
-        aria-required={required || undefined}
         disabled={disabled}
         onClick={toggleCalendar}
       >
