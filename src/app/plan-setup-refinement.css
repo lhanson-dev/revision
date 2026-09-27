@@ -1,0 +1,64 @@
+/*
+ * Plan missing-input setup composition refinement.
+ *
+ * The shared Interface System continues to own typography, controls, surfaces,
+ * colours and interaction states. This file owns only the approved Plan setup
+ * composition: left-aligned content with a restrained contextual icon.
+ */
+
+.interface-plan-screen .plan-setup-exams {
+  position: relative;
+  display: block;
+}
+
+.interface-plan-screen .plan-setup-step-icon {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-6);
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--brand-soft-aqua) 68%, var(--color-surface));
+  color: var(--brand-primary-teal);
+}
+
+.interface-plan-screen .plan-setup-step-icon .ui-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.interface-plan-screen .plan-setup-copy {
+  width: 100%;
+  padding-right: 88px;
+}
+
+.interface-plan-screen .plan-setup-copy > p {
+  max-width: 820px;
+}
+
+.interface-plan-screen .plan-setup-copy .plan-other-assessment {
+  width: 100%;
+  max-width: none;
+}
+
+@media (max-width: 620px) {
+  .interface-plan-screen .plan-setup-step-icon {
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 44px;
+    height: 44px;
+  }
+
+  .interface-plan-screen .plan-setup-step-icon .ui-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .interface-plan-screen .plan-setup-copy {
+    padding-right: 60px;
+  }
+}
