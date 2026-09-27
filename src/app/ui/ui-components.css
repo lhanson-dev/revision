@@ -135,42 +135,31 @@
   pointer-events: none;
 }
 
-.ui-date-control__icon {
-  position: absolute;
-  top: 50%;
-  left: var(--space-3);
-  z-index: 1;
-  color: var(--color-text-secondary);
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
 .ui-date-input {
-  padding-left: 44px;
-  padding-right: 72px;
+  padding-left: 48px;
   font-variant-numeric: tabular-nums;
 }
 
 .ui-date-picker-trigger {
   position: absolute;
   top: 4px;
-  right: 4px;
-  min-width: 58px;
+  left: 4px;
+  width: 40px;
   height: 40px;
-  padding: 0 var(--space-2);
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: 0;
   border-radius: 10px;
   background: transparent;
-  color: var(--color-accent-text);
-  font-family: var(--font-family-product);
-  font-size: var(--type-label-size);
-  font-weight: var(--type-label-weight);
+  color: var(--color-text-secondary);
   cursor: pointer;
 }
 
 .ui-date-picker-trigger:hover:not(:disabled),
 .ui-date-picker-trigger:focus-visible:not(:disabled) {
   background: var(--color-surface-soft);
+  color: var(--color-accent-text);
 }
 
 .ui-date-picker-trigger:focus-visible,
@@ -367,14 +356,6 @@
 
   .ui-surface-component {
     padding: var(--space-4);
-  }
-
-  .ui-date-input {
-    padding-right: 64px;
-  }
-
-  .ui-date-picker-trigger {
-    min-width: 50px;
   }
 
   .ui-date-popover {
