@@ -147,7 +147,10 @@ async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' |
 }
 
 async function openAskRev(page: Page) {
-  await page.getByRole('button', { name: 'Ask REV', exact: true }).click()
+  const trigger = isMobileLayout(page)
+    ? page.locator('.runtime-mobile-ask-rev-dock')
+    : page.locator('.runtime-ask-rev')
+  await trigger.click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
 
@@ -301,8 +304,9 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
 
   await clickGlobalDestination(page, 'Plan')
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What matters now' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Set your realistic availability' })).toBeVisible()
+  await expect(page.getByText('Your plan adapts as you go', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Add your exams' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your weekly study time' })).toBeVisible()
   await expectNoPageOverflow(page)
 
   await openAskRev(page)

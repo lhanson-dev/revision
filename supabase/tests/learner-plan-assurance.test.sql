@@ -157,12 +157,12 @@ select is(
 
 select is(
   public.revision_release_readiness()->>'contract',
-  'plan-state-v1',
-  'release readiness advertises the FI-022 plan-state-v1 contract'
+  'planner-week-v1',
+  'release readiness retains FI-022 capability while advertising the current planner-week-v1 contract'
 );
 select ok(
   (public.revision_release_readiness()->>'ready')::boolean,
-  'release readiness reports all FI-022 database capabilities present after migration replay'
+  'release readiness reports all current database capabilities present after migration replay'
 );
 select ok(
   (public.revision_release_readiness()->'checks'->>'learnerPlanState')::boolean,

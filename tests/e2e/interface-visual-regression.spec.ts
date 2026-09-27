@@ -57,14 +57,17 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
 
 /**
  * The learner surfaces whose outer geometry intentionally changes in this PR
- * are pinned to the exact manually inspected CI captures. This is stricter than
- * the normal 1% snapshot tolerance and prevents the baseline update from
- * masking any additional pixel drift. Timed exam and Admin retain their
- * existing snapshot baselines because their geometry is deliberately excluded.
+ * are pinned to exact manually inspected CI captures. The refreshed Plan light
+ * and dark captures were re-inspected on 27 September 2026 against the
+ * Founder-approved Plan design, stable learner canvas and governed theme
+ * treatment. This is stricter than the normal 1% snapshot tolerance and
+ * prevents baseline updates from masking additional pixel drift. Timed exam and
+ * Admin retain their existing snapshot baselines because their geometry is
+ * deliberately excluded.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:plan:light': 'db0d4795dc0081866013c4e3829d16d1d79bab6bafb7d2e9b918840a7927aa82',
-  'desktop:plan:dark': '209bab11fde1eef5e740eb47cc8aa99fb062c6d6742e8e2656e6f35aa284d54a',
+  'desktop:plan:light': 'e241a1da02568df21fbe35961987c773558f64e29b738084f683f7c4d89ff531',
+  'desktop:plan:dark': 'c3b6207fae06941265f151659a48d1dd5fc8a65e13c2c63f0979c5c8d2e474df',
   'tablet:courses:light': '7f90c35f0fce95e9023ce43cba217aa5a91583a0247fe6f72fd6dd5181990146',
   'tablet:courses:dark': '1a89d60f669cfb01806b6de1f2b0ddaaee74a5c307a604a29f3ace0b34b0114c',
   'phone:practice:light': 'ab694df6d5432dcf3484f0982ffcfdad3560a2e7a94054e000b731cf9f07eb7a',

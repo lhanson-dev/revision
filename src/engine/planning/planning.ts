@@ -54,10 +54,18 @@ export interface PlannerItem {
   reasons: PlannerReasonCode[]
 }
 
+export interface PlannerScheduledDay {
+  date: string
+  availableMinutes: number
+  items: PlannerItem[]
+  unallocatedMinutes: number
+}
+
 export interface PlannerResult {
   version: 1
   capacityState: PlannerCapacityState
   ranked: RankedPlannerCandidate[]
+  schedule: PlannerScheduledDay[]
   today: PlannerItem[]
   unallocatedTodayMinutes: number
   requiredUsefulMinutes: number
@@ -131,6 +139,56 @@ function recommendationId(candidate: PlannerCandidate) {
   return `planner-v1:${candidate.assessmentId}:${candidate.courseId ?? candidate.subjectId}:${candidate.topicId}:${candidate.activityType}`
 }
 
+function plannerItem(candidate: RankedPlannerCandidate, estimatedMinutes: number, capacityState: PlannerCapacityState): PlannerItem {
+  const reasons = capacityState === 'prioritising' && !candidate.reasons.includes('CAPACITY_CONSTRAINED')
+    ? [...candidate.reasons, 'CAPACITY_CONSTRAINED' as const]
+    : candidate.reasons
+
+  return {
+    recommendationId: recommendationId(candidate),
+    candidateId: candidate.id,
+    subjectId: candidate.subjectId,
+    courseId: candidate.courseId,
+    assessmentId: candidate.assessmentId,
+    topicId: candidate.topicId,
+    activityType: candidate.activityType,
+    estimatedMinutes,
+    reasons,
+  }
+}
+
+function buildSchedule(
+  useful: readonly RankedPlannerCandidate[],
+  days: readonly PlannerDay[],
+  capacityState: PlannerCapacityState,
+): PlannerScheduledDay[] {
+  const allocated = new Set<string>()
+
+  return days.map((day) => {
+    let remaining = Math.max(0, day.availableMinutes)
+    const items: PlannerItem[] = []
+
+    for (const candidate of useful) {
+      if (allocated.has(candidate.id) || remaining <= 0) continue
+      if (candidate.estimatedMinutes > remaining && items.length > 0) continue
+
+      const allocatedMinutes = Math.min(candidate.estimatedMinutes, remaining)
+      if (allocatedMinutes <= 0) continue
+
+      items.push(plannerItem(candidate, allocatedMinutes, capacityState))
+      allocated.add(candidate.id)
+      remaining -= allocatedMinutes
+    }
+
+    return {
+      date: day.date,
+      availableMinutes: Math.max(0, day.availableMinutes),
+      items,
+      unallocatedMinutes: remaining,
+    }
+  })
+}
+
 export function buildAdaptivePlan(
   candidates: readonly PlannerCandidate[],
   days: readonly PlannerDay[],
@@ -145,39 +203,17 @@ export function buildAdaptivePlan(
   const requiredUsefulMinutes = useful.reduce((sum, item) => sum + item.estimatedMinutes, 0)
   const remainingCapacityMinutes = days.reduce((sum, day) => sum + Math.max(0, day.availableMinutes), 0)
   const capacityState: PlannerCapacityState = requiredUsefulMinutes > remainingCapacityMinutes ? 'prioritising' : 'normal'
-  const todayCapacity = Math.max(0, days[0]?.availableMinutes ?? 0)
-  let remainingToday = todayCapacity
-  const today: PlannerItem[] = []
-
-  for (const candidate of useful) {
-    if (remainingToday <= 0) break
-    if (candidate.estimatedMinutes > remainingToday && today.length > 0) continue
-
-    const allocatedMinutes = Math.min(candidate.estimatedMinutes, remainingToday)
-    const reasons = capacityState === 'prioritising' && !candidate.reasons.includes('CAPACITY_CONSTRAINED')
-      ? [...candidate.reasons, 'CAPACITY_CONSTRAINED' as const]
-      : candidate.reasons
-
-    today.push({
-      recommendationId: recommendationId(candidate),
-      candidateId: candidate.id,
-      subjectId: candidate.subjectId,
-      courseId: candidate.courseId,
-      assessmentId: candidate.assessmentId,
-      topicId: candidate.topicId,
-      activityType: candidate.activityType,
-      estimatedMinutes: allocatedMinutes,
-      reasons,
-    })
-    remainingToday -= allocatedMinutes
-  }
+  const schedule = buildSchedule(useful, days, capacityState)
+  const today = schedule[0]?.items ?? []
+  const unallocatedTodayMinutes = schedule[0]?.unallocatedMinutes ?? 0
 
   return {
     version: 1,
     capacityState,
     ranked,
+    schedule,
     today,
-    unallocatedTodayMinutes: remainingToday,
+    unallocatedTodayMinutes,
     requiredUsefulMinutes,
     remainingCapacityMinutes,
   }

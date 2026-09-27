@@ -61,8 +61,17 @@ const state = stateFor()
 
 const availability: RevisionAvailabilityProfile = {
   userId: 'user-1',
+  weeklyMinutes: {
+    monday: 35,
+    tuesday: 40,
+    wednesday: 45,
+    thursday: 50,
+    friday: 55,
+    saturday: 90,
+    sunday: 75,
+  },
   weekdayMinutes: 45,
-  weekendMinutes: 90,
+  weekendMinutes: 83,
   timezone: 'Europe/London',
 }
 
@@ -137,8 +146,8 @@ describe('planner model bridge', () => {
     expect(candidates.every((candidate) => candidate.readiness === null)).toBe(true)
   })
 
-  it('uses normal weekday/weekend capacity and date exceptions without converting it into a clock timetable', () => {
-    const now = new Date('2026-08-19T09:00:00')
+  it('uses the learner recurring Monday-Sunday capacity and date exceptions without creating a clock timetable', () => {
+    const now = new Date('2026-08-19T09:00:00') // Wednesday
     const days = plannerDaysFromAvailability(availability, [{
       exceptionId: 'exception-1',
       userId: 'user-1',
@@ -148,8 +157,11 @@ describe('planner model bridge', () => {
     }], [assessment], now)
 
     expect(days[0]).toEqual({ date: '2026-08-19', availableMinutes: 45 })
+    expect(days.find((day) => day.date === '2026-08-20')?.availableMinutes).toBe(50)
+    expect(days.find((day) => day.date === '2026-08-21')?.availableMinutes).toBe(55)
     expect(days.find((day) => day.date === '2026-08-22')?.availableMinutes).toBe(0)
-    expect(days.find((day) => day.date === '2026-08-23')?.availableMinutes).toBe(90)
+    expect(days.find((day) => day.date === '2026-08-23')?.availableMinutes).toBe(75)
+    expect(days.find((day) => day.date === '2026-08-24')?.availableMinutes).toBe(35)
   })
 
   it('produces no plan until both useful planning candidates and realistic availability exist', () => {
@@ -158,7 +170,7 @@ describe('planner model bridge', () => {
     expect(buildPlannerSnapshot([], [assessment], availability, [], [], now)).toBeNull()
   })
 
-  it('builds today from the highest-priority work without treating the rest as task debt', () => {
+  it('builds today and the wider schedule from the same deterministic priority order without task debt', () => {
     const now = new Date('2026-08-19T09:00:00')
     const snapshot = buildPlannerSnapshot([state], [assessment], availability, [], [], now)
 
@@ -169,12 +181,26 @@ describe('planner model bridge', () => {
       topicId: 'finance',
       activityType: 'quick-check',
     })
+    expect(snapshot?.schedule.length).toBeGreaterThanOrEqual(7)
     expect(snapshot?.ranked).toHaveLength(3)
   })
 
   it('enters priority mode when broad remaining useful workload exceeds realistic capacity', () => {
     const now = new Date('2026-08-19T09:00:00')
-    const tinyCapacity = { ...availability, weekdayMinutes: 5, weekendMinutes: 5 }
+    const tinyCapacity: RevisionAvailabilityProfile = {
+      ...availability,
+      weeklyMinutes: {
+        monday: 1,
+        tuesday: 1,
+        wednesday: 1,
+        thursday: 1,
+        friday: 1,
+        saturday: 1,
+        sunday: 1,
+      },
+      weekdayMinutes: 1,
+      weekendMinutes: 1,
+    }
     const snapshot = buildPlannerSnapshot([state], [assessment], tinyCapacity, [], [], now)
     expect(snapshot?.capacityState).toBe('prioritising')
     expect(snapshot?.requiredUsefulMinutes).toBeGreaterThan(snapshot?.remainingCapacityMinutes ?? 0)

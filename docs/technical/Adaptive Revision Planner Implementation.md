@@ -1,13 +1,13 @@
 # Adaptive Revision Planner Implementation
 
-**Status:** Implemented on `main` — FI-001  
+**Status:** FI-001 live on `main`; Plan experience refresh implemented on `feature/plan-experience-refresh` pending governed merge  
 **Owner:** Product / Engineering  
 **Canonical product surface:** `/app/` React/Vite learner runtime, published under GitHub Pages as `/revision/app/`  
 **Governed product authority:** `10-product-governance/Adaptive Revision Planning.md`
 
 ## Purpose
 
-Record the current implementation truth for FI-001 Adaptive Revision Planning in the canonical learner runtime. Normative planner behaviour remains governed by `10-product-governance/Adaptive Revision Planning.md`; this document describes how that authority is currently implemented.
+Record the current implementation truth for FI-001 Adaptive Revision Planning in the canonical learner runtime. Normative planner behaviour remains governed by `10-product-governance/Adaptive Revision Planning.md`; this document describes how that authority is implemented and records the 27 September 2026 Plan experience refresh while it moves through governed review.
 
 ## Canonical runtime and route
 
@@ -17,7 +17,9 @@ Current implementation entry points include:
 
 - `src/app/navigation.ts` — learner route model and hash-route parsing;
 - `src/app/PlannerRuntime.tsx` and `src/app/App.tsx` — learner shell, Home, Plan, REV and shared learner experience;
+- `src/app/PlanScreen.tsx` — canonical `#/plan` experience;
 - `src/engine/planning/**` — deterministic planning domain logic;
+- `src/app/planner-model.ts` — bridge from learner evidence/assessments/availability into planner candidates and days;
 - `src/services/planning/**` — planner persistence adapters and loading/saving boundaries;
 - `supabase/migrations/**` — version-controlled learner planner persistence and protected Admin aggregates.
 
@@ -25,25 +27,44 @@ The retired static learner runtime and legacy/compatibility surfaces are not imp
 
 ## Implemented product behaviour
 
-FI-001 is live in the canonical learner runtime with five primary destinations:
+FI-001 is live in the canonical learner runtime. Governed learner-wide destinations are:
 
 - Home;
 - Plan;
-- REV;
-- Progress;
-- Subjects.
+- Progress; and
+- Courses.
 
-On mobile, the same five destinations remain persistently available, with REV in the centre and given the governed visual prominence.
+Ask REV is the persistent global action rather than a peer navigation destination. Desktop uses the governed left learner rail; tablet/mobile use the governed menu/drawer with the persistent Ask REV dock.
 
 ### Home
 
-Home is led by REV and answers the immediate question **What matters today?**. When planner context is available, Home presents the current recommendation and a smaller Today’s Plan summary rather than a static timetable.
+Home is led by REV and answers the immediate question **What should I do now?**. When planner context is available, Home presents the current recommendation and Today’s revision plan rather than a static timetable.
 
 ### Plan
 
-`#/plan` is the wider adaptive-programme surface. It presents the learner’s current programme using their latest assessments, capacity, learning evidence and bounded planning preferences.
+`#/plan` is the wider adaptive-programme surface. The 27 September 2026 refresh keeps the existing learner shell and stable learner canvas but changes the internal Plan composition from equal setup/management panels to a schedule-first experience.
 
-The plan is recalculated rather than maintained as a task-debt ledger. Missed work creates new planning information; it is not mechanically moved forward as overdue work.
+The refreshed Plan implementation provides:
+
+- a compact shared learner-header Ask REV route using the existing contextual conversation layer rather than a second chat implementation;
+- a plain-English **Your plan adapts as you go** explanation without exposing internal weights or treating passive activity as learning evidence;
+- setup-first empty states when exams and/or recurring availability are missing;
+- known course/paper choices for adding public examinations plus a secondary route for mocks/topic tests/other assessments;
+- recurring Monday-Sunday realistic capacity controls;
+- concise programme context for the next exam, current-week capacity and normal/prioritising state;
+- secondary **Manage exams** and **Plan settings** controls once setup exists;
+- **Day / Week / Month** views with **Week as the default**;
+- task-level plain-English recommendation reasons;
+- restrained governed subject accents for task/exam recognition; and
+- an upcoming-exam milestone treatment.
+
+The plan remains recalculated rather than maintained as a task-debt ledger. Missed work creates new planning information; it is not mechanically moved forward as overdue work.
+
+#### View precision
+
+The deterministic schedule supplies the near-term Day/Week views. Day is the most specific execution view. Week shows the current seven-day adaptive forecast. Month groups the following four weeks into broader subject/time focus plus exam milestones rather than rendering a falsely precise 30-day task grid.
+
+All views are representations of the same adaptive planner, not separate manual calendars.
 
 ### REV
 
@@ -53,19 +74,27 @@ REV receives structured planner context and can explain why work is being recomm
 
 Planning authority lives in pure TypeScript domain logic under `src/engine/planning/**`, not in an LLM call.
 
-The planner currently consumes context including:
+The planner consumes context including:
 
 - active assessments and dates;
 - assessment importance and scope;
-- normal revision capacity and date-specific exceptions;
+- recurring Monday-Sunday realistic revision capacity and date-specific exceptions;
 - specification/course work candidates;
 - learning evidence, coverage, readiness and evidence confidence;
 - recent planner/activity state; and
 - bounded learner planning preferences.
 
-It produces ordered priority candidates, current-plan items, capacity state, structured reason codes and calculation metadata.
+It produces ordered priority candidates, a deterministic multi-day schedule, current-day items, capacity state, structured reason codes and calculation metadata.
 
 The implementation uses an explainable weighted heuristic rather than a trained planning model. Versioned implementation parameters are tested and are not shown to learners as scores.
+
+### Multi-day schedule allocation
+
+`buildAdaptivePlan()` allocates useful ranked candidates across the available planner days in deterministic priority order. Each candidate is allocated at most once in the current derived schedule. A day retains its remaining/unallocated capacity rather than being filled with invented low-value work.
+
+`today` remains the first scheduled day's items, so Home/existing today consumers continue to use the same deterministic source rather than a separate schedule calculation.
+
+The schedule is derived state. It is rebuilt from current assessments, evidence, availability and preferences; individual future task placements are not persisted as immutable appointments.
 
 ### Current reason vocabulary
 
@@ -83,7 +112,7 @@ The implemented planner uses bounded reason codes including:
 - `COMPETING_PRIORITY`;
 - `CAPACITY_CONSTRAINED`.
 
-Learner-facing UI/REV translates these into plain language.
+Learner-facing UI/REV translates these into plain language. Plan exposes concise near-term **Why this?** explanations rather than internal priority scores.
 
 ## Capacity and prioritising state
 
@@ -93,10 +122,10 @@ Workload estimates are deliberately coarse. They are not represented as precise 
 
 ## Recalculation behaviour
 
-The current implementation can recalculate after material changes including:
+The implementation can recalculate after material changes including:
 
 - assessment create/edit/archive;
-- availability changes;
+- recurring weekly availability or date-specific exception changes;
 - new validated learning evidence;
 - reliable planner-linked activity completion;
 - material learner planning-preference changes;
@@ -117,15 +146,24 @@ Planner persistence is implemented in Supabase using learner-owned tables includ
 
 These tables reference the authenticated learner, use RLS, deny anonymous access and expose owner-scoped authenticated operations only.
 
-The current plan remains derived state. Revision persists the learner/context inputs and relevant activity state, then recomputes planning outputs.
+### Recurring weekly availability migration
 
-Production verification on 2026-08-19 confirms the planner tables are present. Automated database/RLS CI can recreate the migration chain and verifies the declared owner-isolation controls. Browser/client persistence-reload remains an identified assurance gap rather than being overstated as fully covered.
+`20260927161359_add_recurring_weekly_planner_availability.sql` adds `monday_minutes` through `sunday_minutes` to the existing learner-owned availability profile. The filename is reconciled to the exact production Supabase migration-ledger version. Existing rows are backfilled from the former weekday/weekend values:
+
+- Monday-Friday inherit `weekday_minutes`;
+- Saturday-Sunday inherit `weekend_minutes`.
+
+The legacy aggregate columns remain for backwards compatibility. New saves persist the seven daily values and refresh the aggregate compatibility values. Existing row ownership/RLS remains unchanged because the migration extends the existing protected table rather than creating a new learner-data surface.
+
+Production enablement on 27 September 2026 verified `planner-week-v1` with `ready: true`, all seven capability checks present, the existing availability row correctly backfilled, RLS still enabled with the existing learner-owner policy, and the readiness RPC still `SECURITY INVOKER`. Pre/post Security and Performance Advisor findings were unchanged and introduced no Plan-specific finding.
+
+The current plan remains derived state. Revision persists learner/context inputs and relevant activity state, then recomputes planning outputs.
 
 ## Activity and evidence boundary
 
 Planner activity supports states such as offered, started, meaningfully engaged, completed and chosen alternative.
 
-Planner events and preferences are planning/behaviour context only. They do not become mastery/readiness evidence simply because an item was opened, selected or completed. Learning evidence must come through the governed evidence model.
+Planner events, availability and preferences are planning/behaviour context only. They do not become mastery/readiness evidence simply because an item was opened, selected, scheduled or completed. Learning evidence must come through the governed evidence model.
 
 ## Admin and operational evidence
 
@@ -133,35 +171,40 @@ Planner operational evidence is exposed through protected server-side paths. `pl
 
 Current Admin/Founder Assurance can surface planner coverage and operational evidence without treating missing telemetry as Healthy.
 
-## Assurance implemented
+## Assurance implemented / required for this refresh
 
-FI-001 is high-risk because it touches shared learner navigation, persisted learner data, deterministic guidance and protected operational evidence.
+FI-001 is high-risk because it touches persisted learner data, deterministic guidance and protected operational evidence.
 
-Current repeatable assurance includes:
+Repeatable assurance includes:
 
 - unit tests for planner prioritisation/capacity/reason behaviour;
-- planner model tests;
-- responsive Playwright coverage across Home / Plan / REV and existing learner journeys;
+- unit assurance that multi-day allocation is deterministic, does not duplicate one candidate across days and leaves genuinely unused capacity visible;
+- planner-model tests for distinct recurring daily capacity and date exceptions;
+- responsive Playwright coverage across Plan and the existing learner shell;
 - isolated database migration replay and pgTAP RLS/privilege assurance;
-- production backend-readiness checks for the required planner database contract and protected Edge Functions;
+- authenticated Supabase persistence/reload integration;
+- protected Edge-function assurance;
+- production backend-readiness checks for the required planner database contract; and
 - typecheck, lint, unit tests and production build in GitHub Actions.
 
-The Assurance Coverage Register deliberately retains Partial/Uncovered states for evidence that is not yet proven at the required layer, including:
+The Plan refresh visual/browser assurance covers configured Week-view Plan and the missing-exam / missing-availability setup treatment across the governed responsive matrix. The approved Plan light/dark visual captures are pinned exactly after manual inspection rather than accepted through a broad tolerance.
 
-- database-backed planner setup/reload/replan integration;
-- learner evidence persistence/reload through the real client boundary;
-- authorised Edge Function success-path integration;
-- automated accessibility coverage; and
-- exact CI → approved merge → deployment → smoke lineage correlation.
+PR #403 exact head `0c98256dcc2e79d7526e115058fb1daeaca30f42` passed Revision CI before the production-ledger/documentation reconciliation. Because that reconciliation changes the PR head, final merge readiness still requires fresh exact-head CI for the final candidate.
 
-## Current production readiness
+The Assurance Coverage Register retains qualified gaps that are outside this Plan change and must not be overstated as closed.
 
-The production `revision_release_readiness()` contract reports `planner-v1` and `ready: true`. Required planner schema capabilities and protected operational functions are present.
+## Backend release contract
 
-The readiness RPC has been least-privilege hardened to `SECURITY INVOKER`, and repository migration history is reconciled with the production Supabase migration ledger.
+The Plan refresh advances the required production readiness contract from `plan-state-v1` to **`planner-week-v1`**.
 
-This proves required backend capability presence; it does not replace end-to-end persistence, security or journey assurance.
+`planner-week-v1` requires the existing learner-plan capabilities plus the seven recurring availability columns on `revision_availability_profiles`. `.github/workflows/deploy-pages.yml` expects the same contract.
+
+Production was enabled and independently verified on 27 September 2026 before merge. The live database reports `planner-week-v1` with `ready: true`; the production migration ledger records version `20260927161359`; backfill/RLS/function posture are verified; and post-change advisor results match the preflight baseline.
+
+Production is therefore backend-ready for the refreshed Plan release. The product change remains pending until final exact-head CI, explicit Founder merge approval, merge, governed deployment and production smoke complete.
+
+This readiness proof confirms required backend capability presence; it does not replace end-to-end persistence, security or journey assurance.
 
 ## Documentation impact
 
-This document is implementation truth only. Any future change to what the planner **should** do must first update the relevant normative product authority. Any material implementation change must keep this document, README, deployment configuration and the Assurance Coverage Register aligned in the same governed branch/PR where required.
+The 27 September 2026 refresh updates the normative adaptive-planning authority, this implementation record, release-readiness contract and deployment expectation in the same governed change. It does not rewrite historical planner evidence or prior implementation records. Home's separately requested future explanatory/supporting-content change remains tracked independently and is not implemented by this Plan refresh.
