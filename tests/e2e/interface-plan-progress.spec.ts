@@ -14,7 +14,7 @@ async function expectNoPageOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
-async function seedSession(page: Page, theme: 'light' | 'dark' = 'light') {
+async function seedSession(page: Page, theme: 'light' | 'dark' = 'light', configured = false) {
   await page.addInitScript(({ key, id, selectedTheme }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
     const payload = btoa(JSON.stringify({ sub: id, aud: 'authenticated', exp: 4102444800 })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -63,11 +63,7 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light') {
   })
 
   await page.route('**/rest/v1/profiles**', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/vnd.pgrst.object+json',
-      body: JSON.stringify({ is_admin: false }),
-    })
+    await route.fulfill({ status: 200, contentType: 'application/vnd.pgrst.object+json', body: JSON.stringify({ is_admin: false }) })
   })
   await page.route('**/rest/v1/learner_courses**', async (route) => {
     await route.fulfill({
@@ -83,32 +79,62 @@ async function seedSession(page: Page, theme: 'light' | 'dark' = 'light') {
     await route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
 
-  for (const endpoint of [
-    'learning_evidence',
-    'revision_assessments',
-    'revision_availability_exceptions',
-    'revision_planning_preferences',
-    'revision_activity_events',
-  ]) {
+  await page.route('**/rest/v1/learning_evidence**', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
+  })
+  await page.route('**/rest/v1/revision_assessments**', async (route) => {
+    const body = configured ? [{
+      assessment_id: 'assessment-1',
+      user_id: userId,
+      subject_id: 'business',
+      course_id: asCourseId,
+      module_id: null,
+      assessment_type: 'public_exam',
+      title: 'Paper 2',
+      assessment_date: '2027-06-05',
+      relative_importance: 'high',
+      scope: {},
+      is_active: true,
+    }] : []
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })
+  })
+
+  for (const endpoint of ['revision_availability_exceptions', 'revision_planning_preferences', 'revision_activity_events']) {
     await page.route(`**/rest/v1/${endpoint}**`, async (route) => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
     })
   }
 
   await page.route('**/rest/v1/revision_availability_profiles**', async (route) => {
-    await route.fulfill({ status: 200, contentType: 'application/json', body: 'null' })
+    const body = configured ? {
+      user_id: userId,
+      weekday_minutes: 45,
+      weekend_minutes: 90,
+      monday_minutes: 45,
+      tuesday_minutes: 45,
+      wednesday_minutes: 60,
+      thursday_minutes: 45,
+      friday_minutes: 30,
+      saturday_minutes: 90,
+      sunday_minutes: 60,
+      timezone: 'Europe/London',
+    } : null
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })
   })
 }
 
-test('B2 gives Plan and Progress the shared interface grammar without changing their hierarchy', async ({ page }) => {
+test('Plan missing-input state uses the governed interface grammar and asks only for exams and realistic weekly time', async ({ page }) => {
   await seedSession(page)
   await page.goto(`${appPath}#/plan`)
 
   const plan = page.locator('.interface-plan-screen')
   await expect(plan).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Plan' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'What matters now' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Set your realistic availability' })).toBeVisible()
+  await expect(page.getByText('Your plan adapts as you go', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Add your exams' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Your weekly study time' })).toBeVisible()
+  await expect(page.getByText('Your plan will appear here', { exact: true })).toBeVisible()
+  await expect(page.getByPlaceholder('Ask REV anything…')).toBeVisible()
 
   const heading = page.getByRole('heading', { name: 'Plan' })
   const headingStyle = await heading.evaluate((element) => {
@@ -121,24 +147,20 @@ test('B2 gives Plan and Progress the shared interface grammar without changing t
     expect(headingStyle).toEqual({ fontSize: '36px', lineHeight: '44px' })
   }
 
-  const todayPanel = page.getByRole('region', { name: 'What matters now' })
-  await expect(todayPanel).toHaveClass(/ui-surface-standard/)
-  await expect(todayPanel).toHaveCSS('border-radius', '20px')
+  const examSetup = page.getByRole('region', { name: 'Add your exams' })
+  await expect(examSetup).toHaveCSS('border-radius', '20px')
+  const weeklySetup = page.getByRole('region', { name: 'Your weekly study time' })
+  await expect(weeklySetup).toHaveCSS('border-radius', '20px')
 
-  const weekdayField = page.getByLabel('Weekday minutes')
-  await expect(weekdayField).toHaveClass(/ui-field/)
-  await expect(weekdayField).toHaveCSS('min-height', '48px')
-  await expect(weekdayField).toHaveCSS('border-radius', '14px')
+  await expect(page.getByRole('button', { name: 'Increase Mon study time' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Increase Sun study time' })).toBeVisible()
 
-  const saveAvailability = page.getByRole('button', { name: 'Save availability' })
-  await expect(saveAvailability).toHaveClass(/ui-button--primary/)
-  await expect(saveAvailability).toHaveCSS('min-height', '44px')
-  await expect(saveAvailability).toHaveCSS('border-radius', '14px')
-  await expect(saveAvailability).toHaveCSS('background-color', 'rgb(43, 182, 163)')
-  await expect(saveAvailability).toHaveCSS('color', 'rgb(19, 32, 38)')
-
-  const planEmpty = page.getByRole('heading', { name: 'Set your realistic availability' }).locator('..')
-  await expect(planEmpty).toHaveCSS('background-color', 'rgb(241, 250, 248)')
+  const saveWeeklyTime = page.getByRole('button', { name: 'Save weekly time' })
+  await expect(saveWeeklyTime).toHaveClass(/ui-button--primary/)
+  await expect(saveWeeklyTime).toHaveCSS('min-height', '44px')
+  await expect(saveWeeklyTime).toHaveCSS('border-radius', '14px')
+  await expect(saveWeeklyTime).toHaveCSS('background-color', 'rgb(43, 182, 163)')
+  await expect(saveWeeklyTime).toHaveCSS('color', 'rgb(19, 32, 38)')
   await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)
@@ -172,24 +194,49 @@ test('B2 gives Plan and Progress the shared interface grammar without changing t
   await expectNoPageOverflow(page)
 })
 
-test('B2 Plan and Progress consume dark-theme semantic surfaces rather than hard-coded light values', async ({ page }) => {
+test('Configured Plan defaults to the adaptive Week view and keeps management secondary', async ({ page }) => {
+  await seedSession(page, 'light', true)
+  await page.goto(`${appPath}#/plan`)
+
+  await expect(page.getByRole('button', { name: 'Week', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('button', { name: 'Manage exams' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Plan settings' })).toBeVisible()
+  await expect(page.getByText('Next exam', { exact: true })).toBeVisible()
+  await expect(page.getByText('This week', { exact: true })).toBeVisible()
+  await expect(page.getByText('Plan status', { exact: true })).toBeVisible()
+
+  const week = page.locator('.plan-week-grid')
+  await expect(week).toBeVisible()
+  await expect(week.locator('.plan-week-day')).toHaveCount(7)
+  await expect(week.locator('.plan-task').first()).toContainText('Why this?')
+  await expect(page.getByRole('heading', { name: 'Upcoming exams' })).toBeVisible()
+  await expectNoPageOverflow(page)
+
+  await page.getByRole('button', { name: 'Month', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Next four weeks' })).toBeVisible()
+  await expect(page.getByText('Further ahead, Revision shows direction rather than pretending every task is fixed.')).toBeVisible()
+  await expectNoPageOverflow(page)
+})
+
+test('Plan and Progress consume dark-theme semantic surfaces rather than hard-coded light values', async ({ page }) => {
   await seedSession(page, 'dark')
   await page.goto(`${appPath}#/plan`)
 
   const runtime = page.locator('.planner-runtime')
   await expect(runtime).toHaveAttribute('data-theme', 'dark')
 
-  const planPanel = page.getByRole('region', { name: 'What matters now' })
-  const planPanelStyle = await planPanel.evaluate((element) => {
+  const weeklySetup = page.getByRole('region', { name: 'Your weekly study time' })
+  const weeklySetupStyle = await weeklySetup.evaluate((element) => {
     const style = getComputedStyle(element)
     return { background: style.backgroundColor, color: style.color }
   })
-  expect(planPanelStyle.background).not.toBe('rgb(255, 255, 255)')
-  expect(planPanelStyle.color).toBe('rgb(230, 242, 239)')
+  expect(weeklySetupStyle.background).not.toBe('rgb(255, 255, 255)')
+  expect(weeklySetupStyle.color).toBe('rgb(230, 242, 239)')
 
-  const weekdayField = page.getByLabel('Weekday minutes')
-  await expect(weekdayField).toHaveCSS('background-color', 'rgb(19, 39, 43)')
-  await expect(weekdayField).toHaveCSS('color', 'rgb(230, 242, 239)')
+  const capacityDay = page.locator('.plan-capacity-day').first()
+  await expect(capacityDay).toHaveCSS('background-color', 'rgb(19, 39, 43)')
+  await expect(capacityDay).toHaveCSS('color', 'rgb(230, 242, 239)')
+  await expectNoPageOverflow(page)
 
   await page.goto(`${appPath}#/progress`)
   const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
