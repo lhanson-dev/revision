@@ -1,0 +1,27 @@
+{
+  "candidate_version": "v0.2-post-board-candidate",
+  "authority_status": "research_evidence_only",
+  "phase1_sealed_node_count": 80,
+  "post_seal_new_node_count": 1,
+  "candidate_node_count": 81,
+  "domains": [
+    {"domain":"Business Foundations","file":"nodes/01-business-foundations.json","count":9,"ids":["BUS-FND-001","BUS-FND-002","BUS-FND-003","BUS-FND-004","BUS-FND-005","BUS-FND-006","BUS-FND-007","BUS-FND-008","BUS-FND-009"],"origin":"sealed_phase1"},
+    {"domain":"Marketing","file":"nodes/02-marketing.json","count":9,"ids":["BUS-MKT-001","BUS-MKT-002","BUS-MKT-003","BUS-MKT-004","BUS-MKT-005","BUS-MKT-006","BUS-MKT-007","BUS-MKT-008","BUS-MKT-009"],"origin":"sealed_phase1_with_post_seal_depth_extensions"},
+    {"domain":"Operations","file":"nodes/03-operations.json","count":9,"ids":["BUS-OPS-001","BUS-OPS-002","BUS-OPS-003","BUS-OPS-004","BUS-OPS-005","BUS-OPS-006","BUS-OPS-007","BUS-OPS-008","BUS-OPS-009"],"origin":"sealed_phase1_with_post_seal_depth_extensions"},
+    {"domain":"Finance","file":"nodes/04-finance.json","count":14,"ids":["BUS-FIN-001","BUS-FIN-002","BUS-FIN-003","BUS-FIN-004","BUS-FIN-005","BUS-FIN-006","BUS-FIN-007","BUS-FIN-008","BUS-FIN-009","BUS-FIN-010","BUS-FIN-011","BUS-FIN-012","BUS-FIN-013","BUS-FIN-014"],"origin":"sealed_phase1_with_post_seal_depth_extensions"},
+    {"domain":"People and Organisation","file":"nodes/05-people-and-organisation.json","count":11,"ids":["BUS-PEO-001","BUS-PEO-002","BUS-PEO-003","BUS-PEO-004","BUS-PEO-005","BUS-PEO-006","BUS-PEO-007","BUS-PEO-008","BUS-PEO-009","BUS-PEO-010","BUS-PEO-011"],"origin":"sealed_phase1_with_post_seal_depth_extensions"},
+    {"domain":"Strategy","file":"nodes/06-strategy.json","count":9,"ids":["BUS-STR-001","BUS-STR-002","BUS-STR-003","BUS-STR-004","BUS-STR-005","BUS-STR-006","BUS-STR-007","BUS-STR-008","BUS-STR-009"],"origin":"sealed_phase1_with_post_seal_depth_extensions"},
+    {"domain":"External and Global Business","file":"nodes/07-external-and-global-business.json","count":7,"ids":["BUS-EXT-001","BUS-EXT-002","BUS-EXT-003","BUS-EXT-004","BUS-EXT-005","BUS-EXT-006","BUS-EXT-007"],"origin":"sealed_phase1_with_post_seal_depth_extensions_and_trade_policy_gap_remediation"},
+    {"domain":"Evidence, Decision-making and Integration","file":"nodes/08-evidence-decision-making-and-integration.json","count":8,"ids":["BUS-EVI-001","BUS-EVI-002","BUS-EVI-003","BUS-EVI-004","BUS-EVI-005","BUS-EVI-006","BUS-EVI-007","BUS-EVI-008"],"origin":"seven_sealed_phase1_nodes_plus_post_seal_BUS-EVI-008"},
+    {"domain":"Named models and framework facets","file":"nodes/09-named-models-and-framework-facets.json","count":5,"ids":["BUS-MOD-001","BUS-MOD-002","BUS-MOD-003","BUS-MOD-004","BUS-MOD-005"],"origin":"sealed_phase1_named_model_set_serialized_post_seal_without_reclassifying_as_fact"}
+  ],
+  "post_seal_new_nodes": [
+    {"id":"BUS-EVI-008","title":"Network analysis and Critical Path Analysis","delta":"D-002","classification":"GENUINE_SUBJECT_FOUNDATION_GAP"}
+  ],
+  "integrity": {
+    "expected_unique_ids": 81,
+    "duplicate_ids_expected": 0,
+    "stable_id_policy": "Existing sealed IDs are preserved. Post-seal subject additions receive new IDs and do not rewrite the sealed baseline.",
+    "baseline_reference": "../v0.1-pre-board-challenge/NODE_INDEX.json"
+  }
+}
