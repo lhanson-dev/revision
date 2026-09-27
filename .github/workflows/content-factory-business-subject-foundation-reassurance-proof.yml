@@ -1,0 +1,74 @@
+name: Content Factory Business Subject Foundation Fresh Reassurance Proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_main_sha:
+        description: Exact current main SHA containing the remediated Business v0.2 candidate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-business-subject-foundation-reassurance-proof
+  cancel-in-progress: false
+
+jobs:
+  business-subject-foundation-reassurance:
+    name: Fresh independent Business subject-foundation reassurance
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact reviewed main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.reviewed_main_sha }}
+
+      - name: Verify exact current main identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ inputs.reviewed_main_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${REVIEWED_MAIN_SHA}"
+          current_main="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          test "${current_main}" = "${REVIEWED_MAIN_SHA}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Revalidate promotion provenance deterministically
+        run: node scripts/assurance/validate-business-subject-provenance.mjs
+
+      - name: Validate reassurance package contract
+        run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
+
+      - name: Run fresh independent Business subject-foundation reassurance
+        env:
+          CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE: '1'
+          REVISION_REVIEWED_MAIN_SHA: ${{ inputs.reviewed_main_sha }}
+          CONTENT_FACTORY_REASSURANCE_MODEL: gpt-5.6-terra
+          CONTENT_FACTORY_MAX_SPEND_USD: '5'
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/assurance/business-subject-foundation-reassurance.mjs
+
+      - name: Upload fresh reassurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-business-subject-foundation-reassurance-${{ inputs.reviewed_main_sha }}
+          path: .artifacts/content-factory-business-subject-foundation-reassurance/
+          if-no-files-found: warn
+          retention-days: 30
