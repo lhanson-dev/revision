@@ -56,24 +56,25 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
 }
 
 /**
- * The learner surfaces whose outer geometry intentionally changes in this PR
- * are pinned to exact manually inspected CI captures. The refreshed Plan light
- * and dark captures were re-inspected on 27 September 2026 against the
- * Founder-approved Plan design, stable learner canvas and governed theme
- * treatment. This is stricter than the normal 1% snapshot tolerance and
+ * The learner surfaces whose controlled visual treatment is intentionally
+ * changed are pinned to exact manually inspected CI captures. On 27 September
+ * 2026 the refreshed Plan light/dark captures were checked against the approved
+ * left-aligned exam setup, while Practice and Exam Prep were checked to confirm
+ * that their only change is the shared Interface System select chevron. Courses
+ * remains unchanged. This is stricter than the normal 1% snapshot tolerance and
  * prevents baseline updates from masking additional pixel drift. Timed exam and
  * Admin retain their existing snapshot baselines because their geometry is
  * deliberately excluded.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:plan:light': 'e241a1da02568df21fbe35961987c773558f64e29b738084f683f7c4d89ff531',
-  'desktop:plan:dark': 'c3b6207fae06941265f151659a48d1dd5fc8a65e13c2c63f0979c5c8d2e474df',
+  'desktop:plan:light': 'cee0b15307c11626c03f911f4f9bdc834a77807d670aa458f46a5ff3e2798c11',
+  'desktop:plan:dark': '0a7031b3d79083e661b5d69dde7c8c905220ff947d8c6abebc21633c8eeecbea',
   'tablet:courses:light': '7f90c35f0fce95e9023ce43cba217aa5a91583a0247fe6f72fd6dd5181990146',
   'tablet:courses:dark': '1a89d60f669cfb01806b6de1f2b0ddaaee74a5c307a604a29f3ace0b34b0114c',
-  'phone:practice:light': 'ab694df6d5432dcf3484f0982ffcfdad3560a2e7a94054e000b731cf9f07eb7a',
-  'phone:practice:dark': 'f71b477a920246db454a791d66e3cb0eff26fc0f1b1da4f2fbdd067ef3732154',
-  'tablet:exam-prep:light': '64811d0529ea9046dc3c7ff58d42c09cda83fe4163951d616c375e787012c464',
-  'tablet:exam-prep:dark': 'c173b970f55dcd07ead514c6048f721d5fb770f46d765cb3525df9995c5e1791',
+  'phone:practice:light': 'c28523eff118838feffbf61bef766a8a84ad829a002a0125c88c33ecc11edf44',
+  'phone:practice:dark': '98b5fe019ee7a8eb04974e8097adbb6d1845d73d9fcd6cbd0b3db7e688f52510',
+  'tablet:exam-prep:light': '0333c3f1fa9e352d493d17ef99564a334eeb6a0a56e0fefc7fc5ab38e31b6e40',
+  'tablet:exam-prep:dark': 'e0cf8853005e5ee70471d7da2a80fcc63e637dc46731bc3d53147562f708aaa9',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

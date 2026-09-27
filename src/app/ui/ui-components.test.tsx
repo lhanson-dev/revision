@@ -40,8 +40,20 @@ describe('Revision reusable interface components', () => {
     expect(markup).toContain('class="ui-field-support">Use the name shown on your timetable.')
     expect(markup).toContain('ui-field ui-field--textarea')
     expect(markup).toContain('class="ui-field-support">Write the answer before comparing guidance.')
-    expect(markup).toContain('ui-field ui-field--error')
+    expect(markup).toContain('ui-select-control')
+    expect(markup).toContain('ui-field ui-select-field ui-field--error')
+    expect(markup).toContain('ui-select-chevron')
     expect(markup).toContain('aria-invalid="true"')
+  })
+
+  it('renders date fields through the shared accessible date-control anatomy', () => {
+    const markup = renderToStaticMarkup(<TextField label="Exam date" type="date" required value="2026-09-27" readOnly />)
+
+    expect(markup).toContain('type="date"')
+    expect(markup).toContain('class="ui-date-native-input"')
+    expect(markup).toContain('class="ui-field ui-date-trigger"')
+    expect(markup).toContain('aria-haspopup="dialog"')
+    expect(markup).toContain('27 / 09 / 2026')
   })
 
   it('makes semantic feedback understandable without colour alone', () => {

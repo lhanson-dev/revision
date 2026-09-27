@@ -54,6 +54,7 @@ const retainedFeatureSources = new Set([
   'returning-home.css',
   'returning-home-fidelity.css',
   'course-overview-rev-feature.css',
+  'interface-plan-exam-setup.css',
 ])
 
 describe('site-wide theme integrity governance', () => {
