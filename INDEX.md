@@ -39,6 +39,7 @@ Use this file to find the governing source before substantive work.
 - Release-lineage recovery checkpoints / current recovery invariant → `docs/technical/Release Lineage Recovery Checkpoint.md`
 - Subscription billing target / Stripe provider boundary / webhook-reconciliation model → `docs/technical/Subscription Billing Architecture.md`
 - Content Factory target architecture → `docs/technical/Content Factory Architecture.md`
+- Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
 - Content Factory foundation-gated staged implementation target → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
 - Content Factory AI-assured Foundation lifecycle / pre-production asset and release gate → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation-native internal Learn/Practice production, assurance and retained live proofs → `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`
@@ -60,7 +61,7 @@ Use this file to find the governing source before substantive work.
 - Authentication implementation → `docs/technical/Authentication Implementation.md`
 - Approved stack → `docs/technical/Technology Stack.md`
 - Refactor sequence → `docs/technical/Technical Refactor Plan.md`
-- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0027-course-learning-blueprint-planner-v2.md`
+- Technical decision history → `decisions/ADR-0001-frontend-stack.md` through `decisions/ADR-0028-subject-knowledge-foundation-and-course-projection.md`
 
 ## Company and product
 - Founder doctrine / founding beliefs → `00-company-foundation/Founder Doctrine.md`
@@ -128,6 +129,7 @@ Use this file to find the governing source before substantive work.
 - Journey-led experience review / screen-purpose contracts / short-PR programme → `80-company-workflows/Journey-Led Experience Review Workflow.md`
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
+- Content Factory reusable Subject Knowledge Foundation / exact-course projection amendment → `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`
 - Content Factory Course Learning Blueprint derivation / deterministic treatment planning → `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`
 - Current Content Factory AI-assured Foundation sequencing amendment → `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`
 - Earlier Content Factory orchestration controls / legacy sequencing → `80-company-workflows/Content Factory Operating Model.md`
@@ -169,6 +171,7 @@ Use this file to find the governing source before substantive work.
 - Subscription billing target architecture → `docs/technical/Subscription Billing Architecture.md`
 - Brand System production readiness / canonical asset package → `docs/technical/Brand System Production Readiness.md`
 - Content Factory current staged target / migration plan → `docs/technical/Content Factory Foundation-Gated Implementation Plan.md`
+- Content Factory reusable Subject Knowledge Foundation / Business controlled trial → `docs/technical/Content Factory Subject Foundation Trial.md`
 - Content Factory AI-assured Foundation runtime / pre-production release boundary → `docs/technical/Content Factory AI-Assured Foundation Gate.md`
 - Content Factory Foundation-native internal Learn/Practice production, assurance and retained live proofs → `docs/technical/Content Factory Foundation-Native Internal Learning Assets.md`
 - Content Factory Foundation-native atomic Course Truth learning obligations / exact Learn-Practice evidence placement → `docs/technical/Content Factory Foundation-Native Atomic Learning Obligations.md`
