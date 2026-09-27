@@ -128,21 +128,15 @@ function DateTextField({
   const controlledValue = value === undefined ? undefined : isoDate(value)
   const [internalValue, setInternalValue] = useState(() => isoDate(defaultValue))
   const selectedValue = controlledValue ?? internalValue
-  const [draft, setDraft] = useState(() => dateDisplay(selectedValue))
+  const [draft, setDraft] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const selected = dateFromIso(selectedValue)
     const today = new Date()
     return new Date((selected ?? today).getFullYear(), (selected ?? today).getMonth(), 1)
   })
-  const rootRef = useRef<HTMLLabelElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    setDraft(dateDisplay(selectedValue))
-    const selected = dateFromIso(selectedValue)
-    if (selected) setVisibleMonth(new Date(selected.getFullYear(), selected.getMonth(), 1))
-  }, [selectedValue])
 
   useEffect(() => {
     if (!open) return
@@ -180,6 +174,7 @@ function DateTextField({
   const selectedDate = dateFromIso(selectedValue)
   const minDate = isoDate(min)
   const maxDate = isoDate(max)
+  const displayedValue = draft ?? dateDisplay(selectedValue)
 
   function commit(nextValue: string) {
     if (controlledValue === undefined) setInternalValue(nextValue)
@@ -217,21 +212,40 @@ function DateTextField({
     if (nextIso && dateWithinBounds(nextIso, minDate || undefined, maxDate || undefined)) commit(nextIso)
   }
 
+  function finishDraft() {
+    if (draft === null) return
+    const nextIso = isoFromDisplay(draft)
+    if (!draft || (nextIso && dateWithinBounds(nextIso, minDate || undefined, maxDate || undefined))) setDraft(null)
+  }
+
+  function openCalendar() {
+    if (disabled) return
+    const selected = dateFromIso(selectedValue)
+    const today = new Date()
+    const anchor = selected ?? today
+    setVisibleMonth(new Date(anchor.getFullYear(), anchor.getMonth(), 1))
+    setOpen(true)
+  }
+
+  function toggleCalendar() {
+    if (open) setOpen(false)
+    else openCalendar()
+  }
+
   function chooseDate(nextDate: Date) {
     const nextIso = dateToIso(nextDate)
     if (!dateWithinBounds(nextIso, minDate || undefined, maxDate || undefined)) return
     updateValidity(dateDisplay(nextIso), nextIso)
-    setDraft(dateDisplay(nextIso))
+    setDraft(null)
     commit(nextIso)
     setOpen(false)
     window.requestAnimationFrame(() => inputRef.current?.focus())
   }
 
   return (
-    <label ref={rootRef} className={classNames('ui-field-group', 'ui-date-field-group', groupClassName)} htmlFor={controlId}>
-      <span className="ui-field-label">{label}</span>
+    <div ref={rootRef} className={classNames('ui-field-group', 'ui-date-field-group', groupClassName)}>
+      <label className="ui-field-label" htmlFor={controlId}>{label}</label>
       <span className="ui-date-control">
-        <Icon name="plan" size="compact" className="ui-date-control__icon" />
         <input
           {...props}
           ref={inputRef}
@@ -239,7 +253,7 @@ function DateTextField({
           type="text"
           inputMode="numeric"
           autoComplete={props.autoComplete ?? 'off'}
-          value={draft}
+          value={displayedValue}
           required={required}
           disabled={disabled}
           placeholder={placeholder ?? 'DD / MM / YYYY'}
@@ -250,10 +264,11 @@ function DateTextField({
           aria-haspopup="dialog"
           aria-expanded={open}
           onChange={handleDraftChange}
-          onClick={() => !disabled && setOpen(true)}
+          onClick={openCalendar}
+          onBlur={finishDraft}
         />
-        <button type="button" className="ui-date-picker-trigger" aria-label="Open date picker" aria-controls={`${controlId}-calendar`} aria-expanded={open} disabled={disabled} onClick={() => setOpen((current) => !current)}>
-          <span aria-hidden="true">Choose</span>
+        <button type="button" className="ui-date-picker-trigger" aria-label="Open date picker" aria-controls={`${controlId}-calendar`} aria-expanded={open} disabled={disabled} onClick={toggleCalendar}>
+          <Icon name="plan" size="compact" />
         </button>
         {name && <input type="hidden" name={name} value={selectedValue} />}
         {open && <div id={`${controlId}-calendar`} className="ui-date-popover" role="dialog" aria-label={`Choose date, ${monthLabel}`}>
@@ -285,7 +300,7 @@ function DateTextField({
         </div>}
       </span>
       {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
-    </label>
+    </div>
   )
 }
 
