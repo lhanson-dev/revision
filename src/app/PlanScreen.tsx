@@ -89,10 +89,9 @@ function formatDate(date: string, options: Intl.DateTimeFormatOptions = { day: '
 }
 
 function daysUntil(date: string) {
-  const today = new Date()
-  const localToday = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-  const target = new Date(`${date}T00:00:00`)
-  return Math.ceil((target.getTime() - localToday.getTime()) / 86_400_000)
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  return Math.ceil((new Date(`${date}T00:00:00`).getTime() - today.getTime()) / 86_400_000)
 }
 
 function itemTopicLabel(item: PlannerItem, states: readonly ModuleLearningState[]) {
@@ -114,8 +113,7 @@ function subjectLabel(programme: readonly LearnerProgrammeCourse[], subjectId: s
 }
 
 function conciseReason(item: PlannerItem) {
-  const preferred = item.reasons.find((reason) => reason !== 'ALREADY_STRONG' && reason !== 'CAPACITY_CONSTRAINED')
-    ?? item.reasons[0]
+  const preferred = item.reasons.find((reason) => reason !== 'ALREADY_STRONG' && reason !== 'CAPACITY_CONSTRAINED') ?? item.reasons[0]
   return preferred ? reasonLabel(preferred) : 'Revision is balancing this against your other current priorities.'
 }
 
@@ -169,7 +167,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [explanationOpen, setExplanationOpen] = useState(false)
   const [revPrompt, setRevPrompt] = useState('')
   const [weeklyDraft, setWeeklyDraft] = useState<RevisionWeeklyAvailability>(emptyWeeklyAvailability)
-  const [examTemplateKey, setExamTemplateKey] = useState('')
+  const [examTemplateKey, setExamTemplateKey] = useState(() => examTemplates[0]?.key ?? '')
   const [examDate, setExamDate] = useState('')
   const [otherAssessmentOpen, setOtherAssessmentOpen] = useState(false)
   const [courseId, setCourseId] = useState(programme[0]?.course.id ?? '')
@@ -178,9 +176,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   const [assessmentType, setAssessmentType] = useState<AssessmentType>('mock')
   const [importance, setImportance] = useState<AssessmentImportance>('normal')
 
-  const selectedCourseId = programme.some((item) => item.course.id === courseId)
-    ? courseId
-    : programme[0]?.course.id ?? ''
+  const selectedCourseId = programme.some((item) => item.course.id === courseId) ? courseId : programme[0]?.course.id ?? ''
   const selectedExamTemplate = examTemplates.find((template) => template.key === examTemplateKey) ?? examTemplates[0]
 
   useEffect(() => {
@@ -218,11 +214,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return () => { active = false }
   }, [client, programme, userId])
 
-  useEffect(() => {
-    if (examTemplateKey || examTemplates.length === 0) return
-    setExamTemplateKey(examTemplates[0]?.key ?? '')
-  }, [examTemplateKey, examTemplates])
-
   const activeCourseIds = useMemo(() => new Set(programme.map((item) => item.course.id)), [programme])
   const activeAssessments = useMemo(() => assessments.filter((assessment) => {
     if (assessment.courseId) return activeCourseIds.has(assessment.courseId)
@@ -253,10 +244,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     : totalWeeklyMinutes(availability)
 
   function updateWeeklyDay(day: keyof RevisionWeeklyAvailability, delta: number) {
-    setWeeklyDraft((current) => ({
-      ...current,
-      [day]: Math.max(0, Math.min(1440, current[day] + delta)),
-    }))
+    setWeeklyDraft((current) => ({ ...current, [day]: Math.max(0, Math.min(1440, current[day] + delta)) }))
   }
 
   async function handleSaveAvailability() {
@@ -374,8 +362,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
   function submitRevPrompt(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const text = revPrompt.trim()
     if (!onOpenRev) return
+    const text = revPrompt.trim()
     onOpenRev(text || undefined)
     setRevPrompt('')
   }
@@ -384,10 +372,13 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return (
       <Surface className="plan-management-panel" aria-labelledby="manage-exams-title">
         <div className="planner-panel-heading">
-          <div><p className="eyebrow">Exam dates</p><h2 id="manage-exams-title">Manage exams</h2><p>Revision uses these dates to understand what is getting closer and when exam-style work becomes more useful.</p></div>
+          <div>
+            <p className="eyebrow">Exam dates</p>
+            <h2 id="manage-exams-title">Manage exams</h2>
+            <p>Revision uses these dates to understand what is getting closer and when exam-style work becomes more useful.</p>
+          </div>
           {!setupMissingExams && <Button variant="tertiary" size="compact" onClick={() => setManageExamsOpen(false)}>Close</Button>}
         </div>
-
         {upcoming.length > 0 && <ol className="plan-exam-list">
           {upcoming.map((assessment) => (
             <li key={assessment.assessmentId}>
@@ -397,7 +388,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
             </li>
           ))}
         </ol>}
-
         {examTemplates.length > 0 && <form className="plan-add-exam" onSubmit={handleAddKnownExam}>
           <SelectField label="Exam" value={selectedExamTemplate?.key ?? ''} onChange={(event) => setExamTemplateKey(event.target.value)}>
             {examTemplates.map((template) => <option key={template.key} value={template.key}>{template.courseLabel} · {template.paperLabel}</option>)}
@@ -405,7 +395,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
           <TextField label="Exam date" type="date" required value={examDate} onChange={(event) => setExamDate(event.target.value)} />
           <Button type="submit" disabled={saving || !selectedExamTemplate}>Add exam</Button>
         </form>}
-
         <button className="plan-disclosure-link" type="button" onClick={() => setOtherAssessmentOpen((open) => !open)} aria-expanded={otherAssessmentOpen}>+ Add a mock, topic test or other assessment</button>
         {otherAssessmentOpen && <form className="planner-form plan-other-assessment" onSubmit={handleAddAssessment}>
           <SelectField label="Course" value={selectedCourseId} required onChange={(event) => setCourseId(event.target.value)}>
@@ -414,13 +403,13 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
           <TextField label="What is it?" value={title} required maxLength={120} placeholder="e.g. Paper 2 mock" onChange={(event) => setTitle(event.target.value)} />
           <div className="planner-field-grid">
             <SelectField label="Type" value={assessmentType} onChange={(event) => setAssessmentType(event.target.value as AssessmentType)}>
-              <option value="mock">Mock</option>
-              <option value="topic_test">Topic test</option>
-              <option value="other">Other</option>
+              <option value="mock">Mock</option><option value="topic_test">Topic test</option><option value="other">Other</option>
             </SelectField>
             <TextField label="Date" type="date" required value={assessmentDate} onChange={(event) => setAssessmentDate(event.target.value)} />
           </div>
-          <SelectField label="Importance" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}><option value="normal">Normal</option><option value="high">Higher priority</option></SelectField>
+          <SelectField label="Importance" value={importance} onChange={(event) => setImportance(event.target.value as AssessmentImportance)}>
+            <option value="normal">Normal</option><option value="high">Higher priority</option>
+          </SelectField>
           <Button type="submit" disabled={saving || programme.length === 0}>Add assessment</Button>
         </form>}
       </Surface>
@@ -431,25 +420,18 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return (
       <Surface className={`plan-management-panel plan-weekly-settings ${inSetup ? 'plan-setup-weekly' : ''}`} aria-labelledby={inSetup ? 'weekly-setup-title' : 'plan-settings-title'}>
         <div className="planner-panel-heading">
-          <div>
-            <p className="eyebrow">{inSetup ? 'Step 2 of 2' : 'Plan settings'}</p>
-            <h2 id={inSetup ? 'weekly-setup-title' : 'plan-settings-title'}>Your weekly study time</h2>
-            <p>Tell Revision how much time you realistically have. This is not a target; it helps the plan fit around your week.</p>
-          </div>
+          <div><p className="eyebrow">{inSetup ? 'Step 2 of 2' : 'Plan settings'}</p><h2 id={inSetup ? 'weekly-setup-title' : 'plan-settings-title'}>Your weekly study time</h2><p>Tell Revision how much time you realistically have. This is not a target; it helps the plan fit around your week.</p></div>
           {!inSetup && <Button variant="tertiary" size="compact" onClick={() => setPlanSettingsOpen(false)}>Close</Button>}
         </div>
         <div className="plan-weekly-capacity-grid">
-          {revisionWeekDays.map((day) => (
-            <div className="plan-capacity-day" key={day}>
-              <strong>{dayLabels[day]}</strong>
-              <span>Add time</span>
-              <div className="plan-capacity-stepper">
-                <button type="button" aria-label={`Decrease ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, -15)}>−</button>
-                <b>{formatDuration(weeklyDraft[day])}</b>
-                <button type="button" aria-label={`Increase ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, 15)}>+</button>
-              </div>
+          {revisionWeekDays.map((day) => <div className="plan-capacity-day" key={day}>
+            <strong>{dayLabels[day]}</strong><span>Add time</span>
+            <div className="plan-capacity-stepper">
+              <button type="button" aria-label={`Decrease ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, -15)}>−</button>
+              <b>{formatDuration(weeklyDraft[day])}</b>
+              <button type="button" aria-label={`Increase ${dayLabels[day]} study time`} onClick={() => updateWeeklyDay(day, 15)}>+</button>
             </div>
-          ))}
+          </div>)}
         </div>
         <div className="plan-settings-footer"><span>You can update this later. Your plan will recalculate automatically when your availability changes.</span><Button disabled={saving} onClick={() => void handleSaveAvailability()}>{availability ? 'Save changes' : 'Save weekly time'}</Button></div>
       </Surface>
@@ -457,15 +439,13 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   }
 
   function renderTask(item: PlannerItem, compact = false) {
-    return (
-      <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} onClick={() => void handleStart(item)}>
-        <span className="plan-task-subject">{subjectLabel(programme, item.subjectId)}</span>
-        <strong>{itemTopicLabel(item, learningStates)}</strong>
-        <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
-        <small><b>Why this?</b> {conciseReason(item)}</small>
-        <Icon name="chevron-right" size="compact" className="plan-task-arrow" />
-      </button>
-    )
+    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} onClick={() => void handleStart(item)}>
+      <span className="plan-task-subject">{subjectLabel(programme, item.subjectId)}</span>
+      <strong>{itemTopicLabel(item, learningStates)}</strong>
+      <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
+      <small><b>Why this?</b> {conciseReason(item)}</small>
+      <Icon name="chevron-right" size="compact" className="plan-task-arrow" />
+    </button>
   }
 
   function renderDayView() {
@@ -546,12 +526,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
           {snapshot?.capacityState === 'prioritising' && <Surface variant="quiet" className="planner-priority-note"><strong>Making the time you have count</strong><p>There is not enough realistic capacity to cover every useful area before the current assessments. Revision is focusing on the strongest evidence of need without treating this as a failure.</p></Surface>}
 
-          <div className="plan-view-toolbar">
-            <SegmentedControl label="Plan view">
-              {(['day', 'week', 'month'] as PlanView[]).map((item) => <button key={item} type="button" className={view === item ? 'active' : ''} aria-pressed={view === item} onClick={() => setView(item)}>{item.charAt(0).toUpperCase() + item.slice(1)}</button>)}
-            </SegmentedControl>
-            {view === 'week' && <strong>{weekRange(weekDays)}</strong>}
-          </div>
+          <div className="plan-view-toolbar"><SegmentedControl label="Plan view">{(['day', 'week', 'month'] as PlanView[]).map((item) => <button key={item} type="button" className={view === item ? 'active' : ''} aria-pressed={view === item} onClick={() => setView(item)}>{item.charAt(0).toUpperCase() + item.slice(1)}</button>)}</SegmentedControl>{view === 'week' && <strong>{weekRange(weekDays)}</strong>}</div>
 
           {snapshot ? <>{view === 'day' && renderDayView()}{view === 'week' && renderWeekView()}{view === 'month' && renderMonthView()}</> : <EmptyState className="planner-panel" title="Building the evidence picture" description="Your dates and available time are saved. Revision will become more specific as useful scored evidence builds." />}
 
