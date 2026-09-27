@@ -102,6 +102,8 @@ function dateChangeEvent(value: string) {
   return { target, currentTarget: target } as ChangeEvent<HTMLInputElement>
 }
 
+export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & FieldSupportProps
+
 function DateTextField({
   label,
   hint,
@@ -287,12 +289,7 @@ function DateTextField({
   )
 }
 
-export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & FieldSupportProps
-
-export function TextField(props: TextFieldProps) {
-  if (props.type === 'date') return <DateTextField {...props} />
-
-  const { label, hint, error, groupClassName, id, className, ...inputProps } = props
+function StandardTextField({ label, hint, error, groupClassName, id, className, ...props }: TextFieldProps) {
   const generatedId = useId()
   const controlId = id ?? generatedId
   const supportId = fieldSupportId(controlId, hint, error)
@@ -301,15 +298,19 @@ export function TextField(props: TextFieldProps) {
     <label className={classNames('ui-field-group', groupClassName)} htmlFor={controlId}>
       <span className="ui-field-label">{label}</span>
       <input
-        {...inputProps}
+        {...props}
         id={controlId}
         className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
-        aria-describedby={describedBy(inputProps['aria-describedby'], supportId)}
-        aria-invalid={error ? true : inputProps['aria-invalid']}
+        aria-describedby={describedBy(props['aria-describedby'], supportId)}
+        aria-invalid={error ? true : props['aria-invalid']}
       />
       {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
     </label>
   )
+}
+
+export function TextField(props: TextFieldProps) {
+  return props.type === 'date' ? <DateTextField {...props} /> : <StandardTextField {...props} />
 }
 
 export type TextAreaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & FieldSupportProps
