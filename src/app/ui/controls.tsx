@@ -1,5 +1,19 @@
-import { useId, type ButtonHTMLAttributes, type HTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react'
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type ButtonHTMLAttributes,
+  type ChangeEvent,
+  type HTMLAttributes,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from 'react'
 import { classNames } from './classNames'
+import { Icon } from './Icon'
 
 export type ButtonVariant = 'primary' | 'strong' | 'secondary' | 'tertiary' | 'destructive'
 export type ButtonSize = 'compact' | 'standard' | 'large'
@@ -47,9 +61,195 @@ function describedBy(existing: string | undefined, supportId: string | undefined
   return [existing, supportId].filter(Boolean).join(' ') || undefined
 }
 
+function pad(value: number) {
+  return String(value).padStart(2, '0')
+}
+
+function isoDate(year: number, month: number, day: number) {
+  return `${year}-${pad(month + 1)}-${pad(day)}`
+}
+
+function parseIsoDate(value: string | undefined) {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null
+  const [year, month, day] = value.split('-').map(Number)
+  if (!year || !month || !day) return null
+  return new Date(year, month - 1, day)
+}
+
+function formatDisplayDate(value: string) {
+  const parsed = parseIsoDate(value)
+  if (!parsed) return 'DD / MM / YYYY'
+  return `${pad(parsed.getDate())} / ${pad(parsed.getMonth() + 1)} / ${parsed.getFullYear()}`
+}
+
+function sameMonth(left: Date, right: Date) {
+  return left.getFullYear() === right.getFullYear() && left.getMonth() === right.getMonth()
+}
+
+function dateValueFromProps(value: InputHTMLAttributes<HTMLInputElement>['value']) {
+  return typeof value === 'string' ? value : ''
+}
+
 export type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & FieldSupportProps
 
-export function TextField({ label, hint, error, groupClassName, id, className, ...props }: TextFieldProps) {
+function DateTextField({ label, hint, error, groupClassName, id, className, value, defaultValue, onChange, min, max, required, disabled, ...props }: TextFieldProps) {
+  const generatedId = useId()
+  const controlId = id ?? generatedId
+  const labelId = `${controlId}-label`
+  const supportId = fieldSupportId(controlId, hint, error)
+  const controlledValue = dateValueFromProps(value)
+  const [uncontrolledValue, setUncontrolledValue] = useState(() => dateValueFromProps(defaultValue))
+  const currentValue = value === undefined ? uncontrolledValue : controlledValue
+  const selectedDate = parseIsoDate(currentValue)
+  const [visibleMonth, setVisibleMonth] = useState(() => {
+    const basis = selectedDate ?? new Date()
+    return new Date(basis.getFullYear(), basis.getMonth(), 1)
+  })
+  const [open, setOpen] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const nativeInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!selectedDate) return
+    setVisibleMonth((current) => sameMonth(current, selectedDate)
+      ? current
+      : new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))
+  }, [currentValue])
+
+  useEffect(() => {
+    if (!open) return
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        triggerRef.current?.focus()
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [open])
+
+  const calendarDays = useMemo(() => {
+    const year = visibleMonth.getFullYear()
+    const month = visibleMonth.getMonth()
+    const mondayOffset = (new Date(year, month, 1).getDay() + 6) % 7
+    return Array.from({ length: 42 }, (_, index) => {
+      const date = new Date(year, month, index - mondayOffset + 1)
+      return {
+        date,
+        value: isoDate(date.getFullYear(), date.getMonth(), date.getDate()),
+        inMonth: date.getMonth() === month,
+      }
+    })
+  }, [visibleMonth])
+
+  function emitChange(nextValue: string) {
+    if (value === undefined) setUncontrolledValue(nextValue)
+    const input = nativeInputRef.current
+    if (input) {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(input, nextValue)
+      onChange?.({ target: input, currentTarget: input } as ChangeEvent<HTMLInputElement>)
+    }
+  }
+
+  function selectDate(nextValue: string) {
+    emitChange(nextValue)
+    setOpen(false)
+    triggerRef.current?.focus()
+  }
+
+  const minValue = typeof min === 'string' ? min : undefined
+  const maxValue = typeof max === 'string' ? max : undefined
+  const monthLabel = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(visibleMonth)
+
+  return (
+    <div className={classNames('ui-field-group', groupClassName)} ref={rootRef}>
+      <span id={labelId} className="ui-field-label">{label}</span>
+      <input
+        {...props}
+        ref={nativeInputRef}
+        id={controlId}
+        type="date"
+        className="ui-date-native-input"
+        value={currentValue}
+        min={min}
+        max={max}
+        required={required}
+        disabled={disabled}
+        tabIndex={-1}
+        aria-hidden="true"
+        onChange={onChange}
+        onInvalid={(event) => {
+          event.preventDefault()
+          triggerRef.current?.focus()
+        }}
+      />
+      <button
+        ref={triggerRef}
+        type="button"
+        className={classNames('ui-field', 'ui-date-trigger', Boolean(error) && 'ui-field--error', className)}
+        aria-labelledby={labelId}
+        aria-describedby={describedBy(props['aria-describedby'], supportId)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-invalid={error ? true : props['aria-invalid']}
+        aria-required={required || undefined}
+        disabled={disabled}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <Icon name="plan" size="compact" />
+        <span className={classNames('ui-date-value', !currentValue && 'ui-date-value--placeholder')}>{formatDisplayDate(currentValue)}</span>
+      </button>
+      {open && !disabled && <div className="ui-date-popover" role="dialog" aria-label={`Choose ${String(label)}`}>
+        <div className="ui-date-popover-header">
+          <button type="button" className="ui-icon-button" aria-label="Previous month" onClick={() => setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() - 1, 1))}>
+            <Icon name="chevron-right" size="compact" className="ui-icon--chevron-left" />
+          </button>
+          <strong>{monthLabel}</strong>
+          <button type="button" className="ui-icon-button" aria-label="Next month" onClick={() => setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() + 1, 1))}>
+            <Icon name="chevron-right" size="compact" />
+          </button>
+        </div>
+        <div className="ui-date-weekdays" aria-hidden="true">
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => <span key={day}>{day}</span>)}
+        </div>
+        <div className="ui-date-grid">
+          {calendarDays.map(({ date, value: dayValue, inMonth }) => {
+            const outOfRange = Boolean((minValue && dayValue < minValue) || (maxValue && dayValue > maxValue))
+            return <button
+              key={dayValue}
+              type="button"
+              className={classNames(
+                'ui-date-day',
+                !inMonth && 'ui-date-day--outside',
+                dayValue === currentValue && 'ui-date-day--selected',
+              )}
+              aria-label={new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(date)}
+              aria-pressed={dayValue === currentValue}
+              disabled={outOfRange}
+              onClick={() => selectDate(dayValue)}
+            >{date.getDate()}</button>
+          })}
+        </div>
+      </div>}
+      {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
+    </div>
+  )
+}
+
+export function TextField({ label, hint, error, groupClassName, id, className, type, ...props }: TextFieldProps) {
+  if (type === 'date') {
+    return <DateTextField label={label} hint={hint} error={error} groupClassName={groupClassName} id={id} className={className} type={type} {...props} />
+  }
+
   const generatedId = useId()
   const controlId = id ?? generatedId
   const supportId = fieldSupportId(controlId, hint, error)
@@ -59,6 +259,7 @@ export function TextField({ label, hint, error, groupClassName, id, className, .
       <span className="ui-field-label">{label}</span>
       <input
         {...props}
+        type={type}
         id={controlId}
         className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
         aria-describedby={describedBy(props['aria-describedby'], supportId)}
@@ -101,15 +302,18 @@ export function SelectField({ label, hint, error, groupClassName, id, className,
   return (
     <label className={classNames('ui-field-group', groupClassName)} htmlFor={controlId}>
       <span className="ui-field-label">{label}</span>
-      <select
-        {...props}
-        id={controlId}
-        className={classNames('ui-field', Boolean(error) && 'ui-field--error', className)}
-        aria-describedby={describedBy(props['aria-describedby'], supportId)}
-        aria-invalid={error ? true : props['aria-invalid']}
-      >
-        {children}
-      </select>
+      <span className="ui-select-control">
+        <select
+          {...props}
+          id={controlId}
+          className={classNames('ui-field', 'ui-select-field', Boolean(error) && 'ui-field--error', className)}
+          aria-describedby={describedBy(props['aria-describedby'], supportId)}
+          aria-invalid={error ? true : props['aria-invalid']}
+        >
+          {children}
+        </select>
+        <Icon name="chevron-right" size="compact" className="ui-select-chevron" />
+      </span>
       {(hint || error) && <span id={supportId} className={classNames('ui-field-support', Boolean(error) && 'ui-field-support--error')}>{error ?? hint}</span>}
     </label>
   )
