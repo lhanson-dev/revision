@@ -82,10 +82,6 @@ function formatDisplayDate(value: string) {
   return `${pad(parsed.getDate())} / ${pad(parsed.getMonth() + 1)} / ${parsed.getFullYear()}`
 }
 
-function sameMonth(left: Date, right: Date) {
-  return left.getFullYear() === right.getFullYear() && left.getMonth() === right.getMonth()
-}
-
 function dateValueFromProps(value: InputHTMLAttributes<HTMLInputElement>['value']) {
   return typeof value === 'string' ? value : ''
 }
@@ -106,14 +102,6 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const nativeInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const selectedDate = parseIsoDate(currentValue)
-    if (!selectedDate) return
-    setVisibleMonth((current) => sameMonth(current, selectedDate)
-      ? current
-      : new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))
-  }, [currentValue])
 
   useEffect(() => {
     if (!open) return
@@ -163,6 +151,14 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
     triggerRef.current?.focus()
   }
 
+  function toggleCalendar() {
+    if (!open) {
+      const selectedDate = parseIsoDate(currentValue) ?? new Date()
+      setVisibleMonth(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1))
+    }
+    setOpen((current) => !current)
+  }
+
   const minValue = typeof min === 'string' ? min : undefined
   const maxValue = typeof max === 'string' ? max : undefined
   const monthLabel = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(visibleMonth)
@@ -200,7 +196,7 @@ function DateTextField({ label, hint, error, groupClassName, id, className, valu
         aria-invalid={error ? true : props['aria-invalid']}
         aria-required={required || undefined}
         disabled={disabled}
-        onClick={() => setOpen((current) => !current)}
+        onClick={toggleCalendar}
       >
         <Icon name="plan" size="compact" />
         <span className={classNames('ui-date-value', !currentValue && 'ui-date-value--placeholder')}>{formatDisplayDate(currentValue)}</span>
