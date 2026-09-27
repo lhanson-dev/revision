@@ -32,7 +32,7 @@ A successful run creates:
 - one fresh OpenAI Responses context for each of the nine Business domains; and
 - one additional fresh whole-subject integration context.
 
-Response IDs must be unique across all ten review contexts. The reviewer is instructed not to rely on prior Revision assurance, remediation conclusions or board specifications.
+Response IDs must be unique across all provider attempts and completed review contexts. The reviewer is instructed not to rely on prior Revision assurance, remediation conclusions or board specifications.
 
 ## Rights-safe external challenge
 
@@ -89,13 +89,48 @@ The first live dispatch, GitHub Actions run `36348538728` against `main` `de125a
 
 This incident is an assurance-runner implementation failure, not a Business subject-foundation finding. No domain review completed and no PASS or FAIL/HOLD content verdict was produced.
 
-The runner therefore keeps the provider-facing evidence URL as a required non-empty string and applies URL validity plus registered-source host/path checks deterministically after the structured response is returned. Normal `--self-test` assurance now recursively rejects provider schemas containing unsupported `format` keywords and separately verifies that valid registered source URLs pass while malformed URLs fail the deterministic source-boundary check. This regression control runs before any live provider spend in both normal Foundation-quality CI and the live reassurance workflow.
+The runner therefore keeps the provider-facing evidence URL as a required non-empty string and applies URL validity plus registered-source host/path checks deterministically after the structured response is returned. Normal `--self-test` assurance recursively rejects provider schemas containing unsupported `format` keywords and separately verifies that valid registered source URLs pass while malformed URLs fail the deterministic source-boundary check. This regression control runs before any live provider spend in both normal Foundation-quality CI and the live reassurance workflow.
 
 The failed run remains historical evidence and must not be reclassified as a content FAIL/HOLD after remediation.
 
+## Incomplete-response accounting and bounded retry
+
+The second live dispatch, GitHub Actions run `36351378020` against `main` `884c1c8c0e1e996e33bb917848155e00a9377626`, reached the live provider but the first `Business Foundations` review returned provider status `incomplete`. No domain review completed and the run produced no Business-content PASS or FAIL/HOLD decision.
+
+That run exposed a provider-lifecycle accounting defect: the runner checked for `status === completed` before retaining `incomplete_details`, usage, provider response identity or estimated spend. An incomplete response can consume provider tokens even when it does not return usable structured review output, so a failure artifact must not silently report such a response as zero-cost evidence merely because review parsing did not complete.
+
+The runner now records every provider response before deciding whether review can continue. For each attempt it retains, when available:
+
+- provider response ID;
+- provider status and HTTP status;
+- `incomplete_details`;
+- usage payload;
+- whether usage was available;
+- web-search call count;
+- observed spend estimate; and
+- the `max_output_tokens` allowance used for that attempt.
+
+Observed usage and search cost are charged to the reassurance budget before status handling. If provider usage is unavailable, spend measurement is marked partial and no automatic retry is permitted.
+
+A provider response is retryable only when all of the following hold:
+
+1. status is `incomplete`;
+2. `incomplete_details.reason` is exactly `max_output_tokens`;
+3. provider usage is available and has already been charged to the running budget;
+4. no previous retry has been used for that review call; and
+5. a fresh conservative reserve for the retry remains within the unchanged US$5 reassurance ceiling.
+
+The single retry raises `max_output_tokens` to at least 25,000 while preserving the same high-reasoning review contract. Other incomplete causes, provider failures/refusals, missing usage evidence, exhausted retry allowance or reserve-ceiling failure remain fail-closed and do not produce a content verdict.
+
+The `--self-test` contract now exercises incomplete-response cost accounting, retention of `incomplete_details`, retry classification, the no-retry-without-usage rule and the minimum retry output allowance without incurring live provider spend.
+
+Run `36351378020` remains historical evidence and must not later be rewritten as a Business-content FAIL/HOLD or PASS.
+
 ## Cost control
 
-The initial proof uses `gpt-5.6-terra` at high reasoning effort with a US$5 hard reassurance ceiling. The runner reserves conservative capacity before each call and stops rather than silently reducing review quality when the ceiling would be exceeded.
+The initial proof uses `gpt-5.6-terra` at high reasoning effort with a US$5 hard reassurance ceiling. The runner reserves conservative capacity before every provider call, including any permitted retry, and stops rather than silently reducing review quality when the ceiling would be exceeded.
+
+Every provider attempt with available usage is charged before completion/retry handling. If usage is unavailable, the runner records partial spend measurement and prohibits an automatic retry because the remaining budget cannot be demonstrated safely.
 
 The cost ceiling is an operational guardrail, not permission to accept incomplete assurance.
 
@@ -107,16 +142,17 @@ The workflow uploads a 30-day GitHub Actions artifact containing, as available:
 - exact candidate fingerprint;
 - node/domain counts;
 - model route and configured spend ceiling;
-- observed token/tool spend estimate;
+- observed token/tool spend estimate and spend-measurement status;
 - web-search call count;
-- all fresh reviewer context IDs;
+- all provider attempt records, including incomplete details and usage where available;
+- all fresh provider/reviewer response IDs;
 - domain review outputs;
 - whole-subject review output;
 - blocking/material issue register;
 - final PASS or FAIL/HOLD decision; and
 - explicit exclusions/known limits.
 
-Failure evidence is also retained when the live proof starts but cannot complete.
+Failure evidence is also retained when the live proof starts but cannot complete. A provider-lifecycle failure remains distinct from a substantive content FAIL/HOLD.
 
 ## Workflow
 
@@ -131,11 +167,11 @@ The workflow:
 1. checks out that exact SHA;
 2. verifies it is still current `main`;
 3. reruns deterministic Business promotion-provenance validation;
-4. runs the reassurance runner self-test, including structured-output schema compatibility and runtime URL/source-boundary regression checks;
-5. executes the fresh live reassurance using the separate provider contexts; and
+4. runs the reassurance runner self-test, including structured-output schema compatibility, runtime URL/source-boundary checks and incomplete-response accounting/retry controls;
+5. executes the fresh live reassurance using separate provider contexts/attempts; and
 6. uploads the retained evidence artifact.
 
-The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and provider-schema regression controls without incurring provider spend.
+The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and provider-lifecycle regression controls without incurring provider spend.
 
 ## Progression after the proof
 
@@ -144,6 +180,8 @@ A PASS is evidence that the remediated Business subject-foundation candidate has
 After PASS, any promotion of the candidate into governed Subject Knowledge Foundation authority requires a separate explicit governed decision/change. Exact AQA 7132 mapping, Course Truth, Exam Truth and exact-course assurance remain subsequent gates. Qualified human subject/assessment review remains required at the threshold defined by the Content Accuracy Assurance Gate.
 
 A FAIL/HOLD leaves the candidate unpromoted and triggers targeted remediation only for the affected node/facet/dependency scope.
+
+A provider/runner failure that prevents substantive review completion produces neither PASS nor content FAIL/HOLD and requires bounded runner remediation plus a new fresh reassurance run.
 
 ## Documentation impact
 
