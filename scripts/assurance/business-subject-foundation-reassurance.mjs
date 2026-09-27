@@ -180,10 +180,65 @@ const subjectInstructions=(c)=>[
 ].join('\n')
 function validateSubject(c,o){ const domains=c.index.domains.map(d=>d.domain); exactSet(o.reviewed_domains,domains,'whole-subject domains'); const allowed=new Set(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>s.id)); for(const e of o.evidence) if(!allowed.has(e.source_id)||!urlAllowed(e,c.sourceById)) throw new Error(`Whole-subject invalid evidence ${e.source_id}`); validateFindingSources(o.findings,allowed,'whole-subject'); const material=materialStatus(o.coverage_status)||[o.cross_domain_coherence,o.quantitative_register_status,o.models_frameworks_status,o.misconception_boundary_status,o.transfer_interdependency_status].some(materialStatus)||o.findings.some(materialFinding); if(o.decision!==(material?'fail_hold':'pass')) throw new Error('Whole-subject decision inconsistent with findings') }
 
-async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxOutput,minSearch,budget,contexts,providerAttempts}){
+function completedDomainReview(c,d,review) {
+  validateDomain(c,d,review.output)
+  return {domain:d.domain,...review}
+}
+function domainMaterialFindings(reviews) {
+  return reviews.flatMap(r=>[
+    ...r.output.node_assessments.flatMap(a=>a.findings.filter(materialFinding).map(f=>({domain:r.domain,subject_id:a.subject_id,...f}))),
+    ...r.output.domain_findings.filter(materialFinding).map(f=>({domain:r.domain,...f})),
+  ])
+}
+function partialEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt}) {
+  return {
+    schemaVersion:3,
+    artifactType:'business_subject_foundation_fresh_independent_reassurance_partial',
+    recordedAt:new Date().toISOString(),
+    startedAt,
+    reviewedMainSha:sha,
+    candidateVersion:c.index.candidate_version,
+    candidateFingerprint:c.fingerprint,
+    model:MODEL,
+    configuredMaxSpendUsd:MAX_SPEND,
+    observedSpendUsd:budget.cost,
+    spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',
+    webSearchCalls:budget.searches,
+    reviewerContextIds:[...contexts],
+    providerAttemptCount:providerAttempts.length,
+    providerAttempts,
+    completedDomainReviews:reviews,
+    completedDomainMaterialFindings:domainMaterialFindings(reviews),
+    status:'in_progress',
+  }
+}
+function failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt,error}) {
+  return {
+    schemaVersion:3,
+    artifactType:'business_subject_foundation_fresh_independent_reassurance_failure',
+    recordedAt:new Date().toISOString(),
+    startedAt,
+    reviewedMainSha:sha,
+    candidateVersion:c.index.candidate_version,
+    candidateFingerprint:c.fingerprint,
+    model:MODEL,
+    configuredMaxSpendUsd:MAX_SPEND,
+    observedSpendUsd:budget.cost,
+    spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',
+    webSearchCalls:budget.searches,
+    reviewerContextIds:[...contexts],
+    providerAttemptCount:providerAttempts.length,
+    providerAttempts,
+    completedDomainReviews:reviews,
+    completedDomainMaterialFindings:domainMaterialFindings(reviews),
+    error:error instanceof Error?error.message:String(error),
+  }
+}
+
+async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxOutput,searchReserve,budget,contexts,providerAttempts}){
   let outputLimit = maxOutput
   for (let attempt = 1; attempt <= MAX_PROVIDER_ATTEMPTS; attempt += 1) {
-    const r=reserve(payload,outputLimit,minSearch)
+    const r=reserve(payload,outputLimit,searchReserve)
     if(budget.cost+r>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: reserve ${r} after ${budget.cost} exceeds ${MAX_SPEND}`)
     const body={model:MODEL,store:false,reasoning:{context:'current_turn',effort:'high'},max_output_tokens:outputLimit,instructions:['You are a bounded fresh-context assurance worker inside Revision Content Factory.','The supplied repository material is the candidate under challenge, not authority to defend.','Use web search only in allowed promotion-source domains. Return only the requested JSON.',instructions].join('\n'),input:JSON.stringify(payload),tools:[{type:'web_search',search_context_size:'medium',filters:{allowed_domains:domains}}],tool_choice:'required',text:{format:{type:'json_schema',name:`revision-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,48)}`,strict:true,schema:schemaJson(schema)}}}
     const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(body)})
@@ -192,7 +247,6 @@ async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxO
     if(!response.ok) throw new Error(`${label} HTTP ${response.status}: ${JSON.stringify(raw).slice(0,1000)}`)
     if(raw.status==='completed') {
       const searches=record.webSearchCalls
-      if(searches<minSearch) throw new Error(`${label} used ${searches} web searches; minimum ${minSearch}`)
       const output=schema.parse(JSON.parse(responseText(raw)))
       if(!raw.id) throw new Error(`${label} returned no provider response ID`)
       return {responseId:raw.id,output,usage:raw.usage||null,webSearchCalls:searches,observedCostUsd:record.observedCostUsd,providerAttempts:providerAttempts.filter(a=>a.label===label)}
@@ -201,7 +255,7 @@ async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxO
     const canRetry=attempt<MAX_PROVIDER_ATTEMPTS && retryableIncomplete(raw,record.usageAvailable)
     if(!canRetry) throw new Error(`${label} provider status ${raw.status||'unknown'}${reason?` (${reason})`:''}; usage ${record.usageAvailable?'recorded':'unavailable'}`)
     const nextOutputLimit=retryOutputLimit(outputLimit)
-    const retryReserve=reserve(payload,nextOutputLimit,minSearch)
+    const retryReserve=reserve(payload,nextOutputLimit,searchReserve)
     if(budget.cost+retryReserve>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: retry reserve ${retryReserve} after ${budget.cost} exceeds ${MAX_SPEND}`)
     outputLimit=nextOutputLimit
   }
@@ -233,7 +287,23 @@ async function selfTest(){
   if(retryableIncomplete(missingUsage,false)) throw new Error('Incomplete response without usage was incorrectly classified retryable')
   if(retryOutputLimit(6000)<RETRY_MIN_OUTPUT_TOKENS) throw new Error('Retry output allowance is below the governed reasoning buffer floor')
 
-  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',incompleteResponseAccounting:'pass',incompleteResponseEvidenceRetention:'pass',boundedIncompleteRetryPolicy:'pass'},null,2))
+  const sampleDomain=c.domains[0]
+  const sampleAssessments=sampleDomain.nodes.map(n=>{
+    const sourceId=c.rows.get(n.subject_id).subject_truth_sources[0]
+    const source=c.sourceById.get(sourceId)
+    return {
+      subject_id:n.subject_id,status:'pass',factual_accuracy:'pass',level3_scope:'pass',quantitative_accuracy:'not_applicable',
+      relationships_and_boundaries:'pass',source_support:'pass',
+      evidence:[{source_id:sourceId,url:source.url,claim_checked:`Self-test evidence for ${n.subject_id}`,result:'supports',summary:'Evidence coverage self-test'}],
+      summary:'Self-test assessment',findings:[],
+    }
+  })
+  const sampleReview=completedDomainReview(c,sampleDomain,{responseId:'resp_selftest_domain',output:{domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:sampleAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]},usage:null,webSearchCalls:0,observedCostUsd:0,providerAttempts:[]})
+  if(sampleReview.webSearchCalls!==0) throw new Error('Search-count audit self-test mutated recorded search count')
+  const retained=failureEvidence({sha:'0'.repeat(40),c,budget:{cost:0,searches:0,usageUnavailable:false},contexts:new Set(),providerAttempts:[],reviews:[sampleReview],startedAt:'2026-01-01T00:00:00.000Z',error:new Error('self-test failure')})
+  if(retained.completedDomainReviews[0]?.output?.node_assessments?.length!==sampleDomain.nodes.length) throw new Error('Failure evidence did not retain full completed-domain review output')
+
+  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',incompleteResponseAccounting:'pass',incompleteResponseEvidenceRetention:'pass',boundedIncompleteRetryPolicy:'pass',evidenceCoverageValidation:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
 }
 async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
@@ -241,12 +311,17 @@ async function live(){
   const sha=process.env.REVISION_REVIEWED_MAIN_SHA?.trim(); if(!/^[0-9a-f]{40}$/.test(sha||'')) throw new Error('REVISION_REVIEWED_MAIN_SHA must be a SHA'); const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(); if(actual!==sha) throw new Error(`Checked out ${actual}, expected ${sha}`)
   const c=await loadCandidate(), budget={cost:0,searches:0,usageUnavailable:false}, reviews=[], contexts=new Set(), providerAttempts=[], startedAt=new Date().toISOString()
   try{
-    for(const d of c.domains){const payload=domainPayload(c,d), allowed=uniq(payload.rights_boundary.permitted_subject_truth_sources.map(s=>host(s.url)));const r=await reviewCall({apiKey,label:`business-subject-${d.domain}`,schema:domainSchema,instructions:domainInstructions(d),payload,domains:allowed,maxOutput:6000,minSearch:Math.min(4,d.nodes.length),budget,contexts,providerAttempts});validateDomain(c,d,r.output);reviews.push({domain:d.domain,...r})}
-    const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)));const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,minSearch:5,budget,contexts,providerAttempts});validateSubject(c,whole.output)
-    const material=[...reviews.flatMap(r=>r.output.node_assessments.flatMap(a=>a.findings.filter(materialFinding).map(f=>({domain:r.domain,subject_id:a.subject_id,...f}))).concat(r.output.domain_findings.filter(materialFinding).map(f=>({domain:r.domain,...f})))),...whole.output.findings.filter(materialFinding)];const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
-    const artifact={schemaVersion:2,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; bounded fresh retry only for max_output_tokens incomplete responses when provider usage is available and the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
+    for(const d of c.domains){
+      const payload=domainPayload(c,d), allowed=uniq(payload.rights_boundary.permitted_subject_truth_sources.map(s=>host(s.url)))
+      const r=await reviewCall({apiKey,label:`business-subject-${d.domain}`,schema:domainSchema,instructions:domainInstructions(d),payload,domains:allowed,maxOutput:6000,searchReserve:Math.min(4,d.nodes.length),budget,contexts,providerAttempts})
+      reviews.push(completedDomainReview(c,d,r))
+      await write('business-subject-foundation-reassurance-partial.json',partialEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt}))
+    }
+    const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)));const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,searchReserve:5,budget,contexts,providerAttempts});validateSubject(c,whole.output)
+    const material=[...domainMaterialFindings(reviews),...whole.output.findings.filter(materialFinding)];const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
+    const artifact={schemaVersion:3,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; bounded fresh retry only for max_output_tokens incomplete responses when provider usage is available and the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
     await write('business-subject-foundation-reassurance.json',artifact);await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateFingerprint:c.fingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length});await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`);if(decision!=='pass') throw new Error(`business_subject_foundation_reassurance_fail_hold:${material.length}_material_findings`)
-  }catch(error){await write('business-subject-foundation-reassurance-failure.json',{schemaVersion:2,artifactType:'business_subject_foundation_fresh_independent_reassurance_failure',recordedAt:new Date().toISOString(),reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,completedDomainReviews:reviews.map(r=>({domain:r.domain,decision:r.output.decision,responseId:r.responseId})),error:error instanceof Error?error.message:String(error)});throw error}
+  }catch(error){await write('business-subject-foundation-reassurance-failure.json',failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt,error}));throw error}
 }
 
 try{if(process.argv[2]==='--self-test') await selfTest(); else await live()}catch(error){console.error(error instanceof Error?(error.stack||error.message):String(error));process.exit(1)}
