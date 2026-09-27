@@ -1,27 +1,31 @@
 # Content Factory Subject Foundation Trial
 
-**Status:** Proposed implementation/trial contract  
+**Status:** Proposed revised implementation/trial contract  
 **Date:** 27 September 2026  
 **Normative authority:** `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`  
-**Architecture decision:** `decisions/ADR-0028-subject-knowledge-foundation-and-course-projection.md`
+**Research-baseline amendment:** `80-company-workflows/Content Factory Independent Subject Research Baseline Amendment.md`  
+**Architecture decisions:** `decisions/ADR-0028-subject-knowledge-foundation-and-course-projection.md`; `decisions/ADR-0029-independent-subject-research-before-content-reuse.md`
 
 ## Purpose
 
-Define the controlled technical trial that converts the existing AQA A-level Business 7132 work into the new reusable Subject Knowledge Foundation model without discarding valid prior artifacts or bypassing existing assurance.
+Define the controlled technical trial that converts the existing AQA A-level Business 7132 work into the reusable Subject Knowledge Foundation model without discarding valid prior artifacts, allowing AQA-shaped content to define generic Business by default, or bypassing existing assurance.
 
-This document describes the transition and proof sequence. It does not itself change publication authority.
+This document describes the transition and proof sequence. It does not itself change learner-publication authority.
 
 ## Trial objective
 
 Prove that Revision can:
 
-1. create a reusable Business Subject Knowledge Foundation from existing and newly researched educational truth;
-2. map AQA 7132 requirements to that reusable foundation at explicit depth/capability;
-3. expand the shared foundation when reconciliation exposes genuine Business gaps;
-4. materialise exact AQA Course Truth and Exam Truth without duplicating shared knowledge;
-5. reuse existing Learn/Practice assets when their dependencies remain valid;
-6. preserve exact-course assurance and human-review boundaries; and
-7. leave behind a repeatable production path for the next Business exam board.
+1. inventory and preserve the existing Business estate;
+2. establish a fresh independent Business subject baseline without anchoring on Revision's AQA content;
+3. challenge that sealed baseline against current Business specifications without turning board prose into reusable subject truth;
+4. reconcile existing Business content against the independent baseline;
+5. create an assured reusable Business Subject Knowledge Foundation;
+6. map AQA 7132 requirements to that foundation at explicit depth/capability;
+7. materialise exact AQA Course Truth and Exam Truth without duplicating shared knowledge;
+8. reuse existing Learn/Practice assets when their dependencies remain valid;
+9. preserve exact-course assurance and human-review boundaries; and
+10. leave a repeatable production path for the next Business exam board.
 
 ## Non-goals
 
@@ -31,35 +35,33 @@ This trial does not:
 - publish unreviewed content;
 - discard historical Content Factory evidence;
 - create a universal ontology for every academic subject;
-- assume current Business artifacts are automatically valid under the new model; or
-- require regeneration of valid artifacts merely to fit a new orchestration shape.
+- create an unlimited Business encyclopedia;
+- assume current Business artifacts are automatically valid under the new model;
+- use an exam-board specification as the generic subject taxonomy; or
+- regenerate valid artifacts merely to fit a new orchestration shape.
 
 ## Transitional domain model
 
-The target trial artifacts are:
-
-### 1. SubjectKnowledgeFoundation
+### SubjectKnowledgeFoundation
 
 Required identity:
 
-- subject family ID;
-- subject/qualification-family scope;
-- version;
-- aggregate fingerprint;
+- subject family ID and supported scope;
+- version and aggregate fingerprint;
 - source/provenance set;
-- knowledge-node collection;
+- stable knowledge-node/facet collection;
 - node/facet fingerprints;
 - assurance state/evidence; and
 - known limitations.
 
-### 2. SubjectKnowledgeNode
+### SubjectKnowledgeNode
 
 Minimum useful fields:
 
-- stable subject node ID;
-- title;
-- type/classification;
+- stable subject ID;
+- title and classification;
 - core explanation/meaning;
+- definitions/boundaries;
 - facts/relationships;
 - formulas/methods where applicable;
 - applications/transfer contexts;
@@ -69,11 +71,28 @@ Minimum useful fields:
 - valid evidence modes;
 - provenance;
 - version/fingerprint; and
-- assurance evidence/status.
+- assurance status/evidence.
 
-The implementation may split these into substructures so long as stable node/facet identity remains traceable.
+### IndependentSubjectResearchBaseline
 
-### 3. SpecificationMapping
+Required identity:
+
+- subject-family scope and level boundary;
+- sealed pre-board-challenge version/fingerprint;
+- source/provenance/rights register;
+- research taxonomy and atomic node/facet register;
+- quantitative methods register;
+- models/frameworks register;
+- misconception/boundary register;
+- relationship/dependency graph;
+- real-world transfer map;
+- completeness/saturation evidence;
+- residual uncertainty; and
+- post-seal board-challenge delta register.
+
+This is research evidence, not automatically approved Subject Knowledge Foundation truth.
+
+### SpecificationMapping
 
 Required identity:
 
@@ -85,99 +104,136 @@ Required identity:
 - course/topic placement;
 - assessment relevance;
 - alignment/source references;
-- coverage status; and
+- coverage state; and
 - explicit gaps/limitations.
 
-### 4. CourseTruthProjection
+### CourseTruthProjection
 
-The AQA Course Truth should reference:
+The AQA Course Truth references:
 
 - Subject Knowledge Foundation version/fingerprint;
-- exact mapped subject node/facet dependencies;
-- exact specification mapping fingerprint;
-- course-specific structure and capability requirements; and
-- derived/reconciled Course Truth representation needed by existing downstream contracts.
+- exact mapped node/facet dependencies;
+- exact Specification Mapping fingerprint;
+- course-specific organisation/capability requirements; and
+- the derived representation required by current downstream Foundation contracts.
 
-### 5. ExamTruth
+### ExamTruth
 
-Continue to use the existing Assessment Blueprint / Question Family concepts where valid, bound to the exact AQA course identity and Course Truth projection.
-
-## Migration inventory
-
-Before generating new Business truth, inventory existing retained artifacts into these buckets:
-
-1. source/provenance evidence;
-2. Board Alignment / specification coverage evidence;
-3. Course Truth / CKM educational content;
-4. Exam Truth / Assessment Blueprint / Question Families;
-5. Learn assets;
-6. Practice assets;
-7. Exam Prep / assessment assets;
-8. assurance findings/remediation evidence; and
-9. historical pipeline-only evidence.
-
-For each artifact record:
-
-- exact source/run/commit/fingerprint where available;
-- current rights classification;
-- whether educational content can be reused;
-- whether assurance remains applicable;
-- what new subject node/specification mapping dependency it could support; and
-- whether it is retained only as history.
+Continue to reuse the existing Assessment Blueprint / Question Family concepts where they remain valid, bound to the exact AQA course identity and Course Truth projection.
 
 ## Controlled trial sequence
 
 ### T1 — Existing-artifact inventory
 
-Produce a machine-readable and human-readable inventory. Do not modify educational content in this step.
+Produce machine-readable and human-readable inventories before modifying educational content.
+
+Inventory at minimum:
+
+1. source/provenance evidence;
+2. Board Alignment / specification coverage;
+3. Course Truth / CKM educational content;
+4. Exam Truth / Assessment Blueprint / Question Families;
+5. Learn assets;
+6. Practice assets;
+7. Exam Prep / assessment assets;
+8. assurance/remediation evidence; and
+9. historical pipeline-only evidence.
+
+For each artifact retain exact source/run/commit/fingerprint where available, rights state, existing assurance, possible future dependency role and whether it is reusable candidate or history only.
 
 Exit condition:
 
 - existing Business artifacts are classified and traceable;
 - no material artifact is silently lost or automatically promoted.
 
-### T2 — Business Subject Knowledge Foundation candidate
+### T2 — Sealed independent Business subject-research baseline
 
-Normalise reusable Business educational truth into stable subject nodes/facets.
+Run `research/Business Subject Knowledge Independent Research Brief - 2026-09-27.md` in a genuinely fresh review/research context.
 
-Use permitted new research only where:
+During the independent phase the researcher must not inspect Revision's existing Business content/taxonomy or use exam-board specifications as the organising outline.
 
-- existing material lacks provenance or confidence;
-- the current knowledge is incomplete;
-- relationships/depth needed for genuine understanding are missing; or
-- later reconciliation requires a genuine Business expansion.
+Use permitted external subject sources to establish the Business knowledge universe at the supported UK Level 3 / A-level boundary, including relationships, quantitative methods, misconceptions, limitations and real-world transfer.
 
-Initial scope is the Business knowledge needed for the supported A-level/Level 3 qualification family, not an unlimited university Business encyclopedia.
+Seal the result as a pre-board-challenge baseline before moving on.
 
 Exit condition:
 
-- every node has stable identity, provenance and explicit assurance state;
-- the candidate is coherent enough for AQA mapping.
+- the independent baseline has a stable version/fingerprint or equivalent retained identity;
+- sources/provenance and rights are explicit;
+- research completeness method and residual uncertainty are explicit; and
+- independence from Revision's current Business estate is recorded.
 
-### T3 — Subject-foundation assurance
+### T3 — Post-seal cross-board breadth challenge
 
-Apply the relevant existing source/factual and educational-explanation controls at node/facet level.
+Only after T2 is sealed, identify current relevant UK Level 3 / A-level Business specifications through fresh official research.
 
-Use deterministic checks for structure/cross-references and fresh independent challenge for material educational meaning where applicable.
+Use structured/reference-only official specification evidence within source-rights rules to challenge whether the independent baseline omitted legitimate Business knowledge or necessary depth.
 
-Do not require unrelated unchanged nodes to be regenerated when one node changes.
+Classify every delta as:
+
+- `GENUINE_SUBJECT_FOUNDATION_GAP`;
+- `SUBJECT_DEPTH_EXTENSION`;
+- `COURSE_SPECIFIC_SCOPE_OR_TERMINOLOGY`;
+- `EXAM_TRUTH_ONLY`; or
+- `OUT_OF_SCOPE_OR_UNSUPPORTED`.
+
+Do not silently rewrite the sealed independent baseline. Retain the delta register separately.
 
 Exit condition:
 
-- the exact subject-foundation candidate/version has no unresolved blocking/material finding for the scope needed by the AQA trial, or carries an explicit fail-hold.
+- breadth challenge completed;
+- genuine subject gaps/depth extensions explicit;
+- course/exam-only requirements separated.
 
-### T4 — Exact AQA intake and specification mapping
+### T4 — Existing Business reconciliation and Subject Foundation candidate
 
-Resolve current applicable AQA 7132 cohort identity and rights-safe structured specification requirements.
+Now expose the sealed research baseline and breadth-challenge evidence to the existing Revision Business estate.
 
-Map every material requirement to subject node/facet dependencies and required depth/capability.
+Reconcile each existing CKM/source-seed knowledge object at the smallest useful scope as:
+
+- `REUSE_ALIGNED`;
+- `EXPAND_TO_BASELINE`;
+- `SPLIT_FOR_GRANULARITY`;
+- `MERGE_DUPLICATE`;
+- `CORRECT`;
+- `COURSE_SPECIFIC`;
+- `INSUFFICIENT_PROVENANCE`;
+- `RESEARCH_CONFLICT`;
+- `REJECT`; or
+- `NEEDS_SPECIALIST_JUDGEMENT`.
+
+Build the Business Subject Knowledge Foundation candidate from the reconciled result. Do not merely rename the current `BUS-7132-*` CKM.
 
 Exit condition:
 
-- 100% of the governed AQA requirement denominator is represented as mapped or explicit gap;
-- no generated Learn/Practice asset is used as the completeness denominator.
+- every subject node/facet has stable identity, provenance and explicit assurance state;
+- AQA-only organisation has not silently become generic Business structure;
+- the candidate is coherent enough for assurance and exact-course mapping.
 
-### T5 — Gap/depth reconciliation loop
+### T5 — Subject-foundation assurance
+
+Apply applicable source/factual, structural and educational-explanation assurance at node/facet level.
+
+Use deterministic checks for mechanically provable structure/cross-references and fresh independent challenge for material educational meaning.
+
+Do not regenerate or re-assure unrelated unchanged nodes when one node changes.
+
+Exit condition:
+
+- no unresolved blocking/material finding for the Business scope needed by the trial, or explicit fail-hold.
+
+### T6 — Exact AQA intake and Specification Mapping
+
+Resolve current applicable AQA 7132 identity/cohort and rights-safe structured specification requirements.
+
+Map every material requirement to assured Business subject nodes/facets and required depth/capability.
+
+Exit condition:
+
+- 100% of the governed AQA requirement denominator is mapped or an explicit gap;
+- generated learner assets are not used as the completeness denominator.
+
+### T7 — AQA gap/depth reconciliation
 
 For every mapping gap classify:
 
@@ -188,59 +244,59 @@ For every mapping gap classify:
 - `EXAM_TRUTH_ONLY`; or
 - `SOURCE_RIGHTS_BLOCKED`.
 
-`EXPAND_SUBJECT_NODE` and `ADD_SUBJECT_NODE` must update the Business Subject Knowledge Foundation first and re-run only affected subject assurance/dependencies before the AQA mapping can close.
+Genuine reusable knowledge/depth gaps update the Subject Knowledge Foundation first and rerun only affected subject assurance/dependencies.
 
 Exit condition:
 
 - no silent AQA-only patch exists for genuinely reusable Business knowledge;
-- AQA requirement coverage is complete for the declared course scope.
+- AQA requirement coverage is complete for declared scope.
 
-### T6 — AQA Course Truth projection
+### T8 — AQA Course Truth projection
 
-Materialise a Course Truth representation compatible with current downstream Course Foundation contracts while preserving traceability to subject nodes/facets and the specification mapping.
+Materialise a Course Truth compatible with current downstream Foundation contracts while retaining exact subject-node/facet and Specification Mapping dependencies.
 
 Exit condition:
 
-- exact dependency fingerprints are retained;
-- no duplicated educational truth can drift independently without detection.
+- exact fingerprints retained;
+- shared truth cannot drift independently without detection.
 
-### T7 — AQA Exam Truth reconciliation
+### T9 — AQA Exam Truth reconciliation
 
-Reconcile existing Board Alignment, Assessment Blueprint and Question Family artifacts against the current course identity, specification mapping and Course Truth projection.
+Reconcile existing Board Alignment, Assessment Blueprint and Question Family artifacts against current AQA identity, Specification Mapping and Course Truth projection.
 
 Retain valid prior work; remediate only real gaps/defects.
 
 Exit condition:
 
-- Exam Truth is sufficiently complete for the exact-course assurance gate and later Course Learning Blueprint derivation.
+- Exam Truth complete enough for exact-course assurance and Course Learning Blueprint derivation.
 
-### T8 — Exact-course assurance
+### T10 — Exact-course Foundation assurance
 
-Run the existing applicable Foundation assurance chain on the exact AQA Course Foundation:
+Run existing applicable Foundation assurance:
 
 - source rights;
 - deterministic assurance;
 - fresh-context independent review/remediation;
 - fresh external-source challenge where required;
-- `ai_assured` state only when its existing contract passes; and
+- `ai_assured` only under its existing exact-state contract; and
 - qualified subject/assessment review for `foundation_approved` / learner-publication eligibility.
 
-The subject foundation is a reusable dependency, not a bypass around exact-course review.
+The Subject Knowledge Foundation is a reusable dependency, not a bypass around exact-course review.
 
-### T9 — Course Learning Blueprint
+### T11 — Course Learning Blueprint
 
 Derive the exact AQA blueprint from:
 
-- genuine subject understanding represented by the selected subject nodes/facets;
-- exact Course Truth/specification requirements; and
+- genuine subject understanding represented by selected subject nodes/facets;
+- exact Course Truth/specification scope; and
 - exact Exam Truth/assessment demand.
 
 Exit condition:
 
-- Learn/Practice treatment covers required understanding and skills without collapsing into exam coaching;
-- exam-demand capabilities are not omitted.
+- Learn/Practice treatment develops genuine understanding and required skills without collapsing into exam coaching;
+- assessment-demand capabilities are not omitted.
 
-### T10 — Existing Learn/Practice reconciliation
+### T12 — Existing Learn/Practice reconciliation
 
 For each retained asset classify:
 
@@ -251,29 +307,34 @@ For each retained asset classify:
 - `REASSURE_ONLY`; or
 - `HISTORICAL_ONLY`.
 
-Reuse requires exact dependency compatibility and applicable asset assurance.
+Reuse requires exact dependency compatibility and applicable asset assurance. Generate only missing/deficient material.
 
-Generate only missing/deficient assets.
-
-### T11 — Exam Prep reconciliation/production
+### T13 — Exam Prep reconciliation/production
 
 Reconcile or create AQA-specific Exam Prep against exact Exam Truth. Treat Exam Prep as course-specific by default.
 
-### T12 — Student-test readiness
+### T14 — Student-test readiness
 
-A controlled learner test may proceed only under the applicable existing internal/pre-production or publication authority. Do not reinterpret `ai_assured` as human approval.
+A controlled learner test may proceed only under existing internal/pre-production or publication authority. Do not reinterpret `ai_assured` as qualified-human approval.
+
+## Current T1 evidence location
+
+The point-in-time inventory is recorded in:
+
+- `audits/Content Factory Business Existing Artifact Inventory - 2026-09-27.md`
+
+Machine-readable inventory data should be retained alongside the audit as item-level extraction is completed.
 
 ## Required diagnostics
 
-The trial should produce a concise operator summary including:
+The trial operator summary should ultimately show:
 
-- subject foundation version/fingerprint;
+- independent baseline version/fingerprint;
+- post-seal board-challenge delta counts;
+- Subject Knowledge Foundation version/fingerprint;
 - total subject nodes/facets;
-- reused existing nodes;
-- newly researched nodes;
-- expanded nodes;
-- AQA requirement count;
-- mapped requirements;
+- reused/expanded/new/corrected/rejected existing nodes;
+- AQA requirement count and mapped count;
 - unresolved gaps/blockers;
 - exact Course Truth fingerprint;
 - Exam Truth fingerprint;
@@ -285,19 +346,17 @@ The trial should produce a concise operator summary including:
 
 ## Second-board scalability proof
 
-After AQA Business reaches the controlled target gate, the next Business exam board must run the same process starting from the retained Business Subject Knowledge Foundation.
+After AQA Business reaches the controlled target gate, the next Business exam board must start from the retained assured Business Subject Knowledge Foundation rather than rerunning the complete first-subject research process.
 
-The proof must demonstrate that unchanged subject nodes and applicable assets are reused rather than regenerated.
-
-At minimum compare:
+Measure:
 
 - total specification requirements;
-- percent mapped to unchanged subject nodes;
-- subject nodes added/expanded;
+- percentage mapped to unchanged subject nodes;
+- nodes added/expanded;
 - subject assurance work triggered;
 - Learn/Practice reuse rate;
 - Exam Truth delta work;
-- total AI/provider spend;
+- total provider spend;
 - operator intervention; and
 - time to equivalent gate.
 
@@ -305,21 +364,18 @@ If unchanged Business knowledge is substantially rebuilt, treat that as an archi
 
 ## Current code impact
 
-Current `foundation-*` runtime and existing Course Knowledge Model contracts remain implementation evidence and reusable components.
+Current `foundation-*` runtime, Course Knowledge Model, Assessment Blueprint, Question Family, fingerprint and targeted-remediation contracts remain implementation evidence and reusable components.
 
-The preferred implementation path is bounded adaptation:
+Preferred implementation remains bounded adaptation:
 
 - introduce subject-level stable node/version ownership;
-- introduce Specification Mapping as a durable dependency;
-- add a projection/adapter into the current exact-course Foundation contract;
-- extend fingerprints/dependency invalidation rather than replace them;
-- keep existing AI-assured/expert-review lifecycle semantics for exact courses; and
-- avoid reviving the legacy whole-course v2 orchestrator.
-
-A code change is not part of this documentation-only governance PR unless separately included and assured. The next implementation increment should be derived from this trial contract after Founder approval.
+- persist Specification Mapping;
+- retain independent-baseline/reconciliation provenance;
+- add a projection/adapter into current exact-course Foundation contracts;
+- extend dependency-aware invalidation;
+- retain existing exact-course AI-assured/expert-review lifecycle semantics; and
+- do not revive the legacy whole-course v2 orchestrator.
 
 ## Documentation impact
 
-This document is current technical trial guidance only after the corresponding normative amendment is merged.
-
-It does not rewrite historical Foundation, Learn/Practice or assurance proof records. Those remain evidence to be inventoried and reconciled by the trial.
+This technical trial must remain aligned with the active subject-foundation authorities. Historical Foundation, learner-asset and assurance proofs remain historically accurate and are inventoried rather than rewritten.
