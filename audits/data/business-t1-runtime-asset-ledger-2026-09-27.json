@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "inventoryId": "business-t1-runtime-asset-ledger-2026-09-27",
+  "status": "in_progress",
+  "course": "AQA A-level Business 7132",
+  "sharedCourseContent": {
+    "path": "content/business/aqa-a-level/shared/",
+    "paperPackReuseRule": "shared_once_imported_into_each_of_three_paper_packs",
+    "topicCount": 10,
+    "formulaCount": 31,
+    "topicLinkCount": 22,
+    "flashcardCount": 100,
+    "questionCount": 50,
+    "caseStudyCount": 6,
+    "dataDrillCount": 25,
+    "examTechniqueCount": 9,
+    "richReadingLearnPageCount": 4,
+    "classes": [
+      "SUBJECT_RECONCILIATION_CANDIDATE",
+      "LEARN_ASSET_CANDIDATE",
+      "PRACTICE_ASSET_CANDIDATE",
+      "EXAM_PREP_CANDIDATE"
+    ],
+    "promotionRule": "separate_underlying_subject_truth_from_learner_asset_before_reuse"
+  },
+  "paperPacks": [
+    {
+      "id": "business-aqa-a-level-7132-paper-1",
+      "examSimulationCount": 1,
+      "examQuestionCount": 24,
+      "marks": 100,
+      "durationMinutes": 120,
+      "class": "EXAM_PREP_CANDIDATE"
+    },
+    {
+      "id": "business-aqa-a-level-7132-paper-2",
+      "examSimulationCount": 1,
+      "examQuestionCount": 12,
+      "marks": 100,
+      "durationMinutes": 120,
+      "class": "EXAM_PREP_CANDIDATE"
+    },
+    {
+      "id": "business-aqa-a-level-7132-paper-3",
+      "examSimulationCount": 1,
+      "examQuestionCount": 6,
+      "marks": 100,
+      "durationMinutes": 120,
+      "class": "EXAM_PREP_CANDIDATE"
+    }
+  ],
+  "importantBoundary": {
+    "runtimePackManifestStatus": "available",
+    "retainedContentFactoryBundleIsSeparateEstate": true,
+    "contentFactoryBundlePublicationInferredFromRuntimeStatus": false,
+    "notes": "PR #383 explicitly preserved Content Factory publication gates and did not publish the retained pre-production Content Factory Business bundle."
+  },
+  "nextItemLevelWork": [
+    "bind_each_runtime_subject_claim_or_learning_object_to_future_subject_node_or_mark_course_specific",
+    "bind_each_practice_asset_to_valid_evidence_modes_and_course_exam_dependencies",
+    "reconcile_runtime_assets_against_blueprint_v2_content_factory_assets_to_find_duplicates_and_best_candidate"
+  ]
+}
