@@ -70,6 +70,8 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Validate Business subject promotion provenance
         run: node scripts/assurance/validate-business-subject-provenance.mjs
+      - name: Validate Business subject fresh-reassurance contract
+        run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
