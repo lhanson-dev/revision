@@ -21,7 +21,7 @@ for(const item of courseTruth.requirements){
   if(!item.rights_safe_requirement_summary?.trim())throw new Error(`${item.requirement_id} has no rights-safe summary`)
 }
 
-if(examTruth.source_register.length<5)throw new Error('Exam Truth preparation source register incomplete')
+if(examTruth.source_register.length<6)throw new Error('Exam Truth preparation source register incomplete')
 for(const source of examTruth.source_register){
   if(source.source_use_classification!=='REFERENCE_ONLY')throw new Error(`${source.id} must remain REFERENCE_ONLY`)
   if(source.substantial_source_text_permitted_in_generation!==false)throw new Error(`${source.id} incorrectly permits protected source text in generation`)
@@ -36,8 +36,9 @@ if(examTruth.qualification_rules.linear_qualification!==true||examTruth.qualific
 if(examTruth.cross_paper_requirements.quantitative_skills_minimum_overall_percent!==10)throw new Error('AQA quantitative-skills minimum must be 10%')
 exactSet(Object.keys(examTruth.assessment_objectives),['AO1','AO2','AO3','AO4'],'assessment objectives')
 for(const paper of examTruth.papers)exactSet(Object.keys(paper.ao_weighting_percent_ranges),['AO1','AO2','AO3','AO4'],`${paper.component_code} AO ranges`)
+exactSet(Object.keys(examTruth.command_word_alignment),['source_scope_note','calculate','describe','explain','analyse','evaluate','justify','to_what_extent'],'command-word alignment')
 
-if(examTruth.assessment_requirement_denominator.length<13)throw new Error('Assessment requirement denominator unexpectedly small')
+if(examTruth.assessment_requirement_denominator.length<14)throw new Error('Assessment requirement denominator unexpectedly small')
 if(new Set(examTruth.assessment_requirement_denominator.map((item)=>item.id)).size!==examTruth.assessment_requirement_denominator.length)throw new Error('Duplicate assessment requirement IDs')
 const examTruthIds=new Set(examTruth.papers.map((paper)=>paper.exam_truth_id))
 for(const requirement of examTruth.assessment_requirement_denominator){
@@ -51,4 +52,5 @@ console.log(`- Course Truth requirements prepared: ${courseTruth.requirements.le
 console.log(`- curriculum blockers retained: ${courseTruth.summary.blocked_requirement_ids.join(', ')}`)
 console.log(`- Exam Truth paper records prepared: ${examTruth.papers.length}/3`)
 console.log(`- assessment requirements currently structured: ${examTruth.assessment_requirement_denominator.length}`)
-console.log('- promotion remains prohibited until BUS-FIN-008 v0.7 reassurance PASS and marking-behaviour denominator completion')
+console.log('- common AQA Business command-word demand layer prepared from REFERENCE_ONLY alignment evidence')
+console.log('- promotion remains prohibited until BUS-FIN-008 v0.7 reassurance PASS and question-family/marking-behaviour denominator completion')
