@@ -1,0 +1,51 @@
+name: Content Factory AQA Business 7132 Course and Exam Truth
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'research/aqa-business-7132/2027/**'
+      - 'research/business-subject-foundation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v07.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
+      - '.github/workflows/content-factory-aqa-business-7132-course-exam-truth.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-course-exam-truth-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  project-course-and-exam-truth:
+    name: Project AQA Course and Exam Truth
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Revalidate AQA specification mapping
+        run: node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
+      - name: Validate deterministic Course and Exam Truth contract
+        run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs --self-test
+      - name: Materialise exact projection evidence
+        run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs
+      - name: Upload Course and Exam Truth evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-aqa-business-7132-course-exam-truth-${{ github.run_id }}
+          path: .artifacts/content-factory-aqa-business-7132-course-exam-truth/
+          if-no-files-found: error
+          retention-days: 30
