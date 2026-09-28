@@ -58,7 +58,7 @@ The composed v0.7 candidate fingerprint is:
 
 ## Assurance scope
 
-The next paid assurance is intentionally limited to `BUS-FIN-008`.
+The paid assurance is intentionally limited to `BUS-FIN-008`.
 
 The other 80 nodes retain accepted v0.6 evidence. The whole-subject integration review is not repurchased because v0.6 already passed it and v0.7 changes no domain membership or dependency edges. CI deterministically proves the complete node/index relationship and exact 42-section mapping before any paid call.
 
@@ -68,6 +68,25 @@ The manual proof workflow is:
 
 A PASS closes the one T4 reusable subject gap and allows exact AQA Course Truth projection and Exam Truth work to proceed. FAIL/HOLD means only `BUS-FIN-008` is remediated again. A cost boundary is operational, not an educational failure.
 
+## First v0.7 dispatch and source-boundary correction
+
+Workflow run `36485592160` reviewed exact `main` `1ca6569f888f0467f0c952f7448f50f16812033d` and passed all deterministic prechecks before the live `BUS-FIN-008` review call.
+
+The run did **not** reach an educational PASS or FAIL/HOLD decision. The provider returned an evidence item that attached permitted source ID `SRC-GOVUK-SHAREHOLDER-RIGHTS-2026` to a different GOV.UK manual path (`company-taxation-manual/ctm00513`) rather than the registered promotion source path (`capital-gains-manual/cg50200`). The deterministic evidence-boundary control correctly rejected that output. The upload step then found no result file because the runner failed before writing rejected-output evidence.
+
+This is classified as an assurance execution-contract failure, not a defect in `BUS-FIN-008` teaching and not a reason to reopen the 80 preserved nodes.
+
+The runner correction therefore keeps the source boundary unchanged and instead:
+
+- tells the provider that each `source_id` and registered URL/path form a strict pair;
+- forbids substituting another page on the same domain under a permitted source ID;
+- requires unsupported claims to be reported as unsupported rather than broadening the source boundary;
+- retains rejected structured outputs and their boundary errors as artifacts;
+- allows at most one bounded corrective provider retry within the existing US$5 execution slice; and
+- self-tests that the registered GOV.UK path is allowed while the sibling Company Taxation Manual path remains blocked.
+
+The v0.7 candidate content, promotion sources, 42-section mapping and fingerprint are unchanged by this runtime correction.
+
 ## Documentation impact
 
-This work implements existing normative authority; it does not change the Content Factory process. Historical T3 evidence remains historical evidence and is not rewritten.
+This work implements existing normative authority; it does not change the Content Factory process. The runtime correction aligns v0.7 with the existing fail-closed source-rights and rejected-output controls. Historical T3 evidence and failed run `36485592160` remain historical evidence and are not rewritten. No learner-facing product behaviour changes.
