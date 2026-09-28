@@ -140,6 +140,16 @@ The no-spend `--self-test` now proves that a structurally complete domain review
 
 Run `36356501177` remains immutable historical evidence. It is recorded as incomplete assurance with a non-recoverable `Business Foundations` `fail_hold` signal whose detailed findings were not retained; a new fresh complete reassurance run is required before targeted content remediation or promotion decisions.
 
+## Manual-dispatch SHA normalization
+
+The fourth and fifth dispatches, GitHub Actions runs `36393804597` and `36395180639`, both targeted the correct current `main` commit `fe596e34117d25856f33638cebff3a4dd0a06f33` but stopped before dependency installation or provider work at the exact-main identity step. The manually supplied `reviewed_main_sha` reached the workflow with surrounding whitespace. `actions/checkout` tolerated the value and checked out the intended commit, while the later literal shell comparison correctly failed closed because the raw input string was not byte-for-byte equal to the current-main SHA.
+
+These two runs are workflow-input handling failures, not Business subject-foundation findings. Neither run reached deterministic package assurance or paid provider review, and neither produced a Business-content PASS/FAIL-HOLD decision or provider spend.
+
+The workflow now normalizes the manual SHA once at its boundary by trimming surrounding whitespace only, then validates that the normalized value is exactly 40 lowercase hexadecimal characters. The single normalized value is reused for checkout, current-main identity verification, live runner binding and artifact naming. The substantive gate is unchanged: provider work may begin only when the normalized reviewed SHA exactly equals the current `main` SHA. Invalid, malformed or stale values still fail closed.
+
+This normalization is an operator-input robustness correction only. It does not change the reviewed candidate, assurance criteria, independence contract, rights/source boundaries, provider model, spend ceiling or promotion decision rules.
+
 ## Cost control
 
 The initial proof uses `gpt-5.6-terra` at high reasoning effort with a US$5 hard reassurance ceiling. The runner reserves conservative capacity before every provider call, including any permitted retry, and stops rather than silently reducing review quality when the ceiling would be exceeded.
@@ -174,16 +184,17 @@ The operator dispatches:
 
 `.github/workflows/content-factory-business-subject-foundation-reassurance-proof.yml`
 
-with the exact current `main` SHA.
+with the exact current `main` SHA. Surrounding operator whitespace is normalized at the workflow boundary; the resulting value must still be an exact 40-character lowercase hexadecimal SHA and must exactly equal current `main` before provider work can begin.
 
 The workflow:
 
-1. checks out that exact SHA;
-2. verifies it is still current `main`;
-3. reruns deterministic Business promotion-provenance validation;
-4. runs the reassurance runner self-test, including structured-output schema compatibility, runtime URL/source-boundary checks, incomplete-response accounting/retry controls, per-node evidence coverage and completed-domain failure retention;
-5. executes the fresh live reassurance using separate provider contexts/attempts; and
-6. uploads the retained evidence artifact.
+1. normalizes and validates the manually entered reviewed-main SHA;
+2. checks out that exact SHA;
+3. verifies it is still current `main`;
+4. reruns deterministic Business promotion-provenance validation;
+5. runs the reassurance runner self-test, including structured-output schema compatibility, runtime URL/source-boundary checks, incomplete-response accounting/retry controls, per-node evidence coverage and completed-domain failure retention;
+6. executes the fresh live reassurance using separate provider contexts/attempts; and
+7. uploads the retained evidence artifact.
 
 The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and assurance-runner regression controls without incurring provider spend.
 
