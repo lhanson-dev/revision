@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: content-factory-business-subject-foundation-reassurance-proof
@@ -66,6 +67,30 @@ jobs:
 
       - name: Validate v0.6 reassurance package contract
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
+
+      - name: Recover latest exact-SHA cost-pause checkpoint
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
+        run: |
+          set -euo pipefail
+          artifact_name="content-factory-business-subject-foundation-reassurance-${REVIEWED_MAIN_SHA}"
+          artifact_id="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${artifact_name}&per_page=100" \
+            --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | reverse | .[0].id // empty')"
+          if [ -z "${artifact_id}" ]; then
+            echo "No previous exact-SHA reassurance artifact found; starting from governed retained assurance."
+            exit 0
+          fi
+          mkdir -p .reassurance-resume
+          gh api -H 'Accept: application/vnd.github+json' "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > .reassurance-resume/checkpoint.zip
+          unzip -q .reassurance-resume/checkpoint.zip -d .reassurance-resume/checkpoint
+          resume_file="$(find .reassurance-resume/checkpoint -type f -name 'business-subject-foundation-reassurance-cost-paused.json' -print -quit)"
+          if [ -z "${resume_file}" ]; then
+            echo "Latest exact-SHA artifact is not a cost-pause checkpoint; no paid-review state will be reused from it."
+            exit 0
+          fi
+          echo "CONTENT_FACTORY_REASSURANCE_RESUME_FILE=${resume_file}" >> "${GITHUB_ENV}"
+          echo "Recovered exact-SHA cost-pause checkpoint from artifact ${artifact_id}. The runner will revalidate its candidate fingerprint and accepted outputs before reuse."
 
       - name: Run fresh three-node reassurance and final integration check
         env:
