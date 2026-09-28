@@ -1,0 +1,73 @@
+name: Content Factory Business Subject Foundation v0.7 AQA Gap Reassurance
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_main_sha:
+        description: Exact current main SHA containing the v0.7 AQA 7132 gap reconciliation
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-business-subject-foundation-v07-reassurance
+  cancel-in-progress: false
+
+jobs:
+  business-subject-foundation-v07-reassurance:
+    name: BUS-FIN-008 targeted reassurance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Normalize reviewed main SHA
+        id: normalize
+        env:
+          RAW_SHA: ${{ inputs.reviewed_main_sha }}
+        run: |
+          set -euo pipefail
+          sha="$(printf '%s' "${RAW_SHA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          [[ "${sha}" =~ ^[0-9a-f]{40}$ ]] || { echo 'reviewed_main_sha must be 40 lowercase hex characters' >&2; exit 1; }
+          echo "sha=${sha}" >> "${GITHUB_OUTPUT}"
+      - name: Checkout exact reviewed main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.normalize.outputs.sha }}
+      - name: Verify exact current main identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${REVIEWED_MAIN_SHA}"
+          current_main="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          test "${current_main}" = "${REVIEWED_MAIN_SHA}"
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate AQA mapping and v0.7 candidate
+        run: node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
+      - name: Validate no-spend reassurance contract
+        run: node scripts/assurance/business-subject-foundation-v07-aqa-gap-reassurance.mjs --self-test
+      - name: Run BUS-FIN-008 fresh reassurance
+        env:
+          CONTENT_FACTORY_REASSURANCE_MODEL: gpt-5.6-terra
+          CONTENT_FACTORY_MAX_SPEND_USD: '5'
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+        run: node scripts/assurance/business-subject-foundation-v07-aqa-gap-reassurance.mjs
+      - name: Upload v0.7 reassurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-business-subject-foundation-v07-reassurance-${{ steps.normalize.outputs.sha }}
+          path: .artifacts/content-factory-business-subject-foundation-v07-reassurance/
+          if-no-files-found: warn
+          retention-days: 30
