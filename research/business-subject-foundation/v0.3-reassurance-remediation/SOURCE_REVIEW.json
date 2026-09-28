@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.3-reassurance-remediation",
+  "reviewed_at": "2026-09-28",
+  "status": "source_review_correction_before_reassurance",
+  "rejected_source_ids": [
+    {
+      "id": "SRC-OER-LIBRETEXTS-ANSOFF-2023",
+      "reason": "The page presents a CC BY 4.0 page-level licence but its contributor attribution identifies material within the strategic-opportunity section as CC BY-SA. The current promotion validator intentionally permits only the recorded CC BY/OGL profiles, so this source is excluded rather than weakening the rights gate."
+    }
+  ],
+  "promotion_source_replacements": [
+    {
+      "subject_id": "BUS-STR-004",
+      "remove": ["SRC-OER-LIBRETEXTS-ANSOFF-2023"],
+      "add": ["SRC-OER-ANSOFF-ARCHIVE-2024"],
+      "reason": "Use the existing promotion-eligible CC BY 4.0 Ansoff archive source for framework provenance/context while retaining Revision's bounded, non-deterministic treatment of model risk."
+    }
+  ],
+  "verified_source_notes": [
+    {
+      "id": "SRC-OER-LIBRETEXTS-SCALE-2026",
+      "result": "accepted",
+      "note": "LibreTexts metadata identifies CC BY 4.0/OpenStax content and directly covers long-run average cost plus economies/diseconomies of scale."
+    },
+    {
+      "id": "SRC-OER-LOUIS-OPS-2022",
+      "result": "accepted",
+      "note": "LOUIS book licence is CC BY 4.0 except where otherwise noted; the operations chapter directly covers facility layouts, inventory/supplier planning, scheduling, critical path/PERT and quality. Separately attributed media remain excluded."
+    },
+    {
+      "id": "SRC-GOV-SUPPLY-CHAIN-2025",
+      "result": "accepted",
+      "note": "Current Home Office statutory guidance is dated 1 December 2025 and GOV.UK states OGL v3.0 except where otherwise stated."
+    },
+    {
+      "id": "SRC-OER-LOUIS-HR-LABOR-2022",
+      "result": "accepted_with_scope_boundary",
+      "note": "Directly supports selection, collective bargaining and grievance mechanisms. US-specific legal/institutional rules remain excluded from reusable UK subject truth."
+    },
+    {
+      "id": "SRC-OER-LOUIS-MOTIVATION-2022",
+      "result": "accepted",
+      "note": "Directly supports intrinsic/extrinsic motivation and named motivation frameworks, which remain models rather than universal laws."
+    },
+    {
+      "id": "SRC-OER-LOUIS-LEADERSHIP-2022",
+      "result": "accepted",
+      "note": "Directly supports management functions and the autocratic/participative/free-rein leadership-style continuum with contextual limitations."
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-COMMUNICATION-2023",
+      "result": "accepted",
+      "note": "CC BY 4.0 page directly supports written/oral/electronic channels, channel richness and feedback; separately attributed media remain excluded."
+    }
+  ]
+}
