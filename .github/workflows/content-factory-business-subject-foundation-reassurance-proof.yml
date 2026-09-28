@@ -21,15 +21,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
+      - name: Normalize reviewed main SHA
+        id: normalize-reviewed-main-sha
+        env:
+          RAW_REVIEWED_MAIN_SHA: ${{ inputs.reviewed_main_sha }}
+        run: |
+          set -euo pipefail
+          reviewed_main_sha="$(printf '%s' "${RAW_REVIEWED_MAIN_SHA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          if [[ ! "${reviewed_main_sha}" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "reviewed_main_sha must resolve to exactly 40 lowercase hexadecimal characters after trimming surrounding whitespace" >&2
+            exit 1
+          fi
+          printf 'sha=%s\n' "${reviewed_main_sha}" >> "${GITHUB_OUTPUT}"
+
       - name: Checkout exact reviewed main
         uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.reviewed_main_sha }}
+          ref: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
 
       - name: Verify exact current main identity
         env:
           GH_TOKEN: ${{ github.token }}
-          REVIEWED_MAIN_SHA: ${{ inputs.reviewed_main_sha }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${REVIEWED_MAIN_SHA}"
@@ -57,7 +70,7 @@ jobs:
       - name: Run fresh independent Business subject-foundation reassurance
         env:
           CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE: '1'
-          REVISION_REVIEWED_MAIN_SHA: ${{ inputs.reviewed_main_sha }}
+          REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
           CONTENT_FACTORY_REASSURANCE_MODEL: gpt-5.6-terra
           CONTENT_FACTORY_MAX_SPEND_USD: '5'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -68,7 +81,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: content-factory-business-subject-foundation-reassurance-${{ inputs.reviewed_main_sha }}
+          name: content-factory-business-subject-foundation-reassurance-${{ steps.normalize-reviewed-main-sha.outputs.sha }}
           path: .artifacts/content-factory-business-subject-foundation-reassurance/
           if-no-files-found: warn
           retention-days: 30
