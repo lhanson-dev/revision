@@ -2,12 +2,12 @@
 
 **Status:** Current technical assurance implementation for the Business Subject Knowledge Foundation trial  
 **Updated:** 28 September 2026  
-**Normative authority:** `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`, `80-company-workflows/Content Accuracy Assurance Gate.md`, `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`  
+**Normative authority:** `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`, `80-company-workflows/Content Accuracy Assurance Gate.md`, `40-evidence-and-trust/Educational Content Source Licensing and Provenance Standard.md`, `60-business-operations/Content Factory Completion-First Cost Control Amendment.md`  
 **Related trial guidance:** `docs/technical/Content Factory Subject Foundation Trial.md`
 
 ## Purpose
 
-Define the independent reassurance proof used to close the reusable Business Subject Knowledge Foundation T3 gate while preserving valid assurance for unchanged knowledge.
+Define the independent reassurance proof used to close the reusable Business Subject Knowledge Foundation T3 gate while preserving valid assurance for unchanged knowledge and preventing cost-control boundaries from repurchasing already-accepted work.
 
 The current effective candidate is `v0.6-final-targeted-remediation`, composed deterministically over the exact `v0.5-targeted-reassurance` fingerprint. Earlier candidates and assurance runs remain immutable historical evidence.
 
@@ -25,7 +25,9 @@ Current authority requires incremental subject assurance after a bounded change:
 
 `Content Accuracy Assurance Gate.md` likewise requires the smallest safe affected scope and says unrelated content must not be regenerated merely to clear one issue.
 
-The blocking/material threshold is unchanged.
+The blocking/material educational threshold is unchanged.
+
+The completion-first cost-control amendment adds a separate operational rule: a spend threshold may pause new provider work, but it is not an educational `FAIL/HOLD`. Accepted exact-fingerprint evidence is checkpointed and reused after a deliberate resume.
 
 ## v0.5 targeted reassurance evidence
 
@@ -128,9 +130,35 @@ Each is reviewed in its own fresh context. Related/prerequisite nodes may be sup
 
 The reviewer checks factual correctness, definitions/boundaries, quantitative accuracy, causal claims, Level 3 depth, source support and affected relationships. Each target must cite its own promotion-truth sources.
 
-Any blocking/material issue in those three nodes returns `fail_hold`.
+Any blocking/material issue in those three nodes returns educational `fail_hold`.
 
 The runner deduplicates equivalent node/group material findings by affected node, issue type and evidence-source set so the Founder-facing result reflects unique underlying blockers rather than duplicated reporting layers.
+
+## Cost pause and exact-fingerprint resume
+
+The workflow continues to use a **US$5 execution slice** as a safety boundary for one workflow attempt. It is no longer a lifetime reassurance ceiling.
+
+Before a new provider call whose conservative reservation would exceed the remaining slice, the runner:
+
+1. makes no new provider call;
+2. writes `business-subject-foundation-reassurance-cost-paused.json`;
+3. records `operationalState = cost_paused` and `qualityDecision = not_reached`;
+4. persists every accepted scoped review completed so far, provider usage evidence and cumulative observed spend;
+5. records the exact next review required; and
+6. exits the workflow without classifying the candidate `FAIL/HOLD`.
+
+On the next dispatch for the same exact reviewed-main SHA, the workflow downloads the latest matching reassurance artifact when available. If it contains a cost-pause checkpoint, the runner revalidates:
+
+- exact reviewed-main SHA;
+- exact candidate version and fingerprint;
+- exact three-node fresh scope; and
+- each preserved scoped output against the current deterministic output/evidence contract.
+
+Only after those checks pass are accepted reviews reused. Completed groups are skipped and only outstanding review work is purchased. A mismatched or invalid checkpoint fails closed rather than being reused.
+
+Cumulative reassurance spend and search usage are carried forward in the evidence. Spend is never reset merely because another execution slice is opened.
+
+Provider/output-contract failures remain failures of the execution contract; educational material findings remain `FAIL/HOLD`; cost exhaustion alone is neither.
 
 ## Final whole-subject integration check
 
@@ -147,22 +175,26 @@ It is not another standalone factual/source review of the 78 preserved nodes.
 
 A blocking/material allowed integration finding still returns `fail_hold`.
 
+If the integration call cannot start within the remaining execution slice, the three passing scoped reviews are retained and a later exact-SHA dispatch resumes directly at integration rather than repurchasing them.
+
 ## Provider and evidence controls
 
 The proof retains:
 
-- fresh OpenAI Responses contexts;
-- high reasoning effort;
+- fresh provider response contexts for newly purchased reviews;
+- high reasoning effort for the current OpenAI route;
 - rights-limited web search;
 - strict structured output;
 - deterministic source-ID/URL validation;
 - safe encoded/decoded URL equivalence without host/path escape;
 - at most one bounded retry for incomplete/output-contract failure;
 - rejected-output retention;
-- hard US$5 total reassurance ceiling; and
-- evidence upload on pass or failure.
+- a US$5 per-attempt execution slice with exact-fingerprint checkpoint/resume; and
+- evidence upload on pass, educational failure, provider failure or cost pause.
 
 No remediation occurs inside the live run.
+
+The current implementation uses OpenAI Responses, but provider identity is implementation provenance rather than governance. Any future provider route must independently satisfy the applicable quality, rights, privacy, reliability and output-contract controls.
 
 ## Workflow
 
@@ -173,9 +205,11 @@ The workflow:
 1. validates and verifies exact current `main`;
 2. validates v0.6 composition/provenance and the exact three-node scope;
 3. runs the no-spend v0.6 contract self-test;
-4. freshly reassures the three changed nodes;
-5. if they pass, runs the final integration-only 81-node check; and
-6. uploads retained evidence even on failure.
+4. recovers the latest exact-SHA cost-pause artifact when one exists;
+5. revalidates and reuses compatible accepted scoped evidence;
+6. purchases only outstanding three-node review work;
+7. if all three pass, runs or resumes the final integration-only 81-node check; and
+8. uploads retained evidence in every terminal/paused state.
 
 ## T3 exit and next step
 
@@ -187,4 +221,4 @@ The next controlled-trial stage is **T4: exact AQA 7132 intake and specification
 
 ## Documentation impact
 
-This is a bounded implementation/evidence update under existing authority. No normative governance document changes and no learner-facing product behaviour changes are required. Historical candidates, assurance runs and artifacts remain unchanged.
+This implementation now follows the Founder-directed completion-first cost amendment while preserving the existing educational assurance threshold. Historical candidates, assurance runs and artifacts remain unchanged. No learner-facing product behaviour changes.
