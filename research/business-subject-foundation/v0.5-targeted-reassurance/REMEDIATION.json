@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.5-targeted-reassurance",
+  "status": "targeted_remediation_awaiting_scoped_independent_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.4-reassurance-remediation",
+    "fingerprint": "b4610dd17094b5769d9706fcd99b90973eb31baa7df7cd3e0149320c7f9042b3"
+  },
+  "triggering_assurance": {
+    "workflow_run_id": 36428218127,
+    "artifact_id": 10973072890,
+    "artifact_digest": "sha256:c1720d5863fd32b744194c63efbdc050e0bea669e703f9a5303bb6b07f583c26",
+    "reviewed_main_sha": "93be1daeac6ffb5762a7b0ede34942e0130edb04",
+    "reviewed_candidate_fingerprint": "b4610dd17094b5769d9706fcd99b90973eb31baa7df7cd3e0149320c7f9042b3",
+    "classification": "incomplete_assurance_with_preserved_node_level_evidence_and_three_confirmed_material_findings",
+    "terminal_error": "Evidence, Decision-making and Integration returned evidence outside the registered SRC-ONS-STAT-CONCEPTS path boundary after two attempts"
+  },
+  "assurance_strategy": {
+    "authority_basis": "Incremental subject assurance and targeted remediation: assure changed/new nodes plus genuinely affected relationships; preserve earlier assurance evidence and do not re-review unrelated content merely to clear one issue.",
+    "preserve_prior_accepted_node_assessments": true,
+    "fresh_node_scope": [
+      "BUS-FND-002",
+      "BUS-FIN-003",
+      "BUS-PEO-011",
+      "BUS-EVI-001",
+      "BUS-EVI-002",
+      "BUS-EVI-003",
+      "BUS-EVI-004",
+      "BUS-EVI-005",
+      "BUS-EVI-006",
+      "BUS-EVI-007",
+      "BUS-MOD-001",
+      "BUS-MOD-002",
+      "BUS-MOD-003",
+      "BUS-MOD-004",
+      "BUS-MOD-005"
+    ],
+    "preserved_explicit_node": "BUS-EVI-008",
+    "preserved_reason": "BUS-EVI-008 received an accepted completed assessment inside the Operations PASS in run 36428218127 and is unchanged by v0.5.",
+    "final_integration_review_required": true,
+    "integration_review_scope": [
+      "major_domain_coverage",
+      "cross_domain_coherence",
+      "relationship_dependency_consistency",
+      "contradictions_or_duplication_introduced_by_v0.5"
+    ],
+    "integration_review_must_not_reopen": "standalone source adequacy or standalone factual assessment for unchanged nodes with preserved accepted evidence"
+  },
+  "principles": {
+    "preserve_v02_v03_v04_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "promotion_decision": "NOT_YET_MADE",
+    "teaching_content_changed_by_this_remediation": true,
+    "teaching_content_changed_node_ids": ["BUS-FIN-003"]
+  },
+  "confirmed_findings_remediated": [
+    {
+      "finding_id": "FND-002-01",
+      "subject_id": "BUS-FND-002",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "Intrapreneurship was taught but not directly substantiated by the mapped promotion evidence.",
+      "remediation": "Add direct CC BY 4.0 chapter evidence defining intrapreneurial activity inside an established organisation; teaching content remains unchanged."
+    },
+    {
+      "finding_id": "F-FIN-003-01",
+      "subject_id": "BUS-FIN-003",
+      "severity": "material",
+      "issue_type": "quantitative_method_completeness",
+      "finding": "The node requires learners to calculate margins but its quantitative methods did not contain an explicit margin formula or worked margin calculation.",
+      "remediation": "Add a bounded margin-percentage method, worked examples and interpretation/error boundaries, plus direct CC BY 4.0 ratio evidence."
+    },
+    {
+      "finding_id": "PEO-011-F01",
+      "subject_id": "BUS-PEO-011",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "The wellbeing/work-design causal treatment was broader than its mapped promotion evidence directly supported.",
+      "remediation": "Add current OGL HSE evidence for workload, work patterns, job demands and work-related stress; teaching content remains unchanged."
+    },
+    {
+      "finding_id": "EVI-002-REVALIDATED",
+      "subject_id": "BUS-EVI-002",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "The rejected Evidence-domain output identified a real evidence gap: current mappings do not directly substantiate correlation-versus-causation, temporal ordering and alternative/confounding explanations strongly enough.",
+      "remediation": "Add OGL Government Analysis Function evidence on correlation, causation, temporal order and alternative causes. BUS-EVI-002 remains in the unresolved Evidence-domain fresh scope."
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "SRC-OER-LOUIS-ENTREPRENEURSHIP-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Entrepreneurship: Starting and Managing Your Own Business",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/entrepreneurship-starting-and-managing-your-own-business/",
+      "date_version": "2022 LOUIS adaptation; page and licence checked 2026-09-28",
+      "educational_role": "Direct reusable support for entrepreneurship and intrapreneurship, including entrepreneurial activity by employees inside established organisations.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the chapter text carrying the book CC BY 4.0 licence; exclude separately attributed third-party images/media and dated company examples from the promotion truth basis.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-FINANCIAL-INFORMATION-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Using Financial Information and Accounting",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/using-financial-information-and-accounting/",
+      "date_version": "2022 LOUIS adaptation; page and licence checked 2026-09-28",
+      "educational_role": "Direct reusable support for revenue, profit, financial ratios and net profit margin, including an explicit formula and worked calculation.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the chapter text carrying the book CC BY 4.0 licence; exclude separately attributed third-party images/media. Exact course formula conventions remain subject to later course mapping.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-HSE-WORK-STRESS-2026",
+      "issuer": "Health and Safety Executive",
+      "title": "Stress and mental health at work / Management Standards",
+      "url": "https://www.hse.gov.uk/stress/",
+      "date_version": "Current HSE guidance and Management Standards checked 2026-09-28",
+      "educational_role": "Direct UK reusable support for workload, work patterns, work environment and job design as work-related stress factors and for organisational responses to those risks.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "HSE content is OGL v3 except where otherwise stated; exclude logos, images and third-party material. Use as general UK work-design/wellbeing evidence, not individual medical advice.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-GAF-CORRELATION-CAUSATION-2026",
+      "issuer": "UK Government Analysis Function",
+      "title": "Advice for policy professionals using statistics and analysis",
+      "url": "https://analysisfunction.civilservice.gov.uk/policy-store/advice-for-policy-professionals-using-statistics/",
+      "date_version": "Current guidance and site terms checked 2026-09-28",
+      "educational_role": "Direct reusable support for distinguishing correlation from causation, temporal order, alternative causes, data bias/coverage and appropriately bounded causal claims.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Most Analysis Function site content is Crown copyright under OGL v3; exclude images and any specifically exempt content. Use transferable statistical reasoning rather than policy-specific examples as required Business knowledge.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection_plus_site_terms_check",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {"subject_id": "BUS-FND-002", "add": ["SRC-OER-LOUIS-ENTREPRENEURSHIP-2022"]},
+    {"subject_id": "BUS-FIN-003", "add": ["SRC-OER-LOUIS-FINANCIAL-INFORMATION-2022"]},
+    {"subject_id": "BUS-PEO-011", "add": ["SRC-HSE-WORK-STRESS-2026"]},
+    {"subject_id": "BUS-EVI-002", "add": ["SRC-GAF-CORRELATION-CAUSATION-2026"]}
+  ],
+  "node_patches": [
+    {
+      "subject_id": "BUS-FIN-003",
+      "patch": {
+        "quantitative_content": {
+          "methods": [
+            {"name": "Revenue", "formula": "price × quantity", "units": "currency", "worked_example": "£50 × 4,000 = £200,000", "interpretation": "Sales value under the simple price-volume assumption."},
+            {"name": "Contribution per unit", "formula": "selling price - variable cost per unit", "units": "currency per unit", "worked_example": "£50 - £30 = £20", "interpretation": "Each unit contributes £20 to fixed costs and then profit."},
+            {"name": "Total contribution", "formula": "contribution per unit × units sold", "units": "currency", "worked_example": "£20 × 4,000 = £80,000", "interpretation": "Total amount available to cover fixed costs before profit."},
+            {"name": "Margin percentage", "formula": "relevant profit or contribution ÷ revenue × 100", "units": "%", "worked_example": "Net profit £30,000 ÷ revenue £200,000 × 100 = 15%. Contribution £80,000 ÷ revenue £200,000 × 100 = 40% contribution margin.", "interpretation": "State the numerator explicitly because gross, operating, net-profit and contribution margins measure different things."}
+          ],
+          "worked_examples": [
+            "If net profit is £30,000 on £200,000 revenue, net profit margin is 15%.",
+            "If total contribution is £80,000 on £200,000 revenue, contribution margin is 40%."
+          ],
+          "interpretation": [
+            "Contribution is not cash and not profit until fixed costs are considered.",
+            "Name the margin numerator and compare like-for-like definitions before interpreting differences."
+          ],
+          "common_errors": [
+            "subtracting fixed cost to calculate contribution per unit",
+            "calling revenue profit",
+            "using the word margin without specifying whether it is gross, operating, net-profit or contribution margin"
+          ]
+        }
+      }
+    }
+  ],
+  "domain_moves": []
+}
