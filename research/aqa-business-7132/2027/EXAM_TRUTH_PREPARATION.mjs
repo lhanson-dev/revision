@@ -15,7 +15,7 @@ export const aqaBusiness7132ExamTruthPreparation = {
   schema_version: 1,
   preparation_id: 'aqa-business-7132-2027-exam-truth-preparation-v1',
   authority_status: 'research_evidence_only',
-  status: 'core_assessment_structure_prepared_pending_v07_and_marking_behaviour_denominator',
+  status: 'core_assessment_and_command_word_structure_prepared_pending_v07_and_question_family_denominator',
   course: {
     course_id: 'aqa:aqa-a-level:7132',
     awarding_body: 'AQA',
@@ -37,6 +37,7 @@ export const aqaBusiness7132ExamTruthPreparation = {
     referenceOnly('AQA-7132-SCHEME', 'A-level Business 7132 scheme of assessment', 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment', 'Qualification assessment rules, assessment objectives and weighting bands.'),
     referenceOnly('AQA-7132-QUANT', 'A-level Business 7132 quantitative skills annex', 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business', 'Quantitative-skills assessment requirement.'),
     referenceOnly('AQA-7132-DATES', 'A-level Business 7132 key dates', 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/key-dates', '2027 examination dates and duration cross-check.'),
+    referenceOnly('AQA-7132-COMMAND-WORDS', 'AQA AS and A-level Business command words', 'https://www.aqa.org.uk/resources/business/as-and-a-level/business-7131-7132/teach/command-words', 'Rights-safe structured response-demand meanings for common AQA Business command words; examples and model answers are excluded from downstream generation.'),
   ],
   qualification_rules: {
     linear_qualification: true,
@@ -104,6 +105,16 @@ export const aqaBusiness7132ExamTruthPreparation = {
     AO3: { rights_safe_summary: 'analysis of business issues and internal/external influences', overall_weight_percent_range: [25, 28] },
     AO4: { rights_safe_summary: 'evaluation of quantitative and qualitative information to reach evidence-based judgements or solutions', overall_weight_percent_range: [23, 26] },
   },
+  command_word_alignment: {
+    source_scope_note: 'AQA describes these as common rather than exhaustive; only rights-safe demand summaries are retained.',
+    calculate: { demand: 'derive a numerical value; use appropriate method, accuracy and units where the question requires them', dominant_skill: 'quantitative_application' },
+    describe: { demand: 'identify and state relevant characteristics, patterns or trends', dominant_skill: 'knowledge_application' },
+    explain: { demand: 'give relevant reasons or purposes and develop how they address the question', dominant_skill: 'developed_explanation' },
+    analyse: { demand: 'break the issue into relevant elements and develop contextual causal or logical relationships', dominant_skill: 'analysis' },
+    evaluate: { demand: 'weigh relevant evidence and circumstances to reach a supported overall judgement', dominant_skill: 'evaluation' },
+    justify: { demand: 'support a recommendation, view or conclusion with evidence while considering credible alternatives or weaknesses', dominant_skill: 'evaluation' },
+    to_what_extent: { demand: 'judge the degree or significance of the stated factor relative to other relevant factors and support the conclusion', dominant_skill: 'evaluation' },
+  },
   cross_paper_requirements: {
     synoptic_full_course_reasoning_required: true,
     extended_response_required: true,
@@ -124,9 +135,10 @@ export const aqaBusiness7132ExamTruthPreparation = {
     { id: 'AR-7132-011', type: 'assessment_objective', fact: 'AO4 evaluation/judgement is assessed within published component and overall weighting ranges', mapped_exam_truth_ids: ['ET-AQA-7132-P1', 'ET-AQA-7132-P2', 'ET-AQA-7132-P3'] },
     { id: 'AR-7132-012', type: 'synoptic_demand', fact: 'assessment includes full-course integration and extended reasoning', mapped_exam_truth_ids: ['ET-AQA-7132-P1', 'ET-AQA-7132-P2', 'ET-AQA-7132-P3'] },
     { id: 'AR-7132-013', type: 'quantitative_skills', fact: 'at least 10% of overall A-level marks assess relevant quantitative skills at a minimum of Level 2 mathematical demand', mapped_exam_truth_ids: ['ET-AQA-7132-P1', 'ET-AQA-7132-P2', 'ET-AQA-7132-P3'] },
+    { id: 'AR-7132-014', type: 'command_word_demand', fact: 'common AQA Business command words imply distinct descriptive, quantitative, explanatory, analytical and evaluative response demands; the published list is not exhaustive', mapped_exam_truth_ids: ['ET-AQA-7132-P1', 'ET-AQA-7132-P2', 'ET-AQA-7132-P3'] },
   ],
   remaining_before_exam_truth_promotion: [
-    'Create a rights-safe structured denominator for applicable marking behaviour and question-family constraints from current official assessment resources without copying protected mark-scheme prose.',
+    'Complete a rights-safe structured denominator for recurring question-family and marking-behaviour constraints from current official assessment resources without copying protected question or mark-scheme prose.',
     'Validate every assessment requirement against the exact current official source version and retain the extraction/verification record.',
     'Run the governed exact-course automated assurance after the v0.7 Subject Foundation dependency passes.',
   ],
