@@ -136,6 +136,8 @@ async function loadCandidate() {
   return {index,matrix,rows,sources,sourceById,specialist,domains,nodes,fingerprint:h.digest('hex')}
 }
 function sourceMeta(s){return {id:s.id,issuer:s.issuer,title:s.title,url:s.url,date_version:s.date_version,educational_role:s.educational_role,licence_profile:s.licence_profile,restrictions:s.restrictions,promotion_eligible:s.promotion_eligible}}
+function reviewProvenanceRow(row){return {subject_id:row.subject_id,subject_truth_sources:row.subject_truth_sources,promotion_provenance_status:row.promotion_provenance_status}}
+function reviewNode(c,n,domain){ const {sources:_legacySources,...content}=n; return {...content,domain,promotion_truth_source_ids:c.rows.get(n.subject_id).subject_truth_sources} }
 function urlAllowed(item, sourceById) {
   try {
     const s=sourceById.get(item.source_id)
@@ -148,34 +150,70 @@ function validateFindingSources(findings,allowed,label){ for(const f of findings
 
 function domainPayload(c,d){
   const rows=d.nodes.map(n=>c.rows.get(n.subject_id)); const ids=uniq(rows.flatMap(r=>r.subject_truth_sources)); const sourceList=ids.map(id=>sourceMeta(c.sourceById.get(id)))
-  return { review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,domain:d.domain}, rights_boundary:{permitted_subject_truth_sources:sourceList,prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,board_material_must_not_be_used:true}, provenance_rows:rows, related_node_catalog:uniq(d.nodes.flatMap(n=>n.related_nodes||[])).map(id=>c.nodes.get(id)).filter(Boolean).map(n=>({subject_id:n.subject_id,title:n.title,domain:n.domain})), nodes:d.nodes }
+  return {
+    review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,domain:d.domain},
+    rights_boundary:{
+      permitted_subject_truth_sources:sourceList,
+      prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,
+      board_material_must_not_be_used:true,
+      historical_node_sources_supplied_to_reviewer:false,
+      promotion_truth_basis:'promotion_truth_source_ids and promotion_provenance_rows only',
+    },
+    promotion_provenance_rows:rows.map(reviewProvenanceRow),
+    related_node_catalog:uniq(d.nodes.flatMap(n=>n.related_nodes||[])).map(id=>c.nodes.get(id)).filter(Boolean).map(n=>({subject_id:n.subject_id,title:n.title,domain:n.domain})),
+    nodes:d.nodes.map(n=>reviewNode(c,n,d.domain)),
+  }
 }
 const domainInstructions=(d)=>[
   `Freshly and independently review the ${d.domain} domain of a reusable UK Level 3/A-level Business Subject Knowledge Foundation.`,
   'Do not rely on prior Revision assurance/remediation conclusions or exam-board specifications.',
   'Use web search only against supplied promotion-permitted source publications. Never search, cite or reconstruct awarding-body material.',
+  'The node objects intentionally omit their legacy sources arrays. Those arrays are preserved as historical research/corroboration evidence and are checked separately by deterministic quarantine controls; their historical existence is not a promotion-provenance defect.',
+  'For this review, promotion provenance is defined only by each node promotion_truth_source_ids and the promotion_provenance_rows. The prohibited-source list defines the boundary; it is not evidence that the candidate currently relies on those sources.',
   'Check every node: factual correctness, definitions/boundaries, causal claims, applications, assumptions, limitations, misconceptions, relationships and Level 3 appropriateness.',
   'Recompute quantitative formulas/worked examples. Treat models as models rather than universal laws; check purpose, use, limitations and misuse.',
-  'For every node return at least one evidence item whose source_id is in that node subject_truth_sources and whose URL is the actual registered source page or a child page.',
+  'For every node return at least one evidence item whose source_id is in that node promotion_truth_source_ids and whose URL is the actual registered source page or a child page. Additional evidence may use any other promotion-permitted source supplied for this domain.',
+  'If a mapped source does not support a claim, record that evidence as partially_supports, does_not_support or contradicts. You may recommend a different promotion-permitted source, but do not describe historical or board-alignment source metadata as current promotion truth.',
   'Do not make style findings. blocking=unsafe to promote; material=truth/depth needs correction; minor=non-blocking precision/limitation. Any blocking/material => fail_hold.',
 ].join('\n')
 
 function validateDomain(c,d,o){
   if(o.domain!==d.domain) throw new Error(`Reviewer domain mismatch for ${d.domain}`); const ids=d.nodes.map(n=>n.subject_id); exactSet(o.reviewed_node_ids,ids,`${d.domain} reviewed IDs`); exactSet(o.node_assessments.map(a=>a.subject_id),ids,`${d.domain} assessment IDs`)
+  const domainAllowed=new Set(d.nodes.flatMap(n=>c.rows.get(n.subject_id).subject_truth_sources))
   let material=false
-  for(const a of o.node_assessments){ const row=c.rows.get(a.subject_id), allowed=new Set(row.subject_truth_sources); for(const e of a.evidence){if(!allowed.has(e.source_id)||!urlAllowed(e,c.sourceById)) throw new Error(`${a.subject_id} returned invalid evidence ${e.source_id} ${e.url}`)}; validateFindingSources(a.findings,allowed,a.subject_id); if([a.status,a.factual_accuracy,a.level3_scope,a.quantitative_accuracy,a.relationships_and_boundaries,a.source_support].some(materialStatus)||a.findings.some(materialFinding)) material=true }
-  const allowed=new Set(d.nodes.flatMap(n=>c.rows.get(n.subject_id).subject_truth_sources)); validateFindingSources(o.domain_findings,allowed,d.domain); if(materialStatus(o.domain_completeness)||o.domain_findings.some(materialFinding)) material=true
+  for(const a of o.node_assessments){
+    const row=c.rows.get(a.subject_id), mapped=new Set(row.subject_truth_sources)
+    for(const e of a.evidence){if(!domainAllowed.has(e.source_id)||!urlAllowed(e,c.sourceById)) throw new Error(`${a.subject_id} returned invalid evidence ${e.source_id} ${e.url}`)}
+    if(!a.evidence.some(e=>mapped.has(e.source_id))) throw new Error(`${a.subject_id} returned no evidence from its mapped promotion truth sources`)
+    validateFindingSources(a.findings,domainAllowed,a.subject_id)
+    if([a.status,a.factual_accuracy,a.level3_scope,a.quantitative_accuracy,a.relationships_and_boundaries,a.source_support].some(materialStatus)||a.findings.some(materialFinding)) material=true
+  }
+  validateFindingSources(o.domain_findings,domainAllowed,d.domain); if(materialStatus(o.domain_completeness)||o.domain_findings.some(materialFinding)) material=true
   if(o.decision!==(material?'fail_hold':'pass')) throw new Error(`${d.domain} decision inconsistent with findings`)
 }
 
-function subjectPayload(c,reviews){return {review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,purpose:'whole-subject completeness/integration'},rights_boundary:{permitted_subject_truth_sources:c.sources.sources.filter(s=>s.promotion_eligible).map(sourceMeta),prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,board_material_must_not_be_used:true},domain_index:c.index.domains,nodes:c.domains.flatMap(d=>d.nodes.map(n=>({...n,domain:d.domain}))),specialist_registers:c.specialist,domain_review_summaries:reviews.map(r=>({domain:r.output.domain,decision:r.output.decision,domain_completeness:r.output.domain_completeness,domain_findings:r.output.domain_findings,known_limitations:r.output.known_limitations}))}}
+function subjectPayload(c,reviews){return {
+  review_identity:{candidate_version:c.index.candidate_version,candidate_fingerprint:c.fingerprint,purpose:'whole-subject completeness/integration'},
+  rights_boundary:{
+    permitted_subject_truth_sources:c.sources.sources.filter(s=>s.promotion_eligible).map(sourceMeta),
+    prohibited_for_subject_truth:c.sources.legacy_promotion_exclusions,
+    board_material_must_not_be_used:true,
+    historical_node_sources_supplied_to_reviewer:false,
+    promotion_truth_basis:'promotion_truth_source_ids only',
+  },
+  domain_index:c.index.domains,
+  nodes:c.domains.flatMap(d=>d.nodes.map(n=>reviewNode(c,n,d.domain))),
+  specialist_registers:c.specialist,
+  domain_review_summaries:reviews.map(r=>({domain:r.output.domain,decision:r.output.decision,domain_completeness:r.output.domain_completeness,domain_findings:r.output.domain_findings,known_limitations:r.output.known_limitations})),
+}}
 const subjectInstructions=(c)=>[
   'Freshly and independently review the whole reusable UK Level 3/A-level Business Subject Knowledge Foundation.',
   'Do not rely on prior Revision research conclusions, remediation reports or exam-board taxonomies.',
   'Use web search only against supplied promotion-permitted source publications; never use awarding-body/prohibited sources.',
+  'The node objects intentionally omit legacy historical sources arrays. Promotion provenance is represented only by promotion_truth_source_ids; do not create findings merely because historical research or board-alignment evidence exists elsewhere in the repository.',
   `Challenge whether all ${c.index.candidate_node_count} nodes collectively provide coherent, bounded Level 3 Business understanding.`,
   'Check major-domain coverage, cross-functional relationships, prerequisites, causal chains, quantitative methods, named models, misconception boundaries, real-world transfer and evidence/decision reasoning.',
-  'Look for material omissions, board-shaped contamination, contradictions/duplication, over-advanced content presented as core, or missing limitations. Optional enrichment is not a material gap.',
+  'Look for material omissions, contradictions/duplication, over-advanced specialist content presented as core, missing limitations, or genuine board-specific contamination. Board-specific contamination means assessment-only or administrative facts, or subject teaching whose truth depends on prohibited awarding-body material; ordinary overlap with topics that exam boards assess is expected and is not contamination.',
   'Any blocking/material finding or completeness gap => fail_hold.',
 ].join('\n')
 function validateSubject(c,o){ const domains=c.index.domains.map(d=>d.domain); exactSet(o.reviewed_domains,domains,'whole-subject domains'); const allowed=new Set(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>s.id)); for(const e of o.evidence) if(!allowed.has(e.source_id)||!urlAllowed(e,c.sourceById)) throw new Error(`Whole-subject invalid evidence ${e.source_id}`); validateFindingSources(o.findings,allowed,'whole-subject'); const material=materialStatus(o.coverage_status)||[o.cross_domain_coherence,o.quantitative_register_status,o.models_frameworks_status,o.misconception_boundary_status,o.transfer_interdependency_status].some(materialStatus)||o.findings.some(materialFinding); if(o.decision!==(material?'fail_hold':'pass')) throw new Error('Whole-subject decision inconsistent with findings') }
@@ -273,6 +311,14 @@ async function selfTest(){
   if(!urlAllowed({source_id:sampleSource.id,url:sampleSource.url},c.sourceById)) throw new Error('Registered promotion source URL failed runtime URL validation')
   if(urlAllowed({source_id:sampleSource.id,url:'not-a-url'},c.sourceById)) throw new Error('Invalid URL passed runtime URL validation')
 
+  const payloadDomain=c.domains[0]
+  const payload=domainPayload(c,payloadDomain)
+  if(payload.nodes.some(n=>Object.hasOwn(n,'sources'))) throw new Error('Legacy node sources leaked into domain reassurance payload')
+  if(payload.promotion_provenance_rows.some(r=>Object.hasOwn(r,'board_challenge_or_mapping_sources'))) throw new Error('Historical board challenge metadata leaked into promotion provenance review rows')
+  for(const n of payload.nodes) exactSet(n.promotion_truth_source_ids,c.rows.get(n.subject_id).subject_truth_sources,`${n.subject_id} review promotion truth IDs`)
+  const wholePayload=subjectPayload(c,[])
+  if(wholePayload.nodes.some(n=>Object.hasOwn(n,'sources'))) throw new Error('Legacy node sources leaked into whole-subject reassurance payload')
+
   const budget={cost:0,searches:0,usageUnavailable:false}, contexts=new Set(), attempts=[]
   const incomplete={id:'resp_selftest_incomplete',status:'incomplete',incomplete_details:{reason:'max_output_tokens'},usage:{input_tokens:1000,input_tokens_details:{cached_tokens:100},output_tokens:500},output:[]}
   const incompleteRecord=recordProviderAttempt({raw:incomplete,label:'selftest',attempt:1,maxOutputTokens:6000,budget,contexts,providerAttempts:attempts,httpStatus:200})
@@ -288,22 +334,35 @@ async function selfTest(){
   if(retryOutputLimit(6000)<RETRY_MIN_OUTPUT_TOKENS) throw new Error('Retry output allowance is below the governed reasoning buffer floor')
 
   const sampleDomain=c.domains[0]
-  const sampleAssessments=sampleDomain.nodes.map(n=>{
-    const sourceId=c.rows.get(n.subject_id).subject_truth_sources[0]
-    const source=c.sourceById.get(sourceId)
+  const domainSourceIds=uniq(sampleDomain.nodes.flatMap(n=>c.rows.get(n.subject_id).subject_truth_sources))
+  const sampleAssessments=sampleDomain.nodes.map((n,index)=>{
+    const mappedSourceId=c.rows.get(n.subject_id).subject_truth_sources[0]
+    const mappedSource=c.sourceById.get(mappedSourceId)
+    const additionalSourceId=index===0?domainSourceIds.find(id=>!c.rows.get(n.subject_id).subject_truth_sources.includes(id)):null
+    const additionalSource=additionalSourceId?c.sourceById.get(additionalSourceId):null
     return {
       subject_id:n.subject_id,status:'pass',factual_accuracy:'pass',level3_scope:'pass',quantitative_accuracy:'not_applicable',
       relationships_and_boundaries:'pass',source_support:'pass',
-      evidence:[{source_id:sourceId,url:source.url,claim_checked:`Self-test evidence for ${n.subject_id}`,result:'supports',summary:'Evidence coverage self-test'}],
+      evidence:[
+        {source_id:mappedSourceId,url:mappedSource.url,claim_checked:`Self-test mapped evidence for ${n.subject_id}`,result:'supports',summary:'Mapped evidence coverage self-test'},
+        ...(additionalSource?[{source_id:additionalSourceId,url:additionalSource.url,claim_checked:`Self-test additional evidence for ${n.subject_id}`,result:'supports',summary:'Additional domain evidence self-test'}]:[]),
+      ],
       summary:'Self-test assessment',findings:[],
     }
   })
   const sampleReview=completedDomainReview(c,sampleDomain,{responseId:'resp_selftest_domain',output:{domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:sampleAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]},usage:null,webSearchCalls:0,observedCostUsd:0,providerAttempts:[]})
   if(sampleReview.webSearchCalls!==0) throw new Error('Search-count audit self-test mutated recorded search count')
+  const first=sampleDomain.nodes[0], mappedSet=new Set(c.rows.get(first.subject_id).subject_truth_sources), nonMapped=domainSourceIds.find(id=>!mappedSet.has(id))
+  if(nonMapped){
+    const invalidAssessments=sampleAssessments.map(a=>a.subject_id===first.subject_id?{...a,evidence:[{source_id:nonMapped,url:c.sourceById.get(nonMapped).url,claim_checked:'Missing mapped evidence self-test',result:'supports',summary:'Should be rejected'}]}:a)
+    let rejected=false
+    try{validateDomain(c,sampleDomain,{domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:invalidAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]})}catch(error){rejected=String(error).includes('no evidence from its mapped promotion truth sources')}
+    if(!rejected) throw new Error('Domain validation accepted a node with no mapped promotion-source evidence')
+  }
   const retained=failureEvidence({sha:'0'.repeat(40),c,budget:{cost:0,searches:0,usageUnavailable:false},contexts:new Set(),providerAttempts:[],reviews:[sampleReview],startedAt:'2026-01-01T00:00:00.000Z',error:new Error('self-test failure')})
   if(retained.completedDomainReviews[0]?.output?.node_assessments?.length!==sampleDomain.nodes.length) throw new Error('Failure evidence did not retain full completed-domain review output')
 
-  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',incompleteResponseAccounting:'pass',incompleteResponseEvidenceRetention:'pass',boundedIncompleteRetryPolicy:'pass',evidenceCoverageValidation:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
+  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',reviewPayloadPromotionSemantics:'pass',additionalDomainEvidenceValidation:'pass',mappedSourceEvidenceRequirement:'pass',incompleteResponseAccounting:'pass',incompleteResponseEvidenceRetention:'pass',boundedIncompleteRetryPolicy:'pass',evidenceCoverageValidation:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
 }
 async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
@@ -319,7 +378,7 @@ async function live(){
     }
     const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)));const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,searchReserve:5,budget,contexts,providerAttempts});validateSubject(c,whole.output)
     const material=[...domainMaterialFindings(reviews),...whole.output.findings.filter(materialFinding)];const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
-    const artifact={schemaVersion:3,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; bounded fresh retry only for max_output_tokens incomplete responses when provider usage is available and the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
+    const artifact={schemaVersion:3,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; bounded fresh retry only for max_output_tokens incomplete responses when provider usage is available and the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false,historicalNodeSourcesSuppliedToReviewer:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
     await write('business-subject-foundation-reassurance.json',artifact);await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateFingerprint:c.fingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length});await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`);if(decision!=='pass') throw new Error(`business_subject_foundation_reassurance_fail_hold:${material.length}_material_findings`)
   }catch(error){await write('business-subject-foundation-reassurance-failure.json',failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt,error}));throw error}
 }
