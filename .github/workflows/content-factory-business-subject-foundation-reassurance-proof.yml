@@ -61,13 +61,13 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Revalidate v0.5 promotion provenance and incremental scope
+      - name: Revalidate v0.6 promotion provenance and three-node scope
         run: node scripts/assurance/validate-business-subject-provenance.mjs
 
-      - name: Validate targeted reassurance package contract
+      - name: Validate v0.6 reassurance package contract
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
 
-      - name: Run fresh scoped reassurance and final integration check
+      - name: Run fresh three-node reassurance and final integration check
         env:
           CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE: '1'
           REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
