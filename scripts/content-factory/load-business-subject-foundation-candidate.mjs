@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 
 const BASE_ROOT = 'research/business-subject-foundation/v0.2-post-board-candidate'
 const OVERLAY_PATH = 'research/business-subject-foundation/v0.3-reassurance-remediation/REMEDIATION.json'
+const SOURCE_REVIEW_PATH = 'research/business-subject-foundation/v0.3-reassurance-remediation/SOURCE_REVIEW.json'
 const EXPECTED_BASE_VERSION = 'v0.2-post-board-candidate'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.3-reassurance-remediation'
 const EXPECTED_NODE_COUNT = 81
@@ -36,7 +37,9 @@ function hashParts(parts) {
 export async function loadBusinessSubjectFoundationCandidate() {
   const readBase = async (name) => JSON.parse(await readFile(`${BASE_ROOT}/${name}`, 'utf8'))
   const overlayRaw = await readFile(OVERLAY_PATH, 'utf8')
+  const sourceReviewRaw = await readFile(SOURCE_REVIEW_PATH, 'utf8')
   const overlay = JSON.parse(overlayRaw)
+  const sourceReview = JSON.parse(sourceReviewRaw)
   const index = await readBase('NODE_INDEX.json')
   const matrix = await readBase('PROMOTION_PROVENANCE_MATRIX.json')
   const sources = await readBase('SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json')
@@ -47,6 +50,9 @@ export async function loadBusinessSubjectFoundationCandidate() {
   }
   if (overlay.candidate_version !== EXPECTED_EFFECTIVE_VERSION || overlay.base_candidate?.version !== EXPECTED_BASE_VERSION) {
     throw new Error('Unexpected Business v0.3 remediation overlay identity')
+  }
+  if (sourceReview.candidate_version !== EXPECTED_EFFECTIVE_VERSION) {
+    throw new Error('Unexpected Business v0.3 source-review identity')
   }
 
   const baseFingerprintParts = []
@@ -95,6 +101,8 @@ export async function loadBusinessSubjectFoundationCandidate() {
     effectiveSources.sources.push(clone(source))
     existingSourceIds.add(source.id)
   }
+  const rejectedSourceIds = new Set((sourceReview.rejected_source_ids || []).map((entry) => entry.id))
+  effectiveSources.sources = effectiveSources.sources.filter((source) => !rejectedSourceIds.has(source.id))
 
   const effectiveMatrix = clone(matrix)
   effectiveMatrix.status = 'targeted_remediation_awaiting_independent_reassurance'
@@ -112,6 +120,15 @@ export async function loadBusinessSubjectFoundationCandidate() {
     const row = rowById.get(patch.subject_id)
     if (!row) throw new Error(`Business v0.3 promotion patch references unknown node ${patch.subject_id}`)
     row.subject_truth_sources = uniq([...(row.subject_truth_sources || []), ...(patch.add || [])])
+  }
+  for (const replacement of sourceReview.promotion_source_replacements || []) {
+    const row = rowById.get(replacement.subject_id)
+    if (!row) throw new Error(`Business v0.3 source-review replacement references unknown node ${replacement.subject_id}`)
+    const removals = new Set(replacement.remove || [])
+    row.subject_truth_sources = uniq([
+      ...(row.subject_truth_sources || []).filter((sourceId) => !removals.has(sourceId)),
+      ...(replacement.add || []),
+    ])
   }
 
   const effectiveIndex = clone(index)
@@ -148,6 +165,9 @@ export async function loadBusinessSubjectFoundationCandidate() {
   const excluded = new Set((effectiveSources.legacy_promotion_exclusions || []).map((entry) => entry.source_id))
   const sourceById = new Map(effectiveSources.sources.map((source) => [source.id, source]))
   if (sourceById.size !== effectiveSources.sources.length) throw new Error('Business v0.3 duplicate promotion source IDs')
+  for (const rejectedSourceId of rejectedSourceIds) {
+    if (sourceById.has(rejectedSourceId)) throw new Error(`Rejected Business v0.3 source ${rejectedSourceId} remains in the effective source universe`)
+  }
   for (const [id, node] of nodes) {
     const row = rowById.get(id)
     if (!node.teaching_content?.core_explanation) throw new Error(`Missing Business v0.3 teaching explanation for ${id}`)
@@ -161,6 +181,7 @@ export async function loadBusinessSubjectFoundationCandidate() {
   const effectiveFingerprint = hashParts([
     ['base_candidate_fingerprint', baseFingerprint],
     ['v0.3-remediation-overlay.json', overlayRaw],
+    ['v0.3-source-review.json', sourceReviewRaw],
   ])
 
   return {
@@ -175,5 +196,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
     fingerprint: effectiveFingerprint,
     baseFingerprint,
     overlay,
+    sourceReview,
   }
 }
