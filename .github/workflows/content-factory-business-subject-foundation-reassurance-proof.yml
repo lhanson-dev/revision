@@ -125,7 +125,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs
 
-      - name: Summarize reused terminal reassurance
+      - name: Reuse terminal reassurance decision
         if: steps.recover-reassurance.outputs.mode == 'terminal'
         run: |
           set -euo pipefail
@@ -138,6 +138,10 @@ jobs:
             echo '- Provider calls repeated: **0**'
             echo "- Recorded cumulative reassurance spend: **$${cumulative}**"
           } >> "${GITHUB_STEP_SUMMARY}"
+          if [ "${decision}" = 'fail_hold' ]; then
+            echo 'Exact-fingerprint educational FAIL/HOLD is unchanged; refusing to repurchase the same review.' >&2
+            exit 1
+          fi
 
       - name: Upload reassurance evidence
         if: always()
