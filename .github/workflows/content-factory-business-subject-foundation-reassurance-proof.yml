@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       reviewed_main_sha:
-        description: Exact current main SHA containing the remediated Business v0.2 candidate
+        description: Exact current main SHA containing the remediated Business v0.3 candidate
         required: true
         type: string
 

@@ -1,9 +1,8 @@
-import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { appendFile, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { appendFile, mkdir, writeFile } from 'node:fs/promises'
 import { z } from 'zod'
+import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate.mjs'
 
-const ROOT = 'research/business-subject-foundation/v0.2-post-board-candidate'
 const OUT = '.artifacts/content-factory-business-subject-foundation-reassurance'
 const MODEL = process.env.CONTENT_FACTORY_REASSURANCE_MODEL?.trim() || 'gpt-5.6-terra'
 const MAX_SPEND = Number(process.env.CONTENT_FACTORY_MAX_SPEND_USD || 5)
@@ -103,6 +102,8 @@ function recordProviderAttempt({raw,label,attempt,maxOutputTokens,budget,context
     webSearchCalls: searches,
     observedCostUsd: cost,
     maxOutputTokens,
+    outputContractAccepted: null,
+    outputContractError: null,
   }
   providerAttempts.push(record)
   if (budget.cost > MAX_SPEND) throw new Error(`${label} observed spend ${budget.cost} exceeds ${MAX_SPEND}`)
@@ -110,30 +111,9 @@ function recordProviderAttempt({raw,label,attempt,maxOutputTokens,budget,context
 }
 
 async function loadCandidate() {
-  const read = async (name) => JSON.parse(await readFile(`${ROOT}/${name}`,'utf8'))
-  const index=await read('NODE_INDEX.json'), matrix=await read('PROMOTION_PROVENANCE_MATRIX.json'), sources=await read('SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json'), specialist=await read('SPECIALIST_REGISTERS.json')
-  if (index.candidate_version !== 'v0.2-post-board-candidate' || index.candidate_node_count !== 81) throw new Error('Unexpected Business candidate identity/count')
-  if (matrix.counts?.matrix_nodes !== 81) throw new Error('Promotion matrix is not 81 nodes')
-  const sourceById=new Map(sources.sources.map(s=>[s.id,s])); const excluded=new Set((sources.legacy_promotion_exclusions||[]).map(s=>s.source_id))
-  if (sourceById.size !== sources.sources.length) throw new Error('Duplicate promotion source IDs')
-  for (const s of sources.sources) if (s.promotion_eligible !== true) throw new Error(`Promotion source ${s.id} is not explicitly eligible`)
-  const rows=new Map(matrix.nodes.map(r=>[r.subject_id,r])); const domains=[]; const nodes=new Map(); const fingerprintParts=[]
-  for (const name of ['NODE_INDEX.json','PROMOTION_PROVENANCE_MATRIX.json','SOURCE_REGISTER_PROMOTION_SUPPLEMENT.json','SPECIALIST_REGISTERS.json']) fingerprintParts.push([name,await readFile(`${ROOT}/${name}`,'utf8')])
-  for (const d of index.domains) {
-    const raw=await readFile(`${ROOT}/${d.file}`,'utf8'); fingerprintParts.push([d.file,raw]); const file=JSON.parse(raw)
-    exactSet(file.nodes.map(n=>n.subject_id),d.ids,`${d.domain} IDs`)
-    for (const n of file.nodes) { if (nodes.has(n.subject_id)) throw new Error(`Duplicate node ${n.subject_id}`); nodes.set(n.subject_id,{...n,domain:d.domain}) }
-    domains.push({...d,nodes:file.nodes})
-  }
-  if (nodes.size !== 81) throw new Error(`Loaded ${nodes.size} nodes, expected 81`)
-  exactSet(rows.keys(),nodes.keys(),'matrix/index IDs')
-  for (const [id,node] of nodes) {
-    const row=rows.get(id); if (!row?.subject_truth_sources?.length) throw new Error(`No promotion truth sources for ${id}`)
-    for (const sourceId of row.subject_truth_sources) { const s=sourceById.get(sourceId); if (!s?.promotion_eligible || excluded.has(sourceId)) throw new Error(`Invalid promotion truth source ${sourceId} for ${id}`) }
-    if (!node.teaching_content?.core_explanation) throw new Error(`Missing teaching explanation for ${id}`)
-  }
-  fingerprintParts.sort(([a],[b])=>a.localeCompare(b)); const h=createHash('sha256'); for (const [name,value] of fingerprintParts) h.update(`${name}\0${value}\0`)
-  return {index,matrix,rows,sources,sourceById,specialist,domains,nodes,fingerprint:h.digest('hex')}
+  const candidate = await loadBusinessSubjectFoundationCandidate()
+  if (candidate.index.candidate_version !== 'v0.3-reassurance-remediation' || candidate.nodes.size !== 81) throw new Error('Unexpected Business v0.3 candidate identity/count')
+  return candidate
 }
 function sourceMeta(s){return {id:s.id,issuer:s.issuer,title:s.title,url:s.url,date_version:s.date_version,educational_role:s.educational_role,licence_profile:s.licence_profile,restrictions:s.restrictions,promotion_eligible:s.promotion_eligible}}
 function reviewProvenanceRow(row){return {subject_id:row.subject_id,subject_truth_sources:row.subject_truth_sources,promotion_provenance_status:row.promotion_provenance_status}}
@@ -170,6 +150,7 @@ const domainInstructions=(d)=>[
   'Use web search only against supplied promotion-permitted source publications. Never search, cite or reconstruct awarding-body material.',
   'The node objects intentionally omit their legacy sources arrays. Those arrays are preserved as historical research/corroboration evidence and are checked separately by deterministic quarantine controls; their historical existence is not a promotion-provenance defect.',
   'For this review, promotion provenance is defined only by each node promotion_truth_source_ids and the promotion_provenance_rows. The prohibited-source list defines the boundary; it is not evidence that the candidate currently relies on those sources.',
+  `Return every expected node exactly once. reviewed_node_ids and node_assessments must contain exactly these IDs and no others: ${d.nodes.map(n=>n.subject_id).join(', ')}.`,
   'Check every node: factual correctness, definitions/boundaries, causal claims, applications, assumptions, limitations, misconceptions, relationships and Level 3 appropriateness.',
   'Recompute quantitative formulas/worked examples. Treat models as models rather than universal laws; check purpose, use, limitations and misuse.',
   'For every node return at least one evidence item whose source_id is in that node promotion_truth_source_ids and whose URL is the actual registered source page or a child page. Additional evidence may use any other promotion-permitted source supplied for this domain.',
@@ -212,6 +193,7 @@ const subjectInstructions=(c)=>[
   'Use web search only against supplied promotion-permitted source publications; never use awarding-body/prohibited sources.',
   'The node objects intentionally omit legacy historical sources arrays. Promotion provenance is represented only by promotion_truth_source_ids; do not create findings merely because historical research or board-alignment evidence exists elsewhere in the repository.',
   `Challenge whether all ${c.index.candidate_node_count} nodes collectively provide coherent, bounded Level 3 Business understanding.`,
+  `Return every expected domain exactly once in reviewed_domains and no others: ${c.index.domains.map(d=>d.domain).join(', ')}.`,
   'Check major-domain coverage, cross-functional relationships, prerequisites, causal chains, quantitative methods, named models, misconception boundaries, real-world transfer and evidence/decision reasoning.',
   'Look for material omissions, contradictions/duplication, over-advanced specialist content presented as core, missing limitations, or genuine board-specific contamination. Board-specific contamination means assessment-only or administrative facts, or subject teaching whose truth depends on prohibited awarding-body material; ordinary overlap with topics that exam boards assess is expected and is not contamination.',
   'Any blocking/material finding or completeness gap => fail_hold.',
@@ -228,15 +210,16 @@ function domainMaterialFindings(reviews) {
     ...r.output.domain_findings.filter(materialFinding).map(f=>({domain:r.domain,...f})),
   ])
 }
-function partialEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt}) {
+function partialEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt}) {
   return {
-    schemaVersion:3,
+    schemaVersion:4,
     artifactType:'business_subject_foundation_fresh_independent_reassurance_partial',
     recordedAt:new Date().toISOString(),
     startedAt,
     reviewedMainSha:sha,
     candidateVersion:c.index.candidate_version,
     candidateFingerprint:c.fingerprint,
+    baseCandidateFingerprint:c.baseFingerprint,
     model:MODEL,
     configuredMaxSpendUsd:MAX_SPEND,
     observedSpendUsd:budget.cost,
@@ -245,20 +228,23 @@ function partialEvidence({sha,c,budget,contexts,providerAttempts,reviews,started
     reviewerContextIds:[...contexts],
     providerAttemptCount:providerAttempts.length,
     providerAttempts,
+    rejectedOutputCount:rejectedOutputs.length,
+    rejectedOutputs,
     completedDomainReviews:reviews,
     completedDomainMaterialFindings:domainMaterialFindings(reviews),
     status:'in_progress',
   }
 }
-function failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt,error}) {
+function failureEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt,error}) {
   return {
-    schemaVersion:3,
+    schemaVersion:4,
     artifactType:'business_subject_foundation_fresh_independent_reassurance_failure',
     recordedAt:new Date().toISOString(),
     startedAt,
     reviewedMainSha:sha,
     candidateVersion:c.index.candidate_version,
     candidateFingerprint:c.fingerprint,
+    baseCandidateFingerprint:c.baseFingerprint,
     model:MODEL,
     configuredMaxSpendUsd:MAX_SPEND,
     observedSpendUsd:budget.cost,
@@ -267,27 +253,45 @@ function failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,started
     reviewerContextIds:[...contexts],
     providerAttemptCount:providerAttempts.length,
     providerAttempts,
+    rejectedOutputCount:rejectedOutputs.length,
+    rejectedOutputs,
     completedDomainReviews:reviews,
     completedDomainMaterialFindings:domainMaterialFindings(reviews),
     error:error instanceof Error?error.message:String(error),
   }
 }
 
-async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxOutput,searchReserve,budget,contexts,providerAttempts}){
+async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxOutput,searchReserve,budget,contexts,providerAttempts,rejectedOutputs,validateOutput}){
   let outputLimit = maxOutput
+  let correction = ''
   for (let attempt = 1; attempt <= MAX_PROVIDER_ATTEMPTS; attempt += 1) {
     const r=reserve(payload,outputLimit,searchReserve)
     if(budget.cost+r>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: reserve ${r} after ${budget.cost} exceeds ${MAX_SPEND}`)
-    const body={model:MODEL,store:false,reasoning:{context:'current_turn',effort:'high'},max_output_tokens:outputLimit,instructions:['You are a bounded fresh-context assurance worker inside Revision Content Factory.','The supplied repository material is the candidate under challenge, not authority to defend.','Use web search only in allowed promotion-source domains. Return only the requested JSON.',instructions].join('\n'),input:JSON.stringify(payload),tools:[{type:'web_search',search_context_size:'medium',filters:{allowed_domains:domains}}],tool_choice:'required',text:{format:{type:'json_schema',name:`revision-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,48)}`,strict:true,schema:schemaJson(schema)}}}
+    const effectiveInstructions = correction ? `${instructions}\n${correction}` : instructions
+    const body={model:MODEL,store:false,reasoning:{context:'current_turn',effort:'high'},max_output_tokens:outputLimit,instructions:['You are a bounded fresh-context assurance worker inside Revision Content Factory.','The supplied repository material is the candidate under challenge, not authority to defend.','Use web search only in allowed promotion-source domains. Return only the requested JSON.',effectiveInstructions].join('\n'),input:JSON.stringify(payload),tools:[{type:'web_search',search_context_size:'medium',filters:{allowed_domains:domains}}],tool_choice:'required',text:{format:{type:'json_schema',name:`revision-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,48)}`,strict:true,schema:schemaJson(schema)}}}
     const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(body)})
     const raw=await response.json().catch(()=>({}))
     const record=recordProviderAttempt({raw,label,attempt,maxOutputTokens:outputLimit,budget,contexts,providerAttempts,httpStatus:response.status})
     if(!response.ok) throw new Error(`${label} HTTP ${response.status}: ${JSON.stringify(raw).slice(0,1000)}`)
     if(raw.status==='completed') {
-      const searches=record.webSearchCalls
-      const output=schema.parse(JSON.parse(responseText(raw)))
       if(!raw.id) throw new Error(`${label} returned no provider response ID`)
-      return {responseId:raw.id,output,usage:raw.usage||null,webSearchCalls:searches,observedCostUsd:record.observedCostUsd,providerAttempts:providerAttempts.filter(a=>a.label===label)}
+      let output
+      try {
+        output=schema.parse(JSON.parse(responseText(raw)))
+        validateOutput(output)
+        record.outputContractAccepted=true
+        return {responseId:raw.id,output,usage:raw.usage||null,webSearchCalls:record.webSearchCalls,observedCostUsd:record.observedCostUsd,providerAttempts:providerAttempts.filter(a=>a.label===label)}
+      } catch (error) {
+        const message=error instanceof Error?error.message:String(error)
+        record.outputContractAccepted=false
+        record.outputContractError=message
+        rejectedOutputs.push({label,attempt,responseId:raw.id,recordedAt:new Date().toISOString(),error:message,output:output??null})
+        if(attempt>=MAX_PROVIDER_ATTEMPTS) throw new Error(`${label} output contract invalid after ${attempt} attempts: ${message}`)
+        const retryReserve=reserve(payload,outputLimit,searchReserve)
+        if(budget.cost+retryReserve>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: output-contract retry reserve ${retryReserve} after ${budget.cost} exceeds ${MAX_SPEND}`)
+        correction=`The previous fresh attempt was rejected by deterministic output validation: ${message}. Produce a complete replacement review from the supplied candidate. Do not omit, duplicate, rename or add required node/domain IDs. Do not defend the rejected output.`
+        continue
+      }
     }
     const reason=raw?.incomplete_details?.reason || null
     const canRetry=attempt<MAX_PROVIDER_ATTEMPTS && retryableIncomplete(raw,record.usageAvailable)
@@ -296,6 +300,7 @@ async function reviewCall({apiKey,label,schema,instructions,payload,domains,maxO
     const retryReserve=reserve(payload,nextOutputLimit,searchReserve)
     if(budget.cost+retryReserve>MAX_SPEND) throw new Error(`content_factory_spend_ceiling_reached:${label}: retry reserve ${retryReserve} after ${budget.cost} exceeds ${MAX_SPEND}`)
     outputLimit=nextOutputLimit
+    correction='The previous fresh attempt ended only because the provider output-token limit was reached. Produce the complete requested review, including every required node/domain exactly once.'
   }
   throw new Error(`${label} exhausted provider attempts`)
 }
@@ -350,37 +355,49 @@ async function selfTest(){
       summary:'Self-test assessment',findings:[],
     }
   })
-  const sampleReview=completedDomainReview(c,sampleDomain,{responseId:'resp_selftest_domain',output:{domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:sampleAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]},usage:null,webSearchCalls:0,observedCostUsd:0,providerAttempts:[]})
+  const validOutput={domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:sampleAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]}
+  const sampleReview=completedDomainReview(c,sampleDomain,{responseId:'resp_selftest_domain',output:validOutput,usage:null,webSearchCalls:0,observedCostUsd:0,providerAttempts:[]})
   if(sampleReview.webSearchCalls!==0) throw new Error('Search-count audit self-test mutated recorded search count')
+  const invalidIds={...validOutput,node_assessments:validOutput.node_assessments.slice(1)}
+  let contractRejected=false
+  try{validateDomain(c,sampleDomain,invalidIds)}catch(error){contractRejected=String(error).includes('assessment IDs mismatch')}
+  if(!contractRejected) throw new Error('Deterministic domain validation accepted an incomplete assessment-ID set')
   const first=sampleDomain.nodes[0], mappedSet=new Set(c.rows.get(first.subject_id).subject_truth_sources), nonMapped=domainSourceIds.find(id=>!mappedSet.has(id))
   if(nonMapped){
     const invalidAssessments=sampleAssessments.map(a=>a.subject_id===first.subject_id?{...a,evidence:[{source_id:nonMapped,url:c.sourceById.get(nonMapped).url,claim_checked:'Missing mapped evidence self-test',result:'supports',summary:'Should be rejected'}]}:a)
     let rejected=false
-    try{validateDomain(c,sampleDomain,{domain:sampleDomain.domain,reviewed_node_ids:sampleDomain.nodes.map(n=>n.subject_id),decision:'pass',node_assessments:invalidAssessments,domain_completeness:'complete',domain_completeness_summary:'Self-test complete',domain_findings:[],known_limitations:[]})}catch(error){rejected=String(error).includes('no evidence from its mapped promotion truth sources')}
+    try{validateDomain(c,sampleDomain,{...validOutput,node_assessments:invalidAssessments})}catch(error){rejected=String(error).includes('no evidence from its mapped promotion truth sources')}
     if(!rejected) throw new Error('Domain validation accepted a node with no mapped promotion-source evidence')
   }
-  const retained=failureEvidence({sha:'0'.repeat(40),c,budget:{cost:0,searches:0,usageUnavailable:false},contexts:new Set(),providerAttempts:[],reviews:[sampleReview],startedAt:'2026-01-01T00:00:00.000Z',error:new Error('self-test failure')})
+  const retained=failureEvidence({sha:'0'.repeat(40),c,budget:{cost:0,searches:0,usageUnavailable:false},contexts:new Set(),providerAttempts:[],rejectedOutputs:[{label:'selftest',attempt:1,responseId:'resp_invalid',error:'assessment IDs mismatch',output:invalidIds}],reviews:[sampleReview],startedAt:'2026-01-01T00:00:00.000Z',error:new Error('self-test failure')})
   if(retained.completedDomainReviews[0]?.output?.node_assessments?.length!==sampleDomain.nodes.length) throw new Error('Failure evidence did not retain full completed-domain review output')
+  if(retained.rejectedOutputs.length!==1) throw new Error('Failure evidence did not retain rejected reviewer output')
 
-  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',reviewPayloadPromotionSemantics:'pass',additionalDomainEvidenceValidation:'pass',mappedSourceEvidenceRequirement:'pass',incompleteResponseAccounting:'pass',incompleteResponseEvidenceRetention:'pass',boundedIncompleteRetryPolicy:'pass',evidenceCoverageValidation:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
+  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',reviewPayloadPromotionSemantics:'pass',additionalDomainEvidenceValidation:'pass',mappedSourceEvidenceRequirement:'pass',incompleteResponseAccounting:'pass',boundedIncompleteRetryPolicy:'pass',deterministicOutputContractRejection:'pass',rejectedOutputEvidenceRetention:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
 }
 async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
   const apiKey=process.env.OPENAI_API_KEY?.trim(); if(!apiKey) throw new Error('OPENAI_API_KEY required'); if(!Number.isFinite(MAX_SPEND)||MAX_SPEND<=0) throw new Error('CONTENT_FACTORY_MAX_SPEND_USD must be positive')
   const sha=process.env.REVISION_REVIEWED_MAIN_SHA?.trim(); if(!/^[0-9a-f]{40}$/.test(sha||'')) throw new Error('REVISION_REVIEWED_MAIN_SHA must be a SHA'); const actual=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(); if(actual!==sha) throw new Error(`Checked out ${actual}, expected ${sha}`)
-  const c=await loadCandidate(), budget={cost:0,searches:0,usageUnavailable:false}, reviews=[], contexts=new Set(), providerAttempts=[], startedAt=new Date().toISOString()
+  const c=await loadCandidate(), budget={cost:0,searches:0,usageUnavailable:false}, reviews=[], contexts=new Set(), providerAttempts=[], rejectedOutputs=[], startedAt=new Date().toISOString()
   try{
     for(const d of c.domains){
       const payload=domainPayload(c,d), allowed=uniq(payload.rights_boundary.permitted_subject_truth_sources.map(s=>host(s.url)))
-      const r=await reviewCall({apiKey,label:`business-subject-${d.domain}`,schema:domainSchema,instructions:domainInstructions(d),payload,domains:allowed,maxOutput:6000,searchReserve:Math.min(4,d.nodes.length),budget,contexts,providerAttempts})
+      const r=await reviewCall({apiKey,label:`business-subject-${d.domain}`,schema:domainSchema,instructions:domainInstructions(d),payload,domains:allowed,maxOutput:6000,searchReserve:Math.min(4,d.nodes.length),budget,contexts,providerAttempts,rejectedOutputs,validateOutput:(output)=>validateDomain(c,d,output)})
       reviews.push(completedDomainReview(c,d,r))
-      await write('business-subject-foundation-reassurance-partial.json',partialEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt}))
+      await write('business-subject-foundation-reassurance-partial.json',partialEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt}))
     }
-    const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)));const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,searchReserve:5,budget,contexts,providerAttempts});validateSubject(c,whole.output)
-    const material=[...domainMaterialFindings(reviews),...whole.output.findings.filter(materialFinding)];const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
-    const artifact={schemaVersion:3,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; bounded fresh retry only for max_output_tokens incomplete responses when provider usage is available and the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false,historicalNodeSourcesSuppliedToReviewer:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
-    await write('business-subject-foundation-reassurance.json',artifact);await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateFingerprint:c.fingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length});await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`);if(decision!=='pass') throw new Error(`business_subject_foundation_reassurance_fail_hold:${material.length}_material_findings`)
-  }catch(error){await write('business-subject-foundation-reassurance-failure.json',failureEvidence({sha,c,budget,contexts,providerAttempts,reviews,startedAt,error}));throw error}
+    const payload=subjectPayload(c,reviews), allowed=uniq(c.sources.sources.filter(s=>s.promotion_eligible).map(s=>host(s.url)))
+    const whole=await reviewCall({apiKey,label:'business-subject-whole-foundation',schema:subjectSchema,instructions:subjectInstructions(c),payload,domains:allowed,maxOutput:8000,searchReserve:5,budget,contexts,providerAttempts,rejectedOutputs,validateOutput:(output)=>validateSubject(c,output)})
+    validateSubject(c,whole.output)
+    const material=[...domainMaterialFindings(reviews),...whole.output.findings.filter(materialFinding)]
+    const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
+    const artifact={schemaVersion:4,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; at most one fresh bounded retry for provider max-output incompletion or deterministic output-contract rejection while the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rejectedOutputCount:rejectedOutputs.length,rejectedOutputs,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false,historicalNodeSourcesSuppliedToReviewer:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
+    await write('business-subject-foundation-reassurance.json',artifact)
+    await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length,rejectedOutputCount:rejectedOutputs.length})
+    await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate: **${c.index.candidate_version}**\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Base candidate fingerprint: \`${c.baseFingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Rejected outputs retained: ${rejectedOutputs.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`)
+    if(decision!=='pass') throw new Error(`business_subject_foundation_reassurance_fail_hold:${material.length}_material_findings`)
+  }catch(error){await write('business-subject-foundation-reassurance-failure.json',failureEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt,error}));throw error}
 }
 
 try{if(process.argv[2]==='--self-test') await selfTest(); else await live()}catch(error){console.error(error instanceof Error?(error.stack||error.message):String(error));process.exit(1)}
