@@ -149,7 +149,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       throw new Error(`provider_secret_missing_or_runtime_config_missing:${missing.join(',')}`)
     }
     const apiKey = requiredEnv('OPENAI_API_KEY')
-    const maxSpendUsd = positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 20)
+    const executionSliceUsd = positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 20)
     const resumeIssueNumber = optionalPositiveIntegerEnv('CONTENT_FACTORY_RESUME_JOB_ISSUE_NUMBER')
     const now = new Date().toISOString()
     const store = new GitHubIssueJobStore(issueClient(repo, token))
@@ -197,7 +197,7 @@ describe('Content Factory v2 live adapter pilot', () => {
       blobs,
       jobId: job.jobId,
       currentContentHeadSha: headSha,
-      maxSpendUsd,
+      maxSpendUsd: executionSliceUsd,
     })
     const ledger = ledgerLoad.ledger
     if (resumeIssueNumber && ledgerLoad.requiresSemanticReplay) {
@@ -212,7 +212,7 @@ describe('Content Factory v2 live adapter pilot', () => {
     const baseWorkers = createAqaAsBusiness7131LivePilotWorkers({
       openAI: {
         apiKey,
-        maxSpendUsd,
+        maxSpendUsd: executionSliceUsd,
         generation,
         independentReview,
         maxRetries: 2,
@@ -236,16 +236,17 @@ describe('Content Factory v2 live adapter pilot', () => {
 
     const spend = ledger.snapshot()
     const evidence = {
-      schemaVersion: 3,
+      schemaVersion: 4,
       artifactType: 'content_factory_live_adapter_pilot_evidence',
       recordedAt: new Date().toISOString(),
       repository: repo,
       contentHeadSha: headSha,
       createdContentHeadSha: ledgerLoad.createdContentHeadSha,
       semanticReplayAcrossHead: ledgerLoad.requiresSemanticReplay,
-      configuredMaxSpendUsd: maxSpendUsd,
+      configuredExecutionSliceUsd: executionSliceUsd,
+      effectiveCompletionAllowanceUsd: spend.effectiveCompletionAllowanceUsd,
       cumulativeCourseSpendUsd: spend.conservativeConsumedUsd,
-      remainingCourseBudgetUsd: spend.remainingUsd,
+      remainingAuthorisedSpendUsd: spend.remainingUsd,
       attempt,
       jobIssueNumber,
       reusedWorkerExecutionCount: workerCache.reusedExecutionCount,
@@ -270,20 +271,22 @@ describe('Content Factory v2 live adapter pilot', () => {
       `- Dependency-aware replay across head: **${ledgerLoad.requiresSemanticReplay ? 'yes' : 'no'}**`,
       `- Final state: \`${result.job.state}\``,
       `- Reached expert_review_ready: **${result.report.reachedExpertReviewReady ? 'yes' : 'no'}**`,
-      `- Cumulative course spend ledger: **$${spend.conservativeConsumedUsd.toFixed(4)} / $${maxSpendUsd.toFixed(2)}**`,
+      `- Cumulative course spend: **$${spend.conservativeConsumedUsd.toFixed(4)}**`,
+      `- Execution slice per deliberate attempt: **$${executionSliceUsd.toFixed(2)}**`,
+      `- Effective allowance across ${spend.attemptCount} attempt(s): **$${spend.effectiveCompletionAllowanceUsd.toFixed(2)}**`,
       `- Worker executions reused without provider calls: **${workerCache.reusedExecutionCount}**`,
       `- Reused across a content-head change: **${workerCache.reusedAcrossHeadCount}**`,
       `- Worker executions performed this attempt: **${workerCache.executedWorkerCount}**`,
       `- Total retries represented in reconstructed job: **${result.report.totalRetries}**`,
       `- Human interventions: **${result.report.humanInterventionCount}**`,
       `- Provider routes: ${routes || 'none'}`,
-      ...(result.failure ? [`- Failure: \`${result.failure.slice(0, 500)}\``] : []),
+      ...(result.failure ? [`- Attempt stop/pause: \`${result.failure.slice(0, 500)}\``] : []),
       '',
-      'The workflow does not publish learner content. AQA remained REFERENCE_ONLY throughout the run.',
+      'The workflow does not publish learner content. A cost pause is operational and resumable; educational blockers remain separate. AQA remained REFERENCE_ONLY throughout the run.',
     ].join('\n'))
 
     expect(result.report.proofMode).toBe('live_adapter')
-    expect(spend.conservativeConsumedUsd).toBeLessThanOrEqual(maxSpendUsd)
+    expect(spend.conservativeConsumedUsd).toBeLessThanOrEqual(spend.effectiveCompletionAllowanceUsd)
     expect(result.report.unpricedWorkerRunCount).toBeGreaterThanOrEqual(0)
     if (!result.report.reachedExpertReviewReady) {
       throw new Error(`Live pilot did not reach expert_review_ready; state=${result.job.state}; blockers=${result.job.blockers.map((blocker) => blocker.reason).join(' | ')}; failure=${result.failure ?? 'none'}`)
