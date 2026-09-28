@@ -333,8 +333,27 @@ A deterministic PASS of this validator is necessary but not sufficient for promo
 
 The Business provenance control is a bounded implementation of existing source-rights and subject-foundation authority. Further trial implementation should continue to follow the controlled sequence above rather than treating this validator as a substitute for T3 or exact-course assurance.
 
+### AQA Business 7132 T6/T7 projection implementation checkpoint
+
+The controlled trial now has a bounded implementation for the T6 Course Truth projection and the stable T7 Exam Truth core on branch `feat/aqa-7132-course-exam-truth`. This checkpoint is implementation evidence only until its governed PR is green and merged with explicit Founder approval.
+
+The implementation is deliberately bound to the exact successful Business v0.7 reassurance evidence rather than rewriting the earlier specification-mapping candidate state:
+
+- `research/aqa-business-7132/2027/SPECIFICATION_MAPPING_REASSURANCE_RECEIPT.json` records the exact passing reassurance run, artifact, reviewed `main` SHA, candidate fingerprint, target node and reassurance fingerprint;
+- `scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs` verifies that receipt against the immutable 42-requirement specification mapping and exact Business Foundation candidate before any projection is allowed;
+- only AQA requirement `3.1.2`, which was explicitly pending `BUS-FIN-008` reassurance, transitions to `covered_after_v07_foundation_reassurance`; the other 41 requirements retain their prior `mapped` state;
+- the Course Truth output fingerprints the exact Foundation, specification mapping and reassurance dependencies and keeps awarding-body content reference-only;
+- the Exam Truth output records only stable assessment facts supported by the official AQA scheme of assessment, specification-at-a-glance, quantitative-skills annex and assessment-resource index; and
+- `.github/workflows/content-factory-aqa-business-7132-course-exam-truth.yml` revalidates the specification mapping, executes the deterministic projection contract and retains the materialised Course Truth / Exam Truth artifacts as CI evidence.
+
+Repository inspection found no current `main` implementation artifact that can honestly be reused as an existing AQA 7132 Assessment Blueprint or Question Family truth source. The branch therefore does not claim legacy assessment-artifact reuse. Stable question families are projected from the current official assessment contract. Variable question-specific mark allocations, indicative content, detailed mark-scheme wording and examiner commentary are intentionally not promoted into durable Exam Truth; they remain reference-only evidence for later exact-course assurance, calibration and Exam Prep where applicable.
+
+The projection remains fail-closed on learner production. A successful T6/T7 deterministic proof sets the next gate to T8 exact-course assurance and keeps `learnerAssetRegenerationAllowed=false`. It does not confer `ai_assured`, `foundation_approved`, expert approval or learner-publication authority.
+
 ## Documentation impact
 
 This document is current technical trial guidance only after the corresponding normative amendment is merged.
 
 It does not rewrite historical Foundation, Learn/Practice or assurance proof records. Those remain evidence to be inventoried and reconciled by the trial.
+
+The T6/T7 projection implementation above does not change normative product or Content Factory authority. It implements the already-approved controlled sequence and preserves the separate exact-course assurance and human-approval gates. No governance amendment or ADR change is required for this bounded implementation unless later assurance exposes a policy or architecture conflict.
