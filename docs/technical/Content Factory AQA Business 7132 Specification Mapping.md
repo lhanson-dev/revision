@@ -54,7 +54,7 @@ Reusable promotion truth is supplied only from OGL-compatible UK Government/ONS 
 
 The composed v0.7 candidate fingerprint is:
 
-`d5ec005fb6462e7b6088219fddae5256a52cc37a81a1b9eb6e1d6aaf8972ad9d`
+`64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53`
 
 ## Assurance scope
 
