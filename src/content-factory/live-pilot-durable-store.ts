@@ -312,6 +312,9 @@ type BudgetMeta = {
   schemaVersion: 1
   jobId: string
   contentHeadSha: string
+  // Kept as maxSpendUsd for schema-v1 compatibility. Under the completion-first
+  // policy this is the bounded spend slice authorised per deliberate attempt,
+  // not a lifetime course ceiling.
   maxSpendUsd: number
 }
 
@@ -328,6 +331,13 @@ type BudgetAttempt = {
   schemaVersion: 1
   attempt: number
   recordedAt: string
+}
+
+export class ContentFactoryCostPauseError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ContentFactoryCostPauseError'
+  }
 }
 
 export class DurableCourseSpendLedger {
@@ -356,7 +366,7 @@ export class DurableCourseSpendLedger {
         throw new Error(`durable_resume_head_mismatch: job was created on ${meta.contentHeadSha}, current head is ${input.contentHeadSha}`)
       }
       if (Math.abs(meta.maxSpendUsd - input.maxSpendUsd) > 0.000001) {
-        throw new Error(`durable_resume_spend_ceiling_mismatch: job ceiling is $${meta.maxSpendUsd.toFixed(2)}, requested ceiling is $${input.maxSpendUsd.toFixed(2)}`)
+        throw new Error(`durable_resume_spend_slice_mismatch: job execution slice is $${meta.maxSpendUsd.toFixed(2)}, requested slice is $${input.maxSpendUsd.toFixed(2)}`)
       }
       return new DurableCourseSpendLedger(input.blobs, meta)
     }
@@ -398,19 +408,28 @@ export class DurableCourseSpendLedger {
       (sum, call) => sum + (call.settle ?? call.reserve ?? 0),
       0,
     )
+    const attemptCount = this.blobs.values('budget_attempt').length
+    const authorisedAttemptCount = Math.max(1, attemptCount)
+    const effectiveCompletionAllowanceUsd = this.meta.maxSpendUsd * authorisedAttemptCount
     return {
+      // Legacy field retained for consumers. It now means per-attempt execution slice.
       maxSpendUsd: this.meta.maxSpendUsd,
+      executionSliceUsd: this.meta.maxSpendUsd,
+      effectiveCompletionAllowanceUsd: Number(effectiveCompletionAllowanceUsd.toFixed(8)),
       conservativeConsumedUsd: Number(conservativeConsumedUsd.toFixed(8)),
-      remainingUsd: Number(Math.max(0, this.meta.maxSpendUsd - conservativeConsumedUsd).toFixed(8)),
-      attemptCount: this.blobs.values('budget_attempt').length,
+      remainingUsd: Number(Math.max(0, effectiveCompletionAllowanceUsd - conservativeConsumedUsd).toFixed(8)),
+      attemptCount,
       callCount: byCall.size,
     }
   }
 
   async reserve(callId: string, amountUsd: number, label: string, recordedAt = new Date().toISOString()) {
-    const current = this.snapshot().conservativeConsumedUsd
-    if (current + amountUsd > this.meta.maxSpendUsd + 0.0000001) {
-      throw new Error(`content_factory_spend_ceiling_reached: cumulative $${current.toFixed(4)} + next-call reserve $${amountUsd.toFixed(4)} exceeds $${this.meta.maxSpendUsd.toFixed(2)} course ceiling`)
+    const snapshot = this.snapshot()
+    const current = snapshot.conservativeConsumedUsd
+    if (current + amountUsd > snapshot.effectiveCompletionAllowanceUsd + 0.0000001) {
+      throw new ContentFactoryCostPauseError(
+        `content_factory_cost_pause_required: cumulative $${current.toFixed(4)} + next-call reserve $${amountUsd.toFixed(4)} exceeds current authorised allowance $${snapshot.effectiveCompletionAllowanceUsd.toFixed(2)} (${snapshot.attemptCount || 1} × $${snapshot.executionSliceUsd.toFixed(2)} execution slice); checkpoint and resume rather than classifying content as failed`,
+      )
     }
     const event: BudgetEvent = { schemaVersion: 1, callId, kind: 'reserve', amountUsd, label, recordedAt }
     await this.blobs.put('budget_event', `budget-reserve:${callId}`, event)

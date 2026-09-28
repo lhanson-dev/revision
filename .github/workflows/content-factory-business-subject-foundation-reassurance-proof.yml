@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: content-factory-business-subject-foundation-reassurance-proof
@@ -67,7 +68,54 @@ jobs:
       - name: Validate v0.6 reassurance package contract
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
 
-      - name: Run fresh three-node reassurance and final integration check
+      - name: Recover exact-SHA reassurance state
+        id: recover-reassurance
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
+        run: |
+          set -euo pipefail
+          echo 'mode=fresh' >> "${GITHUB_OUTPUT}"
+          artifact_name="content-factory-business-subject-foundation-reassurance-${REVIEWED_MAIN_SHA}"
+          artifact_id="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${artifact_name}&per_page=100" \
+            --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | reverse | .[0].id // empty')"
+          if [ -z "${artifact_id}" ]; then
+            echo "No previous exact-SHA reassurance artifact found; starting from governed retained assurance."
+            exit 0
+          fi
+
+          mkdir -p .reassurance-resume/checkpoint .artifacts/content-factory-business-subject-foundation-reassurance
+          gh api -H 'Accept: application/vnd.github+json' "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > .reassurance-resume/checkpoint.zip
+          unzip -q .reassurance-resume/checkpoint.zip -d .reassurance-resume/checkpoint
+
+          expected_fingerprint="$(node --input-type=module -e "import { loadBusinessSubjectFoundationCandidate } from './scripts/content-factory/load-business-subject-foundation-candidate-v06.mjs'; const c = await loadBusinessSubjectFoundationCandidate(); process.stdout.write(c.fingerprint)")"
+          terminal_file="$(find .reassurance-resume/checkpoint -type f -name 'business-subject-foundation-reassurance.json' -print -quit)"
+          if [ -n "${terminal_file}" ] \
+            && jq -e --arg sha "${REVIEWED_MAIN_SHA}" --arg fp "${expected_fingerprint}" \
+              '.reviewedMainSha == $sha and .candidateFingerprint == $fp and (.finalDecision == "pass" or .finalDecision == "fail_hold")' \
+              "${terminal_file}" >/dev/null; then
+            cp "${terminal_file}" .artifacts/content-factory-business-subject-foundation-reassurance/business-subject-foundation-reassurance.json
+            summary_file="$(find .reassurance-resume/checkpoint -type f -name 'business-subject-foundation-reassurance-summary.json' -print -quit)"
+            if [ -n "${summary_file}" ]; then
+              cp "${summary_file}" .artifacts/content-factory-business-subject-foundation-reassurance/business-subject-foundation-reassurance-summary.json
+            fi
+            decision="$(jq -r '.finalDecision' "${terminal_file}")"
+            echo 'mode=terminal' >> "${GITHUB_OUTPUT}"
+            echo "Reusing terminal exact-fingerprint ${decision} evidence from artifact ${artifact_id}; no provider call will be repeated."
+            exit 0
+          fi
+
+          resume_file="$(find .reassurance-resume/checkpoint -type f -name 'business-subject-foundation-reassurance-cost-paused.json' -print -quit)"
+          if [ -z "${resume_file}" ]; then
+            echo "Latest exact-SHA artifact contains no reusable terminal decision or cost-pause checkpoint; execution may retry."
+            exit 0
+          fi
+          echo "CONTENT_FACTORY_REASSURANCE_RESUME_FILE=${resume_file}" >> "${GITHUB_ENV}"
+          echo 'mode=resume' >> "${GITHUB_OUTPUT}"
+          echo "Recovered exact-SHA cost-pause checkpoint from artifact ${artifact_id}. The runner will revalidate its candidate fingerprint and accepted outputs before reuse."
+
+      - name: Run outstanding reassurance and final integration check
+        if: steps.recover-reassurance.outputs.mode != 'terminal'
         env:
           CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE: '1'
           REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize-reviewed-main-sha.outputs.sha }}
@@ -76,6 +124,24 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs
+
+      - name: Reuse terminal reassurance decision
+        if: steps.recover-reassurance.outputs.mode == 'terminal'
+        run: |
+          set -euo pipefail
+          decision="$(jq -r '.finalDecision' .artifacts/content-factory-business-subject-foundation-reassurance/business-subject-foundation-reassurance.json)"
+          cumulative="$(jq -r '.cumulativeObservedSpendUsd // .observedSpendUsd // 0' .artifacts/content-factory-business-subject-foundation-reassurance/business-subject-foundation-reassurance.json)"
+          {
+            echo '## Business Subject Foundation v0.6 reassurance'
+            echo
+            echo "- Existing exact-fingerprint terminal decision reused: **${decision^^}**"
+            echo '- Provider calls repeated: **0**'
+            echo "- Recorded cumulative reassurance spend: **$${cumulative}**"
+          } >> "${GITHUB_STEP_SUMMARY}"
+          if [ "${decision}" = 'fail_hold' ]; then
+            echo 'Exact-fingerprint educational FAIL/HOLD is unchanged; refusing to repurchase the same review.' >&2
+            exit 1
+          fi
 
       - name: Upload reassurance evidence
         if: always()

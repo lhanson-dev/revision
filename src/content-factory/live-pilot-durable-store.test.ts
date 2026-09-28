@@ -159,10 +159,11 @@ describe('durable Content Factory live-pilot checkpoints', () => {
     expect((comments.get(issueNumber) ?? []).length).toBe(before)
   })
 
-  it('carries the course spend ceiling across workflow attempts and rejects a changed-head resume', async () => {
+  it('pauses before exceeding the current execution slice and resumes with cumulative spend retained', async () => {
     const { client } = memoryCommentClient()
     const issueNumber = 195
     const headSha = '3'.repeat(40)
+    const executionSliceUsd = 0.0008
     const generation = {
       model: 'test-model',
       inputUsdPerMillion: 1,
@@ -176,7 +177,7 @@ describe('durable Content Factory live-pilot checkpoints', () => {
       blobs: firstBlobs,
       jobId: 'course-budget',
       contentHeadSha: headSha,
-      maxSpendUsd: 0.0011,
+      maxSpendUsd: executionSliceUsd,
     })
     expect(await firstLedger.startAttempt('2026-08-27T12:00:00Z')).toBe(1)
 
@@ -190,27 +191,37 @@ describe('durable Content Factory live-pilot checkpoints', () => {
       body: JSON.stringify({ model: 'test-model', text: { format: { name: 'worker-one' } }, input: 'small' }),
     })
     expect(firstLedger.snapshot().conservativeConsumedUsd).toBeCloseTo(0.0006, 8)
+    expect(firstLedger.snapshot().effectiveCompletionAllowanceUsd).toBeCloseTo(executionSliceUsd, 8)
+
+    await expect(firstFetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      body: JSON.stringify({ model: 'test-model', text: { format: { name: 'worker-two' } }, input: 'small' }),
+    })).rejects.toThrow(/cost_pause_required/)
+    expect(providerFetch).toHaveBeenCalledTimes(1)
 
     const restartedBlobs = await DurableIssueCheckpointBlobStore.load(issueNumber, client)
     const restartedLedger = await DurableCourseSpendLedger.loadOrCreate({
       blobs: restartedBlobs,
       jobId: 'course-budget',
       contentHeadSha: headSha,
-      maxSpendUsd: 0.0011,
+      maxSpendUsd: executionSliceUsd,
     })
     expect(await restartedLedger.startAttempt('2026-08-27T12:05:00Z')).toBe(2)
+    expect(restartedLedger.snapshot().effectiveCompletionAllowanceUsd).toBeCloseTo(executionSliceUsd * 2, 8)
     const restartedFetch = createDurableBudgetFetch({ ledger: restartedLedger, generation, independentReview: review, fetchImpl: providerFetch })
-    await expect(restartedFetch('https://api.openai.com/v1/responses', {
+    await restartedFetch('https://api.openai.com/v1/responses', {
       method: 'POST',
       body: JSON.stringify({ model: 'test-model', text: { format: { name: 'worker-two' } }, input: 'small' }),
-    })).rejects.toThrow(/spend_ceiling_reached/)
-    expect(providerFetch).toHaveBeenCalledTimes(1)
+    })
+    expect(providerFetch).toHaveBeenCalledTimes(2)
+    expect(restartedLedger.snapshot().conservativeConsumedUsd).toBeCloseTo(0.0012, 8)
+    expect(restartedLedger.snapshot().remainingUsd).toBeGreaterThan(0)
 
     await expect(DurableCourseSpendLedger.loadOrCreate({
       blobs: restartedBlobs,
       jobId: 'course-budget',
       contentHeadSha: '4'.repeat(40),
-      maxSpendUsd: 0.0011,
+      maxSpendUsd: executionSliceUsd,
     })).rejects.toThrow(/head_mismatch/)
   })
 })
