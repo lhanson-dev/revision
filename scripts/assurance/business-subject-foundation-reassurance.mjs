@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import { appendFile, mkdir, writeFile } from 'node:fs/promises'
 import { z } from 'zod'
-import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate.mjs'
+import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v04.mjs'
 
 const OUT = '.artifacts/content-factory-business-subject-foundation-reassurance'
 const MODEL = process.env.CONTENT_FACTORY_REASSURANCE_MODEL?.trim() || 'gpt-5.6-terra'
@@ -38,7 +38,15 @@ const uniq = (values) => [...new Set(values)]
 const materialStatus = (value) => ['material_issue','blocking_issue','material_gap','blocking_gap'].includes(value)
 const materialFinding = (value) => ['material','blocking'].includes(value.severity)
 const host = (url) => new URL(url).hostname.toLowerCase().replace(/^www\./,'')
-const pathName = (url) => new URL(url).pathname.replace(/\/+$/,'') || '/'
+function pathSegments(url) {
+  const pathname = new URL(url).pathname.replace(/\/+$/,'')
+  if (!pathname || pathname === '/') return []
+  return pathname.split('/').slice(1).map((segment) => {
+    const decoded = decodeURIComponent(segment)
+    if (!decoded || decoded === '.' || decoded === '..' || decoded.includes('/') || decoded.includes('\\')) throw new Error('Unsafe URL path segment')
+    return decoded
+  })
+}
 
 function exactSet(actual, expected, label) {
   const a = [...actual].sort(); const e = [...expected].sort()
@@ -112,7 +120,7 @@ function recordProviderAttempt({raw,label,attempt,maxOutputTokens,budget,context
 
 async function loadCandidate() {
   const candidate = await loadBusinessSubjectFoundationCandidate()
-  if (candidate.index.candidate_version !== 'v0.3-reassurance-remediation' || candidate.nodes.size !== 81) throw new Error('Unexpected Business v0.3 candidate identity/count')
+  if (candidate.index.candidate_version !== 'v0.4-reassurance-remediation' || candidate.nodes.size !== 81) throw new Error('Unexpected Business v0.4 candidate identity/count')
   return candidate
 }
 function sourceMeta(s){return {id:s.id,issuer:s.issuer,title:s.title,url:s.url,date_version:s.date_version,educational_role:s.educational_role,licence_profile:s.licence_profile,restrictions:s.restrictions,promotion_eligible:s.promotion_eligible}}
@@ -120,10 +128,10 @@ function reviewProvenanceRow(row){return {subject_id:row.subject_id,subject_trut
 function reviewNode(c,n,domain){ const {sources:_legacySources,...content}=n; return {...content,domain,promotion_truth_source_ids:c.rows.get(n.subject_id).subject_truth_sources} }
 function urlAllowed(item, sourceById) {
   try {
-    const s=sourceById.get(item.source_id)
-    if (!s?.promotion_eligible || host(item.url)!==host(s.url)) return false
-    const p=pathName(s.url), e=pathName(item.url)
-    return p==='/' || e===p || e.startsWith(`${p}/`)
+    const source=sourceById.get(item.source_id)
+    if (!source?.promotion_eligible || host(item.url)!==host(source.url)) return false
+    const registered=pathSegments(source.url), evidencePath=pathSegments(item.url)
+    return registered.length===0 || (evidencePath.length>=registered.length && registered.every((segment,index)=>segment===evidencePath[index]))
   } catch { return false }
 }
 function validateFindingSources(findings,allowed,label){ for(const f of findings) for(const id of f.evidence_source_ids) if(!allowed.has(id)) throw new Error(`${label} finding ${f.id} uses unpermitted ${id}`) }
@@ -212,13 +220,14 @@ function domainMaterialFindings(reviews) {
 }
 function partialEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt}) {
   return {
-    schemaVersion:4,
+    schemaVersion:5,
     artifactType:'business_subject_foundation_fresh_independent_reassurance_partial',
     recordedAt:new Date().toISOString(),
     startedAt,
     reviewedMainSha:sha,
     candidateVersion:c.index.candidate_version,
     candidateFingerprint:c.fingerprint,
+    previousCandidateFingerprint:c.previousCandidateFingerprint,
     baseCandidateFingerprint:c.baseFingerprint,
     model:MODEL,
     configuredMaxSpendUsd:MAX_SPEND,
@@ -237,13 +246,14 @@ function partialEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs
 }
 function failureEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt,error}) {
   return {
-    schemaVersion:4,
+    schemaVersion:5,
     artifactType:'business_subject_foundation_fresh_independent_reassurance_failure',
     recordedAt:new Date().toISOString(),
     startedAt,
     reviewedMainSha:sha,
     candidateVersion:c.index.candidate_version,
     candidateFingerprint:c.fingerprint,
+    previousCandidateFingerprint:c.previousCandidateFingerprint,
     baseCandidateFingerprint:c.baseFingerprint,
     model:MODEL,
     configuredMaxSpendUsd:MAX_SPEND,
@@ -315,6 +325,15 @@ async function selfTest(){
   if(!sampleSource) throw new Error('No promotion-eligible source available for URL validation self-test')
   if(!urlAllowed({source_id:sampleSource.id,url:sampleSource.url},c.sourceById)) throw new Error('Registered promotion source URL failed runtime URL validation')
   if(urlAllowed({source_id:sampleSource.id,url:'not-a-url'},c.sourceById)) throw new Error('Invalid URL passed runtime URL validation')
+  const encodedSource=c.sourceById.get('SRC-OER-LIBRETEXTS-COMMUNICATION-2023')
+  if(!encodedSource) throw new Error('LibreTexts encoded-path regression source is missing')
+  const decodedEquivalent='https://biz.libretexts.org/Courses/Lumen_Learning/Principles_of_Management_(Lumen)/14:_Communication/14.14:_Channels_of_Business_Communication'
+  if(!urlAllowed({source_id:encodedSource.id,url:decodedEquivalent},c.sourceById)) throw new Error('Semantically equivalent encoded/decoded evidence URL failed canonical path validation')
+  const siblingUrl='https://biz.libretexts.org/Courses/Lumen_Learning/Principles_of_Management_(Lumen)/14:_Communication/14.14:_Different_Page'
+  if(urlAllowed({source_id:encodedSource.id,url:siblingUrl},c.sourceById)) throw new Error('Sibling evidence URL incorrectly passed registered path boundary')
+  const encodedSlashUrl='https://biz.libretexts.org/Courses/Lumen_Learning/Principles_of_Management_(Lumen)/14:_Communication/14.14%2Fescape'
+  if(urlAllowed({source_id:encodedSource.id,url:encodedSlashUrl},c.sourceById)) throw new Error('Encoded slash path-smuggling URL incorrectly passed registered path boundary')
+  if(urlAllowed({source_id:encodedSource.id,url:decodedEquivalent.replace('biz.libretexts.org','example.com')},c.sourceById)) throw new Error('Different-host evidence URL incorrectly passed registered source boundary')
 
   const payloadDomain=c.domains[0]
   const payload=domainPayload(c,payloadDomain)
@@ -373,7 +392,7 @@ async function selfTest(){
   if(retained.completedDomainReviews[0]?.output?.node_assessments?.length!==sampleDomain.nodes.length) throw new Error('Failure evidence did not retain full completed-domain review output')
   if(retained.rejectedOutputs.length!==1) throw new Error('Failure evidence did not retain rejected reviewer output')
 
-  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',reviewPayloadPromotionSemantics:'pass',additionalDomainEvidenceValidation:'pass',mappedSourceEvidenceRequirement:'pass',incompleteResponseAccounting:'pass',boundedIncompleteRetryPolicy:'pass',deterministicOutputContractRejection:'pass',rejectedOutputEvidenceRetention:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
+  console.log(JSON.stringify({status:'pass',candidateVersion:c.index.candidate_version,nodeCount:c.nodes.size,domainCount:c.domains.length,candidateFingerprint:c.fingerprint,previousCandidateFingerprint:c.previousCandidateFingerprint,baseCandidateFingerprint:c.baseFingerprint,promotionSourceCount:c.sources.sources.length,providerSchemaCompatibility:'pass',runtimeEvidenceUrlValidation:'pass',encodedDecodedUrlEquivalence:'pass',urlPathBoundarySmugglingProtection:'pass',reviewPayloadPromotionSemantics:'pass',additionalDomainEvidenceValidation:'pass',mappedSourceEvidenceRequirement:'pass',incompleteResponseAccounting:'pass',boundedIncompleteRetryPolicy:'pass',deterministicOutputContractRejection:'pass',rejectedOutputEvidenceRetention:'pass',searchCountQualityGate:'not_used',completedDomainFailureRetention:'pass'},null,2))
 }
 async function live(){
   if(process.env.CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE!=='1') throw new Error('CONTENT_FACTORY_BUSINESS_SUBJECT_REASSURANCE=1 required')
@@ -392,10 +411,10 @@ async function live(){
     validateSubject(c,whole.output)
     const material=[...domainMaterialFindings(reviews),...whole.output.findings.filter(materialFinding)]
     const decision=reviews.some(r=>r.output.decision==='fail_hold')||whole.output.decision==='fail_hold'?'fail_hold':'pass'
-    const artifact={schemaVersion:4,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; at most one fresh bounded retry for provider max-output incompletion or deterministic output-contract rejection while the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rejectedOutputCount:rejectedOutputs.length,rejectedOutputs,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false,historicalNodeSourcesSuppliedToReviewer:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
+    const artifact={schemaVersion:5,artifactType:'business_subject_foundation_fresh_independent_reassurance_evidence',recordedAt:new Date().toISOString(),startedAt,repository:process.env.GITHUB_REPOSITORY||'lhanson-dev/revision',reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,previousCandidateFingerprint:c.previousCandidateFingerprint,baseCandidateFingerprint:c.baseFingerprint,nodeCount:c.nodes.size,domainCount:c.domains.length,reviewMethod:'one successful fresh OpenAI Responses review per domain plus whole-subject integration; rights-limited web search; at most one fresh bounded retry for provider max-output incompletion or deterministic output-contract rejection while the spend ceiling remains safe',model:MODEL,configuredMaxSpendUsd:MAX_SPEND,observedSpendUsd:budget.cost,spendMeasurement:budget.usageUnavailable?'partial_provider_usage_unavailable':'provider_usage_estimate',webSearchCalls:budget.searches,reviewerContextIds:[...contexts],providerAttemptCount:providerAttempts.length,providerAttempts,rejectedOutputCount:rejectedOutputs.length,rejectedOutputs,rightsBoundary:{promotionSourceCount:c.sources.sources.length,excludedSourceCount:c.sources.legacy_promotion_exclusions.length,boardMaterialUsedAsSubjectTruth:false,historicalNodeSourcesSuppliedToReviewer:false},domainReviews:reviews,wholeSubjectReview:whole,materialFindings:material,finalDecision:decision,promotionEffect:'none; reassurance evidence does not itself promote the candidate',excludedScope:['exact AQA 7132 specification mapping and Course Truth projection','AQA Exam Truth','qualified human subject/assessment approval','learner-facing asset publication']}
     await write('business-subject-foundation-reassurance.json',artifact)
-    await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,baseCandidateFingerprint:c.baseFingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length,rejectedOutputCount:rejectedOutputs.length})
-    await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate: **${c.index.candidate_version}**\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Base candidate fingerprint: \`${c.baseFingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Rejected outputs retained: ${rejectedOutputs.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`)
+    await write('business-subject-foundation-reassurance-summary.json',{reviewedMainSha:sha,candidateVersion:c.index.candidate_version,candidateFingerprint:c.fingerprint,previousCandidateFingerprint:c.previousCandidateFingerprint,baseCandidateFingerprint:c.baseFingerprint,finalDecision:decision,materialFindingCount:material.length,observedSpendUsd:budget.cost,spendMeasurement:artifact.spendMeasurement,webSearchCalls:budget.searches,reviewerContextCount:contexts.size,providerAttemptCount:providerAttempts.length,rejectedOutputCount:rejectedOutputs.length})
+    await summary(`## Business Subject Foundation fresh reassurance\n\n- Reviewed main: \`${sha}\`\n- Candidate: **${c.index.candidate_version}**\n- Candidate fingerprint: \`${c.fingerprint}\`\n- Previous candidate fingerprint: \`${c.previousCandidateFingerprint}\`\n- Base candidate fingerprint: \`${c.baseFingerprint}\`\n- Nodes: ${c.nodes.size}\n- Fresh reviewer contexts: ${contexts.size}\n- Provider attempts: ${providerAttempts.length}\n- Rejected outputs retained: ${rejectedOutputs.length}\n- Web searches: ${budget.searches}\n- Spend estimate: $${budget.cost.toFixed(4)} / $${MAX_SPEND.toFixed(2)}\n- Decision: **${decision.toUpperCase()}**\n- Blocking/material findings: ${material.length}`)
     if(decision!=='pass') throw new Error(`business_subject_foundation_reassurance_fail_hold:${material.length}_material_findings`)
   }catch(error){await write('business-subject-foundation-reassurance-failure.json',failureEvidence({sha,c,budget,contexts,providerAttempts,rejectedOutputs,reviews,startedAt,error}));throw error}
 }
