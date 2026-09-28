@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.7-aqa-7132-gap-reconciliation",
+  "status": "targeted_remediation_awaiting_scoped_independent_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.6-final-targeted-remediation",
+    "fingerprint": "4f2cc0e75bbe364a2e1a1adaf832b4ad26fa6658c5ec4d988c7de38755b4f947"
+  },
+  "triggering_course_projection": {
+    "course_id": "aqa:aqa-a-level:7132",
+    "cohort_exam_year": 2027,
+    "reason": "AQA 7132 specification mapping exposed one reusable Business knowledge gap in share-market fundamentals.",
+    "subject_foundation_assurance": {
+      "workflow_run_id": 36470642663,
+      "artifact_id": 10991605640,
+      "artifact_digest": "sha256:c4775efff2c88a0129971df293608a34ca659ad86bef4ca536c51f0d9adbbc8a",
+      "reviewed_main_sha": "6b714670f247a7d6e151688ff6c805773c33a60b",
+      "reviewed_candidate_fingerprint": "4f2cc0e75bbe364a2e1a1adaf832b4ad26fa6658c5ec4d988c7de38755b4f947",
+      "decision": "pass"
+    }
+  },
+  "assurance_strategy": {
+    "authority_basis": "Specification reconciliation may expand reusable subject knowledge at the smallest safe scope. Reassure only the changed node and genuinely affected relationships; preserve the accepted v0.6 T3 evidence for all unchanged nodes.",
+    "preserve_prior_accepted_node_assessments": true,
+    "fresh_node_scope": ["BUS-FIN-008"],
+    "preserved_unchanged_node_count": 80,
+    "final_integration_review_required": false,
+    "integration_rationale": "v0.6 already passed the 81-node integration gate. v0.7 adds bounded share-market depth inside existing equity-finance node BUS-FIN-008, changes no domain membership or dependency edges, and is covered by targeted node/relationship reassurance plus deterministic whole-index validation."
+  },
+  "principles": {
+    "preserve_prior_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "promotion_decision": "NOT_YET_MADE",
+    "teaching_content_changed_by_this_remediation": true,
+    "teaching_content_changed_node_ids": ["BUS-FIN-008"]
+  },
+  "confirmed_gap_remediated": [{
+    "finding_id": "AQA-7132-3.1.2-SHARE-MARKET-GAP",
+    "subject_id": "BUS-FIN-008",
+    "classification": "B_EXISTING_SUBJECT_NODE_INSUFFICIENT_DEPTH",
+    "finding": "AQA 7132 requires ordinary share capital, dividends, market capitalisation and interpretation of share-price significance. The approved Business Foundation covered equity finance and shareholder risk/control but did not explicitly teach market capitalisation or dividends.",
+    "remediation": "Extend BUS-FIN-008 with reusable, board-independent share-market fundamentals. Keep AQA requirement identity and exact course placement in Specification Mapping."
+  }],
+  "source_additions": [
+    {
+      "id": "SRC-GOVUK-SHAREHOLDER-RIGHTS-2026",
+      "issuer": "UK Government / HM Revenue & Customs",
+      "title": "Capital Gains Manual CG50200 — meaning of a share and shareholder rights",
+      "url": "https://www.gov.uk/hmrc-internal-manuals/capital-gains-manual/cg50200",
+      "date_version": "Current page checked 2026-09-28; page updated 2026-09-23",
+      "educational_role": "Reusable UK support for share capital, ownership interests and principal shareholder rights including dividends and voting.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Crown copyright material is reusable under OGL v3 unless otherwise stated; exclude logos and third-party material. Use only general share/shareholder concepts, not tax-specific rules.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-ONS-MARKET-CAPITALISATION-2015",
+      "issuer": "Office for National Statistics",
+      "title": "Ownership of UK Quoted Shares — definitions",
+      "url": "https://www.ons.gov.uk/economy/investmentspensionsandtrusts/bulletins/ownershipofukquotedshares/2015-09-02",
+      "date_version": "Published 2015-09-02; definition checked 2026-09-28",
+      "educational_role": "Reusable UK support for ordinary-share characteristics and the definition/calculation of market capitalisation as shares in issue multiplied by current share price.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "ONS Crown copyright content is reusable under OGL v3 unless otherwise stated; exclude logos and third-party material. Use the stable definitional material rather than dated ownership statistics.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [{"subject_id":"BUS-FIN-008","add":["SRC-GOVUK-SHAREHOLDER-RIGHTS-2026","SRC-ONS-MARKET-CAPITALISATION-2015"]}],
+  "node_patches": [{
+    "subject_id": "BUS-FIN-008",
+    "patch": {
+      "teaching_content": {
+        "core_explanation": "Businesses finance activity through internally generated funds, debt, equity and specialist arrangements. Retained profit and sale of assets can provide internal finance but still have opportunity costs. Debt includes loans, overdrafts, bonds and other borrowing: it can preserve ownership but creates interest, repayment and covenant obligations. Equity provides permanent risk capital without contractual repayment but dilutes ownership/control and shares future returns. In a company limited by shares, share capital represents ownership interests. Ordinary shareholders normally carry voting and residual ownership rights and may receive dividends when the company declares a distribution; dividends are not guaranteed. For a quoted company, the market price is the current price at which a share trades, while market capitalisation is the market value of all shares in issue and is calculated as shares in issue multiplied by current share price. Market price can change as investors revise expectations about future performance, cash flows/dividends, risk and wider market conditions. A secondary-market share-price movement changes the market value of existing ownership but does not by itself put cash into or take cash out of the company; new share issuance is a separate financing event. Trade credit, leasing, asset finance and invoice finance can match finance more closely to operating needs. The appropriate source depends on amount, duration, risk, cash-flow profile, asset life, security, existing debt, ownership preferences, stage of business and market conditions. A core principle is maturity matching: long-lived investments generally should not depend entirely on finance that can be withdrawn immediately. Finance choice is therefore a trade-off among cost, risk, flexibility, control and availability rather than a ranking of 'best' sources.",
+        "definitions": ["internal finance: funds generated from within the business","debt finance: borrowed funds with contractual obligations","equity finance: funds invested in exchange for ownership interests","overdraft: flexible bank borrowing on a current account up to agreed limit","trade credit: supplier-provided delay in payment","leasing/asset finance: arrangements providing use/funding of assets without immediate full cash purchase","ordinary share: ownership interest that normally carries residual rights such as voting and potential dividends","share capital: funds represented by issued ownership shares","dividend: distribution to shareholders declared from available company profits/reserves under the applicable rules; not a guaranteed payment","share price: market price per share where a market quotation exists","market capitalisation: number of shares in issue multiplied by current share price"],
+        "important_boundaries": ["internal finance is not free","debt does not dilute ownership but changes financial risk","equity has no guaranteed repayment but has ownership/control consequences","availability can matter more than theoretical cost","a dividend is not guaranteed interest","market capitalisation is not the same as book value or cash owned by the company","a rise in an existing quoted share price does not itself provide new finance to the company","nominal/par value of a share is not the same as its current market price"],
+        "facts": ["finance must be serviced from future cash flows or returns","collateral and creditworthiness affect debt access","equity investors bear more residual risk and seek return/control","ordinary shareholders typically participate in residual company returns and voting rights","market capitalisation moves when shares in issue or market share price changes","dividends and expected future performance can influence investor valuation but no single factor mechanically determines share price"],
+        "mechanisms": ["debt -> finance now -> interest/repayment -> fixed cash commitment","equity -> finance now -> dilution/shared upside -> lower fixed repayment pressure","short-term finance for long-term asset -> refinancing/liquidity risk","new equity issue -> company receives finance -> ownership dilution/control implications","new information or changed expectations -> investor buying/selling -> share-price change -> market-capitalisation change"],
+        "causal_relationships": ["growth/investment -> finance need -> funding structure -> cash/control/risk","interest-rate rise -> debt service cost -> profit/cash/investment effect","business performance/risk/market expectations -> investor valuation -> share price -> market capitalisation"]
+      },
+      "quantitative_content": {
+        "methods": [{"name":"Market capitalisation","formula":"shares in issue × current share price","units":"currency","worked_example":"20 million shares × £4.50 = £90 million market capitalisation","interpretation":"A market-value snapshot of the company's issued equity at the quoted share price; it is not the same as cash held by the company or book equity."}],
+        "worked_examples": ["A quoted company with 20 million shares in issue at £4.50 per share has a market capitalisation of £90 million."],
+        "interpretation": ["State whether a share value is nominal/book/market value and distinguish changes in market value from new finance raised."],
+        "common_errors": ["multiplying share price by authorised rather than issued shares where the question specifies shares in issue","treating market capitalisation as company cash","assuming a share-price rise automatically increases company profit"]
+      }
+    }
+  }],
+  "domain_moves": []
+}
