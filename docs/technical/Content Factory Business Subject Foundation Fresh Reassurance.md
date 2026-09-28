@@ -126,6 +126,20 @@ The `--self-test` contract now exercises incomplete-response cost accounting, re
 
 Run `36351378020` remains historical evidence and must not later be rewritten as a Business-content FAIL/HOLD or PASS.
 
+## Completed-review evidence retention and evidence-quality gate
+
+The third live dispatch, GitHub Actions run `36356501177` against `main` `cf3031071c28cce4742f7d1b3682b13ef8740cb4`, passed exact-main identity, deterministic promotion-provenance validation and the reassurance self-test. `Business Foundations` required the governed `max_output_tokens` retry and then completed with a `fail_hold` decision. `Marketing` also required the retry and then completed its structured review, but the runner stopped because the completed response contained three provider web-search calls while the implementation required a minimum of four.
+
+The run therefore did not complete T3 reassurance. Its retained failure artifact recorded the `Business Foundations` decision and response identity but not the full completed-domain review output or issue register. The `Business Foundations` `fail_hold` is a genuine warning signal from a completed independent domain review, but the missing issue details mean the run does not contain sufficient evidence for controlled targeted remediation and must not be reclassified as a completed subject-foundation FAIL/HOLD.
+
+The fixed numeric web-search-call threshold was an implementation proxy, not a requirement of the governing Content Accuracy Assurance Gate. The quality contract is instead enforced through the structured review itself: every supplied node must be reviewed; every node must carry at least one evidence item; evidence source IDs must be permitted for that node; evidence URLs must satisfy the registered source boundary; material findings must use permitted sources; and the reviewer decision must be deterministically consistent with the returned statuses and findings. Provider web-search count remains retained as cost/audit telemetry and continues to contribute to conservative pre-call spend reservation, but it is not itself a content-quality verdict.
+
+The runner now writes a partial evidence checkpoint after every completed and validated domain. If a later domain, provider call, source-boundary check, whole-subject review or other control fails, the failure evidence retains the full completed-domain review objects and a machine-readable register of their blocking/material findings rather than reducing them to domain/decision/response-ID summaries.
+
+The no-spend `--self-test` now proves that a structurally complete domain review with valid per-node evidence is accepted independently of its recorded search-call count and that a later synthetic failure retains the full completed-domain node-assessment output. The existing rights boundary, high-reasoning review contract, independent-context requirement, bounded retry policy and US$5 ceiling are unchanged.
+
+Run `36356501177` remains immutable historical evidence. It is recorded as incomplete assurance with a non-recoverable `Business Foundations` `fail_hold` signal whose detailed findings were not retained; a new fresh complete reassurance run is required before targeted content remediation or promotion decisions.
+
 ## Cost control
 
 The initial proof uses `gpt-5.6-terra` at high reasoning effort with a US$5 hard reassurance ceiling. The runner reserves conservative capacity before every provider call, including any permitted retry, and stops rather than silently reducing review quality when the ceiling would be exceeded.
@@ -143,16 +157,16 @@ The workflow uploads a 30-day GitHub Actions artifact containing, as available:
 - node/domain counts;
 - model route and configured spend ceiling;
 - observed token/tool spend estimate and spend-measurement status;
-- web-search call count;
+- web-search call count as audit/cost telemetry;
 - all provider attempt records, including incomplete details and usage where available;
 - all fresh provider/reviewer response IDs;
-- domain review outputs;
-- whole-subject review output;
-- blocking/material issue register;
-- final PASS or FAIL/HOLD decision; and
+- full completed domain review outputs and their blocking/material issue register even when a later step fails;
+- incremental partial evidence after each completed and validated domain;
+- whole-subject review output when reached;
+- final PASS or FAIL/HOLD decision when the complete gate reaches a content verdict; and
 - explicit exclusions/known limits.
 
-Failure evidence is also retained when the live proof starts but cannot complete. A provider-lifecycle failure remains distinct from a substantive content FAIL/HOLD.
+Failure evidence is also retained when the live proof starts but cannot complete. A provider/runner/control failure remains distinct from a substantive content FAIL/HOLD, while any completed-domain warning is preserved without being promoted into a whole-subject verdict.
 
 ## Workflow
 
@@ -167,11 +181,11 @@ The workflow:
 1. checks out that exact SHA;
 2. verifies it is still current `main`;
 3. reruns deterministic Business promotion-provenance validation;
-4. runs the reassurance runner self-test, including structured-output schema compatibility, runtime URL/source-boundary checks and incomplete-response accounting/retry controls;
+4. runs the reassurance runner self-test, including structured-output schema compatibility, runtime URL/source-boundary checks, incomplete-response accounting/retry controls, per-node evidence coverage and completed-domain failure retention;
 5. executes the fresh live reassurance using separate provider contexts/attempts; and
 6. uploads the retained evidence artifact.
 
-The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and provider-lifecycle regression controls without incurring provider spend.
+The runner is also exercised in normal `Foundation quality` CI using `--self-test`, which validates the 81-node package/fingerprint contract and assurance-runner regression controls without incurring provider spend.
 
 ## Progression after the proof
 
