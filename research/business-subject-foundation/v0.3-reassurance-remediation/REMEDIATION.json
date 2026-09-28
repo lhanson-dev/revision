@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.3-reassurance-remediation",
+  "status": "targeted_remediation_awaiting_fresh_independent_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.2-post-board-candidate",
+    "root": "research/business-subject-foundation/v0.2-post-board-candidate",
+    "assured_fingerprint": "e361c8b50dd43883d75aecfea775d922686e4248ec4964d73fe3d11de497fa97"
+  },
+  "triggering_assurance": {
+    "workflow_run_id": 36408090011,
+    "artifact_id": 10964112797,
+    "artifact_digest": "sha256:116b4916363a0ad423aae787eb6dd25b502c2c191a0e7e559e3506ce65608137",
+    "reviewed_main_sha": "59f2d3bbccf295e35db227f73147bc098fd28389",
+    "classification": "incomplete_assurance_with_24_preserved_material_findings",
+    "terminal_error": "Evidence, Decision-making and Integration assessment IDs mismatch"
+  },
+  "principles": {
+    "preserve_v02_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "promotion_decision": "NOT_YET_MADE",
+    "fresh_independent_reassurance_required": true
+  },
+  "domain_moves": [
+    {
+      "subject_id": "BUS-EVI-008",
+      "from": "Evidence, Decision-making and Integration",
+      "to": "Operations",
+      "reason": "Network analysis and Critical Path Analysis are already present as reusable subject knowledge; the prior Operations-domain completeness finding was a classification/context issue, not a missing whole-subject topic."
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "SRC-OER-LIBRETEXTS-SCALE-2026",
+      "issuer": "OpenStax / Business LibreTexts",
+      "title": "Costs in the Long Run",
+      "url": "https://biz.libretexts.org/Courses/Arkansas_State_University-Beebe/ECON_22003_Principles_of_Microeconomics/08%3A_Production_Costs_and_Industry_Structure/8.06%3A_Costs_in_the_Long_Run",
+      "date_version": "LibreTexts page last modified 2026-03-01; licence and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for long-run average cost, economies of scale, diseconomies of scale and the distinction from short-run fixed-input effects.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the CC BY 4.0 textual teaching content only; exclude separately attributed media and keep economics depth bounded to Level 3 Business.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-OPS-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Achieving World-Class Operations Management",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/achieving-world-class-operations-management/",
+      "date_version": "2022 LOUIS adaptation; chapter content and inherited CC BY 4.0 licence checked 2026-09-28",
+      "educational_role": "Direct reusable operations support for process choice, facility layout, capacity/resource planning, inventory, scheduling, critical path, quality and operations improvement.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Licence applies except where otherwise noted. Exclude separately attributed third-party images, examples and media; use independently authored Revision prose.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-GOV-SUPPLY-CHAIN-2025",
+      "issuer": "UK Home Office",
+      "title": "Slavery and human trafficking in supply chains: guidance for businesses",
+      "url": "https://www.gov.uk/government/publications/transparency-in-supply-chains-a-practical-guide",
+      "date_version": "Statutory guidance last updated 2025-12-01; checked 2026-09-28",
+      "educational_role": "UK business context for supply-chain transparency, due diligence, supplier-risk identification and limits of reporting/audit as evidence of responsible sourcing.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Subject to page-specific exclusions and third-party rights. Use as UK transparency/due-diligence context, not as a complete supply-chain-management theory.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-GLOBAL-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Competing in the Global Marketplace",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/competing-in-the-global-marketplace/",
+      "date_version": "2022 LOUIS adaptation; chapter content and inherited CC BY 4.0 licence checked 2026-09-28",
+      "educational_role": "Reusable global-business support for international location/resource choices, international expansion and movement of activities across borders.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use independently authored Revision prose and current general mechanisms only; exclude dated country/company statistics and separately attributed third-party media.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-HR-LABOR-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Managing Human Resources and Labor Relations",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/managing-human-resources-and-labor-relations/",
+      "date_version": "2022 LOUIS adaptation; chapter content and inherited CC BY 4.0 licence checked 2026-09-28",
+      "educational_role": "Direct reusable support for recruitment, selection, training, compensation, employee representation, collective bargaining, grievances and labour/employee-relations mechanisms.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Exclude US-specific legal rules from reusable UK subject truth unless independently mapped; use general HR and employee-relations mechanisms only.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-MOTIVATION-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Motivating Employees",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/motivating-employees/",
+      "date_version": "2022 LOUIS adaptation; chapter content and inherited CC BY 4.0 licence checked 2026-09-28",
+      "educational_role": "Direct reusable support for employee motivation, classic motivation frameworks, intrinsic/extrinsic mechanisms and the relationship between motivation, behaviour and performance.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Treat named theories as analytical models rather than universal laws; exclude separately attributed third-party media and dated survey claims.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LOUIS-LEADERSHIP-2022",
+      "issuer": "LOUIS: The Louisiana Library Network",
+      "title": "Management and Leadership in Today’s Organizations",
+      "url": "https://louis.pressbooks.pub/introbusinessadmin/chapter/management-and-leadership-in-todays-organizations/",
+      "date_version": "2022 LOUIS adaptation; chapter content and inherited CC BY 4.0 licence checked 2026-09-28",
+      "educational_role": "Direct reusable support for management functions, leadership, autocratic/participative/free-rein leadership styles and organisational culture.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use framework definitions and general mechanisms; exclude dated company examples and separately attributed third-party media.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-COMMUNICATION-2023",
+      "issuer": "Lumen Learning / Business LibreTexts",
+      "title": "Channels of Business Communication",
+      "url": "https://biz.libretexts.org/Courses/Lumen_Learning/Principles_of_Management_%28Lumen%29/14%3A_Communication/14.14%3A_Channels_of_Business_Communication",
+      "date_version": "Page last updated 2023-07-24; CC BY 4.0 metadata and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for oral, written and electronic communication channels, channel richness, feedback and matching medium to message complexity.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use CC BY textual content only; exclude separately attributed images and obsolete platform-specific examples.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-ANSOFF-2023",
+      "issuer": "Lumen Learning / Business LibreTexts",
+      "title": "Strategic Opportunity Matrix",
+      "url": "https://biz.libretexts.org/Bookshelves/Marketing/Principles_of_Marketing_%28Lumen%29/04%3A_Marketing_Strategy/4.08%3A_Reading-_Strategic_Opportunity_Matrix",
+      "date_version": "Page last updated 2023-11-01; CC BY 4.0 metadata and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for the Ansoff product-market matrix and its four growth directions.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the matrix taxonomy as an analytical framework. Do not promote the source's simple risk ordering as a deterministic law; retain Revision's contextual risk caveat.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {"subject_id":"BUS-FND-008","add":["SRC-OER-LIBRETEXTS-SCALE-2026"]},
+    {"subject_id":"BUS-OPS-002","add":["SRC-OER-LOUIS-OPS-2022"]},
+    {"subject_id":"BUS-OPS-003","add":["SRC-OER-LOUIS-OPS-2022"]},
+    {"subject_id":"BUS-OPS-006","add":["SRC-OER-LOUIS-OPS-2022"]},
+    {"subject_id":"BUS-OPS-007","add":["SRC-OER-LOUIS-OPS-2022","SRC-GOV-SUPPLY-CHAIN-2025"]},
+    {"subject_id":"BUS-OPS-008","add":["SRC-OER-LOUIS-OPS-2022"]},
+    {"subject_id":"BUS-OPS-009","add":["SRC-OER-LOUIS-OPS-2022","SRC-OER-LOUIS-GLOBAL-2022"]},
+    {"subject_id":"BUS-PEO-003","add":["SRC-OER-LOUIS-HR-LABOR-2022"]},
+    {"subject_id":"BUS-PEO-005","add":["SRC-OER-LOUIS-MOTIVATION-2022"]},
+    {"subject_id":"BUS-PEO-009","add":["SRC-OER-LIBRETEXTS-COMMUNICATION-2023"]},
+    {"subject_id":"BUS-PEO-010","add":["SRC-OER-LOUIS-LEADERSHIP-2022"]},
+    {"subject_id":"BUS-PEO-011","add":["SRC-OER-LOUIS-HR-LABOR-2022","SRC-OER-LOUIS-LEADERSHIP-2022"]},
+    {"subject_id":"BUS-STR-004","add":["SRC-OER-LIBRETEXTS-ANSOFF-2023"]},
+    {"subject_id":"BUS-EVI-008","add":["SRC-OER-LOUIS-OPS-2022"]}
+  ],
+  "node_patches": [
+    {
+      "subject_id": "BUS-FND-008",
+      "patch": {
+        "title": "Economies and diseconomies of scale",
+        "teaching_content": {
+          "core_explanation": "Economies of scale occur when long-run average cost falls as the scale of operation increases. The mechanism matters: larger-scale operations may use specialist resources more effectively, spread indivisible activities over greater output or gain process efficiencies, but size by itself does not guarantee lower average cost. Diseconomies of scale occur when further expansion raises long-run average cost, for example because coordination, communication or managerial complexity becomes harder to control. Scale effects must be distinguished from short-run capacity utilisation. Producing more with an existing fixed capacity can reduce average fixed cost without representing a change in long-run scale. A sound Business explanation therefore identifies whether the cost change comes from scale, utilisation, productivity, input prices or another mechanism rather than treating every unit-cost fall as an economy of scale.",
+          "why_it_matters": "Scale can influence cost advantage, growth choices and industry structure, but students need the long-run average-cost concept and a causal mechanism rather than the slogan that bigger firms are cheaper.",
+          "definitions": ["economies of scale: falling long-run average cost as the scale of operation increases", "diseconomies of scale: rising long-run average cost as scale increases beyond the efficient range", "average cost: total cost divided by output"],
+          "important_boundaries": ["total cost can rise while average cost falls", "higher use of an unchanged fixed capacity is not automatically an economy of scale", "large firms do not automatically have lower average costs", "scale is a long-run concept in which the relevant inputs/capacity can change"],
+          "facts": ["economies and diseconomies of scale are relationships between scale and long-run average cost", "coordination and communication difficulty can contribute to diseconomies", "short-run utilisation and long-run scale are different analytical questions"],
+          "mechanisms": ["larger efficient scale -> lower long-run average cost", "excessive scale -> coordination/communication complexity -> higher long-run average cost", "higher use of existing fixed capacity -> fixed-cost spreading without necessarily changing long-run scale"],
+          "causal_relationships": ["scale choice -> production/coordination structure -> long-run average-cost effect", "growth beyond efficient scale -> complexity -> possible cost/service deterioration"],
+          "applications": ["identify whether a cost change is genuinely scale-related", "distinguish scale from utilisation", "evaluate whether growth is likely to preserve cost advantages"],
+          "analysis_dimensions": ["long-run average cost", "scale", "specialisation", "technology", "coordination", "utilisation"],
+          "evaluation_dimensions": ["industry", "technology", "management capability", "output comparability", "utilisation", "growth method"]
+        },
+        "evidence_of_understanding": ["explain economies/diseconomies through long-run average cost", "distinguish scale from utilisation", "evaluate whether scale is likely to improve competitiveness"]
+      }
+    },
+    {
+      "subject_id": "BUS-FND-009",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Businesses operate within economic, political, legal, technological, social, environmental and competitive conditions they cannot fully control. External change matters through transmission mechanisms rather than generic labels. An interest-rate rise can increase borrowing costs, alter household spending and change investment decisions, but the effect differs between businesses. Terminology around risk and uncertainty varies across disciplines, so it should be defined explicitly rather than presented as a universal probability rule. For this Foundation, uncertainty means incomplete knowledge about future assumptions, events or outcomes; risk is the potential effect of uncertainty on objectives. Some risks can be estimated quantitatively, while others are better bounded through scenarios, sensitivity analysis and judgement. Businesses can reduce or transfer parts of an exposure through insurance, diversification, hedging, contracts, buffers, staged commitments and contingency plans, but uncertainty cannot be eliminated. Decisions should therefore consider plausible scenarios, downside severity, reversibility and ability to adapt rather than rely on one forecast.",
+          "definitions": ["external environment: conditions outside direct organisational control that influence business decisions/outcomes", "uncertainty: incomplete knowledge about future assumptions, events, outcomes or their likelihood", "risk: potential effect of uncertainty on business objectives", "contingency: prepared response for a plausible adverse event"],
+          "important_boundaries": ["external does not mean consequences are uncontrollable; firms can adapt", "risk and uncertainty are related and terminology varies by discipline", "risk does not require that a precise probability is known", "a forecast is not a fact", "the same shock can help one business and harm another"],
+          "applications": ["build a transmission chain from an external change", "state the definition of risk/uncertainty being used", "compare mitigation options and residual exposure", "use scenarios or sensitivity where probabilities are weak"],
+          "misconceptions": [
+            {"incorrect_belief":"Risk always means a known probability while uncertainty means the probability is unknown.","correction":"That is one analytical convention, not a universal definition. In this Foundation risk is the possible effect of uncertainty on objectives, and the quality of probability information can vary."},
+            {"incorrect_belief":"Risk can be eliminated if a business plans well enough.","correction":"Risk can often be reduced or transferred partly; residual exposure and uncertainty remain."},
+            {"incorrect_belief":"An external factor has the same direction of effect on every business.","correction":"Impact depends on exposure, customer response, cost structure, finance and strategic position."}
+          ]
+        }
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-002",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Process choice determines how work is organised to produce goods or services. Job or project processes create highly customised outputs in low volumes, batch processes produce groups of similar items, and flow/continuous processes organise repeated high-volume activity. Automation is a technology choice rather than a process category. Facility layout is a related but different decision about the physical or logical arrangement of resources and workflow. A process layout groups similar activities or equipment; a product layout arranges resources in the sequence of production; a fixed-position layout brings resources to an output that stays in one place; and cellular layouts group resources around a family of related products or tasks. Layout affects movement, waiting, flexibility, supervision, work in progress and investment. Real businesses can combine process types and layouts, so neither classification should be treated as a rigid rule. Appropriate choices depend on volume, variety, workflow, demand stability, flexibility, skills, capital, quality and speed.",
+          "definitions": ["job/project production: one-off or highly customised production", "batch production: groups of similar outputs produced together", "flow production: repeated sequential production at relatively high volume", "continuous process: near-uninterrupted high-volume process", "automation: use of technology to perform tasks with reduced direct human intervention", "process layout: similar activities/resources grouped together", "product layout: resources arranged in the sequence required by the product/service", "fixed-position layout: output remains in place while people/equipment/materials move to it", "cellular layout: resources grouped around a family of related products/tasks"],
+          "important_boundaries": ["process method and facility layout are related but not identical decisions", "automation is not synonymous with flow production", "service operations also have process/layout choices", "no process or layout is universally best"],
+          "facts": ["higher standardisation can support automation and lower unit cost", "higher variety often requires flexibility and skills", "layout changes movement, waiting and coordination requirements"],
+          "mechanisms": ["volume/variety -> process and layout design -> skills/capital/cost/flexibility", "layout -> movement/hand-offs/waiting -> time/cost/quality effects", "automation -> consistency/productivity potential -> capital/maintenance/skills implications"],
+          "applications": ["select a process for volume/variety context", "distinguish process choice from layout choice", "compare layout implications", "evaluate automation within a process"],
+          "analysis_dimensions": ["volume", "variety", "workflow", "layout", "movement", "skills", "capital", "flexibility", "quality"],
+          "evaluation_dimensions": ["demand stability", "space", "investment", "labour capability", "technology risk", "product life", "customer customisation"]
+        },
+        "evidence_of_understanding": ["compare process methods", "distinguish process and facility layout", "justify layout/process choices", "separate process choice from automation"]
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-003",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Capacity is the amount of output a process or system can produce over a stated period under specified operating conditions. Actual system output can be limited by a bottleneck: a stage whose available capability constrains total throughput. Capacity utilisation compares actual output with stated capacity. Higher utilisation can spread fixed resources over more output, while spare capacity can provide room for maintenance, demand variation or growth. The commercially sensible utilisation level is therefore contextual rather than automatically 100%. Before committing to major fixed expansion, a business can compare options such as overtime, subcontracting, flexible labour, process improvement or demand management. Capacity decisions should be connected to service requirements, expected demand, cost, cash and resilience rather than judged by one percentage alone.",
+          "definitions": ["capacity: output capability over a stated period under specified operating conditions", "bottleneck: stage/resource whose available capability constrains total system throughput", "capacity utilisation: actual output divided by stated capacity", "spare capacity: stated capacity not used by actual output in the period"],
+          "important_boundaries": ["100% utilisation is not automatically optimal", "capacity must be defined on a consistent output/time basis", "improving a non-bottleneck does not necessarily increase total system output", "a utilisation percentage alone does not establish efficiency"],
+          "facts": ["capacity planning must relate expected demand to available resources", "bottlenecks can constrain system throughput", "capacity expansion can require time and investment"],
+          "mechanisms": ["demand relative to capacity -> utilisation/spare capacity -> operating and service implications", "bottleneck -> constrained throughput -> case for targeted improvement", "capacity investment -> higher resource commitment -> potential future output capability"],
+          "causal_relationships": ["demand -> capacity requirement -> resource choice -> cost/service outcome", "bottleneck improvement -> possible system-throughput increase if the constraint is genuinely relieved"],
+          "applications": ["calculate utilisation", "identify bottleneck", "compare fixed expansion with flexible capacity responses", "interpret utilisation in context"],
+          "assumptions": ["Capacity and actual output use consistent units, time periods and operating conditions."],
+          "limitations": ["A single utilisation percentage can hide product mix, downtime, quality loss and variation in operating conditions."]
+        }
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-006",
+      "patch": {
+        "quantitative_content": {
+          "methods": [],
+          "worked_examples": [],
+          "interpretation": ["The reusable Foundation treats inventory primarily as an operations/working-capital trade-off. Exact reorder-level, stock-control-diagram or other inventory calculations are introduced only when required and defined by the exact qualification Course Truth/Exam Truth."],
+          "common_errors": ["assuming an unspecified stock-control formula is universal", "treating lower stock as automatically better"]
+        },
+        "uncertainties": ["Exact inventory-control calculations are qualification-specific and are deliberately deferred to Course Truth/Exam Truth rather than implied as an incomplete Foundation method."]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-012",
+      "patch": {
+        "teaching_content": {
+          "definitions": ["gross profit margin: gross profit as percentage of revenue", "operating profit margin: operating profit as percentage of revenue", "capital employed: long-term capital financing the business, defined here as total assets minus current liabilities (equivalently, under a consistent balance-sheet presentation, equity plus non-current liabilities)", "ROCE: operating profit relative to the defined capital employed", "ROE: relevant profit relative to shareholders' equity", "EPS: earnings attributable to ordinary shareholders divided by ordinary shares, subject to course convention"],
+          "important_boundaries": ["profitability is not liquidity", "ratio is not explanation", "higher is not universally better", "ROCE comparisons require a consistent capital-employed definition", "EPS and ROE are shareholder-oriented measures and are not universal common-core requirements"]
+        },
+        "quantitative_content": {
+          "methods": [
+            {"name":"Gross margin","formula":"gross profit / revenue × 100","units":"percent","worked_example":"£340,000 / £1,000,000 × 100 = 34%","interpretation":"34p gross profit per £1 revenue before operating expenses."},
+            {"name":"Operating margin","formula":"operating profit / revenue × 100","units":"percent","worked_example":"£200,000 / £1,000,000 × 100 = 20%","interpretation":"20% of revenue remains as operating profit under the stated accounting presentation."},
+            {"name":"Capital employed","formula":"total assets - current liabilities","units":"currency","worked_example":"£1,400,000 total assets - £400,000 current liabilities = £1,000,000 capital employed","interpretation":"£1,000,000 of long-term capital is employed under the stated definition."},
+            {"name":"ROCE","formula":"operating profit / capital employed × 100","units":"percent","worked_example":"£200,000 / £1,000,000 × 100 = 20%","interpretation":"Operating return is 20% of capital employed, with capital employed defined consistently as total assets minus current liabilities."},
+            {"name":"ROE","formula":"relevant profit attributable to owners / shareholders' equity × 100","units":"percent","worked_example":"£120,000 / £600,000 × 100 = 20%","interpretation":"Accounting return equals 20% of the stated equity base; exact numerator convention must match the course."},
+            {"name":"EPS","formula":"earnings attributable to ordinary shareholders / ordinary shares","units":"currency per share","worked_example":"£1,000,000 / 5,000,000 shares = £0.20 per share","interpretation":"Twenty pence earnings attributable per ordinary share under the stated convention."}
+          ],
+          "worked_examples": [],
+          "interpretation": ["Compare trends and causes, not only absolute values; keep the capital-employed denominator consistent across comparisons."],
+          "common_errors": ["mixing gross and operating profit", "using revenue as the ROCE denominator", "changing the capital-employed definition between comparisons", "assuming ratio direction proves cause", "using EPS/ROE conventions inconsistent with the course"]
+        }
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-003",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Selection evaluates applicants against job-relevant requirements to decide who should be hired. Common methods include structured interviews, work samples, tests, assessment exercises, references and application evidence. A structured interview uses a consistent set of job-related questions and criteria so candidates are compared on more similar evidence than in an entirely informal conversation. Selection evidence should be relevant to the work, applied consistently and interpreted cautiously: no method predicts future performance perfectly, and irrelevant assumptions or inaccessible processes can exclude capable candidates. Fairness therefore requires job-related criteria, consistent treatment and attention to avoidable barriers or bias. A strong selection system combines evidence rather than treating interviewer instinct as infallible.",
+          "definitions": ["selection: evaluating applicants against job-relevant requirements to make a hiring decision", "structured interview: interview using consistent job-related questions and assessment criteria", "work sample: task designed to provide evidence about capability relevant to the work", "bias: systematic influence on judgement unrelated to legitimate job criteria"],
+          "important_boundaries": ["recruitment attracts the applicant pool while selection evaluates it", "consistent questions improve comparability but do not make a process perfectly objective", "cultural fit should not be a vague licence for similarity bias", "an interviewer's confidence is not proof of future performance"],
+          "facts": ["different selection methods provide different kinds of evidence", "job-related structured criteria improve comparability between candidates", "consistent scoring can reduce some irrelevant variation but does not remove every source of bias"],
+          "mechanisms": ["job requirements -> job-related criteria -> structured evidence -> more defensible comparison", "unstructured irrelevant questioning -> inconsistent evidence -> weaker comparison", "avoidable barrier/bias -> capable candidate excluded -> weaker hiring decision"],
+          "applications": ["compare selection methods", "design job-related criteria", "critique consistency, fairness and avoidable bias"],
+          "analysis_dimensions": ["job relevance", "structure", "evidence", "consistency", "bias", "fairness", "candidate experience"],
+          "evaluation_dimensions": ["job relevance", "cost", "quality of evidence", "accessibility", "legal/ethical risk"]
+        },
+        "evidence_of_understanding": ["distinguish recruitment from selection", "compare structured selection methods", "evaluate job relevance, consistency and fairness"]
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-005",
+      "patch": {
+        "title": "Motivation and performance",
+        "teaching_content": {
+          "core_explanation": "Motivation concerns the forces that influence the effort and persistence people bring to work. It can be influenced by extrinsic factors such as pay, bonuses and promotion and by intrinsic factors such as achievement, responsibility, interest and recognition. Motivation is not identical to performance: a highly motivated employee can still perform poorly if capability, equipment, staffing, process design or priorities are weak. Named motivation theories are useful lenses rather than universal laws. Taylor emphasises task design and economic incentives; Maslow organises different categories of human need; Herzberg distinguishes hygiene conditions from motivating factors; and McGregor describes contrasting managerial assumptions about workers. These frameworks can prompt useful questions, but actual responses vary by individual, job, culture and context. Business analysis should therefore identify the proposed motivation mechanism and test other constraints before claiming that a reward or management action caused performance.",
+          "why_it_matters": "Motivation is frequently oversimplified into 'pay versus non-pay'. This node supports causal analysis of effort and performance and keeps named theories epistemically separate from fact.",
+          "definitions": ["motivation: forces influencing effort and persistence toward an outcome", "intrinsic motivation: motivation arising from the activity, achievement or meaning itself", "extrinsic motivation: motivation influenced by external rewards or pressures"],
+          "important_boundaries": ["motivation is not performance", "pay can influence motivation but is not a universal mechanism", "named theories are models, not laws", "performance also depends on capability, resources, process and opportunity"],
+          "facts": ["performance also depends on capability/resources/opportunity", "different employees can respond differently to the same reward or job design", "incentives can create unintended behaviour when measures are poorly designed"],
+          "mechanisms": ["reward/recognition/meaning -> motivation -> effort/behaviour", "capability/resource constraint -> weak performance despite motivation", "job design -> responsibility/achievement/feedback -> possible motivation effect"],
+          "causal_relationships": ["job/reward/leadership -> motivation -> behaviour -> performance, moderated by capability/resources/process"],
+          "applications": ["diagnose motivation versus capability/system issue", "apply motivation theories critically", "evaluate contextual interventions"],
+          "analysis_dimensions": ["intrinsic/extrinsic", "job design", "reward", "capability", "resources", "leadership"],
+          "evaluation_dimensions": ["individual difference", "job type", "culture", "time", "reward design", "evidence"]
+        },
+        "quantitative_content": {"methods": [], "worked_examples": [], "interpretation": ["survey or performance measures are indirect evidence and should not be treated as proof of a motivation mechanism"], "common_errors": ["inferring motivation directly from one performance metric"]},
+        "evidence_of_understanding": ["distinguish motivation from performance", "apply theory as a lens rather than a law", "diagnose contextual constraints"]
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-009",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Organisational communication is the process through which information, meaning and feedback move between people and groups. Communication succeeds when recipients can interpret and act on the relevant meaning, not merely when a message has been sent. Channels differ in speed, richness, permanence, reach and feedback. Face-to-face or live discussion is relatively rich because ambiguity can be explored with rapid feedback; written communication creates a record and can carry detailed information but feedback may be slower; electronic channels can combine speed, scale and different media. Formal and informal channels can both help or distort information. More communication is not automatically better: overload can reduce attention. The appropriate channel depends on the complexity and sensitivity of the message, urgency, audience, need for a record and need for feedback. Remote or hybrid arrangements change the channel mix, so deliberate documentation and coordination may become more important without implying that remote communication is inherently worse.",
+          "definitions": ["communication: exchange of information and meaning", "feedback: response that helps test interpretation or outcome", "formal communication: organisationally defined channel/process", "informal communication: unofficial interpersonal information flow", "channel richness: amount and immediacy of information and feedback a medium can carry"],
+          "facts": ["channels differ in richness, permanence, reach and feedback", "written records can support consistency/accountability", "richer channels can help with complex or ambiguous messages"],
+          "mechanisms": ["message complexity + channel choice + feedback -> understanding -> coordinated action", "poor channel/message fit -> ambiguity or delay -> execution risk", "information overload -> reduced attention -> missed priorities"],
+          "applications": ["choose a channel for message context", "identify communication barriers", "design a feedback loop", "evaluate communication needs in distributed work"],
+          "analysis_dimensions": ["sender/receiver", "channel", "feedback", "barriers", "richness", "overload", "record"],
+          "evaluation_dimensions": ["urgency", "complexity", "sensitivity", "documentation need", "audience", "feedback need"]
+        }
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-010",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Management commonly involves planning, organising, leading and controlling resources and activity. Leadership focuses on influencing and guiding people toward organisational goals, although real managerial roles combine management and leadership. A simple leadership-style continuum can distinguish autocratic/directive leadership, where the leader retains most decision authority; participative leadership, where group members contribute materially to decisions; and free-rein/delegative leadership, where capable people receive substantial discretion within agreed boundaries. These labels are analytical shorthand, not personality types or universal prescriptions. Speed, risk, employee capability, information distribution and the need for commitment influence which approach is appropriate. A safety emergency may justify directive action, while process redesign can benefit from participation. Delegation still requires objectives, capability and accountability. Leadership outcomes also depend on context, so a successful result does not prove one style is always superior.",
+          "definitions": ["management: planning, organising, leading and controlling resources/activity toward objectives", "leadership: influencing and guiding people toward collective goals", "autocratic/directive style: leader retains most decision authority", "participative style: group members contribute materially to decisions", "free-rein/delegative style: substantial discretion is passed to capable others within agreed accountability"],
+          "important_boundaries": ["leadership and management overlap", "participation is not the same as full decentralisation", "delegation is not absence of accountability", "style effects depend on context"],
+          "facts": ["leadership styles differ in the distribution of decision authority and participation", "delegation requires capability and accountability", "no single style is universally appropriate"],
+          "mechanisms": ["style -> information/participation/speed -> decision and implementation effects", "delegation -> local discretion -> faster response if capability/accountability are adequate", "mismatch between context and style -> delay, weak commitment or control risk"],
+          "applications": ["select a style for context", "distinguish leadership from management", "evaluate speed, participation and accountability trade-offs"],
+          "analysis_dimensions": ["authority", "participation", "urgency", "risk", "capability", "accountability"],
+          "evaluation_dimensions": ["context", "task", "team capability", "decision reversibility", "information distribution", "need for commitment"]
+        },
+        "models_frameworks": ["autocratic-participative-free-rein leadership-style continuum; course-specific named models remain model-register entries"]
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-011",
+      "patch": {
+        "title": "Culture, employee voice, wellbeing and employee relations",
+        "teaching_content": {
+          "core_explanation": "Organisational culture is the pattern of shared values, expectations and behaviour that develops through what leaders, systems and peers repeatedly reward or tolerate. Employee voice is the opportunity for employees to contribute ideas, concerns and challenge through informal or formal channels. Wellbeing concerns conditions that enable people to work sustainably and can be affected by workload, job design, relationships, safety and support. Employee relations concern the relationship between employer and workforce individually and collectively. Mechanisms can include consultation, employee representation or trade unions, collective bargaining, grievance procedures and processes for resolving disputes. These mechanisms do not guarantee agreement; they provide ways to exchange information, negotiate interests and handle conflict. Culture is created by actual systems as much as slogans: a company that says 'safety first' but rewards output regardless of near misses teaches a different norm. Voice can improve problem detection only when concerns can be raised and acted on. Wellbeing initiatives that focus only on individual coping can miss organisational causes such as unsafe workload or poor job design.",
+          "why_it_matters": "This node connects culture and sustainable work with the concrete mechanisms through which employers and employees communicate, represent interests and resolve disagreement.",
+          "definitions": ["culture: shared values, expectations and patterns of behaviour within an organisation", "employee voice: ways employees contribute ideas, concerns or challenge", "wellbeing: physical, psychological and social conditions affecting sustainable work", "employee relations: employer-workforce relationship including consultation, representation, negotiation and conflict", "collective bargaining: negotiation between employer and employee representatives over employment terms/conditions", "grievance: formal or informal employee concern/dispute handled through an agreed process"],
+          "important_boundaries": ["culture is not posters or perks", "voice is not guaranteed simply because a suggestion channel exists", "wellbeing is not only individual resilience", "employee representation does not mean employer and employees always agree", "low grievance counts can indicate either healthy relations or reluctance to raise concerns"],
+          "facts": ["leader behaviour and organisational systems can shape culture", "employee relations can operate individually and collectively", "collective bargaining, representation and grievance procedures are mechanisms for managing employment interests and disputes"],
+          "mechanisms": ["repeated reward/tolerance -> expected behaviour -> culture", "voice/consultation -> information exchange -> possible problem discovery and decision improvement", "representation/bargaining -> negotiation of interests -> agreement or continuing dispute", "grievance procedure -> issue raised -> investigation/dialogue -> resolution or escalation", "workload/job design -> wellbeing -> attendance/retention/service effects"],
+          "causal_relationships": ["leadership/reward/system -> culture -> behaviour", "voice/representation -> information and negotiation -> employee-relations outcome", "job design/workload -> wellbeing -> attendance/retention/service"],
+          "examples": ["A firm publicly encourages challenge but penalises employees who raise delivery risks; the lived culture teaches silence despite the stated value.", "A recognised employee representative can use consultation or collective bargaining to raise pay or working-condition concerns, while unresolved individual issues may move through a grievance process."],
+          "non_examples": ["Treating a staff survey score as proof of a specific culture cause.", "Offering wellbeing workshops while leaving an unsafe workload unchanged and calling the root problem solved."],
+          "applications": ["diagnose culture from systems and behaviour", "compare voice/representation mechanisms", "explain collective bargaining and grievance processes", "evaluate wellbeing interventions and root causes"],
+          "real_world_transfer": ["Recognise when a stated company value conflicts with incentives.", "Identify whether an employee-relations issue is primarily information, representation, negotiation or grievance handling."],
+          "assumptions": ["People evidence is triangulated rather than inferred from one survey or metric."],
+          "limitations": ["Culture and wellbeing are difficult to measure; employee experience can vary across teams; employee-relations institutions and legal rights vary by jurisdiction and must be mapped at course/market level."],
+          "misconceptions": [
+            {"incorrect_belief":"A company has employee voice because it provides a suggestion box or survey.","correction":"Voice depends on whether employees can meaningfully raise views and whether the organisation can consider and respond to them."},
+            {"incorrect_belief":"Low employee complaints prove good culture.","correction":"Low complaints can also indicate weak voice or reluctance to raise concerns."}
+          ],
+          "analysis_dimensions": ["norms", "incentives", "voice", "representation", "bargaining", "grievance", "wellbeing", "leadership"],
+          "evaluation_dimensions": ["evidence quality", "root cause", "fairness", "jurisdiction", "cost", "sustainability", "employee capability"]
+        },
+        "quantitative_content": {"methods": ["turnover/absence/productivity metrics from BUS-PEO-001 can support diagnosis but are not direct measures of culture, voice, wellbeing or employee relations"], "worked_examples": [], "interpretation": ["people metrics require triangulation and causality caution"], "common_errors": ["treating one survey or workforce metric as direct proof of cause"]},
+        "models_frameworks": ["course-specific culture frameworks may be stored separately as analytical models"],
+        "evidence_of_understanding": ["diagnose culture from behaviour and systems", "explain employee voice and representation", "explain bargaining/grievance mechanisms", "analyse wellbeing root causes", "evaluate people evidence"]
+      }
+    }
+  ],
+  "finding_resolution_map": [
+    {"finding":"BUS-FND-008 source-support finding","resolution":"content_and_source_patch","targets":["BUS-FND-008"]},
+    {"finding":"BUS-FND-009 risk/uncertainty definition finding","resolution":"content_patch","targets":["BUS-FND-009"]},
+    {"finding":"Business Foundations domain duplicates of node findings","resolution":"resolved_by_same_targeted_patches","targets":["BUS-FND-008","BUS-FND-009"]},
+    {"finding":"BUS-OPS-003 capacity evidence finding","resolution":"bounded_content_and_source_patch","targets":["BUS-OPS-003"]},
+    {"finding":"BUS-OPS-006 quantitative-boundary finding","resolution":"explicit_foundation_boundary","targets":["BUS-OPS-006"]},
+    {"finding":"BUS-OPS-007 transparency/traceability source finding","resolution":"source_patch","targets":["BUS-OPS-007"]},
+    {"finding":"BUS-OPS-008 QC/QA source finding","resolution":"source_patch","targets":["BUS-OPS-008"]},
+    {"finding":"BUS-OPS-009 location/outsourcing/offshoring source finding","resolution":"source_patch","targets":["BUS-OPS-009"]},
+    {"finding":"Operations critical-path/network completeness finding","resolution":"domain_reclassification_existing_node","targets":["BUS-EVI-008"]},
+    {"finding":"Operations facility-layout completeness finding","resolution":"content_patch","targets":["BUS-OPS-002"]},
+    {"finding":"BUS-FIN-012 capital-employed denominator finding","resolution":"content_patch","targets":["BUS-FIN-012"]},
+    {"finding":"Finance domain duplicate of ROCE finding","resolution":"resolved_by_same_targeted_patch","targets":["BUS-FIN-012"]},
+    {"finding":"BUS-PEO-003 selection source-depth finding","resolution":"bounded_content_and_source_patch","targets":["BUS-PEO-003"]},
+    {"finding":"BUS-PEO-005 engagement source-depth finding","resolution":"bounded_scope_to_motivation_and_performance_with_direct_source","targets":["BUS-PEO-005"]},
+    {"finding":"BUS-PEO-009 communication source-depth finding","resolution":"content_and_source_patch","targets":["BUS-PEO-009"]},
+    {"finding":"BUS-PEO-010 leadership-style source-depth finding","resolution":"content_and_source_patch","targets":["BUS-PEO-010"]},
+    {"finding":"BUS-PEO-011 broad people-concepts source-depth finding","resolution":"bounded_content_and_source_patch","targets":["BUS-PEO-011"]},
+    {"finding":"BUS-PEO-011 employee-relations completeness finding","resolution":"content_and_source_patch","targets":["BUS-PEO-011"]},
+    {"finding":"People domain employee-relations duplicate finding","resolution":"resolved_by_same_targeted_patch","targets":["BUS-PEO-011"]},
+    {"finding":"People domain source-coverage finding","resolution":"direct_promotion_source_patches","targets":["BUS-PEO-003","BUS-PEO-005","BUS-PEO-009","BUS-PEO-010","BUS-PEO-011"]},
+    {"finding":"BUS-STR-004 Ansoff source-support finding","resolution":"direct_source_patch","targets":["BUS-STR-004"]},
+    {"finding":"Strategy domain duplicate of Ansoff source finding","resolution":"resolved_by_same_source_patch","targets":["BUS-STR-004"]}
+  ]
+}
