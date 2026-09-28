@@ -10,6 +10,7 @@ const EXPECTED_CANDIDATE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097
 const EXPECTED_REASSURANCE_FINGERPRINT = 'f2b59796d0939d349a4058de0504b75775e08f42dc8a5398ab407187b8535215'
 const EXPECTED_REQUIREMENTS = 42
 const TARGET_NODE = 'BUS-FIN-008'
+const PENDING_COVERAGE = 'candidate_covered_pending_v07_assurance'
 
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical)
@@ -38,11 +39,17 @@ async function loadDependencies() {
   assert(candidate.index.candidate_version === 'v0.7-aqa-7132-gap-reconciliation', 'Unexpected Foundation candidate version')
   assert(candidate.fingerprint === EXPECTED_CANDIDATE_FINGERPRINT, 'Unexpected Foundation candidate fingerprint')
   assert(mapping.mapping_id === 'aqa-business-7132-2027-specification-mapping-v1', 'Unexpected specification mapping')
+  assert(mapping.status === 'candidate_pending_v07_subject_gap_reassurance', 'Unexpected immutable mapping source state')
   assert(mapping.course?.course_id === 'aqa:aqa-a-level:7132', 'Unexpected course identity')
   assert(mapping.course?.exam_year === 2027, 'Unexpected exam year')
   assert(mapping.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Mapping/Foundation fingerprint mismatch')
   assert(mapping.requirements?.length === EXPECTED_REQUIREMENTS, 'AQA requirement denominator changed')
   exactSet(mapping.subject_foundation?.pending_fresh_assurance_node_ids || [], [TARGET_NODE], 'Mapping pending reassurance scope')
+
+  const pendingRequirements = mapping.requirements.filter((requirement) => requirement.coverage_status === PENDING_COVERAGE)
+  assert(pendingRequirements.length === 1, `Expected exactly one pre-reassurance pending requirement, got ${pendingRequirements.length}`)
+  assert(pendingRequirements[0].requirement_id === 'AQA-7132-3.1.2', 'Unexpected pre-reassurance pending AQA requirement')
+  assert(pendingRequirements[0].mapped_subject_node_ids.includes(TARGET_NODE), 'Pending AQA requirement is not bound to BUS-FIN-008')
 
   assert(receipt.specification_mapping_id === mapping.mapping_id, 'Receipt/mapping identity mismatch')
   assert(receipt.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Receipt/Foundation fingerprint mismatch')
@@ -52,7 +59,9 @@ async function loadDependencies() {
   assert(receipt.reassurance?.reassurance_fingerprint === EXPECTED_REASSURANCE_FINGERPRINT, 'Unexpected reassurance fingerprint')
   assert(receipt.reassurance?.unresolved_blocking_or_material_findings === 0, 'Reassurance has unresolved material findings')
   exactSet(receipt.state_transition?.resolved_pending_node_ids || [], [TARGET_NODE], 'Resolved reassurance scope')
+  assert(receipt.state_transition?.mapping_candidate_state === mapping.status, 'Receipt does not bind the immutable mapping state')
   assert(receipt.state_transition?.effective_projection_state === 'ready_for_course_truth_projection', 'Projection gate is not open')
+  assert(receipt.state_transition?.learner_asset_regeneration_allowed === false, 'Receipt must not unlock learner regeneration')
 
   const requirementIds = new Set(mapping.requirements.map((item) => item.requirement_id))
   assert(requirementIds.size === EXPECTED_REQUIREMENTS, 'Duplicate AQA requirement IDs')
@@ -67,6 +76,24 @@ async function loadDependencies() {
 
 function buildCourseTruth(candidate, receipt) {
   const mappingFingerprint = fingerprint(mapping)
+  const requirements = mapping.requirements.map((requirement) => {
+    const wasPendingReassurance = requirement.coverage_status === PENDING_COVERAGE
+    return {
+      ...structuredClone(requirement),
+      source_coverage_status: requirement.coverage_status,
+      effective_coverage_status: wasPendingReassurance ? 'covered_after_v07_foundation_reassurance' : requirement.coverage_status,
+      reassurance_resolution: wasPendingReassurance
+        ? {
+            receipt_id: receipt.receipt_id,
+            target_node_id: TARGET_NODE,
+            decision: receipt.reassurance.decision,
+            reassurance_fingerprint: receipt.reassurance.reassurance_fingerprint
+          }
+        : null
+    }
+  })
+  const unresolved = requirements.filter((requirement) => !['mapped', 'covered_after_v07_foundation_reassurance'].includes(requirement.effective_coverage_status))
+
   const projection = {
     schema_version: 1,
     projection_id: 'aqa-business-7132-2027-course-truth-v1',
@@ -81,6 +108,7 @@ function buildCourseTruth(candidate, receipt) {
       specification_mapping: {
         mapping_id: mapping.mapping_id,
         mapping_fingerprint: mappingFingerprint,
+        immutable_source_status: mapping.status,
         requirement_count: mapping.requirements.length
       },
       foundation_reassurance: {
@@ -96,20 +124,19 @@ function buildCourseTruth(candidate, receipt) {
       awarding_body_use: 'REFERENCE_ONLY',
       policy: 'AQA material supplies exact course/alignment facts only; protected AQA prose is not reusable subject truth or learner teaching copy.'
     },
-    requirements: mapping.requirements.map((requirement) => ({
-      ...structuredClone(requirement),
-      effective_coverage_status: 'covered_after_v07_foundation_reassurance'
-    })),
+    requirements,
     coverage: {
-      governed_requirement_count: mapping.requirements.length,
-      mapped_requirement_count: mapping.requirements.filter((item) => item.mapped_subject_node_ids?.length).length,
-      unresolved_requirement_count: 0,
+      governed_requirement_count: requirements.length,
+      mapped_requirement_count: requirements.filter((item) => item.mapped_subject_node_ids?.length).length,
+      reassurance_resolved_requirement_count: requirements.filter((item) => item.reassurance_resolution).length,
+      unresolved_requirement_count: unresolved.length,
       unresolved_reusable_foundation_gap_count: 0,
-      projection_ready: true
+      projection_ready: unresolved.length === 0
     },
     known_limitations: [
       'Course Truth defines what this exact AQA course requires; assessment demand is owned separately by Exam Truth.',
-      'Course-specific labels, conventions and placement remain mapping facts and do not mutate reusable subject knowledge.'
+      'Course-specific labels, conventions and placement remain mapping facts and do not mutate reusable subject knowledge.',
+      'The source mapping remains historically accurate in its pre-reassurance candidate state; this projection applies the separate reassurance receipt rather than rewriting that evidence.'
     ]
   }
   return { ...projection, projection_fingerprint: fingerprint(projection) }
@@ -123,7 +150,7 @@ function buildExamTruth(courseTruth) {
       url: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment',
       rights_classification: 'REFERENCE_ONLY',
       checked_date: '2026-09-28',
-      supports: ['assessment_objectives', 'component_ao_weightings', 'component_raw_marks', 'linear_assessment']
+      supports: ['linear_assessment', 'assessment_objectives', 'component_ao_weightings', 'component_raw_marks', 'extended_response_requirement']
     },
     {
       source_id: 'AQA-7132-SPECIFICATION-AT-A-GLANCE',
@@ -147,31 +174,7 @@ function buildExamTruth(courseTruth) {
       url: 'https://www.aqa.org.uk/subjects/business/a-level/business-7132/assessment-resources',
       rights_classification: 'REFERENCE_ONLY',
       checked_date: '2026-09-28',
-      supports: ['assessment_resource_provenance']
-    },
-    {
-      source_id: 'AQA-7132-P1-SAMPLE-MARK-SCHEME',
-      source_type: 'official_sample_mark_scheme',
-      url: 'https://filestore.aqa.org.uk/resources/business/AQA-71321-SMS.PDF',
-      rights_classification: 'REFERENCE_ONLY',
-      checked_date: '2026-09-28',
-      supports: ['sample_question_family_evidence', 'mark_scheme_variability_boundary']
-    },
-    {
-      source_id: 'AQA-7132-P2-SAMPLE-MARK-SCHEME',
-      source_type: 'official_sample_mark_scheme',
-      url: 'https://filestore.aqa.org.uk/resources/business/AQA-71322-SMS.PDF',
-      rights_classification: 'REFERENCE_ONLY',
-      checked_date: '2026-09-28',
-      supports: ['sample_ao_allocation_evidence', 'mark_scheme_variability_boundary']
-    },
-    {
-      source_id: 'AQA-7132-P3-SAMPLE-MARK-SCHEME',
-      source_type: 'official_sample_mark_scheme',
-      url: 'https://filestore.aqa.org.uk/resources/business/AQA-71323-SMS.PDF',
-      rights_classification: 'REFERENCE_ONLY',
-      checked_date: '2026-09-28',
-      supports: ['sample_contextual_analysis_evidence', 'mark_scheme_variability_boundary']
+      supports: ['official_assessment_resource_location']
     }
   ]
 
@@ -188,7 +191,8 @@ function buildExamTruth(courseTruth) {
     rights_boundary: {
       awarding_body_use: 'REFERENCE_ONLY',
       derived_facts_only: true,
-      source_text_copied_into_generative_truth: false
+      source_text_copied_into_generative_truth: false,
+      mark_scheme_or_examiner_prose_promoted_to_truth: false
     },
     assessment_model: {
       linear: true,
@@ -233,25 +237,22 @@ function buildExamTruth(courseTruth) {
     },
     assessment_objectives: {
       AO1: { capability: 'knowledge_and_understanding', overall_percent_range: [22, 25], paper_percent_ranges: { '7132/1': [9, 11], '7132/2': [6, 8], '7132/3': [5, 8] } },
-      AO2: { capability: 'application_to_business_context', overall_percent_range: [24, 27], paper_percent_ranges: { '7132/1': [9, 11], '7132/2': [8, 11], '7132/3': [5, 7] } },
-      AO3: { capability: 'analysis_of_business_information_and_issues', overall_percent_range: [25, 28], paper_percent_ranges: { '7132/1': [5, 8], '7132/2': [8, 11], '7132/3': [9, 12] } },
+      AO2: { capability: 'application_to_business_contexts', overall_percent_range: [24, 27], paper_percent_ranges: { '7132/1': [9, 11], '7132/2': [8, 11], '7132/3': [5, 7] } },
+      AO3: { capability: 'analysis_of_business_issues_and_influences', overall_percent_range: [25, 28], paper_percent_ranges: { '7132/1': [5, 8], '7132/2': [8, 11], '7132/3': [9, 12] } },
       AO4: { capability: 'evaluation_and_evidence_based_judgement', overall_percent_range: [23, 26], paper_percent_ranges: { '7132/1': [5, 8], '7132/2': [6, 9], '7132/3': [9, 12] } }
     },
     question_families: [
-      { family_id: 'MCQ', course_role: 'selected_response', evidence_status: 'specification_invariant' },
-      { family_id: 'SHORT_ANSWER', course_role: 'constructed_response', evidence_status: 'specification_invariant' },
-      { family_id: 'ESSAY', course_role: 'extended_argument_and_judgement', evidence_status: 'specification_invariant' },
-      { family_id: 'DATA_RESPONSE', course_role: 'contextual_multi_part_response', evidence_status: 'specification_invariant' },
-      { family_id: 'CASE_STUDY', course_role: 'synoptic_contextual_response', evidence_status: 'specification_invariant' }
+      { family_id: 'MCQ', response_form: 'selected_response', evidence_status: 'specification_invariant' },
+      { family_id: 'SHORT_ANSWER', response_form: 'constructed_response', evidence_status: 'specification_invariant' },
+      { family_id: 'ESSAY', response_form: 'extended_response', evidence_status: 'specification_invariant' },
+      { family_id: 'DATA_RESPONSE', response_form: 'contextual_multi_part_response', evidence_status: 'specification_invariant' },
+      { family_id: 'CASE_STUDY', response_form: 'contextual_multi_part_response', evidence_status: 'specification_invariant' }
     ],
-    sample_mark_scheme_observations: {
-      status: 'illustrative_not_invariant',
-      safe_use: 'Use samples to understand assessed capabilities and marking approach; do not freeze sample mark allocations, exact level descriptors, or question mixes as future-paper truth.',
-      observations: [
-        'Sample materials demonstrate explicit AO allocation at question level.',
-        'Extended responses use level-based marking in the sample materials.',
-        'Contextual analysis and supported judgement are material assessed capabilities in extended responses.'
-      ]
+    assessment_resource_boundary: {
+      official_resource_index_recorded: true,
+      mark_scheme_detail_status: 'not_promoted_to_stable_exam_truth',
+      rationale: 'Question-specific mark allocations, indicative content and detailed mark-scheme wording can change by paper. Stable Exam Truth is limited to the published assessment contract and assessment objectives.',
+      later_use_rule: 'Past papers, mark schemes and examiner materials may support exact-course assurance, calibration and Exam Prep only under reference-only provenance and must not be treated as invariant future-paper truth.'
     },
     prohibited_extrapolations: [
       'Do not predict topic likelihood or paper placement beyond published specification structure.',
@@ -265,13 +266,13 @@ function buildExamTruth(courseTruth) {
       assessment_objectives: 'complete',
       quantitative_requirement: 'complete',
       stable_question_families: 'complete',
-      sample_marking_evidence_boundary: 'complete',
+      variable_mark_scheme_details: 'deliberately_outside_stable_truth',
       exact_future_question_mix: 'not_knowable_and_not_required',
       ready_for_exact_course_assurance: true,
       learner_asset_regeneration_allowed: false
     },
     known_limitations: [
-      'Future paper-level question marks and detailed mark-scheme wording can vary within the published assessment contract.',
+      'Future question-level marks, indicative content and detailed mark-scheme wording can vary within the published assessment contract.',
       'Exam dates are operational scheduling data and are intentionally not embedded as durable Exam Truth.',
       'This stage does not grant learner-publication authority; exact-course assurance remains the next gate.'
     ]
@@ -283,18 +284,25 @@ function buildExamTruth(courseTruth) {
 function validate(courseTruth, examTruth) {
   assert(courseTruth.coverage.governed_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth denominator mismatch')
   assert(courseTruth.coverage.mapped_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth is not fully mapped')
+  assert(courseTruth.coverage.reassurance_resolved_requirement_count === 1, 'Course Truth must resolve exactly one reassurance-dependent requirement')
   assert(courseTruth.coverage.unresolved_requirement_count === 0, 'Course Truth has unresolved requirements')
   assert(courseTruth.coverage.unresolved_reusable_foundation_gap_count === 0, 'Course Truth has unresolved Foundation gaps')
   assert(courseTruth.dependencies.foundation_reassurance.decision === 'pass_without_changes', 'Course Truth is not bound to passing reassurance')
+  assert(courseTruth.requirements.filter((item) => item.effective_coverage_status === 'covered_after_v07_foundation_reassurance').length === 1, 'Only the original pending requirement may transition after reassurance')
+  assert(courseTruth.requirements.filter((item) => item.effective_coverage_status === 'mapped').length === EXPECTED_REQUIREMENTS - 1, 'Unchanged mapping coverage statuses must remain mapped')
 
   assert(examTruth.assessment_model.components.length === 3, 'Exam Truth must define three components')
   assert(examTruth.assessment_model.components.every((component) => component.duration_minutes === 120 && component.raw_marks === 100), 'AQA paper duration/mark contract mismatch')
+  assert(examTruth.assessment_model.components.every((component) => component.qualification_weight_percent === 33.3), 'AQA paper weighting contract mismatch')
   assert(examTruth.assessment_model.total_raw_marks === 300, 'AQA total raw marks mismatch')
   assert(examTruth.assessment_model.quantitative_skills_minimum_overall_percent === 10, 'Quantitative skills minimum mismatch')
   exactSet(Object.keys(examTruth.assessment_objectives), ['AO1', 'AO2', 'AO3', 'AO4'], 'Assessment objective set')
-  assert(examTruth.sources.every((source) => source.rights_classification === 'REFERENCE_ONLY'), 'Exam Truth contains a non-reference-only AQA source')
+  exactSet(examTruth.question_families.map((family) => family.family_id), ['MCQ', 'SHORT_ANSWER', 'ESSAY', 'DATA_RESPONSE', 'CASE_STUDY'], 'Stable question-family set')
+  assert(examTruth.sources.length === 4, 'Exam Truth source set changed unexpectedly')
+  assert(examTruth.sources.every((source) => source.rights_classification === 'REFERENCE_ONLY' && /^https:\/\/www\.aqa\.org\.uk\//.test(source.url)), 'Exam Truth contains an unapproved AQA source boundary')
   assert(examTruth.rights_boundary.source_text_copied_into_generative_truth === false, 'Exam Truth must not copy awarding-body source text')
-  assert(examTruth.sample_mark_scheme_observations.status === 'illustrative_not_invariant', 'Sample mark schemes must not be treated as invariant')
+  assert(examTruth.rights_boundary.mark_scheme_or_examiner_prose_promoted_to_truth === false, 'Mark-scheme/examiner prose must not become stable Exam Truth')
+  assert(examTruth.assessment_resource_boundary.mark_scheme_detail_status === 'not_promoted_to_stable_exam_truth', 'Variable mark-scheme detail must stay outside stable Exam Truth')
   assert(examTruth.prohibited_extrapolations.length >= 4, 'Exam Truth extrapolation guard is incomplete')
   assert(examTruth.completeness.ready_for_exact_course_assurance === true, 'Exam Truth is not ready for exact-course assurance')
   assert(examTruth.completeness.learner_asset_regeneration_allowed === false, 'Learner generation must remain blocked before exact-course assurance')
@@ -313,6 +321,7 @@ async function main() {
     subjectFoundationFingerprint: candidate.fingerprint,
     specificationMappingId: mapping.mapping_id,
     mappedRequirements: courseTruth.coverage.mapped_requirement_count,
+    reassuranceResolvedRequirements: courseTruth.coverage.reassurance_resolved_requirement_count,
     courseTruthFingerprint: courseTruth.projection_fingerprint,
     examTruthFingerprint: examTruth.exam_truth_fingerprint,
     stableQuestionFamilies: examTruth.question_families.length,
