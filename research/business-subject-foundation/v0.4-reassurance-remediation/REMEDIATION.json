@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.4-reassurance-remediation",
+  "status": "targeted_remediation_awaiting_fresh_independent_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.3-reassurance-remediation",
+    "fingerprint": "3d8f7e09e196858b9323f880c595b963d26cc9abc1d249a5aaf6028997df4a0f"
+  },
+  "triggering_assurance": {
+    "workflow_run_id": 36422620778,
+    "artifact_id": 10971300946,
+    "artifact_digest": "sha256:e504b28cea1054632a7bc9ac4a5c2d92fa8658aad4830ee734a43c845b3ea09b",
+    "reviewed_main_sha": "fc70945bb2282fe62f158b3966034235300fe980",
+    "reviewed_candidate_fingerprint": "3d8f7e09e196858b9323f880c595b963d26cc9abc1d249a5aaf6028997df4a0f",
+    "classification": "incomplete_assurance_with_three_genuine_material_source_support_findings_and_url_normalization_control_failure",
+    "completed_domain_decisions": {
+      "Business Foundations": "pass",
+      "Marketing": "pass",
+      "Operations": "fail_hold",
+      "Finance": "pass"
+    },
+    "terminal_error": "People and Organisation evidence URL was semantically equivalent to its registered LibreTexts URL but rejected because percent-encoded and decoded path forms were compared byte-for-byte"
+  },
+  "principles": {
+    "preserve_v02_and_v03_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "teaching_content_changed_by_this_remediation": false,
+    "board_material_used_as_reusable_subject_truth": false,
+    "promotion_decision": "NOT_YET_MADE",
+    "fresh_independent_reassurance_required": true
+  },
+  "findings_remediated": [
+    {
+      "finding_id": "F-OPS-001",
+      "subject_id": "BUS-OPS-003",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "The node teaches operational capacity, bottlenecks and capacity utilisation, but the mapped promotion sources did not directly support those concepts and the utilisation calculation strongly enough.",
+      "remediation": "Add direct CC BY evidence for capacity utilisation as actual output relative to maximum output and for a bottleneck as a capacity-constraining resource. Teaching content is unchanged."
+    },
+    {
+      "finding_id": "F-EVI-001",
+      "subject_id": "BUS-EVI-008",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "The mapped sources supported Critical Path Analysis generally but did not directly substantiate the total-float definition/calculation.",
+      "remediation": "Add a CC BY source explicitly defining project float/slack as latest start/finish minus earliest start/finish. Teaching content is unchanged."
+    },
+    {
+      "finding_id": "PEO-003-01",
+      "subject_id": "BUS-PEO-003",
+      "severity": "material",
+      "issue_type": "promotion_source_support",
+      "finding": "The node correctly teaches validity, reliability, fairness, job relevance, bias and accessibility in selection, but its mapped promotion sources did not directly substantiate those concepts sufficiently.",
+      "remediation": "Add direct CC BY evidence for validity/reliability in employee selection and current OGL UK guidance for structured fair interviews and accessible/reasonably adjusted recruitment. Teaching content is unchanged."
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "SRC-OA-WILEY-CAPACITY-2020",
+      "issuer": "Dengjun Zhang / John Wiley & Sons",
+      "title": "Capacity utilization under credit constraints: A firm-level study of Latin American manufacturing",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/ijfe.2220",
+      "date_version": "First published 2020-08-14; open-access article and licence/content checked 2026-09-28",
+      "educational_role": "Direct reusable support for capacity utilisation as actual/current output relative to maximum/potential output with required resources available, and for interpreting spare/unused capacity.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the article's CC BY 4.0 textual content only; retain Revision-authored Level 3 Business prose and do not import advanced econometric treatment as required learner content.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OA-APEM-BOTTLENECK-2022",
+      "issuer": "A. Butrat and S. Supsomboon / Advances in Production Engineering & Management",
+      "title": "A Plant Simulation approach for optimal resource utilization: A case study in the tire manufacturing industry",
+      "url": "https://www.apem-journal.org/Archives/2022/Abstract-APEM17-2_243-255.html",
+      "date_version": "Volume 17 No. 2, 2022; DOI 10.14743/apem2022.2.434; CC BY 4.0 and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for bottlenecks as capacity-constraining resources and their relationship to utilisation and production-volume limits.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the general bottleneck/capacity mechanism only; exclude specialised simulation detail and third-party referenced material from the reusable Level 3 teaching basis.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OA-MDPI-PROJECT-FLOAT-2019",
+      "issuer": "Yu-Cheng Wang, Toly Chen and Yu-Cheng Lin / MDPI Healthcare",
+      "title": "A Collaborative and Ubiquitous System for Fabricating Dental Parts Using 3D Printing Technologies",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6787736/",
+      "date_version": "Published 2019-09-06; DOI 10.3390/healthcare7030103; CC BY 4.0 and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for the project-management definition/calculation of float or slack as latest start/finish minus earliest start/finish and the meaning of delay without postponing project completion.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use only the general project-float definition and relationship; the dental/3D-printing application and optimisation detail are not Level 3 Business teaching requirements.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OA-CCSE-SELECTION-VALIDITY-2012",
+      "issuer": "Kelechi Ekuma / Canadian Center of Science and Education",
+      "title": "The Importance of Predictive and Face Validity in Employee Selection and Ways of Maximizing Them: An Assessment of Three Selection Methods",
+      "url": "https://www.ccsenet.org/journal/index.php/ijbm/article/view/17522",
+      "date_version": "International Journal of Business and Management 7(22), 2012; DOI 10.5539/ijbm.v7n22p115; CC BY 4.0 and content checked 2026-09-28",
+      "educational_role": "Direct reusable support for validity, reliability and predictive relevance when evaluating employee-selection methods including interviews, work samples and assessment centres.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use as evidence for general selection-quality concepts; do not treat one paper's recommendations as universal hiring law or replace current UK equality/accessibility guidance.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-GOV-FAIR-STRUCTURED-INTERVIEWS-2026",
+      "issuer": "UK Office for Equality and Opportunity",
+      "title": "Use fair and structured interview techniques",
+      "url": "https://www.gov.uk/government/publications/use-fair-and-structured-interview-techniques/use-fair-and-structured-interview-techniques",
+      "date_version": "Published 2026-03-04; checked 2026-09-28",
+      "educational_role": "Current UK reusable support for job-relevant structured questions, standardised scoring, fairness, consistency and reducing bias in interviews.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Subject to GOV.UK page-specific exclusions and third-party rights; use for current UK hiring-process context rather than as a complete theory of selection validity.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-GOV-RECRUITMENT-ADJUSTMENTS-2026",
+      "issuer": "UK Government",
+      "title": "Recruitment and disabled people: Reasonable adjustments",
+      "url": "https://www.gov.uk/recruitment-disabled-people/reasonable-adjustments",
+      "date_version": "Current GOV.UK guidance checked 2026-09-28",
+      "educational_role": "Current UK reusable support for accessibility and reasonable adjustments in recruitment and selection processes.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Subject to GOV.UK page-specific exclusions and third-party rights; legal requirements are time-sensitive and exact-course learner wording must not be presented as legal advice.",
+      "checked_at": "2026-09-28",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {
+      "subject_id": "BUS-OPS-003",
+      "add": ["SRC-OA-WILEY-CAPACITY-2020", "SRC-OA-APEM-BOTTLENECK-2022"]
+    },
+    {
+      "subject_id": "BUS-EVI-008",
+      "add": ["SRC-OA-MDPI-PROJECT-FLOAT-2019"]
+    },
+    {
+      "subject_id": "BUS-PEO-003",
+      "add": ["SRC-OA-CCSE-SELECTION-VALIDITY-2012", "SRC-GOV-FAIR-STRUCTURED-INTERVIEWS-2026", "SRC-GOV-RECRUITMENT-ADJUSTMENTS-2026"]
+    }
+  ],
+  "node_patches": [],
+  "domain_moves": []
+}
