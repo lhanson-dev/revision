@@ -2,7 +2,7 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 import mapping from '../../research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'
 
 const EXPECTED_BASE_FINGERPRINT='4f2cc0e75bbe364a2e1a1adaf832b4ad26fa6658c5ec4d988c7de38755b4f947'
-const EXPECTED_CANDIDATE_FINGERPRINT='d5ec005fb6462e7b6088219fddae5256a52cc37a81a1b9eb6e1d6aaf8972ad9d'
+const EXPECTED_CANDIDATE_FINGERPRINT='64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
 const EXPECTED_SECTIONS=['3.1.1','3.1.2','3.1.3','3.2.1','3.2.2','3.2.3','3.3.1','3.3.2','3.3.3','3.3.4','3.4.1','3.4.2','3.4.3','3.4.4','3.4.5','3.5.1','3.5.2','3.5.3','3.5.4','3.6.1','3.6.2','3.6.3','3.6.4','3.6.5','3.7.1','3.7.2','3.7.3','3.7.4','3.7.5','3.7.6','3.7.7','3.7.8','3.8.1','3.8.2','3.9.1','3.9.2','3.9.3','3.9.4','3.10.1','3.10.2','3.10.3','3.10.4']
 const ALLOWED_CLASSES=new Set(['A_EXISTING_FOUNDATION_SUFFICIENT','B_EXISTING_FOUNDATION_INSUFFICIENT_DEPTH','C_MISSING_REUSABLE_SUBJECT_KNOWLEDGE','D_COURSE_SPECIFIC_REQUIREMENT'])
 function exactSet(actual,expected,label){const a=[...actual].sort(),e=[...expected].sort();if(a.length!==e.length||a.some((v,i)=>v!==e[i]))throw new Error(`${label} mismatch`)}
