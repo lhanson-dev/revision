@@ -7,17 +7,15 @@
 
 ## Purpose
 
-Define the independent reassurance proof used to close the reusable Business Subject Knowledge Foundation T3 gate without repeatedly discarding valid assurance for unchanged knowledge.
+Define the independent reassurance proof used to close the reusable Business Subject Knowledge Foundation T3 gate while preserving valid assurance for unchanged knowledge.
 
-The current effective candidate is `v0.5-targeted-reassurance`, composed deterministically over the exact `v0.4-reassurance-remediation` fingerprint. Earlier candidates and assurance runs remain immutable historical evidence.
+The current effective candidate is `v0.6-final-targeted-remediation`, composed deterministically over the exact `v0.5-targeted-reassurance` fingerprint. Earlier candidates and assurance runs remain immutable historical evidence.
 
 This control does not promote the Foundation, approve AQA 7132, replace exact-course assurance or replace qualified human subject/assessment review.
 
-## Why the reassurance strategy changed
+## Governing assurance rule
 
-The earlier implementation re-ran a fresh domain-by-domain challenge across all 81 Business nodes after every targeted remediation. That was more repetitive than the governing incremental-assurance rule and created a practical risk that independent reviewers would continually reopen unrelated accepted content.
-
-Current authority requires the opposite behaviour after a bounded subject-foundation change:
+Current authority requires incremental subject assurance after a bounded change:
 
 - create a new version/fingerprint;
 - assure changed/new nodes plus genuinely affected relationships and structural dependencies;
@@ -25,145 +23,146 @@ Current authority requires the opposite behaviour after a bounded subject-founda
 - rerun dependent review where necessary; and
 - leave unrelated content untouched.
 
-`Content Accuracy Assurance Gate.md` also requires remediation at the smallest safe affected scope and explicitly says unrelated content must not be regenerated merely to clear one issue.
+`Content Accuracy Assurance Gate.md` likewise requires the smallest safe affected scope and says unrelated content must not be regenerated merely to clear one issue.
 
-v0.5 therefore corrects the assurance orchestration. It does **not** lower the blocking/material quality threshold.
+The blocking/material threshold is unchanged.
 
-## Triggering v0.4 evidence
+## v0.5 targeted reassurance evidence
 
-Fresh reassurance run `36428218127` reviewed exact `main` `93be1daeac6ffb5762a7b0ede34942e0130edb04` and exact v0.4 fingerprint `b4610dd17094b5769d9706fcd99b90973eb31baa7df7cd3e0149320c7f9042b3`.
+Run `36442563254` reviewed exact `main` `97223dc03c7cd3a4f2e03a89812421e469f2e61d` and exact v0.5 fingerprint `aac24e5aeddcf1ae5d9559edd67fb5387276758ff7b7dc70d6eb0830e5abba57`.
 
 Retained artifact:
 
-- artifact ID `10973072890`;
-- digest `sha256:c1720d5863fd32b744194c63efbdc050e0bea669e703f9a5303bb6b07f583c26`.
+- artifact ID `10979093553`;
+- digest `sha256:5b047fa9778ce95ac6745e216ee2daf3c9c9a307559d3a2f614043dc741ef68f`.
 
-The run established useful accepted evidence before terminating on a source-path contract rejection in the Evidence domain:
+Deterministic composition and the 15-node incremental contract passed. The live review completed all five scoped groups and returned `fail_hold` before the final integration check because material findings remained.
 
-- Marketing passed;
-- Operations passed, including the v0.4 capacity/bottleneck and Critical Path remediations;
-- Strategy passed;
-- External and Global Business passed;
-- Business Foundations had one unique material blocker, `BUS-FND-002`;
-- Finance had one unique material blocker, `BUS-FIN-003`;
-- People and Organisation had one unique material blocker, `BUS-PEO-011`;
-- `BUS-EVI-008` had an accepted assessment inside the completed Operations review;
-- Evidence nodes `BUS-EVI-001` through `BUS-EVI-007` did not obtain an accepted completed domain review; and
-- the five Named Models nodes were not reached.
+The raw artifact contained five material entries, but two were duplicate node/group representations. There were **three unique material issues**:
 
-The rejected Evidence output also identified a plausible source-support issue on `BUS-EVI-002`. Independent reconciliation confirmed that gap, so it is remediated and remains inside the fresh v0.5 scope rather than being treated as preserved evidence.
+1. `BUS-FND-002` — several causal generalisations about staged/reversible experiments, staged investment, first-mover advantages and resource scarcity exceeded direct mapped-source support;
+2. `BUS-FIN-003` — revenue was defined too narrowly as sales revenue and margin comparison did not state the revenue-denominator boundary precisely enough; and
+3. `BUS-EVI-006` — the node's cross-functional examples depended on marketing, finance, operations and people concepts that were not registered in `related_nodes`.
 
-Minor findings from accepted v0.4 assessments remain retained limitations; they do not become blocking merely because v0.5 changes the orchestration.
+The same run established accepted evidence for the other v0.5 fresh-scope nodes:
 
-## v0.5 remediation
+- `BUS-PEO-011` passed with minor non-blocking limitations;
+- `BUS-EVI-001` through `BUS-EVI-005` and `BUS-EVI-007` passed;
+- the v0.5 correlation/causation remediation in `BUS-EVI-002` passed; and
+- all five Named Models nodes `BUS-MOD-001` through `BUS-MOD-005` passed.
 
-`research/business-subject-foundation/v0.5-targeted-reassurance/REMEDIATION.json` is bound to the exact v0.4 fingerprint.
+Those accepted unchanged assessments are preserved by v0.6 rather than reopened.
 
-It closes four confirmed items:
+## v0.6 final targeted remediation
 
-1. `BUS-FND-002` — adds direct CC BY 4.0 evidence for intrapreneurship from the LOUIS entrepreneurship chapter;
-2. `BUS-FIN-003` — adds the missing margin-percentage method, worked examples and error boundary, plus direct CC BY 4.0 financial-ratio evidence;
-3. `BUS-PEO-011` — adds current OGL HSE evidence for workload, work patterns, job demands and work-related stress; and
-4. `BUS-EVI-002` — adds current OGL Government Analysis Function evidence for correlation versus causation, temporal order and alternative causes.
+`research/business-subject-foundation/v0.6-final-targeted-remediation/REMEDIATION.json` is bound to the exact v0.5 fingerprint.
 
-Only `BUS-FIN-003` teaching content changes. The other three are promotion-evidence changes only. No node changes domain and no board material becomes reusable subject truth.
+It changes exactly three nodes:
+
+### `BUS-FND-002`
+
+Teaching is narrowed to claims directly supported by the existing promotion sources: market information, customer feedback, feasibility/what-if analysis, business planning and revision, resource organisation, opportunity cost and intrapreneurship.
+
+Unsupported causal generalisations about staged/reversible experiments, staged investment limiting downside, first-mover learning/access advantages and resource scarcity encouraging focus are removed rather than retaining weakly supported claims.
+
+The existing minor definition ambiguity is also resolved while this node is already in scope: `enterprise` is explicitly used in the enterprise-skills/capability sense and distinguished from the separate use of enterprise to mean a business organisation or business activity.
+
+No source mapping changes.
+
+### `BUS-FIN-003`
+
+Teaching now distinguishes:
+
+- sales revenue;
+- net sales/relevant sales denominator where applicable; and
+- total reported revenue, which may include other income depending on presentation.
+
+`price × quantity` is retained only as a simple sales-revenue case. Margin methods now require a named numerator and a stated, like-for-like revenue/sales denominator.
+
+No source mapping changes.
+
+### `BUS-EVI-006`
+
+Teaching content is unchanged. `related_nodes` now explicitly registers the cross-functional dependencies used by the node:
+
+- `BUS-MKT-002`;
+- `BUS-FIN-003`;
+- `BUS-FIN-005`;
+- `BUS-OPS-003`;
+- `BUS-PEO-011`;
+- existing `BUS-STR-001`; and
+- existing `BUS-EVI-007`.
+
+No source mapping changes.
 
 ## Deterministic composition and validation
 
-`scripts/content-factory/load-business-subject-foundation-candidate-v05.mjs` composes v0.5 over v0.4 and fails closed unless the exact v0.4 fingerprint matches.
+`scripts/content-factory/load-business-subject-foundation-candidate-v06.mjs` composes v0.6 over v0.5 and fails closed unless the exact v0.5 fingerprint matches.
 
-`scripts/assurance/validate-business-subject-provenance.mjs` then proves at least:
+`scripts/assurance/validate-business-subject-provenance.mjs` proves at least:
 
-- exactly 81 unique nodes remain in the index, node set and promotion matrix;
+- exactly 81 unique nodes remain;
 - domain membership is unchanged;
-- v0.5 is bound to the exact v0.4 fingerprint;
-- exactly one teaching node changed: `BUS-FIN-003`;
-- exactly four targeted node-to-source mappings changed;
-- all new sources have rights/provenance metadata and permitted commercial/AI-use profiles;
-- board/reference-only sources remain quarantined from reusable subject truth;
-- exactly 15 nodes are marked for fresh reassurance;
-- the remaining 66 unchanged nodes are marked as prior-assurance-preserved; and
-- the candidate cannot self-promote.
+- v0.6 is bound to the exact v0.5 fingerprint;
+- exactly three nodes differ from v0.5;
+- teaching content changes only in `BUS-FND-002` and `BUS-FIN-003`;
+- relationship metadata changes only in `BUS-EVI-006`;
+- no promotion source, source-rights record or node-to-source mapping changes;
+- the previously unsupported `BUS-FND-002` phrases are absent;
+- the finance sales/total-revenue and denominator boundaries are present;
+- the required `BUS-EVI-006` related-node set is present;
+- exactly three nodes are marked for fresh reassurance; and
+- the other 78 nodes are marked as prior-assurance-preserved.
 
 Any violation stops before live provider spend.
 
-## Fresh scoped assurance set
+## v0.6 live reassurance scope
 
-The live runner freshly reviews exactly these 15 nodes:
+The live runner freshly reviews exactly:
 
 - `BUS-FND-002`;
-- `BUS-FIN-003`;
-- `BUS-PEO-011`;
-- `BUS-EVI-001` through `BUS-EVI-007`; and
-- `BUS-MOD-001` through `BUS-MOD-005`.
+- `BUS-FIN-003`; and
+- `BUS-EVI-006`.
 
-They are divided into five fresh review groups: the three targeted remediations, the unresolved Evidence/Decision-making scope, and the previously unreached Named Models scope.
+Each is reviewed in its own fresh context. Related/prerequisite nodes may be supplied only as relationship context and may not be reopened for standalone findings.
 
-`BUS-EVI-008` is deliberately excluded because it already has accepted v0.4 evidence inside the completed Operations PASS and is unchanged by v0.5.
+The reviewer checks factual correctness, definitions/boundaries, quantitative accuracy, causal claims, Level 3 depth, source support and affected relationships. Each target must cite its own promotion-truth sources.
 
-All other unchanged nodes retain their prior accepted node-level evidence. Related/prerequisite nodes may be supplied as relationship context, but the reviewer is prohibited from reopening their standalone factual/source adequacy.
+Any blocking/material issue in those three nodes returns `fail_hold`.
 
-## Scoped reviewer contract
-
-Each fresh target node is challenged for:
-
-- factual correctness and boundaries;
-- Level 3 scope;
-- quantitative accuracy where applicable;
-- causal/relationship claims;
-- assumptions, limitations and misconceptions;
-- source support; and
-- affected prerequisites/relationships.
-
-Each target node must cite at least one of its own mapped promotion-truth sources. Evidence URLs remain constrained to the registered host/path boundary, with safe percent-encoded/decoded path equivalence but no sibling-path, encoded-slash or host escape.
-
-Any blocking/material finding in the 15-node fresh scope produces `fail_hold`. Minor issues may be retained as explicit limitations.
+The runner deduplicates equivalent node/group material findings by affected node, issue type and evidence-source set so the Founder-facing result reflects unique underlying blockers rather than duplicated reporting layers.
 
 ## Final whole-subject integration check
 
-Only after all fresh scoped reviews contain no blocking/material finding does the runner perform one whole-subject integration check across the 81-node catalogue.
+Only after all three v0.6 scoped reviews contain no blocking/material finding does the runner perform one whole-subject integration check across all 81 nodes.
 
-This check may create findings only for:
+Permitted integration findings are limited to:
 
 - genuinely missing major Level 3 Business domain/area;
 - cross-domain contradiction or incoherence;
 - broken prerequisite/relationship dependency; or
-- contradiction/duplication introduced by v0.5.
+- contradiction/duplication introduced by v0.6.
 
-It is explicitly **not** another standalone source/factual review of all 81 nodes. It may not reopen an unchanged accepted node merely because a new reviewer prefers a different source, example, wording, model treatment or depth.
+It is not another standalone factual/source review of the 78 preserved nodes.
 
-A material/blocking integration finding still results in `fail_hold`.
+A blocking/material allowed integration finding still returns `fail_hold`.
 
-## Provider and cost controls
+## Provider and evidence controls
 
-The runner retains the existing safety controls:
+The proof retains:
 
 - fresh OpenAI Responses contexts;
 - high reasoning effort;
 - rights-limited web search;
 - strict structured output;
-- unique response IDs;
 - deterministic source-ID/URL validation;
-- at most one fresh retry for max-output incompletion or deterministic output-contract rejection;
-- rejected output retained as evidence; and
-- hard US$5 total reassurance ceiling.
+- safe encoded/decoded URL equivalence without host/path escape;
+- at most one bounded retry for incomplete/output-contract failure;
+- rejected-output retention;
+- hard US$5 total reassurance ceiling; and
+- evidence upload on pass or failure.
 
-No remediation occurs inside the live reassurance run.
-
-## Evidence artifact
-
-The workflow uploads a retained artifact containing, as available:
-
-- exact reviewed `main` SHA;
-- exact v0.5 and v0.4 fingerprints;
-- reference to the v0.4 run/artifact whose unchanged assurance is preserved;
-- the exact 15-node fresh scope and 66-node preserved count;
-- provider attempts, response IDs, search/spend accounting and rejected outputs;
-- all scoped review outputs and blocking/material findings;
-- the final integration-only output when reached; and
-- final `pass` or `fail_hold` decision when a complete content verdict is reached.
-
-Provider/contract failure remains distinct from substantive content `fail_hold`.
+No remediation occurs inside the live run.
 
 ## Workflow
 
@@ -171,30 +170,21 @@ The operator dispatches `.github/workflows/content-factory-business-subject-foun
 
 The workflow:
 
-1. normalises and validates the SHA;
-2. verifies the checkout is still exact current `main`;
-3. deterministically validates v0.5 composition, provenance and incremental scope;
-4. runs the no-spend scoped-assurance self-test;
-5. runs the five fresh scoped review groups;
-6. if those pass, runs the final integration-only whole-subject check; and
-7. uploads retained evidence even on failure.
-
-The deterministic validation and no-spend self-test also run in normal Foundation-quality CI through the existing compatibility entry point.
+1. validates and verifies exact current `main`;
+2. validates v0.6 composition/provenance and the exact three-node scope;
+3. runs the no-spend v0.6 contract self-test;
+4. freshly reassures the three changed nodes;
+5. if they pass, runs the final integration-only 81-node check; and
+6. uploads retained evidence even on failure.
 
 ## T3 exit and next step
 
-A complete PASS means the Business Subject Knowledge Foundation has no unresolved blocking/material finding in the freshly required scope and has passed the final integration check. That closes the automated T3 subject-foundation assurance work for this candidate.
+A complete PASS means no blocking/material finding remains in the v0.6 fresh scope and the final integration-only check passes. That closes automated Business Subject Knowledge Foundation T3 assurance for this candidate.
 
-It does not itself create `foundation_approved`, approve a learner course or permit learner publication.
+It does not create exact-course `foundation_approved` status or permit learner publication.
 
-The next trial stage after T3 is **T4: exact AQA 7132 intake and specification mapping**, followed by gap/depth reconciliation, Course Truth projection, Exam Truth and exact-course assurance.
-
-A future change to an assured Business node triggers the same incremental rule: new fingerprint, affected-node/dependency assurance only, preservation of unrelated valid evidence.
-
-## Historical evidence
-
-Earlier full-restart runner implementations and all prior assurance artifacts remain historical evidence in Git history/GitHub Actions. v0.5 does not rewrite those records; it supersedes the current execution strategy in accordance with existing normative authority.
+The next controlled-trial stage is **T4: exact AQA 7132 intake and specification mapping**, followed by gap/depth reconciliation, Course Truth projection, Exam Truth and exact-course assurance.
 
 ## Documentation impact
 
-This is an implementation correction to align the Business trial with already-active incremental-assurance authority. No normative governance change is required and there is no learner-facing product behaviour change.
+This is a bounded implementation/evidence update under existing authority. No normative governance document changes and no learner-facing product behaviour changes are required. Historical candidates, assurance runs and artifacts remain unchanged.
