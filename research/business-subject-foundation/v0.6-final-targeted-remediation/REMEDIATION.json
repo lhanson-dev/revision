@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.6-final-targeted-remediation",
+  "status": "final_targeted_remediation_awaiting_scoped_independent_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.5-targeted-reassurance",
+    "fingerprint": "aac24e5aeddcf1ae5d9559edd67fb5387276758ff7b7dc70d6eb0830e5abba57"
+  },
+  "triggering_assurance": {
+    "workflow_run_id": 36442563254,
+    "artifact_id": 10979093553,
+    "artifact_digest": "sha256:5b047fa9778ce95ac6745e216ee2daf3c9c9a307559d3a2f614043dc741ef68f",
+    "reviewed_main_sha": "97223dc03c7cd3a4f2e03a89812421e469f2e61d",
+    "reviewed_candidate_fingerprint": "aac24e5aeddcf1ae5d9559edd67fb5387276758ff7b7dc70d6eb0830e5abba57",
+    "classification": "complete_scoped_reassurance_fail_hold_with_three_unique_material_findings",
+    "material_finding_count_raw": 5,
+    "unique_material_issue_count": 3,
+    "final_integration_reached": false
+  },
+  "assurance_strategy": {
+    "authority_basis": "Incremental subject assurance and targeted remediation: assure changed nodes plus genuinely affected relationships, preserve accepted assurance for unchanged nodes, then run one integration-only whole-subject check.",
+    "preserve_prior_accepted_node_assessments": true,
+    "fresh_node_scope": ["BUS-FND-002", "BUS-FIN-003", "BUS-EVI-006"],
+    "preserved_v05_pass_scope": ["BUS-PEO-011", "BUS-EVI-001", "BUS-EVI-002", "BUS-EVI-003", "BUS-EVI-004", "BUS-EVI-005", "BUS-EVI-007", "BUS-MOD-001", "BUS-MOD-002", "BUS-MOD-003", "BUS-MOD-004", "BUS-MOD-005"],
+    "final_integration_review_required": true,
+    "integration_review_scope": ["major_domain_coverage", "cross_domain_coherence", "relationship_dependency_consistency", "contradictions_or_duplication_introduced_by_v0.6"],
+    "integration_review_must_not_reopen": "standalone source adequacy or standalone factual assessment for unchanged nodes with preserved accepted evidence"
+  },
+  "principles": {
+    "preserve_v02_v03_v04_v05_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "promotion_decision": "NOT_YET_MADE",
+    "teaching_content_changed_by_this_remediation": true,
+    "teaching_content_changed_node_ids": ["BUS-FND-002", "BUS-FIN-003"],
+    "relationship_metadata_changed_node_ids": ["BUS-EVI-006"],
+    "source_universe_changed_by_this_remediation": false
+  },
+  "confirmed_findings_remediated": [
+    {
+      "finding_ids": ["BUS-FND-002-F1", "BUS-FND-002-G1"],
+      "subject_id": "BUS-FND-002",
+      "severity": "material",
+      "issue_type": "source_support",
+      "finding": "Several causal generalisations about staged experiments, staged investment, first-mover advantages and resource scarcity exceeded the direct support of the mapped promotion sources.",
+      "remediation": "Narrow the teaching to evidence-gathering, customer feedback, feasibility/what-if analysis, business planning/revision, resource organisation and intrapreneurship directly supported by the mapped LOUIS sources. Also clarify enterprise as an enterprise-skills/capability usage rather than the separate meaning of a business organisation."
+    },
+    {
+      "finding_ids": ["BUS-FIN-003-F01"],
+      "subject_id": "BUS-FIN-003",
+      "severity": "material",
+      "issue_type": "definition_boundary_and_source_alignment",
+      "finding": "The node treated revenue too narrowly as sales revenue and did not require a clearly comparable revenue denominator when interpreting margins.",
+      "remediation": "Distinguish sales revenue from total reported revenue, retain price × quantity only as a simple sales-revenue case, and require the denominator/presentation basis to be stated consistently when calculating and comparing margins."
+    },
+    {
+      "finding_ids": ["F-BUS-EVI-006-REL-001"],
+      "subject_id": "BUS-EVI-006",
+      "severity": "material",
+      "issue_type": "missing_affected_cross_functional_relationships",
+      "finding": "The cross-functional causal-chain teaching explicitly depends on marketing demand, finance/margins/cash, operations capacity and people/employee-relations concepts but those dependencies were not registered in related_nodes.",
+      "remediation": "Register direct related-node links to BUS-MKT-002, BUS-FIN-003, BUS-FIN-005, BUS-OPS-003 and BUS-PEO-011 while preserving BUS-STR-001 and BUS-EVI-007."
+    }
+  ],
+  "source_additions": [],
+  "promotion_source_patches": [],
+  "node_patches": [
+    {
+      "subject_id": "BUS-FND-002",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Entrepreneurship is the process of identifying or shaping an opportunity, organising resources and making decisions under uncertainty in order to create value. It should not be reduced to a stereotype about personality or a willingness to take large risks. Decision quality can be improved by gathering market information, seeking customer feedback, testing feasibility and assumptions, planning how resources will be used and revising the plan as evidence changes. Enterprise is used here in the enterprise-skills or capability sense: showing initiative and organising resources to act on opportunities; it is distinct from using the word enterprise simply to mean a business organisation or business activity. Intrapreneurship describes entrepreneurial behaviour inside an established organisation, where employees or teams develop new products, processes or business models using organisational resources and normally without taking the same personal ownership exposure as an independent founder. Entrepreneurial decisions always have opportunity costs: time, money and attention committed to one idea cannot be committed to all alternatives. The quality of an entrepreneurial decision therefore depends on the opportunity, evidence, resource fit, downside exposure and willingness to revise assumptions as new information arrives.",
+          "definitions": ["entrepreneur: a person who organises resources and makes decisions to pursue an opportunity under uncertainty", "entrepreneurship: the process of opportunity pursuit and value creation under uncertainty", "enterprise: in this node, the capability to show initiative and organise resources to act on opportunities; the term can also be used more broadly to mean a business organisation or business activity", "intrapreneurship: entrepreneurial activity undertaken within an existing organisation", "opportunity cost: the value of the next-best alternative forgone"],
+          "important_boundaries": ["risk-taking is not the same as recklessness", "an idea is not yet a viable opportunity until important assumptions have been investigated with relevant evidence", "entrepreneurial success is not proof that every original decision was rational", "intrapreneurship can occur without founders or new legal entities", "enterprise in the enterprise-skills sense is not identical to an enterprise meaning a business organisation"],
+          "facts": ["new ventures face uncertainty about demand, costs, capability, timing and competition", "market research, customer feedback, feasibility analysis and business planning can reduce some information gaps without eliminating uncertainty", "intrapreneurs can pursue opportunities using resources and capabilities of an established organisation"],
+          "mechanisms": ["market research and customer feedback -> better information about needs and demand assumptions", "feasibility and what-if analysis -> clearer understanding of resource, cost and delivery requirements", "business planning -> explicit resource, finance and operating assumptions -> basis for review", "new evidence -> plan revision -> updated resource and opportunity decisions"],
+          "causal_relationships": ["opportunity hypothesis -> evidence gathering -> revised assumptions -> resource decision -> market feedback", "resource commitment to one option -> opportunity cost -> fewer resources available for alternatives", "entrepreneurial activity inside an established firm -> use of organisational resources/capabilities -> possible innovation and organisational value"],
+          "examples": ["A founder uses customer interviews, a feasibility check and a simple financial plan before deciding whether to expand a new service.", "An employee in a large retailer develops an internal tool that later becomes a customer-facing service: this is intrapreneurial behaviour."],
+          "non_examples": ["Borrowing heavily without investigating demand, costs or feasibility and calling the exposure 'entrepreneurial risk-taking'.", "Treating every self-employed person as highly innovative by definition."],
+          "applications": ["separate assumptions from known evidence in a start-up proposal", "identify which market, feasibility and resource assumptions need investigation", "explain how a business plan should change when material evidence changes"],
+          "real_world_transfer": ["Challenge a business plan whose demand assumptions have never been investigated.", "Explain how customer feedback or feasibility evidence should change a resource decision.", "Recognise intrapreneurship in an established organisation."],
+          "assumptions": ["Useful evidence about at least some demand, feasibility or resource assumptions can be gathered before or during commitment; uncertainty cannot be eliminated."],
+          "misconceptions": [{"incorrect_belief": "Entrepreneurs are people who like taking risks.", "correction": "Entrepreneurs operate under uncertainty; strong entrepreneurship uses evidence, planning and resource judgement rather than treating risk-taking as a goal."}, {"incorrect_belief": "A good idea is a business opportunity.", "correction": "An opportunity also requires a viable customer problem, feasible delivery, resource access and a way to create and capture sufficient value."}],
+          "analysis_dimensions": ["evidence", "uncertainty", "resources", "opportunity cost", "timing", "capability"],
+          "evaluation_dimensions": ["downside", "market evidence", "resource fit", "feasibility", "learning from evidence", "founder objectives"]
+        },
+        "evidence_of_understanding": ["evaluate an opportunity using evidence, feasibility and resource fit", "explain how new evidence should change assumptions or plans", "distinguish entrepreneurship, enterprise and intrapreneurship"]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-003",
+      "patch": {
+        "teaching_content": {
+          "core_explanation": "Sales revenue is the value of sales recognised for a period; in a simple single-product example it can be represented as price multiplied by quantity. In financial-statement use, a reported total revenue figure may include other income as well as sales, so the analyst should identify whether a figure is sales revenue, net sales or total reported revenue before using it. Profit is the residual after relevant costs are deducted from the applicable revenue measure. Contribution is sales revenue minus variable costs: contribution first covers fixed costs and only then contributes to profit. A margin expresses a named profit or contribution measure relative to a stated, comparable revenue or sales denominator. Revenue growth does not guarantee profit growth because price, mix, variable costs and overheads can change. Profit also differs from cash because accounting recognition and cash timing differ. Contribution is particularly useful for short-run volume, product and break-even reasoning, but a product with positive contribution is not automatically attractive if it consumes scarce capacity or cannot cover its share of longer-run fixed or resource requirements.",
+          "definitions": ["sales revenue: value of sales recognised in a period", "total reported revenue: the revenue figure presented for the period, which may include other income depending on the accounting presentation", "profit: applicable revenue minus relevant costs", "contribution: sales revenue minus variable costs", "margin: a named profit or contribution measure expressed relative to a stated revenue or sales denominator", "gross profit: revenue minus cost of sales under the applicable accounting presentation", "operating profit: profit from operations before financing/tax items under the relevant presentation"],
+          "important_boundaries": ["sales revenue is not necessarily identical to every reported total-revenue figure", "revenue is not profit", "profit is not cash", "contribution is not profit", "margin comparisons require like-for-like numerators and denominators", "high margin can coexist with low total profit if volume is small"]
+        },
+        "quantitative_content": {
+          "methods": [{"name": "Sales revenue (simple price-volume case)", "formula": "price × quantity", "units": "currency", "worked_example": "£50 × 4,000 = £200,000 sales revenue", "interpretation": "Use this simple price-volume representation for sales revenue when price and quantity are the relevant stated basis; do not assume every reported total-revenue figure contains only sales."}, {"name": "Contribution per unit", "formula": "selling price - variable cost per unit", "units": "currency per unit", "worked_example": "£50 - £30 = £20", "interpretation": "Each unit contributes £20 to fixed costs and then profit."}, {"name": "Total contribution", "formula": "contribution per unit × units sold", "units": "currency", "worked_example": "£20 × 4,000 = £80,000", "interpretation": "Total amount available to cover fixed costs before profit."}, {"name": "Margin percentage", "formula": "named profit or contribution measure ÷ stated comparable revenue or sales denominator × 100", "units": "%", "worked_example": "Net profit £30,000 ÷ net sales £200,000 × 100 = 15%. Contribution £80,000 ÷ sales revenue £200,000 × 100 = 40% contribution margin.", "interpretation": "State both the numerator and denominator. Compare like-for-like definitions and use the relevant net-sales or reported-revenue basis consistently."}],
+          "worked_examples": ["If net profit is £30,000 and the relevant net-sales denominator is £200,000, net profit margin is 15%.", "If total contribution is £80,000 on £200,000 sales revenue, contribution margin is 40%."],
+          "interpretation": ["Contribution is not cash and not profit until fixed costs are considered.", "Name the margin numerator and denominator and compare like-for-like definitions before interpreting differences.", "Check whether the stated figure is sales revenue, net sales or total reported revenue before applying or comparing a margin."],
+          "common_errors": ["subtracting fixed cost to calculate contribution per unit", "calling revenue profit", "using the word margin without specifying numerator and denominator", "assuming every reported revenue figure is simply price × quantity"]
+        }
+      }
+    },
+    {
+      "subject_id": "BUS-EVI-006",
+      "patch": {"related_nodes": ["BUS-STR-001", "BUS-EVI-007", "BUS-MKT-002", "BUS-FIN-003", "BUS-FIN-005", "BUS-OPS-003", "BUS-PEO-011"]}
+    }
+  ],
+  "domain_moves": []
+}
