@@ -10,7 +10,7 @@ const sameSet = (left, right) => {
 }
 
 const candidate = await loadBusinessSubjectFoundationCandidate()
-const { index, matrix, sources: supplement, nodes, rows, overlay } = candidate
+const { index, matrix, sources: supplement, nodes, rows, overlay, sourceReview } = candidate
 const indexIds = index.domains.flatMap((domain) => domain.ids ?? [])
 const nodeIds = [...nodes.keys()]
 const matrixIds = [...rows.keys()]
@@ -29,7 +29,7 @@ if (!sameSet(indexIds, nodeIds)) fail('Effective index and node ID sets differ.'
 if (!sameSet(indexIds, matrixIds)) fail('Effective index and promotion-matrix ID sets differ.')
 if (matrix.counts?.expected_nodes !== 81 || matrix.counts?.matrix_nodes !== 81) fail('Promotion matrix declared counts must both equal 81.')
 if (index.candidate_version !== 'v0.3-reassurance-remediation') fail(`Unexpected candidate version ${index.candidate_version}.`)
-if (matrix.candidate_version !== index.candidate_version || supplement.candidate_version !== index.candidate_version) fail('Effective candidate version is inconsistent across index, matrix and source supplement.')
+if (matrix.candidate_version !== index.candidate_version || supplement.candidate_version !== index.candidate_version || sourceReview.candidate_version !== index.candidate_version) fail('Effective candidate version is inconsistent across index, matrix, source supplement and source review.')
 if (matrix.policy?.teaching_content_changed_by_this_remediation !== true) fail('v0.3 must explicitly record that targeted teaching content changed.')
 if (matrix.policy?.promotion_decision !== 'NOT_YET_MADE') fail('Targeted remediation must not self-promote the candidate.')
 if (overlay.principles?.fresh_independent_reassurance_required !== true) fail('v0.3 overlay must require fresh independent reassurance.')
@@ -43,6 +43,7 @@ const profiles = supplement.licence_profiles ?? {}
 const allowedSourceUses = new Set(['OPEN_CC_BY_4_0', 'OPEN_CC_BY_3_0', 'OPEN_OGL_V3'])
 const requiredSourceFields = ['id','issuer','title','url','date_version','educational_role','licence_profile','restrictions','checked_at','checker_method','confidence']
 const requiredProfileFields = ['source_use','permission_basis','ai_context_permission','derived_commercial_use','attribution_requirement']
+const rejectedSourceIds = new Set((sourceReview.rejected_source_ids ?? []).map((entry) => entry.id))
 
 if (sourceMap.size !== supplement.sources.length) fail('Promotion source supplement contains duplicate IDs.')
 
@@ -63,6 +64,7 @@ for (const source of supplement.sources) {
   if (profile.derived_commercial_use !== true) fail(`Promotion source ${source.id} does not permit derived commercial use.`)
   if (!String(profile.ai_context_permission).startsWith('PERMITTED_')) fail(`Promotion source ${source.id} lacks explicit AI-context permission.`)
   if (excluded.has(source.id)) fail(`Promotion source ${source.id} is also listed in legacy_promotion_exclusions.`)
+  if (rejectedSourceIds.has(source.id)) fail(`Independently rejected source ${source.id} remains in the effective promotion source universe.`)
 }
 
 for (const entry of matrix.nodes) {
@@ -74,6 +76,7 @@ for (const entry of matrix.nodes) {
   for (const sourceId of truthSources) {
     if (boardIds.has(sourceId)) fail(`${entry.subject_id} uses board source ${sourceId} as reusable subject truth.`)
     if (excluded.has(sourceId)) fail(`${entry.subject_id} uses excluded source ${sourceId} as reusable subject truth: ${excluded.get(sourceId)}`)
+    if (rejectedSourceIds.has(sourceId)) fail(`${entry.subject_id} still uses independently rejected source ${sourceId}.`)
     const source = sourceMap.get(sourceId)
     if (!source) fail(`${entry.subject_id} references promotion source ${sourceId} absent from the effective promotion source supplement.`)
     else if (source.promotion_eligible !== true) fail(`${entry.subject_id} references non-eligible promotion source ${sourceId}.`)
@@ -92,10 +95,24 @@ for (const entry of matrix.nodes) {
 }
 
 for (const source of overlay.source_additions ?? []) {
+  if (rejectedSourceIds.has(source.id)) {
+    if (sourceMap.has(source.id)) fail(`Rejected v0.3 proposed source ${source.id} was not removed from the effective source universe.`)
+    continue
+  }
   const effective = sourceMap.get(source.id)
   if (!effective?.promotion_eligible) fail(`v0.3 source addition ${source.id} is not present as promotion-eligible effective evidence.`)
   const used = matrix.nodes.some((entry) => (entry.subject_truth_sources ?? []).includes(source.id))
   if (!used) fail(`v0.3 source addition ${source.id} is not mapped to any node.`)
+}
+
+for (const replacement of sourceReview.promotion_source_replacements ?? []) {
+  const row = rows.get(replacement.subject_id)
+  if (!row) {
+    fail(`v0.3 source review references unknown node ${replacement.subject_id}.`)
+    continue
+  }
+  for (const removed of replacement.remove ?? []) if ((row.subject_truth_sources ?? []).includes(removed)) fail(`${replacement.subject_id} still references rejected/replaced source ${removed}.`)
+  for (const added of replacement.add ?? []) if (!(row.subject_truth_sources ?? []).includes(added)) fail(`${replacement.subject_id} is missing source-review replacement ${added}.`)
 }
 
 for (const patch of overlay.node_patches ?? []) {
@@ -122,7 +139,8 @@ console.log(`- effective fingerprint: ${candidate.fingerprint}`)
 console.log(`- indexed nodes: ${indexIds.length}`)
 console.log(`- promotion matrix nodes: ${matrixIds.length}`)
 console.log(`- promotion-eligible truth sources used: ${usedTruthSources.size}`)
-console.log(`- new v0.3 promotion sources: ${(overlay.source_additions ?? []).length}`)
+console.log(`- accepted new v0.3 promotion sources: ${(overlay.source_additions ?? []).length - rejectedSourceIds.size}`)
+console.log(`- independently rejected proposed sources: ${rejectedSourceIds.size}`)
 console.log(`- quarantined board-source IDs: ${boardIds.size}`)
 console.log(`- targeted content patches: ${(overlay.node_patches ?? []).length}`)
 console.log('- promotion decision: not yet made; fresh independent reassurance still required')
