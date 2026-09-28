@@ -30,5 +30,8 @@ export default tseslint.config(
         ...globals.node,
       },
     },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
+    },
   },
 )
