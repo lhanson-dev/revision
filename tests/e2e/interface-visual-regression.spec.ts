@@ -62,21 +62,18 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
 
 /**
  * Learner surfaces whose geometry changes are pinned to manually inspected CI
- * captures. These baselines were re-inspected on 29 September 2026 after the
- * approved 48px learner-button and touch-target refinement. The Plan dark pair
- * represents two visually equivalent Chromium rasterisations from the run and
- * retry; accepting only those reviewed digests preserves fail-closed assurance.
- * Timed exam now uses the same exact-digest contract because its shared learner
- * actions intentionally inherit the new button geometry. Admin remains on its
- * existing snapshot baseline because its compact operational controls are not
- * part of the learner-size change.
+ * captures. Most baselines were re-inspected on 29 September 2026 after the
+ * approved 48px learner-button and touch-target refinement. The Plan light and
+ * dark captures were separately re-inspected after the approved native date
+ * input/direct-entry change; only those reviewed digests are accepted. Timed
+ * exam uses the same exact-digest contract because its shared learner actions
+ * intentionally inherit the button geometry. Admin remains on its existing
+ * snapshot baseline because its compact operational controls are not part of
+ * the learner-size change.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
-  'desktop:plan:dark': [
-    'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
-    '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
-  ],
+  'desktop:plan:light': '4917909ef841487ec4d5bc531b8ec15b815ba52a2081e4abbff2bd3f9fd6bed5',
+  'desktop:plan:dark': '346d704362c33949b8cf932f396eee2d97c8e3abeeacc5bf64f415513c73d99c',
   'tablet:courses:light': 'f2ce37718e71771d393235de64ba2a0939075887c8fc00b7ee4adb03e66ddb98',
   'tablet:courses:dark': 'e92340a2c5fa2667df3a17cb807f33e69ec487e7c11c503dcd0ac29aab1b33a6',
   'phone:practice:light': '82213988777830ed656ccf17da3ba155693ba5be52e13f978b01c35b957b1e1f',
