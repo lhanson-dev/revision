@@ -8,7 +8,7 @@ on:
       - 'research/business-subject-foundation/**'
       - 'scripts/content-factory/load-business-subject-foundation-candidate-v07.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
-      - 'scripts/assurance/materialise-aqa-business-7132-learning-adapter.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs'
       - 'src/content-factory/aqa-course-truth-learning-adapter.test.ts'
       - 'src/content-factory/foundation-internal-learning-assets.ts'
       - 'src/content-factory/foundation-course-learning-blueprint.ts'
@@ -46,13 +46,13 @@ jobs:
         run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs --self-test
       - name: Materialise exact projection evidence
         run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs
-      - name: Validate transitional learning adapter contract
-        run: node scripts/assurance/materialise-aqa-business-7132-learning-adapter.mjs --self-test
-      - name: Materialise transitional learning adapter
-        run: node scripts/assurance/materialise-aqa-business-7132-learning-adapter.mjs
-      - name: Prove existing v2 planner consumes exact Course Truth projection
+      - name: Validate transitional runtime adapter contract
+        run: node scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs --self-test
+      - name: Materialise transitional runtime adapter
+        run: node scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs
+      - name: Prove current runtime schemas and v2 planner consume exact Course Truth projection
         run: npx vitest run src/content-factory/aqa-course-truth-learning-adapter.test.ts
-      - name: Upload Course and Exam Truth evidence
+      - name: Upload Course, Exam Truth and runtime-adapter evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
