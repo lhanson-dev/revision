@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { loadBusinessSubjectFoundationCandidate as loadV07Candidate } from './load-business-subject-foundation-candidate-v07.mjs'
 
 const OVERLAY_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/REMEDIATION.json'
+const AUGMENTATION_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS.json'
 const EXPECTED_BASE_VERSION = 'v0.7-aqa-7132-gap-reconciliation'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.8-t8-exact-course-remediation'
 const EXPECTED_BASE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
@@ -16,11 +17,12 @@ function hashParts(parts) { const hash=createHash('sha256'); for (const [name,va
 
 export async function loadBusinessSubjectFoundationCandidate() {
   const previous=await loadV07Candidate()
-  const overlayRaw=await readFile(OVERLAY_PATH,'utf8')
-  const overlay=JSON.parse(overlayRaw)
+  const [overlayRaw,augmentationRaw]=await Promise.all([readFile(OVERLAY_PATH,'utf8'),readFile(AUGMENTATION_PATH,'utf8')])
+  const overlay=JSON.parse(overlayRaw), augmentations=JSON.parse(augmentationRaw)
   if (previous.index.candidate_version!==EXPECTED_BASE_VERSION || previous.nodes.size!==EXPECTED_NODE_COUNT) throw new Error('Unexpected Business v0.7 base candidate identity/count')
   if (previous.fingerprint!==EXPECTED_BASE_FINGERPRINT) throw new Error(`Unexpected Business v0.7 base fingerprint ${previous.fingerprint}`)
   if (overlay.candidate_version!==EXPECTED_EFFECTIVE_VERSION || overlay.base_candidate?.version!==EXPECTED_BASE_VERSION) throw new Error('Unexpected Business v0.8 remediation overlay identity')
+  if (augmentations.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected Business v0.8 source augmentation identity')
   if (overlay.base_candidate?.fingerprint!==previous.fingerprint) throw new Error(`Business v0.8 base fingerprint mismatch: ${previous.fingerprint}`)
   if ((overlay.domain_moves||[]).length) throw new Error('Business v0.8 must not change domain membership')
   if ((overlay.relationship_patches||[]).length) throw new Error('Business v0.8 must not change dependency/relationship edges')
@@ -39,13 +41,13 @@ export async function loadBusinessSubjectFoundationCandidate() {
 
   const sources=clone(previous.sources); sources.candidate_version=EXPECTED_EFFECTIVE_VERSION; sources.status='t8_exact_course_remediation_awaiting_fresh_reassurance'
   const sourceIds=new Set(sources.sources.map((source)=>source.id))
-  for (const source of overlay.source_additions||[]) { if(sourceIds.has(source.id)) throw new Error(`Business v0.8 duplicate source addition ${source.id}`); sources.sources.push(clone(source)); sourceIds.add(source.id) }
+  for (const source of [...(overlay.source_additions||[]),...(augmentations.source_additions||[])]) { if(sourceIds.has(source.id)) throw new Error(`Business v0.8 duplicate source addition ${source.id}`); sources.sources.push(clone(source)); sourceIds.add(source.id) }
 
   const matrix=clone(previous.matrix); matrix.candidate_version=EXPECTED_EFFECTIVE_VERSION; matrix.status='t8_exact_course_remediation_awaiting_fresh_reassurance'; matrix.purpose='Promotion-provenance composition for the exact T8 fail-hold remediation over the exact reassured Business v0.7 candidate.'
   matrix.policy={...matrix.policy,teaching_content_changed_by_this_remediation:true,promotion_decision:'NOT_YET_MADE',required_next_gate:'fresh_v08_changed_scope_and_integration_reassurance_against_exact_fingerprint'}
   const rows=new Map(matrix.nodes.map((row)=>[row.subject_id,row]))
   for (const row of matrix.nodes) row.promotion_provenance_status=freshScope.has(row.subject_id)?'T8_TARGETED_REMEDIATION_AWAITING_FRESH_REASSURANCE':'PRIOR_ASSURANCE_PRESERVED_UNCHANGED'
-  for (const patch of overlay.promotion_source_patches||[]) { const row=rows.get(patch.subject_id); if(!row) throw new Error(`Business v0.8 promotion patch references unknown node ${patch.subject_id}`); row.subject_truth_sources=uniq([...(row.subject_truth_sources||[]),...(patch.add||[])]) }
+  for (const patch of [...(overlay.promotion_source_patches||[]),...(augmentations.promotion_source_patches||[])]) { const row=rows.get(patch.subject_id); if(!row) throw new Error(`Business v0.8 promotion patch references unknown node ${patch.subject_id}`); row.subject_truth_sources=uniq([...(row.subject_truth_sources||[]),...(patch.add||[])]) }
 
   const allIndexIds=index.domains.flatMap((domain)=>domain.ids||[])
   exactSet(allIndexIds,nodes.keys(),'Business v0.8 index/node IDs'); exactSet(rows.keys(),nodes.keys(),'Business v0.8 matrix/node IDs')
@@ -56,6 +58,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const id of freshScope) { const facets=nodes.get(id)?.teaching_content?.course_relevant_named_facets; if(!Array.isArray(facets)||facets.length===0) throw new Error(`Business v0.8 changed node ${id} has no structured named facets`) }
 
   const domains=index.domains.map((domain)=>({...domain,composed_from:EXPECTED_BASE_VERSION,nodes:domain.ids.map((id)=>clone(nodes.get(id)))}))
-  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw]])
-  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,freshNodeScope:[...freshScope]}
+  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw]])
+  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,freshNodeScope:[...freshScope]}
 }
