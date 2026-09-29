@@ -2,7 +2,7 @@
 
 **Status:** implementation correction awaiting governed PR assurance and post-merge fresh v0.8 reassurance.
 
-## Triggering run
+## First triggering run — EnPress legacy route
 
 Fresh v0.8 reassurance workflow run `36589766815` reviewed exact approved `main` SHA `a66e253b5bdebb3c0f23497528aeb8dfb32d6e56` against Business Foundation v0.8 fingerprint:
 
@@ -19,9 +19,9 @@ Group 2 then stopped during evidence-contract validation with:
 
 `BUS-PEO-001 evidence URL outside registered path for SRC-OER-HARD-SOFT-HRM-2024`
 
-This stop is not an educational `fail_hold`. The runner had received a schema-valid provider review but rejected one evidence URL before a Group 2 quality decision could be retained.
+This stop was not an educational `fail_hold`. The runner had received a schema-valid provider review but rejected one evidence URL before a Group 2 quality decision could be retained.
 
-## Source and route investigation
+### EnPress source and route investigation
 
 The effective registered source remains:
 
@@ -33,49 +33,113 @@ The effective registered source remains:
 - licence: CC BY 4.0;
 - promotion eligibility: retained.
 
-Fresh publication inspection confirmed that EnPress exposes the same article through its current registered route and publisher-controlled legacy `systems.enpress-publisher.com` article routes keyed to article ID `5910`. The article title, article identity and DOI are the same publication. This does not justify a host-wide exception and does not establish a provenance gap requiring a replacement source.
+Fresh publication inspection confirmed that EnPress exposes the same article through its current registered route and publisher-controlled legacy `systems.enpress-publisher.com` article routes keyed to article ID `5910`. The article title, article identity and DOI are the same publication. This did not justify a host-wide exception and did not establish a provenance gap requiring a replacement source.
 
-The failed run cannot prove the exact provider-returned Group 2 URL because the runner validated the output before writing the Group 2 artifact. Only Group 1 was retained. The exact rejected URL must therefore not be reconstructed or asserted after the fact.
+The failed run could not prove the exact provider-returned Group 2 URL because the runner validated the output before writing the Group 2 artifact. Only Group 1 was retained. The exact rejected URL was therefore not reconstructed or asserted after the fact.
 
-## Classification
+The first recovery correction:
 
-The smallest safe classification is a **source-specific evidence-route contract defect**, compounded by a **forensic retention defect**:
+- preserved the canonical same-host registered-path/child-path rule;
+- added source-ID-specific EnPress legacy-route equivalence only for article `5910`;
+- retained schema-valid provider output before evidence validation;
+- separated evidence-contract failure from educational `fail_hold`; and
+- included actual and registered URLs in future route-validation errors.
 
-1. the source registration is still a valid canonical publication route;
-2. the reusable provenance remains promotion-eligible and publication-identical;
-3. the validator was too rigid for this verified publisher migration/legacy-route case;
-4. the validator must not be relaxed for arbitrary same-host paths, DOI resolvers, mirrors or aggregators; and
-5. future schema-valid provider output must be retained before evidence-contract validation so a rejection is auditable.
+## Second triggering run — publisher-hosted download route
+
+After the first recovery was merged as PR `#435`, fresh v0.8 reassurance workflow run `36619201381` reviewed exact approved `main` SHA:
+
+`c3cb0e8e2181a748ab250579304af50cdee1ba69`
+
+against the same Business Foundation v0.8 fingerprint:
+
+`8d3daa57cee2113839ee4ec2aaa0731cc4d25afd73224178da96d53d7ee848ec`
+
+Retained artifact:
+
+- artifact ID: `11058032016`;
+- digest: `sha256:1ef297247e7932e22e216763d3696b9a261da4157a422885b65d6f28f91bd124`.
+
+The exact-main identity check, deterministic v0.8 validation and reassurance contract self-test all passed. The fresh substantive reassurance then completed Groups 1, 2 and 3 before stopping in Group 4 (`Strategy, data and change remediation`) during evidence-contract validation.
+
+The retained failure is:
+
+`BUS-STR-009 evidence URL outside registered path for SRC-OER-ARC-STRATEGIC-DRIFT-2022: actual=https://arcjournals.org/arc_download.php?id=5805 registered=https://arcjournals.org/article/5805`
+
+The runner correctly recorded:
+
+- `status: evidence_contract_failure`;
+- `qualityDecision: not_reached`;
+- Groups 1–3 as completed;
+- the Group 4 schema-valid provider response in `group-4-provider-output.json`; and
+- the exact rejected and registered URLs.
+
+This demonstrates that the first forensic-retention correction worked. This second stop is not evidence of a new educational failure.
+
+### ARC route investigation
+
+The effective registered source remains:
+
+- source ID: `SRC-OER-ARC-STRATEGIC-DRIFT-2022`;
+- publisher: ARC Journals;
+- registered URL: `https://arcjournals.org/article/5805`;
+- promotion eligibility: retained.
+
+Fresh publication inspection confirmed that the registered ARC article page links to the publisher-hosted full-text download route `https://arcjournals.org/arc_download.php?id=5805`. Both routes carry the same publisher and publication identity `5805`.
+
+The evidence contract therefore rejected an alternate representation of the registered publication rather than an unrelated source, mirror, aggregator or different article.
+
+## Revised classification
+
+Across both failures, the underlying pattern is a **publisher-route representation defect in the reassurance evidence contract**, not repeated Business-content failure.
+
+The safe classification is:
+
+1. canonical registered publication URLs remain authoritative evidence anchors;
+2. canonical same-host child paths remain accepted;
+3. source-specific cross-host legacy equivalence remains explicit where independently verified, as with EnPress;
+4. a same-host publisher document/download route may be treated as equivalent only when it carries a stable publication identity that exactly matches the registered publication;
+5. wrong publication IDs, unrelated same-host pages, mirrors, aggregators and cross-host substitutions remain rejected; and
+6. a route-contract rejection remains `qualityDecision: not_reached`, not educational `fail_hold`.
 
 No Business teaching content, node taxonomy, relationship graph, promotion-source mapping or candidate fingerprint is changed by this correction.
 
-## Implementation correction
+## Class-level implementation correction
 
-The v0.8 reassurance runner now:
+The v0.8 reassurance runner now retains the existing canonical and EnPress-specific rules and adds a narrow publisher-document equivalence guard.
 
-- preserves the existing canonical same-host registered-path/child-path rule;
-- adds a source-ID-specific equivalence rule only for `SRC-OER-HARD-SOFT-HRM-2024` and EnPress legacy article-ID `5910` routes;
-- continues to reject adjacent article IDs and unrelated publisher paths;
-- instructs the reviewer to prefer the registered URL and forbids substitution of DOI resolvers, mirrors, aggregators or unrelated same-host pages;
-- includes both actual and registered URLs in any future path-validation error;
-- writes `group-N-provider-output.json` before evidence validation;
-- writes `validation-failure.json` with `qualityDecision: not_reached` when a schema-valid provider response fails the evidence contract; and
-- only writes the normal validated `group-N.json` after evidence validation succeeds.
+A same-host alternate document route is accepted only when all of the following are true:
 
-The no-spend reassurance self-test now proves that:
+1. the normalized publisher host exactly matches the registered host;
+2. the actual route is document-shaped (`download`, `pdf`, `viewFile`, or a `.pdf` path);
+3. the registered route exposes a stable publication identity through its canonical final numeric article identifier, query identifier or DOI; and
+4. the actual document route carries the same exact publication identity in its path, query or DOI.
 
-- the registered EnPress route is accepted;
-- the verified legacy article route for article `5910` is accepted;
-- the verified legacy article-file route for article `5910` is accepted; and
-- a neighbouring EnPress article ID remains rejected.
+This is deliberately not a generic same-host exemption. It allows the ARC `article/5805` → `arc_download.php?id=5805` representation while rejecting:
 
-This prevents the same failure mode from recurring silently while keeping the evidence boundary fail-closed.
+- `arc_download.php?id=5806`;
+- an unrelated same-host page such as `about?id=5805`; and
+- a document route on another host carrying `5805`.
+
+The reviewer instruction also now states that publisher-hosted document/download routes are acceptable only where they preserve the same registered publication identity. DOI resolvers, mirrors, aggregators and unrelated same-host pages remain prohibited.
+
+The no-spend reassurance self-test now proves:
+
+- canonical EnPress evidence is accepted;
+- verified EnPress legacy article and article-file routes for article `5910` are accepted;
+- a neighbouring EnPress article ID is rejected;
+- the ARC publisher download route with matching article ID `5805` is accepted;
+- the ARC download route with a different article ID is rejected;
+- an unrelated ARC same-host route carrying `5805` is rejected; and
+- a cross-host download route carrying `5805` is rejected.
 
 ## Historical evidence
 
-Run `36589766815` and artifact `11043198393` remain unchanged historical evidence. The absent Group 2 object is not backfilled. Earlier Foundation evidence is not rewritten.
+Runs `36589766815` and `36619201381` and artifacts `11043198393` and `11058032016` remain unchanged historical evidence.
 
-A fresh post-merge v0.8 reassurance must review the new exact approved `main` SHA. The previous partial run cannot be promoted into a pass.
+The missing Group 2 object from the first run is not backfilled. The second run's retained Group 4 provider output remains unvalidated historical evidence and is not rewritten into a pass.
+
+A fresh post-merge v0.8 reassurance must review the new exact approved `main` SHA. Neither partial run can be promoted into a pass.
 
 ## Required assurance for this correction
 
