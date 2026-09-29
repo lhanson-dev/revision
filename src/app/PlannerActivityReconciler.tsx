@@ -17,6 +17,10 @@ export function PlannerActivityReconciler({ client, userId, routeKey }: PlannerA
   useEffect(() => {
     let active = true
 
+    if (new URLSearchParams(window.location.search).get('designPreview') === '1') {
+      return () => { active = false }
+    }
+
     async function reconcile() {
       const setup = await loadPlannerSetup(client, userId)
       if (!active) return
