@@ -76,6 +76,28 @@ Run `36401496160` stopped while validating `BUS-STR-001` because the reviewer re
 
 The registered promotion source itself is already the Green Book 2026 page. This PR does not broaden the URL boundary generically or weaken host/source identity checks. A subsequent live run remains responsible for proving whether the current registered URL and reviewer evidence resolve cleanly under the existing fail-closed boundary. If a fresh run reproduces a legitimate canonical-URL mismatch, that must be handled as a separate bounded source-register/URL-normalisation defect rather than silently accepted.
 
+## v0.8 verified publisher-URL aliases — 29 September 2026
+
+Fresh v0.8 reassurance run `36589766815` reviewed `main` `a66e253b5bdebb3c0f23497528aeb8dfb32d6e56`. The deterministic candidate validator and reassurance self-test passed, and the first changed-scope group completed with a `pass`. The run then stopped while validating `BUS-PEO-001` because evidence for `SRC-OER-HARD-SOFT-HRM-2024` resolved to a publisher-hosted EnPress URL form outside the single registered hostname/path boundary.
+
+This is a bounded provenance/URL-normalisation defect, not an educational `fail_hold` and not permission to widen source validation generally.
+
+The v0.8 source metadata now records two directly verified EnPress publisher equivalents for the same article identity, Article ID `5910`, DOI `10.24294/jipd.v8i9.5910`:
+
+- `https://systems.enpress-publisher.com/index.php/jipd/article/view/5910`
+- `https://systems.enpress-publisher.com/index.php/jipd/article/view/5910/0`
+
+The v0.8 reassurance runner now:
+
+- passes the explicit equivalent-URL list to the reviewer alongside the primary source URL;
+- permits evidence only when it is inside the primary registered path or an explicitly recorded equivalent path;
+- adds only the hosts of those registered URLs to the provider search-domain allowlist; and
+- retains fail-closed regression checks proving that an unregistered EnPress article ID and an unrelated host are rejected.
+
+No generic same-publisher, same-domain-family, redirect or DOI inference is accepted automatically. New equivalent URLs must be deliberately verified and recorded against the affected source before they can pass the gate.
+
+Because the source-metadata patch is part of the v0.8 candidate fingerprint, this correction changes the exact candidate identity. Run `36589766815` remains immutable incomplete assurance evidence and cannot be promoted or resumed as a PASS. After the correction is merged, the next valid gate is a new fresh v0.8 changed-scope and integration reassurance against the exact then-current `main` SHA and new fingerprint.
+
 ## Progression
 
 After this correction is merged, a new fresh reassurance run must execute against the exact then-current `main` SHA. The prior run cannot be reused as a PASS.
@@ -88,4 +110,4 @@ Exact AQA 7132 mapping, Course Truth, Exam Truth, exact-course assurance and qua
 
 ## Documentation impact
 
-No normative authority changes. This file records the current technical correction and preserves the historical run without rewriting it. The existing fresh-reassurance technical document remains the broader implementation history; this correction governs the promotion-semantics issue identified by run `36401496160`.
+No normative authority changes. This file records the current technical correction and preserves the historical runs without rewriting them. The existing fresh-reassurance technical document remains the broader implementation history; the 29 September section records the bounded source-URL alias control required by v0.8 run `36589766815`.
