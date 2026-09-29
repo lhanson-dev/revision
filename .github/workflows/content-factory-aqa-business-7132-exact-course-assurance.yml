@@ -1,0 +1,62 @@
+name: Content Factory AQA Business 7132 Exact-Course Assurance
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'research/aqa-business-7132/2027/**'
+      - 'research/business-subject-foundation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v07.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs'
+      - 'scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs'
+      - 'scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts'
+      - '.github/workflows/content-factory-aqa-business-7132-exact-course-assurance.yml'
+      - '.github/workflows/content-factory-aqa-business-7132-exact-course-assurance-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-exact-course-assurance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deterministic-exact-course-assurance:
+    name: Deterministic T8 exact-course assurance contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run fail-closed exact-course assurance self-test
+        run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs --self-test
+
+      - name: Materialise deterministic T8 review package
+        run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs
+
+      - name: Validate fresh-proof TypeScript contract without provider spend
+        run: npx vitest run scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts --reporter=verbose
+
+      - name: Upload deterministic T8 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-aqa-business-7132-exact-course-assurance-${{ github.run_id }}
+          path: .artifacts/content-factory-aqa-business-7132-exact-course-assurance/
+          if-no-files-found: error
+          retention-days: 30
