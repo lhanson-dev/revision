@@ -38,16 +38,15 @@ The correction now retains completed provider output before deterministic valida
 - DOI: `10.24294/jipd.v8i9.5910`;
 - canonical registered URL: `https://www.enpress-publisher.com/journal/JIPD/8/9/10.24294/jipd.v8i9.5910`.
 
-Direct publisher inspection confirms EnPress exposes that same article ID / DOI through multiple publisher-controlled routes, including its current article page, legacy OJS article route and publisher-hosted article file route. These are alternate routes to the same publication, not materially different educational sources.
+Direct publisher inspection confirms EnPress exposes that same article ID / DOI through multiple publisher-controlled routes. The legacy OJS article route identifies article `5910`, and its PDF resolves as a child of that route (`.../article/view/5910/3860`). The current publisher also exposes the same DOI/article through a publisher-hosted file path below `.../files/journals/1/articles/5910/public/`. These are alternate route families to the same publication, not materially different educational sources.
 
 The defect was therefore in the **registered-route contract / validator interaction**, not in the educational provenance of the source. No new reusable source and no teaching-content change are justified by this failure.
 
 ## Smallest safe correction
 
-The source metadata now explicitly registers only these equivalent EnPress routes for article `5910`:
+The source metadata now explicitly registers only these two verified equivalent EnPress route families for article `5910`:
 
 - `https://systems.enpress-publisher.com/index.php/jipd/article/view/5910`;
-- `https://systems.enpress-publisher.com/index.php/jipd/article/viewFile/5910`;
 - `https://www.enpress-publisher.com/files/journals/1/articles/5910/public`.
 
 The canonical registered URL remains unchanged.
@@ -67,7 +66,7 @@ The v0.8 deterministic validator now requires:
 
 - `BUS-PEO-001` to retain `SRC-OER-HARD-SOFT-HRM-2024`;
 - that source to remain promotion-eligible CC BY 4.0;
-- the exact three article-5910 aliases above;
+- the exact two article-5910 alias route families above;
 - an explicit alias basis;
 - every alias to remain on an EnPress publisher domain and article-specific to `5910`;
 - the metadata-patch set to contain both the previous GOV.UK metadata correction and this hard/soft-HRM route correction.
