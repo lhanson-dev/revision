@@ -1,9 +1,9 @@
 # Adaptive Revision Planning
 
-**Status:** Active authority — v0.4 Founder-approved  
+**Status:** Active authority — v0.5 Founder-approved  
 **Owner:** Product  
 **Purpose:** Define the governed product behaviour for Revision's adaptive revision planner and its relationship with REV, Home, Progress, Courses and learner choice.  
-**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27.  
+**Source decision:** FI-001 Intelligent Exam Calendar / Adaptive Revision Planner. Founder-approved product direction captured 2026-08-19. FI-020 learner-course programme context approved Ready 2026-08-22. Plan experience refresh approved 2026-09-27. Plan task rationale presentation refinement approved 2026-09-29.  
 **Authority relationship:** This is the specific product authority for adaptive planning. Global navigation mechanics are governed more specifically by `Global Learner Navigation.md`; this document remains authoritative for planner behaviour and the way REV explains and negotiates the plan.
 
 ## Product outcome
@@ -131,7 +131,7 @@ Revision may explain **mark opportunity** where this is grounded in known assess
 
 A learner-wide recommendation must resolve to an active saved course. Removing a course from the learner's programme prevents it from influencing new learner-wide recommendations without deleting historical evidence.
 
-Near-term scheduled tasks should expose a concise **Why this?** explanation so the student can understand why Revision placed that work there without seeing internal priority scores.
+Near-term scheduled tasks should retain one or more concise human-understandable reasons so REV can explain why Revision placed that work there when useful. Plan task entries should not repeat an inline **Why this?** line beneath every task; the surrounding adaptive-plan explanation should carry the routine rationale, with REV available for contextual explanation of a specific recommendation.
 
 ## 6. Today and the wider Plan experience
 
@@ -167,8 +167,7 @@ It may show:
 - the day's available revision capacity;
 - specific recommended activities in current priority order;
 - course/subject identity;
-- expected duration as a coarse estimate;
-- concise **Why this?** evidence/reason text; and
+- expected duration as a coarse estimate; and
 - a direct start action for supported activities.
 
 Day remains a flexible workload rather than a clock timetable unless exact scheduling is separately approved.
@@ -545,4 +544,4 @@ Implementation evidence must then be recorded in code and relevant technical doc
 
 ## Documentation impact
 
-Version 0.4 records the Founder-approved Plan experience direction of 27 September 2026: schedule-first Day / Week / Month views with Week as the default, decreasing future precision, recurring Monday-Sunday availability, setup-first missing-plan states, a compact adaptive-plan explanation and secondary exam/settings management rather than permanent setup forms. It also records that Plan remains inside the governed learner navigation and stable learner content canvas and does not require a large proactive REV hero.
+Version 0.5 preserves the Founder-approved Plan experience direction of 27 September 2026 and records the 29 September 2026 refinement that routine Plan task entries no longer repeat an inline **Why this?** rationale beneath every task. Recommendation reasons remain part of planner truth and remain available for contextual explanation through REV when useful. The schedule-first Day / Week / Month structure, Week default, decreasing future precision, recurring Monday-Sunday availability, setup-first missing-plan states, compact adaptive-plan explanation, secondary exam/settings management and governed learner navigation remain unchanged.

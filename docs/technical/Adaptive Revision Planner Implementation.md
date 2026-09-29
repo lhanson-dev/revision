@@ -1,13 +1,13 @@
 # Adaptive Revision Planner Implementation
 
-**Status:** FI-001 live on `main`; Plan experience refresh implemented on `feature/plan-experience-refresh` pending governed merge  
+**Status:** FI-001 live on `main`; Plan experience refresh live, with the 29 September 2026 task-rationale presentation refinement proposed on `fix/remove-plan-why-this`  
 **Owner:** Product / Engineering  
 **Canonical product surface:** `/app/` React/Vite learner runtime, published under GitHub Pages as `/revision/app/`  
 **Governed product authority:** `10-product-governance/Adaptive Revision Planning.md`
 
 ## Purpose
 
-Record the current implementation truth for FI-001 Adaptive Revision Planning in the canonical learner runtime. Normative planner behaviour remains governed by `10-product-governance/Adaptive Revision Planning.md`; this document describes how that authority is implemented and records the 27 September 2026 Plan experience refresh while it moves through governed review.
+Record the current implementation truth for FI-001 Adaptive Revision Planning in the canonical learner runtime. Normative planner behaviour remains governed by `10-product-governance/Adaptive Revision Planning.md`; this document describes how that authority is implemented, including the 27 September 2026 Plan experience refresh and the proposed 29 September 2026 removal of repeated inline task rationale text.
 
 ## Canonical runtime and route
 
@@ -54,7 +54,7 @@ The refreshed Plan implementation provides:
 - concise programme context for the next exam, current-week capacity and normal/prioritising state;
 - secondary **Manage exams** and **Plan settings** controls once setup exists;
 - **Day / Week / Month** views with **Week as the default**;
-- task-level plain-English recommendation reasons;
+- structured recommendation reasons retained for contextual explanation through REV without repeating them beneath every Plan task;
 - restrained governed subject accents for task/exam recognition; and
 - an upcoming-exam milestone treatment.
 
@@ -112,7 +112,7 @@ The implemented planner uses bounded reason codes including:
 - `COMPETING_PRIORITY`;
 - `CAPACITY_CONSTRAINED`.
 
-Learner-facing UI/REV translates these into plain language. Plan exposes concise near-term **Why this?** explanations rather than internal priority scores.
+The reason codes remain planner truth and are available to REV for plain-language explanation. The Plan task cards themselves do not repeat a **Why this?** line beneath every entry; the page-level adaptive-plan explanation provides the routine context and REV can explain a specific recommendation when useful.
 
 ## Capacity and prioritising state
 
@@ -207,4 +207,4 @@ This readiness proof confirms required backend capability presence; it does not 
 
 ## Documentation impact
 
-The 27 September 2026 refresh updates the normative adaptive-planning authority, this implementation record, release-readiness contract and deployment expectation in the same governed change. It does not rewrite historical planner evidence or prior implementation records. Home's separately requested future explanatory/supporting-content change remains tracked independently and is not implemented by this Plan refresh.
+The 29 September 2026 task-rationale presentation refinement updates the normative adaptive-planning authority, this implementation record, `PlanScreen` and configured-Plan browser assurance in the same governed change. It removes only the repeated inline rationale text from Plan task cards; structured reason codes, planner calculation, REV explanation capability, persistence, backend contracts and historical evidence are unchanged.

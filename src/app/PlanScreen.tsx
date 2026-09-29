@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { PlannerItem, PlannerReasonCode, PlannerScheduledDay } from '../engine/planning/planning'
+import type { PlannerItem, PlannerScheduledDay } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
 import {
   archiveAssessment,
@@ -68,22 +68,6 @@ function activityLabel(activity: string) {
   return 'Revision activity'
 }
 
-function reasonLabel(reason: PlannerReasonCode) {
-  switch (reason) {
-    case 'ASSESSMENT_SOON': return 'The assessment is getting closer.'
-    case 'HIGH_IMPORTANCE_ASSESSMENT': return 'You marked this assessment as a higher priority.'
-    case 'LOW_EVIDENCE': return 'Revision has limited evidence in this area so far.'
-    case 'WEAK_EVIDENCE': return 'Recent evidence suggests this area needs more work.'
-    case 'UNDER_COVERED': return 'This area has less evidence coverage than others.'
-    case 'EXAM_PRACTICE_DUE': return 'Exam-style practice is becoming more useful as the assessment approaches.'
-    case 'HIGH_MARK_OPPORTUNITY': return 'This area has a larger known mark opportunity.'
-    case 'ALREADY_STRONG': return 'You already have stronger evidence here, so it is less urgent.'
-    case 'LEARNER_PRIORITY': return 'You asked Revision to give this more attention for now.'
-    case 'COMPETING_PRIORITY': return 'Revision is balancing this against another important priority.'
-    case 'CAPACITY_CONSTRAINED': return 'Available time is limited, so Revision is focusing on the highest-value work.'
-  }
-}
-
 function formatDate(date: string, options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }) {
   return new Intl.DateTimeFormat('en-GB', options).format(new Date(`${date}T12:00:00`))
 }
@@ -110,11 +94,6 @@ function courseLabel(programme: readonly LearnerProgrammeCourse[], courseId: str
 
 function subjectLabel(programme: readonly LearnerProgrammeCourse[], subjectId: string) {
   return programme.find((item) => item.subject.id === subjectId)?.subject.name ?? subjectId
-}
-
-function conciseReason(item: PlannerItem) {
-  const preferred = item.reasons.find((reason) => reason !== 'ALREADY_STRONG' && reason !== 'CAPACITY_CONSTRAINED') ?? item.reasons[0]
-  return preferred ? reasonLabel(preferred) : 'Revision is balancing this against your other current priorities.'
 }
 
 function totalWeeklyMinutes(availability: RevisionAvailabilityProfile | null) {
@@ -443,7 +422,6 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
       <span className="plan-task-subject">{subjectLabel(programme, item.subjectId)}</span>
       <strong>{itemTopicLabel(item, learningStates)}</strong>
       <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
-      <small><b>Why this?</b> {conciseReason(item)}</small>
       <Icon name="chevron-right" size="compact" className="plan-task-arrow" />
     </button>
   }
