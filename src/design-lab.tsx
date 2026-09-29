@@ -2,6 +2,7 @@ import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthGate } from './app/AuthGate'
 import { DesignLab } from './app/DesignLab'
+import { DesignLabActualAppReview } from './app/DesignLabActualAppReview'
 import { supabase } from './services/supabase/browser-client'
 import brandTokensCss from './app/brand-tokens.css?inline'
 import appCss from './app/app.css?inline'
@@ -12,6 +13,7 @@ import livingECss from './app/living-e.css?inline'
 import livingEAccessibilityCss from './app/living-e-accessibility.css?inline'
 import learnReadingCss from './app/learn-reading.css?inline'
 import interactiveComponentQualityCss from './app/interactive-component-quality.css?inline'
+import designLabActualAppReviewCss from './app/design-lab-actual-app-review.css?inline'
 import designLabCss from './app/design-lab.css?inline'
 import designLabResponsiveFixCss from './app/design-lab-responsive-fix.css?inline'
 
@@ -27,6 +29,7 @@ const designLabCssText = [
   livingEAccessibilityCss,
   learnReadingCss,
   interactiveComponentQualityCss,
+  designLabActualAppReviewCss,
   designLabCss,
   designLabResponsiveFixCss,
 ].join('\n')
@@ -90,7 +93,7 @@ function DesignLabAccessGate() {
     )
   }
 
-  return <DesignLab />
+  return <><DesignLabActualAppReview /><DesignLab /></>
 }
 
 const root = document.getElementById('root')
