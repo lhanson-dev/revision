@@ -16,6 +16,7 @@ const previewPages = [
   { id: 'course-learn', label: 'Learn', hash: routeHash(learnerCourseRoute(businessCourseId, 'learn')) },
   { id: 'course-practice', label: 'Practice', hash: routeHash(learnerCourseRoute(businessCourseId, 'practice')) },
   { id: 'course-exam-prep', label: 'Exam Prep', hash: routeHash(learnerCourseRoute(businessCourseId, 'exam-prep')) },
+  { id: 'course-progress', label: 'Course progress', hash: routeHash(learnerCourseRoute(businessCourseId, 'progress')) },
 ] as const
 
 const viewportLabels: Record<PreviewViewport, string> = {
@@ -38,7 +39,7 @@ function forcePreviewTheme(event: SyntheticEvent<HTMLIFrameElement>, theme: Prev
 
 function RuntimeFrame({ src, theme, viewport, pageLabel }: { src: string; theme: PreviewTheme; viewport: PreviewViewport; pageLabel: string }) {
   return (
-    <article className="design-lab-runtime-reference-card">
+    <article className="design-lab-runtime-reference-card" data-preview-theme={theme}>
       <header className="design-lab-runtime-reference-card-head">
         <div>
           <span className="design-lab-runtime-reference-theme">{theme === 'light' ? 'Light' : 'Dark'}</span>
@@ -68,10 +69,11 @@ export function DesignLabActualAppReview() {
   const [viewport, setViewport] = useState<PreviewViewport>('desktop')
   const selectedPage = useMemo(() => previewPages.find((page) => page.id === pageId) ?? previewPages[0], [pageId])
   const appBase = `${import.meta.env.BASE_URL}app/`
-  const previewUrl = `${appBase}${selectedPage.hash}`
+  const previewUrl = `${appBase}?designPreview=1${selectedPage.hash}`
+  const liveUrl = `${appBase}${selectedPage.hash}`
 
   return (
-    <section className="planner-runtime design-lab-runtime-reference" data-theme="light" aria-labelledby="actual-app-review-title">
+    <section className="planner-runtime design-lab-runtime-reference" data-theme="light" data-preview-page={selectedPage.id} aria-labelledby="actual-app-review-title">
       <div className="design-lab-runtime-reference-inner">
         <header className="design-lab-runtime-reference-heading">
           <div>
@@ -81,14 +83,14 @@ export function DesignLabActualAppReview() {
               This is the real learner runtime from the current governed implementation, not a reconstructed mock. Choose a page and viewport to compare its current light and dark rendering.
             </p>
           </div>
-          <a className="design-lab-runtime-reference-open" href={previewUrl} target="_blank" rel="noreferrer">
+          <a className="design-lab-runtime-reference-open" href={liveUrl} target="_blank" rel="noreferrer">
             Open live page <Icon name="arrow-right" size="inline" />
           </a>
         </header>
 
         <div className="design-lab-runtime-reference-notice" role="note">
           <Icon name="info" size="compact" />
-          <span>The embedded views use your current authenticated learner context. Interaction is blocked here so design review cannot accidentally change course, plan or evidence state.</span>
+          <span>The embedded views use your current authenticated learner context. Interaction and background activity reconciliation are disabled in preview mode so design review does not alter learner state.</span>
         </div>
 
         <div className="design-lab-runtime-reference-controls">
