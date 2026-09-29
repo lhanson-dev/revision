@@ -1,0 +1,85 @@
+name: Content Factory Business Subject Foundation v0.8 Reassurance
+
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_main_sha:
+        description: Exact current main SHA containing the v0.8 T8 remediation
+        required: true
+        type: string
+      max_spend_usd:
+        description: Bounded execution slice in USD; must not exceed governed $20 course ceiling
+        required: false
+        default: '15'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-business-subject-foundation-v08-reassurance
+  cancel-in-progress: false
+
+jobs:
+  v08-fresh-reassurance:
+    name: Fresh changed-scope and integration reassurance
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Normalize reviewed main SHA and spend slice
+        id: normalize
+        env:
+          RAW_SHA: ${{ inputs.reviewed_main_sha }}
+          RAW_SPEND: ${{ inputs.max_spend_usd }}
+        run: |
+          set -euo pipefail
+          sha="$(printf '%s' "${RAW_SHA}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          spend="$(printf '%s' "${RAW_SPEND}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          [[ "${sha}" =~ ^[0-9a-f]{40}$ ]] || { echo 'reviewed_main_sha must be 40 lowercase hex characters' >&2; exit 1; }
+          [[ "${spend}" =~ ^([0-9]+)(\.[0-9]+)?$ ]] || { echo 'max_spend_usd must be numeric' >&2; exit 1; }
+          awk -v value="${spend}" 'BEGIN { exit !(value > 0 && value <= 20) }' || { echo 'max_spend_usd must be >0 and <=20' >&2; exit 1; }
+          echo "sha=${sha}" >> "${GITHUB_OUTPUT}"
+          echo "spend=${spend}" >> "${GITHUB_OUTPUT}"
+      - name: Checkout exact reviewed main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.normalize.outputs.sha }}
+      - name: Verify exact current main identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${REVIEWED_MAIN_SHA}"
+          current_main="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha')"
+          test "${current_main}" = "${REVIEWED_MAIN_SHA}"
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate exact v0.8 candidate and AQA prerequisite closure
+        run: node scripts/assurance/validate-business-subject-foundation-v08-t8-remediation.mjs
+      - name: Validate reassurance contract without provider spend
+        env:
+          CONTENT_FACTORY_MAX_SPEND_USD: ${{ steps.normalize.outputs.spend }}
+        run: node scripts/assurance/business-subject-foundation-v08-t8-remediation-reassurance.mjs --self-test
+      - name: Run fresh v0.8 changed-scope and integration reassurance
+        env:
+          CONTENT_FACTORY_REASSURANCE_MODEL: gpt-5.6-terra
+          CONTENT_FACTORY_MAX_SPEND_USD: ${{ steps.normalize.outputs.spend }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          REVISION_REVIEWED_MAIN_SHA: ${{ steps.normalize.outputs.sha }}
+        run: node scripts/assurance/run-business-subject-foundation-v08-reassurance.mjs
+      - name: Upload v0.8 reassurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-business-subject-foundation-v08-reassurance-${{ steps.normalize.outputs.sha }}
+          path: .artifacts/content-factory-business-subject-foundation-v08-reassurance/
+          if-no-files-found: warn
+          retention-days: 30
