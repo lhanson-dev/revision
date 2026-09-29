@@ -19,3 +19,9 @@
 .plan-view-toolbar .ui-segmented-control button {
   min-height: 48px;
 }
+
+/* Home: empty-state actions are ordinary learner actions, not compact navigation. */
+.returning-home-empty-actions button {
+  min-height: 48px;
+  padding-inline: 20px;
+}
