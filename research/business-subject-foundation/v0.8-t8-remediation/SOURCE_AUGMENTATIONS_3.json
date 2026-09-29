@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Targeted source-only remediation after fresh v0.8 reassurance run 36627655202 found BUS-EXT-006 educationally sound but lacking direct promotion-eligible reusable support for its ESG reporting/disclosure treatment.",
+  "triggering_reassurance": {
+    "workflow_run_id": 36627655202,
+    "artifact_id": 11060759556,
+    "artifact_digest": "sha256:ed7ff42cf7821a8a6a6390cd41b857726816660e37a753a8e77d03812dbd2e72",
+    "reviewed_main_sha": "430c7ecee5d98c88804be435ac5254a15bb793f1",
+    "candidate_fingerprint": "8d3daa57cee2113839ee4ec2aaa0731cc4d25afd73224178da96d53d7ee848ec",
+    "decision": "fail_hold",
+    "finding_id": "F-BUS-EXT-006-ESG-SOURCE-GAP",
+    "affected_node": "BUS-EXT-006",
+    "affected_concept": "ESG reporting and disclosure"
+  },
+  "source_additions": [
+    {
+      "id": "SRC-OER-FRONTIERS-ESG-COMMENSURABILITY-2022",
+      "issuer": "Frontiers in Sustainability",
+      "title": "ESG metrics and social equity: Investigating commensurability",
+      "url": "https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2022.920955/full",
+      "date_version": "Published 2022-09-21; current CC BY page checked 2026-09-29",
+      "educational_role": "Direct reusable support for distinguishing ESG information disclosure/transparency from underlying ESG performance and for teaching that ESG metrics and ratings can differ materially because methodologies, assessed elements, weighting and comparability vary.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the stable disclosure-versus-performance distinction and evidence about metric/rating comparability. Do not treat any named commercial ESG rating methodology, dataset or empirical correlation as a universal measure of sustainability performance, and do not infer that disclosure alone proves positive real-world impact.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {
+      "subject_id": "BUS-EXT-006",
+      "add": ["SRC-OER-FRONTIERS-ESG-COMMENSURABILITY-2022"]
+    }
+  ]
+}
