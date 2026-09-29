@@ -208,7 +208,7 @@ test('Configured Plan defaults to the adaptive Week view and keeps management se
   const week = page.locator('.plan-week-grid')
   await expect(week).toBeVisible()
   await expect(week.locator('.plan-week-day')).toHaveCount(7)
-  await expect(week.locator('.plan-task').first()).toContainText('Why this?')
+  await expect(week.locator('.plan-task').first()).not.toContainText('Why this?')
   await expect(page.getByRole('heading', { name: 'Upcoming exams' })).toBeVisible()
   await expectNoPageOverflow(page)
 
