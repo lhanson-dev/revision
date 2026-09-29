@@ -232,14 +232,14 @@ Dark mode should prefer surface-tone steps and `#24434A` borders. Shadows are pr
 ### Control sizing
 
 - Compact: 36px, Admin/secondary only;
-- Standard: 44px minimum interaction height;
+- Standard: 48px minimum learner interaction height;
 - Large: 52px for major learner/marketing CTA or large REV/search action;
 - Icon button: 44×44px default touch target;
 - Standard field: 48px.
 
 ### Button family
 
-**Primary** — Primary Teal `#2BB6A3`, Graphite Ink `#132026` text/icon, 14px radius, 44px standard / 52px major CTA.
+**Primary** — Primary Teal `#2BB6A3`, Graphite Ink `#132026` text/icon, 14px radius, 48px standard / 52px major CTA.
 
 **Strong / inverse primary** — Deep Teal Ink `#0F2F36` with white text.
 
