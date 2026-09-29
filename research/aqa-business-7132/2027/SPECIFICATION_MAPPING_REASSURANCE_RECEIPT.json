@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "receipt_id": "aqa-business-7132-2027-v07-foundation-reassurance-receipt-v1",
+  "course_id": "aqa:aqa-a-level:7132",
+  "exam_year": 2027,
+  "specification_mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
+  "subject_foundation": {
+    "candidate_version": "v0.7-aqa-7132-gap-reconciliation",
+    "candidate_fingerprint": "64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53",
+    "target_node_id": "BUS-FIN-008"
+  },
+  "reassurance": {
+    "decision": "pass_without_changes",
+    "workflow_run_id": 36488935344,
+    "artifact_id": 11001465353,
+    "reviewed_main_sha": "8a62d1ad8da025d5ce27d86e48c08d16fa9d29c2",
+    "completed_at": "2026-09-28T09:58:20Z",
+    "reassurance_fingerprint": "f2b59796d0939d349a4058de0504b75775e08f42dc8a5398ab407187b8535215",
+    "unresolved_blocking_or_material_findings": 0
+  },
+  "state_transition": {
+    "mapping_candidate_state": "candidate_pending_v07_subject_gap_reassurance",
+    "effective_projection_state": "ready_for_course_truth_projection",
+    "resolved_pending_node_ids": ["BUS-FIN-008"],
+    "learner_asset_regeneration_allowed": false,
+    "next_gate": "AQA_7132_course_truth_projection_and_exam_truth"
+  },
+  "provenance_note": "This receipt binds the immutable candidate mapping to the exact successful reassurance evidence. It does not rewrite the earlier pending mapping state or promote learner assets."
+}
