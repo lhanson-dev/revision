@@ -6,6 +6,7 @@ const OVERLAY_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/R
 const AUGMENTATION_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS.json'
 const AUGMENTATION_2_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS_2.json'
 const AUGMENTATION_3_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS_3.json'
+const REASSURANCE_REMEDIATION_2_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/REASSURANCE_REMEDIATION_2.json'
 const SOURCE_METADATA_PATCH_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_METADATA_PATCHES.json'
 const EXPECTED_BASE_VERSION = 'v0.7-aqa-7132-gap-reconciliation'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.8-t8-exact-course-remediation'
@@ -20,12 +21,12 @@ function hashParts(parts) { const hash=createHash('sha256'); for (const [name,va
 
 export async function loadBusinessSubjectFoundationCandidate() {
   const previous=await loadV07Candidate()
-  const [overlayRaw,augmentationRaw,augmentation2Raw,augmentation3Raw,sourceMetadataPatchRaw]=await Promise.all([readFile(OVERLAY_PATH,'utf8'),readFile(AUGMENTATION_PATH,'utf8'),readFile(AUGMENTATION_2_PATH,'utf8'),readFile(AUGMENTATION_3_PATH,'utf8'),readFile(SOURCE_METADATA_PATCH_PATH,'utf8')])
-  const overlay=JSON.parse(overlayRaw), augmentations=JSON.parse(augmentationRaw), augmentations2=JSON.parse(augmentation2Raw), augmentations3=JSON.parse(augmentation3Raw), sourceMetadataPatches=JSON.parse(sourceMetadataPatchRaw)
+  const [overlayRaw,augmentationRaw,augmentation2Raw,augmentation3Raw,reassuranceRemediation2Raw,sourceMetadataPatchRaw]=await Promise.all([readFile(OVERLAY_PATH,'utf8'),readFile(AUGMENTATION_PATH,'utf8'),readFile(AUGMENTATION_2_PATH,'utf8'),readFile(AUGMENTATION_3_PATH,'utf8'),readFile(REASSURANCE_REMEDIATION_2_PATH,'utf8'),readFile(SOURCE_METADATA_PATCH_PATH,'utf8')])
+  const overlay=JSON.parse(overlayRaw), augmentations=JSON.parse(augmentationRaw), augmentations2=JSON.parse(augmentation2Raw), augmentations3=JSON.parse(augmentation3Raw), reassuranceRemediation2=JSON.parse(reassuranceRemediation2Raw), sourceMetadataPatches=JSON.parse(sourceMetadataPatchRaw)
   if (previous.index.candidate_version!==EXPECTED_BASE_VERSION || previous.nodes.size!==EXPECTED_NODE_COUNT) throw new Error('Unexpected Business v0.7 base candidate identity/count')
   if (previous.fingerprint!==EXPECTED_BASE_FINGERPRINT) throw new Error(`Unexpected Business v0.7 base fingerprint ${previous.fingerprint}`)
   if (overlay.candidate_version!==EXPECTED_EFFECTIVE_VERSION || overlay.base_candidate?.version!==EXPECTED_BASE_VERSION) throw new Error('Unexpected Business v0.8 remediation overlay identity')
-  if (augmentations.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations2.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations3.candidate_version!==EXPECTED_EFFECTIVE_VERSION || sourceMetadataPatches.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected Business v0.8 source augmentation/metadata patch identity')
+  if (augmentations.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations2.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations3.candidate_version!==EXPECTED_EFFECTIVE_VERSION || reassuranceRemediation2.candidate_version!==EXPECTED_EFFECTIVE_VERSION || sourceMetadataPatches.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected Business v0.8 source augmentation/remediation/metadata patch identity')
   if (overlay.base_candidate?.fingerprint!==previous.fingerprint) throw new Error(`Business v0.8 base fingerprint mismatch: ${previous.fingerprint}`)
   if ((overlay.domain_moves||[]).length) throw new Error('Business v0.8 must not change domain membership')
   if ((overlay.relationship_patches||[]).length) throw new Error('Business v0.8 must not change dependency/relationship edges')
@@ -36,10 +37,15 @@ export async function loadBusinessSubjectFoundationCandidate() {
   if (freshScope.size!==14) throw new Error(`Business v0.8 expected 14 changed nodes, got ${freshScope.size}`)
   if (overlay.assurance_strategy?.preserved_unchanged_node_count!==EXPECTED_NODE_COUNT-freshScope.size) throw new Error('Business v0.8 preserved node count mismatch')
   if (overlay.assurance_strategy?.final_integration_review_required!==true) throw new Error('Business v0.8 must require a fresh changed-scope integration review')
+  const reassurancePatchIds=(reassuranceRemediation2.node_patches||[]).map((entry)=>entry.subject_id)
+  exactSet(reassurancePatchIds,['BUS-PEO-010'],'Business v0.8 reassurance remediation 2 node scope')
+  for (const id of reassurancePatchIds) if(!freshScope.has(id)) throw new Error(`Business v0.8 reassurance remediation 2 cannot expand fresh assurance scope with ${id}`)
+  if(reassuranceRemediation2.evidence_disposition?.provider_output_is_not_promoted_as_assurance_receipt!==true || reassuranceRemediation2.evidence_disposition?.historical_failed_run_remains_immutable!==true) throw new Error('Business v0.8 reassurance remediation 2 must preserve failed-run evidence semantics')
 
   const index=clone(previous.index); index.candidate_version=EXPECTED_EFFECTIVE_VERSION; index.status='t8_exact_course_remediation_awaiting_fresh_reassurance'
   const nodes=new Map([...previous.nodes].map(([id,node])=>[id,clone(node)]))
   for (const entry of overlay.node_patches||[]) { const current=nodes.get(entry.subject_id); if(!current) throw new Error(`Business v0.8 patch references unknown node ${entry.subject_id}`); nodes.set(entry.subject_id,deepMerge(current,entry.patch)) }
+  for (const entry of reassuranceRemediation2.node_patches||[]) { const current=nodes.get(entry.subject_id); if(!current) throw new Error(`Business v0.8 reassurance remediation 2 references unknown node ${entry.subject_id}`); nodes.set(entry.subject_id,deepMerge(current,entry.patch)) }
   for (const node of nodes.values()) node.candidate_version=EXPECTED_EFFECTIVE_VERSION
 
   const sources=clone(previous.sources); sources.candidate_version=EXPECTED_EFFECTIVE_VERSION; sources.status='t8_exact_course_remediation_awaiting_fresh_reassurance'
@@ -63,6 +69,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const id of freshScope) { const facets=nodes.get(id)?.teaching_content?.course_relevant_named_facets; if(!Array.isArray(facets)||facets.length===0) throw new Error(`Business v0.8 changed node ${id} has no structured named facets`) }
 
   const domains=index.domains.map((domain)=>({...domain,composed_from:EXPECTED_BASE_VERSION,nodes:domain.ids.map((id)=>clone(nodes.get(id)))}))
-  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw]])
-  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope]}
+  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-reassurance-remediation-2.json',reassuranceRemediation2Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw]])
+  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08ReassuranceRemediation2:reassuranceRemediation2,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope]}
 }
