@@ -30,7 +30,7 @@ The adapter is **not** a second Course Truth, Exam Truth or Subject Foundation. 
 
 ## Runtime proof
 
-`src/content-factory/aqa-course-truth-learning-adapter.test.ts` materialises the exact T6/T7 evidence and runtime adapter, then:
+`scripts/assurance/aqa-course-truth-runtime-adapter.test.ts` materialises the exact T6/T7 evidence and runtime adapter, then:
 
 1. parses Board Alignment with the existing `boardAlignmentSchema`;
 2. parses coverage with the existing `foundationCoverageModelSchema`;
@@ -42,7 +42,7 @@ The adapter is **not** a second Course Truth, Exam Truth or Subject Foundation. 
 8. proves every runtime node maps back to a canonical Subject Foundation node; and
 9. specifically proves the reassured `BUS-FIN-008` share-market depth reaches the runtime knowledge model, including market-capitalisation teaching and calculation.
 
-The dedicated PR workflow runs the deterministic T6/T7 proof, materialises the runtime adapter, executes this current-runtime schema/planner proof and only then retains the evidence bundle.
+The proof is intentionally outside the app `src` TypeScript boundary because it is a Node-side assurance/integration check, not browser/runtime application code. The dedicated PR workflow runs the deterministic T6/T7 proof, materialises the runtime adapter, executes this current-runtime schema/planner proof and only then retains the evidence bundle.
 
 ## Safety and release boundary
 
