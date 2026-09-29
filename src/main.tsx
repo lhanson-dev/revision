@@ -42,6 +42,7 @@ import './app/returning-home.css'
 import './app/returning-home-fidelity.css'
 import './app/course-overview-rev-feature.css'
 import './app/interface-layout.css'
+import './app/interactive-component-quality.css'
 
 const root = document.getElementById('root')
 

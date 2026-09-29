@@ -7,6 +7,7 @@ const userId = '00000000-0000-4000-8000-000000000149'
 const asCourseId = 'aqa:aqa-as:7131'
 type Theme = 'light' | 'dark'
 type VisualState = 'home' | 'plan' | 'courses' | 'learn' | 'practice' | 'exam-prep' | 'timed-exam' | 'admin'
+type ApprovedDigest = string | readonly string[]
 
 type VisualCase = { project: 'phone' | 'tablet' | 'desktop'; state: VisualState; theme: Theme }
 
@@ -37,7 +38,7 @@ const cases: ReadonlyArray<VisualCase> = [
  * 26 September 2026 after the shared learner-canvas correction and approved
  * because only the intentional canvas geometry changed.
  */
-const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
+const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'phone:light': 'c47ddbd3d9e97b349e4da7f706854a723d3067c33accd3e478dc9c6f7eb9955d',
   'phone:dark': 'c81b3b3505b468b80e1ac2a26ff90d4977cfa34631cd62a460cd81b15fad6de2',
   'desktop:light': '02fec44dfee9baefc5264b340f0d136a0c5e060ad2f90989693dc743fe6d78d9',
@@ -46,34 +47,44 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, string>> = {
 
 /**
  * Reading-first Learn baselines captured from exact-head browser assurance.
- * The desktop light and dark captures were manually re-inspected on
- * 26 September 2026 after Learn was aligned to the shared learner canvas while
- * retaining readable prose measure inside that canvas.
+ * The captures were re-inspected on 29 September 2026 after the approved 48px
+ * learner-control refinement. Desktop light has two explicitly reviewed digests
+ * because Chromium produced two visually equivalent rasterisations across the
+ * initial run and retry; no unreviewed digest is accepted.
  */
-const approvedLearnScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:light': '6da02c6f2196821db3ecd394c0a301ab8392f950269138e167500fb891db9f72',
-  'desktop:dark': '65268c6b02d9cd7bc8036b4e08b9385aad3765150ce702ba66f17d7816056270',
+const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:light': [
+    '6cd1e3477e30073e625d46196d1a7388c87122bb47a1828e15a4f03a0093c81b',
+    '360bec4edb122185016a88f003e14c87cd56829e64c78717bcf49536d56bcb0f',
+  ],
+  'desktop:dark': 'f050b2330d09a75edb73459037f55e0a39d837b7027afa9819d7da05c83adc8c',
 }
 
 /**
- * The learner surfaces whose outer geometry intentionally changes are pinned to
- * exact manually inspected CI captures. The Plan light and dark captures were
- * re-inspected on 27 September 2026 after the Founder-approved form-alignment
- * refinement: content begins on the learner-canvas edge, the calendar icon is a
- * compact top-right treatment and the shared field geometry remains consistent.
- * This is stricter than the normal 1% snapshot tolerance and prevents baseline
- * updates from masking additional pixel drift. Timed exam and Admin retain their
- * existing snapshot baselines because their geometry is deliberately excluded.
+ * Learner surfaces whose geometry changes are pinned to manually inspected CI
+ * captures. These baselines were re-inspected on 29 September 2026 after the
+ * approved 48px learner-button and touch-target refinement. The Plan dark pair
+ * represents two visually equivalent Chromium rasterisations from the run and
+ * retry; accepting only those reviewed digests preserves fail-closed assurance.
+ * Timed exam now uses the same exact-digest contract because its shared learner
+ * actions intentionally inherit the new button geometry. Admin remains on its
+ * existing snapshot baseline because its compact operational controls are not
+ * part of the learner-size change.
  */
-const approvedCanvasScreenshotDigests: Readonly<Record<string, string>> = {
-  'desktop:plan:light': 'c1d1991486e9994cfaa3626fcc41eb44351551feee5187d98a703639581bdfb5',
-  'desktop:plan:dark': '4ab39f8fdc84f5b9d924a2d5851d4ffb7671399cfc34ad90e22d1d3f351e117c',
-  'tablet:courses:light': '7f90c35f0fce95e9023ce43cba217aa5a91583a0247fe6f72fd6dd5181990146',
-  'tablet:courses:dark': '1a89d60f669cfb01806b6de1f2b0ddaaee74a5c307a604a29f3ace0b34b0114c',
-  'phone:practice:light': 'ab694df6d5432dcf3484f0982ffcfdad3560a2e7a94054e000b731cf9f07eb7a',
-  'phone:practice:dark': 'f71b477a920246db454a791d66e3cb0eff26fc0f1b1da4f2fbdd067ef3732154',
-  'tablet:exam-prep:light': '64811d0529ea9046dc3c7ff58d42c09cda83fe4163951d616c375e787012c464',
-  'tablet:exam-prep:dark': 'c173b970f55dcd07ead514c6048f721d5fb770f46d765cb3525df9995c5e1791',
+const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
+  'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
+  'desktop:plan:dark': [
+    'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
+    '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
+  ],
+  'tablet:courses:light': 'f2ce37718e71771d393235de64ba2a0939075887c8fc00b7ee4adb03e66ddb98',
+  'tablet:courses:dark': 'e92340a2c5fa2667df3a17cb807f33e69ec487e7c11c503dcd0ac29aab1b33a6',
+  'phone:practice:light': '82213988777830ed656ccf17da3ba155693ba5be52e13f978b01c35b957b1e1f',
+  'phone:practice:dark': '8067405ab5ed41a9b8520390014ee48250c2988fedf747d9d72afcf5b761dbb5',
+  'tablet:exam-prep:light': '8dd9a6ba69aca494519b202fe117ef3605bdf054563c4c42c1ee9cfe356d515a',
+  'tablet:exam-prep:dark': '3cfb5b054ef7fb068ec9c3fac833dc52fd99d5d79ea10a60d870c2ef52499c30',
+  'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',
+  'tablet:timed-exam:dark': '1695b49088fa93544a50c07578062852cc77eddb8a475834b5dea07fd8c1edb4',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
@@ -229,7 +240,8 @@ for (const visualCase of cases) {
         : visualCase.state === 'learn'
           ? approvedLearnScreenshotDigests[`${visualCase.project}:${visualCase.theme}`]
           : approvedCanvasDigest
-      expect(digest).toBe(approved)
+      const approvedDigests = typeof approved === 'string' ? [approved] : approved
+      expect(approvedDigests).toContain(digest)
       return
     }
 

@@ -28,6 +28,7 @@ Use this file to find the governing source before substantive work.
 - Interface system / reusable learner UI primitives / migration sequence → `docs/technical/Interface System Implementation.md`
 - Interface-system enterprise consistency / token-component-asset operating rules → `docs/technical/Interface System Operating Standard.md`
 - Reusable interface component/icon/asset registry and contributor usage → `docs/technical/Interface System Component Registry.md`
+- Interactive component quality / button sizing, states and page-level implementation → `docs/technical/Interactive Component Quality Implementation.md`
 - Learn/Practice focused-work Interface System migration → `docs/technical/Interface System B4 Learn and Practice Migration.md`
 - Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
 - Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`
@@ -97,6 +98,7 @@ Use this file to find the governing source before substantive work.
 - Learner language → `20-brand-and-experience/Tone of Voice Framework.md`
 - Learner UX/explanation principles → `20-brand-and-experience/Product UX Principles.md`
 - Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
+- Button/action sizing, hierarchy, feedback states and action language → `20-brand-and-experience/Interactive Component Quality Standard.md`
 - REV-led decision surfaces / proactive guidance + Ask REV interaction pattern → `20-brand-and-experience/REV Guidance and Conversation Pattern.md`
 - Subject accent colour mapping / usage / accessibility → `20-brand-and-experience/Subject Accent Colour System.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
@@ -160,6 +162,7 @@ Use this file to find the governing source before substantive work.
 - Interface system implementation / UI primitive migration → `docs/technical/Interface System Implementation.md`
 - Interface-system operating standard / enterprise consistency guardrails → `docs/technical/Interface System Operating Standard.md`
 - Interface component registry / reusable components, icons and assets → `docs/technical/Interface System Component Registry.md`
+- Interactive component quality implementation / cross-site button and specialist-control refinement → `docs/technical/Interactive Component Quality Implementation.md`
 - B4 Learn/Practice Interface System migration → `docs/technical/Interface System B4 Learn and Practice Migration.md`
 - B5 Exam Prep / Exam Simulator Interface System migration → `docs/technical/Interface System B5 Exam Prep and Exam Experience Migration.md`
 - B6 Admin / operations Interface System migration → `docs/technical/Interface System B6 Admin Migration.md`

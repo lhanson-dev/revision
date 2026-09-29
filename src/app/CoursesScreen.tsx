@@ -28,8 +28,9 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
   const [addOpen, setAddOpen] = useState(false)
   const [removeCourseId, setRemoveCourseId] = useState<string | null>(null)
   const [query, setQuery] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [savingAction, setSavingAction] = useState<string | null>(null)
   const [message, setMessage] = useState('')
+  const saving = savingAction !== null
 
   const allCourses = useMemo(() => allCatalogueCourses(catalogue), [catalogue])
   const programme = useMemo(() => projectLearnerProgramme(catalogue, memberships), [catalogue, memberships])
@@ -83,7 +84,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
   }
 
   async function addCourse(courseId: string) {
-    setSaving(true)
+    setSavingAction(`add:${courseId}`)
     setMessage('')
     try {
       const membership = await addLearnerCourse(client, userId, courseId)
@@ -97,14 +98,14 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
       setMessage(text)
       await recordLearnerCourseEventBestEffort(client, userId, 'course_add_failed', courseId, { message: text })
     } finally {
-      setSaving(false)
+      setSavingAction(null)
     }
   }
 
   async function confirmRemoveCourse() {
     if (!removeCourseId) return
     const courseId = removeCourseId
-    setSaving(true)
+    setSavingAction(`remove:${courseId}`)
     setMessage('')
     try {
       await removeLearnerCourse(client, userId, courseId)
@@ -115,7 +116,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
     } catch (error: unknown) {
       setMessage(error instanceof Error ? error.message : 'Could not remove that course.')
     } finally {
-      setSaving(false)
+      setSavingAction(null)
     }
   }
 
@@ -133,7 +134,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
           <h1 id="courses-page-title">Courses</h1>
           <p>These are the courses Revision will use for your plan, progress and learner-wide REV guidance.</p>
         </div>
-        <Button onClick={openAddCourse}>Add Course</Button>
+        <Button onClick={openAddCourse}>Add course</Button>
       </header>
 
       {message && <Status tone="info" aria-live="polite">{message}</Status>}
@@ -149,7 +150,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
           className="courses-empty"
           title="Add your first course"
           description="Choose a supported course so Revision knows what belongs in your programme. Adding a course does not create progress or mastery evidence."
-          action={<Button onClick={openAddCourse}>Add Course</Button>}
+          action={<Button onClick={openAddCourse}>Add course</Button>}
         />
       ) : (
         <section className="courses-grid" aria-label="Your active courses">
@@ -175,7 +176,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
           <OverlayBackdrop label="Close Add Course" onClick={() => setAddOpen(false)} />
           <ModalShell className="courses-modal" labelledBy="add-course-title">
             <header className="courses-modal-head">
-              <div><p className="eyebrow">Programme setup</p><h2 id="add-course-title">Add Course</h2></div>
+              <div><p className="eyebrow">Programme setup</p><h2 id="add-course-title">Add course</h2></div>
               <Button variant="tertiary" size="compact" aria-label="Close Add Course" onClick={() => setAddOpen(false)}>Close</Button>
             </header>
             <p>Choose from courses Revision currently supports. Subject is used here to help you find the right course; it is not an extra navigation step after you add it.</p>
@@ -184,7 +185,14 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
               {availableToAdd.map(({ course, subject, label }) => (
                 <article role="listitem" className="courses-add-item" key={course.id}>
                   <div><strong>{label}</strong><span>{courseIdentity(subject.name, course.qualificationName, course.examBoardName, course.specificationCode)}</span></div>
-                  <Button size="compact" disabled={saving} onClick={() => void addCourse(course.id)}>Add</Button>
+                  <Button
+                    disabled={saving}
+                    loading={savingAction === `add:${course.id}`}
+                    loadingLabel="Adding…"
+                    onClick={() => void addCourse(course.id)}
+                  >
+                    Add course
+                  </Button>
                 </article>
               ))}
               {availableToAdd.length === 0 && <p className="muted">No supported courses match this search, or all matching courses are already in your programme.</p>}
@@ -201,7 +209,15 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
             <h2 id="remove-course-title">Remove {pendingRemoval.label}?</h2>
             <p>This removes the course from your active programme and future learner-wide recommendations. Your existing learning evidence and previous activity will be kept.</p>
             <div className="inline-actions">
-              <Button disabled={saving} onClick={() => void confirmRemoveCourse()}>Remove course</Button>
+              <Button
+                variant="destructive"
+                disabled={saving}
+                loading={savingAction === `remove:${removeCourseId}`}
+                loadingLabel="Removing…"
+                onClick={() => void confirmRemoveCourse()}
+              >
+                Remove course
+              </Button>
               <Button variant="secondary" disabled={saving} onClick={cancelRemoveCourse}>Keep course</Button>
             </div>
           </ModalShell>

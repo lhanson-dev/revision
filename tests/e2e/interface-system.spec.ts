@@ -145,7 +145,7 @@ test('shared interface primitives provide one account and overlay grammar', asyn
 
   expect(roles.fontFamily).toContain('Manrope')
   expect(roles.space4).toBe('16px')
-  expect(roles.standardControl).toBe('44px')
+  expect(roles.standardControl).toBe('48px')
   expect(roles.fieldHeight).toBe('48px')
   expect(durationToMs(roles.fastMotion)).toBe(160)
   expect(roles.overlayRadius).toBe('24px')

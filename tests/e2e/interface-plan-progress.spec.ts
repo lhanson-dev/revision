@@ -157,7 +157,7 @@ test('Plan missing-input state uses the governed interface grammar and asks only
 
   const saveWeeklyTime = page.getByRole('button', { name: 'Save weekly time' })
   await expect(saveWeeklyTime).toHaveClass(/ui-button--primary/)
-  await expect(saveWeeklyTime).toHaveCSS('min-height', '44px')
+  await expect(saveWeeklyTime).toHaveCSS('min-height', '48px')
   await expect(saveWeeklyTime).toHaveCSS('border-radius', '14px')
   await expect(saveWeeklyTime).toHaveCSS('background-color', 'rgb(43, 182, 163)')
   await expect(saveWeeklyTime).toHaveCSS('color', 'rgb(19, 32, 38)')
@@ -187,7 +187,7 @@ test('Plan missing-input state uses the governed interface grammar and asks only
 
   const progressAction = courseCard.getByRole('button', { name: 'Open course progress' })
   await expect(progressAction).toHaveClass(/ui-button--primary/)
-  await expect(progressAction).toHaveCSS('min-height', '44px')
+  await expect(progressAction).toHaveCSS('min-height', '48px')
   await expect(progressAction).toHaveCSS('border-radius', '14px')
   await expect(progressAction).toHaveCSS('background-color', 'rgb(43, 182, 163)')
   await expect(progressAction).toHaveCSS('color', 'rgb(19, 32, 38)')

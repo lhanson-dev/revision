@@ -10,6 +10,7 @@ const interfaceSubjectsCourse = read('../../src/app/interface-subjects-course.cs
 const interfaceLearnPractice = read('../../src/app/interface-learn-practice.css')
 const interfaceExamExperience = read('../../src/app/interface-exam-experience.css')
 const interfaceAdmin = read('../../src/app/interface-admin.css')
+const interactiveComponentQuality = read('../../src/app/interactive-component-quality.css')
 const mobileNavigation = read('../../src/app/mobile-navigation.css')
 const mainEntry = read('../../src/main.tsx')
 const examSimulator = read('../../src/app/ExamSimulator.tsx')
@@ -23,7 +24,7 @@ const uiSource = readdirSync(uiDirectory)
   .filter((file) => /\.(ts|tsx|css)$/.test(file) && !file.endsWith('.test.tsx'))
   .map((file) => readFileSync(new URL(file, uiDirectory), 'utf8'))
   .join('\n')
-const migratedLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience, interfaceAdmin]
+const migratedLayers = [interfaceSystem, interfaceComponents, interfacePlanProgress, interfaceSubjectsCourse, interfaceLearnPractice, interfaceExamExperience, interfaceAdmin, interactiveComponentQuality]
 
 function expectToken(name, value) {
   expect(brandTokens).toContain(`--${name}:`)
@@ -35,7 +36,7 @@ describe('Revision Interface System governance', () => {
     for (const [name, value] of [
       ['type-h1-size', '36px'], ['type-h2-size', '28px'], ['type-body-size', '16px'],
       ['space-4', '16px'], ['radius-control', '14px'], ['radius-surface', '20px'],
-      ['control-height-standard', '44px'], ['field-height-standard', '48px'],
+      ['control-height-standard', '48px'], ['field-height-standard', '48px'],
       ['icon-size-standard', '24px'], ['icon-stroke-standard', '2px'],
     ]) expectToken(name, value)
     expectToken('font-family-product')
@@ -63,6 +64,15 @@ describe('Revision Interface System governance', () => {
     expect(interfaceExamExperience).toContain('var(--overlay-backdrop)')
     expect(interfaceAdmin).toContain('var(--control-height-compact)')
     expect(interfaceAdmin).toContain('position: sticky;')
+  })
+
+  it('keeps approved interaction target corrections explicit', () => {
+    expect(interfaceSystem).toContain('padding: 0 var(--space-5);')
+    expect(interfaceSystem).toContain('.ui-menu-item')
+    expect(interfaceSystem).toContain('min-height: 44px;')
+    expect(interactiveComponentQuality).toContain('.plan-capacity-stepper button')
+    expect(interactiveComponentQuality).toContain('min-height: 48px;')
+    expect(mainEntry).toContain("import './app/interactive-component-quality.css'")
   })
 
   it('keeps Learn as a reading workspace rather than nested bordered cards', () => {

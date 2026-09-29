@@ -27,6 +27,7 @@ const semanticLayers = [
   'ask-rev-cta.css',
   'rev-resting-presence.css',
   'subject-accents.css',
+  'interactive-component-quality.css',
 ]
 
 /* These are retained feature/composition sources, not a final catch-all theme bridge.

@@ -172,7 +172,7 @@
 
 .ui-date-popover-header {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
   gap: var(--space-2);
   text-align: center;
@@ -184,8 +184,8 @@
 }
 
 .ui-date-nav {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   padding: 0;
@@ -229,7 +229,7 @@
 
 .ui-date-day {
   min-width: 0;
-  height: 40px;
+  height: 44px;
   padding: 0;
   border: 0;
   border-radius: 10px;
