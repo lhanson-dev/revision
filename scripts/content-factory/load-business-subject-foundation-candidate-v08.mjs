@@ -5,6 +5,7 @@ import { loadBusinessSubjectFoundationCandidate as loadV07Candidate } from './lo
 const OVERLAY_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/REMEDIATION.json'
 const AUGMENTATION_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS.json'
 const AUGMENTATION_2_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS_2.json'
+const SOURCE_METADATA_PATCH_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_METADATA_PATCHES.json'
 const EXPECTED_BASE_VERSION = 'v0.7-aqa-7132-gap-reconciliation'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.8-t8-exact-course-remediation'
 const EXPECTED_BASE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
@@ -18,12 +19,12 @@ function hashParts(parts) { const hash=createHash('sha256'); for (const [name,va
 
 export async function loadBusinessSubjectFoundationCandidate() {
   const previous=await loadV07Candidate()
-  const [overlayRaw,augmentationRaw,augmentation2Raw]=await Promise.all([readFile(OVERLAY_PATH,'utf8'),readFile(AUGMENTATION_PATH,'utf8'),readFile(AUGMENTATION_2_PATH,'utf8')])
-  const overlay=JSON.parse(overlayRaw), augmentations=JSON.parse(augmentationRaw), augmentations2=JSON.parse(augmentation2Raw)
+  const [overlayRaw,augmentationRaw,augmentation2Raw,sourceMetadataPatchRaw]=await Promise.all([readFile(OVERLAY_PATH,'utf8'),readFile(AUGMENTATION_PATH,'utf8'),readFile(AUGMENTATION_2_PATH,'utf8'),readFile(SOURCE_METADATA_PATCH_PATH,'utf8')])
+  const overlay=JSON.parse(overlayRaw), augmentations=JSON.parse(augmentationRaw), augmentations2=JSON.parse(augmentation2Raw), sourceMetadataPatches=JSON.parse(sourceMetadataPatchRaw)
   if (previous.index.candidate_version!==EXPECTED_BASE_VERSION || previous.nodes.size!==EXPECTED_NODE_COUNT) throw new Error('Unexpected Business v0.7 base candidate identity/count')
   if (previous.fingerprint!==EXPECTED_BASE_FINGERPRINT) throw new Error(`Unexpected Business v0.7 base fingerprint ${previous.fingerprint}`)
   if (overlay.candidate_version!==EXPECTED_EFFECTIVE_VERSION || overlay.base_candidate?.version!==EXPECTED_BASE_VERSION) throw new Error('Unexpected Business v0.8 remediation overlay identity')
-  if (augmentations.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations2.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected Business v0.8 source augmentation identity')
+  if (augmentations.candidate_version!==EXPECTED_EFFECTIVE_VERSION || augmentations2.candidate_version!==EXPECTED_EFFECTIVE_VERSION || sourceMetadataPatches.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected Business v0.8 source augmentation/metadata patch identity')
   if (overlay.base_candidate?.fingerprint!==previous.fingerprint) throw new Error(`Business v0.8 base fingerprint mismatch: ${previous.fingerprint}`)
   if ((overlay.domain_moves||[]).length) throw new Error('Business v0.8 must not change domain membership')
   if ((overlay.relationship_patches||[]).length) throw new Error('Business v0.8 must not change dependency/relationship edges')
@@ -43,6 +44,8 @@ export async function loadBusinessSubjectFoundationCandidate() {
   const sources=clone(previous.sources); sources.candidate_version=EXPECTED_EFFECTIVE_VERSION; sources.status='t8_exact_course_remediation_awaiting_fresh_reassurance'
   const sourceIds=new Set(sources.sources.map((source)=>source.id))
   for (const source of [...(overlay.source_additions||[]),...(augmentations.source_additions||[]),...(augmentations2.source_additions||[])]) { if(sourceIds.has(source.id)) throw new Error(`Business v0.8 duplicate source addition ${source.id}`); sources.sources.push(clone(source)); sourceIds.add(source.id) }
+  const sourceByIdBeforeMetadataPatch=new Map(sources.sources.map((source)=>[source.id,source]))
+  for (const entry of sourceMetadataPatches.source_metadata_patches||[]) { const source=sourceByIdBeforeMetadataPatch.get(entry.source_id); if(!source) throw new Error(`Business v0.8 source metadata patch references unknown source ${entry.source_id}`); Object.assign(source,clone(entry.patch)) }
 
   const matrix=clone(previous.matrix); matrix.candidate_version=EXPECTED_EFFECTIVE_VERSION; matrix.status='t8_exact_course_remediation_awaiting_fresh_reassurance'; matrix.purpose='Promotion-provenance composition for the exact T8 fail-hold remediation over the exact reassured Business v0.7 candidate.'
   matrix.policy={...matrix.policy,teaching_content_changed_by_this_remediation:true,promotion_decision:'NOT_YET_MADE',required_next_gate:'fresh_v08_changed_scope_and_integration_reassurance_against_exact_fingerprint'}
@@ -59,6 +62,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const id of freshScope) { const facets=nodes.get(id)?.teaching_content?.course_relevant_named_facets; if(!Array.isArray(facets)||facets.length===0) throw new Error(`Business v0.8 changed node ${id} has no structured named facets`) }
 
   const domains=index.domains.map((domain)=>({...domain,composed_from:EXPECTED_BASE_VERSION,nodes:domain.ids.map((id)=>clone(nodes.get(id)))}))
-  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw]])
-  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,freshNodeScope:[...freshScope]}
+  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw]])
+  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope]}
 }
