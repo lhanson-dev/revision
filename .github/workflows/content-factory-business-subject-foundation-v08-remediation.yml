@@ -1,0 +1,39 @@
+name: Content Factory Business Subject Foundation v0.8 Remediation
+
+on:
+  pull_request:
+    paths:
+      - 'research/business-subject-foundation/v0.8-t8-remediation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
+      - 'scripts/assurance/validate-business-subject-foundation-v08-t8-remediation.mjs'
+      - 'scripts/assurance/business-subject-foundation-v08-t8-remediation-reassurance.mjs'
+      - 'scripts/assurance/run-business-subject-foundation-v08-reassurance.mjs'
+      - '.github/workflows/content-factory-business-subject-foundation-v08-remediation*.yml'
+      - 'docs/technical/Content Factory Business Subject Foundation v0.8 T8 Remediation.md'
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-v08-remediation:
+    name: Validate v0.8 remediation and reassurance contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate exact v0.8 candidate and AQA prerequisite closure
+        run: node scripts/assurance/validate-business-subject-foundation-v08-t8-remediation.mjs
+      - name: Validate fresh reassurance contract without provider spend
+        env:
+          CONTENT_FACTORY_MAX_SPEND_USD: '15'
+        run: node scripts/assurance/business-subject-foundation-v08-t8-remediation-reassurance.mjs --self-test
