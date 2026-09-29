@@ -7,6 +7,11 @@
  * minimums in Interactive Component Quality Standard.md.
  */
 
+/* Processing is disabled against repeat activation but should not look unavailable. */
+.ui-button[aria-busy="true"] {
+  opacity: 1;
+}
+
 /* Plan: bounded weekly-capacity steppers previously exposed 32px hit targets. */
 .plan-capacity-stepper button {
   width: 44px;
