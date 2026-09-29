@@ -23,7 +23,6 @@ const REQUIRED_PATERNALISTIC_SOURCE='SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-
 const REQUIRED_HARD_SOFT_HRM_SOURCE='SRC-OER-HARD-SOFT-HRM-2024'
 const EXPECTED_HARD_SOFT_HRM_ALIASES=[
   'https://systems.enpress-publisher.com/index.php/jipd/article/view/5910',
-  'https://systems.enpress-publisher.com/index.php/jipd/article/viewFile/5910',
   'https://www.enpress-publisher.com/files/journals/1/articles/5910/public'
 ]
 const REQUIRED_SHAREHOLDER_RIGHTS_SOURCE='SRC-GOVUK-SHAREHOLDER-RIGHTS-2026'
