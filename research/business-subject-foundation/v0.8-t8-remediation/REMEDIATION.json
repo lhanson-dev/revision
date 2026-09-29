@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "status": "targeted_remediation_awaiting_fresh_reassurance",
+  "authority_status": "research_evidence_only",
+  "base_candidate": {
+    "version": "v0.7-aqa-7132-gap-reconciliation",
+    "fingerprint": "64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53"
+  },
+  "triggering_assurance": {
+    "course_id": "aqa:aqa-a-level:7132",
+    "exam_year": 2027,
+    "workflow_run_id": 36551801263,
+    "artifact_id": 11024542464,
+    "artifact_digest": "sha256:11b6978da16f566cdf60d30f1f1c7e7d5d1a7b56cc22503997fc816bf776a427",
+    "reviewed_main_sha": "fa3f862055941abb8bf5ed33460a1d18eff55715",
+    "exact_course_foundation_fingerprint": "8d0bcacb7c2c88ac7e9ae217d6e9be4900fb75abfeec7fe515c48c48b2fb519a",
+    "decision": "fail_hold",
+    "external_source_challenge_findings": 0,
+    "material_independent_review_findings": 4
+  },
+  "principles": {
+    "preserve_prior_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "node_taxonomy_changed": false,
+    "node_count_changed": false,
+    "relationship_edges_changed": false,
+    "teaching_content_changed_by_this_remediation": true,
+    "promotion_decision": "NOT_YET_MADE"
+  },
+  "assurance_strategy": {
+    "preserve_prior_accepted_node_assessments": true,
+    "fresh_node_scope": [
+      "BUS-FND-006",
+      "BUS-FIN-008",
+      "BUS-PEO-001",
+      "BUS-PEO-007",
+      "BUS-PEO-010",
+      "BUS-PEO-011",
+      "BUS-EXT-003",
+      "BUS-EXT-005",
+      "BUS-EXT-006",
+      "BUS-OPS-005",
+      "BUS-STR-002",
+      "BUS-STR-007",
+      "BUS-STR-008",
+      "BUS-STR-009"
+    ],
+    "preserved_unchanged_node_count": 67,
+    "final_integration_review_required": true,
+    "integration_rationale": "T8 exposed reusable teaching-depth gaps across several domains. No taxonomy or dependency edge changes are made, but the breadth of named-facet enrichment warrants a fresh integration check over the exact v0.8 fingerprint while retaining accepted evidence for unchanged nodes."
+  },
+  "exact_course_projection_follow_up": {
+    "not_applied_in_this_foundation_remediation": true,
+    "restore_subject_node_ids_after_v08_reassurance": ["BUS-MKT-001"],
+    "retain_excluded_subject_node_ids_unless_new_dependency_evidence_emerges": ["BUS-PEO-003", "BUS-MOD-004"],
+    "reason": "BUS-MKT-001 is an assured prerequisite of selected AQA marketing/competition knowledge and must be restored for dependency closure. BUS-PEO-003 and BUS-MOD-004 are neither directly required by AQA 7132 nor prerequisite dependencies of the selected exact-course set."
+  },
+  "t8_finding_resolution_plan": [
+    {
+      "finding_id": "ct-missing-prerequisite-marketing-foundation-001",
+      "layer": "course_truth",
+      "resolution": "No reusable node change. Restore already-assured BUS-MKT-001 in the exact-course dependency closure after v0.8 reassurance."
+    },
+    {
+      "finding_id": "ct-required-named-facets-not-supported-001",
+      "layer": "subject_foundation_then_course_truth",
+      "resolution": "Enrich reusable Business nodes with the named subject concepts below, then bind AQA facet identifiers to those exact structured facets in the next Course Truth projection."
+    },
+    {
+      "finding_id": "sf-finance-sources-incomplete-001",
+      "layer": "subject_foundation",
+      "resolution": "Extend BUS-FIN-008 with reusable debt-factoring and crowdfunding teaching content."
+    },
+    {
+      "finding_id": "ct-course-quantitative-conventions-underspecified-001",
+      "layer": "course_truth",
+      "resolution": "Deliberately deferred from reusable Foundation. Add exact AQA calculation/presentation conventions to Course Truth after v0.8 reassurance."
+    }
+  ],
+  "source_additions": [
+    {
+      "id": "SRC-OER-LIBRETEXTS-LEADERSHIP-CONTINUUM-2024",
+      "issuer": "Business LibreTexts",
+      "title": "Types of Leaders and Leader Emergence",
+      "url": "https://biz.libretexts.org/Courses/Concordia_University_Chicago/Principles_of_Management/03%3A_Leadership/3.05%3A_Types_of_Leaders_and_Leader_Emergence",
+      "date_version": "Current page checked 2026-09-29",
+      "educational_role": "Reusable support for leadership-style continua including Tannenbaum-Schmidt and contextual leadership choice.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use only CC BY page text; exclude separately attributed media. Treat named leadership models as analytical aids rather than universal laws.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-STAKEHOLDER-POWER-INTEREST-2024",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Ethical Decision-Making and Prioritizing Stakeholders",
+      "url": "https://biz.libretexts.org/Workbench/MGT_1010/08%3A_Book-_Business_Ethics_%28OpenStax%29/8.03%3A_Defining_and_Prioritizing_Stakeholders/8.3.04%3A_Ethical_Decision-Making_and_Prioritizing_Stakeholders",
+      "date_version": "Current CC BY 4.0 OpenStax/LibreTexts presentation checked 2026-09-29",
+      "educational_role": "Reusable support for stakeholder prioritisation using power and interest while preserving wider ethical/causal judgement.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use author/open-text content only; exclude separately attributed figures/media where rights differ.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-GOVUK-EMPLOYEE-INFORMATION-CONSULTATION-2026",
+      "issuer": "UK Government",
+      "title": "The Information and Consultation Regulations guidance",
+      "url": "https://www.gov.uk/guidance/the-information-and-consultation-regulations",
+      "date_version": "Current GOV.UK guidance checked 2026-09-29",
+      "educational_role": "Reusable UK context for representative employee information/consultation arrangements and works-council-style employee voice.",
+      "licence_profile": "OGL_V3",
+      "restrictions": "Legal arrangements are time-sensitive. Teach the business concept and verify current legal detail before operational use; exclude logos and third-party material.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-TRIPLE-BOTTOM-LINE-2024",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Corporate Social Responsibility (CSR)",
+      "url": "https://biz.libretexts.org/Workbench/MGT_1010/08%3A_Book-_Business_Ethics_%28OpenStax%29/8.03%3A_Defining_and_Prioritizing_Stakeholders/8.3.05%3A_Corporate_Social_Responsibility_%28CSR%29",
+      "date_version": "Current CC BY 4.0 OpenStax/LibreTexts presentation checked 2026-09-29",
+      "educational_role": "Reusable support for people-planet-profit Triple Bottom Line analysis and its limitations.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; exclude separately attributed media and do not treat the framework as a complete measurement standard.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-CARROLL-CSR-2022",
+      "issuer": "Business LibreTexts / Lumen Learning",
+      "title": "What is Corporate Social Responsibility?",
+      "url": "https://biz.libretexts.org/Courses/Lumen_Learning/Human_Resources_Management_%28Lumen%29/15%3A_Corporate_Social_Responsibility/15.01%3A_What_is_Corporate_Social_Responsibility",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Reusable support for Carroll's economic, legal, ethical and philanthropic responsibility framework.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use page-authored CC BY content only and treat the pyramid as a framework for analysis, not a deterministic hierarchy of business decisions.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-GENERIC-STRATEGIES-2024",
+      "issuer": "Business LibreTexts",
+      "title": "Understanding Business-Level Strategy through Generic Strategies",
+      "url": "https://biz.libretexts.org/Courses/Western_Technical_College/Operations_Management_%28Hammond%29/02%3A_Competitive_Advantage/2.06%3A_Selecting_Business-Level_Strategies/2.6.02%3A_Understanding_Business-Level_Strategy_through_Generic_Strategies",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Reusable support for low-cost/cost-leadership, differentiation and focus positioning choices.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; treat generic strategies as analytical frameworks whose effectiveness depends on context and execution.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-HARD-SOFT-HRM-2024",
+      "issuer": "Journal of Infrastructure, Policy and Development / EnPress",
+      "title": "Performance of public service employees in Makassar: Hard & soft analysis of human resource management approach",
+      "url": "https://www.enpress-publisher.com/journal/JIPD/8/9/10.24294/jipd.v8i9.5910",
+      "date_version": "Published 2024-09-06; CC BY 4.0 article checked 2026-09-29",
+      "educational_role": "Reusable corroboration of hard/performance-control and soft/employee-centred HRM orientations and the value of treating them as analytical tendencies rather than exclusive organisational labels.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the general HRM distinction, not context-specific empirical results as universal causal claims.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "medium_high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-REME-KAIZEN-2016",
+      "issuer": "Research on Enterprise in Modern Economy",
+      "title": "Kaizen as a method of management improvement",
+      "url": "https://journal.mostwiedzy.pl/reme/article/view/167",
+      "date_version": "Open-access CC BY 4.0 article; licence checked 2026-09-29",
+      "educational_role": "Reusable support for Kaizen as continuous incremental improvement and organisational problem-solving practice.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use stable conceptual content rather than treating any implementation recipe as universally effective.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "medium_high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-BENCHMARKING-2024",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Designing a Startup Operational Plan",
+      "url": "https://biz.libretexts.org/Courses/Cosumnes_River_College/BUS_215%3A_Introduction_to_Business_%28Brown%29/05%3A_Building_Networks/5.04%3A_Designing_a_Startup_Operational_Plan",
+      "date_version": "Current CC BY 4.0 OpenStax-derived page checked 2026-09-29",
+      "educational_role": "Reusable support for benchmarking as comparison with relevant standards or leading practice to identify performance/process gaps.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; benchmarking evidence must be contextually comparable and should not be taught as copying another organisation.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-GLOBAL-ARENA-2023",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Entering the Global Arena",
+      "url": "https://biz.libretexts.org/Bookshelves/Marketing/Principles_of_Marketing_%28OpenStax%29/02%3A_Understanding_the_Marketplace/07%3A_Marketing_in_a_Global_Environment/7.03%3A__Entering_the_Global_Arena",
+      "date_version": "Current CC BY 4.0 OpenStax/LibreTexts page checked 2026-09-29",
+      "educational_role": "Reusable support for multinational/transnational operations, international entry and local responsiveness in global business.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only. Country classifications and examples date quickly; teach mechanisms rather than stereotypes.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-BIG-DATA-2025",
+      "issuer": "Business LibreTexts",
+      "title": "Understanding Big Data and Big Data Analytics",
+      "url": "https://biz.libretexts.org/Courses/Aurora_University/Data_Analytics_with_Applications_in_Business/01%3A_Introduction_to_Data_Analytics/1.03%3A_Understanding_Big_Data_and_Big_Data_Analytics",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Reusable support for big-data characteristics, analytics and business-decision implications.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; avoid freezing current technology examples as timeless subject truth.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-DATA-MINING-2024",
+      "issuer": "Business LibreTexts",
+      "title": "Data Mining",
+      "url": "https://biz.libretexts.org/Courses/Canada_College/Management_Information_Systems_Remix/04%3A_Data_and_Databases/4.08%3A_Data_Mining",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Reusable support for data mining as discovering useful patterns/relationships in large datasets for business analysis.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only and retain data-quality, causality, privacy and model-risk boundaries.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-FRONTIERS-CHANGE-RESISTANCE-2025",
+      "issuer": "Frontiers in Psychology",
+      "title": "Navigating change: the role of change management strategies and cultural factors in Saudi Arabian organizations",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1551902/full",
+      "date_version": "Published 2025-09-01; CC BY article checked 2026-09-29",
+      "educational_role": "Reusable corroboration of Kotter-Schlesinger-style resistance-management approaches including education/communication, participation, support, negotiation, manipulation and coercion.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Treat the named methods as analytical options with ethical/contextual limits, not a universal change recipe or endorsement of manipulation/coercion.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-MDPI-HANDY-CULTURE-2026",
+      "issuer": "MDPI",
+      "title": "Open-access organisational-culture research using Handy's culture typology",
+      "url": "https://www.mdpi.com/2071-1050/18/3/1192",
+      "date_version": "Published 2026; CC BY 4.0 article checked 2026-09-29",
+      "educational_role": "Reusable support for Handy's power, role, task and person culture typology as an analytical framework.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the framework description, not study-specific empirical results as universal causal claims; culture types are ideal types and can coexist.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "medium_high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-ARC-STRATEGIC-DRIFT-2022",
+      "issuer": "ARC Journals",
+      "title": "Open-access review of strategic drift and organisational performance",
+      "url": "https://arcjournals.org/article/5805",
+      "date_version": "Published 2022; CC BY 4.0 terms checked 2026-09-29",
+      "educational_role": "Reusable support for strategic drift as gradual loss of alignment between strategy and changing environment/capabilities.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use stable conceptual framing only; do not promote study-specific claims to universal causality.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "medium_high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-LIBRETEXTS-CROWDFUNDING-2026",
+      "issuer": "Business LibreTexts",
+      "title": "Crowdfunding and Capital Formation",
+      "url": "https://biz.libretexts.org/Courses/Aurora_University/Principles_of_Financial_Management/12%3A_Emerging_Technologies_in_Financial_Management/12.04%3A_Crowdfunding_and_Capital_Formation",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Reusable support for crowdfunding as a financing route, including distinctions among debt/equity and cash-flow/control implications.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; platform regulation and product detail vary by jurisdiction/time and should not be frozen into subject truth.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-PMC-FACTORING-FINANCE-2024",
+      "issuer": "Elsevier / open-access authors via PubMed Central",
+      "title": "Sources of financing: Which ones are more effective in innovation-growth linkage?",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11188937/",
+      "date_version": "Published 2024; CC BY article checked 2026-09-29",
+      "educational_role": "Reusable corroboration that factoring is a distinct external finance/liquidity source alongside loans, credit lines, equity, grants and leasing.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use only the stable finance-source distinction; do not generalise the article's empirical effect estimates into universal teaching claims.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {"subject_id":"BUS-FND-006","add":["SRC-OER-LIBRETEXTS-STAKEHOLDER-POWER-INTEREST-2024"]},
+    {"subject_id":"BUS-FIN-008","add":["SRC-OER-LIBRETEXTS-CROWDFUNDING-2026","SRC-OER-PMC-FACTORING-FINANCE-2024"]},
+    {"subject_id":"BUS-PEO-001","add":["SRC-OER-HARD-SOFT-HRM-2024"]},
+    {"subject_id":"BUS-PEO-010","add":["SRC-OER-LIBRETEXTS-LEADERSHIP-CONTINUUM-2024"]},
+    {"subject_id":"BUS-PEO-011","add":["SRC-GOVUK-EMPLOYEE-INFORMATION-CONSULTATION-2026","SRC-OER-MDPI-HANDY-CULTURE-2026"]},
+    {"subject_id":"BUS-EXT-003","add":["SRC-OER-LIBRETEXTS-GLOBAL-ARENA-2023"]},
+    {"subject_id":"BUS-EXT-005","add":["SRC-OER-LIBRETEXTS-CARROLL-CSR-2022"]},
+    {"subject_id":"BUS-EXT-006","add":["SRC-OER-LIBRETEXTS-TRIPLE-BOTTOM-LINE-2024"]},
+    {"subject_id":"BUS-OPS-005","add":["SRC-OER-REME-KAIZEN-2016","SRC-OER-LIBRETEXTS-BENCHMARKING-2024"]},
+    {"subject_id":"BUS-STR-002","add":["SRC-OER-LIBRETEXTS-GENERIC-STRATEGIES-2024"]},
+    {"subject_id":"BUS-STR-008","add":["SRC-OER-LIBRETEXTS-BIG-DATA-2025","SRC-OER-LIBRETEXTS-DATA-MINING-2024"]},
+    {"subject_id":"BUS-STR-009","add":["SRC-OER-FRONTIERS-CHANGE-RESISTANCE-2025","SRC-OER-ARC-STRATEGIC-DRIFT-2022"]}
+  ],
+  "node_patches": [
+    {
+      "subject_id": "BUS-FND-006",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"stakeholder_power_interest_mapping","name":"Stakeholder power-interest mapping","explanation":"A power-interest matrix groups stakeholders by their relative ability to influence a decision and their level of interest in it. The four broad positions support different engagement priorities: low power/low interest may need monitoring; low power/high interest should normally be kept informed; high power/low interest should normally be kept satisfied; high power/high interest usually requires close engagement.","key_distinctions":["power is ability to influence the specific decision, not moral importance","interest is degree of concern/exposure, not support for the business","positions can change over time and across decisions"],"application":"Use the matrix to prioritise communication and engagement, then test the recommendation against stakeholder impact, dependency, rights, long-term relationships and the quality of evidence.","boundaries":["the matrix does not decide whose interests are ethically legitimate","quadrants are a simplification rather than fixed stakeholder identities","high power does not imply that a stakeholder should automatically get its preferred outcome"]}]}}
+    },
+    {
+      "subject_id": "BUS-FIN-008",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"debt_factoring","name":"Debt factoring","explanation":"Factoring raises cash against trade receivables by transferring or selling eligible receivables to a finance provider under an agreed arrangement. It can accelerate cash collection and reduce working-capital pressure, but fees, customer-facing collection arrangements, recourse terms and the quality of receivables affect suitability.","key_distinctions":["factoring converts receivables into earlier cash but does not create sales or profit","factoring is not the same as a bank overdraft or a general long-term loan","invoice finance is a broader family of receivables-based finance; exact arrangements vary"],"application":"Evaluate factoring against the business's receivables profile, cash timing, margins, customer relationships, finance cost and need for control/flexibility.","boundaries":["contract terms vary","poor-quality or disputed receivables may not be financeable","faster cash can be valuable even when the nominal finance cost is higher than an alternative"]},{"id":"crowdfunding","name":"Crowdfunding","explanation":"Crowdfunding raises finance from many contributors or investors, usually through a platform. Business crowdfunding can use different structures such as reward/pre-sale, debt or equity. The economic consequences therefore depend on the form: debt creates repayment obligations, while equity can dilute ownership and reward/pre-sale models create delivery obligations.","key_distinctions":["crowdfunding is a distribution route for finance rather than one single financial instrument","equity crowdfunding differs from debt crowdfunding in ownership and repayment","successful fundraising does not prove the project is commercially viable"],"application":"Compare crowdfunding with bank/debt/equity alternatives using amount required, cost, control, repayment/cash-flow exposure, disclosure, campaign effort, investor/customer value and execution risk.","boundaries":["platform/regulatory rules change by jurisdiction and time","campaign visibility can create reputational as well as financing consequences","funds raised may be conditional on campaign terms"]}]}}
+    },
+    {
+      "subject_id": "BUS-PEO-001",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"hard_soft_hrm","name":"Hard and soft HRM approaches","explanation":"Hard HRM is an analytical orientation that emphasises workforce planning, cost, headcount, performance and alignment of people resources with business requirements. Soft HRM gives greater emphasis to employees as sources of capability and commitment, using development, involvement, communication and trust to improve organisational outcomes. Real organisations commonly combine elements of both rather than operating as pure types.","key_distinctions":["hard/soft describe management orientations, not whether managers are personally harsh or kind","soft HRM still pursues organisational objectives","hard HRM can include training or communication when these support required capability/performance"],"application":"Use the lens to explain how workforce objectives, contracts, development, reward, communication and employee voice fit a business's strategy and labour context; evaluate consequences for cost, flexibility, motivation, capability and retention.","boundaries":["the labels are simplifications rather than mutually exclusive organisational categories","do not infer employee outcomes from a label without evidence","context and implementation matter more than slogans"]}]}}
+    },
+    {
+      "subject_id": "BUS-PEO-007",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"organic_mechanistic_structures","name":"Organic and mechanistic organisational structures","explanation":"Mechanistic structures tend to use clearer hierarchy, formal rules, specialised roles and more centralised authority; organic structures tend to rely more on flexible roles, lateral communication, decentralised judgement and adaptation. They are useful ideal types on a continuum rather than two complete organisation-chart templates.","key_distinctions":["mechanistic is not identical to tall and organic is not identical to flat","formalisation, centralisation and role flexibility can vary independently","a business can use more organic arrangements in one activity and mechanistic controls in another"],"application":"Evaluate structural fit using environmental uncertainty, task interdependence, risk/control needs, employee capability, innovation requirements and coordination cost.","boundaries":["neither type is universally superior","regulated or safety-critical processes can need mechanistic controls inside an otherwise adaptive organisation","actual informal behaviour may differ from formal structure"]}]}}
+    },
+    {
+      "subject_id": "BUS-PEO-010",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"paternalistic_leadership","name":"Paternalistic leadership","explanation":"Paternalistic leadership retains substantial leader authority while placing explicit emphasis on employee welfare, guidance and a reciprocal expectation of loyalty or commitment. It differs from participative leadership because final decision rights remain concentrated, even when the leader considers employee needs or explains decisions.","key_distinctions":["paternalistic is not simply autocratic leadership with a friendly tone","employee welfare concern does not make decision authority democratic","effectiveness depends on culture, trust, capability and the decision context"],"application":"Compare paternalistic leadership with autocratic, democratic and delegative approaches in cases involving urgency, skill, commitment, employee expectations and risk.","boundaries":["care/welfare claims need evidence from actual decisions and systems","dependency can reduce employee voice","no style is universally best"]},{"id":"tannenbaum_schmidt_continuum","name":"Tannenbaum-Schmidt leadership continuum","explanation":"The Tannenbaum-Schmidt continuum treats leadership behaviour as a range from manager-centred to subordinate-centred decision making. As movement occurs along the continuum, the manager progressively shares information, consultation, problem definition and decision freedom rather than switching between only two leadership styles.","key_distinctions":["the continuum concerns distribution of decision authority and participation","consulting employees is not the same as delegating the final decision","different decisions within one business can rationally sit at different points"],"application":"Select and justify a position using time pressure, risk, employee capability, information distribution, need for commitment and decision reversibility.","boundaries":["the framework simplifies real behaviour","movement toward more subordinate freedom is not automatically better","legal/accountability constraints can limit delegation"]}]}}
+    },
+    {
+      "subject_id": "BUS-PEO-011",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"works_councils_employee_consultation","name":"Works councils and representative employee consultation","explanation":"A works council is a representative employee-consultation body through which workforce representatives can receive information and discuss defined organisational matters with management. It is one possible employee-voice/consultation arrangement and is distinct from a trade union, collective bargaining or direct individual communication, although these mechanisms can coexist.","key_distinctions":["consultation gives structured voice but does not necessarily transfer final decision authority","works councils and trade unions have different roles and legal bases","representative voice differs from direct employee participation"],"application":"Evaluate consultation arrangements using information quality, timing, trust, representativeness, implementation speed, conflict resolution and legal context.","boundaries":["legal requirements vary by jurisdiction and time","having a consultation body does not prove employee influence is meaningful","management can consult while retaining decision responsibility"]},{"id":"handy_culture_types","name":"Handy's culture types","explanation":"Handy's typology distinguishes power culture, role culture, task culture and person culture as ideal-type patterns. Power culture concentrates influence around a central source; role culture emphasises defined responsibilities and procedures; task culture forms around expertise and project/problem delivery; person culture places individual members and their autonomy near the centre. Real organisations can contain mixtures across teams and over time.","key_distinctions":["culture type is not the same as organisational structure","task culture is organised around expertise/problem solving rather than simply giving employees tasks","person culture is unusual in conventional large firms and should not be confused with employee-friendly culture"],"application":"Use the typology to analyse how authority, coordination, expertise, flexibility and individual autonomy affect decisions and change; compare the model with observed evidence rather than merely labelling a company.","boundaries":["the types are analytical simplifications","subcultures can differ within one organisation","a named type does not mechanically determine performance"]}]}}
+    },
+    {
+      "subject_id": "BUS-EXT-003",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"emerging_economies_multinationals","name":"Emerging economies and multinational enterprises","explanation":"An emerging economy is a broad, changing label for an economy undergoing substantial development and integration into wider markets; the category does not imply that all such countries share the same income, institutions, growth or risk. A multinational enterprise owns or controls business activities in more than one country, creating opportunities for market access, sourcing and capability transfer but also coordination, regulatory, currency and political exposure.","key_distinctions":["emerging economy is not a synonym for poor country","multinational activity involves cross-border operations/control rather than simply exporting","country-level averages do not describe every market segment or firm"],"application":"Assess international attractiveness using market size/growth, customer fit, infrastructure, institutions, competition, costs, skills, regulation, currency and political risk rather than relying on the label.","boundaries":["country classifications change","avoid cultural stereotypes","higher growth can coexist with higher volatility or institutional risk"]},{"id":"local_responsiveness_cost_reduction","name":"Local responsiveness versus cost-reduction pressure","explanation":"International businesses often face tension between adapting products, marketing, operations or management to local conditions and standardising activities to capture scale, learning and coordination benefits. Local responsiveness can improve fit with customer, regulatory or cultural conditions; standardisation can reduce duplication and unit cost. The appropriate balance varies by activity and market.","key_distinctions":["adaptation and standardisation can coexist in different parts of the value chain","cost reduction is not the same as choosing the cheapest country","local responsiveness must be evidence-led rather than stereotype-led"],"application":"Identify which product, marketing, sourcing, process or people decisions require local adaptation and which benefit from global standardisation; justify the trade-off using customer value, cost, regulation, brand consistency and capability.","boundaries":["no universal global-local optimum exists","digital coordination can reduce some adaptation costs but does not remove local regulation/customer differences","standardisation can destroy value if it removes features customers need"]}]}}
+    },
+    {
+      "subject_id": "BUS-EXT-005",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"carroll_csr_pyramid","name":"Carroll's CSR framework","explanation":"Carroll's framework organises corporate responsibilities into economic, legal, ethical and philanthropic dimensions. Economic responsibility concerns creating viable value; legal responsibility concerns operating within law; ethical responsibility concerns justified conduct beyond minimum legal rules; philanthropic responsibility concerns voluntary contribution to communities or wider social aims. The framework helps separate different claims about responsibility rather than treating CSR as charity alone.","key_distinctions":["ethical responsibility can exceed legal compliance","philanthropy is only one CSR dimension","economic viability and wider responsibilities can create both complementarities and trade-offs"],"application":"Classify a business action or controversy across the four dimensions, identify tensions, and evaluate alternatives using stakeholder impact, evidence, costs and long-term consequences.","boundaries":["the framework is an analytical model rather than a universal ordering of priorities","legal duties vary by jurisdiction/time","a philanthropic action does not offset unrelated harmful conduct"]}]}}
+    },
+    {
+      "subject_id": "BUS-EXT-006",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"triple_bottom_line","name":"Triple Bottom Line","explanation":"The Triple Bottom Line broadens performance analysis beyond financial outcomes by considering people, planet and profit/economic performance. It encourages businesses to examine social and environmental consequences alongside economic viability, while recognising that these dimensions use different measures and can involve real trade-offs.","key_distinctions":["people, planet and profit are performance lenses rather than three interchangeable accounting totals","reporting a metric is not proof of positive impact","profit/economic viability remains relevant rather than being replaced by social/environmental measures"],"application":"Use the three lenses to identify material effects, evidence, trade-offs and time horizons in strategic or operational decisions; require stated measures/boundaries rather than vague claims.","boundaries":["the framework does not prescribe one universal weighting across dimensions","metrics can be incomplete or non-comparable","good performance on one dimension does not automatically compensate for serious harm on another"]}]}}
+    },
+    {
+      "subject_id": "BUS-OPS-005",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"kaizen","name":"Kaizen","explanation":"Kaizen is a continuous-improvement approach centred on repeated small improvements to work, often using employee knowledge to identify waste, causes and better methods. Its value comes from disciplined problem solving, measurement and learning rather than change for its own sake.","key_distinctions":["Kaizen emphasises ongoing incremental improvement but does not rule out larger change when needed","employee suggestions are inputs to improvement, not proof that every proposed change is beneficial","continuous improvement is not continuous disruption"],"application":"Identify a process problem, gather evidence, test a bounded improvement, measure the effect and standardise/adapt the change when evidence supports it.","boundaries":["small-step improvement can be insufficient where technology/business model requires discontinuous change","local improvement can damage the whole system if interfaces are ignored","management systems must allow problems to be surfaced rather than hidden"]},{"id":"benchmarking","name":"Benchmarking","explanation":"Benchmarking compares a process, capability or performance measure with a relevant internal unit, competitor, industry standard or recognised leading practice to identify gaps and learning opportunities. The comparison is a diagnostic input, not a command to copy another organisation.","key_distinctions":["benchmarking differs from setting an arbitrary target because the comparator has an evidence basis","performance benchmarking compares outcomes while process benchmarking examines how work is done","a gap can reflect different strategy/context rather than poor performance"],"application":"Choose a genuinely comparable benchmark, define measures consistently, identify the mechanism behind any gap and decide whether adapting the observed practice fits the business's objectives and constraints.","boundaries":["comparators may use different definitions or business models","copying practice without understanding mechanism can fail","commercially sensitive data may be unavailable"]}]}}
+    },
+    {
+      "subject_id": "BUS-STR-002",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"porter_generic_strategies","name":"Porter's generic strategy choices","explanation":"The generic-strategy framework distinguishes competing through a broad lower-cost position, broad differentiation, or a narrower focus on a segment where cost or differentiation logic is applied. The strategic point is coherence between target scope, customer value, cost structure and the activities/capabilities that support the position.","key_distinctions":["cost leadership means structurally competitive cost, not simply low selling price","differentiation must create value customers recognise, not merely difference","focus refers to narrower competitive scope, not lack of ambition"],"application":"Identify the intended scope and source of advantage, test whether operations/marketing/people/finance choices reinforce it, and evaluate durability against competitor imitation and market change.","boundaries":["real businesses can display mixed features and the framework is not a law","being 'stuck in the middle' should not be asserted mechanically without evidence of incoherent choices","strategy effectiveness depends on implementation and industry context"]}]}}
+    },
+    {
+      "subject_id": "BUS-STR-007",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"integration_types","name":"Horizontal, vertical and conglomerate integration","explanation":"Horizontal integration combines businesses operating at a similar stage of the value chain, commonly competitors. Vertical integration expands control into another stage: backward integration moves toward suppliers/inputs, while forward integration moves toward distribution/customer-facing activity. Conglomerate integration combines businesses with limited direct product/value-chain relationship. Each changes control, capability, coordination and risk rather than guaranteeing synergy.","key_distinctions":["integration type describes relationship between activities, not whether the deal is called a merger or acquisition","backward and forward refer to direction along the focal business's value chain","conglomerate combination does not by itself create diversification benefits"],"application":"Identify the integration relationship, then evaluate strategic fit, competition, finance, control, supply/customer economics and integration capability.","boundaries":["businesses can span several value-chain stages before a deal","synergy requires an explicit mechanism","competition/regulatory consequences can constrain horizontal deals"]},{"id":"retrenchment","name":"Retrenchment","explanation":"Retrenchment is a strategic reduction or refocusing of business scope, capacity, assets, locations, products or cost base intended to restore viability, release resources or concentrate on stronger activities. It can include closure, disposal, withdrawal or restructuring, but it is a strategic method rather than a synonym for business failure.","key_distinctions":["retrenchment differs from temporary cost control when it materially changes scope/capacity","selling a weak division can release capital for stronger activities","reduced scale can improve focus while also losing revenue, capability or economies"],"application":"Evaluate whether retrenchment addresses the actual cause of weak performance and compare cash, capability, employee/customer, competitive and long-term strategic consequences.","boundaries":["short-term accounting improvement can hide capability loss","implementation/redundancy/exit costs matter","retrenchment can be proactive as well as crisis-driven"]}]}}
+    },
+    {
+      "subject_id": "BUS-STR-008",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"big_data","name":"Big data","explanation":"Big data describes datasets and data flows whose scale, speed, variety or complexity make conventional handling/analysis difficult and create value only when a business has suitable data quality, systems, skills and decision processes. More data is not automatically better information.","key_distinctions":["volume is only one characteristic; velocity, variety and quality also matter","data is not insight until it is interpreted in a decision context","large datasets can still be biased or incomplete"],"application":"Trace how collecting and analysing larger/faster/more varied data could improve forecasting, personalisation, operations or risk decisions, then evaluate cost, capability, privacy/security, bias and causal limitations.","boundaries":["correlation at scale is not causation","poor data quality can scale errors","legal/privacy requirements evolve"]},{"id":"data_mining","name":"Data mining","explanation":"Data mining uses analytical techniques to discover potentially useful patterns, associations, clusters or predictive relationships in datasets. In business it can support customer segmentation, fraud/risk detection, demand analysis or process improvement, but discovered patterns require validation and business interpretation.","key_distinctions":["data mining is an analytical process, not simply collecting data","a pattern can be statistically real but commercially irrelevant","prediction does not establish causal explanation"],"application":"Define the business question, prepare relevant data, identify/test patterns and evaluate whether the result improves a real decision relative to cost/risk alternatives.","boundaries":["models can reproduce historical bias","overfitting can make patterns fail on new data","privacy/security and explainability can constrain use"]}]}}
+    },
+    {
+      "subject_id": "BUS-STR-009",
+      "patch": {"teaching_content":{"course_relevant_named_facets":[{"id":"kotter_schlesinger_resistance","name":"Kotter-Schlesinger resistance diagnosis and response options","explanation":"The Kotter-Schlesinger framework highlights common reasons people may resist change: perceived loss/self-interest, misunderstanding or low trust, a different assessment of the proposed change, and low tolerance/capacity for change. It links diagnosis to six broad response options: education/communication; participation/involvement; facilitation/support; negotiation/agreement; manipulation/co-optation; and explicit/implicit coercion. The last two create significant ethical, trust and implementation risks and should not be treated as routine best practice.","key_distinctions":["resistance can reflect useful information rather than irrational obstruction","education/communication addresses information problems but not every conflict of interest","participation shares problem-solving/input and is different from manipulation/co-optation","coercion may create speed but can damage trust, voice and long-term implementation"],"application":"Diagnose the likely source of resistance first, then evaluate a response using urgency, trust, employee knowledge, power, fairness, reversibility, implementation risk and legal/ethical constraints.","boundaries":["the six options are a diagnostic framework rather than a prescription","manipulation or coercion can be ethically unacceptable or counterproductive","multiple resistance causes can coexist"]},{"id":"strategic_drift","name":"Strategic drift","explanation":"Strategic drift occurs when an organisation's strategy changes too slowly or in the wrong direction relative to material changes in its environment, customer needs, technology, competition or capabilities, so the fit between strategy and context progressively weakens. Drift is a process of misalignment, not simply one period of poor performance.","key_distinctions":["poor results can occur without strategic drift and drift can exist before financial failure is obvious","incremental strategic change can be appropriate when the environment changes incrementally","emergent adaptation is not automatically drift"],"application":"Compare external/internal change with the evolution of actual strategic choices, identify evidence of widening misfit and assess whether adaptation, transformation or retrenchment is justified.","boundaries":["retrospective narratives can overstate how obvious change was","performance has multiple causes","rapid strategy change can itself create execution risk"]}]}}
+    }
+  ],
+  "relationship_patches": [],
+  "domain_moves": []
+}

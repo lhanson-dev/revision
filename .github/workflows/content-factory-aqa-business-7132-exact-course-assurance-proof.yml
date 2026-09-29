@@ -1,0 +1,56 @@
+name: Content Factory AQA Business 7132 Exact-Course Assurance Proof
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-exact-course-assurance-proof
+  cancel-in-progress: false
+
+jobs:
+  exact-course-assurance-proof:
+    name: Fresh T8 independent review and external-source challenge
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout exact approved main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Materialise exact deterministic T8 review package
+        run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs
+
+      - name: Run fresh independent review and official-source challenge
+        env:
+          CONTENT_FACTORY_AQA_7132_EXACT_COURSE_ASSURANCE_PROOF: '1'
+          CONTENT_FACTORY_EXACT_COURSE_REVIEWED_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_MAX_SPEND_USD: '12'
+          CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx vitest run scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts --reporter=verbose
+
+      - name: Upload fresh T8 assurance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-aqa-business-7132-exact-course-assurance-proof-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-exact-course-assurance-proof/
+          if-no-files-found: warn
+          retention-days: 30
