@@ -43,10 +43,19 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     let active = true
-    if (adapters.length === 0) return () => { active = false }
+    if (adapters.length === 0) {
+      setLoading(false)
+      setEvidence([])
+      setError('')
+      return () => { active = false }
+    }
+
+    setLoading(true)
+    setError('')
     const store = createSupabaseEvidenceStore(client)
     Promise.all(adapters.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
       .then((items) => {
@@ -54,14 +63,16 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
         setEvidence(items.flat())
         setError('')
       })
-      .catch((caught: unknown) => {
-        if (active) setError(caught instanceof Error ? caught.message : 'Could not load your progress.')
+      .catch(() => {
+        if (!active) return
+        setEvidence([])
+        setError('Revision could not load your learning evidence. Your saved evidence has not been changed.')
       })
       .finally(() => {
         if (active) setLoading(false)
       })
     return () => { active = false }
-  }, [adapters, client, userId])
+  }, [adapters, client, refreshKey, userId])
 
   const grouped = useMemo(() => courseStates(programme.courses, evidence), [evidence, programme.courses])
   const allStates = grouped.flatMap((item) => item.states)
@@ -75,10 +86,14 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
       <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="global-progress-title">Progress</h1><p>This view covers only the courses in your active Revision programme. Course membership itself is not progress evidence.</p></header>
 
-      {error && <Status tone="warning">{error}</Status>}
       {programme.unknownCourseIds.length > 0 && <Status tone="warning">A saved course no longer resolves to the published catalogue. Its historical evidence is preserved, but it is excluded from this active programme view.</Status>}
 
-      {programme.courses.length === 0 ? (
+      {error ? (
+        <Status tone="error" label="Progress unavailable">
+          <p>{error}</p>
+          <Button variant="secondary" onClick={() => setRefreshKey((value) => value + 1)}>Try again</Button>
+        </Status>
+      ) : programme.courses.length === 0 ? (
         <EmptyState title="Add a course to build your progress view" description="Revision will show evidence and readiness only for courses that belong to your active programme." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
       ) : (
         <>
