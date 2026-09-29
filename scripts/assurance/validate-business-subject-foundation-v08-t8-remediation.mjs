@@ -22,6 +22,8 @@ const EXPECTED_FACETS={
 const REQUIRED_PATERNALISTIC_SOURCE='SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020'
 const REQUIRED_SHAREHOLDER_RIGHTS_SOURCE='SRC-GOVUK-SHAREHOLDER-RIGHTS-2026'
 const EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION='Current page checked 2026-09-29; page updated 2026-09-28'
+const REQUIRED_HARD_SOFT_HRM_SOURCE='SRC-OER-HARD-SOFT-HRM-2024'
+const EXPECTED_HARD_SOFT_HRM_EQUIVALENT_URLS=['https://systems.enpress-publisher.com/index.php/jipd/article/view/5910','https://systems.enpress-publisher.com/index.php/jipd/article/view/5910/0']
 const ACCEPTED_LICENCES=new Set(['CC_BY_4_0','OGL_V3'])
 const BOARD_SOURCE_PATTERN=/(aqa|pearson|ocr|wjec|eduqas|ccea)/i
 
@@ -58,8 +60,12 @@ if(!paternalisticSource?.promotion_eligible||paternalisticSource.licence_profile
 const shareholderRightsSource=candidate.sourceById.get(REQUIRED_SHAREHOLDER_RIGHTS_SOURCE)
 if(!shareholderRightsSource?.promotion_eligible||shareholderRightsSource.licence_profile!=='OGL_V3')throw new Error('Shareholder-rights source must remain promotion-eligible OGL v3')
 if(shareholderRightsSource.date_version!==EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION)throw new Error(`Shareholder-rights source metadata date mismatch: ${shareholderRightsSource.date_version}`)
+const hardSoftHrmSource=candidate.sourceById.get(REQUIRED_HARD_SOFT_HRM_SOURCE)
+if(!hardSoftHrmSource?.promotion_eligible||hardSoftHrmSource.licence_profile!=='CC_BY_4_0')throw new Error('Hard/soft HRM source must remain promotion-eligible CC BY 4.0')
+exactSet(hardSoftHrmSource.equivalent_urls||[],EXPECTED_HARD_SOFT_HRM_EQUIVALENT_URLS,'Hard/soft HRM verified equivalent URLs')
+for(const url of hardSoftHrmSource.equivalent_urls)if(BOARD_SOURCE_PATTERN.test(new URL(url).hostname))throw new Error(`Hard/soft HRM equivalent URL improperly uses awarding-body domain ${url}`)
 const metadataPatchIds=(candidate.v08SourceMetadataPatches?.source_metadata_patches||[]).map((entry)=>entry.source_id)
-exactSet(metadataPatchIds,[REQUIRED_SHAREHOLDER_RIGHTS_SOURCE],'v0.8 source metadata patch IDs')
+exactSet(metadataPatchIds,[REQUIRED_SHAREHOLDER_RIGHTS_SOURCE,REQUIRED_HARD_SOFT_HRM_SOURCE],'v0.8 source metadata patch IDs')
 
 if(!Array.isArray(mapping.requirements)||mapping.requirements.length!==42)throw new Error('AQA mapping must retain 42 governed requirements during Foundation remediation')
 const directMapped=new Set(mapping.requirements.flatMap((row)=>row.mapped_subject_node_ids||[]))
@@ -86,6 +92,7 @@ console.log(JSON.stringify({
   structuredNamedFacets:facetCount,
   directPaternalisticLeadershipSource:REQUIRED_PATERNALISTIC_SOURCE,
   shareholderRightsSourceDateVersion:shareholderRightsSource.date_version,
+  hardSoftHrmEquivalentUrls:hardSoftHrmSource.equivalent_urls,
   aqaGovernedRequirements:mapping.requirements.length,
   directMappedSubjectNodes:directMapped.size,
   prerequisiteCompleteAqaSubjectNodes:closed.size,
