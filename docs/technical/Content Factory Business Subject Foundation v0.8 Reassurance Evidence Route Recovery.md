@@ -89,16 +89,47 @@ Fresh publication inspection confirmed that the registered ARC article page link
 
 The evidence contract therefore rejected an alternate representation of the registered publication rather than an unrelated source, mirror, aggregator or different article.
 
+## Third triggering run — canonical DOI versus publisher article ID
+
+After PR `#438` added the direct ESG-reporting source remediation, fresh v0.8 reassurance workflow run `36632074524` reviewed exact approved `main` SHA:
+
+`2cf21d546b15b2e072dabb06bdf8d3d63f6df53d`
+
+against Business Foundation v0.8 fingerprint:
+
+`5ff48501805714be547b3c471eb2d984edd6ccd4dc0a7a59660d90a842dc2844`.
+
+Retained artifact:
+
+- artifact ID: `11063785064`;
+- digest: `sha256:fe9b8b5c61fde8d86a8b7a099dc95d15e5712b0095a9a960f6a14e2e99ec8c7c`.
+
+The exact-main identity check, deterministic v0.8 validation and reassurance contract self-test passed. Group 1 completed successfully. Group 2 then stopped during evidence-contract validation with:
+
+`BUS-PEO-001 evidence URL outside registered path for SRC-OER-HARD-SOFT-HRM-2024: actual=https://www.enpress-publisher.com/files/journals/1/articles/5910/public/5910-31063-1-PB.pdf registered=https://www.enpress-publisher.com/journal/JIPD/8/9/10.24294/jipd.v8i9.5910`
+
+The runner correctly recorded `status: evidence_contract_failure` and `qualityDecision: not_reached`; it did not convert the route mismatch into an educational `fail_hold`. The exact Group 2 provider output was retained before validation.
+
+This failure exposed a remaining identity-representation gap in the otherwise class-level publisher-document rule. The registered EnPress route identifies the publication through DOI `10.24294/jipd.v8i9.5910`, while the publisher PDF route identifies the same publication through EnPress article ID `5910`. The existing validator only matched an identity that appeared literally in both URLs, so it could not prove that the DOI and publisher article ID were aliases for one publication.
+
+The correction therefore adds an explicit source-scoped publication-identity alias for `SRC-OER-HARD-SOFT-HRM-2024`:
+
+`10.24294/jipd.v8i9.5910` ↔ publisher article ID `5910`.
+
+This is not a PDF-path exception. The generic same-host publisher-document rule remains responsible for validating the route shape. The alias only supplies the independently established publication identity that the canonical DOI URL does not otherwise expose as a standalone numeric path/query identifier.
+
+The validator now accepts a same-host document route only when its extracted publication identity matches either the canonical registered identity or a source-scoped approved alias. It still rejects a neighbouring article ID such as `5911`, an unrelated same-host page, mirrors and cross-host substitutions.
+
 ## Revised classification
 
-Across both failures, the underlying pattern is a **publisher-route representation defect in the reassurance evidence contract**, not repeated Business-content failure.
+Across these failures, the underlying pattern is a **publisher-route representation defect in the reassurance evidence contract**, not repeated Business-content failure.
 
 The safe classification is:
 
 1. canonical registered publication URLs remain authoritative evidence anchors;
 2. canonical same-host child paths remain accepted;
 3. source-specific cross-host legacy equivalence remains explicit where independently verified, as with EnPress;
-4. a same-host publisher document/download route may be treated as equivalent only when it carries a stable publication identity that exactly matches the registered publication;
+4. a same-host publisher document/download route may be treated as equivalent only when it carries a stable publication identity that exactly matches the registered publication or an explicitly registered source-scoped identity alias;
 5. wrong publication IDs, unrelated same-host pages, mirrors, aggregators and cross-host substitutions remain rejected; and
 6. a route-contract rejection remains `qualityDecision: not_reached`, not educational `fail_hold`.
 
@@ -106,28 +137,30 @@ No Business teaching content, node taxonomy, relationship graph, promotion-sourc
 
 ## Class-level implementation correction
 
-The v0.8 reassurance runner now retains the existing canonical and EnPress-specific rules and adds a narrow publisher-document equivalence guard.
+The v0.8 reassurance runner retains the existing canonical and EnPress-specific legacy-route rules and uses a narrow publisher-document equivalence guard.
 
 A same-host alternate document route is accepted only when all of the following are true:
 
 1. the normalized publisher host exactly matches the registered host;
 2. the actual route is document-shaped (`download`, `pdf`, `viewFile`, or a `.pdf` path);
-3. the registered route exposes a stable publication identity through its canonical final numeric article identifier, query identifier or DOI; and
-4. the actual document route carries the same exact publication identity in its path, query or DOI.
+3. the registered route exposes a stable publication identity through its canonical final numeric article identifier, query identifier or DOI, or the exact source has an independently established publication-identity alias; and
+4. the actual document route carries that same exact publication identity in its path, query or DOI.
 
-This is deliberately not a generic same-host exemption. It allows the ARC `article/5805` → `arc_download.php?id=5805` representation while rejecting:
+This is deliberately not a generic same-host exemption. It allows the ARC `article/5805` → `arc_download.php?id=5805` representation and the EnPress DOI canonical route → same-publisher article `5910` PDF representation while rejecting:
 
 - `arc_download.php?id=5806`;
-- an unrelated same-host page such as `about?id=5805`; and
-- a document route on another host carrying `5805`.
+- an EnPress PDF for article `5911`;
+- an unrelated same-host page carrying a valid-looking ID; and
+- a document route on another host carrying the same numeric ID.
 
-The reviewer instruction also now states that publisher-hosted document/download routes are acceptable only where they preserve the same registered publication identity. DOI resolvers, mirrors, aggregators and unrelated same-host pages remain prohibited.
+The reviewer instruction continues to state that publisher-hosted document/download routes are acceptable only where they preserve the same registered publication identity. DOI resolvers, mirrors, aggregators and unrelated same-host pages remain prohibited.
 
 The no-spend reassurance self-test now proves:
 
 - canonical EnPress evidence is accepted;
 - verified EnPress legacy article and article-file routes for article `5910` are accepted;
-- a neighbouring EnPress article ID is rejected;
+- the current same-publisher EnPress PDF carrying article ID `5910` is accepted through the source-scoped publication alias;
+- neighbouring EnPress article/PDF ID `5911` is rejected;
 - the ARC publisher download route with matching article ID `5805` is accepted;
 - the ARC download route with a different article ID is rejected;
 - an unrelated ARC same-host route carrying `5805` is rejected; and
@@ -135,11 +168,11 @@ The no-spend reassurance self-test now proves:
 
 ## Historical evidence
 
-Runs `36589766815` and `36619201381` and artifacts `11043198393` and `11058032016` remain unchanged historical evidence.
+Runs `36589766815`, `36619201381` and `36632074524`, and artifacts `11043198393`, `11058032016` and `11063785064`, remain unchanged historical evidence.
 
-The missing Group 2 object from the first run is not backfilled. The second run's retained Group 4 provider output remains unvalidated historical evidence and is not rewritten into a pass.
+The missing Group 2 object from the first run is not backfilled. The second run's retained Group 4 provider output and the third run's retained Group 2 provider output remain unvalidated historical evidence and are not rewritten into a pass.
 
-A fresh post-merge v0.8 reassurance must review the new exact approved `main` SHA. Neither partial run can be promoted into a pass.
+A fresh post-merge v0.8 reassurance must review the new exact approved `main` SHA. No partial run can be promoted into a pass.
 
 ## Required assurance for this correction
 
