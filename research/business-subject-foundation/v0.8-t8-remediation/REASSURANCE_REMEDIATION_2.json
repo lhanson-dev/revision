@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "status": "targeted_remediation_awaiting_fresh_reassurance",
+  "authority_status": "research_evidence_only",
+  "triggering_reassurance": {
+    "workflow_run_id": 36632074524,
+    "artifact_id": 11063785064,
+    "artifact_digest": "sha256:fe9b8b5c61fde8d86a8b7a099dc95d15e5712b0095a9a960f6a14e2e99ec8c7c",
+    "reviewed_main_sha": "2cf21d546b15b2e072dabb06bdf8d3d63f6df53d",
+    "candidate_fingerprint": "5ff48501805714be547b3c471eb2d984edd6ccd4dc0a7a59660d90a842dc2844",
+    "workflow_status": "evidence_contract_failure",
+    "quality_decision": "not_reached",
+    "failed_at": "People, leadership, structure and culture remediation",
+    "retained_provider_output": "group-2-provider-output.json"
+  },
+  "evidence_disposition": {
+    "provider_output_is_not_promoted_as_assurance_receipt": true,
+    "historical_failed_run_remains_immutable": true,
+    "independent_verification_required_before_remediation": true,
+    "independent_verification_source_id": "SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020",
+    "verification_basis": "The already-registered promotion-eligible Frontiers source defines paternalistic leadership as a multidimensional construct comprising authoritarianism, benevolence and morality. The current BUS-PEO-010 facet includes retained authority and benevolent welfare/guidance but omits moral leadership as a defining dimension."
+  },
+  "principles": {
+    "preserve_prior_history": true,
+    "smallest_safe_targeted_remediation": true,
+    "board_material_used_as_reusable_subject_truth": false,
+    "node_taxonomy_changed": false,
+    "node_count_changed": false,
+    "relationship_edges_changed": false,
+    "source_registration_changed": false,
+    "teaching_content_changed_by_this_remediation": true,
+    "promotion_decision": "NOT_YET_MADE"
+  },
+  "node_patches": [
+    {
+      "subject_id": "BUS-PEO-010",
+      "finding_ids": ["F-010-01", "GF-01"],
+      "patch": {
+        "teaching_content": {
+          "course_relevant_named_facets": [
+            {
+              "id": "paternalistic_leadership",
+              "name": "Paternalistic leadership",
+              "explanation": "Paternalistic leadership is a multidimensional leadership construct combining strong leader authority or discipline with benevolence and moral leadership. In the triad model, authoritarian leadership asserts control and expects obedience; benevolent leadership shows individualised, holistic concern for employees' professional and personal welfare; and moral leadership relies on personal virtue, self-discipline, unselfishness and role-modelling. It differs from participative leadership because final decision rights can remain concentrated even where concern, guidance and explanation are high.",
+              "key_distinctions": [
+                "paternalistic leadership is not simply autocratic leadership with a friendly tone",
+                "benevolent welfare concern and moral leadership are distinct dimensions: welfare provision does not by itself demonstrate integrity, self-discipline or role-modelling",
+                "reciprocal loyalty or obligation is associated with benevolence and does not substitute for the moral-leadership dimension",
+                "employee concern does not make final decision authority democratic"
+              ],
+              "application": "Compare authoritarian, benevolent and moral dimensions when evaluating paternalistic leadership, then compare the overall approach with autocratic, democratic and delegative leadership using urgency, employee capability, trust, commitment, cultural expectations and risk.",
+              "boundaries": [
+                "paternalistic leadership is culturally and contextually sensitive rather than universally effective",
+                "care or welfare claims need evidence from actual decisions and systems",
+                "dependency and concentrated authority can reduce employee voice",
+                "no leadership style is universally best"
+              ]
+            },
+            {
+              "id": "tannenbaum_schmidt_continuum",
+              "name": "Tannenbaum-Schmidt leadership continuum",
+              "explanation": "The Tannenbaum-Schmidt continuum treats leadership behaviour as a range from manager-centred to subordinate-centred decision making. As movement occurs along the continuum, the manager progressively shares information, consultation, problem definition and decision freedom rather than switching between only two leadership styles.",
+              "key_distinctions": [
+                "the continuum concerns distribution of decision authority and participation",
+                "consulting employees is not the same as delegating the final decision",
+                "different decisions within one business can rationally sit at different points"
+              ],
+              "application": "Select and justify a position using time pressure, risk, employee capability, information distribution, need for commitment and decision reversibility.",
+              "boundaries": [
+                "the framework simplifies real behaviour",
+                "movement toward more subordinate freedom is not automatically better",
+                "legal/accountability constraints can limit delegation"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
