@@ -20,6 +20,7 @@ const EXPECTED_FACETS={
   'BUS-STR-009':['kotter_schlesinger_resistance','strategic_drift']
 }
 const REQUIRED_PATERNALISTIC_SOURCE='SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020'
+const REQUIRED_ESG_REPORTING_SOURCE='SRC-OER-FRONTIERS-ESG-COMMENSURABILITY-2022'
 const REQUIRED_SHAREHOLDER_RIGHTS_SOURCE='SRC-GOVUK-SHAREHOLDER-RIGHTS-2026'
 const EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION='Current page checked 2026-09-29; page updated 2026-09-28'
 const ACCEPTED_LICENCES=new Set(['CC_BY_4_0','OGL_V3'])
@@ -47,7 +48,7 @@ for(const [subjectId,expectedFacetIds] of Object.entries(EXPECTED_FACETS)){
 }
 if(facetCount!==22)throw new Error(`Expected 22 structured v0.8 named facets, got ${facetCount}`)
 
-const allNewSources=[...(candidate.v08Overlay.source_additions||[]),...(candidate.v08SourceAugmentations.source_additions||[]),...(candidate.v08SourceAugmentations2.source_additions||[])]
+const allNewSources=[...(candidate.v08Overlay.source_additions||[]),...(candidate.v08SourceAugmentations.source_additions||[]),...(candidate.v08SourceAugmentations2.source_additions||[]),...(candidate.v08SourceAugmentations3.source_additions||[])]
 for(const source of allNewSources){if(!source.promotion_eligible)throw new Error(`${source.id} is not promotion eligible`);if(!ACCEPTED_LICENCES.has(source.licence_profile))throw new Error(`${source.id} has unexpected licence ${source.licence_profile}`);if(BOARD_SOURCE_PATTERN.test(new URL(source.url).hostname))throw new Error(`${source.id} improperly uses awarding-body material as reusable subject truth`)}
 const excluded=new Set((candidate.sources.legacy_promotion_exclusions||[]).map((entry)=>entry.source_id))
 for(const id of EXPECTED_FRESH_SCOPE){const row=candidate.rows.get(id);if(!row?.subject_truth_sources?.length)throw new Error(`${id} has no promotion truth sources`);for(const sourceId of row.subject_truth_sources){if(excluded.has(sourceId))throw new Error(`${id} uses excluded source ${sourceId}`);const source=candidate.sourceById.get(sourceId);if(!source?.promotion_eligible)throw new Error(`${id} uses non-promotion source ${sourceId}`);if(BOARD_SOURCE_PATTERN.test(new URL(source.url).hostname))throw new Error(`${id} uses awarding-body domain ${source.url}`)}}
@@ -55,6 +56,10 @@ const paternalisticSources=new Set(candidate.rows.get('BUS-PEO-010')?.subject_tr
 if(!paternalisticSources.has(REQUIRED_PATERNALISTIC_SOURCE))throw new Error(`BUS-PEO-010 must include direct paternalistic leadership source ${REQUIRED_PATERNALISTIC_SOURCE}`)
 const paternalisticSource=candidate.sourceById.get(REQUIRED_PATERNALISTIC_SOURCE)
 if(!paternalisticSource?.promotion_eligible||paternalisticSource.licence_profile!=='CC_BY_4_0')throw new Error('Direct paternalistic leadership source must remain promotion-eligible CC BY 4.0')
+const esgReportingSources=new Set(candidate.rows.get('BUS-EXT-006')?.subject_truth_sources||[])
+if(!esgReportingSources.has(REQUIRED_ESG_REPORTING_SOURCE))throw new Error(`BUS-EXT-006 must include direct ESG reporting source ${REQUIRED_ESG_REPORTING_SOURCE}`)
+const esgReportingSource=candidate.sourceById.get(REQUIRED_ESG_REPORTING_SOURCE)
+if(!esgReportingSource?.promotion_eligible||esgReportingSource.licence_profile!=='CC_BY_4_0')throw new Error('Direct ESG reporting source must remain promotion-eligible CC BY 4.0')
 const shareholderRightsSource=candidate.sourceById.get(REQUIRED_SHAREHOLDER_RIGHTS_SOURCE)
 if(!shareholderRightsSource?.promotion_eligible||shareholderRightsSource.licence_profile!=='OGL_V3')throw new Error('Shareholder-rights source must remain promotion-eligible OGL v3')
 if(shareholderRightsSource.date_version!==EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION)throw new Error(`Shareholder-rights source metadata date mismatch: ${shareholderRightsSource.date_version}`)
@@ -85,6 +90,7 @@ console.log(JSON.stringify({
   preservedNodes:67,
   structuredNamedFacets:facetCount,
   directPaternalisticLeadershipSource:REQUIRED_PATERNALISTIC_SOURCE,
+  directEsgReportingSource:REQUIRED_ESG_REPORTING_SOURCE,
   shareholderRightsSourceDateVersion:shareholderRightsSource.date_version,
   aqaGovernedRequirements:mapping.requirements.length,
   directMappedSubjectNodes:directMapped.size,
