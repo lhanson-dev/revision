@@ -137,7 +137,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-5);
   border: 1px solid transparent;
   border-radius: var(--radius-control);
   font-family: var(--font-family-product);
@@ -174,6 +174,24 @@
   opacity: .55;
 }
 
+.ui-button[aria-busy="true"] {
+  cursor: progress;
+}
+
+.ui-button__spinner {
+  width: var(--icon-size-inline);
+  height: var(--icon-size-inline);
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-pill);
+  animation: ui-button-spinner 720ms linear infinite;
+}
+
+@keyframes ui-button-spinner {
+  to { transform: rotate(360deg); }
+}
+
 .ui-button--compact {
   min-height: var(--control-height-compact);
   padding-inline: var(--space-3);
@@ -184,7 +202,7 @@
 
 .ui-button--large {
   min-height: var(--control-height-large);
-  padding-inline: var(--space-5);
+  padding-inline: var(--space-6);
 }
 
 .ui-button--primary {
@@ -263,7 +281,7 @@
 }
 
 .ui-menu-item {
-  min-height: 42px;
+  min-height: 44px;
   width: 100%;
   display: grid;
   grid-template-columns: var(--icon-size-standard) minmax(0, 1fr);
@@ -360,7 +378,7 @@
 }
 
 .ui-segmented-control .ui-button {
-  min-height: var(--control-height-compact);
+  min-height: 44px;
   border-radius: 9px;
 }
 
@@ -413,5 +431,9 @@
   .runtime-mobile-drawer-nav > button,
   .runtime-mobile-account-links > button {
     transition: none;
+  }
+
+  .ui-button__spinner {
+    animation-duration: 1.4s;
   }
 }
