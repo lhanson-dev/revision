@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Targeted source-only remediation after v0.8 reassurance run 36560923261 found that BUS-PEO-010 paternalistic leadership was educationally sound but lacked direct promotion-eligible reusable source support.",
+  "triggering_reassurance": {
+    "workflow_run_id": 36560923261,
+    "reviewed_main_sha": "5ca8d6e2e41ab4b03f03f1080ad0adc3ce5919fe",
+    "candidate_fingerprint": "987454817b031eaafb00129fae72b86a3b9a0c69c6e48be9f6f80368fdd1e192",
+    "decision": "fail_hold",
+    "finding_id": "F-BUS-PEO-010-01",
+    "affected_node": "BUS-PEO-010",
+    "affected_facet": "paternalistic_leadership"
+  },
+  "source_additions": [
+    {
+      "id": "SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020",
+      "issuer": "Frontiers in Psychology",
+      "title": "Exploring the Relationship Between Paternalistic Leadership, Teacher Commitment, and Job Satisfaction in Chinese Schools",
+      "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.01481/full",
+      "date_version": "Published 2020-07-08; current CC BY page checked 2026-09-29",
+      "educational_role": "Direct reusable support for paternalistic leadership as a multidimensional leadership construct combining retained authority with benevolence/welfare concern and moral leadership, including reciprocal subordinate obligation and evidence that authoritarian and benevolent/moral dimensions can have different effects.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the stable leadership construct and mechanisms only. Do not universalise China/school-specific empirical findings or imply that paternalistic leadership is uniformly effective across cultures, organisations or decisions. Preserve the distinction between benevolent concern and participative transfer of decision authority.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {
+      "subject_id": "BUS-PEO-010",
+      "add": ["SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020"]
+    }
+  ]
+}
