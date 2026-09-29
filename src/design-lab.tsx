@@ -3,18 +3,36 @@ import { createRoot } from 'react-dom/client'
 import { AuthGate } from './app/AuthGate'
 import { DesignLab } from './app/DesignLab'
 import { supabase } from './services/supabase/browser-client'
-import './app/brand-tokens.css'
-import './app/app.css'
-import './app/auth-entry.css'
-import './app/interface-system.css'
-import './app/ui/ui-components.css'
-import './app/living-e.css'
-import './app/living-e-accessibility.css'
-import './app/learn-reading.css'
-import './app/interactive-component-quality.css'
-import './app/design-lab.css'
+import brandTokensCss from './app/brand-tokens.css?inline'
+import appCss from './app/app.css?inline'
+import authEntryCss from './app/auth-entry.css?inline'
+import interfaceSystemCss from './app/interface-system.css?inline'
+import uiComponentsCss from './app/ui/ui-components.css?inline'
+import livingECss from './app/living-e.css?inline'
+import livingEAccessibilityCss from './app/living-e-accessibility.css?inline'
+import learnReadingCss from './app/learn-reading.css?inline'
+import interactiveComponentQualityCss from './app/interactive-component-quality.css?inline'
+import designLabCss from './app/design-lab.css?inline'
 
 type AccessState = 'checking' | 'allowed' | 'denied' | 'error'
+
+const designLabCssText = [
+  brandTokensCss,
+  appCss,
+  authEntryCss,
+  interfaceSystemCss,
+  uiComponentsCss,
+  livingECss,
+  livingEAccessibilityCss,
+  learnReadingCss,
+  interactiveComponentQualityCss,
+  designLabCss,
+].join('\n')
+
+const styleElement = document.createElement('style')
+styleElement.dataset.revisionDesignLab = 'true'
+styleElement.textContent = designLabCssText
+document.head.append(styleElement)
 
 function DesignLabAccessGate() {
   const [access, setAccess] = useState<AccessState>('checking')
