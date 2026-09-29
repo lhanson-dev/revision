@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Apply current-source metadata corrections discovered by fresh v0.8 reassurance without rewriting the historical v0.7 candidate evidence.",
+  "triggering_reassurance": {
+    "workflow_run_id": 36568614490,
+    "reviewed_main_sha": "052dd804f0b8a018812951d754b58293a0c1c106",
+    "candidate_fingerprint": "2d7322d9bdae2bf617f3ca7fc2e8724d62f88cd017d3b88c13cbef0ed8c8a46d",
+    "result": "provider_failure_before_quality_decision",
+    "completed_review_group": "Foundation and finance named-facet remediation",
+    "finding_id": "FIN-008-SRC-01"
+  },
+  "source_metadata_patches": [
+    {
+      "source_id": "SRC-GOVUK-SHAREHOLDER-RIGHTS-2026",
+      "patch": {
+        "date_version": "Current page checked 2026-09-29; page updated 2026-09-28",
+        "checked_at": "2026-09-29",
+        "checker_method": "fresh_v08_reassurance_plus_direct_govuk_verification"
+      },
+      "rationale": "Fresh reassurance found the registered source date was stale. GOV.UK CG50200 currently reports Updated: 28 September 2026. The educational claims and OGL v3 rights boundary are unchanged."
+    }
+  ]
+}
