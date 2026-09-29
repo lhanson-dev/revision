@@ -186,7 +186,6 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
                 <article role="listitem" className="courses-add-item" key={course.id}>
                   <div><strong>{label}</strong><span>{courseIdentity(subject.name, course.qualificationName, course.examBoardName, course.specificationCode)}</span></div>
                   <Button
-                    size="compact"
                     disabled={saving}
                     loading={savingAction === `add:${course.id}`}
                     loadingLabel="Adding…"
@@ -211,6 +210,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
             <p>This removes the course from your active programme and future learner-wide recommendations. Your existing learning evidence and previous activity will be kept.</p>
             <div className="inline-actions">
               <Button
+                variant="destructive"
                 disabled={saving}
                 loading={savingAction === `remove:${removeCourseId}`}
                 loadingLabel="Removing…"
