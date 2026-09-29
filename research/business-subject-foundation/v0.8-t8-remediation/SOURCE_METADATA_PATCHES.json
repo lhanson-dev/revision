@@ -38,14 +38,13 @@
       "patch": {
         "evidence_url_aliases": [
           "https://systems.enpress-publisher.com/index.php/jipd/article/view/5910",
-          "https://systems.enpress-publisher.com/index.php/jipd/article/viewFile/5910",
           "https://www.enpress-publisher.com/files/journals/1/articles/5910/public"
         ],
-        "evidence_url_alias_basis": "Publisher-controlled EnPress routes for the same Journal of Infrastructure, Policy and Development article ID 5910 / DOI 10.24294/jipd.v8i9.5910, including the legacy OJS article route and publisher-hosted article PDF route.",
+        "evidence_url_alias_basis": "Publisher-controlled EnPress routes for the same Journal of Infrastructure, Policy and Development article ID 5910 / DOI 10.24294/jipd.v8i9.5910: the legacy OJS article route (whose child path serves its PDF) and the current publisher-hosted article file route.",
         "checked_at": "2026-09-29",
         "checker_method": "fresh_v08_reassurance_failure_plus_direct_enpress_route_verification"
       },
-      "rationale": "The registered current EnPress article URL remains canonical and promotion-eligible. EnPress also exposes the identical article through publisher-controlled legacy OJS and PDF paths that are not descendants of the canonical path. These explicit article-ID-specific aliases allow equivalent evidence routes without accepting arbitrary sibling publications, domains or publisher paths."
+      "rationale": "The registered current EnPress article URL remains canonical and promotion-eligible. EnPress also exposes the identical article through two verified publisher-controlled route families that are not descendants of the canonical path. These explicit article-ID-specific aliases allow equivalent evidence routes without accepting arbitrary sibling publications, domains or publisher paths."
     }
   ]
 }
