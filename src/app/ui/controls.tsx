@@ -8,20 +8,27 @@ export type ButtonSize = 'compact' | 'standard' | 'large'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
   size?: ButtonSize
+  loading?: boolean
+  loadingLabel?: ReactNode
 }
 
-export function Button({ variant = 'primary', size = 'standard', className, type = 'button', ...props }: ButtonProps) {
+export function Button({ variant = 'primary', size = 'standard', loading = false, loadingLabel, className, type = 'button', disabled, children, ...props }: ButtonProps) {
   return (
     <button
+      {...props}
       type={type}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       className={classNames(
         'ui-button',
         `ui-button--${variant}`,
         size !== 'standard' && `ui-button--${size}`,
         className,
       )}
-      {...props}
-    />
+    >
+      {loading && <span className="ui-button__spinner" aria-hidden="true" />}
+      {loading && loadingLabel ? loadingLabel : children}
+    </button>
   )
 }
 

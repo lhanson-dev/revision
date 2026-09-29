@@ -44,6 +44,16 @@ describe('Revision reusable interface components', () => {
     expect(markup).toContain('aria-invalid="true"')
   })
 
+  it('renders an accessible processing state and prevents duplicate submission', () => {
+    const markup = renderToStaticMarkup(<Button loading loadingLabel="Saving changes…">Save changes</Button>)
+
+    expect(markup).toContain('aria-busy="true"')
+    expect(markup).toContain('disabled=""')
+    expect(markup).toContain('class="ui-button__spinner"')
+    expect(markup).toContain('Saving changes…')
+    expect(markup).not.toContain('>Save changes</button>')
+  })
+
   it('makes semantic feedback understandable without colour alone', () => {
     const markup = renderToStaticMarkup(<Status tone="warning">Capacity is limited this week.</Status>)
 

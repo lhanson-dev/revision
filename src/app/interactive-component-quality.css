@@ -1,0 +1,32 @@
+/*
+ * Interactive Component Quality enforcement layer.
+ *
+ * Shared ordinary actions inherit their dimensions from the Interface System.
+ * This file is intentionally limited to specialist controls whose feature anatomy
+ * remains local but whose interactive target must comply with the governed
+ * minimums in Interactive Component Quality Standard.md.
+ */
+
+/* Processing is disabled against repeat activation but should not look unavailable. */
+.ui-button[aria-busy="true"] {
+  opacity: 1;
+}
+
+/* Plan: bounded weekly-capacity steppers previously exposed 32px hit targets. */
+.plan-capacity-stepper button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Plan: the primary Day / Week / Month view selector is a learner view switch. */
+.plan-view-toolbar .ui-segmented-control button {
+  min-height: 48px;
+}
+
+/* Home: empty-state actions are ordinary learner actions, not compact navigation. */
+.returning-home-empty-actions button {
+  min-height: 48px;
+  padding-inline: 20px;
+}

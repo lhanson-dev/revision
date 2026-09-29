@@ -118,7 +118,7 @@
 
   /* Shared control and icon sizing from the approved control/icon system. */
   --control-height-compact: 36px;
-  --control-height-standard: 44px;
+  --control-height-standard: 48px;
   --control-height-large: 52px;
   --field-height-standard: 48px;
   --icon-button-size: 44px;

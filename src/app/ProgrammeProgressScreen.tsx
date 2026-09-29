@@ -79,7 +79,7 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
       {programme.unknownCourseIds.length > 0 && <Status tone="warning">A saved course no longer resolves to the published catalogue. Its historical evidence is preserved, but it is excluded from this active programme view.</Status>}
 
       {programme.courses.length === 0 ? (
-        <EmptyState title="Add a course to build your progress view" description="Revision will show evidence and readiness only for courses that belong to your active programme." action={<Button onClick={onOpenCourses}>Go to Courses</Button>} />
+        <EmptyState title="Add a course to build your progress view" description="Revision will show evidence and readiness only for courses that belong to your active programme." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
       ) : (
         <>
           <div className="progress-overview">
