@@ -27,10 +27,24 @@ const viewportLabels: Record<PreviewViewport, string> = {
 
 function forcePreviewTheme(event: SyntheticEvent<HTMLIFrameElement>, theme: PreviewTheme) {
   try {
+    const frameWindow = event.currentTarget.contentWindow
     const frameDocument = event.currentTarget.contentDocument
-    if (!frameDocument) return
-    frameDocument.documentElement.dataset.revisionTheme = theme
-    frameDocument.querySelector<HTMLElement>('.planner-runtime')?.setAttribute('data-theme', theme)
+    if (!frameWindow || !frameDocument) return
+
+    const applyTheme = () => {
+      frameDocument.documentElement.dataset.revisionTheme = theme
+      const runtime = frameDocument.querySelector<HTMLElement>('.planner-runtime')
+      if (runtime?.dataset.theme !== theme) runtime?.setAttribute('data-theme', theme)
+    }
+
+    applyTheme()
+    const observer = new frameWindow.MutationObserver(applyTheme)
+    observer.observe(frameDocument.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+      childList: true,
+      subtree: true,
+    })
   } catch {
     // The deployed Design Lab and learner runtime are same-origin. If a local host
     // changes that boundary, the preview still shows the runtime's persisted theme.
@@ -90,7 +104,7 @@ export function DesignLabActualAppReview() {
 
         <div className="design-lab-runtime-reference-notice" role="note">
           <Icon name="info" size="compact" />
-          <span>The embedded views use your current authenticated learner context. Interaction and background activity reconciliation are disabled in preview mode so design review does not alter learner state.</span>
+          <span>The embedded views use your current authenticated learner context. Pointer interaction and the normal background activity-reconciliation writer are disabled in preview mode.</span>
         </div>
 
         <div className="design-lab-runtime-reference-controls">
