@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "candidate_version": "v0.8-t8-exact-course-remediation",
-  "purpose": "Apply current-source metadata corrections discovered by fresh v0.8 reassurance without rewriting the historical v0.7 candidate evidence.",
+  "purpose": "Apply current-source metadata and evidence-route corrections discovered by fresh v0.8 reassurance without rewriting historical v0.7 candidate evidence or weakening source controls.",
   "triggering_reassurance": {
     "workflow_run_id": 36568614490,
     "reviewed_main_sha": "052dd804f0b8a018812951d754b58293a0c1c106",
@@ -9,6 +9,19 @@
     "result": "provider_failure_before_quality_decision",
     "completed_review_group": "Foundation and finance named-facet remediation",
     "finding_id": "FIN-008-SRC-01"
+  },
+  "additional_triggering_reassurance": {
+    "workflow_run_id": 36589766815,
+    "reviewed_main_sha": "a66e253b5bdebb3c0f23497528aeb8dfb32d6e56",
+    "candidate_fingerprint": "8d3daa57cee2113839ee4ec2aaa0731cc4d25afd73224178da96d53d7ee848ec",
+    "artifact_id": 11043198393,
+    "artifact_digest": "sha256:143e87caab90e7b209ede1db9c0ee21d87e1b794a63c4ae564b853bb61ec29ea",
+    "result": "registered_evidence_path_validation_failure_before_quality_decision",
+    "completed_review_group": "Foundation and finance named-facet remediation",
+    "failed_review_group": "People, leadership, structure and culture remediation",
+    "failed_subject_id": "BUS-PEO-001",
+    "failed_source_id": "SRC-OER-HARD-SOFT-HRM-2024",
+    "retention_limitation": "The runner validated Group 2 before persisting its completed provider output, so the exact provider-returned URL is not present in the retained artifact."
   },
   "source_metadata_patches": [
     {
@@ -19,6 +32,20 @@
         "checker_method": "fresh_v08_reassurance_plus_direct_govuk_verification"
       },
       "rationale": "Fresh reassurance found the registered source date was stale. GOV.UK CG50200 currently reports Updated: 28 September 2026. The educational claims and OGL v3 rights boundary are unchanged."
+    },
+    {
+      "source_id": "SRC-OER-HARD-SOFT-HRM-2024",
+      "patch": {
+        "evidence_url_aliases": [
+          "https://systems.enpress-publisher.com/index.php/jipd/article/view/5910",
+          "https://systems.enpress-publisher.com/index.php/jipd/article/viewFile/5910",
+          "https://www.enpress-publisher.com/files/journals/1/articles/5910/public"
+        ],
+        "evidence_url_alias_basis": "Publisher-controlled EnPress routes for the same Journal of Infrastructure, Policy and Development article ID 5910 / DOI 10.24294/jipd.v8i9.5910, including the legacy OJS article route and publisher-hosted article PDF route.",
+        "checked_at": "2026-09-29",
+        "checker_method": "fresh_v08_reassurance_failure_plus_direct_enpress_route_verification"
+      },
+      "rationale": "The registered current EnPress article URL remains canonical and promotion-eligible. EnPress also exposes the identical article through publisher-controlled legacy OJS and PDF paths that are not descendants of the canonical path. These explicit article-ID-specific aliases allow equivalent evidence routes without accepting arbitrary sibling publications, domains or publisher paths."
     }
   ]
 }
