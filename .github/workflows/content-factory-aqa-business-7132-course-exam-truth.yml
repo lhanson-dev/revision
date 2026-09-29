@@ -9,7 +9,7 @@ on:
       - 'scripts/content-factory/load-business-subject-foundation-candidate-v07.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs'
-      - 'src/content-factory/aqa-course-truth-learning-adapter.test.ts'
+      - 'scripts/assurance/aqa-course-truth-runtime-adapter.test.ts'
       - 'src/content-factory/foundation-internal-learning-assets.ts'
       - 'src/content-factory/foundation-course-learning-blueprint.ts'
       - 'src/content-factory/foundation-course-learning-atomic-obligations.ts'
@@ -51,7 +51,7 @@ jobs:
       - name: Materialise transitional runtime adapter
         run: node scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs
       - name: Prove current runtime schemas and v2 planner consume exact Course Truth projection
-        run: npx vitest run src/content-factory/aqa-course-truth-learning-adapter.test.ts
+        run: npx vitest run scripts/assurance/aqa-course-truth-runtime-adapter.test.ts
       - name: Upload Course, Exam Truth and runtime-adapter evidence
         if: always()
         uses: actions/upload-artifact@v4
