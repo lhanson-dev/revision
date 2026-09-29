@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Additional promotion-eligible evidence for v0.8 structured facets where the base remediation source set needed a cleaner direct source.",
+  "source_additions": [
+    {
+      "id": "SRC-OER-LIBRETEXTS-MECHANISTIC-ORGANIC-2024",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Organizational Designs and Structures",
+      "url": "https://biz.libretexts.org/Courses/Western_Technical_College/Business_Concepts%3A_Exploring_Careers_in_Business/01%3A_Internal_and_External_Business_Environments/1.04%3A_Organizational_Designs_and_Structures",
+      "date_version": "Current CC BY 4.0 page checked 2026-09-29",
+      "educational_role": "Direct reusable support for mechanistic and organic organisational structures, their characteristics, environmental fit and continuum treatment.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; separately attributed media retain their own licences. Treat mechanistic/organic as analytical ideal types rather than fixed prescriptions.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-OPENSTAX-MERGER-TYPES-2024",
+      "issuer": "Business LibreTexts / OpenStax",
+      "title": "Mergers and Acquisitions",
+      "url": "https://biz.libretexts.org/Bookshelves/Business/Introductory_Business/Introduction_to_Business_%28OpenStax%29/04%3A_Forms_of_Business_Ownership/4.06%3A_Mergers_and_Acquisitions",
+      "date_version": "Current CC BY 4.0 OpenStax/LibreTexts page checked 2026-09-29",
+      "educational_role": "Direct reusable support for horizontal, vertical and conglomerate merger/integration categories and their business logic.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use open-text content only; merger labels do not prove synergy or desirability and competition/regulatory consequences remain contextual.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    },
+    {
+      "id": "SRC-OER-FRONTIERS-HANDY-CULTURE-2026",
+      "issuer": "Frontiers in Sports and Active Living",
+      "title": "Organizational culture and sport: a narrative review and proposed synthesis framework",
+      "url": "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2026.1778505/full",
+      "date_version": "Published 2026-05-18; CC BY article checked 2026-09-29",
+      "educational_role": "Direct reusable support for Handy's power, role, task and person culture typology, including authority, structure and control distinctions.",
+      "licence_profile": "CC_BY_4_0",
+      "restrictions": "Use the framework description rather than sport-specific empirical/context claims; types are analytical simplifications and mixtures/subcultures can coexist.",
+      "checked_at": "2026-09-29",
+      "checker_method": "fresh_web_rights_check_and_source_inspection",
+      "confidence": "high",
+      "promotion_eligible": true
+    }
+  ],
+  "promotion_source_patches": [
+    {"subject_id":"BUS-PEO-007","add":["SRC-OER-LIBRETEXTS-MECHANISTIC-ORGANIC-2024"]},
+    {"subject_id":"BUS-STR-007","add":["SRC-OER-OPENSTAX-MERGER-TYPES-2024"]},
+    {"subject_id":"BUS-PEO-011","add":["SRC-OER-FRONTIERS-HANDY-CULTURE-2026"]}
+  ]
+}
