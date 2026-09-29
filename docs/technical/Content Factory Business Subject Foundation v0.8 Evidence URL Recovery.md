@@ -81,7 +81,11 @@ The reassurance self-test additionally proves:
 
 ## Candidate fingerprint consequence
 
-`SOURCE_METADATA_PATCHES.json` participates in the Business v0.8 candidate fingerprint. Registering the source-specific aliases therefore deliberately creates a new candidate fingerprint even though:
+`SOURCE_METADATA_PATCHES.json` participates in the Business v0.8 candidate fingerprint. Registering the source-specific aliases therefore deliberately creates a new candidate fingerprint:
+
+`3bc018fe681b3cc6b7409ea009956bf20b97597a9ac70e9855e1c59e83ef8fa1`
+
+This fingerprint change occurs even though:
 
 - the 81-node taxonomy is unchanged;
 - the 14 changed teaching nodes and 22 structured named facets are unchanged;
@@ -89,10 +93,28 @@ The reassurance self-test additionally proves:
 - source rights are unchanged; and
 - Business teaching content is unchanged.
 
-The failed `8d3daa57...` reassurance remains historical evidence and cannot be promoted to a pass. After this correction is merged, a fresh v0.8 reassurance must run against the new exact `main` SHA and new exact candidate fingerprint.
+The failed `8d3daa57...` reassurance remains historical evidence and cannot be promoted to a pass. After this correction is merged, a fresh v0.8 reassurance must run against the new exact `main` SHA and the new exact candidate fingerprint above.
+
+## Full-CI infrastructure recovery
+
+Exact-head PR assurance exposed an independent CI infrastructure failure after the content-specific suites had passed. Two attempts of the `Database, RLS and protected service assurance` job successfully completed migrations, release-readiness checks, all pgTAP suites and persistence integration tests, then failed while `supabase functions serve` attempted to pull:
+
+`public.ecr.aws/supabase/edge-runtime:v1.74.2`
+
+Both attempts returned:
+
+`toomanyrequests: Data limit exceeded`
+
+The second attempt ran on a different GitHub-hosted runner and reproduced the same public-ECR limit, so repeatedly rerunning unchanged CI was not treated as adequate recovery.
+
+Supabase publishes the same pinned `v1.74.2` Edge Runtime through its official Docker Hub `supabase/edge-runtime` repository. CI therefore preloads exactly `docker.io/supabase/edge-runtime:v1.74.2`, retries that pull on transient registry failure, and tags the resulting local image with the exact `public.ecr.aws/supabase/edge-runtime:v1.74.2` name expected by Supabase CLI `2.111.0`. `supabase functions serve` and all protected Edge Function authorization tests remain unchanged and mandatory.
+
+This is a delivery-reliability correction, not an assurance bypass: the runtime version stays pinned, an official Supabase publication is used, and CI still fails if the runtime cannot be obtained or the protected-service checks do not pass.
 
 ## Documentation impact
 
-No normative authority change is required. The correction implements the existing Educational Content Source Licensing and Provenance Standard, Subject Knowledge Foundation / Course Projection authority and AI-Assured Foundation Gate more faithfully by making equivalent publication routes explicit while continuing to fail closed.
+No normative authority change is required. The source-route correction implements the existing Educational Content Source Licensing and Provenance Standard, Subject Knowledge Foundation / Course Projection authority and AI-Assured Foundation Gate more faithfully by making equivalent publication routes explicit while continuing to fail closed.
 
-No ADR is required because the source-rights model, assurance gates, candidate lifecycle and spend policy are unchanged. Historical failed reassurance evidence is preserved unchanged.
+The CI preload implements the existing Engineering Standards and Testing & Assurance Standard by preserving required automated protected-service assurance while removing a repeatable single-registry availability failure. It changes neither the declared security boundary nor the required test outcome.
+
+No ADR is required because the source-rights model, assurance gates, candidate lifecycle, runtime architecture, protected-service behaviour and spend policy are unchanged. Historical failed reassurance and CI evidence is preserved unchanged.
