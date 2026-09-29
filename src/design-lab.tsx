@@ -13,6 +13,7 @@ import livingEAccessibilityCss from './app/living-e-accessibility.css?inline'
 import learnReadingCss from './app/learn-reading.css?inline'
 import interactiveComponentQualityCss from './app/interactive-component-quality.css?inline'
 import designLabCss from './app/design-lab.css?inline'
+import designLabResponsiveFixCss from './app/design-lab-responsive-fix.css?inline'
 
 type AccessState = 'checking' | 'allowed' | 'denied' | 'error'
 
@@ -27,6 +28,7 @@ const designLabCssText = [
   learnReadingCss,
   interactiveComponentQualityCss,
   designLabCss,
+  designLabResponsiveFixCss,
 ].join('\n')
 
 const styleElement = document.createElement('style')
