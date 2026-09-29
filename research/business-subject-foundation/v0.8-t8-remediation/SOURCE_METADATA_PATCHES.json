@@ -19,6 +19,18 @@
         "checker_method": "fresh_v08_reassurance_plus_direct_govuk_verification"
       },
       "rationale": "Fresh reassurance found the registered source date was stale. GOV.UK CG50200 currently reports Updated: 28 September 2026. The educational claims and OGL v3 rights boundary are unchanged."
+    },
+    {
+      "source_id": "SRC-OER-HARD-SOFT-HRM-2024",
+      "patch": {
+        "equivalent_urls": [
+          "https://systems.enpress-publisher.com/index.php/jipd/article/view/5910",
+          "https://systems.enpress-publisher.com/index.php/jipd/article/view/5910/0"
+        ],
+        "checked_at": "2026-09-29",
+        "checker_method": "fresh_v08_reassurance_failure_plus_direct_publisher_identity_verification"
+      },
+      "rationale": "Fresh reassurance run 36589766815 reached BUS-PEO-001 but rejected an evidence URL outside the single registered path. Direct publisher verification confirms that the current EnPress article URL and the systems.enpress-publisher.com article/view/5910 forms identify the same Journal of Infrastructure, Policy and Development article, Article ID 5910, DOI 10.24294/jipd.v8i9.5910. These exact publisher-hosted equivalents are recorded so assurance may accept only deliberately verified aliases rather than weakening the URL boundary generically."
     }
   ]
 }
