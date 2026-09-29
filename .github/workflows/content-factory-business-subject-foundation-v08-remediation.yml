@@ -10,6 +10,7 @@ on:
       - 'scripts/assurance/run-business-subject-foundation-v08-reassurance.mjs'
       - '.github/workflows/content-factory-business-subject-foundation-v08-remediation*.yml'
       - 'docs/technical/Content Factory Business Subject Foundation v0.8 T8 Remediation.md'
+      - 'docs/technical/Content Factory Business Subject Foundation v0.8 Reassurance Evidence Route Recovery.md'
 
 permissions:
   contents: read
@@ -18,7 +19,7 @@ jobs:
   deterministic-v08-remediation:
     name: Validate v0.8 remediation and reassurance contract
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v6
@@ -37,3 +38,21 @@ jobs:
         env:
           CONTENT_FACTORY_MAX_SPEND_USD: '15'
         run: node scripts/assurance/business-subject-foundation-v08-t8-remediation-reassurance.mjs --self-test
+      - name: Revalidate AQA specification mapping
+        run: node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
+      - name: Validate deterministic Course and Exam Truth contract
+        run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs --self-test
+      - name: Materialise exact Course and Exam Truth compatibility evidence
+        run: node scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs
+      - name: Validate transitional runtime adapter contract
+        run: node scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs --self-test
+      - name: Materialise transitional runtime adapter compatibility evidence
+        run: node scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs
+      - name: Prove runtime schemas consume current Course Truth projection
+        run: npx vitest run scripts/assurance/aqa-course-truth-runtime-adapter.test.ts
+      - name: Run fail-closed exact-course assurance self-test
+        run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs --self-test
+      - name: Materialise deterministic T8 exact-course compatibility evidence
+        run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs
+      - name: Validate exact-course fresh-proof contract without provider spend
+        run: npx vitest run scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts --reporter=verbose
