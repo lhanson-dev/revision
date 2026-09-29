@@ -434,6 +434,6 @@
   }
 
   .ui-button__spinner {
-    animation-duration: 1.4s;
+    animation: none;
   }
 }
