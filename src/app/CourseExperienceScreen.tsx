@@ -222,35 +222,37 @@ export function CourseExperienceScreen({
   const resolved = useMemo(() => findCatalogueCourse(catalogue, courseId), [catalogue, courseId])
   const active = memberships.some((membership) => membership.courseId === courseId)
   const [evidence, setEvidence] = useState<LearningEvidence[]>([])
-  const [loading, setLoading] = useState(true)
   const [evidenceError, setEvidenceError] = useState('')
   const [evidenceRefreshKey, setEvidenceRefreshKey] = useState(0)
+  const [loadedEvidenceRequestKey, setLoadedEvidenceRequestKey] = useState('')
   const [savingEvidence, setSavingEvidence] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [revPrompt, setRevPrompt] = useState('')
   const [examAssessments, setExamAssessments] = useState<CourseExamAssessment[]>([])
   const [examDateStatus, setExamDateStatus] = useState<ExamDateStatus>('loading')
+  const evidenceAdapterKey = useMemo(() => resolved?.course.modules.map((adapter) => adapter.manifest.id).join('|') ?? '', [resolved])
+  const evidenceRequestKey = resolved && active ? `${userId}:${resolved.course.id}:${evidenceAdapterKey}:${evidenceRefreshKey}` : ''
+  const evidenceLoading = evidenceRequestKey !== '' && loadedEvidenceRequestKey !== evidenceRequestKey
+  const currentEvidenceError = loadedEvidenceRequestKey === evidenceRequestKey ? evidenceError : ''
 
   useEffect(() => {
     let current = true
-    if (!resolved || !active) return () => { current = false }
-    setLoading(true)
-    setEvidenceError('')
+    if (!resolved || !active || !evidenceRequestKey) return () => { current = false }
     const store = createSupabaseEvidenceStore(client)
     Promise.all(resolved.course.modules.map((adapter) => loadLearningEvidence(store, userId, adapter.manifest.id)))
       .then((items) => {
         if (!current) return
         setEvidence(items.flat())
         setEvidenceError('')
+        setLoadedEvidenceRequestKey(evidenceRequestKey)
       })
       .catch(() => {
-        if (current) setEvidenceError('Revision could not load your saved learning evidence.')
-      })
-      .finally(() => {
-        if (current) setLoading(false)
+        if (!current) return
+        setEvidenceError('Revision could not load your saved learning evidence.')
+        setLoadedEvidenceRequestKey(evidenceRequestKey)
       })
     return () => { current = false }
-  }, [active, client, evidenceRefreshKey, resolved, userId])
+  }, [active, client, evidenceRequestKey, resolved, userId])
 
   useEffect(() => {
     let current = true
@@ -314,12 +316,12 @@ export function CourseExperienceScreen({
     )
   }
 
-  if (loading) return <LoadingState className="page-screen">Loading {resolved.label}…</LoadingState>
+  if (evidenceLoading) return <LoadingState className="page-screen">Loading {resolved.label}…</LoadingState>
 
   const { course, subject, label } = resolved
 
   if (course.sharedLearning) {
-    const state = evidenceError ? null : createCourseLearningState(course, evidence)
+    const state = currentEvidenceError ? null : createCourseLearningState(course, evidence)
     const sections = availableCourseSections(course)
     const section = sections.includes(requestedSection as CourseSection) ? requestedSection as CourseSection : 'overview'
     const adapter = course.learningAdapter
@@ -338,7 +340,7 @@ export function CourseExperienceScreen({
           {sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenCourseSection(course.id, item)}>{sectionLabels[item]}</button>)}
         </nav>
 
-        {evidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
+        {currentEvidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
 
         {section === 'overview' && <div className="paper-section-content course-overview-content">
           {state ? <section className="course-overview-recommendation" aria-labelledby="course-recommendation-title">
@@ -404,7 +406,7 @@ export function CourseExperienceScreen({
       <main className="dashboard screen-dashboard page-screen" aria-labelledby="course-components-title">
         <div className="breadcrumbs"><button onClick={onOpenCourses}>Courses</button><span>›</span><span>{label}</span></div>
         <header className="page-heading"><p className="eyebrow">{course.examBoardName} · specification {course.specificationCode}</p><h1 id="course-components-title">{label}</h1><p>This qualification has component-specific learning content. Choose the component you want to work on.</p></header>
-        {evidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
+        {currentEvidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
         <section className="subject-list" aria-label={`${label} components`}>
           {course.modules.map((adapter) => <article className="course-card" key={adapter.manifest.id}><div><span className="tag">{paperLabel(adapter)}</span><h2>{adapter.manifest.paper.name}</h2><p>{adapter.catalogueEntry.topicCount} topics · {adapter.catalogueEntry.totalMarks} marks · {adapter.catalogueEntry.durationMinutes} minutes</p></div><Button onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, 'overview')}>Open component</Button></article>)}
         </section>
@@ -417,7 +419,7 @@ export function CourseExperienceScreen({
     return <main className="dashboard page-screen"><Status tone="warning">This component is not available within {label}.</Status><Button onClick={() => onOpenCourseSection(course.id, 'overview')}>Back to course</Button></main>
   }
   const practiceAdapter = withPreferredTopic(adapter, practiceTopicId)
-  const state = evidenceError ? null : createModuleLearningState(adapter, evidence)
+  const state = currentEvidenceError ? null : createModuleLearningState(adapter, evidence)
   const sections = availablePaperSections(adapter)
   const section = sections.includes(requestedSection as PaperSection) ? requestedSection as PaperSection : 'overview'
   const topics = adapter.listTopics()
@@ -430,7 +432,7 @@ export function CourseExperienceScreen({
       <header className="page-heading paper-heading"><p className="eyebrow">{subject.name} · {course.examBoardName} · specification {course.specificationCode}</p><h1 id="component-page-title">{adapter.manifest.paper.name}</h1><p>{adapter.manifest.learnerExperience.what_is_this}</p></header>
       <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
-      {evidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
+      {currentEvidenceError && <EvidenceUnavailable onRetry={retryEvidence} />}
       {section === 'overview' && <div className="paper-section-content">{state ? <section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section> : <section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Recommendation unavailable</h2><p>Revision will not infer a next step while your saved evidence is unavailable. You can still use Learn, Practice and Exam Prep.</p></div></section>}<section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
       {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`module-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" recommendation={recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={`${label} ${paperLabel(adapter)}`} /></div>}
