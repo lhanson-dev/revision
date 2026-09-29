@@ -23,6 +23,7 @@ const REQUIRED_PATERNALISTIC_SOURCE='SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-
 const REQUIRED_ESG_REPORTING_SOURCE='SRC-OER-FRONTIERS-ESG-COMMENSURABILITY-2022'
 const REQUIRED_SHAREHOLDER_RIGHTS_SOURCE='SRC-GOVUK-SHAREHOLDER-RIGHTS-2026'
 const EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION='Current page checked 2026-09-29; page updated 2026-09-28'
+const EXPECTED_REASSURANCE_REMEDIATION_RUN=36632074524
 const ACCEPTED_LICENCES=new Set(['CC_BY_4_0','OGL_V3'])
 const BOARD_SOURCE_PATTERN=/(aqa|pearson|ocr|wjec|eduqas|ccea)/i
 
@@ -40,6 +41,12 @@ if(candidate.v08Overlay.assurance_strategy?.final_integration_review_required!==
 if((candidate.v08Overlay.relationship_patches||[]).length||candidate.v08Overlay.principles?.relationship_edges_changed!==false)throw new Error('v0.8 must not silently change Foundation dependency edges')
 if(candidate.v08Overlay.principles?.node_count_changed!==false||candidate.v08Overlay.principles?.node_taxonomy_changed!==false)throw new Error('v0.8 must preserve the 81-node taxonomy')
 
+const reassuranceRemediation=candidate.v08ReassuranceRemediation2
+if(reassuranceRemediation?.triggering_reassurance?.workflow_run_id!==EXPECTED_REASSURANCE_REMEDIATION_RUN)throw new Error('BUS-PEO-010 reassurance remediation must remain bound to run 36632074524')
+if(reassuranceRemediation?.triggering_reassurance?.workflow_status!=='evidence_contract_failure'||reassuranceRemediation?.triggering_reassurance?.quality_decision!=='not_reached')throw new Error('Failed reassurance evidence must not be rewritten as an educational assurance decision')
+if(reassuranceRemediation?.evidence_disposition?.provider_output_is_not_promoted_as_assurance_receipt!==true||reassuranceRemediation?.evidence_disposition?.historical_failed_run_remains_immutable!==true)throw new Error('BUS-PEO-010 reassurance remediation must preserve failed-run evidence semantics')
+exactSet((reassuranceRemediation?.node_patches||[]).map((entry)=>entry.subject_id),['BUS-PEO-010'],'v0.8 reassurance remediation node scope')
+
 let facetCount=0
 for(const [subjectId,expectedFacetIds] of Object.entries(EXPECTED_FACETS)){
   const facets=candidate.nodes.get(subjectId)?.teaching_content?.course_relevant_named_facets||[]
@@ -47,6 +54,10 @@ for(const [subjectId,expectedFacetIds] of Object.entries(EXPECTED_FACETS)){
   for(const facet of facets){facetCount+=1;requireText(facet.name,`${subjectId}/${facet.id} name`);requireText(facet.explanation,`${subjectId}/${facet.id} explanation`);if(!Array.isArray(facet.key_distinctions)||facet.key_distinctions.length<2)throw new Error(`${subjectId}/${facet.id} needs at least two distinctions`);requireText(facet.application,`${subjectId}/${facet.id} application`);if(!Array.isArray(facet.boundaries)||facet.boundaries.length<2)throw new Error(`${subjectId}/${facet.id} needs at least two boundaries`)}
 }
 if(facetCount!==22)throw new Error(`Expected 22 structured v0.8 named facets, got ${facetCount}`)
+const paternalisticFacet=(candidate.nodes.get('BUS-PEO-010')?.teaching_content?.course_relevant_named_facets||[]).find((facet)=>facet.id==='paternalistic_leadership')
+const paternalisticTeaching=`${paternalisticFacet?.explanation||''} ${(paternalisticFacet?.key_distinctions||[]).join(' ')} ${paternalisticFacet?.application||''}`.toLowerCase()
+for(const requiredTerm of ['authoritarian','benevolen','moral leadership'])if(!paternalisticTeaching.includes(requiredTerm))throw new Error(`BUS-PEO-010 paternalistic leadership remediation must explicitly teach ${requiredTerm}`)
+if(!paternalisticTeaching.includes('integrity')&&!paternalisticTeaching.includes('virtue'))throw new Error('BUS-PEO-010 paternalistic leadership remediation must distinguish the moral dimension from generic welfare/friendliness')
 
 const allNewSources=[...(candidate.v08Overlay.source_additions||[]),...(candidate.v08SourceAugmentations.source_additions||[]),...(candidate.v08SourceAugmentations2.source_additions||[]),...(candidate.v08SourceAugmentations3.source_additions||[])]
 for(const source of allNewSources){if(!source.promotion_eligible)throw new Error(`${source.id} is not promotion eligible`);if(!ACCEPTED_LICENCES.has(source.licence_profile))throw new Error(`${source.id} has unexpected licence ${source.licence_profile}`);if(BOARD_SOURCE_PATTERN.test(new URL(source.url).hostname))throw new Error(`${source.id} improperly uses awarding-body material as reusable subject truth`)}
@@ -90,6 +101,8 @@ console.log(JSON.stringify({
   preservedNodes:67,
   structuredNamedFacets:facetCount,
   directPaternalisticLeadershipSource:REQUIRED_PATERNALISTIC_SOURCE,
+  paternalisticLeadershipTriadGuard:true,
+  reassuranceRemediationRun:EXPECTED_REASSURANCE_REMEDIATION_RUN,
   directEsgReportingSource:REQUIRED_ESG_REPORTING_SOURCE,
   shareholderRightsSourceDateVersion:shareholderRightsSource.date_version,
   aqaGovernedRequirements:mapping.requirements.length,
