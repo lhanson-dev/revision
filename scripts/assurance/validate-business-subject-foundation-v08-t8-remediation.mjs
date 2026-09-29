@@ -20,6 +20,8 @@ const EXPECTED_FACETS={
   'BUS-STR-009':['kotter_schlesinger_resistance','strategic_drift']
 }
 const REQUIRED_PATERNALISTIC_SOURCE='SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020'
+const REQUIRED_SHAREHOLDER_RIGHTS_SOURCE='SRC-GOVUK-SHAREHOLDER-RIGHTS-2026'
+const EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION='Current page checked 2026-09-29; page updated 2026-09-28'
 const ACCEPTED_LICENCES=new Set(['CC_BY_4_0','OGL_V3'])
 const BOARD_SOURCE_PATTERN=/(aqa|pearson|ocr|wjec|eduqas|ccea)/i
 
@@ -53,6 +55,11 @@ const paternalisticSources=new Set(candidate.rows.get('BUS-PEO-010')?.subject_tr
 if(!paternalisticSources.has(REQUIRED_PATERNALISTIC_SOURCE))throw new Error(`BUS-PEO-010 must include direct paternalistic leadership source ${REQUIRED_PATERNALISTIC_SOURCE}`)
 const paternalisticSource=candidate.sourceById.get(REQUIRED_PATERNALISTIC_SOURCE)
 if(!paternalisticSource?.promotion_eligible||paternalisticSource.licence_profile!=='CC_BY_4_0')throw new Error('Direct paternalistic leadership source must remain promotion-eligible CC BY 4.0')
+const shareholderRightsSource=candidate.sourceById.get(REQUIRED_SHAREHOLDER_RIGHTS_SOURCE)
+if(!shareholderRightsSource?.promotion_eligible||shareholderRightsSource.licence_profile!=='OGL_V3')throw new Error('Shareholder-rights source must remain promotion-eligible OGL v3')
+if(shareholderRightsSource.date_version!==EXPECTED_SHAREHOLDER_RIGHTS_DATE_VERSION)throw new Error(`Shareholder-rights source metadata date mismatch: ${shareholderRightsSource.date_version}`)
+const metadataPatchIds=(candidate.v08SourceMetadataPatches?.source_metadata_patches||[]).map((entry)=>entry.source_id)
+exactSet(metadataPatchIds,[REQUIRED_SHAREHOLDER_RIGHTS_SOURCE],'v0.8 source metadata patch IDs')
 
 if(!Array.isArray(mapping.requirements)||mapping.requirements.length!==42)throw new Error('AQA mapping must retain 42 governed requirements during Foundation remediation')
 const directMapped=new Set(mapping.requirements.flatMap((row)=>row.mapped_subject_node_ids||[]))
@@ -78,6 +85,7 @@ console.log(JSON.stringify({
   preservedNodes:67,
   structuredNamedFacets:facetCount,
   directPaternalisticLeadershipSource:REQUIRED_PATERNALISTIC_SOURCE,
+  shareholderRightsSourceDateVersion:shareholderRightsSource.date_version,
   aqaGovernedRequirements:mapping.requirements.length,
   directMappedSubjectNodes:directMapped.size,
   prerequisiteCompleteAqaSubjectNodes:closed.size,

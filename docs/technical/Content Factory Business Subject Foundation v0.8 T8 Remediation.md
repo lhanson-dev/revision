@@ -87,6 +87,45 @@ The retained failed reassurance artifact remains the historical evidence for tha
 
 Deterministic validation now fails if this direct paternalistic-leadership source is absent, non-promotion-eligible or no longer recorded as CC BY 4.0. A fresh reassurance must run against the new exact fingerprint; the previous `fail_hold` cannot be reused as a pass.
 
+## Second reassurance run: provider failure, not educational fail-hold
+
+After the paternalistic-leadership provenance correction, fresh reassurance workflow `36568614490` ran on exact `main` SHA `052dd804f0b8a018812951d754b58293a0c1c106` against candidate fingerprint:
+
+`2d7322d9bdae2bf617f3ca7fc2e8724d62f88cd017d3b88c13cbef0ed8c8a46d`
+
+The deterministic v0.8 validation, 81-node identity, 79-node AQA prerequisite closure and reassurance self-test all passed. Review group 1 also completed and passed. Its only retained finding was minor source-metadata drift: the registered `SRC-GOVUK-SHAREHOLDER-RIGHTS-2026` record stated that GOV.UK CG50200 had been updated on 23 September 2026, while the live GOV.UK page reported 28 September 2026. The educational claims and OGL v3 rights boundary remained supported.
+
+The run then failed while obtaining the next structured provider response. The provider returned unusable/truncated JSON after the bounded provider attempts, ending with `Unterminated string in JSON`. Because no valid Group 2 review object existed, the run produced **no educational quality decision** for Group 2, Groups 3–4 or the integration review. This is provider/infrastructure failure evidence, not `fail_hold` evidence.
+
+The retained artifact is:
+
+- workflow run: `36568614490`;
+- artifact: `11032864248`;
+- digest: `sha256:525783e404e8c19b5601aa8770e8c88d19e61cd5e73a630a51f0ac291607a626`.
+
+The artifact retains the completed Group 1 pass. It is historical partial evidence only and cannot be promoted into a full v0.8 reassurance pass.
+
+### Source metadata correction
+
+The minor GOV.UK metadata correction is applied through `SOURCE_METADATA_PATCHES.json` rather than rewriting the historical v0.7 remediation record. The effective source record now states that CG50200 was checked on 29 September 2026 and reports the page update date as 28 September 2026.
+
+Because current promotion-source metadata participates in the governed candidate evidence, this patch is included in the v0.8 candidate fingerprint. The next reassurance therefore runs against a new exact fingerprint even though the teaching content, node graph, source rights and educational claims are unchanged.
+
+### Provider-contract hardening
+
+The v0.8 reassurance runner is hardened under the existing provider-contract, testing and bootstrap-cost authorities:
+
+- structured-output allowance increases from 6,000 to 12,000 tokens so larger four-node review groups are not forced into the previously observed truncation boundary;
+- provider responses explicitly marked incomplete are treated as retryable infrastructure/provider failures;
+- malformed JSON remains bounded-retryable;
+- a completed response that violates the requested schema is not blindly retried;
+- all paid provider attempts are accumulated in observed spend rather than reporting only the final successful attempt;
+- pre-call spend reservation is retry-aware and reserves for the bounded two-attempt policy;
+- provider/infrastructure exhaustion writes `provider-failure.json` with `qualityDecision: not_reached`, preserving the distinction from an educational `fail_hold`; and
+- the two-attempt maximum, default US$15 execution slice and governed US$20 hard course ceiling remain unchanged.
+
+The no-spend self-test deterministically checks incomplete-response classification and retry-aware reserve behaviour. The normal v0.8 deterministic validator separately checks the effective GOV.UK metadata correction, direct paternalistic-leadership provenance, 81-node identity and 79-node AQA closure.
+
 ## What a v0.8 PASS means
 
 A successful v0.8 reassurance means only that the reusable Business Foundation changes are sufficiently assured to be used by the next controlled exact-course projection step. It does **not** mean:
@@ -112,4 +151,4 @@ Only a new exact-course T8 PASS can unlock controlled internal learner-asset der
 
 ## Documentation impact
 
-No normative authority change is required: the remediation follows the current Subject Knowledge Foundation / Course Projection and AI-Assured Foundation Gate authorities. No ADR is required because the architecture boundary is unchanged. This document records implementation and assurance behaviour only; historical v0.7 and failed v0.8 assurance evidence remain unchanged.
+No normative authority change is required: the remediation and provider recovery follow the current Subject Knowledge Foundation / Course Projection, AI-Assured Foundation Gate, Testing & Assurance and Content Factory bootstrap-cost authorities. No ADR is required because the architecture boundary, assurance gates and spend ceiling are unchanged. This document records implementation and assurance behaviour only; historical v0.7, failed v0.8 and provider-failure evidence remain unchanged.
