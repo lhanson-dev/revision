@@ -38,13 +38,14 @@ function forcePreviewTheme(event: SyntheticEvent<HTMLIFrameElement>, theme: Prev
     }
 
     applyTheme()
-    const observer = new frameWindow.MutationObserver(applyTheme)
+    const observer = new MutationObserver(applyTheme)
     observer.observe(frameDocument.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
       childList: true,
       subtree: true,
     })
+    frameWindow.addEventListener('pagehide', () => observer.disconnect(), { once: true })
   } catch {
     // The deployed Design Lab and learner runtime are same-origin. If a local host
     // changes that boundary, the preview still shows the runtime's persisted theme.
