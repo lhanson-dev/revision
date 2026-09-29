@@ -151,6 +151,6 @@ A reusable Business defect must be fixed in the Subject Foundation first. It mus
 
 This change introduces no new normative policy. T8 already exists in the approved Content Factory sequence and its approval/publication boundaries are already governed.
 
-The implementation therefore updates technical documentation and `INDEX.md` only. No governance amendment or ADR is required unless later work changes the durable Content Factory authority, assurance lifecycle semantics or native runtime interface.
+This PR adds a technical implementation record for the T8 capability. No governance amendment or ADR is required unless later work changes the durable Content Factory authority, assurance lifecycle semantics or native runtime interface.
 
 Historical Subject Foundation, mapping, reassurance and T6/T7 evidence remain unchanged.
