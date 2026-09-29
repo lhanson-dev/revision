@@ -73,6 +73,20 @@ Any blocking/material finding returns `fail_hold`. Minor findings may pass but r
 
 The run uses the existing quality-first bootstrap guardrail: deterministic work is deterministic, prior accepted evidence is reused for unchanged nodes, and provider spend is bounded to a default US$15 execution slice and never above the governed US$20 single-course ceiling.
 
+## First v0.8 reassurance result and targeted provenance correction
+
+The first post-merge v0.8 reassurance ran as workflow `36560923261` on exact `main` SHA `5ca8d6e2e41ab4b03f03f1080ad0adc3ce5919fe` against candidate fingerprint:
+
+`987454817b031eaafb00129fae72b86a3b9a0c69c6e48be9f6f80368fdd1e192`
+
+The deterministic candidate and 79-node AQA prerequisite closure checks passed. Review group 1 passed. Review group 2 returned `fail_hold` on one material provenance finding only: `BUS-PEO-010 / paternalistic_leadership` was judged factually accurate and sufficiently deep, but the then-mapped reusable sources did not directly support the paternalistic-leadership construct.
+
+The retained failed reassurance artifact remains the historical evidence for that exact fingerprint. The candidate had not passed reassurance and had not become an assured dependency set, so the smallest-safe correction is a source-only augmentation that deliberately changes the candidate fingerprint without changing the 81-node taxonomy, teaching facet wording or dependency graph.
+
+`SOURCE_AUGMENTATIONS_2.json` adds a direct promotion-eligible CC BY 4.0 Frontiers source covering paternalistic leadership as retained authority combined with benevolence/welfare and moral leadership, including reciprocal subordinate obligation and the differing effects/limitations of authoritarian versus benevolent/moral dimensions. `BUS-PEO-010` is explicitly mapped to that source. The pre-existing open leadership sources remain mapped for comparison with participative/autocratic/delegative approaches.
+
+Deterministic validation now fails if this direct paternalistic-leadership source is absent, non-promotion-eligible or no longer recorded as CC BY 4.0. A fresh reassurance must run against the new exact fingerprint; the previous `fail_hold` cannot be reused as a pass.
+
 ## What a v0.8 PASS means
 
 A successful v0.8 reassurance means only that the reusable Business Foundation changes are sufficiently assured to be used by the next controlled exact-course projection step. It does **not** mean:
@@ -98,4 +112,4 @@ Only a new exact-course T8 PASS can unlock controlled internal learner-asset der
 
 ## Documentation impact
 
-No normative authority change is required: the remediation follows the current Subject Knowledge Foundation / Course Projection and AI-Assured Foundation Gate authorities. No ADR is required because the architecture boundary is unchanged. This document records implementation and assurance behaviour only; historical evidence is not rewritten.
+No normative authority change is required: the remediation follows the current Subject Knowledge Foundation / Course Projection and AI-Assured Foundation Gate authorities. No ADR is required because the architecture boundary is unchanged. This document records implementation and assurance behaviour only; historical v0.7 and failed v0.8 assurance evidence remain unchanged.
