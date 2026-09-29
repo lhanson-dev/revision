@@ -76,10 +76,10 @@ test('admin can use the live Design Lab component canvas', async ({ page }) => {
   await page.getByRole('button', { name: 'Dark' }).click()
   await expect(page.locator('.design-lab-runtime')).toHaveAttribute('data-theme', 'dark')
 
-  const saving = page.getByRole('button', { name: 'Save changes' }).last()
-  await saving.click()
-  await expect(saving).toHaveAttribute('aria-busy', 'true')
-  await expect(page.getByRole('button', { name: 'Saving changes…' })).toBeVisible()
+  await page.getByRole('button', { name: 'Save changes' }).last().click()
+  const processingButton = page.getByRole('button', { name: 'Saving changes…' })
+  await expect(processingButton).toBeVisible()
+  await expect(processingButton).toHaveAttribute('aria-busy', 'true')
   await expect(page.getByText('Your change has been recorded.')).toBeVisible({ timeout: 2500 })
 
   await page.getByRole('button', { name: 'Open modal' }).click()
