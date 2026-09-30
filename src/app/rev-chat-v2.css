@@ -1,0 +1,17 @@
+/* Ask REV conversation, redesign v2 (design_handoff_revision_v2 screen 09). Visual only. */
+.planner-runtime .planner-message-bubble { border-radius: 22px; font-weight: 600; line-height: 1.55; }
+.planner-runtime .planner-message-bubble.rev,
+.planner-runtime .planner-rev-page .planner-message-bubble.rev,
+.runtime-rev-panel .planner-message-bubble.rev { background: var(--rv-surface); border: 1px solid var(--rv-line); color: var(--rv-text); }
+.planner-runtime .planner-message-bubble.learner,
+.planner-runtime .planner-rev-page .planner-message-bubble.learner,
+.runtime-rev-panel .planner-message-bubble.learner { background: var(--rv-text); color: var(--rv-bg); border: 0; }
+
+/* Input: a rounded field with a teal ring when active. */
+.planner-runtime .planner-rev-input input,
+.planner-runtime .planner-rev-page .planner-rev-input input,
+.runtime-rev-panel .planner-rev-input input { border: 2px solid var(--rv-line); border-radius: var(--radius-pill); padding-inline: 20px; background: var(--rv-surface); color: var(--rv-text); }
+.planner-runtime .planner-rev-input input:focus-visible { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
+
+/* Quick actions under the conversation read as chips. */
+.planner-runtime .rev-actions .rev-secondary { border: 1px solid var(--rv-line); border-radius: var(--radius-pill); background: var(--rv-surface); color: var(--rv-text); font-weight: 700; }

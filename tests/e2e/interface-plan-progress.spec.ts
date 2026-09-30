@@ -177,12 +177,13 @@ test('Plan missing-input state uses the governed interface grammar and asks only
   await expect(progressSection).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
 
   const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
-  await expect(summaryTile).toHaveCSS('border-radius', '20px')
-  await expect(summaryTile).toHaveCSS('background-color', 'rgb(255, 255, 255)')
+  // Redesign v2: first tile is the violet tint with 24px corners.
+  await expect(summaryTile).toHaveCSS('border-radius', '24px')
+  await expect(summaryTile).toHaveCSS('background-color', 'rgb(235, 232, 255)')
   await expect(summaryTile).toHaveCSS('box-shadow', 'none')
 
   const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
-  await expect(courseCard).toHaveCSS('border-radius', '20px')
+  await expect(courseCard).toHaveCSS('border-radius', '24px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
 
   const progressAction = courseCard.getByRole('button', { name: 'Open course progress' })
@@ -240,12 +241,12 @@ test('Plan and Progress consume dark-theme semantic surfaces rather than hard-co
 
   await page.goto(`${appPath}#/progress`)
   const summaryTile = page.locator('main[aria-labelledby="global-progress-title"] .progress-overview article').first()
-  await expect(summaryTile).toHaveCSS('background-color', 'rgb(19, 39, 43)')
-  await expect(summaryTile).toHaveCSS('border-radius', '20px')
+  await expect(summaryTile).toHaveCSS('background-color', 'rgb(37, 33, 74)')
+  await expect(summaryTile).toHaveCSS('border-radius', '24px')
 
   const courseCard = page.locator('main[aria-labelledby="global-progress-title"] .global-progress-card').first()
   await expect(courseCard).toHaveCSS('background-color', 'rgb(19, 39, 43)')
-  await expect(courseCard).toHaveCSS('border-radius', '20px')
+  await expect(courseCard).toHaveCSS('border-radius', '24px')
   await expect(courseCard).toHaveCSS('box-shadow', 'none')
   await expectNoPageOverflow(page)
 })

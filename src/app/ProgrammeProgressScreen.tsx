@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
@@ -9,6 +9,7 @@ import {
   type CatalogueSubject,
   type ModuleLearningState,
 } from './catalogue-model'
+import { assignSubjectColours } from './home-view'
 import { adaptersForProgramme, projectLearnerProgramme } from './learner-programme'
 import { Button, EmptyState, LoadingState, Status } from './ui'
 
@@ -65,6 +66,8 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
 
   const grouped = useMemo(() => courseStates(programme.courses, evidence), [evidence, programme.courses])
   const allStates = grouped.flatMap((item) => item.states)
+  const subjectColours = useMemo(() => assignSubjectColours(programme.courses.map((item) => item.subject.id)), [programme.courses])
+  const subjectIdByCourse = useMemo(() => new Map(programme.courses.map((item) => [item.course.id, item.subject.id])), [programme.courses])
   const totalTopics = allStates.reduce((sum, state) => sum + state.topicCount, 0)
   const evidencedTopics = allStates.reduce((sum, state) => sum + state.evidencedTopics, 0)
   const readinessAvailable = allStates.filter((state) => state.readiness.score !== null).length
@@ -97,8 +100,9 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
                 const scoredStates = item.states.filter((state) => state.readiness.score !== null)
                 const averageReadiness = scoredStates.length === 0 ? null : Math.round(scoredStates.reduce((sum, state) => sum + (state.readiness.score ?? 0), 0) / scoredStates.length)
                 return (
-                  <article className="course-card global-progress-card" key={item.courseId}>
+                  <article className="course-card global-progress-card" key={item.courseId} style={{ '--tile-fill': subjectColours.get(subjectIdByCourse.get(item.courseId) ?? '')?.fill } as CSSProperties}>
                     <div><span className="tag">{evidenced} / {topics} topics evidenced</span><h3>{item.label}</h3><p>{averageReadiness === null ? 'Readiness is still building from varied evidence.' : `${averageReadiness}% current supported readiness across the available course/component evidence.`}</p></div>
+                    <span className="progress-course-bar" role="progressbar" aria-label={`${item.label} topics evidenced`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={topics === 0 ? 0 : Math.round((evidenced / topics) * 100)}><span style={{ width: `${topics === 0 ? 0 : Math.round((evidenced / topics) * 100)}%` }} /></span>
                     <Button onClick={() => onOpenCourseProgress(item.courseId)}>Open course progress</Button>
                   </article>
                 )
