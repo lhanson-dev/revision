@@ -7,6 +7,9 @@ const AUGMENTATION_PATH = 'research/business-subject-foundation/v0.8-t8-remediat
 const AUGMENTATION_2_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS_2.json'
 const AUGMENTATION_3_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_AUGMENTATIONS_3.json'
 const SOURCE_METADATA_PATCH_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_METADATA_PATCHES.json'
+// Fast-path fixes (ADR-0029): additive teaching fixes, each logged as one line in content-factory/RUN_LOG.md.
+const FAST_PATH_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/FAST_PATH_FIXES.json'
+const FAST_PATH_ADDABLE = { definitions: 'teaching_content', analysis_dimensions: 'teaching_content', methods: 'quantitative_content', models_frameworks: null }
 const EXPECTED_BASE_VERSION = 'v0.7-aqa-7132-gap-reconciliation'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.8-t8-exact-course-remediation'
 const EXPECTED_BASE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
@@ -16,6 +19,31 @@ const clone = (value) => structuredClone(value)
 const uniq = (values) => [...new Set(values)]
 function exactSet(actual, expected, label) { const a=[...actual].sort(), e=[...expected].sort(); if (a.length!==e.length || a.some((v,i)=>v!==e[i])) throw new Error(`${label} mismatch`) }
 function deepMerge(target, patch) { if (patch===null || typeof patch!=='object' || Array.isArray(patch)) return clone(patch); const result=target&&typeof target==='object'&&!Array.isArray(target)?clone(target):{}; for (const [key,value] of Object.entries(patch)) result[key]=deepMerge(result[key],value); return result }
+// Appends fast-path fixes to nodes. Never replaces existing teaching.
+export function applyFastPathFixes(nodes, rows, fixes) {
+  const changed = new Set()
+  for (const fix of fixes.fixes || []) {
+    const node = nodes.get(fix.subject_id)
+    if (!node) throw new Error(`Fast-path fix references unknown node ${fix.subject_id}`)
+    if (!String(fix.run_log || '').trim()) throw new Error(`Fast-path fix for ${fix.subject_id} needs its run-log line`)
+    const permitted = new Set(rows.get(fix.subject_id)?.subject_truth_sources || [])
+    if (!fix.source_ids?.length || fix.source_ids.some((id) => !permitted.has(id))) throw new Error(`Fast-path fix for ${fix.subject_id} must cite the node's registered subject-truth sources`)
+    for (const [field, additions] of Object.entries(fix.add || {})) {
+      if (!(field in FAST_PATH_ADDABLE)) throw new Error(`Fast-path fix for ${fix.subject_id} cannot change ${field}`)
+      if (!Array.isArray(additions) || !additions.length) throw new Error(`Fast-path fix for ${fix.subject_id}.${field} must add at least one entry`)
+      const parent = FAST_PATH_ADDABLE[field] ? (node[FAST_PATH_ADDABLE[field]] ??= {}) : node
+      const existing = parent[field] ?? []
+      for (const entry of additions) {
+        if (field === 'methods' && (!entry.name || !entry.formula || !entry.worked_example)) throw new Error(`Fast-path method for ${fix.subject_id} needs a name, formula and worked example`)
+        if (existing.some((current) => JSON.stringify(current) === JSON.stringify(entry))) throw new Error(`Fast-path fix duplicates existing ${field} in ${fix.subject_id}`)
+      }
+      parent[field] = [...existing, ...clone(additions)]
+    }
+    changed.add(fix.subject_id)
+  }
+  return changed
+}
+
 function hashParts(parts) { const hash=createHash('sha256'); for (const [name,value] of [...parts].sort(([a],[b])=>a.localeCompare(b))) hash.update(`${name}\0${value}\0`); return hash.digest('hex') }
 
 export async function loadBusinessSubjectFoundationCandidate() {
@@ -54,6 +82,13 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const row of matrix.nodes) row.promotion_provenance_status=freshScope.has(row.subject_id)?'T8_TARGETED_REMEDIATION_AWAITING_FRESH_REASSURANCE':'PRIOR_ASSURANCE_PRESERVED_UNCHANGED'
   for (const patch of [...(overlay.promotion_source_patches||[]),...(augmentations.promotion_source_patches||[]),...(augmentations2.promotion_source_patches||[]),...(augmentations3.promotion_source_patches||[])]) { const row=rows.get(patch.subject_id); if(!row) throw new Error(`Business v0.8 promotion patch references unknown node ${patch.subject_id}`); row.subject_truth_sources=uniq([...(row.subject_truth_sources||[]),...(patch.add||[])]) }
 
+  const fastPathFixesRaw=await readFile(FAST_PATH_FIXES_PATH,'utf8')
+  const fastPathFixes=JSON.parse(fastPathFixesRaw)
+  if (fastPathFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected fast-path fixes identity')
+  const fastPathFixedNodeIds=applyFastPathFixes(nodes,rows,fastPathFixes)
+  // Nodes whose teaching changed since their last assurance: checked by the T8 course gate's accuracy question.
+  const changedSinceAssurance=[...new Set([...freshScope,...fastPathFixedNodeIds])].sort()
+
   const allIndexIds=index.domains.flatMap((domain)=>domain.ids||[])
   exactSet(allIndexIds,nodes.keys(),'Business v0.8 index/node IDs'); exactSet(rows.keys(),nodes.keys(),'Business v0.8 matrix/node IDs')
   if(allIndexIds.length!==EXPECTED_NODE_COUNT) throw new Error('Business v0.8 index count changed unexpectedly')
@@ -63,6 +98,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const id of freshScope) { const facets=nodes.get(id)?.teaching_content?.course_relevant_named_facets; if(!Array.isArray(facets)||facets.length===0) throw new Error(`Business v0.8 changed node ${id} has no structured named facets`) }
 
   const domains=index.domains.map((domain)=>({...domain,composed_from:EXPECTED_BASE_VERSION,nodes:domain.ids.map((id)=>clone(nodes.get(id)))}))
-  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw]])
-  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope]}
+  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw],['v0.8-fast-path-fixes.json',fastPathFixesRaw]])
+  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope],fastPathFixes,changedSinceAssurance}
 }

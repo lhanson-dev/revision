@@ -19,7 +19,7 @@ const bundle = (selected = ['FIN-8', 'FIN-1', 'MKT-2']): CourseGateBundle => ({
 const coverage: CoverageReport = {
   foundation_fingerprint: 'fp-1',
   gaps: [{ id: 'i-crowd', section: '3.5.3', label: 'Crowdfunding', kind: 'concept', status: 'missing', fix: 'teach it' }],
-  covered: [{ id: 'i-loan', section: '3.5.3', label: 'Loans', kind: 'concept' }, { id: 'i-share', section: '3.3.1', label: 'Market share', kind: 'formula' }],
+  covered: [{ id: 'i-loan', section: '3.5.3', label: 'Loans', kind: 'concept' }, { id: 'i-share', section: '3.3.1', label: 'Market share', kind: 'formula', aqa_convention: 'firm sales / market sales × 100' }],
 }
 
 describe('AQA 7132 course gate units', () => {
@@ -43,6 +43,11 @@ describe('AQA 7132 course gate units', () => {
       sources: [{ id: 'SRC-A', title: 'Open text', url: 'https://example.org' }],
     })
     expect([...finance.sourceIds]).toEqual(['SRC-A'])
+  })
+
+  it('passes AQA calculation conventions to the reviewer with the named items', () => {
+    const [, marketing] = buildCourseGateUnits(bundle(['FIN-8', 'FIN-1', 'MKT-2', 'MKT-1']), coverage, new Set())
+    expect(marketing.payload.named_items).toEqual([{ id: 'i-share', label: 'Market share', kind: 'formula', aqa_convention: 'firm sales / market sales × 100' }])
   })
 
   it('keeps a section fingerprint stable until its own inputs change', () => {

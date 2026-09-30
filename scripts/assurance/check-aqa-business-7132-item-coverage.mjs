@@ -35,8 +35,15 @@ function teachingText(node) {
 }
 
 // Places where a formula or named model is explicitly taught, not just mentioned.
+// Methods are stored either as { name, formula } or as a plain "name = formula" line.
+function methodEntries(node) {
+  return (node.quantitative_content?.methods || []).map((method) => {
+    if (typeof method === 'string') { const [name, ...rest] = method.split('='); return { name, formula: rest.join('=') } }
+    return { name: method.name, formula: method.formula }
+  })
+}
 function formulaEntries(node) {
-  return (node.quantitative_content?.methods || []).filter((method) => String(method.formula || '').trim()).map((method) => normalise(method.name))
+  return methodEntries(node).filter((method) => String(method.formula || '').trim() && String(method.name || '').trim()).map((method) => normalise(method.name))
 }
 function modelEntries(node) {
   const tc = node.teaching_content || {}
@@ -44,7 +51,7 @@ function modelEntries(node) {
     ...(node.models_frameworks || []).map((model) => (typeof model === 'string' ? model : `${model.name || ''}`)),
     ...(tc.course_relevant_named_facets || []).map((facet) => facet.name),
     ...(tc.definitions || []).map((definition) => String(definition).split(':')[0]),
-    ...(node.quantitative_content?.methods || []).map((method) => method.name),
+    ...methodEntries(node).map((method) => method.name || ''),
   ].map(normalise)
 }
 
@@ -58,7 +65,7 @@ function evidenceIn(node, item) {
 
 export function checkCoverage({ items, requirements, nodes }) {
   const bySection = new Map(requirements.map((row) => [row.source_section, row]))
-  return items.map((item) => {
+  return items.map((item) => withConvention(item, (() => {
     const row = bySection.get(item.section)
     const mapped = row.mapped_subject_node_ids
     const taughtBy = mapped.map((id) => ({ id, ...evidenceIn(nodes.get(id), item) })).filter((result) => result.taught)
@@ -68,7 +75,12 @@ export function checkCoverage({ items, requirements, nodes }) {
     const mentionedIn = mapped.filter((id) => evidenceIn(nodes.get(id), item).mentioned)
     if (mentionedIn.length) return { id: item.id, section: item.section, label: item.label, kind: item.kind, status: 'mentioned_not_taught', fix: item.kind === 'formula' ? 'add a quantitative method with the formula' : 'add the named model/definition', mentioned_in: mentionedIn }
     return { id: item.id, section: item.section, label: item.label, kind: item.kind, status: 'missing', fix: 'teach the item in a mapped node (or extend the Foundation)' }
-  })
+  })()))
+}
+
+// Carries AQA's calculation convention (Course Truth fact) through to the report and the T8 reviewer.
+function withConvention(item, result) {
+  return item.aqa_convention ? { ...result, aqa_convention: item.aqa_convention, convention_status: item.convention_status } : result
 }
 
 export function validateItems(doc, requirements, nodes) {
@@ -83,6 +95,8 @@ export function validateItems(doc, requirements, nodes) {
     if (!KINDS.has(item.kind)) errors.push(`${item.id} has invalid kind ${item.kind}`)
     if (!String(item.label || '').trim()) errors.push(`${item.id} has no label`)
     if (!Array.isArray(item.match) || !item.match.length || item.match.some((phrase) => !String(phrase).trim())) errors.push(`${item.id} needs at least one match phrase`)
+    if (item.kind === 'formula' && !String(item.aqa_convention || '').trim()) errors.push(`${item.id} is a formula without an AQA convention`)
+    if (item.aqa_convention && !['confirmed', 'to_confirm_against_aqa_mark_scheme'].includes(item.convention_status)) errors.push(`${item.id} has an invalid convention_status`)
   }
   for (const section of sections) if (!(doc.items || []).some((item) => item.section === section)) errors.push(`section ${section} has no named items`)
   for (const row of requirements) for (const id of row.mapped_subject_node_ids || []) if (!nodes.has(id)) errors.push(`${row.source_section} maps to unknown node ${id}`)
@@ -99,7 +113,7 @@ function buildReport(doc, candidate, results) {
     foundation_candidate_version: candidate.index.candidate_version,
     foundation_fingerprint: candidate.fingerprint,
     mapping_id: mapping.mapping_id,
-    summary: { items: results.length, covered: count('covered'), found_in_unmapped_node: count('found_in_unmapped_node'), mentioned_not_taught: count('mentioned_not_taught'), missing: count('missing') },
+    summary: { items: results.length, conventions_to_confirm: results.filter((result) => result.convention_status === 'to_confirm_against_aqa_mark_scheme').map((result) => result.id), covered: count('covered'), found_in_unmapped_node: count('found_in_unmapped_node'), mentioned_not_taught: count('mentioned_not_taught'), missing: count('missing') },
     gaps: results.filter((result) => result.status !== 'covered'),
     covered: results.filter((result) => result.status === 'covered'),
   }

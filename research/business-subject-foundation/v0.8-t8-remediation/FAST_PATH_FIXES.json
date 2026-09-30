@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Additive teaching fixes under the fast-path process (ADR-0029). Entries only add definitions, analysis dimensions, quantitative methods or named models; they never replace existing teaching. Each fix has one line in content-factory/RUN_LOG.md and every fixed node is checked by the T8 course gate's accuracy question.",
+  "rights_boundary": "Revision-authored teaching supported by each node's registered promotion-eligible sources. No awarding-body wording.",
+  "fixes": [
+    {
+      "subject_id": "BUS-FIN-003",
+      "run_log": "3.1.1 Profit formula missing",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Profit", "formula": "total revenue - total costs, where total costs = fixed costs + total variable costs", "units": "currency", "worked_example": "Revenue £50,000; fixed costs £12,000; variable costs £30,000. Total costs = £42,000, so profit = £50,000 - £42,000 = £8,000.", "interpretation": "A negative result is a loss. Profit is a measure over a period and is not the same as the cash the business holds." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-001",
+      "run_log": "3.5.1 Return on investment formula not taught",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Return on investment (ROI)", "formula": "return from the investment / cost of the investment × 100", "units": "percentage", "worked_example": "A £200,000 investment generates £30,000 profit in a year: ROI = £30,000 / £200,000 × 100 = 15% a year.", "interpretation": "Compares the return with the resources committed. State which return (e.g. profit) and which period are used before comparing options." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-010",
+      "run_log": "3.5.1 Operating profit and profit for the year formulas not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "operating profit: gross profit less other operating expenses such as distribution and administrative costs; profit from trading before finance costs and tax",
+          "profit for the year: profit remaining after operating profit is reduced by net finance costs and taxation; available to retain in the business or distribute to owners"
+        ],
+        "methods": [
+          { "name": "Operating profit", "formula": "gross profit - other operating expenses", "units": "currency", "worked_example": "Gross profit £400,000; distribution and administrative expenses £250,000. Operating profit = £400,000 - £250,000 = £150,000.", "interpretation": "Shows how profitable the core trading activity is before financing decisions and tax." },
+          { "name": "Profit for the year", "formula": "operating profit - net finance costs - taxation", "units": "currency", "worked_example": "Operating profit £150,000; net finance costs £20,000; tax £26,000. Profit for the year = £150,000 - £20,000 - £26,000 = £104,000.", "interpretation": "The profit attributable to owners for the period; it can be retained or paid out as dividends." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-012",
+      "run_log": "3.5.2 Profit for the year margin formula not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Profit for the year margin", "formula": "profit for the year / revenue × 100", "units": "percentage", "worked_example": "Profit for the year £104,000 on revenue £1,300,000: margin = £104,000 / £1,300,000 × 100 = 8%.", "interpretation": "The share of each £1 of revenue left for owners after all costs, interest and tax. Compare with gross and operating margins to see where costs are absorbed." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-004",
+      "run_log": "3.5.2 Break-even chart not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011"],
+      "add": {
+        "models_frameworks": ["break-even chart"],
+        "definitions": [
+          "break-even chart: a graph with output on the horizontal axis and costs and revenue on the vertical axis, showing fixed costs, total costs and total revenue; break-even output is where the total revenue and total cost lines cross, and the horizontal distance between actual output and break-even output shows the margin of safety"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-011",
+      "run_log": "3.7.2 Statement of financial position not taught as a named statement",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "models_frameworks": ["statement of financial position"],
+        "definitions": [
+          "statement of financial position: a statement of a business's assets, liabilities and equity at a single point in time (often called the balance sheet); total assets equal total liabilities plus equity"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-013",
+      "run_log": "3.7.2 Payables days, receivables days and inventory turnover formulas not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Payables days", "formula": "payables / cost of sales × 365", "units": "days", "worked_example": "Payables £60,000; cost of sales £730,000. Payables days = £60,000 / £730,000 × 365 = 30 days.", "interpretation": "Average time taken to pay suppliers. A longer period helps cash flow but can strain supplier relationships or signal payment difficulty." },
+          { "name": "Receivables days", "formula": "receivables / revenue × 365", "units": "days", "worked_example": "Receivables £90,000; revenue £1,095,000. Receivables days = £90,000 / £1,095,000 × 365 = 30 days.", "interpretation": "Average time customers take to pay. A shorter period improves cash flow; compare with the credit terms the business offers." },
+          { "name": "Inventory turnover", "formula": "cost of sales / average inventories held", "units": "times per year", "worked_example": "Cost of sales £730,000; average inventory £73,000. Inventory turnover = £730,000 / £73,000 = 10 times a year.", "interpretation": "How many times inventory is used or sold and replaced in a year. Higher usually means inventory moves faster, but a sensible level depends on the industry." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-008",
+      "run_log": "3.5.3 Venture capital missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "venture capital: equity finance, often with management advice, provided by specialist investors to young or fast-growing businesses with high growth potential in exchange for a share of ownership; it brings expertise but dilutes control and investors expect a high return and an eventual exit"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-EVI-004",
+      "run_log": "3.2.2 Net gain formula missing",
+      "source_ids": ["SRC-HMT-GREEN-BOOK"],
+      "add": {
+        "methods": [
+          { "name": "Net gain", "formula": "expected value of an option - cost of that option", "units": "currency", "worked_example": "Option A has an expected value of £500,000 and costs £350,000: net gain = £150,000. Option B has an expected value of £420,000 and costs £250,000: net gain = £170,000, so B has the higher net gain.", "interpretation": "On financial grounds choose the option with the highest net gain, then weigh the reliability of the probabilities, risk attitude and non-financial factors." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-MKT-002",
+      "run_log": "3.3.1 Market size formula not taught",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Market size", "formula": "total sales of all firms in the market over a period, measured by value (revenue) or volume (units)", "units": "currency or units", "worked_example": "Three firms sell £2m, £3m and £5m in a year: market size = £10m by value.", "interpretation": "Needed for market share and growth calculations. Value and volume can move differently when prices change." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-006",
+      "run_log": "3.4.5 Inventory control chart, re-order quantity and influences on inventory levels missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-OER-LOUIS-OPS-2022"],
+      "add": {
+        "models_frameworks": ["inventory control chart"],
+        "definitions": [
+          "inventory control chart: a graph of inventory level over time showing the maximum inventory level, re-order level, buffer inventory, lead time and re-order quantity",
+          "re-order level: the inventory level at which a new order is placed",
+          "buffer inventory: the minimum inventory held as protection against unexpected demand or late delivery",
+          "lead time: the time between placing an order and receiving it",
+          "re-order quantity: the amount ordered each time inventory reaches the re-order level"
+        ],
+        "methods": [
+          { "name": "Re-order quantity", "formula": "maximum inventory level - buffer inventory", "units": "units", "worked_example": "Maximum inventory 1,000 units and buffer inventory 200 units: re-order quantity = 800 units, so a delivery arriving at the buffer level restores the maximum.", "interpretation": "Read from an inventory control chart as the vertical jump when a delivery arrives." },
+          { "name": "Re-order level", "formula": "buffer inventory + (usage per period × lead time in periods)", "units": "units", "worked_example": "Buffer 200 units, usage 50 units a day, lead time 4 days: re-order level = 200 + (50 × 4) = 400 units.", "interpretation": "Ordering at this level means the delivery should arrive as inventory falls to the buffer." }
+        ],
+        "analysis_dimensions": [
+          "influences on inventory levels: demand variability, lead time, supplier reliability, storage and holding costs, perishability or obsolescence, cost of stock-outs and the use of JIT"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-001",
+      "run_log": "3.6.2 Employee costs as a percentage of turnover and labour cost per unit formulas missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-ONS-PRODUCTIVITY"],
+      "add": {
+        "methods": [
+          { "name": "Employee costs as a percentage of turnover", "formula": "employee costs / turnover (revenue) × 100", "units": "percentage", "worked_example": "Employee costs £300,000; revenue £1,200,000: £300,000 / £1,200,000 × 100 = 25%.", "interpretation": "The share of revenue spent on the workforce. A rising figure can mean pay has grown faster than sales or productivity has fallen." },
+          { "name": "Labour cost per unit", "formula": "total labour costs / units of output", "units": "currency per unit", "worked_example": "Labour costs £300,000 for 60,000 units: labour cost per unit = £5.", "interpretation": "Falls when productivity rises faster than pay. Compare over time or with competitors producing similar output." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-STR-009",
+      "run_log": "3.10.1 Kotter and Schlesinger methods of overcoming resistance not taught",
+      "source_ids": ["SRC-OER-FRONTIERS-CHANGE-RESISTANCE-2025", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "models_frameworks": ["Kotter and Schlesinger's methods of overcoming resistance to change"],
+        "definitions": [
+          "education and communication: explaining the reasons for change so that people understand it; useful where resistance comes from misunderstanding, but slow with many people",
+          "participation and involvement: involving those affected in designing the change; builds commitment but takes time",
+          "facilitation and support: training, coaching or emotional support to help people adjust; helps where resistance comes from anxiety, but can be costly and may still fail",
+          "negotiation and agreement: offering incentives or concessions in exchange for accepting change; useful where a group clearly loses out, but can be expensive and invite others to negotiate",
+          "manipulation and co-option: selectively using information or giving resisters a token role; quick and cheap but can backfire if people feel manipulated",
+          "explicit and implicit coercion: forcing change through threats or authority; fast but risks resentment, and best reserved for urgent situations"
+        ]
+      }
+    }
+  ]
+}
