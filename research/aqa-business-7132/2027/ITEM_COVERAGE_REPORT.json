@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "ecf5dec48da0c6bb227b816d3ac2f7f2258fd554a61adc6ff54a832936118f88",
+  "foundation_fingerprint": "0e3c1d78774bde62a64b98646acc2edfc8249caa607d59c437b3ddcebbe2f9b8",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -569,7 +569,7 @@
       "taught_by": [
         {
           "node": "BUS-PEO-010",
-          "matched": "delegative"
+          "matched": "laissez faire"
         }
       ]
     },
@@ -1258,7 +1258,7 @@
       "taught_by": [
         {
           "node": "BUS-MKT-008",
-          "matched": "penetration"
+          "matched": "penetration pricing"
         }
       ]
     },
@@ -1369,7 +1369,7 @@
       "taught_by": [
         {
           "node": "BUS-MKT-009",
-          "matched": "physical evidence"
+          "matched": "physical environment"
         }
       ]
     },
@@ -2469,6 +2469,10 @@
         {
           "node": "BUS-PEO-004",
           "matched": "engagement"
+        },
+        {
+          "node": "BUS-PEO-011",
+          "matched": "engagement"
         }
       ]
     },
@@ -2507,6 +2511,10 @@
         {
           "node": "BUS-PEO-005",
           "matched": "training"
+        },
+        {
+          "node": "BUS-PEO-011",
+          "matched": "training"
         }
       ]
     },
@@ -2517,6 +2525,10 @@
       "kind": "concept",
       "status": "covered",
       "taught_by": [
+        {
+          "node": "BUS-PEO-011",
+          "matched": "diversity"
+        },
         {
           "node": "BUS-PEO-002",
           "matched": "diversity"
@@ -2532,7 +2544,7 @@
       "taught_by": [
         {
           "node": "BUS-PEO-011",
-          "matched": "shared values"
+          "matched": "alignment of values"
         }
       ]
     },
@@ -2553,6 +2565,10 @@
         },
         {
           "node": "BUS-PEO-005",
+          "matched": "skills"
+        },
+        {
+          "node": "BUS-PEO-011",
           "matched": "skills"
         },
         {
@@ -3012,7 +3028,7 @@
       "taught_by": [
         {
           "node": "BUS-PEO-006",
-          "matched": "teamwork"
+          "matched": "team working"
         },
         {
           "node": "BUS-MOD-001",
@@ -3549,6 +3565,10 @@
       "kind": "concept",
       "status": "covered",
       "taught_by": [
+        {
+          "node": "BUS-FND-009",
+          "matched": "infrastructure"
+        },
         {
           "node": "BUS-EXT-003",
           "matched": "infrastructure"
@@ -5107,7 +5127,7 @@
       "taught_by": [
         {
           "node": "BUS-STR-001",
-          "matched": "performance"
+          "matched": "strategic performance"
         },
         {
           "node": "BUS-STR-009",
@@ -5124,7 +5144,7 @@
       "taught_by": [
         {
           "node": "BUS-STR-001",
-          "matched": "planning"
+          "matched": "strategic planning"
         },
         {
           "node": "BUS-STR-009",
@@ -5144,6 +5164,10 @@
       "status": "covered",
       "taught_by": [
         {
+          "node": "BUS-STR-001",
+          "matched": "contingency"
+        },
+        {
           "node": "BUS-EXT-007",
           "matched": "contingency"
         }
@@ -5156,6 +5180,10 @@
       "kind": "concept",
       "status": "covered",
       "taught_by": [
+        {
+          "node": "BUS-STR-009",
+          "matched": "crisis"
+        },
         {
           "node": "BUS-EXT-007",
           "matched": "crisis"
