@@ -87,15 +87,14 @@ test.describe('database-backed learner persistence', () => {
     await page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first().getByRole('button', { name: 'Open course' }).click()
     const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
     await courseNav.getByRole('button', { name: 'Practice' }).click()
-    await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
+    await expect(page.locator('.practice-workspace')).toBeVisible()
 
-    await page.getByRole('tab', { name: 'Quick check' }).click()
     await page.getByRole('radio').first().check()
     await page.getByRole('button', { name: 'Check answer' }).click()
     await expect(page.getByRole('button', { name: 'Next question' })).toBeVisible()
 
     await page.reload()
-    await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
+    await expect(page.locator('.practice-workspace')).toBeVisible()
     await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Progress' }).click()
     await expect(page.getByRole('heading', { name: 'What the evidence says' })).toBeVisible()
 

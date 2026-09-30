@@ -164,7 +164,7 @@ test('course overview uses the governed REV feature treatment and semantic dark 
 
   await clickNavigation(page, 'Courses')
   await clickNavigation(page, 'AQA AS Business')
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
   const overviewRecommendation = page.locator('.course-overview-recommendation')
   await expect(overviewRecommendation).toBeVisible()
@@ -207,7 +207,7 @@ test('course overview uses the governed REV feature treatment and semantic dark 
   await expect(revDialog).toHaveCount(0)
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
   const paperCard = page.locator('.exam-paper-card').first()
   await expect(paperCard).toBeVisible()
