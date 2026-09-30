@@ -134,7 +134,8 @@ Use this file to find the governing source before substantive work.
 - New subject/paper content production and assurance → `80-company-workflows/Content Pack Production and Assurance Workflow.md`
 - Content Factory governing process (fast path) / frozen ADR-0028 architecture / what blocks / two-round limit / failure handling → `80-company-workflows/Content Factory Fast-Path Process.md` (adopted by `decisions/ADR-0029-content-factory-fast-path-and-architecture-freeze.md`; takes precedence over earlier Content Factory standards on those points)
 - Content Factory run log (one line per fix or decision) → `content-factory/RUN_LOG.md`
-- AI session instructions for this repo → `CLAUDE.md`
+- AQA 7132 named specification items / item-level coverage check and current gap report → `research/aqa-business-7132/2027/NAMED_ITEMS.json`, `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`, `research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json`
+- AI session instructions for this repo (all tools) → `CLAUDE.md`, with `AGENTS.md` pointing to it for Codex and other agents
 - Current Content Factory foundation/asset production sequencing → `80-company-workflows/Content Factory Foundation and Asset Production Model.md`
 - Content Factory reusable Subject Knowledge Foundation / exact-course projection amendment → `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`
 - Content Factory Course Learning Blueprint derivation / deterministic treatment planning → `80-company-workflows/Content Factory Course Learning Blueprint Amendment.md`
