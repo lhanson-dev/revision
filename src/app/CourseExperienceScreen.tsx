@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -26,9 +26,8 @@ import {
 } from './catalogue-model'
 import { findCatalogueCourse } from './learner-programme'
 import type { PaperSection } from './navigation'
-import { PoweredByRev } from './RevCompactWordmark'
-import { RevPresence } from './RevPresence'
-import { Button, LoadingState, Status } from './ui'
+import { assignSubjectColours } from './home-view'
+import { Button, LoadingState, RevSuggestionCard, Status } from './ui'
 
 type CourseExperienceScreenProps = {
   client: SupabaseClient
@@ -89,11 +88,6 @@ function localDateKey(date: Date) {
   return `${year}-${month}-${day}`
 }
 
-function formatExamDate(value: string) {
-  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-    .format(new Date(`${value}T12:00:00`))
-}
-
 function examCountdown(value: string, now = new Date()) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
   const target = new Date(`${value}T00:00:00`).getTime()
@@ -101,6 +95,11 @@ function examCountdown(value: string, now = new Date()) {
   if (days === 0) return 'Today'
   if (days === 1) return '1 day to go'
   return `${days} days to go`
+}
+
+function examCountdownShort(date: string) {
+  const text = examCountdown(date)
+  return text.replace(' to go', '')
 }
 
 function findNextCourseExam(
@@ -143,49 +142,6 @@ function ProgressSummary({ state, label }: { state: ModuleLearningState; label: 
   )
 }
 
-function CourseOverviewProgressPanel({
-  state,
-  nextExam,
-  examDateStatus,
-}: {
-  state: ModuleLearningState
-  nextExam: CourseExamAssessment | null
-  examDateStatus: ExamDateStatus
-}) {
-  const { good, medium, low, notEnoughEvidence } = state.topicKnowledge.distribution
-  const supportedTopics = good + medium + low
-  const knowledgeSummary = [
-    good > 0 ? `${good} Good` : '',
-    medium > 0 ? `${medium} Medium` : '',
-    low > 0 ? `${low} Low` : '',
-  ].filter(Boolean).join(' · ')
-
-  return (
-    <aside className="course-overview-progress-panel" aria-label="Your progress">
-      <div className="course-overview-progress-header">
-        <p className="eyebrow">Your progress</p>
-        <div className="course-overview-exam-date">
-          <small>Exam date</small>
-          {examDateStatus === 'loading' && <><strong>Loading…</strong><span>Checking your next public exam.</span></>}
-          {examDateStatus === 'error' && <><strong>Unavailable</strong><span>Could not load your exam date.</span></>}
-          {examDateStatus === 'ready' && !nextExam && <><strong>Not set yet</strong><span>Add a public exam date in Plan.</span></>}
-          {examDateStatus === 'ready' && nextExam && <><strong>{formatExamDate(nextExam.assessmentDate)}</strong><span>{examCountdown(nextExam.assessmentDate)}</span></>}
-        </div>
-      </div>
-      <div className="course-overview-progress-signal">
-        <small>Exam readiness</small>
-        <strong>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</strong>
-        <span>{state.readiness.score === null ? 'More varied evidence is needed before showing a score.' : `${state.readiness.confidence} evidence confidence.`}</span>
-      </div>
-      <div className="course-overview-progress-signal">
-        <small>Topic knowledge</small>
-        <strong>{supportedTopics === 0 ? 'Not enough evidence' : knowledgeSummary}</strong>
-        <span>{notEnoughEvidence > 0 ? `${notEnoughEvidence} ${notEnoughEvidence === 1 ? 'topic needs' : 'topics need'} more scored evidence.` : 'Based on scored Practice and Exam Prep evidence.'}</span>
-      </div>
-    </aside>
-  )
-}
-
 export function CourseExperienceScreen({
   client,
   userId,
@@ -210,7 +166,6 @@ export function CourseExperienceScreen({
   const [evidenceError, setEvidenceError] = useState('')
   const [savingEvidence, setSavingEvidence] = useState(false)
   const [saveError, setSaveError] = useState('')
-  const [revPrompt, setRevPrompt] = useState('')
   const [examAssessments, setExamAssessments] = useState<CourseExamAssessment[]>([])
   const [examDateStatus, setExamDateStatus] = useState<ExamDateStatus>('loading')
 
@@ -266,13 +221,6 @@ export function CourseExperienceScreen({
     }
   }
 
-  function submitRevPrompt(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const text = revPrompt.trim()
-    onOpenRev(text || undefined)
-    setRevPrompt('')
-  }
-
   if (!resolved) {
     return (
       <main className="dashboard page-screen">
@@ -306,6 +254,13 @@ export function CourseExperienceScreen({
     const recommendationTopic = state.recommendationTopic
     const recommendationSection: CourseSection = recommendation?.activity === 'exam-question' ? 'exam-prep' : 'practice'
     const nextExam = findNextCourseExam(examAssessments, course, catalogue, memberships)
+    const activeSubjectIds = catalogue.filter((item) => item.courses.some((candidate) => memberships.some((membership) => membership.courseId === candidate.id))).map((item) => item.id)
+    const subjectColour = assignSubjectColours(activeSubjectIds.includes(subject.id) ? activeSubjectIds : [...activeSubjectIds, subject.id]).get(subject.id)
+    const weakSpots = state.topicKnowledge.topics
+      .filter((item) => item.band === 'low')
+      .sort((left, right) => (left.score ?? 0) - (right.score ?? 0))
+      .slice(0, 3)
+      .map((item) => ({ topicId: item.topicId, score: item.score, title: adapter.getTopic(item.topicId)?.shortTitle ?? item.topicId }))
 
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
@@ -313,34 +268,51 @@ export function CourseExperienceScreen({
 
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
 
-        {section === 'overview' && <div className="paper-section-content course-overview-content">
-          <section className="course-overview-recommendation" aria-labelledby="course-recommendation-title">
-            <div className="course-overview-recommendation-main">
-              <div className="course-overview-recommendation-presence"><RevPresence size="hero" state="resting" decorative /></div>
-              <div className="course-overview-recommendation-copy">
-                <PoweredByRev />
-                <p className="eyebrow">Your next useful step in {subject.name}</p>
-                <h2 id="course-recommendation-title">{recommendation && recommendationTopic ? recommendationHeading(recommendationTopic.shortTitle, recommendation.activity) : 'Let’s get a useful starting point'}</h2>
-                <p>{recommendation && recommendationTopic ? recommendationCopy(recommendation) : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}</p>
-                <div className="course-overview-recommendation-actions">
-                  {sections.includes(recommendationSection) && <Button onClick={() => onOpenCourseSection(course.id, recommendationSection)}>{recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice'}</Button>}
-                </div>
-              </div>
-              <CourseOverviewProgressPanel state={state} nextExam={nextExam} examDateStatus={examDateStatus} />
+        {section === 'overview' && <div className="paper-section-content course-overview-content course-overview-v2">
+          <section className="course-overview-hero" aria-label={`${subject.name} at a glance`} style={{ '--tile-fill': subjectColour?.fill, '--tile-text': subjectColour?.text } as CSSProperties}>
+            <div>
+              <p className="course-overview-hero-eyebrow">{course.examBoardName} · {course.qualificationName.replace(new RegExp(`^${course.examBoardName}\\s*`, 'i'), '')}</p>
+              <p className="course-overview-hero-facts">{topics.length} topics · {state.topicKnowledge.distribution.good} strong</p>
             </div>
-            <div className="course-overview-conversation">
-              <div className="course-overview-conversation-copy"><strong>Got something else on your mind?</strong><span>Ask REV about this course, a topic, or what you want to work on.</span></div>
-              <form className="course-overview-rev-form" onSubmit={submitRevPrompt}>
-                <input value={revPrompt} maxLength={240} onChange={(event) => setRevPrompt(event.target.value)} placeholder="Ask REV anything…" aria-label={`Ask REV about ${label}`} />
-                <button type="submit">Ask REV</button>
-              </form>
-            </div>
+            <dl className="course-overview-hero-stats">
+              <div><dt>Exam readiness</dt><dd>{state.readiness.score === null ? 'Building' : `${state.readiness.score}%`}</dd></div>
+              <div><dt>Exam date</dt><dd>{examDateStatus === 'ready' && nextExam ? examCountdownShort(nextExam.assessmentDate) : 'Not set'}</dd></div>
+            </dl>
           </section>
 
-          <section className="home-section course-overview-topics" aria-labelledby="course-topics-title">
-            <div className="section-heading"><div><p className="eyebrow">Course structure</p><h2 id="course-topics-title">Course topics</h2><p>Choose an area to explore, or follow REV’s recommendation above.</p></div></div>
-            <div className="topic-list-grid">{topics.map((topic) => { const knowledge = state.topicKnowledge.topics.find((item) => item.topicId === topic.id); return <article key={topic.id}><div><strong>{topic.shortTitle}</strong><p>Topic knowledge · {topicKnowledgeLabel(knowledge?.band ?? 'not-enough-evidence')}</p></div></article> })}</div>
-          </section>
+          <div className="course-overview-columns">
+            <section className="course-overview-path" aria-labelledby="course-topics-title">
+              <h2 id="course-topics-title">Your path</h2>
+              <ol>
+                {topics.map((topic, index) => {
+                  const knowledge = state.topicKnowledge.topics.find((item) => item.topicId === topic.id)
+                  const band = knowledge?.band ?? 'not-enough-evidence'
+                  const isNext = recommendation?.topicId === topic.id
+                  return <li key={topic.id} data-band={band} data-next={isNext ? 'true' : undefined}>
+                    <span className="course-overview-path-mark" aria-hidden="true">{band === 'good' ? '✓' : index + 1}</span>
+                    <span className="course-overview-path-copy"><strong>{topic.shortTitle}</strong><small>Topic knowledge · {topicKnowledgeLabel(band)}</small></span>
+                    {isNext && sections.includes(recommendationSection) && <Button size="compact" onClick={() => onOpenCourseSection(course.id, recommendationSection)}>Continue</Button>}
+                  </li>
+                })}
+              </ol>
+            </section>
+
+            <aside className="course-overview-side">
+              {weakSpots.length > 0 && <section className="course-overview-weak" aria-labelledby="course-weak-title">
+                <h2 id="course-weak-title">Weak spots</h2>
+                <ul>
+                  {weakSpots.map((item) => <li key={item.topicId}><span>{item.title}</span><b>{item.score === null ? 'Low' : `${Math.round(item.score)}%`}</b><span className="course-overview-weak-bar" aria-hidden="true"><span style={{ width: `${item.score ?? 0}%` }} /></span></li>)}
+                </ul>
+                {sections.includes('practice') && <Button variant="secondary" onClick={() => onOpenCourseSection(course.id, 'practice')}>Practise these</Button>}
+              </section>}
+              <RevSuggestionCard
+                eyebrow="REV’s advice"
+                reason={recommendation && recommendationTopic ? `${recommendationHeading(recommendationTopic.shortTitle, recommendation.activity)}. ${recommendationCopy(recommendation)}` : 'Start with a short Practice activity and I’ll use what you show me to help guide the next step.'}
+                primaryAction={sections.includes(recommendationSection) ? { label: recommendation ? `Start ${activityLabel(recommendation.activity).toLowerCase()}` : 'Start Practice', onClick: () => onOpenCourseSection(course.id, recommendationSection) } : undefined}
+                secondaryAction={{ label: 'Ask REV about this course', onClick: () => onOpenRev() }}
+              />
+            </aside>
+          </div>
         </div>}
 
         {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
