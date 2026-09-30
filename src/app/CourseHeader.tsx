@@ -9,10 +9,14 @@ export const courseSectionLabels: Record<CourseSection, string> = {
   progress: 'Progress',
 }
 
-// Business gets the briefcase; every other subject gets the neutral book until
-// Lee decides on a subject icon set (handover decision 4).
+// Each subject has its own icon. A subject without one yet falls back to the neutral book.
+const subjectIcons: Readonly<Record<string, IconName>> = {
+  business: 'briefcase',
+  economics: 'trending',
+}
+
 function subjectIcon(subjectId: string): IconName {
-  return subjectId.trim().toLocaleLowerCase() === 'business' ? 'briefcase' : 'subjects'
+  return subjectIcons[subjectId.trim().toLocaleLowerCase()] ?? 'subjects'
 }
 
 function courseMetadata(course: CatalogueCourse) {
