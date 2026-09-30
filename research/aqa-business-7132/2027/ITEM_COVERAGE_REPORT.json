@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "0e3c1d78774bde62a64b98646acc2edfc8249caa607d59c437b3ddcebbe2f9b8",
+  "foundation_fingerprint": "2bb59ecf64c1307fbdc04faa3eb5ae9e6e1d2d0ac163b5a28de8efbcef0f9ea3",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -777,6 +777,10 @@
           "matched": "stakeholder"
         },
         {
+          "node": "BUS-PEO-009",
+          "matched": "stakeholder"
+        },
+        {
           "node": "BUS-EVI-007",
           "matched": "stakeholder"
         }
@@ -829,7 +833,7 @@
         },
         {
           "node": "BUS-PEO-009",
-          "matched": "communication"
+          "matched": "consultation"
         }
       ]
     },
@@ -1438,7 +1442,7 @@
         },
         {
           "node": "BUS-EXT-006",
-          "matched": "sustainab"
+          "matched": "environmental objective"
         }
       ]
     },
@@ -1464,6 +1468,10 @@
       "taught_by": [
         {
           "node": "BUS-OPS-001",
+          "matched": "operational objective"
+        },
+        {
+          "node": "BUS-EXT-006",
           "matched": "operational objective"
         }
       ]
