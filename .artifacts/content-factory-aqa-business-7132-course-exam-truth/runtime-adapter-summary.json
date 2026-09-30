@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "adapterId": "aqa-business-7132-2027-course-truth-runtime-adapter-v1",
+  "governedRequirements": 42,
+  "projectedKnowledgeNodes": 79,
+  "subjectFoundationFingerprint": "ecf5dec48da0c6bb227b816d3ac2f7f2258fd554a61adc6ff54a832936118f88",
+  "courseTruthFingerprint": "0f285c032ba430e392465e6e7190fb2cbf11c25cf49f94aecf8db9665ee174d4",
+  "examTruthFingerprint": "f6cb7fe3a6e9d072ec4122fe00a406b94823ce87017077904d2610390606c0eb",
+  "boardAlignmentFingerprint": "3ce811b9c20a500ae3597e8a2a748642505a1dd27b0bd483bbd91151a6667e7c",
+  "courseKnowledgeModelFingerprint": "11b1507dea41ca1b593acf45eaf37ce63669d697050a5ba22a17ddd7c54ad454",
+  "learnerAssetRegenerationAllowed": false,
+  "nextGate": "exact_course_assurance"
+}

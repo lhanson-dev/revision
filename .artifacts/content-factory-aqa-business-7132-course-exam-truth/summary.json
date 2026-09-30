@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "courseId": "aqa:aqa-a-level:7132",
+  "examYear": 2027,
+  "subjectFoundationFingerprint": "ecf5dec48da0c6bb227b816d3ac2f7f2258fd554a61adc6ff54a832936118f88",
+  "specificationMappingId": "aqa-business-7132-2027-specification-mapping-v1",
+  "mappedRequirements": 42,
+  "selectedSubjectNodes": 79,
+  "prerequisiteOnlyNodes": [
+    "BUS-MKT-001"
+  ],
+  "courseTruthFingerprint": "0f285c032ba430e392465e6e7190fb2cbf11c25cf49f94aecf8db9665ee174d4",
+  "examTruthFingerprint": "f6cb7fe3a6e9d072ec4122fe00a406b94823ce87017077904d2610390606c0eb",
+  "stableQuestionFamilies": 5,
+  "nextGate": "exact_course_assurance",
+  "learnerAssetRegenerationAllowed": false
+}

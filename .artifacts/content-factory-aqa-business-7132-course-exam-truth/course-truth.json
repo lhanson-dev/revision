@@ -1,0 +1,1042 @@
+{
+  "schema_version": 1,
+  "projection_id": "aqa-business-7132-2027-course-truth-v1",
+  "status": "course_truth_projected_from_current_foundation",
+  "course": {
+    "course_id": "aqa:aqa-a-level:7132",
+    "awarding_body": "AQA",
+    "qualification": "A-level Business",
+    "specification_code": "7132",
+    "exam_year": 2027,
+    "specification_status": "outgoing_current_for_2027_exams"
+  },
+  "dependencies": {
+    "subject_foundation": {
+      "candidate_version": "v0.8-t8-exact-course-remediation",
+      "candidate_fingerprint": "ecf5dec48da0c6bb227b816d3ac2f7f2258fd554a61adc6ff54a832936118f88",
+      "node_count": 81,
+      "nodes_pending_course_gate_accuracy": [
+        "BUS-EVI-004",
+        "BUS-EXT-001",
+        "BUS-EXT-002",
+        "BUS-EXT-003",
+        "BUS-EXT-005",
+        "BUS-EXT-006",
+        "BUS-FIN-001",
+        "BUS-FIN-003",
+        "BUS-FIN-004",
+        "BUS-FIN-008",
+        "BUS-FIN-010",
+        "BUS-FIN-011",
+        "BUS-FIN-012",
+        "BUS-FIN-013",
+        "BUS-FND-003",
+        "BUS-FND-005",
+        "BUS-FND-006",
+        "BUS-FND-008",
+        "BUS-FND-009",
+        "BUS-MKT-002",
+        "BUS-MKT-003",
+        "BUS-MKT-006",
+        "BUS-MKT-009",
+        "BUS-OPS-001",
+        "BUS-OPS-002",
+        "BUS-OPS-005",
+        "BUS-OPS-006",
+        "BUS-PEO-001",
+        "BUS-PEO-005",
+        "BUS-PEO-007",
+        "BUS-PEO-010",
+        "BUS-PEO-011",
+        "BUS-STR-001",
+        "BUS-STR-002",
+        "BUS-STR-004",
+        "BUS-STR-007",
+        "BUS-STR-008",
+        "BUS-STR-009"
+      ]
+    },
+    "specification_mapping": {
+      "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
+      "mapping_fingerprint": "1e92fbb5572b2fef5278357f03e16b3bd4b71f5192b0f91eb70cd49f1c0816f2",
+      "immutable_source_status": "mapped_to_current_subject_foundation",
+      "requirement_count": 42
+    }
+  },
+  "rights_boundary": {
+    "awarding_body_use": "REFERENCE_ONLY",
+    "policy": "AQA material supplies exact course/alignment facts only; protected AQA prose is not reusable subject truth or learner teaching copy."
+  },
+  "requirements": [
+    {
+      "requirement_id": "AQA-7132-3.1.1",
+      "source_section": "3.1.1",
+      "title": "The nature and purpose of business",
+      "rights_safe_requirement_summary": "Why businesses exist; mission/objectives; purpose of objectives; basic revenue, cost and profit measures.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-001",
+        "BUS-FND-005",
+        "BUS-FIN-002",
+        "BUS-FIN-003"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.1.2",
+      "source_section": "3.1.2",
+      "title": "Different forms of business",
+      "rights_safe_requirement_summary": "Ownership forms, liability, shareholders and share capital; market capitalisation, dividends and share-price significance.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-003",
+        "BUS-FND-004",
+        "BUS-FIN-008",
+        "BUS-FIN-012"
+      ],
+      "gap_classification": "B_EXISTING_FOUNDATION_INSUFFICIENT_DEPTH",
+      "required_course_facets": [
+        "ordinary_share_capital",
+        "dividends",
+        "market_capitalisation",
+        "share_price_significance"
+      ],
+      "required_quantitative_methods": [
+        "market_capitalisation = shares_in_issue × current_share_price"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.1.3",
+      "source_section": "3.1.3",
+      "title": "The external environment",
+      "rights_safe_requirement_summary": "How competition, market conditions, incomes, interest rates, demographic and environmental factors affect business decisions.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-009",
+        "BUS-EXT-001",
+        "BUS-EXT-002",
+        "BUS-EXT-006"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.2.1",
+      "source_section": "3.2.1",
+      "title": "Management and leadership",
+      "rights_safe_requirement_summary": "Management versus leadership; leadership styles; factors affecting suitability; Tannenbaum-Schmidt continuum.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-010",
+        "BUS-PEO-008",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "autocratic_paternalistic_democratic_laissez_faire_labels",
+        "tannenbaum_schmidt_continuum"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.2.2",
+      "source_section": "3.2.2",
+      "title": "Management decision making",
+      "rights_safe_requirement_summary": "Data and scientific decision making versus intuition; decision trees; expected value/net gains; risk, uncertainty and opportunity cost.",
+      "mapped_subject_node_ids": [
+        "BUS-EVI-004",
+        "BUS-EVI-002",
+        "BUS-EVI-003",
+        "BUS-FND-009",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [
+        "AQA_net_gain_presentation"
+      ],
+      "required_quantitative_methods": [
+        "expected_value",
+        "net_gain_under_AQA_convention"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.2.3",
+      "source_section": "3.2.3",
+      "title": "Stakeholders",
+      "rights_safe_requirement_summary": "Stakeholder needs, conflicts, influence and power/interest; communication and consultation.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-006",
+        "BUS-PEO-009",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_power_interest_stakeholder_mapping"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.3.1",
+      "source_section": "3.3.1",
+      "title": "Marketing objectives",
+      "rights_safe_requirement_summary": "Sales volume/value, market size/growth/share and brand loyalty as objectives/performance measures.",
+      "mapped_subject_node_ids": [
+        "BUS-MKT-002",
+        "BUS-MKT-007",
+        "BUS-FND-005"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.3.2",
+      "source_section": "3.3.2",
+      "title": "Markets and customers",
+      "rights_safe_requirement_summary": "Primary/secondary and qualitative/quantitative research; sampling; market calculations; correlation; confidence intervals; extrapolation; elasticity interpretation.",
+      "mapped_subject_node_ids": [
+        "BUS-MKT-003",
+        "BUS-MKT-004",
+        "BUS-MKT-002",
+        "BUS-MKT-008",
+        "BUS-EVI-001",
+        "BUS-EVI-002",
+        "BUS-EVI-003",
+        "BUS-EVI-005"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "random_stratified_quota_sampling_labels",
+        "confidence_interval_interpretation",
+        "PED_YED_interpretation_without_required_calculation"
+      ],
+      "required_quantitative_methods": [
+        "market_growth",
+        "market_share",
+        "market_size"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.3.3",
+      "source_section": "3.3.3",
+      "title": "Segmentation, targeting and positioning",
+      "rights_safe_requirement_summary": "Segmentation bases, mass/niche targeting, positioning and market mapping.",
+      "mapped_subject_node_ids": [
+        "BUS-MKT-005"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.3.4",
+      "source_section": "3.3.4",
+      "title": "The marketing mix",
+      "rights_safe_requirement_summary": "Integrated 7Ps; product/service decisions; Boston Matrix; life cycle; pricing; branding/promotion; channels; digital/e-commerce; service elements.",
+      "mapped_subject_node_ids": [
+        "BUS-MKT-006",
+        "BUS-MKT-007",
+        "BUS-MKT-008",
+        "BUS-MKT-009",
+        "BUS-STR-006"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_7Ps_required_labels",
+        "AQA_Boston_Matrix_required_treatment"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.4.1",
+      "source_section": "3.4.1",
+      "title": "Operational objectives",
+      "rights_safe_requirement_summary": "Cost, quality, speed, flexibility, environmental objectives and added value.",
+      "mapped_subject_node_ids": [
+        "BUS-OPS-001",
+        "BUS-EXT-006"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.4.2",
+      "source_section": "3.4.2",
+      "title": "Operational performance data",
+      "rights_safe_requirement_summary": "Labour productivity, unit/average cost, capacity and capacity utilisation.",
+      "mapped_subject_node_ids": [
+        "BUS-OPS-003",
+        "BUS-OPS-004",
+        "BUS-PEO-001",
+        "BUS-FIN-002",
+        "BUS-OPS-001"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_operational_metric_formula_conventions"
+      ],
+      "required_quantitative_methods": [
+        "labour_productivity",
+        "unit_cost",
+        "capacity_utilisation"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.4.3",
+      "source_section": "3.4.3",
+      "title": "Efficiency and productivity",
+      "rights_safe_requirement_summary": "Capacity, lean production, JIT/JIC, labour/capital intensity and technology effects.",
+      "mapped_subject_node_ids": [
+        "BUS-OPS-002",
+        "BUS-OPS-003",
+        "BUS-OPS-004",
+        "BUS-OPS-005",
+        "BUS-OPS-006",
+        "BUS-STR-008"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [
+        "just_in_case_label"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.4.4",
+      "source_section": "3.4.4",
+      "title": "Quality",
+      "rights_safe_requirement_summary": "Quality control and quality assurance, benefits/difficulties and consequences of poor quality.",
+      "mapped_subject_node_ids": [
+        "BUS-OPS-008"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.4.5",
+      "source_section": "3.4.5",
+      "title": "Inventory and supply chains",
+      "rights_safe_requirement_summary": "Matching supply/demand; flexibility options; inventory-control chart concepts; supplier choice and supply-chain effectiveness.",
+      "mapped_subject_node_ids": [
+        "BUS-OPS-006",
+        "BUS-OPS-007",
+        "BUS-OPS-009",
+        "BUS-EVI-003"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_inventory_control_chart",
+        "lead_time_reorder_level_buffer_stock_reorder_quantity"
+      ],
+      "required_quantitative_methods": [
+        "AQA_stock_control_calculations_if_data_supplied"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.5.1",
+      "source_section": "3.5.1",
+      "title": "Financial objectives",
+      "rights_safe_requirement_summary": "Return/investment objectives; revenue/cost/profit; cash-flow objectives and profit-versus-cash.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-001",
+        "BUS-FIN-003",
+        "BUS-FIN-005",
+        "BUS-FIN-012",
+        "BUS-FIN-010"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.5.2",
+      "source_section": "3.5.2",
+      "title": "Financial performance",
+      "rights_safe_requirement_summary": "Budgets/forecasts/variance; break-even and margin of safety; contribution; profit margins; working-capital timing and use of data.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-003",
+        "BUS-FIN-004",
+        "BUS-FIN-005",
+        "BUS-FIN-006",
+        "BUS-FIN-007",
+        "BUS-FIN-010",
+        "BUS-FIN-012",
+        "BUS-EVI-005",
+        "BUS-FIN-001"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_profit_measure_labels",
+        "adverse_favourable_variance_labels"
+      ],
+      "required_quantitative_methods": [
+        "break_even_output",
+        "margin_of_safety",
+        "contribution",
+        "gross_profit_margin",
+        "operating_profit_margin"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.5.3",
+      "source_section": "3.5.3",
+      "title": "Sources of finance",
+      "rights_safe_requirement_summary": "Debt factoring, overdrafts, retained profit, share capital, loans, venture capital and crowdfunding; short/long-term trade-offs.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-008",
+        "BUS-FIN-014"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_named_source_set_including_crowdfunding_and_debt_factoring"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.5.4",
+      "source_section": "3.5.4",
+      "title": "Improving financial performance",
+      "rights_safe_requirement_summary": "Ways to improve cash flow, profit and profitability and limitations/difficulties of actions.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-003",
+        "BUS-FIN-005",
+        "BUS-FIN-006",
+        "BUS-FIN-012",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.6.1",
+      "source_section": "3.6.1",
+      "title": "Human resource objectives",
+      "rights_safe_requirement_summary": "Engagement, talent, training, diversity, values and workforce quantity/skills/location; hard and soft HRM approaches.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-001",
+        "BUS-PEO-004",
+        "BUS-PEO-005",
+        "BUS-PEO-011",
+        "BUS-PEO-002"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "hard_HRM_soft_HRM_AQA_lens"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.6.2",
+      "source_section": "3.6.2",
+      "title": "Human resource performance data",
+      "rights_safe_requirement_summary": "Labour turnover/productivity, employee costs relative to turnover and labour cost per unit; interpret HR data.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-001",
+        "BUS-OPS-004",
+        "BUS-FIN-002",
+        "BUS-EVI-005"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_HR_metric_formula_conventions"
+      ],
+      "required_quantitative_methods": [
+        "labour_turnover",
+        "labour_productivity",
+        "employee_costs_percent_turnover",
+        "labour_cost_per_unit"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.6.3",
+      "source_section": "3.6.3",
+      "title": "Organisational design and workforce planning",
+      "rights_safe_requirement_summary": "Functional/product/regional/matrix structures; authority/span/hierarchy/delegation/centralisation; recruitment/training/redeployment/redundancy.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-001",
+        "BUS-PEO-002",
+        "BUS-PEO-004",
+        "BUS-PEO-007",
+        "BUS-PEO-008"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_named_structure_set",
+        "redeployment_redundancy_course_context"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.6.4",
+      "source_section": "3.6.4",
+      "title": "Motivation and reward",
+      "rights_safe_requirement_summary": "Taylor, Maslow and Herzberg; financial and non-financial methods; evaluate effectiveness.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-005",
+        "BUS-PEO-006",
+        "BUS-MOD-001",
+        "BUS-MOD-002",
+        "BUS-MOD-003"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.6.5",
+      "source_section": "3.6.5",
+      "title": "Employee relations",
+      "rights_safe_requirement_summary": "Employee involvement, unions/works councils, communication and employee relations/value.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-009",
+        "BUS-PEO-011",
+        "BUS-FND-006"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "trade_union_works_council_examples"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.1",
+      "source_section": "3.7.1",
+      "title": "Mission, objectives and strategy",
+      "rights_safe_requirement_summary": "Mission/corporate/functional objectives; influences; strategy versus tactics; functional effects; SWOT.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-005",
+        "BUS-STR-001",
+        "BUS-STR-003",
+        "BUS-EVI-006",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.2",
+      "source_section": "3.7.2",
+      "title": "Financial ratio analysis",
+      "rights_safe_requirement_summary": "Income statement and statement of financial position; ROCE/current ratio/gearing plus payables/receivables days and inventory turnover; comparisons.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-006",
+        "BUS-FIN-010",
+        "BUS-FIN-011",
+        "BUS-FIN-012",
+        "BUS-FIN-013",
+        "BUS-FIN-014",
+        "BUS-EVI-005"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_working_capital_ratio_conventions"
+      ],
+      "required_quantitative_methods": [
+        "ROCE",
+        "current_ratio",
+        "gearing_AQA_convention",
+        "payables_days",
+        "receivables_days",
+        "inventory_turnover"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.3",
+      "source_section": "3.7.3",
+      "title": "Overall business performance",
+      "rights_safe_requirement_summary": "Non-financial functional evidence, core competences, short/long-term performance and Triple Bottom Line.",
+      "mapped_subject_node_ids": [
+        "BUS-EVI-005",
+        "BUS-EVI-006",
+        "BUS-EVI-007",
+        "BUS-STR-002",
+        "BUS-EXT-006"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "Elkington_Triple_Bottom_Line"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.4",
+      "source_section": "3.7.4",
+      "title": "Political and legal environment",
+      "rights_safe_requirement_summary": "Competition, labour/environment law and government policy on enterprise, regulators, infrastructure, environment and trade.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-009",
+        "BUS-EXT-002",
+        "BUS-EXT-003",
+        "BUS-EXT-006"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.5",
+      "source_section": "3.7.5",
+      "title": "Economic environment",
+      "rights_safe_requirement_summary": "GDP, taxation, exchange rates, inflation, fiscal/monetary policy and open trade/protectionism; interpret UK/global data.",
+      "mapped_subject_node_ids": [
+        "BUS-EXT-001",
+        "BUS-EXT-003",
+        "BUS-EXT-004",
+        "BUS-EVI-005"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [
+        "AQA_macro_indicator_set"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.6",
+      "source_section": "3.7.6",
+      "title": "Social and technological environment",
+      "rights_safe_requirement_summary": "Demographic/lifestyle/online change; CSR arguments and stakeholder/shareholder perspectives; Carroll pyramid; technology effects.",
+      "mapped_subject_node_ids": [
+        "BUS-EXT-005",
+        "BUS-EXT-006",
+        "BUS-STR-008",
+        "BUS-FND-006",
+        "BUS-FND-009"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "Carroll_CSR_pyramid"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.7",
+      "source_section": "3.7.7",
+      "title": "Competitive environment",
+      "rights_safe_requirement_summary": "Porter's Five Forces and the effects of entry, buyers, suppliers, rivalry and substitutes.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-005",
+        "BUS-EXT-002"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.7.8",
+      "source_section": "3.7.8",
+      "title": "Investment appraisal",
+      "rights_safe_requirement_summary": "Payback, ARR and NPV; combine financial and non-financial factors, risk and uncertainty.",
+      "mapped_subject_node_ids": [
+        "BUS-FIN-009",
+        "BUS-EVI-003",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_ARR_denominator_and_NPV_table_conventions"
+      ],
+      "required_quantitative_methods": [
+        "payback",
+        "ARR",
+        "NPV"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.8.1",
+      "source_section": "3.8.1",
+      "title": "Choosing markets and products",
+      "rights_safe_requirement_summary": "Ansoff directions and factors affecting strategic direction.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-004",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.8.2",
+      "source_section": "3.8.2",
+      "title": "Competitive positioning",
+      "rights_safe_requirement_summary": "Porter low-cost, differentiation and focus approaches; choice, competitive advantage and maintenance.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-002",
+        "BUS-STR-005"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "Porter_generic_strategies_low_cost_differentiation_focus"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.9.1",
+      "source_section": "3.9.1",
+      "title": "Scale, growth and retrenchment",
+      "rights_safe_requirement_summary": "Organic/external growth, economies/diseconomies/scope/synergy/overtrading; mergers/takeovers/joint ventures/franchising and integration types.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-007",
+        "BUS-FND-008",
+        "BUS-FIN-006",
+        "BUS-STR-007",
+        "BUS-EVI-006",
+        "BUS-EXT-003"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "vertical_horizontal_conglomerate_integration_labels",
+        "retrenchment"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.9.2",
+      "source_section": "3.9.2",
+      "title": "Innovation",
+      "rights_safe_requirement_summary": "Product/process innovation, Kaizen, R&D, intrapreneurship, benchmarking, patents/copyright and functional impact.",
+      "mapped_subject_node_ids": [
+        "BUS-FND-002",
+        "BUS-OPS-005",
+        "BUS-STR-008",
+        "BUS-EVI-006"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_Kaizen_benchmarking_named_treatment"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.9.3",
+      "source_section": "3.9.3",
+      "title": "Internationalisation and globalisation",
+      "rights_safe_requirement_summary": "Globalisation/emerging economies; exporting/licensing/alliances/direct investment; attractiveness; offshoring/reshoring; multinationals; local responsiveness versus cost pressure.",
+      "mapped_subject_node_ids": [
+        "BUS-EXT-003",
+        "BUS-EXT-004",
+        "BUS-OPS-009",
+        "BUS-STR-007"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_emerging_economy_and_MNC_labels",
+        "local_responsiveness_vs_cost_pressure"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.9.4",
+      "source_section": "3.9.4",
+      "title": "Digital technology",
+      "rights_safe_requirement_summary": "Automation, e-commerce, big data/data mining; competitive and functional effects.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-008",
+        "BUS-MKT-009",
+        "BUS-EVI-005",
+        "BUS-OPS-002"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "big_data_data_mining_AQA_depth"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.10.1",
+      "source_section": "3.10.1",
+      "title": "Managing change",
+      "rights_safe_requirement_summary": "Internal/external, incremental/disruptive change; Lewin; restructuring/delayering/flexible contracts/organic-mechanistic; barriers; Kotter-Schlesinger resistance and methods.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-009",
+        "BUS-MOD-005",
+        "BUS-PEO-007",
+        "BUS-PEO-011",
+        "BUS-EVI-008"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "Kotter_Schlesinger_resistance_reasons_and_six_methods",
+        "organic_mechanistic_structure_labels"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.10.2",
+      "source_section": "3.10.2",
+      "title": "Organisational culture",
+      "rights_safe_requirement_summary": "Handy's task, role, power and person cultures; influences; reasons and problems changing culture.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-011",
+        "BUS-STR-009"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "Handy_culture_types"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.10.3",
+      "source_section": "3.10.3",
+      "title": "Implementing strategy",
+      "rights_safe_requirement_summary": "Leadership, communication and structure; network analysis diagrams, amendments, critical path and total float.",
+      "mapped_subject_node_ids": [
+        "BUS-PEO-009",
+        "BUS-PEO-010",
+        "BUS-PEO-007",
+        "BUS-EVI-008",
+        "BUS-STR-009"
+      ],
+      "gap_classification": "D_COURSE_SPECIFIC_REQUIREMENT",
+      "required_course_facets": [
+        "AQA_network_diagram_presentation_convention"
+      ],
+      "required_quantitative_methods": [
+        "critical_path",
+        "total_float"
+      ],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    },
+    {
+      "requirement_id": "AQA-7132-3.10.4",
+      "source_section": "3.10.4",
+      "title": "Problems with strategy",
+      "rights_safe_requirement_summary": "Decision/implementation difficulty, planned versus emergent strategy, drift, performance, planning value and contingency/crisis planning.",
+      "mapped_subject_node_ids": [
+        "BUS-STR-001",
+        "BUS-STR-009",
+        "BUS-EXT-007",
+        "BUS-EVI-007"
+      ],
+      "gap_classification": "A_EXISTING_FOUNDATION_SUFFICIENT",
+      "required_course_facets": [
+        "strategic_drift_AQA_label"
+      ],
+      "required_quantitative_methods": [],
+      "coverage_status": "mapped",
+      "source_coverage_status": "mapped",
+      "effective_coverage_status": "mapped"
+    }
+  ],
+  "selected_subject_node_ids": [
+    "BUS-EVI-001",
+    "BUS-EVI-002",
+    "BUS-EVI-003",
+    "BUS-EVI-004",
+    "BUS-EVI-005",
+    "BUS-EVI-006",
+    "BUS-EVI-007",
+    "BUS-EVI-008",
+    "BUS-EXT-001",
+    "BUS-EXT-002",
+    "BUS-EXT-003",
+    "BUS-EXT-004",
+    "BUS-EXT-005",
+    "BUS-EXT-006",
+    "BUS-EXT-007",
+    "BUS-FIN-001",
+    "BUS-FIN-002",
+    "BUS-FIN-003",
+    "BUS-FIN-004",
+    "BUS-FIN-005",
+    "BUS-FIN-006",
+    "BUS-FIN-007",
+    "BUS-FIN-008",
+    "BUS-FIN-009",
+    "BUS-FIN-010",
+    "BUS-FIN-011",
+    "BUS-FIN-012",
+    "BUS-FIN-013",
+    "BUS-FIN-014",
+    "BUS-FND-001",
+    "BUS-FND-002",
+    "BUS-FND-003",
+    "BUS-FND-004",
+    "BUS-FND-005",
+    "BUS-FND-006",
+    "BUS-FND-007",
+    "BUS-FND-008",
+    "BUS-FND-009",
+    "BUS-MKT-001",
+    "BUS-MKT-002",
+    "BUS-MKT-003",
+    "BUS-MKT-004",
+    "BUS-MKT-005",
+    "BUS-MKT-006",
+    "BUS-MKT-007",
+    "BUS-MKT-008",
+    "BUS-MKT-009",
+    "BUS-MOD-001",
+    "BUS-MOD-002",
+    "BUS-MOD-003",
+    "BUS-MOD-005",
+    "BUS-OPS-001",
+    "BUS-OPS-002",
+    "BUS-OPS-003",
+    "BUS-OPS-004",
+    "BUS-OPS-005",
+    "BUS-OPS-006",
+    "BUS-OPS-007",
+    "BUS-OPS-008",
+    "BUS-OPS-009",
+    "BUS-PEO-001",
+    "BUS-PEO-002",
+    "BUS-PEO-004",
+    "BUS-PEO-005",
+    "BUS-PEO-006",
+    "BUS-PEO-007",
+    "BUS-PEO-008",
+    "BUS-PEO-009",
+    "BUS-PEO-010",
+    "BUS-PEO-011",
+    "BUS-STR-001",
+    "BUS-STR-002",
+    "BUS-STR-003",
+    "BUS-STR-004",
+    "BUS-STR-005",
+    "BUS-STR-006",
+    "BUS-STR-007",
+    "BUS-STR-008",
+    "BUS-STR-009"
+  ],
+  "prerequisite_only_node_ids": [
+    "BUS-MKT-001"
+  ],
+  "coverage": {
+    "governed_requirement_count": 42,
+    "mapped_requirement_count": 42,
+    "unresolved_requirement_count": 0,
+    "selected_node_count": 79,
+    "projection_ready": true
+  },
+  "known_limitations": [
+    "Course Truth defines what this exact AQA course requires; assessment demand is owned separately by Exam Truth.",
+    "Course-specific labels, conventions and placement remain mapping facts and do not mutate reusable subject knowledge.",
+    "Named-item coverage is proven separately by the item-level coverage check (NAMED_ITEMS.json)."
+  ],
+  "projection_fingerprint": "0f285c032ba430e392465e6e7190fb2cbf11c25cf49f94aecf8db9665ee174d4"
+}

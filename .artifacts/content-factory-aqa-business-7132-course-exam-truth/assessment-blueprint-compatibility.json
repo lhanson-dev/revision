@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 2,
+  "jobId": "aqa-business-7132-2027",
+  "boardAlignmentFingerprint": "3ce811b9c20a500ae3597e8a2a748642505a1dd27b0bd483bbd91151a6667e7c",
+  "courseKnowledgeModelFingerprint": "11b1507dea41ca1b593acf45eaf37ce63669d697050a5ba22a17ddd7c54ad454",
+  "assessmentObjectives": [
+    {
+      "id": "ao1"
+    },
+    {
+      "id": "ao2"
+    },
+    {
+      "id": "ao3"
+    },
+    {
+      "id": "ao4"
+    }
+  ],
+  "assessmentRequirements": [
+    {
+      "id": "aqa-7132-whole-course-content",
+      "summary": "Each of the three written papers can assess content from across the full A-level Business course.",
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ]
+    },
+    {
+      "id": "aqa-7132-quantitative-minimum",
+      "summary": "At least 10% of qualification marks assess quantitative skills.",
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ]
+    },
+    {
+      "id": "aqa-7132-ao-range-contract",
+      "summary": "AO1 to AO4 are governed by published qualification-level percentage ranges rather than a single invented fixed weighting.",
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "componentId": "aqa-7132-1",
+      "questionFamilyIds": [
+        "multiple_choice",
+        "short_answer",
+        "essay_choice"
+      ],
+      "markTotal": 100,
+      "timingMinutes": 120,
+      "constraints": [
+        "Stable structure only; future question-level mark allocations and detailed mark-scheme behaviour are not inferred."
+      ]
+    },
+    {
+      "componentId": "aqa-7132-2",
+      "questionFamilyIds": [
+        "data_response"
+      ],
+      "markTotal": 100,
+      "timingMinutes": 120,
+      "constraints": [
+        "Stable structure only; future question-level mark allocations and detailed mark-scheme behaviour are not inferred."
+      ]
+    },
+    {
+      "componentId": "aqa-7132-3",
+      "questionFamilyIds": [
+        "case_study"
+      ],
+      "markTotal": 100,
+      "timingMinutes": 120,
+      "constraints": [
+        "Stable structure only; future question-level mark allocations and detailed mark-scheme behaviour are not inferred."
+      ]
+    }
+  ],
+  "commandDemands": [],
+  "evidenceExpectations": [],
+  "quantitativeRequirements": [
+    "At least 10% of qualification marks assess quantitative skills; no unsupported allocation to particular question families is asserted here."
+  ],
+  "assessmentObjectiveCoveragePlan": {
+    "sourceAssessmentRequirementId": "aqa-7132-ao-range-contract",
+    "scope": "qualification_total",
+    "totalAssessmentMarks": 300,
+    "objectives": [
+      {
+        "objectiveId": "ao1",
+        "minPercent": 22,
+        "maxPercent": 25
+      },
+      {
+        "objectiveId": "ao2",
+        "minPercent": 24,
+        "maxPercent": 27
+      },
+      {
+        "objectiveId": "ao3",
+        "minPercent": 25,
+        "maxPercent": 28
+      },
+      {
+        "objectiveId": "ao4",
+        "minPercent": 23,
+        "maxPercent": 26
+      }
+    ],
+    "generationValidation": "sum_assessment_objective_marks_within_ranges",
+    "allocationRequiredAt": "marking_pack_generation"
+  },
+  "synopticRequirements": [
+    "All three papers can assess content from across the full course."
+  ]
+}

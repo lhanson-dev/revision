@@ -1,0 +1,1645 @@
+{
+  "schemaVersion": 1,
+  "jobId": "aqa-business-7132-2027",
+  "sourceSetFingerprint": "4d412b6650539778655c73bdb99a74530b351b60572c0dc6ef3e58e1a87e75e9",
+  "requirements": [
+    {
+      "requirementId": "aqa-7132-3.1.1",
+      "officialReference": "3.1.1 The nature and purpose of business",
+      "requirementSummary": "Why businesses exist; mission/objectives; purpose of objectives; basic revenue, cost and profit measures.",
+      "skillsOrKnowledge": [
+        "Why businesses exist; mission/objectives; purpose of objectives; basic revenue, cost and profit measures."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "The nature and purpose of business",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-evi-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.1.2",
+      "officialReference": "3.1.2 Different forms of business",
+      "requirementSummary": "Ownership forms, liability, shareholders and share capital; market capitalisation, dividends and share-price significance.",
+      "skillsOrKnowledge": [
+        "Ownership forms, liability, shareholders and share capital; market capitalisation, dividends and share-price significance.",
+        "Course-specific facet: ordinary_share_capital",
+        "Course-specific facet: dividends",
+        "Course-specific facet: market_capitalisation",
+        "Course-specific facet: share_price_significance",
+        "Course-specific quantitative convention: market_capitalisation = shares_in_issue × current_share_price"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Different forms of business",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-003",
+        "bus-fnd-004",
+        "bus-fin-008",
+        "bus-fin-012",
+        "bus-fnd-002",
+        "bus-fin-001",
+        "bus-fin-010",
+        "bus-fin-011",
+        "bus-evi-001",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fin-002",
+        "bus-fin-003"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.1.3",
+      "officialReference": "3.1.3 The external environment",
+      "requirementSummary": "How competition, market conditions, incomes, interest rates, demographic and environmental factors affect business decisions.",
+      "skillsOrKnowledge": [
+        "How competition, market conditions, incomes, interest rates, demographic and environmental factors affect business decisions."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "The external environment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-009",
+        "bus-ext-001",
+        "bus-ext-002",
+        "bus-ext-006",
+        "bus-fnd-001",
+        "bus-mkt-001",
+        "bus-str-005",
+        "bus-ext-005",
+        "bus-ops-007",
+        "bus-str-002",
+        "bus-fnd-006",
+        "bus-fnd-004",
+        "bus-ops-006",
+        "bus-str-001",
+        "bus-mkt-007",
+        "bus-ops-004",
+        "bus-fnd-005",
+        "bus-fnd-003",
+        "bus-ops-001",
+        "bus-fin-005",
+        "bus-evi-006",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-evi-001",
+        "bus-fnd-002",
+        "bus-fin-003",
+        "bus-mkt-003",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.2.1",
+      "officialReference": "3.2.1 Management and leadership",
+      "requirementSummary": "Management versus leadership; leadership styles; factors affecting suitability; Tannenbaum-Schmidt continuum.",
+      "skillsOrKnowledge": [
+        "Management versus leadership; leadership styles; factors affecting suitability; Tannenbaum-Schmidt continuum.",
+        "Course-specific facet: autocratic_paternalistic_democratic_laissez_faire_labels",
+        "Course-specific facet: tannenbaum_schmidt_continuum"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Management and leadership",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-010",
+        "bus-peo-008",
+        "bus-evi-007",
+        "bus-peo-007",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-evi-006",
+        "bus-str-001",
+        "bus-fnd-004",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fnd-005",
+        "bus-fnd-006",
+        "bus-fnd-003",
+        "bus-fnd-001",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.2.2",
+      "officialReference": "3.2.2 Management decision making",
+      "requirementSummary": "Data and scientific decision making versus intuition; decision trees; expected value/net gains; risk, uncertainty and opportunity cost.",
+      "skillsOrKnowledge": [
+        "Data and scientific decision making versus intuition; decision trees; expected value/net gains; risk, uncertainty and opportunity cost.",
+        "Course-specific facet: AQA_net_gain_presentation",
+        "Course-specific quantitative convention: expected_value",
+        "Course-specific quantitative convention: net_gain_under_AQA_convention"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Management decision making",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-evi-004",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-fnd-009",
+        "bus-evi-007",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fnd-001",
+        "bus-evi-006",
+        "bus-str-001",
+        "bus-fnd-005",
+        "bus-fnd-006"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.2.3",
+      "officialReference": "3.2.3 Stakeholders",
+      "requirementSummary": "Stakeholder needs, conflicts, influence and power/interest; communication and consultation.",
+      "skillsOrKnowledge": [
+        "Stakeholder needs, conflicts, influence and power/interest; communication and consultation.",
+        "Course-specific facet: AQA_power_interest_stakeholder_mapping"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Stakeholders",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-006",
+        "bus-peo-009",
+        "bus-evi-007",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-peo-007",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-evi-006",
+        "bus-str-001",
+        "bus-fnd-004",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.3.1",
+      "officialReference": "3.3.1 Marketing objectives",
+      "requirementSummary": "Sales volume/value, market size/growth/share and brand loyalty as objectives/performance measures.",
+      "skillsOrKnowledge": [
+        "Sales volume/value, market size/growth/share and brand loyalty as objectives/performance measures."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Marketing objectives",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-mkt-002",
+        "bus-mkt-007",
+        "bus-fnd-005",
+        "bus-mkt-001",
+        "bus-evi-001",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-fnd-001",
+        "bus-mkt-003"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.3.2",
+      "officialReference": "3.3.2 Markets and customers",
+      "requirementSummary": "Primary/secondary and qualitative/quantitative research; sampling; market calculations; correlation; confidence intervals; extrapolation; elasticity interpretation.",
+      "skillsOrKnowledge": [
+        "Primary/secondary and qualitative/quantitative research; sampling; market calculations; correlation; confidence intervals; extrapolation; elasticity interpretation.",
+        "Course-specific facet: random_stratified_quota_sampling_labels",
+        "Course-specific facet: confidence_interval_interpretation",
+        "Course-specific facet: PED_YED_interpretation_without_required_calculation",
+        "Course-specific quantitative convention: market_growth",
+        "Course-specific quantitative convention: market_share",
+        "Course-specific quantitative convention: market_size"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Markets and customers",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-mkt-003",
+        "bus-mkt-004",
+        "bus-mkt-002",
+        "bus-mkt-008",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-005",
+        "bus-mkt-001",
+        "bus-fin-003",
+        "bus-fnd-001",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.3.3",
+      "officialReference": "3.3.3 Segmentation, targeting and positioning",
+      "requirementSummary": "Segmentation bases, mass/niche targeting, positioning and market mapping.",
+      "skillsOrKnowledge": [
+        "Segmentation bases, mass/niche targeting, positioning and market mapping."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Segmentation, targeting and positioning",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-mkt-005",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.3.4",
+      "officialReference": "3.3.4 The marketing mix",
+      "requirementSummary": "Integrated 7Ps; product/service decisions; Boston Matrix; life cycle; pricing; branding/promotion; channels; digital/e-commerce; service elements.",
+      "skillsOrKnowledge": [
+        "Integrated 7Ps; product/service decisions; Boston Matrix; life cycle; pricing; branding/promotion; channels; digital/e-commerce; service elements.",
+        "Course-specific facet: AQA_7Ps_required_labels",
+        "Course-specific facet: AQA_Boston_Matrix_required_treatment"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "The marketing mix",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-mkt-006",
+        "bus-mkt-007",
+        "bus-mkt-008",
+        "bus-mkt-009",
+        "bus-str-006",
+        "bus-mkt-005",
+        "bus-mkt-001",
+        "bus-mkt-002",
+        "bus-fin-003",
+        "bus-evi-001",
+        "bus-fin-005",
+        "bus-mkt-003",
+        "bus-fnd-001",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.4.1",
+      "officialReference": "3.4.1 Operational objectives",
+      "requirementSummary": "Cost, quality, speed, flexibility, environmental objectives and added value.",
+      "skillsOrKnowledge": [
+        "Cost, quality, speed, flexibility, environmental objectives and added value."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Operational objectives",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ops-001",
+        "bus-ext-006",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-ext-005",
+        "bus-ops-007",
+        "bus-fnd-006",
+        "bus-fnd-004",
+        "bus-ops-006",
+        "bus-fnd-003",
+        "bus-fin-005",
+        "bus-fnd-002",
+        "bus-fin-003",
+        "bus-fin-002",
+        "bus-evi-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.4.2",
+      "officialReference": "3.4.2 Operational performance data",
+      "requirementSummary": "Labour productivity, unit/average cost, capacity and capacity utilisation.",
+      "skillsOrKnowledge": [
+        "Labour productivity, unit/average cost, capacity and capacity utilisation.",
+        "Course-specific facet: AQA_operational_metric_formula_conventions",
+        "Course-specific quantitative convention: labour_productivity",
+        "Course-specific quantitative convention: unit_cost",
+        "Course-specific quantitative convention: capacity_utilisation"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Operational performance data",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ops-003",
+        "bus-ops-004",
+        "bus-peo-001",
+        "bus-fin-002",
+        "bus-ops-001",
+        "bus-ops-002",
+        "bus-evi-001",
+        "bus-fnd-005",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.4.3",
+      "officialReference": "3.4.3 Efficiency and productivity",
+      "requirementSummary": "Capacity, lean production, JIT/JIC, labour/capital intensity and technology effects.",
+      "skillsOrKnowledge": [
+        "Capacity, lean production, JIT/JIC, labour/capital intensity and technology effects.",
+        "Course-specific facet: just_in_case_label"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Efficiency and productivity",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ops-002",
+        "bus-ops-003",
+        "bus-ops-004",
+        "bus-ops-005",
+        "bus-ops-006",
+        "bus-str-008",
+        "bus-ops-001",
+        "bus-evi-001",
+        "bus-fin-005",
+        "bus-str-001",
+        "bus-fnd-009",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fin-003",
+        "bus-evi-006",
+        "bus-fin-002",
+        "bus-fnd-006"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.4.4",
+      "officialReference": "3.4.4 Quality",
+      "requirementSummary": "Quality control and quality assurance, benefits/difficulties and consequences of poor quality.",
+      "skillsOrKnowledge": [
+        "Quality control and quality assurance, benefits/difficulties and consequences of poor quality."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Quality",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ops-008",
+        "bus-ops-001",
+        "bus-ops-005",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-ops-002",
+        "bus-ops-004",
+        "bus-evi-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.4.5",
+      "officialReference": "3.4.5 Inventory and supply chains",
+      "requirementSummary": "Matching supply/demand; flexibility options; inventory-control chart concepts; supplier choice and supply-chain effectiveness.",
+      "skillsOrKnowledge": [
+        "Matching supply/demand; flexibility options; inventory-control chart concepts; supplier choice and supply-chain effectiveness.",
+        "Course-specific facet: AQA_inventory_control_chart",
+        "Course-specific facet: lead_time_reorder_level_buffer_stock_reorder_quantity",
+        "Course-specific quantitative convention: AQA_stock_control_calculations_if_data_supplied"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Inventory and supply chains",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ops-006",
+        "bus-ops-007",
+        "bus-ops-009",
+        "bus-evi-003",
+        "bus-ops-001",
+        "bus-fin-005",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fin-003",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.5.1",
+      "officialReference": "3.5.1 Financial objectives",
+      "requirementSummary": "Return/investment objectives; revenue/cost/profit; cash-flow objectives and profit-versus-cash.",
+      "skillsOrKnowledge": [
+        "Return/investment objectives; revenue/cost/profit; cash-flow objectives and profit-versus-cash."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Financial objectives",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-001",
+        "bus-fin-003",
+        "bus-fin-005",
+        "bus-fin-012",
+        "bus-fin-010",
+        "bus-fnd-005",
+        "bus-fin-002",
+        "bus-evi-001",
+        "bus-fin-011",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.5.2",
+      "officialReference": "3.5.2 Financial performance",
+      "requirementSummary": "Budgets/forecasts/variance; break-even and margin of safety; contribution; profit margins; working-capital timing and use of data.",
+      "skillsOrKnowledge": [
+        "Budgets/forecasts/variance; break-even and margin of safety; contribution; profit margins; working-capital timing and use of data.",
+        "Course-specific facet: AQA_profit_measure_labels",
+        "Course-specific facet: adverse_favourable_variance_labels",
+        "Course-specific quantitative convention: break_even_output",
+        "Course-specific quantitative convention: margin_of_safety",
+        "Course-specific quantitative convention: contribution",
+        "Course-specific quantitative convention: gross_profit_margin",
+        "Course-specific quantitative convention: operating_profit_margin"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Financial performance",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-003",
+        "bus-fin-004",
+        "bus-fin-005",
+        "bus-fin-006",
+        "bus-fin-007",
+        "bus-fin-010",
+        "bus-fin-012",
+        "bus-evi-005",
+        "bus-fin-001",
+        "bus-fin-002",
+        "bus-evi-001",
+        "bus-ops-006",
+        "bus-evi-003",
+        "bus-fin-011",
+        "bus-evi-002",
+        "bus-fnd-005",
+        "bus-ops-001",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.5.3",
+      "officialReference": "3.5.3 Sources of finance",
+      "requirementSummary": "Debt factoring, overdrafts, retained profit, share capital, loans, venture capital and crowdfunding; short/long-term trade-offs.",
+      "skillsOrKnowledge": [
+        "Debt factoring, overdrafts, retained profit, share capital, loans, venture capital and crowdfunding; short/long-term trade-offs.",
+        "Course-specific facet: AQA_named_source_set_including_crowdfunding_and_debt_factoring"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Sources of finance",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-008",
+        "bus-fin-014",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-fin-011",
+        "bus-fin-012",
+        "bus-fin-013",
+        "bus-fnd-005",
+        "bus-fnd-002",
+        "bus-fin-010",
+        "bus-evi-001",
+        "bus-fin-006",
+        "bus-fnd-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fin-005",
+        "bus-ops-006",
+        "bus-ops-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.5.4",
+      "officialReference": "3.5.4 Improving financial performance",
+      "requirementSummary": "Ways to improve cash flow, profit and profitability and limitations/difficulties of actions.",
+      "skillsOrKnowledge": [
+        "Ways to improve cash flow, profit and profitability and limitations/difficulties of actions."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Improving financial performance",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-003",
+        "bus-fin-005",
+        "bus-fin-006",
+        "bus-fin-012",
+        "bus-evi-007",
+        "bus-fin-002",
+        "bus-evi-001",
+        "bus-ops-006",
+        "bus-fin-010",
+        "bus-fin-011",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-evi-006",
+        "bus-str-001",
+        "bus-ops-001",
+        "bus-fnd-005",
+        "bus-fnd-006",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.6.1",
+      "officialReference": "3.6.1 Human resource objectives",
+      "requirementSummary": "Engagement, talent, training, diversity, values and workforce quantity/skills/location; hard and soft HRM approaches.",
+      "skillsOrKnowledge": [
+        "Engagement, talent, training, diversity, values and workforce quantity/skills/location; hard and soft HRM approaches.",
+        "Course-specific facet: hard_HRM_soft_HRM_AQA_lens"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Human resource objectives",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-001",
+        "bus-peo-004",
+        "bus-peo-005",
+        "bus-peo-011",
+        "bus-peo-002",
+        "bus-fnd-005",
+        "bus-peo-009",
+        "bus-fnd-001",
+        "bus-peo-007",
+        "bus-fnd-004",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.6.2",
+      "officialReference": "3.6.2 Human resource performance data",
+      "requirementSummary": "Labour turnover/productivity, employee costs relative to turnover and labour cost per unit; interpret HR data.",
+      "skillsOrKnowledge": [
+        "Labour turnover/productivity, employee costs relative to turnover and labour cost per unit; interpret HR data.",
+        "Course-specific facet: AQA_HR_metric_formula_conventions",
+        "Course-specific quantitative convention: labour_turnover",
+        "Course-specific quantitative convention: labour_productivity",
+        "Course-specific quantitative convention: employee_costs_percent_turnover",
+        "Course-specific quantitative convention: labour_cost_per_unit"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Human resource performance data",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-001",
+        "bus-ops-004",
+        "bus-fin-002",
+        "bus-evi-005",
+        "bus-fnd-005",
+        "bus-ops-001",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.6.3",
+      "officialReference": "3.6.3 Organisational design and workforce planning",
+      "requirementSummary": "Functional/product/regional/matrix structures; authority/span/hierarchy/delegation/centralisation; recruitment/training/redeployment/redundancy.",
+      "skillsOrKnowledge": [
+        "Functional/product/regional/matrix structures; authority/span/hierarchy/delegation/centralisation; recruitment/training/redeployment/redundancy.",
+        "Course-specific facet: AQA_named_structure_set",
+        "Course-specific facet: redeployment_redundancy_course_context"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Organisational design and workforce planning",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-001",
+        "bus-peo-002",
+        "bus-peo-004",
+        "bus-peo-007",
+        "bus-peo-008",
+        "bus-fnd-005",
+        "bus-fnd-004",
+        "bus-fnd-001",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.6.4",
+      "officialReference": "3.6.4 Motivation and reward",
+      "requirementSummary": "Taylor, Maslow and Herzberg; financial and non-financial methods; evaluate effectiveness.",
+      "skillsOrKnowledge": [
+        "Taylor, Maslow and Herzberg; financial and non-financial methods; evaluate effectiveness."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Motivation and reward",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-005",
+        "bus-peo-006",
+        "bus-mod-001",
+        "bus-mod-002",
+        "bus-mod-003",
+        "bus-peo-001",
+        "bus-ops-004",
+        "bus-fnd-005",
+        "bus-ops-001",
+        "bus-evi-001",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.6.5",
+      "officialReference": "3.6.5 Employee relations",
+      "requirementSummary": "Employee involvement, unions/works councils, communication and employee relations/value.",
+      "skillsOrKnowledge": [
+        "Employee involvement, unions/works councils, communication and employee relations/value.",
+        "Course-specific facet: trade_union_works_council_examples"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Employee relations",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-009",
+        "bus-peo-011",
+        "bus-fnd-006",
+        "bus-peo-007",
+        "bus-peo-005",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fnd-004",
+        "bus-peo-001",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.1",
+      "officialReference": "3.7.1 Mission, objectives and strategy",
+      "requirementSummary": "Mission/corporate/functional objectives; influences; strategy versus tactics; functional effects; SWOT.",
+      "skillsOrKnowledge": [
+        "Mission/corporate/functional objectives; influences; strategy versus tactics; functional effects; SWOT."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Mission, objectives and strategy",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-005",
+        "bus-str-001",
+        "bus-str-003",
+        "bus-evi-006",
+        "bus-evi-007",
+        "bus-fnd-001",
+        "bus-fnd-009",
+        "bus-fnd-006",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.2",
+      "officialReference": "3.7.2 Financial ratio analysis",
+      "requirementSummary": "Income statement and statement of financial position; ROCE/current ratio/gearing plus payables/receivables days and inventory turnover; comparisons.",
+      "skillsOrKnowledge": [
+        "Income statement and statement of financial position; ROCE/current ratio/gearing plus payables/receivables days and inventory turnover; comparisons.",
+        "Course-specific facet: AQA_working_capital_ratio_conventions",
+        "Course-specific quantitative convention: ROCE",
+        "Course-specific quantitative convention: current_ratio",
+        "Course-specific quantitative convention: gearing_AQA_convention",
+        "Course-specific quantitative convention: payables_days",
+        "Course-specific quantitative convention: receivables_days",
+        "Course-specific quantitative convention: inventory_turnover"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Financial ratio analysis",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-006",
+        "bus-fin-010",
+        "bus-fin-011",
+        "bus-fin-012",
+        "bus-fin-013",
+        "bus-fin-014",
+        "bus-evi-005",
+        "bus-fin-005",
+        "bus-ops-006",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-evi-001",
+        "bus-fin-008",
+        "bus-evi-002",
+        "bus-ops-001",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.3",
+      "officialReference": "3.7.3 Overall business performance",
+      "requirementSummary": "Non-financial functional evidence, core competences, short/long-term performance and Triple Bottom Line.",
+      "skillsOrKnowledge": [
+        "Non-financial functional evidence, core competences, short/long-term performance and Triple Bottom Line.",
+        "Course-specific facet: Elkington_Triple_Bottom_Line"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Overall business performance",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-evi-005",
+        "bus-evi-006",
+        "bus-evi-007",
+        "bus-str-002",
+        "bus-ext-006",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-fnd-005",
+        "bus-fnd-006",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-str-001",
+        "bus-mkt-007",
+        "bus-ops-004",
+        "bus-ext-005",
+        "bus-ops-007",
+        "bus-fnd-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-ops-001",
+        "bus-fnd-004",
+        "bus-ops-006",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-fnd-003",
+        "bus-fin-005",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.4",
+      "officialReference": "3.7.4 Political and legal environment",
+      "requirementSummary": "Competition, labour/environment law and government policy on enterprise, regulators, infrastructure, environment and trade.",
+      "skillsOrKnowledge": [
+        "Competition, labour/environment law and government policy on enterprise, regulators, infrastructure, environment and trade."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Political and legal environment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-009",
+        "bus-ext-002",
+        "bus-ext-003",
+        "bus-ext-006",
+        "bus-fnd-001",
+        "bus-mkt-001",
+        "bus-str-005",
+        "bus-str-007",
+        "bus-ext-005",
+        "bus-ops-007",
+        "bus-str-002",
+        "bus-fnd-007",
+        "bus-str-004",
+        "bus-fin-008",
+        "bus-fnd-006",
+        "bus-fnd-004",
+        "bus-ops-006",
+        "bus-str-001",
+        "bus-mkt-007",
+        "bus-ops-004",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-fnd-005",
+        "bus-ops-001",
+        "bus-fin-005",
+        "bus-evi-006",
+        "bus-evi-001",
+        "bus-mkt-003",
+        "bus-fnd-002",
+        "bus-fin-003",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.5",
+      "officialReference": "3.7.5 Economic environment",
+      "requirementSummary": "GDP, taxation, exchange rates, inflation, fiscal/monetary policy and open trade/protectionism; interpret UK/global data.",
+      "skillsOrKnowledge": [
+        "GDP, taxation, exchange rates, inflation, fiscal/monetary policy and open trade/protectionism; interpret UK/global data.",
+        "Course-specific facet: AQA_macro_indicator_set"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Economic environment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ext-001",
+        "bus-ext-003",
+        "bus-ext-004",
+        "bus-evi-005",
+        "bus-fnd-009",
+        "bus-str-007",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-fnd-001",
+        "bus-fnd-007",
+        "bus-str-004",
+        "bus-fin-008",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-str-001",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-fnd-002",
+        "bus-fnd-006"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.6",
+      "officialReference": "3.7.6 Social and technological environment",
+      "requirementSummary": "Demographic/lifestyle/online change; CSR arguments and stakeholder/shareholder perspectives; Carroll pyramid; technology effects.",
+      "skillsOrKnowledge": [
+        "Demographic/lifestyle/online change; CSR arguments and stakeholder/shareholder perspectives; Carroll pyramid; technology effects.",
+        "Course-specific facet: Carroll_CSR_pyramid"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Social and technological environment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ext-005",
+        "bus-ext-006",
+        "bus-str-008",
+        "bus-fnd-006",
+        "bus-fnd-009",
+        "bus-fnd-004",
+        "bus-ops-007",
+        "bus-str-001",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-fnd-003",
+        "bus-ops-006",
+        "bus-evi-006",
+        "bus-fnd-002",
+        "bus-ops-001",
+        "bus-fin-005",
+        "bus-fin-003",
+        "bus-fin-002",
+        "bus-evi-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.7",
+      "officialReference": "3.7.7 Competitive environment",
+      "requirementSummary": "Porter's Five Forces and the effects of entry, buyers, suppliers, rivalry and substitutes.",
+      "skillsOrKnowledge": [
+        "Porter's Five Forces and the effects of entry, buyers, suppliers, rivalry and substitutes."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Competitive environment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-005",
+        "bus-ext-002",
+        "bus-str-002",
+        "bus-mkt-001",
+        "bus-str-001",
+        "bus-mkt-007",
+        "bus-ops-004",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-ops-001",
+        "bus-evi-001",
+        "bus-fnd-006",
+        "bus-mkt-003"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.7.8",
+      "officialReference": "3.7.8 Investment appraisal",
+      "requirementSummary": "Payback, ARR and NPV; combine financial and non-financial factors, risk and uncertainty.",
+      "skillsOrKnowledge": [
+        "Payback, ARR and NPV; combine financial and non-financial factors, risk and uncertainty.",
+        "Course-specific facet: AQA_ARR_denominator_and_NPV_table_conventions",
+        "Course-specific quantitative convention: payback",
+        "Course-specific quantitative convention: ARR",
+        "Course-specific quantitative convention: NPV"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Investment appraisal",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fin-009",
+        "bus-evi-003",
+        "bus-evi-007",
+        "bus-fin-001",
+        "bus-fin-005",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-evi-004",
+        "bus-evi-006",
+        "bus-str-001",
+        "bus-fnd-005",
+        "bus-fin-003",
+        "bus-fin-002",
+        "bus-fnd-006",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.8.1",
+      "officialReference": "3.8.1 Choosing markets and products",
+      "requirementSummary": "Ansoff directions and factors affecting strategic direction.",
+      "skillsOrKnowledge": [
+        "Ansoff directions and factors affecting strategic direction."
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Choosing markets and products",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-004",
+        "bus-evi-007",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-str-001",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-evi-006",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-fnd-005",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fnd-006",
+        "bus-fnd-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.8.2",
+      "officialReference": "3.8.2 Competitive positioning",
+      "requirementSummary": "Porter low-cost, differentiation and focus approaches; choice, competitive advantage and maintenance.",
+      "skillsOrKnowledge": [
+        "Porter low-cost, differentiation and focus approaches; choice, competitive advantage and maintenance.",
+        "Course-specific facet: Porter_generic_strategies_low_cost_differentiation_focus"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Competitive positioning",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-002",
+        "bus-str-005",
+        "bus-str-001",
+        "bus-mkt-007",
+        "bus-ops-004",
+        "bus-mkt-001",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-ops-001",
+        "bus-evi-001",
+        "bus-fnd-001",
+        "bus-fnd-006",
+        "bus-mkt-003"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.9.1",
+      "officialReference": "3.9.1 Scale, growth and retrenchment",
+      "requirementSummary": "Organic/external growth, economies/diseconomies/scope/synergy/overtrading; mergers/takeovers/joint ventures/franchising and integration types.",
+      "skillsOrKnowledge": [
+        "Organic/external growth, economies/diseconomies/scope/synergy/overtrading; mergers/takeovers/joint ventures/franchising and integration types.",
+        "Course-specific facet: vertical_horizontal_conglomerate_integration_labels",
+        "Course-specific facet: retrenchment"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Scale, growth and retrenchment",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-007",
+        "bus-fnd-008",
+        "bus-fin-006",
+        "bus-str-007",
+        "bus-evi-006",
+        "bus-ext-003",
+        "bus-fnd-001",
+        "bus-fin-002",
+        "bus-fin-005",
+        "bus-ops-006",
+        "bus-str-004",
+        "bus-fin-008",
+        "bus-fnd-005",
+        "bus-fnd-006",
+        "bus-fnd-009",
+        "bus-evi-001",
+        "bus-fin-003",
+        "bus-ops-001",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-str-001",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.9.2",
+      "officialReference": "3.9.2 Innovation",
+      "requirementSummary": "Product/process innovation, Kaizen, R&D, intrapreneurship, benchmarking, patents/copyright and functional impact.",
+      "skillsOrKnowledge": [
+        "Product/process innovation, Kaizen, R&D, intrapreneurship, benchmarking, patents/copyright and functional impact.",
+        "Course-specific facet: AQA_Kaizen_benchmarking_named_treatment"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Innovation",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-fnd-002",
+        "bus-ops-005",
+        "bus-str-008",
+        "bus-evi-006",
+        "bus-fnd-001",
+        "bus-ops-001",
+        "bus-ops-002",
+        "bus-ops-004",
+        "bus-str-001",
+        "bus-fnd-009",
+        "bus-fnd-005",
+        "bus-fnd-006",
+        "bus-evi-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.9.3",
+      "officialReference": "3.9.3 Internationalisation and globalisation",
+      "requirementSummary": "Globalisation/emerging economies; exporting/licensing/alliances/direct investment; attractiveness; offshoring/reshoring; multinationals; local responsiveness versus cost pressure.",
+      "skillsOrKnowledge": [
+        "Globalisation/emerging economies; exporting/licensing/alliances/direct investment; attractiveness; offshoring/reshoring; multinationals; local responsiveness versus cost pressure.",
+        "Course-specific facet: AQA_emerging_economy_and_MNC_labels",
+        "Course-specific facet: local_responsiveness_vs_cost_pressure"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Internationalisation and globalisation",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-ext-003",
+        "bus-ext-004",
+        "bus-ops-009",
+        "bus-str-007",
+        "bus-fnd-009",
+        "bus-evi-001",
+        "bus-ops-001",
+        "bus-ops-007",
+        "bus-fnd-007",
+        "bus-str-004",
+        "bus-fin-008",
+        "bus-fnd-001",
+        "bus-fnd-005",
+        "bus-ops-006",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-str-001",
+        "bus-fin-001",
+        "bus-fnd-003",
+        "bus-fin-005",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-evi-006",
+        "bus-fnd-002",
+        "bus-fin-003",
+        "bus-fnd-006",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.9.4",
+      "officialReference": "3.9.4 Digital technology",
+      "requirementSummary": "Automation, e-commerce, big data/data mining; competitive and functional effects.",
+      "skillsOrKnowledge": [
+        "Automation, e-commerce, big data/data mining; competitive and functional effects.",
+        "Course-specific facet: big_data_data_mining_AQA_depth"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Digital technology",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-008",
+        "bus-mkt-009",
+        "bus-evi-005",
+        "bus-ops-002",
+        "bus-str-001",
+        "bus-fnd-009",
+        "bus-mkt-005",
+        "bus-mkt-006",
+        "bus-mkt-008",
+        "bus-evi-001",
+        "bus-evi-002",
+        "bus-ops-001",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-fnd-001",
+        "bus-mkt-001",
+        "bus-mkt-003",
+        "bus-mkt-002",
+        "bus-fin-003",
+        "bus-fnd-006",
+        "bus-fin-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.10.1",
+      "officialReference": "3.10.1 Managing change",
+      "requirementSummary": "Internal/external, incremental/disruptive change; Lewin; restructuring/delayering/flexible contracts/organic-mechanistic; barriers; Kotter-Schlesinger resistance and methods.",
+      "skillsOrKnowledge": [
+        "Internal/external, incremental/disruptive change; Lewin; restructuring/delayering/flexible contracts/organic-mechanistic; barriers; Kotter-Schlesinger resistance and methods.",
+        "Course-specific facet: Kotter_Schlesinger_resistance_reasons_and_six_methods",
+        "Course-specific facet: organic_mechanistic_structure_labels"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Managing change",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-009",
+        "bus-mod-005",
+        "bus-peo-007",
+        "bus-peo-011",
+        "bus-evi-008",
+        "bus-str-001",
+        "bus-peo-010",
+        "bus-fnd-004",
+        "bus-peo-005",
+        "bus-peo-009",
+        "bus-evi-001",
+        "bus-ops-003",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-peo-008",
+        "bus-fnd-003",
+        "bus-peo-001",
+        "bus-ops-001",
+        "bus-ops-002",
+        "bus-fnd-001",
+        "bus-fnd-006",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.10.2",
+      "officialReference": "3.10.2 Organisational culture",
+      "requirementSummary": "Handy's task, role, power and person cultures; influences; reasons and problems changing culture.",
+      "skillsOrKnowledge": [
+        "Handy's task, role, power and person cultures; influences; reasons and problems changing culture.",
+        "Course-specific facet: Handy_culture_types"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Organisational culture",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-011",
+        "bus-str-009",
+        "bus-peo-005",
+        "bus-peo-009",
+        "bus-str-001",
+        "bus-peo-010",
+        "bus-peo-001",
+        "bus-peo-007",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-peo-008",
+        "bus-fnd-004",
+        "bus-fnd-001",
+        "bus-fnd-006",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.10.3",
+      "officialReference": "3.10.3 Implementing strategy",
+      "requirementSummary": "Leadership, communication and structure; network analysis diagrams, amendments, critical path and total float.",
+      "skillsOrKnowledge": [
+        "Leadership, communication and structure; network analysis diagrams, amendments, critical path and total float.",
+        "Course-specific facet: AQA_network_diagram_presentation_convention",
+        "Course-specific quantitative convention: critical_path",
+        "Course-specific quantitative convention: total_float"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Implementing strategy",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-peo-009",
+        "bus-peo-010",
+        "bus-peo-007",
+        "bus-evi-008",
+        "bus-str-009",
+        "bus-peo-008",
+        "bus-fnd-004",
+        "bus-evi-001",
+        "bus-ops-003",
+        "bus-str-001",
+        "bus-peo-011",
+        "bus-fnd-003",
+        "bus-ops-001",
+        "bus-ops-002",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-peo-005",
+        "bus-fnd-002",
+        "bus-fnd-001",
+        "bus-fnd-006",
+        "bus-peo-001"
+      ],
+      "coverageStatus": "complete"
+    },
+    {
+      "requirementId": "aqa-7132-3.10.4",
+      "officialReference": "3.10.4 Problems with strategy",
+      "requirementSummary": "Decision/implementation difficulty, planned versus emergent strategy, drift, performance, planning value and contingency/crisis planning.",
+      "skillsOrKnowledge": [
+        "Decision/implementation difficulty, planned versus emergent strategy, drift, performance, planning value and contingency/crisis planning.",
+        "Course-specific facet: strategic_drift_AQA_label"
+      ],
+      "componentScope": [
+        "aqa-7132-1",
+        "aqa-7132-2",
+        "aqa-7132-3"
+      ],
+      "revisionArea": "Problems with strategy",
+      "sourceRefs": [
+        "aqa-7132-subject-content",
+        "subject-foundation-current"
+      ],
+      "knowledgeNodeIds": [
+        "bus-str-001",
+        "bus-str-009",
+        "bus-ext-007",
+        "bus-evi-007",
+        "bus-fnd-005",
+        "bus-evi-006",
+        "bus-peo-010",
+        "bus-peo-011",
+        "bus-fnd-009",
+        "bus-evi-002",
+        "bus-evi-003",
+        "bus-evi-004",
+        "bus-fnd-001",
+        "bus-fnd-006",
+        "bus-peo-007",
+        "bus-peo-008",
+        "bus-peo-005",
+        "bus-peo-009",
+        "bus-evi-001",
+        "bus-fin-002",
+        "bus-fin-003",
+        "bus-fnd-004",
+        "bus-peo-001",
+        "bus-fnd-003",
+        "bus-fnd-002"
+      ],
+      "coverageStatus": "complete"
+    }
+  ]
+}
