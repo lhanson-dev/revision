@@ -82,7 +82,7 @@ function buildCourseTruth(candidate) {
         candidate_fingerprint: candidate.fingerprint,
         node_count: candidate.nodes.size,
         // Accuracy of these nodes is checked by the T8 course gate (fast path, ADR-0029), not a separate reassurance run.
-        nodes_pending_course_gate_accuracy: [...(candidate.freshNodeScope || [])].sort()
+        nodes_pending_course_gate_accuracy: [...(candidate.changedSinceAssurance || candidate.freshNodeScope || [])].sort()
       },
       specification_mapping: {
         mapping_id: mapping.mapping_id,

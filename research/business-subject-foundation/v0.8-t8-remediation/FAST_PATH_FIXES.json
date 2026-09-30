@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Additive teaching fixes under the fast-path process (ADR-0029). Entries only add definitions, analysis dimensions, quantitative methods or named models; they never replace existing teaching. Each fix has one line in content-factory/RUN_LOG.md and every fixed node is checked by the T8 course gate's accuracy question.",
+  "rights_boundary": "Revision-authored teaching supported by each node's registered promotion-eligible sources. No awarding-body wording.",
+  "fixes": [
+    {
+      "subject_id": "BUS-FIN-003",
+      "run_log": "3.1.1 Profit formula missing",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Profit", "formula": "total revenue - total costs, where total costs = fixed costs + total variable costs", "units": "currency", "worked_example": "Revenue £50,000; fixed costs £12,000; variable costs £30,000. Total costs = £42,000, so profit = £50,000 - £42,000 = £8,000.", "interpretation": "A negative result is a loss. Profit is a measure over a period and is not the same as the cash the business holds." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-001",
+      "run_log": "3.5.1 Return on investment formula not taught",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Return on investment (ROI)", "formula": "return from the investment / cost of the investment × 100", "units": "percentage", "worked_example": "A £200,000 investment generates £30,000 profit in a year: ROI = £30,000 / £200,000 × 100 = 15% a year.", "interpretation": "Compares the return with the resources committed. State which return (e.g. profit) and which period are used before comparing options." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-010",
+      "run_log": "3.5.1 Operating profit and profit for the year formulas not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "operating profit: gross profit less other operating expenses such as distribution and administrative costs; profit from trading before finance costs and tax",
+          "profit for the year: profit remaining after operating profit is reduced by net finance costs and taxation; available to retain in the business or distribute to owners"
+        ],
+        "methods": [
+          { "name": "Operating profit", "formula": "gross profit - other operating expenses", "units": "currency", "worked_example": "Gross profit £400,000; distribution and administrative expenses £250,000. Operating profit = £400,000 - £250,000 = £150,000.", "interpretation": "Shows how profitable the core trading activity is before financing decisions and tax." },
+          { "name": "Profit for the year", "formula": "operating profit - net finance costs - taxation", "units": "currency", "worked_example": "Operating profit £150,000; net finance costs £20,000; tax £26,000. Profit for the year = £150,000 - £20,000 - £26,000 = £104,000.", "interpretation": "The profit attributable to owners for the period; it can be retained or paid out as dividends." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-012",
+      "run_log": "3.5.2 Profit for the year margin formula not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Profit for the year margin", "formula": "profit for the year / revenue × 100", "units": "percentage", "worked_example": "Profit for the year £104,000 on revenue £1,300,000: margin = £104,000 / £1,300,000 × 100 = 8%.", "interpretation": "The share of each £1 of revenue left for owners after all costs, interest and tax. Compare with gross and operating margins to see where costs are absorbed." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-004",
+      "run_log": "3.5.2 Break-even chart not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011"],
+      "add": {
+        "models_frameworks": ["break-even chart"],
+        "definitions": [
+          "break-even chart: a graph with output on the horizontal axis and costs and revenue on the vertical axis, showing fixed costs, total costs and total revenue; break-even output is where the total revenue and total cost lines cross, and the horizontal distance between actual output and break-even output shows the margin of safety"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-011",
+      "run_log": "3.7.2 Statement of financial position not taught as a named statement",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "models_frameworks": ["statement of financial position"],
+        "definitions": [
+          "statement of financial position: a statement of a business's assets, liabilities and equity at a single point in time (often called the balance sheet); total assets equal total liabilities plus equity"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-013",
+      "run_log": "3.7.2 Payables days, receivables days and inventory turnover formulas not taught",
+      "source_ids": ["SRC-OER-ACCOUNTING-BUSINESS-PERSPECTIVE-2011", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Payables days", "formula": "payables / cost of sales × 365", "units": "days", "worked_example": "Payables £60,000; cost of sales £730,000. Payables days = £60,000 / £730,000 × 365 = 30 days.", "interpretation": "Average time taken to pay suppliers. A longer period helps cash flow but can strain supplier relationships or signal payment difficulty." },
+          { "name": "Receivables days", "formula": "receivables / revenue × 365", "units": "days", "worked_example": "Receivables £90,000; revenue £1,095,000. Receivables days = £90,000 / £1,095,000 × 365 = 30 days.", "interpretation": "Average time customers take to pay. A shorter period improves cash flow; compare with the credit terms the business offers." },
+          { "name": "Inventory turnover", "formula": "cost of sales / average inventories held", "units": "times per year", "worked_example": "Cost of sales £730,000; average inventory £73,000. Inventory turnover = £730,000 / £73,000 = 10 times a year.", "interpretation": "How many times inventory is used or sold and replaced in a year. Higher usually means inventory moves faster, but a sensible level depends on the industry." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FIN-008",
+      "run_log": "3.5.3 Venture capital missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "venture capital: equity finance, often with management advice, provided by specialist investors to young or fast-growing businesses with high growth potential in exchange for a share of ownership; it brings expertise but dilutes control and investors expect a high return and an eventual exit"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-EVI-004",
+      "run_log": "3.2.2 Net gain formula missing",
+      "source_ids": ["SRC-HMT-GREEN-BOOK"],
+      "add": {
+        "methods": [
+          { "name": "Net gain", "formula": "expected value of an option - cost of that option", "units": "currency", "worked_example": "Option A has an expected value of £500,000 and costs £350,000: net gain = £150,000. Option B has an expected value of £420,000 and costs £250,000: net gain = £170,000, so B has the higher net gain.", "interpretation": "On financial grounds choose the option with the highest net gain, then weigh the reliability of the probabilities, risk attitude and non-financial factors." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-MKT-002",
+      "run_log": "3.3.1 Market size formula not taught",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "methods": [
+          { "name": "Market size", "formula": "total sales of all firms in the market over a period, measured by value (revenue) or volume (units)", "units": "currency or units", "worked_example": "Three firms sell £2m, £3m and £5m in a year: market size = £10m by value.", "interpretation": "Needed for market share and growth calculations. Value and volume can move differently when prices change." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-006",
+      "run_log": "3.4.5 Inventory control chart, re-order quantity and influences on inventory levels missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-OER-LOUIS-OPS-2022"],
+      "add": {
+        "models_frameworks": ["inventory control chart"],
+        "definitions": [
+          "inventory control chart: a graph of inventory level over time showing the maximum inventory level, re-order level, buffer inventory, lead time and re-order quantity",
+          "re-order level: the inventory level at which a new order is placed",
+          "buffer inventory: the minimum inventory held as protection against unexpected demand or late delivery",
+          "lead time: the time between placing an order and receiving it",
+          "re-order quantity: the amount ordered each time inventory reaches the re-order level"
+        ],
+        "methods": [
+          { "name": "Re-order quantity", "formula": "maximum inventory level - buffer inventory", "units": "units", "worked_example": "Maximum inventory 1,000 units and buffer inventory 200 units: re-order quantity = 800 units, so a delivery arriving at the buffer level restores the maximum.", "interpretation": "Read from an inventory control chart as the vertical jump when a delivery arrives." },
+          { "name": "Re-order level", "formula": "buffer inventory + (usage per period × lead time in periods)", "units": "units", "worked_example": "Buffer 200 units, usage 50 units a day, lead time 4 days: re-order level = 200 + (50 × 4) = 400 units.", "interpretation": "Ordering at this level means the delivery should arrive as inventory falls to the buffer." }
+        ],
+        "analysis_dimensions": [
+          "influences on inventory levels: demand variability, lead time, supplier reliability, storage and holding costs, perishability or obsolescence, cost of stock-outs and the use of JIT"
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-PEO-001",
+      "run_log": "3.6.2 Employee costs as a percentage of turnover and labour cost per unit formulas missing",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-ONS-PRODUCTIVITY"],
+      "add": {
+        "methods": [
+          { "name": "Employee costs as a percentage of turnover", "formula": "employee costs / turnover (revenue) × 100", "units": "percentage", "worked_example": "Employee costs £300,000; revenue £1,200,000: £300,000 / £1,200,000 × 100 = 25%.", "interpretation": "The share of revenue spent on the workforce. A rising figure can mean pay has grown faster than sales or productivity has fallen." },
+          { "name": "Labour cost per unit", "formula": "total labour costs / units of output", "units": "currency per unit", "worked_example": "Labour costs £300,000 for 60,000 units: labour cost per unit = £5.", "interpretation": "Falls when productivity rises faster than pay. Compare over time or with competitors producing similar output." }
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-STR-009",
+      "run_log": "3.10.1 Kotter and Schlesinger methods of overcoming resistance not taught",
+      "source_ids": ["SRC-OER-FRONTIERS-CHANGE-RESISTANCE-2025", "SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "models_frameworks": ["Kotter and Schlesinger's methods of overcoming resistance to change"],
+        "definitions": [
+          "education and communication: explaining the reasons for change so that people understand it; useful where resistance comes from misunderstanding, but slow with many people",
+          "participation and involvement: involving those affected in designing the change; builds commitment but takes time",
+          "facilitation and support: training, coaching or emotional support to help people adjust; helps where resistance comes from anxiety, but can be costly and may still fail",
+          "negotiation and agreement: offering incentives or concessions in exchange for accepting change; useful where a group clearly loses out, but can be expensive and invite others to negotiate",
+          "manipulation and co-option: selectively using information or giving resisters a token role; quick and cheap but can backfire if people feel manipulated",
+          "explicit and implicit coercion: forcing change through threats or authority; fast but risks resentment, and best reserved for urgent situations"
+        ]
+      }
+    },
+    {"subject_id": "BUS-FND-005", "run_log": "3.1.1 Social and ethical objectives not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["social and ethical objectives: goals a business sets beyond financial return, such as reducing environmental impact, treating staff and suppliers fairly, sourcing ethically or supporting the community; they can strengthen reputation and loyalty but may raise costs or limit profit in the short run"]}},
+    {"subject_id": "BUS-FND-003", "run_log": "3.1.2 Private limited company, public limited company, private and public sector, not-for-profit and social enterprise not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["private limited company (Ltd): an incorporated business, legally separate from its owners, whose shareholders have limited liability; its shares cannot be offered to the general public or traded on a stock exchange, so ownership stays with a small group such as founders, family or chosen investors, which keeps control but limits the capital it can raise", "public limited company (plc): an incorporated business with limited liability that is allowed to offer its shares to the public; UK law sets a minimum share capital for a plc and stricter disclosure rules, and a plc may choose to have its shares listed on a stock exchange, which gives access to large amounts of capital but exposes it to takeover and to shareholder pressure", "private sector and public sector: private-sector organisations are owned by individuals or shareholders and usually aim to make a profit; public-sector organisations are owned or controlled by central or local government (for example the NHS or local councils) and exist mainly to provide services, funded largely through taxation", "not-for-profit organisation: an organisation that does not exist mainly to distribute profit to owners; any surplus is used to pursue its purpose (for example a charity), so success is judged by mission outcomes as well as financial health", "social enterprise: a business that trades to achieve a social or environmental purpose and reinvests most of its profits in that purpose rather than paying them to owners; unlike a charity it earns its income mainly by selling goods or services, and unlike a conventional firm it does not aim to maximise owner returns"]}},
+    {"subject_id": "BUS-FND-009", "run_log": "3.1.3 and 3.7.4/3.7.6 demographic factors, demographic change and migration, consumer lifestyle, online business growth, labour market legislation and government enterprise policy not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["demographic factors: measurable characteristics of a population such as its size, age structure, gender balance, household type, geographic spread and ethnic mix; changes in them alter the number and mix of customers and workers a business can draw on (for example an ageing population increases demand for healthcare and reduces the supply of young workers)", "demographic change and migration: shifts in birth rates, life expectancy and the movement of people into and out of a country; net migration can add to labour supply and skills and change the pattern of consumer demand, while an ageing population can raise costs for government and employers and change what is bought", "consumer lifestyle and buying behaviour: how people live and choose what to buy; trends such as health awareness, concern for sustainability, demand for convenience and use of mobile devices change what customers want, how they search and compare, and where they buy, so businesses must adapt products, promotion and channels", "growth of online business: the rise of online retail and digital services, which lowers entry barriers and premises costs, widens reach and lets customers compare prices instantly; it pushes traditional businesses to build a digital presence and rethink stores, delivery and staffing", "labour market legislation: laws governing employment, such as the National Minimum Wage and National Living Wage, the Equality Act 2010, working-time rules, health and safety duties and protection from unfair dismissal; they raise costs and compliance duties for employers but protect workers and set a level playing field", "government enterprise policy: government measures to encourage new and small businesses, such as start-up loans, grants, tax incentives for investors, advice services and lighter regulation; they lower the risk and cost of starting up, though help is usually limited and may be targeted at particular areas or sectors"]}},
+    {"subject_id": "BUS-EXT-006", "run_log": "3.1.3 Fair trade and 3.7.4 environmental legislation not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-GOV-NETZERO"], "add": {"definitions": ["fair trade: a trading approach in which producers in developing countries, often farmers, receive a guaranteed minimum price and a premium for community investment, and follow agreed labour and environmental standards; businesses that adopt it can gain ethical appeal and a price premium, but face higher input costs and certification requirements", "environmental legislation: laws that limit pollution, emissions and waste, require permits and reporting, and set binding climate targets (for example the UK's Climate Change Act 2008 commits the country to net zero emissions by 2050); compliance can raise costs or force changes to processes, while breaches bring fines and reputational damage"]}},
+    {"subject_id": "BUS-FND-009", "run_log": "3.2.2 Scientific and intuitive decision making, risk and reward, and influences on decisions not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["scientific decision making: a systematic, evidence-based approach in which managers set the objective, gather and analyse relevant data, evaluate the options using techniques such as investment appraisal or decision trees, choose, then review the outcome; it is more objective and defensible but needs time, good data and cost", "intuitive decision making: choosing on the basis of experience, judgement and instinct rather than formal analysis; it is fast and useful when time is short, data are scarce or the situation is new, but it is hard to justify and exposed to personal bias and overconfidence", "risk and reward in decision making: the benefit a decision could bring weighed against the chance and cost of it going wrong; a business with more resources or a bolder culture may accept higher risk for higher potential reward, while a cautious one prefers safer options", "influences on decisions: factors that shape which option managers choose, including the business's mission and objectives, ethics and stakeholder expectations, the external environment such as competition and regulation, and resource constraints such as finance, time and skills"]}},
+    {"subject_id": "BUS-MKT-003", "run_log": "3.3.2 Using marketing data in decisions not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["using marketing data in decisions: marketing data from market research and sales records informs decisions such as which segment to target, what price to charge and which products to develop or drop; its value depends on its quality, how representative the sample was and how up to date it is, and it should be used to support judgement rather than replace it"]}},
+    {"subject_id": "BUS-MKT-006", "run_log": "3.3.4 New product development not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["new product development (NPD): the process of taking a new product from idea to market, typically idea generation, screening, concept testing, business analysis, development and prototyping, test marketing, launch and review; it helps a business refresh its product portfolio and respond to changing needs, but is costly and many new products fail"]}},
+    {"subject_id": "BUS-MKT-009", "run_log": "3.3.4 Social media promotion, viral marketing and e-commerce not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["social media promotion: using platforms such as Instagram, TikTok or LinkedIn to share paid and unpaid content, work with influencers and target adverts at chosen groups; it is relatively cheap, measurable and allows two-way contact with customers, but results are hard to control and negative comments can spread quickly", "viral marketing: a message or piece of content that customers choose to pass on to others, so that it spreads rapidly through their networks at little cost to the business; it can deliver large reach cheaply but its success is unpredictable and the message cannot be controlled once shared", "e-commerce: buying and selling goods and services over the internet, through a business's own website or app or through online marketplaces; it extends reach beyond a local area, is open at all hours and gives useful customer data, but requires investment in delivery, payment security and returns, and exposes the business to intense price comparison"]}},
+    {"subject_id": "BUS-OPS-001", "run_log": "3.4.1 Added value not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["added value: the difference between the selling price of a product and the cost of the bought-in materials and services used to make it (for example a product sold for £50 using £30 of bought-in inputs adds £20 of value); businesses add value by design, quality, service or branding, and higher added value supports higher margins"]}},
+    {"subject_id": "BUS-OPS-006", "run_log": "3.4.3 Just in case and 3.4.5 matching supply to demand, temporary and part-time staff and producing to order not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["just in case (JIC): an inventory approach in which a business holds buffer stocks so that it can meet unexpected demand or cope with supply delays; it reduces the risk of stock-outs but ties up cash and storage space and risks waste, in contrast to just in time", "matching supply to demand: adjusting what the business can supply to what customers want, using forecasting, buffer inventory, flexible capacity, flexible staffing and scheduling; poor matching causes either lost sales and waiting customers or costly unsold stock and idle capacity", "temporary and part-time staff: workers employed for limited periods or fewer hours, used to cover seasonal peaks or uneven demand; they let a business match labour supply to demand and avoid paying for idle time, but may be less committed and trained and can have high turnover", "producing to order: starting production only when a customer has placed an order (also called make to order); it keeps finished stock and waste low and suits bespoke products, but customers wait longer and the business must have flexible capacity"]}},
+    {"subject_id": "BUS-OPS-002", "run_log": "3.4.3 Labour-intensive versus capital-intensive production not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["labour-intensive and capital-intensive production: a labour-intensive process relies mainly on people (for example a consultancy or hairdresser) so labour is the largest cost, while a capital-intensive process relies mainly on machinery and equipment (for example a car plant) so the largest costs are fixed; labour-intensive methods are usually more flexible and suit personalised work, capital-intensive methods can deliver lower unit costs at high volume but need heavy investment"]}},
+    {"subject_id": "BUS-PEO-007", "run_log": "3.6.3 Product-based and regional structures, and 3.10.1 flexible organisations, delayering and flexible contracts not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-ONS-MANAGEMENT"], "add": {"definitions": ["product-based structure: an organisation divided into units according to the products or product ranges it sells, each with its own managers and often its own functions; it builds product expertise and accountability, but duplicates roles and can cause rivalry and inconsistency between units", "regional structure: an organisation divided by geographical area, each region managed with some independence; it responds to local customers and conditions and suits international firms, but can duplicate functions and make central coordination and consistency harder", "delayering: removing one or more layers from the hierarchy, which widens spans of control and shortens chains of command; it cuts cost and speeds communication, but increases managers' workloads and may cause job losses and loss of promotion routes", "flexible organisation: an organisation able to change quickly in response to shifts in demand or the environment, for example through multi-skilled staff, flatter structures, outsourcing and a mix of permanent core staff and flexible peripheral workers; it improves responsiveness and controls cost, but can reduce job security and employee loyalty", "flexible employment contracts: arrangements other than standard full-time permanent jobs, such as part-time, temporary, fixed-term, zero-hours and freelance contracts; they help the employer match labour to demand and control costs, but may bring less commitment, higher turnover and concerns about security for workers"]}},
+    {"subject_id": "BUS-PEO-001", "run_log": "3.6.3 Redeployment and redundancy not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["redeployment: moving an employee to a different role, department or location within the same business, often with retraining, for example when a role is no longer needed; it keeps skills and avoids redundancy costs, but the new job may be a poor fit or less attractive to the employee", "redundancy: ending an employee's job because the role is no longer needed, for instance after restructuring, falling demand or automation, rather than because of the employee's conduct; employees with enough service are entitled to statutory redundancy pay and employers must consult, so redundancy cuts costs but brings payment costs, lower morale and loss of skills"]}},
+    {"subject_id": "BUS-PEO-005", "run_log": "3.6.4 Empowerment, flexible working and job rotation not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022", "SRC-OER-LOUIS-MOTIVATION-2022"], "add": {"definitions": ["empowerment: giving employees more authority to make decisions and take responsibility for their own work; it can raise motivation, because it offers responsibility and recognition, and speed up decisions, but needs training and trust and can lead to inconsistent decisions or mistakes", "flexible working: arrangements that give employees choice over when, where or how long they work, such as flexitime, remote working, compressed hours and job sharing; it can improve work-life balance, retention and recruitment, but can make coordination, supervision and cover harder", "job rotation: moving employees between different tasks or roles of a similar level for set periods; it reduces boredom, builds a wider range of skills and gives cover for absence, but costs training time and may lower productivity in the short run"]}},
+    {"subject_id": "BUS-PEO-011", "run_log": "3.6.5 Employee involvement and 3.10.2 reasons for and problems of changing culture not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["employee involvement: giving employees a say in decisions that affect them, through consultation, suggestion schemes, team briefings, quality circles or employee representatives; UK regulations can require larger employers to inform and consult employees where enough of them ask; involvement builds commitment and uses employees' knowledge, but slows decisions and can raise expectations that are not met", "reasons for and problems of changing culture: a business may need to change its culture because of a new strategy, a merger, poor performance, new leadership or a changed environment; culture change is difficult because values and habits are deeply held, it takes years, it can meet resistance, and staff may leave if they do not accept the new way of working"]}},
+    {"subject_id": "BUS-STR-001", "run_log": "3.7.1 Corporate objectives, functional objectives and short-termism not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["corporate objectives: the overall goals of the whole business, such as profit growth, market share or survival, set by senior managers and the board in line with the mission; they set the direction for strategy and for every department", "functional objectives: goals set for a particular department such as marketing, operations, finance or human resources, designed to support the corporate objectives; objectives need to be consistent across functions, or departments can pull in different directions", "short-termism: giving priority to short-term results such as quarterly profit or the share price at the expense of long-term investment in areas like research, training or sustainability; it can be driven by shareholder pressure and bonus schemes and may damage the business's long-term competitiveness"]}},
+    {"subject_id": "BUS-STR-002", "run_log": "3.7.3 Core competences and 3.8.2 price and non-price competition not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["core competences: the main skills, knowledge and capabilities that give a business its competitive advantage and that competitors find hard to copy, such as a distinctive technology, design capability or logistics expertise; they can often be applied to several products or markets", "price competition and non-price competition: price competition means winning customers mainly by charging less than rivals, which suits low-cost producers in price-sensitive markets but squeezes margins; non-price competition means winning customers through quality, design, branding, service, convenience or innovation, which can support higher prices but costs money to sustain"]}},
+    {"subject_id": "BUS-EXT-002", "run_log": "3.7.4 Competition law not taught", "source_ids": ["SRC-CMA-COMPETITION"], "add": {"definitions": ["competition law: laws that protect competition in markets, in the UK chiefly the Competition Act 1998, which prohibits anti-competitive agreements such as price fixing and cartels and abuse of a dominant position, and the Enterprise Act 2002, under which mergers can be investigated; the Competition and Markets Authority enforces them and can impose heavy fines, so firms must consider legal limits when setting prices, agreeing with rivals or growing by merger"]}},
+    {"subject_id": "BUS-EXT-001", "run_log": "3.7.5 GDP not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["GDP (gross domestic product): the total value of goods and services produced within a country in a period, usually a year; growth in real GDP (adjusted for inflation) signals rising output and incomes, which usually lifts demand for many products, while falling GDP points to recession; GDP per head helps compare living standards but does not show how income is shared or capture unpaid work or environmental cost"]}},
+    {"subject_id": "BUS-STR-004", "run_log": "3.8.1 Influences on choice of markets and products not taught", "source_ids": ["SRC-HMT-GREEN-BOOK"], "add": {"definitions": ["influences on choice of markets and products: factors that shape where a business competes and what it sells, including market size and growth, the strength of competition, customer needs, the business's own resources and capabilities, its objectives and appetite for risk, and external factors such as regulation and the economy; a choice that looks attractive in the market may still be wrong if the business lacks the resources to succeed"]}},
+    {"subject_id": "BUS-FND-008", "run_log": "3.9.1 Economies of scope not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["economies of scope: cost savings achieved by producing or selling a range of related products together, because they share resources such as premises, equipment, distribution, marketing or brand, so that the cost of the range is lower than making each product separately; they differ from economies of scale, which come from increasing the output of one product"]}},
+    {"subject_id": "BUS-STR-008", "run_log": "3.9.2 Product innovation, patents, copyright and pressures for innovation, and 3.9.4 e-commerce (strategic) not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["product innovation: developing new or significantly improved products, as opposed to process innovation, which improves how things are made; it can create competitive advantage and new revenue but needs investment and carries a high risk of failure", "patent: a legal right, granted on application, giving an inventor the exclusive right to make and sell a new invention for up to 20 years; it protects the return on research spending but requires public disclosure and lapses after expiry, when rivals may copy the invention", "copyright: automatic legal protection for original creative works such as writing, music, images, software and film, which stops others copying them without permission; no registration is needed in the UK and protection for most works lasts for the author's lifetime plus 70 years", "pressures for innovation: forces that push a business to innovate, including competitive pressure from rivals' new products, changing customer tastes, technological change, the decline of existing products and regulation such as environmental rules; a business that does not respond risks losing market share", "e-commerce as a strategic choice: moving some or all of a business's selling and operations online can change its business model, reach, cost structure and supply chain and enables use of customer data; it needs long-term investment in technology, delivery and security, and risks conflict with existing channels such as shops"]}},
+    {"subject_id": "BUS-STR-009", "run_log": "3.10.1 Restructuring and knowledge and information management not taught", "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"], "add": {"definitions": ["restructuring: making a major change to the way a business is organised, for example by delayering, merging departments, closing or relocating sites or changing product focus; it can cut costs and improve fit with strategy, but brings redundancy costs, disruption and lower morale", "knowledge and information management: the way a business captures, stores, shares and uses what it knows, including data, records and employees' experience, through systems such as databases and intranets and through routines for sharing know-how; good management supports decisions and change, while poor management causes duplicated effort, overload, loss of knowledge when staff leave and data protection risks"]}}
+  ]
+}

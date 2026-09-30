@@ -17,6 +17,10 @@ export const COURSE_GATE_CHECKLIST: Checklist = {
       question: 'Is the teaching for this section at A-level depth: not too shallow for the named items, and not beyond what the course requires?',
     },
     {
+      id: 'calculation_convention',
+      question: 'For each named item with an aqa_convention, is the mapped teaching compatible with that convention? The teaching may be more general than AQA, but it must not contradict it or lead a student to calculate it a different way.',
+    },
+    {
       id: 'accuracy',
       question: 'For nodes marked changed_since_last_assurance only: is each definition, fact, formula and causal claim correct? Cite a supplied source id that confirms or contradicts it.',
       requiresContradictingSource: true,
@@ -37,7 +41,7 @@ export type CoverageGap = { id: string; section: string; label: string; kind: st
 export type CoverageReport = {
   foundation_fingerprint: string
   gaps: CoverageGap[]
-  covered: Array<{ id: string; section: string; label: string; kind: string }>
+  covered: Array<{ id: string; section: string; label: string; kind: string; aqa_convention?: string; convention_status?: string }>
 }
 
 export type CourseGateUnit = {
@@ -90,7 +94,7 @@ export function buildCourseGateUnits(bundle: CourseGateBundle, coverage: Coverag
     const payload = {
       unit_id: section,
       requirement: { section, title: requirement.title, summary: requirement.rights_safe_requirement_summary, required_course_facets: requirement.required_course_facets ?? [], required_quantitative_methods: requirement.required_quantitative_methods ?? [] },
-      named_items: coverage.covered.filter((item) => item.section === section).map(({ id, label, kind }) => ({ id, label, kind })),
+      named_items: coverage.covered.filter((item) => item.section === section).map(({ id, label, kind, aqa_convention }) => (aqa_convention ? { id, label, kind, aqa_convention } : { id, label, kind })),
       mapped_nodes: mappedNodes.map((node) => ({ ...node, changed_since_last_assurance: changedNodeIds.has(node.subject_id) })),
       sources: nodeSources,
     }

@@ -100,7 +100,7 @@ async function readLedger(): Promise<Ledger> {
 describe('AQA Business 7132 T8 exact-course gate (fast path)', () => {
   it('loads the fixed checklist and review contract without provider spend', () => {
     const schema = reviewOutputSchema(COURSE_GATE_CHECKLIST)
-    expect(COURSE_GATE_CHECKLIST.checks.map((check) => check.id)).toEqual(['mapping_sense', 'depth', 'accuracy'])
+    expect(COURSE_GATE_CHECKLIST.checks.map((check) => check.id)).toEqual(['mapping_sense', 'depth', 'calculation_convention', 'accuracy'])
     expect(schema.safeParse({ unit_id: '3.5.3', answers: COURSE_GATE_CHECKLIST.checks.map((check) => ({ check_id: check.id, answer: 'yes', note: '' })), findings: [] }).success).toBe(true)
     expect(checklistInstructions(COURSE_GATE_CHECKLIST)).toContain('Do not look for other problems')
   })
@@ -121,7 +121,7 @@ describe('AQA Business 7132 T8 exact-course gate (fast path)', () => {
       throw new Error(`exact_course_gate_dependency_not_fresh:${freshness.error}`)
     }
 
-    const units = buildCourseGateUnits(bundle, coverage, new Set<string>(candidate.freshNodeScope))
+    const units = buildCourseGateUnits(bundle, coverage, new Set<string>(candidate.changedSinceAssurance ?? candidate.freshNodeScope))
     const provider = createOpenAIFoundationLiveProvider({
       apiKey: requiredEnv('OPENAI_API_KEY'),
       maxSpendUsd: positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 12),
