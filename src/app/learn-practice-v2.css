@@ -70,8 +70,9 @@
 .planner-runtime .pw-options label:hover { border-color: var(--rv-teal); }
 .planner-runtime .pw-options label:has(input:checked) { border-color: var(--rv-teal); background: var(--rv-soft); box-shadow: var(--rv-ring); }
 .planner-runtime .pw-options label:has(input:checked)::before { background: var(--rv-teal); color: var(--rv-teal-text); }
-/* The lettered badge is the visible control; the radio stays for keyboards and screen readers. */
-.planner-runtime .pw-options input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+/* The lettered badge is the visible control; the radio is invisible but covers the whole row, so it stays clickable and reachable by keyboards and screen readers. */
+.planner-runtime .pw-options input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.planner-runtime .pw-options label:has(input:disabled) input { cursor: default; }
 
 .planner-runtime .pw-options label.correct { border-color: var(--rv-teal); background: var(--rv-soft); }
 .planner-runtime .pw-options label.correct::before { background: var(--rv-teal); color: var(--rv-teal-text); }
