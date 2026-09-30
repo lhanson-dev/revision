@@ -20,6 +20,45 @@
   min-height: 44px;
 }
 
+/*
+ * Plan: 44px buttons no longer fit beside the value inside a seven-column
+ * weekly grid (the value truncated to "N.."). Stack the value above the
+ * controls in multi-column grids; restore the inline row when single-column.
+ */
+.plan-capacity-stepper {
+  grid-template-columns: 44px 44px;
+  grid-template-areas: "value value" "dec inc";
+  justify-content: space-between;
+  row-gap: var(--space-1);
+  border-radius: var(--radius-control);
+}
+
+.plan-capacity-stepper b {
+  grid-area: value;
+  padding-top: var(--space-1);
+}
+
+.plan-capacity-stepper button:first-of-type {
+  grid-area: dec;
+}
+
+.plan-capacity-stepper button:last-of-type {
+  grid-area: inc;
+}
+
+@media (max-width: 620px) {
+  .plan-capacity-stepper {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    grid-template-areas: "dec value inc";
+    row-gap: 0;
+    border-radius: var(--radius-pill);
+  }
+
+  .plan-capacity-stepper b {
+    padding-top: 0;
+  }
+}
+
 /* Plan: the primary Day / Week / Month view selector is a learner view switch. */
 .plan-view-toolbar .ui-segmented-control button {
   min-height: 48px;

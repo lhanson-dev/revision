@@ -126,7 +126,7 @@ async function clickNavigation(page: Page, label: string) {
 test('Courses shows saved courses, then resets the selected course into its focused-section hierarchy', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
   let nav = await navigation(page)
   await expect(nav.getByRole('group', { name: 'Courses navigation' })).toHaveCount(0)
