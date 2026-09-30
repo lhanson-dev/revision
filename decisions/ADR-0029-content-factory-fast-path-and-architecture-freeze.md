@@ -1,6 +1,6 @@
 # ADR-0029 — Content Factory fast path and architecture freeze
 
-**Status:** Proposed for Founder approval  
+**Status:** Accepted — approved by the Founder, 30 September 2026  
 **Date:** 30 September 2026  
 **Decision owner:** Founder  
 **Applies to:** every Content Factory course, starting with AQA A-level Business 7132 (2027)  

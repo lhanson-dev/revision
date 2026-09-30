@@ -1,6 +1,6 @@
 # CLAUDE.md — Revision
 
-Read this at the start of every session. It is short on purpose.
+Read this at the start of every session. It is short on purpose. It applies to every AI tool that works on this repo (Claude, ChatGPT, Codex or anything else), not just Claude; `AGENTS.md` points here.
 
 ## Who you are working with
 
@@ -64,26 +64,41 @@ The repo has a lot of historical process documentation. Most of it is evidence, 
 | Business Subject Foundation versions | `research/business-subject-foundation/` (v0.1–v0.8) |
 | AQA 7132 specification mapping | `research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs` |
 | T8 deterministic package | `scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs` |
-| T8 independent review proof | `scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts` |
+| T8 gate runner (fast-path rules) | `scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts`, `scripts/assurance/aqa-business-7132-course-gate.ts` |
+| Fast-path review rules (checklists, blocking, rounds, retries) | `src/content-factory/fast-path-review.ts` |
+| AQA 7132 named items and item-level coverage check | `research/aqa-business-7132/2027/NAMED_ITEMS.json`, `scripts/assurance/check-aqa-business-7132-item-coverage.mjs` |
 
 How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 2 Spec mapping = T4–T5 · 3 Course + Exam Truth = T6–T7 · 4 Course gate = T8 · 5 Blueprint = T9 · 6 Learn + Practice = T10 · 7–8 Exam questions and mocks = T11 · Release = T12.
 
 ## Current state (as of 30 September 2026 — verify on `main` before acting)
 
-- Business Subject Foundation: 81 nodes in 9 domains. v0.8 remediation merged 29 September; fresh v0.8 reassurance and a T8 rerun were still pending.
+- Business Subject Foundation: 81 nodes in 9 domains, current version v0.8 (plus the BUS-PEO-010 fix, PR #447). The old v0.8 reassurance loop is closed; accuracy of the changed nodes is now checked inside the T8 gate.
 - AQA 7132 mapping: 42 requirements at specification-subsection level (3.1.1, 3.5.4 …), all mapped to nodes.
-- T8 last result: `fail_hold` with 4 material findings (named AQA items not supported, a missing prerequisite, finance source gaps, AQA calculation conventions underspecified).
-- Known weakness: coverage is proven at subsection level only. The T8 check confirms each subsection maps to nodes but does not check that each named item (e.g. "labour cost per unit") is actually taught. Fixing this is the next build task.
+- Item-level coverage (step 2, PR #448): 329 named items in `research/aqa-business-7132/2027/NAMED_ITEMS.json`; software check `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`. First result 249/329 covered; the 80 gaps in `ITEM_COVERAGE_REPORT.json` are the step 4 worklist.
+- T8 gate (step 3, PR #452) now runs under the fast-path rules: per section, software first (dependency freshness, item coverage, prerequisite closure), fixed checklist, rule-decided blocking, 3 retries, two-round limit, Founder escalation. Ledger: `content-factory/runs/aqa-7132-course-gate/`.
+- T8 last result: `fail_hold` (29 September, old rules) with 4 material findings. Not yet rerun under the new rules.
+- Known blocker for step 4: the T8 package is still built from the v0.7 Foundation (`materialise-aqa-business-7132-*.mjs` load the v0.7 candidate). It must be moved to v0.8, with BUS-MKT-001 restored, before the gate can run.
+- Only an OpenAI key is configured; the second-provider reviews in the process are not yet possible.
 - No learner assets have yet been produced by the current (ADR-0028) model. Older AQA content in `content/business/` comes from the superseded whole-course model.
 
 ## The plan
 
-1. Lock in the fast-path process (ADR-0029, process doc, this file).
-2. Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.
-3. Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.
+1. ~~Lock in the fast-path process (ADR-0029, process doc, this file).~~ Done 30 September 2026.
+2. ~~Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.~~ Done 30 September 2026 (PR #448).
+3. ~~Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.~~ Done for the T8 gate 30 September 2026 (PR #452); later stages reuse `src/content-factory/fast-path-review.ts`.
 4. Rerun the T8 gate under the new rules and resolve the open findings.
 5. Take AQA 3.5 (financial performance) through Blueprint, Learn, Practice, 10–15 exam-style questions and marking.
 6. Lee reviews the slice as a student; fix what it exposes; then run the rest of 7132.
 7. Start a second Business board and measure reuse.
 
 Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (date · item · what · why · which check).
+
+## Switching between AI tools
+
+Lee uses more than one AI tool (currently Claude and ChatGPT/Codex) and must be able to stop in one and pick up in another at any point. The repo, not any chat history, is the shared memory. So:
+
+1. **Start from the repo.** Begin every session by reading this file, the Fast-Path Process doc and the latest entries in `content-factory/RUN_LOG.md`, then check `main` and open PRs. Do not rely on what a previous chat said.
+2. **Log as you go.** Every fix or decision gets one line in `RUN_LOG.md` (`date · item · what · why · which check`) in the same PR as the change, so a session that stops suddenly still leaves a trail.
+3. **Finish on something pushed.** End every session with the work on a pushed branch or open PR, never only on a local machine or in a chat. If work is unfinished, add a run log line starting `HANDOVER ·` saying what is done, what is next, and the branch or PR name.
+4. **Keep "Current state" current.** When something significant lands (a gate result, a version merged, a slice finished), update the "Current state" section above in the same PR.
+5. **Same rules, whichever tool.** The rules above apply unchanged. A new tool is not a reason to revisit the architecture or the process.
