@@ -155,6 +155,23 @@ jobs:
           supabase test db supabase/tests/student-first-use-assurance.test.sql
       - name: Run authenticated persistence and reload integration assurance
         run: npx vitest run tests/integration/supabase-persistence.test.ts
+      # The Supabase CLI pulls the Edge runtime from public ECR, whose anonymous
+      # data quota is shared across GitHub runners and can refuse the pull
+      # ("toomanyrequests"). Pre-load the same tag from GHCR (or Docker Hub) and
+      # retag it so the CLI finds it locally. The tag must match what Supabase
+      # CLI 2.111.0 expects; if both mirrors fail, the CLI still tries ECR.
+      - name: Pre-load Edge runtime image from GHCR
+        run: |
+          set -uo pipefail
+          target='public.ecr.aws/supabase/edge-runtime:v1.74.2'
+          for source in 'ghcr.io/supabase/edge-runtime:v1.74.2' 'supabase/edge-runtime:v1.74.2'; do
+            if docker pull "$source"; then
+              docker tag "$source" "$target"
+              echo "Edge runtime pre-loaded from $source"
+              exit 0
+            fi
+          done
+          echo "::warning::Could not pre-load the Edge runtime from GHCR or Docker Hub; falling back to public ECR."
       - name: Serve protected Edge Functions from repository source
         run: |
           set -euo pipefail
