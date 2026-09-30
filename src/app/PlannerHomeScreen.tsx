@@ -163,7 +163,7 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
           </div>
           <div className="returning-home-hero-copy">
             <PoweredByRev />
-            <h1 id="planner-home-welcome">Hi {learnerName}, what shall we do today?</h1>
+            <h1 id="planner-home-welcome">Hey {learnerName}, what shall we do today?</h1>
             <p className="returning-home-hero-intro">Ask REV anything, or start with the revision plan below.</p>
           </div>
         </div>

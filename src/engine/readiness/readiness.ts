@@ -220,13 +220,13 @@ export function recommendNextActivity(
 
   if (target.items.length === 0) {
     activity = 'quick-check'
-    reason = 'There is no scored evidence for this topic yet, so Revision cannot tell whether it is strong or weak. Start with a Quick check to establish an application baseline.'
+    reason = 'You haven’t tried this topic yet. A short Quick check will show where you’re already strong and where to focus.'
   } else if (families.size === 1 && families.has('recall')) {
     activity = 'quick-check'
-    reason = 'Revision has recall evidence for this topic but nothing beyond flashcards. Add a Quick check so the evidence picture is based on more than memory alone.'
+    reason = 'You’ve done flashcards on this topic. A Quick check will show whether you can apply what you remember.'
   } else if (!families.has('recall')) {
     activity = 'flashcards'
-    reason = 'Revision has scored evidence beyond recall but no flashcard evidence for this topic. Use Flashcards to check whether the underlying knowledge is secure.'
+    reason = 'You’ve practised applying this topic. Flashcards will check that the key facts underneath are secure.'
   } else if (target.readiness.score === null) {
     if ((recallMean ?? 101) <= (applicationMean ?? 101)) {
       activity = 'flashcards'
