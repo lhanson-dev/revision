@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
-import { fallbackHomeTasks, homeActivityLabel, tasksFromPlanner, type HomeTask } from './home-task'
+import { fallbackHomeTasks, tasksFromPlanner, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { learnerCourseRoute, routeHash } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
-import { PoweredByRev } from './RevCompactWordmark'
-import { RevPresence, type RevPresenceState } from './RevPresence'
-import { Icon } from './ui'
+import { buildCourseTiles, nextExam, sessionSteps } from './home-view'
+import { RevPresence } from './RevPresence'
+import { Icon, RevSuggestionCard } from './ui'
 
 interface PlannerHomeScreenProps {
   client: SupabaseClient
@@ -30,13 +30,11 @@ function planSummary(tasks: readonly HomeTask[]) {
 }
 
 export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
-  const { client, userId, learnerName, programme, onOpenPlan, onOpenRev, onOpenCourses } = props
+  const { client, userId, learnerName, programme, onOpenPlan, onOpenRev, onOpenCourses, onOpenCourse } = props
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [learningStates, setLearningStates] = useState<ModuleLearningState[]>([])
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
-  const [prompt, setPrompt] = useState('')
-  const [revState, setRevState] = useState<RevPresenceState>('resting')
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -84,7 +82,11 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   )
   const tasks = plannerTasks.length > 0 ? plannerTasks : fallbackTasks
   const firstTask = tasks[0] ?? null
-  const laterTasks = tasks.slice(1, 3)
+  const steps = useMemo(() => sessionSteps(tasks), [tasks])
+  const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [learningStates, programme])
+  const exam = useMemo(() => setup ? nextExam(setup.assessments, new Date()) : null, [setup])
+  const todayLabel = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+  const suggestedMinutes = tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0)
 
   async function recordTaskStart(task: HomeTask) {
     if (!task.plannerItem) return
@@ -129,19 +131,6 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
     setRefreshKey((value) => value + 1)
   }
 
-  function submitPrompt(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const text = prompt.trim()
-    if (!text) {
-      setRevState('listening')
-      onOpenRev()
-      return
-    }
-    window.sessionStorage.setItem('revision:rev-draft', text)
-    setRevState('complete')
-    onOpenRev()
-  }
-
   if (activeTask) {
     return (
       <HomeFocusedActivity
@@ -155,101 +144,98 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   }
 
   return (
-    <main className="dashboard screen-dashboard living-home returning-home" aria-label="Home">
-      <section className="living-home-hero returning-home-hero" aria-labelledby="planner-home-welcome">
-        <div className="returning-home-hero-layout">
-          <div className="returning-home-rev-stage">
-            <RevPresence state={loading ? 'thinking' : revState} size="hero" />
-          </div>
-          <div className="returning-home-hero-copy">
-            <PoweredByRev />
-            <h1 id="planner-home-welcome">Hey {learnerName}, what shall we do today?</h1>
-            <p className="returning-home-hero-intro">Ask REV anything, or start with the revision plan below.</p>
-          </div>
+    <main className="dashboard screen-dashboard home-v2" aria-label="Home">
+      <header className="home-v2-head">
+        <div>
+          <p className="home-v2-date">{todayLabel}</p>
+          <h1 id="planner-home-welcome">Hey {learnerName}. Here’s what I’d do today.</h1>
         </div>
-        <form className="living-home-prompt" onSubmit={submitPrompt}>
-          <input
-            value={prompt}
-            maxLength={240}
-            placeholder="Ask REV anything…"
-            aria-label="Ask REV anything"
-            onFocus={() => setRevState('listening')}
-            onBlur={() => setRevState('resting')}
-            onChange={(event) => setPrompt(event.target.value)}
-          />
-          <button className="living-home-send" type="submit" aria-label="Send to REV"><Icon name="arrow-up" size="compact" /></button>
-        </form>
-      </section>
+        <button className="home-v2-ask" type="button" onClick={onOpenRev}>
+          <RevPresence size="compact" decorative />
+          Ask REV anything
+        </button>
+      </header>
 
-      <section className="returning-home-plan" aria-labelledby="returning-home-plan-title">
-        <header className="returning-home-plan-head">
-          <div>
-            <h2 id="returning-home-plan-title">Today’s revision plan</h2>
-            <p>{loading ? 'Working out the most useful place to start…' : planSummary(tasks)}</p>
-          </div>
-          <button className="returning-home-view-plan" type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
-        </header>
+      <div className="home-v2-grid">
+        <div className="home-v2-main">
+          {error && (
+            <div className="returning-home-empty">
+              <h3>Revision could not refresh today’s evidence.</h3>
+              <p>{error}</p>
+              <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={retryHome}>Try again</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
+            </div>
+          )}
 
-        {error && (
-          <div className="returning-home-empty">
-            <h3>Revision could not refresh today’s evidence.</h3>
-            <p>{error}</p>
-            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={retryHome}>Try again</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
-          </div>
-        )}
+          {!error && loading && <p className="home-v2-loading" role="status">Working out the most useful place to start…</p>}
 
-        {!error && !loading && programme.length === 0 && (
-          <div className="returning-home-empty">
-            <h3>Add a course to get your first useful recommendation.</h3>
-            <p>Revision only plans from the courses you actually study. It will not invent work from the wider catalogue.</p>
-            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenCourses}>Add a course</button></div>
-          </div>
-        )}
+          {!error && !loading && programme.length === 0 && (
+            <div className="returning-home-empty">
+              <h3>Add a course to get your first useful recommendation.</h3>
+              <p>Revision only plans from the courses you actually study. It will not invent work from the wider catalogue.</p>
+              <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenCourses}>Add a course</button></div>
+            </div>
+          )}
 
-        {!error && !loading && programme.length > 0 && !firstTask && (
-          <div className="returning-home-empty">
-            <h3>Your courses are ready, but there is not a supported activity to push forward yet.</h3>
-            <p>Open Plan or Courses to choose useful work. Revision will keep the recommendation evidence-based rather than manufacture a priority.</p>
-            <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenPlan}>Open Plan</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
-          </div>
-        )}
+          {!error && !loading && programme.length > 0 && !firstTask && (
+            <div className="returning-home-empty">
+              <h3>Your courses are ready, but there is not a supported activity to push forward yet.</h3>
+              <p>Open Plan or Courses to choose useful work. Revision will keep the recommendation evidence-based rather than manufacture a priority.</p>
+              <div className="returning-home-empty-actions"><button className="primary" type="button" onClick={onOpenPlan}>Open Plan</button><button type="button" onClick={onOpenCourses}>Open Courses</button></div>
+            </div>
+          )}
 
-        {!error && !loading && firstTask && (
-          <div className="returning-home-plan-grid">
-            <article className="returning-home-start-card" data-subject-accent={firstTask.subjectAccent}>
-              <div className="returning-home-card-top">
-                <span className="home-subject-chip">{firstTask.subjectName}</span>
-                <span className="returning-home-start-label">Start here</span>
-              </div>
-              <h3>{firstTask.topicLabel}</h3>
-              <p className="returning-home-course-name">{firstTask.courseLabel}</p>
-              <div className="returning-home-task-meta"><span>{homeActivityLabel(firstTask.activityType)}</span><span>{firstTask.estimatedMinutes} min</span></div>
-              <p className="returning-home-reason">{firstTask.reason}</p>
-              <button className="returning-home-start-action" type="button" onClick={() => void startTask(firstTask)}>Start {firstTask.estimatedMinutes} min</button>
-            </article>
+          {!error && !loading && firstTask && (
+            <RevSuggestionCard
+              className="home-v2-hero"
+              variant="hero"
+              eyebrow={`REV suggests · ${suggestedMinutes} min`}
+              title={firstTask.topicLabel}
+              reason={`Why: ${firstTask.reason}`}
+              steps={steps}
+              primaryAction={{ label: `Start ${firstTask.estimatedMinutes} min`, onClick: () => void startTask(firstTask) }}
+              secondaryAction={{ label: 'Suggest something else', onClick: onOpenRev }}
+            />
+          )}
 
-            <aside className="returning-home-later" aria-label="Remaining revision activities today">
-              <h3>{laterTasks.length > 0 ? 'Then today' : 'Today'}</h3>
-              {laterTasks.length === 0 ? (
-                <p className="returning-home-reason">This is the only useful activity Revision needs to put in front of you right now.</p>
-              ) : (
-                <ol className="returning-home-task-list">
-                  {laterTasks.map((task) => (
-                    <li className="returning-home-task-row" key={task.id} data-subject-accent={task.subjectAccent}>
-                      <button type="button" onClick={() => void startTask(task)} aria-label={`Start ${task.topicLabel}, ${task.subjectName}`}>
-                        <span className="returning-home-task-accent" aria-hidden="true" />
-                        <span className="returning-home-task-copy"><strong>{task.topicLabel}</strong><small>{task.subjectName} · {homeActivityLabel(task.activityType)}</small></span>
-                        <span className="returning-home-task-time">{task.estimatedMinutes} min</span>
-                        <Icon name="chevron-right" size="compact" />
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </aside>
-          </div>
-        )}
-      </section>
+          {courseTiles.length > 0 && (
+            <section className="home-v2-courses" aria-labelledby="home-v2-courses-title">
+              <header>
+                <h2 id="home-v2-courses-title">Your courses</h2>
+                <button type="button" onClick={onOpenCourses}>See all</button>
+              </header>
+              <ul>
+                {courseTiles.map((tile) => (
+                  <li key={tile.courseId}>
+                    <button type="button" onClick={() => onOpenCourse(tile.courseId)} aria-label={`Open ${tile.subjectName}`} style={{ '--tile-fill': tile.colour.fill, '--tile-text': tile.colour.text } as CSSProperties}>
+                      <span className="home-v2-tile-mark" aria-hidden="true">{tile.initials}</span>
+                      <strong>{tile.subjectName}</strong>
+                      <span className="home-v2-bar" role="progressbar" aria-label={`${tile.subjectName} mastery`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={tile.mastery ?? 0}>
+                        <span style={{ width: `${tile.mastery ?? 0}%` }} />
+                      </span>
+                      <small>{tile.mastery === null ? 'Not enough work yet' : `${tile.mastery}% mastered`}</small>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+
+        <aside className="home-v2-side" aria-label="Coming up">
+          {exam && (
+            <section className="home-v2-exam">
+              <p className="home-v2-eyebrow">Next exam</p>
+              <p className="home-v2-exam-days"><strong>{exam.daysAway}</strong> {exam.daysAway === 1 ? 'day' : 'days'}</p>
+              <p className="home-v2-exam-title">{exam.title} · {exam.dateLabel}</p>
+            </section>
+          )}
+          <section className="home-v2-plan-link">
+            <p className="home-v2-eyebrow">Your plan</p>
+            <p>{planSummary(tasks)}</p>
+            <button type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
+          </section>
+        </aside>
+      </div>
     </main>
   )
 }

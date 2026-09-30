@@ -1,0 +1,50 @@
+/* Home, redesign v2. Uses the --rv-* tokens; layout follows design_handoff_revision_v2 screen 01. */
+.home-v2 { display: flex; flex-direction: column; gap: 24px; padding: 36px 40px; font-family: var(--font-family-product); color: var(--rv-text); }
+.home-v2-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.home-v2-date { margin: 0 0 6px; font-weight: 700; font-size: 14px; color: var(--rv-text-2); }
+.home-v2 h1 { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 46px; line-height: 1.02; letter-spacing: -.025em; text-wrap: pretty; }
+
+.home-v2-ask { display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 20px 0 12px; border-radius: 999px; border: 1px solid var(--rv-line); background: var(--rv-surface); color: var(--rv-text); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+.home-v2-ask .rev-presence { width: 26px; height: 26px; }
+.home-v2-ask:focus-visible { outline: 2px solid var(--rv-teal); box-shadow: var(--rv-ring); }
+
+.home-v2-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+.home-v2-main, .home-v2-side { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.home-v2-side { gap: 20px; }
+.home-v2-loading { margin: 0; color: var(--rv-text-2); font-weight: 600; }
+
+.home-v2-courses { display: flex; flex-direction: column; gap: 14px; }
+.home-v2-courses header { display: flex; justify-content: space-between; align-items: baseline; }
+.home-v2-courses h2 { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 22px; line-height: 1; }
+.home-v2-courses header button { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; font-size: 14px; color: var(--rv-accent); cursor: pointer; }
+.home-v2-courses ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.home-v2-courses li button { display: flex; flex-direction: column; align-items: stretch; gap: 12px; width: 100%; padding: 18px; border: 1px solid var(--rv-line); border-radius: 20px; background: var(--rv-surface); color: var(--rv-text); font: inherit; text-align: left; cursor: pointer; }
+.home-v2-courses li button:focus-visible { outline: 2px solid var(--rv-teal); box-shadow: var(--rv-ring); }
+.home-v2-tile-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--tile-fill); color: var(--tile-text); font-family: var(--rv-font-display); font-weight: 800; font-size: 18px; }
+.home-v2-courses strong { font-weight: 800; font-size: 16px; line-height: 1.2; }
+.home-v2-bar { display: block; height: 8px; border-radius: var(--rv-radius-bar); background: var(--rv-line); overflow: hidden; }
+.home-v2-bar span { display: block; height: 100%; border-radius: var(--rv-radius-bar); background: var(--tile-fill); }
+.home-v2-courses small { font-weight: 700; font-size: 13px; color: var(--rv-text-2); }
+
+.home-v2-eyebrow { margin: 0; font-weight: 800; font-size: 12px; line-height: 1; letter-spacing: .12em; text-transform: uppercase; }
+.home-v2-exam { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: var(--rv-radius-card); background: var(--rv-violet-soft); }
+.home-v2-exam .home-v2-eyebrow { color: var(--rv-violet-text); }
+.home-v2-exam-days { margin: 0; display: flex; align-items: baseline; gap: 10px; font-weight: 800; font-size: 18px; }
+.home-v2-exam-days strong { font-family: var(--rv-font-display); font-size: 56px; line-height: 1; letter-spacing: -.03em; }
+.home-v2-exam-title { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.4; color: var(--rv-text-2); }
+
+.home-v2-plan-link { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: var(--rv-radius-card); background: var(--rv-surface); border: 1px solid var(--rv-line); }
+.home-v2-plan-link .home-v2-eyebrow { color: var(--rv-accent); }
+.home-v2-plan-link p:not(.home-v2-eyebrow) { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.4; }
+.home-v2-plan-link button { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; font: inherit; font-weight: 800; font-size: 14px; color: var(--rv-accent); cursor: pointer; }
+
+@media (max-width: 1100px) { .home-v2-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 620px) {
+  .home-v2 { padding: 20px 16px; }
+  .home-v2 h1 { font-size: 34px; }
+  .home-v2-courses ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* The design shows the bare REV mark (no halo) inside the pill and the card header. */
+.home-v2-ask .rev-halo, .rev-suggestion-card__head .rev-halo { display: none; }
+.home-v2-ask .rev-living-e, .rev-suggestion-card__head .rev-living-e { width: 100%; height: 100%; }

@@ -1,0 +1,8 @@
+# Installed packages and build output: generated, never committed
+node_modules/
+dist/
+
+# Test and script output
+test-results/
+playwright-report/
+.artifacts/

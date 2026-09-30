@@ -38,13 +38,15 @@ const cases: ReadonlyArray<VisualCase> = [
  * 26 September 2026 after the shared learner-canvas correction and approved
  * because only the intentional canvas geometry changed. All four were re-pinned
  * on 30 September 2026 for the approved learner quick fixes: the "Hey {name}"
- * greeting and the plain-language first recommendation reason.
+ * greeting and the plain-language first recommendation reason. Re-pinned again on
+ * 30 September 2026 for the Founder-supplied v2 Home design (design_handoff_revision_v2,
+ * screen 01), taken from the CI run on PR 459.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '8fc7b3591f5598fd98f2eb3858e21e821ced55e4bbd2003854e4a8a18fc3c8e5',
-  'phone:dark': 'c050b147e4c07791f197653c782eb40673edfa7bde865d8cf44ec1b337b9a068',
-  'desktop:light': '3e593c2d640ff7d1d53b842d8d5f29451c3ea1c3ed73fecb33452019e80f7a3f',
-  'desktop:dark': '9447729cb767c82bb1040bdaff07941f83ce07f4151c0e5b7a998a29b9a4fd42',
+  'phone:light': 'bc85d4849cc1facb32f37c66f0c56bb5efaf09a3a3bfa962191969a32052e839',
+  'phone:dark': '1f60ba684c54716e4e853b0a2283d9ad814cf6dd24c732dbcb1323aa86ab2c6e',
+  'desktop:light': '91860eff9077b7f7281c83b6c1082d8de1ff05183b50de8cbe0dfe232a4afd8e',
+  'desktop:dark': 'c1bb04c8a2a1d8ce448d353fddb2c711f0c3c5f9927296346eedb69247d365be',
 }
 
 /**
@@ -60,11 +62,8 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * differently; both come from the reviewed CI run.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '943bd461cb16b8ed6a1de88bd761ad3a14592f418edcca90e5c76d582a1aa25d',
-  'desktop:dark': [
-    '8901e1e77ffdec272980cec68f9bfca059e967c88050ad7a2e30c9d8f22dbe1f',
-    '5f3b0b207dda1985664f51b0b109fa002f8e5bbcc27906871635dfa7afe163d9',
-  ],
+  'desktop:light': '2bd68bde10ae1aab59e44d9c085eeeee5751c32f9cd9c8ba379b520c3c2816ac',
+  'desktop:dark': '52bfcaf7ff257614c1923a0506e6ad9747bbd043233ecc6e4204adf69f864468',
 }
 
 /**
@@ -91,17 +90,14 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
     'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
     '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
   ],
-  'tablet:courses:light': '36c1a1a389da55f15a03886d59a47ca1527c3abd4c8d3b387d03808befe91914',
-  'tablet:courses:dark': '500a0bf2e105caf553939ccff049173ed26279dbd69e9da46aa582ccb7835dd9',
-  'phone:practice:light': [
-    'c57c96e813cb00aa8912a48e32ccd7b4c29438854e1604d598911839462e4d3d',
-    '1d1cbbd74d780adb49b9c988c04b867674c1d760f76c0c7f2f5147d2d82ffc22',
-  ],
-  'phone:practice:dark': 'c352bf77bc3bfb7c9e581e2e199ad60562b2b512e10056073244472d72482477',
+  'tablet:courses:light': '632ea60dcc699172b80dd30edc199bbe1853874cbc843f47133e11b57a81b987',
+  'tablet:courses:dark': 'ce9f7cc5ab240929eb9269e6ac30b3c969e6e7e4bd7f82cd0f88766a8702b441',
+  'phone:practice:light': '905a6c5bba3ff81e1274b4063ff6fb8286aa6c30a86df2442f64af3810db69c9',
+  'phone:practice:dark': '74b0c62a4ed32d887370505bcc8b8ca9e8f13e7ced18f883ab8ab4505f1fb4cb',
   'tablet:exam-prep:light': '18b0e3b3c19673fa099b9b4c518f09fe2e77567ecd8bac53c87135eccd6c6038',
   'tablet:exam-prep:dark': 'c8a8b95c39adbdbf3afda39eeb1bb5fd8720d3df5b047e78cbd27407cc4db2a6',
-  'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',
-  'tablet:timed-exam:dark': '1695b49088fa93544a50c07578062852cc77eddb8a475834b5dea07fd8c1edb4',
+  'tablet:timed-exam:light': '358cb08fe9a822a80c0737f89811ff087cd56cbad9d6199f5afaf03c41e5c72f',
+  'tablet:timed-exam:dark': '7e1345395a34173b21cd98fedaf022c96b12e6a38b4a99328e1a48c0e02c4af9',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

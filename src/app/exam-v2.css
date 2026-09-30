@@ -1,0 +1,34 @@
+/* Exam Prep timed session, redesign v2 (design_handoff_revision_v2 screen 07). */
+
+/* Focus-mode top bar: dark panel with a large timer. */
+.planner-runtime .exam-sticky-bar { background: var(--rv-deep); border-bottom: 0; color: var(--rv-on-deep); backdrop-filter: none; }
+.planner-runtime .exam-sticky-bar strong { color: var(--rv-on-deep); font-weight: 800; }
+.planner-runtime .exam-sticky-bar span { color: var(--rv-on-deep-muted); }
+.planner-runtime .exam-sticky-bar .exam-control { border: 0; background: var(--rv-on-deep-tint-2); color: var(--rv-on-deep); border-radius: var(--radius-pill); }
+.planner-runtime .exam-sticky-bar .exam-control-stop { background: var(--rv-coral-soft); color: var(--rv-coral-text); }
+.planner-runtime .exam-sticky-bar .timer {
+  background: none;
+  color: var(--rv-on-deep);
+  min-width: 0;
+  padding: 0 var(--space-2);
+  font-family: var(--rv-font-display);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.planner-runtime .exam-sticky-bar .timer.warning { background: none; color: var(--rv-yellow); }
+
+/* Question grid: numbered squares; answered = teal, current = dark. */
+.planner-runtime .question-nav { gap: 10px; }
+.planner-runtime .question-nav button { min-width: 52px; min-height: 52px; border: 0; border-radius: var(--rv-radius-chip); background: var(--rv-soft); color: var(--rv-text); font-weight: 800; font-size: 16px; }
+.planner-runtime .question-nav button.answered { background: var(--rv-teal); color: var(--rv-teal-text); }
+.planner-runtime .question-nav button.active { background: var(--rv-text); color: var(--rv-bg); box-shadow: var(--rv-ring); }
+
+/* Question and answer box. */
+.planner-runtime .exam-question-sheet h3 { font-family: var(--rv-font-display); font-weight: 800; font-size: 28px; line-height: 1.2; letter-spacing: -.02em; color: var(--rv-text); }
+.planner-runtime .exam-question-sheet .practice-meta { font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--rv-text-2); }
+.planner-runtime .exam-question-sheet .answer-label textarea { border: 2px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.planner-runtime .exam-question-sheet .answer-label textarea:focus { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
+.planner-runtime .exam-case { border-radius: var(--rv-radius-card); }
+.exam-word-count { margin: -12px 0 var(--space-5); font-weight: 700; font-size: 13px; color: var(--rv-text-2); }

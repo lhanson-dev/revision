@@ -7,6 +7,8 @@ import {
   type LearnerCourseMembership,
 } from '../services/courses/learner-course-service'
 import type { CatalogueSubject } from './catalogue-model'
+import { assignSubjectColours, subjectInitials } from './home-view'
+import type { CSSProperties } from 'react'
 import { allCatalogueCourses, projectLearnerProgramme } from './learner-programme'
 import { Button, EmptyState, ModalShell, OverlayBackdrop, Status, TextField } from './ui'
 
@@ -48,6 +50,14 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
       ].some((value) => value.toLocaleLowerCase().includes(normalized))
     })
   }, [activeIds, allCourses, query])
+
+  const subjectColours = useMemo(() => assignSubjectColours(programme.courses.map((item) => item.subject.id)), [programme.courses])
+  const initialsBySubject = useMemo(() => {
+    const subjects = [...new Map(programme.courses.map((item) => [item.subject.id, item.subject.name])).entries()]
+    const letters = subjectInitials(subjects.map(([, name]) => name))
+    return new Map(subjects.map(([id], index) => [id, letters[index]]))
+  }, [programme.courses])
+  const boardCount = new Set(programme.courses.map((item) => item.course.examBoardName)).size
 
   const pendingRemoval = programme.courses.find((item) => item.course.id === removeCourseId)
 
@@ -130,7 +140,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
     <main className="dashboard screen-dashboard page-screen courses-screen" aria-labelledby="courses-page-title">
       <header className="page-heading courses-heading">
         <div>
-          <p className="eyebrow">Your revision programme</p>
+          <p className="courses-count">{programme.courses.length === 0 ? 'Your revision programme' : `${programme.courses.length} ${programme.courses.length === 1 ? 'course' : 'courses'} · ${boardCount} exam ${boardCount === 1 ? 'board' : 'boards'}`}</p>
           <h1 id="courses-page-title">Courses</h1>
           <p>The courses you're studying. Your plan, progress and REV's suggestions all come from these.</p>
         </div>
@@ -156,6 +166,10 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
         <section className="courses-grid" aria-label="Your active courses">
           {programme.courses.map(({ course, subject, label }) => (
             <article className="course-card courses-programme-card" key={course.id}>
+              <div className="courses-tile" aria-hidden="true" style={{ '--tile-fill': subjectColours.get(subject.id)?.fill, '--tile-text': subjectColours.get(subject.id)?.text } as CSSProperties}>
+                <b>{initialsBySubject.get(subject.id)}</b>
+                <span>{course.examBoardName}<br />{course.qualificationName}</span>
+              </div>
               <div className="courses-programme-card-copy">
                 <span className="tag">{course.examBoardName} · {course.specificationCode}</span>
                 <h2>{label}</h2>

@@ -116,7 +116,7 @@ test('mobile Ask REV dock leaves ordinary learner actions reachable without over
   expect(dockBox).not.toBeNull()
   if (dockBox) expect(reservedSpace).toBeGreaterThanOrEqual(dockBox.height + 24)
 
-  await expectNoDockOverlap(dock, page.locator('.living-home-send'))
+  await expectNoDockOverlap(dock, page.locator('.home-v2-ask'))
   const homeButtons = page.locator('.runtime-screen button:visible')
   const count = await homeButtons.count()
   if (count > 0) await expectNoDockOverlap(dock, homeButtons.nth(count - 1))
