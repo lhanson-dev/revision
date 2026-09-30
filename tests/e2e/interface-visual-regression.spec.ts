@@ -38,13 +38,15 @@ const cases: ReadonlyArray<VisualCase> = [
  * 26 September 2026 after the shared learner-canvas correction and approved
  * because only the intentional canvas geometry changed. All four were re-pinned
  * on 30 September 2026 for the approved learner quick fixes: the "Hey {name}"
- * greeting and the plain-language first recommendation reason.
+ * greeting and the plain-language first recommendation reason. Re-pinned again on
+ * 30 September 2026 for the Founder-supplied v2 Home design (design_handoff_revision_v2,
+ * screen 01), taken from the CI run on PR 459.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '8fc7b3591f5598fd98f2eb3858e21e821ced55e4bbd2003854e4a8a18fc3c8e5',
-  'phone:dark': 'c050b147e4c07791f197653c782eb40673edfa7bde865d8cf44ec1b337b9a068',
-  'desktop:light': '3e593c2d640ff7d1d53b842d8d5f29451c3ea1c3ed73fecb33452019e80f7a3f',
-  'desktop:dark': '9447729cb767c82bb1040bdaff07941f83ce07f4151c0e5b7a998a29b9a4fd42',
+  'phone:light': 'bc85d4849cc1facb32f37c66f0c56bb5efaf09a3a3bfa962191969a32052e839',
+  'phone:dark': '1f60ba684c54716e4e853b0a2283d9ad814cf6dd24c732dbcb1323aa86ab2c6e',
+  'desktop:light': '91860eff9077b7f7281c83b6c1082d8de1ff05183b50de8cbe0dfe232a4afd8e',
+  'desktop:dark': 'c1bb04c8a2a1d8ce448d353fddb2c711f0c3c5f9927296346eedb69247d365be',
 }
 
 /**
