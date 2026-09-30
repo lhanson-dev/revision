@@ -8,7 +8,7 @@ import {
 } from '../services/courses/learner-course-service'
 import type { CatalogueSubject } from './catalogue-model'
 import { allCatalogueCourses, projectLearnerProgramme } from './learner-programme'
-import { Button, EmptyState, ModalShell, OverlayBackdrop, Status, TextField } from './ui'
+import { Button, EmptyState, ModalShell, OverlayBackdrop, Status, TextField, type StatusTone } from './ui'
 
 type CoursesScreenProps = {
   client: SupabaseClient
@@ -18,6 +18,11 @@ type CoursesScreenProps = {
   onMembershipsChange: (memberships: LearnerCourseMembership[]) => void
   onOpenCourse: (courseId: string, source: 'courses_index') => void
 }
+
+type CourseFeedback = {
+  tone: StatusTone
+  message: string
+} | null
 
 function courseIdentity(subjectName: string, qualificationName: string, examBoardName: string, specificationCode: string) {
   const boardNeeded = !qualificationName.toLocaleLowerCase().includes(examBoardName.toLocaleLowerCase())
@@ -29,7 +34,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
   const [removeCourseId, setRemoveCourseId] = useState<string | null>(null)
   const [query, setQuery] = useState('')
   const [savingAction, setSavingAction] = useState<string | null>(null)
-  const [message, setMessage] = useState('')
+  const [feedback, setFeedback] = useState<CourseFeedback>(null)
   const saving = savingAction !== null
 
   const allCourses = useMemo(() => allCatalogueCourses(catalogue), [catalogue])
@@ -77,7 +82,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
   }, [addOpen, removeCourseId])
 
   function openAddCourse() {
-    setMessage('')
+    setFeedback(null)
     setQuery('')
     setAddOpen(true)
     void recordLearnerCourseEventBestEffort(client, userId, 'add_course_opened')
@@ -85,17 +90,17 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
 
   async function addCourse(courseId: string) {
     setSavingAction(`add:${courseId}`)
-    setMessage('')
+    setFeedback(null)
     try {
       const membership = await addLearnerCourse(client, userId, courseId)
       onMembershipsChange([...memberships.filter((item) => item.courseId !== courseId), membership])
       setAddOpen(false)
       setQuery('')
-      setMessage('Course added to your Revision programme.')
+      setFeedback({ tone: 'success', message: 'Course added to your Revision programme.' })
       await recordLearnerCourseEventBestEffort(client, userId, 'course_added', courseId)
     } catch (error: unknown) {
       const text = error instanceof Error ? error.message : 'Could not add that course.'
-      setMessage(text)
+      setFeedback({ tone: 'error', message: text })
       await recordLearnerCourseEventBestEffort(client, userId, 'course_add_failed', courseId, { message: text })
     } finally {
       setSavingAction(null)
@@ -106,15 +111,15 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
     if (!removeCourseId) return
     const courseId = removeCourseId
     setSavingAction(`remove:${courseId}`)
-    setMessage('')
+    setFeedback(null)
     try {
       await removeLearnerCourse(client, userId, courseId)
       onMembershipsChange(memberships.filter((item) => item.courseId !== courseId))
       setRemoveCourseId(null)
-      setMessage('Course removed from your active programme. Your previous learning evidence has been kept.')
+      setFeedback({ tone: 'success', message: 'Course removed from your active programme. Your previous learning evidence has been kept.' })
       await recordLearnerCourseEventBestEffort(client, userId, 'course_removed', courseId)
     } catch (error: unknown) {
-      setMessage(error instanceof Error ? error.message : 'Could not remove that course.')
+      setFeedback({ tone: 'error', message: error instanceof Error ? error.message : 'Could not remove that course.' })
     } finally {
       setSavingAction(null)
     }
@@ -137,7 +142,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
         <Button onClick={openAddCourse}>Add course</Button>
       </header>
 
-      {message && <Status tone="info" aria-live="polite">{message}</Status>}
+      {feedback && <Status tone={feedback.tone} aria-live="polite">{feedback.message}</Status>}
 
       {programme.unknownCourseIds.length > 0 && (
         <Status tone="warning">
