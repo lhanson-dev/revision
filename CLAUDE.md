@@ -1,0 +1,89 @@
+# CLAUDE.md — Revision
+
+Read this at the start of every session. It is short on purpose.
+
+## Who you are working with
+
+Lee is the Founder. He builds without a coding background and uses AI as his main execution partner.
+
+- Explain what you did and why in plain English. Do not expect Lee to read code.
+- Every task ends with a short summary: what changed, how you checked it, what is left, and any decision Lee needs to make.
+- Ask one clear question when you need a decision. Offer the options and your recommendation.
+
+## What Revision is
+
+A UK GCSE and A-level revision platform. Two parts:
+
+1. **Course content**: Learn, Practice and Exam Prep for each exact course, produced by the **Content Factory**.
+2. **REV**: the intelligent guide that tells a student what to do next, using evidence from their work on that content.
+
+Current focus is the Content Factory. Keep REV in mind: every piece of content must be tagged to the course map (Subject Foundation node and specification item) so REV can use student results later. Do not build REV features as part of factory work.
+
+The first course is **AQA A-level Business 7132 (2027 exams)**.
+
+## Governance that still applies
+
+- Follow `START_HERE.md` and `AUTHORITY_HIERARCHY.md`.
+- Work on a branch and open a PR for every change.
+- **Stop before every merge.** Every merge into `main` needs Lee's explicit approval for that specific PR.
+
+## The Content Factory process (fast path)
+
+The governing process is `80-company-workflows/Content Factory Fast-Path Process.md`. Read it before any factory work. Summary:
+
+- **The architecture is frozen** (ADR-0028): Subject Knowledge Foundation → Specification Mapping → Course Truth + Exam Truth → exact-course gate → Learning Blueprint → Learn + Practice → exam questions → mocks → release.
+- **Software proves what can be proven** before any AI review runs.
+- **AI reviewers answer fixed checklists**, never "find anything wrong".
+- **Only proven teaching errors block**: wrong fact or formula, missing examinable item, broken question or mark scheme. Weak citations, opinions and out-of-scope points are logged, not blocking.
+- **Max two review rounds per item**, then escalate to Lee.
+- **Failures stay small**: one failed item or AI call never stops a whole run; fixes recheck only what changed and its dependants.
+
+## Rules for you (these exist because the first six weeks drifted)
+
+1. Do not propose architecture changes unless a check has failed because of the architecture. Name the failed check.
+2. Do not write new standards, amendments or ADRs to fix a single defect. Log the fix in one line in the run log.
+3. Do not ask an AI reviewer to "find any problems". Use the fixed checklist for that stage.
+4. Do not treat a weak citation as blocking. Log it for the next source batch.
+5. Do not start a third review round on the same issue. Add it to the escalation list for Lee.
+6. Do not regenerate or re-review anything whose inputs haven't changed.
+7. Do not let one failed AI call stop a run. Retry up to 3 times, mark that item failed, continue.
+8. Prefer a software check over an AI judgement whenever the answer can be computed or looked up.
+9. When unsure whether something blocks, ask: would a student learn something wrong, or miss something examinable? If not, it doesn't block.
+10. AQA material stays `REFERENCE_ONLY`: use it to establish requirements and assessment structure, never as teaching copy, and never paraphrase past-paper questions.
+
+## Where things are (read these, not the whole repo)
+
+The repo has a lot of historical process documentation. Most of it is evidence, not instructions. For factory work, start with:
+
+| What | Where |
+| --- | --- |
+| Fast-path process (governing) | `80-company-workflows/Content Factory Fast-Path Process.md` |
+| Architecture decision | `decisions/ADR-0028-subject-knowledge-foundation-and-course-projection.md` |
+| Trial stages T1–T12 | `docs/technical/Content Factory Subject Foundation Trial.md` |
+| Exact-course gate (T8) | `docs/technical/Content Factory AQA Exact-Course Assurance.md` |
+| Business Subject Foundation versions | `research/business-subject-foundation/` (v0.1–v0.8) |
+| AQA 7132 specification mapping | `research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs` |
+| T8 deterministic package | `scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs` |
+| T8 independent review proof | `scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts` |
+
+How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 2 Spec mapping = T4–T5 · 3 Course + Exam Truth = T6–T7 · 4 Course gate = T8 · 5 Blueprint = T9 · 6 Learn + Practice = T10 · 7–8 Exam questions and mocks = T11 · Release = T12.
+
+## Current state (as of 30 September 2026 — verify on `main` before acting)
+
+- Business Subject Foundation: 81 nodes in 9 domains. v0.8 remediation merged 29 September; fresh v0.8 reassurance and a T8 rerun were still pending.
+- AQA 7132 mapping: 42 requirements at specification-subsection level (3.1.1, 3.5.4 …), all mapped to nodes.
+- T8 last result: `fail_hold` with 4 material findings (named AQA items not supported, a missing prerequisite, finance source gaps, AQA calculation conventions underspecified).
+- Known weakness: coverage is proven at subsection level only. The T8 check confirms each subsection maps to nodes but does not check that each named item (e.g. "labour cost per unit") is actually taught. Fixing this is the next build task.
+- No learner assets have yet been produced by the current (ADR-0028) model. Older AQA content in `content/business/` comes from the superseded whole-course model.
+
+## The plan
+
+1. Lock in the fast-path process (ADR-0029, process doc, this file).
+2. Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.
+3. Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.
+4. Rerun the T8 gate under the new rules and resolve the open findings.
+5. Take AQA 3.5 (financial performance) through Blueprint, Learn, Practice, 10–15 exam-style questions and marking.
+6. Lee reviews the slice as a student; fix what it exposes; then run the rest of 7132.
+7. Start a second Business board and measure reuse.
+
+Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (date · item · what · why · which check).
