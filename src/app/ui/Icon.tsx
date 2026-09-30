@@ -27,6 +27,9 @@ export type IconName =
   | 'error'
   | 'plus'
   | 'trash'
+  | 'briefcase'
+  | 'pencil'
+  | 'retry'
 
 export type IconSize = 'inline' | 'compact' | 'standard' | 'large'
 
@@ -55,6 +58,9 @@ const drawings: Record<IconName, ReactNode> = {
   check: <><circle cx="12" cy="12" r="9" /><path d="m8 12 2.5 2.5L16.5 8.5" /></>,
   error: <><circle cx="12" cy="12" r="9" /><path d="m9 9 6 6M15 9l-6 6" /></>,
   plus: <><path d="M12 5v14M5 12h14" /></>,
+  briefcase: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" /></>,
+  pencil: <><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z" /><path d="m14 7 3 3" /></>,
+  retry: <><path d="M4 12a8 8 0 1 0 2.5-5.8" /><path d="M4 4v4.5h4.5" /></>,
   trash: <><path d="M4 7h16M9 3h6l1 4H8l1-4Z" /><path d="m7 7 1 14h8l1-14M10 11v6M14 11v6" /></>,
 }
 

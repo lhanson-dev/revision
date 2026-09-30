@@ -144,7 +144,7 @@ test('critical course, learning, practice, exam and progress journey meets the a
 
   const asCourseCard = page.locator('.course-card').filter({ hasText: 'AQA AS Business' }).first()
   await asCourseCard.getByRole('button', { name: 'Open course' }).click()
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
   const courseNav = page.getByRole('navigation', { name: 'AQA AS Business navigation' })
   await expect(courseNav).toBeVisible()
   await expectWcagBaseline(page, 'AQA AS Business course overview')
@@ -157,12 +157,13 @@ test('critical course, learning, practice, exam and progress journey meets the a
   await expectWcagBaseline(page, 'Learn')
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()
-  await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
-  await expectWcagBaseline(page, 'Practice')
-
-  await page.getByRole('tab', { name: 'Quick check' }).click()
+  await expect(page.locator('.practice-workspace')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
   await expectWcagBaseline(page, 'Practice quick check')
+
+  await page.locator('.pw-other').getByRole('button', { name: /^Flashcards/ }).click()
+  await expect(page.getByRole('button', { name: 'Show answer' })).toBeVisible()
+  await expectWcagBaseline(page, 'Practice flashcards')
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()
   await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()

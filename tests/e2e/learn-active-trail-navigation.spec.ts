@@ -260,26 +260,14 @@ test('Learn uses the shared course-section and body canvas while constraining on
   const courseNavigation = page.getByRole('navigation', { name: 'AQA A-level Business navigation' })
   await courseNavigation.getByRole('button', { name: 'Practice', exact: true }).click()
   const practiceSurface = page.locator('.focused-practice')
-  const practiceHeading = practiceSurface.locator('.workspace-heading')
+  const practiceContext = practiceSurface.locator('.pw-context')
   await expect(practiceSurface).toBeVisible()
   const practiceSurfaceBox = await practiceSurface.boundingBox()
-  const practiceHeadingBox = await practiceHeading.boundingBox()
-  expect(practiceSurfaceBox && practiceHeadingBox).toBeTruthy()
+  const practiceContextBox = await practiceContext.boundingBox()
+  expect(practiceSurfaceBox && practiceContextBox).toBeTruthy()
+  // Learner redesign PR 2: Practice is frameless (no card, no inner padding) so its content starts at
+  // the shared canvas edge. It still spans the same canvas width as Learn. Learn follows in PR 3.
   expect(Math.abs(learnSurfaceBox!.width - practiceSurfaceBox!.width)).toBeLessThanOrEqual(1)
-  expect(Math.abs(learnArticleBox!.x - practiceHeadingBox!.x)).toBeLessThanOrEqual(1)
-  expect(Math.abs(learnArticleBox!.width - practiceHeadingBox!.width)).toBeLessThanOrEqual(1)
-
-  const practiceStyle = await practiceSurface.evaluate((element) => {
-    const style = getComputedStyle(element)
-    return {
-      backgroundColor: style.backgroundColor,
-      borderTopWidth: style.borderTopWidth,
-      borderTopStyle: style.borderTopStyle,
-      borderRadius: style.borderRadius,
-      paddingLeft: style.paddingLeft,
-      paddingRight: style.paddingRight,
-      marginTop: style.marginTop,
-    }
-  })
-  expect(learnStyle).toEqual(practiceStyle)
+  expect(Math.abs(practiceSurfaceBox!.x - practiceContextBox!.x)).toBeLessThanOrEqual(1)
+  expect(Math.abs(practiceSurfaceBox!.width - practiceContextBox!.width)).toBeLessThanOrEqual(1)
 })

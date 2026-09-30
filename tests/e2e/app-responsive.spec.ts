@@ -368,11 +368,14 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
   await expectNoPageOverflow(page)
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Practice' }).click()
-  await expect(page.getByRole('heading', { name: 'Practice · AQA AS Business' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Flashcards' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Quick check' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Case study' })).toBeVisible()
-  await expect(page.getByRole('tab', { name: 'Exam question' })).toHaveCount(0)
+  await expect(page.locator('.practice-workspace')).toBeVisible()
+  // The recommended activity opens first; the other activities are secondary cards, not a tab row.
+  await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
+  const otherWays = page.locator('.pw-other')
+  await expect(otherWays.getByRole('button', { name: /^Flashcards/ })).toBeVisible()
+  await expect(otherWays.getByRole('button', { name: /^Case study/ })).toBeVisible()
+  await expect(otherWays.getByRole('button', { name: /^Exam question/ })).toHaveCount(0)
+  await expect(page.getByRole('tab')).toHaveCount(0)
   await expectNoPageOverflow(page)
 
   await page.getByRole('navigation', { name: 'AQA AS Business navigation' }).getByRole('button', { name: 'Exam Prep' }).click()

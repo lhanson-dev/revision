@@ -145,7 +145,7 @@ test('Courses shows saved courses, then resets the selected course into its focu
   await closeResponsiveNavigation(page)
 
   await clickNavigation(page, 'AQA AS Business')
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
 
   nav = await navigation(page)
   coursesTree = nav.getByRole('group', { name: 'Courses navigation' })

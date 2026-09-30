@@ -604,3 +604,142 @@
     transition: none;
   }
 }
+
+/* Learner redesign (2026-09): shared course header. */
+/* ---------- Shared course header ---------- */
+.planner-runtime .course-header {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-6);
+}
+
+.planner-runtime .course-header .breadcrumbs {
+  margin: 0;
+}
+
+.planner-runtime .course-header-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.planner-runtime .course-header-tile {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-control);
+  background: var(--brand-warm-sand);
+  color: var(--brand-deep-teal);
+}
+
+.planner-runtime[data-theme="dark"] .course-header-tile {
+  background: color-mix(in srgb, var(--brand-warm-sand) 22%, var(--color-surface));
+  color: var(--color-text);
+}
+
+.planner-runtime .course-header-identity h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  font-size: var(--type-h2-size);
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line);
+  letter-spacing: 0;
+}
+
+.planner-runtime .course-header-identity p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+}
+
+/* Underline tabs replace the old filled, floating pill bar. */
+.planner-runtime .course-header .course-nav {
+  position: static;
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  overflow: visible;
+}
+
+.planner-runtime .course-header .course-nav button {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: var(--control-height-standard);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-compact) var(--radius-compact) 0 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.planner-runtime .course-header .course-nav button:hover {
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.planner-runtime .course-header .course-nav button:focus-visible {
+  background: var(--color-surface-soft);
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .course-header .course-nav button.active,
+.planner-runtime[data-theme="dark"] .course-header .course-nav button.active {
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.planner-runtime .course-header .course-nav button.active::after {
+  content: "";
+  position: absolute;
+  right: var(--space-3);
+  bottom: -1px;
+  left: var(--space-3);
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--color-action);
+}
+
+@media (max-width: 640px) {
+  .planner-runtime .course-header-identity h1 {
+    font-size: var(--type-h3-size);
+    line-height: var(--type-h3-line);
+  }
+
+  .planner-runtime .course-header-identity p {
+    font-size: var(--type-body-s-size);
+    line-height: var(--type-body-s-line);
+  }
+
+  /* All five tabs share the width in one row, with no hidden overflow. */
+  .planner-runtime .course-header .course-nav {
+    gap: 0;
+  }
+
+  .planner-runtime .course-header .course-nav button {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 var(--space-1);
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  .planner-runtime .course-header .course-nav button.active::after {
+    right: var(--space-1);
+    left: var(--space-1);
+  }
+}
