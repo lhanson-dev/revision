@@ -4,14 +4,12 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "2bb59ecf64c1307fbdc04faa3eb5ae9e6e1d2d0ac163b5a28de8efbcef0f9ea3",
+  "foundation_fingerprint": "5854b9c0e2fc98cba2683ba8eeb0597db5429db3ce75c04b91b3f682136a7570",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
     "conventions_to_confirm": [
-      "aqa-7132-3.5.1:profit-for-the-year",
-      "aqa-7132-3.7.2:gearing",
-      "aqa-7132-3.7.8:average-rate-of-return"
+      "aqa-7132-3.5.1:profit-for-the-year"
     ],
     "covered": 344,
     "found_in_unmapped_node": 0,
@@ -3336,7 +3334,7 @@
         }
       ],
       "aqa_convention": "non-current liabilities / (total equity + non-current liabilities) × 100",
-      "convention_status": "to_confirm_against_aqa_mark_scheme"
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.2:payables-days",
@@ -3949,7 +3947,7 @@
         }
       ],
       "aqa_convention": "average annual profit / initial investment × 100, where average annual profit = (total net cash inflows - initial investment) / years",
-      "convention_status": "to_confirm_against_aqa_mark_scheme"
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.8:net-present-value",
