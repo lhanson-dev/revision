@@ -707,3 +707,385 @@
     transform: none;
   }
 }
+
+/* Learner redesign (2026-09): Practice workspace. */
+.planner-runtime .practice-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--space-4) var(--space-6);
+  align-items: start;
+  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.planner-runtime .practice-workspace > * {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.planner-runtime .practice-workspace > .pw-context,
+.planner-runtime .practice-workspace > .pw-other {
+  grid-column: 1 / -1;
+}
+
+.planner-runtime .practice-workspace > .pw-side {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.planner-runtime .pw-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.planner-runtime .pw-activity-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--color-accent-text);
+  font-size: var(--type-body-size);
+  font-weight: 700;
+  line-height: var(--type-body-line);
+  letter-spacing: 0;
+}
+
+.planner-runtime .pw-context .pw-change-topic {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.planner-runtime .pw-change-topic .ui-field-label {
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.planner-runtime .pw-change-topic select {
+  min-width: 0;
+  max-width: 260px;
+}
+
+.planner-runtime .pw-task,
+.planner-runtime .pw-side section,
+.planner-runtime .pw-empty {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+}
+
+.planner-runtime .pw-task {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.planner-runtime .pw-task-meta {
+  display: flex;
+  justify-content: flex-end;
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+  font-weight: 600;
+}
+
+.planner-runtime .pw-progress {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.planner-runtime .pw-progress span {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+}
+
+.planner-runtime .pw-progress span.done {
+  background: var(--color-action);
+}
+
+.planner-runtime .pw-progress span.current {
+  background: var(--color-inverse-action);
+}
+
+.planner-runtime[data-theme="dark"] .pw-progress span.current {
+  background: var(--color-text);
+}
+
+.planner-runtime .pw-question {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.planner-runtime .pw-question legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+}
+
+.planner-runtime .pw-question legend h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0;
+}
+
+.planner-runtime .pw-options {
+  clear: both;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.planner-runtime .pw-options label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--control-height-large);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  cursor: pointer;
+}
+
+.planner-runtime .pw-options label:hover {
+  border-color: var(--color-action);
+}
+
+.planner-runtime .pw-options label:has(input:checked) {
+  border-color: var(--color-action);
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .pw-options label:has(input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .pw-options input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--brand-primary-teal);
+}
+
+.planner-runtime .pw-option-text {
+  flex: 1 1 auto;
+}
+
+.planner-runtime .pw-option-tag {
+  flex: 0 0 auto;
+  font-size: var(--type-caption-size);
+  font-weight: 700;
+}
+
+.planner-runtime .pw-options label.correct {
+  border-color: var(--status-success-fg);
+  background: var(--status-success-bg);
+}
+
+.planner-runtime .pw-options label.correct .pw-option-tag {
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .pw-options label.missed {
+  border-color: var(--status-warning-fg);
+  background: var(--status-warning-bg);
+}
+
+.planner-runtime .pw-options label.missed .pw-option-tag {
+  color: var(--status-warning-fg);
+}
+
+.planner-runtime .pw-options label:has(input:disabled) {
+  cursor: default;
+}
+
+.planner-runtime .pw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.planner-runtime .pw-feedback-region:empty {
+  display: none;
+}
+
+.planner-runtime .pw-feedback {
+  padding: var(--space-4);
+  border-radius: var(--radius-control);
+}
+
+.planner-runtime .pw-feedback strong {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+}
+
+.planner-runtime .pw-feedback p {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text);
+}
+
+.planner-runtime .pw-feedback .pw-feedback-note {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.planner-runtime .pw-feedback.is-correct {
+  background: var(--status-success-bg);
+}
+
+.planner-runtime .pw-feedback.is-correct strong {
+  color: var(--status-success-fg);
+}
+
+.planner-runtime .pw-feedback.is-retry {
+  background: var(--status-warning-bg);
+}
+
+.planner-runtime .pw-feedback.is-retry strong {
+  color: var(--status-warning-fg);
+}
+
+/* Side column */
+.planner-runtime .pw-side h3 {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text);
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-line);
+  letter-spacing: 0;
+}
+
+.planner-runtime .pw-side p {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+}
+
+.planner-runtime .pw-side .pw-why {
+  background: var(--color-surface-soft);
+}
+
+.planner-runtime .pw-session dl {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.planner-runtime .pw-session dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.planner-runtime .pw-session dt {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.planner-runtime .pw-session dd {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* Other ways to practise */
+.planner-runtime .pw-other h2 {
+  margin: var(--space-4) 0 var(--space-3);
+  color: var(--color-text);
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-line);
+  letter-spacing: 0;
+}
+
+.planner-runtime .pw-other-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.planner-runtime .pw-other-card {
+  display: grid;
+  gap: var(--space-1);
+  min-height: var(--control-height-large);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-family-product);
+  text-align: left;
+  cursor: pointer;
+}
+
+.planner-runtime .pw-other-card strong {
+  font-size: var(--type-body-size);
+}
+
+.planner-runtime .pw-other-card span {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-s-size);
+}
+
+.planner-runtime .pw-other-card:hover {
+  border-color: var(--color-action);
+}
+
+.planner-runtime .pw-other-card:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus-ring);
+}
+
+.planner-runtime .pw-empty p {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .planner-runtime .practice-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .planner-runtime .practice-workspace > .pw-side {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .planner-runtime .pw-task,
+  .planner-runtime .pw-side section,
+  .planner-runtime .pw-empty {
+    padding: var(--space-4);
+  }
+
+  .planner-runtime .pw-actions .ui-button,
+  .planner-runtime .pw-actions button {
+    flex: 1 1 100%;
+  }
+}

@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
 import type { RevisionRecommendation } from '../engine/readiness/readiness'
 import { createFlashcardEvidence, createMultipleChoiceEvidence, createSelfAssessedExamQuestionEvidence } from './practice-evidence'
-import { Button, SegmentedControl, SelectField, TextAreaField } from './ui'
+import { Button, Icon, SegmentedControl, SelectField, TextAreaField } from './ui'
 
 export type FocusedLearningSection = 'learn' | 'practice' | 'exam-prep'
 
@@ -19,6 +19,8 @@ export type FocusedLearningWorkspaceProps = {
   onRecordEvidence: (evidence: LearningEvidence) => Promise<void>
   contextLabel?: string
   includeExamQuestions?: boolean
+  /** Practice only: open this topic first (for example when arriving from a Learn page). */
+  preferredTopicId?: string | null
 }
 
 const emptyAoMarks: Record<AoKey, number> = { ao1: 0, ao2: 0, ao3: 0, ao4: 0 }
@@ -46,14 +48,13 @@ function defaultMode(section: FocusedLearningSection): WorkspaceMode {
   return 'learn'
 }
 
-function evidenceId(prefix: string) {
-  return `${prefix}-${crypto.randomUUID()}`
+function elapsedLabel(startedAt: number, now: number) {
+  const minutes = Math.floor((now - startedAt) / 60_000)
+  return minutes < 1 ? 'Under a minute' : `${minutes} min`
 }
 
-function recommendationActivityLabel(activity: RevisionRecommendation['activity']) {
-  if (activity === 'flashcards') return 'Flashcards'
-  if (activity === 'exam-question') return 'Exam question'
-  return 'Quick check'
+function evidenceId(prefix: string) {
+  return `${prefix}-${crypto.randomUUID()}`
 }
 
 function sectionHeading(section: FocusedLearningSection, paperNumber: number, contextLabel?: string) {
@@ -84,10 +85,21 @@ export function FocusedLearningWorkspace({
   onRecordEvidence,
   contextLabel,
   includeExamQuestions = true,
+  preferredTopicId,
 }: FocusedLearningWorkspaceProps) {
   const topics = adapter.listTopics()
-  const [topicId, setTopicId] = useState(topics[0]?.id ?? '')
-  const [mode, setMode] = useState<WorkspaceMode>(() => defaultMode(section))
+  const isPractice = section === 'practice'
+  const [topicId, setTopicId] = useState(() => {
+    if (isPractice && preferredTopicId && adapter.getTopic(preferredTopicId)) return preferredTopicId
+    if (isPractice && recommendation && adapter.getTopic(recommendation.topicId)) return recommendation.topicId
+    return topics[0]?.id ?? ''
+  })
+  const [mode, setMode] = useState<WorkspaceMode | null>(null)
+  const [attempts, setAttempts] = useState(0)
+  const [sessionAnswered, setSessionAnswered] = useState(0)
+  const [sessionCorrect, setSessionCorrect] = useState(0)
+  const [sessionStart] = useState(() => Date.now())
+  const [now, setNow] = useState(() => Date.now())
   const [cardIndex, setCardIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -109,7 +121,6 @@ export function FocusedLearningWorkspace({
   const availableModes = section === 'practice' && !includeExamQuestions
     ? sectionModes.practice.filter((item) => item !== 'exam-question')
     : sectionModes[section]
-  const effectiveMode = availableModes.includes(mode) ? mode : defaultMode(section)
   const copy = sectionHeading(section, adapter.manifest.paper.number, contextLabel)
   const topic = adapter.getTopic(topicId)
   const cards = useMemo(() => adapter.listFlashcards(topicId), [adapter, topicId])
@@ -120,7 +131,6 @@ export function FocusedLearningWorkspace({
   const examTechnique = adapter.listExamTechnique()
   const caseStudy = adapter.listCaseStudies()[0]
   const exam = adapter.listExams()[0]
-  const recommendationTopic = recommendation ? adapter.getTopic(recommendation.topicId) : undefined
   const card = cards[cardIndex % Math.max(cards.length, 1)]
   const question = questions[questionIndex % Math.max(questions.length, 1)]
   const formula = formulas[formulaIndex % Math.max(formulas.length, 1)]
@@ -129,6 +139,42 @@ export function FocusedLearningWorkspace({
   const examQuestion = exam?.questions[examQuestionIndex % Math.max(exam.questions.length, 1)]
   const examTotalAwarded = (Object.keys(aoMarks) as AoKey[]).reduce((sum, key) => sum + aoMarks[key], 0)
 
+  const modeHasContent: Record<WorkspaceMode, boolean> = {
+    learn: true,
+    links: true,
+    answer: true,
+    flashcards: cards.length > 0,
+    'quick-check': questions.length > 0,
+    'case-study': Boolean(caseStudy),
+    'exam-question': Boolean(exam),
+    'formulas-data': formulas.length > 0 || drills.length > 0,
+  }
+  const practiceModes = availableModes.filter((item) => modeHasContent[item])
+  const recommendedMode = recommendation && recommendation.topicId === topicId
+    && practiceModes.includes(recommendation.activity) ? recommendation.activity : null
+  const initialMode: WorkspaceMode = isPractice
+    ? recommendedMode ?? (practiceModes.includes('quick-check') ? 'quick-check' : practiceModes[0] ?? defaultMode(section))
+    : defaultMode(section)
+  const effectiveMode = mode && availableModes.includes(mode) ? mode : initialMode
+  const otherModes = practiceModes.filter((item) => item !== effectiveMode)
+  const modeSummary: Partial<Record<WorkspaceMode, string>> = {
+    flashcards: `${cards.length} ${cards.length === 1 ? 'card' : 'cards'} on this topic`,
+    'quick-check': `${questions.length} ${questions.length === 1 ? 'question' : 'questions'} on this topic`,
+    'case-study': caseStudy ? `${caseStudy.questions.length} written ${caseStudy.questions.length === 1 ? 'question' : 'questions'} on a business case` : undefined,
+    'exam-question': exam ? `${exam.questions.length} exam ${exam.questions.length === 1 ? 'question' : 'questions'}` : undefined,
+    'formulas-data': `${formulas.length} ${formulas.length === 1 ? 'formula' : 'formulas'} · ${drills.length} data ${drills.length === 1 ? 'drill' : 'drills'}`,
+  }
+  const whyThisActivity = recommendedMode
+    ? recommendation?.reason
+    : `You chose ${modeLabels[effectiveMode].toLowerCase()} for ${topic?.shortTitle ?? 'this topic'}.`
+  const sessionLabel = sessionAnswered === 0 ? 'None yet' : `${sessionCorrect} of ${sessionAnswered}`
+
+  useEffect(() => {
+    if (!isPractice) return undefined
+    const timer = window.setInterval(() => setNow(Date.now()), 30_000)
+    return () => window.clearInterval(timer)
+  }, [isPractice])
+
   function changeTopic(nextTopic: string) {
     setTopicId(nextTopic)
     setCardIndex(0)
@@ -136,16 +182,11 @@ export function FocusedLearningWorkspace({
     setShowAnswer(false)
     setSelectedOption(null)
     setChecked(false)
+    setAttempts(0)
   }
 
   function changeMode(nextMode: WorkspaceMode) {
     if (availableModes.includes(nextMode)) setMode(nextMode)
-  }
-
-  function startRecommendation() {
-    if (!recommendation || !availableModes.includes(recommendation.activity)) return
-    changeTopic(recommendation.topicId)
-    changeMode(recommendation.activity)
   }
 
   async function rateFlashcard(rating: 0 | 1 | 2) {
@@ -168,20 +209,31 @@ export function FocusedLearningWorkspace({
 
   async function checkAnswer() {
     if (!question || selectedOption === null || checked) return
-    const evidence = createMultipleChoiceEvidence({
-      id: evidenceId('mcq'),
-      moduleId: adapter.manifest.id,
-      topicId: question.topic,
-      contentId: question.id,
-      selectedOption,
-      correctOption: question.correctOption,
-    })
-    try {
-      await onRecordEvidence(evidence)
-    } catch {
-      return
+    // Only the first answer to a question is scored. A retry after seeing the explanation is practice.
+    if (attempts === 0) {
+      const evidence = createMultipleChoiceEvidence({
+        id: evidenceId('mcq'),
+        moduleId: adapter.manifest.id,
+        topicId: question.topic,
+        contentId: question.id,
+        selectedOption,
+        correctOption: question.correctOption,
+      })
+      try {
+        await onRecordEvidence(evidence)
+      } catch {
+        return
+      }
+      setSessionAnswered((count) => count + 1)
+      if (selectedOption === question.correctOption) setSessionCorrect((count) => count + 1)
     }
+    setAttempts((count) => count + 1)
     setChecked(true)
+  }
+
+  function retryQuestion() {
+    setSelectedOption(null)
+    setChecked(false)
   }
 
   async function recordExamQuestion() {
@@ -206,6 +258,7 @@ export function FocusedLearningWorkspace({
     setQuestionIndex((index) => index + 1)
     setSelectedOption(null)
     setChecked(false)
+    setAttempts(0)
   }
 
   function nextFormula() {
@@ -237,47 +290,141 @@ export function FocusedLearningWorkspace({
     setAoMarks((current) => ({ ...current, [key]: safeValue }))
   }
 
-  return (
-    <section className={`learning-workspace focused-workspace focused-${section}`} aria-labelledby={`focused-${section}-heading`}>
-      <div className="workspace-heading">
-        <div>
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h2 id={`focused-${section}-heading`}>{copy.title}</h2>
-          <p className="muted">{copy.intro}</p>
-        </div>
-        <SelectField groupClassName="topic-picker" label="Topic" value={topicId} onChange={(event) => changeTopic(event.target.value)}>
+  const workspaceHeading = (
+    <div className="workspace-heading">
+      <div>
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h2 id={`focused-${section}-heading`}>{copy.title}</h2>
+        <p className="muted">{copy.intro}</p>
+      </div>
+      <SelectField groupClassName="topic-picker" label="Topic" value={topicId} onChange={(event) => changeTopic(event.target.value)}>
+        {topics.map((item) => <option key={item.id} value={item.id}>{item.shortTitle}</option>)}
+      </SelectField>
+    </div>
+  )
+
+  const practiceContext = (
+    <div className="pw-context">
+      <h2 id="focused-practice-heading" className="pw-activity-label"><Icon name="pencil" size="compact" />{modeLabels[effectiveMode]}{topic ? ` · ${topic.shortTitle}` : ''}</h2>
+      {topics.length > 1 && (
+        <SelectField groupClassName="pw-change-topic" label="Change topic" value={topicId} onChange={(event) => changeTopic(event.target.value)}>
           {topics.map((item) => <option key={item.id} value={item.id}>{item.shortTitle}</option>)}
         </SelectField>
-      </div>
-
-      {section === 'practice' && recommendation && recommendationTopic && availableModes.includes(recommendation.activity) && (
-        <aside className="recommendation-card" aria-labelledby="recommendation-heading">
-          <div>
-            <p className="eyebrow">REV recommends</p>
-            <h3 id="recommendation-heading">{recommendationTopic.shortTitle} · {recommendationActivityLabel(recommendation.activity)}</h3>
-            <p>{recommendation.reason}</p>
-            <p className="recommendation-evidence"><strong>Evidence used:</strong> {recommendation.evidenceSummary}</p>
-            <p className="muted"><strong>Confidence limitation:</strong> {recommendation.limitation}</p>
-          </div>
-          <Button className="primary" onClick={startRecommendation}>Start recommended activity</Button>
-        </aside>
       )}
+    </div>
+  )
 
-      <SegmentedControl className="mode-tabs" role="tablist" label={`${copy.title} activities`}>
-        {availableModes.map((item) => (
-          <Button
-            key={item}
-            variant={effectiveMode === item ? 'secondary' : 'tertiary'}
-            size="compact"
-            className={effectiveMode === item ? 'active' : ''}
-            onClick={() => changeMode(item)}
-            role="tab"
-            aria-selected={effectiveMode === item}
-          >
-            {modeLabels[item]}
-          </Button>
+  const quickCheckTask = question ? (
+    <div className="pw-task">
+      <div className="pw-task-meta">
+        <span>Question {(questionIndex % questions.length) + 1} of {questions.length}</span>
+      </div>
+      <div className="pw-progress" aria-hidden="true">
+        {questions.map((item, index) => {
+          const position = questionIndex % questions.length
+          return <span key={item.id} className={index < position ? 'done' : index === position ? 'current' : ''}></span>
+        })}
+      </div>
+      <fieldset className="pw-question">
+        <legend><h3>{question.prompt}</h3></legend>
+        <div className="pw-options">
+          {question.options.map((option, index) => {
+            const state = !checked ? '' : index === question.correctOption ? 'correct' : selectedOption === index ? 'missed' : ''
+            return (
+              <label key={option} className={state}>
+                <input type="radio" name="quick-check-answer" checked={selectedOption === index} disabled={checked || saving} onChange={() => setSelectedOption(index)} />
+                <span className="pw-option-text">{option}</span>
+                {state === 'correct' && <span className="pw-option-tag">Correct answer</span>}
+                {state === 'missed' && <span className="pw-option-tag">Your answer</span>}
+              </label>
+            )
+          })}
+        </div>
+      </fieldset>
+      {!checked && <div className="pw-actions"><Button disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button></div>}
+      <div className="pw-feedback-region" aria-live="polite">
+        {checked && (
+          <div className={`pw-feedback ${selectedOption === question.correctOption ? 'is-correct' : 'is-retry'}`}>
+            <strong><Icon name={selectedOption === question.correctOption ? 'check' : 'retry'} size="compact" />{selectedOption === question.correctOption ? 'Correct' : 'Not quite'}</strong>
+            <p>{question.explanation}</p>
+            {attempts > 1 && <p className="pw-feedback-note">Your first answer to this question is the one that was recorded.</p>}
+          </div>
+        )}
+      </div>
+      {checked && (
+        <div className="pw-actions">
+          {selectedOption === question.correctOption
+            ? <Button onClick={nextQuestion}>Next question <Icon name="arrow-right" size="compact" /></Button>
+            : <>
+                <Button onClick={retryQuestion}>Try again <Icon name="arrow-right" size="compact" /></Button>
+                <Button variant="tertiary" onClick={nextQuestion}>Next question</Button>
+              </>}
+        </div>
+      )}
+    </div>
+  ) : null
+
+  const practiceSide = (
+    <aside className="pw-side" aria-label="About this practice">
+      {whyThisActivity && (
+        <section className="pw-why">
+          <h3>Why this activity</h3>
+          <p>{whyThisActivity}</p>
+        </section>
+      )}
+      <section className="pw-session">
+        <h3>This session</h3>
+        <dl>
+          <div><dt>Correct so far</dt><dd>{sessionLabel}</dd></div>
+          <div><dt>Time</dt><dd>{elapsedLabel(sessionStart, now)}</dd></div>
+        </dl>
+      </section>
+    </aside>
+  )
+
+  const otherWays = otherModes.length > 0 && (
+    <section className="pw-other" aria-labelledby="practice-other-heading">
+      <h2 id="practice-other-heading">Other ways to practise {topic?.shortTitle ?? 'this topic'}</h2>
+      <div className="pw-other-grid">
+        {otherModes.map((item) => (
+          <button key={item} type="button" className="pw-other-card" onClick={() => changeMode(item)}>
+            <strong>{modeLabels[item]}</strong>
+            <span>{modeSummary[item]}</span>
+          </button>
         ))}
-      </SegmentedControl>
+      </div>
+    </section>
+  )
+
+  const tabs = (
+    <SegmentedControl className="mode-tabs" role="tablist" label={`${copy.title} activities`}>
+      {availableModes.map((item) => (
+        <Button
+          key={item}
+          variant={effectiveMode === item ? 'secondary' : 'tertiary'}
+          size="compact"
+          className={effectiveMode === item ? 'active' : ''}
+          onClick={() => changeMode(item)}
+          role="tab"
+          aria-selected={effectiveMode === item}
+        >
+          {modeLabels[item]}
+        </Button>
+      ))}
+    </SegmentedControl>
+  )
+
+  const emptyActivity = isPractice && practiceModes.length === 0 && (
+    <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topic?.shortTitle ?? 'this topic'} yet. Try another topic.</p></div>
+  )
+
+  return (
+    <section
+      className={`learning-workspace focused-workspace focused-${section}${isPractice ? ' practice-workspace' : ''}`}
+      aria-labelledby={`focused-${section}-heading`}
+    >
+      {isPractice ? practiceContext : <>{workspaceHeading}{tabs}</>}
+      {emptyActivity}
 
       {effectiveMode === 'learn' && topic && (
         <div className="learn-panel">
@@ -313,7 +460,6 @@ export function FocusedLearningWorkspace({
 
       {effectiveMode === 'flashcards' && card && (
         <div className="practice-card">
-          <div className="activity-kind scored"><strong>Scored evidence</strong><span>Your self-rating is recorded and contributes to the evidence picture.</span></div>
           <div className="practice-meta">Card {(cardIndex % cards.length) + 1} of {cards.length}</div>
           <h3>{card.prompt}</h3>
           {!showAnswer ? (
@@ -332,29 +478,7 @@ export function FocusedLearningWorkspace({
         </div>
       )}
 
-      {effectiveMode === 'quick-check' && question && (
-        <div className="practice-card">
-          <div className="activity-kind scored"><strong>Scored evidence</strong><span>Your answer is recorded and contributes to readiness once there is enough varied evidence.</span></div>
-          <div className="practice-meta">Question {(questionIndex % questions.length) + 1} of {questions.length}</div>
-          <h3>{question.prompt}</h3>
-          <div className="option-list">
-            {question.options.map((option, index) => (
-              <label key={option} className={checked ? (index === question.correctOption ? 'correct' : selectedOption === index ? 'incorrect' : '') : ''}>
-                <input type="radio" name="quick-check-answer" checked={selectedOption === index} disabled={checked || saving} onChange={() => setSelectedOption(index)} />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-          {!checked ? (
-            <Button className="primary" disabled={selectedOption === null || saving} onClick={checkAnswer}>Check answer</Button>
-          ) : (
-            <>
-              <div className="answer-panel" aria-live="polite"><strong>{selectedOption === question.correctOption ? 'Correct' : 'Not quite'}</strong><p>{question.explanation}</p></div>
-              <Button className="primary" onClick={nextQuestion}>Next question</Button>
-            </>
-          )}
-        </div>
-      )}
+      {effectiveMode === 'quick-check' && quickCheckTask}
 
       {effectiveMode === 'case-study' && caseStudy && caseQuestion && (
         <div className="learn-panel">
@@ -478,6 +602,8 @@ export function FocusedLearningWorkspace({
 
       {saveError && <p className="error" role="alert">{saveError}</p>}
       {saving && <p className="muted" aria-live="polite">Saving your activity…</p>}
+      {isPractice && practiceModes.length > 0 && practiceSide}
+      {isPractice && otherWays}
     </section>
   )
 }
