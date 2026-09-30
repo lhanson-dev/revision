@@ -132,7 +132,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
         <div>
           <p className="eyebrow">Your revision programme</p>
           <h1 id="courses-page-title">Courses</h1>
-          <p>These are the courses Revision will use for your plan, progress and learner-wide REV guidance.</p>
+          <p>The courses you're studying. Your plan, progress and REV's suggestions all come from these.</p>
         </div>
         <Button onClick={openAddCourse}>Add course</Button>
       </header>
@@ -161,10 +161,10 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
                 <h2>{label}</h2>
                 <p>{courseIdentity(subject.name, course.qualificationName, course.examBoardName, course.specificationCode)}</p>
                 <p className="muted">{course.learningAdapter.catalogueEntry.topicCount} syllabus topics · {course.modules.length} {course.modules.length === 1 ? 'exam paper/component' : 'exam papers/components'}</p>
+                <Button variant="tertiary" className="courses-remove-action" aria-label={`Remove ${label} from my courses`} onClick={() => setRemoveCourseId(course.id)}>Remove from my courses</Button>
               </div>
               <div className="courses-programme-card-actions">
                 <Button onClick={() => onOpenCourse(course.id, 'courses_index')}>Open course</Button>
-                <Button variant="tertiary" onClick={() => setRemoveCourseId(course.id)}>Remove course</Button>
               </div>
             </article>
           ))}
@@ -207,7 +207,7 @@ export function CoursesScreen({ client, userId, catalogue, memberships, onMember
           <ModalShell className="courses-modal courses-remove-modal" labelledBy="remove-course-title">
             <p className="eyebrow">Change programme</p>
             <h2 id="remove-course-title">Remove {pendingRemoval.label}?</h2>
-            <p>This removes the course from your active programme and future learner-wide recommendations. Your existing learning evidence and previous activity will be kept.</p>
+            <p>It will leave your plan, Home and REV's suggestions. Your answers and past work are kept, and come back if you add the course again.</p>
             <div className="inline-actions">
               <Button
                 variant="destructive"

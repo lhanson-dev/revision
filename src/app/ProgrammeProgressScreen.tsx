@@ -73,19 +73,19 @@ export function ProgrammeProgressScreen({ client, userId, catalogue, memberships
 
   return (
     <main className="dashboard screen-dashboard page-screen" aria-labelledby="global-progress-title">
-      <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="global-progress-title">Progress</h1><p>This view covers only the courses in your active Revision programme. Course membership itself is not progress evidence.</p></header>
+      <header className="page-heading"><p className="eyebrow">Your evidence picture</p><h1 id="global-progress-title">Progress</h1><p>What your answers so far show across the courses you’re studying.</p></header>
 
       {error && <Status tone="warning">{error}</Status>}
       {programme.unknownCourseIds.length > 0 && <Status tone="warning">A saved course no longer resolves to the published catalogue. Its historical evidence is preserved, but it is excluded from this active programme view.</Status>}
 
       {programme.courses.length === 0 ? (
-        <EmptyState title="Add a course to build your progress view" description="Revision will show evidence and readiness only for courses that belong to your active programme." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
+        <EmptyState title="Add a course to build your progress view" description="Add the courses you’re studying and your progress will build here as you work." action={<Button onClick={onOpenCourses}>Choose a course</Button>} />
       ) : (
         <>
           <div className="progress-overview">
-            <article><small>Evidence coverage</small><strong>{evidencedTopics} / {totalTopics}</strong><p>Active-course topics with at least one recorded learning result.</p></article>
-            <article><small>Scored activities</small><strong>{evidence.length}</strong><p>Evidence recorded within your active course set.</p></article>
-            <article><small>Readiness available</small><strong>{readinessAvailable} / {allStates.length}</strong><p>Courses/components with enough varied evidence to support a readiness score.</p></article>
+            <article><small>Topics covered</small><strong>{evidencedTopics} / {totalTopics}</strong><p>Topics where you’ve done at least one scored activity.</p></article>
+            <article><small>Scored activities</small><strong>{evidence.length}</strong><p>Questions and checks you’ve completed and had marked.</p></article>
+            <article><small>Exam readiness</small><strong>{readinessAvailable} / {allStates.length}</strong><p>Courses with enough varied work for a readiness estimate. Keep practising to unlock it.</p></article>
           </div>
 
           <section className="home-section" aria-labelledby="course-progress-list-title">
