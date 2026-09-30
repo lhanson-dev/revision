@@ -1,6 +1,6 @@
 # CLAUDE.md — Revision
 
-Read this at the start of every session. It is short on purpose.
+Read this at the start of every session. It is short on purpose. It applies to every AI tool that works on this repo (Claude, ChatGPT, Codex or anything else), not just Claude; `AGENTS.md` points here.
 
 ## Who you are working with
 
@@ -78,7 +78,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 
 ## The plan
 
-1. Lock in the fast-path process (ADR-0029, process doc, this file).
+1. ~~Lock in the fast-path process (ADR-0029, process doc, this file).~~ Done 30 September 2026.
 2. Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.
 3. Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.
 4. Rerun the T8 gate under the new rules and resolve the open findings.
@@ -87,3 +87,13 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 7. Start a second Business board and measure reuse.
 
 Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (date · item · what · why · which check).
+
+## Switching between AI tools
+
+Lee uses more than one AI tool (currently Claude and ChatGPT/Codex) and must be able to stop in one and pick up in another at any point. The repo, not any chat history, is the shared memory. So:
+
+1. **Start from the repo.** Begin every session by reading this file, the Fast-Path Process doc and the latest entries in `content-factory/RUN_LOG.md`, then check `main` and open PRs. Do not rely on what a previous chat said.
+2. **Log as you go.** Every fix or decision gets one line in `RUN_LOG.md` (`date · item · what · why · which check`) in the same PR as the change, so a session that stops suddenly still leaves a trail.
+3. **Finish on something pushed.** End every session with the work on a pushed branch or open PR, never only on a local machine or in a chat. If work is unfinished, add a run log line starting `HANDOVER ·` saying what is done, what is next, and the branch or PR name.
+4. **Keep "Current state" current.** When something significant lands (a gate result, a version merged, a slice finished), update the "Current state" section above in the same PR.
+5. **Same rules, whichever tool.** The rules above apply unchanged. A new tool is not a reason to revisit the architecture or the process.
