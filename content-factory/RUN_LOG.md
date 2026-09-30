@@ -1,1 +1,2 @@
 # Content Factory Run Log — one line per fix or decision, newest last: `date · item · what · why · which check`
+2026-09-30 · BUS-PEO-010 paternalistic_leadership · Definition now teaches all three dimensions (authoritarian, benevolent, moral) and distinguishes moral leadership from welfare concern; replaces PR #443 · Wrong teaching: definition omitted the moral dimension, verified against registered source SRC-OER-FRONTIERS-PATERNALISTIC-LEADERSHIP-2020 · Accuracy review (v0.8 run 36632074524 Group 2 diagnostic)
