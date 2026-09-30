@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "5b8feb42b9be3f5df505406a8f3ffa640045834da22476c3e8a593c4d3ad9f7a",
+  "foundation_fingerprint": "9e7833b0726a4cab06c57043f17efb98c015d861f93a59b6e75eab4e60035e9d",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -70,7 +70,7 @@
         },
         {
           "node": "BUS-FND-005",
-          "matched": "objectives"
+          "matched": "mission and objectives"
         }
       ]
     },
