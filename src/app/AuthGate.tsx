@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { loadAuthCapabilities } from '../services/auth/auth-capabilities'
 import { currentAppUrl, supabase } from '../services/supabase/browser-client'
+import { RevPresence } from './RevPresence'
 import { BrandAsset } from './ui'
 
 type AuthMode = 'sign-in' | 'create-account'
@@ -197,7 +198,20 @@ export function AuthGate({ children }: AuthGateProps) {
   const creatingAccount = mode === 'create-account'
 
   return (
-    <main className="auth-shell" data-theme={authTheme}>
+    <main className="auth-shell auth-shell--split" data-theme={authTheme}>
+      <aside className="auth-hero">
+        <RevPresence size="hero" state="resting" decorative />
+        <div className="auth-hero-copy">
+          <p className="auth-hero-headline">Revise less.<br /><span>Remember more.</span></p>
+          <p className="auth-hero-blurb">REV looks at how you’re doing and suggests what to revise next. Stuck? Just ask.</p>
+          <ul className="auth-hero-tags">
+            <li data-tone="coral">Ask anything</li>
+            <li data-tone="sun">Personal next steps</li>
+            <li data-tone="violet">Real exam practice</li>
+          </ul>
+        </div>
+      </aside>
+      <div className="auth-form-side">
       <BrandAsset asset="wordmark" className="auth-brand" alt="Revision" />
       <section className="auth-card auth-entry-card" aria-labelledby="auth-heading">
         <p className="eyebrow">Your revision, your next step</p>
@@ -237,6 +251,7 @@ export function AuthGate({ children }: AuthGateProps) {
 
         <p className="message" aria-live="polite">{message}</p>
       </section>
+      </div>
     </main>
   )
 }
