@@ -45,13 +45,21 @@ export type HomeCourseTile = {
   mastery: number | null
 }
 
+/** One letter per subject, or two when another subject shares the first letter (B / Bi, like the v2 design). */
+export function subjectInitials(names: readonly string[]): string[] {
+  const firstLetters = names.map((name) => name.trim().charAt(0).toLocaleUpperCase())
+  return names.map((raw, index) => {
+    const name = raw.trim()
+    const shared = firstLetters.filter((letter) => letter === firstLetters[index]).length > 1
+    return `${name.charAt(0).toLocaleUpperCase()}${shared ? name.charAt(1).toLocaleLowerCase() : ''}`
+  })
+}
+
 export function buildCourseTiles(programme: readonly LearnerProgrammeCourse[], states: readonly ModuleLearningState[]): HomeCourseTile[] {
   const colours = assignSubjectColours(programme.map((item) => item.subject.id))
-  const firstLetters = programme.map(({ subject }) => subject.name.trim().charAt(0).toLocaleUpperCase())
+  const initialsList = subjectInitials(programme.map(({ subject }) => subject.name))
   return programme.map(({ course, subject }, index) => {
-    const name = subject.name.trim()
-    const shared = firstLetters.filter((letter) => letter === firstLetters[index]).length > 1
-    const initials = `${name.charAt(0).toLocaleUpperCase()}${shared ? name.charAt(1).toLocaleLowerCase() : ''}`
+    const initials = initialsList[index]
     const scored = states.filter((state) => courseIdForLearningState(state) === course.id && state.readiness.score !== null)
     const mastery = scored.length === 0
       ? null

@@ -19,6 +19,7 @@ const semanticLayers = [
   'ui/rev-suggestion-card.css',
   'home-v2.css',
   'plan-v2.css',
+  'courses-v2.css',
   'interface-plan-progress.css',
   'interface-subjects-course.css',
   'interface-learn-practice.css',

@@ -1,0 +1,41 @@
+/* Courses, redesign v2 (design_handoff_revision_v2 screen 03): coloured subject tile beside each course. */
+.courses-count { margin: 0 0 6px; font-weight: 700; font-size: 14px; color: var(--rv-text-2); }
+.courses-heading h1 { font-family: var(--rv-font-display); font-weight: 800; font-size: 46px; line-height: 1.02; letter-spacing: -.025em; }
+
+.courses-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr)); gap: 20px; }
+
+.planner-runtime .courses-programme-card.course-card {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  column-gap: 0;
+  row-gap: 0;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--rv-line);
+  border-radius: var(--rv-radius-hero);
+  background: var(--rv-surface);
+}
+
+.courses-tile {
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 16px;
+  background: var(--tile-fill);
+  color: var(--tile-text);
+}
+.courses-tile b { font-family: var(--rv-font-display); font-weight: 800; font-size: 48px; line-height: 1; letter-spacing: -.03em; }
+.courses-tile span { font-weight: 800; font-size: 12px; line-height: 1.3; }
+
+.courses-programme-card-copy { min-width: 0; padding: 20px 22px 8px; }
+.courses-programme-card-actions { padding: 0 22px 20px; }
+
+@media (max-width: 620px) {
+  .planner-runtime .courses-programme-card.course-card { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+  .courses-tile { grid-row: auto; flex-direction: row; align-items: center; padding: 14px 20px; }
+  .courses-tile b { font-size: 36px; }
+}
