@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Course Overview · Revision mockup</title>
+<style>body{background:#dfe5e4}</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#dfe5e4}
+*{box-sizing:border-box}
+.rv{--bg:#FAFCFB;--surface:#FFFFFF;--elev:#FFFFFF;--soft:#F1FAF8;--aqua:#E6FBF4;--border:#E6ECEB;--text:#132026;--text2:#5B686C;--action:#2BB6A3;--action-hover:#24A391;--on-action:#132026;--ink:#0F2F36;--accent:#0F5D54;--data:#168C7C;--track:#E6ECEB;--sage:#BCE8CF;--stone:#C7D9EE;--sand:#F2E9D9;--mist:#E9EEF2;--ok-fg:#2D7A5D;--ok-bg:#E7F5EF;--warn-fg:#826C31;--warn-bg:#FBF5E7;--err-fg:#AD504D;--err-bg:#FBECEB;--info-fg:#3C72A2;--info-bg:#E9F1F9;--shadow-raised:0 2px 8px rgba(15,47,54,.06);--shadow-float:0 10px 30px rgba(15,47,54,.10);--shadow-over:0 20px 50px rgba(15,47,54,.14);
+font-family:Manrope,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);font-size:16px;line-height:24px;position:relative;overflow:hidden}
+.rv.dark{--bg:#0F2024;--surface:#13272B;--elev:#173136;--soft:#173136;--aqua:#16383A;--border:#24434A;--text:#E6F2EF;--text2:#A8BCC0;--accent:#6ED8C6;--data:#3FC1AD;--track:#24434A;--sage:#2E5A48;--stone:#2D4460;--sand:#4A4130;--mist:#26363F;--ok-fg:#7FD3AD;--ok-bg:#173A30;--warn-fg:#E7C77A;--warn-bg:#3A3220;--err-fg:#F0A09C;--err-bg:#3E2426;--info-fg:#92BFE6;--info-bg:#1C3044;--shadow-raised:none;--shadow-float:0 10px 30px rgba(0,0,0,.35);--shadow-over:0 20px 50px rgba(0,0,0,.45)}
+.rv button,.rv input,.rv select{font-family:inherit}
+.rv a{color:inherit;text-decoration:none}
+.rv h1,.rv h2,.rv h3,.rv h4,.rv p{margin:0}
+.rv :focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:10px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* shell */
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr);height:100%}
+.rail{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:28px 18px 20px;gap:28px}
+.wm{display:inline-flex;align-items:center;gap:3px;font-weight:800;font-size:22px;letter-spacing:.14em;color:var(--text);padding:0 10px;height:32px}
+.wm .e{display:inline-flex;flex-direction:column;gap:3.5px;margin:0 3px 0 1px}
+.wm .e span{display:block;width:15px;height:3.5px;border-radius:9px;background:var(--action)}
+.askrev{display:flex;align-items:center;gap:12px;height:56px;padding:0 14px 0 8px;border-radius:16px;background:var(--ink);color:#fff !important;font-weight:700;font-size:15px;box-shadow:var(--shadow-raised)}
+.rv.dark .askrev{background:#0B3A40;border:1px solid #24545A}
+.askrev:hover{background:#133d45}
+.askrev .kbd{margin-left:auto;font-size:12px;font-weight:600;color:#9FD9CF}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav a{display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border-radius:14px;font-weight:600;font-size:15px;color:var(--text2)}
+.nav a:hover{background:var(--soft);color:var(--text)}
+.nav a.on{background:var(--aqua);color:var(--accent)}
+.nav a.on svg{color:var(--accent)}
+.nav .sub{display:flex;flex-direction:column;gap:2px;margin:2px 0 6px 26px;padding-left:12px;border-left:2px solid var(--border)}
+.nav .sub a{height:40px;font-size:14px}
+.nav .sub a.cur{color:var(--text);font-weight:700}
+.nav .sub2{margin:0 0 4px 12px}
+.nav .sub2 a{height:36px}
+.railfoot{margin-top:auto;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:16px}
+.acct{display:flex;align-items:center;gap:12px;padding:6px 10px;border-radius:14px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--aqua);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:15px;flex:none}
+.acct small{display:block;color:var(--text2);font-size:12px;line-height:16px}
+.acct strong{font-size:15px;line-height:20px}
+.themebtn{display:flex;align-items:center;gap:10px;height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text2);font-weight:600;font-size:14px;cursor:pointer}
+.themebtn:hover{color:var(--text);background:var(--soft)}
+.main{height:100%;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 48px 96px;display:flex;flex-direction:column;gap:40px}
+/* type */
+.eyebrow{font-size:13px;line-height:18px;font-weight:700;color:var(--accent);letter-spacing:.02em}
+.h1{font-size:36px;line-height:44px;font-weight:700;letter-spacing:-.01em}
+.h2{font-size:28px;line-height:36px;font-weight:700;letter-spacing:-.01em}
+.h3{font-size:22px;line-height:30px;font-weight:700}
+.h4{font-size:18px;line-height:26px;font-weight:700}
+.lead{font-size:18px;line-height:28px;color:var(--text2);max-width:680px}
+.muted{color:var(--text2)}
+.small{font-size:14px;line-height:20px}
+.cap{font-size:12px;line-height:16px;font-weight:600;color:var(--text2)}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.pagehead>div{display:flex;flex-direction:column;gap:8px}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}
+/* surfaces */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px}
+.quiet{background:var(--soft);border:1px solid var(--border);border-radius:20px;padding:24px}
+.icard{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:12px;transition:box-shadow .16s,border-color .16s,transform .16s}
+.icard:hover{box-shadow:var(--shadow-float);border-color:var(--action)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px}
+.grid2e{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.row{display:flex;align-items:center;gap:12px}
+.col{display:flex;flex-direction:column}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 20px;border-radius:14px;font-size:15px;line-height:20px;font-weight:700;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:background .16s,box-shadow .16s}
+.btn.lg{height:52px;padding:0 24px}
+.btn.p{background:var(--action);color:var(--on-action) !important}
+.btn.p:hover{background:var(--action-hover)}
+.btn.ink{background:var(--ink);color:#fff !important}
+.rv.dark .btn.ink{background:#E6F2EF;color:#0F2F36 !important}
+.btn.s{background:var(--surface);border-color:var(--border);color:var(--text) !important}
+.btn.s:hover{background:var(--soft)}
+.btn.t{background:transparent;color:var(--accent) !important;padding:0 12px}
+.btn.t:hover{background:var(--soft)}
+.btn.danger{background:var(--err-bg);border-color:var(--err-fg);color:var(--err-fg) !important}
+.ibtn{width:44px;height:44px;border-radius:12px;display:inline-grid;place-items:center;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;flex:none}
+.ibtn:hover{background:var(--soft)}
+.link{color:var(--accent) !important;font-weight:700;display:inline-flex;align-items:center;gap:6px;font-size:15px}
+.link:hover{text-decoration:underline}
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:99px;background:var(--soft);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text2);white-space:nowrap}
+.chip.acc{background:var(--aqua);border-color:transparent;color:var(--accent)}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:99px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;text-align:left}
+.pill:hover{border-color:var(--action);background:var(--soft)}
+.pill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rv.dark .pill.on{background:#E6F2EF;color:#0F2F36;border-color:#E6F2EF}
+/* status */
+.st{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:99px;font-size:13px;font-weight:700;white-space:nowrap}
+.st.ok{background:var(--ok-bg);color:var(--ok-fg)}
+.st.dev{background:var(--info-bg);color:var(--info-fg)}
+.st.need{background:var(--warn-bg);color:var(--warn-fg)}
+.st.none{background:var(--mist);color:var(--text2)}
+/* bars */
+.bar{height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:99px;background:var(--data)}
+/* Living E */
+.le{position:relative;display:grid;place-items:center;border-radius:50%;flex:none}
+.le::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(43,182,163,.38) 0%,rgba(43,182,163,.14) 42%,rgba(43,182,163,0) 70%);animation:breathe 7s ease-in-out infinite}
+.le .bars{position:relative;display:flex;flex-direction:column}
+.le .bars span{display:block;border-radius:99px;background:var(--action)}
+.le.xs{width:36px;height:36px}.le.xs .bars{gap:3px}.le.xs .bars span{width:16px;height:3px}
+.le.sm{width:44px;height:44px}.le.sm .bars{gap:3.5px}.le.sm .bars span{width:18px;height:3.5px}
+.le.md{width:72px;height:72px}.le.md .bars{gap:5px}.le.md .bars span{width:28px;height:5px}
+.le.lg{width:112px;height:112px}.le.lg .bars{gap:7px}.le.lg .bars span{width:44px;height:7px}
+.le.think .bars span{animation:think 1.6s ease-in-out infinite}
+.le.think .bars span:nth-child(2){animation-delay:.18s}.le.think .bars span:nth-child(3){animation-delay:.36s}
+@keyframes breathe{0%,100%{transform:scale(.92);opacity:.75}50%{transform:scale(1.06);opacity:1}}
+@keyframes think{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.55)}}
+@media (prefers-reduced-motion:reduce){.le::before,.le .bars span{animation:none !important}}
+.revstate{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--accent)}
+.revstate i{width:8px;height:8px;border-radius:50%;background:var(--action);display:block}
+/* composer */
+.composer{display:flex;align-items:center;gap:8px;height:60px;padding:0 8px 0 20px;border-radius:18px;background:#FFFFFF;border:1px solid var(--border);box-shadow:var(--shadow-float)}
+.rv.dark .composer{background:var(--elev)}
+.composer input{flex:1;border:0;outline:0;background:transparent;font-size:16px;color:var(--text);height:100%;min-width:0}
+.composer input::placeholder{color:#6B7A7E}
+.composer:focus-within{border-color:var(--action);box-shadow:0 0 0 3px rgba(43,182,163,.25)}
+.sendbtn{width:44px;height:44px;border-radius:12px;border:0;background:var(--action);color:var(--on-action);display:grid;place-items:center;cursor:pointer;flex:none}
+/* form */
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:13px;line-height:18px;font-weight:700}
+.fld input,.fld select{height:48px;border-radius:14px;border:1px solid var(--border);background:var(--surface);padding:0 14px;font-size:16px;color:var(--text)}
+/* review overlay */
+.revtoggle{position:absolute;top:20px;right:24px;z-index:30;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 12px;border-radius:99px;border:0;background:#4B3FB0;color:#fff;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(40,30,120,.3);font-family:Manrope,system-ui,sans-serif}
+.revtoggle b{background:#fff;color:#4B3FB0;border-radius:99px;padding:0 8px;font-size:12px;line-height:20px}
+.rpanel{position:absolute;top:0;right:0;bottom:0;width:460px;z-index:40;background:#FFFFFF;color:#1B1F2A;border-left:1px solid #D8D4F2;box-shadow:-20px 0 50px rgba(20,20,60,.18);display:flex;flex-direction:column;font-family:Manrope,system-ui,sans-serif}
+.rpanel .rh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid #ECEAF7;background:#F6F5FD}
+.rpanel .rh strong{font-size:16px}
+.rpanel .rh small{display:block;color:#5A5870;font-size:12px;font-weight:600}
+.rpanel .rb{flex:1;overflow-y:auto;padding:18px 20px 40px;display:flex;flex-direction:column;gap:22px}
+.rpanel h5{margin:0 0 10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#4B3FB0}
+.rpanel .shot{width:100%;border-radius:12px;border:1px solid #E3E1F0;display:block}
+.rpanel .shotwrap{max-height:260px;overflow:hidden;border-radius:12px}
+.rpanel .verdict{padding:12px 14px;border-radius:12px;background:#F6F5FD;font-size:14px;line-height:21px}
+.fnd{display:flex;flex-direction:column;gap:6px;padding:12px 0;border-top:1px solid #EFEDF6}
+.fnd:first-of-type{border-top:0;padding-top:0}
+.fnd .ft{display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:14px;line-height:20px}
+.fnd p{font-size:14px;line-height:21px;color:#3D3F4E;margin:0}
+.fnd .std{font-size:12px;line-height:16px;color:#5A5870;font-weight:600}
+.sev{flex:none;display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:99px;line-height:16px;margin-top:2px}
+.sev.h{background:#FBE4E3;color:#9B3A36}.sev.m{background:#FBF1DC;color:#7A5E1F}.sev.l{background:#E6EEF8;color:#335F8C}.sev.g{background:#E3F4EC;color:#276B50}
+.chg{margin:0;padding-left:18px;font-size:14px;line-height:21px;color:#3D3F4E;display:flex;flex-direction:column;gap:6px}
+.rclose{width:40px;height:40px;border-radius:10px;border:1px solid #DCD9EE;background:#fff;color:#1B1F2A;display:grid;place-items:center;cursor:pointer}
+.tbox{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;border:2px solid var(--border);color:transparent}
+.tbox.on{background:var(--action);color:#132026;border-color:var(--action)}
+.ttl.on{text-decoration:line-through;color:var(--text2)}
+.btn.t.onink{color:#9FE3D6 !important}
+.btn.t.onink:hover{background:rgba(255,255,255,.08)}
+/* phone */
+.phone{font-size:16px}
+.phone .topbar{height:60px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--surface);border-bottom:1px solid var(--border);position:relative;z-index:5}
+.phone .topbar .wm{font-size:18px;padding:0 4px}
+.phone .topbar .wm .e span{width:12px;height:3px}
+.phone .pmain{position:absolute;top:60px;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden}
+.phone .wrap{padding:24px 16px 132px;gap:32px}
+.phone .grid2,.phone .grid2e,.phone .grid3{grid-template-columns:minmax(0,1fr);gap:16px}
+.phone .h1{font-size:30px;line-height:38px}
+.phone .h2{font-size:24px;line-height:32px}
+.phone .h3{font-size:20px;line-height:28px}
+.phone .lead{font-size:16px;line-height:24px}
+.phone .pagehead{flex-direction:column;align-items:stretch}
+.phone .card,.phone .quiet{padding:20px}
+.dock{position:absolute;left:16px;right:16px;bottom:16px;z-index:20;height:60px;border-radius:20px;background:var(--ink);color:#fff !important;display:flex;align-items:center;gap:12px;padding:0 18px 0 8px;font-weight:700;font-size:16px;box-shadow:0 12px 30px rgba(15,47,54,.28)}
+.rv.dark .dock{background:#0B3A40;border:1px solid #2B5E63}
+.dock .hint{margin-left:auto;font-size:13px;font-weight:600;color:#9FD9CF}
+.scrim{position:absolute;inset:0;background:rgba(10,24,28,.45);z-index:50;border:0;cursor:pointer}
+.drawer{position:absolute;top:0;bottom:0;left:0;width:300px;z-index:60;background:var(--surface);box-shadow:var(--shadow-over);display:flex;flex-direction:column;padding:16px 14px 20px;gap:20px}
+.phone .revtoggle{top:auto;bottom:88px;right:16px;height:36px;font-size:13px}
+.phone .rpanel{width:100%;border-left:0}
+
+.chead{display:flex;flex-direction:column;gap:14px}
+.crumbs{display:flex;gap:6px;align-items:center;color:var(--text2);font-size:14px;font-weight:600}
+.crumbs a{color:var(--accent)}
+.ctile{width:52px;height:52px;border-radius:16px;background:var(--sand);display:grid;place-items:center;color:var(--text);flex:none}
+.ctabs{display:flex;gap:4px;border-bottom:1px solid var(--border)}
+.ctabs a{display:inline-flex;align-items:center;height:46px;padding:0 14px;font-weight:700;font-size:15px;color:var(--text2);border-bottom:3px solid transparent;margin-bottom:-1px}
+.ctabs a:hover{color:var(--text)}
+.ctabs a.on{color:var(--text);border-bottom-color:var(--action)}
+.phone .ctabs a{flex:1 1 auto;justify-content:center;padding:0 2px;font-size:12.5px;white-space:nowrap}
+.phone .banner{flex-direction:column;align-items:flex-start}
+.phone .chead .h2{font-size:24px;line-height:30px}
+.phone .ctile{width:44px;height:44px;border-radius:14px}
+.areas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.phone .areas{grid-template-columns:minmax(0,1fr)}
+.area{border:1px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.area .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.area .links{display:flex;gap:14px;font-size:14px}
+.area .links a{color:var(--accent);font-weight:700}
+.paper{border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.readgrid{display:grid;grid-template-columns:minmax(0,720px) 240px;gap:48px;align-items:start}
+.phone .readgrid{grid-template-columns:minmax(0,1fr)}
+.phone .toc{display:none}
+.article{display:flex;flex-direction:column;gap:22px;font-size:17px;line-height:28px}
+.article p{max-width:700px}
+.tlabel{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.keyidea{border-left:3px solid var(--action);padding:4px 0 4px 18px;display:flex;flex-direction:column;gap:6px}
+.formula{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:16px 18px}
+.formula .f{font-weight:700;font-size:17px}
+.formula .f span{font-weight:500;color:var(--text2)}
+.worked{border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface)}
+.worked .wh{padding:14px 20px;background:var(--soft);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+.worked ol{margin:0;padding:6px 20px 12px;list-style:none;counter-reset:s}
+.worked li{counter-increment:s;display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--border)}
+.worked li:first-child{border-top:0}
+.worked li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--aqua);color:var(--accent);font-weight:800;font-size:14px;display:grid;place-items:center}
+.mixup{background:var(--mist);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.qc{border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px;background:var(--surface)}
+.opt{display:flex;align-items:center;gap:12px;min-height:52px;width:100%;padding:10px 16px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);font-size:16px;font-weight:600;text-align:left;cursor:pointer}
+.opt:hover{border-color:var(--action)}
+.opt .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);flex:none;display:grid;place-items:center}
+.opt.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.rv.dark .opt.sel{border-color:var(--action);box-shadow:0 0 0 1px var(--action)}
+.opt.sel .dot{border-color:var(--ink);background:var(--ink)}
+.rv.dark .opt.sel .dot{border-color:var(--action);background:var(--action)}
+.opt.right{border-color:var(--ok-fg);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--err-fg);background:var(--err-bg)}
+.fb{border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.fb.ok{background:var(--ok-bg);color:var(--ok-fg)}
+.fb.no{background:var(--warn-bg);color:var(--warn-fg)}
+.fb p{color:var(--text);font-size:15px;line-height:23px}
+.recap ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.toc{position:sticky;top:24px;display:flex;flex-direction:column;gap:14px}
+.toc a{display:block;padding:6px 0 6px 12px;border-left:2px solid var(--border);color:var(--text2);font-size:14px;font-weight:600}
+.toc a.on{border-left-color:var(--action);color:var(--text)}
+.pgnav{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pgnav a{border:1px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;background:var(--surface)}
+.pgnav a:hover{border-color:var(--action)}
+.qgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:start}
+.phone .qgrid{grid-template-columns:minmax(0,1fr)}
+.dots{display:flex;gap:6px}
+.dots span{flex:1;height:6px;border-radius:9px;background:var(--track)}
+.dots span.d{background:var(--data)}
+.dots span.c{background:var(--ink)}
+.rv.dark .dots span.c{background:var(--action)}
+.alt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.phone .alt{grid-template-columns:minmax(0,1fr)}
+.acc{border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden}
+.acc + .acc{margin-top:10px}
+.chev{display:inline-flex;transition:transform .2s}
+.chev.up{transform:rotate(180deg)}
+.btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.acc button.ah{width:100%;display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 18px;border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer}
+.acc .ab{padding:0 18px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.acc ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.habit{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:15px;line-height:22px}
+.sub-row{display:grid;grid-template-columns:64px minmax(0,1fr) 130px 100px;gap:12px;align-items:center;padding:10px 20px 10px 20px;border-top:1px dashed var(--border);background:var(--soft)}
+.phone .sub-row{grid-template-columns:minmax(0,1fr) auto;padding:10px 16px}
+.phone .sub-row .code{display:none}
+.arow{width:100%;display:grid;grid-template-columns:64px minmax(0,1fr) 150px 40px;gap:12px;align-items:center;padding:14px 20px;border:0;border-top:1px solid var(--border);background:transparent;color:var(--text);text-align:left;cursor:pointer;font:inherit}
+.phone .arow{grid-template-columns:minmax(0,1fr) auto 28px;padding:14px 16px}
+.phone .arow .code{display:none}
+.steps3{display:flex;flex-direction:column;gap:12px}
+.stp3{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 20px;border:1px solid var(--border);border-radius:18px;background:var(--surface)}
+.phone .stp3{grid-template-columns:36px minmax(0,1fr);}
+.phone .stp3 > .btn{grid-column:1 / span 2}
+.stp3.cur{border:2px solid var(--action);box-shadow:var(--shadow-float)}
+.stp3.done{background:var(--soft)}
+.stp3 .n{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--mist);color:var(--text2)}
+.stp3.cur .n{background:var(--action);color:#132026}
+.stp3.done .n{background:var(--ok-bg);color:var(--ok-fg)}
+.disc{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 20px;border-radius:16px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:700;font-size:16px;cursor:pointer}</style>
+</helmet>
+<div class="{{rootCls}}" style="width:1440px;height:1024px"><div class="shell"><aside class="rail" aria-label="Revision navigation"><a href="Home.html" aria-label="Revision home"><span class="wm" aria-label="Revision">R<span class="e" aria-hidden="true"><span></span><span></span><span></span></span>VISION</span></a><a class="askrev" href="Rev.html"><div class="le xs " aria-hidden="true"><div class="bars"><span></span><span></span><span></span></div></div><span>Ask REV</span><span class="kbd">/</span></a><nav class="nav" aria-label="Main"><a href="Home.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M3.5 10.5 12 3.5l8.5 7"></path><path d="M5.5 9v11h13V9"></path><path d="M10 20v-5.5h4V20"></path></svg><span>Home</span></a><a href="Plan.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path><path d="M8.5 14.5l2.2 2.2 4.8-4.7"></path></svg><span>Plan</span></a><a href="Progress.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M3.5 20.5h17"></path><path d="M7 17v-5M12 17V6.5M17 17v-8"></path></svg><span>Progress</span></a><a href="Courses.html" class="on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M4 5c0-.8.7-1.5 1.5-1.5H20v15H5.5c-.8 0-1.5.7-1.5 1.5z"></path><path d="M4 19.9c0 .9.7 1.6 1.5 1.6H20"></path><path d="M8.5 8h7"></path></svg><span>Courses</span></a><div class="sub"><a href="Courses.html"><span>All courses</span></a><a href="CourseOverview.html" class="cur"><span>Business · A-level</span></a><div class="sub sub2"><a href="CourseOverview.html" class="on" aria-current="page"><span>Overview</span></a><a href="Learn.html"><span>Learn</span></a><a href="Practice.html"><span>Practice</span></a><a href="ExamPrep.html"><span>Exam Prep</span></a><a href="CourseProgress.html"><span>Progress</span></a></div></div></nav><div class="railfoot"><button class="themebtn" type="button" onClick="{{toggleTheme}}" aria-pressed="{{darkStr}}"><sc-if value="{{dark}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"></path></svg><span>Light mode</span></sc-if><sc-if value="{{light}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M19.5 14.5A8 8 0 1 1 9.5 4.5a6.3 6.3 0 0 0 10 10z"></path></svg><span>Dark mode</span></sc-if></button><div class="acct"><span class="avatar" aria-hidden="true">A</span><span><strong>Alex</strong><small>Account and settings</small></span></div></div></aside><main class="main" aria-label="Course Overview"><div class="wrap" style="gap:32px"><div class="chead">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="Courses.html">Courses</a><span aria-hidden="true">›</span><span>Business</span></nav>
+  <div class="row" style="gap:16px"><span class="ctile" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3" y="7" width="18" height="13" rx="3"></rect><path d="M9 7V5.5c0-.8.7-1.5 1.5-1.5h3c.8 0 1.5.7 1.5 1.5V7M3 12.5h18"></path></svg></span><div class="col" style="gap:2px"><h1 class="h2">Business</h1><span class="small muted">AQA A-level · 7132 · exams summer 2027</span></div></div>
+  <nav class="ctabs" aria-label="Course sections"><a href="CourseOverview.html" class="on" aria-current="page">Overview</a><a href="Learn.html">Learn</a><a href="Practice.html">Practice</a><a href="ExamPrep.html">Exam Prep</a><a href="CourseProgress.html">Progress</a></nav>
+</div>
+<div class="grid2">
+  <section class="card" aria-labelledby="ovnext" style="display:flex;flex-direction:column;gap:14px;padding:28px">
+    <div class="row" style="gap:10px"><div class="le xs " aria-hidden="true"><div class="bars"><span></span><span></span><span></span></div></div><span class="eyebrow">Up next in Business</span></div>
+    <h2 id="ovnext" class="h3">Break-even and margin of safety</h2>
+    <div class="row small muted" style="gap:16px;flex-wrap:wrap"><span class="row" style="gap:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M3 5.5c2.7-1.2 6-1.2 9 1 3-2.2 6.3-2.2 9-1V19c-2.7-1.2-6-1.2-9 1-3-2.2-6.3-2.2-9-1z"></path><path d="M12 6.5V20"></path></svg>Learn, then quick check</span><span class="row" style="gap:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>20 min</span><span>3.5.2</span></div>
+    <p class="muted" style="max-width:560px">Finance is the only big area you haven't started, and it can come up on all three papers. Read one short page, then try five questions.</p>
+    <div class="row" style="flex-wrap:wrap"><a class="btn p lg" href="Learn.html">Start with the page <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="btn t" href="Practice.html">Skip to questions</a></div>
+  </section>
+  <section class="quiet" aria-labelledby="ovglance" style="display:flex;flex-direction:column;gap:14px">
+    <h2 id="ovglance" class="h4">At a glance</h2>
+    <div class="col" style="gap:6px"><div class="row" style="justify-content:space-between"><span class="small">Topics covered</span><strong>4 of 10</strong></div><div class="bar"><span style="width:40%"></span></div></div>
+    <div class="row" style="justify-content:space-between"><span class="small">Scored answers</span><strong>40</strong></div>
+    <div class="row" style="justify-content:space-between;gap:10px"><span class="small">Exam readiness</span><span class="st none">Not enough evidence yet</span></div>
+    <a class="link" href="CourseProgress.html" style="margin-top:auto">See course progress <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+  </section>
+</div>
+<section aria-labelledby="ovareas"><div class="sechead"><div class="col" style="gap:2px"><h2 id="ovareas" class="h3">Topics</h2><span class="small muted">The ten areas of the AQA specification</span></div></div>
+<div class="areas"><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.1</span><strong style="font-size:15px;line-height:21px">What is business?</strong></div><span class="st ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.4 2.4 4.6-4.6"></path></svg>Secure</span></div>
+      <div class="bar" role="img" aria-label="78% of subsections have evidence"><span style="width:78%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Review</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.2</span><strong style="font-size:15px;line-height:21px">Managers, leadership and decision making</strong></div><span class="st dev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M4 16l5-5 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>Developing</span></div>
+      <div class="bar" role="img" aria-label="45% of subsections have evidence"><span style="width:45%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Practise</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.3</span><strong style="font-size:15px;line-height:21px">Decision making to improve marketing performance</strong></div><span class="st dev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M4 16l5-5 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>Developing</span></div>
+      <div class="bar" role="img" aria-label="38% of subsections have evidence"><span style="width:38%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Practise</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.4</span><strong style="font-size:15px;line-height:21px">Decision making to improve operational performance</strong></div><span class="st need"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M12 4 21 19.5H3z"></path><path d="M12 10v4M12 17h.01"></path></svg>Needs work</span></div>
+      <div class="bar" role="img" aria-label="20% of subsections have evidence"><span style="width:20%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Practise</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.5</span><strong style="font-size:15px;line-height:21px">Decision making to improve financial performance</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.6</span><strong style="font-size:15px;line-height:21px">Decision making to improve human resource performance</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.7</span><strong style="font-size:15px;line-height:21px">Analysing the strategic position of a business</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.8</span><strong style="font-size:15px;line-height:21px">Choosing strategic direction</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.9</span><strong style="font-size:15px;line-height:21px">Strategic methods: how to pursue strategies</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article><article class="area"><div class="top"><div class="col" style="gap:2px;min-width:0"><span class="cap">3.10</span><strong style="font-size:15px;line-height:21px">Managing strategic change</strong></div><span class="st none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3.2"></circle></svg>Not started</span></div>
+      <div class="bar" role="img" aria-label="0% of subsections have evidence"><span style="width:0%"></span></div>
+      <div class="links"><a href="Learn.html">Learn</a><a href="Practice.html">Start</a></div></article></div></section>
+<section aria-labelledby="ovpapers"><div class="sechead"><h2 id="ovpapers" class="h3">Your papers</h2><a class="link" href="ExamPrep.html">Exam Prep <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+<div class="grid3" style="gap:14px"><div class="paper" style="padding:16px 18px;gap:6px"><div class="row" style="justify-content:space-between"><strong>Paper 1</strong><span class="cap">2 hours · 100 marks</span></div><span class="small muted">Multiple choice, short answer and two essays</span><a class="link" href="Plan.html" style="font-size:14px">Add exam date <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div><div class="paper" style="padding:16px 18px;gap:6px"><div class="row" style="justify-content:space-between"><strong>Paper 2</strong><span class="cap">2 hours · 100 marks</span></div><span class="small muted">Three data-response questions</span><a class="link" href="Plan.html" style="font-size:14px">Add exam date <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div><div class="paper" style="padding:16px 18px;gap:6px"><div class="row" style="justify-content:space-between"><strong>Paper 3</strong><span class="cap">2 hours · 100 marks</span></div><span class="small muted">One case study, six questions</span><a class="link" href="Plan.html" style="font-size:14px">Add exam date <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div></div></section>
+</div></main></div><button class="revtoggle" type="button" onClick="{{toggleReview}}" aria-expanded="{{reviewStr}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></svg><span>Design review</span><b>5</b></button><sc-if value="{{review}}" hint-placeholder-val="{{false}}"><aside class="rpanel" aria-label="Design review for Course Overview"><div class="rh"><div><small>Design review · current site</small><strong>Course Overview</strong></div><button class="rclose" type="button" onClick="{{toggleReview}}" aria-label="Close review"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div><div class="rb"><section><h5>Current page (captured 30 Sep 2026)</h5><div class="shotwrap"><img class="shot" src="/_blob/6557aaf30c5ceb17c88d2e2cbe96ef58" alt="Screenshot of the current Course Overview page"></div></section><section><h5>Verdict</h5><p class="verdict">A second Home page inside the course. The Overview repeats the dark REV hero, a "Powered by REV" pill and another Ask REV box. The topic grid gives six identical "Not enough evidence" labels, so there's nothing to act on. Rating: needs rework.</p></section><section><h5>Findings</h5><div class="fnd"><div class="ft"><span class="sev h">High</span><span>Duplicates Home instead of orienting</span></div><p>A second dark feature hero and second Ask REV input push the course content below the fold. The Brand System says Overview is a "calm orientation hub… not a duplicate of all other sections", and Feature surfaces should stay scarce.</p><span class="std">Standard: Visual Brand System · Focused section: Overview</span></div><div class="fnd"><div class="ft"><span class="sev h">High</span><span>The topic grid tells the student nothing</span></div><p>All six tiles read "Topic knowledge · Not enough evidence". They don't show progress, what's next, or where each tile goes.</p><span class="std">Standard: Product UX · next action</span></div><div class="fnd"><div class="ft"><span class="sev m">Medium</span><span>System wording in the hero</span></div><p>"REV has no scored evidence for this topic yet" and the uppercase "YOUR PROGRESS" panel explain the model rather than the next step.</p><span class="std">Standard: Tone of Voice</span></div><div class="fnd"><div class="ft"><span class="sev m">Medium</span><span>The course leads with the exam board</span></div><p>The title is "AQA AS Business" under an "AQA · SPECIFICATION 7131" eyebrow. Students think "Business". The board and code belong in the metadata line.</p><span class="std">Standard: Subject Accent Colour System · name + icon</span></div><div class="fnd"><div class="ft"><span class="sev l">Low</span><span>The exam date is a dead end</span></div><p>"Not set yet — Add a public exam date in Plan" isn't a link.</p><span class="std">Standard: Product UX</span></div></section><section><h5>What this mockup changes</h5><ul class="chg"><li>A compact course header: subject icon, "Business", then the board, level, code and exam year on one line.</li><li>A light "Up next" card with a plain reason replaces the second dark hero. REV stays in the rail and dock.</li><li>All ten AQA 7132 areas with a status, a progress bar and direct Learn and Practise links.</li><li>"Your papers" shows all three papers, with an "Add date" link that works.</li></ul></section></div></aside></sc-if></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"showReview":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":1024}}'>
+class Component extends DCLogic {
+
+  baseVals(phone) {
+    const s = this.state || {};
+    const dark = (s.theme ?? this.props.theme ?? 'light') === 'dark';
+    const review = s.review ?? (this.props.showReview ?? false);
+    return {
+      rootCls: 'rv' + (dark ? ' dark' : '') + (phone ? ' phone' : ''),
+      dark: dark, light: !dark, darkStr: dark ? 'true' : 'false',
+      review: review, reviewStr: review ? 'true' : 'false',
+      drawer: !!s.drawer, drawerStr: s.drawer ? 'true' : 'false',
+      toggleTheme: () => this.setState({ theme: dark ? 'light' : 'dark' }),
+      toggleReview: () => this.setState({ review: !review }),
+      toggleDrawer: () => this.setState({ drawer: !s.drawer }),
+    };
+  }
+
+
+  renderVals() { return { ...this.baseVals(false) }; }
+
+}
+</script>
+<script src="runtime.js"></script></body>
+</html>
