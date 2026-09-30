@@ -143,8 +143,8 @@ A second board in the same subject should mostly reuse; a new subject pays once 
 The next job is to prove steps 5–8 (trial stages T9–T12) on one slice, not to perfect steps 1–4 further.
 
 - [x] Record the architecture freeze and these rules as the governing process for the factory
-- [ ] Split the 42 AQA requirements into named items (every concept, formula, model and skill) and add the item-level coverage check
-- [ ] Rerun the exact-course check (T8) with the round limit and blocking rules; resolve the 4 open findings
+- [x] Split the 42 AQA requirements into named items (every concept, formula, model and skill) and add the item-level coverage check
+- [x] Rerun the exact-course check (T8) with the round limit and blocking rules; resolve the 4 open findings (30 September 2026, run 36790228166, `ai_assured`)
 - [ ] Take AQA 3.5 (financial performance) through Learning Blueprint, Learn, Practice, 10–15 exam-style questions and marking
 - [ ] Review the 3.5 slice as a student would use it, and record what broke
 - [ ] Fix what the slice exposed, then run the rest of AQA 7132 through the same process
