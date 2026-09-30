@@ -31,6 +31,8 @@
   --color-surface-elevated: var(--neutral-0);
   --color-surface-soft: var(--brand-soft-surface);
   --color-border: var(--neutral-200);
+  /* Boundary for form controls; meets the WCAG 1.4.11 3:1 non-text contrast minimum on surface. */
+  --color-border-control: #859598;
   --color-text: var(--brand-graphite);
   --color-text-secondary: #5b686c;
   --color-action: var(--brand-primary-teal);
@@ -177,6 +179,7 @@
   --color-surface-elevated: #173136;
   --color-surface-soft: #173136;
   --color-border: #24434a;
+  --color-border-control: #628389;
   --color-text: #e6f2ef;
   --color-text-secondary: #a8bcc0;
   --color-action: var(--brand-primary-teal);

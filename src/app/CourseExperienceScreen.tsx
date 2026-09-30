@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LearningContentAdapter } from '../engine/content/content-adapter'
 import type { LearningEvidence } from '../engine/evidence/evidence'
@@ -193,6 +193,18 @@ function CourseOverviewProgressPanel({
   )
 }
 
+// On narrow screens the course tabs scroll sideways; keep the current section's tab in view.
+function useActiveTabInView(activeKey: string) {
+  const navRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const nav = navRef.current
+    const active = nav?.querySelector<HTMLElement>('button.active')
+    if (!nav || !active || nav.scrollWidth <= nav.clientWidth) return
+    nav.scrollLeft = active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2
+  }, [activeKey])
+  return navRef
+}
+
 export function CourseExperienceScreen({
   client,
   userId,
@@ -280,6 +292,8 @@ export function CourseExperienceScreen({
     setRevPrompt('')
   }
 
+  const courseNavRef = useActiveTabInView(requestedSection)
+
   if (!resolved) {
     return (
       <main className="dashboard page-screen">
@@ -318,8 +332,8 @@ export function CourseExperienceScreen({
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
         <div className="breadcrumbs"><button onClick={onOpenCourses}>Courses</button><span>›</span><span>{label}</span></div>
         <header className="page-heading paper-heading"><p className="eyebrow">{course.examBoardName} · specification {course.specificationCode}</p><h1 id="course-page-title">{label}</h1><p>{section === 'overview' ? 'Learn, practise and prepare for the exam from one course view.' : 'Learn and practise the shared course syllabus here. Paper-specific formats, techniques and full simulations sit inside Exam Prep.'}</p></header>
-        <nav className="course-nav" aria-label={`${label} navigation`}>
-          {sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenCourseSection(course.id, item)}>{sectionLabels[item]}</button>)}
+        <nav className="course-nav scroll-hint" ref={courseNavRef} aria-label={`${label} navigation`}>
+          {sections.map((item) => <button key={item} className={section === item ? 'active' : ''} aria-current={section === item ? 'page' : undefined} onClick={() => onOpenCourseSection(course.id, item)}>{sectionLabels[item]}</button>)}
         </nav>
 
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
@@ -413,7 +427,7 @@ export function CourseExperienceScreen({
     <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="component-page-title">
       <div className="breadcrumbs"><button onClick={onOpenCourses}>Courses</button><span>›</span><button onClick={() => onOpenCourseSection(course.id, 'overview')}>{label}</button><span>›</span><span>{paperLabel(adapter)}</span></div>
       <header className="page-heading paper-heading"><p className="eyebrow">{subject.name} · {course.examBoardName} · specification {course.specificationCode}</p><h1 id="component-page-title">{adapter.manifest.paper.name}</h1><p>{adapter.manifest.learnerExperience.what_is_this}</p></header>
-      <nav className="course-nav" aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
+      <nav className="course-nav scroll-hint" ref={courseNavRef} aria-label={`${adapter.manifest.paper.name} navigation`}>{sections.map((item) => <button key={item} className={section === item ? 'active' : ''} aria-current={section === item ? 'page' : undefined} onClick={() => onOpenModuleSection(course.id, adapter.manifest.id, item)}>{sectionLabels[item]}</button>)}</nav>
 
       {section === 'overview' && <div className="paper-section-content"><section className="paper-recommendation"><div><p className="eyebrow">REV · {paperLabel(adapter)}</p><h2>Your next useful step</h2><p>{recommendation && recommendationTopic ? `${recommendationTopic.shortTitle} · ${activityLabel(recommendation.activity)}. ${recommendation.reason}` : 'Complete a short Practice activity and REV can use that evidence to guide the next step.'}</p></div></section><section className="home-section"><div className="section-heading"><div><p className="eyebrow">Specification areas</p><h2>{paperLabel(adapter)} topics</h2></div></div><div className="topic-list-grid">{topics.map((topic) => <article key={topic.id}><div><strong>{topic.shortTitle}</strong></div></article>)}</div></section></div>}
       {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}

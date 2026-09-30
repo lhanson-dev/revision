@@ -1,5 +1,6 @@
 .courses-screen {
   display: grid;
+  align-content: start;
   gap: var(--space-5, 20px);
 }
 
@@ -12,6 +13,11 @@
 
 .courses-heading > div {
   min-width: 0;
+}
+
+.courses-heading > button {
+  flex: none;
+  white-space: nowrap;
 }
 
 .courses-grid {

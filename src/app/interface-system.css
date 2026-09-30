@@ -345,7 +345,7 @@
   width: 100%;
   min-height: var(--field-height-standard);
   padding: 0 var(--space-3);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-control);
   border-radius: var(--radius-control);
   background: var(--color-surface);
   color: var(--color-text);
@@ -436,4 +436,43 @@
   .ui-button__spinner {
     animation: none;
   }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Horizontal scroll hint                                                      */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Tab rows that scroll sideways on narrow screens show a soft edge shadow on
+ * whichever side has more content. The "local" covers scroll with the content
+ * and hide each shadow once that end is reached, so rows that fit show nothing.
+ */
+.planner-runtime .scroll-hint {
+  --scroll-hint-surface: var(--color-surface);
+  --scroll-hint-shadow: color-mix(in srgb, var(--color-text) 16%, transparent);
+}
+
+/* Listed per consumer so the hint outranks each row's own background rule. */
+.planner-runtime .scroll-hint,
+.planner-runtime .course-nav.scroll-hint,
+.planner-runtime .focused-workspace .mode-tabs.scroll-hint {
+  background:
+    linear-gradient(to right, var(--scroll-hint-surface) 40%, transparent) left / 32px 100% no-repeat local,
+    linear-gradient(to left, var(--scroll-hint-surface) 40%, transparent) right / 32px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--scroll-hint-shadow), transparent) left / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--scroll-hint-shadow), transparent) right / 12px 100% no-repeat scroll,
+    var(--scroll-hint-surface);
+  scrollbar-width: none;
+}
+
+.planner-runtime .scroll-hint::-webkit-scrollbar {
+  display: none;
+}
+
+.planner-runtime .course-nav.scroll-hint {
+  --scroll-hint-surface: var(--color-surface-elevated);
+}
+
+.planner-runtime .focused-workspace .mode-tabs.scroll-hint {
+  --scroll-hint-surface: var(--color-surface-soft);
 }

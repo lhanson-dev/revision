@@ -263,7 +263,8 @@ export function FocusedLearningWorkspace({
         </aside>
       )}
 
-      <SegmentedControl className="mode-tabs" role="tablist" label={`${copy.title} activities`}>
+      {/* A single activity needs no chooser: a one-tab bar reads as navigation that goes nowhere. */}
+      {availableModes.length > 1 && <SegmentedControl className="mode-tabs scroll-hint" role="tablist" label={`${copy.title} activities`}>
         {availableModes.map((item) => (
           <Button
             key={item}
@@ -277,7 +278,7 @@ export function FocusedLearningWorkspace({
             {modeLabels[item]}
           </Button>
         ))}
-      </SegmentedControl>
+      </SegmentedControl>}
 
       {effectiveMode === 'learn' && topic && (
         <div className="learn-panel">
