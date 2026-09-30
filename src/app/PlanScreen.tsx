@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { PlannerItem, PlannerScheduledDay } from '../engine/planning/planning'
 import { saveCourseAssessment } from '../services/courses/course-planner-service'
@@ -18,6 +18,7 @@ import {
 } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
+import { assignSubjectColours } from './home-view'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import { subjectAccentKey } from './subject-accents'
@@ -417,8 +418,15 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     )
   }
 
+  const subjectColours = assignSubjectColours(programme.map((entry) => entry.subject.id))
+  const todayIso = (() => {
+    const now = new Date()
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  })()
+
   function renderTask(item: PlannerItem, compact = false) {
-    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} onClick={() => void handleStart(item)}>
+    const colour = subjectColours.get(item.subjectId)
+    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} style={colour ? { '--plan-fill': colour.fill } as CSSProperties : undefined} onClick={() => void handleStart(item)}>
       <span className="plan-task-subject">{subjectLabel(programme, item.subjectId)}</span>
       <strong>{itemTopicLabel(item, learningStates)}</strong>
       <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
@@ -438,8 +446,8 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     return <section className="plan-view-panel" aria-labelledby="plan-week-title">
       <div className="plan-view-heading"><div><p className="eyebrow">Current outlook</p><h2 id="plan-week-title">{weekRange(weekDays)}</h2></div><span>Your plan will adapt as you work.</span></div>
       <div className="plan-week-grid">
-        {weekDays.map((day) => <article className="plan-week-day" key={day.date}>
-          <header><strong>{formatDate(day.date, { weekday: 'short' })}</strong><span>{formatDate(day.date, { day: 'numeric', month: 'short' })}</span><b>{formatDuration(day.availableMinutes)}</b></header>
+        {weekDays.map((day) => <article className="plan-week-day" key={day.date} data-today={day.date === todayIso ? 'true' : undefined}>
+          <header><strong>{day.date === todayIso ? 'Today' : formatDate(day.date, { weekday: 'short' })}</strong><span className="plan-week-day-number">{formatDate(day.date, { day: 'numeric' })}</span><b>{formatDuration(day.availableMinutes)}</b></header>
           <div className="plan-week-day-items">{day.items.length > 0 ? day.items.map((item) => renderTask(item, true)) : <p className="plan-no-task">No planned task</p>}</div>
         </article>)}
       </div>

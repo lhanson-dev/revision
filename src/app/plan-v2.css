@@ -1,0 +1,29 @@
+/* Plan, redesign v2 (design_handoff_revision_v2 screen 02): subject-coloured sessions and a highlighted today column. */
+.plan-week-grid { gap: 10px; }
+
+.plan-week-day { border: 0; border-radius: var(--rv-radius-card); background: transparent; }
+.plan-week-day[data-today="true"] { background: var(--rv-soft); }
+
+.plan-week-day > header { justify-items: center; gap: 4px; padding: 14px 8px 12px; text-align: center; }
+.plan-week-day > header > strong { font-size: 12px; line-height: 1; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--rv-text-2); }
+.plan-week-day[data-today="true"] > header > strong { color: var(--rv-accent); }
+.plan-week-day > header > .plan-week-day-number { font-family: var(--rv-font-display); font-size: 26px; line-height: 1; font-weight: 800; letter-spacing: -.02em; color: var(--rv-text); }
+.plan-week-day > header > b { margin-top: 2px; font-size: 12px; font-weight: 700; color: var(--rv-text-2); }
+
+.plan-task-compact {
+  padding: 12px 28px 12px 12px;
+  border: 0;
+  border-radius: var(--rv-radius-row);
+  background: color-mix(in srgb, var(--plan-fill, var(--subject-accent)) 24%, var(--rv-surface));
+  box-shadow: inset 4px 0 0 var(--plan-fill, var(--subject-accent));
+}
+.plan-task-compact strong { font-weight: 800; }
+.plan-task-compact .plan-task-subject { color: var(--rv-text); font-weight: 800; }
+.plan-task-compact > span:not(.plan-task-subject) { color: var(--rv-text); opacity: .8; }
+.plan-task-compact:hover,
+.plan-task-compact:focus-visible { border: 0; box-shadow: inset 4px 0 0 var(--plan-fill, var(--subject-accent)), var(--rv-ring); }
+
+@media (max-width: 960px) {
+  .plan-week-grid { grid-template-columns: minmax(0, 1fr); }
+  .plan-week-day > header { grid-template-columns: auto auto 1fr; justify-items: start; align-items: baseline; text-align: left; }
+}
