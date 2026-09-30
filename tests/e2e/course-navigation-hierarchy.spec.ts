@@ -93,7 +93,7 @@ test('desktop course navigation resets hierarchy under course identity and stays
   await page.setViewportSize({ width: 1440, height: 900 })
   await seedSession(page)
   await page.goto(appPath)
-  await expect(page.getByRole('heading', { name: /Hi Synthetic,\s*what shall we do today\?/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Hey Synthetic,\s*what shall we do today\?/ })).toBeVisible()
 
   const primary = page.getByRole('navigation', { name: 'Primary navigation' })
   await primary.getByRole('button', { name: 'Courses', exact: true }).click()

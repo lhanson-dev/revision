@@ -36,13 +36,15 @@ const cases: ReadonlyArray<VisualCase> = [
  * Founder-directed Returning Student Home fidelity baselines. The desktop
  * captures remain unchanged; the phone captures were manually re-inspected on
  * 26 September 2026 after the shared learner-canvas correction and approved
- * because only the intentional canvas geometry changed.
+ * because only the intentional canvas geometry changed. All four were re-pinned
+ * on 30 September 2026 for the approved learner quick fixes: the "Hey {name}"
+ * greeting and the plain-language first recommendation reason.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': 'c47ddbd3d9e97b349e4da7f706854a723d3067c33accd3e478dc9c6f7eb9955d',
-  'phone:dark': 'c81b3b3505b468b80e1ac2a26ff90d4977cfa34631cd62a460cd81b15fad6de2',
-  'desktop:light': '02fec44dfee9baefc5264b340f0d136a0c5e060ad2f90989693dc743fe6d78d9',
-  'desktop:dark': 'cd7ec87330c04abf603ef05c6855dd481056bcb8010510d28b0f4f5a90844831',
+  'phone:light': '8fc7b3591f5598fd98f2eb3858e21e821ced55e4bbd2003854e4a8a18fc3c8e5',
+  'phone:dark': 'c050b147e4c07791f197653c782eb40673edfa7bde865d8cf44ec1b337b9a068',
+  'desktop:light': '3e593c2d640ff7d1d53b842d8d5f29451c3ea1c3ed73fecb33452019e80f7a3f',
+  'desktop:dark': '9447729cb767c82bb1040bdaff07941f83ce07f4151c0e5b7a998a29b9a4fd42',
 }
 
 /**
@@ -69,7 +71,10 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * Timed exam now uses the same exact-digest contract because its shared learner
  * actions intentionally inherit the new button geometry. Admin remains on its
  * existing snapshot baseline because its compact operational controls are not
- * part of the learner-size change.
+ * part of the learner-size change. Courses and Practice were re-pinned on
+ * 30 September 2026 for the approved learner quick fixes: the Courses heading,
+ * card layout and separated remove action, and the plain-language
+ * recommendation reason shown in Practice.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
@@ -77,10 +82,10 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
     'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
     '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
   ],
-  'tablet:courses:light': 'f2ce37718e71771d393235de64ba2a0939075887c8fc00b7ee4adb03e66ddb98',
-  'tablet:courses:dark': 'e92340a2c5fa2667df3a17cb807f33e69ec487e7c11c503dcd0ac29aab1b33a6',
-  'phone:practice:light': '82213988777830ed656ccf17da3ba155693ba5be52e13f978b01c35b957b1e1f',
-  'phone:practice:dark': '8067405ab5ed41a9b8520390014ee48250c2988fedf747d9d72afcf5b761dbb5',
+  'tablet:courses:light': '36c1a1a389da55f15a03886d59a47ca1527c3abd4c8d3b387d03808befe91914',
+  'tablet:courses:dark': '500a0bf2e105caf553939ccff049173ed26279dbd69e9da46aa582ccb7835dd9',
+  'phone:practice:light': 'abfcd5db0bad66c136f2d8b94b3383cc8bdff2274fdf8ec5cd9c7ddcc51ad96c',
+  'phone:practice:dark': '4983e63c416e26fa02900cc85ef18cc0295633c516a0e0d9733e99d1a4d06244',
   'tablet:exam-prep:light': '8dd9a6ba69aca494519b202fe117ef3605bdf054563c4c42c1ee9cfe356d515a',
   'tablet:exam-prep:dark': '3cfb5b054ef7fb068ec9c3fac833dc52fd99d5d79ea10a60d870c2ef52499c30',
   'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',

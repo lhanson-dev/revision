@@ -114,7 +114,7 @@ test('Returning Home keeps REV first and gives a useful fallback without planner
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  await expect(page.getByRole('heading', { name: 'Hi Synthetic, what shall we do today?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Hey Synthetic, what shall we do today?' })).toBeVisible()
   await expect(page.getByLabel('Ask REV anything')).toBeVisible()
   await expect(page.locator('.returning-home-hero .rev-presence-hero')).toHaveCount(1)
   await expectApprovedHeroFidelity(page)
