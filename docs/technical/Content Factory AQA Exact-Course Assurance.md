@@ -19,7 +19,7 @@ It does not regenerate reusable Business knowledge, create learner assets, confe
 
 The authoritative dependency chain is:
 
-`Business Subject Foundation v0.7 → AQA 7132 Specification Mapping → reassurance receipt → Course Truth → Exam Truth`
+`Business Subject Foundation (current version, named in the mapping) → AQA 7132 Specification Mapping → Course Truth → Exam Truth`
 
 The existing runtime adapter remains a non-authoritative compatibility projection only.
 
@@ -37,13 +37,12 @@ Applying the older source assumption unchanged would collapse this separation an
 
 It fails closed unless all of the following remain true:
 
-- Business Subject Foundation v0.7 has the expected 81-node identity and exact fingerprint;
-- the retained reassurance receipt is bound to the exact Foundation candidate and records no unresolved blocking/material finding;
+- the loaded Business Subject Foundation is the version the Specification Mapping names and has 81 nodes; its fingerprint is recorded through every stage (no hard-coded fingerprints, so a targeted fix does not require editing each stage);
 - the AQA Specification Mapping still contains exactly 42 governed requirements;
 - Course Truth contains all 42 requirements, all map to existing Subject Foundation nodes, and there are no unresolved exact-course or reusable-subject gaps;
-- the exact course still selects the same 78 reusable Subject Foundation nodes;
+- the course node set is every mapped node plus every prerequisite of those nodes (prerequisite closure), owned by Course Truth; each requirement's runtime nodes include the prerequisites it needs;
 - every selected node resolves only to promotion-eligible reusable subject-truth sources and not a quarantined awarding-body/historical source;
-- Course Truth remains bound to the exact Subject Foundation, Specification Mapping and reassurance evidence;
+- Course Truth remains bound to the loaded Subject Foundation and the exact Specification Mapping; accuracy of Foundation nodes changed since their last assurance is checked by the T8 course gate rather than a separate reassurance receipt;
 - Exam Truth remains bound to the exact Course Truth and retains the approved stable assessment contract;
 - AQA sources remain `REFERENCE_ONLY`, source prose is not promoted into generative truth and variable mark-scheme/examiner detail remains outside stable Exam Truth;
 - the transitional runtime adapter remains non-authoritative, dependency-bound and complete for the same selected node set; and

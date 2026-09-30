@@ -74,10 +74,10 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 
 - Business Subject Foundation: 81 nodes in 9 domains, current version v0.8 (plus the BUS-PEO-010 fix, PR #447). The old v0.8 reassurance loop is closed; accuracy of the changed nodes is now checked inside the T8 gate.
 - AQA 7132 mapping: 42 requirements at specification-subsection level (3.1.1, 3.5.4 …), all mapped to nodes.
-- Item-level coverage (step 2, PR #448): 329 named items in `research/aqa-business-7132/2027/NAMED_ITEMS.json`; software check `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`. First result 249/329 covered; the 80 gaps in `ITEM_COVERAGE_REPORT.json` are the step 4 worklist.
-- T8 gate (step 3, PR #452) now runs under the fast-path rules: per section, software first (dependency freshness, item coverage, prerequisite closure), fixed checklist, rule-decided blocking, 3 retries, two-round limit, Founder escalation. Ledger: `content-factory/runs/aqa-7132-course-gate/`.
-- T8 last result: `fail_hold` (29 September, old rules) with 4 material findings. Not yet rerun under the new rules.
-- Known blocker for step 4: the T8 package is still built from the v0.7 Foundation (`materialise-aqa-business-7132-*.mjs` load the v0.7 candidate). It must be moved to v0.8, with BUS-MKT-001 restored, before the gate can run.
+- Item-level coverage (step 2, PR #448): named items in `research/aqa-business-7132/2027/NAMED_ITEMS.json` (344 after the Founder spot-check of 3.5 and 3.8 and a sweep for "influences on…" items); software check `scripts/assurance/check-aqa-business-7132-item-coverage.mjs`. Currently 261/344 covered; the 83 gaps in `ITEM_COVERAGE_REPORT.json` are the step 4 worklist.
+- T8 gate (step 3, PR #452) runs under the fast-path rules: per section, software first (dependency freshness, item coverage, prerequisite closure), fixed checklist, rule-decided blocking, 3 retries, two-round limit, Founder escalation. Ledger: `content-factory/runs/aqa-7132-course-gate/`.
+- The T8 package (mapping → Course Truth → Exam Truth → runtime adapter → review bundle) is built from the current Foundation (v0.8), with no hard-coded fingerprints. The course node set is mapped nodes plus prerequisites (79 nodes; BUS-MKT-001 restored), which resolves old T8 finding 1.
+- T8 last result: `fail_hold` (29 September, old rules). Not yet rerun under the new rules. A software-only dry run shows 33/42 sections blocked by item gaps and 9 ready for AI review, so fix gaps before spending on a live run.
 - Only an OpenAI key is configured; the second-provider reviews in the process are not yet possible.
 - No learner assets have yet been produced by the current (ADR-0028) model. Older AQA content in `content/business/` comes from the superseded whole-course model.
 

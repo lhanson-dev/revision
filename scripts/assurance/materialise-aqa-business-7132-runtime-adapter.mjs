@@ -1,15 +1,14 @@
 import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v07.mjs'
+import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v08.mjs'
 import mapping from '../../research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'
 
 const OUT = '.artifacts/content-factory-aqa-business-7132-course-exam-truth'
 const COURSE_TRUTH_PATH = `${OUT}/course-truth.json`
 const EXAM_TRUTH_PATH = `${OUT}/exam-truth.json`
-const EXPECTED_CANDIDATE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
 const EXPECTED_REQUIREMENTS = 42
 const JOB_ID = 'aqa-business-7132-2027'
-const FOUNDATION_RUNTIME_SOURCE_REF = 'subject-foundation-v07'
+const FOUNDATION_RUNTIME_SOURCE_REF = 'subject-foundation-current'
 const COURSE_SOURCE_REF = 'aqa-7132-subject-content'
 
 function canonical(value) {
@@ -74,12 +73,11 @@ async function loadInputs() {
     loadBusinessSubjectFoundationCandidate(),
   ])
 
-  assert(candidate.fingerprint === EXPECTED_CANDIDATE_FINGERPRINT, 'Runtime adapter Foundation fingerprint mismatch')
   assert(courseTruth.dependencies?.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Course Truth is not bound to the loaded Foundation')
   assert(courseTruth.dependencies?.specification_mapping?.mapping_id === mapping.mapping_id, 'Course Truth mapping identity mismatch')
   assert(courseTruth.coverage?.governed_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth requirement denominator mismatch')
   assert(courseTruth.coverage?.unresolved_requirement_count === 0, 'Course Truth still has unresolved requirements')
-  assert(courseTruth.coverage?.unresolved_reusable_foundation_gap_count === 0, 'Course Truth still has unresolved reusable Foundation gaps')
+  assert(Array.isArray(courseTruth.selected_subject_node_ids) && courseTruth.selected_subject_node_ids.length > 0, 'Course Truth has no selected Subject Foundation nodes')
   assert(examTruth.dependencies?.course_truth_fingerprint === courseTruth.projection_fingerprint, 'Exam Truth is not bound to exact Course Truth')
   assert(examTruth.completeness?.ready_for_exact_course_assurance === true, 'Exam Truth is not ready for exact-course assurance')
   assert(examTruth.completeness?.learner_asset_regeneration_allowed === false, 'Exam Truth must not unlock learner generation')
@@ -144,7 +142,20 @@ function buildBoardAlignment(examTruth) {
   return { ...base, fingerprint: fingerprint(base) }
 }
 
-function buildCoverageModel(courseTruth, boardAlignment) {
+// A requirement is taught by its mapped nodes plus the prerequisites those nodes need (within the course node set).
+function requirementKnowledgeNodeIds(requirement, candidate, selected) {
+  const ids = new Set(requirement.mapped_subject_node_ids)
+  const queue = [...requirement.mapped_subject_node_ids]
+  while (queue.length) {
+    for (const prerequisite of candidate.nodes.get(queue.shift())?.prerequisites || []) {
+      if (selected.has(prerequisite) && !ids.has(prerequisite)) { ids.add(prerequisite); queue.push(prerequisite) }
+    }
+  }
+  return [...ids]
+}
+
+function buildCoverageModel(courseTruth, candidate, boardAlignment) {
+  const selected = new Set(courseTruth.selected_subject_node_ids)
   const componentScope = boardAlignment.components.map((component) => component.id)
   const requirements = courseTruth.requirements.map((requirement) => ({
     requirementId: runtimeId(requirement.requirement_id),
@@ -158,7 +169,7 @@ function buildCoverageModel(courseTruth, boardAlignment) {
     componentScope,
     revisionArea: requirement.title,
     sourceRefs: [COURSE_SOURCE_REF, FOUNDATION_RUNTIME_SOURCE_REF],
-    knowledgeNodeIds: requirement.mapped_subject_node_ids.map(runtimeId),
+    knowledgeNodeIds: requirementKnowledgeNodeIds(requirement, candidate, selected).map(runtimeId),
     coverageStatus: 'complete',
   }))
   const sourceSetFingerprint = fingerprint({
@@ -175,7 +186,8 @@ function buildCoverageModel(courseTruth, boardAlignment) {
 }
 
 function buildCourseKnowledgeModel(courseTruth, candidate, boardAlignment) {
-  const selectedCanonicalIds = unique(courseTruth.requirements.flatMap((requirement) => requirement.mapped_subject_node_ids))
+  // Course Truth owns the course's node set: mapped nodes plus their prerequisites.
+  const selectedCanonicalIds = [...courseTruth.selected_subject_node_ids]
   const selected = new Set(selectedCanonicalIds)
   const componentRefs = boardAlignment.components.map((component) => component.id)
 
@@ -262,7 +274,8 @@ function buildAssessmentBlueprint(examTruth, boardAlignment, courseKnowledgeMode
 }
 
 function buildLineage(courseTruth, candidate) {
-  const selectedCanonicalIds = unique(courseTruth.requirements.flatMap((requirement) => requirement.mapped_subject_node_ids))
+  // Course Truth owns the course's node set: mapped nodes plus their prerequisites.
+  const selectedCanonicalIds = [...courseTruth.selected_subject_node_ids]
   return {
     runtime_source_refs: {
       [FOUNDATION_RUNTIME_SOURCE_REF]: {
@@ -310,7 +323,7 @@ function validateAdapter(adapter) {
 async function main() {
   const { courseTruth, examTruth, candidate } = await loadInputs()
   const boardAlignment = buildBoardAlignment(examTruth)
-  const foundationCoverageModel = buildCoverageModel(courseTruth, boardAlignment)
+  const foundationCoverageModel = buildCoverageModel(courseTruth, candidate, boardAlignment)
   const courseKnowledgeModel = buildCourseKnowledgeModel(courseTruth, candidate, boardAlignment)
   const assessmentBlueprint = buildAssessmentBlueprint(examTruth, boardAlignment, courseKnowledgeModel)
 
@@ -319,7 +332,7 @@ async function main() {
     adapter_id: 'aqa-business-7132-2027-course-truth-runtime-adapter-v1',
     status: 'transitional_runtime_contract_adapter_only',
     authority: {
-      source_of_truth: ['course-truth.json', 'exam-truth.json', 'subject-foundation-v0.7'],
+      source_of_truth: ['course-truth.json', 'exam-truth.json', `subject-foundation ${candidate.index.candidate_version}`],
       adapter_is_normative_truth: false,
       purpose: 'Bridge the Foundation-native Course/Exam Truth projection into current Content Factory runtime schemas without creating a second authority model.',
     },

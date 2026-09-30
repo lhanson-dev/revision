@@ -7,6 +7,7 @@ on:
       - 'research/aqa-business-7132/2027/**'
       - 'research/business-subject-foundation/**'
       - 'scripts/content-factory/load-business-subject-foundation-candidate-v07.mjs'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-course-exam-truth.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs'
       - 'scripts/assurance/aqa-course-truth-runtime-adapter.test.ts'
