@@ -11,8 +11,14 @@
   gap: var(--space-5, 20px);
 }
 
+/* Span the full canvas so Add course lines up with the right edge of the course cards. */
+.planner-runtime .page-heading.courses-heading {
+  max-width: none;
+}
+
 .courses-heading > div {
   min-width: 0;
+  max-width: var(--layout-prose-measure);
 }
 
 .courses-heading > button {
