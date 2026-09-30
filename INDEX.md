@@ -101,6 +101,7 @@ Use this file to find the governing source before substantive work.
 - Revision brand system / visual identity across learner app, marketing, Admin, social, video and reusable assets → `20-brand-and-experience/Visual Brand System.md`
 - Button/action sizing, hierarchy, feedback states and action language → `20-brand-and-experience/Interactive Component Quality Standard.md`
 - REV-led decision surfaces / proactive guidance + Ask REV interaction pattern → `20-brand-and-experience/REV Guidance and Conversation Pattern.md`
+- Educational treatments for teaching content (Key Idea, Example, Worked Example, Diagram, Misconception, Quick check, Recap) → `20-brand-and-experience/Educational Treatment System.md`
 - Subject accent colour mapping / usage / accessibility → `20-brand-and-experience/Subject Accent Colour System.md`
 - Identity asset usage / wordmark clear space and minimum size / app icon and favicon framing → `20-brand-and-experience/Identity Asset Usage Rules.md`
 - Other brand/visual authority → `20-brand-and-experience/`

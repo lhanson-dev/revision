@@ -7,6 +7,7 @@ This folder contains normative authority for Revision's learner experience, lang
 - `Product UX Principles.md` — learner experience and accessibility principles.
 - `Tone of Voice Framework.md` — learner-facing language and interaction tone.
 - `Visual Brand System.md` — company-wide visual identity and cross-channel Brand System covering learner product, marketing/editorial, Admin, social, video/motion, email, REV visual/motion treatment and reusable brand assets.
+- `Educational Treatment System.md` — shared educational treatment families for teaching content (Key Idea, Example, Worked Example, Diagram, Misconception, Quick check, Recap) and the rules for using them consistently across subjects.
 
 ## Candidate / supporting authority
 

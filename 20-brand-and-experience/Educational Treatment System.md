@@ -3,14 +3,14 @@ title: "Educational Treatment System"
 document_id: "revision-educational-treatment-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
-status: "proposed"
-version: "1.1"
+status: "active"
+version: "1.2"
 owner: "Founder"
-effective_date: "2026-09-23"
-last_reviewed: "2026-09-23"
-content_review_status: "founder-approved-direction-pending-governed-merge"
-source_of_truth_for: ["educational treatment visual semantics", "cross-subject treatment consistency", "subject-accent parameterisation of educational treatments", "shared educational treatment extension rules"]
-depends_on: ["Visual Brand System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint"]
+effective_date: "2026-09-30"
+last_reviewed: "2026-09-30"
+content_review_status: "founder-approved"
+source_of_truth_for: ["educational treatment visual semantics", "cross-subject treatment consistency", "subject-accent parameterisation of educational treatments", "shared educational treatment extension rules", "in-reading quick check treatment"]
+depends_on: ["Visual Brand System", "Subject Accent Colour System", "Product UX Principles", "Course Learning Blueprint", "Claims and Progress Governance"]
 supersedes: null
 ---
 # Educational Treatment System
@@ -38,6 +38,12 @@ Consistency includes, where applicable:
 - Light/Dark translation;
 - accessibility semantics; and
 - the relationship between the treatment and surrounding teaching content.
+
+## Approval status
+
+Founder approved on 30 September 2026. Version 1.2 promotes this document from proposed to active authority and adds the **Quick check** treatment family.
+
+Quick check is approved at authority level but is not yet implemented. Its implementation must follow the New treatment rule and Documentation impact sections below.
 
 ## Founder-approved operating rules
 
@@ -148,6 +154,33 @@ Default visual strength: medium-light.
 
 This is an educational clarification, not automatically a Warning or Error state. Do not use semantic warning/error colour merely because the learner might get the concept wrong.
 
+### Quick check
+
+**Purpose:** ask the learner to retrieve or apply what they have just read, so reading becomes active rather than passive.
+
+Default visual strength: medium.
+
+Quick check passes the New treatment rule because its educational job is materially distinct from every other family: it is the only treatment that asks the learner to respond. Key Idea, Example, Worked Example, Diagram, Misconception and Recap all present information; Quick check asks for it back.
+
+Expected pattern:
+
+- small controlled label that says the check is not scored;
+- one short question about content the learner has just read on the same page, never about content not yet taught;
+- a small set of answer choices, or a short recall prompt with a reveal;
+- immediate feedback that explains why an answer is right or not, rather than only marking it;
+- the learner may try again, and a wrong first answer is treated as normal learning rather than failure;
+- quiet supporting surface, distinct from the Worked Example anatomy;
+- subject accent may appear as a restrained cue only; and
+- no points, streaks, sounds, celebratory animation or other gamified reward.
+
+Use normally one, and at most two, quick checks per teaching page. Place each one after the explanation it checks, not at the top of the page.
+
+Evidence boundary: a quick check is a learning activity. It must not be treated as scored Practice, mastery or readiness evidence, and it must not change progress or readiness by itself. Whether and how quick check activity may be recorded or used as a planning signal is governed by `Claims and Progress Governance`, not by this document.
+
+Accessibility: choices must be real buttons or radio controls reachable by keyboard; feedback must be announced to assistive technology (for example through a polite live region); and correctness must not be shown by colour alone, so feedback always includes text and an icon or equivalent cue.
+
+Quick check questions and feedback are educational content. They carry the same source, accuracy and assurance expectations as the teaching content they check.
+
 ### Recap / What to remember
 
 **Purpose:** provide a compact memory anchor after understanding has been established.
@@ -180,7 +213,7 @@ Content should identify the semantic treatment required; it should not choose pa
 
 For generated or Content Factory material, content contracts should be able to express treatment intent such as:
 
-`key-idea`, `example`, `worked-example`, `relationship-visual`, `misconception`, `recap`, `rev-explanation`
+`key-idea`, `example`, `worked-example`, `relationship-visual`, `misconception`, `quick-check`, `recap`, `rev-explanation`
 
 The interface layer owns how that semantic treatment is rendered through the shared Revision design system.
 
