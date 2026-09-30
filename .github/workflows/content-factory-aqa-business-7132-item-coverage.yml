@@ -1,0 +1,37 @@
+name: Content Factory AQA Business 7132 Item Coverage
+
+on:
+  pull_request:
+    paths:
+      - 'research/aqa-business-7132/**'
+      - 'research/business-subject-foundation/**'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-*.mjs'
+      - 'scripts/assurance/check-aqa-business-7132-item-coverage*'
+      - '.github/workflows/content-factory-aqa-business-7132-item-coverage.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  item-coverage:
+    name: AQA 7132 item-level coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+      - name: Install dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Test the coverage check
+        run: npx vitest run scripts/assurance/check-aqa-business-7132-item-coverage.test.mjs
+      # Fails if the named-item file is invalid or the committed report is stale.
+      # Uncovered items are reported, not failed here; the T8 gate runs this with --gate.
+      - name: Check named items and committed coverage report
+        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
