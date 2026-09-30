@@ -1,0 +1,103 @@
+/* Learn and Practice, redesign v2 (design_handoff_revision_v2 screens 05 and 06). */
+
+/* ---- Learn ---- */
+.planner-runtime .learn-reading-header h2 { font-family: var(--rv-font-display); font-weight: 800; letter-spacing: -.025em; }
+
+.planner-runtime .learn-contextual-rev {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  padding: 22px;
+  border: 0;
+  border-radius: var(--rv-radius-card);
+  background: var(--rv-deep);
+}
+.planner-runtime .learn-contextual-rev strong { color: var(--rv-on-deep); font-weight: 800; font-size: 18px; }
+.planner-runtime .learn-contextual-rev span { color: var(--rv-on-deep-muted); }
+.learn-rev-prompts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.learn-rev-prompts button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: var(--rv-radius-row);
+  background: var(--rv-on-deep-tint-2);
+  color: var(--rv-on-deep);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.learn-rev-prompts button:hover { background: var(--rv-on-deep-tint-3); }
+.learn-rev-prompts button:focus-visible { outline: 2px solid var(--rv-on-deep-label); outline-offset: 2px; }
+
+/* ---- Practice ---- */
+.planner-runtime .pw-task { border-radius: var(--rv-radius-hero); }
+.planner-runtime .pw-question legend h3 { font-family: var(--rv-font-display); font-weight: 800; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; }
+
+.planner-runtime .pw-progress { gap: 6px; }
+.planner-runtime .pw-progress span { height: 8px; }
+.planner-runtime .pw-progress span.done,
+.planner-runtime .pw-progress span.current { background: var(--rv-teal); }
+.planner-runtime .pw-progress span.current { opacity: .55; }
+.planner-runtime[data-theme="dark"] .pw-progress span.current { background: var(--rv-teal); }
+
+.planner-runtime .pw-options { counter-reset: pw-option; gap: 12px; }
+.planner-runtime .pw-options label {
+  position: relative;
+  counter-increment: pw-option;
+  min-height: 64px;
+  padding: 12px 18px;
+  border: 2px solid var(--rv-line);
+  border-radius: var(--rv-radius-row);
+  background: var(--rv-surface);
+  font-weight: 700;
+  font-size: 16px;
+}
+.planner-runtime .pw-options label::before {
+  content: counter(pw-option, upper-alpha);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--rv-bg);
+  color: var(--rv-text-2);
+  font-weight: 800;
+  font-size: 14px;
+}
+.planner-runtime .pw-options label:hover { border-color: var(--rv-teal); }
+.planner-runtime .pw-options label:has(input:checked) { border-color: var(--rv-teal); background: var(--rv-soft); box-shadow: var(--rv-ring); }
+.planner-runtime .pw-options label:has(input:checked)::before { background: var(--rv-teal); color: var(--rv-teal-text); }
+/* The lettered badge is the visible control; the radio stays for keyboards and screen readers. */
+.planner-runtime .pw-options input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+
+.planner-runtime .pw-options label.correct { border-color: var(--rv-teal); background: var(--rv-soft); }
+.planner-runtime .pw-options label.correct::before { background: var(--rv-teal); color: var(--rv-teal-text); }
+.planner-runtime .pw-options label.correct .pw-option-tag { color: var(--rv-accent); }
+.planner-runtime .pw-options label.missed { border-color: var(--rv-coral); background: var(--rv-coral-soft); }
+.planner-runtime .pw-options label.missed::before { background: var(--rv-coral); color: var(--rv-teal-text); }
+.planner-runtime .pw-options label.missed .pw-option-tag { color: var(--rv-coral-text); }
+
+/* Feedback bar: teal when right, coral when wrong, stays in view and slides up. */
+.planner-runtime .pw-feedback-region { position: sticky; bottom: 12px; z-index: 2; }
+.planner-runtime .pw-feedback { padding: 18px 22px; border-radius: var(--rv-radius-card); color: var(--rv-teal-text); animation: pw-feedback-up 220ms var(--motion-ease-standard) both; }
+.planner-runtime .pw-feedback.is-correct { background: var(--rv-teal); }
+.planner-runtime .pw-feedback.is-retry { background: var(--rv-coral); }
+.planner-runtime .pw-feedback strong,
+.planner-runtime .pw-feedback p,
+.planner-runtime .pw-feedback .pw-feedback-note { color: var(--rv-teal-text); }
+.planner-runtime .pw-feedback strong { font-family: var(--rv-font-display); font-weight: 800; }
+
+@keyframes pw-feedback-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .planner-runtime .pw-feedback { animation: none; } }
+
+/* Result states must win over the plain "selected" look, and the feedback text must stay dark on teal/coral. */
+.planner-runtime .pw-options label.missed:has(input:checked) { border-color: var(--rv-coral); background: var(--rv-coral-soft); box-shadow: none; }
+.planner-runtime .pw-options label.missed:has(input:checked)::before { background: var(--rv-coral); color: var(--rv-teal-text); }
+.planner-runtime .pw-options label.correct:has(input:checked) { border-color: var(--rv-teal); background: var(--rv-soft); box-shadow: none; }
+.planner-runtime .pw-feedback.is-correct strong,
+.planner-runtime .pw-feedback.is-retry strong,
+.planner-runtime .pw-feedback.is-correct p,
+.planner-runtime .pw-feedback.is-retry p { color: var(--rv-teal-text); }

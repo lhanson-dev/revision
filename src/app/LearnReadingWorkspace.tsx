@@ -183,7 +183,11 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
   const recaps = current.page.blocks.filter((block): block is Extract<LearnBlock, { type: 'recap' }> => block.type === 'recap')
   const teachingBlocks = current.page.blocks.filter((block) => block.type !== 'recap')
   const titleId = `learn-page-${current.page.id}`
-  const revDraft = `Can you explain ${current.page.title} another way?`
+  const revPrompts = [
+    { label: 'Explain it another way', draft: `Can you explain ${current.page.title} another way?` },
+    { label: 'Give me an example', draft: `Can you give me an example of ${current.page.title}?` },
+    { label: 'How does this come up in exams?', draft: `How does ${current.page.title} come up in exams?` },
+  ]
 
   function openSequentialPage(nextPageId: string) {
     onOpenPage(nextPageId)
@@ -209,8 +213,10 @@ export function LearnReadingWorkspace({ adapter, pageId, onOpenPage, onOpenPract
         </div>
 
         {onOpenRev && <aside className="learn-contextual-rev" aria-label="Ask REV about this page">
-          <div><strong>Still not clicking?</strong><span>Ask REV to explain {current.page.title.toLowerCase()} another way.</span></div>
-          <Button variant="tertiary" onClick={() => onOpenRev(revDraft)}>Ask REV</Button>
+          <div><strong>Stuck? Ask REV</strong><span>Pick a question, or ask your own.</span></div>
+          <ul className="learn-rev-prompts">
+            {revPrompts.map((prompt) => <li key={prompt.label}><button type="button" onClick={() => onOpenRev(prompt.draft)}>{prompt.label}</button></li>)}
+          </ul>
         </aside>}
 
         {recaps.map((block, index) => renderRecap(block, `recap-${index}`))}
