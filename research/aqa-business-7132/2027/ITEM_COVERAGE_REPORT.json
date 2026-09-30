@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "5854b9c0e2fc98cba2683ba8eeb0597db5429db3ce75c04b91b3f682136a7570",
+  "foundation_fingerprint": "5b8feb42b9be3f5df505406a8f3ffa640045834da22476c3e8a593c4d3ad9f7a",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -3632,6 +3632,10 @@
       "status": "covered",
       "taught_by": [
         {
+          "node": "BUS-EXT-001",
+          "matched": "exchange rate"
+        },
+        {
           "node": "BUS-EXT-004",
           "matched": "exchange rate"
         }
@@ -3702,7 +3706,7 @@
       "taught_by": [
         {
           "node": "BUS-EXT-001",
-          "matched": "economic indicator"
+          "matched": "economic data"
         },
         {
           "node": "BUS-EXT-004",
