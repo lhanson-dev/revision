@@ -62,11 +62,8 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * differently; both come from the reviewed CI run.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '943bd461cb16b8ed6a1de88bd761ad3a14592f418edcca90e5c76d582a1aa25d',
-  'desktop:dark': [
-    '8901e1e77ffdec272980cec68f9bfca059e967c88050ad7a2e30c9d8f22dbe1f',
-    '5f3b0b207dda1985664f51b0b109fa002f8e5bbcc27906871635dfa7afe163d9',
-  ],
+  'desktop:light': '2bd68bde10ae1aab59e44d9c085eeeee5751c32f9cd9c8ba379b520c3c2816ac',
+  'desktop:dark': '52bfcaf7ff257614c1923a0506e6ad9747bbd043233ecc6e4204adf69f864468',
 }
 
 /**
@@ -95,15 +92,12 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   ],
   'tablet:courses:light': '632ea60dcc699172b80dd30edc199bbe1853874cbc843f47133e11b57a81b987',
   'tablet:courses:dark': 'ce9f7cc5ab240929eb9269e6ac30b3c969e6e7e4bd7f82cd0f88766a8702b441',
-  'phone:practice:light': [
-    'c57c96e813cb00aa8912a48e32ccd7b4c29438854e1604d598911839462e4d3d',
-    '1d1cbbd74d780adb49b9c988c04b867674c1d760f76c0c7f2f5147d2d82ffc22',
-  ],
-  'phone:practice:dark': 'c352bf77bc3bfb7c9e581e2e199ad60562b2b512e10056073244472d72482477',
+  'phone:practice:light': '905a6c5bba3ff81e1274b4063ff6fb8286aa6c30a86df2442f64af3810db69c9',
+  'phone:practice:dark': '74b0c62a4ed32d887370505bcc8b8ca9e8f13e7ced18f883ab8ab4505f1fb4cb',
   'tablet:exam-prep:light': '18b0e3b3c19673fa099b9b4c518f09fe2e77567ecd8bac53c87135eccd6c6038',
   'tablet:exam-prep:dark': 'c8a8b95c39adbdbf3afda39eeb1bb5fd8720d3df5b047e78cbd27407cc4db2a6',
-  'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',
-  'tablet:timed-exam:dark': '1695b49088fa93544a50c07578062852cc77eddb8a475834b5dea07fd8c1edb4',
+  'tablet:timed-exam:light': '358cb08fe9a822a80c0737f89811ff087cd56cbad9d6199f5afaf03c41e5c72f',
+  'tablet:timed-exam:dark': '7e1345395a34173b21cd98fedaf022c96b12e6a38b4a99328e1a48c0e02c4af9',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
