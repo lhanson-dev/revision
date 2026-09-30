@@ -2,7 +2,7 @@
 
 **Status:** T8 implementation contract pending governed merge and fresh proof  
 **Scope:** AQA A-level Business 7132 — 2027 controlled Content Factory trial  
-**Normative authority:** `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`; `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`; `80-company-workflows/Content Accuracy Assurance Gate.md`  
+**Normative authority:** `decisions/ADR-0029-content-factory-fast-path-and-architecture-freeze.md` and `80-company-workflows/Content Factory Fast-Path Process.md` (take precedence on review, blocking, rounds and failure handling); `80-company-workflows/Content Factory Foundation and Asset Production Model.md`; `80-company-workflows/Content Factory Subject Knowledge Foundation and Course Projection Amendment.md`; `80-company-workflows/Content Factory AI-Assured Foundation Gate Amendment.md`; `80-company-workflows/Content Accuracy Assurance Gate.md`  
 **Upstream implementation:** merged T6/T7 Course Truth / Exam Truth projection and transitional runtime adapter
 
 ## Purpose
@@ -62,60 +62,29 @@ The review bundle contains structured Subject Foundation content and source meta
 
 ## Fresh independent review
 
-`scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts` performs one fresh independent review only after the proof capability exists on approved `main`.
+`scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts` runs the gate under the fast-path rules (ADR-0029), using `src/content-factory/fast-path-review.ts` and `scripts/assurance/aqa-business-7132-course-gate.ts`. Each of the 42 specification sections is a separate review unit.
 
-The provider creates a new random review context and receives only the structured T8 bundle. It is instructed to challenge:
+Software checks run first and never loop:
 
-- factual and conceptual accuracy;
-- genuine UK Level 3 subject depth;
-- specification-to-Subject-Foundation mapping sufficiency;
-- quantitative methods and interpretation;
-- misconceptions and conceptual boundaries;
-- Course Truth completeness;
-- stable Exam Truth correctness and assessment fit;
-- unsupported extrapolations; and
-- integrity of the transitional runtime handoff.
+- **dependency freshness**: the T8 package and the item-coverage report must be built from the same Foundation fingerprint, or the gate does not run;
+- **item-level coverage**: every named item in `research/aqa-business-7132/2027/NAMED_ITEMS.json` is taught by a mapped node (`ITEM_COVERAGE_REPORT.json`);
+- **prerequisite closure**: every mapped node's prerequisites are in the exact-course selection.
 
-Findings are classified as `blocking`, `material`, `minor` or `no_issue` and identify the governing layer affected:
+A section with a software-proven gap is blocking and is not sent to AI review. Otherwise one fresh reviewer answers the fixed checklist for that section only (`mapping_sense`, `depth`, and `accuracy` for nodes changed since their last assurance).
 
-- `subject_foundation` — reusable Business truth defect;
-- `course_truth` — exact mapping/projection defect;
-- `exam_truth` — stable assessment-contract defect; or
-- `runtime_handoff` — compatibility projection defect.
-
-Any blocking/material finding produces `fail_hold`. The T8 proof does not automatically patch Course Truth or reusable Business knowledge. Remediation must occur at the smallest governing layer and must create/reassure a new fingerprint where material truth changes.
-
-Minor findings do not by themselves fail T8, but they remain explicit in the retained proof/known limitations and therefore remain visible to later qualified review and downstream design.
+The rules, not the reviewer, decide what blocks. A finding blocks only if it is `wrong_teaching`, `missing_examinable_item` or `broken_question`, names a checklist question, and, for accuracy, cites a supplied source that contradicts the content. Everything else (`weak_citation`, `opinion_or_style`, `out_of_scope`, or findings without that evidence) is logged.
 
 ## Fresh official-source challenge
 
-The same post-merge proof freshly retrieves the four official AQA references used by stable Exam Truth:
-
-- scheme of assessment;
-- specification at a glance;
-- quantitative-skills annex; and
-- assessment-resources index.
-
-The challenge:
-
-- requires the exact governed source ID set;
-- allows only HTTPS `www.aqa.org.uk` references;
-- follows redirects only when they remain on the approved AQA host;
-- checks successful non-empty retrieval and bounded size;
-- checks minimal source-identity markers appropriate to each reference;
-- records content hash and response metadata; and
-- retains neither the protected source body nor sends it to the AI reviewer.
-
-This preserves the `REFERENCE_ONLY` boundary while still proving that the exact retained assessment contract is anchored to current official references.
+The same run retrieves the four official AQA references used by stable Exam Truth (scheme of assessment, specification at a glance, quantitative-skills annex, assessment-resources index). It checks the approved HTTPS `www.aqa.org.uk` host, source-identity markers and content hash. It neither retains the protected body nor sends it to the reviewer (`REFERENCE_ONLY`). Each page is retried up to three times; a page that still cannot be read is listed as failed, not treated as a teaching defect.
 
 ## Gate semantics
 
 A fresh T8 proof becomes `ai_assured` only when:
 
-- deterministic exact-course assurance passes;
-- the fresh independent review passes;
-- the fresh official-source challenge passes; and
-- there are zero unresolved blocking/material findings.
+- deterministic exact-course assurance and the software checks pass;
+- no section is blocking, escalated without a Founder decision, or failed; and
+- the official-source check passes.
 
 An `ai_assured` result may permit controlled internal/pre-production Course Learning Blueprint and asset derivation under the active Content Factory authority. It does **not** mean:
 
@@ -136,16 +105,11 @@ A branch/PR run therefore proves the **assurance capability**. Only a later exac
 
 ## Failure and remediation boundary
 
-If the fresh proof returns `fail_hold`:
-
-1. do not generate downstream assets;
-2. classify each blocking/material finding by governing layer;
-3. remediate the smallest safe dependency scope;
-4. preserve historical evidence rather than rewriting it;
-5. produce a new dependency/foundation fingerprint where material truth changes; and
-6. rerun the affected T8 deterministic and fresh assurance steps.
-
-A reusable Business defect must be fixed in the Subject Foundation first. It must not be patched only into AQA learner content.
+- An AI call that fails (timeout, refusal, malformed or truncated output) is retried up to three times, then only that section is marked `failed`; the run continues.
+- `content-factory/runs/aqa-7132-course-gate/ledger.json` records each section's input fingerprint, outcome and consecutive blocking rounds. It is committed after each run. Sections whose inputs have not changed are reused, not re-reviewed.
+- A section gets at most two review rounds on a blocking issue. It is then escalated to the Founder (`escalations.json`), not reviewed a third time. A recorded Founder decision settles it.
+- Every run ends with one list (`SUMMARY.md`): blocking, escalated, failed, passed with logged notes, passed. The gate reaches `ai_assured` only with nothing blocking, escalated or failed, and the official-source check passing.
+- Fixes are recorded as one line in `content-factory/RUN_LOG.md`. A reusable Business defect is still fixed in the Subject Foundation first.
 
 ## Documentation impact
 

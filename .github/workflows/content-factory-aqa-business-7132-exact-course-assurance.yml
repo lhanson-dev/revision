@@ -11,6 +11,10 @@ on:
       - 'scripts/assurance/materialise-aqa-business-7132-runtime-adapter.mjs'
       - 'scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs'
       - 'scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts'
+      - 'scripts/assurance/aqa-business-7132-course-gate*.ts'
+      - 'scripts/content-factory/load-business-subject-foundation-candidate-v08.mjs'
+      - 'src/content-factory/fast-path-review*.ts'
+      - 'content-factory/runs/aqa-7132-course-gate/**'
       - '.github/workflows/content-factory-aqa-business-7132-exact-course-assurance.yml'
       - '.github/workflows/content-factory-aqa-business-7132-exact-course-assurance-proof.yml'
   workflow_dispatch:
@@ -48,6 +52,9 @@ jobs:
 
       - name: Materialise deterministic T8 review package
         run: node scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs
+
+      - name: Test fast-path review rules and course-gate sections
+        run: npx vitest run src/content-factory/fast-path-review.test.ts scripts/assurance/aqa-business-7132-course-gate.test.ts --reporter=verbose
 
       - name: Validate fresh-proof TypeScript contract without provider spend
         run: npx vitest run scripts/assurance/aqa-business-7132-exact-course-assurance-proof.test.ts --reporter=verbose
