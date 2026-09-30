@@ -147,12 +147,12 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
   const opening = error
     ? 'I cannot read your full planner context right now, so I will not pretend I know what should change. You can still open your plan or Courses.'
     : programme.length === 0
-      ? 'How can I help? Add the courses you actually study first so I can keep the wider programme truthful rather than reasoning over the published catalogue.'
+      ? 'Add the courses you’re studying and I can help you decide what to revise and when.'
       : !setup?.availability || activeAssessments.length === 0
-        ? 'How can I help? I can talk through your revision, but I need an assessment attached to one of your active courses and realistic availability before I can properly negotiate the wider plan.'
+        ? 'I can talk through your revision any time. Add your exam dates and the time you have each week on Plan, and I can help you shape the whole week too.'
         : topItem
-          ? `How can I help? Right now I’m giving ${topLabel} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
-          : 'How can I help? Your planner does not need to push one activity to the front right now, but we can still talk about how you want to use the next few days.'
+          ? `Right now I’m giving ${topLabel} the most attention${topReason ? ` because ${reasonLabel(topReason)}` : ''}. If you want to focus differently, tell me and I’ll explain the trade-off before changing anything.`
+          : 'Nothing needs to jump the queue right now. We can still talk about how you want to use the next few days.'
 
   const revVisualState: RevPresenceState = loading
     ? 'thinking'
@@ -265,7 +265,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
       <header className="page-heading">
         <p className="eyebrow">Your intelligent revision guide</p>
         <h1 id="planner-rev-title">REV</h1>
-        <p>Talk through the plan, question a recommendation or change the short-term balance. REV reasons across your active saved courses, not the full published catalogue.</p>
+        <p>Talk through your plan, ask why something is recommended, or change what you focus on this week.</p>
       </header>
 
       <section className="rev-hero rev-page-hero" aria-labelledby="planner-rev-conversation-title">
@@ -298,7 +298,7 @@ export function PlannerRevScreen({ client, userId, programme, onOpenPlan, onOpen
         <RevPresence state={revVisualState} size="conversation" />
       </section>
 
-      <p className="quiet-note">REV uses saved courses as programme context. Adding or removing a course does not create or erase learning evidence.</p>
+      <p className="quiet-note">REV suggests; you decide. Nothing in your plan changes until you say so.</p>
     </main>
   )
 }

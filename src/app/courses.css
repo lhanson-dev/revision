@@ -1,17 +1,37 @@
 .courses-screen {
   display: grid;
+  align-content: start;
   gap: var(--space-5, 20px);
 }
 
 .courses-heading {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-5, 20px);
 }
 
+/* The shared page-heading measure (760px) squeezed the Add course button onto two lines. */
+.planner-runtime .courses-heading.page-heading {
+  max-width: none;
+  margin-bottom: 0;
+}
+
 .courses-heading > div {
   min-width: 0;
+  max-width: var(--layout-prose-measure, 760px);
+}
+
+.courses-heading > .ui-button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.courses-programme-card .courses-remove-action.ui-button {
+  justify-self: start;
+  margin-top: var(--space-2, 8px);
+  padding-inline: 0;
+  color: var(--color-text-secondary);
 }
 
 .courses-grid {

@@ -95,7 +95,7 @@ describe('readiness', () => {
   it('recommends an uncovered topic without pretending it is weak', () => {
     const recommendation = recommendNextActivity(common.moduleId, ['marketing', 'finance'], [], now)
     expect(recommendation).toMatchObject({ topicId: 'marketing', activity: 'quick-check', evidenceCount: 0, readinessScore: null })
-    expect(recommendation?.reason).toContain('cannot tell whether it is strong or weak')
+    expect(recommendation?.reason).toContain('haven’t tried this topic yet')
     expect(recommendation?.limitation).toContain('coverage recommendation')
   })
 
@@ -107,7 +107,7 @@ describe('readiness', () => {
     ]
     const recommendation = recommendNextActivity(common.moduleId, ['finance', 'marketing'], evidence, now)
     expect(recommendation).toMatchObject({ topicId: 'marketing', activity: 'quick-check', evidenceCount: 1 })
-    expect(recommendation?.reason).toContain('nothing beyond flashcards')
+    expect(recommendation?.reason).toContain('done flashcards on this topic')
     expect(recommendation?.evidenceSummary).toContain('1 scored activity')
   })
 
