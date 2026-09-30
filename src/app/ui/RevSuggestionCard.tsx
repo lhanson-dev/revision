@@ -1,4 +1,5 @@
 import { RevPresence } from '../RevPresence'
+import { Icon } from './Icon'
 import { classNames } from './classNames'
 
 export type RevSuggestionStepState = 'done' | 'current' | 'upcoming'
@@ -28,6 +29,8 @@ export interface RevSuggestionCardProps {
   primaryAction?: RevSuggestionAction
   /** Dismisses it or asks for something else. */
   secondaryAction?: RevSuggestionAction
+  /** `hero` is the larger Home treatment with a headline and a big start button. */
+  variant?: 'default' | 'hero'
   className?: string
 }
 
@@ -37,9 +40,9 @@ const stepStateLabel: Record<RevSuggestionStepState, string> = {
   upcoming: 'Later',
 }
 
-export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction, secondaryAction, className }: RevSuggestionCardProps) {
+export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction, secondaryAction, variant = 'default', className }: RevSuggestionCardProps) {
   return (
-    <article className={classNames('rev-suggestion-card', className)}>
+    <article className={classNames('rev-suggestion-card', variant === 'hero' && 'rev-suggestion-card--hero', className)}>
       <header className="rev-suggestion-card__head">
         <RevPresence size="compact" decorative />
         <span className="rev-suggestion-card__eyebrow">{eyebrow}</span>
@@ -59,7 +62,7 @@ export function RevSuggestionCard({ eyebrow, title, reason, steps, primaryAction
       )}
       {(primaryAction || secondaryAction) && (
         <div className="rev-suggestion-card__actions">
-          {primaryAction && <button type="button" className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}</button>}
+          {primaryAction && <button type="button" className="rev-suggestion-card__primary" onClick={primaryAction.onClick}>{primaryAction.label}{variant === 'hero' && <Icon name="arrow-right" size="inline" />}</button>}
           {secondaryAction && <button type="button" className="rev-suggestion-card__secondary" onClick={secondaryAction.onClick}>{secondaryAction.label}</button>}
         </div>
       )}

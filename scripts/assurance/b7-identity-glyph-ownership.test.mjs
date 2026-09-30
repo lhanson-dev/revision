@@ -21,13 +21,13 @@ describe('B7 identity and recurring glyph ownership', () => {
     expect(plannerHome).not.toContain('↗')
     expect(plannerHome).not.toContain('>→<')
     expect(plannerHome).not.toContain('>›<')
-    expect(plannerHome).toContain("<RevPresence state={loading ? 'thinking' : revState} size=\"hero\" />")
-    expect(plannerHome).toContain('<PoweredByRev />')
-    expect(plannerHome).not.toContain('<RevPresence size="compact"')
+    // Redesign v2 (design_handoff_revision_v2, screen 01): the compact REV mark sits in the Ask REV pill
+    // and the main suggestion is the shared REV suggestion card; the old hero presence is retired.
+    expect(plannerHome).toContain('<RevPresence size="compact" decorative />')
+    expect(plannerHome).not.toContain('size="hero"')
     expect(plannerHome).not.toContain('<RevPresence size="nav"')
-    expect(plannerHome).toContain('<Icon name="arrow-up" size="compact" />')
+    expect(plannerHome).toContain('<RevSuggestionCard')
     expect(plannerHome).toContain('<Icon name="arrow-right" size="inline" />')
-    expect(plannerHome).toContain('<Icon name="chevron-right" size="compact" />')
 
     expect(compactRev).toContain('export function RevCompactWordmark')
     expect(compactRev).toContain('rev-compact-wordmark-e')

@@ -193,6 +193,10 @@
   --rv-on-deep: #e8f3f0;
   --rv-on-deep-muted: #b7cfcc;
   --rv-on-deep-label: #7fe3d3;
+  --rv-on-deep-tint-1: rgba(255, 255, 255, .08);
+  --rv-on-deep-tint-2: rgba(255, 255, 255, .1);
+  --rv-on-deep-tint-3: rgba(255, 255, 255, .14);
+  --rv-on-deep-outline: rgba(255, 255, 255, .3);
   --rv-font-display: "Bricolage Grotesque", Manrope, ui-sans-serif, system-ui, sans-serif;
   --rv-radius-card: 24px;
   --rv-radius-hero: 28px;

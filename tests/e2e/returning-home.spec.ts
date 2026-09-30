@@ -85,45 +85,23 @@ async function expectNoHorizontalOverflow(page: Page) {
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth + 1)
 }
 
-async function expectApprovedHeroFidelity(page: Page) {
-  await expect(page.getByText('Powered by', { exact: true })).toBeVisible()
-  await expect(page.getByRole('img', { name: 'REV' }).filter({ has: page.locator('.rev-compact-wordmark-e') })).toHaveCount(1)
-
-  const hero = page.locator('.returning-home-hero')
-  const prompt = page.locator('.returning-home-hero > .living-home-prompt')
-  const presence = page.locator('.returning-home-hero .rev-presence-hero')
-  const [heroBox, promptBox, presenceBox] = await Promise.all([hero.boundingBox(), prompt.boundingBox(), presence.boundingBox()])
-  expect(heroBox).not.toBeNull()
-  expect(promptBox).not.toBeNull()
-  expect(presenceBox).not.toBeNull()
-  if (!heroBox || !promptBox || !presenceBox) return
-
-  expect(promptBox.x - heroBox.x).toBeLessThanOrEqual(50)
-  expect((heroBox.x + heroBox.width) - (promptBox.x + promptBox.width)).toBeLessThanOrEqual(50)
-
-  const viewportWidth = page.viewportSize()?.width ?? 1200
-  const minimumRevSize = viewportWidth <= 620 ? 170 : viewportWidth <= 960 ? 242 : viewportWidth <= 1160 ? 255 : 320
-  expect(presenceBox.width).toBeGreaterThanOrEqual(minimumRevSize)
-
-  const haloBackground = await page.locator('.returning-home-hero .rev-presence-hero .rev-halo').evaluate((element) => getComputedStyle(element).backgroundImage)
-  expect(haloBackground).toContain('rgba(255, 255, 255, 0.38)')
-  expect(haloBackground).toContain('rgba(230, 251, 244, 0.88)')
-}
-
-test('Returning Home keeps REV first and gives a useful fallback without planner setup', async ({ page }) => {
+test('Returning Home leads with a REV suggestion that says why, and gives a useful fallback without planner setup', async ({ page }) => {
   await seedReturningStudent(page)
   await page.goto(appPath)
 
-  await expect(page.getByRole('heading', { name: 'Hey Synthetic, what shall we do today?' })).toBeVisible()
-  await expect(page.getByLabel('Ask REV anything')).toBeVisible()
-  await expect(page.locator('.returning-home-hero .rev-presence-hero')).toHaveCount(1)
-  await expectApprovedHeroFidelity(page)
-  await expect(page.getByRole('heading', { name: 'Today’s revision plan' })).toBeVisible()
-  await expect(page.getByText('Start here', { exact: true })).toBeVisible()
-  await expect(page.locator('.returning-home-start-card')).toHaveAttribute('data-subject-accent', 'business')
-  await expect(page.locator('.home-subject-chip')).toHaveText('Business')
-  await expect(page.getByRole('heading', { name: 'Business', level: 3 })).toBeVisible()
-  await expect(page.getByRole('button', { name: /Why this/ })).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: /Hey Synthetic\.\s*Here.s what I.d do today\./ })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Ask REV anything' })).toBeVisible()
+
+  const suggestion = page.locator('.home-v2-hero')
+  await expect(suggestion).toBeVisible()
+  await expect(suggestion.getByText(/^REV suggests · \d+ min$/)).toBeVisible()
+  await expect(suggestion.locator('.rev-suggestion-card__reason')).toContainText('Why:')
+  await expect(suggestion.getByRole('button', { name: 'Suggest something else' })).toBeVisible()
+  await expect(suggestion.locator('.rev-suggestion-card__step[data-state="current"]')).toHaveCount(1)
+
+  await expect(page.getByRole('heading', { name: 'Your courses' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Open Business' })).toBeVisible()
+  await expect(page.getByRole('progressbar', { name: 'Business mastery' })).toBeVisible()
   await expect(page.locator('.planner-home-primary-grid')).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 })
