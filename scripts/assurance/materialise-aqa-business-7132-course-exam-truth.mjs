@@ -1,16 +1,10 @@
 import { createHash } from 'node:crypto'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v07.mjs'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v08.mjs'
 import mapping from '../../research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'
 
 const OUT = '.artifacts/content-factory-aqa-business-7132-course-exam-truth'
-const RECEIPT_PATH = 'research/aqa-business-7132/2027/SPECIFICATION_MAPPING_REASSURANCE_RECEIPT.json'
-const EXPECTED_MAIN_SHA = '8a62d1ad8da025d5ce27d86e48c08d16fa9d29c2'
-const EXPECTED_CANDIDATE_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
-const EXPECTED_REASSURANCE_FINGERPRINT = 'f2b59796d0939d349a4058de0504b75775e08f42dc8a5398ab407187b8535215'
 const EXPECTED_REQUIREMENTS = 42
-const TARGET_NODE = 'BUS-FIN-008'
-const PENDING_COVERAGE = 'candidate_covered_pending_v07_assurance'
 
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical)
@@ -34,34 +28,13 @@ function assert(condition, message) {
 
 async function loadDependencies() {
   const candidate = await loadBusinessSubjectFoundationCandidate()
-  const receipt = JSON.parse(await readFile(RECEIPT_PATH, 'utf8'))
 
-  assert(candidate.index.candidate_version === 'v0.7-aqa-7132-gap-reconciliation', 'Unexpected Foundation candidate version')
-  assert(candidate.fingerprint === EXPECTED_CANDIDATE_FINGERPRINT, 'Unexpected Foundation candidate fingerprint')
+  // Mapping names the Foundation version it targets; the exact fingerprint is recorded in Course Truth below.
+  assert(candidate.index.candidate_version === mapping.subject_foundation?.candidate_version, `Mapping targets ${mapping.subject_foundation?.candidate_version} but the current Foundation is ${candidate.index.candidate_version}`)
   assert(mapping.mapping_id === 'aqa-business-7132-2027-specification-mapping-v1', 'Unexpected specification mapping')
-  assert(mapping.status === 'candidate_pending_v07_subject_gap_reassurance', 'Unexpected immutable mapping source state')
   assert(mapping.course?.course_id === 'aqa:aqa-a-level:7132', 'Unexpected course identity')
   assert(mapping.course?.exam_year === 2027, 'Unexpected exam year')
-  assert(mapping.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Mapping/Foundation fingerprint mismatch')
   assert(mapping.requirements?.length === EXPECTED_REQUIREMENTS, 'AQA requirement denominator changed')
-  exactSet(mapping.subject_foundation?.pending_fresh_assurance_node_ids || [], [TARGET_NODE], 'Mapping pending reassurance scope')
-
-  const pendingRequirements = mapping.requirements.filter((requirement) => requirement.coverage_status === PENDING_COVERAGE)
-  assert(pendingRequirements.length === 1, `Expected exactly one pre-reassurance pending requirement, got ${pendingRequirements.length}`)
-  assert(pendingRequirements[0].requirement_id === 'AQA-7132-3.1.2', 'Unexpected pre-reassurance pending AQA requirement')
-  assert(pendingRequirements[0].mapped_subject_node_ids.includes(TARGET_NODE), 'Pending AQA requirement is not bound to BUS-FIN-008')
-
-  assert(receipt.specification_mapping_id === mapping.mapping_id, 'Receipt/mapping identity mismatch')
-  assert(receipt.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Receipt/Foundation fingerprint mismatch')
-  assert(receipt.subject_foundation?.target_node_id === TARGET_NODE, 'Receipt target mismatch')
-  assert(receipt.reassurance?.decision === 'pass_without_changes', 'Foundation reassurance has not passed')
-  assert(receipt.reassurance?.reviewed_main_sha === EXPECTED_MAIN_SHA, 'Receipt is not bound to the approved reviewed main SHA')
-  assert(receipt.reassurance?.reassurance_fingerprint === EXPECTED_REASSURANCE_FINGERPRINT, 'Unexpected reassurance fingerprint')
-  assert(receipt.reassurance?.unresolved_blocking_or_material_findings === 0, 'Reassurance has unresolved material findings')
-  exactSet(receipt.state_transition?.resolved_pending_node_ids || [], [TARGET_NODE], 'Resolved reassurance scope')
-  assert(receipt.state_transition?.mapping_candidate_state === mapping.status, 'Receipt does not bind the immutable mapping state')
-  assert(receipt.state_transition?.effective_projection_state === 'ready_for_course_truth_projection', 'Projection gate is not open')
-  assert(receipt.state_transition?.learner_asset_regeneration_allowed === false, 'Receipt must not unlock learner regeneration')
 
   const requirementIds = new Set(mapping.requirements.map((item) => item.requirement_id))
   assert(requirementIds.size === EXPECTED_REQUIREMENTS, 'Duplicate AQA requirement IDs')
@@ -71,53 +44,51 @@ async function loadDependencies() {
     for (const nodeId of requirement.mapped_subject_node_ids) assert(candidate.nodes.has(nodeId), `${requirement.requirement_id} references unknown Foundation node ${nodeId}`)
   }
 
-  return { candidate, receipt }
+  return { candidate }
 }
 
-function buildCourseTruth(candidate, receipt) {
+// The course's Subject Foundation nodes: everything mapped to a requirement plus everything those nodes depend on.
+function prerequisiteClosure(nodes, seedIds) {
+  const selected = new Set(seedIds)
+  const queue = [...seedIds]
+  while (queue.length) {
+    const id = queue.shift()
+    const node = nodes.get(id)
+    assert(node, `Prerequisite closure references unknown node ${id}`)
+    for (const prerequisite of node.prerequisites || []) if (!selected.has(prerequisite)) { selected.add(prerequisite); queue.push(prerequisite) }
+  }
+  return [...selected].sort()
+}
+
+function buildCourseTruth(candidate) {
   const mappingFingerprint = fingerprint(mapping)
-  const requirements = mapping.requirements.map((requirement) => {
-    const wasPendingReassurance = requirement.coverage_status === PENDING_COVERAGE
-    return {
-      ...structuredClone(requirement),
-      source_coverage_status: requirement.coverage_status,
-      effective_coverage_status: wasPendingReassurance ? 'covered_after_v07_foundation_reassurance' : requirement.coverage_status,
-      reassurance_resolution: wasPendingReassurance
-        ? {
-            receipt_id: receipt.receipt_id,
-            target_node_id: TARGET_NODE,
-            decision: receipt.reassurance.decision,
-            reassurance_fingerprint: receipt.reassurance.reassurance_fingerprint
-          }
-        : null
-    }
-  })
-  const unresolved = requirements.filter((requirement) => !['mapped', 'covered_after_v07_foundation_reassurance'].includes(requirement.effective_coverage_status))
+  const requirements = mapping.requirements.map((requirement) => ({
+    ...structuredClone(requirement),
+    source_coverage_status: requirement.coverage_status,
+    effective_coverage_status: requirement.coverage_status,
+  }))
+  const unresolved = requirements.filter((requirement) => requirement.effective_coverage_status !== 'mapped')
+  const mappedNodeIds = [...new Set(requirements.flatMap((requirement) => requirement.mapped_subject_node_ids))].sort()
+  const selectedNodeIds = prerequisiteClosure(candidate.nodes, mappedNodeIds)
 
   const projection = {
     schema_version: 1,
     projection_id: 'aqa-business-7132-2027-course-truth-v1',
-    status: 'course_truth_projected_from_reassured_foundation',
+    status: 'course_truth_projected_from_current_foundation',
     course: structuredClone(mapping.course),
     dependencies: {
       subject_foundation: {
         candidate_version: candidate.index.candidate_version,
         candidate_fingerprint: candidate.fingerprint,
-        node_count: candidate.nodes.size
+        node_count: candidate.nodes.size,
+        // Accuracy of these nodes is checked by the T8 course gate (fast path, ADR-0029), not a separate reassurance run.
+        nodes_pending_course_gate_accuracy: [...(candidate.freshNodeScope || [])].sort()
       },
       specification_mapping: {
         mapping_id: mapping.mapping_id,
         mapping_fingerprint: mappingFingerprint,
         immutable_source_status: mapping.status,
         requirement_count: mapping.requirements.length
-      },
-      foundation_reassurance: {
-        receipt_id: receipt.receipt_id,
-        workflow_run_id: receipt.reassurance.workflow_run_id,
-        artifact_id: receipt.reassurance.artifact_id,
-        reviewed_main_sha: receipt.reassurance.reviewed_main_sha,
-        reassurance_fingerprint: receipt.reassurance.reassurance_fingerprint,
-        decision: receipt.reassurance.decision
       }
     },
     rights_boundary: {
@@ -125,18 +96,19 @@ function buildCourseTruth(candidate, receipt) {
       policy: 'AQA material supplies exact course/alignment facts only; protected AQA prose is not reusable subject truth or learner teaching copy.'
     },
     requirements,
+    selected_subject_node_ids: selectedNodeIds,
+    prerequisite_only_node_ids: selectedNodeIds.filter((id) => !mappedNodeIds.includes(id)),
     coverage: {
       governed_requirement_count: requirements.length,
       mapped_requirement_count: requirements.filter((item) => item.mapped_subject_node_ids?.length).length,
-      reassurance_resolved_requirement_count: requirements.filter((item) => item.reassurance_resolution).length,
       unresolved_requirement_count: unresolved.length,
-      unresolved_reusable_foundation_gap_count: 0,
+      selected_node_count: selectedNodeIds.length,
       projection_ready: unresolved.length === 0
     },
     known_limitations: [
       'Course Truth defines what this exact AQA course requires; assessment demand is owned separately by Exam Truth.',
       'Course-specific labels, conventions and placement remain mapping facts and do not mutate reusable subject knowledge.',
-      'The source mapping remains historically accurate in its pre-reassurance candidate state; this projection applies the separate reassurance receipt rather than rewriting that evidence.'
+      'Named-item coverage is proven separately by the item-level coverage check (NAMED_ITEMS.json).'
     ]
   }
   return { ...projection, projection_fingerprint: fingerprint(projection) }
@@ -284,12 +256,9 @@ function buildExamTruth(courseTruth) {
 function validate(courseTruth, examTruth) {
   assert(courseTruth.coverage.governed_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth denominator mismatch')
   assert(courseTruth.coverage.mapped_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth is not fully mapped')
-  assert(courseTruth.coverage.reassurance_resolved_requirement_count === 1, 'Course Truth must resolve exactly one reassurance-dependent requirement')
   assert(courseTruth.coverage.unresolved_requirement_count === 0, 'Course Truth has unresolved requirements')
-  assert(courseTruth.coverage.unresolved_reusable_foundation_gap_count === 0, 'Course Truth has unresolved Foundation gaps')
-  assert(courseTruth.dependencies.foundation_reassurance.decision === 'pass_without_changes', 'Course Truth is not bound to passing reassurance')
-  assert(courseTruth.requirements.filter((item) => item.effective_coverage_status === 'covered_after_v07_foundation_reassurance').length === 1, 'Only the original pending requirement may transition after reassurance')
-  assert(courseTruth.requirements.filter((item) => item.effective_coverage_status === 'mapped').length === EXPECTED_REQUIREMENTS - 1, 'Unchanged mapping coverage statuses must remain mapped')
+  const selected = new Set(courseTruth.selected_subject_node_ids)
+  for (const requirement of courseTruth.requirements) for (const id of requirement.mapped_subject_node_ids) assert(selected.has(id), `${id} is mapped but not selected`)
 
   assert(examTruth.assessment_model.components.length === 3, 'Exam Truth must define three components')
   assert(examTruth.assessment_model.components.every((component) => component.duration_minutes === 120 && component.raw_marks === 100), 'AQA paper duration/mark contract mismatch')
@@ -309,8 +278,8 @@ function validate(courseTruth, examTruth) {
 }
 
 async function main() {
-  const { candidate, receipt } = await loadDependencies()
-  const courseTruth = buildCourseTruth(candidate, receipt)
+  const { candidate } = await loadDependencies()
+  const courseTruth = buildCourseTruth(candidate)
   const examTruth = buildExamTruth(courseTruth)
   validate(courseTruth, examTruth)
 
@@ -321,7 +290,8 @@ async function main() {
     subjectFoundationFingerprint: candidate.fingerprint,
     specificationMappingId: mapping.mapping_id,
     mappedRequirements: courseTruth.coverage.mapped_requirement_count,
-    reassuranceResolvedRequirements: courseTruth.coverage.reassurance_resolved_requirement_count,
+    selectedSubjectNodes: courseTruth.coverage.selected_node_count,
+    prerequisiteOnlyNodes: courseTruth.prerequisite_only_node_ids,
     courseTruthFingerprint: courseTruth.projection_fingerprint,
     examTruthFingerprint: examTruth.exam_truth_fingerprint,
     stableQuestionFamilies: examTruth.question_families.length,

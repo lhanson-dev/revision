@@ -74,8 +74,6 @@ jobs:
         run: node scripts/assurance/business-subject-foundation-reassurance.mjs --self-test
       - name: Validate AQA 7132 specification mapping and v0.7 gap scope
         run: node scripts/assurance/validate-aqa-business-7132-specification-mapping.mjs
-      - name: Validate v0.7 one-node reassurance contract without provider spend
-        run: node scripts/assurance/business-subject-foundation-v07-aqa-gap-reassurance.mjs --self-test
       - name: Typecheck
         run: npm run typecheck
       - name: Lint

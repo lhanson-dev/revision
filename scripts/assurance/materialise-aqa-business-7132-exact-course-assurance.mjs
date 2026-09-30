@@ -1,21 +1,15 @@
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v07.mjs'
+import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-business-subject-foundation-candidate-v08.mjs'
 import mapping from '../../research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs'
 
 const COURSE_OUT = '.artifacts/content-factory-aqa-business-7132-course-exam-truth'
 const OUT = '.artifacts/content-factory-aqa-business-7132-exact-course-assurance'
-const RECEIPT_PATH = 'research/aqa-business-7132/2027/SPECIFICATION_MAPPING_REASSURANCE_RECEIPT.json'
 const EXPECTED_COURSE_ID = 'aqa:aqa-a-level:7132'
 const EXPECTED_EXAM_YEAR = 2027
 const EXPECTED_REQUIREMENTS = 42
 const EXPECTED_FOUNDATION_NODES = 81
-const EXPECTED_SELECTED_NODES = 78
-const EXPECTED_FOUNDATION_FINGERPRINT = '64c072f188e3581a60787bd6a5556e4ac9ebf097434c6caf42a60d5598f61c53'
-const EXPECTED_REASSURANCE_FINGERPRINT = 'f2b59796d0939d349a4058de0504b75775e08f42dc8a5398ab407187b8535215'
-const EXPECTED_COURSE_TRUTH_FINGERPRINT = '5a8b46266dd6e245004e577cb34b6ad60f94ad6bc022cd2b1c42164fd7cfe870'
-const EXPECTED_EXAM_TRUTH_FINGERPRINT = 'd83dadd90eeef3a6af698dd09677ac6844f670f43a94adf226c616ac4562a6ce'
 
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical)
@@ -63,6 +57,7 @@ function reviewNode(canonicalId, node, row) {
     recommended_depth: node.recommended_depth ?? null,
     teaching_content: node.teaching_content ?? {},
     quantitative_content: node.quantitative_content ?? {},
+    models_frameworks: node.models_frameworks ?? [],
     prerequisites: node.prerequisites ?? [],
     related_nodes: node.related_nodes ?? [],
     evidence_of_understanding: node.evidence_of_understanding ?? [],
@@ -87,53 +82,47 @@ function reviewSource(source) {
   }
 }
 
-function validateExactCourseBundle({ candidate, receipt, courseTruth, examTruth, adapter }) {
-  assert(candidate.index.candidate_version === 'v0.7-aqa-7132-gap-reconciliation', 'Unexpected Subject Foundation version')
+function validateExactCourseBundle({ candidate, courseTruth, examTruth, adapter }) {
+  // Dependency freshness: every stage is bound to the Foundation that is loaded now, not a hard-coded fingerprint.
+  assert(candidate.index.candidate_version === mapping.subject_foundation?.candidate_version, 'Specification mapping targets a different Subject Foundation version')
   assert(candidate.nodes.size === EXPECTED_FOUNDATION_NODES, 'Subject Foundation node denominator changed')
-  assert(candidate.fingerprint === EXPECTED_FOUNDATION_FINGERPRINT, 'Subject Foundation fingerprint changed')
 
   assert(mapping.mapping_id === 'aqa-business-7132-2027-specification-mapping-v1', 'Unexpected specification mapping identity')
   assert(mapping.course?.course_id === EXPECTED_COURSE_ID, 'Specification mapping course identity changed')
   assert(mapping.course?.exam_year === EXPECTED_EXAM_YEAR, 'Specification mapping exam year changed')
   assert(mapping.requirements?.length === EXPECTED_REQUIREMENTS, 'Specification mapping requirement denominator changed')
-  assert(mapping.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Specification mapping is not bound to the exact Subject Foundation')
-
-  assert(receipt.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Reassurance receipt is not bound to the exact Subject Foundation')
-  assert(receipt.reassurance?.decision === 'pass_without_changes', 'Subject Foundation reassurance did not pass without changes')
-  assert(receipt.reassurance?.reassurance_fingerprint === EXPECTED_REASSURANCE_FINGERPRINT, 'Unexpected Subject Foundation reassurance fingerprint')
-  assert(receipt.reassurance?.unresolved_blocking_or_material_findings === 0, 'Subject Foundation reassurance retains blocking/material findings')
-  assert(receipt.state_transition?.effective_projection_state === 'ready_for_course_truth_projection', 'Reassurance receipt does not permit Course Truth projection')
-  assert(receipt.state_transition?.learner_asset_regeneration_allowed === false, 'Upstream reassurance must not unlock learner generation')
 
   assert(courseTruth.course?.course_id === EXPECTED_COURSE_ID, 'Course Truth course identity changed')
   assert(courseTruth.course?.exam_year === EXPECTED_EXAM_YEAR, 'Course Truth exam year changed')
-  assert(courseTruth.projection_fingerprint === EXPECTED_COURSE_TRUTH_FINGERPRINT, 'Unexpected Course Truth fingerprint')
   assert(courseTruth.dependencies?.subject_foundation?.candidate_fingerprint === candidate.fingerprint, 'Course Truth is not bound to the exact Subject Foundation')
   assert(courseTruth.dependencies?.specification_mapping?.mapping_id === mapping.mapping_id, 'Course Truth is not bound to the exact Specification Mapping')
-  assert(courseTruth.dependencies?.foundation_reassurance?.reassurance_fingerprint === receipt.reassurance.reassurance_fingerprint, 'Course Truth is not bound to exact reassurance evidence')
   assert(courseTruth.coverage?.governed_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth requirement denominator changed')
   assert(courseTruth.coverage?.mapped_requirement_count === EXPECTED_REQUIREMENTS, 'Course Truth is not fully mapped')
   assert(courseTruth.coverage?.unresolved_requirement_count === 0, 'Course Truth retains unresolved exact-course requirements')
-  assert(courseTruth.coverage?.unresolved_reusable_foundation_gap_count === 0, 'Course Truth retains an unresolved reusable Subject Foundation gap')
   assert(courseTruth.rights_boundary?.awarding_body_use === 'REFERENCE_ONLY', 'Course Truth awarding-body rights boundary changed')
 
   const requirementIds = courseTruth.requirements.map((requirement) => requirement.requirement_id)
   assert(new Set(requirementIds).size === EXPECTED_REQUIREMENTS, 'Course Truth contains duplicate requirement IDs')
   exactSet(requirementIds, mapping.requirements.map((requirement) => requirement.requirement_id), 'Course Truth requirement IDs')
   for (const requirement of courseTruth.requirements) {
-    assert(['mapped', 'covered_after_v07_foundation_reassurance'].includes(requirement.effective_coverage_status), `${requirement.requirement_id} is not assurance-ready`)
+    assert(requirement.effective_coverage_status === 'mapped', `${requirement.requirement_id} is not assurance-ready`)
     assert(requirement.mapped_subject_node_ids?.length > 0, `${requirement.requirement_id} is not mapped to Subject Foundation knowledge`)
     for (const nodeId of requirement.mapped_subject_node_ids) {
       assert(candidate.nodes.has(nodeId), `${requirement.requirement_id} references unknown Subject Foundation node ${nodeId}`)
     }
   }
 
-  const selectedSubjectNodeIds = unique(courseTruth.requirements.flatMap((requirement) => requirement.mapped_subject_node_ids))
-  assert(selectedSubjectNodeIds.length === EXPECTED_SELECTED_NODES, `Expected ${EXPECTED_SELECTED_NODES} exact-course Subject Foundation nodes, got ${selectedSubjectNodeIds.length}`)
+  // Course Truth owns the course's node set: mapped nodes plus their prerequisites (prerequisite closure).
+  const selectedSubjectNodeIds = [...courseTruth.selected_subject_node_ids]
+  const selected = new Set(selectedSubjectNodeIds)
+  for (const requirement of courseTruth.requirements) for (const nodeId of requirement.mapped_subject_node_ids) assert(selected.has(nodeId), `${nodeId} is mapped but not in the course node set`)
+  for (const nodeId of selectedSubjectNodeIds) {
+    assert(candidate.nodes.has(nodeId), `Course node set references unknown Subject Foundation node ${nodeId}`)
+    for (const prerequisite of candidate.nodes.get(nodeId).prerequisites ?? []) assert(selected.has(prerequisite), `${nodeId} needs ${prerequisite}, which the course does not include`)
+  }
 
   assert(examTruth.course_id === EXPECTED_COURSE_ID, 'Exam Truth course identity changed')
   assert(examTruth.exam_year === EXPECTED_EXAM_YEAR, 'Exam Truth exam year changed')
-  assert(examTruth.exam_truth_fingerprint === EXPECTED_EXAM_TRUTH_FINGERPRINT, 'Unexpected Exam Truth fingerprint')
   assert(examTruth.dependencies?.course_truth_fingerprint === courseTruth.projection_fingerprint, 'Exam Truth is not bound to exact Course Truth')
   assert(examTruth.rights_boundary?.awarding_body_use === 'REFERENCE_ONLY', 'Exam Truth awarding-body rights boundary changed')
   assert(examTruth.rights_boundary?.derived_facts_only === true, 'Exam Truth must retain derived-facts-only boundary')
@@ -173,15 +162,14 @@ function validateExactCourseBundle({ candidate, receipt, courseTruth, examTruth,
 
 async function buildPackage() {
   await materialiseDependencies()
-  const [candidate, receipt, courseTruth, examTruth, adapter] = await Promise.all([
+  const [candidate, courseTruth, examTruth, adapter] = await Promise.all([
     loadBusinessSubjectFoundationCandidate(),
-    readFile(RECEIPT_PATH, 'utf8').then(JSON.parse),
     readFile(`${COURSE_OUT}/course-truth.json`, 'utf8').then(JSON.parse),
     readFile(`${COURSE_OUT}/exam-truth.json`, 'utf8').then(JSON.parse),
     readFile(`${COURSE_OUT}/runtime-adapter.json`, 'utf8').then(JSON.parse),
   ])
 
-  const { selectedSubjectNodeIds, promotionSourceIds } = validateExactCourseBundle({ candidate, receipt, courseTruth, examTruth, adapter })
+  const { selectedSubjectNodeIds, promotionSourceIds } = validateExactCourseBundle({ candidate, courseTruth, examTruth, adapter })
   const exactCourseFoundationIdentity = {
     schema_version: 1,
     course_id: EXPECTED_COURSE_ID,
@@ -189,7 +177,6 @@ async function buildPackage() {
     subject_foundation_fingerprint: candidate.fingerprint,
     specification_mapping_id: mapping.mapping_id,
     specification_mapping_fingerprint: courseTruth.dependencies.specification_mapping.mapping_fingerprint,
-    reassurance_fingerprint: receipt.reassurance.reassurance_fingerprint,
     course_truth_fingerprint: courseTruth.projection_fingerprint,
     exam_truth_fingerprint: examTruth.exam_truth_fingerprint,
     selected_subject_node_ids: [...selectedSubjectNodeIds].sort(),
@@ -197,17 +184,17 @@ async function buildPackage() {
   const exactCourseFoundationFingerprint = fingerprint(exactCourseFoundationIdentity)
 
   const deterministicChecks = [
-    ['subject-foundation-identity', 'Exact Business Subject Foundation v0.7 identity, node denominator and aggregate fingerprint are retained.'],
+    ['subject-foundation-identity', `Business Subject Foundation ${candidate.index.candidate_version} is the version the mapping targets; its fingerprint is recorded throughout.`],
     ['subject-foundation-rights-and-provenance', 'Every selected Subject Foundation node resolves only to promotion-eligible reusable subject-truth sources.'],
     ['specification-mapping-completeness', 'All 42 governed AQA requirements are represented exactly once and map to existing Subject Foundation nodes.'],
-    ['reassurance-binding', 'The exact BUS-FIN-008 reassurance PASS is bound without rewriting the historical mapping candidate.'],
-    ['course-truth-dependencies', 'Course Truth is bound to the exact Subject Foundation, Specification Mapping and reassurance evidence.'],
-    ['course-truth-coverage', 'Course Truth has 42/42 mapped requirements with no unresolved exact-course or reusable-subject gap.'],
+    ['prerequisite-closure', 'The course node set contains every mapped node and every prerequisite of those nodes.'],
+    ['course-truth-dependencies', 'Course Truth is bound to the loaded Subject Foundation and the exact Specification Mapping.'],
+    ['course-truth-coverage', 'Course Truth has 42/42 mapped requirements with no unresolved exact-course requirement.'],
     ['exam-truth-dependency', 'Exam Truth is bound to the exact Course Truth fingerprint.'],
     ['exam-truth-stable-contract', 'Stable component, AO, quantitative and question-family facts remain inside the approved exact-course assessment boundary.'],
     ['awarding-body-rights-boundary', 'AQA evidence remains REFERENCE_ONLY and protected prose/variable mark-scheme detail is excluded from reusable or stable generative truth.'],
-    ['runtime-handoff-integrity', 'The non-authoritative runtime adapter remains bound to the exact normative dependencies and selected Subject Foundation node set.'],
-    ['pre-t8-release-gate', 'Learner generation and publication remain disabled until fresh T8 review/challenge evidence passes.'],
+    ['runtime-handoff-integrity', 'The non-authoritative runtime adapter remains bound to the exact normative dependencies and course node set.'],
+    ['pre-t8-release-gate', 'Learner generation and publication remain disabled until the T8 course gate passes.'],
   ].map(([check_id, message]) => ({ check_id, status: 'pass', severity: 'informational', message }))
 
   const deterministicAssurance = {
@@ -240,14 +227,8 @@ async function buildPackage() {
       governed_requirement_count: courseTruth.coverage.governed_requirement_count,
       mapped_requirement_count: courseTruth.coverage.mapped_requirement_count,
       unresolved_requirement_count: courseTruth.coverage.unresolved_requirement_count,
-      unresolved_reusable_foundation_gap_count: courseTruth.coverage.unresolved_reusable_foundation_gap_count,
-    },
-    reassurance: {
-      receipt_id: receipt.receipt_id,
-      decision: receipt.reassurance.decision,
-      reassurance_fingerprint: receipt.reassurance.reassurance_fingerprint,
-      target_node_id: receipt.subject_foundation.target_node_id,
-      unresolved_blocking_or_material_findings: receipt.reassurance.unresolved_blocking_or_material_findings,
+      selected_node_count: courseTruth.coverage.selected_node_count,
+      prerequisite_only_node_ids: courseTruth.prerequisite_only_node_ids,
     },
     course_truth: courseTruth,
     exam_truth: examTruth,
@@ -306,14 +287,14 @@ async function buildPackage() {
     governedRequirements: courseTruth.coverage.governed_requirement_count,
     selectedSubjectNodes: selectedSubjectNodeIds.length,
     deterministicChecks: deterministicChecks.length,
-    nextGate: 'fresh_independent_review_and_external_source_challenge',
+    nextGate: 't8_course_gate_fast_path',
     aiAssured: false,
     controlledInternalAssetProductionAllowed: false,
     foundationApproved: false,
     learnerPublicationEligible: false,
   }
 
-  return { candidate, receipt, courseTruth, examTruth, adapter, candidateRecord, deterministicAssurance, reviewBundle, summary }
+  return { candidate, courseTruth, examTruth, adapter, candidateRecord, deterministicAssurance, reviewBundle, summary }
 }
 
 async function selfTest() {
@@ -323,7 +304,7 @@ async function selfTest() {
   badExam.sources[0].rights_classification = 'OPEN'
   let rightsFailedClosed = false
   try {
-    validateExactCourseBundle({ candidate: built.candidate, receipt: built.receipt, courseTruth: built.courseTruth, examTruth: badExam, adapter: built.adapter })
+    validateExactCourseBundle({ candidate: built.candidate, courseTruth: built.courseTruth, examTruth: badExam, adapter: built.adapter })
   } catch {
     rightsFailedClosed = true
   }
@@ -333,11 +314,23 @@ async function selfTest() {
   badCourse.requirements[0].mapped_subject_node_ids = ['BUS-NOT-A-REAL-NODE']
   let mappingFailedClosed = false
   try {
-    validateExactCourseBundle({ candidate: built.candidate, receipt: built.receipt, courseTruth: badCourse, examTruth: built.examTruth, adapter: built.adapter })
+    validateExactCourseBundle({ candidate: built.candidate, courseTruth: badCourse, examTruth: built.examTruth, adapter: built.adapter })
   } catch {
     mappingFailedClosed = true
   }
   assert(mappingFailedClosed, 'Self-test failed: unknown Subject Foundation node did not fail closed')
+
+  const missingPrerequisite = structuredClone(built.courseTruth)
+  const withPrerequisite = missingPrerequisite.selected_subject_node_ids.find((id) => (built.candidate.nodes.get(id).prerequisites ?? []).length)
+  const dropped = built.candidate.nodes.get(withPrerequisite).prerequisites[0]
+  missingPrerequisite.selected_subject_node_ids = missingPrerequisite.selected_subject_node_ids.filter((id) => id !== dropped)
+  let closureFailedClosed = false
+  try {
+    validateExactCourseBundle({ candidate: built.candidate, courseTruth: missingPrerequisite, examTruth: built.examTruth, adapter: built.adapter })
+  } catch {
+    closureFailedClosed = true
+  }
+  assert(closureFailedClosed, 'Self-test failed: a missing prerequisite did not fail closed')
 
   console.log(JSON.stringify({ ...built.summary, selfTest: 'pass' }, null, 2))
 }

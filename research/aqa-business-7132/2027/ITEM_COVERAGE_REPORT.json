@@ -7,11 +7,11 @@
   "foundation_fingerprint": "c401a242acde4101e6ee34909d755f624773e9ec3a88aa4756bb6659e6435760",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
-    "items": 329,
-    "covered": 249,
-    "found_in_unmapped_node": 24,
+    "items": 344,
+    "covered": 261,
+    "found_in_unmapped_node": 26,
     "mentioned_not_taught": 10,
-    "missing": 46
+    "missing": 47
   },
   "gaps": [
     {
@@ -320,6 +320,14 @@
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
     {
+      "id": "aqa-7132-3.4.5:influences-on-inventory-levels",
+      "section": "3.4.5",
+      "label": "Influences on inventory levels",
+      "kind": "skill",
+      "status": "missing",
+      "fix": "teach the item in a mapped node (or extend the Foundation)"
+    },
+    {
       "id": "aqa-7132-3.5.1:return-on-investment",
       "section": "3.5.1",
       "label": "Return on investment",
@@ -378,6 +386,18 @@
       "fix": "add a quantitative method with the formula",
       "mentioned_in": [
         "BUS-FIN-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+      "section": "3.5.2",
+      "label": "Using financial data for decisions and planning",
+      "kind": "skill",
+      "status": "found_in_unmapped_node",
+      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
+      "found_in": [
+        "BUS-FIN-001",
+        "BUS-EXT-006"
       ]
     },
     {
@@ -754,6 +774,19 @@
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
     {
+      "id": "aqa-7132-3.9.2:pressures-for-innovation",
+      "section": "3.9.2",
+      "label": "Pressures for innovation",
+      "kind": "skill",
+      "status": "found_in_unmapped_node",
+      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
+      "found_in": [
+        "BUS-STR-005",
+        "BUS-EXT-002",
+        "BUS-EXT-003"
+      ]
+    },
+    {
       "id": "aqa-7132-3.9.4:e-commerce-strategic",
       "section": "3.9.4",
       "label": "E-commerce (strategic)",
@@ -1096,6 +1129,19 @@
         {
           "node": "BUS-FIN-008",
           "matched": "ownership"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:reasons-for-choosing-or-changing-business-form",
+      "section": "3.1.2",
+      "label": "Reasons for choosing or changing business form",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FND-003",
+          "matched": "legal form"
         }
       ]
     },
@@ -1709,6 +1755,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.3.3:influences-on-choice-of-target-market",
+      "section": "3.3.3",
+      "label": "Influences on choice of target market",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-MKT-005",
+          "matched": "target market"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.3.4:product-and-service-design",
       "section": "3.3.4",
       "label": "Product and service design",
@@ -1898,6 +1957,19 @@
         {
           "node": "BUS-MKT-009",
           "matched": "integrated marketing mix"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:influences-on-marketing-mix-decisions",
+      "section": "3.3.4",
+      "label": "Influences on marketing mix decisions",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-MKT-009",
+          "matched": "marketing mix"
         }
       ]
     },
@@ -2573,6 +2645,36 @@
       ]
     },
     {
+      "id": "aqa-7132-3.5.3:internal-versus-external-finance",
+      "section": "3.5.3",
+      "label": "Internal versus external finance",
+      "kind": "concept",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-008",
+          "matched": "internal finance"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+      "section": "3.5.3",
+      "label": "Advantages, disadvantages and choice of finance source",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-008",
+          "matched": "financing choice"
+        },
+        {
+          "node": "BUS-FIN-014",
+          "matched": "trade off"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.5.4:ways-to-improve-cash-flow",
       "section": "3.5.4",
       "label": "Ways to improve cash flow",
@@ -2719,6 +2821,19 @@
         {
           "node": "BUS-PEO-001",
           "matched": "hard hrm"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions",
+      "section": "3.6.1",
+      "label": "Influences on HR objectives and decisions",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-001",
+          "matched": "workforce objective"
         }
       ]
     },
@@ -2899,6 +3014,23 @@
       ]
     },
     {
+      "id": "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design",
+      "section": "3.6.3",
+      "label": "Influences on and value of changing organisational design",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-001",
+          "matched": "restructur"
+        },
+        {
+          "node": "BUS-PEO-007",
+          "matched": "organisational structure"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.6.4:taylor-scientific-management",
       "section": "3.6.4",
       "label": "Taylor (scientific management)",
@@ -3036,6 +3168,31 @@
         {
           "node": "BUS-MOD-003",
           "matched": "job enrichment"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio",
+      "section": "3.6.4",
+      "label": "Influences on choosing financial and non-financial motivation methods",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-005",
+          "matched": "incentive"
+        },
+        {
+          "node": "BUS-PEO-006",
+          "matched": "non financial"
+        },
+        {
+          "node": "BUS-MOD-001",
+          "matched": "incentive"
+        },
+        {
+          "node": "BUS-MOD-002",
+          "matched": "incentive"
         }
       ]
     },
@@ -3421,6 +3578,27 @@
       ]
     },
     {
+      "id": "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data",
+      "section": "3.7.5",
+      "label": "Interpreting UK and global economic data",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-EXT-001",
+          "matched": "economic indicator"
+        },
+        {
+          "node": "BUS-EXT-004",
+          "matched": "interpret"
+        },
+        {
+          "node": "BUS-EVI-005",
+          "matched": "interpret"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.7.6:corporate-social-responsibility",
       "section": "3.7.6",
       "label": "Corporate social responsibility",
@@ -3782,6 +3960,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy",
+      "section": "3.8.2",
+      "label": "Influences on choice of positioning strategy",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-STR-005",
+          "matched": "influence"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.9.1:organic-growth",
       "section": "3.9.1",
       "label": "Organic growth",
@@ -3971,6 +4162,31 @@
         {
           "node": "BUS-STR-007",
           "matched": "conglomerate"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas",
+      "section": "3.9.1",
+      "label": "Impact of growth or retrenchment on functional areas",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FND-007",
+          "matched": "overtrading"
+        },
+        {
+          "node": "BUS-FIN-006",
+          "matched": "overtrading"
+        },
+        {
+          "node": "BUS-STR-007",
+          "matched": "retrench"
+        },
+        {
+          "node": "BUS-EVI-006",
+          "matched": "functional"
         }
       ]
     },
@@ -4230,6 +4446,19 @@
         {
           "node": "BUS-STR-008",
           "matched": "data mining"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value",
+      "section": "3.9.4",
+      "label": "Pressures to adopt digital technology and its value",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-STR-008",
+          "matched": "digital technology"
         }
       ]
     },
