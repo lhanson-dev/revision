@@ -53,13 +53,18 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * learner-control refinement. Desktop light has two explicitly reviewed digests
  * because Chromium produced two visually equivalent rasterisations across the
  * initial run and retry; no unreviewed digest is accepted.
+ * Both desktop pairs were re-pinned on 30 September 2026 with Founder approval
+ * for the shared course header (breadcrumb, subject tile, underline tabs; the
+ * old eyebrow and intro sentence are gone). The Learn page itself is unchanged.
+ * Desktop dark has two digests because the run and its retry rasterised the page
+ * differently; both come from the reviewed CI run.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': [
-    '6cd1e3477e30073e625d46196d1a7388c87122bb47a1828e15a4f03a0093c81b',
-    '360bec4edb122185016a88f003e14c87cd56829e64c78717bcf49536d56bcb0f',
+  'desktop:light': '943bd461cb16b8ed6a1de88bd761ad3a14592f418edcca90e5c76d582a1aa25d',
+  'desktop:dark': [
+    '8901e1e77ffdec272980cec68f9bfca059e967c88050ad7a2e30c9d8f22dbe1f',
+    '5f3b0b207dda1985664f51b0b109fa002f8e5bbcc27906871635dfa7afe163d9',
   ],
-  'desktop:dark': 'f050b2330d09a75edb73459037f55e0a39d837b7027afa9819d7da05c83adc8c',
 }
 
 /**
@@ -74,7 +79,11 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * part of the learner-size change. Courses and Practice were re-pinned on
  * 30 September 2026 for the approved learner quick fixes: the Courses heading,
  * card layout and separated remove action, and the plain-language
- * recommendation reason shown in Practice.
+ * recommendation reason shown in Practice. Phone Practice and tablet Exam Prep
+ * were re-pinned again on 30 September 2026 with Founder approval ("yes, re-pin
+ * the baselines") for the redesign PR 2 shared course header, and for Practice
+ * the new single-task layout. Phone Practice light has two digests because the
+ * run and its retry rasterised the page differently.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
   'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
@@ -84,10 +93,13 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
   ],
   'tablet:courses:light': '36c1a1a389da55f15a03886d59a47ca1527c3abd4c8d3b387d03808befe91914',
   'tablet:courses:dark': '500a0bf2e105caf553939ccff049173ed26279dbd69e9da46aa582ccb7835dd9',
-  'phone:practice:light': 'abfcd5db0bad66c136f2d8b94b3383cc8bdff2274fdf8ec5cd9c7ddcc51ad96c',
-  'phone:practice:dark': '4983e63c416e26fa02900cc85ef18cc0295633c516a0e0d9733e99d1a4d06244',
-  'tablet:exam-prep:light': '8dd9a6ba69aca494519b202fe117ef3605bdf054563c4c42c1ee9cfe356d515a',
-  'tablet:exam-prep:dark': '3cfb5b054ef7fb068ec9c3fac833dc52fd99d5d79ea10a60d870c2ef52499c30',
+  'phone:practice:light': [
+    'c57c96e813cb00aa8912a48e32ccd7b4c29438854e1604d598911839462e4d3d',
+    '1d1cbbd74d780adb49b9c988c04b867674c1d760f76c0c7f2f5147d2d82ffc22',
+  ],
+  'phone:practice:dark': 'c352bf77bc3bfb7c9e581e2e199ad60562b2b512e10056073244472d72482477',
+  'tablet:exam-prep:light': '18b0e3b3c19673fa099b9b4c518f09fe2e77567ecd8bac53c87135eccd6c6038',
+  'tablet:exam-prep:dark': 'c8a8b95c39adbdbf3afda39eeb1bb5fd8720d3df5b047e78cbd27407cc4db2a6',
   'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',
   'tablet:timed-exam:dark': '1695b49088fa93544a50c07578062852cc77eddb8a475834b5dea07fd8c1edb4',
 }

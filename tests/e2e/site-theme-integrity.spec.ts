@@ -210,7 +210,7 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Courses')
 
   await clickNavigation(page, 'AQA AS Business')
-  await expect(page.getByRole('heading', { name: 'AQA AS Business', exact: true, level: 1 })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
   await auditRuntime(page, 'Course overview')
 
   await clickNavigation(page, 'AQA AS Business Learn')
@@ -219,14 +219,12 @@ test('dark theme is coherent across the complete learner application and account
   await auditRuntime(page, 'Learn')
 
   await clickNavigation(page, 'AQA AS Business Practice')
-  await expect(page.getByRole('heading', { name: /Practice · AQA AS Business/ })).toBeVisible()
-  const recommendation = page.locator('.focused-practice .recommendation-card')
-  await expect(recommendation, 'Practice must exercise the visible REV recommends state').toBeVisible()
-  await expect(recommendation.getByText('REV recommends', { exact: true })).toBeVisible()
-  await assertSemanticSurface(recommendation, '--color-surface-soft', 'Practice REV recommends card')
-  await assertSemanticText(recommendation.getByRole('heading').first(), '--color-text', 'Practice REV recommends heading')
-  await assertSemanticText(recommendation.getByText('REV recommends', { exact: true }), '--color-accent-text', 'Practice REV recommends eyebrow')
-  await auditRuntime(page, 'Practice with REV recommendation')
+  await expect(page.locator('.practice-workspace')).toBeVisible()
+  const whyCard = page.locator('.practice-workspace .pw-why')
+  await expect(whyCard, 'Practice must explain why this activity is open').toBeVisible()
+  await assertSemanticSurface(whyCard, '--color-surface-soft', 'Practice why-this-activity card')
+  await assertSemanticText(whyCard.getByRole('heading', { name: 'Why this activity' }), '--color-text', 'Practice why-this-activity heading')
+  await auditRuntime(page, 'Practice quick check')
 
   await clickNavigation(page, 'AQA AS Business Exam Prep')
   await expect(page.getByRole('heading', { name: /Exam technique · AQA AS Business/ })).toBeVisible()

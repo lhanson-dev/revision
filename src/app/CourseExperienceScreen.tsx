@@ -9,6 +9,7 @@ import {
   loadUpcomingPublicExamAssessments,
   type CourseExamAssessment,
 } from '../services/planning/course-exam-date-service'
+import { CourseHeader, courseSectionLabels as sectionLabels } from './CourseHeader'
 import { ExamSimulator } from './ExamSimulator'
 import { FocusedLearningWorkspace } from './FocusedLearningWorkspace'
 import { LearnReadingWorkspace } from './LearnReadingWorkspace'
@@ -48,14 +49,6 @@ type CourseExperienceScreenProps = {
 }
 
 type ExamDateStatus = 'loading' | 'ready' | 'error'
-
-const sectionLabels: Record<CourseSection, string> = {
-  overview: 'Overview',
-  learn: 'Learn',
-  practice: 'Practice',
-  'exam-prep': 'Exam Prep',
-  progress: 'Progress',
-}
 
 function activityLabel(activity: 'flashcards' | 'quick-check' | 'exam-question') {
   if (activity === 'flashcards') return 'Flashcards'
@@ -316,11 +309,7 @@ export function CourseExperienceScreen({
 
     return (
       <main className="dashboard screen-dashboard page-screen paper-screen" aria-labelledby="course-page-title">
-        <div className="breadcrumbs"><button onClick={onOpenCourses}>Courses</button><span>›</span><span>{label}</span></div>
-        <header className="page-heading paper-heading"><p className="eyebrow">{course.examBoardName} · specification {course.specificationCode}</p><h1 id="course-page-title">{label}</h1><p>{section === 'overview' ? 'Learn, practise and prepare for the exam from one course view.' : 'Learn and practise the shared course syllabus here. Paper-specific formats, techniques and full simulations sit inside Exam Prep.'}</p></header>
-        <nav className="course-nav" aria-label={`${label} navigation`}>
-          {sections.map((item) => <button key={item} className={section === item ? 'active' : ''} onClick={() => onOpenCourseSection(course.id, item)}>{sectionLabels[item]}</button>)}
-        </nav>
+        <CourseHeader course={course} subjectName={subject.name} navLabel={label} sections={sections} section={section} titleId="course-page-title" onOpenCourses={onOpenCourses} onOpenSection={(next) => onOpenCourseSection(course.id, next)} />
 
         {evidenceError && <Status tone="warning">{evidenceError}</Status>}
 
@@ -356,7 +345,7 @@ export function CourseExperienceScreen({
 
         {section === 'learn' && <div className="paper-section-content"><LearnReadingWorkspace adapter={adapter} pageId={learnPageId} onOpenPage={onOpenLearnPage} onOpenPractice={onOpenPracticeTopic} onOpenRev={onOpenRev} /></div>}
 
-        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
+        {section === 'practice' && <div className="paper-section-content"><FocusedLearningWorkspace key={`course-practice-${practiceTopicId ?? 'default'}`} adapter={practiceAdapter} section="practice" preferredTopicId={practiceTopicId} recommendation={recommendation?.activity === 'exam-question' ? null : recommendation} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />{sections.includes('exam-prep') && <div className="cross-section-next"><div><strong>Ready for exam-specific work?</strong><span>Paper formats, written exam questions and full simulations are inside Exam Prep.</span></div><Button onClick={() => onOpenCourseSection(course.id, 'exam-prep')}>Go to Exam Prep</Button></div>}</div>}
 
         {section === 'exam-prep' && <div className="paper-section-content">
           <FocusedLearningWorkspace adapter={adapter} section="exam-prep" recommendation={null} saving={savingEvidence} saveError={saveError} onRecordEvidence={saveLearningEvidence} contextLabel={label} includeExamQuestions={false} />
