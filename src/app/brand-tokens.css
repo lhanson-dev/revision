@@ -166,6 +166,40 @@
   --green: var(--brand-primary-teal);
   --cream: var(--color-bg);
   --white: var(--color-surface);
+
+  /* Redesign v2 roles (handoff design_handoff_revision_v2). Namespaced --rv-* so they sit beside,
+     not over, the governed roles above. Components built for v2 consume these. */
+  --rv-bg: #f3f7f5;
+  --rv-surface: #ffffff;
+  --rv-soft: #e2f3ef;
+  --rv-line: #dde8e4;
+  --rv-text: #132026;
+  --rv-text-2: #4f6268;
+  --rv-accent: #0f7a6d;
+  --rv-deep: #0f2f36;
+  --rv-coral-soft: #ffe7df;
+  --rv-coral-text: #b13d1f;
+  --rv-sun-soft: #fff1c9;
+  --rv-sun-text: #7a5600;
+  --rv-violet-soft: #ebe8ff;
+  --rv-violet-text: #4b3dc4;
+  /* Fixed in both themes. */
+  --rv-teal: #2bb6a3;
+  --rv-teal-text: #0f2f36;
+  --rv-coral: #ff7a59;
+  --rv-yellow: #ffc53d;
+  --rv-violet: #7b6cf6;
+  /* Text on the deep panels (REV cards, dark heroes). */
+  --rv-on-deep: #e8f3f0;
+  --rv-on-deep-muted: #b7cfcc;
+  --rv-on-deep-label: #7fe3d3;
+  --rv-font-display: "Bricolage Grotesque", Manrope, ui-sans-serif, system-ui, sans-serif;
+  --rv-radius-card: 24px;
+  --rv-radius-hero: 28px;
+  --rv-radius-row: 16px;
+  --rv-radius-chip: 12px;
+  --rv-radius-bar: 9px;
+  --rv-ring: 0 0 0 5px var(--rv-soft);
 }
 
 .planner-runtime[data-theme="dark"],
@@ -190,6 +224,21 @@
   --rev-halo-mid: rgba(43, 182, 163, .14);
   --rev-halo-outer: rgba(43, 182, 163, .18);
   --rev-shadow: 0 22px 58px rgba(0, 0, 0, .24);
+
+  --rv-bg: #0b1518;
+  --rv-surface: #121f24;
+  --rv-soft: #163430;
+  --rv-line: #233639;
+  --rv-text: #e8f3f0;
+  --rv-text-2: #9db1b2;
+  --rv-accent: #52d6c2;
+  --rv-deep: #0a2b2d;
+  --rv-coral-soft: #3b231d;
+  --rv-coral-text: #ffab94;
+  --rv-sun-soft: #372d14;
+  --rv-sun-text: #ffd97a;
+  --rv-violet-soft: #25214a;
+  --rv-violet-text: #b8afff;
 }
 
 @media (max-width: 620px) {
