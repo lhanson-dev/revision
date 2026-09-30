@@ -93,8 +93,8 @@ const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> 
     'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
     '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
   ],
-  'tablet:courses:light': '36c1a1a389da55f15a03886d59a47ca1527c3abd4c8d3b387d03808befe91914',
-  'tablet:courses:dark': '500a0bf2e105caf553939ccff049173ed26279dbd69e9da46aa582ccb7835dd9',
+  'tablet:courses:light': '632ea60dcc699172b80dd30edc199bbe1853874cbc843f47133e11b57a81b987',
+  'tablet:courses:dark': 'ce9f7cc5ab240929eb9269e6ac30b3c969e6e7e4bd7f82cd0f88766a8702b441',
   'phone:practice:light': [
     'c57c96e813cb00aa8912a48e32ccd7b4c29438854e1604d598911839462e4d3d',
     '1d1cbbd74d780adb49b9c988c04b867674c1d760f76c0c7f2f5147d2d82ffc22',
