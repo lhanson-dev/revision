@@ -48,43 +48,40 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
 /**
  * Reading-first Learn baselines captured from exact-head browser assurance.
  * The captures were re-inspected on 29 September 2026 after the approved 48px
- * learner-control refinement. Desktop light has two explicitly reviewed digests
- * because Chromium produced two visually equivalent rasterisations across the
- * initial run and retry; no unreviewed digest is accepted.
+ * learner-control refinement, then re-inspected on 30 September 2026 after the
+ * design quick-fix pass (3:1 form-control borders and the course-tab scroll hint);
+ * the run and retry produced one identical digest per theme. No unreviewed
+ * digest is accepted.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': [
-    '6cd1e3477e30073e625d46196d1a7388c87122bb47a1828e15a4f03a0093c81b',
-    '360bec4edb122185016a88f003e14c87cd56829e64c78717bcf49536d56bcb0f',
-  ],
-  'desktop:dark': 'f050b2330d09a75edb73459037f55e0a39d837b7027afa9819d7da05c83adc8c',
+  'desktop:light': '6e5031a1e4cb3b3acb8fe536b226a153b827d1b0326a4361960126616dc7d5cf',
+  'desktop:dark': '0c07e0ef656e14052b5e74e2dbc1ae630f502e80d9b95b1c99aef26c3742b1ad',
 }
 
 /**
  * Learner surfaces whose geometry changes are pinned to manually inspected CI
  * captures. These baselines were re-inspected on 29 September 2026 after the
- * approved 48px learner-button and touch-target refinement. The Plan dark pair
- * represents two visually equivalent Chromium rasterisations from the run and
- * retry; accepting only those reviewed digests preserves fail-closed assurance.
+ * approved 48px learner-button and touch-target refinement, then re-inspected
+ * on 30 September 2026 after the design quick-fix pass (3:1 form-control
+ * borders, course-tab scroll hint, Courses layout, single-activity tab bar
+ * removal and timed-exam answer spacing). Each case's run and retry produced
+ * one identical digest, so only that reviewed digest is accepted.
  * Timed exam now uses the same exact-digest contract because its shared learner
  * actions intentionally inherit the new button geometry. Admin remains on its
  * existing snapshot baseline because its compact operational controls are not
  * part of the learner-size change.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
-  'desktop:plan:dark': [
-    'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
-    '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
-  ],
-  'tablet:courses:light': 'f2ce37718e71771d393235de64ba2a0939075887c8fc00b7ee4adb03e66ddb98',
-  'tablet:courses:dark': 'e92340a2c5fa2667df3a17cb807f33e69ec487e7c11c503dcd0ac29aab1b33a6',
-  'phone:practice:light': '82213988777830ed656ccf17da3ba155693ba5be52e13f978b01c35b957b1e1f',
-  'phone:practice:dark': '8067405ab5ed41a9b8520390014ee48250c2988fedf747d9d72afcf5b761dbb5',
-  'tablet:exam-prep:light': '8dd9a6ba69aca494519b202fe117ef3605bdf054563c4c42c1ee9cfe356d515a',
-  'tablet:exam-prep:dark': '3cfb5b054ef7fb068ec9c3fac833dc52fd99d5d79ea10a60d870c2ef52499c30',
-  'tablet:timed-exam:light': '982a43f89e3be08506ce3998df890ddd88e39660ef08f5ba3b5c45ac4220c423',
-  'tablet:timed-exam:dark': '1695b49088fa93544a50c07578062852cc77eddb8a475834b5dea07fd8c1edb4',
+  'desktop:plan:light': 'bcb18ea96eba3442103fe1e8fb6772758f8b831a05d39fa942b5cfe6f5f1fbb9',
+  'desktop:plan:dark': 'a1c563320b0ed1b7182ef1b9c30bd6044dfd1a59afb7333c03a9d3f3e377159c',
+  'tablet:courses:light': '2157df9d3c07352084887a740d9de3ccc938fb240a9b8e96becd428a06c0a862',
+  'tablet:courses:dark': '3894afe591914fd60ea46b70f986289a63b2352a17e7dc29daf2378b5093bf11',
+  'phone:practice:light': 'dc81bbc683b86eb640d62e7a6fb7c63b7fa697687600bfb3ae393fea613c545d',
+  'phone:practice:dark': '38fa7cdbead02feeebd428c01b1d09b7add9cfbd8f96d7d4b72906c7cd238304',
+  'tablet:exam-prep:light': '633e01a7195e128a8a6f969f2f4cd3f6269f2d877cd528e5351a58701015f639',
+  'tablet:exam-prep:dark': '712022793ef2876bd4577bc56ae4c61c2f22ed3731c0de2b9b243d3c775484d7',
+  'tablet:timed-exam:light': '38a7bdef51e97114f3b64382abbec0dc99ec6bd3dd61f8475988bd5772ae49f7',
+  'tablet:timed-exam:dark': '393942f4b5a8b18255f28a70d9401eef62805f2315bf6db3fe41a18147963884',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {
