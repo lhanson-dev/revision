@@ -42,12 +42,23 @@ describe('item-level coverage classification', () => {
     expect(byId.f2.status).toBe('mentioned_not_taught')
   })
 
+  it('reads formulas stored as plain "name = formula" lines', () => {
+    const plain = new Map([['FIN-A', node('FIN-A', { quantitative_content: { methods: ['expected value = sum(probability x outcome)'] } })]])
+    const [result] = checkCoverage({ items: [{ id: 'ev', section: '3.5.2', label: 'Expected value', kind: 'formula', match: ['expected value'] }], requirements, nodes: plain })
+    expect(result.status).toBe('covered')
+  })
+
   it('covers a concept named in a mapped node', () => {
     expect(byId.c1.status).toBe('covered')
   })
 
   it('reports an item found only in an unmapped node', () => {
     expect(byId.c2).toMatchObject({ status: 'found_in_unmapped_node', found_in: ['FIN-B'] })
+  })
+
+  it('requires every formula item to carry its AQA convention', () => {
+    const errors = validateItems({ items: [{ id: 'f', section: '3.5.2', label: 'F', kind: 'formula', match: ['f'] }] }, requirements, nodes)
+    expect(errors).toContain('f is a formula without an AQA convention')
   })
 
   it('rejects items for unknown sections and sections without items', () => {

@@ -4,14 +4,19 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "c401a242acde4101e6ee34909d755f624773e9ec3a88aa4756bb6659e6435760",
+  "foundation_fingerprint": "e15c455eb9bc768114419a1583d5552d14b88cb4cd9cf9aa95cb2e0e36ca4246",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
-    "covered": 261,
-    "found_in_unmapped_node": 26,
-    "mentioned_not_taught": 10,
-    "missing": 47
+    "conventions_to_confirm": [
+      "aqa-7132-3.5.1:profit-for-the-year",
+      "aqa-7132-3.7.2:gearing",
+      "aqa-7132-3.7.8:average-rate-of-return"
+    ],
+    "covered": 287,
+    "found_in_unmapped_node": 20,
+    "mentioned_not_taught": 0,
+    "missing": 37
   },
   "gaps": [
     {
@@ -30,17 +35,6 @@
         "BUS-STR-009",
         "BUS-EXT-002",
         "BUS-EXT-005"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.1.1:profit",
-      "section": "3.1.1",
-      "label": "Profit",
-      "kind": "formula",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-FIN-010"
       ]
     },
     {
@@ -119,25 +113,6 @@
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
     {
-      "id": "aqa-7132-3.2.2:expected-value",
-      "section": "3.2.2",
-      "label": "Expected value",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-EVI-004"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.2.2:net-gain",
-      "section": "3.2.2",
-      "label": "Net gain",
-      "kind": "formula",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
       "id": "aqa-7132-3.2.2:reward",
       "section": "3.2.2",
       "label": "Reward",
@@ -177,17 +152,6 @@
         "BUS-EXT-002",
         "BUS-EXT-005",
         "BUS-EVI-008"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.3.1:market-size",
-      "section": "3.3.1",
-      "label": "Market size",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-MKT-002"
       ]
     },
     {
@@ -249,17 +213,6 @@
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
     {
-      "id": "aqa-7132-3.4.2:using-operations-data-in-decisions",
-      "section": "3.4.2",
-      "label": "Using operations data in decisions",
-      "kind": "skill",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-OPS-001"
-      ]
-    },
-    {
       "id": "aqa-7132-3.4.3:just-in-case",
       "section": "3.4.3",
       "label": "Just in case",
@@ -300,139 +253,6 @@
       "section": "3.4.5",
       "label": "Producing to order",
       "kind": "concept",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.4.5:inventory-control-chart",
-      "section": "3.4.5",
-      "label": "Inventory control chart",
-      "kind": "model",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.4.5:re-order-quantity",
-      "section": "3.4.5",
-      "label": "Re-order quantity",
-      "kind": "formula",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.4.5:influences-on-inventory-levels",
-      "section": "3.4.5",
-      "label": "Influences on inventory levels",
-      "kind": "skill",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.5.1:return-on-investment",
-      "section": "3.5.1",
-      "label": "Return on investment",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-FIN-001"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.5.1:gross-profit",
-      "section": "3.5.1",
-      "label": "Gross profit",
-      "kind": "formula",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-FIN-010"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.5.1:operating-profit",
-      "section": "3.5.1",
-      "label": "Operating profit",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-FIN-003",
-        "BUS-FIN-012"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.5.1:profit-for-the-year",
-      "section": "3.5.1",
-      "label": "Profit for the year",
-      "kind": "formula",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.5.2:break-even-chart",
-      "section": "3.5.2",
-      "label": "Break-even chart",
-      "kind": "model",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.5.2:profit-for-the-year-margin",
-      "section": "3.5.2",
-      "label": "Profit for the year margin",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-FIN-003"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
-      "section": "3.5.2",
-      "label": "Using financial data for decisions and planning",
-      "kind": "skill",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-FIN-001",
-        "BUS-EXT-006"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.5.3:venture-capital",
-      "section": "3.5.3",
-      "label": "Venture capital",
-      "kind": "concept",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.6.1:diversity",
-      "section": "3.6.1",
-      "label": "Diversity",
-      "kind": "concept",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-PEO-002",
-        "BUS-PEO-003"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover",
-      "section": "3.6.2",
-      "label": "Employee costs as a percentage of turnover",
-      "kind": "formula",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.6.2:labour-cost-per-unit",
-      "section": "3.6.2",
-      "label": "Labour cost per unit",
-      "kind": "formula",
       "status": "missing",
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
@@ -545,51 +365,6 @@
       ]
     },
     {
-      "id": "aqa-7132-3.7.2:statement-of-financial-position",
-      "section": "3.7.2",
-      "label": "Statement of financial position",
-      "kind": "model",
-      "status": "mentioned_not_taught",
-      "fix": "add the named model/definition",
-      "mentioned_in": [
-        "BUS-FIN-010",
-        "BUS-FIN-011",
-        "BUS-FIN-012",
-        "BUS-FIN-013",
-        "BUS-FIN-014"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.7.2:payables-days",
-      "section": "3.7.2",
-      "label": "Payables days",
-      "kind": "formula",
-      "status": "missing",
-      "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.7.2:receivables-days",
-      "section": "3.7.2",
-      "label": "Receivables days",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-FIN-006"
-      ]
-    },
-    {
-      "id": "aqa-7132-3.7.2:inventory-turnover",
-      "section": "3.7.2",
-      "label": "Inventory turnover",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-FIN-013"
-      ]
-    },
-    {
       "id": "aqa-7132-3.7.3:core-competences",
       "section": "3.7.3",
       "label": "Core competences",
@@ -691,6 +466,7 @@
         "BUS-MKT-008",
         "BUS-MKT-009",
         "BUS-OPS-004",
+        "BUS-OPS-006",
         "BUS-OPS-007",
         "BUS-OPS-009",
         "BUS-FIN-001",
@@ -711,6 +487,7 @@
         "BUS-EXT-004",
         "BUS-EXT-007",
         "BUS-EVI-002",
+        "BUS-EVI-004",
         "BUS-EVI-006",
         "BUS-MOD-001",
         "BUS-MOD-002",
@@ -737,17 +514,6 @@
       "kind": "concept",
       "status": "missing",
       "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.9.1:franchising",
-      "section": "3.9.1",
-      "label": "Franchising",
-      "kind": "concept",
-      "status": "found_in_unmapped_node",
-      "fix": "check whether one of these nodes really teaches it; if so add that node to the section mapping, otherwise teach it in a mapped node",
-      "found_in": [
-        "BUS-EXT-003"
-      ]
     },
     {
       "id": "aqa-7132-3.9.2:product-innovation",
@@ -840,34 +606,12 @@
       "fix": "teach the item in a mapped node (or extend the Foundation)"
     },
     {
-      "id": "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
-      "section": "3.10.1",
-      "label": "Kotter and Schlesinger: methods of overcoming resistance",
-      "kind": "model",
-      "status": "mentioned_not_taught",
-      "fix": "add the named model/definition",
-      "mentioned_in": [
-        "BUS-STR-009"
-      ]
-    },
-    {
       "id": "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture",
       "section": "3.10.2",
       "label": "Reasons for and problems of changing culture",
       "kind": "skill",
       "status": "missing",
       "fix": "teach the item in a mapped node (or extend the Foundation)"
-    },
-    {
-      "id": "aqa-7132-3.10.3:total-float",
-      "section": "3.10.3",
-      "label": "Total float",
-      "kind": "formula",
-      "status": "mentioned_not_taught",
-      "fix": "add a quantitative method with the formula",
-      "mentioned_in": [
-        "BUS-EVI-008"
-      ]
     }
   ],
   "covered": [
@@ -955,7 +699,9 @@
           "node": "BUS-FIN-003",
           "matched": "revenue"
         }
-      ]
+      ],
+      "aqa_convention": "selling price × quantity sold",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.1.1:fixed-costs",
@@ -1002,7 +748,24 @@
           "node": "BUS-FIN-002",
           "matched": "total cost"
         }
-      ]
+      ],
+      "aqa_convention": "fixed costs + total variable costs",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.1.1:profit",
+      "section": "3.1.1",
+      "label": "Profit",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-003",
+          "matched": "profit"
+        }
+      ],
+      "aqa_convention": "total revenue - total costs",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.1.2:sole-trader",
@@ -1054,7 +817,9 @@
           "node": "BUS-FIN-008",
           "matched": "market capitalisation"
         }
-      ]
+      ],
+      "aqa_convention": "shares in issue × current share price",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.1.2:dividends",
@@ -1327,6 +1092,36 @@
       ]
     },
     {
+      "id": "aqa-7132-3.2.2:expected-value",
+      "section": "3.2.2",
+      "label": "Expected value",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-EVI-004",
+          "matched": "expected value"
+        }
+      ],
+      "aqa_convention": "sum of (probability × financial outcome) for each outcome of an option",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.2.2:net-gain",
+      "section": "3.2.2",
+      "label": "Net gain",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-EVI-004",
+          "matched": "net gain"
+        }
+      ],
+      "aqa_convention": "expected value of an option - cost of that option",
+      "convention_status": "confirmed"
+    },
+    {
       "id": "aqa-7132-3.2.2:risk",
       "section": "3.2.2",
       "label": "Risk",
@@ -1479,6 +1274,21 @@
       ]
     },
     {
+      "id": "aqa-7132-3.3.1:market-size",
+      "section": "3.3.1",
+      "label": "Market size",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-MKT-002",
+          "matched": "market size"
+        }
+      ],
+      "aqa_convention": "total sales of all firms in the market, by value or volume",
+      "convention_status": "confirmed"
+    },
+    {
       "id": "aqa-7132-3.3.1:market-growth",
       "section": "3.3.1",
       "label": "Market growth",
@@ -1489,7 +1299,9 @@
           "node": "BUS-MKT-002",
           "matched": "market growth"
         }
-      ]
+      ],
+      "aqa_convention": "(market size this period - market size last period) / market size last period × 100",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.3.1:market-share",
@@ -1502,7 +1314,9 @@
           "node": "BUS-MKT-002",
           "matched": "market share"
         }
-      ]
+      ],
+      "aqa_convention": "firm sales / total market sales × 100 (by value or volume, used consistently)",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.3.1:brand-loyalty",
@@ -2018,7 +1832,9 @@
           "node": "BUS-PEO-001",
           "matched": "labour productivity"
         }
-      ]
+      ],
+      "aqa_convention": "output per period / number of employees",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.4.2:unit-cost-average-cost",
@@ -2031,7 +1847,9 @@
           "node": "BUS-FIN-002",
           "matched": "average cost"
         }
-      ]
+      ],
+      "aqa_convention": "total costs / units of output",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.4.2:capacity",
@@ -2055,6 +1873,10 @@
         {
           "node": "BUS-FIN-002",
           "matched": "capacity"
+        },
+        {
+          "node": "BUS-OPS-001",
+          "matched": "capacity"
         }
       ]
     },
@@ -2068,6 +1890,21 @@
         {
           "node": "BUS-OPS-003",
           "matched": "capacity utilisation"
+        }
+      ],
+      "aqa_convention": "actual output / maximum possible output × 100",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.4.2:using-operations-data-in-decisions",
+      "section": "3.4.2",
+      "label": "Using operations data in decisions",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-OPS-001",
+          "matched": "operational performance"
         }
       ]
     },
@@ -2254,6 +2091,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.4.5:inventory-control-chart",
+      "section": "3.4.5",
+      "label": "Inventory control chart",
+      "kind": "model",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-OPS-006",
+          "matched": "inventory control chart"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.4.5:lead-time",
       "section": "3.4.5",
       "label": "Lead time",
@@ -2301,6 +2151,21 @@
       ]
     },
     {
+      "id": "aqa-7132-3.4.5:re-order-quantity",
+      "section": "3.4.5",
+      "label": "Re-order quantity",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-OPS-006",
+          "matched": "re order quantity"
+        }
+      ],
+      "aqa_convention": "maximum inventory level - buffer inventory (read from an inventory control chart)",
+      "convention_status": "confirmed"
+    },
+    {
       "id": "aqa-7132-3.4.5:choice-of-suppliers",
       "section": "3.4.5",
       "label": "Choice of suppliers",
@@ -2339,6 +2204,34 @@
       ]
     },
     {
+      "id": "aqa-7132-3.4.5:influences-on-inventory-levels",
+      "section": "3.4.5",
+      "label": "Influences on inventory levels",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-OPS-006",
+          "matched": "inventory level"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.5.1:return-on-investment",
+      "section": "3.5.1",
+      "label": "Return on investment",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-001",
+          "matched": "return on investment"
+        }
+      ],
+      "aqa_convention": "return from the investment / cost of the investment × 100",
+      "convention_status": "confirmed"
+    },
+    {
       "id": "aqa-7132-3.5.1:revenue-cost-and-profit-objectives",
       "section": "3.5.1",
       "label": "Revenue, cost and profit objectives",
@@ -2365,6 +2258,10 @@
         {
           "node": "BUS-FIN-005",
           "matched": "cash flow"
+        },
+        {
+          "node": "BUS-FIN-010",
+          "matched": "cash flow"
         }
       ]
     },
@@ -2382,8 +2279,61 @@
         {
           "node": "BUS-FIN-005",
           "matched": "profit and cash"
+        },
+        {
+          "node": "BUS-FIN-010",
+          "matched": "profit and cash"
         }
       ]
+    },
+    {
+      "id": "aqa-7132-3.5.1:gross-profit",
+      "section": "3.5.1",
+      "label": "Gross profit",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-010",
+          "matched": "gross profit"
+        }
+      ],
+      "aqa_convention": "revenue - cost of sales",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.5.1:operating-profit",
+      "section": "3.5.1",
+      "label": "Operating profit",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-010",
+          "matched": "operating profit"
+        }
+      ],
+      "aqa_convention": "gross profit - other operating expenses",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.5.1:profit-for-the-year",
+      "section": "3.5.1",
+      "label": "Profit for the year",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-012",
+          "matched": "profit for the year"
+        },
+        {
+          "node": "BUS-FIN-010",
+          "matched": "profit for the year"
+        }
+      ],
+      "aqa_convention": "operating profit - net finance costs - taxation",
+      "convention_status": "to_confirm_against_aqa_mark_scheme"
     },
     {
       "id": "aqa-7132-3.5.2:budgets-income-expenditure-profit",
@@ -2422,7 +2372,9 @@
           "node": "BUS-FIN-007",
           "matched": "variance"
         }
-      ]
+      ],
+      "aqa_convention": "actual figure - budgeted figure, labelled favourable or adverse by its effect on profit",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:adverse-and-favourable-variances",
@@ -2438,6 +2390,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.5.2:break-even-chart",
+      "section": "3.5.2",
+      "label": "Break-even chart",
+      "kind": "model",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-004",
+          "matched": "break even chart"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.5.2:break-even-output",
       "section": "3.5.2",
       "label": "Break-even output",
@@ -2448,7 +2413,9 @@
           "node": "BUS-FIN-004",
           "matched": "break even"
         }
-      ]
+      ],
+      "aqa_convention": "fixed costs / contribution per unit",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:margin-of-safety",
@@ -2461,7 +2428,9 @@
           "node": "BUS-FIN-004",
           "matched": "margin of safety"
         }
-      ]
+      ],
+      "aqa_convention": "actual (or forecast) output - break-even output",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:contribution-per-unit",
@@ -2474,7 +2443,9 @@
           "node": "BUS-FIN-003",
           "matched": "contribution per unit"
         }
-      ]
+      ],
+      "aqa_convention": "selling price per unit - variable cost per unit",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:total-contribution",
@@ -2487,7 +2458,9 @@
           "node": "BUS-FIN-003",
           "matched": "total contribution"
         }
-      ]
+      ],
+      "aqa_convention": "contribution per unit × units sold (equivalently revenue - total variable costs)",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even",
@@ -2517,7 +2490,9 @@
           "node": "BUS-FIN-012",
           "matched": "gross margin"
         }
-      ]
+      ],
+      "aqa_convention": "gross profit / revenue × 100",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:operating-profit-margin",
@@ -2530,7 +2505,24 @@
           "node": "BUS-FIN-012",
           "matched": "operating margin"
         }
-      ]
+      ],
+      "aqa_convention": "operating profit / revenue × 100",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.5.2:profit-for-the-year-margin",
+      "section": "3.5.2",
+      "label": "Profit for the year margin",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-012",
+          "matched": "profit for the year margin"
+        }
+      ],
+      "aqa_convention": "profit for the year / revenue × 100",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.5.2:timing-of-payables-and-receivables",
@@ -2546,6 +2538,19 @@
         {
           "node": "BUS-FIN-006",
           "matched": "payables"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+      "section": "3.5.2",
+      "label": "Using financial data for decisions and planning",
+      "kind": "skill",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-001",
+          "matched": "financial data"
         }
       ]
     },
@@ -2611,6 +2616,19 @@
         {
           "node": "BUS-FIN-008",
           "matched": "loan"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.5.3:venture-capital",
+      "section": "3.5.3",
+      "label": "Venture capital",
+      "kind": "concept",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-008",
+          "matched": "venture capital"
         }
       ]
     },
@@ -2748,6 +2766,10 @@
         {
           "node": "BUS-PEO-004",
           "matched": "talent"
+        },
+        {
+          "node": "BUS-PEO-002",
+          "matched": "talent"
         }
       ]
     },
@@ -2765,6 +2787,19 @@
         {
           "node": "BUS-PEO-004",
           "matched": "training"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:diversity",
+      "section": "3.6.1",
+      "label": "Diversity",
+      "kind": "concept",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-002",
+          "matched": "diversity"
         }
       ]
     },
@@ -2794,6 +2829,10 @@
         },
         {
           "node": "BUS-PEO-004",
+          "matched": "skills"
+        },
+        {
+          "node": "BUS-PEO-002",
           "matched": "skills"
         }
       ]
@@ -2834,6 +2873,10 @@
         {
           "node": "BUS-PEO-001",
           "matched": "workforce objective"
+        },
+        {
+          "node": "BUS-PEO-002",
+          "matched": "labour market"
         }
       ]
     },
@@ -2848,7 +2891,9 @@
           "node": "BUS-PEO-001",
           "matched": "labour turnover"
         }
-      ]
+      ],
+      "aqa_convention": "number of staff leaving in the period / average number of staff employed × 100",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.6.2:labour-productivity-hr",
@@ -2865,7 +2910,39 @@
           "node": "BUS-OPS-004",
           "matched": "labour productivity"
         }
-      ]
+      ],
+      "aqa_convention": "output per period / number of employees",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover",
+      "section": "3.6.2",
+      "label": "Employee costs as a percentage of turnover",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-001",
+          "matched": "employee costs as a percentage"
+        }
+      ],
+      "aqa_convention": "employee costs / turnover (revenue) × 100",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.6.2:labour-cost-per-unit",
+      "section": "3.6.2",
+      "label": "Labour cost per unit",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-PEO-001",
+          "matched": "labour cost per unit"
+        }
+      ],
+      "aqa_convention": "total labour costs / units of output",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
@@ -3296,6 +3373,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.7.2:statement-of-financial-position",
+      "section": "3.7.2",
+      "label": "Statement of financial position",
+      "kind": "model",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-011",
+          "matched": "statement of financial position"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.7.2:income-statement",
       "section": "3.7.2",
       "label": "Income statement",
@@ -3319,7 +3409,9 @@
           "node": "BUS-FIN-012",
           "matched": "roce"
         }
-      ]
+      ],
+      "aqa_convention": "operating profit / capital employed × 100, where capital employed = total equity + non-current liabilities (equivalently total assets - current liabilities)",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.2:current-ratio",
@@ -3332,7 +3424,9 @@
           "node": "BUS-FIN-013",
           "matched": "current ratio"
         }
-      ]
+      ],
+      "aqa_convention": "current assets / current liabilities",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.2:gearing",
@@ -3345,7 +3439,54 @@
           "node": "BUS-FIN-014",
           "matched": "gearing"
         }
-      ]
+      ],
+      "aqa_convention": "non-current liabilities / (total equity + non-current liabilities) × 100",
+      "convention_status": "to_confirm_against_aqa_mark_scheme"
+    },
+    {
+      "id": "aqa-7132-3.7.2:payables-days",
+      "section": "3.7.2",
+      "label": "Payables days",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-013",
+          "matched": "payables days"
+        }
+      ],
+      "aqa_convention": "payables / cost of sales × 365",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.7.2:receivables-days",
+      "section": "3.7.2",
+      "label": "Receivables days",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-013",
+          "matched": "receivables days"
+        }
+      ],
+      "aqa_convention": "receivables / revenue × 365",
+      "convention_status": "confirmed"
+    },
+    {
+      "id": "aqa-7132-3.7.2:inventory-turnover",
+      "section": "3.7.2",
+      "label": "Inventory turnover",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-FIN-013",
+          "matched": "inventory turnover"
+        }
+      ],
+      "aqa_convention": "cost of sales / average inventories held",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors",
@@ -3767,7 +3908,9 @@
           "node": "BUS-FIN-009",
           "matched": "payback"
         }
-      ]
+      ],
+      "aqa_convention": "time taken for cumulative net cash inflows to repay the initial investment; months within a year = amount outstanding / net cash flow in that year × 12",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.8:average-rate-of-return",
@@ -3780,7 +3923,9 @@
           "node": "BUS-FIN-009",
           "matched": "arr"
         }
-      ]
+      ],
+      "aqa_convention": "average annual profit / initial investment × 100, where average annual profit = (total net cash inflows - initial investment) / years",
+      "convention_status": "to_confirm_against_aqa_mark_scheme"
     },
     {
       "id": "aqa-7132-3.7.8:net-present-value",
@@ -3793,7 +3938,9 @@
           "node": "BUS-FIN-009",
           "matched": "npv"
         }
-      ]
+      ],
+      "aqa_convention": "sum of (net cash flow in each year × discount factor supplied) - initial investment",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.7.8:non-financial-factors-in-investment",
@@ -4123,6 +4270,23 @@
         {
           "node": "BUS-STR-007",
           "matched": "joint venture"
+        },
+        {
+          "node": "BUS-EXT-003",
+          "matched": "joint venture"
+        }
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:franchising",
+      "section": "3.9.1",
+      "label": "Franchising",
+      "kind": "concept",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-EXT-003",
+          "matched": "franchis"
         }
       ]
     },
@@ -4545,6 +4709,19 @@
       ]
     },
     {
+      "id": "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
+      "section": "3.10.1",
+      "label": "Kotter and Schlesinger: methods of overcoming resistance",
+      "kind": "model",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-STR-009",
+          "matched": "education and communication"
+        }
+      ]
+    },
+    {
       "id": "aqa-7132-3.10.2:handy-s-culture-types",
       "section": "3.10.2",
       "label": "Handy's culture types",
@@ -4657,6 +4834,10 @@
         {
           "node": "BUS-EVI-008",
           "matched": "network analysis"
+        },
+        {
+          "node": "BUS-STR-009",
+          "matched": "network analysis"
         }
       ]
     },
@@ -4685,6 +4866,21 @@
           "matched": "critical path"
         }
       ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:total-float",
+      "section": "3.10.3",
+      "label": "Total float",
+      "kind": "formula",
+      "status": "covered",
+      "taught_by": [
+        {
+          "node": "BUS-EVI-008",
+          "matched": "total float"
+        }
+      ],
+      "aqa_convention": "latest finish time - duration - earliest start time",
+      "convention_status": "confirmed"
     },
     {
       "id": "aqa-7132-3.10.4:planned-versus-emergent-strategy",
