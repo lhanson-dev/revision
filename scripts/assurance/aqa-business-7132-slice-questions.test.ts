@@ -52,8 +52,31 @@ const OUTPUT = `.artifacts/content-factory-aqa-business-7132-slice-${BATCH}-ques
 const QUESTIONS_DIR = `content-factory/slices/aqa-7132-${BATCH}/questions`
 const RUN_DIR = `content-factory/runs/aqa-7132-slice-${BATCH}-questions`
 const RETAINED_BLIND_ANSWERS_DIR = `${RUN_DIR}/blind-answers`
+const RESUME_CHECKPOINT = `${RUN_DIR}/resume-checkpoint.json`
 // Committed between runs so unchanged questions are reused and review rounds are counted.
 const LEDGER = `${RUN_DIR}/ledger.json`
+
+type ResumeCheckpoint = {
+  schema_version: 1
+  source_run_id: number
+  reviewed_commit: string
+  batch: string
+  summary: unknown
+  ledger: Ledger
+  accepted_units: Record<string, { question_record: { question: unknown }; blind_answer: unknown }>
+}
+
+let resumeCheckpointPromise: Promise<ResumeCheckpoint | null> | null = null
+async function readResumeCheckpoint(): Promise<ResumeCheckpoint | null> {
+  if (!resumeCheckpointPromise) {
+    resumeCheckpointPromise = readFile(RESUME_CHECKPOINT, 'utf8').then((text) => {
+      const parsed = JSON.parse(text) as ResumeCheckpoint
+      if (parsed.schema_version !== 1 || parsed.batch !== BATCH || parsed.ledger.stage !== QUESTIONS_CHECKLIST.stage || parsed.ledger.checklist_version !== QUESTIONS_CHECKLIST.version) return null
+      return parsed
+    }).catch(() => null)
+  }
+  return resumeCheckpointPromise
+}
 
 // Section 3.5 keeps its hand-written plan; every other batch uses its committed plan, which must be built from the current blueprint.
 async function planFor(batch: string): Promise<readonly QuestionSpec[]> {
@@ -97,6 +120,8 @@ async function readLedger(): Promise<Ledger> {
   try {
     return JSON.parse(await readFile(LEDGER, 'utf8')) as Ledger
   } catch {
+    const checkpoint = await readResumeCheckpoint()
+    if (checkpoint) return checkpoint.ledger
     return { schema_version: 1, stage: QUESTIONS_CHECKLIST.stage, checklist_version: QUESTIONS_CHECKLIST.version, units: {} }
   }
 }
@@ -117,14 +142,22 @@ function retainedQuestionUnit(input: {
 async function readRetainedQuestionUnit(input: { spec: ResolvedSpec; teaching: QuestionTeaching[]; ledger: Ledger }): Promise<{ question: Question; blind: BlindAnswer; unit: QuestionUnit } | null> {
   const previous = input.ledger.units[input.spec.id]
   if (!previous || !['passed', 'logged'].includes(previous.outcome)) return null
-  try {
-    const record = JSON.parse(await readFile(`${QUESTIONS_DIR}/${input.spec.id}.json`, 'utf8')) as { question: unknown }
-    const question = questionSchema.parse(record.question)
-    const blind = blindAnswerSchema.parse(JSON.parse(await readFile(`${RETAINED_BLIND_ANSWERS_DIR}/${input.spec.id}.json`, 'utf8')))
+  const accept = (questionValue: unknown, blindValue: unknown) => {
+    const question = questionSchema.parse(questionValue)
+    const blind = blindAnswerSchema.parse(blindValue)
     const unit = retainedQuestionUnit({ spec: input.spec, question, blind, teaching: input.teaching, previous })
     return unit ? { question, blind, unit } : null
+  }
+  try {
+    const record = JSON.parse(await readFile(`${QUESTIONS_DIR}/${input.spec.id}.json`, 'utf8')) as { question: unknown }
+    return accept(record.question, JSON.parse(await readFile(`${RETAINED_BLIND_ANSWERS_DIR}/${input.spec.id}.json`, 'utf8')))
   } catch {
-    return null
+    try {
+      const saved = (await readResumeCheckpoint())?.accepted_units[input.spec.id]
+      return saved ? accept(saved.question_record.question, saved.blind_answer) : null
+    } catch {
+      return null
+    }
   }
 }
 
@@ -376,11 +409,32 @@ describe('AQA 7132 slice questions (software checks)', () => {
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: `${execution.status}: ${'error' in execution ? execution.error : ''}` }
     }
 
-    // Round 1: exact-fingerprint accepted artifacts are reused without generation, blind answering or re-review.
+    // Round 1: exact-fingerprint accepted artifacts are reused without generation, blind answering or re-review. Anything already blocking after two review rounds is escalated without another provider call.
     let ledger = await readLedger()
-    const units1 = await buildUnits(plan, new Map(), ledger, true)
+    const preEscalated = plan.flatMap((spec) => {
+      const previous = ledger.units[spec.id]
+      return previous?.outcome === 'blocking' && previous.consecutive_blocking_rounds >= 2
+        ? [{ unit_id: spec.id, status: 'escalated' as const, findings: previous.findings }]
+        : []
+    })
+    if (preEscalated.length) {
+      const now = new Date().toISOString()
+      ledger = {
+        ...ledger,
+        units: {
+          ...ledger.units,
+          ...Object.fromEntries(preEscalated.map((outcome) => {
+            const previous = ledger.units[outcome.unit_id]!
+            return [outcome.unit_id, { ...previous, outcome: 'escalated' as const, updated_at: now }]
+          })),
+        },
+      }
+    }
+    const preEscalatedIds = new Set(preEscalated.map((outcome) => outcome.unit_id))
+    const units1 = await buildUnits(plan.filter((spec) => !preEscalatedIds.has(spec.id)), new Map(), ledger, true)
     let run = await runReviewUnits({ units: units1, ledger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
     ledger = run.ledger
+    if (preEscalated.length) run = { ...run, outcomes: [...run.outcomes, ...preEscalated].sort((a, b) => a.unit_id.localeCompare(b.unit_id)) }
 
     // Round 2 (the last): regenerate only questions that blocked, with the findings fed back.
     const blocked = run.outcomes.filter((o) => o.status === 'blocking')
@@ -389,7 +443,7 @@ describe('AQA 7132 slice questions (software checks)', () => {
       const units2 = await buildUnits(plan.filter((spec) => feedback.has(spec.id)), feedback, ledger, false)
       const second = await runReviewUnits({ units: units2, ledger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
       ledger = second.ledger
-      run = { ...second, outcomes: [...run.outcomes.filter((o) => !feedback.has(o.unit_id)), ...second.outcomes] }
+      run = { ...second, outcomes: [...run.outcomes.filter((o) => !feedback.has(o.unit_id)), ...second.outcomes].sort((a, b) => a.unit_id.localeCompare(b.unit_id)) }
     }
 
     const outcomes = run.outcomes
