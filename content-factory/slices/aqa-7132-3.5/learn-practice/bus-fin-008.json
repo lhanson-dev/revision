@@ -1,0 +1,276 @@
+{
+  "node_id": "bus-fin-008",
+  "learn": {
+    "title": "Sources of finance and financing choice",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Finance sources and the choice involved",
+        "body": "A business can use internal finance, such as retained profits or selling assets, or external finance, such as loans, overdrafts, share capital, venture capital, crowdfunding and receivables-based arrangements. The best choice depends on the amount needed, how long it is needed for, expected cash flows, cost, control, security, risk, flexibility and availability. Finance is a trade-off: debt preserves ownership but creates contractual cash commitments; equity reduces fixed repayment pressure but dilutes ownership.",
+        "item_ids": [
+          "aqa-7132-3.5.3:internal-versus-external-finance",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+          "aqa-7132-3.5.3:retained-profits",
+          "aqa-7132-3.5.3:loans",
+          "aqa-7132-3.5.3:share-capital"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing common sources",
+        "body": "Retained profits are internally generated funds. They avoid interest and dilution, but are not free: using them has an opportunity cost because the money could have been distributed or used elsewhere. A loan is debt, usually suited to a defined amount and repayment period, but interest and repayments increase financial risk. An overdraft is flexible short-term bank borrowing, useful for temporary cash shortages, but can be withdrawn or limited. Share capital and venture capital are equity: investors receive ownership, so control and future returns are shared. Venture capital may also bring management expertise, but investors expect a high return and eventual exit.",
+        "item_ids": [
+          "aqa-7132-3.5.3:retained-profits",
+          "aqa-7132-3.5.3:loans",
+          "aqa-7132-3.5.3:overdrafts",
+          "aqa-7132-3.5.3:share-capital",
+          "aqa-7132-3.5.3:venture-capital"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Finance, cash flow and investment decisions",
+        "body": "Financing choice links directly to cash flow and investment planning. Debt must be serviced from future cash flows through interest and repayments. Therefore, a business with uncertain early sales may prefer equity despite dilution. A long-lived asset, such as machinery expected to be used for 15 years, should not rely entirely on finance repayable immediately: this maturity mismatch creates refinancing and liquidity risk.",
+        "item_ids": [
+          "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+          "aqa-7132-3.5.3:loans",
+          "aqa-7132-3.5.3:share-capital"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Factoring and crowdfunding: what they do and do not do",
+        "body": "Debt factoring raises earlier cash from trade receivables through an arrangement with a finance provider. It can ease working-capital pressure, but fees, disputed invoices, recourse terms and customer contact matter. It does not create extra sales or profit. Crowdfunding raises funds from many contributors or investors through a platform. It may be reward/pre-sale, debt or equity crowdfunding. Therefore, its consequences depend on the structure: debt needs repayment, equity dilutes ownership, and reward/pre-sale creates delivery obligations. Crowdfunding is a route to finance, not one single type of finance.",
+        "item_ids": [
+          "aqa-7132-3.5.3:debt-factoring",
+          "aqa-7132-3.5.3:crowdfunding"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing finance for a seasonal retailer",
+        "body": "A retailer needs £30,000 for stock before its Christmas sales peak and expects to repay the funding after customers buy the stock. Step 1: identify the short duration and seasonal cash-flow gap. Step 2: consider an overdraft because it is flexible for temporary working-capital needs. Step 3: compare its cost and availability with trade credit or factoring. Step 4: reject using only short-term borrowing for a new factory that will generate returns over many years, because the repayment timing would be poorly matched.",
+        "item_ids": [
+          "aqa-7132-3.5.3:overdrafts",
+          "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+          "aqa-7132-3.5.3:debt-factoring"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoiding common finance errors",
+        "body": "Retained profit is not free finance simply because no interest is paid: it has an opportunity cost. Equity is not automatically cheaper than debt just because it has no contractual repayment; ownership and future returns are shared. Dividends are not guaranteed interest payments. A higher quoted share price raises the market value of existing shares, but does not itself put cash into the company. New finance arrives only if the company makes a new share issue.",
+        "item_ids": [
+          "aqa-7132-3.5.3:retained-profits",
+          "aqa-7132-3.5.3:share-capital",
+          "aqa-7132-3.5.3:internal-versus-external-finance"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From expectations to market capitalisation",
+        "body": "New information about expected performance, cash flows, dividends, risk or wider market conditions can change investor expectations. Investors then buy or sell shares, changing the market share price. Market capitalisation changes because it equals shares in issue multiplied by the current share price. This is a market-value snapshot, not cash owned by the company and not necessarily book value.",
+        "item_ids": [
+          "aqa-7132-3.5.3:share-capital",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the founder's decision",
+        "body": "A fast-growing start-up has unpredictable cash inflows. Explain why its founder might accept venture-capital funding rather than a large loan. In your explanation, link uncertain cash flow to loan repayments, then link venture capital to dilution, investor expertise and reduced fixed repayment pressure.",
+        "item_ids": [
+          "aqa-7132-3.5.3:venture-capital",
+          "aqa-7132-3.5.3:loans",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Market capitalisation example",
+        "body": "A quoted business has 20 million shares in issue and a current share price of £4.50. Market capitalisation is 20 million × £4.50 = £90 million. This represents the current market value of issued equity. It does not mean the business holds £90 million in cash, and a share-price increase alone is not new finance for the business.",
+        "item_ids": [
+          "aqa-7132-3.5.3:share-capital",
+          "aqa-7132-3.5.3:internal-versus-external-finance"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "internal finance",
+        "definition": "Funds generated from within the business, such as retained profits."
+      },
+      {
+        "term": "debt finance",
+        "definition": "Borrowed funds that create contractual obligations, including interest and repayment."
+      },
+      {
+        "term": "equity finance",
+        "definition": "Funds invested in return for an ownership interest in a business."
+      },
+      {
+        "term": "overdraft",
+        "definition": "Flexible bank borrowing on a current account up to an agreed limit."
+      },
+      {
+        "term": "retained profit",
+        "definition": "Profit kept in the business rather than distributed to owners."
+      },
+      {
+        "term": "loan",
+        "definition": "Borrowed finance repaid over an agreed period, normally with interest."
+      },
+      {
+        "term": "share capital",
+        "definition": "Funds represented by issued ownership shares in a company."
+      },
+      {
+        "term": "ordinary share",
+        "definition": "An ownership interest that normally gives voting and residual rights, including potential dividends."
+      },
+      {
+        "term": "venture capital",
+        "definition": "Equity investment by specialist investors in a young or fast-growing business, often with management advice."
+      },
+      {
+        "term": "crowdfunding",
+        "definition": "Raising finance from many contributors or investors, usually using a platform."
+      },
+      {
+        "term": "debt factoring",
+        "definition": "Raising earlier cash against eligible trade receivables through a finance provider."
+      },
+      {
+        "term": "maturity matching",
+        "definition": "Matching the duration of finance with the life and cash-flow timing of the asset or purpose financed."
+      },
+      {
+        "term": "market capitalisation",
+        "definition": "The number of shares in issue multiplied by the current market share price."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.3:overdrafts"
+        ],
+        "prompt": "What is an overdraft?",
+        "answer": "Flexible bank borrowing on a current account up to an agreed limit.",
+        "explanation": "It is normally used to help meet short-term cash-flow needs.",
+        "calc": null
+      },
+      {
+        "id": "p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.5.3:internal-versus-external-finance",
+          "aqa-7132-3.5.3:retained-profits",
+          "aqa-7132-3.5.3:loans"
+        ],
+        "prompt": "Classify each source as internal or external finance: retained profit; bank loan.",
+        "answer": "Retained profit is internal finance; a bank loan is external finance.",
+        "explanation": "Retained profit is generated within the business, whereas a loan is provided by an outside lender.",
+        "calc": null
+      },
+      {
+        "id": "p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.3:debt-factoring"
+        ],
+        "prompt": "A wholesaler waits 60 days for customers to pay invoices but needs cash now to buy stock. Explain one reason why debt factoring could help.",
+        "answer": "It can convert eligible receivables into earlier cash, reducing working-capital pressure.",
+        "explanation": "Factoring accelerates access to cash tied up in invoices, although fees and the quality of receivables must be considered.",
+        "calc": null
+      },
+      {
+        "id": "p4",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.5.3:venture-capital",
+          "aqa-7132-3.5.3:loans"
+        ],
+        "prompt": "Compare venture capital with a loan for a new business with uncertain sales.",
+        "answer": "Venture capital avoids fixed loan repayments but dilutes ownership; a loan preserves ownership but creates interest and repayment commitments.",
+        "explanation": "Where sales are uncertain, avoiding fixed cash commitments may be valuable, but the founder must accept reduced control and shared future returns.",
+        "calc": null
+      },
+      {
+        "id": "p5",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+          "aqa-7132-3.5.3:overdrafts",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source"
+        ],
+        "prompt": "A manufacturer is buying equipment expected to last 12 years. Judge whether an overdraft should be its only finance source.",
+        "answer": "No. An overdraft alone is a poor match because it is short-term and may be withdrawn, creating refinancing risk.",
+        "explanation": "Long-lived investments generally need finance with a duration better matched to the asset life. Cost, security and cash flows should also be compared.",
+        "calc": null
+      },
+      {
+        "id": "p6",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.3:share-capital"
+        ],
+        "prompt": "A quoted company's share price rises from £3 to £4, with no new shares issued. What does this mean for the company's cash balance?",
+        "answer": "The rise alone does not increase the company's cash balance.",
+        "explanation": "It changes the market value of existing ownership. Cash enters the company only through a separate event such as a new share issue.",
+        "calc": null
+      },
+      {
+        "id": "p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.3:retained-profits"
+        ],
+        "prompt": "A student says: 'Retained profit is free because the business pays no interest.' Is this correct?",
+        "answer": "No. Retained profit has an opportunity cost.",
+        "explanation": "Owners or the business give up alternative uses of the money, such as distributions or other investments.",
+        "calc": null
+      },
+      {
+        "id": "p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.5.3:crowdfunding",
+          "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source"
+        ],
+        "prompt": "A business uses reward-based crowdfunding to fund a new product. Select the most relevant additional risk: (A) immediate ownership dilution, (B) delivery obligations to contributors, (C) compulsory loan interest.",
+        "answer": "B) delivery obligations to contributors.",
+        "explanation": "Reward or pre-sale crowdfunding can require the business to deliver the promised product or reward. Equity dilution and debt interest depend on different crowdfunding structures.",
+        "calc": null
+      },
+      {
+        "id": "p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.5.3:share-capital"
+        ],
+        "prompt": "State the chain linking improved investor expectations to market capitalisation.",
+        "answer": "Improved expectations can increase buying of shares, raising the share price and therefore market capitalisation.",
+        "explanation": "Market capitalisation equals shares in issue multiplied by the current share price.",
+        "calc": null
+      },
+      {
+        "id": "p10",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.3:share-capital"
+        ],
+        "prompt": "A quoted company has 12 million shares in issue and a current share price of £2.75. Calculate its market capitalisation.",
+        "answer": "£33 million.",
+        "explanation": "Multiply shares in issue by the current share price: 12 million × £2.75 = £33 million. This is market value, not company cash.",
+        "calc": null
+      }
+    ]
+  }
+}

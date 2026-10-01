@@ -1,0 +1,218 @@
+{
+  "node_id": "bus-fin-005",
+  "learn": {
+    "title": "Cash flow, forecasting and profit-versus-cash",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Cash movement is different from profit",
+        "body": "Cash flow records the cash entering and leaving a business. Profit is an accounting measure, so it can be different from the cash in the bank. A business may record a credit sale as revenue but receive the cash later. It may also pay for inventory before selling it. Borrowing increases cash, but it is not sales profit. Therefore, a profitable business can still lack enough cash to pay suppliers, wages or other obligations.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "How a cash-flow forecast is built",
+        "body": "For each future period: 1. Start with the opening cash balance. 2. Estimate cash receipts, including customer payments when they are expected to arrive. 3. Estimate cash payments, such as supplier payments, wages and investment spending. 4. Calculate net cash flow: inflows minus outflows. 5. Add net cash flow to opening cash to find closing cash. 6. Use that closing balance as the next period's opening balance. Review the timing assumptions and test less favourable scenarios.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating a forecast closing balance",
+        "body": "A retailer begins April with £20,000 cash. It expects £70,000 of receipts and £82,000 of payments. Closing cash is £20,000 + £70,000 − £82,000 = £8,000. This is the expected period-end balance only if the forecast assumptions occur. If £20,000 of receipts are delayed, receipts fall to £50,000 for April and the closing balance becomes −£12,000. The delay creates a financing need despite the original forecast appearing positive.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Place cash in the correct forecast period",
+        "body": "Suppose a wholesaler makes a £50,000 sale on credit in June and expects the customer to pay in July. Record the sale as revenue in June for profit purposes, but put the £50,000 cash receipt in July in the cash-flow forecast. If the wholesaler buys stock before the June sale, that supplier payment may appear before the customer receipt. This timing gap can create cash pressure during growth.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Receipts are not the same as revenue",
+        "body": "Example: a customer pays an invoice in August, so the payment is an August cash inflow, even if the sale was made in July. Non-example: entering a £50,000 credit sale as a cash receipt in June when payment is not due until July. Likewise, loan proceeds are a cash inflow but not revenue or profit.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Growth, working capital and liquidity",
+        "body": "Sales growth can increase pressure on cash because the business may need more inventory, capacity and credit sales before customers pay. This links operations, sales and finance: inventory purchases and receivables can consume cash before receipts arrive. Late customer payments can then create pressure on suppliers or finance providers, and may delay investment or disrupt operations.",
+        "item_ids": [
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables",
+          "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A forecast is conditional, not certain",
+        "body": "It is incorrect to assume that profit guarantees liquidity. Different timing of sales, receipts and payments means that a profitable business may still face a cash shortage. It is also incorrect to treat a cash-flow forecast as a certainty. It is an estimate based on assumptions about sales, payment dates, costs and finance. Delayed customer payments, defaults or unexpected costs can make the actual outcome different.",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Choose an improvement and explain its trade-off",
+        "body": "A business forecasts a cash shortage next month. Explain how faster customer collection, negotiating longer supplier terms, reducing inventory, delaying investment, increasing finance or changing payment models could improve cash flow. Then explain one drawback. For example, longer supplier terms preserve cash now but may damage supplier relationships; delaying investment protects cash but may restrict capacity or growth.",
+        "item_ids": [
+          "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+          "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "cash inflow",
+        "definition": "Cash received by a business during a period."
+      },
+      {
+        "term": "cash outflow",
+        "definition": "Cash paid by a business during a period."
+      },
+      {
+        "term": "net cash flow",
+        "definition": "Cash inflows minus cash outflows in a period."
+      },
+      {
+        "term": "opening balance",
+        "definition": "Cash available at the start of a period."
+      },
+      {
+        "term": "closing balance",
+        "definition": "Opening cash balance plus net cash flow."
+      },
+      {
+        "term": "cash-flow forecast",
+        "definition": "An estimate of future cash receipts, payments and balances."
+      },
+      {
+        "term": "receivables",
+        "definition": "Amounts owed to a business by customers, often following credit sales."
+      },
+      {
+        "term": "payables",
+        "definition": "Amounts a business owes to suppliers or other creditors."
+      },
+      {
+        "term": "liquidity",
+        "definition": "The ability of a business to meet cash obligations when due."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fin-005-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast"
+        ],
+        "prompt": "Define a cash-flow forecast.",
+        "answer": "An estimate of future cash receipts, payments and cash balances.",
+        "explanation": "It helps a business anticipate future liquidity, but it depends on assumptions and is not a guarantee.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p2",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast"
+        ],
+        "prompt": "A café forecasts opening cash of £14,500, cash inflows of £36,000 and cash outflows of £44,200 for May. Calculate its forecast closing cash balance.",
+        "answer": "£6,300.",
+        "explanation": "Closing cash = opening cash + inflows − outflows = £14,500 + £36,000 − £44,200 = £6,300.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p3",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ],
+        "prompt": "A forecast shows closing cash of £5,000, but £12,000 of expected customer receipts may be delayed by one month. Interpret the risk.",
+        "answer": "The business could move to a £7,000 negative cash balance and need funding or another response.",
+        "explanation": "A delay reduces receipts in the current period by £12,000, changing £5,000 to −£7,000. The key risk is timing, not necessarily a lack of sales.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p4",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables"
+        ],
+        "prompt": "State the correct sequence for preparing one period of a cash-flow forecast.",
+        "answer": "Start with opening cash; estimate receipts and payments in the period they occur; calculate net cash flow; add it to opening cash to obtain closing cash; carry the closing balance forward.",
+        "explanation": "This sequence ensures that timing and the opening balance are included rather than using sales revenue alone.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.4:ways-to-improve-cash-flow"
+        ],
+        "prompt": "A growing online furniture seller pays suppliers before delivery but gives trade customers 60 days to pay. Suggest two ways it could improve cash flow.",
+        "answer": "It could collect customer payments faster and negotiate longer payment terms with suppliers.",
+        "explanation": "Faster collection brings cash in sooner, while longer supplier terms delay cash outflows. Other possible actions include reducing inventory, delaying investment or obtaining finance.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+          "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+        ],
+        "prompt": "A bakery has a short-term cash shortage. Should it delay replacing an unreliable oven? Make a judgement.",
+        "answer": "It may delay the purchase only if the existing oven can operate reliably enough; otherwise finance may be safer despite increasing risk or cost.",
+        "explanation": "Delaying investment preserves cash immediately, but an unreliable oven could reduce capacity, sales and customer service. The decision depends on the operational consequences and access to funding.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables",
+          "aqa-7132-3.5.2:cash-flow-forecast"
+        ],
+        "prompt": "A manager says: 'We made a £30,000 credit sale this month, so the cash-flow forecast must include £30,000 cash received this month.' What is wrong with this statement?",
+        "answer": "The receipt belongs in the period when the customer is expected to pay, not automatically in the month of sale.",
+        "explanation": "Revenue from a credit sale and cash collection can occur in different periods. This difference is a major cause of profit-cash divergence.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-005-p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.5.2:cash-flow-forecast",
+          "aqa-7132-3.5.2:timing-of-payables-and-receivables",
+          "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+          "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+        ],
+        "prompt": "A profitable wholesaler is expanding rapidly. It buys more inventory immediately, while many customers pay 45 days after delivery. Select the best explanation and response: A) Profit means no action is needed. B) Growth may create cash pressure; forecast receipt and payment timing, then consider collection, supplier terms or finance. C) Record loan proceeds as sales revenue. D) Put all credit sales into cash receipts on the sale date.",
+        "answer": "B.",
+        "explanation": "Growth can tie up cash in inventory and receivables before customer payments arrive. A forecast should identify the timing gap, after which the business can compare responses and their trade-offs.",
+        "calc": null
+      }
+    ]
+  }
+}

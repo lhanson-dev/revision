@@ -1,0 +1,159 @@
+{
+  "node_id": "bus-fin-006",
+  "learn": {
+    "title": "Working capital, cash conversion and overtrading",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Working capital and the operating cash cycle",
+        "body": "Working capital is the short-term financial resource used in day-to-day operations. It is commonly calculated as current assets minus current liabilities. To understand the cash position, trace the operating cash cycle: cash is used for inventory and labour; goods or services are sold; credit sales create receivables; customers pay later; and supplier credit can delay some cash outflows. Inventory and receivables consume finance, while payables provide temporary finance.",
+        "item_ids": []
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How growth can create a cash problem",
+        "body": "Rapid growth can increase inventory needed for sales and the value of credit sales waiting to be collected. This increases the amount of working capital required. If finance does not rise by enough, cash becomes stretched. Therefore: faster growth → more inventory and receivables → greater working-capital demand → liquidity pressure → risk of overtrading. A business may be profitable but still face this problem because profit is not the same as cash received.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Profitable growth is not always cash-positive",
+        "body": "Example: a distributor doubles sales, but customers take 60 days to pay and suppliers require payment after 30 days. The distributor needs more stock and has more money tied up in receivables before customer cash arrives. This can create a cash crisis. Non-example: concluding that the distributor cannot have a liquidity problem simply because sales and profit are rising.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided diagnosis of a stretched cash cycle",
+        "body": "Suppose a retailer is selling more goods but its cash balance is falling. First, check whether inventory has increased to support the higher sales volume. Next, check whether more customers are buying on credit, increasing receivables. Then consider when suppliers must be paid. If cash is committed to stock and customers have not yet paid, the retailer may need additional finance even if the sales are profitable. This is a possible overtrading warning.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Working capital calculation example",
+        "body": "A wholesaler has current assets of £180,000 and current liabilities of £125,000. Step 1: identify current assets. Step 2: identify current liabilities. Step 3: subtract current liabilities from current assets: £180,000 − £125,000 = £55,000 working capital. This headline figure should then be investigated: some receivables may be late and some inventory may be difficult to sell, so not all current assets are equally available as cash.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Sales and profit do not automatically mean cash",
+        "body": "Misconception: more sales always improve cash. Correction: credit sales defer cash receipts, and higher sales may require more inventory. During rapid growth, cash can be committed before customers pay. Similarly, positive working capital does not guarantee liquidity because the timing and quality of receivables and inventory matter.",
+        "item_ids": []
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking operations, finance and stakeholder relationships",
+        "body": "Working capital links operational decisions with finance. Reducing inventory may release cash, but it may also reduce product availability and harm customer service. Extending supplier payment terms can improve the buyer’s cash position, but may harm suppliers and eventually reduce supply reliability. Decisions should therefore be judged using cash, service, relationships, risk, financing cost, growth rate and seasonality.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the trade-off",
+        "body": "A business plans to extend the time it takes to pay suppliers. Explain, in your own words, how this could improve the business’s cash position, then explain one risk it could create for the supplier relationship and supply reliability.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "working capital",
+        "definition": "Short-term operating financial resources, commonly calculated as current assets minus current liabilities."
+      },
+      {
+        "term": "receivable",
+        "definition": "An amount owed to a business by its customers."
+      },
+      {
+        "term": "payable",
+        "definition": "An amount a business owes to suppliers or other creditors."
+      },
+      {
+        "term": "cash conversion cycle",
+        "definition": "The time between cash being committed to operations and cash being recovered from customers."
+      },
+      {
+        "term": "overtrading",
+        "definition": "Growth that creates working-capital demand beyond the finance available to support it."
+      },
+      {
+        "term": "liquidity",
+        "definition": "The ability of a business to meet its short-term cash obligations."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fin-006-p1",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define overtrading.",
+        "answer": "Overtrading is growth that creates working-capital demand beyond the finance available to support it.",
+        "explanation": "A business can expand sales faster than it can finance the extra inventory and receivables created by that growth.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p2",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "A business has current assets of £246,000 and current liabilities of £159,000. Calculate its working capital.",
+        "answer": "£87,000.",
+        "explanation": "Working capital = current assets − current liabilities = £246,000 − £159,000.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p3",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "A firm reports positive working capital, but many of its receivables are overdue and some inventory is obsolete. Why might it still have a liquidity problem?",
+        "answer": "Its reported current assets may not be converted into cash quickly, or at all.",
+        "explanation": "The timing and quality of receivables and inventory matter more than the headline working-capital total alone.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p4",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A growing furniture retailer must buy more stock before customers who bought on credit pay. Identify two parts of working capital that are likely to increase.",
+        "answer": "Inventory and receivables.",
+        "explanation": "More stock is needed to support sales, while credit sales create larger amounts owed by customers.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain how a longer period before customers pay can increase a business’s financing need.",
+        "answer": "A longer payment period delays cash recovery, so more money remains tied up in receivables and the business needs more finance for day-to-day operations.",
+        "explanation": "Longer receivable days extend the cash conversion cycle and can create liquidity pressure.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A manufacturer is considering reducing inventory sharply to release cash. Give one likely benefit and one likely risk, then reach a judgement.",
+        "answer": "Benefit: cash is released from inventory. Risk: stock shortages could reduce service and sales. The reduction is most suitable only if demand can still be met reliably.",
+        "explanation": "Inventory reduction can improve cash, but an aggressive cut can harm availability and customer relationships.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A manager says, ‘Our sales and profit are rising, so we cannot have a cash problem.’ Is this correct?",
+        "answer": "No. Rapid growth can increase inventory and receivables before cash is collected.",
+        "explanation": "A profitable business can overtrade when its working-capital finance cannot support its growth.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-006-p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [],
+        "prompt": "A distributor’s customers pay after 60 days, while suppliers require payment after 30 days. Sales are rising rapidly. Which response best addresses the immediate working-capital issue? A: Ignore receivables because sales are growing. B: Review collection of receivables and the finance needed for growth. C: Increase customer credit periods further. D: Assume profit will provide immediate cash.",
+        "answer": "B: Review collection of receivables and the finance needed for growth.",
+        "explanation": "Faster collection can shorten the cash conversion cycle, while additional finance may be needed to support rapid growth. The other options either ignore or worsen the cash timing problem.",
+        "calc": null
+      }
+    ]
+  }
+}
