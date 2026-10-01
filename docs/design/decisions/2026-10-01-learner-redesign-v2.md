@@ -149,3 +149,16 @@ Order: **Level** (GCSE or A-level; both allowed; AS sits under A-level) → **su
 3. Tuning the 14-day and 7-day suggestion windows after testing.
 4. Safeguarding review before any parent or school alerts.
 5. "REV noticed" evidence bar, when patterns come back.
+
+---
+
+## Addendum, 1 October 2026 (later the same day, from Lee)
+
+Recorded as given. These add to the decisions above and do not change them.
+
+1. **Ask REV is a pop-up conversation** over the page the student is on, so it does not take them away from it. On a phone, where there is no room, it takes over the whole screen. It does not need its own page.
+2. **Ask REV is a real model used cleverly.** If a message can be answered from understanding the content, it should not need a paid call. It should be a really efficient coach that can answer anything to do with the subject content.
+3. **Exam answers should be kept and used.** The app needs to understand how the student did on exam questions, include it in progress data, and help them with what they got wrong.
+4. **Model:** still to decide; happy to test with Claude Sonnet 5.5.
+5. **REV safeguarding replies may use vetted fixed text** (this is not a "canned reply").
+6. **REV conversations are kept for 12 months from the last message**, and the student can delete them at any time.

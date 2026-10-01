@@ -102,6 +102,12 @@ These examples show voice only. Real REV copy is built from the student's real d
 
 "REV noticed" pattern cards are out for launch. The session and answer history is kept so they can come back later with a higher evidence bar than five data points (open item, Founder).
 
+## Where and how Ask REV appears
+
+Founder decision, 1 October 2026: Ask REV is a **pop-up conversation** over the current page, and takes over the full screen on phones. There is no separate Ask REV page. See `Global Learner Navigation.md`.
+
+Ask REV is **a real model, used efficiently.** Questions the app can answer from the student's own data or from approved course content should be answered that way, without a paid model call; a model is used when judgement, explanation or coaching is needed. The detailed approach is in the learner v2 data model proposal (`docs/design/learner-redesign-v2/data-model-proposal.md`) and is a proposal until approved. The "no canned or fake replies" rule is unchanged: free answers must be built only from real data and approved content.
+
 ## Shared primary learner-header conversation strip
 
 The compact conversational treatment is a shared learner-header pattern.

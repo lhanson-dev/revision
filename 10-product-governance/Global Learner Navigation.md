@@ -39,9 +39,17 @@ Subject remains valid academic metadata and a useful way to organise course disc
 - In Exam Prep, **all navigation is hidden** at every size (focus mode).
 - **Leaving a running timed paper asks for confirmation first.** The student can stay, or leave knowing the consequence (for example that the timer and answers so far are kept or lost, as the Exam Prep screen defines).
 
-### Open: how Ask REV opens
+### How Ask REV opens (decided 1 October 2026)
 
-The design shows a full Ask REV page. The rules in this document say Ask REV opens as a contextual overlay without leaving the current task. **Which of these applies (overlay, page, or both) is a pending Founder decision.** Until it is made, the existing contextual overlay behaviour and the "do not require a learner to leave their current task" guardrail stay in force, and the navigation components accept a separate "open Ask REV" action so either outcome is possible.
+Ask REV is a **pop-up conversation** that opens over the current page, so the student is never taken away from what they are doing. It exists to help, not to be a destination.
+
+- **Desktop and tablet:** a panel or window over the page. The page behind stays where it was.
+- **Phone:** there is no room for a pop-up, so Ask REV takes over the whole screen, with a clear close control that returns the student to exactly where they were.
+- **There is no separate Ask REV page.** The existing "Expand" route to a full REV workspace is retired or reduced to the same pop-up by the Ask REV screen PR.
+- It opens from the sidebar, the icon rail and the raised tab-bar REV control, and from in-page "Stuck? Ask REV" actions, carrying the current page context.
+- It is not available in Exam Prep focus mode.
+
+The navigation components keep a separate "open Ask REV" action, so this behaviour lives in one place.
 
 ### Open: account utilities in the rail and tab bar
 
@@ -393,4 +401,4 @@ This v0.10 direction requires the Courses hierarchy, focused-section contextual 
 
 ## Documentation impact (v0.11)
 
-Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The tablet/mobile drawer, the persistent Ask REV dock and the ban on a bottom tab bar are superseded. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Open for the Founder: how Ask REV opens, and where account utilities live in the rail and tab bar.
+Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The tablet/mobile drawer, the persistent Ask REV dock and the ban on a bottom tab bar are superseded. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Ask REV is decided: a pop-up, full screen on phones, no separate page. Open for the Founder: where account utilities live in the rail and tab bar.

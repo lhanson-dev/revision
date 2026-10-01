@@ -16,7 +16,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | F5 | Practice feedback bar and retry queue | Answer option styling (inside Quick check) | PR 9 | Feedback bar, retry queue | Retry queue needs new data (PR 2 proposal) |
 | F6 | Exam Prep focus mode and examiner checklist | Examiner guide component; shell has a focus mode that hides navigation | PR 10 | Papers, timer, confirm before leaving a running paper, checklist behind a switch that stays off until the release gate passes | Who supplies marked answers for the release gate (open item 2) |
 | F7 | Progress: three measures | Status labels, understanding bar, three-measure component | PR 11 | Course and global Progress screens; engine mapping to the five labels | Confirm the engine mapping (see Decisions below). Exam readiness format (open item 1) |
-| F8 | Ask REV with real answers | REV mark with four states and text for every state | PR 12 | Real model answers, prompt chips, safeguarding | The model, cost and logging, in the PR 2 proposal. Ask REV as a page, an overlay, or both |
+| F8 | Ask REV with real answers (pop-up; full screen on phone) | REV mark with four states and text for every state | PR 12 | Real model answers, prompt chips, safeguarding | The model (test Claude Sonnet 5.5), cost and logging, in the PR 2 proposal |
 | F9 | Onboarding | Not started | PR 13 | Level, subjects, board, dates, time, first plan | Coming-soon requests need new data (PR 2 proposal) |
 | F10 | Empty states | Not started | PR 14 | Per-screen sweep | None |
 | F11 | Subject colours and letter marks | Palette tokens, central subject map, letter-mark badge | PR 1 | Use them on course cards and Plan blocks | Catalogue columns `hue` and `mark` (PR 2 proposal) |
@@ -36,7 +36,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | Practice | `design/practice` | Not started | PR 9 | Everything |
 | Exam Prep | `design/exam-prep` | Not started | PR 10 | Everything |
 | Progress | `design/progress` | Not started | PR 11 | Everything |
-| Ask REV | `design/ask-rev` | Not started | PR 12 | Everything |
+| Ask REV | `design/ask-rev` | Not started | PR 12 | Everything: pop-up shell, full screen on phone, real answers via the "ladder" in the PR 2 proposal |
 | Sign-in and onboarding | `design/onboarding` | Not started | PR 13 | Everything |
 | Empty-state sweep | `design/empty-states` | Not started | PR 14 | Everything |
 
@@ -58,7 +58,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 
 ## Decisions pending (Lee)
 
-1. **Ask REV: a page, an overlay, or both?** The navigation standard says Ask REV opens as an overlay without leaving the page. The design has a full Ask REV page. The standards are written neutrally until you decide.
+1. ~~Ask REV: a page, an overlay, or both?~~ **Decided 1 Oct:** a pop-up over the page; full screen on phones; no separate page.
 2. **Engine to label mapping.** Proposed: good topic knowledge is Got it; medium is Nearly there; low is Needs work; not enough evidence is Just started if the student has answered anything in the topic, otherwise Not started. Not written into the standards as final until you confirm.
 3. Open items 1 to 5 from the decisions file (readiness format, marked answers for the checklist, suggestion windows, safeguarding review before any parent or school alerts, "REV noticed" evidence bar).
 
@@ -72,3 +72,5 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-01 | Run log | Design decisions are logged in this file, not `content-factory/RUN_LOG.md`; a single `HANDOVER` line goes in the run log only if work stops part-way | Lee approved, 1 Oct 2026 |
 | 2026-10-01 | Living E thinking loop | 1.4s (was 1.8s in code) | Founder decision; inside the 1.4 to 2.2s standard range |
 | 2026-10-01 | Branch | PR 1 uses the session branch `claude/revision-v2-learner-redesign-3rigil` | Session setup; Lee approved |
+| 2026-10-01 | Ask REV | Pop-up conversation over the page; full screen on phones; no separate page; real model used efficiently (answer from data and approved content first); safeguarding may use vetted fixed text; conversations kept 12 months, student can delete | Lee, later on 1 Oct. Standards and decision record updated |
+| 2026-10-01 | Exam answers | Keep submitted answers and per-point feedback so progress and "what you got wrong" can use them | Lee; detail in the PR 2 proposal (awaiting its approval) |
