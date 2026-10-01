@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "course_id": "aqa:aqa-a-level:7132",
+  "decided_at": "2026-10-01",
+  "decided_by": "Founder",
+  "decisions": [
+    {
+      "batch": "3.8-3.9",
+      "unit_id": "q04",
+      "prior_fingerprint": "8957d219bfa6843552cd36b8087c4ea23831d8e68a199df9c0b0037e692506d6",
+      "decision": "fix",
+      "note": "Require takeover-specific knowledge and a mark scheme that accepts valid takeover-specific explanation routes; deepen the Foundation first so the question is supported by approved teaching."
+    },
+    {
+      "batch": "3.8-3.9",
+      "unit_id": "q07",
+      "prior_fingerprint": "b3742d00bf6eab7b285fed2f7cee61edb3c662200e5a126843371f892819a69c",
+      "decision": "fix",
+      "note": "Remove the answer-giving synergy wording from the scenario and require the learner to identify and explain the synergy mechanism; deepen the Foundation first with an explicit synergy definition and mechanisms."
+    },
+    {
+      "batch": "3.10",
+      "unit_id": "q09",
+      "prior_fingerprint": "54ff0a67d7f79c123e207e609122618464434905ba87a6514b428774c40a3591",
+      "decision": "fix",
+      "note": "Add crisis-management teaching to BUS-STR-009, then regenerate and review the dependent question rather than removing the examinable item."
+    }
+  ]
+}
