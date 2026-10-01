@@ -10,7 +10,7 @@ on:
       - '.github/workflows/content-factory-aqa-business-7132-item-coverage.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   item-coverage:
@@ -20,8 +20,6 @@ jobs:
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -33,26 +31,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Test the coverage check
         run: npx vitest run scripts/assurance/check-aqa-business-7132-item-coverage.test.mjs
-      - name: Regenerate deterministic derived artifacts
-        run: |
-          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
-          CONTENT_FACTORY_WRITE_SLICE_BLUEPRINT=1 npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts
-          CONTENT_FACTORY_WRITE_BATCH_BLUEPRINTS=1 npx vitest run scripts/assurance/aqa-business-7132-batch-blueprint.test.ts
-          CONTENT_FACTORY_WRITE_QUESTION_PLANS=1 npx vitest run scripts/assurance/aqa-business-7132-question-plan.test.ts
-      - name: Commit refreshed derived artifacts if needed
-        env:
-          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: |
-          if git diff --quiet -- research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json content-factory/slices/; then
-            echo "Derived artifacts already current."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json content-factory/slices/
-          git commit -m "Refresh AQA 7132 derived blueprints and question plans"
-          git push origin "HEAD:${HEAD_BRANCH}"
-      - name: Verify deterministic artifacts
-        run: |
-          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
-          npx vitest run scripts/assurance/aqa-business-7132-section-blueprint.test.ts scripts/assurance/aqa-business-7132-batch-blueprint.test.ts scripts/assurance/aqa-business-7132-question-plan.test.ts
+      # Fails if the named-item file is invalid or the committed report is stale.
+      # Uncovered items are reported, not failed here; the T8 gate runs this with --gate.
+      - name: Check named items and committed coverage report
+        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
