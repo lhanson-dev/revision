@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assignSubjectColours, nextExam, sessionSteps } from './home-view'
-import type { HomeTask } from './home-task'
+import { assignSubjectColours, nextExam } from './home-view'
 import type { RevisionAssessment } from '../services/planning/planner-service'
 
 const assessment = (id: string, date: string, isActive = true): RevisionAssessment => ({
@@ -22,13 +21,5 @@ describe('Home view helpers', () => {
     expect(result?.title).toBe('Exam near')
     expect(result?.daysAway).toBe(22)
     expect(nextExam([], now)).toBeNull()
-  })
-
-  it('shows up to three tasks as steps with the first up next', () => {
-    const task = (n: number) => ({ id: `t${n}`, activityType: 'quick-check', topicLabel: `Topic ${n}`, estimatedMinutes: 10 }) as HomeTask
-    const steps = sessionSteps([task(1), task(2), task(3), task(4)])
-    expect(steps.map((step) => step.state)).toEqual(['current', 'upcoming', 'upcoming'])
-    expect(steps[0].label).toBe('Quick check · Topic 1')
-    expect(steps[0].meta).toBe('10 min')
   })
 })

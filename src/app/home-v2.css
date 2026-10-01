@@ -17,18 +17,17 @@
 .home-v2-courses header { display: flex; justify-content: space-between; align-items: baseline; }
 .home-v2-courses h2 { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 22px; line-height: 1; }
 .home-v2-courses header button { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; font-size: 14px; color: var(--rv-accent); cursor: pointer; }
-.home-v2-courses ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
-.home-v2-courses li button { display: flex; flex-direction: column; align-items: stretch; gap: 12px; width: 100%; padding: 18px; border: 1px solid var(--rv-line); border-radius: 20px; background: var(--rv-surface); color: var(--rv-text); font: inherit; text-align: left; cursor: pointer; }
+.home-v2-courses ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.home-v2-courses li button { display: flex; flex-direction: column; align-items: stretch; width: 100%; min-height: 48px; padding: 0; overflow: hidden; border: 1px solid var(--rv-line); border-radius: 20px; background: var(--rv-surface); color: var(--rv-text); font: inherit; text-align: left; cursor: pointer; }
 .home-v2-courses li button:focus-visible { outline: 2px solid var(--rv-teal); box-shadow: var(--rv-ring); }
-.home-v2-tile-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--tile-fill); color: var(--tile-text); font-family: var(--rv-font-display); font-weight: 800; font-size: 18px; }
-.home-v2-courses strong { font-weight: 800; font-size: 16px; line-height: 1.2; }
-.home-v2-bar { display: block; height: 8px; border-radius: var(--rv-radius-bar); background: var(--rv-line); overflow: hidden; }
-.home-v2-bar span { display: block; height: 100%; border-radius: var(--rv-radius-bar); background: var(--tile-fill); }
+.home-v2-tile-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 16px 14px; }
+.home-v2-tile-body { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; }
+.home-v2-courses strong { font-weight: 800; font-size: 16px; line-height: 1.2; overflow-wrap: anywhere; }
 .home-v2-courses small { font-weight: 700; font-size: 13px; color: var(--rv-text-2); }
 
 .home-v2-eyebrow { margin: 0; font-weight: 800; font-size: 12px; line-height: 1; letter-spacing: .12em; text-transform: uppercase; }
-.home-v2-exam { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: var(--rv-radius-card); background: var(--rv-violet-soft); }
-.home-v2-exam .home-v2-eyebrow { color: var(--rv-violet-text); }
+.home-v2-exam { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: var(--rv-radius-card); background: var(--rv-surface); border: 1px solid var(--rv-line); }
+.home-v2-exam .home-v2-eyebrow { display: inline-flex; align-items: center; gap: 6px; color: var(--rv-text-2); }
 .home-v2-exam-days { margin: 0; display: flex; align-items: baseline; gap: 10px; font-weight: 800; font-size: 18px; }
 .home-v2-exam-days strong { font-family: var(--rv-font-display); font-size: 56px; line-height: 1; letter-spacing: -.03em; }
 .home-v2-exam-title { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.4; color: var(--rv-text-2); }
@@ -78,3 +77,11 @@
 @media (max-width: 1100px) { .home-setup { grid-template-columns: minmax(0, 1fr); } .home-setup-hero { min-height: 340px; } }
 @media (max-width: 620px) { .home-setup-hero { padding: 24px; } .home-setup-hero h2 { font-size: 30px; } }
 .home-v2-grid--setup { grid-template-columns: minmax(0, 1fr); }
+
+/* Everything put to one side with "Not now": an honest rest state, not a made-up suggestion. */
+.home-v2-rest { display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: var(--rv-radius-card); background: var(--rv-surface); border: 1px solid var(--rv-line); }
+.home-v2-rest h2 { margin: 0; font-family: var(--rv-font-display); font-weight: 800; font-size: 24px; line-height: 1.1; }
+.home-v2-rest p { margin: 0; font-weight: 600; font-size: 15px; line-height: 1.5; color: var(--rv-text-2); }
+.home-v2-rest-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.home-v2-rest-actions button { min-height: 48px; padding: 0 20px; border: 1px solid var(--rv-line); border-radius: 999px; background: var(--rv-surface); color: var(--rv-accent); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+.home-v2-rest-actions button:focus-visible { outline: 2px solid var(--rv-teal); box-shadow: var(--rv-ring); }

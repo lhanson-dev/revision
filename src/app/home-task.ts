@@ -13,7 +13,7 @@ export type HomeActivityType = 'flashcards' | 'quick-check' | 'exam-question'
 
 export type HomeTask = {
   id: string
-  source: 'planner' | 'fallback'
+  source: 'planner' | 'fallback' | 'rules'
   courseId: string
   courseLabel: string
   subjectId: string
@@ -97,7 +97,7 @@ export function tasksFromPlanner(
   })
 }
 
-function fallbackMinutes(activity: HomeActivityType) {
+export function fallbackMinutes(activity: HomeActivityType) {
   if (activity === 'exam-question') return 30
   if (activity === 'quick-check') return 20
   return 15

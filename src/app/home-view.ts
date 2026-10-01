@@ -1,9 +1,10 @@
 import type { RevisionAssessment } from '../services/planning/planner-service'
 import type { ModuleLearningState } from './catalogue-model'
-import { homeActivityLabel, type HomeTask } from './home-task'
 import type { LearnerProgrammeCourse } from './learner-programme'
 import { courseIdForLearningState } from './planner-model'
-import type { RevSuggestionStep } from './ui'
+import { fallbackMark, subjectIdentity, type SubjectHue } from './subject-palette'
+import { topicLearningStatus } from './topic-status'
+import type { LearningStatus } from './ui'
 
 export type SubjectColour = { name: string; fill: string; text: string }
 
@@ -36,15 +37,6 @@ export function assignSubjectColours(subjectIds: readonly string[]): Map<string,
   return result
 }
 
-export type HomeCourseTile = {
-  courseId: string
-  subjectName: string
-  initials: string
-  colour: SubjectColour
-  /** 0–100, or null when there is not yet enough evidence for a score. */
-  mastery: number | null
-}
-
 /** One letter per subject, or two when another subject shares the first letter (B / Bi, like the v2 design). */
 export function subjectInitials(names: readonly string[]): string[] {
   const firstLetters = names.map((name) => name.trim().charAt(0).toLocaleUpperCase())
@@ -55,21 +47,41 @@ export function subjectInitials(names: readonly string[]): string[] {
   })
 }
 
+export type HomeCourseTile = {
+  courseId: string
+  subjectName: string
+  hue: SubjectHue
+  mark: string
+  /** How many of the course's topics are in each status (Understanding). */
+  counts: Partial<Record<LearningStatus, number>>
+  /** Topics covered: topics the student has answered something in, out of all topics. */
+  covered: number
+  total: number
+}
+
+/** Hue used when the subject map has no entry yet: a neutral hue, never teal, yellow or coral. */
+const FALLBACK_HUE: SubjectHue = 'slate'
+
 export function buildCourseTiles(programme: readonly LearnerProgrammeCourse[], states: readonly ModuleLearningState[]): HomeCourseTile[] {
-  const colours = assignSubjectColours(programme.map((item) => item.subject.id))
-  const initialsList = subjectInitials(programme.map(({ subject }) => subject.name))
-  return programme.map(({ course, subject }, index) => {
-    const initials = initialsList[index]
-    const scored = states.filter((state) => courseIdForLearningState(state) === course.id && state.readiness.score !== null)
-    const mastery = scored.length === 0
-      ? null
-      : Math.round(scored.reduce((sum, state) => sum + (state.readiness.score ?? 0), 0) / scored.length)
+  return programme.map(({ course, subject }) => {
+    const identity = subjectIdentity(subject.id)
+    const courseStates = states.filter((state) => courseIdForLearningState(state) === course.id)
+    const counts: Partial<Record<LearningStatus, number>> = {}
+    courseStates.forEach((state) => {
+      state.topicKnowledge.topics.forEach((topic) => {
+        const answered = state.evidence.some((item) => item.topicId === topic.topicId)
+        const status = topicLearningStatus(topic.band, answered)
+        counts[status] = (counts[status] ?? 0) + 1
+      })
+    })
     return {
       courseId: course.id,
       subjectName: subject.name,
-      initials,
-      colour: colours.get(subject.id) ?? subjectPalette[0],
-      mastery,
+      hue: identity?.hue ?? FALLBACK_HUE,
+      mark: identity?.mark ?? fallbackMark(subject.name),
+      counts,
+      covered: courseStates.reduce((sum, state) => sum + state.evidencedTopics, 0),
+      total: courseStates.reduce((sum, state) => sum + state.topicCount, 0),
     }
   })
 }
@@ -93,14 +105,4 @@ export function nextExam(assessments: readonly RevisionAssessment[], now: Date):
     daysAway: Math.round((startOfDay(upcoming.date) - today) / 86_400_000),
     dateLabel: upcoming.date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
   }
-}
-
-/** Today's planned tasks shown as the REV session list: the first is up next, the rest follow. */
-export function sessionSteps(tasks: readonly HomeTask[]): RevSuggestionStep[] {
-  return tasks.slice(0, 3).map((task, index) => ({
-    id: task.id,
-    label: `${homeActivityLabel(task.activityType)} · ${task.topicLabel}`,
-    meta: `${task.estimatedMinutes} min`,
-    state: index === 0 ? 'current' : 'upcoming',
-  }))
 }
