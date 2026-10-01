@@ -116,6 +116,24 @@ jobs:
           const runId = Number(process.env.RESUME_RUN_ID)
           const reviewedCommit = process.env.RESUME_HEAD_SHA
           const ledger = JSON.parse(fs.readFileSync(path.join(target, 'ledger.json'), 'utf8'))
+          const decisionsPath = 'content-factory/runs/aqa-7132-question-founder-decisions.json'
+          let appliedDecisions = 0
+          if (fs.existsSync(decisionsPath)) {
+            const decisionFile = JSON.parse(fs.readFileSync(decisionsPath, 'utf8'))
+            for (const decision of decisionFile.decisions ?? []) {
+              if (decision.batch !== batch || decision.decision !== 'fix') continue
+              const entry = ledger.units?.[decision.unit_id]
+              if (!entry || entry.fingerprint !== decision.prior_fingerprint) continue
+              entry.founder_decision = {
+                decision: 'fix',
+                note: decision.note,
+                decided_at: decisionFile.decided_at,
+              }
+              // The explicit Founder fix decision closes the old two-round dispute. The changed inputs must still pass a fresh review.
+              entry.consecutive_blocking_rounds = 0
+              appliedDecisions++
+            }
+          }
           const acceptedUnits = {}
           const latestUnits = {}
           for (const [id, entry] of Object.entries(ledger.units ?? {})) {
@@ -145,7 +163,7 @@ jobs:
           const runDir = `content-factory/runs/aqa-7132-slice-${batch}-questions`
           fs.mkdirSync(runDir, { recursive: true })
           fs.writeFileSync(path.join(runDir, 'resume-checkpoint.json'), `${JSON.stringify(checkpoint)}\n`)
-          console.log(`Resume checkpoint: ${Object.keys(acceptedUnits).length} accepted, ${Object.keys(latestUnits).length} generated units.`)
+          console.log(`Resume checkpoint: ${Object.keys(acceptedUnits).length} accepted, ${Object.keys(latestUnits).length} generated units, ${appliedDecisions} Founder fix decision(s) applied.`)
           NODE
           echo "Restored ${artifact} for fingerprint-checked resume."
 
