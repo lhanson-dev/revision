@@ -1,0 +1,254 @@
+{
+  "node_id": "bus-fin-007",
+  "learn": {
+    "title": "Budgets, forecasts and variance interpretation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Budgets provide plans and control points",
+        "body": "A budget is an approved financial plan or resource allocation for a stated period. An income budget sets planned income, an expenditure budget sets planned spending, and a profit budget brings them together: budgeted income minus budgeted expenditure. Budgets help a business coordinate resources, allocate responsibility and compare actual results with a planned benchmark. A forecast is different: it is an updated estimate of what is now expected, using new evidence. A business may retain its annual budget as its formal plan while updating forecasts to guide current decisions.",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Budget, forecast and variance: distinct roles",
+        "body": "A budget is the authorised plan against which performance can be controlled. A forecast is a revised expectation used to adapt to changing conditions. A variance is the difference between actual performance and the budget or standard. Therefore, a budget sets a benchmark, a forecast updates expectations, and a variance highlights a difference needing investigation.",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating and labelling a variance",
+        "body": "For this node, calculate variance as actual figure minus budgeted figure. Then label it by its effect on profit. For a cost, actual spending above budget is adverse because it reduces profit. If actual costs are £108,000 and budgeted costs are £100,000, the variance is £8,000. This is an £8,000 adverse cost variance. The calculation identifies the size and direction of the difference, not its cause.",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Bringing income and expenditure budgets into a profit budget",
+        "body": "A retailer has an income budget of £200,000 and an expenditure budget of £165,000. First identify that profit budget equals budgeted income minus budgeted expenditure. Then calculate £200,000 − £165,000 = £35,000. If actual income is £190,000 and actual expenditure is £160,000, actual profit is £30,000. Actual profit is therefore £5,000 below the profit budget, an adverse profit variance. The income and expenditure differences should then be examined to explain the profit difference.",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "A variance is evidence for investigation, not a verdict",
+        "body": "Example: maintenance spending £20,000 below budget is financially favourable in the short term because costs are lower than planned. However, it may be harmful if delayed maintenance leads to equipment failures and lost production later. Non-example: claiming that an adverse labour-cost variance proves employees were inefficient. Higher wage rates, overtime, quality requirements or a change in output could instead explain the variance.",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Favourable does not automatically mean good management",
+        "body": "A favourable variance means only that the outcome moved in a financially beneficial direction compared with the benchmark. It does not prove that the decision was good, sustainable or in the business's wider interests. For example, sales above budget might result from heavy discounting that damages future profit or brand position. Check whether the budget was realistic, whether the manager controlled the outcome, and what the longer-term effects may be.",
+        "item_ids": [
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:variance-analysis"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From budget to action",
+        "body": "Budget → resource allocation and target → employee or manager behaviour → actual outcome → variance → investigation → action. Poorly designed targets can encourage gaming, creating an apparently favourable variance but a weak underlying result. In a changing market, demand shift → forecast revision → revised inventory, capacity or cash decisions. This is why budgets support control while forecasts support adaptation.",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the judgement behind a variance",
+        "body": "A department reports a favourable materials-cost variance. Explain why a manager should not reward the department immediately. In your explanation, distinguish the arithmetic result from its possible causes and consider benchmark quality, controllability, quality effects and longer-term consequences.",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "budget",
+        "definition": "An approved financial plan or resource allocation for a period."
+      },
+      {
+        "term": "forecast",
+        "definition": "An updated estimate of the future outcome now expected."
+      },
+      {
+        "term": "variance",
+        "definition": "The difference between actual performance and a planned or standard result."
+      },
+      {
+        "term": "favourable variance",
+        "definition": "A variance in a financially beneficial direction compared with the benchmark."
+      },
+      {
+        "term": "adverse variance",
+        "definition": "A variance in a financially worse direction compared with the benchmark."
+      },
+      {
+        "term": "income budget",
+        "definition": "Planned revenue or other income for a period."
+      },
+      {
+        "term": "expenditure budget",
+        "definition": "Planned spending for a period, often by department or cost centre."
+      },
+      {
+        "term": "profit budget",
+        "definition": "Planned profit, calculated as budgeted income minus budgeted expenditure."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-variance-cost",
+        "item_id": "aqa-7132-3.5.2:variance-analysis",
+        "scenario": "A café chain budgeted £46,000 for electricity costs in a quarter but actually spent £51,500.",
+        "steps": [
+          "Use the stated convention: actual figure minus budgeted figure.",
+          "Calculate £51,500 − £46,000 = £5,500.",
+          "Because this is a cost and actual spending is higher than budgeted, label the variance adverse.",
+          "The result does not establish why electricity costs rose; usage, price or timing should be investigated."
+        ],
+        "calc": {
+          "formula_id": "variance",
+          "inputs": [
+            {
+              "name": "actual",
+              "value": 51500
+            },
+            {
+              "name": "budgeted",
+              "value": 46000
+            }
+          ],
+          "stated_answer": 5500,
+          "unit": "currency"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-budget-types",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit"
+        ],
+        "prompt": "State what an income budget, an expenditure budget and a profit budget each show.",
+        "answer": "An income budget shows planned income; an expenditure budget shows planned spending; a profit budget shows planned profit, calculated as budgeted income minus budgeted expenditure.",
+        "explanation": "These three budgets focus respectively on incoming funds, spending and the resulting planned profit.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-cost-variance",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ],
+        "prompt": "A manufacturer budgeted £68,000 for packaging costs but actually spent £73,500. Using actual minus budgeted, calculate and label the variance.",
+        "answer": "£5,500 adverse.",
+        "explanation": "£73,500 − £68,000 = £5,500. As this is extra cost, it reduces profit relative to budget and is adverse.",
+        "calc": {
+          "formula_id": "variance",
+          "inputs": [
+            {
+              "name": "actual",
+              "value": 73500
+            },
+            {
+              "name": "budgeted",
+              "value": 68000
+            }
+          ],
+          "stated_answer": 5500,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "p-discrimination-budget-forecast",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit"
+        ],
+        "prompt": "A business keeps its approved annual sales plan at £1.2 million, but after a fall in orders it revises its expected sales for the year to £1.05 million. Identify which figure is the budget and which is the forecast.",
+        "answer": "£1.2 million is the budget; £1.05 million is the forecast.",
+        "explanation": "The approved plan is the budget, while the revised expected outcome based on new information is the forecast.",
+        "calc": null
+      },
+      {
+        "id": "p-interpretation-sales-variance",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ],
+        "prompt": "A shop's sales income is £12,000 above budget. Give the financial label and one reason why management should investigate before judging performance.",
+        "answer": "It is favourable for profit, but management should investigate because it could have been caused by unsustainable discounting or another factor that weakens the underlying outcome.",
+        "explanation": "Higher income than budget is financially favourable, but a variance alone does not reveal its cause or longer-term consequences.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-forecast",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit"
+        ],
+        "prompt": "A UK clothing retailer experiences an unexpected fall in demand. Explain one use of an updated forecast even if its annual budget remains unchanged.",
+        "answer": "It can revise expected sales and use this to reduce inventory orders or adjust staffing and cash decisions.",
+        "explanation": "A forecast supports adaptation to current evidence, whereas the annual budget can remain the formal control benchmark.",
+        "calc": null
+      },
+      {
+        "id": "p-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.5.2:budgets-income-expenditure-profit",
+          "aqa-7132-3.5.2:variance-analysis"
+        ],
+        "prompt": "Compare a budget with a forecast, then justify why a volatile business may use both.",
+        "answer": "A budget is an approved plan and control benchmark; a forecast is an updated estimate. A volatile business needs the budget for coordination and accountability, but needs forecasts to adapt capacity, inventory and cash decisions as evidence changes.",
+        "explanation": "The two tools have different purposes, so using both can combine control with flexibility.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain-maintenance",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.5.2:adverse-and-favourable-variances",
+          "aqa-7132-3.5.2:variance-analysis"
+        ],
+        "prompt": "A factory manager reports maintenance spending £20,000 below budget. Construct a chain of reasoning showing why this favourable variance could still harm the business.",
+        "answer": "Lower maintenance spending creates a favourable cost variance, but postponed maintenance may cause equipment breakdowns, which can reduce output or sales and raise repair costs later.",
+        "explanation": "The short-term cost direction is favourable, but the operational and longer-term effects may reduce overall performance.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.2:variance-analysis",
+          "aqa-7132-3.5.2:adverse-and-favourable-variances"
+        ],
+        "prompt": "A student says, 'An adverse labour-cost variance proves workers were inefficient.' Is this correct? Correct the statement.",
+        "answer": "No. An adverse labour-cost variance means labour cost was worse than budget for profit; it does not prove the cause. Wage rates, overtime, output or quality requirements may need investigation.",
+        "explanation": "A variance measures a difference from a benchmark, not the reason for that difference.",
+        "calc": null
+      }
+    ]
+  }
+}

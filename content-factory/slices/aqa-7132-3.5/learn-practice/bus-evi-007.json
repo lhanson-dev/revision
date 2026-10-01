@@ -1,0 +1,176 @@
+{
+  "node_id": "bus-evi-007",
+  "learn": {
+    "title": "Whole-business judgement, trade-offs and strategic consistency",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Making a whole-business judgement",
+        "body": "A business judgement is a reasoned choice made under constraints and uncertainty. Start with the objective and decision context, then compare credible options against material evidence. Weight evidence by its relevance, quality and likely impact rather than giving every point equal importance. A conclusion should account for constraints, stakeholder effects, risks, time horizon and uncertainty. If key evidence is uncertain, make the recommendation conditional and state what would cause it to change.",
+        "item_ids": []
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Connecting decisions across the business",
+        "body": "A decision in one function can create consequences in another. For example, a growth decision may improve sales but put pressure on liquidity, operations capacity and management control. Strategic consistency means checking whether the proposed action fits the organisation's objectives, capabilities, financial position, market positioning and other functional choices. If these do not fit together, execution conflict can weaken the outcome.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Conditional judgement versus unsupported uncertainty",
+        "body": "Example: A highly geared business could stage an expansion rather than commit immediately. Although expansion may offer a financial return, staging limits downside cash risk and is easier to reverse if demand is weaker than expected. The recommendation would change if reliable evidence showed strong demand and sufficient cash resilience.\n\nNon-example: 'It depends' is not a judgement if it does not identify the relevant condition, explain its importance or say what evidence would change the decision.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "A structure for a recommendation",
+        "body": "Use this sequence when evaluating a decision:\n1. State the objective, such as protecting cash while pursuing sustainable growth.\n2. Identify credible options, including doing nothing or staging the decision where relevant.\n3. Compare the material benefits, costs and stakeholder effects.\n4. Test strategic fit: resources, capabilities, finance, positioning and functional choices.\n5. Examine uncertainty, downside risk and reversibility.\n6. Reach a conditional recommendation and name the decision-changing trigger.\n\nThis prevents a mechanical list of advantages and disadvantages.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: choosing between rapid growth and staged growth",
+        "body": "A retailer can either open ten stores immediately or open two stores first and review performance. Immediate expansion may raise sales quickly, but it uses more cash, increases exposure if demand is weak and is costly to reverse. The staged option may delay growth, but it provides evidence about demand and reduces downside exposure.\n\nA defensible recommendation is to stage the expansion if the retailer's objective includes protecting liquidity and its demand forecasts are uncertain. This choice is strategically consistent if the retailer can operate two stores effectively and learn from the pilot. The recommendation should be revisited if early stores meet agreed sales and cash targets, or if the firm's financial resilience improves.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Balance does not mean equal weight",
+        "body": "It is a misconception that evaluation requires an equal number of arguments for and against. Strong judgement gives greater weight to evidence that is more material, reliable and closely linked to the objective. A positive numerical result should not automatically decide the issue if important effects, such as downside cash risk or stakeholder harm, cannot be measured reliably. Conditional judgement is not indecision: it explains which conditions support the recommendation.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your own decision rule",
+        "body": "Choose a business decision, such as opening a new site. Explain: (1) the main objective; (2) the most important trade-off; (3) which stakeholder may bear a cost; (4) whether the decision is reversible; and (5) the exact evidence that would make you change your recommendation.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "trade-off",
+        "definition": "A gain in one objective achieved at a cost to another."
+      },
+      {
+        "term": "strategic consistency",
+        "definition": "Fit among an organisation's objectives, capabilities, resources and actions."
+      },
+      {
+        "term": "reversibility",
+        "definition": "The ease or cost of changing or undoing a decision."
+      },
+      {
+        "term": "robust decision",
+        "definition": "A choice that remains defensible across a reasonable range of assumptions."
+      },
+      {
+        "term": "decision-changing condition",
+        "definition": "New evidence or a changed assumption that would alter a recommendation."
+      },
+      {
+        "term": "stakeholder effect",
+        "definition": "A cost or benefit experienced by a group affected by a business decision."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-evi-007-p1",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define strategic consistency.",
+        "answer": "It is the fit among objectives, capabilities, resources and actions.",
+        "explanation": "A strategically consistent recommendation can be carried out with the firm's available resources and supports its overall direction.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p2",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "A proposed warehouse upgrade is expected to generate a return of £36,000 and costs £120,000. Calculate the return on investment (ROI).",
+        "answer": "30%",
+        "explanation": "ROI compares the return from an investment with its cost. The result can inform a decision, but it should not be the only consideration where cash risk or other material effects exist.",
+        "calc": {
+          "formula_id": "return_on_investment",
+          "inputs": [
+            {
+              "name": "return_from_investment",
+              "value": 36000
+            },
+            {
+              "name": "cost_of_investment",
+              "value": 120000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "bus-evi-007-p3",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "A project has a positive ROI, but it would require most of a highly geared firm's available cash and cannot easily be reversed. What is the most appropriate interpretation?",
+        "answer": "The positive ROI is useful evidence, but it does not by itself justify proceeding because downside cash risk and irreversibility are material.",
+        "explanation": "A whole-business judgement integrates quantitative information with finance, risk and reversibility rather than allowing one metric to decide the issue.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p4",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Put these stages into a logical order: assess uncertainty and reversibility; compare credible alternatives; state the objective and constraints; make a conditional recommendation; test strategic consistency.",
+        "answer": "1. State the objective and constraints. 2. Compare credible alternatives. 3. Test strategic consistency. 4. Assess uncertainty and reversibility. 5. Make a conditional recommendation.",
+        "explanation": "The objective provides the decision criteria. Options can then be compared, tested for fit and risk, before a conclusion is reached.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain the likely reasoning chain when a marketing plan promises rapid sales growth but operations lacks the capacity to deliver reliably.",
+        "answer": "The mismatch creates functional inconsistency, which can cause execution conflict and weaken the outcome despite stronger demand.",
+        "explanation": "Sales growth is not sufficient if other functions cannot support the action. Capability must fit the proposed strategy.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p6",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A café chain can use cheaper ingredients, lowering costs, or retain higher-quality ingredients, supporting its premium positioning. Identify the trade-off and one strategic-consistency check.",
+        "answer": "The trade-off is lower cost versus quality and premium positioning. Check whether cheaper ingredients would conflict with the chain's intended market position.",
+        "explanation": "A cost reduction may be attractive, but it may undermine the positioning that customers expect and the business is trying to maintain.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A manufacturer can automate immediately or run a smaller pilot first. Immediate automation may cut costs more quickly, while the pilot costs time but provides evidence and is easier to change. Make a justified conditional recommendation.",
+        "answer": "Run a pilot first if the technology's performance and cash impact are uncertain; automate fully only if the pilot meets agreed cost, quality and cash targets.",
+        "explanation": "The pilot sacrifices some short-term cost savings but reduces uncertainty and improves reversibility. The stated targets make the judgement conditional rather than vague.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "Which statement shows the stronger evaluation?\nA. 'There are three advantages and three disadvantages, so the decision is balanced.'\nB. 'The cash risk is more material than the estimated sales gain because the firm has limited liquidity; proceed only if additional finance is secured.'",
+        "answer": "B",
+        "explanation": "B weights evidence according to materiality, links it to a constraint and gives a decision-changing condition. Equal numbers of points do not create a strong judgement.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-007-p9",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [],
+        "prompt": "A business is considering a new delivery service. Select the best set of evidence for a whole-business recommendation: customer demand forecast, delivery capacity, cash required, effect on brand positioning, employee workload, and the ease of ending the service if it fails. Explain why.",
+        "answer": "Use all six pieces of evidence.",
+        "explanation": "They test demand, capability, finance, strategic fit, stakeholder effects and reversibility. Together they support a more robust comparison than a single financial measure.",
+        "calc": null
+      }
+    ]
+  }
+}

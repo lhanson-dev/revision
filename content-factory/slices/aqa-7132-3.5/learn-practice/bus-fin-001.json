@@ -1,0 +1,272 @@
+{
+  "node_id": "bus-fin-001",
+  "learn": {
+    "title": "Financial objectives and decision support",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Finance supports decisions, not automatic answers",
+        "body": "Finance helps a business fund activity, meet obligations, monitor results and compare options. Useful objectives include profitability, cash generation, liquidity, return, solvency, controlled growth and resilience. Managers should consider profit, cash, risk, strategy and timing together: a cost now may create capability or revenue later.",
+        "item_ids": [
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+          "aqa-7132-3.5.1:cash-flow-objectives"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Profit, cash flow and liquidity are different",
+        "body": "Profit is the financial gain after relevant costs; cash flow is money entering and leaving the business; liquidity is the ability to pay short-term obligations when due. A profitable business can have weak cash flow if customers have not yet paid. High liquidity offers protection, but excess idle cash can give a weak return.",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-versus-profit",
+          "aqa-7132-3.5.1:cash-flow-objectives"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Objectives can conflict",
+        "body": "A revenue target may be pursued through price reductions or additional marketing, but either action can reduce profit. Cost cutting may improve short-term profit but damage quality and future revenue. A new business may prioritise revenue growth, whereas a mature business may place more weight on cost control and profit. The appropriate objective depends on strategy and circumstances.",
+        "item_ids": [
+          "aqa-7132-3.5.1:revenue-cost-and-profit-objectives",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Assess the full financial effect",
+        "body": "Example: a firm accepts a lower margin while entering a new market because it has enough cash to fund the launch and expects a defensible future revenue stream. Non-example: rejecting the same project solely because it reduces this year's profit, without considering future benefits, cash timing or strategic value.",
+        "item_ids": [
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+          "aqa-7132-3.5.1:cash-flow-versus-profit"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating return on investment",
+        "body": "ROI shows the return relative to the cost of the investment. It is most useful when the return measure and period are made clear before alternatives are compared.",
+        "item_ids": [
+          "aqa-7132-3.5.1:return-on-investment"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Use objectives to frame a decision",
+        "body": "Suppose a retailer considers a £60,000 website upgrade. Ask: what cash leaves now; what later revenue or cost effects are expected; can the business meet short-term payments while waiting; how is the project financed; and does it support the strategy? Financial data informs the decision, but does not replace judgement about uncertainty and strategic fit.",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-objectives",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Short-term profit is not always the best objective",
+        "body": "It is incorrect to assume that the best choice always maximises this year's profit. A training programme, factory or software platform can reduce current profit and cash while improving future capability. Equally, a positive ROI alone does not prove that an investment is strategically desirable or affordable.",
+        "item_ids": [
+          "aqa-7132-3.5.1:return-on-investment",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the trade-off",
+        "body": "A business has high profits but customers take a long time to pay. Explain why this does not necessarily mean it can safely make a large immediate cash investment. In your explanation, use the terms profit, cash flow, liquidity and risk.",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-versus-profit",
+          "aqa-7132-3.5.1:cash-flow-objectives",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "profitability",
+        "definition": "Ability to generate profit relative to sales or resources."
+      },
+      {
+        "term": "liquidity",
+        "definition": "Ability to meet short-term obligations as they fall due."
+      },
+      {
+        "term": "solvency",
+        "definition": "Ability to meet longer-term obligations and remain financially viable."
+      },
+      {
+        "term": "return",
+        "definition": "Financial gain relative to capital committed."
+      },
+      {
+        "term": "financial resilience",
+        "definition": "Capacity to withstand shocks without losing viability."
+      },
+      {
+        "term": "revenue objective",
+        "definition": "A measurable target for sales income."
+      },
+      {
+        "term": "cost objective",
+        "definition": "A measurable target for spending or cost reduction."
+      },
+      {
+        "term": "profit objective",
+        "definition": "A measurable target for profit or profit margin."
+      },
+      {
+        "term": "cash-flow objective",
+        "definition": "A target concerning cash entering, leaving or held by the business."
+      },
+      {
+        "term": "return on investment (ROI)",
+        "definition": "Return from an investment divided by its cost, expressed as a percentage."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "roi-catering-van",
+        "item_id": "aqa-7132-3.5.1:return-on-investment",
+        "scenario": "A catering business spends £80,000 on a delivery van and calculates that the investment generates £12,000 profit in one year.",
+        "steps": [
+          "Identify the return from the investment: £12,000.",
+          "Identify the cost of the investment: £80,000.",
+          "Divide £12,000 by £80,000 and multiply by 100.",
+          "The ROI is 15% for the year used in the calculation."
+        ],
+        "calc": {
+          "formula_id": "return_on_investment",
+          "inputs": [
+            {
+              "name": "return_from_investment",
+              "value": 12000
+            },
+            {
+              "name": "cost_of_investment",
+              "value": 80000
+            }
+          ],
+          "stated_answer": 15,
+          "unit": "%"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "retrieve-financial-objectives",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-objectives"
+        ],
+        "prompt": "State what a cash-flow objective is.",
+        "answer": "A measurable target for cash entering, leaving or held by a business.",
+        "explanation": "It focuses on the timing and amount of cash, rather than profit alone.",
+        "calc": null
+      },
+      {
+        "id": "discriminate-profit-cash",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-versus-profit"
+        ],
+        "prompt": "A wholesaler makes a sale on credit in March, recording a profit, but the customer will pay in June. Which statement is correct?",
+        "answer": "The sale can increase profit in March without creating cash inflow in March.",
+        "explanation": "Profit and cash flow can occur at different times when customers buy on credit.",
+        "calc": null
+      },
+      {
+        "id": "calculate-roi",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.1:return-on-investment"
+        ],
+        "prompt": "A manufacturer invests £125,000 in equipment. The return from the investment is £22,500 in one year. Calculate ROI.",
+        "answer": "18%.",
+        "explanation": "ROI = return from investment ÷ cost of investment × 100 = £22,500 ÷ £125,000 × 100.",
+        "calc": {
+          "formula_id": "return_on_investment",
+          "inputs": [
+            {
+              "name": "return_from_investment",
+              "value": 22500
+            },
+            {
+              "name": "cost_of_investment",
+              "value": 125000
+            }
+          ],
+          "stated_answer": 18,
+          "unit": "%"
+        }
+      },
+      {
+        "id": "interpret-roi",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.1:return-on-investment",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "prompt": "Two projects each cost £50,000. Project A has a stated annual ROI of 12%; Project B has a stated annual ROI of 16%. What should a manager check before concluding that B is better?",
+        "answer": "Check that the return and time period are comparable, then consider cash capacity, risk and strategic fit.",
+        "explanation": "A higher percentage is useful evidence, but projects may differ in timing, uncertainty and relevance to strategy.",
+        "calc": null
+      },
+      {
+        "id": "compare-objectives",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.5.1:revenue-cost-and-profit-objectives"
+        ],
+        "prompt": "Compare a revenue objective with a profit objective, and give one reason why they may conflict.",
+        "answer": "A revenue objective targets sales income; a profit objective targets profit or profit margin. Price cuts or extra marketing may raise revenue but reduce profit.",
+        "explanation": "Revenue does not account for the costs incurred to achieve sales.",
+        "calc": null
+      },
+      {
+        "id": "apply-cash-objective",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.1:cash-flow-objectives",
+          "aqa-7132-3.5.1:cash-flow-versus-profit"
+        ],
+        "prompt": "A growing builder is profitable but pays suppliers before receiving payment from commercial customers. Suggest one appropriate cash-flow objective.",
+        "answer": "Improve cash availability, for example by reducing the time customers take to pay.",
+        "explanation": "Earlier customer receipts can reduce the cash gap between supplier payments and customer payments.",
+        "calc": null
+      },
+      {
+        "id": "judge-investment",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+          "aqa-7132-3.5.1:cash-flow-objectives"
+        ],
+        "prompt": "A café has enough cash to buy a second site, but the local market is uncertain and the purchase would leave only a small cash buffer. Is the project automatically a good decision because it is affordable today?",
+        "answer": "No. The café should assess uncertainty, the remaining cash buffer, financing risk and whether the site supports its strategy.",
+        "explanation": "Affordability at one point in time does not prove that a project is resilient or strategically desirable.",
+        "calc": null
+      },
+      {
+        "id": "diagnose-short-term-profit",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "prompt": "A manager says, 'We should reject staff training because it lowers this year's profit.' Identify the weakness in this reasoning.",
+        "answer": "It ignores possible future capability, revenue or cost benefits, as well as the timing of cash flows and strategic value.",
+        "explanation": "A decision should assess expected benefits, risks and time horizon, not only current-year profit.",
+        "calc": null
+      },
+      {
+        "id": "select-financial-evidence",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.5.1:revenue-cost-and-profit-objectives",
+          "aqa-7132-3.5.1:cash-flow-objectives",
+          "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning"
+        ],
+        "prompt": "A new online retailer plans a major advertising campaign. Select the most useful combined evidence: (A) only last year's profit, (B) forecast sales, advertising cost, expected profit effect, timing of cash receipts and payments, and available finance, or (C) only its bank balance today.",
+        "answer": "B.",
+        "explanation": "The campaign affects revenue, costs, profit, cash timing and financing needs, so the decision requires combined financial evidence.",
+        "calc": null
+      }
+    ]
+  }
+}
