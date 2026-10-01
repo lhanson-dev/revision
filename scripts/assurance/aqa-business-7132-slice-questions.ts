@@ -34,8 +34,6 @@ export const QUESTIONS_CHECKLIST: Checklist = {
   ],
 }
 
-// ---- The plan: Revision-owned design, aligned to the five question families in Exam Truth ----
-
 export type QuestionFamily = 'MCQ' | 'SHORT_ANSWER' | 'DATA_RESPONSE' | 'ESSAY'
 export type QuestionSpec = {
   id: string
@@ -43,9 +41,7 @@ export type QuestionSpec = {
   marks: number
   commandWord: string
   ao: Array<'AO1' | 'AO2' | 'AO3' | 'AO4'>
-  // Named item suffixes (the part after "aqa-7132-3.5.x:") the question must test.
   itemSuffixes: string[]
-  // Formulas the question must contain a calculation for (proved by software).
   formulaIds: string[]
   brief: string
 }
@@ -73,8 +69,6 @@ export function confidenceLabel(spec: QuestionSpec): 'Proven' | 'Reviewed' | 'Li
   return 'Reviewed'
 }
 
-// ---- Output shape (strict-output friendly: every field required, no maps) ----
-
 const calcSchema = z.object({
   label: z.string().min(1),
   formula_id: z.enum(FORMULA_LIBRARY.map((formula) => formula.id) as [string, ...string[]]),
@@ -91,11 +85,7 @@ export const questionSchema = z.object({
   ao_tags: z.array(z.enum(['AO1', 'AO2', 'AO3', 'AO4'])).min(1),
   context: z.string(),
   stem: z.string().min(1),
-  table: z.object({
-    title: z.string(),
-    columns: z.array(z.string()),
-    rows: z.array(z.object({ cells: z.array(z.string()) })),
-  }).nullable(),
+  table: z.object({ title: z.string(), columns: z.array(z.string()), rows: z.array(z.object({ cells: z.array(z.string()) })) }).nullable(),
   options: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })),
   mark_scheme: z.object({
     type: z.enum(['single_option', 'points', 'levels']),
@@ -117,18 +107,11 @@ export const blindAnswerSchema = z.object({
 })
 export type BlindAnswer = z.infer<typeof blindAnswerSchema>
 
-// ---- Software checks ----
-
 function softwareFinding(checkId: string, affected: string[], finding: string, fix: string, category: ClassifiedFinding['category'] = 'broken_question'): ClassifiedFinding {
   return { check_id: checkId, category, affected_ids: affected.length ? affected : ['question'], finding, evidence: 'software check', contradicting_source_id: null, proposed_fix: fix, disposition: 'blocking', reason: `software-proven: ${finding}` }
 }
 
-const magnitudeMultiplier = {
-  thousand: 1_000,
-  million: 1_000_000,
-  billion: 1_000_000_000,
-} as const
-
+const magnitudeMultiplier = { thousand: 1_000, million: 1_000_000, billion: 1_000_000_000 } as const
 type ParsedNumber = { normalized: number; base: number; hasMagnitude: boolean }
 
 function parsedNumbersIn(text: string): ParsedNumber[] {
@@ -142,19 +125,16 @@ function parsedNumbersIn(text: string): ParsedNumber[] {
     .filter((entry) => Number.isFinite(entry.normalized))
 }
 
-// Every number written in the text, as a value. Commas, currency and percent signs are ignored;
-// signs may appear before a currency symbol, and explicit magnitude words are normalised so £61.20 million is 61,200,000.
 export function numbersIn(text: string): number[] {
   return parsedNumbersIn(text).map((entry) => entry.normalized)
 }
 
 const near = (a: number, b: number) => Math.abs(a - b) <= Math.max(0.051, Math.abs(b) * 0.001)
 
-// Generated calculations sometimes store an input in the explicit magnitude unit used by the question
-// (e.g. 54 for "£54 million"), while other calculations store the fully normalised value. Either is valid
-// only when a magnitude word is actually present in the text.
-export function numberAppearsIn(text: string, target: number): boolean {
-  return parsedNumbersIn(text).some(({ normalized, base, hasMagnitude }) => near(normalized, target) || (hasMagnitude && near(base, target)))
+// Magnitude-base matching is opt-in and used only for calculation inputs. Final answers and MCQ keys
+// always compare against the normalised full value, so £6 million cannot silently satisfy an answer of 6.
+export function numberAppearsIn(text: string, target: number, allowMagnitudeBase = false): boolean {
+  return parsedNumbersIn(text).some(({ normalized, base, hasMagnitude }) => near(normalized, target) || (allowMagnitudeBase && hasMagnitude && near(base, target)))
 }
 
 function questionText(question: Question) {
@@ -169,31 +149,16 @@ function markSchemeText(question: Question) {
 export type QuestionTeaching = { subject_id: string; title?: string | null; teaching_content: unknown; quantitative_content: unknown; source_ids: string[] }
 export type ResolvedSpec = QuestionSpec & { items: BlueprintItem[]; nodeIds: string[] }
 
-// Founder-decided fixes that affect the question itself rather than its upstream Foundation teaching.
-// Keeping them in the generated-unit payload makes the fix a governed input: the old escalated fingerprint cannot be reused.
 export function founderQuestionFixInstructions(spec: ResolvedSpec): string[] {
   const itemIds = new Set(spec.items.map((item) => item.id))
   const has = (suffix: string) => [...itemIds].some((id) => id.endsWith(`:${suffix}`))
   const fixes: string[] = []
-
-  if (spec.id === 'q24' && has('social-enterprise') && has('limited-and-unlimited-liability')) {
-    fixes.push('Make social-enterprise knowledge genuinely necessary. Ask for and credit the legal-form/incorporation reasons actually requested, and accept valid finance routes where relevant rather than awarding a mark merely for identifying the organisation as a social enterprise.')
-  }
-  if (spec.id === 'q25' && has('ordinary-share-capital') && has('role-of-shareholders-and-why-they-invest')) {
-    fixes.push('For the open explanation of why investors provide ordinary share finance, credit valid return-based routes such as dividends and capital growth as well as risk-related routes such as limited liability; do not make the mark scheme depend on one narrow explanation.')
-  }
-  if (spec.id === 'q41' && has('government-enterprise-policy') && has('role-of-regulators')) {
-    fixes.push('Do not state the regulator inspection or enforcement role for the learner in the scenario. The learner must supply and apply that knowledge in the answer.')
-  }
-  if (spec.id === 'q04' && has('emerging-economies')) {
-    fixes.push('Make emerging-economy knowledge genuinely necessary alongside the globalisation mechanism. Align all four marks to the explanation requested and do not award marks for merely repeating context supplied in the question.')
-  }
-  if (spec.id === 'q05' && has('licensing')) {
-    fixes.push('Use a less revealing context: do not embed the definition of licensing in the scenario. The learner must identify and apply licensing knowledge.')
-  }
-  if (spec.id === 'q07' && has('multinationals')) {
-    fixes.push('Do not tell the learner that the business is a multinational or otherwise give the target knowledge away. Require multinational knowledge to explain the cross-border local-responsiveness versus cost-reduction trade-off, and do not award marks for merely repeating supplied facts.')
-  }
+  if (spec.id === 'q24' && has('social-enterprise') && has('limited-and-unlimited-liability')) fixes.push('Make social-enterprise knowledge genuinely necessary. Ask for and credit the legal-form/incorporation reasons actually requested, and accept valid finance routes where relevant rather than awarding a mark merely for identifying the organisation as a social enterprise.')
+  if (spec.id === 'q25' && has('ordinary-share-capital') && has('role-of-shareholders-and-why-they-invest')) fixes.push('For the open explanation of why investors provide ordinary share finance, credit valid return-based routes such as dividends and capital growth as well as risk-related routes such as limited liability; do not make the mark scheme depend on one narrow explanation.')
+  if (spec.id === 'q41' && has('government-enterprise-policy') && has('role-of-regulators')) fixes.push('Do not state the regulator inspection or enforcement role for the learner in the scenario. The learner must supply and apply that knowledge in the answer.')
+  if (spec.id === 'q04' && has('emerging-economies')) fixes.push('Make emerging-economy knowledge genuinely necessary alongside the globalisation mechanism. Align all four marks to the explanation requested and do not award marks for merely repeating context supplied in the question.')
+  if (spec.id === 'q05' && has('licensing')) fixes.push('Use a less revealing context: do not embed the definition of licensing in the scenario. The learner must identify and apply licensing knowledge.')
+  if (spec.id === 'q07' && has('multinationals')) fixes.push('Do not tell the learner that the business is a multinational or otherwise give the target knowledge away. Require multinational knowledge to explain the cross-border local-responsiveness versus cost-reduction trade-off, and do not award marks for merely repeating supplied facts.')
   return fixes
 }
 
@@ -212,28 +177,26 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
     if (JSON.stringify(labels) !== JSON.stringify(['A', 'B', 'C', 'D'])) findings.push(softwareFinding('mcq_options', [id], `options must be labelled A, B, C, D (got ${labels.join(',') || 'none'})`, 'Give exactly four options A to D.'))
     if (scheme.type !== 'single_option' || !labels.includes(scheme.correct_option)) findings.push(softwareFinding('mcq_key', [id], 'multiple choice needs a single_option mark scheme with a correct option from the options', 'Set type single_option and a correct_option that is one of the labels.'))
     if (scheme.option_rationale.length !== 4) findings.push(softwareFinding('mcq_rationale', [id], 'give one rationale per option (4)', 'Add a rationale for each option, including why each distractor is wrong.'))
+  } else if (spec.marks >= 6) {
+    if (question.options.length > 0) findings.push(softwareFinding('options_not_allowed', [id], 'only multiple-choice questions have options', 'Leave options empty.'))
+    if (scheme.type !== 'levels') findings.push(softwareFinding('levels_required', [id], `a ${spec.marks}-mark question needs a levels mark scheme`, 'Use a levels mark scheme with indicative content.'))
+    else {
+      const levels = [...scheme.levels].sort((a, b) => a.min_marks - b.min_marks)
+      let expected = 1
+      let contiguous = levels.length >= 3
+      for (const level of levels) {
+        if (level.min_marks !== expected || level.max_marks < level.min_marks) contiguous = false
+        expected = level.max_marks + 1
+      }
+      if (!contiguous || expected - 1 !== spec.marks) findings.push(softwareFinding('levels_cover_marks', [id], `levels must be at least 3 bands covering 1 to ${spec.marks} with no gaps or overlaps`, `Cover marks 1 to ${spec.marks} exactly.`))
+      if (scheme.indicative_content.length < 3) findings.push(softwareFinding('indicative_content', [id], 'give at least 3 points of indicative content', 'Add indicative content points.'))
+    }
   } else {
     if (question.options.length > 0) findings.push(softwareFinding('options_not_allowed', [id], 'only multiple-choice questions have options', 'Leave options empty.'))
-    if (spec.marks >= 6) {
-      if (scheme.type !== 'levels') findings.push(softwareFinding('levels_required', [id], `a ${spec.marks}-mark question needs a levels mark scheme`, 'Use a levels mark scheme with indicative content.'))
-      else {
-        const levels = [...scheme.levels].sort((a, b) => a.min_marks - b.min_marks)
-        let expected = 1
-        let contiguous = levels.length >= 3
-        for (const level of levels) {
-          if (level.min_marks !== expected || level.max_marks < level.min_marks) contiguous = false
-          expected = level.max_marks + 1
-        }
-        if (!contiguous || expected - 1 !== spec.marks) findings.push(softwareFinding('levels_cover_marks', [id], `levels must be at least 3 bands covering 1 to ${spec.marks} with no gaps or overlaps`, `Cover marks 1 to ${spec.marks} exactly.`))
-        if (scheme.indicative_content.length < 3) findings.push(softwareFinding('indicative_content', [id], 'give at least 3 points of indicative content', 'Add indicative content points.'))
-      }
-    } else {
-      if (scheme.type !== 'points') findings.push(softwareFinding('points_required', [id], `a ${spec.marks}-mark question needs a points mark scheme`, 'Use a points mark scheme.'))
-      else if (scheme.points.reduce((sum, point) => sum + point.marks, 0) !== spec.marks) findings.push(softwareFinding('points_sum', [id], `marking points add up to ${scheme.points.reduce((sum, point) => sum + point.marks, 0)}, not ${spec.marks}`, `Make the marking points add up to ${spec.marks}.`))
-    }
+    if (scheme.type !== 'points') findings.push(softwareFinding('points_required', [id], `a ${spec.marks}-mark question needs a points mark scheme`, 'Use a points mark scheme.'))
+    else if (scheme.points.reduce((sum, point) => sum + point.marks, 0) !== spec.marks) findings.push(softwareFinding('points_sum', [id], `marking points add up to ${scheme.points.reduce((sum, point) => sum + point.marks, 0)}, not ${spec.marks}`, `Make the marking points add up to ${spec.marks}.`))
   }
 
-  // Calculations: recompute, cover every planned formula, and prove the question and mark scheme agree with them.
   const calcFormulas = question.calcs.map((calc) => calc.formula_id)
   for (const formulaId of spec.formulaIds.filter((formula) => !calcFormulas.includes(formula))) findings.push(softwareFinding('plan_formula_missing', [id], `no calculation for planned formula ${formulaId}`, `Add a calculation using ${formulaId}.`))
   for (const calc of question.calcs.filter((c) => !spec.formulaIds.includes(c.formula_id))) findings.push(softwareFinding('plan_formula_unexpected', [id], `calculation uses ${calc.formula_id}, which this question does not test`, 'Only calculate the planned formulas.'))
@@ -242,10 +205,9 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   for (const calc of question.calcs) {
     const problem = checkCalculation(calc)
     if (problem) findings.push(softwareFinding('calculation_recomputes', [id], `${calc.label}: ${problem}`, 'Correct the numbers so the stated answer recomputes.'))
-    // Every input must be given in the question (or be the answer to an earlier calculation in it), or the question is unanswerable.
     const earlierAnswers = question.calcs.filter((other) => other !== calc).map((other) => other.stated_answer)
     for (const input of calc.inputs) {
-      if (!numberAppearsIn(stemText, input.value) && !earlierAnswers.some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
+      if (!numberAppearsIn(stemText, input.value, true) && !earlierAnswers.some((value) => near(value, input.value))) findings.push(softwareFinding('input_in_question', [id], `${calc.label}: input ${input.name} = ${input.value} does not appear in the question`, 'Give every input value in the question text or table (or derive it from an earlier part).'))
     }
     if (!numberAppearsIn(schemeText, calc.stated_answer)) findings.push(softwareFinding('mark_scheme_answer', [id], `${calc.label}: the mark scheme never states the answer ${calc.stated_answer}`, 'State the correct answer in the mark scheme.'))
   }
@@ -258,7 +220,6 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   return findings
 }
 
-// The plan is the hand-written 3.5 plan by default; other batches pass their committed plan (built by aqa-business-7132-question-plan.ts).
 export function resolvePlan(blueprint: Blueprint, plan: readonly QuestionSpec[] = QUESTION_PLAN): ResolvedSpec[] {
   return plan.map((spec) => {
     const items = spec.itemSuffixes.map((suffix) => {
@@ -302,23 +263,12 @@ export async function produceQuestion(input: { spec: ResolvedSpec; teaching: Que
   return last ? { output: last, attempts: maxAttempts } : { output: null, attempts: maxAttempts, error: lastError }
 }
 
-// What the blind answerer sees: the question only. No mark scheme, no teaching, no plan.
 export function blindPayload(question: Question) {
-  return {
-    question_id: question.id,
-    family: question.family,
-    command_word: question.command_word,
-    marks: question.marks,
-    context: question.context,
-    stem: question.stem,
-    table: question.table,
-    options: question.options,
-  }
+  return { question_id: question.id, family: question.family, command_word: question.command_word, marks: question.marks, context: question.context, stem: question.stem, table: question.table, options: question.options }
 }
 
 export type QuestionUnit = { unit_id: string; fingerprint: string; softwareFindings: ClassifiedFinding[]; payload: Record<string, unknown>; sourceIds: Set<string> }
 
-// Software comparison of the blind answer's numbers with the question's own calculations. Shown to the reviewer; the reviewer decides if a difference is the question's fault.
 export function numericComparison(question: Question, blind: BlindAnswer) {
   return question.calcs.map((calc) => {
     const answered = blind.numbers.find((entry) => near(entry.value, calc.stated_answer))
@@ -331,14 +281,7 @@ export function buildQuestionUnit(input: { spec: ResolvedSpec; question: Questio
   const payload = {
     unit_id: input.spec.id,
     sources: input.teaching.map((node) => ({ id: `foundation-node:${node.subject_id}`, text: { teaching_content: node.teaching_content, quantitative_content: node.quantitative_content } })),
-    plan: {
-      family: input.spec.family,
-      marks: input.spec.marks,
-      command_word: input.spec.commandWord,
-      ao_tags: input.spec.ao,
-      target_items: input.spec.items.map((item) => ({ id: item.id, label: item.label })),
-      founder_fix_instructions: founderQuestionFixInstructions(input.spec),
-    },
+    plan: { family: input.spec.family, marks: input.spec.marks, command_word: input.spec.commandWord, ao_tags: input.spec.ao, target_items: input.spec.items.map((item) => ({ id: item.id, label: item.label })), founder_fix_instructions: founderQuestionFixInstructions(input.spec) },
     question: input.question,
     blind_answer: input.blind,
     numeric_comparison: numericComparison(input.question, input.blind),
@@ -380,8 +323,6 @@ export const QUESTION_REVIEW_INSTRUCTIONS = [
   'A blind answer written by someone who saw only the question is supplied. Judge only the checklist questions below, for the unit supplied.',
 ].join('\n')
 
-// ---- Whole-set checks (software) ----
-
 export function setChecks(questions: readonly Question[], plan: readonly QuestionSpec[]) {
   const totalMarks = questions.reduce((sum, q) => sum + q.marks, 0)
   const quantitativeMarks = questions.filter((q) => q.calcs.length > 0).reduce((sum, q) => sum + q.marks, 0)
@@ -396,7 +337,6 @@ export function setChecks(questions: readonly Question[], plan: readonly Questio
     totalMarks,
     quantitativeMarks,
     quantitativePercent: totalMarks ? Number(((quantitativeMarks / totalMarks) * 100).toFixed(1)) : 0,
-    // Exam Truth: quantitative skills are at least 10% of the qualification's marks; a practice set should not fall below that.
     quantitativeShareOk: totalMarks > 0 && quantitativeMarks / totalMarks >= 0.1,
     missingFormulas: [...plannedFormulas].filter((id) => !coveredFormulas.has(id)).sort(),
     byFamily,
