@@ -1,1 +1,259 @@
-{"node_id":"bus-fnd-008","learn":{"title":"Economies of scope and synergy","sections":[{"treatment":"core_explanation","heading":"Economies of scope and synergy in growth","body":"Economies of scope are cost savings from producing or selling related products together. The saving comes from shared resources, such as premises, distribution, equipment, marketing or a brand. Synergy is the additional benefit from combining businesses or activities so that the combined result is greater than each could achieve separately. Scope economies can be one source of synergy, but synergy may also arise from cross-selling or combining complementary capabilities. Neither is automatic: integration costs and weak coordination can prevent the expected benefits.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"comparison","heading":"Scope compared with scale","body":"Economies of scope come from sharing resources across a range of related products. Economies of scale come from increasing the output of one product and lowering long-run average cost. For example, using one delivery network for sandwiches and salads is an economy of scope. Using a larger, more specialised machine to make more sandwiches at a lower unit cost is an economy of scale. A business may gain both, but they have different causes.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"example_non_example","heading":"Recognising genuine scope economies","body":"Example: a UK retailer sells homeware and furniture through the same website, warehouse and delivery fleet. The shared resources can reduce the combined cost of the range. Non-example: a factory raises output from 70% to 90% of its existing capacity, spreading fixed costs over more units. This may lower average cost, but it is a utilisation effect, not necessarily an economy of scope. Also, simply owning two unrelated businesses does not prove that scope savings or synergy exist.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"relationship_causal_chain","heading":"How a shared resource can create synergy","body":"Related products or businesses are combined → they can share a resource such as distribution, marketing or management expertise → duplicated activities may be removed and customers may be cross-sold products → the combined operation may have lower costs or higher revenue than separate operations → synergy is created. However, difficult integration, extra management layers or incompatible systems can add costs and weaken or remove the synergy.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"worked_example","heading":"Worked example: shared delivery cost","body":"A meal business spends £500,000 providing 10,000 weekly deliveries across its related meal and dessert range. Its average delivery cost is £50 per delivery. If the business adds related products and uses the same delivery system effectively, the average cost of the combined range may fall. That would support an economy-of-scope explanation, but the business must also check whether new complexity or service problems offset the saving.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"guided_example","heading":"Guided example: assessing an acquisition claim","body":"A garden-centre chain buys a pet-supplies retailer. First, identify shared resources: both may use the same out-of-town premises, online marketing and delivery vehicles. Second, identify possible benefits: fewer duplicated costs and sales of pet products to garden-centre customers. Third, test the claim: integration may require new systems and managers, and the customer groups may not overlap enough. Therefore, the acquisition could create economies of scope and synergy, but size alone is not evidence that it will.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"misconception_repair","heading":"Avoid two common errors","body":"Do not confuse scope with scale. Producing a larger quantity of one product concerns scale; sharing resources across different related products concerns scope. Do not assume that a merger automatically produces synergy. Synergy is an outcome that must be supported by a realistic mechanism and judged against integration costs, communication problems and the risk that benefits do not occur.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]},{"treatment":"self_explanation_prompt","heading":"Explain the mechanism","body":"A supermarket adds a pharmacy service to stores that already have premises, local advertising and customer footfall. Explain whether this is more likely to be an economy of scope, an economy of scale, or both. Name the shared resources, then explain one reason why the predicted synergy might fail to appear.","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"]}],"key_terms":[{"term":"economies of scope","definition":"Cost savings from producing or selling related products together because resources such as premises, distribution, equipment, marketing or brand are shared."},{"term":"synergy","definition":"An additional benefit from combining businesses or activities, where the combined result is greater than they could achieve separately."},{"term":"average cost","definition":"Total cost divided by output."},{"term":"economies of scale","definition":"Falling long-run average cost as the scale of operation increases."},{"term":"diseconomies of scale","definition":"Rising long-run average cost when scale increases beyond the efficient range."}],"worked_examples":[{"id":"we-average-cost-and-scope","item_id":"aqa-7132-3.9.1:economies-of-scope","scenario":"A UK gift retailer uses one warehouse for its related card, wrapping-paper and party-product range. Total warehouse cost is £480,000 for 12,000 orders.","steps":["Use average cost = total cost ÷ output.","Divide £480,000 by 12,000 orders.","The average warehouse cost is £40 per order.","If adding related products allows the warehouse to handle more orders without proportionate extra cost, this may be an economy of scope. The business would still need evidence that sharing the warehouse, rather than fuller use of existing capacity alone, caused the saving."],"calc":{"formula_id":"unit_cost_average_cost","inputs":[{"name":"total_costs","value":480000},{"name":"units_of_output","value":12000}],"stated_answer":40,"unit":"£ per order"}}]},"practice":{"items":[{"id":"p1-retrieval-scope","capability":"retrieval","item_ids":["aqa-7132-3.9.1:economies-of-scope"],"prompt":"Define economies of scope.","answer":"Cost savings from producing or selling related products together by sharing resources.","explanation":"The key feature is a shared resource across a product range, rather than simply producing more of one product.","calc":null},{"id":"p2-retrieval-synergy","capability":"retrieval","item_ids":["aqa-7132-3.9.1:synergy"],"prompt":"What is meant by synergy in business growth?","answer":"A benefit from combining activities or businesses so that the combined result is greater than they could achieve separately.","explanation":"Synergy can involve lower costs, higher revenue or complementary capabilities, but it must be achieved rather than assumed.","calc":null},{"id":"p3-discrimination","capability":"discrimination","item_ids":["aqa-7132-3.9.1:economies-of-scope"],"prompt":"A bakery begins selling coffee using its existing shop premises, till system and local advertising. Is the likely cost saving an economy of scope or an economy of scale?","answer":"An economy of scope.","explanation":"The bakery is sharing resources across related products. It is not simply increasing the output of one product.","calc":null},{"id":"p4-calculation-average-cost","capability":"calculation","item_ids":["aqa-7132-3.9.1:economies-of-scope"],"prompt":"A retailer's shared warehouse costs £630,000 and handles 18,000 orders for its related product range. Calculate the average warehouse cost per order.","answer":"£35 per order.","explanation":"Average cost = total costs ÷ units of output = £630,000 ÷ 18,000. The calculation alone does not prove an economy of scope; the cause of the cost position must be examined.","calc":{"formula_id":"unit_cost_average_cost","inputs":[{"name":"total_costs","value":630000},{"name":"units_of_output","value":18000}],"stated_answer":35,"unit":"£ per order"}},{"id":"p5-interpretation","capability":"interpretation","item_ids":["aqa-7132-3.9.1:synergy"],"prompt":"A chain buys a complementary online business and predicts that both brands can use one delivery network. What potential synergy is being claimed?","answer":"Lower combined distribution costs through sharing one delivery network.","explanation":"Removing duplicate delivery resources can create a combined benefit. The claim should be tested against integration and service costs.","calc":null},{"id":"p6-misconception","capability":"misconception_diagnostic","item_ids":["aqa-7132-3.9.1:economies-of-scope"],"prompt":"A student says, 'A firm produced more using the same factory, so it definitely gained economies of scope.' What is wrong with this statement?","answer":"Higher use of the same factory may be a utilisation effect, and scope requires shared resources across a range of related products.","explanation":"A unit-cost fall at higher output is not automatically a scope economy or even a long-run scale economy.","calc":null},{"id":"p7-reasoning-chain","capability":"reasoning_chain","item_ids":["aqa-7132-3.9.1:synergy"],"prompt":"Give a two-step chain explaining how a merger between a gym chain and a healthy-food delivery business could create synergy.","answer":"They could market to each other's customers; this could increase sales from the combined customer base.","explanation":"The answer identifies a mechanism, cross-selling, and then links it to a possible combined benefit.","calc":null},{"id":"p8-compare-justify","capability":"compare_justify","item_ids":["aqa-7132-3.9.1:economies-of-scope","aqa-7132-3.9.1:synergy"],"prompt":"Compare economies of scope with synergy. Give one reason why they are not identical.","answer":"Economies of scope are cost savings from shared resources across related products. Synergy is any additional combined benefit, including cost savings, cross-selling or complementary capabilities. Therefore, scope economies can create synergy, but synergy can arise in other ways.","explanation":"The comparison distinguishes the specific cost mechanism of scope from the broader idea of a combined benefit.","calc":null},{"id":"p9-contextual-application","capability":"contextual_application","item_ids":["aqa-7132-3.9.1:economies-of-scope"],"prompt":"A UK rail operator starts offering coach connections to stations and uses its existing app, customer database and ticketing team. Explain one possible economy of scope.","answer":"The operator can spread the cost of its app, database and ticketing team across rail and coach services, reducing the combined cost of providing the range.","explanation":"The explanation applies the concept to named shared resources and related services.","calc":null},{"id":"p10-contextual-judgement","capability":"contextual_judgement","item_ids":["aqa-7132-3.9.1:synergy"],"prompt":"A national clothing retailer plans to acquire a small sportswear brand, claiming synergy. Make a judgement on whether the claim is likely to be reliable.","answer":"It may be reliable if the firms can genuinely share marketing, online distribution and customers. However, it is uncertain because systems may be costly to integrate and the brands may appeal to different customers. The claim needs evidence of achievable savings or extra sales.","explanation":"A sound judgement gives a mechanism, a limitation and a conditional conclusion rather than assuming size guarantees synergy.","calc":null}]}}
+{
+  "node_id": "bus-fnd-008",
+  "learn": {
+    "title": "Economies of scope and synergy",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Economies of scope and synergy in growth",
+        "body": "Economies of scope are cost savings from producing or selling related products together. The saving comes from shared resources, such as premises, distribution, equipment, marketing or a brand. Synergy is the additional benefit from combining businesses or activities so that the combined result is greater than each could achieve separately. Scope economies can be one source of synergy, but synergy may also arise from cross-selling or combining complementary capabilities. Neither is automatic: integration costs and weak coordination can prevent the expected benefits.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Scope compared with scale",
+        "body": "Economies of scope come from sharing resources across a range of related products. Economies of scale come from increasing the output of one product and lowering long-run average cost. For example, using one delivery network for sandwiches and salads is an economy of scope. Using a larger, more specialised machine to make more sandwiches at a lower unit cost is an economy of scale. A business may gain both, but they have different causes.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising genuine scope economies",
+        "body": "Example: a UK retailer sells homeware and furniture through the same website, warehouse and delivery fleet. The shared resources can reduce the combined cost of the range. Non-example: a factory raises output from 70% to 90% of its existing capacity, spreading fixed costs over more units. This may lower average cost, but it is a utilisation effect, not necessarily an economy of scope. Also, simply owning two unrelated businesses does not prove that scope savings or synergy exist.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How a shared resource can create synergy",
+        "body": "Related products or businesses are combined → they can share a resource such as distribution, marketing or management expertise → duplicated activities may be removed and customers may be cross-sold products → the combined operation may have lower costs or higher revenue than separate operations → synergy is created. However, difficult integration, extra management layers or incompatible systems can add costs and weaken or remove the synergy.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: shared delivery cost",
+        "body": "A meal business spends £500,000 providing 10,000 weekly deliveries across its related meal and dessert range. Its average delivery cost is £50 per delivery. If the business adds related products and uses the same delivery system effectively, the average cost of the combined range may fall. That would support an economy-of-scope explanation, but the business must also check whether new complexity or service problems offset the saving.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided example: assessing an acquisition claim",
+        "body": "A garden-centre chain buys a pet-supplies retailer. First, identify shared resources: both may use the same out-of-town premises, online marketing and delivery vehicles. Second, identify possible benefits: fewer duplicated costs and sales of pet products to garden-centre customers. Third, test the claim: integration may require new systems and managers, and the customer groups may not overlap enough. Therefore, the acquisition could create economies of scope and synergy, but size alone is not evidence that it will.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid two common errors",
+        "body": "Do not confuse scope with scale. Producing a larger quantity of one product concerns scale; sharing resources across different related products concerns scope. Do not assume that a merger automatically produces synergy. Synergy is an outcome that must be supported by a realistic mechanism and judged against integration costs, communication problems and the risk that benefits do not occur.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the mechanism",
+        "body": "A supermarket adds a pharmacy service to stores that already have premises, local advertising and customer footfall. Explain whether this is more likely to be an economy of scope, an economy of scale, or both. Name the shared resources, then explain one reason why the predicted synergy might fail to appear.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "economies of scope",
+        "definition": "Cost savings from producing or selling related products together because resources such as premises, distribution, equipment, marketing or brand are shared."
+      },
+      {
+        "term": "synergy",
+        "definition": "An additional benefit from combining businesses or activities, where the combined result is greater than they could achieve separately."
+      },
+      {
+        "term": "average cost",
+        "definition": "Total cost divided by output."
+      },
+      {
+        "term": "economies of scale",
+        "definition": "Falling long-run average cost as the scale of operation increases."
+      },
+      {
+        "term": "diseconomies of scale",
+        "definition": "Rising long-run average cost when scale increases beyond the efficient range."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-average-cost-and-scope",
+        "item_id": "aqa-7132-3.9.1:economies-of-scope",
+        "scenario": "A UK gift retailer uses one warehouse for its related card, wrapping-paper and party-product range. Total warehouse cost is £480,000 for 12,000 orders.",
+        "steps": [
+          "Use average cost = total cost ÷ output.",
+          "Divide £480,000 by 12,000 orders.",
+          "The average warehouse cost is £40 per order.",
+          "If adding related products allows the warehouse to handle more orders without proportionate extra cost, this may be an economy of scope. The business would still need evidence that sharing the warehouse, rather than fuller use of existing capacity alone, caused the saving."
+        ],
+        "calc": {
+          "formula_id": "unit_cost_average_cost",
+          "inputs": [
+            {
+              "name": "total_costs",
+              "value": 480000
+            },
+            {
+              "name": "units_of_output",
+              "value": 12000
+            }
+          ],
+          "stated_answer": 40,
+          "unit": "£ per order"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-retrieval-scope",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope"
+        ],
+        "prompt": "Define economies of scope.",
+        "answer": "Cost savings from producing or selling related products together by sharing resources.",
+        "explanation": "The key feature is a shared resource across a product range, rather than simply producing more of one product.",
+        "calc": null
+      },
+      {
+        "id": "p2-retrieval-synergy",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.1:synergy"
+        ],
+        "prompt": "What is meant by synergy in business growth?",
+        "answer": "A benefit from combining activities or businesses so that the combined result is greater than they could achieve separately.",
+        "explanation": "Synergy can involve lower costs, higher revenue or complementary capabilities, but it must be achieved rather than assumed.",
+        "calc": null
+      },
+      {
+        "id": "p3-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope"
+        ],
+        "prompt": "A bakery begins selling coffee using its existing shop premises, till system and local advertising. Is the likely cost saving an economy of scope or an economy of scale?",
+        "answer": "An economy of scope.",
+        "explanation": "The bakery is sharing resources across related products. It is not simply increasing the output of one product.",
+        "calc": null
+      },
+      {
+        "id": "p4-calculation-average-cost",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope"
+        ],
+        "prompt": "A retailer's shared warehouse costs £630,000 and handles 18,000 orders for its related product range. Calculate the average warehouse cost per order.",
+        "answer": "£35 per order.",
+        "explanation": "Average cost = total costs ÷ units of output = £630,000 ÷ 18,000. The calculation alone does not prove an economy of scope; the cause of the cost position must be examined.",
+        "calc": {
+          "formula_id": "unit_cost_average_cost",
+          "inputs": [
+            {
+              "name": "total_costs",
+              "value": 630000
+            },
+            {
+              "name": "units_of_output",
+              "value": 18000
+            }
+          ],
+          "stated_answer": 35,
+          "unit": "£ per order"
+        }
+      },
+      {
+        "id": "p5-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.9.1:synergy"
+        ],
+        "prompt": "A chain buys a complementary online business and predicts that both brands can use one delivery network. What potential synergy is being claimed?",
+        "answer": "Lower combined distribution costs through sharing one delivery network.",
+        "explanation": "Removing duplicate delivery resources can create a combined benefit. The claim should be tested against integration and service costs.",
+        "calc": null
+      },
+      {
+        "id": "p6-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope"
+        ],
+        "prompt": "A student says, 'A firm produced more using the same factory, so it definitely gained economies of scope.' What is wrong with this statement?",
+        "answer": "Higher use of the same factory may be a utilisation effect, and scope requires shared resources across a range of related products.",
+        "explanation": "A unit-cost fall at higher output is not automatically a scope economy or even a long-run scale economy.",
+        "calc": null
+      },
+      {
+        "id": "p7-reasoning-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.1:synergy"
+        ],
+        "prompt": "Give a two-step chain explaining how a merger between a gym chain and a healthy-food delivery business could create synergy.",
+        "answer": "They could market to each other's customers; this could increase sales from the combined customer base.",
+        "explanation": "The answer identifies a mechanism, cross-selling, and then links it to a possible combined benefit.",
+        "calc": null
+      },
+      {
+        "id": "p8-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope",
+          "aqa-7132-3.9.1:synergy"
+        ],
+        "prompt": "Compare economies of scope with synergy. Give one reason why they are not identical.",
+        "answer": "Economies of scope are cost savings from shared resources across related products. Synergy is any additional combined benefit, including cost savings, cross-selling or complementary capabilities. Therefore, scope economies can create synergy, but synergy can arise in other ways.",
+        "explanation": "The comparison distinguishes the specific cost mechanism of scope from the broader idea of a combined benefit.",
+        "calc": null
+      },
+      {
+        "id": "p9-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scope"
+        ],
+        "prompt": "A UK rail operator starts offering coach connections to stations and uses its existing app, customer database and ticketing team. Explain one possible economy of scope.",
+        "answer": "The operator can spread the cost of its app, database and ticketing team across rail and coach services, reducing the combined cost of providing the range.",
+        "explanation": "The explanation applies the concept to named shared resources and related services.",
+        "calc": null
+      },
+      {
+        "id": "p10-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.1:synergy"
+        ],
+        "prompt": "A national clothing retailer plans to acquire a small sportswear brand, claiming synergy. Make a judgement on whether the claim is likely to be reliable.",
+        "answer": "It may be reliable if the firms can genuinely share marketing, online distribution and customers. However, it is uncertain because systems may be costly to integrate and the brands may appeal to different customers. The claim needs evidence of achievable savings or extra sales.",
+        "explanation": "A sound judgement gives a mechanism, a limitation and a conditional conclusion rather than assuming size guarantees synergy.",
+        "calc": null
+      }
+    ]
+  }
+}

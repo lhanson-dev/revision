@@ -1,1 +1,259 @@
-{"node_id":"bus-fnd-007","learn":{"title":"Business size, growth and growth constraints","sections":[{"treatment":"core_explanation","heading":"Growth, size and sustainable expansion","body":"Business size can be measured by revenue, employee numbers, output, assets, market share or geographic reach. The best measure depends on the comparison being made: two firms can rank differently depending on the measure chosen. Growth means an increase in activity or capability over time, but it is not automatically an increase in profit, cash generation or value. Expansion needs resources before all benefits arrive, including stock, staff, capacity, finance, systems and management time. Sustainable growth is growth that the business can fund and manage without damaging cash, quality or organisational capability.","item_ids":["aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial","aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:overtrading","aqa-7132-3.9.1:takeovers","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]},{"treatment":"comparison","heading":"Economies and diseconomies of scale","body":"Economies of scale are possible cost advantages from operating at greater scale. Technical economies can arise when greater volume makes better use of capacity or equipment. Purchasing economies can arise when higher-volume buying strengthens bargaining power. Managerial economies can arise when a larger business can spread specialist management expertise across more activity. In contrast, diseconomies of scale occur when expansion increases average costs or weakens effectiveness, for example because more people and process interfaces make coordination harder. Larger size is therefore not automatically more efficient.","item_ids":["aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial","aqa-7132-3.9.1:diseconomies-of-scale"]},{"treatment":"relationship_causal_chain","heading":"Why rapid sales growth can create overtrading","body":"A common chain is: sales growth → more inventory and receivables → greater working-capital requirement → financing pressure. A business may have to pay suppliers, recruit staff or add capacity before customers pay. If expansion creates working-capital pressure beyond the finance available, the business is overtrading. It may report profit while still lacking the cash needed to keep operating.","item_ids":["aqa-7132-3.9.1:overtrading","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]},{"treatment":"example_non_example","heading":"Recognising overtrading and weak analysis","body":"Example: a wholesaler wins a large contract, buys stock immediately and allows its customer 90 days to pay. Forecast profit rises, but cash is tied up in stock and receivables. If finance is insufficient, this is overtrading. Non-example: concluding that the wholesaler is successful simply because revenue rose by 20%. That ignores cash, margins, capacity and the timing of payments. Similarly, employee count alone is not enough to decide which firm is economically larger.","item_ids":["aqa-7132-3.9.1:overtrading","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]},{"treatment":"guided_example","heading":"Diagnosing the binding growth constraint","body":"Suppose a retailer's demand is rising, but delivery errors increase after rapid recruitment. First identify the evidence: errors followed expansion in employee numbers. Next identify the likely constraint: people capability, coordination or management systems rather than lack of demand. Finally explain the consequence: poor service could reduce customer retention and make growth lower quality. A suitable response is to strengthen training, processes and management capacity before pursuing further expansion.","item_ids":["aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]},{"treatment":"worked_example","heading":"Assessing a takeover as a growth route","body":"Scenario: Northway Foods considers taking over a smaller distributor. Step 1: identify possible growth benefits: quicker access to customers, capacity, skills or technology. Step 2: test whether those benefits are likely to be realised: can operations and systems be combined effectively? Step 3: consider risks: Northway might overpay, expected savings or additional sales may not occur, and key staff or customers could leave. Judgement: the takeover is not necessarily value-creating; its quality depends on integration and the price paid.","item_ids":["aqa-7132-3.9.1:takeovers"]},{"treatment":"connection_synoptic_link","heading":"Growth affects every functional area","body":"Growth is a whole-business issue. Operations may need more capacity, stock and reliable processes. Finance must fund working capital and investment. Human resources may need to recruit quickly, but rapid recruitment can dilute experience or culture. Marketing may generate demand, but demand is not beneficial if the business cannot serve customers well. Management must coordinate more people and processes as complexity rises. Retrenchment, a reduction in activity or scale, can ease pressure on capacity and working capital, but it also requires functional areas to adjust their resources and plans.","item_ids":["aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas","aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:overtrading"]},{"treatment":"misconception_repair","heading":"Profitability does not prevent overtrading","body":"Misconception: a profitable business cannot face a cash crisis. Repair: profit records revenue and costs, whereas cash depends on when money is received and paid. A growing profitable business can need to pay for inventory, labour and capacity before receiving cash from customers. Misconception: growth means success. Repair: growth can destroy value if margins, cash, quality or management capability do not support it.","item_ids":["aqa-7132-3.9.1:overtrading","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]},{"treatment":"self_explanation_prompt","heading":"Explain the quality of growth","body":"A manufacturer doubles its output, but delivery delays rise and more cash is tied up in inventory. Explain, in your own words, why output growth alone is not enough to judge success. Include one possible economy of scale, one potential diseconomy of scale, and one functional area that needs attention.","item_ids":["aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial","aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"]}],"key_terms":[{"term":"business size","definition":"The scale of an organisation measured using a stated indicator, such as revenue, employees or output."},{"term":"growth","definition":"An increase in an aspect of business activity or capability over time."},{"term":"growth constraint","definition":"A factor that limits the rate or quality of business expansion."},{"term":"economies of scale","definition":"Possible cost advantages gained as a business operates at a larger scale."},{"term":"technical economies of scale","definition":"Cost advantages from improved use of capacity or equipment at higher output."},{"term":"purchasing economies of scale","definition":"Cost advantages from greater buying power when purchasing higher volumes."},{"term":"managerial economies of scale","definition":"Cost advantages from spreading specialist management expertise across more activity."},{"term":"diseconomies of scale","definition":"Higher average costs or reduced effectiveness caused by excessive organisational size or complexity."},{"term":"overtrading","definition":"Expansion that creates working-capital pressure beyond the finance available."},{"term":"takeover","definition":"When one business gains control of another, usually by acquiring enough shares or assets."},{"term":"working capital","definition":"Funds tied up in short-term operating needs such as inventory and receivables."}],"worked_examples":[]},"practice":{"items":[{"id":"bus-fnd-007-p1","capability":"retrieval","item_ids":["aqa-7132-3.9.1:overtrading"],"prompt":"What is overtrading?","answer":"Expansion that creates working-capital pressure beyond the finance available.","explanation":"A business can grow faster than it can fund inventory, receivables and other operating needs.","calc":null},{"id":"bus-fnd-007-p2","capability":"discrimination","item_ids":["aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial","aqa-7132-3.9.1:diseconomies-of-scale"],"prompt":"A larger manufacturer negotiates lower prices from suppliers because it orders greater volumes. Is this a technical, purchasing or managerial economy of scale?","answer":"A purchasing economy of scale.","explanation":"The lower cost arises from stronger buying power at higher purchase volumes.","calc":null},{"id":"bus-fnd-007-p3","capability":"calculation","item_ids":["aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"],"prompt":"A retailer's revenue increases from £800,000 to £1,000,000. Calculate the percentage revenue growth.","answer":"25%.","explanation":"The increase is £200,000. £200,000 divided by £800,000, multiplied by 100, equals 25%. Revenue growth should still be considered alongside cash, margins and capacity.","calc":null},{"id":"bus-fnd-007-p4","capability":"interpretation","item_ids":["aqa-7132-3.9.1:overtrading"],"prompt":"A business reports rising sales and profit, but its cash balance falls because it has bought more inventory and customers have not yet paid. What does this suggest?","answer":"It may be overtrading.","explanation":"Growth has increased working-capital needs before cash has been received from customers.","calc":null},{"id":"bus-fnd-007-p5","capability":"compare_justify","item_ids":["aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial","aqa-7132-3.9.1:diseconomies-of-scale"],"prompt":"Compare one benefit and one drawback of increasing business size.","answer":"A benefit is lower average cost through purchasing, technical or managerial economies. A drawback is diseconomies of scale, as coordination complexity can reduce efficiency.","explanation":"Scale can improve bargaining power or spread expertise, but more people and interfaces can make management harder.","calc":null},{"id":"bus-fnd-007-p6","capability":"contextual_application","item_ids":["aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"],"prompt":"A café chain opens six sites quickly and service quality becomes inconsistent. Identify one functional area that should respond and explain how.","answer":"Human resources should improve recruitment, training and support so new staff can deliver consistent service.","explanation":"Rapid growth can dilute experience and culture, so people capability can become the constraint.","calc":null},{"id":"bus-fnd-007-p7","capability":"contextual_judgement","item_ids":["aqa-7132-3.9.1:takeovers"],"prompt":"A business can buy a competitor to gain customers quickly, but the price is high and the two firms use incompatible systems. Should it automatically proceed with the takeover?","answer":"No. It should proceed only if the expected benefits exceed the price and integration risks can be managed.","explanation":"Takeovers can speed growth, but overpaying, difficult system integration and the loss of staff or customers can prevent value creation.","calc":null},{"id":"bus-fnd-007-p8","capability":"misconception_diagnostic","item_ids":["aqa-7132-3.9.1:overtrading"],"prompt":"True or false: 'If a growing business is profitable, it cannot run out of cash.'","answer":"False.","explanation":"Profit and cash have different timings. Inventory, labour and capacity may need paying for before customer cash arrives.","calc":null},{"id":"bus-fnd-007-p9","capability":"mixed_synoptic_selection","item_ids":["aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas","aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:overtrading"],"prompt":"A wholesaler has strong demand but cannot deliver reliably, has rising stock levels and has limited cash. Select the two most relevant growth constraints: (A) working capital, (B) management and operational capacity, (C) lack of demand, (D) geographic reach.","answer":"A and B.","explanation":"Rising stock and limited cash indicate working-capital pressure, while unreliable deliveries indicate an operational or managerial capacity problem.","calc":null},{"id":"bus-fnd-007-p10","capability":"reasoning_chain","item_ids":["aqa-7132-3.9.1:diseconomies-of-scale","aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"],"prompt":"Complete the reasoning chain: rapid expansion → more people and process interfaces → ______ → possible diseconomies of scale.","answer":"greater coordination complexity.","explanation":"As activities become harder to coordinate, delays, errors and weaker control can increase average costs or reduce effectiveness.","calc":null}]}}
+{
+  "node_id": "bus-fnd-007",
+  "learn": {
+    "title": "Business size, growth and growth constraints",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Growth, size and sustainable expansion",
+        "body": "Business size can be measured by revenue, employee numbers, output, assets, market share or geographic reach. The best measure depends on the comparison being made: two firms can rank differently depending on the measure chosen. Growth means an increase in activity or capability over time, but it is not automatically an increase in profit, cash generation or value. Expansion needs resources before all benefits arrive, including stock, staff, capacity, finance, systems and management time. Sustainable growth is growth that the business can fund and manage without damaging cash, quality or organisational capability.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:overtrading",
+          "aqa-7132-3.9.1:takeovers",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Economies and diseconomies of scale",
+        "body": "Economies of scale are possible cost advantages from operating at greater scale. Technical economies can arise when greater volume makes better use of capacity or equipment. Purchasing economies can arise when higher-volume buying strengthens bargaining power. Managerial economies can arise when a larger business can spread specialist management expertise across more activity. In contrast, diseconomies of scale occur when expansion increases average costs or weakens effectiveness, for example because more people and process interfaces make coordination harder. Larger size is therefore not automatically more efficient.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+          "aqa-7132-3.9.1:diseconomies-of-scale"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why rapid sales growth can create overtrading",
+        "body": "A common chain is: sales growth → more inventory and receivables → greater working-capital requirement → financing pressure. A business may have to pay suppliers, recruit staff or add capacity before customers pay. If expansion creates working-capital pressure beyond the finance available, the business is overtrading. It may report profit while still lacking the cash needed to keep operating.",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising overtrading and weak analysis",
+        "body": "Example: a wholesaler wins a large contract, buys stock immediately and allows its customer 90 days to pay. Forecast profit rises, but cash is tied up in stock and receivables. If finance is insufficient, this is overtrading. Non-example: concluding that the wholesaler is successful simply because revenue rose by 20%. That ignores cash, margins, capacity and the timing of payments. Similarly, employee count alone is not enough to decide which firm is economically larger.",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Diagnosing the binding growth constraint",
+        "body": "Suppose a retailer's demand is rising, but delivery errors increase after rapid recruitment. First identify the evidence: errors followed expansion in employee numbers. Next identify the likely constraint: people capability, coordination or management systems rather than lack of demand. Finally explain the consequence: poor service could reduce customer retention and make growth lower quality. A suitable response is to strengthen training, processes and management capacity before pursuing further expansion.",
+        "item_ids": [
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Assessing a takeover as a growth route",
+        "body": "Scenario: Northway Foods considers taking over a smaller distributor. Step 1: identify possible growth benefits: quicker access to customers, capacity, skills or technology. Step 2: test whether those benefits are likely to be realised: can operations and systems be combined effectively? Step 3: consider risks: Northway might overpay, expected savings or additional sales may not occur, and key staff or customers could leave. Judgement: the takeover is not necessarily value-creating; its quality depends on integration and the price paid.",
+        "item_ids": [
+          "aqa-7132-3.9.1:takeovers"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Growth affects every functional area",
+        "body": "Growth is a whole-business issue. Operations may need more capacity, stock and reliable processes. Finance must fund working capital and investment. Human resources may need to recruit quickly, but rapid recruitment can dilute experience or culture. Marketing may generate demand, but demand is not beneficial if the business cannot serve customers well. Management must coordinate more people and processes as complexity rises. Retrenchment, a reduction in activity or scale, can ease pressure on capacity and working capital, but it also requires functional areas to adjust their resources and plans.",
+        "item_ids": [
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas",
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:overtrading"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Profitability does not prevent overtrading",
+        "body": "Misconception: a profitable business cannot face a cash crisis. Repair: profit records revenue and costs, whereas cash depends on when money is received and paid. A growing profitable business can need to pay for inventory, labour and capacity before receiving cash from customers. Misconception: growth means success. Repair: growth can destroy value if margins, cash, quality or management capability do not support it.",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the quality of growth",
+        "body": "A manufacturer doubles its output, but delivery delays rise and more cash is tied up in inventory. Explain, in your own words, why output growth alone is not enough to judge success. Include one possible economy of scale, one potential diseconomy of scale, and one functional area that needs attention.",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "business size",
+        "definition": "The scale of an organisation measured using a stated indicator, such as revenue, employees or output."
+      },
+      {
+        "term": "growth",
+        "definition": "An increase in an aspect of business activity or capability over time."
+      },
+      {
+        "term": "growth constraint",
+        "definition": "A factor that limits the rate or quality of business expansion."
+      },
+      {
+        "term": "economies of scale",
+        "definition": "Possible cost advantages gained as a business operates at a larger scale."
+      },
+      {
+        "term": "technical economies of scale",
+        "definition": "Cost advantages from improved use of capacity or equipment at higher output."
+      },
+      {
+        "term": "purchasing economies of scale",
+        "definition": "Cost advantages from greater buying power when purchasing higher volumes."
+      },
+      {
+        "term": "managerial economies of scale",
+        "definition": "Cost advantages from spreading specialist management expertise across more activity."
+      },
+      {
+        "term": "diseconomies of scale",
+        "definition": "Higher average costs or reduced effectiveness caused by excessive organisational size or complexity."
+      },
+      {
+        "term": "overtrading",
+        "definition": "Expansion that creates working-capital pressure beyond the finance available."
+      },
+      {
+        "term": "takeover",
+        "definition": "When one business gains control of another, usually by acquiring enough shares or assets."
+      },
+      {
+        "term": "working capital",
+        "definition": "Funds tied up in short-term operating needs such as inventory and receivables."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-007-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading"
+        ],
+        "prompt": "What is overtrading?",
+        "answer": "Expansion that creates working-capital pressure beyond the finance available.",
+        "explanation": "A business can grow faster than it can fund inventory, receivables and other operating needs.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+          "aqa-7132-3.9.1:diseconomies-of-scale"
+        ],
+        "prompt": "A larger manufacturer negotiates lower prices from suppliers because it orders greater volumes. Is this a technical, purchasing or managerial economy of scale?",
+        "answer": "A purchasing economy of scale.",
+        "explanation": "The lower cost arises from stronger buying power at higher purchase volumes.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ],
+        "prompt": "A retailer's revenue increases from £800,000 to £1,000,000. Calculate the percentage revenue growth.",
+        "answer": "25%.",
+        "explanation": "The increase is £200,000. £200,000 divided by £800,000, multiplied by 100, equals 25%. Revenue growth should still be considered alongside cash, margins and capacity.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p4",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading"
+        ],
+        "prompt": "A business reports rising sales and profit, but its cash balance falls because it has bought more inventory and customers have not yet paid. What does this suggest?",
+        "answer": "It may be overtrading.",
+        "explanation": "Growth has increased working-capital needs before cash has been received from customers.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+          "aqa-7132-3.9.1:diseconomies-of-scale"
+        ],
+        "prompt": "Compare one benefit and one drawback of increasing business size.",
+        "answer": "A benefit is lower average cost through purchasing, technical or managerial economies. A drawback is diseconomies of scale, as coordination complexity can reduce efficiency.",
+        "explanation": "Scale can improve bargaining power or spread expertise, but more people and interfaces can make management harder.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ],
+        "prompt": "A café chain opens six sites quickly and service quality becomes inconsistent. Identify one functional area that should respond and explain how.",
+        "answer": "Human resources should improve recruitment, training and support so new staff can deliver consistent service.",
+        "explanation": "Rapid growth can dilute experience and culture, so people capability can become the constraint.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.1:takeovers"
+        ],
+        "prompt": "A business can buy a competitor to gain customers quickly, but the price is high and the two firms use incompatible systems. Should it automatically proceed with the takeover?",
+        "answer": "No. It should proceed only if the expected benefits exceed the price and integration risks can be managed.",
+        "explanation": "Takeovers can speed growth, but overpaying, difficult system integration and the loss of staff or customers can prevent value creation.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.1:overtrading"
+        ],
+        "prompt": "True or false: 'If a growing business is profitable, it cannot run out of cash.'",
+        "answer": "False.",
+        "explanation": "Profit and cash have different timings. Inventory, labour and capacity may need paying for before customer cash arrives.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p9",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas",
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:overtrading"
+        ],
+        "prompt": "A wholesaler has strong demand but cannot deliver reliably, has rising stock levels and has limited cash. Select the two most relevant growth constraints: (A) working capital, (B) management and operational capacity, (C) lack of demand, (D) geographic reach.",
+        "answer": "A and B.",
+        "explanation": "Rising stock and limited cash indicate working-capital pressure, while unreliable deliveries indicate an operational or managerial capacity problem.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-007-p10",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.1:diseconomies-of-scale",
+          "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas"
+        ],
+        "prompt": "Complete the reasoning chain: rapid expansion → more people and process interfaces → ______ → possible diseconomies of scale.",
+        "answer": "greater coordination complexity.",
+        "explanation": "As activities become harder to coordinate, delays, errors and weaker control can increase average costs or reduce effectiveness.",
+        "calc": null
+      }
+    ]
+  }
+}
