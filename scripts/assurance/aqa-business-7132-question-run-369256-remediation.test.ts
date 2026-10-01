@@ -30,12 +30,16 @@ describe('AQA 7132 question run 369256 remediation', () => {
     expect(numberAppearsIn('Outcome two produces a loss of -£60,000.', 60000)).toBe(false)
   })
 
-  it('accepts an explicit magnitude both as its full value and as the stated magnitude-unit input', () => {
-    expect(numbersIn('The market grew from £48 million to £54 million.')).toEqual([48000000, 54000000])
-    expect(numberAppearsIn('The market grew from £48 million to £54 million.', 48)).toBe(true)
-    expect(numberAppearsIn('The market grew from £48 million to £54 million.', 54)).toBe(true)
-    expect(numberAppearsIn('The market grew from £48 million to £54 million.', 48000000)).toBe(true)
-    expect(numberAppearsIn('The market grew from £48 million to £54 million.', 54000000)).toBe(true)
+  it('allows explicit magnitude-base matching only for calculation inputs', () => {
+    const text = 'The market grew from £48 million to £54 million.'
+    expect(numbersIn(text)).toEqual([48000000, 54000000])
+    expect(numberAppearsIn(text, 48)).toBe(false)
+    expect(numberAppearsIn(text, 54)).toBe(false)
+    expect(numberAppearsIn(text, 48, true)).toBe(true)
+    expect(numberAppearsIn(text, 54, true)).toBe(true)
+    expect(numberAppearsIn(text, 48000000)).toBe(true)
+    expect(numberAppearsIn(text, 54000000)).toBe(true)
+    expect(numberAppearsIn('Correct answer: £6 million.', 6)).toBe(false)
   })
 
   it('puts the six Founder-decided question corrections into generation input', () => {
