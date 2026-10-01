@@ -1,0 +1,106 @@
+{
+  "id": "q05",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:profit-for-the-year",
+    "aqa-7132-3.5.2:profit-for-the-year-margin"
+  ],
+  "target_node_ids": [
+    "bus-fin-010",
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q05",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 4,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Northfield Cycles Ltd is a UK retailer of electric bicycles.",
+    "stem": "For the year ended 31 March 2025, Northfield Cycles Ltd reported operating profit of £480,000, net finance costs of £36,000, taxation of £84,000 and revenue of £2,400,000.\n\nCalculate:\n1. profit for the year; and\n2. profit for the year margin.\n\nShow your working.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Calculates profit for the year using operating profit less net finance costs and taxation.",
+          "accept": [
+            "£480,000 - £36,000 - £84,000",
+            "£360,000"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States the correct profit for the year.",
+          "accept": [
+            "£360,000",
+            "360000"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Uses profit for the year divided by revenue, multiplied by 100, to calculate the profit for the year margin.",
+          "accept": [
+            "£360,000 / £2,400,000 × 100",
+            "360000 / 2400000 × 100"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States the correct profit for the year margin.",
+          "accept": [
+            "15%",
+            "15.0%"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Profit for the year = operating profit − net finance costs − taxation\n= £480,000 − £36,000 − £84,000\n= £360,000\n\nProfit for the year margin = (profit for the year / revenue) × 100\n= (£360,000 / £2,400,000) × 100\n= 15%"
+    },
+    "calcs": [
+      {
+        "label": "Profit for the year",
+        "formula_id": "profit_for_the_year",
+        "inputs": [
+          {
+            "name": "operating_profit",
+            "value": 480000
+          },
+          {
+            "name": "net_finance_costs",
+            "value": 36000
+          },
+          {
+            "name": "taxation",
+            "value": 84000
+          }
+        ],
+        "stated_answer": 360000,
+        "unit": "currency"
+      },
+      {
+        "label": "Profit for the year margin",
+        "formula_id": "profit_for_the_year_margin",
+        "inputs": [
+          {
+            "name": "profit_for_the_year",
+            "value": 360000
+          },
+          {
+            "name": "revenue",
+            "value": 2400000
+          }
+        ],
+        "stated_answer": 15,
+        "unit": "percent"
+      }
+    ]
+  }
+}

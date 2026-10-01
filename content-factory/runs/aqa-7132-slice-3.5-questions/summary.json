@@ -1,0 +1,32 @@
+{
+  "planned": 14,
+  "accepted": 14,
+  "blocking": [],
+  "escalated": [],
+  "failed": [],
+  "all_questions_accepted": true,
+  "set": {
+    "questions": 14,
+    "totalMarks": 72,
+    "quantitativeMarks": 27,
+    "quantitativePercent": 37.5,
+    "quantitativeShareOk": true,
+    "missingFormulas": [],
+    "byFamily": {
+      "MCQ": 3,
+      "SHORT_ANSWER": 7,
+      "DATA_RESPONSE": 3,
+      "ESSAY": 1
+    },
+    "aoMarksTagged": {
+      "AO2": 67,
+      "AO1": 45,
+      "AO3": 44,
+      "AO4": 34
+    }
+  },
+  "provider_budget": {
+    "maxSpendUsd": 6,
+    "conservativeConsumedUsd": 0.608488
+  }
+}

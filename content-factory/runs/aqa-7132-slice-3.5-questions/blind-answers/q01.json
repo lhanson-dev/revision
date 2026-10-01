@@ -1,0 +1,10 @@
+{
+  "question_id": "q01",
+  "answer_text": "A — Gross profit margin = (£280,000 ÷ £800,000) × 100 = 35%.",
+  "numbers": [
+    {
+      "label": "gross profit margin percentage",
+      "value": 35
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "id": "q13",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Reviewed",
+  "target_item_ids": [
+    "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+    "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit"
+  ],
+  "target_node_ids": [
+    "bus-evi-007",
+    "bus-fin-005",
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q13",
+    "family": "DATA_RESPONSE",
+    "command_word": "Evaluate",
+    "marks": 9,
+    "ao_tags": [
+      "AO1",
+      "AO2",
+      "AO3",
+      "AO4"
+    ],
+    "context": "Harbour & Hearth Ltd is an independent retailer of homeware with one shop and an online store. It has increased sales to small hotels, which buy on credit. The business is profitable, but its owner is concerned that it may not have enough cash to make payments in June. The owner wants to protect relationships with hotel customers and key suppliers while avoiding unnecessary borrowing.",
+    "stem": "Evaluate two ways Harbour & Hearth Ltd could improve its cash flow. In your answer, consider the difficulties each way could create and reach a justified judgement.",
+    "table": {
+      "title": "Harbour & Hearth Ltd cash-flow forecast and operating information",
+      "columns": [
+        "Item",
+        "May",
+        "June",
+        "Additional information"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Opening cash balance",
+            "£12,000",
+            "£18,000",
+            "June’s opening balance is May’s forecast closing balance."
+          ]
+        },
+        {
+          "cells": [
+            "Cash receipts from customers",
+            "£86,000",
+            "£74,000",
+            "£20,000 of June credit receipts are due from hotels that normally pay 60 days after delivery."
+          ]
+        },
+        {
+          "cells": [
+            "Cash payments",
+            "£80,000",
+            "£100,000",
+            "June payments include £25,000 for new summer stock ordered from a key supplier on 30-day credit terms."
+          ]
+        },
+        {
+          "cells": [
+            "Forecast closing cash balance",
+            "£18,000",
+            "-£8,000",
+            "The business must make all wage, rent and supplier payments by their due dates."
+          ]
+        },
+        {
+          "cells": [
+            "Inventory",
+            "—",
+            "—",
+            "The business holds £30,000 of slow-selling winter homeware, which is expected to sell gradually over the next four months."
+          ]
+        },
+        {
+          "cells": [
+            "Supplier relationship",
+            "—",
+            "—",
+            "The key supplier provides popular products and has previously refused to extend credit to retailers that paid late."
+          ]
+        }
+      ]
+    },
+    "options": [],
+    "mark_scheme": {
+      "type": "levels",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [],
+      "levels": [
+        {
+          "level": 1,
+          "min_marks": 1,
+          "max_marks": 3,
+          "descriptor": "Shows limited knowledge of one or two cash-flow methods, with simple or generic points. Application to Harbour & Hearth may be weak. There is little analysis of consequences and no supported judgement, or a judgement is asserted."
+        },
+        {
+          "level": 2,
+          "min_marks": 4,
+          "max_marks": 6,
+          "descriptor": "Explains two relevant methods and applies them to Harbour & Hearth’s forecast or operating information. Analysis recognises at least some difficulties or trade-offs, such as effects on customers, suppliers, profit or future operations. A conclusion is given but is only partly supported or does not clearly weigh the options."
+        },
+        {
+          "level": 3,
+          "min_marks": 7,
+          "max_marks": 9,
+          "descriptor": "Provides a developed, well-applied evaluation of two relevant methods. Analysis uses the June cash shortfall and/or other data to explain how and when each method affects cash, while weighing material difficulties and longer-term consequences. A clear, justified and conditional judgement identifies the most appropriate approach in the circumstances."
+        }
+      ],
+      "indicative_content": [
+        "Harbour & Hearth could accelerate collection of the £20,000 due from hotel customers, for example by requesting earlier payment or offering a small settlement discount. Receiving enough of this cash during June could remove the forecast £8,000 negative closing balance.",
+        "Earlier collection may reduce cash pressure without increasing borrowing. However, hotels may value 60-day credit and could switch supplier if terms are tightened. A settlement discount would reduce profit per sale, so it improves the timing of cash but may damage profitability.",
+        "The business could negotiate a longer credit period with the key supplier for the £25,000 summer-stock payment. Deferring this payment beyond June could directly improve the June closing balance and may be sufficient to avoid the £8,000 shortfall.",
+        "The supplier has previously refused extended credit to retailers paying late. Pressure to extend terms could damage a relationship that gives Harbour & Hearth access to popular products, or lead to less favourable terms in future. Simply paying late is particularly risky because it could interrupt stock supply.",
+        "Harbour & Hearth could sell slow-moving winter inventory more quickly, perhaps through a promotion. This would turn some of the £30,000 stock into cash and reduce the risk of holding stock that sells only gradually.",
+        "Discounting winter homeware may reduce gross profit and could train customers to wait for reductions. It also may not raise cash quickly enough, or in a large enough amount, to solve the June shortage.",
+        "A justified judgement may favour seeking earlier payment from selected hotel customers while discussing, rather than unilaterally imposing, a short extension with the supplier. This combines relatively reversible actions and directly addresses the June timing problem. The recommendation depends on the size and timing of hotel payments and on whether the supplier will agree without threatening future supply."
+      ],
+      "model_answer": "Harbour & Hearth could improve cash flow by bringing forward receipts from hotel customers. It is expecting £20,000 from these customers in June, while the forecast shows a closing cash balance of negative £8,000. If it persuaded enough hotels to pay earlier, it could avoid the shortage without taking out finance. For example, it could offer a small discount for prompt payment or contact customers before invoices become overdue. However, this may be difficult because hotels normally receive 60 days' credit. Reducing that benefit could damage customer relationships and lead hotels to use another homeware supplier. A discount would also reduce profit, so the business would be exchanging some profitability for faster cash.\n\nA second option is to negotiate longer supplier credit for the £25,000 summer-stock payment included in June's cash payments. Moving even part of this payment into July would improve June cash flow directly and should remove the forecast £8,000 deficit. This may be more effective than a winter clearance because it addresses a known large payment at the time it is due. However, the supplier is important because it provides popular products, and it has refused extended credit to retailers that paid late before. Harbour & Hearth must therefore negotiate before the due date rather than delay payment without agreement. Otherwise, it could lose access to stock that supports future sales.\n\nOverall, the best approach is to ask selected hotel customers for earlier payment first, while seeking an agreed short extension from the supplier as a back-up. This is preferable to immediately discounting £30,000 of winter stock because a clearance could reduce profit and may not generate enough cash in June. The decision should be reviewed if hotels will not pay early or if the supplier will only extend credit on terms that threaten future supply; in that case, a planned stock promotion may become necessary."
+    },
+    "calcs": []
+  }
+}

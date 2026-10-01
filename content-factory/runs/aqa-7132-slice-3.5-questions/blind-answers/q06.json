@@ -1,0 +1,10 @@
+{
+  "question_id": "q06",
+  "answer_text": "ROI = (return ÷ cost) × 100\n= (£36,000 ÷ £240,000) × 100\n= 15%",
+  "numbers": [
+    {
+      "label": "return_on_investment_percentage",
+      "value": 15
+    }
+  ]
+}

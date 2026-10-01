@@ -1,0 +1,79 @@
+{
+  "id": "q09",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:total-contribution"
+  ],
+  "target_node_ids": [
+    "bus-fin-003"
+  ],
+  "question": {
+    "id": "q09",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 3,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice question. UrbanTrail Cycles sells a commuter bicycle model.",
+    "stem": "UrbanTrail Cycles earns a contribution of £7.50 per commuter bicycle sold. In June, it sold 18,400 bicycles.\n\nCalculate the total contribution made from sales of commuter bicycles in June. Show your working.",
+    "table": null,
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Uses the total contribution method: contribution per unit × units sold.",
+          "accept": [
+            "£7.50 × 18,400",
+            "Contribution per unit multiplied by units sold",
+            "7.5 × 18,400"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Correctly calculates 7.50 × 18,400.",
+          "accept": [
+            "138,000",
+            "£138000",
+            "138000"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States the total contribution as £138,000.",
+          "accept": [
+            "£138,000 total contribution",
+            "Total contribution = £138,000",
+            "£138,000"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Total contribution = contribution per unit × units sold\n= £7.50 × 18,400\n= £138,000"
+    },
+    "calcs": [
+      {
+        "label": "Total contribution from commuter bicycle sales",
+        "formula_id": "total_contribution",
+        "inputs": [
+          {
+            "name": "contribution_per_unit",
+            "value": 7.5
+          },
+          {
+            "name": "units_sold",
+            "value": 18400
+          }
+        ],
+        "stated_answer": 138000,
+        "unit": "£"
+      }
+    ]
+  }
+}

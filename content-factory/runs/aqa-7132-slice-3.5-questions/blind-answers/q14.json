@@ -1,0 +1,158 @@
+{
+  "question_id": "q14",
+  "answer_text": "Financial data should be central to Moorland Soups’ decision, because it identifies whether an option adds profit and, more urgently, whether the business can remain liquid. However, it should not be used above all other information. Forecasts depend on assumptions, and operational, customer and quality evidence is needed before committing to a one-year contract.\n\nThe current figures show why financial analysis is necessary. Current monthly revenue is £198,400 (62,000 × £3.20). Variable costs are £105,400 (62,000 × £1.70), leaving contribution of £93,000. After fixed costs of £90,000, monthly operating profit is only £3,000. The current break-even output is 60,000 soups (£90,000 ÷ £1.50 contribution per soup), so actual sales are only 2,000 soups above break-even. This is a very small margin of safety: a modest fall in demand, or another rise in vegetable prices, could make the business loss-making. Its operating profit margin is also only 1.51% (£3,000 ÷ £198,400 × 100). Therefore, financial data gives a clear warning that profit and profitability need improvement.\n\nBudget variances reinforce this conclusion. Revenue is £12,000 below budget and variable costs are £6,000 above budget, creating an adverse monthly profit variance of £18,000, assuming fixed costs remain on budget. Management should investigate this rather than merely report it. For example, the revenue shortfall may result from lower sales volume, lower prices or a change in customer demand, while the cost variance reflects higher vegetable prices. A budget therefore helps control performance and directs managers towards problems. Yet it does not itself explain the cause of the variance. Decisions based only on the figures could lead to the wrong response, such as cutting marketing when the real issue is product quality or availability.\n\nOn profit grounds, the supermarket contract appears attractive. It would generate monthly revenue of £40,500 (15,000 × £2.70) and variable costs of £23,250 (15,000 × £1.55). Its monthly contribution would therefore be £17,250, or £1.15 per soup. Once the extra monthly marketing and administration costs of £9,000 are deducted, it should add £8,250 to monthly operating profit. This would raise total monthly operating profit from £3,000 to £11,250, assuming existing sales are maintained. Combined sales revenue would be £238,900 and the operating profit margin would improve to 4.71%. This supports accepting the contract if the forecasts are realistic.\n\nBreak-even analysis also suggests the contract has potential. The contract needs 7,826 soups per month to cover its additional £9,000 fixed cost (£9,000 ÷ £1.15). Forecast contract sales of 15,000 soups give a margin of safety of about 7,174 soups. Across the business, total contribution would be £110,250 and fixed costs would rise to £99,000. At the planned sales mix, the combined break-even output would be about 69,143 soups, against expected output of 77,000 soups. Thus, the overall margin of safety would rise to about 7,857 soups, compared with only 2,000 at present. Financial data is therefore useful for showing that greater sales volume could improve resilience as well as profit.\n\nHowever, the contract has a major cash-flow weakness. Profit is not the same as cash: profit records revenue when earned, whereas cash flow depends on when money is received and paid. Moorland starts with only £38,000 cash and already forecasts net outflows of £25,000 and then £20,000. The £45,000 delivery and packing line would immediately take cash to negative £7,000, even before those forecast outflows. If there is no new finance and the forecast excludes the line, cash would reach negative £52,000 after the two forecast months. The supermarket pays 75 days after delivery, later than the existing 60-day customer payment period, while suppliers are paid after 30 days. This can create a substantial working-capital gap: Moorland may have to pay for production well before receiving supermarket cash. Consequently, a financially profitable contract could still cause insolvency if the business cannot obtain an overdraft, loan, supplier-credit extension or a better payment term.\n\nThe contract might produce £99,000 additional operating profit over a full year (£8,250 × 12), and the £45,000 line has an indicative payback period of about 5.45 months (£45,000 ÷ £8,250). This is encouraging, but it is not sufficient to judge the investment fully. There is no information about the line’s useful life, depreciation, maintenance, finance costs or resale value. A proper investment decision would need these estimates and a monthly cash-flow forecast that includes payment delays. Most importantly, the proposed £1.55 variable cost is below the present £1.70 cost despite rising vegetable prices. Managers should test whether this cost estimate is achievable before relying on the calculated contribution.\n\nThe waste-reduction alternative illustrates why non-financial evidence matters. If the saving were achieved at current output, it would reduce monthly variable cost by £4,960 (62,000 × £0.08), increase contribution per soup to £1.58 and raise monthly operating profit to £7,960. Break-even output would fall to about 56,962 soups. The £18,000 training and quality-check cost would have an estimated payback of around 3.63 months (£18,000 ÷ £4,960). However, the saving is not guaranteed. Managers need evidence from production trials, staff capability and quality checks before treating the forecast saving as certain. It also requires immediate cash: using the existing cash-flow forecast, the training cost would reduce cash to £20,000 immediately and to negative £25,000 after the two forecast months if no finance is arranged.\n\nFinally, non-financial factors could determine whether the supermarket contract succeeds. Moorland needs to establish whether it has sufficient production capacity, staff skills and chilled-delivery reliability to supply the extra volume consistently. It should assess whether supermarket requirements could damage quality or its reputation with existing independent food shops, and whether dependence on one regional chain would weaken its bargaining position. These issues may affect long-term sales and costs but cannot be resolved from the financial data alone.\n\nOverall, Moorland should give financial data very high priority, particularly the cash-flow forecast, contribution and break-even calculations. On current evidence, it should not accept the contract immediately without arranging finance or renegotiating payment timing, because the cash risk is more immediate than the forecast profit benefit. Once liquidity is secured and operational capacity, product quality and cost assumptions have been validated, the contract is likely to be preferable to relying only on the uncertain waste-saving proposal. Therefore, financial data should guide and discipline the decision, but not be used above all other evidence.",
+  "numbers": [
+    {
+      "label": "current_monthly_revenue",
+      "value": 198400
+    },
+    {
+      "label": "current_monthly_variable_cost",
+      "value": 105400
+    },
+    {
+      "label": "current_unit_contribution",
+      "value": 1.5
+    },
+    {
+      "label": "current_monthly_contribution",
+      "value": 93000
+    },
+    {
+      "label": "current_monthly_operating_profit",
+      "value": 3000
+    },
+    {
+      "label": "current_break_even_output",
+      "value": 60000
+    },
+    {
+      "label": "current_margin_of_safety_units",
+      "value": 2000
+    },
+    {
+      "label": "current_operating_profit_margin_percent",
+      "value": 1.51
+    },
+    {
+      "label": "adverse_monthly_profit_budget_variance",
+      "value": 18000
+    },
+    {
+      "label": "contract_monthly_revenue",
+      "value": 40500
+    },
+    {
+      "label": "contract_monthly_variable_cost",
+      "value": 23250
+    },
+    {
+      "label": "contract_unit_contribution",
+      "value": 1.15
+    },
+    {
+      "label": "contract_monthly_contribution",
+      "value": 17250
+    },
+    {
+      "label": "contract_incremental_monthly_operating_profit",
+      "value": 8250
+    },
+    {
+      "label": "contract_incremental_break_even_units",
+      "value": 7826
+    },
+    {
+      "label": "contract_incremental_margin_of_safety_units",
+      "value": 7174
+    },
+    {
+      "label": "combined_monthly_revenue",
+      "value": 238900
+    },
+    {
+      "label": "combined_monthly_variable_cost",
+      "value": 128650
+    },
+    {
+      "label": "combined_monthly_contribution",
+      "value": 110250
+    },
+    {
+      "label": "combined_monthly_fixed_costs",
+      "value": 99000
+    },
+    {
+      "label": "combined_monthly_operating_profit",
+      "value": 11250
+    },
+    {
+      "label": "combined_operating_profit_margin_percent",
+      "value": 4.71
+    },
+    {
+      "label": "combined_average_unit_contribution",
+      "value": 1.4318
+    },
+    {
+      "label": "combined_break_even_output",
+      "value": 69143
+    },
+    {
+      "label": "combined_margin_of_safety_units",
+      "value": 7857
+    },
+    {
+      "label": "contract_annual_incremental_operating_profit",
+      "value": 99000
+    },
+    {
+      "label": "delivery_line_payback_months",
+      "value": 5.45
+    },
+    {
+      "label": "cash_after_delivery_line",
+      "value": -7000
+    },
+    {
+      "label": "cash_after_first_forecast_month_with_line",
+      "value": -32000
+    },
+    {
+      "label": "cash_after_two_forecast_months_with_line",
+      "value": -52000
+    },
+    {
+      "label": "waste_reduction_monthly_saving_at_current_output",
+      "value": 4960
+    },
+    {
+      "label": "waste_reduction_revised_unit_variable_cost",
+      "value": 1.62
+    },
+    {
+      "label": "waste_reduction_revised_unit_contribution",
+      "value": 1.58
+    },
+    {
+      "label": "waste_reduction_revised_monthly_operating_profit",
+      "value": 7960
+    },
+    {
+      "label": "waste_reduction_revised_break_even_output",
+      "value": 56962
+    },
+    {
+      "label": "waste_reduction_payback_months",
+      "value": 3.63
+    },
+    {
+      "label": "cash_after_waste_training",
+      "value": 20000
+    },
+    {
+      "label": "cash_after_two_forecast_months_with_waste_training",
+      "value": -25000
+    }
+  ]
+}

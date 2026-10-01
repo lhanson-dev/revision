@@ -1,0 +1,97 @@
+{
+  "id": "q12",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Reviewed",
+  "target_item_ids": [
+    "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+    "aqa-7132-3.5.3:loans",
+    "aqa-7132-3.5.3:share-capital"
+  ],
+  "target_node_ids": [
+    "bus-fin-008",
+    "bus-fin-014"
+  ],
+  "question": {
+    "id": "q12",
+    "family": "DATA_RESPONSE",
+    "command_word": "Analyse",
+    "marks": 6,
+    "ao_tags": [
+      "AO1",
+      "AO2",
+      "AO3"
+    ],
+    "context": "Northshore Cycles Ltd makes and sells electric bicycles in northern England. It plans to expand its assembly site to meet orders from independent bike shops. The expansion would add capacity for 1,200 bicycles per year and is expected to take 10 years to use fully. Demand for electric bicycles is growing, but the business's sales fall noticeably during winter. The two founders currently own all of the ordinary shares and want to retain decision-making control.",
+    "stem": "Using the information provided, analyse the advantages and disadvantages for Northshore Cycles Ltd of financing its £600,000 expansion with a bank loan rather than selling new ordinary shares.",
+    "table": {
+      "title": "Finance and business information for Northshore Cycles Ltd",
+      "columns": [
+        "Item",
+        "Information"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Bank-loan offer",
+            "£600,000 over 10 years at 7% interest, with equal annual repayments. The bank requires the assembly equipment as security."
+          ]
+        },
+        {
+          "cells": [
+            "Share issue option",
+            "New investors would provide £600,000 for 30% of the ordinary shares in the business. Dividends would only be paid if declared by the company."
+          ]
+        },
+        {
+          "cells": [
+            "Current finance position",
+            "The business has no long-term borrowing and generated £180,000 net cash from operations last year."
+          ]
+        },
+        {
+          "cells": [
+            "Seasonality",
+            "Net cash from operations was £20,000 in the three winter months last year."
+          ]
+        }
+      ]
+    },
+    "options": [],
+    "mark_scheme": {
+      "type": "levels",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [],
+      "levels": [
+        {
+          "level": 3,
+          "min_marks": 5,
+          "max_marks": 6,
+          "descriptor": "Clear and developed analysis of both the benefits and drawbacks of a bank loan compared with issuing shares. The response consistently applies the finance choice to Northshore Cycles Ltd and explains linked effects on cash flow, control and/or financial risk. A relevant contextual implication may strengthen the analysis but is not required."
+        },
+        {
+          "level": 2,
+          "min_marks": 3,
+          "max_marks": 4,
+          "descriptor": "Some developed analysis of the advantages and/or disadvantages of a bank loan, with some application to Northshore Cycles Ltd. Links to consequences are present but may be uneven, or one side of the comparison may be less developed."
+        },
+        {
+          "level": 1,
+          "min_marks": 1,
+          "max_marks": 2,
+          "descriptor": "Basic knowledge of loans and/or shares, with limited application or explanation. Points may be asserted, generic or describe features without developing business consequences."
+        }
+      ],
+      "indicative_content": [
+        "A loan would allow the founders to avoid issuing 30% of the ordinary shares, so they retain ownership and decision-making control. This may help them implement the expansion without needing investor agreement.",
+        "The loan is matched to the 10-year expected use of the expanded capacity, reducing the risk of relying on short-term finance for a long-lived investment.",
+        "Loan interest and repayments are contractual cash commitments. Northshore Cycles Ltd's winter operating cash flow was only £20,000 across three months, so seasonal low cash inflows could make servicing annual repayments more difficult and increase financial risk.",
+        "Using the assembly equipment as security puts an asset at risk if the business cannot meet loan obligations. Demand is growing, but it is seasonal, so future cash flows are not certain.",
+        "Selling shares would avoid compulsory interest and capital repayments, leaving more flexibility when winter sales are low. However, new shareholders would receive a 30% ownership stake and may share in future returns through dividends if these are declared.",
+        "A share issue provides permanent risk capital with no contractual repayment, whereas the loan must be repaid even if the additional capacity does not generate the expected sales. Conversely, dividends are not guaranteed, so share finance does not create the same fixed cash commitment as debt."
+      ],
+      "model_answer": "A bank loan would enable the two founders to finance the £600,000 expansion without giving new investors 30% of the ordinary shares. Therefore, they would retain full ownership and control over decisions about the new assembly site. This could be important because the founders want to keep decision-making control.\n\nThe 10-year loan also broadly matches the expected 10-year use of the additional capacity. This is more appropriate than funding a long-lived expansion with finance that could be withdrawn quickly. However, the loan creates fixed interest and repayment commitments regardless of whether demand produces the forecast sales. Northshore Cycles Ltd has seasonal cash flow: it generated only £20,000 net cash from operations during the three winter months last year. A weak winter could therefore make repayments difficult, increasing financial risk. The assembly equipment is also security for the loan, so the business could risk losing an important asset if it cannot meet the loan terms.\n\nSelling shares would avoid compulsory interest and repayment payments and would provide finance that does not have to be repaid. This could give the business more cash-flow flexibility during winter. However, the founders would dilute their ownership by 30% and would share future returns with the new investors. Therefore, a loan protects control but exposes Northshore Cycles Ltd to repayment and cash-flow risk."
+    },
+    "calcs": []
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-slice-questions",
+  "checklist_version": "slice-questions-v1",
+  "units": {
+    "q01": {
+      "fingerprint": "dc7586f7758889e329a932f643b5aa93d870034c7fc0cd2d13963a7227c40411",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q02": {
+      "fingerprint": "fdf0ffd52c072afa32af588e50fc814f0dddbf79ee1de1d76a2036dc4c47c486",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q03": {
+      "fingerprint": "6a8827079ee9429bf3793276f17547ddb67903aa5ed0b77da48d1f08ebd28898",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q04": {
+      "fingerprint": "94440178bdde68c9f12e60ad3c2ce2464c51026ef30b9fbedb65d0e6a4204dd6",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q05": {
+      "fingerprint": "4347149b57d478b420d6a7e0a8bf36cd1699ec224f44ee7e69687515a063e7e6",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q06": {
+      "fingerprint": "84e8e63242e41a32ceafe5760e01abc7814a185eb48bcf5c1df29adc06163ec7",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q07": {
+      "fingerprint": "a4705390a7c6274a42322b619f0e2533c3e4409d1d010133348e7f036e80e3c7",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:55.154Z"
+    },
+    "q08": {
+      "fingerprint": "9683a6a8ea3e6da31af241855873407545f32cbf3222056098b06a319fdd5dec",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q09": {
+      "fingerprint": "621d9fd9223df685c54801b8212ba64901c142a3d10cb4efb6f1757e7138d755",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q10": {
+      "fingerprint": "6afe5d4e7ce609a8fc4a19058affd07d17db7bebb2d68e729f2da466ed00b3f5",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q11": {
+      "fingerprint": "b1dadfcf1c42228f0b5ef9f4fea586335443ed0ea2730f17a48157fe9a203390",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q12": {
+      "fingerprint": "75966a7e1f26ce7e8ba247194ae179efed250ebf15b2e00d73d56fd265926309",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:55.154Z"
+    },
+    "q13": {
+      "fingerprint": "3745a009b3b733277c3a0cc83d0a4149979baca7178c031356d1a5aff6f91e9a",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    },
+    "q14": {
+      "fingerprint": "490ebddc35cc68df2b1ccdbce324a59d72e7d3a1f4efeadf85cd979fcc981075",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T07:34:04.823Z"
+    }
+  }
+}

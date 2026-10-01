@@ -1,0 +1,10 @@
+{
+  "question_id": "q10",
+  "answer_text": "Profit records revenue and costs when they are earned or incurred, whereas cash flow records when money is actually received or paid. The £45,000 credit sales may increase April profit, but customers will not pay for 60 days, so this cash is not available in April. However, Mersey Homeware must pay suppliers £31,000 after 30 days. Therefore, it may have a cash timing gap: £0 received from these credit sales in April − £31,000 paid to suppliers = −£31,000. It can therefore report a £28,000 profit while lacking enough cash to meet payments.",
+  "numbers": [
+    {
+      "label": "cash_timing_gap",
+      "value": -31000
+    }
+  ]
+}

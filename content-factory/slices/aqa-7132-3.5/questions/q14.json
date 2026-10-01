@@ -1,0 +1,136 @@
+{
+  "id": "q14",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Limited",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:using-financial-data-for-decisions-and-planning",
+    "aqa-7132-3.5.4:ways-to-improve-profit-and-profitability"
+  ],
+  "target_node_ids": [
+    "bus-fin-001",
+    "bus-fin-003",
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q14",
+    "family": "ESSAY",
+    "command_word": "Evaluate",
+    "marks": 25,
+    "ao_tags": [
+      "AO1",
+      "AO2",
+      "AO3",
+      "AO4"
+    ],
+    "context": "Revision-authored AQA-style practice. Moorland Soups Ltd is a small UK producer of chilled soups sold through independent food shops. Its managing director states: “Moorland Soups should make decisions using financial data above all else.” The business is considering a one-year supply contract with a regional supermarket chain. The contract would require Moorland Soups to install a delivery and packing line immediately. The directors also want to improve profit and profitability after a difficult year.",
+    "stem": "Evaluate the view that Moorland Soups Ltd should make decisions using financial data above all else.\n\nUse the information provided and your knowledge of profit, cash flow, budgets and break-even analysis in your answer.",
+    "table": {
+      "title": "Financial information for Moorland Soups Ltd",
+      "columns": [
+        "Item",
+        "Information"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Current monthly sales",
+            "62,000 soups at an average selling price of £3.20 each"
+          ]
+        },
+        {
+          "cells": [
+            "Current variable cost",
+            "£1.70 per soup"
+          ]
+        },
+        {
+          "cells": [
+            "Current monthly fixed costs",
+            "£90,000"
+          ]
+        },
+        {
+          "cells": [
+            "Current cash balance",
+            "£38,000"
+          ]
+        },
+        {
+          "cells": [
+            "Cash-flow forecast",
+            "Net cash outflow of £25,000 next month and a further net cash outflow of £20,000 in the following month, mainly because customers pay 60 days after delivery while suppliers are paid after 30 days"
+          ]
+        },
+        {
+          "cells": [
+            "Current budget",
+            "Monthly sales revenue is £12,000 below budget. Variable costs are £6,000 above budget because vegetable prices have risen. Fixed costs are on budget."
+          ]
+        },
+        {
+          "cells": [
+            "Proposed supermarket contract",
+            "An additional 15,000 soups a month at a selling price of £2.70 each. Variable cost would be £1.55 per soup. The supermarket would pay 75 days after delivery."
+          ]
+        },
+        {
+          "cells": [
+            "Effects of accepting the contract",
+            "A delivery and packing line would cost £45,000 immediately. Monthly marketing and administration costs would rise by £9,000."
+          ]
+        },
+        {
+          "cells": [
+            "Alternative action",
+            "The operations manager proposes reducing waste, which is expected to reduce variable cost by £0.08 per soup. Staff training and new quality checks would cost £18,000 immediately, with no guaranteed saving."
+          ]
+        }
+      ]
+    },
+    "options": [],
+    "mark_scheme": {
+      "type": "levels",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [],
+      "levels": [
+        {
+          "level": 1,
+          "min_marks": 1,
+          "max_marks": 6,
+          "descriptor": "Shows limited knowledge of one or more financial terms, such as profit, cash flow, budgets or break-even. Application to Moorland Soups is absent or very limited. Assertions may be made about financial data without explaining how it would affect a decision."
+        },
+        {
+          "level": 2,
+          "min_marks": 7,
+          "max_marks": 13,
+          "descriptor": "Shows sound knowledge and some application of financial data to Moorland Soups. Explains one or more relevant effects on profit, cash or costs, although analysis may be uneven. Makes a simple judgement, but this may be unsupported or may treat financial data as decisive without sufficient consideration of limitations."
+        },
+        {
+          "level": 3,
+          "min_marks": 14,
+          "max_marks": 19,
+          "descriptor": "Provides clear, developed analysis of how profit, cash-flow forecasts, budgets and/or break-even information could influence decisions at Moorland Soups. Uses the context effectively and recognises at least some conflict between profitability, liquidity, risk and longer-term objectives. Reaches a reasoned judgement, though the evaluation may not be fully developed."
+        },
+        {
+          "level": 4,
+          "min_marks": 20,
+          "max_marks": 25,
+          "descriptor": "Provides a well-developed, balanced evaluation that is consistently applied to Moorland Soups. Analyses several relevant financial measures and their interrelationships, including the timing of cash flows and the risks of relying on forecasts or budget data alone. Makes a clear, contextual judgement about when financial data should take priority and when strategic, operational or longer-term considerations should also influence the decision."
+        }
+      ],
+      "indicative_content": [
+        "Financial data is important because it can reveal whether additional sales create sufficient contribution to cover fixed costs and improve profit. The supermarket contract has a lower selling price, so revenue growth alone would not prove that profitability has improved.",
+        "Break-even analysis could show how close Moorland Soups is to covering fixed costs. Current sales are only slightly above the level required to cover fixed costs, so a fall in demand, a further variable-cost increase or additional fixed costs could quickly turn a small profit into a loss.",
+        "The cash-flow forecast is particularly important because Moorland Soups has only £38,000 cash but forecasts net outflows totalling £45,000 over two months. Profit from sales is not the same as cash available to pay suppliers, wages or for the £45,000 delivery and packing line.",
+        "Budgets identify that revenue is below target and vegetable costs are above target. This supports investigation of waste, pricing, supplier costs or product mix, rather than assuming that accepting a lower-priced contract is the best response.",
+        "Reducing waste could improve contribution per soup and profitability, but the £18,000 training and quality-check cost is immediate and the saving is not guaranteed. Management should compare expected savings with the cash commitment and implementation risk.",
+        "Financial information should not be used above all else because it is based on estimates and may not capture future strategic benefits, product quality, staff capability, customer relationships or the risk of depending on one supermarket customer.",
+        "A lower short-term profit or cash position could be acceptable if an investment builds capability or future demand, provided that Moorland Soups has sufficient finance and can manage repayment or other obligations.",
+        "The strongest judgement depends on the business's immediate liquidity. Given the forecast cash shortfall and delayed supermarket payment, financial data should be a major constraint before accepting the contract; however, the final choice should combine it with evidence about demand, operational capacity and the longer-term strategy."
+      ],
+      "model_answer": "Financial data should be central to Moorland Soups' decision-making because it shows whether an apparently attractive increase in sales will actually improve the business's financial position. However, it should not automatically be placed above all other evidence.\n\nFor example, the supermarket contract would increase output by 15,000 soups per month, but the contract price is lower than the current average selling price. Management should therefore focus on contribution and profit rather than simply on revenue. Each contract soup would generate £1.15 contribution (£2.70 less £1.55 variable cost). This could help cover fixed costs and improve profit, but monthly fixed costs would also rise by £9,000. Financial analysis is useful because it makes the directors test whether the additional contribution is sufficient, rather than assuming that higher sales mean higher profitability.\n\nBreak-even information is also important. At present, Moorland Soups sells 62,000 soups per month and has fixed costs of £90,000. Its contribution per current soup is £1.50, meaning that it is operating only narrowly above its break-even output. This gives the business little protection if demand falls or vegetable prices rise again. The budget already shows sales revenue £12,000 below target and variable costs £6,000 above target. These adverse variances suggest that managers should investigate the causes, such as waste or higher input prices, before committing to further fixed costs.\n\nCash-flow data may be even more important in the short term. The business has £38,000 cash but expects net outflows of £45,000 over the next two months. It would also need to pay £45,000 immediately for the new line, while the supermarket would not pay until 75 days after delivery. Consequently, the contract might improve reported profit but worsen liquidity at the point when the business must pay its own suppliers after 30 days. If Moorland cannot meet obligations as they fall due, a profitable contract would not make it financially viable. The directors would need to consider whether finance is available and whether the resulting repayments or other obligations are affordable.\n\nThe waste-reduction proposal may be a less risky way to improve profitability. A saving of £0.08 per soup would raise contribution on existing sales and could reduce the effect of rising vegetable costs. However, the £18,000 initial cost is certain whereas the saving is only expected. Financial forecasts should therefore be treated as estimates, not facts.\n\nFinancial data should not be used above all else. The contract may offer longer-term benefits, such as a relationship with a major retailer or improved delivery capability. Equally, quality could fall if waste reduction is pursued inappropriately, damaging future sales. Managers need evidence about customer demand, the capacity of staff and equipment, quality standards and whether reliance on one supermarket fits the strategy.\n\nOverall, financial data should have greatest priority immediately because Moorland Soups faces a likely cash shortage and has a very small margin of safety. It should not accept the contract solely because it raises sales or potential profit. However, once adequate finance and cash timing have been secured, the directors should combine financial analysis with operational and strategic evidence before choosing between the contract, waste reduction or another option."
+    },
+    "calcs": []
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "q01",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.2:gross-profit-margin"
+  ],
+  "target_node_ids": [
+    "bus-fin-012"
+  ],
+  "question": {
+    "id": "q01",
+    "family": "MCQ",
+    "command_word": "Calculate",
+    "marks": 1,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Revision-authored AQA-style practice question.",
+    "stem": "Harbour Homewares Ltd reports revenue of £800,000, gross profit of £280,000 and cost of sales of £520,000 for the year. Calculate its gross profit margin.",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "35%"
+      },
+      {
+        "label": "B",
+        "text": "65%"
+      },
+      {
+        "label": "C",
+        "text": "53.85%"
+      },
+      {
+        "label": "D",
+        "text": "0.35%"
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "A",
+      "option_rationale": [
+        "A is correct: £280,000 ÷ £800,000 × 100 = 35%.",
+        "B is incorrect: it uses cost of sales as a percentage of revenue (£520,000 ÷ £800,000 × 100).",
+        "C is incorrect: it divides gross profit by cost of sales rather than by revenue (£280,000 ÷ £520,000 × 100).",
+        "D is incorrect: £280,000 ÷ £800,000 = 0.35, but this must be multiplied by 100 to express the margin as a percentage."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Gross profit margin = gross profit ÷ revenue × 100 = £280,000 ÷ £800,000 × 100 = 35%."
+    },
+    "calcs": [
+      {
+        "label": "Gross profit margin",
+        "formula_id": "gross_profit_margin",
+        "inputs": [
+          {
+            "name": "gross_profit",
+            "value": 280000
+          },
+          {
+            "name": "revenue",
+            "value": 800000
+          }
+        ],
+        "stated_answer": 35,
+        "unit": "percent"
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "q02",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.3:internal-versus-external-finance"
+  ],
+  "target_node_ids": [
+    "bus-fin-008"
+  ],
+  "question": {
+    "id": "q02",
+    "family": "MCQ",
+    "command_word": "Identify",
+    "marks": 1,
+    "ao_tags": [
+      "AO1"
+    ],
+    "context": "Revision-authored AQA-style practice question.",
+    "stem": "A small UK bakery is considering sources of finance for a new delivery van. Which one of the following is an internal source of finance?",
+    "table": null,
+    "options": [
+      {
+        "label": "A",
+        "text": "A bank loan"
+      },
+      {
+        "label": "B",
+        "text": "Retained profit"
+      },
+      {
+        "label": "C",
+        "text": "Trade credit from a flour supplier"
+      },
+      {
+        "label": "D",
+        "text": "Equity investment from a venture capital firm"
+      }
+    ],
+    "mark_scheme": {
+      "type": "single_option",
+      "correct_option": "B",
+      "option_rationale": [
+        "A is incorrect because a bank loan is debt finance provided by an external lender.",
+        "B is correct because retained profit is generated within the business and is therefore internal finance.",
+        "C is incorrect because trade credit is supplier-provided finance, so it is external to the business.",
+        "D is incorrect because venture capital is equity finance provided by external investors."
+      ],
+      "points": [],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "B — Retained profit."
+    },
+    "calcs": []
+  }
+}

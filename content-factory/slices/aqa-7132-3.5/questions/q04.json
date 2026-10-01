@@ -1,0 +1,127 @@
+{
+  "id": "q04",
+  "label": "AQA-style practice (Revision-authored, not an AQA question)",
+  "confidence_label": "Proven",
+  "target_item_ids": [
+    "aqa-7132-3.5.1:gross-profit",
+    "aqa-7132-3.5.1:operating-profit"
+  ],
+  "target_node_ids": [
+    "bus-fin-010"
+  ],
+  "question": {
+    "id": "q04",
+    "family": "SHORT_ANSWER",
+    "command_word": "Calculate",
+    "marks": 4,
+    "ao_tags": [
+      "AO2"
+    ],
+    "context": "Harbour Roasters Ltd is a UK coffee roaster supplying cafés and independent food shops. The figures below are for the year ended 31 March 2025.",
+    "stem": "Calculate Harbour Roasters Ltd's gross profit and operating profit for the year. Show your working.",
+    "table": {
+      "title": "Harbour Roasters Ltd income statement information for the year ended 31 March 2025",
+      "columns": [
+        "Item",
+        "Amount (£)"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "Revenue",
+            "480,000"
+          ]
+        },
+        {
+          "cells": [
+            "Cost of sales",
+            "285,000"
+          ]
+        },
+        {
+          "cells": [
+            "Other operating expenses",
+            "126,000"
+          ]
+        }
+      ]
+    },
+    "options": [],
+    "mark_scheme": {
+      "type": "points",
+      "correct_option": "",
+      "option_rationale": [],
+      "points": [
+        {
+          "marks": 1,
+          "descriptor": "Correctly calculates gross profit using revenue minus cost of sales.",
+          "accept": [
+            "£480,000 - £285,000",
+            "Revenue less cost of sales"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States gross profit of £195,000.",
+          "accept": [
+            "£195,000",
+            "195000"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "Correctly calculates operating profit using gross profit minus other operating expenses.",
+          "accept": [
+            "£195,000 - £126,000",
+            "Gross profit less other operating expenses"
+          ]
+        },
+        {
+          "marks": 1,
+          "descriptor": "States operating profit of £69,000.",
+          "accept": [
+            "£69,000",
+            "69000"
+          ]
+        }
+      ],
+      "levels": [],
+      "indicative_content": [],
+      "model_answer": "Gross profit = revenue - cost of sales\n= £480,000 - £285,000\n= £195,000\n\nOperating profit = gross profit - other operating expenses\n= £195,000 - £126,000\n= £69,000"
+    },
+    "calcs": [
+      {
+        "label": "Gross profit",
+        "formula_id": "gross_profit",
+        "inputs": [
+          {
+            "name": "revenue",
+            "value": 480000
+          },
+          {
+            "name": "cost_of_sales",
+            "value": 285000
+          }
+        ],
+        "stated_answer": 195000,
+        "unit": "currency"
+      },
+      {
+        "label": "Operating profit",
+        "formula_id": "operating_profit",
+        "inputs": [
+          {
+            "name": "gross_profit",
+            "value": 195000
+          },
+          {
+            "name": "other_operating_expenses",
+            "value": 126000
+          }
+        ],
+        "stated_answer": 69000,
+        "unit": "currency"
+      }
+    ]
+  }
+}

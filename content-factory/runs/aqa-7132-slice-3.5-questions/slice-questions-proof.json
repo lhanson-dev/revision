@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "artifact_type": "aqa_7132_slice_questions_fast_path",
+  "recorded_at": "2026-10-01T07:34:55.161Z",
+  "slice": "3.5",
+  "reviewed_commit": "1e638c82211775b775b9ad2007c2dac153ab84ed",
+  "checklist": {
+    "stage": "aqa-7132-slice-questions",
+    "version": "slice-questions-v1",
+    "checks": [
+      {
+        "id": "question_validity",
+        "question": "Does the question test its target items at its stated command-word level? Can it be answered correctly without the target knowledge? Does the question text give the answer away?"
+      },
+      {
+        "id": "answer_reconstruction",
+        "question": "Compare the blind answer (written by someone who saw only the question) with the mark scheme. Would the blind answer earn the marks the mark scheme implies, and do any numbers or conclusions disagree? A disagreement that comes from the question or the mark scheme being unclear or wrong is a finding; a disagreement caused only by the blind answer making a mistake is not."
+      },
+      {
+        "id": "mark_scheme_quality",
+        "question": "Is the mark scheme unambiguous: do the marking points or level descriptors credit what the question asks, accept valid alternative answers, and add up to the marks available?"
+      },
+      {
+        "id": "exam_authenticity",
+        "question": "Would this question sit naturally in a UK A-level Business paper for its family, marks and command word?"
+      },
+      {
+        "id": "originality",
+        "question": "Is the question original Revision-authored work, with no quoted or closely paraphrased awarding-body or past-paper text?"
+      }
+    ]
+  },
+  "summary": {
+    "planned": 14,
+    "accepted": 14,
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "all_questions_accepted": true,
+    "set": {
+      "questions": 14,
+      "totalMarks": 72,
+      "quantitativeMarks": 27,
+      "quantitativePercent": 37.5,
+      "quantitativeShareOk": true,
+      "missingFormulas": [],
+      "byFamily": {
+        "MCQ": 3,
+        "SHORT_ANSWER": 7,
+        "DATA_RESPONSE": 3,
+        "ESSAY": 1
+      },
+      "aoMarksTagged": {
+        "AO2": 67,
+        "AO1": 45,
+        "AO3": 44,
+        "AO4": 34
+      }
+    }
+  },
+  "provider_budget": {
+    "maxSpendUsd": 6,
+    "conservativeConsumedUsd": 0.608488
+  },
+  "gates": {
+    "ai_assured_questions": true,
+    "qualified_human_review_status": "pending",
+    "learner_publication_eligible": false
+  }
+}

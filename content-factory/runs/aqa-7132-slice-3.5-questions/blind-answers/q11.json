@@ -1,0 +1,14 @@
+{
+  "question_id": "q11",
+  "answer_text": "Operating profit margin = (operating profit ÷ revenue) × 100\n\n2024: (£187,500 ÷ £1,250,000) × 100 = 15%\n2025: (£270,000 ÷ £1,500,000) × 100 = 18%",
+  "numbers": [
+    {
+      "label": "2024 operating profit margin percentage",
+      "value": 15
+    },
+    {
+      "label": "2025 operating profit margin percentage",
+      "value": 18
+    }
+  ]
+}

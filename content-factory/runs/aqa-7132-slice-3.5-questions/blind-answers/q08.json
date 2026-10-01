@@ -1,0 +1,10 @@
+{
+  "question_id": "q08",
+  "answer_text": "£21,200 − £18,500 = £2,700.\n\nThe replacement-parts cost variance is £2,700 adverse, because actual costs were higher than budgeted, reducing profit.",
+  "numbers": [
+    {
+      "label": "replacement_parts_cost_variance",
+      "value": 2700
+    }
+  ]
+}

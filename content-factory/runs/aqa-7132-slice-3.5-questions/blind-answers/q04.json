@@ -1,0 +1,26 @@
+{
+  "question_id": "q04",
+  "answer_text": "Gross profit = revenue − cost of sales\n= £480,000 − £285,000\n= £195,000\n\nOperating profit = gross profit − other operating expenses\n= £195,000 − £126,000\n= £69,000",
+  "numbers": [
+    {
+      "label": "revenue_gbp",
+      "value": 480000
+    },
+    {
+      "label": "cost_of_sales_gbp",
+      "value": 285000
+    },
+    {
+      "label": "gross_profit_gbp",
+      "value": 195000
+    },
+    {
+      "label": "other_operating_expenses_gbp",
+      "value": 126000
+    },
+    {
+      "label": "operating_profit_gbp",
+      "value": 69000
+    }
+  ]
+}
