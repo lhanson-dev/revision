@@ -21,5 +21,5 @@
 - bus-str-004
 - bus-str-007
 
-Reused without re-review because nothing changed: 0
+Reused without re-review because nothing changed: 3
 
