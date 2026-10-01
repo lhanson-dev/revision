@@ -10,7 +10,7 @@
 /* Input: a rounded field with a teal ring when active. */
 .planner-runtime .planner-rev-input input,
 .planner-runtime .planner-rev-page .planner-rev-input input,
-.runtime-rev-panel .planner-rev-input input { border: 2px solid var(--rv-line); border-radius: var(--radius-pill); padding-inline: 20px; background: var(--rv-surface); color: var(--rv-text); }
+.runtime-rev-panel .planner-rev-input input { border: 2px solid var(--color-border-control); border-radius: var(--radius-pill); padding-inline: 20px; background: var(--rv-surface); color: var(--rv-text); }
 .planner-runtime .planner-rev-input input:focus-visible { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
 
 /* Quick actions under the conversation read as chips. */

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Icon, type IconName } from './ui'
 import type { CatalogueCourse, CourseSection } from './catalogue-model'
 
@@ -37,7 +38,20 @@ type CourseHeaderProps = {
   onOpenSection: (section: CourseSection) => void
 }
 
+// On narrow screens the course tabs scroll sideways; keep the current section's tab in view.
+function useActiveTabInView(activeKey: string) {
+  const navRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const nav = navRef.current
+    const active = nav?.querySelector<HTMLElement>('button.active')
+    if (!nav || !active || nav.scrollWidth <= nav.clientWidth) return
+    nav.scrollLeft = active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2
+  }, [activeKey])
+  return navRef
+}
+
 export function CourseHeader({ course, subjectName, sections, section, titleId, navLabel, onOpenCourses, onOpenSection }: CourseHeaderProps) {
+  const navRef = useActiveTabInView(section)
   return (
     <header className="course-header">
       <div className="breadcrumbs"><button type="button" onClick={onOpenCourses}>Courses</button><span aria-hidden="true">›</span><span>{subjectName}</span></div>
@@ -48,7 +62,7 @@ export function CourseHeader({ course, subjectName, sections, section, titleId, 
           <p>{courseMetadata(course)}</p>
         </div>
       </div>
-      <nav className="course-nav" aria-label={`${navLabel} navigation`}>
+      <nav className="course-nav scroll-hint" ref={navRef} aria-label={`${navLabel} navigation`}>
         {sections.map((item) => (
           <button key={item} type="button" className={section === item ? 'active' : ''} aria-current={section === item ? 'page' : undefined} onClick={() => onOpenSection(item)}>{courseSectionLabels[item]}</button>
         ))}
