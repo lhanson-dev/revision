@@ -236,6 +236,9 @@ test('dark theme is coherent across the complete learner application and account
   await expect(firstPaper.locator('.paper-exam-content')).toBeVisible()
   await auditRuntime(page, 'Exam Prep expanded paper')
 
+  // Exam Prep is a focus mode with no navigation; leave it, then continue through the course.
+  await page.getByRole('button', { name: 'Leave Exam Prep' }).click()
+  await expect(page.getByRole('heading', { name: 'Business', exact: true, level: 1 })).toBeVisible()
   await clickNavigation(page, 'AQA AS Business Progress')
   await expect(page.locator('.course-nav button.active')).toHaveText('Progress')
   await auditRuntime(page, 'Course progress')

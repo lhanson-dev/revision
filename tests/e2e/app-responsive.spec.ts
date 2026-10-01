@@ -147,9 +147,13 @@ async function clickGlobalDestination(page: Page, destination: 'Home' | 'Plan' |
 }
 
 async function openAskRev(page: Page) {
-  const trigger = isMobileLayout(page)
-    ? page.locator('.runtime-mobile-ask-rev-dock')
-    : page.locator('.runtime-ask-rev')
+  // Sidebar button on desktop, icon-rail control on tablet, raised tab-bar control on phone.
+  const width = page.viewportSize()?.width ?? 0
+  const trigger = width > 960
+    ? page.locator('.runtime-ask-rev')
+    : width > 620
+      ? page.locator('.ui-rail__ask-rev')
+      : page.locator('.ui-tabbar__ask-rev')
   await trigger.click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }
@@ -194,10 +198,11 @@ test('authenticated learner hierarchy keeps persistent Ask REV and saved-course 
     await expect(menuButton.locator('span')).toHaveCount(2)
     await expect(page.locator('.runtime-bottom-nav')).toHaveCount(0)
 
-    const revDock = page.getByRole('button', { name: 'Ask REV', exact: true })
-    await expect(revDock).toBeVisible()
-    await expect(revDock.locator('.rev-presence-nav')).toHaveCount(1)
-    expect(await revDock.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
+    // No floating Ask REV button any more: tablet has it in the icon rail, phone in the raised centre of the tab bar.
+    await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)
+    const revControl = page.getByRole('button', { name: 'Ask REV', exact: true })
+    await expect(revControl).toBeVisible()
+    await expect(revControl.locator('.rev-presence-nav')).toHaveCount(1)
 
     let drawer = await openMobileDrawer(page)
     const mobileNav = drawer.getByRole('navigation', { name: 'Mobile navigation' })

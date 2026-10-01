@@ -20,15 +20,15 @@ How to read it: **Foundations** means the design values, building blocks and che
 | F9 | Onboarding | Not started | PR 13 | Level, subjects, board, dates, time, first plan | Coming-soon requests need new data (PR 2 proposal) |
 | F10 | Empty states | Not started | PR 14 | Per-screen sweep | None |
 | F11 | Subject colours and letter marks | Palette tokens, central subject map, letter-mark badge | PR 1 | Use them on course cards and Plan blocks | Catalogue columns `hue` and `mark` (PR 2 proposal) |
-| F12 | Light, dark or system theme | Tokens for both themes | PR 4 | Theme control, saved per student so it is the same on every device, system as default | Saving per student needs the preferences table (PR 2 proposal, agreed; awaiting its approval) |
+| F12 | Light, dark or system theme | Tokens for both themes; Appearance control now Light / Dark / System (System default) in Settings | PR 4 | Theme control, saved per student so it is the same on every device, system as default | Saving per student needs the preferences table (PR 2 proposal, agreed; awaiting its approval) |
 | F13 | Quick check (Learn, Not scored) | Quick check component | PR 3, PR 8 | Content schema block (PR 3), Learn wiring (PR 8) | Lee to say go for PR 3 (Content Factory work) |
-| F14 | Living E states | Four states, 1.4s thinking loop, text for every state | PR 4, PR 12 | Living E in navigation (PR 4), Ask REV states (PR 12) | None |
+| F14 | Living E states | Four states, 1.4s thinking loop, text for every state; Living E in the sidebar Ask REV button, the rail and the raised tab-bar control (PR 4) | PR 4, PR 12 | Ask REV states in the conversation (PR 12) | None |
 
 ## Screens
 
 | Screen | Branch | Built so far | PR | What is left |
 | --- | --- | --- | --- | --- |
-| Shell and navigation | `design/shell-navigation` | `AppShell`, sidebar, icon rail, bottom tab bar (components only, not used by the app yet) | PR 4 | Replace the current drawer shell; account menu; theme toggle |
+| Shell and navigation | `design/shell-navigation` | Built in PR 4 (open, awaiting review): sidebar 248px, icon rail on tablet, bottom tab bar with REV raised on phone, two-line menu still opens the left navigation with the account at the bottom, Ask REV pop-up (full screen on phone), Exam Prep focus mode with Leave Exam Prep, Appearance now Light / Dark / System | PR 4 | Account placement unchanged by design. Screens still to adopt the shared `AppShell` wrapper; saving the theme per student needs the preferences table (agreed, own PR). Doc: `docs/features/shell-navigation.md` |
 | Home | `design/home` | Not started | PR 5 | Everything |
 | Plan | `design/plan` | Not started | PR 6 | Everything |
 | Courses and Course Overview | `design/courses-overview` | Not started | PR 7 | Everything. Also fix the known 320px sideways scroll on Course overview |
@@ -53,7 +53,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | Where | Issue | Fixed in |
 | --- | --- | --- |
 | Course overview at 320px | Page is 336px wide in a 320px window (sideways scroll). Listed in `tests/e2e/horizontal-scroll.spec.ts` as known | PR 7 |
-| Phone and tablet navigation | An earlier step (PR 470) already ships a bottom tab bar for phone and tablet. The v2.1 design uses the icon rail for tablet, and the navigation standard used to ban the tab bar. The standard is now updated; the app is brought onto the shared components in PR 4 | PR 4 |
+| ~~Phone and tablet navigation~~ | ~~Earlier tab bar on tablet~~ Resolved in PR 4: tablet now has the icon rail, phone the tab bar with REV raised | PR 4 |
 | 15 existing files | 225 raw colour codes outside the token file. Listed in `scripts/design-guardrails/no-raw-colours.test.mjs`; they cannot grow, and each screen PR removes its own | PRs 4 to 14 |
 
 ## Decisions pending (Lee)
@@ -75,3 +75,5 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-01 | Ask REV | Pop-up conversation over the page; full screen on phones; no separate page; real model used efficiently (answer from data and approved content first); safeguarding may use vetted fixed text; conversations kept 12 months, student can delete | Lee, later on 1 Oct. Standards and decision record updated |
 | 2026-10-01 | Exam answers | Keep submitted answers and per-point feedback so progress and "what you got wrong" can use them | Lee; detail in the PR 2 proposal (awaiting its approval) |
 | 2026-10-01 | Status-label mapping and data model | Lee confirmed the engine-to-label mapping, agreed all PR 2 recommendations, and agreed the theme is saved per student | Lee, 1 Oct. Standards and decision record updated |
+| 2026-10-01 | Slide-out left navigation | Stays on tablet and phone, opened by the two-line menu; account (avatar, Profile, Settings, Log out) stays at its bottom; course tree stays inside it | Lee, 1 Oct: "keep the same". Navigation standard updated in PR 4 |
+| 2026-10-01 | Exam Prep focus mode | All navigation hidden in Exam Prep; a slim Leave Exam Prep bar returns to the course overview; a running timed paper keeps its own Stop exam confirmation | Decisions file §1; the exit bar is my addition so students are never trapped (to be refined in PR 10) |
