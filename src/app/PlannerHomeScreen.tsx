@@ -1,17 +1,18 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { loadPlannerSetup, recordPlannerActivityEvent } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, type ModuleLearningState } from './catalogue-model'
-import { fallbackHomeTasks, tasksFromPlanner, type HomeTask } from './home-task'
+import { tasksFromPlanner, type HomeTask } from './home-task'
 import { HomeFocusedActivity } from './HomeFocusedActivity'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { learnerCourseRoute, routeHash } from './navigation'
 import { buildPlannerSnapshot } from './planner-model'
-import { buildCourseTiles, nextExam, sessionSteps } from './home-view'
+import { buildCourseTiles, nextExam } from './home-view'
+import { activeNotNow, dayKey, pickSuggestion, rankSuggestions, type NotNowRecord } from './rev-suggestions'
 import { HomeSetupEmpty } from './HomeSetupEmpty'
 import { RevPresence } from './RevPresence'
-import { Icon, RevSuggestionCard } from './ui'
+import { Icon, RevSuggestionCard, SubjectBadge, UnderstandingBar } from './ui'
 
 interface PlannerHomeScreenProps {
   client: SupabaseClient
@@ -30,6 +31,30 @@ function planSummary(tasks: readonly HomeTask[]) {
   return `${minutes} minutes · ${tasks.length} focused ${tasks.length === 1 ? 'activity' : 'activities'}`
 }
 
+function notNowStorageKey(userId: string) {
+  return `revision.home.not-now.${userId}`
+}
+
+/** "Not now" is kept for this browser session only until the suggestion-events table exists (data model proposal, section 8). */
+function readNotNow(userId: string): NotNowRecord | null {
+  try {
+    const raw = window.sessionStorage.getItem(notNowStorageKey(userId))
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as NotNowRecord
+    return typeof parsed.day === 'string' && Array.isArray(parsed.keys) ? parsed : null
+  } catch {
+    return null
+  }
+}
+
+function writeNotNow(userId: string, record: NotNowRecord) {
+  try {
+    window.sessionStorage.setItem(notNowStorageKey(userId), JSON.stringify(record))
+  } catch {
+    // Not now still works for this visit even if the browser will not store it.
+  }
+}
+
 export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   const { client, userId, learnerName, programme, onOpenPlan, onOpenRev, onOpenCourses, onOpenCourse } = props
   const [loading, setLoading] = useState(true)
@@ -38,6 +63,8 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
   const [setup, setSetup] = useState<Awaited<ReturnType<typeof loadPlannerSetup>> | null>(null)
   const [activeTask, setActiveTask] = useState<HomeTask | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
+  const [notNow, setNotNow] = useState<NotNowRecord | null>(() => readNotNow(userId))
+  const [skipped, setSkipped] = useState<string[]>([])
 
   useEffect(() => {
     let active = true
@@ -77,17 +104,19 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
     () => snapshot ? tasksFromPlanner(snapshot.today, learningStates, programme) : [],
     [learningStates, programme, snapshot],
   )
-  const fallbackTasks = useMemo(
-    () => fallbackHomeTasks(learningStates, programme),
-    [learningStates, programme],
+  const today = useMemo(() => new Date(), [])
+  // REV's suggestion is chosen by the rules in rev-suggestions.ts, not by the planner or a model.
+  const ranked = useMemo(
+    () => setup ? rankSuggestions(learningStates, setup.assessments, programme, today) : [],
+    [learningStates, programme, setup, today],
   )
-  const tasks = plannerTasks.length > 0 ? plannerTasks : fallbackTasks
-  const firstTask = tasks[0] ?? null
-  const steps = useMemo(() => sessionSteps(tasks), [tasks])
+  const hiddenToday = activeNotNow(notNow, today)
+  const pick = pickSuggestion(ranked, hiddenToday, skipped)
+  const suggestion = pick.suggestion
+  const firstTask = suggestion?.task ?? null
   const courseTiles = useMemo(() => buildCourseTiles(programme, learningStates), [learningStates, programme])
-  const exam = useMemo(() => setup ? nextExam(setup.assessments, new Date()) : null, [setup])
-  const todayLabel = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
-  const suggestedMinutes = tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0)
+  const exam = useMemo(() => setup ? nextExam(setup.assessments, today) : null, [setup, today])
+  const todayLabel = today.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
 
   async function recordTaskStart(task: HomeTask) {
     if (!task.plannerItem) return
@@ -119,6 +148,18 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
       return
     }
     setActiveTask(task)
+  }
+
+  function suggestSomethingElse() {
+    if (!suggestion) return
+    setSkipped(pickSuggestion(ranked, hiddenToday, [...skipped, suggestion.key]).skipped)
+  }
+
+  function hideUntilTomorrow() {
+    if (!suggestion) return
+    const record = { day: dayKey(today), keys: [...hiddenToday, suggestion.key] }
+    setNotNow(record)
+    writeNotNow(userId, record)
   }
 
   function completeFocusedTask() {
@@ -182,17 +223,25 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
             />
           )}
 
-          {!error && !loading && firstTask && (
+          {!error && !loading && suggestion && firstTask && (
             <RevSuggestionCard
               className="home-v2-hero"
               variant="hero"
-              eyebrow={`REV suggests · ${suggestedMinutes} min`}
+              eyebrow={`REV suggests · ${firstTask.estimatedMinutes} min`}
               title={firstTask.topicLabel}
-              reason={`Why: ${firstTask.reason}`}
-              steps={steps}
+              reason={`Why: ${suggestion.reason}`}
               primaryAction={{ label: `Start ${firstTask.estimatedMinutes} min`, onClick: () => void startTask(firstTask) }}
-              secondaryAction={{ label: 'Suggest something else', onClick: onOpenRev }}
+              secondaryAction={{ label: 'Suggest something else', onClick: suggestSomethingElse }}
+              tertiaryAction={{ label: 'Not now', onClick: hideUntilTomorrow }}
             />
+          )}
+
+          {!error && !loading && !suggestion && pick.allHidden && (
+            <section className="home-v2-rest" aria-labelledby="home-v2-rest-title">
+              <h2 id="home-v2-rest-title">That’s all I’d suggest for today.</h2>
+              <p>You’ve put today’s suggestions to one side. They’ll be back tomorrow, or you can look at your plan or ask me something.</p>
+              <div className="home-v2-rest-actions"><button type="button" onClick={onOpenPlan}>Open your plan</button><button type="button" onClick={onOpenRev}>Ask REV</button></div>
+            </section>
           )}
 
           {courseTiles.length > 0 && (
@@ -204,13 +253,15 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
               <ul>
                 {courseTiles.map((tile) => (
                   <li key={tile.courseId}>
-                    <button type="button" onClick={() => onOpenCourse(tile.courseId)} aria-label={`Open ${tile.subjectName}`} style={{ '--tile-fill': tile.colour.fill, '--tile-text': tile.colour.text } as CSSProperties}>
-                      <span className="home-v2-tile-mark" aria-hidden="true">{tile.initials}</span>
-                      <strong>{tile.subjectName}</strong>
-                      <span className="home-v2-bar" role="progressbar" aria-label={`${tile.subjectName} mastery`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={tile.mastery ?? 0}>
-                        <span style={{ width: `${tile.mastery ?? 0}%` }} />
+                    <button type="button" onClick={() => onOpenCourse(tile.courseId)} aria-label={`Open ${tile.subjectName}`}>
+                      <span className="home-v2-tile-head" style={{ background: `var(--subject-${tile.hue})`, color: `var(--subject-${tile.hue}-on)` }}>
+                        <SubjectBadge hue={tile.hue} mark={tile.mark} size="tile" onSolid />
+                        <strong>{tile.subjectName}</strong>
                       </span>
-                      <small>{tile.mastery === null ? 'Not enough work yet' : `${tile.mastery}% mastered`}</small>
+                      <span className="home-v2-tile-body">
+                        <small>{tile.total === 0 ? 'No topics yet' : `${tile.covered} of ${tile.total} topics covered`}</small>
+                        <UnderstandingBar counts={tile.counts} size="sm" />
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -222,14 +273,14 @@ export function PlannerHomeScreen(props: PlannerHomeScreenProps) {
         {!showSetup && <aside className="home-v2-side" aria-label="Coming up">
           {exam && (
             <section className="home-v2-exam">
-              <p className="home-v2-eyebrow">Next exam</p>
+              <p className="home-v2-eyebrow"><Icon name="clock" size="inline" /> Next exam</p>
               <p className="home-v2-exam-days"><strong>{exam.daysAway}</strong> {exam.daysAway === 1 ? 'day' : 'days'}</p>
               <p className="home-v2-exam-title">{exam.title} · {exam.dateLabel}</p>
             </section>
           )}
           <section className="home-v2-plan-link">
             <p className="home-v2-eyebrow">Your plan</p>
-            <p>{planSummary(tasks)}</p>
+            <p>{planSummary(plannerTasks)}</p>
             <button type="button" onClick={onOpenPlan}>View full plan <Icon name="arrow-right" size="inline" /></button>
           </section>
         </aside>}

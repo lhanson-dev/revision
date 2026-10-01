@@ -51,7 +51,7 @@ export function courseIdForLearningState(state: ModuleLearningState) {
   return `${manifest.examBoard.id}:${manifest.qualification.id}:${manifest.specificationCode}`
 }
 
-function stateForAssessment(states: readonly ModuleLearningState[], assessment: RevisionAssessment) {
+export function stateForAssessment(states: readonly ModuleLearningState[], assessment: RevisionAssessment) {
   const subjectStates = states.filter((state) => state.adapter.manifest.subject.id === assessment.subjectId)
   if (assessment.courseId) {
     return subjectStates.find((state) => courseIdForLearningState(state) === assessment.courseId)
@@ -107,7 +107,7 @@ function topicEvidenceSummary(state: ModuleLearningState, topicId: string) {
   return { evidence, understanding, evidenceStrength }
 }
 
-function activityForTopic(state: ModuleLearningState, topicId: string, daysUntilAssessment: number, understanding: number | null) {
+export function activityForTopic(state: ModuleLearningState, topicId: string, daysUntilAssessment: number, understanding: number | null) {
   if (state.recommendation?.topicId === topicId) return state.recommendation.activity
   const hasQuickCheck = state.adapter.listQuestions(topicId).length > 0
   const hasFlashcards = state.adapter.listFlashcards(topicId).length > 0
@@ -118,7 +118,7 @@ function activityForTopic(state: ModuleLearningState, topicId: string, daysUntil
   return 'quick-check'
 }
 
-function scopeTopicIds(assessment: RevisionAssessment, state: ModuleLearningState) {
+export function scopeTopicIds(assessment: RevisionAssessment, state: ModuleLearningState) {
   const explicitTopicIds = Array.isArray(assessment.scope.topicIds)
     ? assessment.scope.topicIds.filter((value): value is string => typeof value === 'string')
     : []

@@ -97,11 +97,14 @@ test('Returning Home leads with a REV suggestion that says why, and gives a usef
   await expect(suggestion.getByText(/^REV suggests · \d+ min$/)).toBeVisible()
   await expect(suggestion.locator('.rev-suggestion-card__reason')).toContainText('Why:')
   await expect(suggestion.getByRole('button', { name: 'Suggest something else' })).toBeVisible()
-  await expect(suggestion.locator('.rev-suggestion-card__step[data-state="current"]')).toHaveCount(1)
+  await expect(suggestion.getByRole('button', { name: 'Not now' })).toBeVisible()
 
   await expect(page.getByRole('heading', { name: 'Your courses' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Open Business' })).toBeVisible()
-  await expect(page.getByRole('progressbar', { name: 'Business mastery' })).toBeVisible()
+  // Three separate measures, never one percentage: Topics covered here, Understanding as a labelled bar.
+  await expect(page.getByRole('button', { name: 'Open Business' }).getByText(/^0 of \d+ topics covered$/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Open Business' }).getByRole('img', { name: /^Understanding: \d+ not started$/ })).toBeVisible()
+  await expect(page.getByText(/% mastered/)).toHaveCount(0)
   await expect(page.locator('.planner-home-primary-grid')).toHaveCount(0)
   await expectNoHorizontalOverflow(page)
 })
@@ -119,4 +122,25 @@ test('promoted Home task starts the exact quick-check topic in one action', asyn
   await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
   await expect(page.getByRole('button', { name: '← Back to Home' })).toBeVisible()
   await expectNoHorizontalOverflow(page)
+})
+
+test('Suggest something else moves to another topic and Not now hides suggestions until tomorrow', async ({ page }) => {
+  await seedReturningStudent(page)
+  await page.goto(appPath)
+
+  const suggestion = page.locator('.home-v2-hero')
+  const title = suggestion.locator('.rev-suggestion-card__title')
+  const first = await title.textContent()
+  await suggestion.getByRole('button', { name: 'Suggest something else' }).click()
+  await expect(title).not.toHaveText(first ?? '')
+
+  // Hide every suggestion for today: the page then says so honestly instead of inventing one.
+  for (let index = 0; index < 100 && await suggestion.isVisible(); index += 1) {
+    await suggestion.getByRole('button', { name: 'Not now' }).click()
+  }
+  await expect(page.getByRole('heading', { name: 'That’s all I’d suggest for today.' })).toBeVisible()
+  await expectNoHorizontalOverflow(page)
+
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'That’s all I’d suggest for today.' })).toBeVisible()
 })

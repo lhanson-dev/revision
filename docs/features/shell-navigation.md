@@ -1,6 +1,6 @@
 # Shell and navigation
 
-**Status:** built in PR 4 (`design/shell-navigation`), awaiting Founder review.
+**Status:** built in PR 4 (`design/shell-navigation`), merged to `main` (#486) with Founder approval, 1 October 2026.
 **Authority:** `10-product-governance/Global Learner Navigation.md` (v0.11), `docs/design-system/RESPONSIVE.md`, `docs/design/decisions/2026-10-01-learner-redesign-v2.md`.
 
 ## What the student sees

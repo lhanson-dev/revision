@@ -45,12 +45,16 @@ const cases: ReadonlyArray<VisualCase> = [
  * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
  * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
  * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
+ * Re-pinned on 1 October 2026 with Founder approval (Lee: "ok" to the PR 5 before/after screenshots,
+ * then "allow it" and "option 1" to this re-pin) for Home v2 (PR 5): rules-chosen REV card with Not now,
+ * subject-colour course cards with Topics covered and Understanding, neutral next-exam panel. Digests
+ * taken from the PR 5 CI run 36905643720 (the "Expected value" lines), not from a local browser.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '70587d238317442187807615fd3d8768c61aeed796d25eef2ec5ff546d249ec6',
-  'phone:dark': 'ad52b18dd4a6e1ed5cbcbfdcd01cc5b053e8b22ccd09fc9de0ac4035182615c8',
-  'desktop:light': 'b1cfc38dd83ac0d1f7fcf2dcad9302a9ff87054c10943907bb25bab6d0eddec6',
-  'desktop:dark': 'baff1da072a6e238f2035254dfe03f925ef4dc0b0d154cd3ff97789261392629',
+  'phone:light': 'd2135190e6e018783aaede294e0379c88364e901672d7d82d761a8a22b1f4649',
+  'phone:dark': 'e4bcfc5b77d010e50a14dcb7279b94ac6397b0b9f596e79b0965cfcaf431b52b',
+  'desktop:light': 'b38c1bd601fb0eb73f0aec71456bd914bd224ff24597144b7ccecb4e2170a618',
+  'desktop:dark': 'ce2d07ccc4d22f27b6071fd7aebfc075482b9673277fb717ff0591353a42a00e',
 }
 
 /**

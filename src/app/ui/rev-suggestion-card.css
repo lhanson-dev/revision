@@ -94,7 +94,7 @@
 .rev-suggestion-card--hero { gap: 22px; padding: 30px; border-radius: var(--rv-radius-hero); }
 .rev-suggestion-card--hero .rev-suggestion-card__actions { align-items: center; gap: 16px; }
 .rev-suggestion-card--hero .rev-suggestion-card__primary { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; font-size: 16px; }
-.rev-suggestion-card--hero .rev-suggestion-card__secondary { min-height: 0; padding: 0; background: none; font-size: 14px; color: var(--rv-on-deep-muted); text-decoration: underline; }
+.rev-suggestion-card--hero .rev-suggestion-card__secondary { min-height: 48px; padding: 0 10px; background: none; font-size: 14px; color: var(--rv-on-deep-muted); text-decoration: underline; }
 
 /* Global heading/paragraph colour rules must not leak onto the dark panel. */
 .rev-suggestion-card h3.rev-suggestion-card__title { color: var(--rv-on-deep); }
