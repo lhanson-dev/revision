@@ -19,6 +19,7 @@ import {
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
 import { assignSubjectColours } from './home-view'
+import { RevPresence } from './RevPresence'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
 import { subjectAccentKey } from './subject-accents'
@@ -445,6 +446,14 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
   function renderWeekView() {
     return <section className="plan-view-panel" aria-labelledby="plan-week-title">
       <div className="plan-view-heading"><div><p className="eyebrow">Current outlook</p><h2 id="plan-week-title">{weekRange(weekDays)}</h2></div><span>Your plan will adapt as you work.</span></div>
+      {weekDays.length > 0 && weekDays.every((day) => day.items.length === 0) && (
+        <div className="plan-blank-card plan-blank-card--week">
+          <RevPresence size="compact" decorative />
+          <strong>Your week’s a blank page</strong>
+          <p>I can fill it based on your exams and weak spots once I have a little evidence from your work.</p>
+          {onOpenRev && <button type="button" className="plan-blank-action" onClick={() => onOpenRev('Can you plan my week?')}>Ask REV to plan my week</button>}
+        </div>
+      )}
       <div className="plan-week-grid">
         {weekDays.map((day) => <article className="plan-week-day" key={day.date} data-today={day.date === todayIso ? 'true' : undefined}>
           <header><strong>{day.date === todayIso ? 'Today' : formatDate(day.date, { weekday: 'short' })}</strong><span className="plan-week-day-number">{formatDate(day.date, { day: 'numeric' })}</span><b>{formatDuration(day.availableMinutes)}</b></header>
@@ -496,7 +505,14 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
         {!setupComplete && <div className="plan-setup-flow">
           {setupMissingExams && <Surface className="plan-setup-exams" aria-labelledby="plan-setup-exams-title"><div className="plan-setup-step-icon"><Icon name="plan" size="large" /></div><div className="plan-setup-copy"><p className="eyebrow">Step 1 of 2</p><h2 id="plan-setup-exams-title">Add your exams</h2><p>Add your exam dates so Revision can build a personalised plan. Your dates help work out what to focus on and when, so the time you have is used where it can help most.</p>{renderExamManager()}</div></Surface>}
           {setupMissingAvailability && renderWeeklySettings(true)}
-          <Surface variant="quiet" className="plan-awaiting"><Icon name="plan" size="large" /><strong>Your plan will appear here</strong><p>Once you've added the missing exam dates and weekly study time, Revision will build your personalised plan and keep adapting it as you work.</p></Surface>
+          <section className="plan-awaiting plan-blank-week" aria-label="Your week">
+            <div className="plan-blank-columns" aria-hidden="true">{Array.from({ length: 7 }, (_, index) => <span key={index} />)}</div>
+            <div className="plan-blank-card">
+              <RevPresence size="compact" decorative />
+              <strong>Your plan will appear here</strong>
+              <p>Once you've added the missing exam dates and weekly study time, Revision will build your personalised plan and keep adapting it as you work.</p>
+            </div>
+          </section>
         </div>}
 
         {setupComplete && <>

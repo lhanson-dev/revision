@@ -13,3 +13,11 @@
 .planner-runtime main[aria-labelledby="global-progress-title"] .global-progress-card > .primary { width: auto; }
 .progress-course-bar { grid-column: 1 / -1; grid-row: 2; display: block; height: 8px; border-radius: var(--rv-radius-bar); background: var(--rv-line); overflow: hidden; }
 .progress-course-bar span { display: block; height: 100%; border-radius: var(--rv-radius-bar); background: var(--tile-fill, var(--rv-teal)); }
+
+/* Empty state, redesign v2 screen 14: dashed tiles and a REV card that invites the first session. */
+.planner-runtime main[aria-labelledby="global-progress-title"] .progress-overview[data-empty="true"] article { background: transparent; border: 2px dashed var(--rv-line); }
+.progress-empty-card { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 28px 32px; border: 1px solid var(--rv-line); border-radius: var(--rv-radius-hero); background: var(--rv-surface); }
+.progress-empty-card .rev-presence { width: 72px; height: 72px; flex: none; }
+.progress-empty-card > div { flex: 1 1 320px; min-width: 0; }
+.progress-empty-card h2 { margin: 0 0 6px; font-family: var(--rv-font-display); font-weight: 800; font-size: 24px; line-height: 1.15; letter-spacing: -.02em; color: var(--rv-text); }
+.progress-empty-card p { margin: 0; font-weight: 600; color: var(--rv-text-2); }
