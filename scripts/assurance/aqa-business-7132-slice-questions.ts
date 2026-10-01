@@ -128,6 +128,23 @@ export function numbersIn(text: string): number[] {
   return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?/g)].map((match) => Number(match[0].replace(/,/g, ''))).filter((value) => Number.isFinite(value))
 }
 
+const magnitudeMultipliers: Record<string, number> = {
+  thousand: 1_000,
+  million: 1_000_000,
+  billion: 1_000_000_000,
+}
+
+// Calculation text may express the same value using a magnitude word, e.g. £61.20 million = £61,200,000.
+export function calculationNumbersIn(text: string): number[] {
+  return [...text.matchAll(/(-?\d[\d,]*(?:\.\d+)?)(?:\s+(thousand|million|billion))?/gi)]
+    .map((match) => {
+      const value = Number(match[1].replace(/,/g, ''))
+      const multiplier = match[2] ? magnitudeMultipliers[match[2].toLowerCase()] ?? 1 : 1
+      return value * multiplier
+    })
+    .filter((value) => Number.isFinite(value))
+}
+
 function questionText(question: Question) {
   return [question.context, question.stem, ...(question.table ? [question.table.title, ...question.table.columns, ...question.table.rows.flatMap((row) => row.cells)] : []), ...question.options.map((option) => option.text)].join(' ')
 }
@@ -179,8 +196,8 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   const calcFormulas = question.calcs.map((calc) => calc.formula_id)
   for (const formulaId of spec.formulaIds.filter((formula) => !calcFormulas.includes(formula))) findings.push(softwareFinding('plan_formula_missing', [id], `no calculation for planned formula ${formulaId}`, `Add a calculation using ${formulaId}.`))
   for (const calc of question.calcs.filter((c) => !spec.formulaIds.includes(c.formula_id))) findings.push(softwareFinding('plan_formula_unexpected', [id], `calculation uses ${calc.formula_id}, which this question does not test`, 'Only calculate the planned formulas.'))
-  const stemNumbers = numbersIn(questionText(question))
-  const schemeNumbers = numbersIn(markSchemeText(question))
+  const stemNumbers = calculationNumbersIn(questionText(question))
+  const schemeNumbers = calculationNumbersIn(markSchemeText(question))
   for (const calc of question.calcs) {
     const problem = checkCalculation(calc)
     if (problem) findings.push(softwareFinding('calculation_recomputes', [id], `${calc.label}: ${problem}`, 'Correct the numbers so the stated answer recomputes.'))
@@ -193,8 +210,8 @@ export function validateQuestion(question: Question, spec: QuestionSpec): Classi
   }
   if (spec.family === 'MCQ' && question.calcs.length > 0 && scheme.correct_option) {
     const key = question.options.find((option) => option.label === scheme.correct_option)
-    if (key && !numbersIn(key.text).some((value) => near(value, question.calcs[0].stated_answer))) findings.push(softwareFinding('mcq_key_matches_calculation', [id], `option ${scheme.correct_option} does not show the calculated answer ${question.calcs[0].stated_answer}`, 'Make the correct option show the calculated answer.'))
-    const matching = question.options.filter((option) => numbersIn(option.text).some((value) => near(value, question.calcs[0].stated_answer)))
+    if (key && !calculationNumbersIn(key.text).some((value) => near(value, question.calcs[0].stated_answer))) findings.push(softwareFinding('mcq_key_matches_calculation', [id], `option ${scheme.correct_option} does not show the calculated answer ${question.calcs[0].stated_answer}`, 'Make the correct option show the calculated answer.'))
+    const matching = question.options.filter((option) => calculationNumbersIn(option.text).some((value) => near(value, question.calcs[0].stated_answer)))
     if (matching.length > 1) findings.push(softwareFinding('mcq_single_key', [id], 'more than one option shows the calculated answer', 'Make exactly one option correct.'))
   }
   return findings
