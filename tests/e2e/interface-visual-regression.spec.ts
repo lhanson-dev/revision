@@ -85,19 +85,16 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * run and its retry rasterised the page differently.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': '89c4860722da974e03997092e1f3438a75e5ff89a701593182169383ee50fd93',
-  'desktop:plan:dark': [
-    'f80f526dde44688378fab91b8df216f6def2f24f880191f20020846cf7cbcc1b',
-    '36e4cb945a816fb1840db680bda795df7f6d1811e602fb8cb66086e04b37c938',
-  ],
+  'desktop:plan:light': 'bcb18ea96eba3442103fe1e8fb6772758f8b831a05d39fa942b5cfe6f5f1fbb9',
+  'desktop:plan:dark': 'a1c563320b0ed1b7182ef1b9c30bd6044dfd1a59afb7333c03a9d3f3e377159c',
   'tablet:courses:light': 'b22530777afd479dc8dd7203b3a4ef2a650ca1f61165ac8417b8943c93125c05',
   'tablet:courses:dark': '4d9a5c76bd8a3634b57c9de381c07522d992e05b4958cebc89ab5faae6e21190',
-  'phone:practice:light': '9dc1b583c7dd846d90d1a1a5744c3f9377e02b0b994a58cadc4acb2ccb46322b',
-  'phone:practice:dark': 'bdaba48ba4f9c01418bc49ddbbacc4c1f728aaa61f0849e28a35fd5c300f79cb',
-  'tablet:exam-prep:light': 'beaf660a68b16c78d90838721d23118f4e34c4cf0ce328db421703c70112cb89',
-  'tablet:exam-prep:dark': 'fc318443625f84e27045c8fb51040f7c154f117c2ecaf974eb683c7a6d556767',
-  'tablet:timed-exam:light': '358cb08fe9a822a80c0737f89811ff087cd56cbad9d6199f5afaf03c41e5c72f',
-  'tablet:timed-exam:dark': '7e1345395a34173b21cd98fedaf022c96b12e6a38b4a99328e1a48c0e02c4af9',
+  'phone:practice:light': '11578378079b5f22fd429cda1d55fbac82d437794df1bd80d45ee7f9bdcfa339',
+  'phone:practice:dark': 'a2a0344cc13db06139c35a9bdd8c9f1c9d7bc5cbd8c62de51208d5e21970f564',
+  'tablet:exam-prep:light': '9fe857393dc5a7f0dec3fd0ed202801d52e216f7df6d4630741b414e3cddb687',
+  'tablet:exam-prep:dark': '46b9ebf430f0ffcd596323a4841455304b5f0dd3a49d0b5bec8b081056365027',
+  'tablet:timed-exam:light': '6121d7ca86804199e07e847984bb03d02d43617198b5531e7d17b8da8ab6c25e',
+  'tablet:timed-exam:dark': '848c385e7e0aa086f9f34d3c2f8a7bf60a3f7b262e6d3864a80b5ad0f604c6fd',
 }
 
 async function seedSession(page: Page, theme: Theme, isAdmin: boolean) {

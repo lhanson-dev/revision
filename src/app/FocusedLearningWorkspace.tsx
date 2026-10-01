@@ -396,8 +396,9 @@ export function FocusedLearningWorkspace({
     </section>
   )
 
-  const tabs = (
-    <SegmentedControl className="mode-tabs" role="tablist" label={`${copy.title} activities`}>
+  // A single activity needs no chooser: a one-tab bar reads as navigation that goes nowhere.
+  const tabs = availableModes.length > 1 ? (
+    <SegmentedControl className="mode-tabs scroll-hint" role="tablist" label={`${copy.title} activities`}>
       {availableModes.map((item) => (
         <Button
           key={item}
@@ -412,7 +413,7 @@ export function FocusedLearningWorkspace({
         </Button>
       ))}
     </SegmentedControl>
-  )
+  ) : null
 
   const emptyActivity = isPractice && practiceModes.length === 0 && (
     <div className="pw-empty"><strong>Nothing to practise here yet</strong><p>No practice activities are published for {topic?.shortTitle ?? 'this topic'} yet. Try another topic.</p></div>

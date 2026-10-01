@@ -28,7 +28,7 @@
 /* Question and answer box. */
 .planner-runtime .exam-question-sheet h3 { font-family: var(--rv-font-display); font-weight: 800; font-size: 28px; line-height: 1.2; letter-spacing: -.02em; color: var(--rv-text); }
 .planner-runtime .exam-question-sheet .practice-meta { font-weight: 800; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--rv-text-2); }
-.planner-runtime .exam-question-sheet .answer-label textarea { border: 2px solid var(--rv-line); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
+.planner-runtime .exam-question-sheet .answer-label textarea { border: 2px solid var(--color-border-control); border-radius: var(--rv-radius-card); background: var(--rv-surface); }
 .planner-runtime .exam-question-sheet .answer-label textarea:focus { outline: 0; border-color: var(--rv-teal); box-shadow: var(--rv-ring); }
 .planner-runtime .exam-case { border-radius: var(--rv-radius-card); }
 .exam-word-count { margin: -12px 0 var(--space-5); font-weight: 700; font-size: 13px; color: var(--rv-text-2); }

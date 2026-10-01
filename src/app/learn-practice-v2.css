@@ -48,7 +48,7 @@
   counter-increment: pw-option;
   min-height: 64px;
   padding: 12px 18px;
-  border: 2px solid var(--rv-line);
+  border: 2px solid var(--color-border-control);
   border-radius: var(--rv-radius-row);
   background: var(--rv-surface);
   font-weight: 700;
