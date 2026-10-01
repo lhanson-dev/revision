@@ -88,7 +88,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 2. ~~Item-level coverage: split the 42 requirements into named items; add a software check that each is taught by a node.~~ Done 30 September 2026 (PR #448).
 3. ~~Put the rules into the assurance scripts: fixed reviewer checklists, blocking vs logged findings, two-round limit, escalation list, item-level failure handling.~~ Done for the T8 gate 30 September 2026 (PR #452); later stages reuse `src/content-factory/fast-path-review.ts`.
 4. ~~Rerun the T8 gate under the new rules and resolve the open findings.~~ Done 30 September 2026 (run 36790228166, `ai_assured`).
-5. **In progress:** take AQA 3.5 (financial performance) through Blueprint, Learn, Practice, 10–15 exam-style questions and marking. Blueprint done (35/35 items treated, `content-factory/slices/aqa-7132-3.5/BLUEPRINT.json`); Learn, Practice and questions next, $6 cap per run approved by Lee.
+5. **In progress:** take AQA 3.5 (financial performance) through Blueprint, Learn, Practice, 10–15 exam-style questions and marking. Blueprint done and merged (35/35 items treated, `content-factory/slices/aqa-7132-3.5/BLUEPRINT.json`). Learn + Practice run workflow built (`content-factory-aqa-business-7132-slice-learn-practice.yml`, software proves the arithmetic and coverage, then a fixed-checklist AI review, $6 cap approved by Lee); not yet run. Exam-style questions and marking (5c) next.
 6. Lee reviews the slice as a student; fix what it exposes; then run the rest of 7132.
 7. Start a second Business board and measure reuse.
 
