@@ -27,6 +27,24 @@ The first course is **AQA A-level Business 7132 (2027 exams)**.
 - Work on a branch and open a PR for every governed change.
 - **Stop before every merge.** Every merge into `main` needs Lee's explicit approval for that specific PR.
 
+## How approval and merging work (Founder process, 1 October 2026)
+
+The AI does all the development and GitHub work. Lee only reviews and approves. The steps, in order:
+
+1. **You do the work.** Build it on a branch, open a PR (as a draft), run the checks, and fix anything that fails. Do not ask Lee to do GitHub tasks.
+2. **You get the PR ready.** Bring the branch up to date with `main`, wait for CI to go green on the final commit, and take the PR out of draft only at the approval step below.
+3. **You ask for approval.** Tell Lee, in plain English, exactly what changed (what a student or the business will notice), with before/after screenshots where the screen changed, how you checked it, what is left, and any decision needed. Give the PR link and the exact commit.
+4. **Lee reviews and replies "approved" in the chat**, naming the PR (or answering your approval question for that PR). Nothing else counts: a reply about something else, silence, "continue", passing tests or a green check is not approval.
+5. **You register it and merge.** Post the `revision-founder-approval:v1` comment (with `head_sha: <full 40-character commit>`) on the PR for that exact commit, confirm the `revision/founder-approval` check passes, take the PR out of draft and merge.
+
+Limits that always apply:
+
+- **Approval is per PR and per commit.** If you push anything after Lee approves (including merging `main` in), CI runs again on a new commit. If the change is only `main` coming in and touches nothing Lee reviewed, you may register his approval on the new commit and must say so in your report. Anything else needs a new approval.
+- **Never approve your own work.** You relay Lee's approval; you do not give it. Never post the approval comment before Lee has said "approved" in the chat for that PR.
+- **Visual baselines** are updated only after Lee says OK to the before/after screenshots, with a dated comment noting his approval, using digests from CI's browser.
+- **Governance changes** (this section, `AUTHORITY_HIERARCHY.md`, standards) go in their own PR and are approved the same way.
+- **Lee can revoke this at any time** by saying so in the chat. From then on, he posts the approval comment himself.
+
 ## The Content Factory process (fast path)
 
 The governing process is `80-company-workflows/Content Factory Fast-Path Process.md`. Read it before any factory work. Summary:
@@ -73,7 +91,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 
 ## Current state (as of 1 October 2026 — verify on `main` before acting)
 
-- **Approved main at the start of the current remediation:** `f284141017a897509da6a6dfe345bd844155e03b` (PR #487, learner redesign Home). Always inspect the current head before integration because learner-design work is landing independently of Content Factory work.
+- **Approved main at the start of the current remediation:** `f284141017a897509da6a6dfe345bd844155e03b` (PR #487, learner redesign Home). Main has since advanced independently; always inspect the current head and reconcile before integration.
 - **PR #488 is merged:** magnitude-word number normalisation and exact-fingerprint recovery for a prior software-only blocked question are on main. Live run 36925676050 proved the 3.5-topup q04 recovery path: retained generation/blind-answer evidence was reused and q04 received its required fresh review rather than being regenerated.
 - **Business Subject Foundation before the current branch:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. The last assured Foundation fingerprint was `f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94`.
 - **AQA 7132 mapping:** 42 specification subsections; item-level coverage remains 344/344 with no gaps.
@@ -83,7 +101,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 - **AQA 3.5 questions:** complete, 14/14 accepted in run 36830719185 and committed.
 - **Latest remaining-course question run:** run **36925676050** on main `f284141` resumed from run 36857736736 and accepted **219/231**. It reused **116** unchanged accepted questions without re-review. Fully complete batches: 3.6 (28/28), 3.8-3.9 (18/18) and 3.5-topup (9/9). Conservative spend was about **$4.49**.
 - **Twelve unresolved questions from run 36925676050:** two are deterministic checker defects (3.1-3.2 q03 signed currency; 3.3 q02 explicit million-unit input matching). Ten reached the two-review limit. On 1 October Lee chose **fix all ten**. Exact source fingerprints and notes are recorded in `content-factory/runs/aqa-7132-question-founder-decisions.json`.
-- **Current governed remediation branch:** `fix/aqa-7132-question-run-369256-remediation`. It adds four source-bound Foundation fixes (BUS-FND-001, BUS-FND-009, BUS-OPS-001, BUS-STR-009), six question-only Founder correction constraints, the two deterministic checker repairs, regressions, run-log evidence and technical documentation. The four Foundation changes require fresh T8 assurance and targeted Learn/Practice refresh before dependent questions resume.
+- **Current governed remediation:** PR #491 / branch `fix/aqa-7132-question-run-369256-remediation`. It adds four source-bound Foundation fixes (BUS-FND-001, BUS-FND-009, BUS-OPS-001, BUS-STR-009), six question-only Founder correction constraints, the two deterministic checker repairs, regressions, run-log evidence and technical documentation. The four Foundation changes require fresh T8 assurance and targeted Learn/Practice refresh before dependent questions resume.
 - **Human review:** no course content has qualified-human approval yet. Lee will arrange a person to review the finished course in context on the live site.
 - **Second provider:** only OpenAI is configured; second-provider checks in the process cannot yet run.
 
@@ -98,7 +116,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
    - ~~make Learn + Practice refresh incremental and persist the first targeted refresh;~~ done;
    - ~~merge PR #488 and prove the 3.5-topup q04 software-only recovery live;~~ done;
    - ~~resume Questions from run 36857736736;~~ done: run 36925676050 reached 219/231 accepted;
-   - **current:** merge the governed remediation for the 10 Founder-decided fixes and 2 software-checker defects;
+   - **current:** get PR #491 current with main, green and Founder-approved/merged;
    - after that merge, run fresh T8 assurance for the four changed Foundation nodes/affected sections;
    - refresh Learn + Practice only for BUS-FND-001 and BUS-FND-009 (3.1-3.2), BUS-OPS-001 (3.4) and BUS-STR-009 (3.10), preserving exact-fingerprint reuse elsewhere;
    - commit/merge the refreshed Learn + Practice assets and evidence;
