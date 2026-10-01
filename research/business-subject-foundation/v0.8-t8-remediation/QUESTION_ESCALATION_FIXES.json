@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "candidate_version": "v0.8-t8-exact-course-remediation",
+  "purpose": "Additive Foundation teaching required by the Founder-approved fixes for two-round AQA 7132 question escalations from run 36857736736. These entries deepen existing nodes only; they do not replace prior teaching.",
+  "rights_boundary": "Revision-authored teaching supported by each node's registered promotion-eligible source. No awarding-body wording.",
+  "fixes": [
+    {
+      "subject_id": "BUS-FND-007",
+      "run_log": "3.9.1 Takeover-specific mechanisms needed after q04 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "takeover: one business gains control of another, usually by acquiring enough of its shares or assets; potential benefits include faster growth, access to customers, capacity, skills or technology, but success depends on integration and the price paid. Takeovers can fail to create value because the buyer overpays, expected cost savings or revenue gains do not materialise, systems and operations are difficult to combine, key staff or customers leave, or cultures and management practices clash."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FND-008",
+      "run_log": "3.9.1 Synergy definition and mechanisms needed after q07 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "synergy: an additional benefit created when businesses or activities are combined so that the combined result is greater than they could achieve separately. In business growth this may come from sharing facilities, purchasing, distribution, technology or management expertise, removing duplicated costs, cross-selling to each other's customers, or combining complementary capabilities; claimed synergy should be judged against integration costs and the risk that expected benefits do not occur."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-STR-009",
+      "run_log": "3.10.4 Crisis management not taught after q09 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "crisis management: preparing for and responding to a sudden event that seriously threatens a business's operations, people, reputation, finances or survival. It requires rapid assessment and decisions, clear responsibility and communication, use of contingency arrangements where available, action to contain harm and maintain critical operations, and later review so the business can learn and improve resilience; urgency may justify faster direction but does not remove the need to assess risks and consequences."
+        ]
+      }
+    }
+  ]
+}
