@@ -3,40 +3,10 @@
   "stage": "aqa-7132-slice-learn-practice",
   "checklist_version": "slice-learn-practice-v1",
   "units": {
-    "bus-evi-008": {
-      "fingerprint": "8e0e422ca431907d3e372a1d5fb81a1179a0eb741116727ec426ad77500096d6",
-      "outcome": "passed",
-      "consecutive_blocking_rounds": 0,
-      "findings": [],
-      "updated_at": "2026-10-01T11:05:03.417Z"
-    },
-    "bus-ext-007": {
-      "fingerprint": "f6e66efc63f2211fa35cf84c1bce5ace115a5db5bc5806b64168c620346f6d9f",
-      "outcome": "passed",
-      "consecutive_blocking_rounds": 0,
-      "findings": [],
-      "updated_at": "2026-10-01T11:05:03.418Z"
-    },
-    "bus-mkt-001": {
-      "fingerprint": "572407661309d651cf913838ab04b468cedb51cc77b8cb9169941ff4965c25eb",
-      "outcome": "passed",
-      "consecutive_blocking_rounds": 0,
-      "findings": [],
-      "updated_at": "2026-10-01T11:05:03.418Z"
-    },
-    "bus-mod-005": {
-      "fingerprint": "a627d5bbd835920a4b8420f85d36570c4de0e3c57ba8b45ddc22f3b1d6b4136a",
-      "outcome": "passed",
-      "consecutive_blocking_rounds": 0,
-      "findings": [],
-      "updated_at": "2026-10-01T11:05:03.418Z"
-    },
-    "bus-str-009": {
-      "fingerprint": "9c48c2a147871627ce429792230066a706f8b675945bc323c8da735fcc500d8e",
-      "outcome": "passed",
-      "consecutive_blocking_rounds": 0,
-      "findings": [],
-      "updated_at": "2026-10-01T11:06:08.679Z"
-    }
+    "bus-evi-008": {"fingerprint":"8e0e422ca431907d3e372a1d5fb81a1179a0eb741116727ec426ad77500096d6","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T11:05:03.417Z"},
+    "bus-ext-007": {"fingerprint":"f6e66efc63f2211fa35cf84c1bce5ace115a5db5bc5806b64168c620346f6d9f","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T11:05:03.418Z"},
+    "bus-mkt-001": {"fingerprint":"572407661309d651cf913838ab04b468cedb51cc77b8cb9169941ff4965c25eb","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T11:05:03.418Z"},
+    "bus-mod-005": {"fingerprint":"a627d5bbd835920a4b8420f85d36570c4de0e3c57ba8b45ddc22f3b1d6b4136a","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T11:05:03.418Z"},
+    "bus-str-009": {"fingerprint":"3261363e9245ded7821f44daa2fa6ab4bec63cba39140608486e47c549f4f88a","outcome":"passed","consecutive_blocking_rounds":0,"findings":[],"updated_at":"2026-10-01T15:48:33.030Z"}
   }
 }
