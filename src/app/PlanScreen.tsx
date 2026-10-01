@@ -18,12 +18,12 @@ import {
 } from '../services/planning/planner-service'
 import { createSupabaseEvidenceStore, loadLearningEvidence } from '../services/progress/learning-evidence-service'
 import { createCourseLearningState, createModuleLearningState, paperLabel, type ModuleLearningState } from './catalogue-model'
-import { assignSubjectColours } from './home-view'
 import { RevPresence } from './RevPresence'
 import { adaptersForProgramme, type LearnerProgrammeCourse } from './learner-programme'
 import { buildPlannerSnapshot, courseIdForLearningState } from './planner-model'
+import { resolveSubjectIdentity } from './subject-palette'
 import { subjectAccentKey } from './subject-accents'
-import { Button, EmptyState, Icon, LoadingState, PageHeader, SegmentedControl, SelectField, Status, Surface, TextField } from './ui'
+import { Button, EmptyState, Icon, LoadingState, PageHeader, SegmentedControl, SelectField, Status, SubjectBadge, Surface, TextField } from './ui'
 
 interface PlanScreenProps {
   client: SupabaseClient
@@ -419,16 +419,16 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
     )
   }
 
-  const subjectColours = assignSubjectColours(programme.map((entry) => entry.subject.id))
   const todayIso = (() => {
     const now = new Date()
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   })()
 
   function renderTask(item: PlannerItem, compact = false) {
-    const colour = subjectColours.get(item.subjectId)
-    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} style={colour ? { '--plan-fill': colour.fill } as CSSProperties : undefined} onClick={() => void handleStart(item)}>
-      <span className="plan-task-subject">{subjectLabel(programme, item.subjectId)}</span>
+    const name = subjectLabel(programme, item.subjectId)
+    const { hue, mark } = resolveSubjectIdentity(item.subjectId, name)
+    return <button className={`plan-task ${compact ? 'plan-task-compact' : ''}`} key={item.recommendationId} data-subject-accent={subjectAccentKey(item.subjectId)} style={{ '--plan-solid': `var(--subject-${hue})`, '--plan-on': `var(--subject-${hue}-on)` } as CSSProperties} onClick={() => void handleStart(item)}>
+      <span className="plan-task-subject"><SubjectBadge hue={hue} mark={mark} size="plan" onSolid />{name}</span>
       <strong>{itemTopicLabel(item, learningStates)}</strong>
       <span>{activityLabel(item.activityType)} · {item.estimatedMinutes} mins</span>
       <Icon name="chevron-right" size="compact" className="plan-task-arrow" />
@@ -478,7 +478,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
           const exams = upcoming.filter((assessment) => assessment.assessmentDate >= start && assessment.assessmentDate <= end)
           return <article key={`${start}-${index}`}>
             <div><p className="eyebrow">Week {index + 1}</p><h3>{weekRange(days)}</h3></div>
-            <div className="plan-month-focus">{focus.length > 0 ? focus.map(([subjectId, minutes]) => <span key={subjectId} data-subject-accent={subjectAccentKey(subjectId)}><b>{subjectLabel(programme, subjectId)}</b> · about {formatDuration(minutes)}</span>) : <span>Revision will refine this week as stronger evidence becomes available.</span>}</div>
+            <div className="plan-month-focus">{focus.length > 0 ? focus.map(([subjectId, minutes]) => <span key={subjectId} data-subject-accent={subjectAccentKey(subjectId)} style={{ '--plan-solid': `var(--subject-${resolveSubjectIdentity(subjectId, subjectLabel(programme, subjectId)).hue})` } as CSSProperties}><b>{subjectLabel(programme, subjectId)}</b> · about {formatDuration(minutes)}</span>) : <span>Revision will refine this week as stronger evidence becomes available.</span>}</div>
             {exams.length > 0 && <div className="plan-month-exams">{exams.map((assessment) => <span key={assessment.assessmentId}><Icon name="plan" size="compact" /> {formatDate(assessment.assessmentDate, { day: 'numeric', month: 'short' })} · {assessment.title}</span>)}</div>}
           </article>
         })}
@@ -517,7 +517,7 @@ export function PlanScreen({ client, userId, programme, onOpenCourses, onOpenCou
 
         {setupComplete && <>
           <Surface className="plan-overview-strip">
-            <div className="plan-overview-item"><Icon name="plan" /><div><span>Next exam</span><strong>{nextExam ? nextExam.title : 'No upcoming exam'}</strong><small>{nextExam ? `${courseLabel(programme, nextExam.courseId, nextExam.subjectId)} · ${formatDate(nextExam.assessmentDate)} · ${daysUntil(nextExam.assessmentDate)} days` : 'Add another exam when you know the date.'}</small></div></div>
+            <div className="plan-overview-item"><Icon name="clock" /><div><span>Next exam</span><strong>{nextExam ? nextExam.title : 'No upcoming exam'}</strong><small>{nextExam ? `${courseLabel(programme, nextExam.courseId, nextExam.subjectId)} · ${formatDate(nextExam.assessmentDate)} · ${daysUntil(nextExam.assessmentDate)} days` : 'Add another exam when you know the date.'}</small></div></div>
             <div className="plan-overview-item"><Icon name="progress" /><div><span>This week</span><strong>{formatDuration(currentWeekMinutes)} available</strong><small>Your plan fits around this realistic capacity.</small></div></div>
             <div className="plan-overview-item"><Icon name={snapshot?.capacityState === 'prioritising' ? 'info' : 'check'} /><div><span>Plan status</span><strong>{snapshot?.capacityState === 'prioritising' ? 'Prioritising' : 'Current plan'}</strong><small>{snapshot?.capacityState === 'prioritising' ? 'Revision is concentrating on the highest-value work for the time available.' : 'Revision is balancing work across your current programme.'}</small></div></div>
             <div className="plan-overview-actions"><Button variant="secondary" onClick={() => { setManageExamsOpen((open) => !open); setPlanSettingsOpen(false) }}><Icon name="plan" size="compact" /> Manage exams</Button><Button variant="secondary" onClick={() => { setPlanSettingsOpen((open) => !open); setManageExamsOpen(false) }}><Icon name="settings" size="compact" /> Plan settings</Button></div>

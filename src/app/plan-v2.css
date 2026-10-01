@@ -41,3 +41,24 @@
 .plan-blank-action:focus-visible { outline: 2px solid var(--rv-teal); outline-offset: 3px; }
 .plan-blank-card--week { margin-top: 0; }
 @media (max-width: 960px) { .plan-blank-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Subject colour on sessions: the solid hue from the subject map (decisions file section 1), with the on-colour that keeps text readable.
+   Colours come only from the --subject-* tokens; nothing here is a raw colour. */
+.plan-task { border-left-width: 1px; border-color: transparent; background: var(--plan-solid, var(--rv-surface)); color: var(--plan-on, var(--rv-text)); min-height: 48px; }
+.plan-task .plan-task-subject, .plan-task strong, .plan-task > span:not(.plan-task-subject), .plan-task > small { color: var(--plan-on, var(--rv-text)); }
+.plan-task > span:not(.plan-task-subject), .plan-task > small { opacity: .9; }
+.plan-task-subject { display: inline-flex; align-items: center; gap: 8px; }
+.plan-task:hover, .plan-task:focus-visible { border-color: var(--plan-on, var(--rv-line)); }
+.plan-task:focus-visible { outline: 2px solid var(--plan-on, var(--rv-teal)); outline-offset: -4px; box-shadow: none; }
+.plan-task-compact { box-shadow: none; background: var(--plan-solid, var(--rv-surface)); }
+.plan-task-compact:hover, .plan-task-compact:focus-visible { box-shadow: none; }
+.plan-month-focus > span[data-subject-accent] { border-left: 0; background: var(--plan-solid, var(--rv-soft)); color: var(--plan-on, var(--rv-text)); }
+.plan-month-focus > span[data-subject-accent] b { color: inherit; }
+
+/* Controls are at least 48px (accessibility rule). The weekly study-time steppers were 32px. */
+.plan-capacity-stepper { grid-template-columns: 48px minmax(0, 1fr) 48px; }
+.plan-capacity-stepper button { width: 48px; height: 48px; }
+
+/* The chevron on a solid session takes the on-colour so it stays visible. "7h 15m available" is no longer cut off. */
+.plan-task .plan-task-arrow { color: var(--plan-on, var(--rv-text-2)); }
+.plan-overview-item strong { overflow: visible; text-overflow: clip; white-space: normal; }
