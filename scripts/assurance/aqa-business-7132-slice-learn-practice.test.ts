@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 import { createOpenAIFoundationLiveProvider } from '../../src/content-factory/foundation-live-adapter'
+import { withSharedProviderBudget } from '../../src/content-factory/openai-shared-provider-budget'
 import {
   checklistInstructions,
   escalationEntries,
@@ -42,6 +43,10 @@ const BATCH = env.CONTENT_FACTORY_SLICE_BATCH?.trim() || '3.5'
 const BLUEPRINT = 'content-factory/slices/aqa-7132-3.5/BLUEPRINT.json'
 const BATCH_BLUEPRINT = `content-factory/slices/aqa-7132-${BATCH}/BLUEPRINT.json`
 const OUTPUT = `.artifacts/content-factory-aqa-business-7132-slice-${BATCH}-learn-practice`
+// The top-up batch replaces files in the original 3.5 asset directory; every other batch owns its own directory.
+const RETAINED_ASSETS_DIR = BATCH === '3.5-topup'
+  ? 'content-factory/slices/aqa-7132-3.5/learn-practice'
+  : `content-factory/slices/aqa-7132-${BATCH}/learn-practice`
 // Committed between runs so unchanged nodes are reused and review rounds are counted.
 const LEDGER = `content-factory/runs/aqa-7132-slice-${BATCH}/ledger.json`
 
@@ -82,6 +87,30 @@ async function readLedger(): Promise<Ledger> {
   }
 }
 
+function retainedSliceUnit(input: {
+  expectation: NodeExpectation
+  teaching: SliceTeaching
+  output: NodeOutput
+  previous: Ledger['units'][string] | undefined
+}) {
+  if (!input.previous || !['passed', 'logged'].includes(input.previous.outcome)) return null
+  if (validateNodeOutput(input.output, input.expectation).length > 0) return null
+  const unit = buildSliceUnit({ nodeId: input.expectation.nodeId, expectation: input.expectation, teaching: input.teaching, output: input.output })
+  return unit?.fingerprint === input.previous.fingerprint ? unit : null
+}
+
+async function readRetainedSliceUnit(input: { expectation: NodeExpectation; teaching: SliceTeaching; ledger: Ledger }): Promise<{ output: NodeOutput; unit: SliceUnit } | null> {
+  const previous = input.ledger.units[input.expectation.nodeId]
+  if (!previous || !['passed', 'logged'].includes(previous.outcome)) return null
+  try {
+    const output = nodeOutputSchema.parse(JSON.parse(await readFile(`${RETAINED_ASSETS_DIR}/${input.expectation.nodeId}.json`, 'utf8')))
+    const unit = retainedSliceUnit({ expectation: input.expectation, teaching: input.teaching, output, previous })
+    return unit ? { output, unit } : null
+  } catch {
+    return null
+  }
+}
+
 const item = (id: string, label = id, kind = 'formula') => ({ id: `aqa-7132-3.5.2:${id}`, section: '3.5.2', label, kind, taughtBy: ['bus-fin-003'] })
 
 function validOutput(expectation: NodeExpectation): NodeOutput {
@@ -111,28 +140,21 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
 
   it('recomputes the multi-year and list formulas (payback, NPV, expected value, market size) and rejects mistakes in them', () => {
     const inputs = (pairs: Array<[string, number]>) => pairs.map(([name, value]) => ({ name, value }))
-    // Payback: £100,000 invested; £40,000, £40,000, £40,000 a year -> 2 full years then £20,000 of £40,000 = 2.5 years.
     const payback = { formula_id: 'payback', inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 40000], ['net_cash_flow_2', 40000], ['net_cash_flow_3', 40000]]), stated_answer: 2.5 }
     expect(checkCalculation(payback)).toBeNull()
     expect(checkCalculation({ ...payback, stated_answer: 3 })).toContain('computes to 2.5')
     expect(checkCalculation({ ...payback, inputs: inputs([['initial_investment', 500000], ['net_cash_flow_1', 40000], ['net_cash_flow_2', 40000]]) })).toContain('cannot be computed')
     expect(checkCalculation({ ...payback, inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 40000], ['net_cash_flow_3', 40000]]) })).toContain('no gaps')
-    // NPV: -100,000 + 50,000 x 0.9 + 60,000 x 0.8 = -7,000.
     const npv = { formula_id: 'net_present_value', inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 50000], ['discount_factor_1', 0.9], ['net_cash_flow_2', 60000], ['discount_factor_2', 0.8]]), stated_answer: -7000 }
     expect(checkCalculation(npv)).toBeNull()
     expect(checkCalculation({ ...npv, stated_answer: 7000 })).toContain('computes to -7000')
     expect(checkCalculation({ ...npv, inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 50000], ['discount_factor_1', 0.9], ['net_cash_flow_2', 60000]]) })).toContain('no gaps')
-    // Expected value: 0.6 x 50,000 + 0.4 x -10,000 = 26,000; probabilities must add to 1.
     const ev = { formula_id: 'expected_value', inputs: inputs([['probability_1', 0.6], ['outcome_1', 50000], ['probability_2', 0.4], ['outcome_2', -10000]]), stated_answer: 26000 }
     expect(checkCalculation(ev)).toBeNull()
     expect(checkCalculation({ ...ev, inputs: inputs([['probability_1', 0.6], ['outcome_1', 50000], ['probability_2', 0.5], ['outcome_2', -10000]]) })).toContain('cannot be computed')
-    // Market size: sum of firm sales.
     expect(checkCalculation({ formula_id: 'market_size', inputs: inputs([['firm_sales_1', 4000000], ['firm_sales_2', 2500000], ['firm_sales_3', 1500000]]), stated_answer: 8000000 })).toBeNull()
-    // A stray input is rejected.
     expect(checkCalculation({ formula_id: 'gross_profit', inputs: inputs([['revenue', 10], ['cost_of_sales', 4], ['other', 1]]), stated_answer: 6 })).toContain('does not take')
-    // ARR: (175,000 - 100,000) / 5 = 15,000 a year on 100,000 = 15%.
     expect(checkCalculation({ formula_id: 'average_rate_of_return', inputs: inputs([['total_net_cash_inflows', 175000], ['initial_investment', 100000], ['number_of_years', 5]]), stated_answer: 15 })).toBeNull()
-    // Gearing and ROCE use the confirmed course conventions.
     expect(checkCalculation({ formula_id: 'gearing', inputs: inputs([['non_current_liabilities', 300000], ['total_equity', 700000]]), stated_answer: 30 })).toBeNull()
     expect(checkCalculation({ formula_id: 'return_on_capital_employed', inputs: inputs([['operating_profit', 120000], ['total_equity', 700000], ['non_current_liabilities', 300000]]), stated_answer: 12 })).toBeNull()
   })
@@ -170,10 +192,8 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     const expectation: NodeExpectation = { nodeId: 'bus-fin-003', requiredTreatments: ['core_explanation', 'worked_example'], requiredCapabilities: ['retrieval', 'calculation'], items: [item('gross-profit', 'Gross profit')] }
     const output = validOutput(expectation)
     expect(validateNodeOutput(output, expectation).map((f) => f.check_id)).toEqual(['item_calculation_task'])
-
     const fixed: NodeOutput = { ...output, practice: { items: output.practice.items.map((p, index) => (index === 1 ? { ...p, calc: { formula_id: 'gross_profit', inputs: [{ name: 'revenue', value: 80 }, { name: 'cost_of_sales', value: 50 }], stated_answer: 30, unit: '£' } } : p)) } }
     expect(validateNodeOutput(fixed, expectation)).toEqual([])
-
     const wrong: NodeOutput = { ...fixed, learn: { ...fixed.learn, worked_examples: fixed.learn.worked_examples.map((w) => ({ ...w, calc: { ...w.calc, stated_answer: 41 } })) } }
     expect(validateNodeOutput(wrong, expectation).map((f) => f.check_id)).toEqual(['calculation_recomputes'])
     expect(validateNodeOutput({ ...fixed, learn: { ...fixed.learn, sections: fixed.learn.sections.filter((s) => s.treatment !== 'worked_example') } }, expectation).map((f) => f.check_id)).toContain('blueprint_treatments')
@@ -186,14 +206,10 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     const good = validOutput(expectation)
     const bad = { ...good, node_id: 'wrong' }
     const seenFeedback: number[] = []
-    const result = await produceNode({
-      nodeId: 'bus-fin-003', expectation, teaching,
-      generate: async (payload, attempt) => { seenFeedback.push((payload.fix_these as unknown[]).length); return { ok: true, output: attempt === 1 ? bad : good } },
-    })
+    const result = await produceNode({ nodeId: 'bus-fin-003', expectation, teaching, generate: async (payload, attempt) => { seenFeedback.push((payload.fix_these as unknown[]).length); return { ok: true, output: attempt === 1 ? bad : good } } })
     expect(result.attempts).toBe(2)
     expect(seenFeedback).toEqual([0, 1])
     expect(result.output?.node_id).toBe('bus-fin-003')
-
     let calls = 0
     const failing = await produceNode({ nodeId: 'bus-fin-003', expectation, teaching, generate: async () => { calls++; return { ok: false, error: 'timeout' } } })
     expect(calls).toBe(3)
@@ -215,15 +231,24 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     expect(checklistInstructions(SLICE_CHECKLIST)).toContain('Do not look for other problems')
   })
 
+  it('reuses a retained accepted Learn + Practice asset only when its exact review fingerprint still matches current inputs', () => {
+    const expectation: NodeExpectation = { nodeId: 'bus-fin-003', requiredTreatments: ['core_explanation'], requiredCapabilities: ['retrieval'], items: [] }
+    const output = validOutput(expectation)
+    const teaching: SliceTeaching = { subject_id: 'BUS-FIN-003', teaching_content: { fact: 'same' }, quantitative_content: {}, source_ids: ['SRC-A'] }
+    const unit = buildSliceUnit({ nodeId: expectation.nodeId, expectation, teaching, output })!
+    const previous: Ledger['units'][string] = { fingerprint: unit.fingerprint, outcome: 'passed', consecutive_blocking_rounds: 0, findings: [], updated_at: '2026-10-01T00:00:00Z' }
+    expect(retainedSliceUnit({ expectation, teaching, output, previous })?.fingerprint).toBe(unit.fingerprint)
+    expect(retainedSliceUnit({ expectation, teaching: { ...teaching, teaching_content: { fact: 'changed' } }, output, previous })).toBeNull()
+    expect(retainedSliceUnit({ expectation, teaching, output, previous: { ...previous, outcome: 'failed' } })).toBeNull()
+  })
+
   it('keeps every committed Learn + Practice asset valid against its blueprint (software re-proof, no AI)', async () => {
     const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
-    // The top-up batch rebuilds some 3.5 nodes; its output replaces those node files in the 3.5 folder, so those files must satisfy both blueprints.
     const checks = [{ id: '3.5', blueprint: '3.5' }, ...config.batches.map((batch) => ({ id: batch.id, blueprint: batch.id })), { id: '3.5', blueprint: config.top_up.id }]
     for (const check of checks) {
       const dir = `content-factory/slices/aqa-7132-${check.id}/learn-practice`
       const blueprintPath = `content-factory/slices/aqa-7132-${check.blueprint}/BLUEPRINT.json`
       if (!existsSync(dir) || !existsSync(blueprintPath)) continue
-      // The top-up blueprint only applies once the top-up run has been recorded (its ledger is committed with the new files).
       if (check.blueprint === config.top_up.id && !existsSync(`content-factory/runs/aqa-7132-slice-${config.top_up.id}/ledger.json`)) continue
       const blueprint = JSON.parse(await readFile(blueprintPath, 'utf8')) as Blueprint
       for (const expectation of expectationsFromBlueprint(blueprint)) {
@@ -250,41 +275,41 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
       return { subject_id: subjectId, title: node.title ?? null, teaching_content: node.teaching_content ?? {}, quantitative_content: node.quantitative_content ?? {}, source_ids: rows.get(subjectId)?.subject_truth_sources ?? [] }
     }
 
-    const provider = createOpenAIFoundationLiveProvider({
+    const maxSpendUsd = positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 6)
+    const provider = createOpenAIFoundationLiveProvider(withSharedProviderBudget({
       apiKey: requiredEnv('OPENAI_API_KEY'),
-      maxSpendUsd: positiveNumberEnv('CONTENT_FACTORY_MAX_SPEND_USD', 6),
-      // Reasoning tokens count towards the output limit, so generation gets medium effort and a large budget.
+      maxSpendUsd,
       generation: model(24_000, 'medium'),
       independentReview: model(8_000, 'high'),
-      // Retries are counted by produceNode and runReviewUnits (3 attempts each), not inside the provider.
       maxRetries: 0,
-    })
+    }))
     const expectations = expectationsFromBlueprint(blueprint)
     const generate = (nodeId: string) => async (payload: Record<string, unknown>) => {
-      const execution = await provider.run({
-        workerId: 'content-factory.aqa-7132.slice-learn-practice-generate',
-        contractVersion: SLICE_CHECKLIST.version,
-        routeKind: 'generation',
-        strictOutput: true,
-        outputSchema: nodeOutputSchema,
-        instructions: SLICE_GENERATION_INSTRUCTIONS,
-        payload,
-      })
+      const execution = await provider.run({ workerId: 'content-factory.aqa-7132.slice-learn-practice-generate', contractVersion: SLICE_CHECKLIST.version, routeKind: 'generation', strictOutput: true, outputSchema: nodeOutputSchema, instructions: SLICE_GENERATION_INSTRUCTIONS, payload })
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: `${nodeId} ${execution.status}: ${'error' in execution ? execution.error : ''}` }
     }
 
     const outputs = new Map<string, NodeOutput>()
     const generationFailures: Array<{ node_id: string; error: string }> = []
-    const buildUnits = async (targets: NodeExpectation[], feedback: Map<string, ClassifiedFinding[]>) => {
+    const buildUnits = async (targets: NodeExpectation[], feedback: Map<string, ClassifiedFinding[]>, ledgerForReuse: Ledger, allowRetained: boolean) => {
       const units: SliceUnit[] = []
       let next = 0
       const worker = async () => {
         while (next < targets.length) {
           const expectation = targets[next++]
-          const produced = await produceNode({ nodeId: expectation.nodeId, expectation, teaching: teachingFor(expectation.nodeId), generate: generate(expectation.nodeId), feedback: feedback.get(expectation.nodeId) })
+          const teaching = teachingFor(expectation.nodeId)
+          if (allowRetained) {
+            const retained = await readRetainedSliceUnit({ expectation, teaching, ledger: ledgerForReuse })
+            if (retained) {
+              outputs.set(expectation.nodeId, retained.output)
+              units.push(retained.unit)
+              continue
+            }
+          }
+          const produced = await produceNode({ nodeId: expectation.nodeId, expectation, teaching, generate: generate(expectation.nodeId), feedback: feedback.get(expectation.nodeId) })
           if (!produced.output) { generationFailures.push({ node_id: expectation.nodeId, error: produced.error ?? 'generation failed' }); continue }
           outputs.set(expectation.nodeId, produced.output)
-          units.push(buildSliceUnit({ nodeId: expectation.nodeId, expectation, teaching: teachingFor(expectation.nodeId), output: produced.output })!)
+          units.push(buildSliceUnit({ nodeId: expectation.nodeId, expectation, teaching, output: produced.output })!)
         }
       }
       await Promise.all(Array.from({ length: Math.min(4, targets.length) }, worker))
@@ -298,17 +323,16 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
       return execution.status === 'success' ? { ok: true as const, output: execution.output } : { ok: false as const, error: `${execution.status}: ${'error' in execution ? execution.error : ''}` }
     }
 
-    // Round 1: generate, prove, review.
+    // Round 1: exact-fingerprint accepted assets are reused before any generation or provider review. Changed teaching or asset content invalidates only that node.
     let ledger = await readLedger()
-    const units1 = await buildUnits(expectations, new Map())
+    const units1 = await buildUnits(expectations, new Map(), ledger, true)
     let run = await runReviewUnits({ units: units1, ledger, checklist: SLICE_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
     ledger = run.ledger
 
-    // Round 2 (the last): regenerate only nodes that blocked, with the findings fed back, and review again.
     const blocked = run.outcomes.filter((o) => o.status === 'blocking')
     if (blocked.length) {
       const feedback = new Map<string, ClassifiedFinding[]>(blocked.map((o) => [o.unit_id, o.findings]))
-      const units2 = await buildUnits(expectations.filter((e) => feedback.has(e.nodeId)), feedback)
+      const units2 = await buildUnits(expectations.filter((e) => feedback.has(e.nodeId)), feedback, ledger, false)
       const second = await runReviewUnits({ units: units2, ledger, checklist: SLICE_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
       ledger = second.ledger
       run = { ...second, outcomes: [...run.outcomes.filter((o) => !feedback.has(o.unit_id)), ...second.outcomes] }
@@ -342,7 +366,7 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
       reviewed_commit: env.CONTENT_FACTORY_SLICE_REVIEWED_COMMIT ?? null,
       checklist: SLICE_CHECKLIST,
       summary,
-      provider_budget: provider.budgetSnapshot?.() ?? null,
+      provider_budget: { ...(provider.budgetSnapshot?.() ?? {}), maxSpendUsd },
       gates: { ai_assured_nodes: summary.all_nodes_accepted, qualified_human_review_status: 'pending', learner_publication_eligible: false },
     }
     await writeFile(`${OUTPUT}/slice-learn-practice-proof.json`, `${JSON.stringify(evidence, null, 2)}\n`)

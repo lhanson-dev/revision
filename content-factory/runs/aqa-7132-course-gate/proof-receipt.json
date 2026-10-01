@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "artifact_type": "aqa_7132_exact_course_gate_fast_path_receipt",
+  "source_workflow_run_id": 36870063233,
+  "source_artifact_id": 11166648011,
+  "source_artifact_sha256": "4e598428e8a777a8e8589af749b4c6af5864d54151984194882a25e193e29ab9",
+  "recorded_at": "2026-10-01T13:40:30.599Z",
+  "reviewed_commit": "d7b08d2d62ecba886f72bee6a42a7acb21dc6ca8",
+  "exact_course_foundation_fingerprint": "adebfcea045279cf82dd9b99a7e0ef1cbd03403d31ea09535d160be45f89a07d",
+  "summary": {
+    "passed": ["3.1.1","3.1.3","3.2.1","3.2.2","3.2.3","3.3.3","3.3.4","3.4.1","3.4.3","3.4.4","3.4.5","3.5.1","3.5.3","3.5.4","3.6.4","3.6.5","3.7.1","3.7.2","3.7.4","3.7.5","3.7.6","3.7.7","3.7.8","3.8.1","3.8.2","3.9.1","3.9.3","3.9.4","3.10.1","3.10.3","3.10.4"],
+    "logged": ["3.1.2","3.3.1","3.3.2","3.4.2","3.5.2","3.6.1","3.6.2","3.6.3","3.7.3","3.9.2","3.10.2"],
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "reused_unchanged": [],
+    "can_progress": true
+  },
+  "official_source_check": {
+    "checked": [
+      {"source_id":"AQA-7132-SCHEME-OF-ASSESSMENT","final_url":"https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/scheme-of-assessment","content_sha256":"fe1e69222d6badd60188376b6218bc5559d9f27f75c18fdda9e1e3bfd673bc34","source_body_retained":false,"source_body_sent_to_ai_reviewer":false},
+      {"source_id":"AQA-7132-SPECIFICATION-AT-A-GLANCE","final_url":"https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/specification-at-a-glance","content_sha256":"6976a215b9882c5c348cf643558c01695f34a50777d975c8ebcd88c21f1ac85f","source_body_retained":false,"source_body_sent_to_ai_reviewer":false},
+      {"source_id":"AQA-7132-QUANTITATIVE-SKILLS","final_url":"https://www.aqa.org.uk/subjects/business/a-level/business-7132/specification/annex-quantitative-skills-in-business","content_sha256":"3adaf465dc7b57bafd2a9c7cbff8707bb639e5f94a2a876824737b57792063c2","source_body_retained":false,"source_body_sent_to_ai_reviewer":false},
+      {"source_id":"AQA-7132-ASSESSMENT-RESOURCES","final_url":"https://www.aqa.org.uk/subjects/business/a-level/business-7132/assessment-resources","content_sha256":"c6c518aa0f1bf15768babfc1f12d91285efb0f7650298d18295a82e31bdf7e2d","source_body_retained":false,"source_body_sent_to_ai_reviewer":false}
+    ],
+    "failed": [],
+    "missing_expected_sources": [],
+    "ok": true
+  },
+  "provider_budget": {"maxSpendUsd": 12, "conservativeConsumedUsd": 1.041614},
+  "final_state": "ai_assured",
+  "gates": {
+    "ai_assured": true,
+    "controlled_internal_asset_production_allowed": true,
+    "qualified_human_review_status": "pending",
+    "foundation_approved": false,
+    "learner_publication_eligible": false
+  }
+}
