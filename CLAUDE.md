@@ -27,6 +27,24 @@ The first course is **AQA A-level Business 7132 (2027 exams)**.
 - Work on a branch and open a PR for every governed change.
 - **Stop before every merge.** Every merge into `main` needs Lee's explicit approval for that specific PR.
 
+## How approval and merging work (Founder process, 1 October 2026)
+
+The AI does all the development and GitHub work. Lee only reviews and approves. The steps, in order:
+
+1. **You do the work.** Build it on a branch, open a PR (as a draft), run the checks, and fix anything that fails. Do not ask Lee to do GitHub tasks.
+2. **You get the PR ready.** Bring the branch up to date with `main`, wait for CI to go green on the final commit, and take the PR out of draft only at the approval step below.
+3. **You ask for approval.** Tell Lee, in plain English, exactly what changed (what a student or the business will notice), with before/after screenshots where the screen changed, how you checked it, what is left, and any decision needed. Give the PR link and the exact commit.
+4. **Lee reviews and replies "approved" in the chat**, naming the PR (or answering your approval question for that PR). Nothing else counts: a reply about something else, silence, "continue", passing tests or a green check is not approval.
+5. **You register it and merge.** Post the `revision-founder-approval:v1` comment (with `head_sha: <full 40-character commit>`) on the PR for that exact commit, confirm the `revision/founder-approval` check passes, take the PR out of draft and merge.
+
+Limits that always apply:
+
+- **Approval is per PR and per commit.** If you push anything after Lee approves (including merging `main` in), CI runs again on a new commit. If the change is only `main` coming in and touches nothing Lee reviewed, you may register his approval on the new commit and must say so in your report. Anything else needs a new approval.
+- **Never approve your own work.** You relay Lee's approval; you do not give it. Never post the approval comment before Lee has said "approved" in the chat for that PR.
+- **Visual baselines** are updated only after Lee says OK to the before/after screenshots, with a dated comment noting his approval, using digests from CI's browser.
+- **Governance changes** (this section, `AUTHORITY_HIERARCHY.md`, standards) go in their own PR and are approved the same way.
+- **Lee can revoke this at any time** by saying so in the chat. From then on, he posts the approval comment himself.
+
 ## The Content Factory process (fast path)
 
 The governing process is `80-company-workflows/Content Factory Fast-Path Process.md`. Read it before any factory work. Summary:
