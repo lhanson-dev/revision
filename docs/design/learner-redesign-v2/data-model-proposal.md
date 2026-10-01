@@ -1,6 +1,6 @@
 # Learner redesign v2: data model proposal
 
-**For:** Lee (Founder) · **Status:** proposal for decision, nothing built · **Date:** 1 October 2026 · **Revised** after Lee's feedback the same day (see "What changed after your feedback")
+**For:** Lee (Founder) · **Status:** proposal for decision, nothing built · **Date:** 1 October 2026 · **Revised** after Lee's feedback the same day; Lee agreed all recommendations (section 13)
 **PR:** 2 of the learner redesign (plan only, no code, no database changes)
 
 ## What this is
@@ -341,17 +341,26 @@ Each migration would be its own PR, with the database assurance tests, and each 
 - **REV conversations are kept for 12 months from the last message**, and the student can delete any conversation at any time. Still subject to the legal review in Privacy §12 (section 10.9).
 - **Exam answers and feedback are kept** so progress and "what you got wrong" can use them (section 7).
 
-### Still to decide
+### Also decided by Lee on 1 October 2026 ("agree with all")
 
-1. **Catalogue in the database** (section 3): build it at onboarding time? *Recommend yes.*
-2. **Coming-soon launch notices** (section 4): in-app only, no email at launch? *Recommend yes.*
-3. **Accepted sessions** (section 5): add the table so "Add to Thursday" works? *Recommend yes.*
-4. **Exam answer retention** (section 7): submitted answers and feedback kept while the account exists, the student can delete the text, drafts deleted after 30 days? *Recommend yes, pending legal review.*
-5. **Checklist switch** (section 7): a code setting, off by default, so turning it on needs your PR approval? *Recommend yes.*
-6. **Provider** (section 10.4): once testing is done, Claude or OpenAI, after you have read the provider's data terms? *Recommend deciding after the test.*
-7. **Flagged messages** (section 10.9): keep only that a flag fired, or also the message for a short review period? *Recommend keep only that a flag fired, until a safeguarding reviewer says otherwise.*
-8. **Daily question cap** (section 10.10): 60 a day to start? *Recommend yes, lower on the free tier once plans are decided.*
-9. **Shared answer cache** (section 10.3): leave out at launch? *Recommend yes.*
+Lee agreed with the recommendations for all nine items previously open, and with saving the theme per student. In summary:
+
+1. **Catalogue in the database**, built at onboarding time (section 3).
+2. **Coming-soon launch notices** in-app only, no email at launch (section 4).
+3. **Accepted sessions table**, so "Add to Thursday" works (section 5).
+4. **Exam answers and feedback kept** while the account exists, the student can delete the text, drafts deleted after 30 days; subject to legal review (section 7).
+5. **Examiner-checklist switch** is a code setting, off by default, so turning it on needs a PR approval (section 7).
+6. **Provider:** decided after the Sonnet 5.5 test, once the provider's data terms have been read (section 10.4).
+7. **Flagged messages:** keep only that a flag fired, until a safeguarding reviewer says otherwise (section 10.9).
+8. **Daily question cap:** 60 a day to start, lower on the free tier once plans are decided (section 10.10).
+9. **No shared answer cache at launch** (section 10.3).
+10. **Theme is saved per student**, so it is the same on every device they sign in on (section 9).
+
+### Still open
+
+- The provider choice itself (item 6), after the test.
+- Legal review of retention periods (Privacy §7, §12), the provider's data terms, whether students under 16 need parental consent for an AI feature, and checking the UK support numbers.
+- Nothing is built until Lee approves the specific migration PR.
 
 If you approve in a different order, tell me which and I will start with the one that unblocks the next screen. **My suggested order:** theme and suggestion events (small, low risk), then the catalogue, then accepted sessions and the retry queue, then exam attempts and feedback, with the REV function last because it carries the most risk and needs the longest testing. The free steps of the ladder (what the app knows, approved content) can ship before the model does.
 
