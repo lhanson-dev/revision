@@ -1,0 +1,349 @@
+{
+  "node_id": "bus-evi-004",
+  "learn": {
+    "title": "Decision trees, expected value and structured option appraisal",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using decision tools as evidence, not answers",
+        "body": "A decision tree maps a choice, the uncertain outcomes that may follow, their probabilities and their financial consequences. Managers can calculate expected value by adding each probability multiplied by its financial outcome. They can then subtract the cost of an option to find net gain.\n\nThese figures support a decision, but do not determine it. A stronger appraisal also compares each option with a realistic baseline, considers opportunity cost, tests assumptions and keeps downside risk, liquidity, reversibility, strategic fit and stakeholder effects visible. Cost-benefit analysis can include financial and non-financial impacts; effects that cannot be credibly priced should not simply be ignored.",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees",
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:net-gain",
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:uncertainty",
+          "aqa-7132-3.2.2:opportunity-cost"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Reading a simple decision tree",
+        "body": "A tree separates a management choice from chance outcomes:\n\n[Choose launch]\n  └─ Chance node\n      ├─ 0.6 → £200,000 contribution\n      └─ 0.4 → −£50,000 contribution\n\nMultiply along each outcome branch: 0.6 × £200,000 and 0.4 × −£50,000. Add the weighted contributions to obtain expected value. The probabilities at this chance node describe the defined possible outcomes and should add to 1.",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees",
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:uncertainty"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculate expected value and net gain",
+        "body": "A UK meal-kit business is considering a regional launch. It estimates a 0.7 probability of a £180,000 outcome and a 0.3 probability of a £100,000 loss. The launch requires a certain cost of £60,000.\n\nExpected value is £96,000. After the certain option cost, net gain is £36,000. This does not mean £36,000 is guaranteed: management should still consider whether it can absorb the loss outcome and whether its probability estimates are dependable.",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:net-gain",
+          "aqa-7132-3.2.2:risk"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Build an appraisal before making a recommendation",
+        "body": "For a proposed delivery depot, use this sequence:\n1. State the baseline, such as continuing with the current delivery arrangement.\n2. List the realistic options, including doing nothing where relevant.\n3. Set out financial outcomes, probabilities and any certain costs consistently.\n4. Calculate expected value and, where needed, net gain.\n5. Add non-financial effects, such as stakeholder impacts, that are important but hard to monetise.\n6. Identify opportunity cost: what is the best alternative use of the funds?\n7. Change a key assumption to see whether the recommendation reverses.\n8. Reach a conditional judgement that considers risk, liquidity, reversibility and strategic fit.",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees",
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:net-gain",
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:uncertainty",
+          "aqa-7132-3.2.2:opportunity-cost"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "A calculation is not a complete decision",
+        "body": "Example: A retailer compares two store formats using expected value, then checks the possible loss, cash exposure, probability quality, effects on employees and whether the investment can be reversed.\n\nNon-example: The retailer selects the option with the largest expected value immediately, without asking whether it could survive the adverse outcome or whether relevant non-financial effects have been omitted.",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:uncertainty"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Expected value is neither a forecast nor a guarantee",
+        "body": "Expected value is a probability-weighted average across outcomes. It is not necessarily the most likely outcome, and it is not the cash result the business will receive. Two options can have similar expected values but very different ranges of outcomes. An option with a positive expected value may still be unacceptable if its downside could create a liquidity problem, cause irreversible harm or conflict with strategy.",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:uncertainty"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the judgement behind the number",
+        "body": "A business has calculated that Option A has the higher net gain. Explain, in your own words, why this alone may not justify choosing A. Include at least three of: reliability of probabilities, downside risk, liquidity, reversibility, stakeholder effects, non-financial impacts, opportunity cost or strategic fit.",
+        "item_ids": [
+          "aqa-7132-3.2.2:net-gain",
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:uncertainty",
+          "aqa-7132-3.2.2:opportunity-cost"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "decision tree",
+        "definition": "A diagram showing choices, uncertain outcomes, probabilities and financial consequences."
+      },
+      {
+        "term": "expected value",
+        "definition": "The probability-weighted average monetary outcome across possible outcomes."
+      },
+      {
+        "term": "net gain",
+        "definition": "Expected value of an option minus the cost of that option."
+      },
+      {
+        "term": "probability",
+        "definition": "A numerical representation of likelihood from 0 to 1."
+      },
+      {
+        "term": "risk",
+        "definition": "The possibility that actual outcomes differ adversely from what the business wants or expects."
+      },
+      {
+        "term": "uncertainty",
+        "definition": "A lack of confidence about outcomes, probabilities or relevant information."
+      },
+      {
+        "term": "opportunity cost",
+        "definition": "The value of the best alternative forgone."
+      },
+      {
+        "term": "cost-benefit analysis",
+        "definition": "A structured comparison of relevant financial and non-financial costs and benefits of alternatives."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-expected-value-regional-launch",
+        "item_id": "aqa-7132-3.2.2:expected-value",
+        "scenario": "A meal-kit business estimates a 0.7 chance of a £180,000 outcome from a regional launch and a 0.3 chance of a £100,000 loss.",
+        "steps": [
+          "Multiply the favourable outcome by its probability: 0.7 × £180,000 = £126,000.",
+          "Multiply the loss by its probability: 0.3 × −£100,000 = −£30,000.",
+          "Add the weighted contributions: £126,000 + −£30,000 = £96,000.",
+          "The expected value is £96,000, not a guaranteed outcome."
+        ],
+        "calc": {
+          "formula_id": "expected_value",
+          "inputs": [
+            {
+              "name": "probability_1",
+              "value": 0.7
+            },
+            {
+              "name": "outcome_1",
+              "value": 180000
+            },
+            {
+              "name": "probability_2",
+              "value": 0.3
+            },
+            {
+              "name": "outcome_2",
+              "value": -100000
+            }
+          ],
+          "stated_answer": 96000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "we-net-gain-regional-launch",
+        "item_id": "aqa-7132-3.2.2:net-gain",
+        "scenario": "The same regional launch has an expected value of £96,000 and requires a certain cost of £60,000.",
+        "steps": [
+          "Start with the expected value of £96,000.",
+          "Subtract the cost of the option: £96,000 − £60,000.",
+          "The net gain is £36,000."
+        ],
+        "calc": {
+          "formula_id": "net_gain",
+          "inputs": [
+            {
+              "name": "expected_value",
+              "value": 96000
+            },
+            {
+              "name": "cost_of_option",
+              "value": 60000
+            }
+          ],
+          "stated_answer": 36000,
+          "unit": "currency"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-decision-tree",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees"
+        ],
+        "prompt": "What four types of information can a decision tree show?",
+        "answer": "Choices or options, uncertain outcomes, probabilities and financial consequences.",
+        "explanation": "A decision tree structures both the manager's options and the possible chance outcomes with their likelihoods and values.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-expected-value",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value"
+        ],
+        "prompt": "A clothing retailer estimates a 0.55 probability of a £140,000 outcome from a pop-up store and a 0.45 probability of a £40,000 loss. Calculate expected value.",
+        "answer": "£59,000.",
+        "explanation": "The weighted outcomes are £77,000 and −£18,000. Adding them gives an expected value of £59,000.",
+        "calc": {
+          "formula_id": "expected_value",
+          "inputs": [
+            {
+              "name": "probability_1",
+              "value": 0.55
+            },
+            {
+              "name": "outcome_1",
+              "value": 140000
+            },
+            {
+              "name": "probability_2",
+              "value": 0.45
+            },
+            {
+              "name": "outcome_2",
+              "value": -40000
+            }
+          ],
+          "stated_answer": 59000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "p-calculation-net-gain",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.2.2:net-gain"
+        ],
+        "prompt": "A marketing campaign has an expected value of £88,000 and costs £31,000. Calculate its net gain.",
+        "answer": "£57,000.",
+        "explanation": "Net gain equals expected value minus the cost of the option: £88,000 − £31,000.",
+        "calc": {
+          "formula_id": "net_gain",
+          "inputs": [
+            {
+              "name": "expected_value",
+              "value": 88000
+            },
+            {
+              "name": "cost_of_option",
+              "value": 31000
+            }
+          ],
+          "stated_answer": 57000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "p-construction-tree",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees",
+          "aqa-7132-3.2.2:uncertainty"
+        ],
+        "prompt": "Describe the branches you would draw for a decision tree where a café can either extend its opening hours or retain current hours. If it extends, there is a 0.4 probability of a £30,000 outcome and a 0.6 probability of a £8,000 loss.",
+        "answer": "Draw a decision node with ‘extend hours’ and ‘retain current hours’. From ‘extend hours’, draw a chance node with branches 0.4 to £30,000 and 0.6 to −£8,000.",
+        "explanation": "The decision node shows the café's choices. The chance node shows the uncertain outcomes for the extension option, with coherent probabilities totalling 1.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-opportunity-cost",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.2.2:opportunity-cost"
+        ],
+        "prompt": "A small manufacturer can spend £120,000 on a new packaging line or on training that would improve production quality. Explain the opportunity cost of choosing the packaging line.",
+        "answer": "The opportunity cost is the value of the best forgone alternative, here the benefits the business would have received from the training investment.",
+        "explanation": "Opportunity cost is not simply the £120,000 spent. It is the value of what the business gives up by not selecting its next best use of those funds.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-judgement-risk",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:risk"
+        ],
+        "prompt": "Option A has expected value of £90,000 but includes a possible £500,000 loss. Option B has expected value of £75,000 and no loss outcome. A small business has limited cash reserves. Give a justified recommendation.",
+        "answer": "Option B may be preferable because the business may be unable to absorb Option A’s possible £500,000 loss, despite A having the higher expected value.",
+        "explanation": "Expected value is relevant, but limited liquidity and downside risk can make a lower expected-value option more acceptable.",
+        "calc": null
+      },
+      {
+        "id": "p-framework-application-appraisal",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.2.2:decision-trees",
+          "aqa-7132-3.2.2:opportunity-cost",
+          "aqa-7132-3.2.2:risk"
+        ],
+        "prompt": "State four headings that a structured options table should include before a business commits to a major investment.",
+        "answer": "Any four of: assumptions and probabilities; financial effects; non-financial impacts; baseline; opportunity cost; risk; reversibility; stakeholder effects; strategic fit.",
+        "explanation": "A structured appraisal goes beyond one monetary figure by making assumptions, alternatives and material consequences visible.",
+        "calc": null
+      },
+      {
+        "id": "p-interpretation-range",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:risk"
+        ],
+        "prompt": "Two projects each have expected value of £50,000. Project X has outcomes from −£20,000 to £120,000, while Project Y has outcomes from £35,000 to £65,000. What should managers infer?",
+        "answer": "They should not treat the projects as equally risky: X has a much wider range and includes a loss, whereas Y has a narrower range of outcomes.",
+        "explanation": "Expected value can conceal outcome dispersion. Managers should inspect the range of possible outcomes as well as the average.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:uncertainty"
+        ],
+        "prompt": "A manager says, ‘This option’s expected value is £40,000, so it will make £40,000.’ What is wrong with this statement?",
+        "answer": "Expected value is a probability-weighted average, not a guaranteed or necessarily most likely outcome.",
+        "explanation": "The actual result will be one of the possible outcomes. Its likelihoods and values may also depend on uncertain assumptions.",
+        "calc": null
+      },
+      {
+        "id": "p-procedure-execution-sensitivity",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.2.2:expected-value",
+          "aqa-7132-3.2.2:uncertainty"
+        ],
+        "prompt": "Give a three-step method for carrying out a sensitivity check on an expected-value recommendation.",
+        "answer": "Identify a key assumption; change it to a plausible alternative value; recalculate and check whether the recommendation changes.",
+        "explanation": "Sensitivity checking tests how dependent a conclusion is on uncertain inputs such as probabilities or financial outcomes.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain-non-financial",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.2.2:risk",
+          "aqa-7132-3.2.2:opportunity-cost"
+        ],
+        "prompt": "Explain why excluding an important non-financial stakeholder effect can distort an appraisal.",
+        "answer": "If the effect is omitted, the option’s apparent value may be overstated or understated. Management may then choose an option that damages stakeholders or overlooks a better alternative.",
+        "explanation": "Cost-benefit appraisal is not limited to effects that are easy to price. Material unmonetised impacts should remain visible in the judgement.",
+        "calc": null
+      }
+    ]
+  }
+}

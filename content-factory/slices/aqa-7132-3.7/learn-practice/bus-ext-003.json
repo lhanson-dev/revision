@@ -1,0 +1,287 @@
+{
+  "node_id": "bus-ext-003",
+  "learn": {
+    "title": "Globalisation, international trade, market entry, FDI and protectionism",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "International business and globalisation",
+        "body": "International business means selling, sourcing, investing or coordinating activities across national borders. Globalisation is the increasing integration of markets, production, finance, information and business networks across borders. It is not simply exporting, and it can increase or retreat over time. International expansion may provide access to customers, resources, skills or strategic assets, but it also creates currency, logistics, legal, cultural, political and coordination risks.",
+        "item_ids": [
+          "aqa-7132-3.9.3:globalisation",
+          "aqa-7132-3.9.3:multinationals",
+          "aqa-7132-3.9.3:offshoring"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Compare ways of entering an overseas market",
+        "body": "Exporting sells UK-produced goods or services into another country. Licensing gives another business contractual permission to use specified intellectual property or rights. Franchising allows a party to use an established business format and brand under contract. A joint venture shares ownership or control with another party. Direct investment, or FDI, establishes or acquires lasting operations abroad. Moving towards direct investment usually gives greater control, but requires more capital and creates greater exposure if conditions change. Offshoring means moving an activity to another country; it is not necessarily outsourcing, because the overseas activity may still be owned by the business.",
+        "item_ids": [
+          "aqa-7132-3.9.3:exporting",
+          "aqa-7132-3.9.3:licensing",
+          "aqa-7132-3.9.1:franchising",
+          "aqa-7132-3.9.3:direct-investment",
+          "aqa-7132-3.9.3:offshoring"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How trade policy changes business decisions",
+        "body": "Trade policy changes the economics of importing and exporting. A tariff on an imported component raises the buyer's cost, which may lead to a higher price, lower margin or a search for another supplier. A tariff on competing imports may weaken foreign price competition and benefit a domestic producer, but can also reduce competitive pressure and trigger retaliation. A quota restricts import quantity, while a subsidy financially supports specified domestic activity. A trading bloc or agreement can reduce barriers between its members.",
+        "item_ids": [
+          "aqa-7132-3.7.4:international-trade-policy",
+          "aqa-7132-3.7.5:open-trade-versus-protectionism"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Protectionism creates different winners and losers",
+        "body": "Example: a tariff on imported steel could help a UK steel producer competing with imported steel. However, it could harm a UK manufacturer that uses steel as an input, because its costs rise. Non-example: claiming that protectionism automatically helps all domestic firms. The effect depends on whether a business competes with imports, buys affected imports, exports goods that might face retaliation, or has foreign operations.",
+        "item_ids": [
+          "aqa-7132-3.7.5:open-trade-versus-protectionism",
+          "aqa-7132-3.7.4:international-trade-policy"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Assess market attractiveness before relying on a country label",
+        "body": "A UK personal-care business is considering a country described as an emerging economy. First, treat the label cautiously: economies grouped this way can differ greatly in income, institutions, growth and risk. Next, investigate market size and growth, customer fit, infrastructure, competition, costs and skills. Then assess regulation, currency exposure and political risk. Finally, compare the evidence with the firm's capabilities and desired entry mode. High growth alone does not make a market attractive if customer fit is poor or risks are too large.",
+        "item_ids": [
+          "aqa-7132-3.9.3:emerging-economies",
+          "aqa-7132-3.9.3:market-attractiveness-factors"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Multinationals: control, finance and risk",
+        "body": "A multinational enterprise owns or controls activities in more than one country, rather than merely exporting. Direct investment can give it local control, capability and market access, but needs capital and increases exposure to currency, regulatory and political change. This links international strategy to finance: managers must judge whether expected control and returns justify the resource commitment and whether the investment can be reversed if circumstances deteriorate.",
+        "item_ids": [
+          "aqa-7132-3.9.3:multinationals",
+          "aqa-7132-3.9.3:direct-investment",
+          "aqa-7132-3.9.3:market-attractiveness-factors"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: calculating a direct tariff cost",
+        "body": "A UK electronics assembler imports a component costing £100 before tariff. A 10% tariff is applied. Step 1: find 10% of £100, which is £10. Step 2: add this direct tariff cost to the original component cost. The component now costs £110 before considering logistics or tax interactions. The firm could accept a lower margin, raise its selling price or seek another supplier. The tariff does not necessarily affect only the foreign seller.",
+        "item_ids": [
+          "aqa-7132-3.7.4:international-trade-policy",
+          "aqa-7132-3.7.5:open-trade-versus-protectionism"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Globalisation and cost reduction are not automatic",
+        "body": "It is incorrect to assume that globalisation always lowers costs. Sourcing or operating internationally may lower some wage or purchasing costs, but can add transport, inventory, compliance, coordination, currency and disruption costs. It is also incorrect to assume that choosing the lowest-wage country produces the lowest total cost. Businesses need to consider the whole supply chain and resilience.",
+        "item_ids": [
+          "aqa-7132-3.9.3:globalisation",
+          "aqa-7132-3.9.3:offshoring",
+          "aqa-7132-3.9.3:local-responsiveness-versus-cost-reduction-pressure"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Local responsiveness versus standardisation",
+        "body": "Explain how an international retailer could adapt marketing or products to meet local customer, regulatory or cultural conditions while standardising purchasing, systems or processes to reduce duplication and unit cost. In your explanation, decide which activities need local responsiveness and which can be globally standardised. There is no single best balance: adaptation and standardisation can coexist in different parts of the value chain.",
+        "item_ids": [
+          "aqa-7132-3.9.3:local-responsiveness-versus-cost-reduction-pressure",
+          "aqa-7132-3.9.3:globalisation"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "globalisation",
+        "definition": "Increasing cross-border integration of economic and business activity."
+      },
+      {
+        "term": "exporting",
+        "definition": "Selling domestically produced goods or services into foreign markets."
+      },
+      {
+        "term": "licensing",
+        "definition": "Contractual permission for another party to use specified intellectual property or rights."
+      },
+      {
+        "term": "franchising",
+        "definition": "A contract allowing replication of a business format and brand."
+      },
+      {
+        "term": "foreign direct investment (FDI)",
+        "definition": "Lasting investment or control in business operations in another country."
+      },
+      {
+        "term": "joint venture",
+        "definition": "An activity jointly owned or controlled by two or more parties."
+      },
+      {
+        "term": "multinational enterprise",
+        "definition": "A business that owns or controls activities in more than one country."
+      },
+      {
+        "term": "offshoring",
+        "definition": "Moving a business activity to another country; it may remain owned by the business."
+      },
+      {
+        "term": "tariff",
+        "definition": "A tax on imports."
+      },
+      {
+        "term": "quota",
+        "definition": "A quantitative restriction on imports."
+      },
+      {
+        "term": "subsidy",
+        "definition": "Financial support that lowers costs or supports an activity."
+      },
+      {
+        "term": "trading bloc",
+        "definition": "A group of economies with reduced internal trade barriers under specified rules."
+      },
+      {
+        "term": "protectionism",
+        "definition": "Policies that restrict foreign competition or support domestic producers."
+      },
+      {
+        "term": "emerging economy",
+        "definition": "A broad and changing label for an economy undergoing substantial development and wider market integration."
+      },
+      {
+        "term": "local responsiveness",
+        "definition": "Adapting decisions to local customer, regulatory or cultural conditions."
+      },
+      {
+        "term": "standardisation",
+        "definition": "Using similar products, processes or decisions across markets to gain scale and coordination benefits."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.3:exporting",
+          "aqa-7132-3.9.3:direct-investment"
+        ],
+        "prompt": "Define exporting and foreign direct investment (FDI).",
+        "answer": "Exporting is selling domestically produced goods or services into foreign markets. FDI is lasting investment or control in business operations in another country.",
+        "explanation": "Exporting is a sales route across borders, whereas FDI involves a lasting operational investment or ownership position.",
+        "calc": null
+      },
+      {
+        "id": "p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.3:licensing",
+          "aqa-7132-3.9.1:franchising",
+          "aqa-7132-3.9.3:offshoring"
+        ],
+        "prompt": "A UK brand permits an overseas company to use its patented production method, but does not require it to copy the brand's full shop format. Identify the entry arrangement. Is this automatically offshoring?",
+        "answer": "Licensing. No, it is not automatically offshoring.",
+        "explanation": "Licensing gives permission to use specified rights or intellectual property. Offshoring concerns moving an activity abroad, which is not established by this agreement alone.",
+        "calc": null
+      },
+      {
+        "id": "p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.4:international-trade-policy"
+        ],
+        "prompt": "A UK furniture maker imports timber costing £240 per shipment before tariff. A 15% tariff is imposed. Calculate the direct tariff cost and the new cost per shipment before other charges.",
+        "answer": "Tariff cost = £36; new cost = £276.",
+        "explanation": "15% of £240 is £36. Adding £36 to £240 gives £276.",
+        "calc": null
+      },
+      {
+        "id": "p4",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.5:open-trade-versus-protectionism",
+          "aqa-7132-3.7.4:international-trade-policy"
+        ],
+        "prompt": "A tariff is imposed on imported glass. A domestic glass producer supports the policy, while a domestic window maker opposes it. Explain the difference.",
+        "answer": "The glass producer may face less price competition from imports, while the window maker may pay more for glass as an input.",
+        "explanation": "The policy affects firms differently according to their position in the supply chain.",
+        "calc": null
+      },
+      {
+        "id": "p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.3:licensing",
+          "aqa-7132-3.9.3:direct-investment"
+        ],
+        "prompt": "Compare licensing with FDI for a UK software business entering a new country. Give one reason it may choose licensing.",
+        "answer": "Licensing needs less capital and usually creates less direct exposure, but gives less control than FDI. The business may choose it where it wants lower resource commitment.",
+        "explanation": "Entry modes trade control against capital, risk and commitment.",
+        "calc": null
+      },
+      {
+        "id": "p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.3:market-attractiveness-factors",
+          "aqa-7132-3.9.3:emerging-economies"
+        ],
+        "prompt": "A UK bicycle business is attracted to an emerging economy because reported market growth is high. State two further factors it should investigate before entering.",
+        "answer": "Any two of: customer fit, market size, infrastructure, competition, regulation, currency risk, political risk, costs, skills or institutions.",
+        "explanation": "An emerging-economy label and high growth do not reveal whether the market suits the business or whether risk is acceptable.",
+        "calc": null
+      },
+      {
+        "id": "p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.3:local-responsiveness-versus-cost-reduction-pressure",
+          "aqa-7132-3.9.3:multinationals"
+        ],
+        "prompt": "A multinational food business wants one global recipe to minimise production costs, but one market has different local regulatory requirements. Judge the most suitable approach.",
+        "answer": "It should adapt the product where regulation requires it, while standardising other activities where this does not reduce compliance or customer value.",
+        "explanation": "Local responsiveness and cost reduction can be combined in different activities; legal requirements limit pure standardisation.",
+        "calc": null
+      },
+      {
+        "id": "p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.3:globalisation",
+          "aqa-7132-3.9.3:offshoring"
+        ],
+        "prompt": "A student says: 'Offshoring always reduces total cost because foreign wages are lower.' What is wrong with this claim?",
+        "answer": "Lower wages may reduce one cost, but total cost can rise because of logistics, inventory, coordination, compliance, currency and disruption exposure.",
+        "explanation": "A sound judgement considers whole-chain costs and risks, not wages alone.",
+        "calc": null
+      },
+      {
+        "id": "p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.4:international-trade-policy",
+          "aqa-7132-3.9.3:globalisation"
+        ],
+        "prompt": "Complete the chain for a UK firm importing a key component: tariff on component → ______ → ______ → possible strategic response.",
+        "answer": "Higher input cost → lower margin or higher selling price → switch supplier, absorb the cost, or raise price.",
+        "explanation": "A tariff changes import economics, which changes costs and can force a pricing or sourcing response.",
+        "calc": null
+      },
+      {
+        "id": "p10",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.9.1:franchising",
+          "aqa-7132-3.9.3:multinationals",
+          "aqa-7132-3.7.5:open-trade-versus-protectionism"
+        ],
+        "prompt": "Select the best option for each statement: (A) franchising, (B) multinational enterprise, or (C) protectionism. 1. A firm owns or controls activities in several countries. 2. Policies support domestic producers or restrict foreign competition. 3. A local operator uses an established brand and business format under contract.",
+        "answer": "1 B; 2 C; 3 A.",
+        "explanation": "Multinationals have cross-border operations or control; protectionism concerns trade policy; franchising replicates a format and brand under contract.",
+        "calc": null
+      }
+    ]
+  }
+}

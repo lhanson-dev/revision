@@ -1,0 +1,196 @@
+{
+  "node_id": "bus-ext-007",
+  "learn": {
+    "title": "Risk, contingency planning and crisis resilience",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Managing uncertainty before it becomes disruption",
+        "body": "Risk management is the process of identifying uncertainties that could affect business objectives, assessing their likelihood and consequences, then deciding how to respond. Responses can include avoiding, reducing, transferring, accepting or preparing for a risk. A contingency plan sets out a prepared response to a specified disruption. A crisis is a severe event demanding urgent, coordinated action, often with incomplete information. Resilience is broader than a plan: it is the ability to absorb a shock, adapt and recover while keeping critical functions operating.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Risk management, contingency planning and resilience compared",
+        "body": "Risk management is the overall decision process for uncertainty. Contingency planning is one practical form of preparation: it specifies actions, responsibilities, resources and communications if a disruption occurs. Crisis management is the urgent response once a severe event is happening. Resilience is the longer-term capacity to withstand, adapt to and recover from shocks. Insurance is risk transfer for specified financial consequences, but it does not itself prevent operational disruption, lost customers or reputational damage.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Backup capacity can have option value",
+        "body": "Example: a manufacturer buys a critical component from two suppliers. The second supplier raises normal purchasing costs, but prevents production stopping completely if the first supplier fails. This diversification reduces single-point dependency and can improve resilience. Non-example: saying that an insured factory is fully protected from fire risk while ignoring lost production time, customer confidence and reputation. Insurance may cover some financial losses, but it cannot remove every consequence.",
+        "item_ids": []
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "A practical risk and contingency process",
+        "body": "1. Identify risks and critical dependencies, such as a single supplier, key data or a shortage of cash. 2. Assess likely impact, including effects on operations, stakeholders, cash and reputation. 3. Consider responses: avoid, reduce, transfer, accept or prepare. 4. Build suitable measures, such as data backups, financial buffers, spare capacity or alternative suppliers. 5. Allocate responsibilities, resources and communication routes in contingency plans. 6. Rehearse and update plans because dependencies and scenarios can change. 7. During a crisis, make rapid coordinated decisions, protect critical functions and begin recovery.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing a response to a critical supplier risk",
+        "body": "A business relies on one supplier for a component that would stop production if unavailable. First, identify this as concentration risk because it is a critical dependency. Next, recognise that even if supplier failure seems unlikely, its consequence could be severe. The business could accept the risk, but this leaves it exposed. It could instead diversify by using a second supplier, hold some buffer stock or prepare a contingency plan. The decision should compare the normal cost of these measures with the severity, recovery time and cash consequences of a production stoppage.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Tracing the consequences of a disruption",
+        "body": "Suppose a cyber incident prevents a retailer from accessing order data. The risk event creates an operational impact: orders cannot be processed. Customers may then complain or buy elsewhere, creating a stakeholder response. Delayed sales can reduce cash inflows, while poor service can damage reputation. A tested data backup and rehearsed communications plan could speed recovery, reducing the severity and duration of these later effects. This shows why preparedness affects both response quality and impact severity.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Risk management does not mean eliminating every risk",
+        "body": "It is a misconception that risk management aims to remove all risk. Some risks may be accepted because reducing them costs more than the likely benefit; others may be transferred through insurance or contracts. The business should still recognise residual uncertainty. It is also wrong to dismiss a low-probability risk automatically: if its impact is catastrophic, action may be justified despite uncertain probability estimates.",
+        "item_ids": []
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Links across business decision-making",
+        "body": "Risk and resilience connect finance, operations, supply chains, people and strategy. Financial buffers can provide liquidity during a shock and create a survival option. Diversified suppliers can reduce operational dependence, but may increase complexity and normal costs. Spare capacity may appear unused in normal periods, yet it can protect service levels during disruption. Scenario, sensitivity and expected-value tools can support decisions, but probability-weighted results should not hide catastrophic downside or weak estimates.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the trade-off",
+        "body": "A firm is considering either keeping a larger cash buffer or using the cash for normal investment. Explain how the cash buffer could improve resilience during a shock, then explain its opportunity cost in normal periods. Finally, judge which choice is more suitable if the firm has a highly critical dependency and uncertain risk information.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "risk management",
+        "definition": "The process of identifying, assessing and responding to uncertainty that could affect objectives."
+      },
+      {
+        "term": "contingency plan",
+        "definition": "A prepared response setting out what to do if a specified disruption occurs."
+      },
+      {
+        "term": "crisis",
+        "definition": "A severe event requiring urgent, coordinated decisions and action."
+      },
+      {
+        "term": "resilience",
+        "definition": "The ability to absorb shocks, adapt and recover while maintaining critical functions."
+      },
+      {
+        "term": "risk transfer",
+        "definition": "Shifting specified financial or contractual consequences of a risk to another party."
+      },
+      {
+        "term": "concentration risk",
+        "definition": "Exposure created by dependence on a single critical source or dependency."
+      },
+      {
+        "term": "financial buffer",
+        "definition": "Funds kept available to support liquidity during a shock."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "retrieval-risk-response",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "State two possible responses a business can choose after identifying a risk.",
+        "answer": "Any two of: avoid, reduce, transfer, accept or prepare for the risk.",
+        "explanation": "Risk management involves choosing an appropriate response rather than assuming every risk must be eliminated.",
+        "calc": null
+      },
+      {
+        "id": "discrimination-insurance",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "Which statement is most accurate? A. Insurance removes all effects of a disruption. B. Insurance can transfer specified financial consequences, but cannot remove all operational or reputational effects. C. Insurance guarantees customers will remain loyal.",
+        "answer": "B.",
+        "explanation": "Insurance may transfer particular financial losses, but lost output, customer reactions and reputational effects can remain.",
+        "calc": null
+      },
+      {
+        "id": "calculation-buffer-cost",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "A business pays £1,800 per month for a backup data service and £700 per month to retain spare capacity. Calculate the total monthly cost of these resilience measures.",
+        "answer": "£2,500 per month.",
+        "explanation": "Add the two monthly costs: £1,800 + £700 = £2,500. The business would then judge this normal-period cost against the protection provided during disruption.",
+        "calc": null
+      },
+      {
+        "id": "interpretation-low-probability",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "A manager says, 'Supplier failure is unlikely, so we should not prepare for it.' Explain one limitation of this conclusion.",
+        "answer": "The event could still have catastrophic consequences, and the probability estimate may be weak.",
+        "explanation": "Low likelihood does not necessarily make a risk unimportant when production, cash or key customers could be severely affected.",
+        "calc": null
+      },
+      {
+        "id": "procedure-risk-process",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Put these actions into a sensible risk-management sequence: choose a response; identify critical dependencies; rehearse the plan; assess impact; allocate responsibilities and resources.",
+        "answer": "Identify critical dependencies; assess impact; choose a response; allocate responsibilities and resources; rehearse the plan.",
+        "explanation": "The business needs to understand the dependency and likely consequences before selecting, implementing and testing its response.",
+        "calc": null
+      },
+      {
+        "id": "reasoning-chain-preparedness",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Complete the chain: contingency rehearsal -> faster coordinated response -> ________.",
+        "answer": "Lower disruption or reduced impact severity.",
+        "explanation": "Rehearsal helps staff act quickly and consistently, which can reduce the duration and severity of disruption.",
+        "calc": null
+      },
+      {
+        "id": "compare-justify-options",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare a financial buffer with a second supplier as ways of improving resilience for a manufacturer.",
+        "answer": "A financial buffer provides liquidity during a shock, whereas a second supplier reduces dependence on one source and may prevent a production stop. A second supplier is more directly useful where supply interruption is the critical risk, but it can raise normal costs and complexity.",
+        "explanation": "The two options address different parts of resilience: cash supports survival and recovery, while diversification reduces a single-point operational dependency.",
+        "calc": null
+      },
+      {
+        "id": "contextual-application-retailer",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "An online retailer loses access to customer order data during a cyber incident. Give two features its contingency plan should include.",
+        "answer": "For example: a tested data backup and named responsibilities/communication procedures for staff and customers.",
+        "explanation": "A contingency plan should specify actions, responsibilities, resources and communication for a plausible disruption.",
+        "calc": null
+      },
+      {
+        "id": "contextual-judgement-dual-source",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A manufacturer can dual-source a critical component, increasing normal costs, or retain a single cheaper supplier. Make a judgement on whether dual sourcing is worthwhile.",
+        "answer": "Dual sourcing is likely worthwhile if failure of the single supplier would stop production entirely and recovery would be slow or damaging. It may be less worthwhile if the dependency is not critical or the extra cost is disproportionate to the potential impact.",
+        "explanation": "A sound judgement weighs criticality, disruption cost, uncertainty, recovery time and the normal cost of resilience.",
+        "calc": null
+      },
+      {
+        "id": "misconception-diagnostic-elimination",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student writes: 'A resilient business prevents every disruption.' What is wrong with this statement?",
+        "answer": "Resilience is the ability to absorb, adapt and recover while maintaining critical functions; it does not mean preventing every disruption.",
+        "explanation": "Some uncertainty remains even after preparation, and plans may fail in novel combinations of events.",
+        "calc": null
+      },
+      {
+        "id": "mixed-synoptic-selection-crisis",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [],
+        "prompt": "A firm has a single critical supplier, limited cash and an untested disruption plan. Select the best combined response: A. Buy insurance only. B. Ignore the risk because disruption is uncertain. C. Review supplier dependency, build an appropriate financial buffer, create and rehearse a contingency plan. D. Eliminate all business activity involving suppliers.",
+        "answer": "C.",
+        "explanation": "This option addresses dependency, liquidity and preparedness. Insurance alone cannot transfer all operational or reputational consequences, while ignoring or eliminating all activity is not a balanced risk response.",
+        "calc": null
+      }
+    ]
+  }
+}

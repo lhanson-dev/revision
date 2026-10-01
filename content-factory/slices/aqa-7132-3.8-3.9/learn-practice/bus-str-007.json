@@ -1,0 +1,269 @@
+{
+  "node_id": "bus-str-007",
+  "learn": {
+    "title": "Organic growth, external growth, integration, retrenchment and alliances",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Choosing a growth method",
+        "body": "A business should separate its growth direction from its growth method. Organic growth builds sales, assets and capability internally, usually through staged investment and learning. External growth involves combining with, or gaining control of, an existing organisation, such as through a merger or acquisition. A joint venture creates activity jointly controlled by partners, whereas an alliance is cooperation between independent businesses without combining ownership. The most suitable choice depends on urgency, finance, strategic fit, available capability, culture and the difficulty of integration.",
+        "item_ids": [
+          "aqa-7132-3.9.1:organic-growth",
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:mergers",
+          "aqa-7132-3.9.1:joint-ventures",
+          "aqa-7132-3.9.3:alliances"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Compare the main methods",
+        "body": "Organic growth can preserve control and culture, but it takes time to build customers, assets and expertise. External growth can give immediate access to these resources, but the purchase price, financing and integration may create substantial risk. A merger combines organisations under an agreed ownership and control arrangement; an acquisition is where one organisation obtains control of another. A joint venture shares ownership, risk and governance for a particular activity. An alliance can give access to a partner's resources with less capital commitment, but neither partner has full control over the other.",
+        "item_ids": [
+          "aqa-7132-3.9.1:organic-growth",
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:mergers",
+          "aqa-7132-3.9.1:joint-ventures",
+          "aqa-7132-3.9.3:alliances"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why a fast acquisition may fail to create value",
+        "body": "Acquisition → immediate access to assets or customers → need to integrate systems, processes and people → synergies are either realised or missed. For example, duplicated head-office activity might allow lower costs only if roles can genuinely be combined and the change can be implemented. If a buyer pays too high a price or uses substantial debt, then weak synergies can leave it with higher financial risk and poor value creation. Speed is therefore not automatically beneficial.",
+        "item_ids": [
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:mergers"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Identify integration relationships",
+        "body": "Horizontal integration is a combination of businesses at a similar stage of the value chain, often competitors. A supermarket buying another supermarket chain is horizontal integration. Vertical integration moves into another stage of the value chain: backward integration moves towards suppliers or inputs, while forward integration moves towards distribution or customer-facing activity. A bakery purchasing a flour mill is backward integration; a bakery purchasing its own chain of shops is forward integration. Conglomerate integration combines businesses with limited direct product or value-chain relationship, such as a bakery group buying a software business. Calling any acquisition “diversification” is not enough: the relationship between the activities must be identified.",
+        "item_ids": [
+          "aqa-7132-3.9.1:horizontal-integration",
+          "aqa-7132-3.9.1:vertical-integration-forward-and-backward",
+          "aqa-7132-3.9.1:conglomerate-integration",
+          "aqa-7132-3.9.1:external-growth"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Classifying a proposed deal",
+        "body": "Suppose a UK bicycle manufacturer buys a specialist retailer that sells bicycles directly to consumers. Step 1: identify the focal business: the manufacturer. Step 2: identify the target's role: retailing and customer-facing distribution. Step 3: follow the value chain from manufacture towards the customer. The deal is forward vertical integration. It might give the manufacturer more control over customer access and distribution, but it must still assess retail expertise, finance and the challenge of integrating the two businesses.",
+        "item_ids": [
+          "aqa-7132-3.9.1:vertical-integration-forward-and-backward"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Testing a claimed synergy",
+        "body": "A regional delivery firm considers acquiring a smaller rival. Management claims it will save money because both businesses have separate route-planning teams. This is a possible cost synergy because there is a specific overlap. However, the firm should test whether one team can handle the combined workload, what redundancy and systems costs will arise, and when any saving will occur. It should also check whether customers and drivers will remain after the integration. The saving is a hypothesis, not a guaranteed benefit.",
+        "item_ids": [
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:mergers"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Growth choices link strategy to finance and people",
+        "body": "A growth method is a whole-business decision. Acquisition financing can increase debt, affecting gearing, cash and financial risk. Integration requires management capacity and can be disrupted by incompatible culture or processes. Horizontal integration may also face competition or regulatory constraints. A business should therefore assess strategic fit, valuation, uncertainty, management capacity and whether claimed cost or revenue benefits have a realistic mechanism and timescale.",
+        "item_ids": [
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:horizontal-integration",
+          "aqa-7132-3.9.1:mergers"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Retrenchment and partner arrangements",
+        "body": "Retrenchment is not simply a temporary attempt to cut costs and it is not always evidence of business failure. It is a strategic reduction or refocusing of scope, capacity, assets, locations, products or costs. For instance, selling a weak division may release capital for stronger activities, although it can also lose revenue, skills or economies of scale. Similarly, a joint venture does not remove conflict: shared control can create governance disputes. An alliance limits capital commitment, but it also limits direct control over the partner.",
+        "item_ids": [
+          "aqa-7132-3.9.1:retrenchment",
+          "aqa-7132-3.9.1:joint-ventures",
+          "aqa-7132-3.9.3:alliances"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the best method in context",
+        "body": "A food producer needs secure supplies of a key ingredient, but has limited cash and little experience of farming. Explain whether backward vertical integration, an alliance with a supplier, or organic development is most suitable. In your explanation, link the method to control of inputs, finance, capability, risk and the difficulty of implementation.",
+        "item_ids": [
+          "aqa-7132-3.9.1:organic-growth",
+          "aqa-7132-3.9.1:vertical-integration-forward-and-backward",
+          "aqa-7132-3.9.3:alliances"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "organic growth",
+        "definition": "Internal expansion of a business's activity or capability."
+      },
+      {
+        "term": "external growth",
+        "definition": "Growth by combining with, or gaining control of, an existing organisation."
+      },
+      {
+        "term": "merger",
+        "definition": "A combination of organisations under an agreed ownership and control structure."
+      },
+      {
+        "term": "acquisition",
+        "definition": "A transaction in which one organisation obtains control of another."
+      },
+      {
+        "term": "joint venture",
+        "definition": "A separately governed activity owned or controlled jointly by partners."
+      },
+      {
+        "term": "strategic alliance",
+        "definition": "Cooperation between independent businesses without fully combining ownership."
+      },
+      {
+        "term": "synergy",
+        "definition": "A benefit from combining businesses that exceeds their separate outcomes."
+      },
+      {
+        "term": "horizontal integration",
+        "definition": "Combination with a business at a similar stage of the value chain, commonly a competitor."
+      },
+      {
+        "term": "vertical integration",
+        "definition": "Expansion into another stage of the value chain."
+      },
+      {
+        "term": "backward integration",
+        "definition": "Vertical integration towards suppliers or inputs."
+      },
+      {
+        "term": "forward integration",
+        "definition": "Vertical integration towards distribution or customer-facing activity."
+      },
+      {
+        "term": "conglomerate integration",
+        "definition": "Combination with a business that has limited direct product or value-chain relationship."
+      },
+      {
+        "term": "retrenchment",
+        "definition": "A strategic reduction or refocusing of business scope, capacity, assets, locations, products or costs."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-007-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.1:organic-growth",
+          "aqa-7132-3.9.1:external-growth"
+        ],
+        "prompt": "Define organic growth and external growth.",
+        "answer": "Organic growth is internal expansion of activity or capability. External growth involves combining with, or gaining control of, an existing organisation.",
+        "explanation": "The distinction is the source of growth: internal development versus an existing business relationship or ownership change.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.1:mergers",
+          "aqa-7132-3.9.1:joint-ventures",
+          "aqa-7132-3.9.3:alliances"
+        ],
+        "prompt": "A UK clothing brand and a logistics firm cooperate to develop lower-emission deliveries. They remain separate businesses and do not create a jointly owned company. Is this a merger, a joint venture or an alliance?",
+        "answer": "An alliance.",
+        "explanation": "The businesses cooperate while remaining independent, with no full ownership combination or separately jointly controlled activity stated.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p3",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.9.1:vertical-integration-forward-and-backward",
+          "aqa-7132-3.9.1:horizontal-integration",
+          "aqa-7132-3.9.1:conglomerate-integration"
+        ],
+        "prompt": "Use this procedure: identify the focal firm's value-chain stage, identify the target's stage, then decide the relationship. A coffee-shop chain buys a coffee-bean importer. Classify the integration and state the key reason.",
+        "answer": "Backward vertical integration; the chain is moving towards a supplier/input stage.",
+        "explanation": "The importer supplies an input used by the coffee-shop chain, so the move is backward along the focal firm's value chain.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.1:retrenchment"
+        ],
+        "prompt": "A cinema group closes three persistently loss-making sites and sells the buildings to fund refurbishment of its most profitable sites. Identify the strategy and one possible benefit.",
+        "answer": "Retrenchment; it can release capital and concentrate resources on stronger sites.",
+        "explanation": "The business is materially reducing its locations and refocusing resources, rather than merely making a temporary cost saving.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:mergers"
+        ],
+        "prompt": "Explain one chain of reasoning for why buying a competitor with borrowed money could increase financial risk if integration goes badly.",
+        "answer": "Debt used for the acquisition increases financial commitments. If integration prevents expected savings or damages customer relationships, cash generation may be weaker, making those commitments more risky.",
+        "explanation": "The chain links financing, failed integration, weaker cash and increased financial risk rather than assuming that scale alone creates value.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.1:organic-growth",
+          "aqa-7132-3.9.1:external-growth"
+        ],
+        "prompt": "A family-owned manufacturer wants to preserve its culture and has time to develop a new product range. Compare organic and external growth, then recommend one method.",
+        "answer": "Organic growth is likely preferable because it allows staged learning and is more likely to preserve culture and control. External growth may be faster but introduces purchase-price, finance and integration risk.",
+        "explanation": "The recommendation is justified by the stated priorities, while recognising the speed advantage of external growth.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.1:joint-ventures",
+          "aqa-7132-3.9.3:alliances"
+        ],
+        "prompt": "Two businesses need to develop a specialist battery plant. Both need to contribute major assets and make decisions about the plant together. Judge whether a joint venture or an alliance is more suitable.",
+        "answer": "A joint venture is likely more suitable because the dedicated, jointly controlled activity requires shared ownership and governance. However, it must manage potential partner conflict.",
+        "explanation": "The scale and shared control of the specific plant fit a joint venture; an alliance may offer cooperation but less formal shared control.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.1:external-growth",
+          "aqa-7132-3.9.1:conglomerate-integration"
+        ],
+        "prompt": "A manager says: “This acquisition must improve performance because it is fast and diversifies the business.” What is the best correction?",
+        "answer": "Speed and diversification do not guarantee value. The business needs strategic fit, a justified price and a realistic, implementable synergy mechanism.",
+        "explanation": "External growth can fail if valuation, financing, integration or culture problems prevent benefits being realised. Conglomerate integration alone does not create diversification benefits.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-007-p9",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.9.1:horizontal-integration",
+          "aqa-7132-3.9.1:vertical-integration-forward-and-backward",
+          "aqa-7132-3.9.1:conglomerate-integration",
+          "aqa-7132-3.9.1:retrenchment"
+        ],
+        "prompt": "Select the best label for each action: (1) a brewer buys another brewer; (2) the brewer buys a bottle manufacturer; (3) the brewer buys a hotel chain with no direct link to brewing; (4) the brewer sells an unprofitable brand to focus on its core products.",
+        "answer": "(1) Horizontal integration. (2) Backward vertical integration. (3) Conglomerate integration. (4) Retrenchment.",
+        "explanation": "The labels depend on the relationship in the value chain or, for (4), a strategic reduction and refocusing of scope.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "node_id": "bus-mkt-001",
+  "learn": {
+    "title": "Markets, demand and customer orientation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Marketing starts with the market and customer",
+        "body": "A market is where actual and potential buyers and sellers interact around a need, category or solution. Demand is the quantity customers are both willing and able to buy in particular conditions. Customer orientation means systematically using evidence about customer needs, behaviour and experience to guide value creation. Marketing is therefore broader than promotion: it includes the proposition, pricing, communication, channels, service and relationships.",
+        "item_ids": []
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking marketing with operations",
+        "body": "A marketing promise only creates value if operations can deliver it. For example, a retailer may promote personal service, but insufficient staffing can lead to long waits and an experience that contradicts the promise. This connects marketing decisions to operations, staffing, service quality and the business's ability to retain customers.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "What customer orientation is — and is not",
+        "body": "A customer-oriented subscription business could identify that new users leave before receiving value, then improve its onboarding process. This uses evidence to solve a customer problem. By contrast, agreeing to every customer request is not customer orientation: requests may conflict, be unprofitable or be impossible to deliver. Likewise, calling advertising the whole of marketing ignores pricing, channels, service and relationship management.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid two common confusions",
+        "body": "First, marketing does not simply mean promotion. Promotion communicates an offer, whereas marketing also involves understanding needs and shaping the offer and customer experience. Second, CRM is not merely software or a database. CRM combines information, people and processes to manage acquisition, service, retention and development of relationships. Poor data or weak service processes can make an expensive CRM system ineffective.",
+        "item_ids": []
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Using the customer-journey model",
+        "body": "A customer journey can be analysed through awareness, evaluation, purchase, use or experience, retention and advocacy. A business can map what the customer does, needs and experiences at each stage, identify a problem point, and improve the relevant activity. The model is a useful guide rather than a fixed sequence: journeys vary by product, channel and buying process.",
+        "item_ids": []
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How experience affects future demand",
+        "body": "Customer need can shape a value proposition, which becomes a marketing promise. Operational delivery then determines the actual experience. A positive experience may support retention and advocacy; poor delivery may cause complaints or negative reviews, damage the brand and reduce future demand. CRM data can support more relevant targeting or service, but only when the data and execution are sound.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the diagnosis",
+        "body": "A business has high awareness but weak repeat purchase. Explain why spending more on advertising may not solve the problem. In your explanation, consider the customer journey after purchase, operational delivery, customer experience and whether CRM data could identify a useful action.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "market",
+        "definition": "An arena in which buyers and sellers interact around a customer need, product category or solution."
+      },
+      {
+        "term": "demand",
+        "definition": "The quantity customers are willing and able to purchase under given conditions."
+      },
+      {
+        "term": "customer orientation",
+        "definition": "Systematic use of customer evidence to guide the value a business creates and delivers."
+      },
+      {
+        "term": "customer journey",
+        "definition": "A model of customer interactions, such as awareness, purchase, use, retention and advocacy."
+      },
+      {
+        "term": "CRM",
+        "definition": "Coordinated use of processes, people and information to manage customer relationships."
+      },
+      {
+        "term": "retention",
+        "definition": "Keeping customers purchasing or using a business's offer over time."
+      },
+      {
+        "term": "advocacy",
+        "definition": "Customers recommending or positively supporting a business or its offer."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "retrieval-market-demand",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define demand and state the feature that distinguishes it from simply wanting a product.",
+        "answer": "Demand is the quantity customers are willing and able to buy under particular conditions; ability to purchase is required as well as willingness.",
+        "explanation": "A desire alone is not demand if the customer cannot or will not make the purchase in the stated conditions.",
+        "calc": null
+      },
+      {
+        "id": "contextual-application-onboarding",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK fitness-app business has many downloads, but many users cancel during their first month. Suggest one customer-oriented action it could take and explain why it may help.",
+        "answer": "It could identify where new users fail to gain early value and redesign the onboarding guidance. This may improve the early experience and increase retention.",
+        "explanation": "The action uses evidence from the customer journey to address a likely cause of cancellation rather than assuming awareness is the problem.",
+        "calc": null
+      },
+      {
+        "id": "contextual-judgement-crm",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A small online retailer is considering an expensive CRM platform, but its customer records are incomplete and customer-service staff have no agreed process for handling complaints. Judge whether buying the platform immediately is likely to be the best decision.",
+        "answer": "It is unlikely to be the best immediate decision. The retailer should first improve data quality and service processes, then assess whether software would support a clear relationship-management need.",
+        "explanation": "CRM effectiveness depends on people, processes and reliable information, not software alone. The investment may fail to improve relationships if these foundations are weak.",
+        "calc": null
+      },
+      {
+        "id": "misconception-diagnostic-marketing",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student says, 'The café's marketing is successful because it posts frequently on social media.' Identify the misconception and correct it.",
+        "answer": "The misconception is that marketing means promotion alone. Social media is promotion; marketing also includes understanding customers, the offer, pricing, channels, service and relationships.",
+        "explanation": "Frequent posts do not by themselves show that the café is meeting customer needs or delivering value effectively.",
+        "calc": null
+      },
+      {
+        "id": "mixed-synoptic-selection-retail",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [],
+        "prompt": "A premium clothing retailer promises personalised in-store help, but customer reviews mention long waits because too few staff are on duty. Which combination best explains the problem? A: strong promotion and high demand; B: a mismatch between marketing promise and operational delivery; C: customer orientation means accepting every request; D: CRM software has automatically improved service.",
+        "answer": "B: a mismatch between marketing promise and operational delivery.",
+        "explanation": "The retailer's stated value is personalised service, but staffing prevents it delivering that experience. This is a joint marketing and operations issue.",
+        "calc": null
+      },
+      {
+        "id": "procedure-execution-journey-map",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Put these actions in a sensible procedure for analysing a customer journey: identify a weak stage; map customer interactions and experiences; make an improvement; review the resulting customer response.",
+        "answer": "Map customer interactions and experiences; identify a weak stage; make an improvement; review the resulting customer response.",
+        "explanation": "A business first needs evidence about the journey, then can diagnose a problem, act and check whether the action improved the outcome.",
+        "calc": null
+      },
+      {
+        "id": "reasoning-chain-service",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain one likely chain of effects when a delivery company repeatedly misses promised delivery slots.",
+        "answer": "Missed slots can create a poor customer experience, leading to complaints or negative reviews. This can damage the brand and reduce retention or future demand.",
+        "explanation": "The answer traces delivery through experience and reputation to a potential effect on customer behaviour, rather than treating the service failure as isolated.",
+        "calc": null
+      }
+    ]
+  }
+}

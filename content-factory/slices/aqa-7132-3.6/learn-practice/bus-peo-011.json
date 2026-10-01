@@ -1,0 +1,334 @@
+{
+  "node_id": "bus-peo-011",
+  "learn": {
+    "title": "Culture, employee voice, wellbeing and employee relations",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Culture, values and diversity in daily work",
+        "body": "Organisational culture is the shared pattern of values, expectations and behaviour in a business. It is shaped by what leaders, systems and colleagues repeatedly reward or tolerate, not merely by posters or slogans. Workforce diversity means differences in characteristics, backgrounds and skills among employees. A diverse workforce can bring wider ideas and stronger understanding of customers, but it needs inclusive communication, training and practice. Alignment of values is the extent to which employees' values fit the organisation's stated values and culture. Close alignment can support commitment and consistent behaviour; a mismatch can lead to conflict, low morale or employees leaving.",
+        "item_ids": [
+          "aqa-7132-3.6.1:diversity",
+          "aqa-7132-3.6.1:alignment-of-values",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing employee voice mechanisms",
+        "body": "Employee involvement gives employees a say through methods such as consultation, team briefings, suggestion schemes, quality circles or representatives. A works council is an internal representative consultation body: management can share information and discuss organisational matters with employee representatives, while retaining decision responsibility. A trade union is an organisation of workers that represents members' interests. It can negotiate pay and conditions through collective bargaining and support members in grievance or disciplinary cases. Therefore, a works council mainly provides representative consultation, whereas a trade union provides collective representation and negotiation. These mechanisms can coexist.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employee-involvement",
+          "aqa-7132-3.6.5:works-councils",
+          "aqa-7132-3.6.5:trade-unions"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking culture to performance and people evidence",
+        "body": "Culture, voice and wellbeing can influence attendance, retention and service. For example, poor job design or an unsafe workload may reduce wellbeing, which may then affect absence, employee retention and customer service. However, turnover, absence and productivity figures are not direct measures of culture or wellbeing. A business should triangulate evidence, using more than one source, before claiming a cause. This connects people-management decisions to operational outcomes while avoiding unsupported conclusions from a single survey score or metric.",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Lived culture versus claimed culture",
+        "body": "Example: a delivery business says that staff should raise safety concerns, but supervisors reward only the number of completed deliveries and penalise employees who report risks. The lived culture encourages silence because incentives and leader behaviour conflict with the stated value. Non-example: treating one staff-survey result as proof that a particular cultural factor caused poor performance. Culture and wellbeing are difficult to measure, so evidence needs checking across sources and teams.",
+        "item_ids": [
+          "aqa-7132-3.10.2:influences-on-organisational-culture",
+          "aqa-7132-3.6.5:value-of-good-employee-relations"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing a route for an employee concern",
+        "body": "Suppose an employee believes their shift pattern has been applied unfairly. Step 1: identify whether this is an individual concern or a collective issue. Step 2: for an individual concern, use the agreed grievance process so the issue can be raised, investigated and discussed. Step 3: if representatives are raising a wider issue about terms and conditions, consultation or collective bargaining may be more suitable. Step 4: assess whether employees were able to speak meaningfully and whether management responded. A mechanism creates a route for dialogue; it does not guarantee agreement.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employee-involvement",
+          "aqa-7132-3.6.5:trade-unions",
+          "aqa-7132-3.6.5:works-councils",
+          "aqa-7132-3.6.5:value-of-good-employee-relations"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Voice, complaints and wellbeing: avoid weak conclusions",
+        "body": "A suggestion box or survey alone does not prove that employees have meaningful voice. Voice requires employees to be able to raise ideas, concerns or challenge, and for the organisation to consider and respond. Similarly, low grievance or complaint numbers do not automatically prove good employee relations: they may also show reluctance to raise concerns. Wellbeing is not solely individual resilience or workshops. Workload, job design, relationships, safety and support can be root causes that need organisational action.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employee-involvement",
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "How culture and employee relations operate",
+        "body": "Use this chain to organise analysis:\n\nLeadership, rewards and systems → expected behaviour → lived culture → employee behaviour\n\nVoice or consultation → information exchange → possible problem discovery and improved decisions\n\nRepresentation or collective bargaining → negotiation of interests → agreement or continuing dispute\n\nWorkload or job design → wellbeing → attendance, retention and service effects\n\nThe arrows show possible relationships, not proof that one factor always causes the next. Look for evidence at each stage.",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why changing culture can be necessary but difficult",
+        "body": "A business may seek cultural change after a new strategy, merger, poor performance, new leadership or a changed environment. New expectations may need different leadership behaviour, incentives and systems. However, deeply held values and habits can create resistance; change can take years, and some employees may leave if they do not accept the new way of working. Effective analysis therefore considers both the reason for change and whether systems reinforce the intended behaviour.",
+        "item_ids": [
+          "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain Handy’s culture types in context",
+        "body": "Ask yourself: “Which type best describes how authority and work are organised here, and what evidence supports that judgement?” Power culture concentrates influence around a central source. Role culture emphasises defined responsibilities and procedures. Task culture is organised around expertise and solving projects or problems. Person culture places individual members and their autonomy near the centre. These are ideal types: one organisation can contain mixtures and subcultures, and a label does not automatically predict performance.",
+        "item_ids": [
+          "aqa-7132-3.10.2:handy-s-culture-types",
+          "aqa-7132-3.10.2:power-culture",
+          "aqa-7132-3.10.2:role-culture",
+          "aqa-7132-3.10.2:task-culture",
+          "aqa-7132-3.10.2:person-culture"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked application: diagnosing culture before changing it",
+        "body": "A retailer wants faster responses to customer complaints. Managers announce that teams should make decisions quickly, but every decision still requires approval from a central director. Step 1: use observed authority and systems, not the announcement alone: influence is concentrated centrally. Step 2: this suggests features of a power culture. Step 3: identify the reason for change: the current approach may not suit a strategy requiring quicker responses. Step 4: identify the problem: employees may resist altered responsibilities, while long-established approval habits may persist. Step 5: change rewards, systems and leadership behaviour as well as messages, then review evidence across teams.",
+        "item_ids": [
+          "aqa-7132-3.10.2:handy-s-culture-types",
+          "aqa-7132-3.10.2:power-culture",
+          "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "organisational culture",
+        "definition": "Shared values, expectations and patterns of behaviour within an organisation."
+      },
+      {
+        "term": "workforce diversity",
+        "definition": "Differences between employees in characteristics, backgrounds and skills."
+      },
+      {
+        "term": "alignment of values",
+        "definition": "How closely employees' values match the organisation's stated values and culture."
+      },
+      {
+        "term": "employee involvement",
+        "definition": "Giving employees a say in decisions affecting them through methods such as consultation or representatives."
+      },
+      {
+        "term": "employee voice",
+        "definition": "Ways employees contribute ideas, concerns or challenge."
+      },
+      {
+        "term": "employee relations",
+        "definition": "The employer-workforce relationship, including consultation, representation, negotiation and conflict."
+      },
+      {
+        "term": "trade union",
+        "definition": "An organisation of workers that represents members' interests to employers."
+      },
+      {
+        "term": "collective bargaining",
+        "definition": "Negotiation between an employer and employee representatives over employment terms and conditions."
+      },
+      {
+        "term": "works council",
+        "definition": "An internal representative employee-consultation body that discusses defined matters with management."
+      },
+      {
+        "term": "grievance",
+        "definition": "An employee concern or dispute handled through an agreed process."
+      },
+      {
+        "term": "wellbeing",
+        "definition": "Physical, psychological and social conditions affecting sustainable work."
+      },
+      {
+        "term": "power culture",
+        "definition": "A Handy culture type in which influence is concentrated around a central source."
+      },
+      {
+        "term": "role culture",
+        "definition": "A Handy culture type emphasising defined responsibilities and procedures."
+      },
+      {
+        "term": "task culture",
+        "definition": "A Handy culture type organised around expertise and project or problem delivery."
+      },
+      {
+        "term": "person culture",
+        "definition": "A Handy culture type that places individual members and their autonomy near the centre."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.1:diversity",
+          "aqa-7132-3.6.1:alignment-of-values"
+        ],
+        "prompt": "Define workforce diversity and alignment of values.",
+        "answer": "Diversity is differences between employees in characteristics, backgrounds and skills. Alignment of values is how closely employees' values match the organisation's stated values and culture.",
+        "explanation": "Diversity concerns differences within the workforce; value alignment concerns the fit between individual and organisational values.",
+        "calc": null
+      },
+      {
+        "id": "p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.5:works-councils",
+          "aqa-7132-3.6.5:trade-unions"
+        ],
+        "prompt": "A body of employee representatives meets management to receive information and discuss organisational matters, but it does not negotiate pay. Is this most likely a works council or a trade union?",
+        "answer": "A works council.",
+        "explanation": "A works council is a representative consultation body. Trade unions can represent members in collective bargaining over employment terms and conditions.",
+        "calc": null
+      },
+      {
+        "id": "p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations"
+        ],
+        "prompt": "A manager bases a culture conclusion on one staff survey and one absence measure. How many evidence sources have been used?",
+        "answer": "2 evidence sources.",
+        "explanation": "There are two sources, but two measures still do not automatically prove a cultural cause. The business should triangulate evidence and treat causal claims cautiously.",
+        "calc": null
+      },
+      {
+        "id": "p4",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.5:employee-involvement",
+          "aqa-7132-3.6.5:works-councils",
+          "aqa-7132-3.6.5:trade-unions"
+        ],
+        "prompt": "Compare direct employee involvement with a works council, then explain why a trade union may have a different role.",
+        "answer": "Direct involvement allows employees themselves to contribute through methods such as briefings or suggestion schemes. A works council provides representative consultation. A trade union represents workers' interests and can negotiate terms and conditions collectively.",
+        "explanation": "The main distinction is direct versus representative voice, and consultation versus collective representation and bargaining.",
+        "calc": null
+      },
+      {
+        "id": "p5",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.6.5:employee-involvement"
+        ],
+        "prompt": "Construct a four-stage chain showing how employee voice could improve a business decision.",
+        "answer": "Employee voice → information exchange → problem discovery → possible decision improvement.",
+        "explanation": "Voice can supply information that management might otherwise miss, but improvement remains possible rather than guaranteed.",
+        "calc": null
+      },
+      {
+        "id": "p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.1:diversity",
+          "aqa-7132-3.6.1:alignment-of-values"
+        ],
+        "prompt": "A UK retailer employs people with varied backgrounds and skills, but some employees say meetings exclude their views. Apply diversity and value alignment to this situation.",
+        "answer": "The workforce is diverse, which can bring wider ideas and customer understanding. However, inclusive communication is needed so that employees can contribute; exclusion may weaken alignment, morale and commitment.",
+        "explanation": "Diversity can create potential benefits, but those benefits depend on inclusive practice rather than workforce composition alone.",
+        "calc": null
+      },
+      {
+        "id": "p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.6.5:works-councils"
+        ],
+        "prompt": "A firm creates a works council but informs representatives only after decisions have been implemented. Judge whether this is likely to create valuable employee relations.",
+        "answer": "It is unlikely to create much value because consultation occurs too late for representatives to influence discussion meaningfully.",
+        "explanation": "The presence of a consultation body does not itself prove meaningful voice. Timing, trust and the quality of information matter.",
+        "calc": null
+      },
+      {
+        "id": "p8",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.10.2:handy-s-culture-types",
+          "aqa-7132-3.10.2:role-culture",
+          "aqa-7132-3.10.2:task-culture"
+        ],
+        "prompt": "A business relies on formal job responsibilities and procedures for routine work, but creates expert project groups to solve a technical problem. Apply Handy’s framework.",
+        "answer": "Routine work has role-culture features, while the project groups have task-culture features.",
+        "explanation": "Role culture stresses defined responsibilities and procedures. Task culture forms around expertise and problem delivery. Organisations can contain mixed cultures.",
+        "calc": null
+      },
+      {
+        "id": "p9",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.6.5:value-of-good-employee-relations",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ],
+        "prompt": "A business has very few grievances but staff privately say they fear being labelled difficult if they complain. Interpret the low grievance count.",
+        "answer": "It is not reliable proof of good employee relations; employees may be reluctant to raise concerns.",
+        "explanation": "Low grievance counts can reflect healthy relations or weak voice. Other evidence is needed.",
+        "calc": null
+      },
+      {
+        "id": "p10",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.5:employee-involvement",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ],
+        "prompt": "A manager says, “We have a suggestion box, so employees definitely have strong voice and an open culture.” What is wrong with this conclusion?",
+        "answer": "A suggestion box alone does not prove meaningful voice or an open culture. Employees must be able to raise views safely and management must consider and respond to them.",
+        "explanation": "Culture is shown by actual behaviour and systems, while voice depends on more than the existence of a channel.",
+        "calc": null
+      },
+      {
+        "id": "p11",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.6.5:trade-unions",
+          "aqa-7132-3.6.5:works-councils",
+          "aqa-7132-3.6.5:employee-involvement"
+        ],
+        "prompt": "Select the most suitable mechanism for each issue: (1) staff want to share ideas about improving a process; (2) representatives need to discuss a planned organisational change with management; (3) workers seek negotiation over pay and conditions. Choose from employee involvement, works council, trade union.",
+        "answer": "(1) Employee involvement; (2) works council; (3) trade union.",
+        "explanation": "Involvement supports employee input, works councils provide representative consultation, and trade unions can collectively negotiate employment terms.",
+        "calc": null
+      },
+      {
+        "id": "p12",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture",
+          "aqa-7132-3.10.2:power-culture",
+          "aqa-7132-3.10.2:influences-on-organisational-culture"
+        ],
+        "prompt": "Explain a likely chain of reasoning for why a centrally controlled business might struggle when trying to change to faster local decision-making.",
+        "answer": "Centralised influence suggests power-culture features. Existing approval habits and systems may reinforce central control. Changing these deeply held habits can create resistance and take time, even if leaders announce a new strategy.",
+        "explanation": "Culture change is difficult because systems, rewards and routines reinforce established expectations.",
+        "calc": null
+      },
+      {
+        "id": "p13",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.10.2:person-culture",
+          "aqa-7132-3.10.2:task-culture"
+        ],
+        "prompt": "A small specialist practice gives individual professionals substantial autonomy, while temporary groups form when expertise is needed for a client problem. Which Handy types may be visible?",
+        "answer": "Person-culture features may be visible in the emphasis on individual autonomy, while task-culture features may be visible in groups formed around expertise and problem solving.",
+        "explanation": "Person culture centres individual members and autonomy; task culture centres expertise and problem delivery.",
+        "calc": null
+      }
+    ]
+  }
+}

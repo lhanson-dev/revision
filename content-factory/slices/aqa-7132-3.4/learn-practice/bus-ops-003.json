@@ -1,0 +1,219 @@
+{
+  "node_id": "bus-ops-003",
+  "learn": {
+    "title": "Capacity, bottlenecks and utilisation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Capacity and capacity utilisation",
+        "body": "Capacity is the output a process or system can produce in a stated time period under specified operating conditions. For example, a bakery may have capacity to produce 2,000 loaves per day. Capacity utilisation shows how much of that stated capacity is actually being used: actual output divided by maximum possible output, multiplied by 100. Capacity and actual output must use the same unit and time period. A high percentage may help spread fixed resources across more output, but it is not automatically best for every business.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Capacity in context: examples and non-examples",
+        "body": "Example: A repair workshop can complete 400 repairs each week under its stated conditions. Its weekly capacity is 400 repairs. If it completes 320 repairs, it has unused capacity. Non-example: describing every unused hour as waste. Some spare capacity may be valuable where customer demand is unpredictable or customers need a rapid response. Also, adding resources to a stage that is not restricting output may not increase total output.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided calculation: utilisation",
+        "body": "A factory can make a maximum of 10,000 units in a month and actually makes 8,500 units. First, check that both figures refer to units per month. Next, divide actual output by maximum possible output: 8,500 ÷ 10,000 = 0.85. Finally, multiply by 100: 85%. This means 85% of the stated capacity was used, leaving apparent spare capacity of 1,500 units before considering other constraints.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity-utilisation",
+          "aqa-7132-3.4.2:capacity"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Why 100% is not always the target",
+        "body": "It is a mistake to assume that higher capacity utilisation is always better. A time-sensitive service operating at 100% may have no buffer for a sudden rise in demand, maintenance or disruption. This can lead to queues and weaker service. Equally, a low figure alone does not prove inefficiency: the business may be retaining spare capacity deliberately for resilience or expected growth. Judge utilisation against demand variability, service requirements, costs, cash and risk.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity-utilisation",
+          "aqa-7132-3.4.2:capacity"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From demand to service and cost",
+        "body": "Expected demand relative to available capacity affects utilisation and spare capacity. Higher demand with unchanged capacity raises utilisation. If demand approaches the capability of a bottleneck stage, total throughput can be constrained and queues or service delays may result. A business can then consider targeted bottleneck improvement, overtime, subcontracting, flexible labour, process improvement, demand management or fixed expansion. Each option has consequences for cost, cash, flexibility and service.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision, not just the percentage",
+        "body": "A call centre operates at 98% staff utilisation and customers experience long waits at busy times. Explain why retaining some spare capacity could improve its service. In your explanation, link demand spikes to the lack of a buffer, then link the buffer to shorter waits and greater resilience. Also consider the possible cost of employing or arranging that extra capacity.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: calculating and interpreting utilisation",
+        "body": "A UK furniture producer has maximum possible monthly output of 12,000 tables and produces 9,600 tables. Its capacity utilisation is 80%. The producer has apparent spare capacity of 2,400 tables, but this does not by itself mean it should cut resources. Management should consider whether demand is likely to rise, whether a particular stage is a bottleneck, and whether spare capacity helps it meet delivery promises.",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "capacity",
+        "definition": "The output capability of a process or system over a stated period under specified operating conditions."
+      },
+      {
+        "term": "capacity utilisation",
+        "definition": "Actual output as a percentage of maximum possible output."
+      },
+      {
+        "term": "spare capacity",
+        "definition": "The part of stated capacity that is not used by actual output in a period."
+      },
+      {
+        "term": "bottleneck",
+        "definition": "A stage or resource whose available capability constrains total system throughput."
+      },
+      {
+        "term": "throughput",
+        "definition": "The amount of output that passes through a process in a stated period."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-capacity-utilisation-01",
+        "item_id": "aqa-7132-3.4.2:capacity-utilisation",
+        "scenario": "A furniture producer has maximum possible monthly output of 12,000 tables and actually produces 9,600 tables.",
+        "steps": [
+          "Use actual output and maximum possible output for the same monthly period.",
+          "Divide 9,600 by 12,000 to find the proportion of capacity used.",
+          "Multiply by 100 to convert the proportion into a percentage.",
+          "The result shows that the producer uses 80% of its stated capacity."
+        ],
+        "calc": {
+          "formula_id": "capacity_utilisation",
+          "inputs": [
+            {
+              "name": "actual_output",
+              "value": 9600
+            },
+            {
+              "name": "maximum_possible_output",
+              "value": 12000
+            }
+          ],
+          "stated_answer": 80,
+          "unit": "percent"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "practice-capacity-retrieval-01",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity"
+        ],
+        "prompt": "Define capacity in an operations context.",
+        "answer": "The output a process or system can produce over a stated period under specified operating conditions.",
+        "explanation": "A valid definition includes output capability, a time period and stated operating conditions.",
+        "calc": null
+      },
+      {
+        "id": "practice-capacity-utilisation-calculation-01",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ],
+        "prompt": "A packaging line has maximum possible weekly output of 9,000 boxes and actual output of 7,200 boxes. Calculate capacity utilisation.",
+        "answer": "80%.",
+        "explanation": "Capacity utilisation = actual output ÷ maximum possible output × 100 = 7,200 ÷ 9,000 × 100.",
+        "calc": {
+          "formula_id": "capacity_utilisation",
+          "inputs": [
+            {
+              "name": "actual_output",
+              "value": 7200
+            },
+            {
+              "name": "maximum_possible_output",
+              "value": 9000
+            }
+          ],
+          "stated_answer": 80,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "practice-capacity-interpretation-01",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ],
+        "prompt": "A catering business has 75% capacity utilisation. Give one reason why this figure alone does not prove that the business is inefficient.",
+        "answer": "It may be keeping spare capacity to cope with uncertain demand or to provide a quick service.",
+        "explanation": "A utilisation percentage does not show demand variability, service requirements, quality, downtime or resilience needs.",
+        "calc": null
+      },
+      {
+        "id": "practice-capacity-contextual-application-01",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity"
+        ],
+        "prompt": "A manufacturer wants to raise total output. Its painting stage can process 500 units per day, while every other stage can process at least 650 units. Which stage should management investigate first?",
+        "answer": "The painting stage.",
+        "explanation": "Painting is the bottleneck because its lower capability constrains total system throughput.",
+        "calc": null
+      },
+      {
+        "id": "practice-capacity-reasoning-chain-01",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ],
+        "prompt": "Explain one likely chain of effects if demand rises sharply while a delivery company has almost no spare capacity.",
+        "answer": "Demand can push utilisation close to maximum capacity, leaving no buffer; this can create delays and weaken delivery service.",
+        "explanation": "The response links higher demand to utilisation, then to the operational and service consequence of limited spare capacity.",
+        "calc": null
+      },
+      {
+        "id": "practice-capacity-misconception-01",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ],
+        "prompt": "A manager says, ‘We should always aim for 100% capacity utilisation because any spare capacity is waste.’ Is this correct?",
+        "answer": "No. Some spare capacity can be needed for maintenance, demand spikes, resilience and service quality.",
+        "explanation": "Maximising utilisation mechanically can cause queues, delays and reduced dependability, particularly where demand varies.",
+        "calc": null
+      },
+      {
+        "id": "practice-capacity-contextual-judgement-01",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.2:capacity",
+          "aqa-7132-3.4.2:capacity-utilisation"
+        ],
+        "prompt": "A repair firm expects a temporary three-month increase in demand. It can either buy additional fixed equipment or use overtime and subcontracting. Which option may be more suitable initially?",
+        "answer": "Overtime and subcontracting may be more suitable initially.",
+        "explanation": "For a temporary and uncertain rise in demand, flexible capacity can avoid a major fixed investment. The final decision should also consider cost, cash, service and whether the demand forecast is reliable.",
+        "calc": null
+      }
+    ]
+  }
+}

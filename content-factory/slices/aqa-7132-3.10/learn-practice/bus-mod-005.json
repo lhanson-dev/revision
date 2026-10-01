@@ -1,0 +1,187 @@
+{
+  "node_id": "bus-mod-005",
+  "learn": {
+    "title": "Lewin change model and force-field analysis",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using Lewin’s ideas to analyse barriers to change",
+        "body": "Lewin’s three-stage model gives a useful structure for planned change. Unfreezing prepares people to leave established routines; moving/change is the transition to new practices; refreezing embeds the new approach through aligned systems and rewards. Force-field analysis complements this by identifying driving forces that support a proposal and restraining forces that create barriers to change. A useful analysis explains how each barrier affects adoption, rather than just listing it.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Three stages compared with force-field analysis",
+        "body": "The three-stage model focuses on the timing of change: prepare, transition and embed. Force-field analysis focuses on influences around a particular proposal: drivers, restraints, stakeholders, capability, culture and incentives. Both can help managers identify barriers to change, but neither is a guaranteed sequence or prediction tool. In a continuously changing business, a permanently stable ‘refrozen’ state may be unrealistic.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Meaningful barriers versus arbitrary scoring",
+        "body": "Example: A retailer introducing a new scheduling system faces a barrier because staff have had little training. This may create uncertainty and errors, slowing adoption. Its legacy processes may also be incompatible with the system. Non-example: A manager gives ‘staff resistance’ a score of 7 and ‘better customer service’ a score of 9, then claims that the difference proves the change will succeed. Scores can prompt discussion, but arbitrary totals do not prove an outcome.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Resistance is not always irrational",
+        "body": "Do not assume that resistance is simply employees refusing to cooperate. Resistance can reveal legitimate risks, such as insufficient capability, excessive workload, poor system design or unfair incentives. Managers should investigate the mechanism behind the barrier and decide whether it is better to remove the constraint, build capability, redesign the proposal or delay implementation.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A force-field map for a proposed change",
+        "body": "Use a map to organise judgement, not to create false numerical precision:\n\nProposed change: new scheduling system\n\nDriving forces  →  better customer service; improved data\n                         │\n                         ▼\n                  implementation behaviour\n                         ▲\n                         │\nRestraining forces → poor training; legacy processes; fear of workload monitoring\n\nFor each restraint, ask: who is affected, how does it slow adoption, and can the business realistically alter it?",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How a barrier can affect the outcome",
+        "body": "Existing routines or incentives can lead to resistance or inertia, which can slow adoption of a new system. By contrast, communication, participation and training can reduce uncertainty and build capability, making adoption more likely. Once the change is operating, new systems and rewards can reinforce the desired behaviour and help it persist. However, strengthening pressure without addressing a practical restraint may cause unintended effects, such as lower morale or workarounds.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the most important barrier",
+        "body": "A manufacturer wants staff to use a new quality-checking app. Choose one possible barrier—such as lack of training, routines, culture or incentives. Explain: (1) the mechanism through which it could limit adoption, (2) whether it is a legitimate risk or mainly uncertainty, and (3) one action that could reduce it without simply putting more pressure on staff.",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "unfreezing",
+        "definition": "Preparing to change established routines or norms."
+      },
+      {
+        "term": "moving/change",
+        "definition": "The transition towards new practices."
+      },
+      {
+        "term": "refreezing",
+        "definition": "Embedding and stabilising new practices."
+      },
+      {
+        "term": "force-field analysis",
+        "definition": "A framework for identifying forces supporting and restraining a proposed change."
+      },
+      {
+        "term": "driving force",
+        "definition": "An influence that supports movement towards change."
+      },
+      {
+        "term": "restraining force",
+        "definition": "An influence that resists or limits change."
+      },
+      {
+        "term": "barrier to change",
+        "definition": "A constraint, such as limited capability, routines or incentives, that can hinder adoption of a change."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-mod-005-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "State what a restraining force is in force-field analysis.",
+        "answer": "An influence that resists or limits a proposed change.",
+        "explanation": "Restraining forces are barriers that can slow, weaken or prevent adoption of change.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "A café wants to introduce tablet ordering. Which is most clearly a restraining force: improved speed of service, customer demand for digital ordering, staff lacking confidence using tablets, or better sales data?",
+        "answer": "Staff lacking confidence using tablets.",
+        "explanation": "Limited confidence is a capability barrier that may reduce willingness or ability to use the new process. The other options support the proposal.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p3",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "A delivery business plans to replace paper route sheets with an app. Give one driving force and one restraining force, each with a brief mechanism.",
+        "answer": "Driving force: live route data could help drivers respond faster to delays. Restraining force: poor training could lead to mistakes and reluctance to use the app.",
+        "explanation": "A force-field analysis should identify both supporting and limiting influences, then explain how they affect implementation.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p4",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "Explain one chain through which old employee routines can become a barrier to introducing a new stock-control system.",
+        "answer": "Established routines can create inertia, so employees may continue using familiar records, causing inconsistent data and slower adoption of the new system.",
+        "explanation": "The answer links the routine to resistance or inertia, then to a practical implementation outcome.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "A UK retailer is introducing self-service collection lockers. Staff fear that performance data from the lockers will be used to monitor them unfairly. Suggest one action to reduce this barrier.",
+        "answer": "Explain clearly how the data will and will not be used, and involve staff representatives in agreeing safeguards.",
+        "explanation": "The action addresses uncertainty and the perceived fairness risk, rather than merely demanding compliance.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "Which is more useful before a major process change: Lewin’s three-stage model or force-field analysis? Give a justified judgement.",
+        "answer": "Force-field analysis may be more useful initially because it identifies specific barriers, stakeholders and drivers. The three-stage model is also useful for planning preparation, transition and embedding.",
+        "explanation": "A supported judgement recognises that the models have different purposes and that usefulness depends on the business’s need.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "A software business changes its customer platform every few months. Evaluate whether ‘refreezing’ is likely to be fully realistic.",
+        "answer": "It may be less realistic because continuous change means practices may need further adaptation before they become permanently stable. However, the business can still reinforce useful routines such as training and clear support processes.",
+        "explanation": "The judgement applies the limitation of a permanently stable end state while recognising that reinforcement can still matter.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-005-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.10.1:barriers-to-change"
+        ],
+        "prompt": "A manager says: ‘Our driving forces total 18 and our restraining forces total 11, so force-field analysis proves the change will succeed.’ What is wrong with this claim?",
+        "answer": "Arbitrary scores do not prove success. Forces interact, scores are managerial judgements unless supported by evidence, and important barriers may still need action.",
+        "explanation": "Force-field analysis structures discussion of influences; it is not an objective prediction calculation.",
+        "calc": null
+      }
+    ]
+  }
+}

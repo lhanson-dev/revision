@@ -1,0 +1,174 @@
+{
+  "node_id": "bus-fnd-003",
+  "learn": {
+    "title": "Ownership structures, legal personality and liability",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Legal form, ownership and legal identity",
+        "body": "A legal form helps determine who owns a business, who makes decisions, who carries financial risk and how the organisation may raise finance or continue over time. A sole trader has one owner and is not a separate company owned by shareholders. In an ordinary partnership, two or more people carry on the business together. By contrast, a limited company is legally separate from its shareholders: it can own property, enter contracts and owe money in its own name. Shareholders own shares in the company, not each individual asset it uses. Directors manage the company, so being a director does not automatically mean being an owner. Ordinary share capital is equity finance raised by issuing ordinary shares to investors. Those investors become shareholders and may accept this risk because they expect a financial return or want a stake in the business's future. Issuing more shares can provide finance, but it can reduce a founder's proportion of ownership and increase outside influence over decisions.",
+        "item_ids": [
+          "aqa-7132-3.1.2:sole-trader",
+          "aqa-7132-3.1.2:ordinary-share-capital",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest",
+          "aqa-7132-3.1.2:limited-and-unlimited-liability"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing business forms and types of organisation",
+        "body": "A sole trader may value direct control and simplicity, particularly for a small, lower-risk activity. However, the owner normally has unlimited liability for business debts. A private limited company (Ltd) is incorporated and has limited liability; its shares cannot be offered to the general public or traded on a stock exchange. This can help a small group of founders, family or chosen investors retain control, although it limits the pool of equity investors. A public limited company (plc) may offer shares to the public and may choose a stock-market listing. This can open access to much larger amounts of capital, but can also create shareholder pressure and takeover risk. Both Ltds and plcs have a legal identity separate from shareholders, whereas a sole trader does not have that separate company identity. Private-sector organisations are owned by individuals or shareholders and usually seek profit. Public-sector organisations are owned or controlled by government and mainly provide services, funded largely through taxation. Not-for-profit organisations use surpluses to pursue their purpose rather than mainly distributing profit to owners. A social enterprise trades to achieve a social or environmental purpose and reinvests most profits in that purpose.",
+        "item_ids": [
+          "aqa-7132-3.1.2:sole-trader",
+          "aqa-7132-3.1.2:private-limited-company",
+          "aqa-7132-3.1.2:public-limited-company",
+          "aqa-7132-3.1.2:private-and-public-sector",
+          "aqa-7132-3.1.2:not-for-profit-organisations",
+          "aqa-7132-3.1.2:social-enterprise",
+          "aqa-7132-3.1.2:limited-and-unlimited-liability"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Applying ownership to mission, objectives and decisions",
+        "body": "Example: Green Routes Ltd is a social enterprise selling refurbished bicycles. Its ownership and purpose mean that it may set objectives such as expanding affordable access to transport and reinvesting most profits in training local repair workers. It still needs enough financial health to survive, but maximising payouts to owners is not its main objective. If its founders issue ordinary shares to new investors, the extra finance could fund a workshop. However, the founders' ownership is diluted and new shareholders may seek greater influence or a stronger focus on financial returns. The ownership change could therefore affect objectives and decisions.\n\nExample: A private-sector plc seeking equity investment may prioritise growth, profits and returns to shareholders. Its directors may choose a decision that delivers finance for expansion, while balancing potential shareholder pressure and loss of founder control.\n\nNon-example: It is too simplistic to say every business has the same objective because all organisations need money. A council service, a charity and a shareholder-owned company can all need sound finances, but their ownership and mission can lead them to judge success differently.",
+        "item_ids": [
+          "aqa-7132-3.1.2:ordinary-share-capital",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest",
+          "aqa-7132-3.1.2:effects-of-ownership-on-mission-objectives-and-decisions"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid these ownership and liability errors",
+        "body": "A sole trader does not have to work alone: the term identifies one owner, and that owner may employ many people. Limited liability normally limits shareholders' exposure to the amount invested or committed, but it does not remove directors' legal duties. Nor does it mean creditors cannot lose money or that a personal guarantee can never create personal exposure. Incorporation can support continuity because a company remains separate from changing shareholders, but it does not guarantee commercial success. The best choice of legal form depends on the scale, risk, capital need, growth plan, desired control and administrative burden. For example, a freelance designer may choose sole-trader status for direct control and simplicity, whereas a capital-intensive manufacturer seeking several investors may see greater value in incorporation, liability separation and equity finance.",
+        "item_ids": [
+          "aqa-7132-3.1.2:sole-trader",
+          "aqa-7132-3.1.2:limited-and-unlimited-liability",
+          "aqa-7132-3.1.2:reasons-for-choosing-or-changing-business-form"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "sole trader",
+        "definition": "A business owned by one individual."
+      },
+      {
+        "term": "partnership",
+        "definition": "A business relationship in which two or more people carry on business together."
+      },
+      {
+        "term": "limited company",
+        "definition": "A company with its own legal identity whose shareholders normally have limited liability."
+      },
+      {
+        "term": "legal personality",
+        "definition": "Legal recognition as an entity able to own property, make contracts and bear obligations."
+      },
+      {
+        "term": "limited liability",
+        "definition": "Owner liability normally limited to the amount invested or committed under the legal form."
+      },
+      {
+        "term": "unlimited liability",
+        "definition": "Personal liability for business debts can remain with the owner or owners."
+      },
+      {
+        "term": "private limited company (Ltd)",
+        "definition": "An incorporated company with limited liability whose shares cannot be offered to the general public or traded on a stock exchange."
+      },
+      {
+        "term": "public limited company (plc)",
+        "definition": "An incorporated limited-liability company allowed to offer shares to the public."
+      },
+      {
+        "term": "ordinary share capital",
+        "definition": "Equity finance raised by issuing ordinary shares to investors."
+      },
+      {
+        "term": "shareholder",
+        "definition": "A person or organisation that owns shares in a company."
+      },
+      {
+        "term": "not-for-profit organisation",
+        "definition": "An organisation that uses surplus to pursue its purpose rather than mainly distributing profit to owners."
+      },
+      {
+        "term": "social enterprise",
+        "definition": "A trading business that pursues a social or environmental purpose and reinvests most profits in that purpose."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-003-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.1.2:private-limited-company",
+          "aqa-7132-3.1.2:public-limited-company",
+          "aqa-7132-3.1.2:ordinary-share-capital"
+        ],
+        "prompt": "State what ordinary share capital is. Then give one difference between an Ltd and a plc concerning who may be offered shares.",
+        "answer": "Ordinary share capital is equity finance raised by issuing ordinary shares. An Ltd cannot offer its shares to the general public, whereas a plc may offer shares to the public.",
+        "explanation": "Issuing ordinary shares raises equity finance. The ability to offer shares to the public distinguishes a plc from an Ltd in this context.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-003-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.1.2:sole-trader",
+          "aqa-7132-3.1.2:private-and-public-sector",
+          "aqa-7132-3.1.2:not-for-profit-organisations",
+          "aqa-7132-3.1.2:social-enterprise"
+        ],
+        "prompt": "Classify each organisation: (1) a one-owner mobile dog-grooming business that employs two assistants; (2) a local council-run library; (3) a charity using surplus to support its cause; (4) a business selling reusable bottles and reinvesting most profits into reducing plastic waste.",
+        "answer": "(1) Sole trader; (2) public sector; (3) not-for-profit organisation; (4) social enterprise.",
+        "explanation": "A sole trader refers to one owner, not one worker. A council service is public sector. A charity uses surplus for its purpose, while the trading and reinvestment model in (4) identifies a social enterprise.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-003-p3",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.1.2:limited-and-unlimited-liability",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest"
+        ],
+        "prompt": "A student says: 'Once a business becomes a limited company, its directors cannot be personally responsible for anything and nobody else can lose money if it fails.' Identify two errors in this statement.",
+        "answer": "Limited liability normally concerns shareholders' investment, not the removal of directors' duties. Creditors can still face losses if the company fails; personal guarantees can also create personal exposure in some circumstances.",
+        "explanation": "Limited liability bounds normal shareholder exposure. It does not eliminate directors' responsibilities or all financial risk for other parties.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-003-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.2:effects-of-ownership-on-mission-objectives-and-decisions",
+          "aqa-7132-3.1.2:ordinary-share-capital",
+          "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest"
+        ],
+        "prompt": "Harbour Food Co is a social enterprise that reinvests most profits in low-cost community meals. It is considering issuing ordinary shares to fund a second kitchen. Explain one likely effect this could have on its mission, objectives or decisions.",
+        "answer": "The share issue could provide finance for a second kitchen and help the social mission grow. However, new shareholders would dilute existing ownership and may influence decisions, potentially increasing pressure to prioritise financial returns alongside the community-meal objective.",
+        "explanation": "Equity finance can support expansion, but it changes the ownership mix. Ownership affects whose priorities may shape objectives and decisions.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-003-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.1.2:reasons-for-choosing-or-changing-business-form",
+          "aqa-7132-3.1.2:sole-trader",
+          "aqa-7132-3.1.2:private-limited-company",
+          "aqa-7132-3.1.2:limited-and-unlimited-liability"
+        ],
+        "prompt": "Amir runs a sole-trader business making specialist metal components. He now needs several investors to buy expensive machinery and is concerned about the financial risk of larger contracts. Compare remaining a sole trader with becoming an Ltd, then recommend one option.",
+        "answer": "Remaining a sole trader preserves Amir's direct control and may be simpler, but personal liability can remain and attracting several equity investors may be harder. Becoming an Ltd creates a separate company identity and normally gives shareholders limited liability, which may be more suitable for the higher risk and capital need. Amir should consider becoming an Ltd if growth finance and liability separation outweigh the extra reporting and administration.",
+        "explanation": "The recommendation is contextual: the business's capital need and risk make incorporation more attractive, while control and administrative burden remain relevant trade-offs.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "node_id": "bus-ops-008",
+  "learn": {
+    "title": "Quality, quality control, quality assurance and improvement",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Quality means meeting requirements reliably",
+        "body": "Quality is the extent to which an output and its delivery meet relevant customer and technical requirements. It is not the same as luxury or a high-price specification. For a service business, quality can include accuracy, speed, communication, consistency and how complaints are handled. Quality matters because it affects costs, productivity, customer retention, brand trust and business risk.",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality",
+          "aqa-7132-3.4.4:consequences-of-poor-quality"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Quality control and quality assurance compared",
+        "body": "Quality control (QC) detects defects or non-conformance in outputs, for example inspecting finished cakes before they are sold. Quality assurance (QA) uses controlled processes, training and checks within production to make defects less likely, for example using a standard recipe, calibrated scales and staff training. QC can protect the customer by finding faulty outputs, but it may not remove the cause. QA aims to prevent failure. The two approaches can work together.",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising quality in a service",
+        "body": "Example: a restaurant serves food that meets its recipe specification, but orders are regularly late or delivered to the wrong table. The restaurant still has a quality problem because timeliness and accuracy are part of the service customers receive. Non-example: saying that an expensive handbag must be high quality. Price or luxury status alone does not show whether relevant expectations have been met.",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance",
+          "aqa-7132-3.4.4:consequences-of-poor-quality"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing an appropriate response to defects",
+        "body": "A manufacturer finds scratches on some finished phone cases at final inspection. Step 1: the final inspection is QC because it identifies defective outputs. Step 2: managers should investigate where scratches are introduced, such as an unclean conveyor or unsuitable packaging. Step 3: cleaning the conveyor, revising handling procedures and training staff are QA actions because they improve the process and reduce future defects. Step 4: monitor defect information to see whether the change has reduced recurrence.",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Using complaint data carefully",
+        "body": "A broadband provider receives 48 complaints about incorrect bills from 12,000 bills issued in a month. The reported complaint rate is 48 ÷ 12,000 = 0.004, or 0.4%. This is useful evidence of a possible quality issue, but it does not prove that only 0.4% of bills were wrong: some customers may not complain, and complaint behaviour can change. Managers should investigate billing records and the causes of reported errors before judging the total defect level.",
+        "item_ids": [
+          "aqa-7132-3.4.4:consequences-of-poor-quality",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How quality affects costs and customers",
+        "body": "Effective process control and training can lead to fewer defects. Fewer defects can mean less scrap, rework, returns and warranty spending. This can improve productivity and reduce unit costs. In contrast, poor quality can lead to complaints and returns, which can damage customer experience, brand trust and future retention. Continuous improvement investigates root causes, so the same failure is less likely to happen again.",
+        "item_ids": [
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality",
+          "aqa-7132-3.4.4:consequences-of-poor-quality",
+          "aqa-7132-3.4.4:quality-assurance"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Inspection is not the same as assurance",
+        "body": "A common error is to describe careful checking of finished products as quality assurance. This is mainly quality control: it detects failure after it has occurred. Quality assurance is concerned with designing and consistently operating processes that prevent defects. Inspection may still be valuable, but inspecting every bad unit at the end does not itself remove the source of failure.",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the trade-off",
+        "body": "A small bakery is considering extra staff training and tighter recipe controls after receiving complaints about inconsistent cakes. Explain why these prevention measures might reduce costs over time, but also why the bakery should consider the immediate costs, staff time, process complexity and whether it has reliable evidence about the cause of complaints.",
+        "item_ids": [
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality",
+          "aqa-7132-3.4.4:consequences-of-poor-quality",
+          "aqa-7132-3.4.4:quality-assurance"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "quality",
+        "definition": "The degree to which an output and its delivery meet relevant requirements and customer expectations."
+      },
+      {
+        "term": "quality control (QC)",
+        "definition": "Activities that detect defects or non-conformance in outputs, often through inspection or testing."
+      },
+      {
+        "term": "quality assurance (QA)",
+        "definition": "Process systems intended to prevent defects from occurring."
+      },
+      {
+        "term": "continuous quality improvement",
+        "definition": "Ongoing, systematic learning from failures and variation to reduce the causes of poor quality."
+      },
+      {
+        "term": "defect",
+        "definition": "A fault or failure to meet a required standard."
+      },
+      {
+        "term": "rework",
+        "definition": "Work required to correct a defective output."
+      },
+      {
+        "term": "root cause",
+        "definition": "The underlying process reason why a failure occurs or recurs."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ops-008-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance"
+        ],
+        "prompt": "Define quality control and quality assurance.",
+        "answer": "Quality control detects defects in outputs. Quality assurance uses processes intended to prevent defects.",
+        "explanation": "The key distinction is detection after or during output checking versus prevention through process design and control.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance"
+        ],
+        "prompt": "A clothing retailer checks every returned coat for faulty stitching. Its supplier also uses standard machine settings and operator training to reduce stitching faults. Identify the QC activity and the QA activity.",
+        "answer": "Checking returned coats is QC. Using standard settings and training is QA.",
+        "explanation": "The inspection identifies faults that exist, whereas the controlled process aims to stop faults occurring.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.4:consequences-of-poor-quality"
+        ],
+        "prompt": "A delivery firm records 36 complaints about damaged parcels from 9,000 parcels delivered. Calculate the reported complaint rate as a percentage.",
+        "answer": "0.4%.",
+        "explanation": "36 ÷ 9,000 = 0.004; multiplying by 100 gives 0.4%. This is a reported complaint rate, not necessarily the total damage rate because not every customer complains.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p4",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.4.4:consequences-of-poor-quality",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality"
+        ],
+        "prompt": "A café's complaint count falls from 60 to 45 in a month, but customer visits fall from 6,000 to 3,000. What should the manager conclude?",
+        "answer": "The lower complaint count alone does not show better quality; the complaint rate has increased from 1% to 1.5%.",
+        "explanation": "Counts need a denominator. Fewer customers visited, so complaints rose relative to the number of transactions.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.4:consequences-of-poor-quality",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality"
+        ],
+        "prompt": "Explain one chain through which poor quality can increase a manufacturer's unit costs.",
+        "answer": "Defects can create rework and scrap, so more labour and materials are used for the same number of saleable units, increasing unit cost.",
+        "explanation": "Poor quality wastes resources and reduces productive output, creating both visible and hidden failure costs.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance",
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality"
+        ],
+        "prompt": "A toy business can either add a final inspection stage or invest in staff training and clearer assembly instructions. Compare the options and justify which should receive priority if the same assembly fault occurs repeatedly.",
+        "answer": "Final inspection can stop some faulty toys reaching customers, but training and clearer instructions are more likely to prevent the repeated fault. The business should prioritise process improvement while retaining appropriate inspection.",
+        "explanation": "Repeated defects suggest an underlying process cause. Prevention can reduce recurrence, rework and warranty costs, although it may require time and training expenditure.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p7",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-assurance",
+          "aqa-7132-3.4.4:consequences-of-poor-quality"
+        ],
+        "prompt": "An online pharmacy sends the correct medicine but frequently fails to tell customers when deliveries will arrive. Give one quality measure it could use and one QA action it could take.",
+        "answer": "It could measure the proportion of customers receiving accurate delivery updates. It could introduce a standard dispatch-and-notification process with staff training.",
+        "explanation": "Quality in services includes communication and timeliness, not just the core product. A standard process is a preventive QA response.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality",
+          "aqa-7132-3.4.4:quality-assurance"
+        ],
+        "prompt": "A small garage wants to introduce detailed quality procedures for every repair. Judge whether this will necessarily improve performance.",
+        "answer": "Not necessarily. Procedures may improve consistency and reduce errors, but excessive controls can add bureaucracy and slow work. Their value depends on the seriousness and frequency of faults, customer expectations and whether staff can apply them consistently.",
+        "explanation": "Quality improvement has benefits but also costs and practical limits. The best decision depends on evidence and the complexity of the service process.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-008-p9",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.4:quality-control",
+          "aqa-7132-3.4.4:quality-assurance"
+        ],
+        "prompt": "A student says: 'Our factory uses quality assurance because workers inspect every finished kettle.' Is the student correct?",
+        "answer": "No. Inspecting finished kettles is primarily quality control, not quality assurance.",
+        "explanation": "The inspection detects defective outputs. QA would focus on controlled production processes designed to prevent faults.",
+        "calc": null
+      }
+    ]
+  }
+}

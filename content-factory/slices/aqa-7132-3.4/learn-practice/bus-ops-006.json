@@ -1,0 +1,313 @@
+{
+  "node_id": "bus-ops-006",
+  "learn": {
+    "title": "Inventory and service trade-offs",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Inventory is a service, resilience and cash trade-off",
+        "body": "Inventory includes raw materials, work in progress and finished goods held for future use or sale. Holding more inventory can make products available when customers want them and can protect operations from late deliveries or unexpected demand. However, inventory consumes working capital and can create storage, insurance, damage, shrinkage and obsolescence costs. A low inventory level is therefore not automatically efficient, and a high level is not automatically poor management: the appropriate level depends on risk, service requirements and cash available.",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How uncertainty affects inventory policy",
+        "body": "Demand uncertainty or unreliable lead time increases the risk that stock will run out before replenishment arrives. A business may respond by holding more buffer inventory or using a just-in-case approach. This can improve availability and resilience, but it ties up more cash and raises holding and waste risks. Conversely, reducing stock releases cash but may lead to stock-outs, lost sales or disruption if forecasts or deliveries are wrong.",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:lead-time",
+          "aqa-7132-3.4.5:buffer-inventory",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Just in case is not simply wasteful stock",
+        "body": "Example: a seasonal retailer builds up stock before its busiest period. It accepts cash being tied up because empty shelves during peak demand could cause lost sales. This is a just-in-case choice. Non-example: describing every unsold item as waste without considering demand uncertainty, lead time or the cost of a stock-out. Excess inventory can be a problem, especially for fashion or technology products, but some buffer stock can be a deliberate resilience decision.",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:buffer-inventory",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Matching supply to demand",
+        "body": "A garden centre expects demand to rise sharply in spring. It can forecast demand, schedule deliveries, hold suitable buffer inventory and use temporary or part-time staff during the peak. These choices help match what it can supply with what customers want. Temporary staff can reduce payment for idle time outside the peak, but may need training and may be less committed. If demand is highly uncertain, the business must balance the cost of extra stock and staff against the risk of queues, lost sales and poor service.",
+        "item_ids": [
+          "aqa-7132-3.4.5:matching-supply-to-demand",
+          "aqa-7132-3.4.5:temporary-and-part-time-staff",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Reading an inventory control chart",
+        "body": "An inventory control chart shows inventory level over time. Label it as follows:\n\nMaximum inventory level\n│         ┌ delivery raises stock\n│        / \n│       /   \n│------/----- re-order level: place a new order here\n│     / ← lead time →\n│---- buffer inventory: minimum protection level\n└──────────────────── time\n\nThe downward slope represents inventory being used or sold. The vertical rise represents a delivery. The re-order level is set so that, during lead time, inventory falls towards the buffer rather than running out. The re-order quantity is the vertical jump from buffer inventory to maximum inventory.",
+        "item_ids": [
+          "aqa-7132-3.4.5:inventory-control-chart",
+          "aqa-7132-3.4.5:lead-time",
+          "aqa-7132-3.4.5:re-order-level",
+          "aqa-7132-3.4.5:buffer-inventory",
+          "aqa-7132-3.4.5:re-order-quantity"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating re-order quantity from a chart",
+        "body": "A wholesaler's inventory control chart has a maximum inventory level of 950 units and buffer inventory of 170 units. The re-order quantity is the amount needed to restore stock from the buffer level to the maximum level.",
+        "item_ids": [
+          "aqa-7132-3.4.5:re-order-quantity"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Inventory is an asset, but it is not cash",
+        "body": "Inventory may appear as a current asset, but it cannot necessarily be turned into cash quickly at its recorded value. It must be sold or used first, and slow-moving, perishable or outdated items may need discounting or may become obsolete. A business can therefore appear asset-rich while being cash-poor if much of its money is tied up in stock.",
+        "item_ids": [
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Suppliers, the supply chain and working capital",
+        "body": "Supplier choice and supply chain management affect inventory decisions. More reliable suppliers and shorter, more predictable lead times can reduce the need for large buffers. Less reliable supply may justify more just-in-case stock, but this increases working-capital pressure. A just-in-time approach seeks lower inventory through better synchronisation and reliability; it does not guarantee zero stock or remove uncertainty. Producing to order can also keep finished-goods stock and waste low, although customers may wait longer and the business needs flexible capacity.",
+        "item_ids": [
+          "aqa-7132-3.4.5:choice-of-suppliers",
+          "aqa-7132-3.4.5:supply-chain-management",
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:producing-to-order",
+          "aqa-7132-3.4.5:lead-time"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the best policy in context",
+        "body": "A business sells fashionable products with uncertain demand and items can become obsolete quickly. Explain to yourself why a large buffer could protect service but also create markdown and cash-flow risks. Then decide what evidence you would need before choosing between a larger buffer, more reliable suppliers, just-in-time methods or producing to order.",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:producing-to-order",
+          "aqa-7132-3.4.5:choice-of-suppliers",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "inventory",
+        "definition": "Goods or materials held for production or sale."
+      },
+      {
+        "term": "buffer inventory",
+        "definition": "Minimum inventory held to protect against unexpected demand or late deliveries."
+      },
+      {
+        "term": "lead time",
+        "definition": "Time between placing an order and receiving it."
+      },
+      {
+        "term": "re-order level",
+        "definition": "Inventory level at which a new order is placed."
+      },
+      {
+        "term": "re-order quantity",
+        "definition": "Amount ordered when inventory reaches the re-order level."
+      },
+      {
+        "term": "inventory control chart",
+        "definition": "Graph showing inventory levels over time, including maximum level, re-order level, buffer inventory, lead time and re-order quantity."
+      },
+      {
+        "term": "just in case",
+        "definition": "Approach of holding buffer stock to cope with unexpected demand or supply delays."
+      },
+      {
+        "term": "matching supply to demand",
+        "definition": "Adjusting supply to meet customer demand using methods such as forecasting, stock, staffing and scheduling."
+      },
+      {
+        "term": "temporary and part-time staff",
+        "definition": "Workers employed for limited periods or fewer hours to help cover uneven demand."
+      },
+      {
+        "term": "producing to order",
+        "definition": "Starting production after a customer order has been placed."
+      },
+      {
+        "term": "supply chain management",
+        "definition": "Managing the flow of supplies so materials and products are available when needed."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-re-order-quantity-1",
+        "item_id": "aqa-7132-3.4.5:re-order-quantity",
+        "scenario": "A wholesaler has a maximum inventory level of 950 units and holds buffer inventory of 170 units.",
+        "steps": [
+          "Identify the maximum inventory level: 950 units.",
+          "Identify the buffer inventory: 170 units.",
+          "Subtract buffer inventory from maximum inventory level.",
+          "The delivery quantity restores inventory from the buffer level to the maximum level."
+        ],
+        "calc": {
+          "formula_id": "re_order_quantity",
+          "inputs": [
+            {
+              "name": "maximum_inventory_level",
+              "value": 950
+            },
+            {
+              "name": "buffer_inventory",
+              "value": 170
+            }
+          ],
+          "stated_answer": 780,
+          "unit": "units"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-inventory-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.5:lead-time",
+          "aqa-7132-3.4.5:buffer-inventory"
+        ],
+        "prompt": "Define lead time and buffer inventory.",
+        "answer": "Lead time is the time between placing an order and receiving it. Buffer inventory is minimum stock held to protect against uncertainty.",
+        "explanation": "Lead time determines how long the business must wait for replenishment, while buffer inventory provides protection during that period.",
+        "calc": null
+      },
+      {
+        "id": "p2-re-order-quantity-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.5:re-order-quantity"
+        ],
+        "prompt": "An inventory control chart shows maximum inventory of 1,240 units and buffer inventory of 290 units. Calculate the re-order quantity.",
+        "answer": "950 units.",
+        "explanation": "Re-order quantity is the maximum inventory level minus buffer inventory: 1,240 − 290.",
+        "calc": {
+          "formula_id": "re_order_quantity",
+          "inputs": [
+            {
+              "name": "maximum_inventory_level",
+              "value": 1240
+            },
+            {
+              "name": "buffer_inventory",
+              "value": 290
+            }
+          ],
+          "stated_answer": 950,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "p3-chart-construction",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.4.5:inventory-control-chart",
+          "aqa-7132-3.4.5:re-order-level",
+          "aqa-7132-3.4.5:lead-time",
+          "aqa-7132-3.4.5:buffer-inventory"
+        ],
+        "prompt": "Sketch an inventory control chart for a product that is used steadily. Label maximum inventory, re-order level, buffer inventory, lead time and the delivery rise.",
+        "answer": "A correct chart has a falling stock line over time, a marked re-order level above the buffer, a lead-time interval from ordering to delivery, and a vertical delivery rise back towards maximum inventory.",
+        "explanation": "These features show how stock is used, when an order is placed and how the buffer protects the business while it waits.",
+        "calc": null
+      },
+      {
+        "id": "p4-chart-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.4.5:inventory-control-chart",
+          "aqa-7132-3.4.5:re-order-level"
+        ],
+        "prompt": "On an inventory control chart, a manager places an order when stock reaches the re-order level, not when it reaches zero. Explain why.",
+        "answer": "The business needs stock to cover expected usage during lead time, so the delivery can arrive before stock runs out.",
+        "explanation": "Ordering only at zero would risk disruption or lost sales while waiting for the delivery.",
+        "calc": null
+      },
+      {
+        "id": "p5-seasonal-context",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:matching-supply-to-demand",
+          "aqa-7132-3.4.5:temporary-and-part-time-staff"
+        ],
+        "prompt": "A UK garden centre has very high spring demand but quieter winter trading. State two ways it could match supply to demand.",
+        "answer": "It could build suitable inventory before spring and use temporary or part-time staff during the peak.",
+        "explanation": "Extra stock can improve availability, while flexible staffing helps meet peak demand without paying for as many idle hours in winter.",
+        "calc": null
+      },
+      {
+        "id": "p6-fashion-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-case",
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ],
+        "prompt": "A fashion retailer is considering a very large just-in-case inventory purchase before a trend is proven. Judge whether this is likely to be sensible.",
+        "answer": "It is risky unless demand is sufficiently predictable and the cost of stock-outs is very high. Fashion items can become obsolete and may require markdowns, tying up cash.",
+        "explanation": "The best choice depends on demand volatility, cash position, supplier reliability and the risk of unsold stock, rather than assuming more stock is always safer.",
+        "calc": null
+      },
+      {
+        "id": "p7-inventory-framework",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.4.5:influences-on-inventory-levels",
+          "aqa-7132-3.4.5:choice-of-suppliers"
+        ],
+        "prompt": "Use an inventory decision framework to give four factors a café should consider before reducing its ingredient stock levels.",
+        "answer": "Demand variability, supplier reliability and lead time, perishability, and the cost of stock-outs should be considered.",
+        "explanation": "These factors affect whether lower stock will save cash and waste or instead cause unavailable menu items and lost sales.",
+        "calc": null
+      },
+      {
+        "id": "p8-cash-reasoning",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.5:influences-on-inventory-levels",
+          "aqa-7132-3.4.5:supply-chain-management"
+        ],
+        "prompt": "Explain one chain of reasoning for how excess slow-moving inventory can create cash pressure.",
+        "answer": "Excess inventory ties up working capital; if it sells slowly, cash is not released; the business may then have less cash available for payments or may need finance.",
+        "explanation": "Inventory is not the same as cash because it may take time to sell and may sell for less than its recorded value.",
+        "calc": null
+      },
+      {
+        "id": "p9-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.5:influences-on-inventory-levels"
+        ],
+        "prompt": "A student says: 'Inventory is a current asset, so a business with high inventory cannot have cash-flow problems.' Is this correct?",
+        "answer": "No. Inventory may be slow to sell, may need discounting or may become obsolete, so it cannot necessarily be converted into cash quickly.",
+        "explanation": "A business can have substantial inventory recorded as an asset while lacking cash to meet immediate obligations.",
+        "calc": null
+      },
+      {
+        "id": "p10-method-selection",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.4.5:producing-to-order",
+          "aqa-7132-3.4.5:supply-chain-management",
+          "aqa-7132-3.4.5:choice-of-suppliers"
+        ],
+        "prompt": "A small firm makes bespoke fitted furniture. Select the most suitable approach: producing to order or holding large finished-goods inventory. Give one reason and one operational requirement.",
+        "answer": "Producing to order is more suitable because bespoke finished goods may not match another customer's needs. The firm needs flexible capacity and reliable supply-chain management or suppliers.",
+        "explanation": "Producing to order can reduce finished-goods stock and waste, but customers wait and materials must be available when production begins.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "node_id": "bus-fin-002",
+  "learn": {
+    "title": "Fixed, variable, total, average and relevant costs",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "How costs behave",
+        "body": "A cost is a resource used, or an obligation incurred, in running and producing for a business. Fixed costs do not vary directly as output changes within a stated time period and relevant range. Variable costs change as output changes. Total costs combine fixed costs and total variable costs. Unit cost, also called average cost, is total costs divided by the number of units produced. These classifications depend on context: a cost may behave differently over a longer period or once capacity changes.",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs",
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Fixed costs compared with variable costs",
+        "body": "Fixed costs stay unchanged when output changes within the relevant range, whereas variable costs rise when output rises and fall when output falls. For example, a factory's annual rent may be fixed during its lease, while the materials used to make each additional product are variable. Neither label is permanent: labour may be fixed if staff are salaried, variable if workers are paid per unit, or step-fixed if another supervisor is needed after output reaches a threshold.",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Classify costs in context",
+        "body": "Example: A café pays £2,000 monthly rent while operating from its current premises. The rent is fixed for that month because selling more coffees does not directly alter it. Coffee beans used in each drink are variable because more drinks require more beans. Non-example: calling all labour variable simply because employees make more units. Salaried employees' pay can remain fixed over the period; the employment contract and time horizon must be considered.",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Find total cost and unit cost",
+        "body": "Suppose a manufacturer has fixed costs of £30,000 and total variable costs of £45,000 at an output of 5,000 units. First add the two cost totals: total cost is £75,000. Then divide £75,000 by 5,000 units: unit cost is £15 per unit. This result assumes the business is operating within the range where its fixed cost and variable-cost behaviour remain appropriate.",
+        "item_ids": [
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked calculation: costs at a planned output",
+        "body": "A UK garden-furniture business expects total variable costs of £54,000 and fixed costs of £36,000 when making 6,000 chairs. Total cost is £90,000. Dividing this by 6,000 chairs gives an average cost of £15 per chair. The calculation gives a mean cost at this output; it does not show the cost of making one extra chair.",
+        "item_ids": [
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Fixed does not mean permanent, and average does not mean marginal",
+        "body": "It is incorrect to say that fixed costs never change. They do not change directly with output within a defined period and relevant range, but rent can change when a lease ends and fixed costs can rise when a business needs a larger site. It is also incorrect to treat average cost as the cost of one additional unit. Average cost is total cost divided by all units produced, so it includes a share of fixed costs.",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the context before classifying",
+        "body": "A delivery business is considering taking on more orders. Explain why a driver's salary could be fixed in the short term but become a step-fixed cost if enough extra orders require another driver. Then explain how producing more deliveries could lower average cost even if total cost rises.",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs",
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "fixed cost",
+        "definition": "A cost that does not vary directly with output within a relevant range and period."
+      },
+      {
+        "term": "variable cost",
+        "definition": "A cost that changes as output changes."
+      },
+      {
+        "term": "total cost",
+        "definition": "Fixed costs plus total variable costs."
+      },
+      {
+        "term": "unit cost (average cost)",
+        "definition": "Total costs divided by units of output."
+      },
+      {
+        "term": "relevant cost",
+        "definition": "A future cost that differs between decision alternatives."
+      },
+      {
+        "term": "sunk cost",
+        "definition": "A past cost already incurred that cannot be recovered."
+      },
+      {
+        "term": "opportunity cost",
+        "definition": "The value of the next-best alternative forgone when a resource is used."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-total-costs",
+        "item_id": "aqa-7132-3.1.1:total-costs",
+        "scenario": "A garden-furniture business has fixed costs of £36,000 and total variable costs of £54,000 for its planned output.",
+        "steps": [
+          "Identify the fixed costs and total variable costs.",
+          "Add total variable costs to fixed costs.",
+          "The planned total cost is £90,000."
+        ],
+        "calc": {
+          "formula_id": "total_costs",
+          "inputs": [
+            {
+              "name": "fixed_costs",
+              "value": 36000
+            },
+            {
+              "name": "total_variable_costs",
+              "value": 54000
+            }
+          ],
+          "stated_answer": 90000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "worked-unit-cost",
+        "item_id": "aqa-7132-3.4.2:unit-cost-average-cost",
+        "scenario": "The same business expects total costs of £90,000 from producing 6,000 chairs.",
+        "steps": [
+          "Identify total costs and planned output.",
+          "Divide total costs by the number of chairs.",
+          "The average cost is £15 per chair."
+        ],
+        "calc": {
+          "formula_id": "unit_cost_average_cost",
+          "inputs": [
+            {
+              "name": "total_costs",
+              "value": 90000
+            },
+            {
+              "name": "units_of_output",
+              "value": 6000
+            }
+          ],
+          "stated_answer": 15,
+          "unit": "currency"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "practice-fixed-cost-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs"
+        ],
+        "prompt": "Define a fixed cost.",
+        "answer": "A cost that does not vary directly with output within a relevant range and period.",
+        "explanation": "The qualification is important: fixed costs can change over longer periods or after a capacity change.",
+        "calc": null
+      },
+      {
+        "id": "practice-variable-cost-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.1.1:variable-costs",
+          "aqa-7132-3.1.1:fixed-costs"
+        ],
+        "prompt": "A bakery pays a monthly lease payment for its oven and buys flour for each loaf. Classify each cost, assuming output stays within current capacity.",
+        "answer": "The oven lease payment is fixed; flour is variable.",
+        "explanation": "The lease does not directly change with loaves produced during the month, while more loaves require more flour.",
+        "calc": null
+      },
+      {
+        "id": "practice-total-costs-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.1.1:total-costs"
+        ],
+        "prompt": "A clothing retailer has fixed costs of £24,500 and total variable costs of £31,800 for a season. Calculate total costs.",
+        "answer": "£56,300.",
+        "explanation": "Total costs are fixed costs plus total variable costs.",
+        "calc": {
+          "formula_id": "total_costs",
+          "inputs": [
+            {
+              "name": "fixed_costs",
+              "value": 24500
+            },
+            {
+              "name": "total_variable_costs",
+              "value": 31800
+            }
+          ],
+          "stated_answer": 56300,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "practice-unit-cost-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ],
+        "prompt": "A small manufacturer has total costs of £72,000 from making 4,800 units. Calculate unit cost.",
+        "answer": "£15 per unit.",
+        "explanation": "Divide total costs by output: £72,000 divided by 4,800.",
+        "calc": {
+          "formula_id": "unit_cost_average_cost",
+          "inputs": [
+            {
+              "name": "total_costs",
+              "value": 72000
+            },
+            {
+              "name": "units_of_output",
+              "value": 4800
+            }
+          ],
+          "stated_answer": 15,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "practice-cost-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ],
+        "prompt": "A producer's total costs rise from £100,000 to £112,000 when output rises from 10,000 to 14,000 units. What happens to average cost, and what is one possible reason?",
+        "answer": "Average cost falls from £10 to £8 per unit; fixed costs may be spread across more units.",
+        "explanation": "Although total costs rose, output rose by a greater proportion. A larger output can reduce the fixed-cost amount included in each unit cost.",
+        "calc": null
+      },
+      {
+        "id": "practice-labour-context",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs"
+        ],
+        "prompt": "A car-wash business pays two supervisors a monthly salary. At busy times it hires workers paid for each car cleaned. Explain how the two types of labour cost should be classified for a one-month decision.",
+        "answer": "Supervisors' salaries are fixed costs; pay per car cleaned is a variable cost.",
+        "explanation": "Within the month, supervisor salaries do not directly vary with the number of cars, whereas the payment to temporary workers rises with cars cleaned.",
+        "calc": null
+      },
+      {
+        "id": "practice-fixed-cost-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs"
+        ],
+        "prompt": "A student says, 'Rent is always a fixed cost because fixed costs never change.' Identify and correct the error.",
+        "answer": "Fixed costs are not permanent. Rent may be fixed during a lease or period, but it can change when the lease is renewed or the business moves premises.",
+        "explanation": "Cost classification depends on the time period, relevant range and decision context.",
+        "calc": null
+      },
+      {
+        "id": "practice-cost-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.1.1:variable-costs",
+          "aqa-7132-3.1.1:total-costs",
+          "aqa-7132-3.4.2:unit-cost-average-cost"
+        ],
+        "prompt": "A juice producer increases output while its fixed costs remain unchanged and its variable cost per bottle stays constant. Explain the likely chain of effects on total variable cost, total cost and average fixed cost per bottle.",
+        "answer": "Total variable cost rises, so total cost rises; average fixed cost per bottle falls because the same fixed costs are spread over more bottles.",
+        "explanation": "Each extra bottle uses variable inputs. Fixed costs do not rise directly within the relevant range, so their amount per bottle is lower at higher output.",
+        "calc": null
+      },
+      {
+        "id": "practice-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.1.1:fixed-costs",
+          "aqa-7132-3.1.1:variable-costs"
+        ],
+        "prompt": "Compare the usefulness of describing delivery-driver labour as fixed rather than variable for a courier business.",
+        "answer": "It depends on employment arrangements and time horizon. Salaried drivers may be fixed in the short term, whereas drivers paid per delivery are variable; extra salaried drivers may create a step-fixed cost.",
+        "explanation": "A single label without context can mislead decisions about capacity, pricing and risk.",
+        "calc": null
+      }
+    ]
+  }
+}

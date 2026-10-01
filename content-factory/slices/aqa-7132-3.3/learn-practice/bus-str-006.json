@@ -1,0 +1,247 @@
+{
+  "node_id": "bus-str-006",
+  "learn": {
+    "title": "BCG growth-share matrix and portfolio logic",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "What the Boston Matrix does",
+        "body": "The Boston Matrix is a portfolio framework for comparing products or business units. It uses two dimensions only: market growth and relative market share. These place a unit into one of four categories: star, cash cow, question mark, or dog/pet. Its main value is to prompt questions about investment, cash and priorities across a portfolio; it is not a rule that determines the decision.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing the four categories",
+        "body": "A star has high market growth and high relative share, so it may need investment while holding a strong position. A cash cow has low growth and high relative share, so it may have potential to generate cash. A question mark has high growth but low relative share, raising the question of whether to invest for growth. A dog/pet has low growth and low relative share. However, these are descriptions based on the model, not automatic predictions of profit, cash or future success.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A simple two-dimensional map",
+        "body": "Use the matrix as a map:\n\n                 High relative share | Low relative share\nHigh market growth       Star         | Question mark\nLow market growth        Cash cow     | Dog/pet\n\nThe vertical dimension is market growth; the horizontal dimension is relative market share. Before plotting, define the market, the competitor used for comparison and the thresholds for “high” and “low”.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided classification",
+        "body": "A UK cycling retailer has a premium e-bike unit in a rapidly expanding e-bike market. The unit has a strong relative position compared with its chosen leading competitor. Step 1: identify market growth as high. Step 2: identify relative share as high. Step 3: classify it as a star. Step 4: ask whether investment is justified by evidence on profit, cash needs, capacity and future competition rather than assuming the category supplies the answer.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: use data, then challenge the conclusion",
+        "body": "Northline Office Supplies sells £180,000 of specialist ergonomic chairs in a defined £600,000 market. Its market share is 30%. This is useful input data, but it does not by itself establish relative market share: Northline must define the competitor denominator and decide what counts as high or low. If the market is low growth and Northline has high relative share under its chosen convention, the matrix would place the unit as a cash cow. Management should then test actual cash generation, profitability and links with other units before deciding what to do.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Using the matrix sensibly",
+        "body": "Example: a manager classifies units using stated market data, then checks profitability, cash timing, strategic role and shared resources before reallocating funds. Non-example: a manager automatically sells every dog/pet. A low-share specialist B2B unit may be profitable, support an important customer relationship or provide capabilities used elsewhere in the business.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A category is not an instruction",
+        "body": "It is mistaken to say that cash cows always generate large amounts of cash or that dogs/pets must be sold. High share does not guarantee profitability, and low share can still be valuable in a niche. Likewise, market growth does not automatically make a market attractive. Treat possible cash needs and cash generation as hypotheses to test, not facts created by the quadrant.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision beyond the quadrant",
+        "body": "Choose a product that appears to be a dog/pet. Explain why its low growth and low relative share may matter, then give two reasons why the business might retain it. Include at least one of profitability, strategic role, resource sharing, market definition or future change in your explanation.",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "Boston Matrix",
+        "definition": "A portfolio framework that classifies products or business units using market growth and relative market share."
+      },
+      {
+        "term": "star",
+        "definition": "A category with high market growth and high relative market share."
+      },
+      {
+        "term": "cash cow",
+        "definition": "A category with low market growth and high relative market share."
+      },
+      {
+        "term": "question mark",
+        "definition": "A category with high market growth and low relative market share."
+      },
+      {
+        "term": "dog/pet",
+        "definition": "A category with low market growth and low relative market share."
+      },
+      {
+        "term": "relative market share",
+        "definition": "The focal business's market share compared with a defined leading competitor under a chosen convention."
+      },
+      {
+        "term": "portfolio",
+        "definition": "The collection of products or business units owned by a business."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-boston-matrix-portfolio-review",
+        "item_id": "aqa-7132-3.3.4:boston-matrix",
+        "scenario": "Northline Office Supplies sells £180,000 of specialist ergonomic chairs in a defined market worth £600,000.",
+        "steps": [
+          "Divide Northline's sales by total market sales.",
+          "Multiply by 100 to express the result as a percentage.",
+          "Northline's market share is 30%. This is not automatically its relative market share, because the leading competitor and comparison convention must still be defined.",
+          "Use market growth and relative share together to classify the unit, then test profitability, cash and strategic links before acting."
+        ],
+        "calc": {
+          "formula_id": "market_share",
+          "inputs": [
+            {
+              "name": "firm_sales",
+              "value": 180000
+            },
+            {
+              "name": "total_market_sales",
+              "value": 600000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "%"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "pr-boston-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "Name the two dimensions used by the Boston Matrix.",
+        "answer": "Market growth and relative market share.",
+        "explanation": "The framework classifies portfolio units using these two dimensions only.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "Which statement is a sound use of the Boston Matrix? A: Sell every dog/pet immediately. B: Use the quadrant as one input, then examine profit, cash and strategic role. C: Assume every cash cow is highly profitable.",
+        "answer": "B.",
+        "explanation": "The matrix prompts analysis but does not determine action. Actual profitability, cash generation and strategic importance may differ from the model's suggestion.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A meal-kit firm's vegan range has sales of £240,000 in a defined £800,000 market. Calculate its market share.",
+        "answer": "30%.",
+        "explanation": "Market share = firm sales ÷ total market sales × 100 = £240,000 ÷ £800,000 × 100. This percentage alone does not establish relative market share.",
+        "calc": {
+          "formula_id": "market_share",
+          "inputs": [
+            {
+              "name": "firm_sales",
+              "value": 240000
+            },
+            {
+              "name": "total_market_sales",
+              "value": 800000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "%"
+        }
+      },
+      {
+        "id": "pr-boston-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A unit is classified as a question mark. What does this indicate, and what does it not prove?",
+        "answer": "It indicates high market growth and low relative market share; it does not prove that investment will succeed or that the unit is unprofitable.",
+        "explanation": "The category describes the two matrix dimensions. Decisions require further evidence about cash, profit, capability and future competition.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-framework-application",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A sportswear brand's running-shoe unit operates in a low-growth market and has high relative market share. Classify it using the Boston Matrix and state one sensible question for managers.",
+        "answer": "Cash cow; for example, does it actually generate cash after its operating and investment needs?",
+        "explanation": "Low growth plus high relative share gives the cash-cow category. The model's implied cash potential must be tested with business evidence.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A small UK engineering business has a low-share, low-growth replacement-parts unit. It supplies parts needed by customers who also buy the firm's profitable maintenance contracts. Give one reason it might retain the unit.",
+        "answer": "It may support profitable maintenance-contract sales by helping the business retain key customers.",
+        "explanation": "Portfolio synergies and strategic complements can make a low-growth, low-share unit valuable even if it appears to be a dog/pet.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "Compare a star with a cash cow and justify why managers should not assume that either one is more profitable.",
+        "answer": "A star has high growth and high relative share, whereas a cash cow has low growth and high relative share. A star may need substantial investment, while a cash cow may have weak margins or cash demands; share and growth alone do not measure profitability.",
+        "explanation": "The matrix omits profitability and cash timing, so category labels cannot prove which unit earns more profit.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A retailer plans to divest a dog/pet product solely because of its quadrant. Make a judgement on this proposal.",
+        "answer": "The proposal is weak if based solely on the quadrant. The retailer should examine the product's profit, cash flows, niche role, customer links, shared resources and likely market change before deciding.",
+        "explanation": "A dog/pet classification is a starting point for review, not an instruction to divest.",
+        "calc": null
+      },
+      {
+        "id": "pr-boston-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.4:boston-matrix"
+        ],
+        "prompt": "A student says: “High market share guarantees high cash generation.” Identify the error.",
+        "answer": "High share may be associated with cost or cash advantages, but it does not guarantee cash generation.",
+        "explanation": "Costs, investment requirements, pricing, competition and cash timing can mean a high-share unit generates little cash.",
+        "calc": null
+      }
+    ]
+  }
+}

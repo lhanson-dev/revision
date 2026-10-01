@@ -1,0 +1,138 @@
+{
+  "node_id": "bus-mod-002",
+  "learn": {
+    "title": "Maslow hierarchy of needs",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Maslow as a motivation prompt",
+        "body": "Maslow’s hierarchy of needs groups possible human needs into physiological, safety, social/belonging, esteem and self-actualisation. In a business, it encourages managers to consider more than pay: employees may care about security, relationships, recognition, autonomy and opportunities to develop. Use it to generate questions about what employees value, not as a guaranteed recipe for motivation.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "A flexible model versus a fixed ladder",
+        "body": "A fixed-ladder interpretation says that an employee must satisfy one need category before a higher category can matter. A more careful interpretation recognises that several needs can be important at once. For example, an employee may want secure hours, supportive colleagues and recognition simultaneously. Priorities can also differ because of culture, life circumstances, job type and individual preference.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Applying Maslow carefully",
+        "body": "Example: A secure, well-paid employee asks for more autonomy and training, suggesting that development and fulfilment of potential may be important. Another worker in the same role may prefer predictable shifts and a friendly team, suggesting safety and belonging are more salient.\n\nNon-example: A manager assumes that every employee who receives a pay rise will automatically begin seeking self-actualisation. Pay may contribute to more than one need category, and it does not make motivation follow a universal sequence.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Misconception: everyone follows five stages in order",
+        "body": "Maslow’s five categories are not a proven sequence that every employee follows. The model has significant empirical and contextual limitations: broad need categories are difficult to measure, people can value multiple needs together, and priorities vary between individuals and cultures. Managers should check assumptions using employee evidence rather than applying the hierarchy mechanically.",
+        "item_ids": []
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A questioning map, not a staircase",
+        "body": "Think of five labelled prompts around the employee rather than steps they must climb:\n\n• Physiological: are basic physical needs supported?\n• Safety: does the employee feel secure and stable?\n• Belonging: are relationships and inclusion positive?\n• Esteem: is there recognition, status or self-respect?\n• Self-actualisation: are autonomy and development possible?\n\nThe arrows should run from employee context to the needs that are currently most salient, then to the likely response to job design or rewards. The arrows are not one-way arrows up a fixed ladder.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the model in context",
+        "body": "A café has low retention among students who work evening shifts. Explain two different needs that might matter to these employees. Then explain why the owner should gather employee views before deciding whether to change pay, shift patterns, team support or training.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "hierarchy of needs",
+        "definition": "Maslow’s proposed ordering of categories of human need."
+      },
+      {
+        "term": "physiological needs",
+        "definition": "Basic physical needs."
+      },
+      {
+        "term": "safety needs",
+        "definition": "Needs for security and stability."
+      },
+      {
+        "term": "social/belonging needs",
+        "definition": "Needs for relationships, inclusion and belonging."
+      },
+      {
+        "term": "esteem needs",
+        "definition": "Needs for recognition, status and self-respect."
+      },
+      {
+        "term": "self-actualisation",
+        "definition": "Fulfilment and development of a person’s potential."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "maslow-retrieval-1",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Name the five need categories commonly used in Maslow’s model.",
+        "answer": "Physiological, safety, social/belonging, esteem and self-actualisation.",
+        "explanation": "These are the five categories used to prompt discussion of what may matter to employees.",
+        "calc": null
+      },
+      {
+        "id": "maslow-discrimination-1",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "Which statement is the most careful use of Maslow’s model?\nA. Every employee values needs in exactly the same order.\nB. A pay rise can only address physiological needs.\nC. The model can help managers ask about different employee needs, but priorities should be checked with evidence.\nD. Satisfying safety needs automatically creates esteem needs.",
+        "answer": "C.",
+        "explanation": "Maslow is best used as a diagnostic prompt. Needs can overlap, pay can relate to several needs, and employee priorities vary.",
+        "calc": null
+      },
+      {
+        "id": "maslow-framework-application-1",
+        "capability": "framework_application",
+        "item_ids": [],
+        "prompt": "A warehouse manager wants to use Maslow to review motivation. Give one suitable question for each of these areas: safety, belonging and esteem.",
+        "answer": "Safety: Do employees feel their hours and working conditions are secure and stable? Belonging: Do employees feel included and supported by their team? Esteem: Do employees receive meaningful recognition for good work?",
+        "explanation": "The framework broadens the manager’s questions beyond financial reward alone. These questions should be followed by employee evidence.",
+        "calc": null
+      },
+      {
+        "id": "maslow-contextual-application-1",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A graphic designer is well paid but says she may leave because she has little control over projects and receives no training. Use Maslow to explain two possible factors affecting her motivation.",
+        "answer": "She may value self-actualisation through development and greater autonomy. She may also have unmet esteem needs if good work is not recognised.",
+        "explanation": "The scenario shows why pay alone may not retain an employee. Development, autonomy and recognition may be salient needs.",
+        "calc": null
+      },
+      {
+        "id": "maslow-compare-justify-1",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare using the same reward package for all employees with using Maslow as a starting point for individual conversations. Which is likely to be more useful, and why?",
+        "answer": "Individual conversations are likely to be more useful because employees can value security, relationships, recognition and development differently. A single package may fit some employees but not others.",
+        "explanation": "Maslow highlights individual difference and context. It does not prove what each person needs, so managers should validate assumptions with employee evidence.",
+        "calc": null
+      },
+      {
+        "id": "maslow-contextual-judgement-1",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A retailer plans to reduce staff turnover by introducing an employee-of-the-month award. Assess whether this is likely to be sufficient.",
+        "answer": "It may help employees who value recognition and esteem, but it is unlikely to be sufficient for all staff. Some may be more concerned with predictable hours, job security, team support or development. The retailer should collect employee feedback before relying on the award.",
+        "explanation": "Recognition can matter, but Maslow should not be used to assume one intervention motivates everyone.",
+        "calc": null
+      },
+      {
+        "id": "maslow-misconception-1",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A supervisor says: “Once I have increased wages, employees will have satisfied their lower needs and will next be motivated by promotion.” Identify the error in this reasoning.",
+        "answer": "The supervisor wrongly treats Maslow as a fixed universal sequence. Employees may value several needs at once, and wages can contribute to more than one need category.",
+        "explanation": "Satisfying one supposed lower need does not mechanically activate the next need. Individual circumstances and context affect priorities.",
+        "calc": null
+      }
+    ]
+  }
+}

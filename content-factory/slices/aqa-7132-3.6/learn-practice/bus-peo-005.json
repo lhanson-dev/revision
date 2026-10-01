@@ -1,0 +1,197 @@
+{
+  "node_id": "bus-peo-005",
+  "learn": {
+    "title": "Motivation and performance",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Motivation is one influence on performance",
+        "body": "Motivation is the set of forces affecting an employee’s effort and persistence towards an outcome. Extrinsic influences include pay, bonuses and promotion. Intrinsic influences include achievement, responsibility, interest and recognition. A useful chain is: job, reward or leadership approach → motivation → behaviour and effort → performance. However, performance also depends on capability, resources, staffing, equipment, process design, opportunity and clear priorities. Motivation should therefore be diagnosed rather than assumed from a single productivity or survey measure.",
+        "item_ids": [
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing motivation models and work-design methods",
+        "body": "Taylor’s scientific management lens emphasises task design and economic incentives. Maslow’s model groups different types of human need, so it can prompt managers to consider whether employees value more than pay. Herzberg’s two-factor model separates hygiene conditions from factors that may motivate. These are models, not universal laws: different people, jobs and cultures may produce different responses. Empowerment gives authority and responsibility; flexible working gives choice over when, where or how long to work; job rotation moves employees through similar-level roles. Each may help motivation, but each can also create operational drawbacks.",
+        "item_ids": [
+          "aqa-7132-3.6.4:taylor-scientific-management",
+          "aqa-7132-3.6.4:maslow-s-hierarchy-of-needs",
+          "aqa-7132-3.6.4:herzberg-s-two-factor-theory",
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:flexible-working",
+          "aqa-7132-3.6.4:job-rotation"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Diagnose the cause before selecting a response",
+        "body": "Example: a shop’s staff have the skills and enough stock, but repetitive work and little responsibility are causing low effort. Job rotation or empowerment could be considered because they may reduce boredom or increase responsibility. A bonus could also be considered, but its effect should be tested rather than presumed. Non-example: a manager sees late deliveries and concludes that drivers lack motivation. If vehicles are unreliable or routes are poorly planned, a financial reward will not remove the main constraint. A highly motivated nurse cannot maintain service quality where staffing and equipment are inadequate.",
+        "item_ids": [
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:job-rotation",
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Motivation does not automatically create high performance",
+        "body": "Incorrect idea: motivated employees always perform well. Correction: motivation can increase effort and persistence, but good performance also requires capability, resources, opportunity and workable processes. Similarly, pay can influence motivation but will not suit every individual or solve every problem. Poorly designed incentives can even encourage unintended behaviour if employees focus narrowly on the measured target.",
+        "item_ids": [
+          "aqa-7132-3.6.4:taylor-scientific-management",
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A decision map for choosing a motivation method",
+        "body": "Use this text map when evaluating a proposal:\n\nNeed to improve performance?\n↓\nIs the main constraint motivation, capability, resources, or process?\n├─ Capability/resources/process → fix training, staffing, equipment or workflow first.\n└─ Motivation may be important → identify the employee group and job.\n    ├─ External reward may matter → consider pay, bonus or promotion.\n    ├─ Responsibility/recognition may matter → consider empowerment.\n    ├─ Work-life balance may matter → consider flexible working.\n    └─ Boredom or narrow skills may matter → consider job rotation.\n↓\nCheck costs, training, trust, coordination, cover, reward design and evidence of impact.\n\nThis map does not prove what employees value; it helps managers test a plausible mechanism and alternatives.",
+        "item_ids": [
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:flexible-working",
+          "aqa-7132-3.6.4:job-rotation",
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain and evaluate a choice",
+        "body": "A call centre reports falling output. Before recommending a bonus, explain: (1) what evidence would suggest motivation is the issue rather than a system constraint; (2) one intrinsic and one extrinsic influence that could matter; (3) whether empowerment, flexible working or job rotation fits the work; and (4) why Taylor, Maslow or Herzberg should be used as a lens rather than as proof of employee behaviour.",
+        "item_ids": [
+          "aqa-7132-3.6.4:taylor-scientific-management",
+          "aqa-7132-3.6.4:maslow-s-hierarchy-of-needs",
+          "aqa-7132-3.6.4:herzberg-s-two-factor-theory",
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:flexible-working",
+          "aqa-7132-3.6.4:job-rotation",
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "motivation",
+        "definition": "Forces that influence the effort and persistence a person brings to an outcome."
+      },
+      {
+        "term": "intrinsic motivation",
+        "definition": "Motivation arising from the activity, achievement or meaning itself."
+      },
+      {
+        "term": "extrinsic motivation",
+        "definition": "Motivation influenced by external rewards or pressures."
+      },
+      {
+        "term": "empowerment",
+        "definition": "Giving employees more authority to decide and responsibility for their work."
+      },
+      {
+        "term": "flexible working",
+        "definition": "Working arrangements that give employees choice over when, where or how long they work."
+      },
+      {
+        "term": "job rotation",
+        "definition": "Moving employees between similar-level tasks or roles for set periods."
+      },
+      {
+        "term": "hygiene conditions",
+        "definition": "Conditions distinguished from motivating factors in Herzberg’s model."
+      },
+      {
+        "term": "scientific management",
+        "definition": "Taylor’s management lens, emphasising task design and economic incentives."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "mot-perf-ret-01",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:flexible-working",
+          "aqa-7132-3.6.4:job-rotation"
+        ],
+        "prompt": "Define empowerment, flexible working and job rotation.",
+        "answer": "Empowerment gives employees more authority and responsibility. Flexible working gives choice over when, where or how long to work. Job rotation moves employees between similar-level tasks or roles for periods of time.",
+        "explanation": "The three methods change work in different ways: decision authority, work arrangements and task variety respectively.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-disc-01",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ],
+        "prompt": "A warehouse misses dispatch targets because its barcode scanners repeatedly fail. Is this strongest evidence of low motivation or a resource/process constraint?",
+        "answer": "A resource or process constraint.",
+        "explanation": "Staff effort may matter, but faulty equipment can prevent strong performance even when employees are motivated.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-framework-01",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.6.4:taylor-scientific-management",
+          "aqa-7132-3.6.4:maslow-s-hierarchy-of-needs",
+          "aqa-7132-3.6.4:herzberg-s-two-factor-theory"
+        ],
+        "prompt": "A manufacturer plans to offer a payment for each completed unit. Which named model most directly provides a lens for this proposal, and what limitation should the manager remember?",
+        "answer": "Taylor’s scientific management most directly fits because it emphasises economic incentives. The manager should remember that it is a model, not proof that every employee will respond in the same way.",
+        "explanation": "The payment is an extrinsic economic incentive. Individual differences, the job and context can affect the response.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-compare-01",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.4:empowerment",
+          "aqa-7132-3.6.4:job-rotation"
+        ],
+        "prompt": "Compare empowerment and job rotation as ways to improve motivation in a small café.",
+        "answer": "Empowerment increases authority and responsibility, whereas job rotation changes tasks to reduce boredom and broaden skills. Empowerment may speed decisions but needs training and trust; job rotation can provide absence cover but may reduce short-run productivity while staff learn.",
+        "explanation": "A strong comparison identifies both the different mechanism and a relevant drawback of each method.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-context-app-01",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.4:flexible-working"
+        ],
+        "prompt": "A digital design agency struggles to retain experienced employees who value control over their working week. Suggest one suitable motivation method and one operational issue it may create.",
+        "answer": "Flexible working, such as flexitime or remote working, may improve work-life balance and retention. It may make coordination, supervision or arranging cover harder.",
+        "explanation": "The method matches the stated preference, but the business must manage the practical effect on teamwork and service.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-judgement-01",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio",
+          "aqa-7132-3.6.4:maslow-s-hierarchy-of-needs",
+          "aqa-7132-3.6.4:herzberg-s-two-factor-theory"
+        ],
+        "prompt": "A restaurant owner says, ‘A larger bonus will definitely solve poor customer service.’ Make a brief judgement.",
+        "answer": "The bonus may raise motivation for some employees, but it is not certain to solve service problems. The owner should also check training, staffing, equipment, priorities and whether employees value recognition, responsibility or other needs.",
+        "explanation": "Performance is multi-causal. Maslow and Herzberg can generate questions about non-financial influences, but neither proves the cause in this restaurant.",
+        "calc": null
+      },
+      {
+        "id": "mot-perf-misconception-01",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.4:taylor-scientific-management",
+          "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio"
+        ],
+        "prompt": "A manager states: ‘Output rose after we introduced a bonus, so the bonus proves motivation increased.’ What is wrong with this conclusion?",
+        "answer": "Output is indirect evidence only. Other changes, such as staffing, demand, equipment or processes, may have caused the rise, and the bonus may create unintended behaviour.",
+        "explanation": "Motivation cannot be observed perfectly from one performance measure. The manager needs wider evidence and should test alternative explanations.",
+        "calc": null
+      }
+    ]
+  }
+}

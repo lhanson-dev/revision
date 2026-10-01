@@ -1,0 +1,415 @@
+{
+  "node_id": "bus-fin-013",
+  "learn": {
+    "title": "Liquidity ratios and short-term financial interpretation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Liquidity: more than a single ratio",
+        "body": "Liquidity is a business's capacity to meet near-term obligations when they fall due. The current ratio, payables days, receivables days and inventory turnover each reveal part of the short-term cash position. However, they are balance-sheet or period indicators rather than direct forecasts of the precise dates cash will arrive and bills must be paid. Interpretation must consider timing, asset quality, industry, seasonality and the business model.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing the four measures",
+        "body": "The current ratio compares all current assets with current liabilities. The acid-test ratio is more conservative because it removes inventory, which may not be quickly convertible into cash. Payables days estimates how long the business takes to pay suppliers; longer payment periods can support cash flow but may damage supplier relationships. Receivables days estimates how long customers take to pay; shorter periods generally improve cash flow. Inventory turnover shows how frequently inventory is sold or used and replaced during a year; a higher figure usually indicates faster movement, although an appropriate level depends on the sector.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Context makes the interpretation valid",
+        "body": "Example: a retailer that receives cash from customers immediately and has long supplier credit may sustain a relatively low current ratio because cash arrives before many supplier payments are due. Non-example: stating that a current ratio of 2 is automatically 'good' gives no consideration to slow receivables, obsolete inventory, seasonality or the cash cycle. Current assets are not equally liquid.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided interpretation of a cash-conversion position",
+        "body": "Suppose a manufacturer has a current ratio of 1.6, receivables days of 60 and low inventory turnover. First, identify that current assets exceed current liabilities at the statement date. Next, question the quality and timing of those assets: slow customer payment and slow-moving inventory can delay conversion into cash. Then reach a balanced judgement: the current ratio alone may appear comfortable, but the business could still face liquidity pressure if payments to suppliers fall due before cash is collected.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating short-term financial measures",
+        "body": "Use the figures from the same accounting period. Write current ratio in ratio form rather than multiplying it by 100. For day measures, divide first and multiply by 365. Inventory turnover is stated in times per year.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A ratio below 1 does not prove failure",
+        "body": "A current ratio below 1 can indicate risk because current liabilities exceed current assets, but it does not prove that a business will fail. A supermarket may collect cash rapidly and receive supplier credit, whereas a business with a higher ratio may have doubtful receivables or unsaleable inventory. Equally, a very high ratio can suggest excess cash or slow stock rather than excellent management.",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the chain",
+        "body": "Explain in your own words how a decision to offer customers longer credit could affect receivables days, the timing of cash receipts and liquidity risk. Then explain why the conclusion should be checked against the sector, trend and the quality of receivables.",
+        "item_ids": [
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:current-ratio"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "liquidity",
+        "definition": "Capacity to meet near-term obligations as they fall due."
+      },
+      {
+        "term": "current ratio",
+        "definition": "Current assets divided by current liabilities."
+      },
+      {
+        "term": "acid-test ratio",
+        "definition": "Current assets less inventory, divided by current liabilities."
+      },
+      {
+        "term": "payables days",
+        "definition": "The estimated average number of days a business takes to pay suppliers."
+      },
+      {
+        "term": "receivables days",
+        "definition": "The estimated average number of days customers take to pay the business."
+      },
+      {
+        "term": "inventory turnover",
+        "definition": "The number of times average inventory is sold or used and replaced in a year."
+      },
+      {
+        "term": "working capital",
+        "definition": "The short-term funds represented by current assets and current liabilities."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-current-ratio",
+        "item_id": "aqa-7132-3.7.2:current-ratio",
+        "scenario": "A UK furniture wholesaler reports current assets of £315,000 and current liabilities of £210,000.",
+        "steps": [
+          "Use current assets divided by current liabilities.",
+          "Divide £315,000 by £210,000.",
+          "State the result as 1.5:1. At the statement date, current assets are 1.5 times current liabilities."
+        ],
+        "calc": {
+          "formula_id": "current_ratio",
+          "inputs": [
+            {
+              "name": "current_assets",
+              "value": 315000
+            },
+            {
+              "name": "current_liabilities",
+              "value": 210000
+            }
+          ],
+          "stated_answer": 1.5,
+          "unit": "ratio"
+        }
+      },
+      {
+        "id": "we-payables-days",
+        "item_id": "aqa-7132-3.7.2:payables-days",
+        "scenario": "A bakery equipment producer has payables of £84,000 and cost of sales of £1,022,000.",
+        "steps": [
+          "Use payables divided by cost of sales, multiplied by 365.",
+          "Calculate £84,000 divided by £1,022,000, then multiply by 365.",
+          "The business takes 30 days on average to pay suppliers."
+        ],
+        "calc": {
+          "formula_id": "payables_days",
+          "inputs": [
+            {
+              "name": "payables",
+              "value": 84000
+            },
+            {
+              "name": "cost_of_sales",
+              "value": 1022000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "days"
+        }
+      },
+      {
+        "id": "we-receivables-days",
+        "item_id": "aqa-7132-3.7.2:receivables-days",
+        "scenario": "A design agency has receivables of £120,000 and annual revenue of £1,460,000.",
+        "steps": [
+          "Use receivables divided by revenue, multiplied by 365.",
+          "Calculate £120,000 divided by £1,460,000, then multiply by 365.",
+          "Customers take 30 days on average to pay."
+        ],
+        "calc": {
+          "formula_id": "receivables_days",
+          "inputs": [
+            {
+              "name": "receivables",
+              "value": 120000
+            },
+            {
+              "name": "revenue",
+              "value": 1460000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "days"
+        }
+      },
+      {
+        "id": "we-inventory-turnover",
+        "item_id": "aqa-7132-3.7.2:inventory-turnover",
+        "scenario": "A cycling retailer has cost of sales of £936,000 and average inventories held of £78,000.",
+        "steps": [
+          "Use cost of sales divided by average inventories held.",
+          "Divide £936,000 by £78,000.",
+          "Inventory turns over 12 times in the year."
+        ],
+        "calc": {
+          "formula_id": "inventory_turnover",
+          "inputs": [
+            {
+              "name": "cost_of_sales",
+              "value": 936000
+            },
+            {
+              "name": "average_inventories",
+              "value": 78000
+            }
+          ],
+          "stated_answer": 12,
+          "unit": "times"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:inventory-turnover"
+        ],
+        "prompt": "State the formula for each of these measures: current ratio, payables days, receivables days and inventory turnover.",
+        "answer": "Current ratio = current assets / current liabilities. Payables days = payables / cost of sales × 365. Receivables days = receivables / revenue × 365. Inventory turnover = cost of sales / average inventories held.",
+        "explanation": "Each measure uses a different part of working capital, so selecting the correct numerator and denominator is essential.",
+        "calc": null
+      },
+      {
+        "id": "p-current-ratio-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio"
+        ],
+        "prompt": "A clothing manufacturer has current assets of £270,000 and current liabilities of £180,000. Calculate its current ratio.",
+        "answer": "1.5:1",
+        "explanation": "£270,000 / £180,000 = 1.5. The result is normally expressed as a ratio, not a percentage.",
+        "calc": {
+          "formula_id": "current_ratio",
+          "inputs": [
+            {
+              "name": "current_assets",
+              "value": 270000
+            },
+            {
+              "name": "current_liabilities",
+              "value": 180000
+            }
+          ],
+          "stated_answer": 1.5,
+          "unit": "ratio"
+        }
+      },
+      {
+        "id": "p-payables-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.2:payables-days"
+        ],
+        "prompt": "A food producer has payables of £75,000 and cost of sales of £912,500. Calculate payables days.",
+        "answer": "30 days",
+        "explanation": "£75,000 / £912,500 × 365 = 30 days.",
+        "calc": {
+          "formula_id": "payables_days",
+          "inputs": [
+            {
+              "name": "payables",
+              "value": 75000
+            },
+            {
+              "name": "cost_of_sales",
+              "value": 912500
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "days"
+        }
+      },
+      {
+        "id": "p-receivables-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.2:receivables-days"
+        ],
+        "prompt": "A software business has receivables of £96,000 and revenue of £1,168,000. Calculate receivables days.",
+        "answer": "30 days",
+        "explanation": "£96,000 / £1,168,000 × 365 = 30 days.",
+        "calc": {
+          "formula_id": "receivables_days",
+          "inputs": [
+            {
+              "name": "receivables",
+              "value": 96000
+            },
+            {
+              "name": "revenue",
+              "value": 1168000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "days"
+        }
+      },
+      {
+        "id": "p-inventory-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.2:inventory-turnover"
+        ],
+        "prompt": "A garden-centre chain has cost of sales of £855,000 and average inventories held of £95,000. Calculate inventory turnover.",
+        "answer": "9 times per year",
+        "explanation": "£855,000 / £95,000 = 9. This means average inventory is sold or used and replaced nine times in the year.",
+        "calc": {
+          "formula_id": "inventory_turnover",
+          "inputs": [
+            {
+              "name": "cost_of_sales",
+              "value": 855000
+            },
+            {
+              "name": "average_inventories",
+              "value": 95000
+            }
+          ],
+          "stated_answer": 9,
+          "unit": "times"
+        }
+      },
+      {
+        "id": "p-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio"
+        ],
+        "prompt": "Which measure removes inventory from current assets before comparing them with current liabilities: current ratio or acid-test ratio?",
+        "answer": "Acid-test ratio.",
+        "explanation": "The acid-test ratio excludes inventory because stock may be slower or less certain to convert into cash. The current ratio includes it.",
+        "calc": null
+      },
+      {
+        "id": "p-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.2:receivables-days",
+          "aqa-7132-3.7.2:current-ratio"
+        ],
+        "prompt": "A wholesaler's receivables days rise from 32 to 55 days while its current ratio is unchanged. Interpret one possible liquidity implication.",
+        "answer": "Cash may be received later from customers, increasing liquidity pressure even though the current ratio has not changed.",
+        "explanation": "A snapshot current ratio does not reveal when current assets will become cash. Slower collection can make it harder to meet payments when due.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.2:inventory-turnover",
+          "aqa-7132-3.7.2:current-ratio"
+        ],
+        "prompt": "Give a three-link reasoning chain explaining how slow inventory turnover could create liquidity pressure.",
+        "answer": "Slow inventory turnover → cash is tied up in stock for longer → less cash may be available to meet short-term liabilities.",
+        "explanation": "Inventory is included in current assets but may not be immediately available to settle bills.",
+        "calc": null
+      },
+      {
+        "id": "p-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days"
+        ],
+        "prompt": "Retailer A has a lower current ratio than Manufacturer B. Retailer A receives customer cash immediately and has long supplier credit; Manufacturer B has slow-paying customers. Which business may have the lower liquidity risk? Justify your answer.",
+        "answer": "Retailer A may have lower liquidity risk because it receives cash quickly and can pay suppliers later, despite its lower current ratio.",
+        "explanation": "Cash timing and supplier terms can be more informative than a single ratio. Manufacturer B's receivables may delay cash conversion.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.2:payables-days",
+          "aqa-7132-3.7.2:receivables-days"
+        ],
+        "prompt": "A small catering supplier decides to chase overdue customer invoices more quickly. Identify one likely effect on receivables days and one likely effect on liquidity.",
+        "answer": "Receivables days may fall, and liquidity may improve because cash is collected sooner.",
+        "explanation": "Faster collection shortens the period for which sales remain unpaid, increasing the availability of cash for short-term obligations.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio",
+          "aqa-7132-3.7.2:inventory-turnover",
+          "aqa-7132-3.7.2:receivables-days"
+        ],
+        "prompt": "A manufacturer reports a current ratio of 2.1. Its inventory turnover has fallen and many receivables are overdue. Make a judgement on whether the ratio alone demonstrates strong liquidity.",
+        "answer": "No. The high current ratio alone does not demonstrate strong liquidity because slow stock and overdue receivables may not convert into cash quickly.",
+        "explanation": "The quality and timing of current assets matter. A high ratio can coexist with short-term cash pressure.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.2:current-ratio"
+        ],
+        "prompt": "A student says, 'Any business with a current ratio below 1 will fail.' Is this correct?",
+        "answer": "No. A ratio below 1 can indicate risk, but viability also depends on cash-flow timing, supplier credit, receivable collection and the business model.",
+        "explanation": "For example, a cash-based retailer may operate successfully with a lower ratio, whereas a higher ratio may contain slow or poor-quality assets.",
+        "calc": null
+      }
+    ]
+  }
+}

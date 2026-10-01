@@ -1,0 +1,157 @@
+{
+  "node_id": "bus-ops-007",
+  "learn": {
+    "title": "Procurement, supply chains, logistics, transparency and traceability",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Outsourcing within procurement",
+        "body": "Outsourcing means relying on an external supplier for goods or services needed by the business. It makes supplier choice important: the business is still affected by the quality, reliability, lead time, payment terms and conduct of that supplier. Procurement should therefore assess total value and risk, not simply choose the lowest quoted unit price.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Outsourcing links operations to finance and reputation",
+        "body": "An outsourced supply decision can affect operations through product quality and delivery reliability, and finance through inventory and working-capital needs. For example, a long lead time may require the buyer to hold more stock, tying up cash. It also links to ethics and reputation because poor upstream practice can create legal, customer and reputational consequences for the buying business.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "External supply does not remove responsibility",
+        "body": "Example: a retailer outsources production to a supplier with a lower unit price. Before choosing it, the retailer considers minimum order quantities, 12-week lead time, delivery reliability and whether key materials can be traced. Non-example: the retailer calls its supply chain ethical solely because the supplier has signed a code, without considering audit quality, incentives or actual conditions.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Outsourcing does not outsource reputation",
+        "body": "A common mistake is to assume that problems at an external supplier belong only to that supplier. In practice, customers, regulators and other stakeholders may still hold the buying business responsible. Supplier codes, audits, certification and contracts can provide evidence and influence behaviour, but they have costs and cannot guarantee that no problem exists.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How an outsourced supplier can affect cash and service",
+        "body": "Supplier decision → lead time, quality and payment terms → inventory and cash requirements, plus production or service performance → customer outcome. A cheaper supplier with a long lead time and large minimum order may force higher inventory, increase cash exposure and raise the risk of obsolete stock. The apparent purchase saving may therefore not be the lowest total cost.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision",
+        "body": "A business can outsource an input to a low-price overseas supplier or a higher-price local supplier. Explain why the lower price alone is insufficient evidence that the overseas supplier offers better value. Include at least three of: lead time, inventory, cash, reliability, quality, traceability, ethical exposure or switching costs.",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "outsourcing",
+        "definition": "Obtaining goods or services from an external supplier rather than providing them within the business."
+      },
+      {
+        "term": "procurement",
+        "definition": "The acquisition of external goods and services needed by a business."
+      },
+      {
+        "term": "supply chain",
+        "definition": "The network of parties and flows involved in creating and delivering an offering."
+      },
+      {
+        "term": "logistics",
+        "definition": "The movement and storage of goods and related information."
+      },
+      {
+        "term": "transparency",
+        "definition": "Visibility of relevant supply-chain actors, practices and conditions."
+      },
+      {
+        "term": "traceability",
+        "definition": "The ability to follow materials, products or information through supply-chain stages."
+      },
+      {
+        "term": "responsible sourcing",
+        "definition": "A procurement approach that considers social, environmental and governance factors as well as commercial factors."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ops-007-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "What is meant by outsourcing?",
+        "answer": "Obtaining goods or services from an external supplier.",
+        "explanation": "The business relies on another organisation for the supply rather than providing it itself.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-007-p2",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "A UK meal-kit business outsources packaging to a supplier. The supplier has frequent late deliveries, so the business cannot always assemble customer boxes on time. Explain one effect of this outsourcing decision.",
+        "answer": "Late supplier deliveries can disrupt assembly and lead to late customer orders.",
+        "explanation": "Supplier reliability affects the business's production or service performance, which then affects the customer outcome.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-007-p3",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "A furniture retailer can outsource a component to Supplier A at a lower unit price, but A requires large minimum orders and has a 12-week lead time. Supplier B charges more but has a shorter lead time and smaller orders. Which supplier is necessarily better?",
+        "answer": "Neither is necessarily better; the retailer should compare total value and risk.",
+        "explanation": "Supplier A may create higher inventory, cash and obsolescence costs. Supplier B may reduce these risks despite its higher unit price.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-007-p4",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "A manager says: ‘We outsourced production, so any poor labour practices at the supplier cannot damage our business.’ Is this correct?",
+        "answer": "No.",
+        "explanation": "Outsourcing supply does not outsource reputation. Poor upstream practice can still create legal, reputational and customer consequences for the buying business.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-007-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "Complete the reasoning chain: outsourcing to a supplier with a long lead time → ? → greater cash exposure.",
+        "answer": "A larger inventory requirement.",
+        "explanation": "Long lead times can require the buyer to hold more stock, which ties up cash.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-007-p6",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.4.5:outsourcing"
+        ],
+        "prompt": "A cosmetics business has outsourced supply of a key ingredient. Select the two most useful actions for responding quickly if a quality problem is found: A) improve traceability of the ingredient through supply-chain stages; B) select the supplier only by lowest price; C) map relevant suppliers and practices; D) assume a signed supplier code proves no issue exists.",
+        "answer": "A and C.",
+        "explanation": "Traceability can help identify the source of a problem quickly, while mapping improves visibility of relevant actors and practices. Lowest price alone and a signed code do not provide sufficient control or evidence.",
+        "calc": null
+      }
+    ]
+  }
+}

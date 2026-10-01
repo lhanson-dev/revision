@@ -1,0 +1,152 @@
+{
+  "node_id": "bus-peo-009",
+  "learn": {
+    "title": "Organisational communication",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Communication is shared understanding, not just sending",
+        "body": "Organisational communication is the exchange of information and meaning between people and groups. An employer has communicated successfully only when employees can interpret the message and act appropriately. Employer-employee communication may use formal channels, such as briefings, procedures and official emails, or informal conversations. Leaders need communication that fits the task being implemented: it should reach the relevant people, be understood and allow feedback where this is needed.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication",
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Choosing a channel for the problem",
+        "body": "Example: A retailer is introducing a new safety process. Posting it on the intranet provides a permanent record, but managers also hold live team discussions so staff can clarify ambiguous steps and practise the process. This combines documentation with rich feedback.\n\nNon-example: The retailer adds a weekly meeting because it assumes every communication problem needs more messages. If the real problem is unclear responsibility or too much information, another meeting may increase overload rather than improve implementation.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication",
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "More communication is not necessarily better",
+        "body": "A common error is to equate better communication with a greater volume of emails, meetings or updates. Communication quality also depends on clarity, timing, the chosen channel and feedback. Too many messages can reduce attention and cause staff to miss priorities. Informal communication is not always harmful either: it can spread useful information quickly, but it can also distort messages. Remote or hybrid work is not automatically worse; it may require more deliberate coordination and documentation.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication",
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Build a feedback loop for implementation",
+        "body": "1. Identify the audience and what they need to know or do.\n2. Judge the message: consider urgency, complexity, sensitivity, need for a record and need for feedback.\n3. Select a channel. Live discussion is relatively rich for complex or ambiguous issues; written communication can provide detail and a permanent record; electronic channels can deliver messages rapidly to many people.\n4. Give recipients a way to ask questions, respond or demonstrate understanding.\n5. Use the feedback to identify misunderstandings and adjust the message, support or implementation plan.\n6. Monitor whether coordinated action is actually taking place.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication",
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why communication affects implementation",
+        "body": "Leadership, organisational structure and culture influence how information flows. Channel choice, message complexity and feedback then affect whether employees understand what is required. Clear understanding supports coordinated action, decision quality and successful change implementation. In contrast, a poor fit between message and channel can create ambiguity or delays, raising execution risk. Information overload can reduce attention, causing priorities to be missed. Some apparent communication problems may instead result from conflicting incentives or unclear decision rights.",
+        "item_ids": [
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation",
+          "aqa-7132-3.6.5:employer-employee-communication"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the best communication design",
+        "body": "A manufacturer is changing shift handover procedures across two sites, including some remote supervisors. Explain which channels you would combine, why employees need a feedback route, and how you would check whether the new procedure is being implemented consistently. Consider complexity, urgency, documentation, reach and overload.",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication",
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "communication",
+        "definition": "The exchange of information and meaning between people or groups."
+      },
+      {
+        "term": "feedback",
+        "definition": "A response that helps test whether a message or outcome has been understood."
+      },
+      {
+        "term": "formal communication",
+        "definition": "Communication through an organisationally defined channel or process."
+      },
+      {
+        "term": "informal communication",
+        "definition": "Unofficial interpersonal flow of information."
+      },
+      {
+        "term": "channel richness",
+        "definition": "The amount and immediacy of information and feedback that a communication medium can carry."
+      },
+      {
+        "term": "stakeholder consultation",
+        "definition": "Asking stakeholders for views before a decision, so their feedback may influence it."
+      },
+      {
+        "term": "information overload",
+        "definition": "A level of messages or information that reduces attention to important priorities."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "practice-communication-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication"
+        ],
+        "prompt": "Define feedback in organisational communication.",
+        "answer": "Feedback is a response that helps test whether a message or outcome has been understood.",
+        "explanation": "It allows the sender to check interpretation rather than assuming that sending the message was enough.",
+        "calc": null
+      },
+      {
+        "id": "practice-communication-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication"
+        ],
+        "prompt": "A manager says, “Our staff are confused, so we should send more emails every day.” Identify the weakness in this view.",
+        "answer": "More messages may create information overload; the manager should improve clarity, channel fit and feedback instead.",
+        "explanation": "Communication effectiveness is not determined by volume alone. Staff may miss priorities if they receive excessive messages.",
+        "calc": null
+      },
+      {
+        "id": "practice-communication-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ],
+        "prompt": "A care-home operator is introducing a sensitive new rota system. State three steps it should take to design its communication.",
+        "answer": "Identify affected employees and their needs; choose suitable channels considering sensitivity and documentation; provide a feedback route and use responses to clarify or adjust implementation.",
+        "explanation": "The process links audience and message needs to channel choice, then checks understanding through feedback.",
+        "calc": null
+      },
+      {
+        "id": "practice-communication-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.5:employer-employee-communication"
+        ],
+        "prompt": "A UK online retailer needs warehouse staff to follow a detailed new returns process from tomorrow. Recommend an appropriate communication approach.",
+        "answer": "Use a written process for a permanent detailed record, supported by a live team briefing where staff can ask questions and practise key steps.",
+        "explanation": "The change is urgent and detailed. Written material supports consistency, while live discussion provides richer, rapid feedback for ambiguity.",
+        "calc": null
+      },
+      {
+        "id": "practice-communication-reasoning",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation"
+        ],
+        "prompt": "Explain how poor communication can cause a change programme to fail, even when the planned change itself is sensible.",
+        "answer": "If the message does not fit the channel or staff cannot give feedback, employees may misunderstand responsibilities or receive information too late. This reduces coordinated action and increases execution risk, so implementation may fail.",
+        "explanation": "The reasoning chain is poor channel/message fit to ambiguity or delay, then weaker understanding and coordination, then poorer implementation.",
+        "calc": null
+      }
+    ]
+  }
+}

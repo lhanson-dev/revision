@@ -1,0 +1,191 @@
+{
+  "node_id": "bus-peo-006",
+  "learn": {
+    "title": "Financial and non-financial reward",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Reward and employee behaviour",
+        "body": "Reward is the overall return an employee receives from work. Financial rewards include salary, commission and performance-related pay. Non-financial rewards include recognition, development, autonomy, meaningful work, flexible arrangements, career opportunity and job enrichment. A strong reward system can help a business attract and retain employees as well as encourage effort. However, its effect depends on whether employees see it as fair and whether they can influence the measure used.",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:salary",
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:job-enrichment"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing financial rewards and team working",
+        "body": "Salary is a fixed annual payment, normally paid monthly regardless of hours worked or output. It provides income security and can support attraction and retention, but it does not directly reward extra effort. Commission links payment to sales or revenue achieved, so it can motivate employees in roles where they influence sales, but income may be uncertain and pressure selling may result. Performance-related pay links reward to measured performance, so its success depends on using a fair and meaningful measure. Team working is not a payment method: it organises employees into groups with shared tasks, goals and responsibility. It can create belonging and combine skills, but may also cause conflict, free-riding or slower decisions.",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:salary",
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:team-working"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Reward can improve one result while harming another",
+        "body": "Example: a delivery business pays drivers only per parcel delivered. Drivers may deliver more parcels, but may rush handling, leading to more damaged goods and claims. The reward has improved a narrow measure while damaging quality and cost. Non-example: concluding that a bonus caused higher sales simply because sales increased after it was introduced. Demand or marketing activity may also have changed, so the cause cannot be assumed.",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:performance-related-pay"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "More cash does not always mean more motivation",
+        "body": "It is mistaken to assume that financial rewards motivate every employee more strongly than non-financial rewards. Employees differ in what they value, and responses are affected by fairness, existing pay, the job and personal circumstances. Development, recognition, meaningful work, autonomy and job enrichment may improve effort or retention for some employees. These rewards are not automatically free: they can require management time, training or investment.",
+        "item_ids": [
+          "aqa-7132-3.6.4:salary",
+          "aqa-7132-3.6.4:job-enrichment"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How incentive design can create unintended consequences",
+        "body": "The intended objective leads to a chosen reward metric. Employees then adjust their behaviour towards what is rewarded, producing measured outcomes. If the metric is too narrow or poorly designed, employees may game it: a local target is achieved but wider business performance suffers. For example, a call-centre target based only on calls completed may encourage short calls rather than solving the customer's issue first time. Businesses should therefore consider quality, customer service, risk, teamwork and long-term objectives alongside a target.",
+        "item_ids": [
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:team-working"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Check your reward design thinking",
+        "body": "A retailer is considering commission for individual sales assistants. Explain to yourself: what behaviour will the commission reward; can each assistant control sales; could it harm customer service or teamwork; and which non-financial reward, such as development, recognition or job enrichment, might complement it? Then decide whether the system supports the retailer's wider objectives.",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:team-working",
+          "aqa-7132-3.6.4:job-enrichment"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "financial reward",
+        "definition": "Monetary compensation linked to employment or performance."
+      },
+      {
+        "term": "non-financial reward",
+        "definition": "A valued outcome from employment that is not mainly a cash payment."
+      },
+      {
+        "term": "salary",
+        "definition": "A fixed annual payment, usually paid monthly, regardless of hours worked or output."
+      },
+      {
+        "term": "commission",
+        "definition": "Payment linked to the sales or revenue an employee achieves, often as a percentage of sales."
+      },
+      {
+        "term": "performance-related pay",
+        "definition": "Reward linked to measured employee performance."
+      },
+      {
+        "term": "team working",
+        "definition": "Organising employees into groups that share tasks, goals and responsibility."
+      },
+      {
+        "term": "job enrichment",
+        "definition": "A non-financial reward involving more meaningful work, autonomy or responsibility."
+      },
+      {
+        "term": "total reward",
+        "definition": "The combined financial and non-financial employment proposition offered to employees."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-peo-006-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.4:salary"
+        ],
+        "prompt": "What is meant by salary?",
+        "answer": "A fixed annual payment, usually paid monthly, regardless of hours worked or output.",
+        "explanation": "Salary provides predictable income but is not directly linked to extra output.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:job-enrichment"
+        ],
+        "prompt": "Classify each as financial or non-financial reward: commission, a bonus based on measured targets, and job enrichment.",
+        "answer": "Commission and a target-based bonus are financial rewards; job enrichment is a non-financial reward.",
+        "explanation": "Commission and bonuses involve money. Job enrichment offers a more meaningful or autonomous work experience rather than cash.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:salary"
+        ],
+        "prompt": "Compare salary and commission as rewards for an estate agency negotiator.",
+        "answer": "Salary gives secure, predictable pay, whereas commission links pay to sales achieved. Commission may increase effort where the negotiator can influence sales, but it can create income uncertainty and encourage pressure selling.",
+        "explanation": "The comparison considers both the different basis of payment and likely behavioural effects.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.4:job-enrichment",
+          "aqa-7132-3.6.4:team-working"
+        ],
+        "prompt": "A café has experienced high staff turnover. Suggest one non-financial reward it could use and explain how it may help.",
+        "answer": "It could use job enrichment by giving staff more responsibility or autonomy. More meaningful work may improve belonging and effort, helping employees feel more willing to stay.",
+        "explanation": "Job enrichment is a non-financial reward that can support retention, although it needs management capacity and will not suit every employee.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p5",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:team-working"
+        ],
+        "prompt": "A manufacturer plans to pay each worker a bonus only for the number of units they complete. Judge whether this is likely to be a strong reward system.",
+        "answer": "It may raise output, but it is risky if quality, safety and teamwork are not rewarded. A stronger system would use measures linked to wider objectives, not only unit volume.",
+        "explanation": "Employees may optimise the rewarded measure. Individual incentives can also damage cooperation between workers.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.4:commission",
+          "aqa-7132-3.6.4:job-enrichment"
+        ],
+        "prompt": "A manager says, “Commission will motivate every employee more than job enrichment because money always matters most.” What is wrong with this view?",
+        "answer": "Employees value rewards differently, and fairness, job type and personal circumstances affect motivation. Commission can also distort behaviour, while job enrichment may be valued by some employees.",
+        "explanation": "Financial reward is not guaranteed to be the most effective form of motivation for every person or role.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-006-p7",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.6.4:performance-related-pay",
+          "aqa-7132-3.6.4:commission"
+        ],
+        "prompt": "Explain the likely chain of effects if a mobile-phone shop rewards staff only through commission on the value of contracts sold.",
+        "answer": "Commission on contract value may encourage staff to focus on selling higher-value contracts. This can increase measured sales revenue, but may also encourage unsuitable sales or neglect of customer service, creating complaints and harming long-term performance.",
+        "explanation": "The reward metric shapes behaviour, which can produce both intended and unintended outcomes.",
+        "calc": null
+      }
+    ]
+  }
+}

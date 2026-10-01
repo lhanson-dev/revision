@@ -1,0 +1,215 @@
+{
+  "node_id": "bus-str-005",
+  "learn": {
+    "title": "Porter’s Five Forces and industry structure",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using Five Forces to analyse an industry",
+        "body": "Porter’s Five Forces examines the structural pressures affecting firms in an industry: rivalry, entry threat, substitutes, supplier power and buyer power. Use it to explain how competition and bargaining affect prices, costs, risk and profitability. It is not enough to label a force as strong: identify evidence and explain the business effect. The findings can help a business choose a positioning strategy, such as competing on price, service, convenience or a differentiated offer.",
+        "item_ids": [
+          "aqa-7132-3.7.7:porter-s-five-forces",
+          "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Direct rivals, entrants and substitutes",
+        "body": "Rivalry comes from existing firms serving the industry now. Entry threat comes from potential new firms that may enter. Substitutes are different solutions to the same customer need. For rail journeys, another rail operator is a direct rival, whereas a car, coach or video conference can be a substitute in some circumstances. A substitute need not sell the same product.",
+        "item_ids": [
+          "aqa-7132-3.7.7:rivalry",
+          "aqa-7132-3.7.7:threat-of-entry-and-barriers",
+          "aqa-7132-3.7.7:threat-of-substitutes"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Evidence-based force analysis",
+        "body": "Example: A small number of concentrated supermarket buyers can negotiate firmly with a food producer. If the producer has few alternative customers and buyers can switch supplier, buyer power may push down prices or demand improved service. Non-example: ‘Buyer power is high because it is one of the five forces.’ This gives no evidence or mechanism.",
+        "item_ids": [
+          "aqa-7132-3.7.7:buyer-power",
+          "aqa-7132-3.7.7:porter-s-five-forces"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid two common errors",
+        "body": "Do not assume a substitute is simply another brand in the same market; it is an alternative way of meeting a similar need. Also, high rivalry does not prove that every firm is unprofitable. A business may still occupy a profitable niche through its particular position. Five Forces describes industry structure rather than directly measuring a firm’s own resources.",
+        "item_ids": [
+          "aqa-7132-3.7.7:threat-of-substitutes",
+          "aqa-7132-3.7.7:rivalry",
+          "aqa-7132-3.7.7:porter-s-five-forces"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "How force pressures reach profitability",
+        "body": "Industry structure\n↓\nCompetition and bargaining pressure\n↓\nPrices customers will accept; input costs and contract terms\n↓\nMargins, risk and possible positioning strategy\n\nFor example: powerful suppliers → higher input costs or tighter terms → lower margin or greater supply risk. Powerful buyers → pressure on price or service → lower margin.",
+        "item_ids": [
+          "aqa-7132-3.7.7:supplier-power",
+          "aqa-7132-3.7.7:buyer-power",
+          "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Barriers, entry and strategic position",
+        "body": "High barriers such as scale requirements, capital needs, regulation, established brands, limited access and customer switching costs can reduce the immediate threat of entry. However, barriers can erode over time. If entry becomes easier, more potential competitors may constrain prices or increase marketing pressure. A business should therefore consider whether its chosen positioning can remain defensible as conditions change.",
+        "item_ids": [
+          "aqa-7132-3.7.7:threat-of-entry-and-barriers",
+          "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Apply the framework with mechanisms",
+        "body": "Choose a defined UK industry. For each force, ask: what evidence suggests concentration, alternatives, switching costs or barriers? Then explain how that changes price, cost, service requirements or risk. Finally, explain which positioning strategy could respond best and why. Consider limits too: industry boundaries may be unclear, and technology, regulation, complements or digital ecosystems can change the structure quickly.",
+        "item_ids": [
+          "aqa-7132-3.7.7:porter-s-five-forces",
+          "aqa-7132-3.7.7:buyer-power",
+          "aqa-7132-3.7.7:supplier-power",
+          "aqa-7132-3.7.7:rivalry",
+          "aqa-7132-3.7.7:threat-of-substitutes",
+          "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "Porter’s Five Forces",
+        "definition": "A framework for analysing five industry pressures that shape competition, bargaining and profitability."
+      },
+      {
+        "term": "rivalry",
+        "definition": "Competitive pressure among firms already operating in an industry."
+      },
+      {
+        "term": "entry threat",
+        "definition": "Pressure created by the possibility that new firms may enter an industry."
+      },
+      {
+        "term": "entry barriers",
+        "definition": "Obstacles that make industry entry harder, such as capital needs, regulation or customer switching costs."
+      },
+      {
+        "term": "substitute",
+        "definition": "A different solution that can satisfy a similar customer need."
+      },
+      {
+        "term": "supplier power",
+        "definition": "A supplier’s ability to influence input prices, terms or availability."
+      },
+      {
+        "term": "buyer power",
+        "definition": "A customer’s ability to influence the price or terms offered by suppliers."
+      },
+      {
+        "term": "switching costs",
+        "definition": "The monetary, time or practical costs of changing supplier or provider."
+      },
+      {
+        "term": "positioning strategy",
+        "definition": "The way a business seeks to occupy a distinct place in customers’ minds relative to alternatives."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-005-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.7:porter-s-five-forces"
+        ],
+        "prompt": "Name the five forces in Porter’s framework.",
+        "answer": "Rivalry, threat of entry, threat of substitutes, supplier power and buyer power.",
+        "explanation": "These are the five structural pressures used to analyse an industry.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.7:threat-of-substitutes",
+          "aqa-7132-3.7.7:rivalry"
+        ],
+        "prompt": "A commuter chooses between a local train operator, driving their own car and using a coach. Which are substitutes for rail travel, and which is a direct rival?",
+        "answer": "Driving and using a coach are substitutes; another train operator is a direct rival.",
+        "explanation": "Cars and coaches meet a similar travel need through different solutions. A train operator competes within the same service market.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.7:threat-of-entry-and-barriers"
+        ],
+        "prompt": "A UK pharmacy market requires regulatory approval, costly premises and trusted local brands. Explain how this affects entry threat.",
+        "answer": "Entry threat is reduced because approval, capital requirements and established brands make it harder for potential entrants to begin trading and attract customers.",
+        "explanation": "These are barriers to entry. They may reduce immediate entry pressure, although barriers can weaken over time.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p4",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.7:supplier-power"
+        ],
+        "prompt": "A café relies on one specialist coffee-bean supplier and cannot easily switch. Give a chain of reasoning showing how this could affect profit.",
+        "answer": "Few alternatives and high switching costs give the supplier power; the supplier can raise prices or tighten terms; the café’s input costs rise; its margin may fall unless it raises selling prices.",
+        "explanation": "Supplier power affects the costs and terms faced by the buyer, which can then affect profitability.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p5",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.7.7:buyer-power",
+          "aqa-7132-3.7.7:rivalry",
+          "aqa-7132-3.7.7:porter-s-five-forces"
+        ],
+        "prompt": "A packaging manufacturer sells mainly to two national retailers. Several similar packaging firms compete for their contracts. Apply two Five Forces to this industry.",
+        "answer": "Buyer power is likely strong because two large retailers account for much of demand and may negotiate prices and service terms. Rivalry is likely strong because several similar manufacturers compete for the same contracts, increasing price pressure.",
+        "explanation": "The response uses industry evidence and then explains the economic mechanism rather than merely naming forces.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.7:buyer-power",
+          "aqa-7132-3.7.7:supplier-power"
+        ],
+        "prompt": "Compare buyer power and supplier power. Why can each reduce a manufacturer’s margin?",
+        "answer": "Buyers can press for lower prices or better service, while suppliers can increase input prices or impose tougher terms. Both can reduce the difference between revenue and costs.",
+        "explanation": "The forces operate from opposite sides of the manufacturer’s transactions but both can worsen its margin.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.7:threat-of-substitutes"
+        ],
+        "prompt": "A student says, ‘A substitute for one supermarket is another supermarket selling the same groceries.’ Is this accurate?",
+        "answer": "Not necessarily. Another supermarket is usually a direct rival. A substitute is a different solution to the customer need, such as a meal-kit service or restaurant meal for some food occasions.",
+        "explanation": "Substitutes meet a similar need by a different route; they are not simply another brand in the same market.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-005-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy",
+          "aqa-7132-3.7.7:threat-of-substitutes",
+          "aqa-7132-3.7.7:rivalry"
+        ],
+        "prompt": "An independent cinema faces streaming services and several nearby cinemas. Judge whether a low-price position alone is likely to be the best response.",
+        "answer": "Not necessarily. Low prices may respond to rivalry and streaming substitutes, but the cinema could also position through a distinctive experience, events or service. The best choice depends on customer needs, costs and whether the offer can remain defensible.",
+        "explanation": "Five Forces informs positioning, but does not prescribe one universal response. Industry conditions and the firm’s position both matter.",
+        "calc": null
+      }
+    ]
+  }
+}

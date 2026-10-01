@@ -1,0 +1,357 @@
+{
+  "node_id": "bus-mkt-002",
+  "learn": {
+    "title": "Market size, market growth and market share",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Three measures, three different questions",
+        "body": "Market size is the total sales made by all firms in a clearly defined market during a stated period. It can be measured by value (£ sales revenue) or volume (units sold). Market growth shows the percentage change in that total market size over time. Market share shows one firm’s sales as a percentage of the same total market. Define the market consistently by product, geography, customers, period and whether value or volume is used.",
+        "item_ids": [
+          "aqa-7132-3.3.1:sales-volume-and-sales-value",
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:market-growth",
+          "aqa-7132-3.3.1:market-share"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Sales volume, sales value and market share",
+        "body": "Sales volume is the number of units a firm sells. Sales value is the money received from those sales: volume × selling price. Market share is relative: it compares the firm’s sales with total market sales. A firm may sell more units after a price cut but receive less sales value. It may also increase sales value but lose market share if the whole market grows faster.",
+        "item_ids": [
+          "aqa-7132-3.3.1:sales-volume-and-sales-value",
+          "aqa-7132-3.3.1:market-share"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "What conclusions can and cannot be made",
+        "body": "Example: a retailer sells £9m in a £90m UK market, so it has 10% value market share. If its sales rise to £10m but the market rises to £120m, its share falls to 8.33%. Its sales grew, but its relative position weakened. Non-example: saying that a rise in market share proves the retailer is more profitable. Profit also depends on costs, prices, product mix and investment.",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share",
+          "aqa-7132-3.3.1:market-size"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided method: calculate market growth",
+        "body": "1. Identify the market size in the earlier period. 2. Subtract this from the later market size to find the change. 3. Divide the change by the earlier market size. 4. Multiply by 100. For example, a market rising from £40m to £46m grows by (£46m − £40m) / £40m × 100 = 15%. This is growth in the defined market, not necessarily growth in every firm’s sales.",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-growth"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: size, growth and share",
+        "body": "A regional meal-kit market has three firms with annual sales of £1.2m, £0.9m and £1.4m. Market size is £3.5m. Last year the market was £3.2m, so market growth is (£3.5m − £3.2m) / £3.2m × 100 = 9.38%. The firm with £0.9m sales has market share of £0.9m / £3.5m × 100 = 25.71%. These figures are meaningful only if all sales use the same market boundary and are measured consistently by value.",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:market-growth",
+          "aqa-7132-3.3.1:market-share"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Repair two common errors",
+        "body": "Mistake: ‘Sales rose, so market share rose.’ Correction: share rises only when the firm’s sales rise faster than total market sales, or fall more slowly in a shrinking market. Mistake: ‘A large market share means high profit.’ Correction: market share indicates relative sales position; it does not show the firm’s costs, margins, cash flow or future competitive strength.",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share",
+          "aqa-7132-3.3.1:sales-volume-and-sales-value"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the denominator",
+        "body": "A firm reports that its value market share rose from 12% to 14%. Explain what the denominator is, then give two reasons why this might not prove stronger long-term performance. Consider whether the market definition changed, whether the market contracted, and whether price increases rather than extra units sold caused the result.",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share",
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:sales-volume-and-sales-value"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "market size",
+        "definition": "The total sales of all firms in a defined market over a stated period, measured by value or volume."
+      },
+      {
+        "term": "market growth",
+        "definition": "The percentage change in market size between two periods."
+      },
+      {
+        "term": "market share",
+        "definition": "A firm’s sales as a percentage of total sales in the defined market."
+      },
+      {
+        "term": "sales volume",
+        "definition": "The number of units sold in a period."
+      },
+      {
+        "term": "sales value",
+        "definition": "The revenue received from sales in a period, calculated as sales volume × selling price."
+      },
+      {
+        "term": "value market share",
+        "definition": "Market share calculated using monetary sales revenue."
+      },
+      {
+        "term": "volume market share",
+        "definition": "Market share calculated using units or quantity sold."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-market-size",
+        "item_id": "aqa-7132-3.3.1:market-size",
+        "scenario": "Three UK reusable-bottle firms record annual sales of £0.65m, £0.48m and £0.45m in the same market.",
+        "steps": [
+          "Use sales from every firm in the defined market.",
+          "Add the three firms’ sales: £0.65m + £0.48m + £0.45m.",
+          "The market size by value is £1.58m."
+        ],
+        "calc": {
+          "formula_id": "market_size",
+          "inputs": [
+            {
+              "name": "firm_sales_1",
+              "value": 0.65
+            },
+            {
+              "name": "firm_sales_2",
+              "value": 0.48
+            },
+            {
+              "name": "firm_sales_3",
+              "value": 0.45
+            }
+          ],
+          "stated_answer": 1.58,
+          "unit": "£m"
+        }
+      },
+      {
+        "id": "we-market-growth",
+        "item_id": "aqa-7132-3.3.1:market-growth",
+        "scenario": "The UK reusable-bottle market increases from £1.58m to £1.77m over one year.",
+        "steps": [
+          "Find the increase in market size: £1.77m − £1.58m = £0.19m.",
+          "Divide the increase by the earlier market size.",
+          "Multiply by 100 to convert the result to a percentage.",
+          "The market grew by 12.03%."
+        ],
+        "calc": {
+          "formula_id": "market_growth",
+          "inputs": [
+            {
+              "name": "market_size_this_period",
+              "value": 1.77
+            },
+            {
+              "name": "market_size_last_period",
+              "value": 1.58
+            }
+          ],
+          "stated_answer": 12.03,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "we-market-share",
+        "item_id": "aqa-7132-3.3.1:market-share",
+        "scenario": "One reusable-bottle firm has annual sales of £0.48m in a total market worth £1.58m.",
+        "steps": [
+          "Use the firm’s sales as the numerator.",
+          "Use total sales in the same defined market as the denominator.",
+          "Calculate £0.48m / £1.58m × 100.",
+          "The firm has 30.38% value market share."
+        ],
+        "calc": {
+          "formula_id": "market_share",
+          "inputs": [
+            {
+              "name": "firm_sales",
+              "value": 0.48
+            },
+            {
+              "name": "total_market_sales",
+              "value": 1.58
+            }
+          ],
+          "stated_answer": 30.38,
+          "unit": "percent"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-measures",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:market-growth",
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "State what market size, market growth and market share each measure.",
+        "answer": "Market size is total market sales; market growth is the percentage change in total market sales; market share is a firm’s sales as a percentage of total market sales.",
+        "explanation": "They answer different questions: total opportunity, change over time and relative competitive position.",
+        "calc": null
+      },
+      {
+        "id": "p-discrimination-volume-value",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.1:sales-volume-and-sales-value"
+        ],
+        "prompt": "A café sells 800 smoothies at £5 each in June and 900 smoothies at £4 each in July. Which measure rose, and which fell?",
+        "answer": "Sales volume rose from 800 to 900 units; sales value fell from £4,000 to £3,600.",
+        "explanation": "More units were sold, but the lower selling price reduced total revenue.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-market-size",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-size"
+        ],
+        "prompt": "In one year, four local bike-repair firms have sales of £0.22m, £0.31m, £0.18m and £0.29m. Calculate the market size by value.",
+        "answer": "£1.00m.",
+        "explanation": "Market size is the combined sales of all firms in the defined market.",
+        "calc": {
+          "formula_id": "market_size",
+          "inputs": [
+            {
+              "name": "firm_sales_1",
+              "value": 0.22
+            },
+            {
+              "name": "firm_sales_2",
+              "value": 0.31
+            },
+            {
+              "name": "firm_sales_3",
+              "value": 0.18
+            },
+            {
+              "name": "firm_sales_4",
+              "value": 0.29
+            }
+          ],
+          "stated_answer": 1,
+          "unit": "£m"
+        }
+      },
+      {
+        "id": "p-calculation-market-growth",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-growth"
+        ],
+        "prompt": "The value of a market rises from £64m last year to £72m this year. Calculate market growth.",
+        "answer": "12.5%.",
+        "explanation": "The increase is £8m; £8m divided by the previous £64m, multiplied by 100, equals 12.5%.",
+        "calc": {
+          "formula_id": "market_growth",
+          "inputs": [
+            {
+              "name": "market_size_this_period",
+              "value": 72
+            },
+            {
+              "name": "market_size_last_period",
+              "value": 64
+            }
+          ],
+          "stated_answer": 12.5,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p-calculation-market-share",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "A UK snack producer records £7.5m sales in a defined market worth £50m. Calculate its value market share.",
+        "answer": "15%.",
+        "explanation": "Divide the firm’s sales by total market sales, then multiply by 100.",
+        "calc": {
+          "formula_id": "market_share",
+          "inputs": [
+            {
+              "name": "firm_sales",
+              "value": 7.5
+            },
+            {
+              "name": "total_market_sales",
+              "value": 50
+            }
+          ],
+          "stated_answer": 15,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p-interpretation-relative-growth",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share",
+          "aqa-7132-3.3.1:market-growth"
+        ],
+        "prompt": "A firm’s sales rise by 6%, while its defined market grows by 11%. Interpret the likely change in its market share.",
+        "answer": "Its market share is likely to fall.",
+        "explanation": "The firm is growing, but more slowly than the market total, so its sales become a smaller proportion of that total.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-definition",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "A clothing retailer says it is ‘number one in the market’ after comparing its UK online sales with all UK clothing sales, including physical shops. Explain why this claim may be unreliable.",
+        "answer": "The numerator and denominator use different market definitions: online sales are compared with online plus physical-store sales.",
+        "explanation": "Market share requires firm and total-market sales to cover the same product, geography, customers, period and sales measure.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "A student says: ‘A business gained market share, so it must be more profitable.’ Is this correct?",
+        "answer": "No. Higher market share does not prove higher profitability.",
+        "explanation": "Profit depends on costs, prices, product mix and investment as well as sales position.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain-shrinking-market",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.1:market-size",
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "A firm’s sales fall from £24m to £21m. The total market falls from £240m to £175m. Explain how the firm’s market share can still rise.",
+        "answer": "Its share rises from 10% to 12% because its sales fall less quickly than the total market.",
+        "explanation": "Market share depends on both the firm’s sales and the market total. Here the denominator contracts proportionately more than the numerator.",
+        "calc": null
+      },
+      {
+        "id": "p-compare-justify-value-volume",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.1:sales-volume-and-sales-value",
+          "aqa-7132-3.3.1:market-share"
+        ],
+        "prompt": "A business cuts its price and gains volume market share, but its value market share falls. Give the best justification for why both results can occur.",
+        "answer": "It may sell a larger proportion of units, but the lower price can make its revenue a smaller proportion of total market value.",
+        "explanation": "Volume share uses units, whereas value share uses money. Price changes can cause the two measures to move in opposite directions.",
+        "calc": null
+      }
+    ]
+  }
+}

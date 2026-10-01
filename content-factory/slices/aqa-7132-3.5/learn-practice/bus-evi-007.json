@@ -4,72 +4,82 @@
     "title": "Whole-business judgement, trade-offs and strategic consistency",
     "sections": [
       {
-        "treatment": "core_explanation",
-        "heading": "Making a whole-business judgement",
-        "body": "A business judgement is a reasoned choice made under constraints and uncertainty. Start with the objective and decision context, then compare credible options against material evidence. Weight evidence by its relevance, quality and likely impact rather than giving every point equal importance. A conclusion should account for constraints, stakeholder effects, risks, time horizon and uncertainty. If key evidence is uncertain, make the recommendation conditional and state what would cause it to change.",
-        "item_ids": []
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking performance across time",
+        "body": "Short-term performance can conflict with long-term performance. For example, cutting staff training may reduce costs quickly, but could weaken capability and service quality later. A whole-business judgement connects finance, operations, marketing and people decisions, then asks whether the option supports the business objective over the relevant time horizon.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       },
       {
-        "treatment": "connection_synoptic_link",
-        "heading": "Connecting decisions across the business",
-        "body": "A decision in one function can create consequences in another. For example, a growth decision may improve sales but put pressure on liquidity, operations capacity and management control. Strategic consistency means checking whether the proposed action fits the organisation's objectives, capabilities, financial position, market positioning and other functional choices. If these do not fit together, execution conflict can weaken the outcome.",
-        "item_ids": []
+        "treatment": "core_explanation",
+        "heading": "Making a defensible whole-business judgement",
+        "body": "A judgement is a reasoned choice, not a list of points followed by an unsupported opinion. Start with the objective and constraints. Compare realistic options, give greater weight to material and reliable evidence, and consider who gains or loses. Test important assumptions, including cash risk and likely demand. Finally, judge whether the choice fits the firm's capabilities, finances, market position and other functional decisions. Where evidence is uncertain, make a conditional recommendation and state what would cause it to change.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       },
       {
         "treatment": "example_non_example",
-        "heading": "Conditional judgement versus unsupported uncertainty",
-        "body": "Example: A highly geared business could stage an expansion rather than commit immediately. Although expansion may offer a financial return, staging limits downside cash risk and is easier to reverse if demand is weaker than expected. The recommendation would change if reliable evidence showed strong demand and sufficient cash resilience.\n\nNon-example: 'It depends' is not a judgement if it does not identify the relevant condition, explain its importance or say what evidence would change the decision.",
-        "item_ids": []
+        "heading": "Conditional judgement versus unsupported balance",
+        "body": "Example: “The retailer should pilot the lower-priced range in 20 stores. It may protect short-term sales, while limiting the long-term risk of damaging its premium position. Roll-out should occur only if repeat purchases remain strong and gross margin does not fall below the level needed to fund service improvements.” This weighs time periods and gives decision-changing conditions.\n\nNon-example: “There are advantages and disadvantages, so it depends.” This does not identify the objective, the most important evidence, or what the decision depends on.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       },
       {
         "treatment": "guided_example",
-        "heading": "A structure for a recommendation",
-        "body": "Use this sequence when evaluating a decision:\n1. State the objective, such as protecting cash while pursuing sustainable growth.\n2. Identify credible options, including doing nothing or staging the decision where relevant.\n3. Compare the material benefits, costs and stakeholder effects.\n4. Test strategic fit: resources, capabilities, finance, positioning and functional choices.\n5. Examine uncertainty, downside risk and reversibility.\n6. Reach a conditional recommendation and name the decision-changing trigger.\n\nThis prevents a mechanical list of advantages and disadvantages.",
-        "item_ids": []
-      },
-      {
-        "treatment": "worked_example",
-        "heading": "Worked example: choosing between rapid growth and staged growth",
-        "body": "A retailer can either open ten stores immediately or open two stores first and review performance. Immediate expansion may raise sales quickly, but it uses more cash, increases exposure if demand is weak and is costly to reverse. The staged option may delay growth, but it provides evidence about demand and reduces downside exposure.\n\nA defensible recommendation is to stage the expansion if the retailer's objective includes protecting liquidity and its demand forecasts are uncertain. This choice is strategically consistent if the retailer can operate two stores effectively and learn from the pilot. The recommendation should be revisited if early stores meet agreed sales and cash targets, or if the firm's financial resilience improves.",
-        "item_ids": []
+        "heading": "Guided evaluation: a faster delivery promise",
+        "body": "A furniture seller is considering next-day delivery. First, identify the objective: grow sales without creating unacceptable cash or service risk. Second, compare options: launch nationwide now, trial in selected areas, or retain standard delivery. Third, identify trade-offs: faster delivery may raise short-term sales but needs warehouse capacity, more stock and higher transport costs; a rushed national launch could harm long-term reputation if deliveries fail. Fourth, test strategic fit: does the business have the finance, systems and trained staff to deliver reliably? A suitable provisional judgement is to trial the offer where capacity is available, then review customer complaints, repeat sales and cash pressure before expanding.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       },
       {
         "treatment": "misconception_repair",
-        "heading": "Balance does not mean equal weight",
-        "body": "It is a misconception that evaluation requires an equal number of arguments for and against. Strong judgement gives greater weight to evidence that is more material, reliable and closely linked to the objective. A positive numerical result should not automatically decide the issue if important effects, such as downside cash risk or stakeholder harm, cannot be measured reliably. Conditional judgement is not indecision: it explains which conditions support the recommendation.",
-        "item_ids": []
+        "heading": "Evaluation does not mean equal weighting",
+        "body": "Misconception: a strong answer must give equal weight to every argument for and against.\n\nRepair: evidence should be weighted by relevance, quality and materiality. A small possible marketing benefit should not automatically balance a large, well-supported downside cash risk. Equally, a numerical result should not hide an important long-term effect, such as a loss of customer trust, simply because that effect is difficult to price.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       },
       {
         "treatment": "self_explanation_prompt",
         "heading": "Explain your own decision rule",
-        "body": "Choose a business decision, such as opening a new site. Explain: (1) the main objective; (2) the most important trade-off; (3) which stakeholder may bear a cost; (4) whether the decision is reversible; and (5) the exact evidence that would make you change your recommendation.",
-        "item_ids": []
+        "body": "Choose a business decision, such as closing a loss-making shop. Explain: (1) the short-term benefit of the decision, (2) one possible long-term cost, (3) the stakeholder most affected, and (4) the evidence that would make you reverse your recommendation. This turns “it depends” into a testable conditional judgement.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked whole-business recommendation",
+        "body": "Scenario: A highly geared manufacturer has a proposal to buy an automated production line. Forecasts indicate a financial gain, but the purchase requires substantial borrowing and cannot easily be undone.\n\n1. Objective: improve long-term productivity while maintaining financial resilience.\n2. Short-term effect: borrowing and installation may create immediate cash pressure and disruption.\n3. Long-term effect: automation could lower unit costs and improve capacity if demand is sustained.\n4. Trade-off: the potential long-term efficiency gain must be weighed against short-term liquidity risk and irreversibility.\n5. Strategic consistency: the proposal fits a cost-efficiency strategy only if the firm can operate and maintain the equipment and finance the downside.\n6. Judgement: stage the investment, if possible, rather than commit immediately. Proceed only if downside cash forecasts remain manageable and expected demand is sufficiently secure. This is not indecision: it specifies the conditions for action.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ]
       }
     ],
     "key_terms": [
       {
         "term": "trade-off",
-        "definition": "A gain in one objective achieved at a cost to another."
+        "definition": "A gain in one objective that requires a sacrifice in another."
       },
       {
         "term": "strategic consistency",
-        "definition": "Fit among an organisation's objectives, capabilities, resources and actions."
+        "definition": "The fit between a business's objectives, capabilities, resources and actions."
       },
       {
         "term": "reversibility",
-        "definition": "The ease or cost of changing or undoing a decision."
+        "definition": "How easily and cheaply a decision can be changed or undone."
       },
       {
         "term": "robust decision",
         "definition": "A choice that remains defensible across a reasonable range of assumptions."
       },
       {
-        "term": "decision-changing condition",
-        "definition": "New evidence or a changed assumption that would alter a recommendation."
-      },
-      {
-        "term": "stakeholder effect",
-        "definition": "A cost or benefit experienced by a group affected by a business decision."
+        "term": "conditional judgement",
+        "definition": "A recommendation that states the conditions or evidence on which it depends."
       }
     ],
     "worked_examples": []
@@ -79,96 +89,100 @@
       {
         "id": "bus-evi-007-p1",
         "capability": "retrieval",
-        "item_ids": [],
-        "prompt": "Define strategic consistency.",
-        "answer": "It is the fit among objectives, capabilities, resources and actions.",
-        "explanation": "A strategically consistent recommendation can be carried out with the firm's available resources and supports its overall direction.",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "Define a trade-off.",
+        "answer": "A trade-off is a gain in one objective achieved at a cost to another objective.",
+        "explanation": "Business choices often involve competing objectives, such as lower costs versus higher quality.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p2",
-        "capability": "calculation",
-        "item_ids": [],
-        "prompt": "A proposed warehouse upgrade is expected to generate a return of £36,000 and costs £120,000. Calculate the return on investment (ROI).",
-        "answer": "30%",
-        "explanation": "ROI compares the return from an investment with its cost. The result can inform a decision, but it should not be the only consideration where cash risk or other material effects exist.",
-        "calc": {
-          "formula_id": "return_on_investment",
-          "inputs": [
-            {
-              "name": "return_from_investment",
-              "value": 36000
-            },
-            {
-              "name": "cost_of_investment",
-              "value": 120000
-            }
-          ],
-          "stated_answer": 30,
-          "unit": "percent"
-        }
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "A café cuts all staff training to improve this year's profit. Explain one reason why this does not automatically improve overall business performance.",
+        "answer": "It may improve short-term profit, but poorer staff capability could reduce service quality and customer loyalty in the longer term.",
+        "explanation": "A decision should be assessed over the relevant time horizon, not only by its immediate financial effect.",
+        "calc": null
       },
       {
         "id": "bus-evi-007-p3",
-        "capability": "interpretation",
-        "item_ids": [],
-        "prompt": "A project has a positive ROI, but it would require most of a highly geared firm's available cash and cannot easily be reversed. What is the most appropriate interpretation?",
-        "answer": "The positive ROI is useful evidence, but it does not by itself justify proceeding because downside cash risk and irreversibility are material.",
-        "explanation": "A whole-business judgement integrates quantitative information with finance, risk and reversibility rather than allowing one metric to decide the issue.",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "A retailer expects a delivery upgrade to add £180,000 to revenue next year but increase costs by £125,000. Calculate the expected short-term financial gain, then state why this figure alone should not decide the proposal.",
+        "answer": "£55,000. The business should also consider long-term customer effects, cash risk, delivery capacity and whether the upgrade fits its strategy.",
+        "explanation": "The arithmetic gives one useful measure, but unquantified and longer-term effects may be material.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p4",
-        "capability": "procedure_execution",
-        "item_ids": [],
-        "prompt": "Put these stages into a logical order: assess uncertainty and reversibility; compare credible alternatives; state the objective and constraints; make a conditional recommendation; test strategic consistency.",
-        "answer": "1. State the objective and constraints. 2. Compare credible alternatives. 3. Test strategic consistency. 4. Assess uncertainty and reversibility. 5. Make a conditional recommendation.",
-        "explanation": "The objective provides the decision criteria. Options can then be compared, tested for fit and risk, before a conclusion is reached.",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "A UK clothing business can reduce prices immediately to clear excess stock. Give one short-term benefit and one possible long-term cost.",
+        "answer": "A short-term benefit is faster cash inflow from stock sales. A possible long-term cost is damage to its premium brand position if customers begin to expect discounts.",
+        "explanation": "The decision creates a trade-off between immediate liquidity and longer-term positioning.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p5",
-        "capability": "reasoning_chain",
-        "item_ids": [],
-        "prompt": "Explain the likely reasoning chain when a marketing plan promises rapid sales growth but operations lacks the capacity to deliver reliably.",
-        "answer": "The mismatch creates functional inconsistency, which can cause execution conflict and weaken the outcome despite stronger demand.",
-        "explanation": "Sales growth is not sufficient if other functions cannot support the action. Capability must fit the proposed strategy.",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "A small gym is considering replacing all of its equipment now. The replacement could attract members over several years, but the purchase would use most available cash and cannot easily be reversed. Make a justified recommendation.",
+        "answer": "The gym should avoid a full immediate replacement unless cash forecasts show it can withstand weaker membership growth. A phased replacement or trial of the most-needed equipment is more appropriate because it limits downside cash risk while preserving potential long-term service benefits.",
+        "explanation": "The judgement weighs long-term growth against short-term liquidity and the high irreversibility of the decision.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p6",
-        "capability": "contextual_application",
-        "item_ids": [],
-        "prompt": "A café chain can use cheaper ingredients, lowering costs, or retain higher-quality ingredients, supporting its premium positioning. Identify the trade-off and one strategic-consistency check.",
-        "answer": "The trade-off is lower cost versus quality and premium positioning. Check whether cheaper ingredients would conflict with the chain's intended market position.",
-        "explanation": "A cost reduction may be attractive, but it may undermine the positioning that customers expect and the business is trying to maintain.",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "A student writes: “A good evaluation must give exactly the same number of arguments for and against each option.” Is this correct?",
+        "answer": "No. Arguments should be weighted by their evidence quality, relevance and materiality, not counted equally.",
+        "explanation": "A major, well-supported cash risk can deserve more weight than a minor speculative benefit.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p7",
-        "capability": "contextual_judgement",
-        "item_ids": [],
-        "prompt": "A manufacturer can automate immediately or run a smaller pilot first. Immediate automation may cut costs more quickly, while the pilot costs time but provides evidence and is easier to change. Make a justified conditional recommendation.",
-        "answer": "Run a pilot first if the technology's performance and cash impact are uncertain; automate fully only if the pilot meets agreed cost, quality and cash targets.",
-        "explanation": "The pilot sacrifices some short-term cost savings but reduces uncertainty and improves reversibility. The stated targets make the judgement conditional rather than vague.",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "Which recommendation best shows strategic consistency?\nA. Open ten new sites because competitors are expanding.\nB. Cut quality controls because they increase costs.\nC. Pilot online delivery after checking warehouse capacity, cash availability and whether convenience supports the target market.\nD. Choose the option with the highest forecast revenue, regardless of implementation demands.",
+        "answer": "C.",
+        "explanation": "Option C tests whether the action fits resources, capability, finance and market positioning rather than relying on one measure or competitor behaviour alone.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p8",
-        "capability": "misconception_diagnostic",
-        "item_ids": [],
-        "prompt": "Which statement shows the stronger evaluation?\nA. 'There are three advantages and three disadvantages, so the decision is balanced.'\nB. 'The cash risk is more material than the estimated sales gain because the firm has limited liquidity; proceed only if additional finance is secured.'",
-        "answer": "B",
-        "explanation": "B weights evidence according to materiality, links it to a constraint and gives a decision-changing condition. Equal numbers of points do not create a strong judgement.",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "Put these stages of a whole-business judgement in a sensible order: assess strategic fit; identify the objective and constraints; compare credible options and evidence; state a conditional recommendation with a review trigger.",
+        "answer": "1. Identify the objective and constraints. 2. Compare credible options and evidence. 3. Assess strategic fit. 4. State a conditional recommendation with a review trigger.",
+        "explanation": "The objective provides the decision criteria before options can be compared and a conclusion reached.",
         "calc": null
       },
       {
         "id": "bus-evi-007-p9",
-        "capability": "mixed_synoptic_selection",
-        "item_ids": [],
-        "prompt": "A business is considering a new delivery service. Select the best set of evidence for a whole-business recommendation: customer demand forecast, delivery capacity, cash required, effect on brand positioning, employee workload, and the ease of ending the service if it fails. Explain why.",
-        "answer": "Use all six pieces of evidence.",
-        "explanation": "They test demand, capability, finance, strategic fit, stakeholder effects and reversibility. Together they support a more robust comparison than a single financial measure.",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.3:short-and-long-term-performance"
+        ],
+        "prompt": "Explain the chain by which a decision that conflicts with another business function can weaken long-term performance.",
+        "answer": "Functional inconsistency can create execution conflict. For example, marketing may promise rapid delivery while operations lacks capacity, causing late deliveries, dissatisfied customers and weaker repeat sales over time.",
+        "explanation": "A strategy must fit across functions; otherwise implementation problems can prevent the intended benefit from being achieved.",
         "calc": null
       }
     ]

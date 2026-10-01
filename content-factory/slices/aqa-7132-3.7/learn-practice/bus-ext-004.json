@@ -1,0 +1,171 @@
+{
+  "node_id": "bus-ext-004",
+  "learn": {
+    "title": "Exchange rates and international competitiveness",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "How exchange rates affect a business",
+        "body": "An exchange rate shows the value of one currency in terms of another. If sterling appreciates, it becomes more valuable. If sterling depreciates, it becomes less valuable. For a UK firm, an appreciating pound will usually reduce the sterling cost of imported goods and materials. However, it can make UK exports more expensive to overseas customers when the sterling price is unchanged. A depreciating pound can have the opposite effects. The final impact depends on the firm’s imports, exports, contracts, pricing decisions and hedging.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Conditional effects, not a simple rule",
+        "body": "Example: sterling moves from £1 = $1.25 to £1 = $1.35. A US component costing $135 falls from £108 to £100, so a UK importer may benefit through lower input costs. Non-example: saying that a weaker pound is always good for every UK exporter. An exporter that buys many imported components may face higher costs which reduce or remove any benefit from stronger overseas demand.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guide to interpreting a currency quote",
+        "body": "Use three steps. First, identify the quote direction: £1 = $1.35 means one pound buys 1.35 dollars. Second, identify the business exposure: is the firm paying dollars for imports or receiving dollars from exports? Third, convert consistently. To convert a dollar cost into pounds at £1 = $1.35, divide the dollar amount by 1.35. Always state whether sterling has strengthened or weakened before explaining the likely business effect.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Why ‘a weak pound helps exporters’ is incomplete",
+        "body": "A weaker pound may lower the foreign-currency price of a UK-made product, which could increase demand. But this is not guaranteed. Imported materials become more expensive in pounds, the exporter may be hedged, a contract may fix a price in advance, or customers may not respond much to a lower price. The relevant judgement is the firm’s net currency exposure: compare its foreign-currency revenues with its foreign-currency costs.",
+        "item_ids": []
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From exchange rate to competitiveness",
+        "body": "Sterling appreciation → imported inputs may cost fewer pounds → unit costs and prices may fall → margins or price competitiveness may improve. Sterling appreciation → a fixed sterling export price converts into a higher foreign-currency price → overseas demand may fall → export revenue and cash flow may weaken. These chains can operate at the same time for a firm that both imports and exports.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the different outcomes",
+        "body": "A UK clothing business sells to Europe but imports fabric priced in US dollars. Sterling depreciates. Explain, in your own words, one route by which this could improve competitiveness and one route by which it could reduce profit. Then decide what extra information is needed before reaching a conclusion.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: converting an import cost",
+        "body": "A UK manufacturer buys a component for $135 when the rate is £1 = $1.35. Because the dollar amount must be changed into pounds, divide dollars by dollars per pound: $135 ÷ 1.35 = £100. If the previous rate was £1 = $1.25, the same component would have cost $135 ÷ 1.25 = £108. Sterling has appreciated, so the dollar-priced import is £8 cheaper before any other changes.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "exchange rate",
+        "definition": "The price of one currency expressed in another currency."
+      },
+      {
+        "term": "appreciation",
+        "definition": "An increase in the value of a currency relative to another currency."
+      },
+      {
+        "term": "depreciation",
+        "definition": "A decrease in the value of a currency relative to another currency."
+      },
+      {
+        "term": "hedging",
+        "definition": "Action taken to reduce exposure to an adverse currency movement."
+      },
+      {
+        "term": "competitiveness",
+        "definition": "The ability to win business against alternatives through price and non-price factors."
+      },
+      {
+        "term": "net currency exposure",
+        "definition": "The overall effect of a business’s foreign-currency revenues and foreign-currency costs."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-currency-conversion",
+        "item_id": "currency-conversion",
+        "scenario": "A UK café equipment supplier buys a machine from the US for $216. The exchange rate is £1 = $1.20.",
+        "steps": [
+          "The quote means that one pound buys $1.20.",
+          "The business is converting a dollar import cost into pounds, so it divides the dollar amount by 1.20.",
+          "$216 ÷ 1.20 = £180.",
+          "The machine costs £180 before other costs or charges."
+        ],
+        "calc": {
+          "formula_id": "revenue",
+          "inputs": [
+            {
+              "name": "selling_price",
+              "value": 180
+            },
+            {
+              "name": "quantity_sold",
+              "value": 1
+            }
+          ],
+          "stated_answer": 180,
+          "unit": "£"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-terms",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define depreciation of a currency.",
+        "answer": "A fall in the value of a currency relative to another currency.",
+        "explanation": "Depreciation means the currency buys less of another currency than before.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-conversion",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "At £1 = $1.25, convert an imported component costing $250 into pounds.",
+        "answer": "£200.",
+        "explanation": "The quote gives dollars per pound, so convert dollars into pounds by dividing: $250 ÷ 1.25 = £200.",
+        "calc": null
+      },
+      {
+        "id": "p-interpretation-quote",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "Sterling moves from £1 = €1.10 to £1 = €1.20. Interpret this movement.",
+        "answer": "Sterling has appreciated against the euro.",
+        "explanation": "One pound now buys more euros, so the pound is more valuable relative to the euro.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-importer",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain one likely chain of effects when sterling appreciates for a UK business importing Italian packaging priced in euros.",
+        "answer": "The euro-priced packaging may cost fewer pounds, reducing input costs and potentially increasing margin or allowing a lower selling price.",
+        "explanation": "An appreciation means each pound buys more foreign currency, reducing the sterling value of a given foreign-currency import cost.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-exporter",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK bicycle maker has mainly UK labour costs and sells bicycles in dollars. Sterling depreciates. Explain one way its overseas competitiveness could improve.",
+        "answer": "Its fixed sterling bicycle price can convert into a lower dollar price, which may increase demand from US customers.",
+        "explanation": "A weaker pound can make a UK-produced export cheaper in foreign currency, provided the firm passes the movement on and customers respond to price.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-judgement-mixed-exposure",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A UK electronics exporter receives dollars from sales but imports most of its chips in dollars. Sterling depreciates. Is this definitely beneficial?",
+        "answer": "No. Higher sterling costs of imported chips may offset or exceed any benefit from dollar export revenue.",
+        "explanation": "The firm has both dollar revenues and dollar costs. The outcome depends on its net exposure, pricing, contracts and hedging.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student says, ‘Hedging removes all exchange-rate risk at no disadvantage.’ What is wrong with this statement?",
+        "answer": "Hedging can reduce a specified exposure, but it can involve costs, limits and missed gains from favourable currency movements.",
+        "explanation": "Hedging improves certainty rather than guaranteeing a cost-free removal of every currency risk.",
+        "calc": null
+      }
+    ]
+  }
+}

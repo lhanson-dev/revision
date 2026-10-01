@@ -6,38 +6,50 @@
       {
         "treatment": "core_explanation",
         "heading": "Capital structure, gearing and financial risk",
-        "body": "Capital structure is the mix of debt and equity used to finance a business. Debt creates fixed claims, such as interest and repayments, while equity investors take the residual risk after other claims have been met. Gearing shows the extent to which a business depends on debt relative to a stated capital base. On this course, gearing is calculated as non-current liabilities divided by total equity plus non-current liabilities, multiplied by 100. Higher gearing means greater exposure to financial risk: a fall in sales or a rise in interest rates can make finance obligations harder to meet. However, debt may enable a business to fund productive assets without issuing more shares and diluting ownership. Ratios are indicators, not automatic decisions: sector, cash-flow stability, asset security, debt maturity and interest rates all matter.",
-        "item_ids": []
+        "body": "Capital structure is the mix of debt and equity used to finance a business. On this course, gearing measures the proportion of capital employed financed by non-current liabilities: non-current liabilities ÷ (total equity + non-current liabilities) × 100. Debt can fund assets without issuing extra shares, helping existing owners avoid dilution. However, it creates interest and repayment obligations. As gearing rises, profits and cash become more sensitive to an operating downturn, interest-rate increases and refinancing difficulties. Equity absorbs more residual risk, but issuing it may dilute ownership. A gearing percentage is an indicator rather than a decision: it needs comparison with trends, the sector, cash-flow stability, interest costs, debt maturity and other non-financial evidence.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       },
       {
         "treatment": "example_non_example",
-        "heading": "Context determines whether gearing is a concern",
-        "body": "Example: a stable utility with predictable customer demand and valuable long-lived assets may be able to sustain relatively high gearing because its cash inflows are more dependable. Non-example: concluding that a gearing ratio of 60% is dangerous without knowing the formula used, the industry, the interest burden, the timing of repayments or the stability of cash flow. High gearing is not automatically bad, and low gearing is not automatically prudent.",
-        "item_ids": []
+        "heading": "Using context rather than a universal threshold",
+        "body": "Example: a stable utility may be able to sustain relatively high gearing because it has more predictable operating cash flow and an asset base that can support borrowing. Non-example: saying that 60% gearing is automatically dangerous. That judgement is incomplete unless the course formula, the sector, cash stability, interest burden and refinancing position are considered.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       },
       {
         "treatment": "guided_example",
-        "heading": "Guided gearing calculation using the course convention",
-        "body": "Suppose a business has total equity of £700,000 and non-current liabilities of £300,000. First, calculate capital employed: £700,000 + £300,000 = £1,000,000. Next, divide non-current liabilities by capital employed: £300,000 ÷ £1,000,000 = 0.30. Finally, multiply by 100: gearing is 30%. This means that 30% of capital employed is financed by non-current liabilities. State the convention because other contexts may use a different denominator.",
-        "item_ids": []
+        "heading": "Guided calculation: apply the course convention",
+        "body": "A business has non-current liabilities of £240,000 and total equity of £560,000. First find capital employed: £560,000 + £240,000 = £800,000. Next divide non-current liabilities by capital employed: £240,000 ÷ £800,000 = 0.30. Finally multiply by 100: gearing is 30%. State that this means 30% of capital employed is financed by non-current liabilities under the course convention.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       },
       {
         "treatment": "misconception_repair",
-        "heading": "Ratios do not provide a complete decision",
-        "body": "Misconception: high gearing is always bad. Correction: it increases financial risk, but it may be reasonable where cash flows are stable and borrowing finances assets that generate strong returns. Misconception: a ratio tells managers exactly what to do. Correction: a ratio identifies a relationship requiring investigation. Managers should compare trends over time and against relevant competitors, then consider interest costs, refinancing dates, cash forecasts, ownership objectives and non-financial evidence.",
-        "item_ids": []
+        "heading": "Avoid two common errors",
+        "body": "High gearing is not always bad. It raises financial risk, but debt may be a reasonable choice where cash flows are stable and borrowing finances productive assets. Equally, low gearing is not automatically prudent: the business may be diluting ownership or leaving borrowing capacity unused. Also, do not substitute another gearing denominator. For this course, use non-current liabilities ÷ (total equity + non-current liabilities) × 100.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       },
       {
         "treatment": "self_explanation_prompt",
-        "heading": "Explain the trade-off",
-        "body": "A retailer is considering either a long-term loan or a new share issue to finance a warehouse. Explain to yourself how each option could affect gearing, financial risk and ownership control. Then identify two pieces of additional evidence you would want before recommending either option.",
-        "item_ids": []
+        "heading": "Explain the risk chain",
+        "body": "Explain in your own words: why could a highly profitable business still face financial distress after demand falls sharply if it has high gearing? Include the links between lower operating cash flow, fixed debt-service obligations, and the ability to refinance or invest.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       },
       {
         "treatment": "worked_example",
-        "heading": "Worked interpretation: profitable but financially vulnerable",
-        "body": "A highly profitable manufacturer has substantial long-term borrowing. Demand then falls sharply. Operating profit and cash receipts decline, but interest and scheduled repayments remain fixed claims. As a result, the business may face debt-service pressure despite having previously reported good profits. This shows why gearing should be considered alongside cash-flow reliability, interest obligations, repayment maturity and the likelihood of a downturn.",
-        "item_ids": []
+        "heading": "Worked example: calculate and interpret gearing",
+        "body": "Northway Components has £360,000 of non-current liabilities and £840,000 of total equity. Its capital employed is £1,200,000. Gearing is £360,000 ÷ £1,200,000 × 100 = 30%. Therefore, 30% of its capital employed is financed by non-current liabilities. This does not by itself show whether the business should reduce debt: management should also examine cash-flow volatility, interest costs, asset security and refinancing risk.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ]
       }
     ],
     "key_terms": [
@@ -47,15 +59,15 @@
       },
       {
         "term": "gearing",
-        "definition": "The degree to which a business uses debt relative to a defined capital base."
+        "definition": "The degree to which a business relies on debt relative to a defined capital base."
       },
       {
         "term": "financial risk",
-        "definition": "Risk created by financing obligations, such as interest and repayments, in addition to operating risk."
+        "definition": "Risk arising from financing obligations, such as interest and repayments, in addition to operating risk."
       },
       {
-        "term": "equity",
-        "definition": "Finance provided by owners or shareholders, who receive the residual return and bear residual risk."
+        "term": "total equity",
+        "definition": "The capital attributable to the owners of a business."
       },
       {
         "term": "non-current liabilities",
@@ -66,79 +78,130 @@
         "definition": "For the course gearing convention, total equity plus non-current liabilities."
       },
       {
-        "term": "interest cover",
-        "definition": "A measure relating profit to interest obligations, where it is relevant to the analysis."
-      },
-      {
         "term": "ownership dilution",
-        "definition": "A reduction in existing owners' proportion of control following the issue of new equity."
+        "definition": "A reduction in existing owners' proportion of ownership after new equity is issued."
       }
     ],
-    "worked_examples": []
+    "worked_examples": [
+      {
+        "id": "we-gearing-northway",
+        "item_id": "aqa-7132-3.7.2:gearing",
+        "scenario": "Northway Components has non-current liabilities of £360,000 and total equity of £840,000.",
+        "steps": [
+          "Add total equity and non-current liabilities to find capital employed: £840,000 + £360,000 = £1,200,000.",
+          "Divide non-current liabilities by capital employed: £360,000 ÷ £1,200,000 = 0.30.",
+          "Multiply by 100 to express the result as a percentage.",
+          "Gearing is 30%, meaning that 30% of capital employed is financed by non-current liabilities."
+        ],
+        "calc": {
+          "formula_id": "gearing",
+          "inputs": [
+            {
+              "name": "non_current_liabilities",
+              "value": 360000
+            },
+            {
+              "name": "total_equity",
+              "value": 840000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "percent"
+        }
+      }
+    ]
   },
   "practice": {
     "items": [
       {
-        "id": "retrieval-capital-structure",
+        "id": "p-gearing-retrieval",
         "capability": "retrieval",
-        "item_ids": [],
-        "prompt": "Define capital structure.",
-        "answer": "The mix of debt and equity used to finance a business.",
-        "explanation": "Capital structure concerns where long-term finance comes from, including borrowing and owners' funds.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "State the gearing formula required on this course.",
+        "answer": "Non-current liabilities ÷ (total equity + non-current liabilities) × 100.",
+        "explanation": "The denominator is capital employed, defined here as total equity plus non-current liabilities.",
         "calc": null
       },
       {
-        "id": "calculation-gearing",
+        "id": "p-gearing-calculation",
         "capability": "calculation",
-        "item_ids": [],
-        "prompt": "A business has total equity of £540,000 and non-current liabilities of £360,000. Using the course convention, calculate gearing.",
-        "answer": "40%.",
-        "explanation": "Capital employed is £540,000 + £360,000 = £900,000. Gearing is £360,000 ÷ £900,000 × 100 = 40%.",
-        "calc": null
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "Orchard Retail has non-current liabilities of £450,000 and total equity of £1,050,000. Calculate gearing using the course convention.",
+        "answer": "30%.",
+        "explanation": "Capital employed is £1,500,000. £450,000 ÷ £1,500,000 × 100 = 30%.",
+        "calc": {
+          "formula_id": "gearing",
+          "inputs": [
+            {
+              "name": "non_current_liabilities",
+              "value": 450000
+            },
+            {
+              "name": "total_equity",
+              "value": 1050000
+            }
+          ],
+          "stated_answer": 30,
+          "unit": "percent"
+        }
       },
       {
-        "id": "interpretation-gearing",
+        "id": "p-gearing-interpretation",
         "capability": "interpretation",
-        "item_ids": [],
-        "prompt": "A firm's gearing rises from 25% to 48% after it takes out a long-term loan. What does this indicate?",
-        "answer": "A greater proportion of its capital employed is financed by non-current liabilities, so financial risk has increased.",
-        "explanation": "More debt creates larger fixed finance obligations and makes profit and cash more sensitive to a downturn or interest-rate rise.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "A firm's gearing rises from 25% to 45%, using the same course convention in both years. What does this indicate?",
+        "answer": "A greater proportion of capital employed is financed by non-current liabilities, so financial risk is likely to have increased.",
+        "explanation": "More debt financing increases exposure to fixed interest and repayment obligations. The final judgement still depends on context.",
         "calc": null
       },
       {
-        "id": "contextual-application-finance-choice",
+        "id": "p-gearing-contextual-application",
         "capability": "contextual_application",
-        "item_ids": [],
-        "prompt": "A growing family-owned food producer wants to preserve family control while funding new machinery. Explain why long-term debt might appeal to it.",
-        "answer": "Debt can provide finance without issuing shares, so the family can avoid ownership dilution.",
-        "explanation": "The loan would raise gearing and financial risk, so the business must also be confident that future cash flow can meet interest and repayments.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "A fast-growing UK start-up with unpredictable sales plans to fund new equipment mainly with long-term debt. Explain one reason why its gearing matters.",
+        "answer": "Unpredictable cash flow could make interest and repayments difficult to meet if sales fall, increasing the risk of financial distress.",
+        "explanation": "Debt creates fixed claims, so volatile operating cash flow makes a highly geared structure riskier.",
         "calc": null
       },
       {
-        "id": "contextual-judgement-high-gearing",
+        "id": "p-gearing-contextual-judgement",
         "capability": "contextual_judgement",
-        "item_ids": [],
-        "prompt": "Which business is more likely to be able to support higher gearing: a regulated water supplier with predictable demand, or an early-stage fashion retailer with volatile sales? Justify your judgement.",
-        "answer": "The regulated water supplier is more likely to support higher gearing because its cash flows and asset base are likely to be more stable.",
-        "explanation": "This is a contextual judgement, not a universal rule. The retailer's volatile demand makes fixed debt obligations more risky, while both firms would still need to consider interest rates, repayments and available security.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "Two businesses both have gearing of 50%. Business A is a stable utility; Business B is a cyclical manufacturer with volatile demand. Which may be better able to sustain this gearing, and why?",
+        "answer": "Business A may be better able to sustain it because its operating cash flows are likely to be more stable.",
+        "explanation": "The same ratio can imply different levels of practical risk. Cash-flow stability, sector conditions and asset security affect the acceptability of debt.",
         "calc": null
       },
       {
-        "id": "misconception-diagnostic-ratio-decision",
+        "id": "p-gearing-misconception",
         "capability": "misconception_diagnostic",
-        "item_ids": [],
-        "prompt": "A manager says: 'Our gearing is lower than last year, so we should definitely borrow more.' What is wrong with this conclusion?",
-        "answer": "Lower gearing alone does not prove that more borrowing is appropriate.",
-        "explanation": "The manager must investigate cash-flow forecasts, interest costs, repayment dates, sector conditions, asset security, growth plans and alternatives such as equity before deciding.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "A student says, 'High gearing always means management has made a poor decision.' Is the student correct?",
+        "answer": "No. High gearing raises financial risk but can be rational when cash flows are stable and debt funds productive assets.",
+        "explanation": "Gearing is not automatically good or bad. A judgement requires evidence about returns, cash flow, interest rates, refinancing and alternatives.",
         "calc": null
       },
       {
-        "id": "reasoning-chain-interest-rates",
+        "id": "p-gearing-reasoning-chain",
         "capability": "reasoning_chain",
-        "item_ids": [],
-        "prompt": "Construct a reasoning chain showing how an interest-rate rise could affect a highly geared business and its investment decisions.",
-        "answer": "Interest-rate rise → higher finance costs on variable or refinanced debt → lower profit and cash → greater debt-service pressure → less cash or borrowing capacity for investment.",
-        "explanation": "Highly geared businesses have more debt exposure, so an increase in borrowing costs can have a stronger effect on their finances and strategic flexibility.",
+        "item_ids": [
+          "aqa-7132-3.7.2:gearing"
+        ],
+        "prompt": "Construct a reasoning chain showing how an interest-rate rise could affect a highly geared business's investment decisions.",
+        "answer": "Interest-rate rise → higher finance costs on variable or refinanced debt → lower profit and cash flow → greater debt-service pressure → less cash or borrowing capacity available for investment.",
+        "explanation": "Highly geared businesses have greater exposure to changes in borrowing costs, so finance conditions can constrain strategic choices.",
         "calc": null
       }
     ]

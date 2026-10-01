@@ -1,0 +1,225 @@
+{
+  "node_id": "bus-peo-010",
+  "learn": {
+    "title": "Leadership and management",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Management and leadership: related but different",
+        "body": "Management involves planning, organising, leading and controlling resources and activities so that objectives can be achieved. Leadership is the process of influencing and guiding people towards collective goals. In practice, a manager often needs both: organising a shift rota is management, while gaining staff commitment to a new rota is leadership. Leadership styles differ mainly in where decision authority sits and how far employees participate.",
+        "item_ids": [
+          "aqa-7132-3.2.1:management-versus-leadership",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing leadership approaches",
+        "body": "Autocratic or directive leadership keeps most decision authority with the leader. It can be fast and clear, but may overlook employee knowledge and reduce commitment. Democratic leadership is participative leadership: the leader consults employees or may use voting before deciding. It can improve commitment and use frontline ideas, but takes longer. Laissez-faire leadership is free-rein or delegative leadership: capable people have substantial discretion to make decisions and organise work within agreed boundaries. It can support creativity and rapid local responses, but needs clear objectives, capability and accountability. Paternalistic leadership combines leader authority or discipline with distinct benevolent and moral-leadership dimensions. Benevolence is individual concern for employees' professional and personal welfare; moral leadership involves integrity, self-discipline, unselfishness and role-modelling. Final decisions may still remain with the leader, so employee care does not make this democratic leadership.",
+        "item_ids": [
+          "aqa-7132-3.2.1:autocratic-leadership",
+          "aqa-7132-3.2.1:paternalistic-leadership",
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:laissez-faire-leadership"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "The Tannenbaum-Schmidt continuum",
+        "body": "Think of leadership as a sliding scale, rather than three fixed personality types:\n\nManager-centred ◀── leader decides ── leader explains ── leader consults ── team contributes to problem-solving ── team has decision freedom ──▶ Subordinate-centred\n\nMoving right means that the manager progressively shares information, consultation, problem definition and decision freedom. Consultation is not the same as delegation: a leader can ask employees for views but retain the final decision. Different decisions in the same business can sit at different points on the continuum.",
+        "item_ids": [
+          "aqa-7132-3.2.1:tannenbaum-schmidt-continuum",
+          "aqa-7132-3.2.1:autocratic-leadership",
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:laissez-faire-leadership"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why context changes the suitable style",
+        "body": "Context and leadership style affect the decision process, which then affects outcomes. For example: high urgency and safety risk → a directive decision can be communicated immediately → less delay during an emergency. By contrast, dispersed frontline knowledge and a need for commitment → participation can reveal practical issues and build support → implementation may be stronger. Delegation → local discretion → faster response, but only if employees have the capability, objectives and accountability needed. A mismatch can cause delay, weak commitment or poor control.",
+        "item_ids": [
+          "aqa-7132-3.2.1:influences-on-management-style",
+          "aqa-7132-3.2.1:autocratic-leadership",
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:laissez-faire-leadership"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Choosing a style is not choosing a permanent label",
+        "body": "Example: during a fire evacuation, a store manager gives direct instructions because speed and safety matter. After the incident, the manager consults shop-floor employees about redesigning evacuation routes because those employees may identify hazards senior managers missed. This is a rational movement along the continuum. Non-example: claiming that democratic leadership is always best because employees feel valued. This ignores urgency, risk, employee capability, information distribution and accountability. Similarly, providing staff benefits alone is not evidence of paternalistic leadership's moral dimension; evidence of integrity, self-discipline and role-modelling would also be needed.",
+        "item_ids": [
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:paternalistic-leadership",
+          "aqa-7132-3.2.1:tannenbaum-schmidt-continuum",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid absolute claims about style",
+        "body": "There is no universally best leadership style. A successful result does not prove that one style will work for every task or team. Participation is not full decentralisation, because the leader may retain final authority. Delegation is not an absence of accountability: the leader must set objectives, ensure capability and retain accountability. Paternalistic leadership is not simply autocratic leadership delivered kindly: it combines authority or discipline with both benevolent welfare concern and a moral-leadership dimension. It can still restrict employee voice because decision rights may remain concentrated.",
+        "item_ids": [
+          "aqa-7132-3.2.1:paternalistic-leadership",
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:laissez-faire-leadership",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision, not just the label",
+        "body": "A café owner lets experienced branch managers alter staffing plans within agreed budgets, but personally decides whether to close a branch after a serious food-safety breach. Explain why these decisions can sit at different points on the Tannenbaum-Schmidt continuum. In your explanation, use urgency, risk, capability, accountability and the difference between consultation and delegation.",
+        "item_ids": [
+          "aqa-7132-3.2.1:tannenbaum-schmidt-continuum",
+          "aqa-7132-3.2.1:influences-on-management-style",
+          "aqa-7132-3.2.1:laissez-faire-leadership",
+          "aqa-7132-3.2.1:autocratic-leadership"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "management",
+        "definition": "Planning, organising, leading and controlling resources and activities towards objectives."
+      },
+      {
+        "term": "leadership",
+        "definition": "Influencing and guiding people towards collective goals."
+      },
+      {
+        "term": "autocratic leadership",
+        "definition": "A style in which the leader retains most decision authority."
+      },
+      {
+        "term": "democratic leadership",
+        "definition": "A participative style in which the leader involves employees through consultation or voting before deciding."
+      },
+      {
+        "term": "laissez-faire leadership",
+        "definition": "A free-rein style in which the leader gives the team little direction and substantial freedom to organise work and make decisions."
+      },
+      {
+        "term": "delegation",
+        "definition": "Passing discretion to others while retaining agreed objectives and accountability."
+      },
+      {
+        "term": "paternalistic leadership",
+        "definition": "A leadership construct combining authority or discipline with distinct benevolent concern for employees and moral leadership based on virtue and role-modelling."
+      },
+      {
+        "term": "benevolent leadership",
+        "definition": "Individual concern for employees' professional and personal welfare."
+      },
+      {
+        "term": "moral leadership",
+        "definition": "Leadership based on integrity, self-discipline, unselfishness and role-modelling."
+      },
+      {
+        "term": "Tannenbaum-Schmidt continuum",
+        "definition": "A continuum from manager-centred to subordinate-centred decision making, with progressively greater sharing of information, consultation and decision freedom."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-peo-010-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.2.1:management-versus-leadership"
+        ],
+        "prompt": "State one difference between management and leadership.",
+        "answer": "Management includes planning, organising and controlling resources, whereas leadership focuses on influencing and guiding people towards goals.",
+        "explanation": "The two overlap in real roles, but management covers coordinating activity and resources while leadership emphasises influence over people.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.2.1:democratic-leadership",
+          "aqa-7132-3.2.1:laissez-faire-leadership",
+          "aqa-7132-3.2.1:autocratic-leadership"
+        ],
+        "prompt": "A manager asks technicians for ideas about improving a repair process, then makes the final decision. Identify the style most closely shown and explain why it is not laissez-faire leadership.",
+        "answer": "Democratic/participative leadership. The manager consults employees but retains the final decision, whereas laissez-faire leadership gives capable employees substantial decision freedom.",
+        "explanation": "Employee involvement does not automatically mean the decision has been delegated.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.2.1:autocratic-leadership",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ],
+        "prompt": "A warehouse discovers a gas leak during a busy shift. Recommend a leadership approach for the immediate response.",
+        "answer": "Autocratic/directive leadership is appropriate immediately because the manager can give fast, clear evacuation instructions when safety risk and urgency are high.",
+        "explanation": "A consultation process could create dangerous delay in an emergency.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p4",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.2.1:paternalistic-leadership",
+          "aqa-7132-3.2.1:democratic-leadership"
+        ],
+        "prompt": "Compare paternalistic and democratic leadership. Include decision authority in your answer.",
+        "answer": "Democratic leadership involves employees materially in decisions, although the leader may decide finally. Paternalistic leadership combines authority or discipline with benevolent concern and moral leadership, so final decision rights can remain concentrated. Therefore, employee care does not by itself make paternalistic leadership democratic.",
+        "explanation": "The approaches may both value employees, but they differ in the role employees have in decision making and in the dimensions used to describe the leadership approach.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p5",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.2.1:tannenbaum-schmidt-continuum",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ],
+        "prompt": "A software firm wants to redesign an internal tool. Its developers are highly skilled, hold much of the relevant knowledge and will have to use the new system. Use the Tannenbaum-Schmidt continuum to recommend a position.",
+        "answer": "Use a position towards the subordinate-centred end, with extensive consultation or delegated design boundaries. Developers have relevant knowledge and commitment matters, although leaders should retain clear objectives and accountability.",
+        "explanation": "The continuum helps match the distribution of authority to capability, information distribution and the need for commitment; it does not require total freedom.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.2.1:paternalistic-leadership"
+        ],
+        "prompt": "A manager funds counselling and flexible working, but regularly breaks promises, takes credit for team work and gives no ethical example. A student says this proves paternalistic leadership. Is the student correct?",
+        "answer": "No. Welfare provision may show benevolent concern, but paternalistic leadership also includes a moral-leadership dimension. The manager's behaviour provides no evidence of integrity, self-discipline or role-modelling.",
+        "explanation": "Benevolence and moral leadership are distinct dimensions; concern for welfare alone is insufficient evidence for the full construct.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p7",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.2.1:laissez-faire-leadership",
+          "aqa-7132-3.2.1:influences-on-management-style"
+        ],
+        "prompt": "Explain one chain of reasoning for why laissez-faire leadership could improve performance in a team of experienced graphic designers.",
+        "answer": "Substantial discretion can allow experienced designers to respond quickly to client feedback and use their specialist knowledge. This may improve the quality or speed of design work, provided objectives and accountability are clear.",
+        "explanation": "The benefit follows from capable employees having useful local knowledge, not from laissez-faire leadership being universally effective.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-010-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.2.1:influences-on-management-style",
+          "aqa-7132-3.2.1:tannenbaum-schmidt-continuum"
+        ],
+        "prompt": "A retailer is deciding whether to introduce self-checkouts. The decision is reversible only at high cost, staff have useful knowledge of customer queues, and head office remains legally accountable. Judge whether head office should simply delegate the decision to each store manager.",
+        "answer": "Head office should not simply delegate the whole decision. Store managers and staff should be consulted because they hold local information, but the high cost, risk and head-office accountability justify central control of the final decision or clear delegated limits.",
+        "explanation": "A balanced judgement weighs local information and commitment against reversibility, risk and accountability. Different parts of the decision can sit at different points on the continuum.",
+        "calc": null
+      }
+    ]
+  }
+}

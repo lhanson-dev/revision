@@ -1,0 +1,193 @@
+{
+  "node_id": "bus-ops-002",
+  "learn": {
+    "title": "Production and process methods",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Process, layout and operational performance",
+        "body": "A business chooses a process method to match the volume and variety of its output. Job or project work suits one-off, customised work; batch production makes groups of similar outputs; flow and continuous processes suit repeated, high-volume activity. This choice affects capacity, efficiency, skills, quality and cost. A layout decision is separate: it concerns where people, equipment and materials are arranged. Better layouts can reduce unnecessary movement, hand-offs and waiting, helping existing capacity to be used more effectively. Technology can improve consistency and productivity, but it may require investment, maintenance and new employee skills.",
+        "item_ids": [
+          "aqa-7132-3.4.3:improving-capacity-use",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Labour-intensive and capital-intensive methods",
+        "body": "A labour-intensive operation relies mainly on employees, so labour is its largest cost. It is often suitable where customers value personal service or customised work, such as a hairdresser or consultancy. It can be flexible, but output may be constrained by available staff and their skills. A capital-intensive operation relies mainly on machinery and equipment, making fixed costs relatively important. A car plant is an example. At high, stable volumes, specialist equipment may lower unit costs and raise consistency; however, it needs substantial investment and may be less adaptable if demand or product design changes.",
+        "item_ids": [
+          "aqa-7132-3.4.3:labour-intensive-versus-capital-intensive",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising choices correctly",
+        "body": "A bakery making 500 identical rolls before changing to 500 iced buns uses batch production. A bottling line moving identical bottles through repeated stages uses flow production. A chemical plant operating near-uninterrupted at high volume uses a continuous process. A construction firm creating a customer-specific building uses job/project logic. Installing a computer-controlled oven in the bakery is automation, not a new process category: automation can be used in different process types. Equally, a service business can make layout choices, for example arranging a salon so staff and customers do not make unnecessary journeys.",
+        "item_ids": [
+          "aqa-7132-3.4.3:technology-and-efficiency",
+          "aqa-7132-3.4.3:improving-capacity-use"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided example: choosing changes for a busy bakery",
+        "body": "A bakery has strong morning demand, queues at the packing bench and employees repeatedly walking to collect labels. First, identify the constraint: the packing area and unnecessary movement are limiting the rate at which orders leave. Next, improve capacity use by changing the layout so labels and packaging are beside the packing bench; this reduces waiting and movement without buying more machinery. Then consider technology: a label printer could speed a repetitive task and improve consistency, but the bakery should check its cost, maintenance needs and whether demand is stable enough to justify it. Finally, judge the outcome using service speed, labour time, quality and the ability to cope with peak demand.",
+        "item_ids": [
+          "aqa-7132-3.4.3:improving-capacity-use",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Automation is not the same as flow production",
+        "body": "It is incorrect to assume that any automated operation is flow production. Flow production describes repeated sequential activity at relatively high volume. Automation describes using technology to perform tasks with less direct human intervention. For example, a customised project could use automated cutting equipment while still remaining job/project production. Conversely, a flow line may still need employees to complete some tasks. The key question is whether the technology improves the whole workflow rather than merely speeding up one activity and creating more waiting elsewhere.",
+        "item_ids": [
+          "aqa-7132-3.4.3:technology-and-efficiency",
+          "aqa-7132-3.4.3:improving-capacity-use"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "A sequence for improving efficiency and capacity use",
+        "body": "1. Understand demand volume, variety and timing. 2. Map the workflow and locate delays, repeated movement, hand-offs or underused resources. 3. Identify whether the constraint is caused by layout, skills, equipment, process design or demand peaks. 4. Select a response, such as rearranging resources, changing work allocation, improving employee skills or introducing appropriate technology. 5. Consider consequences for capital spending, maintenance, flexibility, quality and employees. 6. Monitor whether output, waiting time, productivity and quality actually improve. Automating a poorly designed workflow can simply make waste happen faster.",
+        "item_ids": [
+          "aqa-7132-3.4.3:improving-capacity-use",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: evaluating technology in a service operation",
+        "body": "A vehicle repair business has technicians walking between work bays and a parts store. It considers a digital stock-location system. Step 1: the manager identifies lost time from movement and waiting for parts. Step 2: placing frequently used parts closer to bays may improve capacity use immediately. Step 3: the digital system could help locate stock accurately and reduce repeated searching, potentially increasing technician productivity. Step 4: the manager also considers training, equipment cost, system reliability and whether the business has enough repair demand to benefit. The best decision may combine a layout improvement with technology, rather than treating technology as an automatic solution.",
+        "item_ids": [
+          "aqa-7132-3.4.3:improving-capacity-use",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "capacity use",
+        "definition": "The extent to which a business makes use of its available ability to produce goods or services."
+      },
+      {
+        "term": "efficiency",
+        "definition": "Producing output while using time, labour, materials and other resources with as little waste as possible."
+      },
+      {
+        "term": "labour productivity",
+        "definition": "The output produced by employees over a given period or from a given labour input."
+      },
+      {
+        "term": "labour-intensive production",
+        "definition": "Production that relies mainly on people, with labour as the largest cost."
+      },
+      {
+        "term": "capital-intensive production",
+        "definition": "Production that relies mainly on machinery and equipment, with fixed costs relatively important."
+      },
+      {
+        "term": "automation",
+        "definition": "Using technology to perform tasks with reduced direct human intervention."
+      },
+      {
+        "term": "process layout",
+        "definition": "A layout that groups similar activities or resources together."
+      },
+      {
+        "term": "product layout",
+        "definition": "A layout that arranges resources in the sequence needed to produce an output."
+      },
+      {
+        "term": "fixed-position layout",
+        "definition": "A layout where the output stays in one place while people, equipment and materials move to it."
+      },
+      {
+        "term": "cellular layout",
+        "definition": "A layout that groups resources around a family of related products or tasks."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ops-002-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.3:labour-intensive-versus-capital-intensive"
+        ],
+        "prompt": "State what is meant by capital-intensive production.",
+        "answer": "Production that relies mainly on machinery and equipment, so fixed costs are relatively important.",
+        "explanation": "Capital-intensive operations use equipment rather than mainly employee labour to create output.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-002-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.4.3:technology-and-efficiency",
+          "aqa-7132-3.4.3:improving-capacity-use"
+        ],
+        "prompt": "A furniture maker installs an automated cutting machine but still makes one-off customer-designed tables. Is the business necessarily using flow production? Explain briefly.",
+        "answer": "No. It is using automation, but its customised one-off output can still use job/project production.",
+        "explanation": "Automation is a technology choice, whereas flow production is a repeated sequential process for relatively high volumes.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-002-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.4.3:labour-intensive-versus-capital-intensive",
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity"
+        ],
+        "prompt": "Compare labour-intensive and capital-intensive methods for a business offering highly personalised wedding cakes. Which is likely to be more suitable?",
+        "answer": "Labour-intensive production is likely to be more suitable because skilled employees can adapt designs to individual customers. Capital-intensive equipment may improve some repetitive tasks, but heavy investment is harder to justify where variety is high and output volumes may be lower.",
+        "explanation": "Personalisation requires flexibility and skills. Capital-intensive production can lower unit costs at high volume, but may be less suitable for varied, customised orders.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-002-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.3:improving-capacity-use"
+        ],
+        "prompt": "A café has empty tables but customers wait a long time because staff walk repeatedly from the till to a distant collection point for cups and lids. Suggest one way to improve capacity use and explain why it could work.",
+        "answer": "Move cups and lids nearer to the till or create a better-organised service area. This reduces staff movement and waiting, allowing more orders to be processed with the same staff and space.",
+        "explanation": "Capacity use can improve when a layout removes delays and unnecessary movement at a bottleneck.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-002-p5",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+          "aqa-7132-3.4.3:technology-and-efficiency"
+        ],
+        "prompt": "Put these actions in a sensible order for a firm considering automation: identify workflow delays; assess investment, maintenance and skill implications; introduce the selected change; monitor effects on output and quality.",
+        "answer": "1. Identify workflow delays. 2. Assess investment, maintenance and skill implications. 3. Introduce the selected change. 4. Monitor effects on output and quality.",
+        "explanation": "A business should diagnose the problem before selecting technology, consider consequences before implementation, and then check whether performance improves.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-002-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.3:technology-and-efficiency",
+          "aqa-7132-3.4.3:improving-capacity-use"
+        ],
+        "prompt": "A manager says, 'Buying robots will always improve efficiency because robots work faster than people.' Identify the weakness in this claim.",
+        "answer": "Robots may speed up one task but not improve the whole process. They can create bottlenecks elsewhere and require capital, maintenance, training and suitable demand.",
+        "explanation": "Efficiency depends on the full workflow and resources used, not only the speed of one activity. Automating waste does not remove it.",
+        "calc": null
+      }
+    ]
+  }
+}

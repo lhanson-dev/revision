@@ -1,0 +1,245 @@
+{
+  "node_id": "bus-fnd-006",
+  "learn": {
+    "title": "Stakeholders, interests, power and conflict",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Analyse stakeholders, rather than simply listing them",
+        "body": "A stakeholder is a person or group that affects, is affected by, or has a legitimate interest in a business. Useful analysis asks four linked questions: what does this stakeholder value; how will the decision affect it; what power does it have in this situation; and how might it respond? Interests may overlap, but they can also conflict. Power is contextual: it can arise from law, finance, contracts, scarce skills or resources, collective action, or customer choice. A stakeholder’s importance is therefore not determined solely by whether it owns shares.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Shareholder and stakeholder concepts compared",
+        "body": "The shareholder concept gives priority to returns and value for owners, such as profit, dividends and share price. The stakeholder concept considers effects on all affected groups, including employees, customers, suppliers and communities. These approaches can conflict in the short term: higher wages or lower pollution may reduce current profit. They can also align over time, because fair treatment can build loyalty, reputation and lower risk. The approach adopted can affect choices about pricing, investment and staff treatment.",
+        "item_ids": [
+          "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How a decision creates stakeholder feedback",
+        "body": "A decision does not end with its immediate financial effect. For example: longer supplier payment terms → better short-run cash position for the buyer → weaker cash flow for small suppliers → suppliers may raise prices, reduce service or fail → poorer supply reliability and possible reputational damage for the buyer. Similarly, dependence on a resource held by a stakeholder → bargaining power for that stakeholder → constraints on the business’s decision.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Use a power-interest matrix to set engagement priorities",
+        "body": "Place each stakeholder according to its power to influence this particular decision and its level of interest or exposure.\n\n| | Low interest | High interest |\n|---|---|---|\n| High power | Keep satisfied | Engage closely |\n| Low power | Monitor | Keep informed |\n\nPower is not moral importance, and interest is not the same as support. A position can change when the decision, dependency or evidence changes. The matrix helps plan communication, but it does not automatically decide whose preferred outcome should be chosen.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: choosing consultation for a store closure",
+        "body": "A retailer is considering closing a town-centre branch. Employees face job losses and have high interest; if represented collectively, they may also have significant power through collective action. The local council may be highly interested if the closure affects the high street, but its practical power depends on planning, grants or other links to the retailer. Regular customers may care greatly, but their power depends on whether enough can switch spending or influence reputation. The retailer should engage closely with high-power, high-interest groups, while keeping other affected groups informed. It should not assume a fixed placement without evidence about the particular circumstances.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders",
+          "aqa-7132-3.2.3:stakeholder-needs"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "What strong stakeholder analysis looks like",
+        "body": "Strong analysis: ‘Extending payment terms may improve the retailer’s short-run cash, but small suppliers that rely on prompt payment may face liquidity pressure. If they respond by reducing service or increasing prices, the retailer’s long-run supply reliability could worsen.’\n\nWeak analysis: ‘Employees want high pay and owners want profit.’ This merely lists generic interests. It does not explain the decision, the likely response, stakeholder power or consequences.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Conflict does not always require one side simply to lose",
+        "body": "It is incorrect to assume that shareholders are the only stakeholders that matter. Business performance depends on relationships with multiple groups, and director decision-making includes consideration of long-term consequences and specified stakeholder interests. It is also incorrect to assume every conflict has only one winner. A business may redesign a proposal, alter its timing or consult on alternatives to reduce conflict. However, genuine trade-offs can remain, so evaluate magnitude, likelihood, reversibility and long-term relationships.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict",
+          "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Stakeholders connect finance, operations and strategy",
+        "body": "Stakeholder choices can affect several business areas at once. Delaying supplier payments may improve working capital in the short term, but it can also damage supplier trust and operational reliability. Consulting employees about restructuring may take time and cost money, yet can affect labour supply, retention and implementation risk. Strong judgement weighs short-run financial effects against strategic dependence, legal duties, reputation and long-term relationships.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders",
+          "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your prioritisation",
+        "body": "Choose a business decision, such as replacing a local supplier with a cheaper overseas supplier. Explain: (1) which stakeholders are affected, (2) one overlapping interest and one conflict, (3) which stakeholder has the greatest practical power and why, and (4) how consultation could change the eventual decision. Include a short-run and a long-run consequence.",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict",
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "stakeholder",
+        "definition": "A party that affects, is affected by, or has a legitimate interest in an organisation."
+      },
+      {
+        "term": "stakeholder interest",
+        "definition": "An outcome or condition that a stakeholder values."
+      },
+      {
+        "term": "stakeholder power",
+        "definition": "The ability of a stakeholder to influence a business or the consequences of its decisions."
+      },
+      {
+        "term": "stakeholder conflict",
+        "definition": "Tension created by incompatible or competing stakeholder interests."
+      },
+      {
+        "term": "power-interest matrix",
+        "definition": "A framework that groups stakeholders by their power over a decision and their interest in it, helping to prioritise engagement."
+      },
+      {
+        "term": "shareholder concept",
+        "definition": "The view that a business should mainly maximise returns and value for its owners."
+      },
+      {
+        "term": "stakeholder concept",
+        "definition": "The view that a business should consider impacts on all groups affected by its activities."
+      },
+      {
+        "term": "consultation",
+        "definition": "Seeking stakeholder views before or during a decision-making process."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-006-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs"
+        ],
+        "prompt": "Define stakeholder power.",
+        "answer": "The ability of a stakeholder to influence the business or the consequences of its decisions.",
+        "explanation": "Power concerns practical influence in a particular context, not simply membership of a stakeholder category.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept"
+        ],
+        "prompt": "A business rejects a profitable project because it would create substantial pollution for nearby residents. Which concept is most clearly shaping this decision: shareholder or stakeholder?",
+        "answer": "Stakeholder concept.",
+        "explanation": "The business is considering the impact on an affected group beyond its owners, even though short-run profit is available.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p3",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest"
+        ],
+        "prompt": "A manufacturer plans to close a factory. The environmental regulator has publicly opened an active investigation into contamination at the site. A national lender has restrictive loan covenants that could be breached if closure costs rise, but the loan is a small part of the lender’s overall lending portfolio and the lender has made no public statement. Factory employees face redundancy and are represented by a recognised union. Place these stakeholders on a power-interest matrix, stating any reasonable assumptions needed for your placements.",
+        "answer": "One justified map is: employees/union — high power, high interest; regulator — high power, high interest; lender — high power, low interest. This assumes the union can organise effective collective action, the regulator can use its formal authority and is concerned because of its active investigation, and the lender can enforce covenants but has limited interest because its financial exposure is small. Other placements may be justified if different, stated evidence-based assumptions are used.",
+        "explanation": "The matrix is decision-specific. The scenario supports the regulator’s interest and formal power, while the lender’s power comes from covenants but its interest is qualified by limited exposure. Explicit assumptions avoid treating matrix positions as fixed facts.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p4",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders"
+        ],
+        "prompt": "Construct a two-step communication plan for a café chain intending to reduce staff hours at three branches. Name a stakeholder group, the communication method and the purpose at each step.",
+        "answer": "First, meet affected employees and representatives before final decisions to explain the proposal and gather information on workable alternatives. Second, give customers clear branch-specific updates through notices and digital channels once a decision is made, so they understand any changed opening hours.",
+        "explanation": "Employees need meaningful consultation because they are directly affected and may identify operational consequences. Customers need timely information to reduce confusion and protect demand.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict"
+        ],
+        "prompt": "A supermarket extends payment terms for small food suppliers from 30 to 90 days. Explain one likely stakeholder conflict created by this decision.",
+        "answer": "The supermarket may improve its short-run cash position, while small suppliers may face weaker liquidity. Suppliers may respond by raising prices, reducing service or becoming unable to supply, creating a conflict between the buyer’s cash objective and suppliers’ need for prompt payment.",
+        "explanation": "A strong response identifies the decision, contrasting interests and a plausible response mechanism rather than only listing groups.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p6",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-overlap-and-conflict"
+        ],
+        "prompt": "Complete the reasoning chain: A business cuts product quality to reduce costs → customers notice poorer reliability → ______ → ______.",
+        "answer": "customers may switch to competitors or complain; demand and reputation may fall, reducing longer-term revenue.",
+        "explanation": "Stakeholder responses can create operational, financial and reputational feedback that reverses an apparent short-run benefit.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p7",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept"
+        ],
+        "prompt": "Compare the shareholder and stakeholder concepts, then justify why a business might follow a stakeholder approach even when it reduces short-run profit.",
+        "answer": "The shareholder concept prioritises owners’ returns and value, whereas the stakeholder concept considers all affected groups. A stakeholder approach may reduce short-run profit through, for example, better pay or lower pollution, but it can protect reputation, loyalty, supply reliability and long-term risk.",
+        "explanation": "The concepts differ in whose interests are considered. The justification must recognise that longer-term benefits may align stakeholder treatment with business performance.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders",
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest"
+        ],
+        "prompt": "A technology business plans to relocate 80 roles from Manchester to London. Should it consult employees before announcing a final decision? Make a judgement.",
+        "answer": "It should normally consult employees before finalising the decision, because they have high exposure and may provide evidence about retention, recruitment and workable alternatives. However, the extent of consultation should reflect commercial confidentiality and the urgency of the decision.",
+        "explanation": "The judgement considers stakeholder impact and the value of information, while recognising that consultation is not unlimited or risk-free.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p9",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest"
+        ],
+        "prompt": "A student says: ‘High-power stakeholders must always get what they want.’ Identify the error.",
+        "answer": "High power means the ability to influence a decision, not an automatic right to the preferred outcome.",
+        "explanation": "A power-interest matrix helps prioritise engagement. It does not decide ethical legitimacy, legal rights or the final business decision.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-006-p10",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.2.3:stakeholder-needs",
+          "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+          "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders"
+        ],
+        "prompt": "A clothing retailer wants to replace a scarce UK fabric supplier with a cheaper alternative. Select the best first action: A) choose the cheapest supplier immediately because profit is the only relevant measure; B) identify the current supplier’s dependency and practical power, assess quality and supply risks, then discuss options with affected stakeholders; C) communicate only with shareholders because they own the business; D) place every stakeholder in the high-power/high-interest quadrant.",
+        "answer": "B",
+        "explanation": "The retailer should assess stakeholder dependency, likely operational consequences and relevant communication before committing. The other options wrongly oversimplify stakeholder importance or the matrix.",
+        "calc": null
+      }
+    ]
+  }
+}

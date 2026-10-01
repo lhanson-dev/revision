@@ -1,0 +1,263 @@
+{
+  "node_id": "bus-ext-006",
+  "learn": {
+    "title": "Sustainability, net zero, environmental claims and ESG reporting",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Sustainability decisions and business performance",
+        "body": "Sustainability means managing business activity so economic, environmental and social systems can remain viable over time. A business should examine energy, emissions, materials, water, waste, pollution and supply-chain effects. It may face environmental legislation, customer expectations and investor scrutiny. Improvements can lower resource costs and risk, but may also need upfront investment and create trade-offs with speed, flexibility or short-run cost. Fair trade is one sourcing approach that can support producers while affecting input costs. Technological change can help a business measure, control or reduce impacts, but its costs and effectiveness must be assessed.",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade",
+          "aqa-7132-3.7.4:environmental-legislation",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing fair trade, environmental legislation and the Triple Bottom Line",
+        "body": "Fair trade concerns trading conditions for producers in developing countries: it can offer a guaranteed minimum price, a community premium and agreed labour and environmental standards. Environmental legislation is binding law: it can limit pollution, emissions and waste, require permits or reporting, and make non-compliance costly. The Triple Bottom Line is an analysis framework using people, planet and profit/economic viability. Unlike legislation, it does not set a universal weighting or make one measure decisive. Unlike fair trade, it is not solely a sourcing arrangement: it can be used to assess impacts across a whole decision.",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade",
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.4:environmental-legislation"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Specific claims versus vague claims",
+        "body": "Example: ‘This carton contains 80% recycled material, measured by weight’ is more credible because it states what is being claimed and its scope. Non-example: calling a product ‘green’ because one component is recycled. That does not show that the whole product has a lower environmental impact. Likewise, a recyclable package is not automatically better overall: product protection, transport, waste and end-of-life effects also matter.",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided analysis: deciding whether to introduce fair trade ingredients",
+        "body": "A chocolate business is considering fair trade cocoa. Step 1: identify the people effects, such as conditions and income for producers. Step 2: identify planet effects, including the agreed environmental standards and the wider supply-chain impact. Step 3: identify profit/economic effects, including higher input costs, certification requirements and the possibility of ethical appeal or a price premium. Step 4: decide what evidence is needed, such as supplier traceability and the likely customer response. Step 5: reach a conditional judgement: fair trade may strengthen ethical appeal, but its value depends on whether the business can manage the cost and verify its sourcing.",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade",
+          "aqa-7132-3.7.3:triple-bottom-line"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Reporting, net zero and real performance",
+        "body": "ESG reporting does not prove that a business is sustainable. It organises selected environmental, social and governance information, but metrics may be incomplete, selectively framed or lack comparable boundaries. Net zero also does not mean no emissions at all. It means deep emissions reductions and balancing residual emissions within a defined boundary using credible removals or other accepted mechanisms. When reviewing a report or claim, ask for targets, boundaries, evidence and outcomes.",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.4:environmental-legislation"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A decision map for environmental change",
+        "body": "Use this chain to structure analysis:\n\nOperations or sourcing\n→ energy, materials, emissions and supply-chain impacts\n→ customer, regulator and investor response\n→ costs, risks and strategic choices\n→ people / planet / profit outcomes.\n\nTechnological change can enter at the operations stage. For example, improved measurement and traceability can produce better impact data, which can improve control and make environmental claims more credible. However, technology may require investment, and better reporting is still not proof of better performance.",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.4:environmental-legislation",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From a misleading claim to business risk",
+        "body": "A vague or exaggerated environmental claim can lead consumers, regulators or other stakeholders to question the business. This can damage trust and reputation and may create regulatory risk. The business may then face costs of correcting labels, changing processes or responding to scrutiny. To reduce this risk, claims should be specific, evidence-based and clear about their boundary. Traceability and reliable data can improve claim credibility.",
+        "item_ids": [
+          "aqa-7132-3.7.4:environmental-legislation",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: lifecycle thinking before a packaging change",
+        "body": "A drinks business plans to use lighter packaging. First, it identifies a possible planet benefit: less material and lower transport emissions. Second, it tests lifecycle effects: does the new pack remain recyclable, and does it protect drinks equally well? Third, it checks whether more damaged drinks would create extra waste. Fourth, it considers profit: material and transport savings may be offset by investment or greater losses from damage. Finally, it considers people: customers need clear disposal information and a product that remains reliable. The conclusion is that lighter packaging may be an improvement, but only if evidence shows that harm has not been shifted elsewhere in the lifecycle.",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your judgement",
+        "body": "A retailer introduces technology that tracks supplier material use and publishes an ESG report. Explain why this could improve decision-making and claim credibility, but why it does not by itself prove improved environmental or social performance. Then use people, planet and profit to identify one possible trade-off.",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line",
+          "aqa-7132-3.7.6:technological-change"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "sustainability",
+        "definition": "Managing activity so economic, environmental and social systems remain viable over time."
+      },
+      {
+        "term": "net zero",
+        "definition": "Deep emissions reduction plus balancing residual emissions within a defined boundary."
+      },
+      {
+        "term": "greenwashing",
+        "definition": "A misleading or exaggerated environmental representation."
+      },
+      {
+        "term": "ESG",
+        "definition": "Environmental, social and governance dimensions used in reporting and analysis."
+      },
+      {
+        "term": "lifecycle",
+        "definition": "The stages from inputs and production through use and end-of-life."
+      },
+      {
+        "term": "fair trade",
+        "definition": "A trading approach involving a guaranteed minimum price and community premium for producers in developing countries, alongside agreed labour and environmental standards."
+      },
+      {
+        "term": "environmental legislation",
+        "definition": "Binding laws on matters such as pollution, emissions, waste, permits and reporting."
+      },
+      {
+        "term": "environmental objectives",
+        "definition": "Measurable, time-bound targets to reduce a business's environmental impact."
+      },
+      {
+        "term": "Triple Bottom Line",
+        "definition": "A framework that assesses people, planet and profit/economic performance together."
+      },
+      {
+        "term": "technological change",
+        "definition": "The introduction or development of technology that can alter business processes, measurement, control or impact data."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade"
+        ],
+        "prompt": "State two features of fair trade described in this topic.",
+        "answer": "A guaranteed minimum price for producers and a premium for community investment.",
+        "explanation": "Fair trade also involves agreed labour and environmental standards.",
+        "calc": null
+      },
+      {
+        "id": "p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line"
+        ],
+        "prompt": "Which statement best describes the Triple Bottom Line?\nA. A legal limit on carbon emissions\nB. A framework considering people, planet and profit\nC. Proof that an ESG report is accurate\nD. A method that gives every outcome the same monetary value",
+        "answer": "B. A framework considering people, planet and profit.",
+        "explanation": "The framework broadens analysis beyond financial outcomes, but it does not prescribe one universal weighting or prove impact.",
+        "calc": null
+      },
+      {
+        "id": "p3",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.7.4:environmental-legislation"
+        ],
+        "prompt": "Write one measurable environmental objective for a café chain. Include a measure, a target and a deadline.",
+        "answer": "For example: reduce waste sent to landfill by 20% within three years.",
+        "explanation": "A useful environmental objective is measurable and has a deadline, so it can guide decisions and later be assessed.",
+        "calc": null
+      },
+      {
+        "id": "p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade",
+          "aqa-7132-3.7.3:triple-bottom-line"
+        ],
+        "prompt": "A UK coffee shop is considering fair trade beans that cost more. Apply the Triple Bottom Line to identify one issue it should investigate under each lens.",
+        "answer": "People: effects on coffee producers. Planet: environmental standards in sourcing. Profit: higher bean costs and whether customers will pay a price premium.",
+        "explanation": "The framework requires social, environmental and economic effects to be considered together rather than treating cost as the only issue.",
+        "calc": null
+      },
+      {
+        "id": "p5",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.6:technological-change"
+        ],
+        "prompt": "A manufacturer can invest in technology that improves energy-use data and identifies waste in production. Should it invest immediately? Give a justified judgement.",
+        "answer": "It should investigate the investment, but not automatically invest immediately. Better data may improve control and cut waste or energy costs, but the business must weigh the investment cost, likely benefits and payback.",
+        "explanation": "Technological change can improve measurement and operational control, but investment creates a trade-off and the outcome is not guaranteed.",
+        "calc": null
+      },
+      {
+        "id": "p6",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line"
+        ],
+        "prompt": "A delivery business changes to lighter packaging. Apply the Triple Bottom Line by giving one question for people, one for planet and one for profit.",
+        "answer": "People: will customers still receive undamaged goods? Planet: does the lighter packaging reduce total lifecycle impact, including waste? Profit: do material and transport savings exceed any extra damage or investment costs?",
+        "explanation": "The questions apply the three performance lenses and avoid assuming a single environmental benefit settles the decision.",
+        "calc": null
+      },
+      {
+        "id": "p7",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.4:environmental-legislation"
+        ],
+        "prompt": "A firm's ESG report says, ‘We are reducing our environmental footprint.’ Identify two pieces of information needed before this can be interpreted as strong evidence of performance.",
+        "answer": "For example: a defined boundary for the footprint and measured results against a stated baseline or target.",
+        "explanation": "Without scope, baseline, evidence and outcomes, a broad statement cannot show the scale or credibility of improvement.",
+        "calc": null
+      },
+      {
+        "id": "p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.3:triple-bottom-line"
+        ],
+        "prompt": "A student says, ‘A business with a detailed ESG report must have strong sustainability performance.’ What is wrong with this conclusion?",
+        "answer": "Reporting is not the same as performance. The report may select metrics and may not show strong outcomes, complete boundaries or credible evidence.",
+        "explanation": "ESG reporting can improve transparency and accountability, but it does not automatically demonstrate positive impacts.",
+        "calc": null
+      },
+      {
+        "id": "p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.4:environmental-legislation",
+          "aqa-7132-3.7.6:technological-change"
+        ],
+        "prompt": "Explain a chain showing how weak environmental controls could affect a firm's strategy.",
+        "answer": "Weak controls can increase pollution, emissions or waste. This can trigger regulatory, customer or reputational pressure, increasing risk and cost. The business may then need to change processes or invest in technology and better measurement.",
+        "explanation": "The chain links operations to environmental impact, stakeholder response and financial or strategic consequences.",
+        "calc": null
+      },
+      {
+        "id": "p10",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.1.3:fair-trade",
+          "aqa-7132-3.7.4:environmental-legislation"
+        ],
+        "prompt": "Compare fair trade with environmental legislation as influences on a business's sourcing decisions.",
+        "answer": "Fair trade is a sourcing approach that can improve ethical appeal but may raise input and certification costs. Environmental legislation is binding and requires compliance with legal requirements. Both can affect supplier choice, costs and reputation.",
+        "explanation": "The key distinction is that fair trade is an approach to trading conditions, whereas legislation imposes legal duties and penalties for breaches.",
+        "calc": null
+      },
+      {
+        "id": "p11",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.6:technological-change"
+        ],
+        "prompt": "Before installing a new monitoring system, a factory used 50,000 kWh of energy per month. After installation, it used 44,000 kWh per month. Calculate the percentage reduction in energy use.",
+        "answer": "12% reduction.",
+        "explanation": "The reduction is 6,000 kWh. Divide 6,000 by the original 50,000 and multiply by 100: 12%. The comparison uses the same monthly boundary before and after the technology change.",
+        "calc": null
+      }
+    ]
+  }
+}

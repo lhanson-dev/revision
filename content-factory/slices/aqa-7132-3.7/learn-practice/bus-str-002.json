@@ -1,0 +1,245 @@
+{
+  "node_id": "bus-str-002",
+  "learn": {
+    "title": "Competitive advantage",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "What competitive advantage means",
+        "body": "Competitive advantage is an ability to create or capture more value than rivals because of a specific cost, customer-value or capability mechanism. A business might have lower relevant costs, offer a benefit customers value more highly, or combine both. The important test is not whether the business is currently successful: it is whether rivals cannot quickly copy, replace or neutralise the source of the advantage. A capability such as reliable logistics, specialist design or a trusted supplier relationship can be more defensible than a single product feature.",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+          "aqa-7132-3.7.3:core-competences"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing the generic strategy choices",
+        "body": "A low-cost strategy aims to achieve structurally competitive costs for comparable value. This can permit lower prices, higher margins, or both. Differentiation aims to offer a valued distinction, such as superior design, convenience, service, quality or branding; it may reduce customers' sensitivity to price. A focus strategy serves a narrower segment, using either cost logic or differentiation logic within that segment. Price competition wins customers mainly through a lower selling price. Non-price competition wins through attributes other than price, although these may cost money to develop and maintain.",
+        "item_ids": [
+          "aqa-7132-3.8.2:porter-s-generic-strategies",
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:differentiation",
+          "aqa-7132-3.8.2:focus-strategy",
+          "aqa-7132-3.8.2:price-and-non-price-competition"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Spotting a genuine source of advantage",
+        "body": "Example: a UK parcel firm combines dense delivery routes, hubs, delivery data and reliable processes. Together these lower delivery cost per parcel and improve reliability. This activity system may be difficult for a new rival to reproduce quickly. Non-example: a retailer says it has sustainable advantage because one social-media post became viral. A one-off campaign may raise awareness temporarily, but it does not by itself show a defensible cost, customer-value or capability mechanism.",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+          "aqa-7132-3.7.3:core-competences"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Market leadership and low prices are not enough",
+        "body": "Having the largest market share does not automatically prove competitive advantage. Share could reflect a temporary promotion, a past success or weak rivals. Likewise, charging a low price is not the same as having low cost: a business can cut price while making very low margins. Look instead for the mechanism: for example, scale, sourcing, processes, technology or a business-model design that gives lower costs, or a valued distinction that customers prefer.",
+        "item_ids": [
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+          "aqa-7132-3.8.2:price-and-non-price-competition"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A map for testing an advantage claim",
+        "body": "Use this chain when analysing a business claim:\n\nResource or capability\n        ↓\nSpecific cost saving or customer benefit\n        ↓\nLower price, stronger preference or higher margin\n        ↓\nRelative performance versus alternatives\n        ↓\nReinvestment and learning can reinforce the capability\n\nAt every arrow, ask whether a competitor can copy it, offer a substitute, or use technology to neutralise it. A trade-off can protect a position when copying it would undermine a rival's existing approach.",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+          "aqa-7132-3.7.3:core-competences",
+          "aqa-7132-3.8.2:porter-s-generic-strategies"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How advantage can strengthen or erode",
+        "body": "A coordinated capability can create a customer or cost benefit. That benefit can improve performance relative to rivals, generating funds and experience for reinvestment and further learning. For example, more delivery activity can improve route data and operational learning. However, competitor responses, changing customer preferences and new technology can erode the advantage. Therefore, sustainability depends on continued customer relevance as well as difficulty of imitation.",
+        "item_ids": [
+          "aqa-7132-3.7.3:core-competences",
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked strategic classification example",
+        "body": "Scenario: Northmoor Tea sells only premium loose-leaf tea and tasting events to enthusiasts. Its small target segment values expert advice, distinctive blends and an in-store experience. The business invests in trained staff and its brand rather than trying to be the cheapest tea seller.\n\n1. Its narrow target segment shows a focus strategy.\n2. The source of advantage within that focus is differentiation, because customers value expertise, blends and experience.\n3. Its main form of competition is non-price competition, not price cutting.\n4. The training, service routines and brand may be core competences if they are difficult for rivals to copy and can support more than one product or market.\n5. The business should test whether customers still value these benefits and whether rivals can replicate the experience.",
+        "item_ids": [
+          "aqa-7132-3.8.2:porter-s-generic-strategies",
+          "aqa-7132-3.8.2:focus-strategy",
+          "aqa-7132-3.8.2:differentiation",
+          "aqa-7132-3.8.2:price-and-non-price-competition",
+          "aqa-7132-3.7.3:core-competences"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain and challenge a strategy claim",
+        "body": "Choose a business you know. Complete these statements: “Its claimed advantage is ___.” “The mechanism is ___.” “This matters to customers or costs because ___.” “A rival might neutralise it by ___.” Then decide whether it is more likely to be low-cost, differentiation, focus, or an unclear mixture. Avoid assuming that a famous brand, a large market share or a low price automatically proves advantage.",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+          "aqa-7132-3.8.2:porter-s-generic-strategies",
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:differentiation",
+          "aqa-7132-3.8.2:focus-strategy"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "competitive advantage",
+        "definition": "Ability to create or capture superior value relative to rivals in a way that competitors cannot immediately neutralise."
+      },
+      {
+        "term": "cost advantage",
+        "definition": "Structurally lower relevant cost while offering comparable value."
+      },
+      {
+        "term": "differentiation advantage",
+        "definition": "A valued distinction that supports customer preference or reduces price sensitivity."
+      },
+      {
+        "term": "capability",
+        "definition": "A coordinated ability to perform an activity reliably."
+      },
+      {
+        "term": "core competences",
+        "definition": "Main skills, knowledge and capabilities that underpin advantage, are hard for competitors to copy and may be usable across products or markets."
+      },
+      {
+        "term": "low-cost strategy",
+        "definition": "A strategy based on achieving a competitive cost position, rather than merely setting a low selling price."
+      },
+      {
+        "term": "differentiation",
+        "definition": "Competing through benefits customers recognise and value, such as design, service, quality or convenience."
+      },
+      {
+        "term": "focus strategy",
+        "definition": "Competing within a narrower market segment using cost or differentiation logic."
+      },
+      {
+        "term": "price competition",
+        "definition": "Seeking customers mainly by charging less than rivals."
+      },
+      {
+        "term": "non-price competition",
+        "definition": "Seeking customers through factors such as quality, design, brand, service, convenience or innovation."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-002-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.3:core-competences"
+        ],
+        "prompt": "What is meant by a core competence?",
+        "answer": "A main skill, knowledge base or capability that supports competitive advantage, is difficult to copy and can often be applied across products or markets.",
+        "explanation": "A core competence is more than a single asset: it is an underlying capability that can support advantage.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:price-and-non-price-competition"
+        ],
+        "prompt": "Which statement is the clearest evidence of a low-cost strategy? A. A café cuts prices for one weekend. B. A furniture maker uses a process that reduces material waste for every comparable unit produced. C. A clothing brand has a well-known logo.",
+        "answer": "B. A furniture maker uses a process that reduces material waste for every comparable unit produced.",
+        "explanation": "This identifies a structural cost mechanism. A temporary price cut does not prove low cost, and brand awareness alone does not prove an advantage.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.8.2:differentiation",
+          "aqa-7132-3.8.2:price-and-non-price-competition"
+        ],
+        "prompt": "Compare differentiation with price competition. Give one reason why a business may choose differentiation.",
+        "answer": "Differentiation seeks preference through valued attributes such as service or design, whereas price competition seeks customers mainly through a lower price. A business may differentiate if customers value its distinct benefits and are therefore less price-sensitive.",
+        "explanation": "The comparison identifies the different basis of competition and links differentiation to customer value.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p4",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it"
+        ],
+        "prompt": "Construct a three-link explanation chain for a bakery whose pre-order data helps it bake closer to daily demand.",
+        "answer": "Pre-order data → less unsold stock and lower waste cost → lower costs or stronger margins than rivals.",
+        "explanation": "A sound chain connects a resource or capability to a concrete cost or customer benefit and then to relative performance.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.8.2:focus-strategy",
+          "aqa-7132-3.8.2:differentiation"
+        ],
+        "prompt": "Peak Pedal sells only high-performance cycling clothing for long-distance riders. It offers specialist fitting advice and durable fabrics, and does not target casual cyclists. Identify its likely strategy and use the context to explain your answer.",
+        "answer": "It is using a focus strategy with differentiation. It targets the narrow long-distance rider segment and competes through specialist advice and durable fabrics rather than serving all cyclists.",
+        "explanation": "The narrow target indicates focus, while the valued product and service attributes indicate differentiation.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p6",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.8.2:porter-s-generic-strategies",
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:differentiation",
+          "aqa-7132-3.8.2:focus-strategy"
+        ],
+        "prompt": "Apply the generic-strategy framework to this business: BudgetBox serves households across the UK with standard storage boxes. Automated packing and large purchasing volumes reduce its costs. It offers few design choices. State its scope, source of advantage and likely strategy.",
+        "answer": "Its scope is broad, its source of advantage is lower cost from automation and purchasing volumes, and its likely strategy is broad low cost.",
+        "explanation": "The business serves a wide market and its activities support a lower-cost position rather than a distinctive offer.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p7",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.3:core-competences",
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it"
+        ],
+        "prompt": "Explain how a courier's route-planning capability could become harder for rivals to copy over time.",
+        "answer": "Reliable route planning can lower delivery cost and improve service. More deliveries then generate more operational data and learning, allowing further improvement. The combined data, routines and network may take time for rivals to reproduce.",
+        "explanation": "The answer links capability to benefit, performance, learning and an imitation barrier.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it"
+        ],
+        "prompt": "A cosmetics retailer has the highest market share after a major celebrity endorsement. Judge whether this alone shows sustainable competitive advantage.",
+        "answer": "No. It may show temporary success, but it does not alone identify a defensible cost, customer-value or capability mechanism. Rivals may use similar endorsements, and customer preferences may change.",
+        "explanation": "Market leadership is not proof of durable advantage. The claim must be tested for imitability, substitutes and continuing customer relevance.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-002-p9",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.8.2:low-cost-strategy",
+          "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it"
+        ],
+        "prompt": "A student says, “Any firm that charges the lowest price has a cost advantage.” Is the student correct?",
+        "answer": "No. A low price may result from a temporary discount and may reduce margins. Cost advantage requires structurally lower relevant costs for comparable value.",
+        "explanation": "Selling price and cost are different. The key evidence is the underlying cost position.",
+        "calc": null
+      }
+    ]
+  }
+}

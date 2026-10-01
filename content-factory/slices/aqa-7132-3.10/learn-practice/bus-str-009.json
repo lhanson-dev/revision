@@ -1,0 +1,313 @@
+{
+  "node_id": "bus-str-009",
+  "learn": {
+    "title": "Organisational change, resistance and implementation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Change needs implementation, not just an announcement",
+        "body": "Organisational change moves a business from its current way of working to a different state. It may affect strategy, structure, technology, processes, people, culture or ownership. Implementation is the practical transition from intended change to behaviour that becomes embedded in everyday work. A new system being installed, or a new structure being announced, does not prove that people have adopted it. Skills, processes, systems, incentives, leadership, resources and performance measures need to support the desired behaviour.",
+        "item_ids": [
+          "aqa-7132-3.10.1:internal-and-external-causes-of-change",
+          "aqa-7132-3.10.1:incremental-versus-disruptive-change"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Change connects strategy to operations and people",
+        "body": "A strategic decision creates operational requirements. For example, a new customer-service strategy may require new processes, staff skills, information systems and measures. If targets still reward old behaviour, staff may continue using the old approach and the strategy may fail in implementation. This links strategic change to operations, human resources, finance and information management.",
+        "item_ids": [
+          "aqa-7132-3.10.1:knowledge-and-information-management",
+          "aqa-7132-3.10.4:strategic-drift"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Internal and external causes of change",
+        "body": "Internal causes arise within the business, such as poor performance, new leadership, growth, a new strategy, changed objectives, culture change or technology the business chooses to adopt. These pressures can often be planned and timed by the business. External causes come from outside, such as competitor actions, economic conditions, customer tastes, market technology, legislation, or social and environmental pressure. The business cannot control these pressures, so its response may be urgent. For example, a retailer replacing a system because a new leadership team wants better stock data is responding to an internal cause. Changing packaging to meet new legislation is a response to an external cause. It is not sound analysis simply to label every change as external because customers are involved: identify where the pressure began.",
+        "item_ids": [
+          "aqa-7132-3.10.1:internal-and-external-causes-of-change"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Incremental and disruptive change",
+        "body": "Incremental change consists of small, gradual adjustments to current working methods. It is usually easier to manage, lower risk and likely to attract less resistance, but may be too slow when conditions change quickly. Disruptive change is a sudden, large-scale break with existing ways of working, such as a major restructure, new business model or crisis response. It can produce large gains quickly, but creates high cost, uncertainty and resistance. Disruptive change is not the same thing as disruptive technology; technology may be one trigger for it.",
+        "item_ids": [
+          "aqa-7132-3.10.1:incremental-versus-disruptive-change"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A force-field view of a proposed change",
+        "body": "Use Lewin's force-field analysis as a visual diagnostic aid, not a guaranteed recipe. Put the proposed change in the centre, then map factors that support movement towards it and factors that hold it back. For a shared customer database, supporting factors might include a need for better decisions, while restraining factors might include training needs, anxiety and targets that reward private spreadsheets. The analysis helps leaders decide whether to strengthen support, reduce barriers, or both.\n\nDesired change\n  supporting factors  →  [ shared database ]  ←  restraining factors\n\nThe quality of the diagnosis matters more than drawing the diagram.",
+        "item_ids": [
+          "aqa-7132-3.10.1:lewin-s-force-field-analysis"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why implementation can fail",
+        "body": "Strategy change → new process, skill and system requirements → staff adoption in daily work → intended outcome. A break at any stage can prevent success. In particular, misaligned incentives → continued old behaviour → weak adoption → change failure. Capability gaps can also block adoption, and transition costs or temporary productivity dips can occur even where the eventual change is beneficial.",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Diagnose resistance before choosing a response",
+        "body": "First, identify why employees or groups are resisting: perceived loss or self-interest, misunderstanding or low trust, a different assessment of the proposal, or low capacity to cope with change. Next, assess urgency, employee knowledge, power, fairness, reversibility, implementation risk and ethical or legal constraints. Then choose an appropriate response. Education and communication can address misunderstanding but are slow with many people. Participation and involvement can improve information and ownership but take time. Facilitation and support, such as training or coaching, can help anxiety but may be costly. Negotiation and agreement can be appropriate where a group clearly loses out, but concessions can be expensive and may encourage others to seek them. Manipulation and co-option may be quick, for example by selectively using information or offering a token role, but can seriously damage trust if people feel used. Explicit or implicit coercion may be fast in an urgent situation, but risks resentment and should not be routine practice. More than one cause, and therefore more than one response, may apply.",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing a response to resistance",
+        "body": "A warehouse is introducing handheld stock scanners. Employees say the devices will slow them down and that they have not been trained. Step 1: do not assume they simply dislike change; their concern may reveal a real capability and process problem. Step 2: the resistance appears to involve low capacity and concern about workload. Step 3: facilitation and support through training, alongside employee involvement in refining the process, is more suitable than coercion. Step 4: a bounded pilot can test whether the scanners actually improve accuracy and speed before a wider roll-out. If the business instead threatens staff immediately, it may gain speed but damage trust and conceal design problems.",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
+          "aqa-7132-3.10.1:lewin-s-force-field-analysis"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Restructuring, knowledge and strategic drift",
+        "body": "A UK service business has several management layers, departments duplicate customer records and staff leave without sharing useful know-how. It could restructure by delayering: removing layers of management. This may cut costs and speed communication, but can create redundancy costs, disruption and lower morale. It should also improve knowledge and information management by capturing, storing, sharing and using records and employees' experience through systems and routines. Otherwise duplicated effort, information overload, knowledge loss and data-protection risks may continue. If competitors and customers have changed while the business has adjusted its strategy too slowly, the widening mismatch may indicate strategic drift. Drift is a process of weakening fit with the environment, not merely one poor set of results.",
+        "item_ids": [
+          "aqa-7132-3.10.1:restructuring",
+          "aqa-7132-3.10.1:delayering",
+          "aqa-7132-3.10.1:knowledge-and-information-management",
+          "aqa-7132-3.10.4:strategic-drift"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Resistance and crisis are not excuses to stop thinking",
+        "body": "Resistance is not automatically irrational: employees may identify flawed design, risks, workload problems, skill loss, status changes or job insecurity. Communication alone is not implementation, and installation is not adoption. Planned models, including force-field analysis and staged approaches, are analytical aids rather than guarantees because change can be political, emotional and non-linear. In a crisis, urgency may justify faster directive action, but leaders should still consider trust, implementation risks, resources and the longer-term effects of coercion. Crisis management therefore concerns responding under urgent conditions rather than assuming every rapid action will succeed.",
+        "item_ids": [
+          "aqa-7132-3.10.4:crisis-management",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the best route to adoption",
+        "body": "A business has installed a CRM system, but sales staff continue to use private spreadsheets because targets reward short-term sales and the CRM adds administrative work. Explain: (1) why this is an implementation failure rather than simply employee resistance, (2) which forces may be restraining adoption, and (3) which changes to incentives, processes, training or participation could improve adoption. Then judge whether a pilot or a full immediate roll-out would be more appropriate.",
+        "item_ids": [
+          "aqa-7132-3.10.1:lewin-s-force-field-analysis",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
+          "aqa-7132-3.10.4:crisis-management"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "organisational change",
+        "definition": "An alteration to a business's strategy, structure, process, technology, people or culture."
+      },
+      {
+        "term": "resistance to change",
+        "definition": "Attitudes or behaviour that oppose or slow a proposed change."
+      },
+      {
+        "term": "change implementation",
+        "definition": "The practical transition from intended change to embedded working behaviour."
+      },
+      {
+        "term": "internal causes of change",
+        "definition": "Pressures arising within a business, such as poor performance, growth or new leadership."
+      },
+      {
+        "term": "external causes of change",
+        "definition": "Pressures outside a business, such as legislation, competition or changing customer tastes."
+      },
+      {
+        "term": "incremental change",
+        "definition": "A series of small, gradual adjustments to existing working methods."
+      },
+      {
+        "term": "disruptive change",
+        "definition": "A sudden, large-scale break from existing ways of working."
+      },
+      {
+        "term": "force-field analysis",
+        "definition": "A diagnostic aid that maps factors supporting and restraining a proposed change."
+      },
+      {
+        "term": "restructuring",
+        "definition": "A major change to how a business is organised."
+      },
+      {
+        "term": "delayering",
+        "definition": "Removing layers of management within a restructure."
+      },
+      {
+        "term": "knowledge and information management",
+        "definition": "Capturing, storing, sharing and using data, records and employees' experience."
+      },
+      {
+        "term": "strategic drift",
+        "definition": "A progressive weakening of fit between strategy and changes in the business context."
+      },
+      {
+        "term": "crisis management",
+        "definition": "Managing change and decisions under urgent, high-risk conditions."
+      },
+      {
+        "term": "negotiation and agreement",
+        "definition": "Offering incentives or concessions in exchange for accepting change."
+      },
+      {
+        "term": "manipulation and co-option",
+        "definition": "Selectively using information or offering a token role to gain acceptance of change."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-causes-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.10.1:internal-and-external-causes-of-change"
+        ],
+        "prompt": "State one internal cause and one external cause of organisational change.",
+        "answer": "Internal: poor performance. External: new legislation.",
+        "explanation": "Poor performance arises within the business, whereas legislation is imposed from outside the business.",
+        "calc": null
+      },
+      {
+        "id": "p2-change-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.10.1:incremental-versus-disruptive-change"
+        ],
+        "prompt": "A firm makes three small process adjustments over a year rather than replacing its whole operating model at once. Is a numerical calculation needed to classify this change? State the classification.",
+        "answer": "No numerical calculation is needed; it is incremental change.",
+        "explanation": "The classification depends on the scale and gradual nature of the changes, not on a formula.",
+        "calc": null
+      },
+      {
+        "id": "p3-force-field-construction",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.10.1:lewin-s-force-field-analysis"
+        ],
+        "prompt": "Construct a simple force-field analysis for a café introducing online ordering. Give one supporting factor and one restraining factor.",
+        "answer": "Supporting factor: customers want faster ordering. Restraining factor: staff need training on the new process.",
+        "explanation": "A force-field analysis identifies factors helping a proposed change and factors holding it back.",
+        "calc": null
+      },
+      {
+        "id": "p4-restructure-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.10.1:restructuring",
+          "aqa-7132-3.10.1:delayering"
+        ],
+        "prompt": "A chain of gyms removes two levels of regional management to reduce overheads and speed decisions. Identify the change and one likely drawback.",
+        "answer": "It is restructuring through delayering. A likely drawback is lower morale or disruption, possibly including redundancy costs.",
+        "explanation": "Removing management layers is delayering, a form of restructuring. Cost savings may be offset initially by people and transition consequences.",
+        "calc": null
+      },
+      {
+        "id": "p5-knowledge-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.10.1:knowledge-and-information-management"
+        ],
+        "prompt": "A care provider stores customer information in several unconnected files and experienced staff leave without recording their procedures. Judge whether investing in knowledge and information management is likely to help.",
+        "answer": "It is likely to help because it can reduce duplicated effort and knowledge loss, while improving information available for decisions. The provider must also manage data-protection risks.",
+        "explanation": "The context shows weak capture, storage and sharing of information. Better systems and routines address these problems, although they must be implemented responsibly.",
+        "calc": null
+      },
+      {
+        "id": "p6-resistance-framework",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ],
+        "prompt": "Workers oppose a new rota because they believe managers have hidden the effect on their hours. Using the Kotter-Schlesinger approach, identify a likely reason for resistance and a suitable response.",
+        "answer": "A likely reason is misunderstanding or low trust. Education and communication is a suitable response, supported by honest explanation of the proposed effects.",
+        "explanation": "Clear communication can address an information or trust problem, although it would not by itself resolve a genuine loss of pay or hours.",
+        "calc": null
+      },
+      {
+        "id": "p7-drift-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.10.4:strategic-drift"
+        ],
+        "prompt": "A retailer has retained its store-only strategy while customers increasingly expect digital ordering and competitors have improved online service. Sales have only recently begun to fall. What does this evidence suggest?",
+        "answer": "It suggests possible strategic drift.",
+        "explanation": "The strategy may be changing too slowly relative to customer, competitive and technological change. Drift can exist before financial failure is fully visible.",
+        "calc": null
+      },
+      {
+        "id": "p8-crisis-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.10.4:crisis-management",
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ],
+        "prompt": "Put these actions in a sensible order for an urgent change: choose a response; identify the source of resistance; assess urgency and implementation risk.",
+        "answer": "Identify the source of resistance; assess urgency and implementation risk; choose a response.",
+        "explanation": "A business should diagnose the issue before selecting an action, while recognising that urgency may constrain the available options.",
+        "calc": null
+      },
+      {
+        "id": "p9-implementation-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
+          "aqa-7132-3.10.1:knowledge-and-information-management"
+        ],
+        "prompt": "Explain one chain of reasoning showing how sales targets can cause a CRM project to fail after the system has been installed.",
+        "answer": "Targets reward short-term sales, so staff continue using private records rather than the CRM; information is not shared consistently, adoption remains weak and the intended CRM benefits are not achieved.",
+        "explanation": "The problem is misaligned incentives and daily behaviour, not necessarily a technical installation failure.",
+        "calc": null
+      },
+      {
+        "id": "p10-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance"
+        ],
+        "prompt": "A manager says, 'Employees are resisting because people always dislike change.' What is the strongest correction?",
+        "answer": "Resistance may be rational and may reveal concerns about workload, skills, fairness, risk, job security or flaws in the proposed change.",
+        "explanation": "Assuming irrational opposition prevents managers from diagnosing useful information and selecting an appropriate response.",
+        "calc": null
+      },
+      {
+        "id": "p11-mixed-selection",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.10.1:incremental-versus-disruptive-change",
+          "aqa-7132-3.10.1:lewin-s-force-field-analysis",
+          "aqa-7132-3.10.4:strategic-drift"
+        ],
+        "prompt": "A manufacturer faces fast competitor innovation. Select the best combination: (A) incremental change only and no diagnosis, (B) assess whether strategic drift is developing, use force-field analysis to diagnose barriers, then judge whether more disruptive change is justified, or (C) assume all staff concerns are irrational.",
+        "answer": "B.",
+        "explanation": "The business should assess the changing strategic fit and implementation barriers before deciding whether the scale and speed of change should increase.",
+        "calc": null
+      },
+      {
+        "id": "p12-negotiation-and-co-option",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance"
+        ],
+        "prompt": "A site closure will clearly leave a recognised employee group worse off. Name the response option that may be appropriate, and explain why offering a token role to a vocal opponent could be risky.",
+        "answer": "Negotiation and agreement may be appropriate because the group clearly loses out. Token involvement is manipulation or co-option and may damage trust if employees feel manipulated.",
+        "explanation": "Negotiation can address a real conflict of interest, while co-option may be quick but carries ethical and implementation risks.",
+        "calc": null
+      }
+    ]
+  }
+}

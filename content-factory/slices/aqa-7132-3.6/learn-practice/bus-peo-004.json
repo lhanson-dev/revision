@@ -1,0 +1,218 @@
+{
+  "node_id": "bus-peo-004",
+  "learn": {
+    "title": "Training, learning, development and talent capability",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Capability, development and engagement",
+        "body": "Training is a structured activity that builds a specific work-related skill or area of knowledge. Development is broader: it can include coaching, mentoring, stretch assignments, professional study, job rotation and career progression. Talent development is the systematic development of capability that is important now or in the future. Development may support employee engagement and retention when employees perceive worthwhile career opportunities. Employee involvement can include employees participating in change, such as contributing practical knowledge when a new system or workflow is introduced. However, development is not automatically the answer to poor performance: resources, processes, incentives and opportunities to use skills also matter.",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Training, development and talent development compared",
+        "body": "Training is usually focused and specific, for example learning to use new software. Development is wider and is concerned with capability and potential over time. Talent development has a strategic focus: it considers future capability and critical roles as well as present skill gaps. On-the-job learning is embedded in work and can be economical and relevant, but consistency may vary. Off-the-job learning is outside normal work and may offer focused expertise, but learners may struggle to apply it if it is detached from their real job.",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Evidence of development is not evidence of improved performance",
+        "body": "Example: a retailer introduces new software, provides technical training, redesigns the workflow and changes measures so staff can use the system. This addresses both skill and process requirements. Non-example: a business counts course-completion certificates as proof that productivity has increased. Attendance shows that employees were present; it does not prove learning, changed behaviour or a business outcome.",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided diagnosis: is training the right response?",
+        "body": "A warehouse has missed dispatch targets after installing a new system. First, identify the required performance: accurate and timely dispatch. Next, identify the gap and its cause. If employees do not know how to complete the new task, technical training may be appropriate. If the workflow is unclear or measures reward speed rather than accuracy, training alone will not resolve the issue. Finally, select a response that supports transfer into work, such as manager support and processes that allow use of the new skills. Involving employees in identifying workflow problems can add useful work-based insight during change.",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Correcting the claim that training always improves performance",
+        "body": "The claim is too simple. Training may improve capability, but improved performance also depends on equipment, processes, incentives, manager support and the opportunity to apply learning. Likewise, perceived career development can support engagement and retention, but it does not guarantee either outcome. Businesses should distinguish attendance, learning, behaviour change and business results when evaluating development.",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "A capability-development process",
+        "body": "1. Define the performance required now or in the future. 2. Identify the capability gap. 3. Diagnose whether the cause is a skill gap, or instead a system, process, resource or incentive problem. 4. Choose an appropriate intervention, such as training, coaching, mentoring, job rotation or workflow redesign. 5. Ensure managers and processes support transfer into work. 6. Evaluate more than attendance: consider learning, behaviour change and business outcomes. 7. Use future strategic needs and critical roles to inform talent development and succession planning.",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How development can affect engagement and performance",
+        "body": "Technology change can create a new task, which creates a skill gap and a development need. Appropriate learning, combined with supportive processes and incentives, can lead to changed behaviour and then improved performance. Separately, career development can create a perception of opportunity, which may support engagement and retention. Strategy also shapes the chain: strategy identifies future capability needs, which should guide talent development and succession planning.",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your diagnosis",
+        "body": "A manager proposes a course because customer-service scores have fallen. Explain what evidence you would seek before approving the course. In your explanation, distinguish a knowledge or skill gap from a problem with processes, incentives, equipment or opportunity to apply skills. Then explain how employee involvement in the change could help identify a workable response.",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked business judgement: developing future capability",
+        "body": "A growing UK business expects a critical team-leader role to become more important as it adopts new technology. Rather than waiting until a vacancy occurs, it can identify future capability requirements and use talent development such as coaching, stretch assignments or job rotation. This also supports succession planning for continuity in the critical role. The business should still evaluate whether people apply their learning and should not infer improved performance merely from participation or completion.",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "training",
+        "definition": "Structured activity that develops specific work-related knowledge or skill."
+      },
+      {
+        "term": "development",
+        "definition": "Broader growth of capability and potential, which can extend beyond formal courses."
+      },
+      {
+        "term": "on-the-job learning",
+        "definition": "Learning embedded in normal work activity."
+      },
+      {
+        "term": "off-the-job learning",
+        "definition": "Learning undertaken outside normal work activity."
+      },
+      {
+        "term": "talent development",
+        "definition": "Systematic development of strategically important current and future capability."
+      },
+      {
+        "term": "succession planning",
+        "definition": "Preparation to maintain continuity in future critical roles."
+      },
+      {
+        "term": "employee engagement",
+        "definition": "Employees’ positive response to perceived opportunity, which development may support but cannot guarantee."
+      },
+      {
+        "term": "employee involvement",
+        "definition": "Employees participating in change, including contributing practical insight into work and workflows."
+      },
+      {
+        "term": "transfer",
+        "definition": "Use of learning in the workplace to change behaviour."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-peo-004-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement"
+        ],
+        "prompt": "State one way development may support employee engagement and one way employee involvement can contribute during organisational change.",
+        "answer": "Development may create a perceived career opportunity, which can support engagement. Involvement can allow employees to contribute practical insight when a change to work or workflows is being planned.",
+        "explanation": "Development can support, rather than guarantee, engagement. Employee participation can help a business understand how change will work in practice.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p2",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "Compare training with talent development. Why might talent development be more appropriate for a business preparing for future technology change?",
+        "answer": "Training develops a specific current skill, whereas talent development develops strategically important present and future capability. Talent development is more appropriate because technology change may require future skills and preparation for critical roles, not only an immediate course.",
+        "explanation": "The key distinction is the broader, strategic and future-focused nature of talent development.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement"
+        ],
+        "prompt": "A UK manufacturer is changing the workflow around new software. Give one practical action that combines employee involvement with development.",
+        "answer": "Ask employees who do the work to identify workflow difficulties, then provide relevant technical learning and adjust the process where their feedback identifies a flaw.",
+        "explanation": "Employees can contribute work-based knowledge, while development addresses a genuine skill gap. Workflow problems may need redesign rather than more training.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p4",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "A call centre has low customer-service scores. Managers want to send every adviser on a course immediately. Judge whether this is the best first action.",
+        "answer": "Not necessarily. The business should first diagnose whether the cause is a knowledge or skill gap. If targets, systems, equipment or processes are causing poor service, a course alone is unlikely to solve the problem.",
+        "explanation": "A performance problem is not automatically a training problem; diagnosis should precede the choice of intervention.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p5",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "Which is the clearest example of talent development? A. Recording attendance at a one-hour software briefing. B. Preparing employees through coaching, job rotation and stretch assignments for future critical roles. C. Replacing faulty equipment after a breakdown.",
+        "answer": "B. Preparing employees through coaching, job rotation and stretch assignments for future critical roles.",
+        "explanation": "Talent development is systematic and strategic, addressing important current or future capability. Attendance is not evidence of development outcomes, and equipment replacement is not development.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "A manager says, ‘Everyone completed the course, so productivity has definitely improved and staff will be more engaged.’ Identify the error.",
+        "answer": "Completion shows attendance, not necessarily learning, changed behaviour, productivity improvement or engagement. Transfer requires supportive managers, processes, incentives and opportunity to use skills.",
+        "explanation": "Business outcomes have several causes. Development may support engagement, but it does not guarantee it.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p7",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "Put these actions in the best order: evaluate behaviour and outcomes; identify the capability gap; choose an intervention; diagnose the cause of the performance gap; define required performance.",
+        "answer": "Define required performance; identify the capability gap; diagnose the cause of the performance gap; choose an intervention; evaluate behaviour and outcomes.",
+        "explanation": "The business must understand the required capability and root cause before selecting development, then assess effects beyond attendance.",
+        "calc": null
+      },
+      {
+        "id": "bus-peo-004-p8",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.6.1:employee-engagement-and-involvement",
+          "aqa-7132-3.6.1:talent-development"
+        ],
+        "prompt": "Construct a reasoning chain to explain how a career-development opportunity could affect retention, while recognising a limitation.",
+        "answer": "Career development can create a perceived opportunity, which may support engagement and retention. However, it may also increase employees’ external employability, so retention is not guaranteed.",
+        "explanation": "The chain reflects a possible effect of development while recognising that outcomes are uncertain and can have an opposite consequence.",
+        "calc": null
+      }
+    ]
+  }
+}

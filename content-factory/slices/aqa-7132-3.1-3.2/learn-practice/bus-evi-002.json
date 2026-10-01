@@ -1,0 +1,164 @@
+{
+  "node_id": "bus-evi-002",
+  "learn": {
+    "title": "Correlation, causation and evidence quality",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Association is not proof of cause",
+        "body": "Correlation means that two variables are associated: they move together in some way. Causation is stronger: changing one factor produces a change in another through a credible mechanism. Detecting an association is often easier than deciding whether it is causal. A business should ask whether the proposed cause happened before the effect, how it could have produced the effect, and what other explanations could fit the pattern. Confidence should match the quality of the evidence rather than being based on one chart, survey or case.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Correlation compared with causation",
+        "body": "Correlation answers, “Are these variables associated?” Causation answers, “Did changing this factor produce a change in the other?” A correlation can be useful for generating a hypothesis, but it does not establish why the variables move together. A causal claim needs temporal order, a credible mechanism and consideration of alternatives such as confounders, selection effects, reverse causality and common trends.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "A useful association and an unsupported causal claim",
+        "body": "Example: stores with more staff also have higher sales. This is an association worth investigating. However, busy stores may schedule more staff because they expect greater demand, so the data alone do not show that extra staff caused higher sales. Non-example: concluding that training caused higher profit just because trained branches had higher profit than untrained branches. The branches may have differed in other important ways before training.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Strong correlation does not mean one variable must cause the other",
+        "body": "A strong correlation may reflect a confounder, reverse causality, selection effects, common trends or chance. For example, a third factor can be linked to both observed variables and make them appear causally related. A plausible story is also not enough: it must be tested against alternative explanations. Large datasets can still contain measurement bias or selection bias, so size alone does not guarantee a sound conclusion.",
+        "item_ids": []
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A causal-confidence check",
+        "body": "Use this chain when evaluating a management claim:\n\nObserved association\n↓\nDid the proposed cause occur before the outcome?\n↓\nIs there a credible mechanism connecting them?\n↓\nCould confounders, selection, reverse causality or common trends explain the result?\n↓\nAssess evidence quality: relevance, validity, reliability, sample design, measurement, recency, comparability and independence\n↓\nUse triangulation from different evidence where possible\n↓\nMake a calibrated judgement, recognising any residual uncertainty.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your confidence level",
+        "body": "A retailer says that its new staff-training programme increased profit because trained branches later reported higher profit. Explain, in your own words, what evidence would make this claim more convincing. Include timing, a possible mechanism, at least one alternative explanation and at least two evidence-quality checks.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "correlation",
+        "definition": "A statistical association between variables."
+      },
+      {
+        "term": "causation",
+        "definition": "One factor producing an effect on another."
+      },
+      {
+        "term": "confounder",
+        "definition": "A third factor associated with both variables that can create or distort an observed relationship."
+      },
+      {
+        "term": "validity",
+        "definition": "The extent to which evidence measures or tests what it is intended to measure."
+      },
+      {
+        "term": "reliability",
+        "definition": "The consistency of a measure or finding."
+      },
+      {
+        "term": "selection effects",
+        "definition": "Differences caused by how cases or people are included in a group, which can distort comparisons."
+      },
+      {
+        "term": "triangulation",
+        "definition": "Using different sources or types of evidence to strengthen a conclusion."
+      },
+      {
+        "term": "commercial importance",
+        "definition": "The practical significance of an effect for business decisions."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define correlation and causation.",
+        "answer": "Correlation is an association between variables. Causation is when one factor produces an effect on another.",
+        "explanation": "Causation makes a stronger claim than correlation because it states that a change in one factor creates a change in another.",
+        "calc": null
+      },
+      {
+        "id": "p2",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "A business finds that branches with higher customer footfall usually have higher sales. Is this finding correlation or causation?",
+        "answer": "Correlation.",
+        "explanation": "The finding shows that footfall and sales are associated, but it does not establish that the observed difference in sales was caused by footfall alone.",
+        "calc": null
+      },
+      {
+        "id": "p3",
+        "capability": "graph_data_interpretation",
+        "item_ids": [],
+        "prompt": "A chart shows that, over six months, both a café chain's social-media posts and online orders increased. State one conclusion supported by the chart and one conclusion that is not supported.",
+        "answer": "Supported: social-media posts and online orders were positively associated over the period. Not supported: more posts caused the rise in online orders.",
+        "explanation": "The chart can show an association, but it cannot rule out other changes, such as seasonal demand or other marketing activity.",
+        "calc": null
+      },
+      {
+        "id": "p4",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "A survey of 5,000 customers reports a statistically significant increase in satisfaction after a packaging change, but the increase is very small. What distinction should managers make?",
+        "answer": "They should distinguish statistical significance from commercial importance.",
+        "explanation": "A result can be unlikely to be due to chance yet still be too small to matter materially for business performance or decisions.",
+        "calc": null
+      },
+      {
+        "id": "p5",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A manager says, “Our dataset is very large, so bias cannot be a problem.” Identify the error.",
+        "answer": "Large samples do not automatically remove measurement or selection bias.",
+        "explanation": "A large biased dataset can produce a precise estimate of a distorted relationship. Evidence design and measurement quality still matter.",
+        "calc": null
+      },
+      {
+        "id": "p6",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Stores with more staff have higher sales. Give a reasoning chain showing why this does not by itself prove that staffing causes sales.",
+        "answer": "Busy stores may expect higher demand, schedule more staff and also make more sales; expected demand is a possible confounder.",
+        "explanation": "The third factor can cause the two observed variables to move together, creating a misleading causal inference.",
+        "calc": null
+      },
+      {
+        "id": "p7",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare validity and reliability, and explain why a business needs both when evaluating customer research.",
+        "answer": "Validity is whether the research measures what it intends to measure; reliability is whether it gives consistent findings. Research can be consistent but measure the wrong thing, so both are needed.",
+        "explanation": "A sound decision needs evidence that is both relevant to the intended question and dependable when repeated or checked.",
+        "calc": null
+      },
+      {
+        "id": "p8",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK clothing retailer claims that a new website caused conversion to rise because conversion increased after launch. Suggest two checks before accepting the claim.",
+        "answer": "Check that the website launch happened before the rise and investigate other changes, such as promotions or demand conditions. Also check that conversion was measured consistently.",
+        "explanation": "Timing and a credible mechanism support causation, while alternative explanations and measurement quality may weaken the claim.",
+        "calc": null
+      },
+      {
+        "id": "p9",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A manufacturer has one internal case study suggesting a new shift pattern reduced defects, while a separate staff survey gives mixed results. Make a balanced judgement on whether to roll out the shift pattern.",
+        "answer": "The evidence is promising but insufficient for certainty; the manufacturer should investigate alternatives and seek further independent or comparable evidence before a full rollout.",
+        "explanation": "One case study and mixed survey evidence provide limited triangulation. A calibrated judgement recognises potential value and residual uncertainty.",
+        "calc": null
+      }
+    ]
+  }
+}
