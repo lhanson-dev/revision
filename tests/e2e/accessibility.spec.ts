@@ -103,9 +103,13 @@ async function navigateGlobally(page: Page, destination: 'Plan' | 'Progress' | '
 }
 
 async function openAskRev(page: Page) {
-  const trigger = isMobileLayout(page)
-    ? page.locator('.runtime-mobile-ask-rev-dock')
-    : page.locator('.runtime-ask-rev')
+  // Sidebar button on desktop, icon-rail control on tablet, raised tab-bar control on phone.
+  const width = page.viewportSize()?.width ?? 0
+  const trigger = width > 960
+    ? page.locator('.runtime-ask-rev')
+    : width > 620
+      ? page.locator('.ui-rail__ask-rev')
+      : page.locator('.ui-tabbar__ask-rev')
   await trigger.click()
   await expect(page.getByRole('dialog', { name: 'Ask REV' })).toBeVisible()
 }

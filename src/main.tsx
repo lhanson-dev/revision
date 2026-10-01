@@ -52,10 +52,10 @@ import './app/auth-v2.css'
 import './app/first-use-v2.css'
 import './app/progress-v2.css'
 import './app/rev-chat-v2.css'
-import './app/tabbar-v2.css'
 import './app/course-overview-rev-feature.css'
 import './app/interface-layout.css'
 import './app/interactive-component-quality.css'
+import './app/shell-v2.css'
 
 const root = document.getElementById('root')
 

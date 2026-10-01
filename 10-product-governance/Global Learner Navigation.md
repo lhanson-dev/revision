@@ -11,7 +11,7 @@ This document is the specific product authority for global learner navigation, c
 
 Where the navigation sections of `Information Architecture.md`, `Adaptive Revision Planning.md`, `Core User Journeys.md` or responsive-navigation wording in `20-brand-and-experience/Visual Brand System.md` conflict with this approved model, this document governs navigation behaviour. The Visual Brand System continues to govern Revision's palette, typography, spacing, radius, icon language, Living E treatment and other visual foundations.
 
-**v0.11 (1 October 2026) supersedes the tablet/mobile drawer and the persistent Ask REV dock** (v0.5 to v0.10 wording on those) with the sidebar, icon rail and bottom tab bar described in *Learner redesign v2.1 layout bands* below, and **lifts the v0.5 ban on a bottom tab bar** by explicit Founder decision. Where older text below describes the drawer or dock, the v2.1 section governs. The Courses hierarchy, focused-section expansion and course-management rules remain in force.
+**v0.11 (1 October 2026) supersedes the persistent Ask REV dock** (v0.5 to v0.10 wording on it) with the sidebar, icon rail and bottom tab bar described in *Learner redesign v2.1 layout bands* below, and **lifts the v0.5 ban on a bottom tab bar** by explicit Founder decision. **The tablet/mobile slide-out left navigation stays** (Founder decision, 1 October 2026, later the same day): it is opened by the two-line menu button, holds the course branch and Learn contents, and has the learner's avatar with Profile, Settings and Log out at the bottom, exactly as before. Where older text below describes the dock, the v2.1 section governs. The Courses hierarchy, focused-section expansion and course-management rules remain in force.
 
 This v0.10 direction retains the v0.5 decision that retired the five-item persistent tablet/mobile bottom navigation bar, the v0.6 progressive disclosure of account utilities, the v0.7 decision that the active academic branch may expand contextually, the v0.8 move from Subjects to Courses and the v0.9 permission for the active focused section to expose deeper governed academic contents.
 
@@ -26,13 +26,13 @@ Subject remains valid academic metadata and a useful way to organise course disc
 | Width | Navigation |
 | --- | --- |
 | Above 960px | Persistent 248px **left sidebar**: wordmark, Ask REV, Home, Plan, Progress, Courses (with the existing course branch expansion), account control at the bottom |
-| 621 to 960px | 84px **icon rail**: Ask REV and the four destinations as icons, each with an accessible name |
-| 620px and below | **Bottom tab bar** with the Living E / REV control **raised in the centre**: Home and Plan on one side, Courses and Progress on the other |
+| 621 to 960px | 84px **icon rail**: the two-line **menu button** at the top (opens the full left navigation), Ask REV, then the four destinations as icons, each with an accessible name |
+| 620px and below | A slim top bar (two-line **menu button** and the wordmark) plus a **bottom tab bar** with the Living E / REV control **raised in the centre**: Home and Plan on one side, Courses and Progress on the other |
 
 - The page scrolls down, never sideways, from 320px up. Content sits in one centred 1100px canvas.
 - The active destination is shown without relying on colour alone and carries `aria-current="page"`.
 - Controls are 48px high (touch targets at least 44px). The tab bar reserves space and respects the device safe area so it never covers content.
-- On tablet and phone the sidebar's course branch (saved courses and focused sections) is reached through Courses and the course's own section navigation rather than a drawer. The exact pattern is set by the shell PR (PR 4) and must keep the course-hierarchy rules in this document.
+- On tablet and phone the **two-line menu button opens the same left navigation as the desktop sidebar**, as a slide-out: Home, Plan, Progress, Courses with the saved-course branch and the active section's contents, and the account control at the bottom. It keeps the course-hierarchy and account rules in this document unchanged. Because Ask REV and the four destinations are always on screen (rail or tab bar), the menu is for the course tree and account.
 
 ### Exam Prep focus mode
 
@@ -51,9 +51,9 @@ Ask REV is a **pop-up conversation** that opens over the current page, so the st
 
 The navigation components keep a separate "open Ask REV" action, so this behaviour lives in one place.
 
-### Open: account utilities in the rail and tab bar
+### Account utilities (decided 1 October 2026)
 
-Profile, Settings, Admin and Log out live in the sidebar account control on desktop. Where they live in the icon rail and tab bar is not covered by the Founder decisions and is raised for decision in the shell PR (PR 4).
+Profile, Settings, Admin (only for administrators), Upgrade plan (while unavailable, shown as coming soon) and Log out stay at the **bottom of the left navigation**: the sidebar's bottom-left avatar on desktop, and the same avatar row at the bottom of the slide-out menu on tablet and phone. Nothing new is added to the rail or the tab bar. Appearance (Light, Dark, or System as the default) is chosen in Settings.
 
 ## Core decision
 
@@ -401,4 +401,4 @@ This v0.10 direction requires the Courses hierarchy, focused-section contextual 
 
 ## Documentation impact (v0.11)
 
-Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The tablet/mobile drawer, the persistent Ask REV dock and the ban on a bottom tab bar are superseded. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Ask REV is decided: a pop-up, full screen on phones, no separate page. Open for the Founder: where account utilities live in the rail and tab bar.
+Version 0.11 records the Founder decisions of 1 October 2026 (record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`): sidebar above 960px, icon rail from 621 to 960px, bottom tab bar with REV raised in the centre at 620px and below, and Exam Prep focus mode with confirm-before-exit. The persistent Ask REV dock and the ban on a bottom tab bar are superseded; the tablet/mobile slide-out left navigation stays. `Visual Brand System.md` (v1.1) and `Identity Asset Usage Rules.md` (v1.5) are aligned. The live app already ships a phone and tablet tab bar from an earlier redesign step (PR 470); the shell PR (PR 4) brings tablet to the icon rail and the whole shell onto the shared components. Ask REV is decided: a pop-up, full screen on phones, no separate page. The slide-out left navigation and the account placement are decided: they stay as before, opened by the two-line menu.

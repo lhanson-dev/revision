@@ -357,6 +357,7 @@ Layout bands (full rules in `docs/design-system/RESPONSIVE.md`):
 - **Above 960px:** the persistent 248px left sidebar, with REV identity and Ask REV receiving the strongest branded emphasis and the account control at the bottom.
 - **621 to 960px:** an 84px icon rail.
 - **620px and below:** a bottom tab bar with REV raised in the centre.
+- **Menu:** on tablet and phone the two-line menu button opens the full left navigation (course list, account at the bottom), as on desktop.
 - **Exam Prep:** all navigation is hidden (focus mode) at every size.
 
 The page scrolls down, never sideways, at every width from 320px. Content sits in one centred 1100px canvas.

@@ -58,10 +58,19 @@ export function Sidebar({ items, active, onNavigate, onAskRev, askRevActive, foo
   )
 }
 
-/** Tablet (621 to 960px): the 84px icon rail. Labels are the accessible names. */
-export function Rail({ items, active, onNavigate, onAskRev, askRevActive }: ShellNavProps) {
+/**
+ * Tablet (621 to 960px): the 84px icon rail. Labels are the accessible names.
+ * `onOpenMenu` adds the two-line menu button at the top, which opens the full left navigation
+ * (course list, account) exactly as it does on a phone.
+ */
+export function Rail({ items, active, onNavigate, onAskRev, askRevActive, onOpenMenu, menuOpen }: ShellNavProps & { onOpenMenu?: () => void; menuOpen?: boolean }) {
   return (
     <aside className="ui-rail">
+      {onOpenMenu && (
+        <button type="button" className="ui-rail__menu" aria-label="Open menu" aria-expanded={menuOpen ?? false} onClick={onOpenMenu}>
+          <span></span><span></span>
+        </button>
+      )}
       <button type="button" className={classNames('ui-rail__ask-rev', askRevActive && 'is-active')} aria-label="Ask REV" onClick={onAskRev}>
         <RevMark size="nav" />
       </button>
