@@ -64,6 +64,7 @@ type ResumeCheckpoint = {
   summary: unknown
   ledger: Ledger
   accepted_units: Record<string, { question_record: { question: unknown }; blind_answer: unknown }>
+  latest_units?: Record<string, { question: unknown; blind_answer: unknown }>
 }
 
 let resumeCheckpointPromise: Promise<ResumeCheckpoint | null> | null = null
@@ -139,6 +140,21 @@ function retainedQuestionUnit(input: {
   return unit.fingerprint === input.previous.fingerprint ? unit : null
 }
 
+function recoverableSoftwareBlockedQuestionUnit(input: {
+  spec: ResolvedSpec
+  question: Question
+  blind: BlindAnswer
+  teaching: QuestionTeaching[]
+  previous: Ledger['units'][string] | undefined
+}) {
+  const previous = input.previous
+  if (!previous || previous.outcome !== 'blocking' || previous.consecutive_blocking_rounds !== 0) return null
+  if (previous.findings.length === 0 || previous.findings.some((finding) => finding.evidence !== 'software check')) return null
+  if (input.blind.question_id !== input.spec.id || validateQuestion(input.question, input.spec).length > 0) return null
+  const unit = buildQuestionUnit({ spec: input.spec, question: input.question, blind: input.blind, teaching: input.teaching })
+  return unit.fingerprint === previous.fingerprint ? unit : null
+}
+
 async function readRetainedQuestionUnit(input: { spec: ResolvedSpec; teaching: QuestionTeaching[]; ledger: Ledger }): Promise<{ question: Question; blind: BlindAnswer; unit: QuestionUnit } | null> {
   const previous = input.ledger.units[input.spec.id]
   if (!previous || !['passed', 'logged'].includes(previous.outcome)) return null
@@ -158,6 +174,21 @@ async function readRetainedQuestionUnit(input: { spec: ResolvedSpec; teaching: Q
     } catch {
       return null
     }
+  }
+}
+
+async function readRecoverableSoftwareBlockedQuestionUnit(input: { spec: ResolvedSpec; teaching: QuestionTeaching[]; ledger: Ledger }): Promise<{ question: Question; blind: BlindAnswer; unit: QuestionUnit } | null> {
+  const previous = input.ledger.units[input.spec.id]
+  if (!previous || previous.outcome !== 'blocking' || previous.consecutive_blocking_rounds !== 0) return null
+  try {
+    const saved = (await readResumeCheckpoint())?.latest_units?.[input.spec.id]
+    if (!saved) return null
+    const question = questionSchema.parse(saved.question)
+    const blind = blindAnswerSchema.parse(saved.blind_answer)
+    const unit = recoverableSoftwareBlockedQuestionUnit({ spec: input.spec, question, blind, teaching: input.teaching, previous })
+    return unit ? { question, blind, unit } : null
+  } catch {
+    return null
   }
 }
 
@@ -182,6 +213,44 @@ function validMcq(spec: ResolvedSpec): Question {
     options: [{ label: 'A', text: '30%' }, { label: 'B', text: '33.3%' }, { label: 'C', text: '70%' }, { label: 'D', text: '0.3%' }],
     mark_scheme: { ...emptyScheme, type: 'single_option', correct_option: 'A', option_rationale: ['Correct: 90,000 ÷ 300,000 × 100 = 30%', 'Divides by cost of sales', 'Uses cost of sales share', 'Forgets to multiply by 100'], model_answer: 'A: 30%' },
     calcs: [{ label: 'Gross profit margin', formula_id: 'gross_profit_margin', inputs: [{ name: 'gross_profit', value: 90000 }, { name: 'revenue', value: 300000 }], stated_answer: 30, unit: '%' }],
+  }
+}
+
+function marketCapitalisationMcq(spec: QuestionSpec): Question {
+  return {
+    id: spec.id,
+    family: 'MCQ',
+    command_word: 'Calculate',
+    marks: 1,
+    ao_tags: ['AO2'],
+    context: 'Northshore Cycles plc is a quoted UK bicycle manufacturer.',
+    stem: 'Northshore Cycles plc has 18,000,000 shares in issue. Its current share price is £3.40. Calculate its market capitalisation.',
+    table: null,
+    options: [
+      { label: 'A', text: '£21.60 million' },
+      { label: 'B', text: '£54.00 million' },
+      { label: 'C', text: '£61.20 million' },
+      { label: 'D', text: '£3.40 million' },
+    ],
+    mark_scheme: {
+      ...emptyScheme,
+      type: 'single_option',
+      correct_option: 'C',
+      option_rationale: [
+        'A is wrong because it does not multiply the full number of shares in issue by the current share price.',
+        'B is wrong because it uses an incorrect share price or calculation.',
+        'C is correct: 18,000,000 × £3.40 = £61,200,000, or £61.20 million.',
+        'D is wrong because it gives only the current price of one share, not the value of all shares in issue.',
+      ],
+      model_answer: '18,000,000 × £3.40 = £61,200,000 = £61.20 million.',
+    },
+    calcs: [{
+      label: 'Market capitalisation of Northshore Cycles plc',
+      formula_id: 'market_capitalisation',
+      inputs: [{ name: 'shares_in_issue', value: 18000000 }, { name: 'share_price', value: 3.4 }],
+      stated_answer: 61200000,
+      unit: '£',
+    }],
   }
 }
 
@@ -247,8 +316,16 @@ describe('AQA 7132 slice questions (software checks)', () => {
     expect(validateQuestion({ ...base, mark_scheme: { ...base.mark_scheme, type: 'points' } }, spec).map((f) => f.check_id)).toContain('levels_required')
   })
 
-  it('extracts numbers from text with commas, currency and percent signs', () => {
+  it('extracts numbers from text with commas, currency, percent signs and magnitude words', () => {
     expect(numbersIn('Revenue £250,000, margin 33.3% and a loss of -1,200.50')).toEqual([250000, 33.3, -1200.5])
+    expect(numbersIn('Values are £61.20 million, 2.5 thousand and 1 billion.')).toEqual([61200000, 2500, 1000000000])
+  })
+
+  it('accepts the retained 3.5-topup q04 market-capitalisation answer written in millions', () => {
+    const spec: QuestionSpec = { id: 'q04', family: 'MCQ', marks: 1, commandWord: 'Calculate', ao: ['AO2'], itemSuffixes: ['market-capitalisation'], formulaIds: ['market_capitalisation'], brief: 'Market capitalisation.' }
+    const question = marketCapitalisationMcq(spec)
+    expect(numbersIn(question.options[2].text)).toEqual([61200000])
+    expect(validateQuestion(question, spec)).toEqual([])
   })
 
   it('retries a question with the software findings fed back, then stops at three attempts', async () => {
@@ -300,6 +377,28 @@ describe('AQA 7132 slice questions (software checks)', () => {
     expect(retainedQuestionUnit({ spec, question, blind, teaching, previous })?.fingerprint).toBe(unit.fingerprint)
     expect(retainedQuestionUnit({ spec, question, blind, teaching: [{ ...teaching[0], teaching_content: { fact: 'changed' } }], previous })).toBeNull()
     expect(retainedQuestionUnit({ spec, question, blind, teaching, previous: { ...previous, outcome: 'failed' } })).toBeNull()
+  })
+
+  it('recovers an unchanged latest candidate only when its old blocker was software-only and is now cleared', () => {
+    const baseSpec: QuestionSpec = { id: 'q04', family: 'MCQ', marks: 1, commandWord: 'Calculate', ao: ['AO2'], itemSuffixes: ['market-capitalisation'], formulaIds: ['market_capitalisation'], brief: 'Market capitalisation.' }
+    const spec: ResolvedSpec = { ...baseSpec, items: [], nodeIds: [] }
+    const question = marketCapitalisationMcq(spec)
+    const blind: BlindAnswer = {
+      question_id: 'q04',
+      answer_text: 'C — 18,000,000 × £3.40 = £61.20 million.',
+      numbers: [{ label: 'market_capitalisation_gbp', value: 61200000 }],
+    }
+    const teaching: QuestionTeaching[] = [{ subject_id: 'BUS-FIN-014', teaching_content: { fact: 'same' }, quantitative_content: {}, source_ids: ['SRC-A'] }]
+    const unit = buildQuestionUnit({ spec, question, blind, teaching })
+    const softwareFinding: ClassifiedFinding = {
+      check_id: 'mcq_key_matches_calculation', category: 'broken_question', affected_ids: ['q04'], finding: 'old parser false blocker', evidence: 'software check', contradicting_source_id: null, proposed_fix: 'normalise the magnitude', disposition: 'blocking', reason: 'software-proven',
+    }
+    const previous: Ledger['units'][string] = { fingerprint: unit.fingerprint, outcome: 'blocking', consecutive_blocking_rounds: 0, findings: [softwareFinding], updated_at: '2026-10-01T00:00:00Z' }
+    expect(recoverableSoftwareBlockedQuestionUnit({ spec, question, blind, teaching, previous })?.fingerprint).toBe(unit.fingerprint)
+    expect(recoverableSoftwareBlockedQuestionUnit({ spec, question, blind, teaching: [{ ...teaching[0], teaching_content: { fact: 'changed' } }], previous })).toBeNull()
+    expect(recoverableSoftwareBlockedQuestionUnit({ spec, question, blind, teaching, previous: { ...previous, consecutive_blocking_rounds: 1 } })).toBeNull()
+    expect(recoverableSoftwareBlockedQuestionUnit({ spec, question, blind, teaching, previous: { ...previous, findings: [{ ...softwareFinding, evidence: 'review finding' }] } })).toBeNull()
+    expect(recoverableSoftwareBlockedQuestionUnit({ spec, question: { ...question, mark_scheme: { ...question.mark_scheme, correct_option: 'B' } }, blind, teaching, previous })).toBeNull()
   })
 
   it('reports whole-set facts: marks, quantitative share, formulas not yet covered', async () => {
@@ -373,6 +472,7 @@ describe('AQA 7132 slice questions (software checks)', () => {
 
     const questions = new Map<string, Question>()
     const generationFailures: Array<{ id: string; error: string }> = []
+    const forceFreshReviewIds = new Set<string>()
     const buildUnits = async (targets: ResolvedSpec[], feedback: Map<string, ClassifiedFinding[]>, ledgerForReuse: Ledger, allowRetained: boolean) => {
       const units: QuestionUnit[] = []
       let next = 0
@@ -386,6 +486,14 @@ describe('AQA 7132 slice questions (software checks)', () => {
               questions.set(spec.id, retained.question)
               await writeFile(`${OUTPUT}/blind-answers/${spec.id}.json`, `${JSON.stringify(retained.blind, null, 2)}\n`)
               units.push(retained.unit)
+              continue
+            }
+            const recoverable = await readRecoverableSoftwareBlockedQuestionUnit({ spec, teaching, ledger: ledgerForReuse })
+            if (recoverable) {
+              questions.set(spec.id, recoverable.question)
+              await writeFile(`${OUTPUT}/blind-answers/${spec.id}.json`, `${JSON.stringify(recoverable.blind, null, 2)}\n`)
+              units.push(recoverable.unit)
+              forceFreshReviewIds.add(spec.id)
               continue
             }
           }
@@ -432,7 +540,11 @@ describe('AQA 7132 slice questions (software checks)', () => {
     }
     const preEscalatedIds = new Set(preEscalated.map((outcome) => outcome.unit_id))
     const units1 = await buildUnits(plan.filter((spec) => !preEscalatedIds.has(spec.id)), new Map(), ledger, true)
-    let run = await runReviewUnits({ units: units1, ledger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
+    // A latest candidate blocked only by the old software checker is exact-fingerprint unchanged, but its old blocking ledger entry must not be reused now that current software clears it. Dropping only that entry gives the unchanged candidate its first AI review without repurchasing generation or blind answering.
+    const roundOneLedger = forceFreshReviewIds.size
+      ? { ...ledger, units: Object.fromEntries(Object.entries(ledger.units).filter(([id]) => !forceFreshReviewIds.has(id))) }
+      : ledger
+    let run = await runReviewUnits({ units: units1, ledger: roundOneLedger, checklist: QUESTIONS_CHECKLIST, knownSourceIds: (unit) => unit.sourceIds, concurrency: 4, review })
     ledger = run.ledger
     if (preEscalated.length) run = { ...run, outcomes: [...run.outcomes, ...preEscalated].sort((a, b) => a.unit_id.localeCompare(b.unit_id)) }
 
