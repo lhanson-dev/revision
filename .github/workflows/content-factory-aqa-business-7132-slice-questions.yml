@@ -13,9 +13,14 @@ on:
         description: "Batch id from content-factory/slices/aqa-7132-batches.json (for example 3.3), 3.5-topup for the top-up questions, 3.5 for the first slice, or 'all' for every course batch plus the top-up (not 3.5, which is already built)"
         required: true
         default: all
+      resume_run_id:
+        description: "Optional earlier run id to resume from. Accepted questions are reused only when their exact current fingerprint still matches."
+        required: false
+        default: ''
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   prepare:
@@ -74,6 +79,35 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
+      - name: Restore previous batch evidence for exact-fingerprint resume
+        if: ${{ inputs.resume_run_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+          BATCH: ${{ matrix.batch }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RESUME_RUN_ID}")"
+          workflow_name="$(jq -r '.name' <<<"$meta")"
+          head_branch="$(jq -r '.head_branch' <<<"$meta")"
+          head_sha="$(jq -r '.head_sha' <<<"$meta")"
+          if [[ "$workflow_name" != "Content Factory AQA Business 7132 Slice Questions" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} is from unexpected workflow: ${workflow_name}" >&2
+            exit 1
+          fi
+          if [[ "$head_branch" != "main" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} was not run from main: ${head_branch}" >&2
+            exit 1
+          fi
+          artifact="content-factory-aqa-business-7132-questions-${BATCH}-${head_sha}"
+          target=".artifacts/resume-${BATCH}"
+          mkdir -p "$target"
+          gh run download "$RESUME_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact" --dir "$target"
+          test -f "$target/ledger.json"
+          test -d "$target/questions"
+          test -d "$target/blind-answers"
+          echo "Restored ${artifact} for fingerprint-checked resume."
+
       - name: Write, answer blind, prove and review the batch questions
         env:
           CONTENT_FACTORY_AQA_7132_SLICE_QUESTIONS: '1'
@@ -81,6 +115,7 @@ jobs:
           CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '6'
           CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
+          CONTENT_FACTORY_RESUME_DIR: .artifacts/resume-${{ matrix.batch }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npx vitest run scripts/assurance/aqa-business-7132-slice-questions.test.ts --reporter=verbose
 
