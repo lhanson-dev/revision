@@ -1,0 +1,833 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.7",
+    "sections": [
+      "3.7"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-evi-006",
+      "classifications": [
+        "concept",
+        "relationship_causal",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "contextual_judgement",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-003",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-004",
+      "classifications": [
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-009",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-011",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-013",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-001",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-003",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "model_framework",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "model_framework",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.7.1:corporate-objectives",
+      "section": "3.7.1",
+      "label": "Corporate objectives",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.1:functional-objectives",
+      "section": "3.7.1",
+      "label": "Functional objectives",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.1:short-termism",
+      "section": "3.7.1",
+      "label": "Short-termism",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.1:strategy-versus-tactics",
+      "section": "3.7.1",
+      "label": "Strategy versus tactics",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.1:swot-analysis",
+      "section": "3.7.1",
+      "label": "SWOT analysis",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:statement-of-financial-position",
+      "section": "3.7.2",
+      "label": "Statement of financial position",
+      "kind": "model",
+      "taughtBy": [
+        "bus-fin-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:current-ratio",
+      "section": "3.7.2",
+      "label": "Current ratio",
+      "kind": "formula",
+      "aqaConvention": "current assets / current liabilities",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-013"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:payables-days",
+      "section": "3.7.2",
+      "label": "Payables days",
+      "kind": "formula",
+      "aqaConvention": "payables / cost of sales × 365",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-013"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:receivables-days",
+      "section": "3.7.2",
+      "label": "Receivables days",
+      "kind": "formula",
+      "aqaConvention": "receivables / revenue × 365",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-013"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:inventory-turnover",
+      "section": "3.7.2",
+      "label": "Inventory turnover",
+      "kind": "formula",
+      "aqaConvention": "cost of sales / average inventories held",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-013"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors",
+      "section": "3.7.2",
+      "label": "Comparing ratios over time and with competitors",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance",
+      "section": "3.7.3",
+      "label": "Using operations, HR and marketing data to assess performance",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-evi-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.3:core-competences",
+      "section": "3.7.3",
+      "label": "Core competences",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:international-trade-policy",
+      "section": "3.7.4",
+      "label": "International trade policy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:open-trade-versus-protectionism",
+      "section": "3.7.5",
+      "label": "Open trade versus protectionism",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:corporate-social-responsibility",
+      "section": "3.7.6",
+      "label": "Corporate social responsibility",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:carroll-s-csr-pyramid",
+      "section": "3.7.6",
+      "label": "Carroll's CSR pyramid",
+      "kind": "model",
+      "taughtBy": [
+        "bus-ext-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:porter-s-five-forces",
+      "section": "3.7.7",
+      "label": "Porter's Five Forces",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:threat-of-entry-and-barriers",
+      "section": "3.7.7",
+      "label": "Threat of entry and barriers",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:buyer-power",
+      "section": "3.7.7",
+      "label": "Buyer power",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:supplier-power",
+      "section": "3.7.7",
+      "label": "Supplier power",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:rivalry",
+      "section": "3.7.7",
+      "label": "Rivalry",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.7:threat-of-substitutes",
+      "section": "3.7.7",
+      "label": "Threat of substitutes",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.8:payback",
+      "section": "3.7.8",
+      "label": "Payback",
+      "kind": "formula",
+      "aqaConvention": "time taken for cumulative net cash inflows to repay the initial investment; months within a year = amount outstanding / net cash flow in that year × 12",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.8:average-rate-of-return",
+      "section": "3.7.8",
+      "label": "Average rate of return",
+      "kind": "formula",
+      "aqaConvention": "average annual profit / initial investment × 100, where average annual profit = (total net cash inflows - initial investment) / years",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.8:net-present-value",
+      "section": "3.7.8",
+      "label": "Net present value",
+      "kind": "formula",
+      "aqaConvention": "sum of (net cash flow in each year × discount factor supplied) - initial investment",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.8:non-financial-factors-in-investment",
+      "section": "3.7.8",
+      "label": "Non-financial factors in investment",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:porter-s-generic-strategies",
+      "section": "3.8.2",
+      "label": "Porter's generic strategies",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:low-cost-strategy",
+      "section": "3.8.2",
+      "label": "Low-cost strategy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:differentiation",
+      "section": "3.8.2",
+      "label": "Differentiation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:focus-strategy",
+      "section": "3.8.2",
+      "label": "Focus strategy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:price-and-non-price-competition",
+      "section": "3.8.2",
+      "label": "Price and non-price competition",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:competitive-advantage-and-how-to-sustain-it",
+      "section": "3.8.2",
+      "label": "Competitive advantage and how to sustain it",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.2:influences-on-choice-of-positioning-strategy",
+      "section": "3.8.2",
+      "label": "Influences on choice of positioning strategy",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:franchising",
+      "section": "3.9.1",
+      "label": "Franchising",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:globalisation",
+      "section": "3.9.3",
+      "label": "Globalisation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:emerging-economies",
+      "section": "3.9.3",
+      "label": "Emerging economies",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:market-attractiveness-factors",
+      "section": "3.9.3",
+      "label": "Market attractiveness factors",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:exporting",
+      "section": "3.9.3",
+      "label": "Exporting",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:licensing",
+      "section": "3.9.3",
+      "label": "Licensing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:direct-investment",
+      "section": "3.9.3",
+      "label": "Direct investment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:offshoring",
+      "section": "3.9.3",
+      "label": "Offshoring",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:multinationals",
+      "section": "3.9.3",
+      "label": "Multinationals",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:local-responsiveness-versus-cost-reduction-pressure",
+      "section": "3.9.3",
+      "label": "Local responsiveness versus cost-reduction pressure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:planned-versus-emergent-strategy",
+      "section": "3.10.4",
+      "label": "Planned versus emergent strategy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:evaluating-strategic-performance",
+      "section": "3.10.4",
+      "label": "Evaluating strategic performance",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:value-of-strategic-planning",
+      "section": "3.10.4",
+      "label": "Value of strategic planning",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:contingency-planning",
+      "section": "3.10.4",
+      "label": "Contingency planning",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-001"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 11,
+    "items": 48,
+    "treated": 48,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.7.2:statement-of-financial-position",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      },
+      {
+        "id": "aqa-7132-3.7.6:carroll-s-csr-pyramid",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      },
+      {
+        "id": "aqa-7132-3.8.2:porter-s-generic-strategies",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": [
+      "bus-ext-004"
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "uncoveredItems": [
+    {
+      "id": "aqa-7132-3.1.1:revenue",
+      "builtNodes": [
+        "bus-fin-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:profit",
+      "builtNodes": [
+        "bus-fin-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:market-capitalisation",
+      "builtNodes": [
+        "bus-fin-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:dividends",
+      "builtNodes": [
+        "bus-fin-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:income-statement",
+      "builtNodes": [
+        "bus-fin-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:return-on-capital-employed",
+      "builtNodes": [
+        "bus-fin-012"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:gearing",
+      "builtNodes": [
+        "bus-fin-014"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:limitations-of-ratio-analysis",
+      "builtNodes": [
+        "bus-fin-012",
+        "bus-evi-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.3:short-and-long-term-performance",
+      "builtNodes": [
+        "bus-evi-007"
+      ]
+    }
+  ],
+  "unmappedCourseNodes": [
+    "bus-mkt-001"
+  ]
+}

@@ -37,10 +37,13 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
 const proofEnabled = env.CONTENT_FACTORY_AQA_7132_SLICE_LEARN_PRACTICE === '1'
+// The batch to run live (default: the first slice, 3.5). Batches are listed in content-factory/slices/aqa-7132-batches.json.
+const BATCH = env.CONTENT_FACTORY_SLICE_BATCH?.trim() || '3.5'
 const BLUEPRINT = 'content-factory/slices/aqa-7132-3.5/BLUEPRINT.json'
-const OUTPUT = '.artifacts/content-factory-aqa-business-7132-slice-3.5-learn-practice'
+const BATCH_BLUEPRINT = `content-factory/slices/aqa-7132-${BATCH}/BLUEPRINT.json`
+const OUTPUT = `.artifacts/content-factory-aqa-business-7132-slice-${BATCH}-learn-practice`
 // Committed between runs so unchanged nodes are reused and review rounds are counted.
-const LEDGER = 'content-factory/runs/aqa-7132-slice-3.5/ledger.json'
+const LEDGER = `content-factory/runs/aqa-7132-slice-${BATCH}/ledger.json`
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -99,11 +102,52 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     const good = { formula_id: 'gross_profit', inputs: [{ name: 'revenue', value: 250000 }, { name: 'cost_of_sales', value: 150000 }], stated_answer: 100000 }
     expect(checkCalculation(good)).toBeNull()
     expect(checkCalculation({ ...good, stated_answer: 110000 })).toContain('computes to 100000')
-    expect(checkCalculation({ ...good, inputs: [{ name: 'revenue', value: 1 }] })).toContain('needs exactly these inputs')
+    expect(checkCalculation({ ...good, inputs: [{ name: 'revenue', value: 1 }] })).toContain('needs these inputs')
     expect(checkCalculation({ formula_id: 'break_even_output', inputs: [{ name: 'fixed_costs', value: 10 }, { name: 'contribution_per_unit', value: 0 }], stated_answer: 1 })).toContain('division by zero')
     expect(checkCalculation({ formula_id: 'profit_for_the_year', inputs: [{ name: 'operating_profit', value: 90000 }, { name: 'net_finance_costs', value: 10000 }, { name: 'taxation', value: 15200 }], stated_answer: 64800 })).toBeNull()
     expect(checkCalculation({ formula_id: 'gross_profit_margin', inputs: [{ name: 'gross_profit', value: 100000 }, { name: 'revenue', value: 250000 }], stated_answer: 40 })).toBeNull()
     expect(new Set(FORMULA_LIBRARY.map((f) => f.id)).size).toBe(FORMULA_LIBRARY.length)
+  })
+
+  it('recomputes the multi-year and list formulas (payback, NPV, expected value, market size) and rejects mistakes in them', () => {
+    const inputs = (pairs: Array<[string, number]>) => pairs.map(([name, value]) => ({ name, value }))
+    // Payback: £100,000 invested; £40,000, £40,000, £40,000 a year -> 2 full years then £20,000 of £40,000 = 2.5 years.
+    const payback = { formula_id: 'payback', inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 40000], ['net_cash_flow_2', 40000], ['net_cash_flow_3', 40000]]), stated_answer: 2.5 }
+    expect(checkCalculation(payback)).toBeNull()
+    expect(checkCalculation({ ...payback, stated_answer: 3 })).toContain('computes to 2.5')
+    expect(checkCalculation({ ...payback, inputs: inputs([['initial_investment', 500000], ['net_cash_flow_1', 40000], ['net_cash_flow_2', 40000]]) })).toContain('cannot be computed')
+    expect(checkCalculation({ ...payback, inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 40000], ['net_cash_flow_3', 40000]]) })).toContain('no gaps')
+    // NPV: -100,000 + 50,000 x 0.9 + 60,000 x 0.8 = -7,000.
+    const npv = { formula_id: 'net_present_value', inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 50000], ['discount_factor_1', 0.9], ['net_cash_flow_2', 60000], ['discount_factor_2', 0.8]]), stated_answer: -7000 }
+    expect(checkCalculation(npv)).toBeNull()
+    expect(checkCalculation({ ...npv, stated_answer: 7000 })).toContain('computes to -7000')
+    expect(checkCalculation({ ...npv, inputs: inputs([['initial_investment', 100000], ['net_cash_flow_1', 50000], ['discount_factor_1', 0.9], ['net_cash_flow_2', 60000]]) })).toContain('no gaps')
+    // Expected value: 0.6 x 50,000 + 0.4 x -10,000 = 26,000; probabilities must add to 1.
+    const ev = { formula_id: 'expected_value', inputs: inputs([['probability_1', 0.6], ['outcome_1', 50000], ['probability_2', 0.4], ['outcome_2', -10000]]), stated_answer: 26000 }
+    expect(checkCalculation(ev)).toBeNull()
+    expect(checkCalculation({ ...ev, inputs: inputs([['probability_1', 0.6], ['outcome_1', 50000], ['probability_2', 0.5], ['outcome_2', -10000]]) })).toContain('cannot be computed')
+    // Market size: sum of firm sales.
+    expect(checkCalculation({ formula_id: 'market_size', inputs: inputs([['firm_sales_1', 4000000], ['firm_sales_2', 2500000], ['firm_sales_3', 1500000]]), stated_answer: 8000000 })).toBeNull()
+    // A stray input is rejected.
+    expect(checkCalculation({ formula_id: 'gross_profit', inputs: inputs([['revenue', 10], ['cost_of_sales', 4], ['other', 1]]), stated_answer: 6 })).toContain('does not take')
+    // ARR: (175,000 - 100,000) / 5 = 15,000 a year on 100,000 = 15%.
+    expect(checkCalculation({ formula_id: 'average_rate_of_return', inputs: inputs([['total_net_cash_inflows', 175000], ['initial_investment', 100000], ['number_of_years', 5]]), stated_answer: 15 })).toBeNull()
+    // Gearing and ROCE use the confirmed course conventions.
+    expect(checkCalculation({ formula_id: 'gearing', inputs: inputs([['non_current_liabilities', 300000], ['total_equity', 700000]]), stated_answer: 30 })).toBeNull()
+    expect(checkCalculation({ formula_id: 'return_on_capital_employed', inputs: inputs([['operating_profit', 120000], ['total_equity', 700000], ['non_current_liabilities', 300000]]), stated_answer: 12 })).toBeNull()
+  })
+
+  it('maps every named formula in the whole course to a library formula, and uses every library formula', async () => {
+    const named = JSON.parse(await readFile('research/aqa-business-7132/2027/NAMED_ITEMS.json', 'utf8')) as { items: Array<{ id: string; kind: string }> }
+    const formulaItems = named.items.filter((i) => i.kind === 'formula')
+    expect(formulaItems.length).toBe(39)
+    const used = new Set<string>()
+    for (const i of formulaItems) {
+      const id = formulaIdForItem(i.id)
+      expect(id, i.id).not.toBeNull()
+      used.add(id!)
+    }
+    expect([...used].sort()).toEqual(FORMULA_LIBRARY.map((f) => f.id).sort())
   })
 
   it('maps every named 3.5 formula item to a library formula', async () => {
@@ -171,22 +215,30 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     expect(checklistInstructions(SLICE_CHECKLIST)).toContain('Do not look for other problems')
   })
 
-  it('keeps every committed Learn + Practice asset valid against the blueprint (software re-proof, no AI)', async () => {
-    const dir = 'content-factory/slices/aqa-7132-3.5/learn-practice'
-    if (!existsSync(dir)) return
-    const blueprint = JSON.parse(await readFile(BLUEPRINT, 'utf8')) as Blueprint
-    for (const expectation of expectationsFromBlueprint(blueprint)) {
-      const path = `${dir}/${expectation.nodeId}.json`
-      if (!existsSync(path)) continue
-      const output = nodeOutputSchema.parse(JSON.parse(await readFile(path, 'utf8')))
-      expect(validateNodeOutput(output, expectation), expectation.nodeId).toEqual([])
+  it('keeps every committed Learn + Practice asset valid against its blueprint (software re-proof, no AI)', async () => {
+    const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
+    // The top-up batch rebuilds some 3.5 nodes; its output replaces those node files in the 3.5 folder, so those files must satisfy both blueprints.
+    const checks = [{ id: '3.5', blueprint: '3.5' }, ...config.batches.map((batch) => ({ id: batch.id, blueprint: batch.id })), { id: '3.5', blueprint: config.top_up.id }]
+    for (const check of checks) {
+      const dir = `content-factory/slices/aqa-7132-${check.id}/learn-practice`
+      const blueprintPath = `content-factory/slices/aqa-7132-${check.blueprint}/BLUEPRINT.json`
+      if (!existsSync(dir) || !existsSync(blueprintPath)) continue
+      // The top-up blueprint only applies once the top-up run has been recorded (its ledger is committed with the new files).
+      if (check.blueprint === config.top_up.id && !existsSync(`content-factory/runs/aqa-7132-slice-${config.top_up.id}/ledger.json`)) continue
+      const blueprint = JSON.parse(await readFile(blueprintPath, 'utf8')) as Blueprint
+      for (const expectation of expectationsFromBlueprint(blueprint)) {
+        const path = `${dir}/${expectation.nodeId}.json`
+        if (!existsSync(path)) continue
+        const output = nodeOutputSchema.parse(JSON.parse(await readFile(path, 'utf8')))
+        expect(validateNodeOutput(output, expectation), `${check.id}/${expectation.nodeId}`).toEqual([])
+      }
     }
   })
 
   const proofIt = proofEnabled ? it : it.skip
 
   proofIt('generates Learn and Practice for each 3.5 node, proves what software can, reviews with a fixed checklist, and never unlocks learner publication', async () => {
-    const blueprint = JSON.parse(await readFile(BLUEPRINT, 'utf8')) as Blueprint
+    const blueprint = JSON.parse(await readFile(BATCH_BLUEPRINT, 'utf8')) as Blueprint
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     await mkdir(`${OUTPUT}/assets`, { recursive: true })
@@ -281,12 +333,12 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     }
     await writeFile(`${OUTPUT}/ledger.json`, `${JSON.stringify(ledger, null, 2)}\n`)
     await writeFile(`${OUTPUT}/escalations.json`, `${JSON.stringify(escalationEntries(ledger), null, 2)}\n`)
-    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary('AQA 7132 slice 3.5: Learn + Practice', finalOutcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.node_id}: ${f.error}`).join('\n')}\n` : ''}`)
+    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary(`AQA 7132 batch ${BATCH}: Learn + Practice`, finalOutcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.node_id}: ${f.error}`).join('\n')}\n` : ''}`)
     const evidence = {
       schema_version: 1,
       artifact_type: 'aqa_7132_slice_learn_practice_fast_path',
       recorded_at: new Date().toISOString(),
-      slice: '3.5',
+      slice: BATCH,
       reviewed_commit: env.CONTENT_FACTORY_SLICE_REVIEWED_COMMIT ?? null,
       checklist: SLICE_CHECKLIST,
       summary,

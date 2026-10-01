@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.8-3.9",
+    "sections": [
+      "3.8",
+      "3.9"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-fnd-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-007",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-008",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-004",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "model_framework",
+        "procedure_skill",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-007",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "procedure_skill",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.8.1:ansoff-matrix",
+      "section": "3.8.1",
+      "label": "Ansoff matrix",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.1:market-penetration",
+      "section": "3.8.1",
+      "label": "Market penetration",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.1:market-development",
+      "section": "3.8.1",
+      "label": "Market development",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.1:product-development",
+      "section": "3.8.1",
+      "label": "Product development",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.1:diversification",
+      "section": "3.8.1",
+      "label": "Diversification",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products",
+      "section": "3.8.1",
+      "label": "Influences on choice of markets and products",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:organic-growth",
+      "section": "3.9.1",
+      "label": "Organic growth",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:external-growth",
+      "section": "3.9.1",
+      "label": "External growth",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:retrenchment",
+      "section": "3.9.1",
+      "label": "Retrenchment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:economies-of-scale-technical-purchasing-managerial",
+      "section": "3.9.1",
+      "label": "Economies of scale (technical, purchasing, managerial)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:economies-of-scope",
+      "section": "3.9.1",
+      "label": "Economies of scope",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:diseconomies-of-scale",
+      "section": "3.9.1",
+      "label": "Diseconomies of scale",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:synergy",
+      "section": "3.9.1",
+      "label": "Synergy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:overtrading",
+      "section": "3.9.1",
+      "label": "Overtrading",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:mergers",
+      "section": "3.9.1",
+      "label": "Mergers",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:takeovers",
+      "section": "3.9.1",
+      "label": "Takeovers",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:joint-ventures",
+      "section": "3.9.1",
+      "label": "Joint ventures",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:vertical-integration-forward-and-backward",
+      "section": "3.9.1",
+      "label": "Vertical integration (forward and backward)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:horizontal-integration",
+      "section": "3.9.1",
+      "label": "Horizontal integration",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:conglomerate-integration",
+      "section": "3.9.1",
+      "label": "Conglomerate integration",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.1:impact-of-growth-or-retrenchment-on-functional-areas",
+      "section": "3.9.1",
+      "label": "Impact of growth or retrenchment on functional areas",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:intrapreneurship",
+      "section": "3.9.2",
+      "label": "Intrapreneurship",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:alliances",
+      "section": "3.9.3",
+      "label": "Alliances",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-007"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 5,
+    "items": 23,
+    "treated": 23,
+    "itemsNeedingAdditions": [],
+    "nodesWithoutItems": []
+  }
+}

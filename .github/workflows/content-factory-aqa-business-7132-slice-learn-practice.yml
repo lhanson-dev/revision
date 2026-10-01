@@ -1,25 +1,60 @@
 name: Content Factory AQA Business 7132 Slice Learn and Practice
 
-# Step 5b of the plan: Learn + Practice for one slice (first slice: AQA 7132 section 3.5), under the fast-path rules.
-# Software proves what it can (arithmetic, coverage of named items, required treatments), then one fixed-checklist AI review per node.
-# Live spend is capped and only runs from main, after merge.
+# Learn + Practice for AQA 7132 under the fast-path rules, one batch of course nodes per job (batches are listed in
+# content-factory/slices/aqa-7132-batches.json; section 3.5 was the first slice). Software proves what it can (arithmetic,
+# coverage of named items, required treatments), then one fixed-checklist AI review per node. Each batch job has its own
+# $6 spend cap. Live spend only runs from main, after merge.
 
 on:
   workflow_dispatch:
+    inputs:
+      batch:
+        description: "Batch id from content-factory/slices/aqa-7132-batches.json (for example 3.3), 3.5 for the first slice, 3.5-topup, or 'all' for every course batch plus the top-up"
+        required: true
+        default: all
 
 permissions:
   contents: read
 
-concurrency:
-  group: content-factory-aqa-business-7132-slice-learn-practice
-  cancel-in-progress: false
-
 jobs:
-  slice-learn-practice:
-    name: Generate, prove and review Learn and Practice for the slice
+  prepare:
+    name: List the batches to run
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    outputs:
+      batches: ${{ steps.list.outputs.batches }}
+    steps:
+      - name: Checkout exact approved main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+      - name: Read the batch list
+        id: list
+        env:
+          REQUESTED_BATCH: ${{ inputs.batch }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const config = JSON.parse(fs.readFileSync('content-factory/slices/aqa-7132-batches.json', 'utf8'));
+            const all = [...config.batches.map((b) => b.id), config.top_up.id];
+            const requested = (process.env.REQUESTED_BATCH || 'all').trim();
+            const chosen = requested === 'all' ? all : requested === config.already_built.id ? [requested] : all.filter((id) => id === requested);
+            if (!chosen.length) { console.error('Unknown batch ' + requested); process.exit(1); }
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'batches=' + JSON.stringify(chosen) + '\n');
+          "
+
+  slice-learn-practice:
+    name: Batch ${{ matrix.batch }}
+    needs: prepare
+    runs-on: ubuntu-latest
     timeout-minutes: 60
+    concurrency:
+      group: content-factory-aqa-business-7132-learn-practice-${{ matrix.batch }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        batch: ${{ fromJSON(needs.prepare.outputs.batches) }}
     steps:
       - name: Checkout exact approved main
         uses: actions/checkout@v6
@@ -38,20 +73,21 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Generate, prove and review the slice
+      - name: Generate, prove and review the batch
         env:
           CONTENT_FACTORY_AQA_7132_SLICE_LEARN_PRACTICE: '1'
+          CONTENT_FACTORY_SLICE_BATCH: ${{ matrix.batch }}
           CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '6'
           CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npx vitest run scripts/assurance/aqa-business-7132-slice-learn-practice.test.ts --reporter=verbose
 
-      - name: Upload slice evidence and generated assets
+      - name: Upload batch evidence and generated assets
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: content-factory-aqa-business-7132-slice-3-5-learn-practice-${{ github.sha }}
-          path: .artifacts/content-factory-aqa-business-7132-slice-3.5-learn-practice/
+          name: content-factory-aqa-business-7132-learn-practice-${{ matrix.batch }}-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-slice-${{ matrix.batch }}-learn-practice/
           if-no-files-found: warn
           retention-days: 30

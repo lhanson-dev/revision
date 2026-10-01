@@ -1,0 +1,662 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.6",
+    "sections": [
+      "3.6"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-mod-001",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mod-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mod-003",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "process_sequence",
+        "application_context",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-004",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "process_sequence",
+        "procedure_skill",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-006",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-007",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-011",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.6.1:employee-engagement-and-involvement",
+      "section": "3.6.1",
+      "label": "Employee engagement and involvement",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:talent-development",
+      "section": "3.6.1",
+      "label": "Talent development",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:diversity",
+      "section": "3.6.1",
+      "label": "Diversity",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:alignment-of-values",
+      "section": "3.6.1",
+      "label": "Alignment of values",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:functional-structure",
+      "section": "3.6.3",
+      "label": "Functional structure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:product-based-structure",
+      "section": "3.6.3",
+      "label": "Product-based structure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:regional-structure",
+      "section": "3.6.3",
+      "label": "Regional structure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:matrix-structure",
+      "section": "3.6.3",
+      "label": "Matrix structure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:authority",
+      "section": "3.6.3",
+      "label": "Authority",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:span-of-control",
+      "section": "3.6.3",
+      "label": "Span of control",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:hierarchy",
+      "section": "3.6.3",
+      "label": "Hierarchy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:delegation",
+      "section": "3.6.3",
+      "label": "Delegation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:centralisation-and-decentralisation",
+      "section": "3.6.3",
+      "label": "Centralisation and decentralisation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:taylor-scientific-management",
+      "section": "3.6.4",
+      "label": "Taylor (scientific management)",
+      "kind": "model",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:maslow-s-hierarchy-of-needs",
+      "section": "3.6.4",
+      "label": "Maslow's hierarchy of needs",
+      "kind": "model",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:herzberg-s-two-factor-theory",
+      "section": "3.6.4",
+      "label": "Herzberg's two-factor theory",
+      "kind": "model",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:piece-rate",
+      "section": "3.6.4",
+      "label": "Piece rate",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mod-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:commission",
+      "section": "3.6.4",
+      "label": "Commission",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:salary",
+      "section": "3.6.4",
+      "label": "Salary",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:performance-related-pay",
+      "section": "3.6.4",
+      "label": "Performance-related pay",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:empowerment",
+      "section": "3.6.4",
+      "label": "Empowerment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:team-working",
+      "section": "3.6.4",
+      "label": "Team working",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:flexible-working",
+      "section": "3.6.4",
+      "label": "Flexible working",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:job-enrichment",
+      "section": "3.6.4",
+      "label": "Job enrichment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:job-rotation",
+      "section": "3.6.4",
+      "label": "Job rotation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.4:influences-on-choosing-financial-and-non-financial-motivatio",
+      "section": "3.6.4",
+      "label": "Influences on choosing financial and non-financial motivation methods",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.5:employee-involvement",
+      "section": "3.6.5",
+      "label": "Employee involvement",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.5:trade-unions",
+      "section": "3.6.5",
+      "label": "Trade unions",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.5:works-councils",
+      "section": "3.6.5",
+      "label": "Works councils",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.5:value-of-good-employee-relations",
+      "section": "3.6.5",
+      "label": "Value of good employee relations",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:flexible-organisations",
+      "section": "3.10.1",
+      "label": "Flexible organisations",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:flexible-employment-contracts",
+      "section": "3.10.1",
+      "label": "Flexible employment contracts",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:organic-versus-mechanistic-structures",
+      "section": "3.10.1",
+      "label": "Organic versus mechanistic structures",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:handy-s-culture-types",
+      "section": "3.10.2",
+      "label": "Handy's culture types",
+      "kind": "model",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:power-culture",
+      "section": "3.10.2",
+      "label": "Power culture",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:role-culture",
+      "section": "3.10.2",
+      "label": "Role culture",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:task-culture",
+      "section": "3.10.2",
+      "label": "Task culture",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:person-culture",
+      "section": "3.10.2",
+      "label": "Person culture",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:influences-on-organisational-culture",
+      "section": "3.10.2",
+      "label": "Influences on organisational culture",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.2:reasons-for-and-problems-of-changing-culture",
+      "section": "3.10.2",
+      "label": "Reasons for and problems of changing culture",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-011"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 9,
+    "items": 40,
+    "treated": 40,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.10.2:handy-s-culture-types",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": [
+      "bus-mod-002",
+      "bus-mod-003",
+      "bus-peo-002"
+    ]
+  }
+}

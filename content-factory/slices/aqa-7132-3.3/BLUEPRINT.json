@@ -1,0 +1,704 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.3",
+    "sections": [
+      "3.3"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-evi-001",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "graph_data_interpretation",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-002",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-003",
+      "classifications": [
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-004",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "process_sequence",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-006",
+      "classifications": [
+        "concept",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "contextual_judgement",
+        "framework_application",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-007",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-008",
+      "classifications": [
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-009",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-006",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.3.1:sales-volume-and-sales-value",
+      "section": "3.3.1",
+      "label": "Sales volume and sales value",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.1:market-size",
+      "section": "3.3.1",
+      "label": "Market size",
+      "kind": "formula",
+      "aqaConvention": "total sales of all firms in the market, by value or volume",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-mkt-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.1:market-growth",
+      "section": "3.3.1",
+      "label": "Market growth",
+      "kind": "formula",
+      "aqaConvention": "(market size this period - market size last period) / market size last period × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-mkt-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.1:market-share",
+      "section": "3.3.1",
+      "label": "Market share",
+      "kind": "formula",
+      "aqaConvention": "firm sales / total market sales × 100 (by value or volume, used consistently)",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-mkt-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.1:brand-loyalty",
+      "section": "3.3.1",
+      "label": "Brand loyalty",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:primary-and-secondary-research",
+      "section": "3.3.2",
+      "label": "Primary and secondary research",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+      "section": "3.3.2",
+      "label": "Qualitative and quantitative data",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:random-sampling",
+      "section": "3.3.2",
+      "label": "Random sampling",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:stratified-sampling",
+      "section": "3.3.2",
+      "label": "Stratified sampling",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:quota-sampling",
+      "section": "3.3.2",
+      "label": "Quota sampling",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:correlation",
+      "section": "3.3.2",
+      "label": "Correlation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:confidence-intervals",
+      "section": "3.3.2",
+      "label": "Confidence intervals",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:price-elasticity-of-demand",
+      "section": "3.3.2",
+      "label": "Price elasticity of demand",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:income-elasticity-of-demand",
+      "section": "3.3.2",
+      "label": "Income elasticity of demand",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue",
+      "section": "3.3.2",
+      "label": "Effect of price and income changes on revenue",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-mkt-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:using-marketing-data-in-decisions",
+      "section": "3.3.2",
+      "label": "Using marketing data in decisions",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-mkt-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+      "section": "3.3.3",
+      "label": "Segmentation (demographic, geographic, income, behaviour)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:targeting",
+      "section": "3.3.3",
+      "label": "Targeting",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:niche-marketing",
+      "section": "3.3.3",
+      "label": "Niche marketing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:mass-marketing",
+      "section": "3.3.3",
+      "label": "Mass marketing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:positioning",
+      "section": "3.3.3",
+      "label": "Positioning",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:market-mapping",
+      "section": "3.3.3",
+      "label": "Market mapping",
+      "kind": "model",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.3:influences-on-choice-of-target-market",
+      "section": "3.3.3",
+      "label": "Influences on choice of target market",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-mkt-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:product-and-service-design",
+      "section": "3.3.4",
+      "label": "Product and service design",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:product-portfolio-analysis",
+      "section": "3.3.4",
+      "label": "Product portfolio analysis",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:boston-matrix",
+      "section": "3.3.4",
+      "label": "Boston Matrix",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:product-life-cycle",
+      "section": "3.3.4",
+      "label": "Product life cycle",
+      "kind": "model",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:extension-strategies",
+      "section": "3.3.4",
+      "label": "Extension strategies",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:new-product-development",
+      "section": "3.3.4",
+      "label": "New product development",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:penetration-pricing",
+      "section": "3.3.4",
+      "label": "Penetration pricing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:price-skimming",
+      "section": "3.3.4",
+      "label": "Price skimming",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:influences-on-pricing",
+      "section": "3.3.4",
+      "label": "Influences on pricing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:branding",
+      "section": "3.3.4",
+      "label": "Branding",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:social-media-promotion",
+      "section": "3.3.4",
+      "label": "Social media promotion",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:viral-marketing",
+      "section": "3.3.4",
+      "label": "Viral marketing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:distribution-and-multi-channel-distribution",
+      "section": "3.3.4",
+      "label": "Distribution and multi-channel distribution",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:physical-environment-service-mix",
+      "section": "3.3.4",
+      "label": "Physical environment (service mix)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:digital-marketing",
+      "section": "3.3.4",
+      "label": "Digital marketing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:e-commerce",
+      "section": "3.3.4",
+      "label": "E-commerce",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:integrated-marketing-mix",
+      "section": "3.3.4",
+      "label": "Integrated marketing mix",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.4:influences-on-marketing-mix-decisions",
+      "section": "3.3.4",
+      "label": "Influences on marketing mix decisions",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-mkt-009"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 10,
+    "items": 41,
+    "treated": 41,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.3.3:market-mapping",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": [
+      "bus-evi-001"
+    ]
+  }
+}

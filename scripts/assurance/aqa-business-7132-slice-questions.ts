@@ -222,7 +222,7 @@ export function generationPayload(input: { spec: ResolvedSpec; teaching: Questio
     plan: { id: input.spec.id, family: input.spec.family, marks: input.spec.marks, command_word: input.spec.commandWord, ao_tags: input.spec.ao, brief: input.spec.brief, formula_ids: input.spec.formulaIds },
     target_items: input.spec.items.map((item) => ({ id: item.id, label: item.label, kind: item.kind, aqa_convention: item.aqaConvention ?? null })),
     node_teaching: input.teaching.map((node) => ({ id: `foundation-node:${node.subject_id}`, title: node.title ?? node.subject_id, teaching_content: node.teaching_content, quantitative_content: node.quantitative_content })),
-    formula_library: FORMULA_LIBRARY.filter((formula) => input.spec.formulaIds.includes(formula.id)).map(({ id, label, inputs, unit, expression }) => ({ id, label, inputs, unit, expression })),
+    formula_library: FORMULA_LIBRARY.filter((formula) => input.spec.formulaIds.includes(formula.id)).map(({ id, label, inputs, series, unit, expression }) => ({ id, label, inputs, series_inputs: series ?? [], unit, expression })),
     fix_these: input.feedback.map((finding) => ({ check_id: finding.check_id, affected_ids: finding.affected_ids, finding: finding.finding, proposed_fix: finding.proposed_fix })),
   }
 }

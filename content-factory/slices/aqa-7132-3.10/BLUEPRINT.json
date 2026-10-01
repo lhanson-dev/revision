@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.10",
+    "sections": [
+      "3.10"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-evi-008",
+      "classifications": [
+        "relationship_causal",
+        "process_sequence",
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-007",
+      "classifications": [
+        "comparison_discrimination",
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mkt-001",
+      "classifications": [
+        "concept",
+        "relationship_causal",
+        "process_sequence",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "contextual_judgement",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-mod-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "model_framework",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-009",
+      "classifications": [
+        "relationship_causal",
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.10.1:internal-and-external-causes-of-change",
+      "section": "3.10.1",
+      "label": "Internal and external causes of change",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:incremental-versus-disruptive-change",
+      "section": "3.10.1",
+      "label": "Incremental versus disruptive change",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:lewin-s-force-field-analysis",
+      "section": "3.10.1",
+      "label": "Lewin's force field analysis",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:restructuring",
+      "section": "3.10.1",
+      "label": "Restructuring",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:delayering",
+      "section": "3.10.1",
+      "label": "Delayering",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:knowledge-and-information-management",
+      "section": "3.10.1",
+      "label": "Knowledge and information management",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:barriers-to-change",
+      "section": "3.10.1",
+      "label": "Barriers to change",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-mod-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:kotter-and-schlesinger-reasons-for-resistance",
+      "section": "3.10.1",
+      "label": "Kotter and Schlesinger: reasons for resistance",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.1:kotter-and-schlesinger-methods-of-overcoming-resistance",
+      "section": "3.10.1",
+      "label": "Kotter and Schlesinger: methods of overcoming resistance",
+      "kind": "model",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:network-analysis",
+      "section": "3.10.3",
+      "label": "Network analysis",
+      "kind": "model",
+      "taughtBy": [
+        "bus-evi-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:amending-network-diagrams",
+      "section": "3.10.3",
+      "label": "Amending network diagrams",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-evi-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:critical-path",
+      "section": "3.10.3",
+      "label": "Critical path",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-evi-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:total-float",
+      "section": "3.10.3",
+      "label": "Total float",
+      "kind": "formula",
+      "aqaConvention": "latest finish time - duration - earliest start time",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-evi-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:strategic-drift",
+      "section": "3.10.4",
+      "label": "Strategic drift",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.4:crisis-management",
+      "section": "3.10.4",
+      "label": "Crisis management",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-009"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 5,
+    "items": 15,
+    "treated": 15,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.10.1:lewin-s-force-field-analysis",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": [
+      "bus-ext-007",
+      "bus-mkt-001"
+    ]
+  }
+}
