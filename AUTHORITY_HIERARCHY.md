@@ -35,6 +35,18 @@ Approval must be explicit for the specific PR or merge. Silence, related prior a
 
 AI agents and automated workflows must stop before merge unless explicit Founder approval has already been given.
 
+### How the Founder gives approval (Founder process, 1 October 2026)
+
+The Founder may give approval in the AI chat by replying "approved" to an approval request for a specific PR. The AI then registers that approval on the PR by posting the `revision-founder-approval:v1` comment for the exact commit, and merges once the required checks pass.
+
+- **This is not delegation.** The decision stays with the Founder. The AI only relays it and never gives or infers approval.
+- **Scope:** one PR, one commit. A new commit needs the approval registered again, and anything beyond a bare merge of `main` that the Founder has not reviewed needs a fresh "approved".
+- **Limits:** the AI must have told the Founder exactly what changed before the approval, must never post the comment before the Founder has said "approved" for that PR, and must not change this process without a Founder-approved PR.
+- **Revocation:** the Founder can revoke this at any time in the chat. From then on the Founder posts the approval comment personally.
+- **Escalation:** if the chat approval is unclear or ambiguous about which PR it covers, the AI asks again and does not merge.
+
+The operating steps are in `CLAUDE.md`, "How approval and merging work".
+
 ### Future delegation
 The Founder may later delegate merge authority or define exempt change classes only through an explicit, documented, Founder-approved governance change defining scope, limits, revocation and escalation.
 

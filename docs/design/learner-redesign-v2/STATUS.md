@@ -1,9 +1,9 @@
 # Learner redesign v2: status tracker
 
-**Updated:** 1 October 2026 (PR 5, Home). Every later redesign PR updates this file.
+**Updated:** 1 October 2026 (PR 5 merged, approval process documented). Every later redesign PR updates this file.
 **Decisions:** `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. **Start here:** `00-START-HERE.md`.
 
-**Merged to `main` with Lee's approval:** PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). **Open:** PR 5 (Home). PR 3 (Content Factory) is waiting for Lee's go.
+**Merged to `main` with Lee's approval:** PR 1 (#480, foundations), PR 2 (#482, data model proposal), PR 4 (#486, shell and navigation). PR 5 (#487, Home). PR 3 (Content Factory) is waiting for Lee's go.
 
 How to read it: **Foundations** means the design values, building blocks and checks exist but no screen uses them yet. **Not started** means nothing is built. Nothing is "done" until a PR is merged by Lee.
 
@@ -11,7 +11,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 
 | Feature | What it is | Built so far | PR | What is left | Decisions pending |
 | --- | --- | --- | --- | --- | --- |
-| F1 | REV suggests (with a reason, chosen by rules) | REV card component; the four-step rules in `src/app/rev-suggestions.ts`; Home shows the rules' choice with its reason, "Suggest something else" and "Not now" (PR 5, open) | PR 1, PR 5 | "Not now" is kept for the browser session only until the suggestion-events table exists. REV-added sessions and "Add to plan" come with Plan (PR 6) | The 14-day and 7-day windows (tune after testing). Home's card now follows the four rules, not the planner: Lee to confirm that is right (see PR 5) |
+| F1 | REV suggests (with a reason, chosen by rules) | REV card component; the four-step rules in `src/app/rev-suggestions.ts`; Home shows the rules' choice with its reason, "Suggest something else" and "Not now" (PR 5, merged) | PR 1, PR 5 | "Not now" is kept for the browser session only until the suggestion-events table exists. REV-added sessions and "Add to plan" come with Plan (PR 6) | The 14-day and 7-day windows (tune after testing). Home's card now follows the four rules, not the planner: Lee to confirm that is right (see PR 5) |
 | F2 | Guided session (Learn, Practice, Exam Prep) | Step list inside the REV card | PR 1 | Session flow on Home | None |
 | F3 | "REV noticed" patterns | Deferred for launch. Session and answer history to be kept | n/a | Comes back later | When it returns and its evidence bar (open item 5) |
 | F4 | Smarter Plan | Not started | PR 6 | Week first, Day/Week/Month, REV-added sessions, study time, exam dates | Planned sessions and study time need new data (PR 2 proposal) |
@@ -31,7 +31,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | Screen | Branch | Built so far | PR | What is left |
 | --- | --- | --- | --- | --- |
 | Shell and navigation | `design/shell-navigation` | Merged in PR 4: sidebar 248px, icon rail on tablet, bottom tab bar with REV raised on phone, two-line menu still opens the left navigation with the account at the bottom, Ask REV pop-up (full screen on phone), Exam Prep focus mode with Leave Exam Prep, Appearance now Light / Dark / System | PR 4 | Account placement unchanged by design. Screens still to adopt the shared `AppShell` wrapper; saving the theme per student needs the preferences table (agreed, own PR). Doc: `docs/features/shell-navigation.md` |
-| Home | `claude/friendly-clarke-gp8bca` | Built in PR 5 (open, draft): the REV card chosen by the four rules with its reason, "Suggest something else", "Not now"; honest rest state when everything is put aside; course cards in subject colours with Topics covered and Understanding (no single percentage); next exam as neutral text with a clock; set-up empty state unchanged | PR 5 | Suggestion events table for "Not now" across devices; guided session steps; accepted sessions. Doc: `docs/features/home.md` |
+| Home | `claude/friendly-clarke-gp8bca` (merged) | Merged in PR 5 (#487): the REV card chosen by the four rules with its reason, "Suggest something else", "Not now"; honest rest state when everything is put aside; course cards in subject colours with Topics covered and Understanding (no single percentage); next exam as neutral text with a clock; set-up empty state unchanged | PR 5 | Suggestion events table for "Not now" across devices; guided session steps; accepted sessions. Doc: `docs/features/home.md` |
 | Plan | `design/plan` | Not started | PR 6 | Everything |
 | Courses and Course Overview | `design/courses-overview` | Not started | PR 7 | Everything. Also fix the known 320px sideways scroll on Course overview |
 | Learn | `design/learn` | Not started | PR 8 | Everything |
@@ -50,7 +50,7 @@ How to read it: **Foundations** means the design values, building blocks and che
 | PR 2 (#482) | `docs/learner-v2-data-model` | Data model proposal (plan only, no code) | Merged (#482), Lee approved. Lee agreed all its recommendations on 1 Oct. Each migration it describes is a separate PR needing its own approval |
 | PR 3 | Content Factory | Quick-check block in the Learn content schema | Waiting for Lee to say go |
 | PR 4 (#486) | `design/shell-navigation` | Shell and navigation | Merged, Lee approved |
-| PR 5 | `claude/friendly-clarke-gp8bca` | Home | Open as a draft |
+| PR 5 (#487) | `claude/friendly-clarke-gp8bca` | Home | Merged, Lee approved |
 
 ## Known issues found by the new checks
 
@@ -84,3 +84,5 @@ Design decisions are logged here, not in the Content Factory run log, which is f
 | 2026-10-01 | PR 4 visual baselines | Lee approved the before/after screenshots and asked for the baselines to be updated; 14 digests and the two admin snapshot images re-pinned from the PR 4 CI run | Lee, 1 Oct ("approve the screenshots, update the baselines") |
 | 2026-10-01 | Status correction | PR 1, PR 2 and PR 4 recorded as merged (they were still listed as open) | Housekeeping in PR 5 |
 | 2026-10-01 | Home suggestion | Home's REV card follows the four suggestion rules (decisions file section 2) using engine states, with a reason from the student's data. It no longer takes its topic from the planner's task list; the planner still feeds "Your plan". "Not now" is browser-session only until the suggestion-events table exists | Decisions file: topic chosen by rules, not a model; data model proposal section 8 |
+| 2026-10-01 | PR 5 baselines | Four Home visual digests re-pinned from the PR 5 CI run after Lee said OK to the before/after screenshots | Lee, 1 Oct |
+| 2026-10-01 | Approval process | Claude does all development and GitHub work and reports exactly what changed. Lee replies "approved" in the chat for a named PR; Claude then posts the `revision-founder-approval:v1` comment on the exact green commit and merges. Per PR and per commit; Lee can revoke it any time. PR 5 was merged this way. Written into `CLAUDE.md` and `AUTHORITY_HIERARCHY.md` | Lee, 1 Oct: "you ask me for approval and tell me what has changed... I then say approved in the chat. You then register that comment and merge it" |
