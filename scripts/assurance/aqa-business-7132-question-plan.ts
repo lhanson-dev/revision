@@ -27,6 +27,18 @@ const labels = (items: BlueprintItem[]) => items.map((item) => `"${item.label}"`
 
 type Draft = Omit<QuestionSpec, 'id'>
 
+const targetedShortAnswerBrief = (group: BlueprintItem[]): string | null => {
+  if (group.length !== 1) return null
+  const suffix = suffixOf(group[0])
+  if (suffix === 'takeovers') {
+    return 'Short answer: give a takeover context that requires takeover-specific understanding, then ask the student to explain one takeover-specific reason the deal may fail to create the expected business success. Do not make a generic rapid-growth or working-capital explanation sufficient. The scenario should support routes such as overpayment, integration costs, difficulty combining operations or systems, culture/management clashes, loss of key staff or customers, or expected synergies not materialising. The mark scheme must credit any valid takeover-specific route that is applied to the context rather than requiring one preselected explanation.'
+  }
+  if (suffix === 'synergy') {
+    return 'Short answer: give a context in which two businesses have complementary resources, customer bases, distribution, technology or capabilities, but do not use the word synergy and do not state the combined benefit for the student. Ask the student to explain how combining the businesses could create synergy. The mark scheme should credit valid mechanisms such as sharing resources, removing duplicated costs, cross-selling or combining complementary capabilities, with application to the context.'
+  }
+  return null
+}
+
 // Formula questions: a formula that feeds another formula in the same node (the second needs the first's answer as an input) goes in one 4-mark question;
 // the rest are single-formula questions, alternating between a 1-mark multiple choice (simple two-input formulas only) and a 3-mark short answer.
 function formulaDrafts(formulaItems: BlueprintItem[], soloCounter: { value: number }): Draft[] {
@@ -86,7 +98,7 @@ function otherDrafts(items: BlueprintItem[]): Draft[] {
   }
   for (let index = 0; index < remaining.length; index += 2) {
     const group = remaining.slice(index, index + 2)
-    drafts.push({ family: 'SHORT_ANSWER', marks: 4, commandWord: 'Explain', ao: ['AO1', 'AO2'], itemSuffixes: group.map(suffixOf), formulaIds: [], brief: `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.` })
+    drafts.push({ family: 'SHORT_ANSWER', marks: 4, commandWord: 'Explain', ao: ['AO1', 'AO2'], itemSuffixes: group.map(suffixOf), formulaIds: [], brief: targetedShortAnswerBrief(group) ?? `Short answer: a short business scenario is given in the context, and the student explains a point that tests ${labels(group)}. The mark scheme credits knowledge and its application to the scenario.` })
   }
   for (let index = 0; index < skills.length; index += 2) {
     const group = skills.slice(index, index + 2)

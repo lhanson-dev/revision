@@ -4,7 +4,7 @@
   "course_id": "aqa:aqa-a-level:7132",
   "exam_year": 2027,
   "foundation_candidate_version": "v0.8-t8-exact-course-remediation",
-  "foundation_fingerprint": "390c40161666ff44c65d2d601e222bf81fbc0dff76e896f28557315895e85b87",
+  "foundation_fingerprint": "f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94",
   "mapping_id": "aqa-business-7132-2027-specification-mapping-v1",
   "summary": {
     "items": 344,
@@ -4311,7 +4311,7 @@
       "taught_by": [
         {
           "node": "BUS-FND-007",
-          "matched": "acquisition"
+          "matched": "takeover"
         },
         {
           "node": "BUS-FND-008",
@@ -5173,6 +5173,10 @@
       "taught_by": [
         {
           "node": "BUS-STR-001",
+          "matched": "contingency"
+        },
+        {
+          "node": "BUS-STR-009",
           "matched": "contingency"
         },
         {

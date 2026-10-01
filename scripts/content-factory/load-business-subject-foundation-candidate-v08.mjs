@@ -9,6 +9,8 @@ const AUGMENTATION_3_PATH = 'research/business-subject-foundation/v0.8-t8-remedi
 const SOURCE_METADATA_PATCH_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/SOURCE_METADATA_PATCHES.json'
 // Fast-path fixes (ADR-0029): additive teaching fixes, each logged as one line in content-factory/RUN_LOG.md.
 const FAST_PATH_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/FAST_PATH_FIXES.json'
+// Bounded follow-on fixes from Founder-decided two-round question escalations. Kept separate so the historical fast-path fix set is not rewritten.
+const QUESTION_ESCALATION_FIXES_PATH = 'research/business-subject-foundation/v0.8-t8-remediation/QUESTION_ESCALATION_FIXES.json'
 const FAST_PATH_ADDABLE = { definitions: 'teaching_content', analysis_dimensions: 'teaching_content', methods: 'quantitative_content', models_frameworks: null }
 const EXPECTED_BASE_VERSION = 'v0.7-aqa-7132-gap-reconciliation'
 const EXPECTED_EFFECTIVE_VERSION = 'v0.8-t8-exact-course-remediation'
@@ -82,12 +84,14 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const row of matrix.nodes) row.promotion_provenance_status=freshScope.has(row.subject_id)?'T8_TARGETED_REMEDIATION_AWAITING_FRESH_REASSURANCE':'PRIOR_ASSURANCE_PRESERVED_UNCHANGED'
   for (const patch of [...(overlay.promotion_source_patches||[]),...(augmentations.promotion_source_patches||[]),...(augmentations2.promotion_source_patches||[]),...(augmentations3.promotion_source_patches||[])]) { const row=rows.get(patch.subject_id); if(!row) throw new Error(`Business v0.8 promotion patch references unknown node ${patch.subject_id}`); row.subject_truth_sources=uniq([...(row.subject_truth_sources||[]),...(patch.add||[])]) }
 
-  const fastPathFixesRaw=await readFile(FAST_PATH_FIXES_PATH,'utf8')
+  const [fastPathFixesRaw, questionEscalationFixesRaw]=await Promise.all([readFile(FAST_PATH_FIXES_PATH,'utf8'),readFile(QUESTION_ESCALATION_FIXES_PATH,'utf8')])
   const fastPathFixes=JSON.parse(fastPathFixesRaw)
-  if (fastPathFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected fast-path fixes identity')
+  const questionEscalationFixes=JSON.parse(questionEscalationFixesRaw)
+  if (fastPathFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION || questionEscalationFixes.candidate_version!==EXPECTED_EFFECTIVE_VERSION) throw new Error('Unexpected fast-path fixes identity')
   const fastPathFixedNodeIds=applyFastPathFixes(nodes,rows,fastPathFixes)
+  const questionEscalationFixedNodeIds=applyFastPathFixes(nodes,rows,questionEscalationFixes)
   // Nodes whose teaching changed since their last assurance: checked by the T8 course gate's accuracy question.
-  const changedSinceAssurance=[...new Set([...freshScope,...fastPathFixedNodeIds])].sort()
+  const changedSinceAssurance=[...new Set([...freshScope,...fastPathFixedNodeIds,...questionEscalationFixedNodeIds])].sort()
 
   const allIndexIds=index.domains.flatMap((domain)=>domain.ids||[])
   exactSet(allIndexIds,nodes.keys(),'Business v0.8 index/node IDs'); exactSet(rows.keys(),nodes.keys(),'Business v0.8 matrix/node IDs')
@@ -98,6 +102,6 @@ export async function loadBusinessSubjectFoundationCandidate() {
   for (const id of freshScope) { const facets=nodes.get(id)?.teaching_content?.course_relevant_named_facets; if(!Array.isArray(facets)||facets.length===0) throw new Error(`Business v0.8 changed node ${id} has no structured named facets`) }
 
   const domains=index.domains.map((domain)=>({...domain,composed_from:EXPECTED_BASE_VERSION,nodes:domain.ids.map((id)=>clone(nodes.get(id)))}))
-  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw],['v0.8-fast-path-fixes.json',fastPathFixesRaw]])
-  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope],fastPathFixes,changedSinceAssurance}
+  const fingerprint=hashParts([['v0.7-candidate-fingerprint',previous.fingerprint],['v0.8-remediation-overlay.json',overlayRaw],['v0.8-source-augmentations.json',augmentationRaw],['v0.8-source-augmentations-2.json',augmentation2Raw],['v0.8-source-augmentations-3.json',augmentation3Raw],['v0.8-source-metadata-patches.json',sourceMetadataPatchRaw],['v0.8-fast-path-fixes.json',fastPathFixesRaw],['v0.8-question-escalation-fixes.json',questionEscalationFixesRaw]])
+  return {...previous,index,matrix,rows,sources,sourceById,domains,nodes,fingerprint,previousCandidateFingerprint:previous.fingerprint,v08Overlay:overlay,v08SourceAugmentations:augmentations,v08SourceAugmentations2:augmentations2,v08SourceAugmentations3:augmentations3,v08SourceMetadataPatches:sourceMetadataPatches,freshNodeScope:[...freshScope],fastPathFixes,questionEscalationFixes,changedSinceAssurance}
 }

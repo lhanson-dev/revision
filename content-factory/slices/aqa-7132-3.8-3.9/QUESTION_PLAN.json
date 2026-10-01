@@ -2,7 +2,7 @@
   "schema_version": 1,
   "builder_version": "question-plan-v1",
   "batch": "3.8-3.9",
-  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "blueprint_fingerprint": "608efcbb82c6998b4cb6766a064628feb2c1a90b047d8946caba9e81a67ae3b2",
   "excluded_item_ids": [],
   "summary": {
     "questions": 18,
@@ -71,7 +71,7 @@
         "takeovers"
       ],
       "formulaIds": [],
-      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Takeovers\". The mark scheme credits knowledge and its application to the scenario."
+      "brief": "Short answer: give a takeover context that requires takeover-specific understanding, then ask the student to explain one takeover-specific reason the deal may fail to create the expected business success. Do not make a generic rapid-growth or working-capital explanation sufficient. The scenario should support routes such as overpayment, integration costs, difficulty combining operations or systems, culture/management clashes, loss of key staff or customers, or expected synergies not materialising. The mark scheme must credit any valid takeover-specific route that is applied to the context rather than requiring one preselected explanation."
     },
     {
       "id": "q05",
@@ -116,7 +116,7 @@
         "synergy"
       ],
       "formulaIds": [],
-      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Synergy\". The mark scheme credits knowledge and its application to the scenario."
+      "brief": "Short answer: give a context in which two businesses have complementary resources, customer bases, distribution, technology or capabilities, but do not use the word synergy and do not state the combined benefit for the student. Ask the student to explain how combining the businesses could create synergy. The mark scheme should credit valid mechanisms such as sharing resources, removing duplicated costs, cross-selling or combining complementary capabilities, with application to the context."
     },
     {
       "id": "q08",

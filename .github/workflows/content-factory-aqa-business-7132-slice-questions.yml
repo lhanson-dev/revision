@@ -13,9 +13,14 @@ on:
         description: "Batch id from content-factory/slices/aqa-7132-batches.json (for example 3.3), 3.5-topup for the top-up questions, 3.5 for the first slice, or 'all' for every course batch plus the top-up (not 3.5, which is already built)"
         required: true
         default: all
+      resume_run_id:
+        description: "Optional earlier run id to resume from. Accepted questions are reused only when their exact current fingerprint still matches."
+        required: false
+        default: ''
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   prepare:
@@ -73,6 +78,94 @@ jobs:
 
       - name: Install dependencies from lockfile
         run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Restore previous batch evidence for exact-fingerprint resume
+        if: ${{ inputs.resume_run_id != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+          BATCH: ${{ matrix.batch }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RESUME_RUN_ID}")"
+          workflow_name="$(jq -r '.name' <<<"$meta")"
+          head_branch="$(jq -r '.head_branch' <<<"$meta")"
+          head_sha="$(jq -r '.head_sha' <<<"$meta")"
+          if [[ "$workflow_name" != "Content Factory AQA Business 7132 Slice Questions" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} is from unexpected workflow: ${workflow_name}" >&2
+            exit 1
+          fi
+          if [[ "$head_branch" != "main" ]]; then
+            echo "Resume run ${RESUME_RUN_ID} was not run from main: ${head_branch}" >&2
+            exit 1
+          fi
+          artifact="content-factory-aqa-business-7132-questions-${BATCH}-${head_sha}"
+          target=".artifacts/resume-${BATCH}"
+          mkdir -p "$target"
+          gh run download "$RESUME_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact" --dir "$target"
+          test -f "$target/ledger.json"
+          test -d "$target/questions"
+          test -d "$target/blind-answers"
+
+          RESUME_HEAD_SHA="$head_sha" RESUME_TARGET="$target" node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          import path from 'node:path'
+
+          const batch = process.env.BATCH
+          const target = process.env.RESUME_TARGET
+          const runId = Number(process.env.RESUME_RUN_ID)
+          const reviewedCommit = process.env.RESUME_HEAD_SHA
+          const ledger = JSON.parse(fs.readFileSync(path.join(target, 'ledger.json'), 'utf8'))
+          const decisionsPath = 'content-factory/runs/aqa-7132-question-founder-decisions.json'
+          let appliedDecisions = 0
+          if (fs.existsSync(decisionsPath)) {
+            const decisionFile = JSON.parse(fs.readFileSync(decisionsPath, 'utf8'))
+            for (const decision of decisionFile.decisions ?? []) {
+              if (decision.batch !== batch || decision.decision !== 'fix') continue
+              const entry = ledger.units?.[decision.unit_id]
+              if (!entry || entry.fingerprint !== decision.prior_fingerprint) continue
+              entry.founder_decision = {
+                decision: 'fix',
+                note: decision.note,
+                decided_at: decisionFile.decided_at,
+              }
+              // The explicit Founder fix decision closes the old two-round dispute. The changed inputs must still pass a fresh review.
+              entry.consecutive_blocking_rounds = 0
+              appliedDecisions++
+            }
+          }
+          const acceptedUnits = {}
+          const latestUnits = {}
+          for (const [id, entry] of Object.entries(ledger.units ?? {})) {
+            const blindPath = path.join(target, 'blind-answers', `${id}.json`)
+            if (!fs.existsSync(blindPath)) continue
+            const blind = JSON.parse(fs.readFileSync(blindPath, 'utf8'))
+            const latestPath = path.join(target, 'questions', `${id}.latest.json`)
+            if (fs.existsSync(latestPath)) {
+              latestUnits[id] = { question: JSON.parse(fs.readFileSync(latestPath, 'utf8')), blind_answer: blind }
+            }
+            if (!['passed', 'logged'].includes(entry.outcome)) continue
+            const acceptedPath = path.join(target, 'questions', `${id}.json`)
+            if (!fs.existsSync(acceptedPath)) continue
+            const accepted = JSON.parse(fs.readFileSync(acceptedPath, 'utf8'))
+            acceptedUnits[id] = { question_record: { question: accepted.question }, blind_answer: blind }
+          }
+          const checkpoint = {
+            schema_version: 1,
+            source_run_id: runId,
+            reviewed_commit: reviewedCommit,
+            batch,
+            summary: null,
+            ledger,
+            accepted_units: acceptedUnits,
+            latest_units: latestUnits,
+          }
+          const runDir = `content-factory/runs/aqa-7132-slice-${batch}-questions`
+          fs.mkdirSync(runDir, { recursive: true })
+          fs.writeFileSync(path.join(runDir, 'resume-checkpoint.json'), `${JSON.stringify(checkpoint)}\n`)
+          console.log(`Resume checkpoint: ${Object.keys(acceptedUnits).length} accepted, ${Object.keys(latestUnits).length} generated units, ${appliedDecisions} Founder fix decision(s) applied.`)
+          NODE
+          echo "Restored ${artifact} for fingerprint-checked resume."
 
       - name: Write, answer blind, prove and review the batch questions
         env:
