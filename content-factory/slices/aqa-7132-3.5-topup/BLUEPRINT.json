@@ -1,0 +1,1319 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.5-topup",
+    "sections": [
+      "3.5 nodes with items from other sections"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-evi-007",
+      "classifications": [
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-003",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-005",
+      "classifications": [
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-008",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-010",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-012",
+      "classifications": [
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-014",
+      "classifications": [
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.5.1:gross-profit",
+      "section": "3.5.1",
+      "label": "Gross profit",
+      "kind": "formula",
+      "aqaConvention": "revenue - cost of sales",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-010"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.1:operating-profit",
+      "section": "3.5.1",
+      "label": "Operating profit",
+      "kind": "formula",
+      "aqaConvention": "gross profit - other operating expenses",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-010"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.1:profit-for-the-year",
+      "section": "3.5.1",
+      "label": "Profit for the year",
+      "kind": "formula",
+      "aqaConvention": "operating profit - net finance costs - taxation",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-012",
+        "bus-fin-010"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:cash-flow-forecast",
+      "section": "3.5.2",
+      "label": "Cash-flow forecast",
+      "kind": "model",
+      "taughtBy": [
+        "bus-fin-005"
+      ],
+      "classifications": [
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "process_sequence",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "retrieval"
+      ],
+      "addedByBlueprint": "A cash-flow forecast is a table students build and complete (opening balance, inflows, outflows, closing balance), so it needs a worked example, a visual layout and a construction task.",
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:contribution-per-unit",
+      "section": "3.5.2",
+      "label": "Contribution per unit",
+      "kind": "formula",
+      "aqaConvention": "selling price per unit - variable cost per unit",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-003"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:total-contribution",
+      "section": "3.5.2",
+      "label": "Total contribution",
+      "kind": "formula",
+      "aqaConvention": "contribution per unit × units sold (equivalently revenue - total variable costs)",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-003"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:effect-of-price-output-and-cost-changes-on-break-even",
+      "section": "3.5.2",
+      "label": "Effect of price, output and cost changes on break-even",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-003",
+        "bus-fin-004"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "model_framework",
+        "relationship_causal"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:gross-profit-margin",
+      "section": "3.5.2",
+      "label": "Gross profit margin",
+      "kind": "formula",
+      "aqaConvention": "gross profit / revenue × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-012"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:operating-profit-margin",
+      "section": "3.5.2",
+      "label": "Operating profit margin",
+      "kind": "formula",
+      "aqaConvention": "operating profit / revenue × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-012"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:profit-for-the-year-margin",
+      "section": "3.5.2",
+      "label": "Profit for the year margin",
+      "kind": "formula",
+      "aqaConvention": "profit for the year / revenue × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-012"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.2:timing-of-payables-and-receivables",
+      "section": "3.5.2",
+      "label": "Timing of payables and receivables",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-005",
+        "bus-fin-006"
+      ],
+      "classifications": [
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "process_sequence",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:debt-factoring",
+      "section": "3.5.3",
+      "label": "Debt factoring",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:overdrafts",
+      "section": "3.5.3",
+      "label": "Overdrafts",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:retained-profits",
+      "section": "3.5.3",
+      "label": "Retained profits",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:share-capital",
+      "section": "3.5.3",
+      "label": "Share capital",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:loans",
+      "section": "3.5.3",
+      "label": "Loans",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:venture-capital",
+      "section": "3.5.3",
+      "label": "Venture capital",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:crowdfunding",
+      "section": "3.5.3",
+      "label": "Crowdfunding",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:short-term-versus-long-term-finance",
+      "section": "3.5.3",
+      "label": "Short-term versus long-term finance",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008",
+        "bus-fin-014"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:internal-versus-external-finance",
+      "section": "3.5.3",
+      "label": "Internal versus external finance",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ],
+      "classifications": [
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.3:advantages-disadvantages-and-choice-of-finance-source",
+      "section": "3.5.3",
+      "label": "Advantages, disadvantages and choice of finance source",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-008",
+        "bus-fin-014"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.4:ways-to-improve-cash-flow",
+      "section": "3.5.4",
+      "label": "Ways to improve cash flow",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-005"
+      ],
+      "classifications": [
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "process_sequence",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.4:ways-to-improve-profit-and-profitability",
+      "section": "3.5.4",
+      "label": "Ways to improve profit and profitability",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-003",
+        "bus-fin-012"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "comparison_discrimination",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "relationship_causal"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.5.4:difficulties-of-improving-cash-flow-and-profit",
+      "section": "3.5.4",
+      "label": "Difficulties of improving cash flow and profit",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-005",
+        "bus-fin-012",
+        "bus-evi-007"
+      ],
+      "classifications": [
+        "analysis_reasoning",
+        "application_context",
+        "evaluation_judgement",
+        "formula_quantitative",
+        "misconception_risk",
+        "procedure_skill",
+        "process_sequence",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ],
+      "status": "treated"
+    },
+    {
+      "id": "aqa-7132-3.1.1:revenue",
+      "section": "3.1.1",
+      "label": "Revenue",
+      "kind": "formula",
+      "aqaConvention": "selling price × quantity sold",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:profit",
+      "section": "3.1.1",
+      "label": "Profit",
+      "kind": "formula",
+      "aqaConvention": "total revenue - total costs",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:market-capitalisation",
+      "section": "3.1.2",
+      "label": "Market capitalisation",
+      "kind": "formula",
+      "aqaConvention": "shares in issue × current share price",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:dividends",
+      "section": "3.1.2",
+      "label": "Dividends",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:income-statement",
+      "section": "3.7.2",
+      "label": "Income statement",
+      "kind": "model",
+      "taughtBy": [
+        "bus-fin-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:return-on-capital-employed",
+      "section": "3.7.2",
+      "label": "Return on capital employed",
+      "kind": "formula",
+      "aqaConvention": "operating profit / capital employed × 100, where capital employed = total equity + non-current liabilities (equivalently total assets - current liabilities)",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-012"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:gearing",
+      "section": "3.7.2",
+      "label": "Gearing",
+      "kind": "formula",
+      "aqaConvention": "non-current liabilities / (total equity + non-current liabilities) × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-014"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.2:limitations-of-ratio-analysis",
+      "section": "3.7.2",
+      "label": "Limitations of ratio analysis",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fin-012"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.3:short-and-long-term-performance",
+      "section": "3.7.3",
+      "label": "Short- and long-term performance",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-evi-007"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 7,
+    "items": 33,
+    "treated": 33,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.5.2:cash-flow-forecast",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      },
+      {
+        "id": "aqa-7132-3.7.2:income-statement",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": []
+  }
+}

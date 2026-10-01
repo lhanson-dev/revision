@@ -1,0 +1,923 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.4",
+    "sections": [
+      "3.4"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-ops-001",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "process_sequence",
+        "procedure_skill",
+        "application_context",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-003",
+      "classifications": [
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "contextual_judgement",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-004",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-005",
+      "classifications": [
+        "concept",
+        "relationship_causal",
+        "process_sequence",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "contextual_judgement",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-006",
+      "classifications": [
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-007",
+      "classifications": [
+        "concept",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "contextual_judgement",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-008",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ops-009",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-001",
+      "classifications": [
+        "relationship_causal",
+        "process_sequence",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "contextual_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-str-008",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.4.1:environmental-objectives",
+      "section": "3.4.1",
+      "label": "Environmental objectives",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.1:added-value",
+      "section": "3.4.1",
+      "label": "Added value",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.1:influences-on-operational-objectives",
+      "section": "3.4.1",
+      "label": "Influences on operational objectives",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.2:labour-productivity",
+      "section": "3.4.2",
+      "label": "Labour productivity",
+      "kind": "formula",
+      "aqaConvention": "output per period / number of employees",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-ops-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.2:capacity",
+      "section": "3.4.2",
+      "label": "Capacity",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.2:capacity-utilisation",
+      "section": "3.4.2",
+      "label": "Capacity utilisation",
+      "kind": "formula",
+      "aqaConvention": "actual output / maximum possible output × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-ops-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.2:using-operations-data-in-decisions",
+      "section": "3.4.2",
+      "label": "Using operations data in decisions",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:improving-capacity-use",
+      "section": "3.4.3",
+      "label": "Improving capacity use",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:increasing-efficiency-and-labour-productivity",
+      "section": "3.4.3",
+      "label": "Increasing efficiency and labour productivity",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:lean-production",
+      "section": "3.4.3",
+      "label": "Lean production",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:just-in-time",
+      "section": "3.4.3",
+      "label": "Just in time",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:just-in-case",
+      "section": "3.4.3",
+      "label": "Just in case",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:labour-intensive-versus-capital-intensive",
+      "section": "3.4.3",
+      "label": "Labour-intensive versus capital-intensive",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.3:technology-and-efficiency",
+      "section": "3.4.3",
+      "label": "Technology and efficiency",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.4:quality-control",
+      "section": "3.4.4",
+      "label": "Quality control",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.4:quality-assurance",
+      "section": "3.4.4",
+      "label": "Quality assurance",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.4:benefits-and-difficulties-of-improving-quality",
+      "section": "3.4.4",
+      "label": "Benefits and difficulties of improving quality",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.4:consequences-of-poor-quality",
+      "section": "3.4.4",
+      "label": "Consequences of poor quality",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:matching-supply-to-demand",
+      "section": "3.4.5",
+      "label": "Matching supply to demand",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:outsourcing",
+      "section": "3.4.5",
+      "label": "Outsourcing",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-007"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:temporary-and-part-time-staff",
+      "section": "3.4.5",
+      "label": "Temporary and part-time staff",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:producing-to-order",
+      "section": "3.4.5",
+      "label": "Producing to order",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:inventory-control-chart",
+      "section": "3.4.5",
+      "label": "Inventory control chart",
+      "kind": "model",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:lead-time",
+      "section": "3.4.5",
+      "label": "Lead time",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:re-order-level",
+      "section": "3.4.5",
+      "label": "Re-order level",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:buffer-inventory",
+      "section": "3.4.5",
+      "label": "Buffer inventory",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:re-order-quantity",
+      "section": "3.4.5",
+      "label": "Re-order quantity",
+      "kind": "formula",
+      "aqaConvention": "maximum inventory level - buffer inventory (read from an inventory control chart)",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:choice-of-suppliers",
+      "section": "3.4.5",
+      "label": "Choice of suppliers",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:supply-chain-management",
+      "section": "3.4.5",
+      "label": "Supply chain management",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.5:influences-on-inventory-levels",
+      "section": "3.4.5",
+      "label": "Influences on inventory levels",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ops-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:training",
+      "section": "3.6.1",
+      "label": "Training",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:workforce-number-skills-and-location",
+      "section": "3.6.1",
+      "label": "Workforce number, skills and location",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:soft-hrm",
+      "section": "3.6.1",
+      "label": "Soft HRM",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:hard-hrm",
+      "section": "3.6.1",
+      "label": "Hard HRM",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions",
+      "section": "3.6.1",
+      "label": "Influences on HR objectives and decisions",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.2:labour-turnover",
+      "section": "3.6.2",
+      "label": "Labour turnover",
+      "kind": "formula",
+      "aqaConvention": "number of staff leaving in the period / average number of staff employed × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.2:labour-productivity-hr",
+      "section": "3.6.2",
+      "label": "Labour productivity (HR)",
+      "kind": "formula",
+      "aqaConvention": "output per period / number of employees",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover",
+      "section": "3.6.2",
+      "label": "Employee costs as a percentage of turnover",
+      "kind": "formula",
+      "aqaConvention": "employee costs / turnover (revenue) × 100",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.2:labour-cost-per-unit",
+      "section": "3.6.2",
+      "label": "Labour cost per unit",
+      "kind": "formula",
+      "aqaConvention": "total labour costs / units of output",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
+      "section": "3.6.2",
+      "label": "Using HR data in decisions and planning",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:workforce-hr-planning",
+      "section": "3.6.3",
+      "label": "Workforce (HR) planning",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:recruitment",
+      "section": "3.6.3",
+      "label": "Recruitment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:redeployment",
+      "section": "3.6.3",
+      "label": "Redeployment",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:redundancy",
+      "section": "3.6.3",
+      "label": "Redundancy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design",
+      "section": "3.6.3",
+      "label": "Influences on and value of changing organisational design",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:growth-of-online-business",
+      "section": "3.7.6",
+      "label": "Growth of online business",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:product-innovation",
+      "section": "3.9.2",
+      "label": "Product innovation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:process-innovation",
+      "section": "3.9.2",
+      "label": "Process innovation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:kaizen",
+      "section": "3.9.2",
+      "label": "Kaizen",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:research-and-development",
+      "section": "3.9.2",
+      "label": "Research and development",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:benchmarking",
+      "section": "3.9.2",
+      "label": "Benchmarking",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:patents",
+      "section": "3.9.2",
+      "label": "Patents",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:copyright",
+      "section": "3.9.2",
+      "label": "Copyright",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.2:pressures-for-innovation",
+      "section": "3.9.2",
+      "label": "Pressures for innovation",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.3:reshoring",
+      "section": "3.9.3",
+      "label": "Reshoring",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ops-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:automation",
+      "section": "3.9.4",
+      "label": "Automation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:e-commerce-strategic",
+      "section": "3.9.4",
+      "label": "E-commerce (strategic)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:big-data",
+      "section": "3.9.4",
+      "label": "Big data",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:data-mining",
+      "section": "3.9.4",
+      "label": "Data mining",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value",
+      "section": "3.9.4",
+      "label": "Pressures to adopt digital technology and its value",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-str-008"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 11,
+    "items": 60,
+    "treated": 60,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.4.5:inventory-control-chart",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": []
+  }
+}

@@ -1,0 +1,1199 @@
+{
+  "schemaVersion": 1,
+  "slice": {
+    "courseId": "aqa:aqa-a-level:7132",
+    "examYear": 2027,
+    "batchId": "3.1-3.2",
+    "sections": [
+      "3.1",
+      "3.2"
+    ]
+  },
+  "courseKnowledgeModelFingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "nodes": [
+    {
+      "nodeId": "bus-evi-002",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "graph_data_interpretation",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-evi-003",
+      "classifications": [
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "graph_data_interpretation",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-evi-004",
+      "classifications": [
+        "formula_quantitative",
+        "procedure_skill",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-001",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-002",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-ext-006",
+      "classifications": [
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fin-002",
+      "classifications": [
+        "comparison_discrimination",
+        "formula_quantitative",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-001",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "process_sequence",
+        "application_context",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-003",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "application_context",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "discrimination",
+        "misconception_diagnostic",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-004",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "formula_quantitative",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "guided_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "calculation",
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "interpretation",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-005",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-006",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "analysis_reasoning",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt",
+        "worked_example"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "construction",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-fnd-009",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk",
+        "synoptic_connection"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "connection_synoptic_link",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "mixed_synoptic_selection",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-008",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-009",
+      "classifications": [
+        "concept",
+        "relationship_causal",
+        "process_sequence",
+        "application_context",
+        "analysis_reasoning",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "process_sequence",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "contextual_application",
+        "misconception_diagnostic",
+        "procedure_execution",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    },
+    {
+      "nodeId": "bus-peo-010",
+      "classifications": [
+        "concept",
+        "comparison_discrimination",
+        "relationship_causal",
+        "model_framework",
+        "application_context",
+        "evaluation_judgement",
+        "misconception_risk"
+      ],
+      "learnTreatments": [
+        "comparison",
+        "core_explanation",
+        "example_non_example",
+        "misconception_repair",
+        "purposeful_visual",
+        "relationship_causal_chain",
+        "self_explanation_prompt"
+      ],
+      "practiceCapabilities": [
+        "compare_justify",
+        "contextual_application",
+        "contextual_judgement",
+        "discrimination",
+        "framework_application",
+        "misconception_diagnostic",
+        "reasoning_chain",
+        "retrieval"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "aqa-7132-3.1.1:types-of-business-objective-profit-growth-survival-cash-flow",
+      "section": "3.1.1",
+      "label": "Types of business objective (profit, growth, survival, cash flow)",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:why-businesses-exist",
+      "section": "3.1.1",
+      "label": "Why businesses exist",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:mission-statement",
+      "section": "3.1.1",
+      "label": "Mission statement",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:relationship-between-mission-and-objectives",
+      "section": "3.1.1",
+      "label": "Relationship between mission and objectives",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:why-businesses-set-objectives",
+      "section": "3.1.1",
+      "label": "Why businesses set objectives",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:social-and-ethical-objectives",
+      "section": "3.1.1",
+      "label": "Social and ethical objectives",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:fixed-costs",
+      "section": "3.1.1",
+      "label": "Fixed costs",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:variable-costs",
+      "section": "3.1.1",
+      "label": "Variable costs",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fin-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.1:total-costs",
+      "section": "3.1.1",
+      "label": "Total costs",
+      "kind": "formula",
+      "aqaConvention": "fixed costs + total variable costs",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:sole-trader",
+      "section": "3.1.2",
+      "label": "Sole trader",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:private-limited-company",
+      "section": "3.1.2",
+      "label": "Private limited company",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:public-limited-company",
+      "section": "3.1.2",
+      "label": "Public limited company",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:private-and-public-sector",
+      "section": "3.1.2",
+      "label": "Private and public sector",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:not-for-profit-organisations",
+      "section": "3.1.2",
+      "label": "Not-for-profit organisations",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:social-enterprise",
+      "section": "3.1.2",
+      "label": "Social enterprise",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:limited-and-unlimited-liability",
+      "section": "3.1.2",
+      "label": "Limited and unlimited liability",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:ordinary-share-capital",
+      "section": "3.1.2",
+      "label": "Ordinary share capital",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:role-of-shareholders-and-why-they-invest",
+      "section": "3.1.2",
+      "label": "Role of shareholders and why they invest",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:influences-on-share-price",
+      "section": "3.1.2",
+      "label": "Influences on share price",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:effects-of-ownership-on-mission-objectives-and-decisions",
+      "section": "3.1.2",
+      "label": "Effects of ownership on mission, objectives and decisions",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.2:reasons-for-choosing-or-changing-business-form",
+      "section": "3.1.2",
+      "label": "Reasons for choosing or changing business form",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+      "section": "3.1.3",
+      "label": "Competition effects on costs and demand",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:market-conditions",
+      "section": "3.1.3",
+      "label": "Market conditions",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:incomes-and-demand",
+      "section": "3.1.3",
+      "label": "Incomes and demand",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:interest-rates",
+      "section": "3.1.3",
+      "label": "Interest rates",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:demographic-factors",
+      "section": "3.1.3",
+      "label": "Demographic factors",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:environmental-issues",
+      "section": "3.1.3",
+      "label": "Environmental issues",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.1.3:fair-trade",
+      "section": "3.1.3",
+      "label": "Fair trade",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:management-versus-leadership",
+      "section": "3.2.1",
+      "label": "Management versus leadership",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:autocratic-leadership",
+      "section": "3.2.1",
+      "label": "Autocratic leadership",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:paternalistic-leadership",
+      "section": "3.2.1",
+      "label": "Paternalistic leadership",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:democratic-leadership",
+      "section": "3.2.1",
+      "label": "Democratic leadership",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:laissez-faire-leadership",
+      "section": "3.2.1",
+      "label": "Laissez-faire leadership",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:tannenbaum-schmidt-continuum",
+      "section": "3.2.1",
+      "label": "Tannenbaum-Schmidt continuum",
+      "kind": "model",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.1:influences-on-management-style",
+      "section": "3.2.1",
+      "label": "Influences on management style",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-010"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:scientific-decision-making",
+      "section": "3.2.2",
+      "label": "Scientific decision making",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:intuitive-decision-making",
+      "section": "3.2.2",
+      "label": "Intuitive decision making",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:decision-trees",
+      "section": "3.2.2",
+      "label": "Decision trees",
+      "kind": "model",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:expected-value",
+      "section": "3.2.2",
+      "label": "Expected value",
+      "kind": "formula",
+      "aqaConvention": "sum of (probability × financial outcome) for each outcome of an option",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:net-gain",
+      "section": "3.2.2",
+      "label": "Net gain",
+      "kind": "formula",
+      "aqaConvention": "expected value of an option - cost of that option",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:risk",
+      "section": "3.2.2",
+      "label": "Risk",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:reward",
+      "section": "3.2.2",
+      "label": "Reward",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:uncertainty",
+      "section": "3.2.2",
+      "label": "Uncertainty",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:opportunity-cost",
+      "section": "3.2.2",
+      "label": "Opportunity cost",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-evi-004"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+      "section": "3.2.2",
+      "label": "Influences on decisions (mission, ethics, environment, resources)",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.3:stakeholder-needs",
+      "section": "3.2.3",
+      "label": "Stakeholder needs",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+      "section": "3.2.3",
+      "label": "Stakeholder mapping (power and interest)",
+      "kind": "model",
+      "taughtBy": [
+        "bus-fnd-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.3:stakeholder-overlap-and-conflict",
+      "section": "3.2.3",
+      "label": "Stakeholder overlap and conflict",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.2.3:communication-and-consultation-with-stakeholders",
+      "section": "3.2.3",
+      "label": "Communication and consultation with stakeholders",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.3.2:extrapolation",
+      "section": "3.3.2",
+      "label": "Extrapolation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-evi-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.4.2:unit-cost-average-cost",
+      "section": "3.4.2",
+      "label": "Unit cost (average cost)",
+      "kind": "formula",
+      "aqaConvention": "total costs / units of output",
+      "conventionStatus": "confirmed",
+      "taughtBy": [
+        "bus-fin-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.6.5:employer-employee-communication",
+      "section": "3.6.5",
+      "label": "Employer-employee communication",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.1:influences-on-mission",
+      "section": "3.7.1",
+      "label": "Influences on mission",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-fnd-005"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.3:triple-bottom-line",
+      "section": "3.7.3",
+      "label": "Triple Bottom Line",
+      "kind": "model",
+      "taughtBy": [
+        "bus-ext-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:competition-law",
+      "section": "3.7.4",
+      "label": "Competition law",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-002"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:labour-market-legislation",
+      "section": "3.7.4",
+      "label": "Labour market legislation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:environmental-legislation",
+      "section": "3.7.4",
+      "label": "Environmental legislation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:government-enterprise-policy",
+      "section": "3.7.4",
+      "label": "Government enterprise policy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:role-of-regulators",
+      "section": "3.7.4",
+      "label": "Role of regulators",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.4:infrastructure",
+      "section": "3.7.4",
+      "label": "Infrastructure",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:gdp",
+      "section": "3.7.5",
+      "label": "GDP",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:taxation",
+      "section": "3.7.5",
+      "label": "Taxation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:exchange-rates",
+      "section": "3.7.5",
+      "label": "Exchange rates",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:inflation",
+      "section": "3.7.5",
+      "label": "Inflation",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:fiscal-policy",
+      "section": "3.7.5",
+      "label": "Fiscal policy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:monetary-policy",
+      "section": "3.7.5",
+      "label": "Monetary policy",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.5:interpreting-uk-and-global-economic-data",
+      "section": "3.7.5",
+      "label": "Interpreting UK and global economic data",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ext-001"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:demographic-change-and-migration",
+      "section": "3.7.6",
+      "label": "Demographic change and migration",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:consumer-lifestyle-and-buying-behaviour",
+      "section": "3.7.6",
+      "label": "Consumer lifestyle and buying behaviour",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-009"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:stakeholder-versus-shareholder-concept",
+      "section": "3.7.6",
+      "label": "Stakeholder versus shareholder concept",
+      "kind": "concept",
+      "taughtBy": [
+        "bus-fnd-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.6:technological-change",
+      "section": "3.7.6",
+      "label": "Technological change",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-ext-006"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.7.8:risk-and-uncertainty-in-investment",
+      "section": "3.7.8",
+      "label": "Risk and uncertainty in investment",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-evi-003"
+      ]
+    },
+    {
+      "id": "aqa-7132-3.10.3:leadership-communication-and-structure-in-implementation",
+      "section": "3.10.3",
+      "label": "Leadership, communication and structure in implementation",
+      "kind": "skill",
+      "taughtBy": [
+        "bus-peo-009"
+      ]
+    }
+  ],
+  "summary": {
+    "nodes": 16,
+    "items": 73,
+    "treated": 73,
+    "itemsNeedingAdditions": [
+      {
+        "id": "aqa-7132-3.2.2:decision-trees",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      },
+      {
+        "id": "aqa-7132-3.2.3:stakeholder-mapping-power-and-interest",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      },
+      {
+        "id": "aqa-7132-3.7.3:triple-bottom-line",
+        "reason": "model: needs a visual or framework treatment and a construction or application task"
+      }
+    ],
+    "nodesWithoutItems": [
+      "bus-evi-002",
+      "bus-peo-008"
+    ]
+  }
+}
