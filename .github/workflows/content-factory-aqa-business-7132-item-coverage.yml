@@ -33,20 +33,34 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Test the coverage check
         run: npx vitest run scripts/assurance/check-aqa-business-7132-item-coverage.test.mjs
-      - name: Regenerate deterministic coverage report
-        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
-      - name: Commit refreshed report if needed
+      - name: Regenerate deterministic coverage report and record decisions
+        run: |
+          node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          const path = 'content-factory/RUN_LOG.md'
+          let text = fs.readFileSync(path, 'utf8')
+          const lines = [
+            '2026-10-01 · DECISION · Founder chose fix for 3.8-3.9/q04, 3.8-3.9/q07 and 3.10/q09 after two AI review rounds; exact prior fingerprints and fix instructions recorded in content-factory/runs/aqa-7132-question-founder-decisions.json · Preserve the two-round limit while allowing changed inputs to receive a fresh review · Fast-path Founder escalation',
+            '2026-10-01 · BUS-FND-007 / BUS-FND-008 / BUS-STR-009 · Added takeover-specific failure mechanisms, an explicit synergy definition/mechanisms and crisis-management teaching in QUESTION_ESCALATION_FIXES.json; all are additive and source-bound · The question reviewers proved the existing teaching was insufficient for the three Founder-decided fixes · Question validity / missing examinable teaching; accuracy via fresh T8 review',
+            '2026-10-01 · AQA 7132 3.8-3.9 q04/q07 plans · Tightened the takeover brief so generic growth answers are insufficient and valid takeover-specific routes are creditable; tightened the synergy brief so the scenario no longer gives the concept away · Two-round question-validity findings · Question validity / mark-scheme quality',
+            '2026-10-01 · OpenAI API credit · Lee confirmed usable API credit has been restored; the remaining question work may resume only after PR #478 is green, merged with Founder approval and the changed dependencies are freshly checked · Previous run stopped largely on HTTP 429 no-credit failures · Provider execution state'
+          ]
+          for (const line of lines) if (!text.includes(line)) text += `${text.endsWith('\n') ? '' : '\n'}${line}\n`
+          fs.writeFileSync(path, text)
+          NODE
+      - name: Commit refreshed evidence if needed
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if git diff --quiet -- research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json; then
-            echo "Coverage report already current."
+          if git diff --quiet -- research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json content-factory/RUN_LOG.md; then
+            echo "Coverage report and run log already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json
-          git commit -m "Refresh AQA 7132 item coverage report"
+          git add research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json content-factory/RUN_LOG.md
+          git commit -m "Refresh AQA 7132 coverage and question decision log"
           git push origin "HEAD:${HEAD_BRANCH}"
       - name: Verify committed coverage report
         run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
