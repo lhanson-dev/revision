@@ -1,0 +1,199 @@
+{
+  "node_id": "bus-str-003",
+  "learn": {
+    "title": "SWOT, PESTLE and strategic environmental analysis",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "SWOT is a summary, not the whole analysis",
+        "body": "SWOT sorts evidence into internal strengths and weaknesses, and external opportunities and threats. Its value comes after the business has investigated its environment and capabilities. A useful SWOT identifies what is changing, how that change affects this particular business, how significant it is and what strategic choice may follow. A point is not automatically important just because it fits a SWOT box.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "SWOT compared with PESTLE",
+        "body": "PESTLE is used to organise scanning of the external environment: political, economic, social, technological, legal and environmental influences. SWOT brings together internal and external findings. PESTLE might identify higher energy prices as an economic influence; SWOT then judges whether this creates a threat or opportunity for the business, considering its capabilities. Neither framework decides strategy by itself.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "From a label to an analytical SWOT point",
+        "body": "Example: A manufacturer with energy-hungry machinery faces rising energy prices. This is a threat because energy costs may increase unit costs, reduce profit margins and weaken price competitiveness. Non-example: writing simply ‘energy prices — threat’. That gives no business-specific mechanism or indication of importance. Similarly, writing ‘AI — opportunity’ is not analysis until the business explains how it could use AI and whether it has the required skills and resources.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Link environment, capability and strategic choice",
+        "body": "Use this chain: external change + internal capability → strategic issue → possible options → choice. For example, higher energy prices + an energy-efficiency technology provider’s established product range → stronger customer demand → expand marketing or production capacity → select the option that best fits resources, risk and priorities. The same external change can produce a different result for another business.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A practical flow for using SWOT",
+        "body": "Evidence gathered → PESTLE scans external influences → assess business-specific exposure → compare with internal resources and capabilities → SWOT summary → rank material issues → develop strategic options. \n\nDo not treat the four SWOT headings as four independent lists. Draw links between boxes: for example, an external opportunity is only useful when a relevant strength or capability makes exploitation realistic.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Why a completed SWOT is not automatically strategic analysis",
+        "body": "Misconception: completing four boxes completes the analysis. Correction: SWOT categories are judgements, not facts. The business still needs evidence, a causal explanation, prioritisation and a link to decisions. For instance, large size is not necessarily a strength. It becomes a relevant strength only if scale creates a useful benefit for the objective or competitive situation, such as resources to fund a response.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Using SWOT alongside strategic decision-making",
+        "body": "Strategic environmental analysis supports later choices rather than replacing them. A business should assess the materiality, timing and uncertainty of a factor, then consider whether its resources can exploit an opportunity or defend against a threat. This connects external analysis to decisions about priorities, investment and competitive response. Interactions matter: legal, technological and economic influences may combine rather than operate separately.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Check your own analysis",
+        "body": "Choose one external change. Explain: (1) which business it affects, (2) the transmission mechanism from change to sales, costs or competitiveness, (3) whether it is an opportunity or threat for that business, (4) which capability affects its response, and (5) which strategic option could follow. Then explain why the same change might be classified differently by a competitor.",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "PESTLE",
+        "definition": "A framework for scanning political, economic, social, technological, legal and environmental influences."
+      },
+      {
+        "term": "SWOT",
+        "definition": "A framework that summarises internal strengths and weaknesses and external opportunities and threats."
+      },
+      {
+        "term": "strategic environmental analysis",
+        "definition": "Evidence-based interpretation of external and internal conditions that are relevant to business choices."
+      },
+      {
+        "term": "strength",
+        "definition": "An internal advantage that is relevant to the business’s objective, context or competitors."
+      },
+      {
+        "term": "weakness",
+        "definition": "An internal limitation that may restrict performance or strategic response."
+      },
+      {
+        "term": "opportunity",
+        "definition": "An external possibility that a business has the capability to exploit."
+      },
+      {
+        "term": "threat",
+        "definition": "An external change or condition that may damage a business’s performance or strategic position."
+      },
+      {
+        "term": "materiality",
+        "definition": "The significance of an issue for the business and its decisions."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-003-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "State what SWOT is designed to summarise.",
+        "answer": "Internal strengths and weaknesses, and external opportunities and threats.",
+        "explanation": "SWOT is a summary framework that combines internal and external findings.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "A retailer has a well-developed online fulfilment system. A new group of customers is increasingly choosing home delivery. Classify each statement in a SWOT: (a) the fulfilment system; (b) rising customer preference for home delivery.",
+        "answer": "(a) Strength. (b) Opportunity, if the retailer can use its fulfilment capability to serve the demand.",
+        "explanation": "The fulfilment system is internal, whereas changing customer preference is external. The opportunity is credible because the retailer has a relevant capability.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p3",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "A UK furniture maker uses substantial electricity in production. Electricity prices are expected to rise. Write one analytical SWOT entry for the business.",
+        "answer": "Threat: higher electricity prices may raise production costs, increasing unit costs and reducing profit margins unless the firm improves energy efficiency or raises prices.",
+        "explanation": "The response classifies the external factor and explains its transmission into business performance, rather than just listing ‘electricity prices’.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p4",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "An energy-efficiency equipment supplier has a trusted product range and spare production capacity. Energy prices rise. Construct a chain from the external change to one strategic option.",
+        "answer": "Higher energy prices → customers seek to reduce energy use → demand for efficiency equipment may rise → the supplier’s trusted range and spare capacity allow it to respond → it could increase promotion or raise output.",
+        "explanation": "The chain connects an environmental change to customer behaviour, internal capability and a feasible choice.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "Explain one difference between PESTLE and SWOT, and justify why a business may use both.",
+        "answer": "PESTLE scans external influences, while SWOT summarises internal and external findings. Using both can help the business identify external changes and then judge their significance alongside its capabilities.",
+        "explanation": "PESTLE provides broad external scanning; SWOT helps synthesise this evidence with internal strengths and weaknesses.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "A small café sees a local shift towards plant-based food. It has no staff experienced in developing plant-based recipes and little cash available for new ingredients. Why should it not automatically record the trend as an opportunity?",
+        "answer": "The trend is external, but it is not yet an exploitable opportunity because the café lacks relevant skills and financial resources.",
+        "explanation": "A trend only becomes an opportunity when the business has, or can obtain, the capability to exploit it.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "A student writes: ‘Our business is large, so this is a strength.’ What is missing from this SWOT point?",
+        "answer": "It must show how size creates a relevant advantage in the particular objective or competitive context.",
+        "explanation": "A strength is a judgement, not an automatic label. Size matters only where it produces a useful benefit.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-003-p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.7.1:swot-analysis"
+        ],
+        "prompt": "A clothing business is considering investment in automated cutting machines. Select the best next step after identifying technological change through PESTLE. A: Record ‘technology’ as an opportunity and invest immediately. B: Assess how automation affects its costs and quality, whether it has funds and skills to use it, and compare strategic options. C: Put automation in every SWOT category. D: Ignore internal capabilities because PESTLE is external.",
+        "answer": "B",
+        "explanation": "Good strategic environmental analysis traces the likely effect of the change, tests capability fit and then develops options. A PESTLE category alone does not determine the decision.",
+        "calc": null
+      }
+    ]
+  }
+}

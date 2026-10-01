@@ -1,0 +1,141 @@
+{
+  "node_id": "bus-fnd-002",
+  "learn": {
+    "title": "Entrepreneurship, enterprise and intrapreneurship",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "What intrapreneurship means",
+        "body": "Intrapreneurship is entrepreneurial activity within an existing organisation. An employee or team identifies and develops an opportunity, such as a new product, service, process or business model, while using the organisation’s resources and capabilities. Unlike an independent founder, an intrapreneur would not normally have the same personal ownership exposure. Intrapreneurship can help an established business innovate without creating a new legal business.",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Intrapreneurship compared with entrepreneurship",
+        "body": "Both entrepreneurs and intrapreneurs pursue opportunities under uncertainty and need to test assumptions about customers, costs and feasibility. The key difference is context. An entrepreneur acts independently to create value, organising resources for a new venture. An intrapreneur acts inside an established organisation and can use its finance, staff, systems, brand and capabilities. This may reduce some resource constraints, but internal approval processes and existing priorities may limit what the intrapreneur can do.",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Spotting intrapreneurial behaviour",
+        "body": "Example: A team member at a national retailer designs an internal stock-checking tool. After testing it, the retailer develops it into a customer-facing service using its existing technology and stores. This is intrapreneurship because the opportunity is developed within an established business using organisational resources.\n\nNon-example: A graduate leaves employment, raises personal finance and starts an independent delivery business. This may be entrepreneurship, but it is not intrapreneurship because it is not carried out within an existing organisation.\n\nAlso, simply doing a routine job in a large business is not automatically intrapreneurship: there must be entrepreneurial action to develop an opportunity.",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Intrapreneurship does not require a founder",
+        "body": "A common error is to assume that only people who start a new company can behave entrepreneurially. Intrapreneurs can innovate as employees and do not need to become founders or establish a separate legal entity. Another error is to call any risky internal proposal intrapreneurship. Strong intrapreneurial decisions use market information, customer feedback and feasibility checks to improve assumptions; taking poorly understood risks is not the aim.",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the organisational advantage",
+        "body": "A large business wants an employee team to develop a new subscription service. Explain why this could be intrapreneurship, then identify one organisational resource that could help the team and one constraint that could still affect its decision. Check that your explanation refers to action inside an established organisation rather than to an independent start-up.",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "intrapreneurship",
+        "definition": "Entrepreneurial activity undertaken within an existing organisation."
+      },
+      {
+        "term": "entrepreneur",
+        "definition": "A person who organises resources and makes decisions to pursue an opportunity under uncertainty."
+      },
+      {
+        "term": "entrepreneurship",
+        "definition": "The process of pursuing opportunities and creating value under uncertainty."
+      },
+      {
+        "term": "enterprise",
+        "definition": "In this context, the capability to show initiative and organise resources to act on opportunities."
+      },
+      {
+        "term": "opportunity cost",
+        "definition": "The value of the next-best alternative that is forgone."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-002-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "Define intrapreneurship.",
+        "answer": "Entrepreneurial activity undertaken within an existing organisation.",
+        "explanation": "The activity happens inside an established organisation rather than through an independently founded business.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-002-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "Which situation is the clearest example of intrapreneurship?\nA. Priya opens her own café using a bank loan.\nB. A supermarket employee develops a new click-and-collect process using the supermarket’s staff and systems.\nC. A customer buys shares in a technology firm.\nD. A self-employed plumber completes routine repairs.",
+        "answer": "B. A supermarket employee develops a new click-and-collect process using the supermarket’s staff and systems.",
+        "explanation": "The employee is pursuing an innovation within an existing organisation and is using its resources.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-002-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "Give one similarity and one difference between an entrepreneur and an intrapreneur.",
+        "answer": "Similarity: both pursue opportunities under uncertainty. Difference: an intrapreneur develops an opportunity within an existing organisation using its resources, whereas an entrepreneur acts independently to create a venture.",
+        "explanation": "Both roles involve opportunity pursuit, but ownership context and access to organisational resources differ.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-002-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "Northway Bank asks an employee team to test a budgeting app for its existing customers. The team can use the bank’s customer data systems and marketing department. Explain why this is likely to be intrapreneurship.",
+        "answer": "It is likely to be intrapreneurship because employees are developing a new service within an established bank and using the bank’s existing resources and capabilities.",
+        "explanation": "The innovation is being pursued internally, rather than by founders creating an independent business.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-002-p5",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "A retailer’s employee proposes a new repair service but has only spoken to two customers. Should the retailer immediately commit a large budget because the proposal is intrapreneurial? Justify your judgement.",
+        "answer": "No. Intrapreneurship does not justify committing a large budget without sufficient evidence. The retailer should gather wider customer feedback and test delivery costs and feasibility before making a larger resource decision.",
+        "explanation": "Entrepreneurial activity involves uncertainty, so evidence and feasibility checks can improve a decision even when organisational resources are available.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-002-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.2:intrapreneurship"
+        ],
+        "prompt": "A student says, ‘An intrapreneur must leave their employer and set up a separate company.’ Is the student correct?",
+        "answer": "No. An intrapreneur carries out entrepreneurial activity within an existing organisation; no separate company or founder status is required.",
+        "explanation": "The defining feature is innovation inside an established organisation, not independent business ownership.",
+        "calc": null
+      }
+    ]
+  }
+}

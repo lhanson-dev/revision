@@ -1,0 +1,206 @@
+{
+  "node_id": "bus-ext-002",
+  "learn": {
+    "title": "Competition law",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Competition law and competitive markets",
+        "body": "Competition law protects competition in markets. In the UK, the Competition Act 1998 prohibits anti-competitive agreements, including price fixing and cartels, and abuse of a dominant position. Under the Enterprise Act 2002, mergers can be investigated. The Competition and Markets Authority (CMA) enforces competition law and can impose heavy fines. Businesses must therefore consider legal limits when agreeing with rivals, setting prices or expanding through merger.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Competing fairly versus reducing competition",
+        "body": "Competing fairly means trying to win customers through choices such as a better offer, service, efficiency or innovation. By contrast, rivals agreeing prices, forming a cartel or using a dominant position abusively can reduce the competitive pressure faced by businesses. Competition law is concerned with the latter behaviour, not with ordinary rivalry between firms.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Identify the legal concern",
+        "body": "Example: several competing retailers secretly agree that none will charge below the same minimum price. This is an anti-competitive agreement and is a competition-law concern. Non-example: a retailer independently reduces its price after improving efficiency. A lower independent price is competition, rather than an agreement with rivals to restrict it.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided analysis: a proposed agreement",
+        "body": "Scenario: three local delivery firms discuss charging every customer the same delivery fee. Step 1: identify that they are rivals. Step 2: identify the behaviour: they are discussing an agreement on price. Step 3: explain the effect: customers would have less price competition and less reason to compare providers. Step 4: reach a judgement: the proposal creates a competition-law risk, so the firms should not make the agreement.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Being large is not automatically unlawful",
+        "body": "A large market share does not by itself prove market power, and market power does not by itself mean that a business has broken competition law. Market definition, substitutes, barriers to entry, buyer power and switching costs all matter. The legal issue includes whether a dominant position is abused, rather than simply whether a business is the largest firm.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How competition law affects decisions",
+        "body": "Competition-law rules -> businesses review agreements, pricing discussions and merger plans -> prohibited conduct is avoided or changed -> competition between firms is better protected -> customers may retain more choice and price or quality pressure. Compliance can require processes and advice, but avoiding heavy fines is also important.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: assessing a merger plan",
+        "body": "A large gym chain plans to buy a nearby rival. The business should not assume that growth makes the deal unlawful. First, it should recognise that mergers can be investigated under the Enterprise Act 2002. Next, it should examine the relevant market: alternative gyms, other ways customers can exercise, ease of switching and barriers to new entry. Finally, it should assess whether the merger might materially reduce competitive pressure. This is stronger than judging the deal from market share alone.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the distinction",
+        "body": "In your own words, explain why an independent price cut can be legitimate competition, whereas competitors agreeing a common price can create a competition-law problem. Include the effect on customer choice in your explanation.",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "competition law",
+        "definition": "Laws intended to protect competition in markets, including rules against anti-competitive agreements and abuse of a dominant position."
+      },
+      {
+        "term": "anti-competitive agreement",
+        "definition": "An agreement between businesses that reduces competition, such as price fixing or a cartel."
+      },
+      {
+        "term": "cartel",
+        "definition": "Businesses acting together to reduce competition rather than competing independently."
+      },
+      {
+        "term": "price fixing",
+        "definition": "Competitors agreeing prices instead of setting them independently."
+      },
+      {
+        "term": "dominant position",
+        "definition": "A position of substantial market strength; abusing it can breach competition law."
+      },
+      {
+        "term": "merger",
+        "definition": "When businesses combine or one business acquires another."
+      },
+      {
+        "term": "Competition and Markets Authority (CMA)",
+        "definition": "The UK body that enforces competition law and can impose heavy fines."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ext-002-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "Name the UK body stated in this topic that enforces competition law.",
+        "answer": "The Competition and Markets Authority (CMA).",
+        "explanation": "The CMA enforces competition law and can impose heavy fines.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "Which action is most clearly a competition-law concern? A. A café independently improves its service. B. Two rival cafés agree their prices. C. A café introduces a new drink. D. A café cuts waste to lower costs.",
+        "answer": "B. Two rival cafés agree their prices.",
+        "explanation": "An agreement between rivals on prices is price fixing, an anti-competitive agreement. The other actions are examples of independent competition.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "Four rival firms each currently charge £12 for a delivery. They propose a common £15 charge. Calculate the increase in the proposed common charge per delivery.",
+        "answer": "£3 per delivery.",
+        "explanation": "Subtract the current charge from the proposed charge: £15 - £12 = £3. The calculation does not make the agreement acceptable: agreeing a common price remains a competition-law concern.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p4",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "A supplier has 60% market share, but customers can switch easily to a different technology. What does this evidence suggest about its market power?",
+        "answer": "Its 60% share is evidence to consider, but it does not prove strong market power because easy switching to a substitute constrains it.",
+        "explanation": "Market share alone does not determine market power. Substitutes and switching costs affect the competitive constraint on the supplier.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "Give a two-step chain explaining how a secret price-fixing agreement could affect customers.",
+        "answer": "Price fixing reduces independent price competition -> customers have less choice between competing prices and may face higher prices.",
+        "explanation": "When rivals agree prices, they remove part of the competitive pressure that would otherwise encourage price rivalry.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "Compare independent price matching with competitors agreeing a price. Which creates the greater competition-law risk?",
+        "answer": "Competitors agreeing a price creates the greater risk. Independent price matching is a business acting alone, whereas an agreement can restrict competition.",
+        "explanation": "Competition law prohibits anti-competitive agreements such as price fixing. The key distinction is an agreement between rivals, not merely similar prices.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p7",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "A manager of a UK home-repair business is invited to a meeting where local rivals will discuss setting a standard call-out charge. Advise the manager.",
+        "answer": "The manager should not agree a standard charge with rivals and should treat the proposal as a competition-law risk.",
+        "explanation": "Agreeing prices with competitors is price fixing, which is an anti-competitive agreement prohibited by the Competition Act 1998.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p8",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "A regional cinema chain wants to acquire a smaller local chain. Is the acquisition automatically unlawful because the buyer is already the largest chain locally? Give a judgement.",
+        "answer": "No. It may be investigated, but being the largest does not automatically make the merger unlawful.",
+        "explanation": "Mergers can be investigated under the Enterprise Act 2002. A sound judgement also considers the relevant market, substitutes, switching, entry barriers and the effect on competition.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-002-p9",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.4:competition-law"
+        ],
+        "prompt": "A student says: “A firm with the highest market share is a monopoly, so it has broken competition law.” What is wrong with this claim?",
+        "answer": "Highest market share alone neither proves monopoly or market power nor proves a breach of competition law.",
+        "explanation": "Market power depends on factors such as substitutes, entry barriers, buyer power and switching costs. Competition law also concerns behaviour, including anti-competitive agreements or abuse of a dominant position.",
+        "calc": null
+      }
+    ]
+  }
+}

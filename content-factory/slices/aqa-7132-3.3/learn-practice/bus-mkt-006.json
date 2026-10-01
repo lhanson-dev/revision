@@ -1,0 +1,176 @@
+{
+  "node_id": "bus-mkt-006",
+  "learn": {
+    "title": "Product, service, value proposition and product-life-cycle thinking",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Designing an offer that customers value",
+        "body": "A product or service is the complete offer used to solve a customer problem. It includes functional benefits, but can also include experience, meaning and supporting services. For services especially, the process and the people delivering it can be a major part of what the customer receives.\n\nA value proposition states why a target customer should choose an offer rather than an alternative. It should link the customer problem to the product or service design. Decisions about features, quality, design, range, support and packaging can affect customer experience, positioning and margins. A change is valuable only where it improves customer or commercial outcomes; a new feature alone is not automatically worthwhile innovation.\n\nBranding can connect products in a portfolio: products may share a brand, channels or resources. Portfolio decisions can therefore create efficiencies, but may also lead to cannibalisation, where one product takes sales from another product in the same business. Pricing must also be considered alongside product decisions, because quality and design choices may affect costs, positioning and margins.",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-and-service-design",
+          "aqa-7132-3.3.4:product-portfolio-analysis",
+          "aqa-7132-3.3.4:influences-on-pricing",
+          "aqa-7132-3.3.4:branding"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Value-creating development versus superficial change",
+        "body": "Example: A streaming service adds content bundles and enters new geographic markets. These actions may make its offer relevant to more customers and can extend demand. The business would still need evidence that customers value the change and that it is commercially viable.\n\nNon-example: A business changes only the appearance of its packaging and calls this successful product development, despite having no evidence of better customer response or commercial performance. Cosmetic change is not necessarily value-creating innovation.\n\nA product is also not simply a physical object. For a service, reliable processes, helpful staff and support can be central elements of the customer experience.",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-and-service-design",
+          "aqa-7132-3.3.4:extension-strategies",
+          "aqa-7132-3.3.4:new-product-development"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Use the product life cycle as a conditional model",
+        "body": "The product life cycle (PLC) is a teaching model of possible sales patterns: introduction, growth, maturity and decline. It can help managers consider changing awareness, competition, investment, capacity, promotion and pricing priorities. It is not a fixed timetable or a law that every product follows.\n\nDo not identify a stage from product age alone. Maturity is an interpretation of evidence, such as sales history and market conditions, not a certainty. Patterns can differ between markets and segments, and disruption can change them suddenly. A product can be repositioned, relaunched or sold in a new market, but this does not prove that its original market has returned to introduction.\n\nAn extension strategy aims to alter demand or relevance. It does not magically restart a biological-style cycle. Likewise, a portfolio tool such as the BCG matrix is a separate framework and is not proof of the action a manager should take.",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-life-cycle",
+          "aqa-7132-3.3.4:extension-strategies",
+          "aqa-7132-3.3.4:product-portfolio-analysis"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "From customer problem to demand",
+        "body": "Use this chain to organise analysis:\n\nCustomer problem\n→ value proposition\n→ product or service design\n→ customer experience\n→ demand and retention\n\nFor a portfolio decision, use this chain:\n\nPortfolio decision\n→ shared brand, channels or resources / possible cannibalisation\n→ financial and strategic outcome\n\nFor an extension strategy, use this chain:\n\nExtension action\n→ altered customer or market relevance\n→ possible change in sales trajectory\n\nThese are causal links to investigate with evidence, not guaranteed outcomes.",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-and-service-design",
+          "aqa-7132-3.3.4:product-portfolio-analysis",
+          "aqa-7132-3.3.4:extension-strategies",
+          "aqa-7132-3.3.4:branding"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Question a manager's product decision",
+        "body": "For a proposed new feature, extension or launch, explain to yourself:\n\n1. What customer problem is being addressed, and what is the value proposition?\n2. Which parts of the offer matter: design, quality, service process, people, support or range?\n3. What evidence suggests the product's current PLC position, and what uncertainty remains?\n4. Could the action improve relevance, or could it cannibalise another product in the portfolio?\n5. Does the business have the capability, resources and brand fit to carry out the decision?\n\nFor new product development (NPD), remember the typical sequence: idea generation, screening, concept testing, business analysis, development and prototyping, test marketing, launch and review. NPD can refresh a portfolio and respond to changing needs, but it is costly and many new products fail.",
+        "item_ids": [
+          "aqa-7132-3.3.4:new-product-development",
+          "aqa-7132-3.3.4:product-life-cycle",
+          "aqa-7132-3.3.4:extension-strategies",
+          "aqa-7132-3.3.4:influences-on-pricing",
+          "aqa-7132-3.3.4:branding"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "product/service",
+        "definition": "An offering designed to create customer value."
+      },
+      {
+        "term": "value proposition",
+        "definition": "The reason a target customer should choose an offer."
+      },
+      {
+        "term": "product portfolio",
+        "definition": "The collection of products or brands managed by a business."
+      },
+      {
+        "term": "product life cycle",
+        "definition": "A teaching model of possible sales evolution through introduction, growth, maturity and decline."
+      },
+      {
+        "term": "extension strategy",
+        "definition": "An action intended to prolong or revive demand or relevance."
+      },
+      {
+        "term": "new product development (NPD)",
+        "definition": "The process of taking a new product from idea to market."
+      },
+      {
+        "term": "branding",
+        "definition": "The use of a brand that may be shared across products in a portfolio."
+      },
+      {
+        "term": "cannibalisation",
+        "definition": "When one product takes sales from another product in the same business."
+      },
+      {
+        "term": "pricing influences",
+        "definition": "Factors linked to product decisions, such as costs, positioning, margins and changing market conditions, that can affect pricing priorities."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-mkt-006-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.4:new-product-development"
+        ],
+        "prompt": "State the typical stages of NPD in the order given in this topic.",
+        "answer": "Idea generation, screening, concept testing, business analysis, development and prototyping, test marketing, launch, and review.",
+        "explanation": "This sequence moves from generating and assessing an idea to developing, testing, launching and reviewing the offer.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-006-p2",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-and-service-design",
+          "aqa-7132-3.3.4:branding"
+        ],
+        "prompt": "A UK gym wants to attract busy commuters. It offers quick classes, an easy booking process, helpful staff and access under its recognised brand. Explain why calling its product simply 'gym equipment' is incomplete.",
+        "answer": "The offer includes the equipment, but also the booking process, staff, convenience and brand-related experience. These elements can help solve commuters' problem of fitting exercise into limited time.",
+        "explanation": "A product or service is a bundle of benefits and supporting elements, not just its physical features. Process and people are particularly important in services.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-006-p3",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-life-cycle",
+          "aqa-7132-3.3.4:influences-on-pricing"
+        ],
+        "prompt": "Sales of a meal-kit service have risen for three years, but the market is now crowded. Use product-life-cycle thinking to identify two issues managers should investigate before changing pricing or promotional priorities.",
+        "answer": "They should investigate sales and market evidence to judge whether the offer may be approaching maturity, and investigate the level of competition. They should also consider effects on investment, capacity and promotional priorities.",
+        "explanation": "PLC thinking can prompt questions about sales trends, competition, investment, capacity, promotion and pricing. The evidence does not prove a stage with certainty.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-006-p4",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.4:extension-strategies",
+          "aqa-7132-3.3.4:product-portfolio-analysis"
+        ],
+        "prompt": "A streaming business has slowing domestic sales and proposes launching its existing service in a new country. Judge whether this is likely to be a useful extension strategy.",
+        "answer": "It could be useful because entering a new geographic market may increase relevance and demand. However, the business should assess market evidence, competition, capability, cost, brand fit and whether resources are diverted from or cannibalise other portfolio products. It does not prove that domestic demand has restarted.",
+        "explanation": "An extension strategy can alter demand or relevance, but results depend on evidence and execution. Different markets can show different life-cycle patterns.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-006-p5",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-life-cycle",
+          "aqa-7132-3.3.4:extension-strategies"
+        ],
+        "prompt": "A manager says: 'Our product has existed for ten years, so it must now be in decline. A relaunch will automatically put it back into introduction.' Identify the two errors.",
+        "answer": "Age alone cannot establish the PLC stage; sales and market evidence are needed. A relaunch may alter relevance or demand, but it does not automatically return the original market to introduction.",
+        "explanation": "The PLC is a conditional model rather than a universal timetable. Extension actions do not reset a fixed cycle.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-006-p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:product-portfolio-analysis",
+          "aqa-7132-3.3.4:branding"
+        ],
+        "prompt": "A food business launches a lower-priced snack under the same brand as its premium snack. Give one possible portfolio benefit and one possible risk.",
+        "answer": "A benefit is that the products may share an established brand or channels. A risk is cannibalisation, where the lower-priced snack takes sales from the premium snack.",
+        "explanation": "Portfolio products can share resources, but decisions may create financial and strategic consequences through cannibalisation.",
+        "calc": null
+      }
+    ]
+  }
+}

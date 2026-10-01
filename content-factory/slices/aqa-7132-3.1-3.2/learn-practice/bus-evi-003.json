@@ -1,0 +1,221 @@
+{
+  "node_id": "bus-evi-003",
+  "learn": {
+    "title": "Forecasting, extrapolation, scenarios and sensitivity",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Forecasts are estimates, not promises",
+        "body": "A forecast is an evidence-based estimate of a future outcome. A business may combine historic sales, market research and judgement to forecast demand. Extrapolation extends an observed trend beyond the available data, so it depends on the assumption that the main drivers and conditions remain relevant. Longer forecast horizons usually involve more uncertainty. For investment decisions, managers should consider several plausible futures and test whether a conclusion changes when an uncertain assumption changes.",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation",
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Cautious extrapolation versus weak extrapolation",
+        "body": "Example: A retailer has several years of comparable monthly sales data, identifies a gradual underlying rise and adjusts for its usual Christmas peak before estimating next December's demand. It states that consumer demand and store capacity must remain broadly comparable.\n\nNon-example: A business draws a trend line through three unusual months affected by a one-off local event and treats the resulting figure as a dependable long-term forecast. There is too little representative evidence, and the one-off event may be a structural break rather than a continuing pattern.",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Build an investment scenario test",
+        "body": "A café is considering a new seating area. First, identify the uncertain driver: weekly customer demand. Next, construct a central case using the demand forecast. Then create a downside case with lower demand and an upside case with higher demand. Finally, change one key assumption, such as the average spend per customer, to see whether the investment still appears worthwhile. If a small fall in demand makes the decision unattractive, the investment is sensitive to demand risk.",
+        "item_ids": [
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A smooth line is not certainty",
+        "body": "It is incorrect to assume that a smoother trend line automatically produces an accurate forecast. Moving averages can smooth short-term variation and make an underlying movement easier to see, but they do not explain the cause of sales changes or prevent future structural change. A forecast is also not a target: actual outcomes may reasonably differ from it.",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation",
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "From evidence to a decision",
+        "body": "Historic data → identify trend, seasonality and irregular variation → make assumptions about continuity → forecast → test downside and upside scenarios → change a key assumption in a sensitivity test → choose capacity, staffing, cash or investment action.\n\nStructural change, such as a new competitor or a change in consumer behaviour, can interrupt this chain because past patterns may no longer be comparable.",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation",
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Check the assumption behind the number",
+        "body": "For a proposed investment, ask yourself: which assumption would have to be wrong for this decision to fail? Explain whether the business should gather more evidence, use a range of scenarios, make a reversible decision, or proceed despite the uncertainty.",
+        "item_ids": [
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Using a moving average before extrapolating",
+        "body": "A clothing shop's sales for April, May and June are 100, 120 and 110 units. A three-month moving average is (100 + 120 + 110) ÷ 3 = 110 units. This smooths the month-to-month variation. Before using 110 as a basis for a future forecast, the manager should check whether the next month normally has seasonal demand and whether any change in competition or customer behaviour makes the three months unrepresentative.",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "forecast",
+        "definition": "An evidence-based estimate of a future value or state."
+      },
+      {
+        "term": "trend",
+        "definition": "The underlying longer-term direction in data."
+      },
+      {
+        "term": "seasonality",
+        "definition": "A recurring calendar-related pattern in data."
+      },
+      {
+        "term": "moving average",
+        "definition": "An average of a rolling set of observations that smooths short-term variation."
+      },
+      {
+        "term": "extrapolation",
+        "definition": "Extending an observed relationship or trend beyond the available data."
+      },
+      {
+        "term": "scenario analysis",
+        "definition": "Examining different plausible future states."
+      },
+      {
+        "term": "sensitivity analysis",
+        "definition": "Testing how a result changes when an assumption changes."
+      },
+      {
+        "term": "forecast error",
+        "definition": "The difference between a forecast and the actual outcome."
+      },
+      {
+        "term": "structural break",
+        "definition": "A change in conditions that means historic patterns may no longer be reliable."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-evi-003-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "What is extrapolation?",
+        "answer": "Extending an observed trend or relationship beyond the available data.",
+        "explanation": "It uses past evidence to estimate a future value, while assuming the pattern remains relevant.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p2",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "A retailer recorded weekly online orders of 84, 90 and 96. Calculate the three-week moving average.",
+        "answer": "90 orders.",
+        "explanation": "Add the three observations, 270, and divide by 3. The average smooths short-term variation but does not prove that future orders will be 90.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p3",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ],
+        "prompt": "A gym is considering £80,000 of new equipment. Construct three demand scenarios it could use before deciding.",
+        "answer": "For example: downside case of lower member visits, central case based on the forecast, and upside case of higher member visits.",
+        "explanation": "Scenarios create plausible alternative futures, allowing the business to assess investment risk rather than relying on one estimate.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "A garden-centre manager uses January sales to forecast July demand. Identify one reason this could be unreliable.",
+        "answer": "Demand may be seasonal, so January sales may not represent July demand.",
+        "explanation": "Seasonality can obscure the underlying trend. The manager should use comparable summer data or adjust for the seasonal pattern.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p5",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ],
+        "prompt": "A manufacturer’s investment has an attractive result only if annual sales are at least 50,000 units. Its forecast is 51,000 units, but a sensitivity test at 48,000 units makes the investment unattractive. Should it automatically invest?",
+        "answer": "No. The decision is highly sensitive to a small fall in sales, so the business should investigate demand evidence and consider risk-reducing or reversible options.",
+        "explanation": "The central forecast is close to the point at which the conclusion changes. This makes forecast uncertainty important to the investment decision.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p6",
+        "capability": "graph_data_interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "A monthly sales graph rises from January to August in each of three years, then falls from September to December. What pattern should a forecaster identify before extrapolating?",
+        "answer": "An underlying pattern may exist, but there is also seasonality across the year.",
+        "explanation": "The repeated within-year rise and fall is a calendar-related pattern. A single straight-line extrapolation could ignore it.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p7",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "Actual demand was 1,150 units and the forecast was 1,000 units. Interpret the forecast error using actual minus forecast.",
+        "answer": "The forecast error is +150 units: demand was higher than forecast.",
+        "explanation": "Using the stated convention, 1,150 minus 1,000 equals +150. The positive result shows underforecasting.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation"
+        ],
+        "prompt": "Which statement is most accurate? A. A moving average removes future uncertainty. B. A moving average can reveal underlying movement but cannot explain causes. C. A moving average guarantees a trend will continue.",
+        "answer": "B.",
+        "explanation": "Smoothing reduces the visibility of short-term variation in historic data. It cannot remove uncertainty, identify causes by itself or guarantee continuation.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p9",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ],
+        "prompt": "Put these sensitivity-analysis steps in a sensible order: assess whether the decision changes; identify an uncertain assumption; change that assumption; calculate the revised result.",
+        "answer": "Identify an uncertain assumption; change that assumption; calculate the revised result; assess whether the decision changes.",
+        "explanation": "Sensitivity analysis starts with a relevant uncertainty, then tests its effect on the result and decision.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-003-p10",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.2:extrapolation",
+          "aqa-7132-3.7.8:risk-and-uncertainty-in-investment"
+        ],
+        "prompt": "Explain how a demand forecast that is too high could affect a retailer’s operations and finances.",
+        "answer": "It may lead to excess inventory and staffing, increasing costs and tying up cash; the retailer may then need corrective action such as reducing orders or discounting stock.",
+        "explanation": "Forecasts influence operational plans. When actual demand differs, plan variance can create service, cost and cash consequences.",
+        "calc": null
+      }
+    ]
+  }
+}

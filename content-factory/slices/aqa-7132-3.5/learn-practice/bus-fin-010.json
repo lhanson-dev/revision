@@ -5,17 +5,18 @@
     "sections": [
       {
         "treatment": "core_explanation",
-        "heading": "Profit measures performance over a period",
-        "body": "An income statement summarises revenue, costs and profit for a period, such as a financial year. Gross profit is found by deducting cost of sales from revenue. Operating profit is then found by deducting other operating expenses, such as distribution and administrative costs, from gross profit. These measures show different stages of trading performance. Profit is not the same as cash: revenue may be recognised before customers pay, and depreciation reduces profit without causing a current cash outflow.",
+        "heading": "What an income statement shows",
+        "body": "An income statement reports financial performance over a period, rather than the cash held at one date. It matches revenue with relevant expenses. A simple structure moves from revenue to gross profit after cost of sales, then to operating profit after other operating expenses. Managers should interpret both the £ amount and the trend or margin drivers behind it.",
         "item_ids": [
+          "aqa-7132-3.7.2:income-statement",
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ]
       },
       {
         "treatment": "comparison",
-        "heading": "Gross profit compared with operating profit",
-        "body": "Gross profit focuses on the relationship between revenue and the direct cost of the goods or services sold. It helps management investigate pricing, product mix, purchasing costs and productivity. Operating profit goes further by also deducting other operating expenses. It therefore shows whether the business's overall trading activity is generating profit after costs such as administration, marketing and distribution. A business can have a strong gross profit but weak operating profit if its operating expenses are high.",
+        "heading": "Gross profit and operating profit compared",
+        "body": "Gross profit = revenue less cost of sales, so it focuses on the return left after providing the goods or services sold. Operating profit subtracts other operating expenses as well, such as distribution and administrative costs. Therefore, gross profit helps assess pricing, product mix and purchasing or production costs; operating profit also reflects the cost of running the wider operation.",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
@@ -23,46 +24,65 @@
       },
       {
         "treatment": "example_non_example",
-        "heading": "Identify the correct measure",
-        "body": "Example: A retailer has revenue of £500,000 and cost of sales of £310,000. Its gross profit is £190,000. If its other operating expenses are £140,000, its operating profit is £50,000. Non-example: treating the £190,000 gross profit as operating profit ignores the £140,000 of operating expenses. Also, a year-end cash balance is not a measure of income-statement profit because cash is a point-in-time balance rather than a period result.",
+        "heading": "Profit is not the same as cash",
+        "body": "Example: a retailer makes a credit sale in December. The revenue may be included in that period’s income statement even if the customer pays in January. Also, depreciation reduces reported profit but does not create a current-period cash payment. Non-example: treating the year-end cash balance as the business’s profit for the year. Cash is a balance at a point in time; profit is a measure of performance across a period.",
         "item_ids": [
-          "aqa-7132-3.5.1:gross-profit",
-          "aqa-7132-3.5.1:operating-profit"
+          "aqa-7132-3.7.2:income-statement"
         ]
       },
       {
         "treatment": "guided_example",
-        "heading": "Build a simple income statement in order",
-        "body": "Start with revenue. Deduct cost of sales to find gross profit. Then deduct other operating expenses to find operating profit. For example, if a bakery has revenue of £260,000, cost of sales of £156,000 and operating expenses of £72,000: first calculate gross profit as £260,000 − £156,000 = £104,000. Next calculate operating profit as £104,000 − £72,000 = £32,000. Keeping the stages separate prevents confusion between gross and operating profit.",
+        "heading": "Build a simple income statement",
+        "body": "Start with revenue. Step 1: subtract cost of sales to find gross profit. Step 2: subtract other operating expenses to find operating profit. For example, if revenue is £500,000 and cost of sales is £310,000, gross profit is £190,000. If other operating expenses are £120,000, operating profit is £70,000. Keep each cost in the correct stage so gross and operating profit are not confused.",
         "item_ids": [
+          "aqa-7132-3.7.2:income-statement",
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ]
       },
       {
         "treatment": "misconception_repair",
-        "heading": "Profit does not automatically mean cash generated",
-        "body": "It is incorrect to assume that profit shown in an income statement equals the cash generated in the same period. Customers may pay after a sale is recorded, and some expenses may be recognised before or after payment. Depreciation is an example of an expense that reduces profit but does not create a current-period cash payment. Use the income statement to assess performance, while also considering cash and the timing of receipts and payments.",
+        "heading": "A lower operating profit is not automatically poor management",
+        "body": "A fall in operating profit may result from waste or weak control, but it may also reflect deliberate spending on marketing, staff capability or systems that supports future performance. Investigate revenue, cost of sales, operating expenses, cash and the time horizon before judging. Similarly, rising revenue can coexist with declining gross profit if cost of sales rises faster than revenue.",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
-          "aqa-7132-3.5.1:operating-profit"
+          "aqa-7132-3.5.1:operating-profit",
+          "aqa-7132-3.7.2:income-statement"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Income statement flow",
+        "body": "Revenue\n− Cost of sales\n= Gross profit\n− Other operating expenses\n= Operating profit\n\nUse this flow to trace a change. For instance, higher supplier prices increase cost of sales, which reduces gross profit and, unless another item offsets it, also reduces operating profit.",
+        "item_ids": [
+          "aqa-7132-3.5.1:gross-profit",
+          "aqa-7132-3.5.1:operating-profit",
+          "aqa-7132-3.7.2:income-statement"
         ]
       },
       {
         "treatment": "self_explanation_prompt",
-        "heading": "Explain a change in operating profit",
-        "body": "A business reports rising revenue but falling operating profit. Explain two possible reasons. In your explanation, distinguish between a rise in cost of sales, which can reduce gross profit, and a rise in other operating expenses, such as a planned marketing campaign, which can reduce operating profit. Then state why comparing more than one period and considering cash would improve the conclusion.",
+        "heading": "Explain the mechanism",
+        "body": "A business reports higher revenue but lower gross profit. Explain, in your own words, how this could happen. Then explain why comparing only one year’s operating profit may not show whether management is performing well. Include at least one possible cost driver and one comparability issue.",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
-          "aqa-7132-3.5.1:operating-profit"
+          "aqa-7132-3.5.1:operating-profit",
+          "aqa-7132-3.7.2:income-statement"
         ]
       },
       {
         "treatment": "worked_example",
-        "heading": "Calculate and interpret both profit measures",
-        "body": "Northside Sportswear records revenue of £780,000, cost of sales of £468,000 and other operating expenses of £190,000. Calculate each profit measure in sequence. Gross profit shows the amount remaining after direct costs of goods sold; operating profit shows the amount remaining after additional operating costs too.",
+        "heading": "Calculate gross profit",
+        "body": "Oak & Co sells homewares. Its revenue is £860,000 and its cost of sales is £539,000. Gross profit is revenue less cost of sales, so £321,000 remains before other operating expenses.",
         "item_ids": [
-          "aqa-7132-3.5.1:gross-profit",
+          "aqa-7132-3.5.1:gross-profit"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculate operating profit",
+        "body": "Northside Cycles has gross profit of £321,000 and other operating expenses of £184,500. Subtracting these operating expenses gives operating profit of £136,500. This is the profit from operations before finance costs and tax.",
+        "item_ids": [
           "aqa-7132-3.5.1:operating-profit"
         ]
       }
@@ -70,15 +90,15 @@
     "key_terms": [
       {
         "term": "income statement",
-        "definition": "A report showing revenue, expenses and profit over a period."
+        "definition": "A report of revenue, expenses and profit over a period."
       },
       {
         "term": "revenue",
-        "definition": "Income earned from sales during a period."
+        "definition": "Income earned from sales in a period."
       },
       {
         "term": "cost of sales",
-        "definition": "Costs directly associated with the goods or services sold."
+        "definition": "Costs directly associated with goods or services sold under the accounting presentation."
       },
       {
         "term": "gross profit",
@@ -90,66 +110,66 @@
       },
       {
         "term": "operating profit",
-        "definition": "Gross profit minus other operating expenses."
+        "definition": "Gross profit less other operating expenses; profit from operations before finance costs and tax."
       },
       {
         "term": "profit for the year",
-        "definition": "Operating profit less net finance costs and taxation."
+        "definition": "Operating profit minus net finance costs and taxation."
       },
       {
         "term": "depreciation",
-        "definition": "An expense that reduces reported profit without creating a current-period cash outflow."
+        "definition": "An expense that reduces profit to reflect use of an asset but does not require a current-period cash payment."
       }
     ],
     "worked_examples": [
       {
-        "id": "worked-gross-profit-northside",
+        "id": "we-gross-profit-oak",
         "item_id": "aqa-7132-3.5.1:gross-profit",
-        "scenario": "Northside Sportswear has revenue of £780,000 and cost of sales of £468,000.",
+        "scenario": "Oak & Co earns revenue of £860,000 and has cost of sales of £539,000.",
         "steps": [
-          "Start with revenue because it is the sales income for the period.",
-          "Deduct cost of sales from revenue: £780,000 − £468,000.",
-          "Gross profit is £312,000. This is the amount remaining before other operating expenses."
+          "Identify that gross profit is found by subtracting cost of sales from revenue.",
+          "Subtract £539,000 from £860,000.",
+          "Gross profit is £321,000, available before other operating expenses."
         ],
         "calc": {
           "formula_id": "gross_profit",
           "inputs": [
             {
               "name": "revenue",
-              "value": 780000
+              "value": 860000
             },
             {
               "name": "cost_of_sales",
-              "value": 468000
+              "value": 539000
             }
           ],
-          "stated_answer": 312000,
-          "unit": "£"
+          "stated_answer": 321000,
+          "unit": "currency"
         }
       },
       {
-        "id": "worked-operating-profit-northside",
+        "id": "we-operating-profit-northside",
         "item_id": "aqa-7132-3.5.1:operating-profit",
-        "scenario": "Northside Sportswear has gross profit of £312,000 and other operating expenses of £190,000.",
+        "scenario": "Northside Cycles has gross profit of £321,000 and other operating expenses of £184,500.",
         "steps": [
-          "Use the gross profit already calculated.",
-          "Deduct other operating expenses from gross profit: £312,000 − £190,000.",
-          "Operating profit is £122,000. This represents profit from trading before finance costs and tax."
+          "Identify that operating profit is gross profit less other operating expenses.",
+          "Subtract £184,500 from £321,000.",
+          "Operating profit is £136,500 before finance costs and tax."
         ],
         "calc": {
           "formula_id": "operating_profit",
           "inputs": [
             {
               "name": "gross_profit",
-              "value": 312000
+              "value": 321000
             },
             {
               "name": "other_operating_expenses",
-              "value": 190000
+              "value": 184500
             }
           ],
-          "stated_answer": 122000,
-          "unit": "£"
+          "stated_answer": 136500,
+          "unit": "currency"
         }
       }
     ]
@@ -157,135 +177,160 @@
   "practice": {
     "items": [
       {
-        "id": "practice-retrieval-profit-definitions",
+        "id": "p1-income-statement-retrieval",
         "capability": "retrieval",
         "item_ids": [
-          "aqa-7132-3.5.1:gross-profit",
-          "aqa-7132-3.5.1:operating-profit"
+          "aqa-7132-3.7.2:income-statement"
         ],
-        "prompt": "State the formula for gross profit and the formula for operating profit.",
-        "answer": "Gross profit = revenue − cost of sales. Operating profit = gross profit − other operating expenses.",
-        "explanation": "The first calculation deducts direct costs of sales; the second also deducts other operating costs.",
+        "prompt": "What does an income statement report: performance over a period, or cash held at one date?",
+        "answer": "Performance, including revenue, expenses and profit, over a period.",
+        "explanation": "It is a period-flow report, not a statement of the cash balance at a particular date.",
         "calc": null
       },
       {
-        "id": "practice-calculation-gross-profit",
+        "id": "p2-gross-profit-calculation",
         "capability": "calculation",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit"
         ],
-        "prompt": "A furniture retailer has revenue of £925,000 and cost of sales of £555,000. Calculate gross profit.",
-        "answer": "£370,000",
-        "explanation": "Deduct cost of sales from revenue: £925,000 − £555,000 = £370,000.",
+        "prompt": "A UK clothing retailer has revenue of £1,240,000 and cost of sales of £775,000. Calculate gross profit.",
+        "answer": "£465,000.",
+        "explanation": "Gross profit is revenue less cost of sales: £1,240,000 − £775,000.",
         "calc": {
           "formula_id": "gross_profit",
           "inputs": [
             {
               "name": "revenue",
-              "value": 925000
+              "value": 1240000
             },
             {
               "name": "cost_of_sales",
-              "value": 555000
+              "value": 775000
             }
           ],
-          "stated_answer": 370000,
-          "unit": "£"
+          "stated_answer": 465000,
+          "unit": "currency"
         }
       },
       {
-        "id": "practice-calculation-operating-profit",
+        "id": "p3-operating-profit-calculation",
         "capability": "calculation",
         "item_ids": [
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "A business has gross profit of £460,000 and other operating expenses of £275,000. Calculate operating profit.",
-        "answer": "£185,000",
-        "explanation": "Operating profit is gross profit less other operating expenses: £460,000 − £275,000 = £185,000.",
+        "prompt": "A catering business has gross profit of £465,000 and other operating expenses of £286,000. Calculate operating profit.",
+        "answer": "£179,000.",
+        "explanation": "Operating profit is gross profit less other operating expenses: £465,000 − £286,000.",
         "calc": {
           "formula_id": "operating_profit",
           "inputs": [
             {
               "name": "gross_profit",
-              "value": 460000
+              "value": 465000
             },
             {
               "name": "other_operating_expenses",
-              "value": 275000
+              "value": 286000
             }
           ],
-          "stated_answer": 185000,
-          "unit": "£"
+          "stated_answer": 179000,
+          "unit": "currency"
         }
       },
       {
-        "id": "practice-discrimination-income-statement-items",
+        "id": "p4-profit-discrimination",
         "capability": "discrimination",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "Which figure is deducted from gross profit to calculate operating profit: cost of sales, other operating expenses, or the year-end cash balance?",
-        "answer": "Other operating expenses.",
-        "explanation": "Cost of sales is deducted earlier to calculate gross profit. A year-end cash balance is not an income-statement expense.",
+        "prompt": "Which profit measure is most directly affected when the cost of ingredients used in meals rises: gross profit or operating profit?",
+        "answer": "Gross profit.",
+        "explanation": "Ingredient costs are likely to be cost of sales, which is deducted before gross profit is calculated. The change may also flow through to operating profit, but gross profit identifies the direct stage affected.",
         "calc": null
       },
       {
-        "id": "practice-interpretation-revenue-costs",
-        "capability": "interpretation",
+        "id": "p5-construct-income-statement",
+        "capability": "construction",
         "item_ids": [
-          "aqa-7132-3.5.1:gross-profit"
-        ],
-        "prompt": "A retailer's revenue rises by 10%, but its cost of sales rises by 20%. What is the likely effect on gross profit performance, assuming no other information?",
-        "answer": "Gross profit is likely to weaken relative to revenue, because direct costs are rising faster than sales.",
-        "explanation": "Revenue growth does not guarantee stronger gross profit. The faster growth in cost of sales may reduce the amount retained from each £ of revenue.",
-        "calc": null
-      },
-      {
-        "id": "practice-misconception-profit-and-cash",
-        "capability": "misconception_diagnostic",
-        "item_ids": [
+          "aqa-7132-3.7.2:income-statement",
+          "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "A student says: 'If operating profit is £80,000, the business must have received £80,000 cash this year.' Is this correct?",
-        "answer": "No. Operating profit is not necessarily equal to cash received.",
-        "explanation": "Revenue and expenses can be recorded at different times from cash movements, and depreciation reduces profit without a current cash outflow.",
+        "prompt": "Construct a simplified income statement using: revenue £900,000; cost of sales £540,000; other operating expenses £210,000.",
+        "answer": "Revenue £900,000; less cost of sales £540,000; gross profit £360,000; less other operating expenses £210,000; operating profit £150,000.",
+        "explanation": "Costs of sales are deducted first to calculate gross profit. Other operating expenses are then deducted to calculate operating profit.",
         "calc": null
       },
       {
-        "id": "practice-reasoning-chain-investment",
+        "id": "p6-revenue-and-margin-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.1:gross-profit",
+          "aqa-7132-3.7.2:income-statement"
+        ],
+        "prompt": "A business’s revenue rises by 10%, while cost of sales rises by 20%. What cautious interpretation can be made about gross profit performance?",
+        "answer": "Gross profit may grow more slowly, fall, or have a lower margin because cost of sales has risen faster than revenue.",
+        "explanation": "Headline revenue growth does not guarantee improved profitability. The actual outcome also depends on the starting amounts.",
+        "calc": null
+      },
+      {
+        "id": "p7-cash-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.2:income-statement"
+        ],
+        "prompt": "A student says: ‘Depreciation is not cash paid this year, so it should not reduce profit.’ Is the student correct?",
+        "answer": "No. Depreciation can reduce accounting profit even though it is not a current-period cash outflow.",
+        "explanation": "Profit and cash differ. The income statement includes relevant expenses under accounting rules, while cash timing may be different.",
+        "calc": null
+      },
+      {
+        "id": "p8-driver-reasoning-chain",
         "capability": "reasoning_chain",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "A café keeps its gross profit broadly unchanged but spends more on staff training and local advertising. Explain the likely chain of effect on operating profit.",
-        "answer": "The extra spending increases other operating expenses, so operating profit is likely to fall initially even if gross profit is unchanged.",
-        "explanation": "Operating profit is calculated after other operating expenses. The spending could be sensible if it improves future service or sales, but this needs evidence over time.",
+        "prompt": "Explain the likely chain of effects if a bakery cannot pass a rise in flour prices on to customers.",
+        "answer": "Flour costs raise cost of sales, reducing gross profit; if other operating expenses are unchanged, operating profit also falls.",
+        "explanation": "Higher input costs affect the cost of sales stage first, and the lower gross profit then feeds into operating profit.",
         "calc": null
       },
       {
-        "id": "practice-contextual-application-comparison",
-        "capability": "contextual_application",
+        "id": "p9-analysis-framework",
+        "capability": "framework_application",
         "item_ids": [
-          "aqa-7132-3.5.1:gross-profit",
+          "aqa-7132-3.7.2:income-statement",
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "A clothing business reports higher operating profit this year than last year. Give two further checks a manager should make before concluding performance has improved.",
-        "answer": "Compare gross profit and operating expenses to identify the driver, and check cash and whether accounting treatment or one-off items changed.",
-        "explanation": "A higher operating profit alone does not reveal whether improvement came from pricing, costs, temporary factors or accounting differences. Cash also needs separate consideration.",
+        "prompt": "Give three checks a manager should make before concluding that a fall in operating profit means the business is being run badly.",
+        "answer": "Check the trend across periods, identify whether there were one-off or planned investment costs, and consider cash and whether accounting treatment is comparable.",
+        "explanation": "A single profit figure does not explain its cause. Trend, strategy, cash and comparability provide a more reliable interpretation.",
         "calc": null
       },
       {
-        "id": "practice-compare-justify-measures",
+        "id": "p10-investment-context",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.1:operating-profit",
+          "aqa-7132-3.7.2:income-statement"
+        ],
+        "prompt": "A retailer’s operating profit falls after it launches staff training and a new online service. Give one reason this could still be a sensible decision.",
+        "answer": "The extra operating expense may build future capability or sales, provided the business can manage the cash impact and the expected benefits justify the cost.",
+        "explanation": "Lower current operating profit can reflect planned investment rather than inefficiency.",
+        "calc": null
+      },
+      {
+        "id": "p11-compare-profit-measures",
         "capability": "compare_justify",
         "item_ids": [
           "aqa-7132-3.5.1:gross-profit",
           "aqa-7132-3.5.1:operating-profit"
         ],
-        "prompt": "Which measure is more useful for judging the effect of higher purchasing costs: gross profit or operating profit? Justify your choice.",
-        "answer": "Gross profit is more useful because it directly reflects revenue less cost of sales, including purchasing costs.",
-        "explanation": "Operating profit may also change, but it includes the effects of other operating expenses. Gross profit isolates the more direct effect of changes in cost of sales.",
+        "prompt": "Which measure is more useful for judging whether rising head-office costs are affecting performance: gross profit or operating profit? Justify your choice.",
+        "answer": "Operating profit, because it deducts other operating expenses such as administrative costs; gross profit does not.",
+        "explanation": "Gross profit is useful for trading costs and pricing, whereas operating profit captures the effect of wider operating overheads.",
         "calc": null
       }
     ]

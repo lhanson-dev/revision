@@ -1,0 +1,231 @@
+{
+  "node_id": "bus-fin-011",
+  "learn": {
+    "title": "Statement of financial position and financial structure",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "A snapshot of financial position",
+        "body": "A statement of financial position shows what a business owns or controls, what it owes and the residual interest of its owners at one particular date. It is a snapshot, not a record of income, costs or cash movements across a period. The accounting relationship is: assets = liabilities + equity. This helps show the business’s financial structure: the resources it has and whether those resources are financed by borrowing, owner investment or retained funds.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing ratios meaningfully",
+        "body": "A ratio is more useful when compared with an earlier period and with a competitor. A change over time can indicate whether liquidity or financial risk is improving or worsening. A competitor comparison adds context, but businesses may have different industries, business models, valuation bases or cash-conversion patterns. Therefore, do not conclude that one ratio alone proves a business is stronger.",
+        "item_ids": [
+          "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Assets are not all cash",
+        "body": "Example: a retailer may have £500,000 of current assets, made up mainly of slow-moving inventory and overdue customer receivables. It may still struggle to pay a supplier promptly because these assets cannot necessarily be converted into cash quickly. Non-example: describing every current asset as ‘liquid cash’. Cash is an asset, but inventory, receivables and equipment differ in liquidity, certainty and realisable value. Similarly, a book value is not automatically a market value.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guide to reading a financial position",
+        "body": "Suppose a business takes out a bank loan and receives the money in its bank account. First, identify the cash received as an asset. Next, identify the loan as a liability. The business has more assets, but it also has more liabilities; it has not automatically become less risky or more able to meet short-term bills. Then ask when the liability must be settled and how reliably the asset can be used to generate cash.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Large asset totals do not guarantee safety",
+        "body": "Misconception: ‘A business with many assets can easily pay its bills.’ Correction: payment ability depends on liquidity: how quickly and reliably assets can become cash compared with when liabilities fall due. A business might own valuable equipment or hold substantial inventory but have too little cash available now. Equity is also not a cash balance; it is the residual interest after liabilities.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Financial structure map",
+        "body": "Use this map when classifying figures:\n\nAssets (resources) = Liabilities (obligations) + Equity (residual owner interest)\n\nShorter-term categories: current assets and current liabilities\nLonger-term categories: non-current assets and non-current liabilities\n\nWhen borrowing is received: loan liability increases and cash/assets initially increase.\nWhen debt is repaid: cash decreases and the liability decreases.\nWhen a credit sale is made: receivables increase; later, collection converts the receivable into cash.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Interpreting two similar current-asset totals",
+        "body": "Northside Foods and Riverside Foods each report £300,000 of current assets. Northside’s total is mostly cash and receivables that customers pay promptly. Riverside’s total is mainly old inventory and overdue receivables. Although the totals match, Northside is likely to have lower liquidity risk because its assets are more readily and reliably converted into cash. To reach a sound judgement, compare relevant ratios over time and with competitors, then check cash-flow and operational evidence.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position",
+          "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the link yourself",
+        "body": "A firm’s current-assets total rises after it allows more customers to buy on credit. Explain why this does not necessarily mean its liquidity has improved. In your answer, distinguish receivables from cash and consider the timing and reliability of collection.",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position",
+          "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "asset",
+        "definition": "A controlled resource expected to provide future economic benefit."
+      },
+      {
+        "term": "liability",
+        "definition": "A present obligation expected to require resources from the business."
+      },
+      {
+        "term": "equity",
+        "definition": "The residual interest in assets after liabilities are deducted."
+      },
+      {
+        "term": "current asset",
+        "definition": "An asset in the relevant short-term classification."
+      },
+      {
+        "term": "current liability",
+        "definition": "A liability in the relevant short-term classification."
+      },
+      {
+        "term": "non-current asset",
+        "definition": "A longer-term asset."
+      },
+      {
+        "term": "non-current liability",
+        "definition": "A longer-term liability."
+      },
+      {
+        "term": "statement of financial position",
+        "definition": "A statement of assets, liabilities and equity at a single point in time, often called a balance sheet."
+      },
+      {
+        "term": "liquidity",
+        "definition": "The ability to turn assets into cash quickly and reliably to meet obligations."
+      },
+      {
+        "term": "book value",
+        "definition": "The value recorded in accounting records, which may differ from market value."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fin-011-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "What accounting relationship must a statement of financial position follow?",
+        "answer": "Assets = liabilities + equity.",
+        "explanation": "The resources of the business are financed by obligations to others and the residual interest of owners.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "Classify each item as an asset, liability or equity: cash at bank; a bank loan; owners’ residual interest.",
+        "answer": "Cash at bank: asset. Bank loan: liability. Owners’ residual interest: equity.",
+        "explanation": "Cash is a controlled resource, a loan is an obligation, and equity is the residual interest after liabilities.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "A café has total assets of £180,000 and total liabilities of £65,000. Calculate equity using the accounting equation.",
+        "answer": "£115,000.",
+        "explanation": "Equity is the residual interest: £180,000 − £65,000 = £115,000.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p4",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "Construct the accounting equation for a business with assets of £92,000, liabilities of £37,000 and equity of £55,000.",
+        "answer": "£92,000 = £37,000 + £55,000.",
+        "explanation": "The asset total equals the combined total of liabilities and equity.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p5",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "A retailer reports high current assets, but most are slow-moving inventory. What does this suggest about its ability to pay bills?",
+        "answer": "It may still face liquidity pressure.",
+        "explanation": "Inventory is an asset but may not be converted into cash quickly or reliably enough to settle short-term obligations.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "A furniture maker receives £40,000 from a new loan. State the immediate effect on its statement of financial position.",
+        "answer": "Cash/assets increase by £40,000 and liabilities increase by £40,000.",
+        "explanation": "Borrowing initially supplies an asset, normally cash, while creating an obligation to repay.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p7",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "Use assets, liabilities and equity to explain the effect of repaying a loan from cash.",
+        "answer": "Cash assets decrease and the loan liability decreases; equity does not automatically change.",
+        "explanation": "The payment removes both an asset and an obligation by the same amount.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "A student says, ‘Equity is the amount of cash the owners can withdraw today.’ Is this correct?",
+        "answer": "No. Equity is the residual interest after liabilities, not a cash balance.",
+        "explanation": "The assets supporting equity can include inventory, receivables and equipment, not just cash.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.2:statement-of-financial-position"
+        ],
+        "prompt": "Explain the chain from making a credit sale to a possible improvement in cash.",
+        "answer": "A credit sale creates receivables; when the customer pays, receivables are converted into cash.",
+        "explanation": "A receivable is not cash at the point of sale, so the cash benefit depends on collection.",
+        "calc": null
+      },
+      {
+        "id": "bus-fin-011-p10",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.2:comparing-ratios-over-time-and-with-competitors"
+        ],
+        "prompt": "Firm A’s liquidity ratio has fallen over two years but remains above a competitor’s. Give a justified conclusion.",
+        "answer": "The fall may be a warning sign, but Firm A may still be relatively stronger than the competitor; more evidence is needed.",
+        "explanation": "Both trend and competitor context matter. Cash flow, liability timing and the quality of current assets should also be checked.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,455 @@
+{
+  "node_id": "bus-peo-001",
+  "learn": {
+    "title": "Workforce planning, job design and workforce performance",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Planning people for future needs",
+        "body": "Workforce planning matches the future number of employees, their skills, location, working arrangements and timing to what the business expects to need. It begins with demand for work and required capability, rather than automatically replacing every employee who leaves. Training can close a skills gap internally; recruitment can bring in people where the business lacks capacity or specialist capability. Organisational design and technology may change which roles are needed, not simply reduce headcount.",
+        "item_ids": [
+          "aqa-7132-3.6.3:workforce-hr-planning",
+          "aqa-7132-3.6.1:workforce-number-skills-and-location",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:recruitment",
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "HR choices support strategy and operations",
+        "body": "A growth strategy can create a requirement for more people or more specialist skills. A cost-reduction strategy may require redesigned roles, redeployment or redundancy where roles are no longer needed. Hard HRM focuses on workforce requirements, cost, headcount and performance alignment. Soft HRM places more emphasis on development, communication, involvement and trust to build commitment and capability. Businesses commonly combine both approaches: for example, using productivity data while also investing in training and employee voice.",
+        "item_ids": [
+          "aqa-7132-3.6.1:hard-hrm",
+          "aqa-7132-3.6.1:soft-hrm",
+          "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:workforce-hr-planning"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Skills and coverage matter as well as headcount",
+        "body": "Example: an engineering firm has enough applicants for 20 vacancies but cannot find qualified technicians for a bottleneck production process. It has a skills constraint despite having potential headcount available. It could recruit specialists, train existing employees or redesign deployment. Non-example: deciding that the firm is fully staffed simply because its total employee number matches a target, while ignoring qualifications, shift coverage and location.",
+        "item_ids": [
+          "aqa-7132-3.6.1:workforce-number-skills-and-location",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:recruitment",
+          "aqa-7132-3.6.3:workforce-hr-planning"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "A workforce-planning sequence",
+        "body": "1. Start with strategy and expected demand. 2. Identify the roles, skills, locations and timing needed. 3. Compare this requirement with the current workforce to find capability or capacity gaps. 4. Choose a response: recruit, train, redeploy employees, redesign jobs or, where a role is no longer needed, consider redundancy. 5. Monitor workforce data and operational outcomes, then revise the plan as conditions change.",
+        "item_ids": [
+          "aqa-7132-3.6.3:workforce-hr-planning",
+          "aqa-7132-3.6.1:workforce-number-skills-and-location",
+          "aqa-7132-3.6.3:recruitment",
+          "aqa-7132-3.6.3:redeployment",
+          "aqa-7132-3.6.3:redundancy",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Job design, technology and workforce outcomes",
+        "body": "Job design arranges tasks, responsibility, autonomy, variety and working relationships. Poor design can lead to stress, errors or disengagement, which can contribute to absence, turnover and weaker productivity. Technology can remove, reshape or create tasks; therefore it can create a need for training, recruitment or redeployment. Flexible, hybrid and remote work may widen recruitment pools and support autonomy, but may also make communication, supervision and coordination more difficult. Its value depends on the business, job and employees involved.",
+        "item_ids": [
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:redeployment",
+          "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing between redeployment and redundancy",
+        "body": "A retailer automates its warehouse picking system, so eight manual picking roles are no longer needed, but it needs staff to operate and maintain the new system. First, identify that technology has changed task requirements. Next, compare the skills of current pickers with the new roles. Offering training and redeployment may retain useful business knowledge and avoid redundancy costs, although the new role may not suit every employee. If a role genuinely is no longer needed, redundancy may be considered; it can lower ongoing costs but may involve payments, consultation, lower morale and lost skills.",
+        "item_ids": [
+          "aqa-7132-3.6.3:redeployment",
+          "aqa-7132-3.6.3:redundancy",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating workforce measures",
+        "body": "Use a consistent period and denominator. Interpret each result alongside context and other evidence, rather than treating a single metric as a verdict.",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-turnover",
+          "aqa-7132-3.6.2:labour-productivity-hr",
+          "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover",
+          "aqa-7132-3.6.2:labour-cost-per-unit",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Metrics are indicators, not automatic explanations",
+        "body": "Low labour turnover is not always good. It may show that valuable employees stay, but it can also occur alongside stagnation, poor performance or limited outside job opportunities. High turnover is not automatically caused by poor motivation: it may reflect seasonal work, restructuring or deliberate removal of poor-fit employees. Similarly, absence is not proof of low motivation; health, management, working conditions, job design and external circumstances may matter. Use trends, reliable definitions, qualitative evidence and sector context before deciding on action.",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-turnover",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
+          "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain an HR decision",
+        "body": "A business reports rising output per employee after introducing new software. Explain two possible reasons for the change, then explain why managers should also check turnover, absence, employee feedback and service quality before claiming that the software has improved workforce performance sustainably.",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-productivity-hr",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design",
+          "aqa-7132-3.6.1:training"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "workforce planning",
+        "definition": "Matching future workforce capacity and capability to organisational need."
+      },
+      {
+        "term": "job design",
+        "definition": "The arrangement of tasks, responsibility, autonomy and relationships in a job."
+      },
+      {
+        "term": "hard HRM",
+        "definition": "An HR orientation emphasising workforce requirements, cost, headcount, performance and alignment with business needs."
+      },
+      {
+        "term": "soft HRM",
+        "definition": "An HR orientation emphasising development, involvement, communication and trust to build capability and commitment."
+      },
+      {
+        "term": "recruitment",
+        "definition": "Attracting and selecting employees to fill workforce needs."
+      },
+      {
+        "term": "redeployment",
+        "definition": "Moving an employee to another role, department or location within the same business, often with retraining."
+      },
+      {
+        "term": "redundancy",
+        "definition": "Ending a job because the role is no longer needed, rather than because of employee conduct."
+      },
+      {
+        "term": "labour turnover",
+        "definition": "The proportion of the average workforce leaving during a stated period."
+      },
+      {
+        "term": "labour productivity",
+        "definition": "Output produced per employee in a stated period."
+      },
+      {
+        "term": "employee costs as a percentage of turnover",
+        "definition": "The share of sales revenue spent on employee costs."
+      },
+      {
+        "term": "labour cost per unit",
+        "definition": "Total labour costs divided by the number of units produced."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-turnover",
+        "item_id": "aqa-7132-3.6.2:labour-turnover",
+        "scenario": "During a year, a café chain has 14 employees leave and an average workforce of 175 employees.",
+        "steps": [
+          "Use labour turnover = staff leaving divided by average staff employed, multiplied by 100.",
+          "Calculate 14 divided by 175, then multiply by 100.",
+          "The labour turnover rate is 8%. This describes leavers in the stated year; it does not alone explain why they left."
+        ],
+        "calc": {
+          "formula_id": "labour_turnover",
+          "inputs": [
+            {
+              "name": "staff_leaving",
+              "value": 14
+            },
+            {
+              "name": "average_staff_employed",
+              "value": 175
+            }
+          ],
+          "stated_answer": 8,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "we-productivity",
+        "item_id": "aqa-7132-3.6.2:labour-productivity-hr",
+        "scenario": "A packaging business produces 26,400 boxes in a month using 88 employees.",
+        "steps": [
+          "Use labour productivity = output per period divided by number of employees.",
+          "Divide 26,400 boxes by 88 employees.",
+          "Average labour productivity is 300 boxes per employee for the month."
+        ],
+        "calc": {
+          "formula_id": "labour_productivity",
+          "inputs": [
+            {
+              "name": "output_per_period",
+              "value": 26400
+            },
+            {
+              "name": "number_of_employees",
+              "value": 88
+            }
+          ],
+          "stated_answer": 300,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "we-employee-costs",
+        "item_id": "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover",
+        "scenario": "A furniture maker has annual employee costs of £378,000 and turnover of £1,800,000.",
+        "steps": [
+          "Use employee costs as a percentage of turnover = employee costs divided by turnover, multiplied by 100.",
+          "Divide £378,000 by £1,800,000, then multiply by 100.",
+          "Employee costs are 21% of turnover. A comparison with earlier periods could show whether pay costs are rising faster than sales."
+        ],
+        "calc": {
+          "formula_id": "employee_costs_percentage_of_turnover",
+          "inputs": [
+            {
+              "name": "employee_costs",
+              "value": 378000
+            },
+            {
+              "name": "turnover",
+              "value": 1800000
+            }
+          ],
+          "stated_answer": 21,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "we-labour-cost",
+        "item_id": "aqa-7132-3.6.2:labour-cost-per-unit",
+        "scenario": "A manufacturer incurs £252,000 of total labour costs while producing 42,000 units.",
+        "steps": [
+          "Use labour cost per unit = total labour costs divided by units of output.",
+          "Divide £252,000 by 42,000 units.",
+          "Labour cost per unit is £6. Compare this only with similar products or with the business's own earlier performance."
+        ],
+        "calc": {
+          "formula_id": "labour_cost_per_unit",
+          "inputs": [
+            {
+              "name": "total_labour_costs",
+              "value": 252000
+            },
+            {
+              "name": "units_of_output",
+              "value": 42000
+            }
+          ],
+          "stated_answer": 6,
+          "unit": "currency"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-workforce-plan",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.3:workforce-hr-planning",
+          "aqa-7132-3.6.1:workforce-number-skills-and-location"
+        ],
+        "prompt": "State what workforce planning matches to organisational need.",
+        "answer": "The future number, skills, location, working arrangements and timing of employees.",
+        "explanation": "Planning covers capability and deployment as well as total headcount.",
+        "calc": null
+      },
+      {
+        "id": "p-calc-turnover",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-turnover"
+        ],
+        "prompt": "A hotel has 9 staff leave during a quarter and an average of 120 staff employed. Calculate labour turnover.",
+        "answer": "7.5%.",
+        "explanation": "9 ÷ 120 × 100 = 7.5%.",
+        "calc": {
+          "formula_id": "labour_turnover",
+          "inputs": [
+            {
+              "name": "staff_leaving",
+              "value": 9
+            },
+            {
+              "name": "average_staff_employed",
+              "value": 120
+            }
+          ],
+          "stated_answer": 7.5,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p-calc-productivity",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-productivity-hr"
+        ],
+        "prompt": "A digital printing firm completes 15,750 orders in a month with 75 employees. Calculate labour productivity.",
+        "answer": "210 orders per employee per month.",
+        "explanation": "15,750 ÷ 75 = 210.",
+        "calc": {
+          "formula_id": "labour_productivity",
+          "inputs": [
+            {
+              "name": "output_per_period",
+              "value": 15750
+            },
+            {
+              "name": "number_of_employees",
+              "value": 75
+            }
+          ],
+          "stated_answer": 210,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "p-calc-employee-costs",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.6.2:employee-costs-as-a-percentage-of-turnover"
+        ],
+        "prompt": "A bakery has employee costs of £144,000 and turnover of £640,000. Calculate employee costs as a percentage of turnover.",
+        "answer": "22.5%.",
+        "explanation": "£144,000 ÷ £640,000 × 100 = 22.5%.",
+        "calc": {
+          "formula_id": "employee_costs_percentage_of_turnover",
+          "inputs": [
+            {
+              "name": "employee_costs",
+              "value": 144000
+            },
+            {
+              "name": "turnover",
+              "value": 640000
+            }
+          ],
+          "stated_answer": 22.5,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p-calc-labour-cost",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-cost-per-unit"
+        ],
+        "prompt": "A manufacturer pays total labour costs of £96,000 to produce 24,000 units. Calculate labour cost per unit.",
+        "answer": "£4 per unit.",
+        "explanation": "£96,000 ÷ 24,000 = £4.",
+        "calc": {
+          "formula_id": "labour_cost_per_unit",
+          "inputs": [
+            {
+              "name": "total_labour_costs",
+              "value": 96000
+            },
+            {
+              "name": "units_of_output",
+              "value": 24000
+            }
+          ],
+          "stated_answer": 4,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "p-interpretation-data",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
+          "aqa-7132-3.6.2:labour-productivity-hr",
+          "aqa-7132-3.6.2:labour-turnover"
+        ],
+        "prompt": "A call centre's output per employee rises, but labour turnover also rises sharply. Give one sensible interpretation.",
+        "answer": "Productivity may have improved, but the rise may be unsustainable if workload or job design is causing employees to leave.",
+        "explanation": "The measures should be read together. Higher output alone does not prove that workforce performance has improved overall.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-turnover",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.2:labour-turnover",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning"
+        ],
+        "prompt": "A manager says, 'Our turnover is only 3%, so our HR performance must be excellent.' What is wrong with this conclusion?",
+        "answer": "Low turnover can indicate retention, but it can also coexist with stagnation, weak performance or limited external job opportunities.",
+        "explanation": "Turnover is an indicator, not a complete judgement. Managers need context and other evidence.",
+        "calc": null
+      },
+      {
+        "id": "p-procedure-workforce-gap",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.6.3:workforce-hr-planning",
+          "aqa-7132-3.6.1:training",
+          "aqa-7132-3.6.3:recruitment",
+          "aqa-7132-3.6.3:redeployment"
+        ],
+        "prompt": "Put these actions in a logical workforce-planning order: compare current staff with future requirements; identify future roles and skills; choose recruitment, training or redeployment; start with expected demand.",
+        "answer": "Start with expected demand; identify future roles and skills; compare current staff with future requirements; choose recruitment, training or redeployment.",
+        "explanation": "The business must establish what it needs before identifying gaps and selecting a response.",
+        "calc": null
+      },
+      {
+        "id": "p-context-automation",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.3:redeployment",
+          "aqa-7132-3.6.3:redundancy",
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design",
+          "aqa-7132-3.6.1:training"
+        ],
+        "prompt": "A warehouse introduces automation and no longer needs several picking jobs, but needs technicians. Recommend one HR response and one factor that could limit its success.",
+        "answer": "Train and redeploy suitable pickers into technician roles. Success may be limited if employees lack the aptitude for the role or find it less attractive.",
+        "explanation": "Technology changes task and skill requirements. Redeployment can retain knowledge, but it is not automatically suitable for every employee.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-hard-soft",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.6.1:hard-hrm",
+          "aqa-7132-3.6.1:soft-hrm",
+          "aqa-7132-3.6.1:influences-on-hr-objectives-and-decisions"
+        ],
+        "prompt": "Explain how a business could use both hard and soft HRM while opening a new regional site.",
+        "answer": "It could calculate required headcount, skills and costs using a hard HRM orientation, while using training, communication and involvement to build employee capability and commitment.",
+        "explanation": "The approaches are not mutually exclusive: both can support organisational objectives when applied appropriately.",
+        "calc": null
+      },
+      {
+        "id": "p-mixed-selection",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.6.1:workforce-number-skills-and-location",
+          "aqa-7132-3.6.3:recruitment",
+          "aqa-7132-3.6.2:using-hr-data-in-decisions-and-planning",
+          "aqa-7132-3.6.3:influences-on-and-value-of-changing-organisational-design"
+        ],
+        "prompt": "A delivery business expands into rural areas. It has enough drivers overall, but too few drivers located near the new routes. Select the best first action: A replace all current drivers; B identify location and coverage gaps, then recruit or redeploy if needed; C conclude that total headcount proves the plan is viable.",
+        "answer": "B.",
+        "explanation": "The issue is location and route coverage, not necessarily total employee numbers. The business should identify the gap before choosing recruitment or redeployment.",
+        "calc": null
+      }
+    ]
+  }
+}

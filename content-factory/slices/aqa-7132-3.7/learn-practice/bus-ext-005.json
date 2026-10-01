@@ -1,0 +1,228 @@
+{
+  "node_id": "bus-ext-005",
+  "learn": {
+    "title": "Ethics, corporate responsibility and accountability",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Corporate responsibility in business decisions",
+        "body": "Corporate social responsibility (CSR) means recognising and managing the wider consequences of business activity for stakeholders and the environment, not just pursuing profit. A responsible decision considers customers, employees, suppliers, communities, owners and environmental effects. Compliance with the law is a minimum requirement, but ethical responsibility can require a business to go further.",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "The four dimensions in Carroll's CSR framework",
+        "body": "Carroll's CSR framework separates four dimensions. Economic responsibility is creating viable value so the business can continue operating. Legal responsibility is meeting applicable laws and regulations. Ethical responsibility is choosing justified and fair conduct beyond minimum legal rules. Philanthropic responsibility is voluntary support for communities or wider social aims. Philanthropy is only one part of CSR; it cannot automatically compensate for harmful core operations.",
+        "item_ids": [
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid",
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "CSR, stakeholders and accountability",
+        "body": "CSR connects to stakeholder decision making because a decision can create benefits or harm beyond the parties signing a contract. Accountability means managers may have to explain and answer for their decisions. Governance, reporting, stakeholder voice and regulation can make accountability stronger, influencing future behaviour. For example, severe supplier payment terms may improve a buyer's cash position but create pressure and harm for a dependent small supplier.",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising responsible core operations",
+        "body": "Example: a retailer reviews supplier payment terms, accepts a higher short-term cost and adopts terms that reduce damaging pressure on small suppliers. This concerns CSR because it changes a core business relationship. Non-example: a business publicises charitable donations while ignoring harmful labour or environmental practices in its operations. Donations alone are not proof that the business is responsible overall.",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility",
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Ethical does not always mean more profitable",
+        "body": "It is mistaken to say that ethical behaviour is always good business because customers will reward it. Ethical conduct can support trust, retention and reputation, but outcomes are uncertain and responsible choices can raise costs or restrict profitable options. Ethical justification rests on conduct, rights, harm and fairness, not solely on whether profit rises.",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "A chain for analysing a CSR decision",
+        "body": "Use this sequence to avoid treating CSR as a slogan:\n\nDecision\n↓\nStakeholder benefit or harm\n↓\nStakeholder response, trust or regulation\n↓\nBusiness outcome\n\nThen test the decision through Carroll's dimensions: economic | legal | ethical | philanthropic. Consider the size and distribution of impacts, alternatives, evidence and long-term effects.",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility",
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain a trade-off",
+        "body": "A manufacturer can reduce product prices by demanding much longer payment periods from small suppliers. Explain which stakeholders gain and lose. Then decide whether the action is legal, ethical and economically attractive; these answers may differ. What alternative could reduce harm while retaining some affordability for customers?",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility",
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Classifying a business action using Carroll's framework",
+        "body": "Scenario: Northfield Foods installs safer production equipment, even though the existing equipment meets minimum rules. Step 1: identify economic responsibility: the cost may reduce short-term profit, but safer production may reduce future risk. Step 2: identify legal responsibility: the firm already complies, so the new action is not simply about meeting the minimum law. Step 3: identify ethical responsibility: reducing avoidable risk to employees is an ethical consideration beyond compliance. Step 4: identify philanthropy: this is not philanthropic because it concerns core operations rather than a voluntary community donation. Evaluation: the decision has a real cost, but its impact on employee safety and longer-term risk may justify it.",
+        "item_ids": [
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid",
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "business ethics",
+        "definition": "Reasoning about justified, fair or responsible conduct in business decisions."
+      },
+      {
+        "term": "corporate social responsibility (CSR)",
+        "definition": "A business's responsibility for the wider stakeholder, social and environmental consequences of its activities."
+      },
+      {
+        "term": "accountability",
+        "definition": "The obligation of decision makers to explain and answer for their actions and face consequences where appropriate."
+      },
+      {
+        "term": "compliance",
+        "definition": "Meeting applicable legal and regulatory requirements."
+      },
+      {
+        "term": "economic responsibility",
+        "definition": "The responsibility to create viable value so that the business can continue operating."
+      },
+      {
+        "term": "legal responsibility",
+        "definition": "The responsibility to operate within applicable laws and regulations."
+      },
+      {
+        "term": "ethical responsibility",
+        "definition": "The responsibility to act fairly and justifiably beyond minimum legal requirements."
+      },
+      {
+        "term": "philanthropic responsibility",
+        "definition": "Voluntary contribution to communities or wider social aims."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ext-005-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ],
+        "prompt": "Define corporate social responsibility.",
+        "answer": "CSR is a business's responsibility for the wider stakeholder, social and environmental consequences of its activities.",
+        "explanation": "It focuses on consequences beyond profit and the direct contractual parties.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility",
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ],
+        "prompt": "A clothing business funds a local sports club but continues to ignore unsafe conditions at a supplier. Which judgement is most accurate? A: the donation proves strong CSR; B: the donation is philanthropic activity but does not prove responsible core operations; C: legal compliance is irrelevant to CSR.",
+        "answer": "B",
+        "explanation": "Philanthropy is one dimension of CSR and does not offset unrelated harm in core operations.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ],
+        "prompt": "Compare legal responsibility with ethical responsibility in Carroll's CSR framework.",
+        "answer": "Legal responsibility means meeting applicable laws; ethical responsibility means acting fairly and justifiably beyond minimum legal rules.",
+        "explanation": "A business can comply with the law while still facing an ethical question about the effects of its decision.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p4",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ],
+        "prompt": "Construct a four-part classification for Carroll's CSR framework and give one short description for each part.",
+        "answer": "Economic: create viable value. Legal: meet applicable law. Ethical: act fairly beyond minimum rules. Philanthropic: voluntarily support communities or wider social aims.",
+        "explanation": "The framework separates different responsibilities, preventing CSR from being treated as charity alone.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ],
+        "prompt": "A UK café chain changes from paying small food suppliers after 90 days to paying them after 30 days. Apply CSR to this decision.",
+        "answer": "It may reduce financial pressure and harm for small suppliers, although it may require the café chain to manage its cash flow differently.",
+        "explanation": "CSR requires consideration of stakeholder consequences and trade-offs, not merely the buyer's short-term financial position.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ],
+        "prompt": "A business says that using lower-cost materials is justified because it lets customers buy cheaper products, but the materials create greater environmental harm. Give a balanced judgement.",
+        "answer": "Lower prices benefit customers, but the environmental harm may fall on others and create longer-term risk. The business should compare less harmful alternatives, the scale of harm and the distribution of benefits and costs.",
+        "explanation": "A sound judgement recognises a genuine stakeholder trade-off and does not assume one benefit settles the ethical issue.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p7",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ],
+        "prompt": "A profitable engineering firm obeys safety law, voluntarily pays for safer equipment than required, and donates tools to a local college. Classify each element using Carroll's CSR framework.",
+        "answer": "Profitability relates to economic responsibility; obeying safety law is legal responsibility; safer equipment beyond the minimum is ethical responsibility; donating tools is philanthropic responsibility.",
+        "explanation": "One business can show several dimensions at once, and the framework helps distinguish them.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ],
+        "prompt": "A student writes: 'If an action is legal, it is automatically ethical.' What is the best correction?",
+        "answer": "Legal compliance is a minimum obligation; an action can be legal but still create ethical concerns about fairness, rights or stakeholder harm.",
+        "explanation": "Ethical judgement can go beyond what the law requires.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p9",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility",
+          "aqa-7132-3.7.6:carroll-s-csr-pyramid"
+        ],
+        "prompt": "Select the strongest evaluation of a firm's claim that it is responsible because it has donated £20,000 to charity. A: the claim is proven because donations are always CSR; B: the claim should be assessed by examining its core operations, stakeholder impacts and evidence as well as its philanthropic activity; C: responsibility only matters if it immediately increases profit.",
+        "answer": "B",
+        "explanation": "Philanthropy matters, but it is only one CSR dimension. Evidence about core conduct and stakeholder effects is also needed.",
+        "calc": null
+      },
+      {
+        "id": "bus-ext-005-p10",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.6:corporate-social-responsibility"
+        ],
+        "prompt": "Give a three-stage reasoning chain showing how unethical supplier treatment could affect a retailer.",
+        "answer": "Unfair supplier treatment → supplier harm and loss of trust or public criticism → reputational, regulatory or customer consequences for the retailer.",
+        "explanation": "The chain links a decision to stakeholder impact and then to possible business outcomes; those outcomes are possible rather than guaranteed.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "node_id": "bus-fin-009",
+  "learn": {
+    "title": "Investment appraisal: payback, ARR and NPV",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Why businesses appraise investments",
+        "body": "Capital investment commits substantial resources for more than one period, for example buying automation equipment or opening a new distribution site. Investment appraisal helps a business compare projects by looking at cash, profit and timing. Payback asks how quickly cash is recovered. ARR expresses average annual profit as a percentage of the initial investment. NPV converts future cash flows into today’s values before comparing them with the initial outlay. None gives a complete decision on its own.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:average-rate-of-return",
+          "aqa-7132-3.7.8:net-present-value",
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing the three financial methods",
+        "body": "Payback uses net cash inflows and concentrates on liquidity: a shorter period means the initial investment is recovered sooner. ARR uses average annual profit and shows a percentage return, but does not reflect when cash flows occur. NPV uses cash flows, discount factors and timing; a positive result means expected discounted inflows exceed the initial investment under the stated assumptions. Payback ignores cash after recovery, ARR ignores timing, and NPV depends heavily on forecasts and the discount rate.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:average-rate-of-return",
+          "aqa-7132-3.7.8:net-present-value"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Financial evidence is not the whole decision",
+        "body": "Example: an automation project has a slower payback than an alternative, but it could improve product consistency, reduce waste and support a long-term quality strategy. The business should consider these alongside its financial appraisal. Non-example: choosing the fastest-payback project automatically, without considering later cash inflows, capacity needs, staff effects or environmental impact.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided method: calculating NPV",
+        "body": "For each year, multiply the forecast net cash flow by that year’s supplied discount factor. Add the discounted inflows. Finally, subtract the initial investment. A discount factor is a multiplier, not a percentage to subtract directly. Later cash normally has a lower present value because money received later is less valuable than money available now.",
+        "item_ids": [
+          "aqa-7132-3.7.8:net-present-value"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Two common errors to avoid",
+        "body": "A fast payback does not prove a project is best: it may generate little cash after the recovery point. Also, a positive NPV is not a guarantee of success. It only shows that expected discounted cash inflows exceed the outlay using the forecast cash flows and discount rate given. Demand, costs and the discount-rate basis may turn out differently.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:net-present-value"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked calculations",
+        "body": "Payback: A £120,000 machine produces net cash inflows of £45,000, £50,000 and £40,000. After two years, £95,000 has been recovered, leaving £25,000. In year 3, £25,000 ÷ £40,000 × 12 = 7.5 months, so payback is 2 years 7.5 months, or 2.63 years. ARR: if total net cash inflows are £116,000 over four years from an £80,000 investment, average annual profit is (£116,000 − £80,000) ÷ 4 = £9,000. ARR is £9,000 ÷ £80,000 × 100 = 11.25%. NPV: discounted inflows of £22,750, £24,900 and £15,000 total £62,650. Less a £60,000 investment gives an NPV of +£2,650.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:average-rate-of-return",
+          "aqa-7132-3.7.8:net-present-value"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain a balanced investment choice",
+        "body": "A retailer has two possible warehouse projects. One has the quicker payback, while the other has a higher NPV and provides more capacity for online orders. Explain which financial measures you would use, what each leaves out, and which non-financial factors could change the decision.",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:average-rate-of-return",
+          "aqa-7132-3.7.8:net-present-value",
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "capital investment",
+        "definition": "A commitment of resources intended to provide benefits over more than one period."
+      },
+      {
+        "term": "payback period",
+        "definition": "The time taken for cumulative net cash inflows to repay the initial investment."
+      },
+      {
+        "term": "average rate of return (ARR)",
+        "definition": "Average annual profit as a percentage of the initial investment, using the stated course convention."
+      },
+      {
+        "term": "discount rate",
+        "definition": "The rate used to convert future cash flows into present values."
+      },
+      {
+        "term": "discount factor",
+        "definition": "A multiplier used to convert a future cash flow into its present value."
+      },
+      {
+        "term": "net present value (NPV)",
+        "definition": "The total present value of expected cash inflows less the initial investment."
+      },
+      {
+        "term": "sensitivity analysis",
+        "definition": "Testing how a decision changes when uncertain assumptions, such as demand or costs, are varied."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "payback-worked-example",
+        "item_id": "aqa-7132-3.7.8:payback",
+        "scenario": "A bakery invests £120,000 in a packaging line. Forecast net cash inflows are £45,000 in year 1, £50,000 in year 2 and £40,000 in year 3.",
+        "steps": [
+          "Add years 1 and 2: cumulative net cash inflow is £95,000.",
+          "Find the amount still outstanding: £120,000 minus £95,000 equals £25,000.",
+          "Divide the outstanding amount by year 3 cash flow: £25,000 divided by £40,000 equals 0.625 years.",
+          "The payback period is 2.625 years, which is 2 years and 7.5 months."
+        ],
+        "calc": {
+          "formula_id": "payback",
+          "inputs": [
+            {
+              "name": "initial_investment",
+              "value": 120000
+            },
+            {
+              "name": "net_cash_flow_1",
+              "value": 45000
+            },
+            {
+              "name": "net_cash_flow_2",
+              "value": 50000
+            },
+            {
+              "name": "net_cash_flow_3",
+              "value": 40000
+            }
+          ],
+          "stated_answer": 2.63,
+          "unit": "years"
+        }
+      },
+      {
+        "id": "arr-worked-example",
+        "item_id": "aqa-7132-3.7.8:average-rate-of-return",
+        "scenario": "A café chain invests £80,000 in new drive-through equipment. Total net cash inflows over four years are forecast to be £116,000.",
+        "steps": [
+          "Calculate total profit over the project: £116,000 minus £80,000 equals £36,000.",
+          "Calculate average annual profit: £36,000 divided by 4 equals £9,000.",
+          "Divide average annual profit by the initial investment and multiply by 100.",
+          "ARR is 11.25%."
+        ],
+        "calc": {
+          "formula_id": "average_rate_of_return",
+          "inputs": [
+            {
+              "name": "total_net_cash_inflows",
+              "value": 116000
+            },
+            {
+              "name": "initial_investment",
+              "value": 80000
+            },
+            {
+              "name": "number_of_years",
+              "value": 4
+            }
+          ],
+          "stated_answer": 11.25,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "npv-worked-example",
+        "item_id": "aqa-7132-3.7.8:net-present-value",
+        "scenario": "A delivery firm considers software costing £60,000. Expected cash inflows are £25,000, £30,000 and £20,000, with supplied discount factors of 0.91, 0.83 and 0.75.",
+        "steps": [
+          "Discount year 1: £25,000 multiplied by 0.91 equals £22,750.",
+          "Discount year 2: £30,000 multiplied by 0.83 equals £24,900.",
+          "Discount year 3: £20,000 multiplied by 0.75 equals £15,000.",
+          "Add discounted inflows: £62,650.",
+          "Subtract the £60,000 initial investment to obtain an NPV of +£2,650."
+        ],
+        "calc": {
+          "formula_id": "net_present_value",
+          "inputs": [
+            {
+              "name": "initial_investment",
+              "value": 60000
+            },
+            {
+              "name": "net_cash_flow_1",
+              "value": 25000
+            },
+            {
+              "name": "discount_factor_1",
+              "value": 0.91
+            },
+            {
+              "name": "net_cash_flow_2",
+              "value": 30000
+            },
+            {
+              "name": "discount_factor_2",
+              "value": 0.83
+            },
+            {
+              "name": "net_cash_flow_3",
+              "value": 20000
+            },
+            {
+              "name": "discount_factor_3",
+              "value": 0.75
+            }
+          ],
+          "stated_answer": 2650,
+          "unit": "currency"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "payback-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback"
+        ],
+        "prompt": "What does the payback period measure?",
+        "answer": "The time taken for cumulative net cash inflows to repay the initial investment.",
+        "explanation": "Payback is a cash-flow measure focused on how quickly the original outlay is recovered.",
+        "calc": null
+      },
+      {
+        "id": "arr-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.7.8:average-rate-of-return"
+        ],
+        "prompt": "State the course method for calculating ARR.",
+        "answer": "ARR = ((total net cash inflows − initial investment) ÷ number of years) ÷ initial investment × 100.",
+        "explanation": "The first part finds average annual profit; the second expresses it as a percentage of the initial investment.",
+        "calc": null
+      },
+      {
+        "id": "npv-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.8:net-present-value"
+        ],
+        "prompt": "A project costs £60,000. Year 1 net cash flow is £30,000 with a discount factor of 0.90. Year 2 net cash flow is £40,000 with a discount factor of 0.80. Calculate NPV.",
+        "answer": "−£1,000.",
+        "explanation": "Discounted inflows are £27,000 and £32,000, totalling £59,000. £59,000 minus the £60,000 investment gives an NPV of −£1,000.",
+        "calc": {
+          "formula_id": "net_present_value",
+          "inputs": [
+            {
+              "name": "initial_investment",
+              "value": 60000
+            },
+            {
+              "name": "net_cash_flow_1",
+              "value": 30000
+            },
+            {
+              "name": "discount_factor_1",
+              "value": 0.9
+            },
+            {
+              "name": "net_cash_flow_2",
+              "value": 40000
+            },
+            {
+              "name": "discount_factor_2",
+              "value": 0.8
+            }
+          ],
+          "stated_answer": -1000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "payback-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback"
+        ],
+        "prompt": "A manufacturer invests £90,000. Net cash inflows are £30,000 in year 1, £35,000 in year 2 and £40,000 in year 3. Calculate the payback period.",
+        "answer": "2.63 years, or 2 years 7.5 months.",
+        "explanation": "After two years, £65,000 has been recovered and £25,000 remains. £25,000 ÷ £40,000 × 12 gives 7.5 months of year 3.",
+        "calc": {
+          "formula_id": "payback",
+          "inputs": [
+            {
+              "name": "initial_investment",
+              "value": 90000
+            },
+            {
+              "name": "net_cash_flow_1",
+              "value": 30000
+            },
+            {
+              "name": "net_cash_flow_2",
+              "value": 35000
+            },
+            {
+              "name": "net_cash_flow_3",
+              "value": 40000
+            }
+          ],
+          "stated_answer": 2.63,
+          "unit": "years"
+        }
+      },
+      {
+        "id": "arr-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.7.8:average-rate-of-return"
+        ],
+        "prompt": "A gym invests £50,000 in new equipment. Total net cash inflows over five years are forecast to be £75,000. Calculate ARR.",
+        "answer": "10%.",
+        "explanation": "Total profit is £25,000. Average annual profit is £5,000, and £5,000 ÷ £50,000 × 100 is 10%.",
+        "calc": {
+          "formula_id": "average_rate_of_return",
+          "inputs": [
+            {
+              "name": "total_net_cash_inflows",
+              "value": 75000
+            },
+            {
+              "name": "initial_investment",
+              "value": 50000
+            },
+            {
+              "name": "number_of_years",
+              "value": 5
+            }
+          ],
+          "stated_answer": 10,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "method-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:average-rate-of-return",
+          "aqa-7132-3.7.8:net-present-value"
+        ],
+        "prompt": "Which method is most directly designed to take account of the lower present value of later cash flows: payback, ARR or NPV?",
+        "answer": "NPV.",
+        "explanation": "NPV applies discount factors to future cash flows. Payback and ARR do not discount future amounts in their basic forms.",
+        "calc": null
+      },
+      {
+        "id": "interpret-positive-npv",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.7.8:net-present-value"
+        ],
+        "prompt": "A project has an NPV of +£18,000. Interpret this result.",
+        "answer": "Expected discounted cash inflows exceed the initial investment by £18,000 under the stated assumptions.",
+        "explanation": "The result is based on forecasts and the supplied discount rate, so it does not guarantee the project will achieve that value.",
+        "calc": null
+      },
+      {
+        "id": "compare-projects",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:net-present-value"
+        ],
+        "prompt": "Project A pays back in 2 years. Project B pays back in 3 years but has the higher positive NPV. Give one reason why Project B could still be preferred.",
+        "answer": "Project B may create more discounted value overall, including cash inflows after its payback point.",
+        "explanation": "Payback ignores later cash flows, whereas NPV includes discounted expected cash flows throughout the project.",
+        "calc": null
+      },
+      {
+        "id": "investment-context",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ],
+        "prompt": "A clothing retailer is considering warehouse automation. Identify two non-financial factors it should consider before investing.",
+        "answer": "For example, effects on employees and whether the system provides enough capacity to support future online sales.",
+        "explanation": "Investment choices can affect people and strategic capability, neither of which is fully captured by payback, ARR or NPV.",
+        "calc": null
+      },
+      {
+        "id": "investment-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.8:net-present-value",
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ],
+        "prompt": "A recycling business has a project with a small positive NPV, but the sales forecast is highly uncertain and the project may improve its environmental reputation. What should the business do before deciding?",
+        "answer": "Test the NPV using weaker sales assumptions and weigh the environmental and strategic benefits against the risk.",
+        "explanation": "A positive NPV is conditional on its assumptions. Sensitivity analysis and non-financial evidence give a more balanced judgement.",
+        "calc": null
+      },
+      {
+        "id": "payback-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.8:payback",
+          "aqa-7132-3.7.8:non-financial-factors-in-investment"
+        ],
+        "prompt": "A manager says, “The project with the shortest payback must be the best choice.” What is wrong with this claim?",
+        "answer": "It ignores cash flows after payback and ignores strategic and non-financial factors.",
+        "explanation": "Fast recovery can reduce exposure, but it is not a complete measure of profitability, value or strategic suitability.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-slice-learn-practice",
+  "checklist_version": "slice-learn-practice-v1",
+  "units": {
+    "bus-evi-001": {
+      "fingerprint": "518223c336473998ca9d462010edc1ba626acd855d474d4401f47278ba05cf4b",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.710Z"
+    },
+    "bus-mkt-002": {
+      "fingerprint": "7869f5cf130878a985cf0e21179a2026842f530414c1d4317257e0574f7d0e07",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-003": {
+      "fingerprint": "6511aa0cd75a5b874142999788e87cce0f5a321cf00efa01bff3e296027ac055",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-004": {
+      "fingerprint": "7ce810327828a0d49b1665ddaaaa2d73a2c499d24a113773d4e70716e9a146f0",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-005": {
+      "fingerprint": "75097ee3afc627a5725abe58a086c6d2ec7101230ff1abfeb58df5df497e48f0",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-006": {
+      "fingerprint": "8706f842df5b3d51d6a13d77c2ee9aa2341f84524e1abb8108b739f3ce9b14f7",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-007": {
+      "fingerprint": "acec2feb1d9ae6c20d4bd418cc24c8aa52895eef9284ec720e7e281359053d4d",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-008": {
+      "fingerprint": "49ad541304c22c25d238d119c9e656c374ca7ce7ca844271a100f952e4755965",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-mkt-009": {
+      "fingerprint": "62b34fa43366c1df24b08231918fe2032d1b777b5284536ffad83ad827a2d2ac",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    },
+    "bus-str-006": {
+      "fingerprint": "d5d8105ac13dba09663de91aaa71ca0a2a1247da701e31e9fefd03676db77ae8",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:58.711Z"
+    }
+  }
+}

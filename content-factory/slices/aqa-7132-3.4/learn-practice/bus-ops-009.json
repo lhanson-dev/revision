@@ -1,0 +1,183 @@
+{
+  "node_id": "bus-ops-009",
+  "learn": {
+    "title": "Location, outsourcing, offshoring and resilience",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Reshoring and operational location",
+        "body": "Reshoring is when a business brings activity that it had previously offshored back closer to its home country or home market. A business may reshore if the total benefits of a distant overseas location have weakened. It should compare labour, logistics, infrastructure, regulation, currency, control, capability, dependency and disruption risk rather than focus only on wage rates.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Reshoring compared with outsourcing and offshoring",
+        "body": "Offshoring is moving activity to another country. Outsourcing is paying an external organisation to perform an activity. Reshoring reverses a previous offshoring decision by returning activity closer to home. For example, using a UK third-party call-centre provider is outsourcing but not offshoring; moving a company-owned factory from Vietnam to the UK is reshoring and is not outsourcing.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Identifying reshoring",
+        "body": "Example: A British furniture business moves production from its owned factory in China to a new factory in the UK after repeated shipping delays. This is reshoring because previously offshored activity has returned home. Non-example: The same business appoints a UK delivery company to distribute products. This is domestic outsourcing, not reshoring, because production has not been returned from abroad.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why reshoring may become attractive",
+        "body": "Offshore sourcing can create longer lead times and exposure to currency or geopolitical changes. Longer lead times may require more inventory, tying up cash and making it harder to respond to changing demand. If disruption also harms customer service, a nearer location may offer lower overall system cost and better resilience, even where its direct labour cost is higher.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking reshoring to finance, marketing and people",
+        "body": "A reshoring decision is synoptic. In finance, managers compare total cost and cash tied up in inventory. In marketing, faster and more reliable delivery may protect customer satisfaction and reputation. In people management, a home location may improve access to skills or require recruitment and training. The strongest judgement depends on how critical the activity is, the cost of switching and the customer impact of disruption.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Reshoring is not automatically cheaper",
+        "body": "It is incorrect to assume that reshoring always reduces cost because transport distances fall. Domestic wages, property costs or investment in new capacity may be higher. Equally, it is incorrect to reject reshoring solely because domestic wages are higher: lower inventory needs, fewer disruptions, quicker response and stronger control may outweigh the wage difference.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision",
+        "body": "A retailer currently imports a critical product with a long lead time. Explain how a disruption overseas could affect inventory, cash and customer service. Then explain one reason why reshoring might be worthwhile despite higher UK production wages.",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "location",
+        "definition": "The geographic placement of a business activity."
+      },
+      {
+        "term": "outsourcing",
+        "definition": "Contracting an activity to an external provider."
+      },
+      {
+        "term": "offshoring",
+        "definition": "Moving an activity to another country."
+      },
+      {
+        "term": "reshoring",
+        "definition": "Returning activity that was previously offshored closer to, or back to, the home country."
+      },
+      {
+        "term": "resilience",
+        "definition": "The ability to absorb, adapt to and recover from disruption."
+      },
+      {
+        "term": "redundancy",
+        "definition": "Extra capacity or alternative supply arrangements kept to reduce the impact of disruption."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ops-009-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "Define reshoring.",
+        "answer": "Returning activity that was previously offshored closer to, or back to, the home country.",
+        "explanation": "Reshoring reverses an earlier decision to locate activity in another country.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "A UK business closes its company-owned factory in Thailand and opens a company-owned factory in Wales. Is this outsourcing, offshoring or reshoring?",
+        "answer": "Reshoring.",
+        "explanation": "The activity is being returned from another country to the home country. It remains company-owned, so it is not outsourcing.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "Give one difference between reshoring and domestic outsourcing, and justify why the distinction matters.",
+        "answer": "Reshoring returns previously offshored activity closer to home, whereas domestic outsourcing contracts activity to a UK external provider. The distinction matters because ownership, control and supplier dependency may differ.",
+        "explanation": "A business can reshore work into its own operation, while outsourcing means another organisation performs the activity.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "A UK online retailer has frequent stockouts because components from overseas take many weeks to arrive. Explain one way reshoring component production could help the retailer.",
+        "answer": "Reshoring could shorten lead times, allowing the retailer to replenish stock faster and reduce stockouts.",
+        "explanation": "A closer production location can improve responsiveness, which may protect sales and customer service.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "Construct a three-stage chain showing how offshore disruption could make reshoring attractive.",
+        "answer": "Overseas disruption → longer or unreliable lead times → poorer availability and customer service, making a nearer location more valuable.",
+        "explanation": "The value of reshoring can arise from reducing the operational and customer effects of disruption, not just from changing wages.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "A clothing firm could reshore a basic, high-volume product, but UK wages would be higher. Make a judgement on whether it should reshore.",
+        "answer": "It should reshore only if lower disruption risk, reduced inventory and better delivery reliability outweigh the higher UK wages. This is more likely if the product is important to customers and overseas supply is unreliable.",
+        "explanation": "A sound judgement compares total cost, customer impact and resilience rather than treating wage cost as the only factor.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p7",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "A UK manufacturer is considering reshoring a critical component. Select all factors that are relevant to its decision: (A) overseas lead time, (B) cash tied up in inventory, (C) likely customer impact of supply failure.",
+        "answer": "A, B and C.",
+        "explanation": "Longer overseas lead times can increase inventory requirements and cash tied up. Supply failure can also damage customer service, so all three factors are relevant when judging reshoring.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-009-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.3:reshoring"
+        ],
+        "prompt": "A manager says: “Reshoring cannot be worthwhile if UK wages are higher.” What is wrong with this view?",
+        "answer": "It ignores total cost and risk. Lower transport, lower inventory, improved control and fewer costly disruptions may outweigh higher wages.",
+        "explanation": "A location decision should compare the wider system effects, including resilience and customer service, rather than one headline cost.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "node_id": "bus-ops-005",
+  "learn": {
+    "title": "Lean operations, waste and continuous improvement",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Lean production: improving the whole flow",
+        "body": "Lean production is a systematic approach to delivering customer value while reducing avoidable waste. Waste may include defects, waiting, unnecessary movement, excess processing, overproduction, excess inventory and underused employee capability. The aim is to improve the whole operating system: quality, flow, cost, inventory and capacity are connected. A cost cut in one department is not lean if it creates delays, breakdowns or poorer service elsewhere.",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Lean is not simply cutting visible costs",
+        "body": "Example: a manufacturer first makes changeovers more reliable, then reduces batch sizes. Smaller batches can improve flow and reduce inventory because frequent setups no longer create excessive downtime.\n\nNon-example: a business cancels maintenance because it does not directly create sales. Breakdowns then increase, causing delays, rework and higher costs. Maintenance can protect essential system capability, so removing it is not automatically lean.",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Lower inventory is not always better",
+        "body": "A common mistake is to think lean means no inventory, no spare capacity and fewer employees in every situation. Lean removes avoidable waste but retains resources needed for safety, resilience and reliable customer value. Just in time can release cash tied up in inventory, but lower buffers also make a firm more dependent on dependable suppliers, accurate information and stable processes.",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production",
+          "aqa-7132-3.4.3:just-in-time"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Kaizen: a disciplined improvement cycle",
+        "body": "Kaizen is continuous improvement through repeated, usually small, evidence-based changes. A useful sequence is: identify a process problem; collect evidence and seek employee knowledge; investigate the root cause; test a bounded improvement; measure effects on quality, flow, cost and inventory; then standardise, adapt or reject the change. Continuous improvement is learning from measured changes, not making constant changes regardless of results.",
+        "item_ids": [
+          "aqa-7132-3.9.2:kaizen"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Just in time and benchmarking: links and consequences",
+        "body": "Just in time (JIT) brings production or deliveries closer to actual demand, reducing timing and inventory buffers. Lower inventory can release cash. However, reduced buffers expose variability: a late delivery or unreliable process can quickly interrupt production. This may create an opportunity to solve a root cause, but it can also cause disruption when reliability is weak.\n\nBenchmarking compares a measure or process with a relevant internal unit, competitor, industry standard or leading practice. A comparison may reveal a performance gap, but managers must investigate why it exists. Different strategy, definitions or business models may explain the gap, so copying another firm's practice without understanding it can fail.",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-time",
+          "aqa-7132-3.9.2:benchmarking"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Check your system thinking",
+        "body": "A retailer proposes cutting its safety stock to release cash. Explain to yourself: What inventory waste might be reduced? Which suppliers and processes must be reliable? What could happen to customer service if demand changes or deliveries are late? Which measures, beyond inventory cost, would show whether the decision has improved the whole system?",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production",
+          "aqa-7132-3.4.3:just-in-time",
+          "aqa-7132-3.9.2:kaizen",
+          "aqa-7132-3.9.2:benchmarking"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "lean production",
+        "definition": "Systematic pursuit of customer value through reducing avoidable waste and improving process flow."
+      },
+      {
+        "term": "waste",
+        "definition": "Use of resources that neither adds required customer value nor protects necessary system capability."
+      },
+      {
+        "term": "just in time (JIT)",
+        "definition": "An approach that reduces inventory and production timing buffers by responding closely to actual need."
+      },
+      {
+        "term": "continuous improvement",
+        "definition": "Repeated incremental problem-solving, measurement and learning to improve a process."
+      },
+      {
+        "term": "Kaizen",
+        "definition": "A continuous-improvement approach based on repeated small improvements, often using employee knowledge."
+      },
+      {
+        "term": "benchmarking",
+        "definition": "Comparing performance or processes with a relevant comparator to identify gaps and learning opportunities."
+      },
+      {
+        "term": "root cause",
+        "definition": "The underlying reason a problem occurs, rather than its visible symptom."
+      },
+      {
+        "term": "buffer",
+        "definition": "Extra inventory, time or capacity held to protect operations from disruption."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "lean-production-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production"
+        ],
+        "prompt": "What is the central aim of lean production?",
+        "answer": "To improve customer value and process flow by reducing avoidable waste.",
+        "explanation": "Lean focuses on the whole system, rather than simply reducing one visible cost.",
+        "calc": null
+      },
+      {
+        "id": "jit-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.3:just-in-time"
+        ],
+        "prompt": "A UK furniture maker holds large stocks of imported fittings. Its supplier has recently become reliable and can provide accurate delivery updates. Explain one likely benefit of adopting JIT for these fittings.",
+        "answer": "The firm could hold less inventory, releasing cash previously tied up in fittings.",
+        "explanation": "JIT brings deliveries closer to when materials are needed. Reliable supply and information make reduced inventory more feasible, although the business should still consider supply risk.",
+        "calc": null
+      },
+      {
+        "id": "kaizen-procedure-execution",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.9.2:kaizen"
+        ],
+        "prompt": "A café receives repeated complaints about long waits at busy times. State four sensible stages it could use to apply Kaizen.",
+        "answer": "Identify and measure the waiting problem; investigate its root causes with employee input; test a small change; measure the result and standardise or adapt the change.",
+        "explanation": "Kaizen is a cycle of evidence, bounded testing, measurement and learning. A change should not be made permanent before its effect is checked.",
+        "calc": null
+      },
+      {
+        "id": "benchmarking-reasoning-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.2:benchmarking"
+        ],
+        "prompt": "A parcel business finds that a comparable depot processes more parcels per hour. Explain why this benchmark should lead to investigation rather than immediate copying of the other depot's working methods.",
+        "answer": "The gap may be caused by different parcel types, technology, staffing or operating strategy. The business should use consistent measures, identify the cause of the gap and assess whether adapting the other method fits its own constraints.",
+        "explanation": "Benchmarking is diagnostic evidence, not an instruction to copy. A higher outcome may reflect a different context rather than a superior transferable process.",
+        "calc": null
+      },
+      {
+        "id": "lean-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production",
+          "aqa-7132-3.4.3:just-in-time"
+        ],
+        "prompt": "A manager says, 'To become lean, we must remove all safety stock and stop preventive maintenance.' Identify the error and correct it.",
+        "answer": "The error is treating all buffers and maintenance as waste. Lean removes avoidable waste while retaining inventory, maintenance and capacity needed for reliable, safe and resilient operations.",
+        "explanation": "Safety stock and maintenance may protect customer service and prevent costly disruption. Extreme leanness can weaken resilience.",
+        "calc": null
+      },
+      {
+        "id": "lean-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.3:lean-production",
+          "aqa-7132-3.4.3:just-in-time",
+          "aqa-7132-3.9.2:kaizen"
+        ],
+        "prompt": "A bakery is considering lower ingredient stocks. Demand changes sharply with local events, and one key supplier is often late. Judge whether reducing stock now is likely to be a good lean decision.",
+        "answer": "It is unlikely to be a good decision immediately. Lower stock could release cash, but variable demand and unreliable supply make stockouts and lost sales more likely. The bakery should first improve forecasting, supplier reliability or its ability to respond, then test a limited reduction and measure service, waste and cost.",
+        "explanation": "A lean decision must consider reliability and resilience as well as inventory. Reducing buffers before underlying instability is addressed can create disruption rather than better flow.",
+        "calc": null
+      }
+    ]
+  }
+}

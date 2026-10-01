@@ -1,0 +1,127 @@
+{
+  "node_id": "bus-peo-002",
+  "learn": {
+    "title": "Recruitment and talent acquisition",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Recruitment starts with the capability needed",
+        "body": "Recruitment is the process of attracting suitable applicants for work. It should start by identifying the work to be done and the capabilities needed, rather than automatically replacing an old job description. Good recruitment aims for suitable fit, fairness, appropriate cost and speed, and strong later performance and retention. The number of applications alone is not a reliable measure of success.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Recruitment and talent acquisition: related but different",
+        "body": "Recruitment is often focused on filling a current vacancy by attracting applicants. Talent acquisition is broader and longer term: it builds access to current and future capability, particularly where skills are scarce or strategically important. It can include employer reputation, university links, apprenticeship pipelines, succession planning and future-skills development. Internal recruitment fills a role from the existing workforce; external recruitment attracts people from outside the organisation. Internal recruitment can support progression, motivation and retention, while external recruitment can bring fresh capabilities and experience.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "A long-term pipeline is talent acquisition",
+        "body": "A cybersecurity business expects demand for specialists to grow over several years. It creates university partnerships and apprenticeships before particular vacancies exist. This is talent acquisition because it develops a future pipeline of scarce skills. By contrast, celebrating 5,000 applications is not evidence of effective recruitment if only a few applicants have the required capabilities. A large pool is useful only when it contains suitable candidates.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Recruitment is not selection",
+        "body": "A common mistake is to treat recruitment as choosing the best person. Recruitment comes first: it attracts a pool of potential applicants. Selection follows: it evaluates applicants from that pool. Poor role definition can weaken both stages because the organisation may attract people without the capabilities it actually needs. Similarly, internal recruitment is not automatically cheaper once the opportunity cost of creating another vacancy is considered.",
+        "item_ids": []
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "From capability gap to effective hiring",
+        "body": "1. Identify the strategy or capability gap. 2. Define the work and relevant capabilities fairly and clearly. 3. Choose suitable channels, such as internal progression, external advertising or longer-term talent pipelines. 4. Attract an appropriate pool. 5. Select from that pool. 6. Review quality using fit, fairness, cost, speed, subsequent performance and retention. Candidate experience matters throughout: a poor experience can reduce acceptance and damage employer reputation, making future recruitment harder.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "recruitment",
+        "definition": "The process of attracting suitable applicants for work."
+      },
+      {
+        "term": "talent acquisition",
+        "definition": "A strategic process of building or obtaining current and future capability."
+      },
+      {
+        "term": "internal recruitment",
+        "definition": "Filling a role using people already employed by the organisation."
+      },
+      {
+        "term": "external recruitment",
+        "definition": "Attracting candidates from outside the organisation."
+      },
+      {
+        "term": "employer value proposition",
+        "definition": "The employment-related reasons why people may choose to join and stay with an employer."
+      },
+      {
+        "term": "selection",
+        "definition": "The process of evaluating applicants to decide who should be appointed."
+      },
+      {
+        "term": "capability",
+        "definition": "The skills, knowledge or capacity needed to carry out work effectively."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "recruitment-talent-retrieval",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "Define recruitment and talent acquisition.",
+        "answer": "Recruitment attracts suitable applicants for a role. Talent acquisition is a broader, longer-term approach to building access to current and future capability.",
+        "explanation": "Recruitment commonly addresses a present need, whereas talent acquisition can include pipelines, reputation and future skills planning.",
+        "calc": null
+      },
+      {
+        "id": "recruitment-talent-discrimination",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "A retailer interviews applicants and appoints one candidate. Is this recruitment or selection?",
+        "answer": "Selection.",
+        "explanation": "Recruitment attracts the applicant pool. Interviewing and appointing from that pool are selection activities.",
+        "calc": null
+      },
+      {
+        "id": "recruitment-talent-compare",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare internal and external recruitment. Give one justified advantage of each.",
+        "answer": "Internal recruitment can retain organisational knowledge and provide progression, supporting motivation and retention. External recruitment can bring new capabilities and diverse experience, which may reduce an external-knowledge gap.",
+        "explanation": "Each approach has possible benefits, but suitability depends on the capability required, scarcity, cost, speed and the existing workforce.",
+        "calc": null
+      },
+      {
+        "id": "recruitment-talent-application",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK engineering firm needs specialist technicians but expects the skills shortage to continue for several years. Recommend one talent acquisition action and explain why.",
+        "answer": "Build apprenticeship or college partnerships. This can create a longer-term pipeline of technicians rather than relying only on repeated short-term vacancy advertising.",
+        "explanation": "Where capability is scarce and strategically important, a longer-term talent acquisition approach can improve future access to suitable applicants.",
+        "calc": null
+      },
+      {
+        "id": "recruitment-talent-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A manager says, 'Our recruitment was excellent because 2,000 people applied.' Identify the weakness in this conclusion.",
+        "answer": "Application volume does not show applicant quality or fit.",
+        "explanation": "Effective recruitment should also be judged by suitability, fairness, cost, speed and later performance or retention. A large number of poorly matched applicants may create extra work without improving hiring quality.",
+        "calc": null
+      },
+      {
+        "id": "recruitment-talent-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Put these actions in the best order: choose channels; identify the capability gap; review retention and performance; define required capabilities; attract applicants.",
+        "answer": "Identify the capability gap; define required capabilities; choose channels; attract applicants; review retention and performance.",
+        "explanation": "Clear role and capability requirements should guide the choice of channel and attraction activity. Outcomes should then be reviewed after recruitment and selection.",
+        "calc": null
+      }
+    ]
+  }
+}

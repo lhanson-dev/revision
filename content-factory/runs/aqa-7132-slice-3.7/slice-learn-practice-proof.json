@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "artifact_type": "aqa_7132_slice_learn_practice_fast_path",
+  "recorded_at": "2026-10-01T11:06:30.094Z",
+  "slice": "3.7",
+  "reviewed_commit": "28e006ae1512d1e329a4c92c5714272359b3369f",
+  "checklist": {
+    "stage": "aqa-7132-slice-learn-practice",
+    "version": "slice-learn-practice-v1",
+    "checks": [
+      {
+        "id": "accuracy",
+        "question": "Is every definition, fact, formula and worked calculation in the Learn and Practice content correct and consistent with the node teaching supplied? Cite a supplied source id that confirms or contradicts it.",
+        "requiresContradictingSource": true
+      },
+      {
+        "id": "coverage",
+        "question": "Does the Learn content teach every named item listed for this node, and does Practice test each one, so that a student would not miss something examinable from this node?"
+      },
+      {
+        "id": "treatment_fit",
+        "question": "Does the Learn content include each required treatment, and does Practice include each required capability, from the blueprint for this node?"
+      },
+      {
+        "id": "level_and_clarity",
+        "question": "Is the content clear, coherent and pitched at A-level for a 16 to 18 year old, without turning into exam coaching and without going beyond what the course requires?"
+      },
+      {
+        "id": "originality",
+        "question": "Is the content original Revision-authored teaching, with no quoted or closely paraphrased awarding-body or past-paper text?"
+      }
+    ]
+  },
+  "summary": {
+    "nodes": 11,
+    "accepted": 11,
+    "blocking": [],
+    "escalated": [],
+    "failed": [],
+    "all_nodes_accepted": true
+  },
+  "provider_budget": {
+    "maxSpendUsd": 6,
+    "conservativeConsumedUsd": 0.682918
+  },
+  "gates": {
+    "ai_assured_nodes": true,
+    "qualified_human_review_status": "pending",
+    "learner_publication_eligible": false
+  }
+}

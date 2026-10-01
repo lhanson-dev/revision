@@ -1,0 +1,274 @@
+{
+  "node_id": "bus-mkt-009",
+  "learn": {
+    "title": "Promotion, channels, digital marketing and the integrated marketing mix",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Promotion, distribution and a coherent mix",
+        "body": "Promotion is communication used to inform, persuade, remind or build relationships with customers and other audiences. It is only one part of marketing. Distribution, often called place, is the route by which customers obtain an offering. Channel decisions affect reach, convenience, control, margin, customer data and service quality. An integrated marketing mix coordinates product, price, promotion and place; for services, people, process and physical evidence are also important. Every decision should fit the target customer and intended position.",
+        "item_ids": [
+          "aqa-7132-3.3.4:integrated-marketing-mix",
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Direct, intermediary and multi-channel distribution",
+        "body": "A direct channel, such as a brand's own website, can give the business customer data and more control over the experience, and avoids wholesale margin. However, it requires investment in fulfilment, returns and customer service. An intermediary can broaden reach and may provide established delivery capability, but can reduce margin and control. Multi-channel distribution uses more than one route, such as a website, marketplace and physical retailer. It may improve convenience and reach, but the channels must deliver a consistent proposition and the business must manage their operational demands.",
+        "item_ids": [
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution",
+          "aqa-7132-3.3.4:e-commerce"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Marketing choices link to operations and finance",
+        "body": "A promotion that generates demand can create an operational load. If capacity, staffing, stock, delivery or customer service cannot meet this demand, the customer experience may fall and retention may suffer. Similarly, a direct-to-consumer channel may appear attractive because it retains selling margin, but warehousing, delivery, returns and support costs must be considered. Marketing decisions therefore connect to capacity, costs, cash and service operations.",
+        "item_ids": [
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions",
+          "aqa-7132-3.3.4:integrated-marketing-mix"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Activity is not automatically value",
+        "body": "Example: a social media advert aimed at a clearly chosen audience produces traffic, conversions and repeat purchases while the fulfilment team can deliver reliably. This provides evidence that activity may support a commercial objective. Non-example: declaring a campaign successful solely because video views rose. Views and clicks measure activity; without evidence about conversion, margin, retention or incremental profit, they do not establish customer value.",
+        "item_ids": [
+          "aqa-7132-3.3.4:social-media-promotion",
+          "aqa-7132-3.3.4:digital-marketing",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided evaluation of an online channel",
+        "body": "A local premium skincare business is considering selling through its own website. Step 1: identify the target and premium position. Step 2: identify benefits: wider reach, 24-hour ordering, customer data and control over presentation. Step 3: identify costs and risks: delivery, payment security, returns, customer service and intense price comparison. Step 4: check integration: website design, packaging, response times and service should support the premium promise. Step 5: judge using evidence on conversion, margin, capacity and repeat purchasing, not web visits alone.",
+        "item_ids": [
+          "aqa-7132-3.3.4:e-commerce",
+          "aqa-7132-3.3.4:physical-environment-service-mix",
+          "aqa-7132-3.3.4:integrated-marketing-mix"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Digital and promotion misconceptions",
+        "body": "More promotion does not automatically produce more sales. Response depends on the relevance of the message, audience, offer, competition, saturation and the firm's ability to deliver. Digital marketing is not automatically cheap or fully measurable: content, bidding, technology and data management have costs, while customers may encounter several influences before buying. Digital data can improve targeting and optimisation, but privacy concerns, bias and uncertain attribution remain.",
+        "item_ids": [
+          "aqa-7132-3.3.4:digital-marketing",
+          "aqa-7132-3.3.4:social-media-promotion",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "From communication to commercial outcome",
+        "body": "A promotion can follow this sequence: choose an objective and audience; develop a suitable message and medium; create awareness or response; generate traffic or enquiries; convert some prospects into customers; deliver the promised product or service; then seek retention or relationship outcomes. At each stage, review costs, customer experience and capacity. A weak later stage, such as poor fulfilment, can prevent early promotional activity from creating lasting value.",
+        "item_ids": [
+          "aqa-7132-3.3.4:social-media-promotion",
+          "aqa-7132-3.3.4:digital-marketing",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Channel choice has wider effects",
+        "body": "Channel choice affects reach, control, margin and data access. It also creates fulfilment requirements, which affect costs and capacity. These factors shape service quality and customer experience, which can influence demand and retention. Therefore, selecting a direct channel cannot be judged from its selling margin alone. Likewise, promotion volume can cause a demand spike, which may overload operations and harm the customer outcome if capacity is inadequate.",
+        "item_ids": [
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution",
+          "aqa-7132-3.3.4:integrated-marketing-mix",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the consistency test",
+        "body": "A premium salon charges high prices but uses a confusing booking process, worn furniture and poorly trained front-of-house staff. Explain how people, process and physical evidence affect its position. Then explain why adding more paid social media promotion may not solve the underlying problem.",
+        "item_ids": [
+          "aqa-7132-3.3.4:physical-environment-service-mix",
+          "aqa-7132-3.3.4:integrated-marketing-mix",
+          "aqa-7132-3.3.4:social-media-promotion"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Evaluating a viral post",
+        "body": "A small food brand's humorous video is widely shared. The potential benefit is rapid, low-cost reach because customers pass the message through their own networks. However, viral success is unpredictable and the business cannot control the message once it spreads. Before judging it successful, managers should examine whether the audience fits the brand, whether online orders or repeat purchases rose, whether margins remained acceptable and whether delivery capacity protected the customer experience.",
+        "item_ids": [
+          "aqa-7132-3.3.4:viral-marketing",
+          "aqa-7132-3.3.4:e-commerce",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "promotion",
+        "definition": "Communication activity intended to influence awareness, understanding or behaviour."
+      },
+      {
+        "term": "channel of distribution",
+        "definition": "The route through which customers access an offering."
+      },
+      {
+        "term": "multi-channel",
+        "definition": "Using more than one route through which customers can access an offering."
+      },
+      {
+        "term": "integrated marketing mix",
+        "definition": "Coordinated product, price, promotion, place, people, process and physical-evidence decisions that fit the target and position."
+      },
+      {
+        "term": "digital marketing",
+        "definition": "Using digital channels, data and technology to reach and interact with audiences."
+      },
+      {
+        "term": "social media promotion",
+        "definition": "Using social platforms for paid or unpaid content, influencer activity and targeted adverts."
+      },
+      {
+        "term": "viral marketing",
+        "definition": "Content customers choose to pass on, allowing it to spread rapidly through networks."
+      },
+      {
+        "term": "e-commerce",
+        "definition": "Buying and selling goods or services online through a website, app or marketplace."
+      },
+      {
+        "term": "physical environment (physical evidence)",
+        "definition": "Tangible cues, such as layout, website, uniforms and packaging, that help customers judge a service."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-social-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.4:social-media-promotion"
+        ],
+        "prompt": "What is social media promotion?",
+        "answer": "Using social platforms to share paid or unpaid content, work with influencers and target adverts at chosen groups.",
+        "explanation": "It uses social platforms to communicate and interact with selected audiences.",
+        "calc": null
+      },
+      {
+        "id": "p2-viral-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.4:viral-marketing"
+        ],
+        "prompt": "Which activity is viral marketing? A: paying a retailer to stock a product; B: customers sharing a video rapidly through their networks; C: improving warehouse layout.",
+        "answer": "B.",
+        "explanation": "Viral marketing depends on customers choosing to pass content on through their networks.",
+        "calc": null
+      },
+      {
+        "id": "p3-channels-compare",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution"
+        ],
+        "prompt": "Compare selling through a firm's own website with selling through an intermediary.",
+        "answer": "An own website can provide more customer data and control, but requires fulfilment and service capability. An intermediary may expand reach but can reduce control and margin.",
+        "explanation": "Channel choice involves trade-offs in reach, data, margin, control and customer experience.",
+        "calc": null
+      },
+      {
+        "id": "p4-physical-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:physical-environment-service-mix"
+        ],
+        "prompt": "A high-priced dental clinic has a dated waiting room, unclear signs and an untidy reception desk. Explain one likely effect.",
+        "answer": "Customers may judge the service as lower quality, making the premium price less credible.",
+        "explanation": "Physical evidence shapes customer expectations where service quality is difficult to assess in advance.",
+        "calc": null
+      },
+      {
+        "id": "p5-digital-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.4:digital-marketing"
+        ],
+        "prompt": "A retailer says its digital campaign succeeded because it received 80,000 impressions. Make a judgement about this claim.",
+        "answer": "The evidence is insufficient because impressions show activity, not conversion, margin, retention or incremental profit.",
+        "explanation": "Digital metrics need linking to the campaign objective and commercial outcomes.",
+        "calc": null
+      },
+      {
+        "id": "p6-ecommerce-interpretation",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.4:e-commerce"
+        ],
+        "prompt": "An independent bookshop launches e-commerce and receives orders from across the UK, but return costs rise. What does this show about e-commerce?",
+        "answer": "It can extend reach beyond a local area, but it also creates delivery and returns costs.",
+        "explanation": "E-commerce offers reach and data opportunities but requires investment in fulfilment and returns.",
+        "calc": null
+      },
+      {
+        "id": "p7-mix-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.4:integrated-marketing-mix"
+        ],
+        "prompt": "A student states: 'A luxury brand can use frequent deep discounts without affecting its marketing mix, because price is separate from promotion.' What is wrong with this statement?",
+        "answer": "Price and promotion must be coordinated; frequent deep discounts can conflict with an exclusive premium position.",
+        "explanation": "An integrated marketing mix requires consistent decisions across the elements of the mix.",
+        "calc": null
+      },
+      {
+        "id": "p8-influences-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ],
+        "prompt": "Give a four-step procedure for evaluating a proposed promotional campaign.",
+        "answer": "Set the objective and target; assess message, medium and timing; check costs and operational capacity; evaluate conversion, margin, retention and brand consistency.",
+        "explanation": "This procedure connects promotional activity to customer response, operational delivery and commercial outcomes.",
+        "calc": null
+      },
+      {
+        "id": "p9-channel-reasoning",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.4:distribution-and-multi-channel-distribution"
+        ],
+        "prompt": "Explain a chain of reasoning for why a direct-to-consumer channel may reduce customer satisfaction despite avoiding wholesale margin.",
+        "answer": "Direct selling requires fulfilment and customer service. If these are under-resourced, late deliveries or poor returns handling can damage the customer experience and satisfaction.",
+        "explanation": "A channel decision affects operational requirements, then service quality and customer outcomes.",
+        "calc": null
+      },
+      {
+        "id": "p10-mix-selection",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.3.4:integrated-marketing-mix",
+          "aqa-7132-3.3.4:physical-environment-service-mix",
+          "aqa-7132-3.3.4:digital-marketing"
+        ],
+        "prompt": "A premium fitness studio wants to attract busy professionals. Select the most integrated option: A: premium membership, simple app booking, trained staff, clean modern facilities and targeted LinkedIn adverts; B: premium membership, shabby changing rooms and repeated mass discount adverts.",
+        "answer": "A.",
+        "explanation": "Option A aligns price, process, people, physical evidence and promotion with a premium target market.",
+        "calc": null
+      },
+      {
+        "id": "p11-campaign-calculation",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.4:social-media-promotion",
+          "aqa-7132-3.3.4:influences-on-marketing-mix-decisions"
+        ],
+        "prompt": "A social media post receives 12,000 clicks and leads to 360 online orders. Calculate the conversion rate from clicks to orders.",
+        "answer": "3%.",
+        "explanation": "Divide orders by clicks, then multiply by 100: 360 ÷ 12,000 × 100 = 3%. This is more commercially useful than clicks alone, although margin and retention still matter.",
+        "calc": null
+      }
+    ]
+  }
+}

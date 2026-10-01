@@ -1,0 +1,266 @@
+{
+  "node_id": "bus-mkt-005",
+  "learn": {
+    "title": "Segmentation, targeting and positioning",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "From a broad market to a coherent offer",
+        "body": "Segmentation divides a broad market into meaningful groups with different needs, behaviours or likely responses. Targeting is the decision about which segment or segments to prioritise. Positioning is the intended place of an offer in customers’ minds compared with alternatives. These choices should guide the product, price, channels, promotion and operational delivery. A segment is useful only when it helps the business take differentiated action.",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:positioning"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Niche and mass marketing compared",
+        "body": "A niche market is a narrower, specialised target with particular needs. Mass marketing aims at a broad market serving large customer groups. Neither approach is automatically better: a niche may be profitable if the business can meet its needs distinctly, while a mass market may offer scale but face wider competition. The suitable choice depends on factors such as segment size and growth, profitability, accessibility, competition, business capability and the complexity of serving the market.",
+        "item_ids": [
+          "aqa-7132-3.3.3:niche-marketing",
+          "aqa-7132-3.3.3:mass-marketing",
+          "aqa-7132-3.3.3:influences-on-choice-of-target-market"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Useful segmentation needs a meaningful difference",
+        "body": "Example: a rail company identifies commuters who value reliable peak-time services and leisure travellers who respond to off-peak discounts. The groups have different behaviours, so different services and prices could be used. Non-example: describing all 18–25 year olds as one segment with no evidence that they share relevant needs or responses. Age can be a segmentation variable, but it does not automatically create a useful segment. Other possible bases include location, income and purchasing or usage behaviour.",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Positioning is more than a message",
+        "body": "A slogan or logo change alone is not necessarily repositioning. Positioning concerns the relative perception customers form, and it must be credible in actual delivery. For example, a café cannot sustain a premium position through elegant advertising if service, product quality and the customer experience are poor. The wider marketing mix and operations either reinforce or erode the promised position.",
+        "item_ids": [
+          "aqa-7132-3.3.3:positioning"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Use STP in a logical order",
+        "body": "1. Identify meaningful differences between customers and construct evidence-based segments. 2. Assess segments for attractiveness, such as size, growth, profitability, accessibility and competition. 3. Assess organisational capability and fit. 4. Select the target segment or segments. 5. Decide the intended position relative to alternatives and develop a value proposition. 6. Align product, price, place, promotion and operations with that position. Choosing communications or features before deciding whom to serve risks an incoherent offer.",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:positioning",
+          "aqa-7132-3.3.3:influences-on-choice-of-target-market"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Reading a market map",
+        "body": "A market map places brands or offers according to perceived positions on two selected dimensions. For example:\n\nHigh price  |  Artisan bakery       Premium coffee bar\n            |\n            |  Supermarket café    Value bakery\nLow price   +--------------------------------------\n              Basic quality                 High quality\n\nThe map can reveal clusters, gaps or close competitors. However, its axes are subjective and the map may omit features that matter to customers, such as convenience or service. A gap is not automatically an opportunity unless customers value it and the business can deliver it.",
+        "item_ids": [
+          "aqa-7132-3.3.3:market-mapping",
+          "aqa-7132-3.3.3:positioning"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: selecting a target for a gym",
+        "body": "A gym is considering a broad local market, but research identifies time-poor professionals who want flexible exercise before or after work. This is a potentially useful behavioural segment because its needs can be acted on. The gym checks whether the segment is large enough, can be reached near transport links and fits its ability to provide 24-hour access and short guided sessions. It chooses this target and positions itself as a convenient gym for busy professionals. To make the position credible, it provides the promised access, session format and suitable location; it does not rely solely on advertising.",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:positioning",
+          "aqa-7132-3.3.3:influences-on-choice-of-target-market"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Check the coherence of an offer",
+        "body": "A meal-delivery business claims to be the premium, reliable choice for high-income customers, but frequently substitutes ingredients and offers only slow delivery windows. Explain: (1) which intended position is being undermined, (2) how the actual experience may affect customer perceptions, and (3) one change to the marketing mix or operations that could reinforce the position.",
+        "item_ids": [
+          "aqa-7132-3.3.3:positioning",
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "segmentation",
+        "definition": "Dividing a market into meaningful customer groups that differ in needs, behaviours or likely responses."
+      },
+      {
+        "term": "demographic segmentation",
+        "definition": "Grouping customers using personal characteristics such as age."
+      },
+      {
+        "term": "geographic segmentation",
+        "definition": "Grouping customers by location."
+      },
+      {
+        "term": "income segmentation",
+        "definition": "Grouping customers by income level or spending capacity."
+      },
+      {
+        "term": "behavioural segmentation",
+        "definition": "Grouping customers by behaviours such as usage, purchasing patterns or responses."
+      },
+      {
+        "term": "targeting",
+        "definition": "Selecting the segment or segments that a business will prioritise."
+      },
+      {
+        "term": "niche market",
+        "definition": "A narrower, specialised target market."
+      },
+      {
+        "term": "mass market",
+        "definition": "A broad market serving large customer groups."
+      },
+      {
+        "term": "positioning",
+        "definition": "The intended relative perception of an offer in customers’ minds."
+      },
+      {
+        "term": "market map",
+        "definition": "A visual representation of perceived market positions using selected dimensions."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-example-gym-target",
+        "item_id": "aqa-7132-3.3.3:targeting",
+        "scenario": "A gym has identified busy professionals as a possible target segment.",
+        "steps": [
+          "Check that the group has a distinct need, such as flexible opening hours and short sessions.",
+          "Assess attractiveness, including whether sufficient local customers can be reached.",
+          "Assess whether the gym can provide the required access, location and service.",
+          "If the fit is strong, prioritise this segment and align the offer with its needs."
+        ],
+        "calc": {
+          "formula_id": "gross_profit",
+          "inputs": [
+            {
+              "name": "revenue",
+              "value": 0
+            },
+            {
+              "name": "cost_of_sales",
+              "value": 0
+            }
+          ],
+          "stated_answer": 0,
+          "unit": "not applicable"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "practice-stp-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:positioning"
+        ],
+        "prompt": "Define segmentation, targeting and positioning.",
+        "answer": "Segmentation divides a market into meaningful groups; targeting selects the group or groups to prioritise; positioning is the intended relative perception of the offer.",
+        "explanation": "The three terms describe consecutive decisions: understand differences, choose customers, then establish a credible relative place in their minds.",
+        "calc": null
+      },
+      {
+        "id": "practice-niche-mass-compare",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.3:niche-marketing",
+          "aqa-7132-3.3.3:mass-marketing"
+        ],
+        "prompt": "Compare niche marketing with mass marketing. Give one reason why a niche strategy may be suitable for a small specialist bakery.",
+        "answer": "Niche marketing serves a narrower specialised group, whereas mass marketing serves a broad market. A specialist bakery may suit a niche if it can meet distinctive customer needs better than larger rivals.",
+        "explanation": "A niche is not automatically more profitable, but specialist capability and differentiation can make it appropriate.",
+        "calc": null
+      },
+      {
+        "id": "practice-segment-construction",
+        "capability": "construction",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour"
+        ],
+        "prompt": "A cycle retailer sells in cities and online. Construct two potentially useful segments using different bases, and state the differing need or behaviour for each.",
+        "answer": "Geographic: city commuters who need compact, reliable bikes for short journeys. Behavioural: regular leisure cyclists who purchase performance accessories and may value specialist advice.",
+        "explanation": "Each group is defined by a variable and a difference that could lead to differentiated action.",
+        "calc": null
+      },
+      {
+        "id": "practice-target-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:influences-on-choice-of-target-market"
+        ],
+        "prompt": "A small UK app developer can provide simple budgeting tools but has little advertising budget. It is considering students, high-income investors and small local charities. Suggest the most suitable type of target decision and explain why.",
+        "answer": "It may target a narrower segment that it can reach and serve well, such as small local charities if its simple tools meet their needs. The choice should depend on accessibility, likely demand, competition and the developer’s limited capability.",
+        "explanation": "Target selection requires attractiveness and organisational fit, not simply selecting the largest or wealthiest group.",
+        "calc": null
+      },
+      {
+        "id": "practice-market-map-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.3:market-mapping",
+          "aqa-7132-3.3.3:positioning"
+        ],
+        "prompt": "A market map of cafés uses price and quality. It shows no café in the high-price, low-quality area. Should a new café enter this apparent gap?",
+        "answer": "Probably not without further evidence. Customers may not value high prices with low quality, and the map omits other factors such as location and service.",
+        "explanation": "A market-map gap is not automatically a viable opportunity because axes are selective and perceptions alone do not prove demand.",
+        "calc": null
+      },
+      {
+        "id": "practice-positioning-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.3:positioning"
+        ],
+        "prompt": "Which action is most likely to reinforce a hotel’s position as a premium, reliable business-travel option? A: change its logo only; B: offer dependable fast check-in, high-quality rooms and reliable Wi-Fi; C: reduce cleaning standards while using premium advertising.",
+        "answer": "B: offer dependable fast check-in, high-quality rooms and reliable Wi-Fi.",
+        "explanation": "Positioning is reinforced by the delivered experience, not solely promotional claims or visual identity.",
+        "calc": null
+      },
+      {
+        "id": "practice-target-framework",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.3.3:influences-on-choice-of-target-market",
+          "aqa-7132-3.3.3:targeting"
+        ],
+        "prompt": "Apply a target-market framework to assess whether a sportswear start-up should target runners aged 16–18. State three factors it should investigate.",
+        "answer": "It should investigate segment size or growth, profitability, accessibility, competition, and whether its product and resources fit the segment. Any three are valid.",
+        "explanation": "A target is chosen using attractiveness and capability criteria. Age alone does not demonstrate that the group is a useful segment.",
+        "calc": null
+      },
+      {
+        "id": "practice-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:positioning"
+        ],
+        "prompt": "A manager says, ‘We have segmented the market because our customers are aged 18–25, and we have repositioned because we designed a new logo.’ Identify both errors.",
+        "answer": "An age category is only a useful segment if it predicts meaningful differences in needs or responses and supports action. A new logo alone is not repositioning unless customers’ relative perceptions and the delivered offer change.",
+        "explanation": "The manager confuses a descriptive category with meaningful segmentation and branding activity with positioning.",
+        "calc": null
+      },
+      {
+        "id": "practice-stp-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.3.3:segmentation-demographic-geographic-income-behaviour",
+          "aqa-7132-3.3.3:targeting",
+          "aqa-7132-3.3.3:positioning"
+        ],
+        "prompt": "Put these actions into a sensible order: choose a target segment; align service and promotion; identify customer groups with different needs; decide the intended relative position.",
+        "answer": "1. Identify customer groups with different needs. 2. Choose a target segment. 3. Decide the intended relative position. 4. Align service and promotion.",
+        "explanation": "The business needs to understand and select customers before setting a position and delivering it consistently.",
+        "calc": null
+      }
+    ]
+  }
+}

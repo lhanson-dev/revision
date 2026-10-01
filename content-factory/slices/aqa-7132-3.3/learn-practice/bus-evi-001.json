@@ -1,0 +1,170 @@
+{
+  "node_id": "bus-evi-001",
+  "learn": {
+    "title": "Percentages, percentage points, averages and index numbers",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Choose the measure before drawing a conclusion",
+        "body": "Business data can be presented as an amount, a percentage, a percentage change, a percentage-point movement, an average or an index. Each answers a different question. A percentage shows a part of a total. Percentage change shows movement relative to the original value. Percentage points compare two percentages directly. A mean or median summarises several observations, while an index compares a value with a chosen base, usually 100. Always state the denominator, units and time period before using a figure to support a decision.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Similar-looking measures, different meanings",
+        "body": "If market share moves from 20% to 25%, it rises by 5 percentage points. Relative to the original 20%, it rises by 25%. These are both valid but are not interchangeable. Similarly, an index of 120 means a value is 20% above its base-period value; it does not reveal the original £ amount. The mean uses every value, so an extreme result can pull it away from what is typical. The median is the middle value after ordering and can be more representative for skewed data.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Be precise about the base",
+        "body": "Example: a retailer's online orders increase from 800 to 1,000. The increase is 200 orders, and the percentage change is 200 ÷ 800 × 100 = 25%. Non-example: dividing by 1,000 would produce 20%, but that uses the new value as the denominator and does not measure growth from the starting position. Example: a conversion rate rising from 4% to 6% is a 2 percentage-point increase and a 50% relative increase. Calling it simply a 2% increase is unclear and potentially misleading.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Calculate and interpret an index number",
+        "body": "A café chain's ingredient-cost index uses last year as the base, set at 100. This year, the comparable cost is £54 per basket, compared with £45 in the base year. Step 1: divide current value by base value: 54 ÷ 45 = 1.2. Step 2: multiply by 100: 120. Step 3: interpret: costs are 20% higher than in the base year. The index permits comparison over time, but it does not by itself show how many baskets were bought or the total cost paid.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A percentage change is not always commercially important",
+        "body": "A large relative percentage can arise from a very small starting value. For example, sales rising from 10 units to 20 units is a 100% increase, but the extra 10 units may have little effect on total profit. Conversely, a small percentage fall in a very large revenue stream may be material. Check the absolute movement, starting base, business scale and decision context. Also, an average alone does not show whether results are consistent: the same mean can arise from tightly grouped figures or highly variable figures.",
+        "item_ids": []
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Visual map: from raw data to a decision",
+        "body": "Raw values → choose a meaningful denominator or base → calculate a relative measure → check scale and data quality → interpret for the business decision.\n\nFor a percentage: part ÷ whole × 100.\nFor growth: (new − original) ÷ original × 100.\nFor an index: current ÷ base × 100.\n\nA poor denominator or an unsuitable base can make apparent performance look better or worse than it is.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Revenue growth and percentage points",
+        "body": "A clothing business increases revenue from £2.0m to £2.3m. The absolute increase is £0.3m. Percentage change is (£2.3m − £2.0m) ÷ £2.0m × 100 = 15%. If its market share also moves from 10% to 15%, this is a 5 percentage-point rise, or a 50% relative rise in market share. The business should report which measure it is using, since the figures communicate different aspects of performance.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "percentage",
+        "definition": "A proportion expressed per hundred."
+      },
+      {
+        "term": "percentage change",
+        "definition": "The change divided by the original value, multiplied by 100."
+      },
+      {
+        "term": "percentage point",
+        "definition": "The arithmetic difference between two percentage values."
+      },
+      {
+        "term": "mean",
+        "definition": "The total of all observations divided by their number."
+      },
+      {
+        "term": "median",
+        "definition": "The middle observation when values are placed in order."
+      },
+      {
+        "term": "index number",
+        "definition": "A relative measure against a base value, commonly set to 100."
+      },
+      {
+        "term": "denominator",
+        "definition": "The value used as the reference total or starting point in a calculation."
+      },
+      {
+        "term": "base period",
+        "definition": "The comparison period or category used to set an index, often equal to 100."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "pct-retrieval",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "State the formula for percentage change.",
+        "answer": "(New value − original value) ÷ original value × 100.",
+        "explanation": "The original value is the denominator because growth is measured from the starting position.",
+        "calc": null
+      },
+      {
+        "id": "pct-calculation",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "A business increases monthly orders from 1,200 to 1,380. Calculate the percentage change.",
+        "answer": "15% increase.",
+        "explanation": "The increase is 180 orders. 180 ÷ 1,200 × 100 = 15%, using the original number of orders as the denominator.",
+        "calc": null
+      },
+      {
+        "id": "pct-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "A firm's employee absence rate falls from 8% to 6%. Which statement is clearer: 'absence fell by 2%' or 'absence fell by 2 percentage points'? Justify your choice.",
+        "answer": "'Absence fell by 2 percentage points' is clearer.",
+        "explanation": "The direct difference between 8% and 6% is 2 percentage points. The relative fall is 25%, so saying 2% could be misunderstood.",
+        "calc": null
+      },
+      {
+        "id": "pct-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A start-up says its customer base grew by 100%, from 15 to 30 customers. Give one reason why an investor should still be cautious about this claim.",
+        "answer": "The starting base is very small, so the absolute increase is only 15 customers.",
+        "explanation": "A large percentage movement does not necessarily mean the change is commercially material.",
+        "calc": null
+      },
+      {
+        "id": "pct-discrimination",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "Classify each statement as a percentage change, a percentage-point change, or an index interpretation: (a) profit rises from £40,000 to £50,000; (b) market share rises from 12% to 16%; (c) an input-cost index rises from 100 to 115.",
+        "answer": "(a) 25% percentage increase; (b) 4 percentage-point increase; (c) costs are 15% above the base period.",
+        "explanation": "Growth uses the original £40,000 as its base; percentage values are compared by subtraction; an index of 115 is 15% above a base of 100.",
+        "calc": null
+      },
+      {
+        "id": "pct-graph-data",
+        "capability": "graph_data_interpretation",
+        "item_ids": [],
+        "prompt": "A line graph shows a sales index of 100 in January, 110 in February and 90 in March. Interpret the March value compared with January.",
+        "answer": "March sales are 10% below the January base level.",
+        "explanation": "An index of 90 is 10 points below the base index of 100, representing a 10% fall relative to the base.",
+        "calc": null
+      },
+      {
+        "id": "pct-interpretation",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "A firm reports that its average weekly sales are £6,000. What important information does this average not reveal?",
+        "answer": "It does not show the spread or consistency of weekly sales.",
+        "explanation": "Weeks could be close to £6,000 or could vary greatly; an average alone can hide volatility and extreme values.",
+        "calc": null
+      },
+      {
+        "id": "pct-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student says: 'A conversion rate moving from 10% to 15% rose by 5%.' Identify and correct the error.",
+        "answer": "It rose by 5 percentage points, or by 50% relative to the original rate.",
+        "explanation": "Subtracting two percentages gives percentage points. Relative growth is 5 ÷ 10 × 100 = 50%.",
+        "calc": null
+      },
+      {
+        "id": "pct-procedure",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Describe the steps for creating an index number for current energy cost when the base-period cost is set to 100.",
+        "answer": "Choose a meaningful base period; divide current cost by base-period cost; multiply by 100; then state the relative movement from the base.",
+        "explanation": "This normalises the current value against the selected base, enabling comparison while retaining the need to explain the base and context.",
+        "calc": null
+      }
+    ]
+  }
+}

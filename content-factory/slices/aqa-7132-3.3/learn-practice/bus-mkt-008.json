@@ -1,0 +1,212 @@
+{
+  "node_id": "bus-mkt-008",
+  "learn": {
+    "title": "Pricing, price elasticity, income elasticity and revenue effects",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Elasticity and pricing decisions",
+        "body": "Price provides revenue per unit, but it also influences customer demand and how a product is positioned. Price elasticity of demand (PED) shows the responsiveness of quantity demanded to a percentage price change. PED is normally negative: a higher price tends to reduce demand. Focus on the size of the figure: a magnitude above 1 is relatively elastic and below 1 is relatively inelastic. Income elasticity of demand (YED) instead shows the responsiveness of demand to changes in consumer income. Positive YED suggests a normal good; negative YED suggests an inferior good. Neither measure makes the decision automatically: managers must also consider costs, contribution, capacity, competitors, brand and long-term customer behaviour.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "What elasticity does — and does not — show",
+        "body": "Example: if a café raises the price of a sandwich by 10% and sales volume falls by 4%, PED is -0.4. Demand is relatively inelastic over this observed change. The price rise may increase revenue because the percentage price rise exceeds the percentage volume fall.\n\nNon-example: saying that inelastic demand means sales will not fall at all. Inelastic means sales change by a smaller percentage than price, not that they are unchanged.\n\nExample: if household income rises by 5% and demand for a premium gym membership rises by 10%, YED is +2.0. This is positive and strongly income-responsive in that context.\n\nNon-example: using PED to explain the effect of a recession. A change in income is analysed using YED, not PED.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing between penetration and skimming",
+        "body": "A UK start-up is launching a new streaming service into a market where customers can easily compare many alternatives and are price-sensitive.\n\n1. Identify the objective: it wants to gain subscribers quickly.\n2. Consider responsiveness: plentiful substitutes can make demand more price-sensitive.\n3. Match a method: penetration pricing, using a low launch price, could encourage trial and build market share.\n4. Evaluate the drawback: low revenue per subscriber may leave little contribution, and customers may resist a later price rise.\n\nBy contrast, price skimming would be more suitable where a new or innovative offer has customers willing to pay a premium. It can generate high early margins and help recover development costs, but initial sales volume may be low and rivals may enter.",
+        "item_ids": [
+          "aqa-7132-3.3.4:penetration-pricing",
+          "aqa-7132-3.3.4:price-skimming",
+          "aqa-7132-3.3.2:price-elasticity-of-demand"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Revenue is not the same as profit",
+        "body": "Incorrect idea: “If demand is inelastic, a price increase always increases profit.”\n\nRepair: over a particular range, an inelastic response can mean that revenue rises after a price increase. However, profit also depends on variable costs, total contribution, capacity use, competitor reactions, brand positioning and whether customers reduce purchases later.\n\nIncorrect idea: “A positive YED guarantees future sales growth.”\n\nRepair: it indicates that demand rose as income rose in the observed context. The estimate may not hold for a different segment, a major economic change, or when competitors change their offers.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From a price or income change to business consequences",
+        "body": "Price change → quantity demanded response, indicated by PED → sales volume → revenue → contribution, capacity use, cash and brand effects.\n\nIncome change → quantity demanded response, indicated by YED → sales forecast → inventory, workforce and capacity planning.\n\nBrand differentiation or fewer substitutes → customers may find it harder to switch → demand may become less price-sensitive. Over time, customers may discover alternatives, so elasticity can change.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the decision, not just the number",
+        "body": "A retailer estimates PED at -0.6 for a small planned price rise. Explain, in your own words: (1) what this suggests about the volume response; (2) why revenue may rise; and (3) two reasons why the retailer should not decide on the price rise using PED alone. Then explain whether penetration pricing or skimming would better suit a product with many close substitutes at launch.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue",
+          "aqa-7132-3.3.4:penetration-pricing",
+          "aqa-7132-3.3.4:price-skimming"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating and using PED and YED",
+        "body": "A cinema raises its ticket price from £20 to £22, a 10% increase. Weekly tickets sold fall from 1,000 to 960, a 4% decrease. PED = -4% ÷ +10% = -0.4. Demand is relatively price inelastic over this change. Revenue changes from £20,000 to £21,120, so it rises; nevertheless, the cinema still needs cost and long-term customer information before judging profit.\n\nFor a premium leisure service, income rises by 5% while demand rises by 10%. YED = +10% ÷ +5% = +2.0. The positive figure suggests a normal good, with demand highly responsive to income in this observed setting. The business should consider downside demand risk when planning for an economic downturn.",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand",
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "price elasticity of demand (PED)",
+        "definition": "The percentage change in quantity demanded divided by the percentage change in price."
+      },
+      {
+        "term": "income elasticity of demand (YED)",
+        "definition": "The percentage change in quantity demanded divided by the percentage change in consumer income."
+      },
+      {
+        "term": "price elastic demand",
+        "definition": "Demand with an absolute PED greater than 1, meaning quantity is relatively responsive to price."
+      },
+      {
+        "term": "price inelastic demand",
+        "definition": "Demand with an absolute PED below 1, meaning quantity is relatively unresponsive to price."
+      },
+      {
+        "term": "normal good",
+        "definition": "A good for which demand generally rises when consumer income rises; it has positive YED."
+      },
+      {
+        "term": "inferior good",
+        "definition": "A good for which demand generally falls when consumer income rises; it has negative YED."
+      },
+      {
+        "term": "penetration pricing",
+        "definition": "A low launch price intended to win market share quickly, often in a price-sensitive market."
+      },
+      {
+        "term": "price skimming",
+        "definition": "A high launch price for a new or innovative product, followed by lower prices over time."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "ped-calculation-01",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand"
+        ],
+        "prompt": "A food-delivery business increases its delivery charge by 8%. Orders fall by 12%. Calculate PED and classify demand.",
+        "answer": "PED = -12% ÷ 8% = -1.5. Demand is relatively price elastic.",
+        "explanation": "Quantity demanded changes by a greater percentage than price, so the absolute PED is above 1.",
+        "calc": null
+      },
+      {
+        "id": "yed-calculation-01",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.2:income-elasticity-of-demand"
+        ],
+        "prompt": "Consumer income falls by 4% and demand for a budget own-label range rises by 2%. Calculate YED and classify the good.",
+        "answer": "YED = +2% ÷ -4% = -0.5. The range is an inferior good in this observed context.",
+        "explanation": "Demand moved in the opposite direction to income, producing a negative YED.",
+        "calc": null
+      },
+      {
+        "id": "revenue-interpretation-01",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue",
+          "aqa-7132-3.3.2:price-elasticity-of-demand"
+        ],
+        "prompt": "A retailer estimates PED at -0.3 for a proposed 5% price increase. What is the likely direction of the revenue effect, assuming the estimate holds?",
+        "answer": "Revenue is likely to rise.",
+        "explanation": "A 5% price rise would be associated with an estimated 1.5% fall in quantity demanded. The proportionate price increase is larger than the volume decrease.",
+        "calc": null
+      },
+      {
+        "id": "pricing-method-application-01",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.4:penetration-pricing",
+          "aqa-7132-3.3.2:price-elasticity-of-demand"
+        ],
+        "prompt": "A new UK mobile app enters a crowded market with many similar low-cost apps. Its main aim is to build a large user base quickly. Recommend a pricing method.",
+        "answer": "Penetration pricing is likely to suit the launch.",
+        "explanation": "A low initial price can encourage trial and rapid market-share growth where customers have many substitutes and may be price-sensitive. The business must still ensure it can fund the lower contribution per user.",
+        "calc": null
+      },
+      {
+        "id": "pricing-judgement-01",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.4:price-skimming",
+          "aqa-7132-3.3.4:penetration-pricing"
+        ],
+        "prompt": "A firm has developed an innovative home device with few direct alternatives. Some early customers value being first and will pay a premium, but the firm also wants sales volume in the long run. Judge whether skimming is suitable.",
+        "answer": "Price skimming is suitable initially, provided the firm plans for later price reductions and monitors competitor entry.",
+        "explanation": "Few alternatives and premium early adopters support a high launch price and early margin. However, skimming gives lower initial volume, so reducing the price later may be needed to reach a wider market.",
+        "calc": null
+      },
+      {
+        "id": "misconception-ped-yed-01",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.2:price-elasticity-of-demand",
+          "aqa-7132-3.3.2:income-elasticity-of-demand"
+        ],
+        "prompt": "A student says: “PED of -0.4 means a product is inferior because the number is negative.” Is the student correct?",
+        "answer": "No. PED is normally negative because price and quantity demanded usually move in opposite directions. Inferior goods are identified by negative YED.",
+        "explanation": "PED measures response to price; YED measures response to consumer income. The two measures answer different questions.",
+        "calc": null
+      },
+      {
+        "id": "reasoning-chain-revenue-01",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.2:effect-of-price-and-income-changes-on-revenue",
+          "aqa-7132-3.3.2:income-elasticity-of-demand"
+        ],
+        "prompt": "A premium holiday operator has estimated YED of +1.8. Explain a likely planning consequence if consumer incomes fall.",
+        "answer": "Demand is likely to fall by a larger percentage than income, reducing expected sales revenue. The operator may need to reduce capacity, inventory commitments or workforce requirements.",
+        "explanation": "The positive YED above 1 indicates demand has been strongly responsive to income. A fall in income could therefore create a disproportionately large fall in demand, affecting operational plans as well as revenue.",
+        "calc": null
+      },
+      {
+        "id": "retrieval-pricing-01",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.4:penetration-pricing",
+          "aqa-7132-3.3.4:price-skimming"
+        ],
+        "prompt": "State one key difference between penetration pricing and price skimming.",
+        "answer": "Penetration pricing starts with a low price to gain market share, whereas price skimming starts with a high price to gain margin from customers willing to pay a premium.",
+        "explanation": "The methods differ chiefly in their launch-price level and immediate objective.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "node_id": "bus-ops-004",
+  "learn": {
+    "title": "Productivity, efficiency and unit economics",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Labour productivity: output relative to employees",
+        "body": "Labour productivity shows how much output each employee produces in a stated period. For this measure, divide output in the period by the number of employees in that period. It is not simply the total amount produced: the employee input must also be considered. A useful comparison uses comparable output, the same time period and a consistent definition of employees.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Production, productivity and efficiency",
+        "body": "Production is the total quantity made. Labour productivity is output per employee, so it compares output with labour input. Efficiency is broader: it considers whether resources are being converted economically into the required outcome, including cost, waste and quality. A factory may produce more items but have lower productivity if its workforce has increased by a greater proportion.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising a productivity claim",
+        "body": "Example: a bakery produces 12,000 loaves in a month using 24 employees, so its labour productivity is 500 loaves per employee per month. Non-example: 'The bakery made 13,000 loaves, so productivity rose.' This conclusion cannot be made unless the number of employees is known and comparable. If staff numbers rose substantially, productivity may have fallen.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided method: calculate output per employee",
+        "body": "1. Identify total output for one stated period. 2. Identify the number of employees in that same period. 3. Divide output by employees. 4. Label the answer clearly, for example 'units per employee per month'. 5. Interpret cautiously: a higher figure may support lower labour cost per unit, but check whether quality and employee hours are unchanged.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked calculation",
+        "body": "A furniture maker produces 18,000 chairs in one quarter and employs 36 people. Labour productivity = 18,000 ÷ 36 = 500 chairs per employee per quarter. This means that, on this measurement basis, each employee is associated with 500 chairs of output in the quarter. It does not by itself show whether chairs met quality standards or whether employees worked more hours.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "More output does not automatically mean higher productivity",
+        "body": "It is incorrect to assume that rising production proves rising productivity. Suppose output increases from 10,000 to 11,000 units, but employee numbers increase from 20 to 25. Output has risen, yet productivity has changed from 500 to 440 units per employee. Always calculate output relative to the labour input.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "process_sequence",
+        "heading": "Using productivity evidence well",
+        "body": "First, define output and the time period. Next, collect the employee number for the same period. Then calculate output per employee. After that, compare the result with a relevant earlier period or target using consistent measures. Finally, investigate quality, rework, demand and employee impact before deciding whether the change represents a sustainable improvement.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From productivity to competitiveness",
+        "body": "Training, improved processes or technology may enable more good output per employee. This can reduce labour cost per unit and release capacity. Lower unit costs may improve competitiveness or margins. However, the chain can break if the additional output cannot be sold, if capital costs are excessive, or if speed creates defects and rework. Therefore, productivity should be assessed alongside quality and demand.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the measure",
+        "body": "A business reports that labour productivity rose from 400 to 460 units per employee per month. Explain what this means, then identify two further pieces of information you would want before concluding that the business has become more efficient.",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "production",
+        "definition": "The total amount of output produced."
+      },
+      {
+        "term": "productivity",
+        "definition": "Output produced per unit of input used."
+      },
+      {
+        "term": "labour productivity",
+        "definition": "Output in a period divided by the number of employees in that period."
+      },
+      {
+        "term": "efficiency",
+        "definition": "How economically resources are turned into the required outcomes, including cost, waste and quality."
+      },
+      {
+        "term": "unit economics",
+        "definition": "Revenue, cost or contribution relationships for a defined unit, such as a product, customer or order."
+      },
+      {
+        "term": "rework",
+        "definition": "Work needed to correct output that did not meet the required standard."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "we-labour-productivity-1",
+        "item_id": "aqa-7132-3.4.2:labour-productivity",
+        "scenario": "A UK bakery makes 13,500 loaves in one month with 24 employees.",
+        "steps": [
+          "Use output and employee numbers from the same monthly period.",
+          "Divide 13,500 loaves by 24 employees.",
+          "Labour productivity is 562.5 loaves per employee per month.",
+          "The result should be considered alongside quality and hours worked."
+        ],
+        "calc": {
+          "formula_id": "labour_productivity",
+          "inputs": [
+            {
+              "name": "output_per_period",
+              "value": 13500
+            },
+            {
+              "name": "number_of_employees",
+              "value": 24
+            }
+          ],
+          "stated_answer": 562.5,
+          "unit": "loaves per employee per month"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p-retrieval-labour-productivity",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "State the standard calculation for labour productivity measured as output per employee.",
+        "answer": "Output per period ÷ number of employees.",
+        "explanation": "This measure relates the output made in a period to the employees used in that same period.",
+        "calc": null
+      },
+      {
+        "id": "p-calculation-labour-productivity",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "A drinks producer fills 28,800 bottles in a month using 48 employees. Calculate labour productivity.",
+        "answer": "600 bottles per employee per month.",
+        "explanation": "Divide monthly output by the number of employees: 28,800 ÷ 48 = 600.",
+        "calc": {
+          "formula_id": "labour_productivity",
+          "inputs": [
+            {
+              "name": "output_per_period",
+              "value": 28800
+            },
+            {
+              "name": "number_of_employees",
+              "value": 48
+            }
+          ],
+          "stated_answer": 600,
+          "unit": "bottles per employee per month"
+        }
+      },
+      {
+        "id": "p-discrimination-output-productivity",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "Which statement is about labour productivity rather than production? A. The factory made 2,000 more kettles. B. Each employee made 45 kettles on average this week. C. Total sales revenue rose by £8,000.",
+        "answer": "B. Each employee made 45 kettles on average this week.",
+        "explanation": "It relates output to the employee input. A states total production only, while C concerns revenue.",
+        "calc": null
+      },
+      {
+        "id": "p-interpretation-labour-productivity",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "A manufacturer’s labour productivity rises from 300 to 360 units per employee per month. Interpret this change.",
+        "answer": "Output per employee rose by 60 units per month, indicating higher measured labour productivity.",
+        "explanation": "The figure shows more output for each employee on the stated basis. It does not prove improved overall efficiency unless quality, hours and costs are also considered.",
+        "calc": null
+      },
+      {
+        "id": "p-procedure-labour-productivity",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "Put these steps in the correct order: calculate output per employee; check that output and employee data cover the same period; identify total output and employee numbers; assess quality and rework before drawing a conclusion.",
+        "answer": "Identify total output and employee numbers; check they cover the same period; calculate output per employee; assess quality and rework before drawing a conclusion.",
+        "explanation": "Comparable data are needed before calculation, and quality should be checked before judging the significance of the result.",
+        "calc": null
+      },
+      {
+        "id": "p-compare-justify-labour-productivity",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "Firm A produces 20,000 units with 40 employees. Firm B produces 21,000 units with 50 employees. Which firm has higher labour productivity? Justify your answer.",
+        "answer": "Firm A: 500 units per employee, compared with Firm B: 420 units per employee.",
+        "explanation": "Although Firm B has higher total production, Firm A generates more output for each employee. This comparison assumes output quality is comparable.",
+        "calc": null
+      },
+      {
+        "id": "p-contextual-application-labour-productivity",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "A call-centre introduces software that lets staff handle more customer enquiries per employee. Give one reason why management should not judge success using this productivity figure alone.",
+        "answer": "They should check service quality, such as whether enquiries are resolved properly rather than creating repeat contacts.",
+        "explanation": "Faster handling can raise measured output while reducing the quality of the required customer outcome.",
+        "calc": null
+      },
+      {
+        "id": "p-misconception-labour-productivity",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "A manager says: 'Output rose by 8%, so labour productivity definitely rose by 8%.' Is this correct?",
+        "answer": "No. Labour productivity depends on both output and the number of employees.",
+        "explanation": "If employee numbers also changed, output per employee could rise by a different amount or even fall.",
+        "calc": null
+      },
+      {
+        "id": "p-reasoning-chain-labour-productivity",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.2:labour-productivity"
+        ],
+        "prompt": "Explain one chain through which staff training could improve competitiveness, and one condition needed for this benefit to be sustained.",
+        "answer": "Training may increase good output per employee, reducing labour cost per unit and allowing lower prices or higher margins. Quality must be maintained for the benefit to be sustained.",
+        "explanation": "The potential benefit runs from capability to productivity to unit cost and competitiveness, but defects or rework could remove the gain.",
+        "calc": null
+      }
+    ]
+  }
+}

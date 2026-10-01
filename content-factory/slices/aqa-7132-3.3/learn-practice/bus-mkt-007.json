@@ -1,0 +1,164 @@
+{
+  "node_id": "bus-mkt-007",
+  "learn": {
+    "title": "Branding, differentiation and brand equity",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Brand loyalty: more than repeat buying",
+        "body": "Brand loyalty is a tendency for customers to keep choosing a brand. It can arise because customers genuinely prefer and trust the brand, but repeat purchasing can also result from habit, convenience, contracts or the cost of switching. A business should therefore avoid assuming that all repeat customers are emotionally committed. Strong loyalty may support retention and reduce price sensitivity, yet it depends on the business continuing to deliver the experience its brand promises.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Loyalty, awareness and brand equity compared",
+        "body": "Awareness means customers recognise or know about a brand. Loyalty means they tend to choose it again. Brand equity is the wider strategic and economic value created by customer responses such as recognition, trust, perceived quality and loyalty. A well-known brand may have high awareness but weak loyalty if customers distrust it or prefer alternatives. Equally, loyalty may reflect inertia rather than genuine preference, so it is not automatically proof of high brand equity.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Identifying genuine loyalty",
+        "body": "Example: customers repeatedly choose a premium delivery company because it reliably meets its narrow delivery windows and they trust it with urgent orders. This indicates loyalty linked to a consistent experience. Non-example: customers keep using a mobile provider only because ending their contract would be inconvenient. This is repeat purchasing, but the business cannot safely conclude that customers have a strong positive preference for its brand.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Repeat purchases do not always show affection",
+        "body": "A common error is to treat customer retention as definite evidence of brand loyalty based on positive feelings. Retention can instead be caused by switching costs, lack of alternatives, convenience or contracts. To judge loyalty, consider whether customers would actively choose the brand if competitors offered credible alternatives at a similar price and level of convenience.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How delivery can create or weaken loyalty",
+        "body": "A credible brand promise followed by consistent delivery creates positive customer experiences. These experiences can build trust and lower perceived purchase risk. Customers may then be more willing to repurchase, producing brand loyalty and potentially allowing the business to retain customers or charge a premium. The reverse is also possible: repeated poor delivery damages trust, weakens loyalty and makes customers more likely to switch. Advertising alone cannot sustain loyalty if operational delivery contradicts the promise.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the source of loyalty",
+        "body": "A café has many customers who visit every morning, but a rival is opening next door with similar prices. Explain two possible reasons for the café’s repeat custom. Then explain what evidence would help distinguish genuine brand loyalty from habit or convenience. Include the role of consistent customer experience.",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "brand",
+        "definition": "The identifiers, meanings, expectations and experiences customers attach to an organisation or offering."
+      },
+      {
+        "term": "differentiation",
+        "definition": "A meaningful distinction that makes an offering seem different from alternatives to its target customers."
+      },
+      {
+        "term": "brand equity",
+        "definition": "The strategic and economic value associated with brand-driven customer and market responses, such as trust or perceived quality."
+      },
+      {
+        "term": "brand loyalty",
+        "definition": "A tendency to continue choosing a brand, potentially caused by preference, habit, switching costs or other factors."
+      },
+      {
+        "term": "brand awareness",
+        "definition": "The extent to which customers recognise or know about a brand."
+      },
+      {
+        "term": "price sensitivity",
+        "definition": "How strongly customer demand responds to a change in price."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "brand-loyalty-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "Define brand loyalty.",
+        "answer": "A tendency for customers to continue choosing a brand, caused by preference, habit, switching costs or other factors.",
+        "explanation": "The definition includes both genuine preference and non-preference reasons for repeat choice.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "Which situation is the clearest evidence of brand loyalty? A. Customers recognise a logo. B. Customers keep buying because cancelling a contract is difficult. C. Customers repeatedly choose a retailer because they trust its reliable service despite similar alternatives. D. A business spends more on advertising.",
+        "answer": "C.",
+        "explanation": "Choosing the retailer because of trust and reliable service shows a positive tendency to select that brand. Recognition, contracts and advertising do not by themselves demonstrate loyalty.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "Compare brand awareness and brand loyalty. Why might a business with high awareness still have low loyalty?",
+        "answer": "Awareness is being known or recognised, whereas loyalty is a tendency to keep choosing the brand. A highly known brand may have low loyalty if customers dislike, distrust or prefer competitors.",
+        "explanation": "The measures capture different customer responses. Awareness does not show whether the experience or associations encourage repeat choice.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "A UK meal-delivery firm promises one-hour delivery but misses many slots over several months. Explain one likely effect on brand loyalty.",
+        "answer": "Customers may trust the firm less and be more likely to switch, so brand loyalty may fall.",
+        "explanation": "Repeated delivery failures conflict with the brand promise. This weakens the positive experience and trust that can support repeat purchase.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "A gym reports that 85% of members renewed their annual membership. Judge whether this proves it has strong brand loyalty.",
+        "answer": "It does not prove it. Renewal may indicate loyalty, but members may also renew because the gym is nearby, alternatives are limited or switching is inconvenient. Evidence of preference and trust would strengthen the conclusion.",
+        "explanation": "Retention is relevant evidence but it can have several causes. A justified judgement distinguishes loyalty from inertia or convenience.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "A manager says, 'Our social-media followers prove we have high brand equity and loyal customers.' Identify the flaw in this claim.",
+        "answer": "Followers mainly show awareness or interest, not necessarily trust, repeat choice or loyalty. They may follow without buying or may dislike the brand.",
+        "explanation": "Brand equity is wider than awareness, and loyalty requires evidence that customers tend to choose the brand.",
+        "calc": null
+      },
+      {
+        "id": "brand-loyalty-reasoning-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.1:brand-loyalty"
+        ],
+        "prompt": "Construct a short chain explaining how consistent product quality could allow a differentiated premium tea brand to retain customers and possibly charge a higher price.",
+        "answer": "Consistent quality supports the brand promise, creating trust and lower perceived risk. This can encourage repeat choice and brand loyalty. If customers see fewer acceptable substitutes, demand may become less price sensitive, allowing a possible premium price.",
+        "explanation": "The chain links operational delivery to customer experience, loyalty, reduced substitutability and potential pricing power. The outcome is possible rather than guaranteed.",
+        "calc": null
+      }
+    ]
+  }
+}

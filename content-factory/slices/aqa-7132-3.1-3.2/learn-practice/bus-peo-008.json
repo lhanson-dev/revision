@@ -1,0 +1,130 @@
+{
+  "node_id": "bus-peo-008",
+  "learn": {
+    "title": "Centralisation and decentralisation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Where decisions are made",
+        "body": "Centralisation means decision authority is concentrated at higher or central levels of a business. Decentralisation means authority is distributed to lower, local or specialist units. A business need not choose one approach for every decision: it can centralise capital allocation, safety standards, cyber security and brand rules while allowing local managers to make decisions on pricing, staffing or customer recovery. The important issue is who has the formal right to make each specified decision.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing centralisation and decentralisation",
+        "body": "Centralisation can provide consistency, coordination and control. It may also create economies, but decisions can be slower and central managers may not use local knowledge fully. Decentralisation can make responses faster, use local information and develop managers. However, it can lead to inconsistent decisions, duplicated activity and weak oversight. The best arrangement depends on the decision type, urgency, regulation, local variation, management quality and available data.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Decision rights in practice",
+        "body": "Example: a hotel chain sets safety standards centrally but lets each hotel manager resolve customer complaints up to a stated financial limit. This gives local staff a quick, bounded authority while protecting a central safety standard. Non-example: a business has branches but every meaningful decision needs head-office approval. Branches alone do not make a business decentralised.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Decentralisation has limits",
+        "body": "Decentralisation does not mean that managers can do whatever they want. Authority is distributed within defined boundaries, with accountability still in place. It requires clear decision rights, capable managers, useful information and escalation rules. Delegating a task is also not necessarily decentralising: the worker may complete the task but still lack authority to decide what should be done.",
+        "item_ids": []
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How decision location affects outcomes",
+        "body": "Local authority can lead to a faster response, which can improve customer service or operations when local managers have relevant information and capability. Central authority can lead to consistency and economies, but may cause delay if decisions must travel upwards. If authority is unclear, managers may duplicate work or conflict over who decides, reducing effectiveness.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the appropriate balance",
+        "body": "A retailer wants identical safety procedures in every shop but faster handling of individual customer complaints. Explain which decisions should be centralised and which should be decentralised. Link your answer to risk, consistency, local knowledge, speed and escalation limits.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "centralisation",
+        "definition": "Concentration of decision authority at higher or central levels of a business."
+      },
+      {
+        "term": "decentralisation",
+        "definition": "Distribution of decision authority to lower, local or specialist units."
+      },
+      {
+        "term": "decision right",
+        "definition": "Formal authority to make a specified decision."
+      },
+      {
+        "term": "escalation",
+        "definition": "A rule for moving a decision or issue to higher authority."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "cpj-central-v-local",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare centralisation and decentralisation. Give one reason why a business may use a mixture of both.",
+        "answer": "Centralisation keeps authority at higher levels and can improve consistency and control; decentralisation gives lower or local units authority and can improve speed and use of local knowledge. A mixture allows decisions such as safety standards to be centralised while local customer issues can be resolved quickly.",
+        "explanation": "The approaches create different trade-offs. Decision authority can be placed differently for different decisions rather than applying one label to the entire business.",
+        "calc": null
+      },
+      {
+        "id": "ca-hotel-complaint-limit",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK hotel chain requires all hotels to follow central safety rules. It allows duty managers to offer compensation for a complaint up to £150, but requires larger claims to be referred to head office. Explain how this structure could benefit the chain.",
+        "answer": "Central safety rules support consistent control of a high-risk area. The £150 local limit lets managers respond quickly to customers using local information, while escalation of larger claims retains oversight.",
+        "explanation": "The arrangement combines central control where consistency and risk matter with bounded local authority where speed of customer response matters.",
+        "calc": null
+      },
+      {
+        "id": "cj-pricing-decision",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A café group operates in towns with very different local competitors and customer demand. Should daily discount decisions be mainly centralised or decentralised? Give a justified judgement.",
+        "answer": "They should mainly be decentralised within clear limits because local managers are more likely to know local competitors and demand, allowing a faster response. Central rules or data may still be needed to protect the brand and prevent unsuitable discounts.",
+        "explanation": "Local variation and urgency support local authority, but consistency, data and accountability mean decentralisation should have boundaries rather than being unlimited.",
+        "calc": null
+      },
+      {
+        "id": "disc-branch-approval",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "A retailer has 80 branches. Branch managers can schedule staff, but head office approves prices, refunds, local promotions and stock orders. Is the retailer decentralised simply because it has branches?",
+        "answer": "No.",
+        "explanation": "Having branches does not itself distribute meaningful decision rights. In this case, many key decisions remain with head office.",
+        "calc": null
+      },
+      {
+        "id": "md-manager-freedom",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student says: “Decentralisation means local managers can make any decision they choose.” What is wrong with this statement?",
+        "answer": "Decentralisation gives local managers specified decision rights within boundaries. Accountability, information requirements and escalation rules still apply.",
+        "explanation": "Distributed authority is not unlimited freedom. Effective decentralisation requires clear limits and oversight.",
+        "calc": null
+      },
+      {
+        "id": "rc-unclear-authority",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain a likely chain of effects if a business tells regional managers to take ownership of customer problems but does not state who can approve refunds.",
+        "answer": "Unclear authority may cause managers to disagree or refer cases unnecessarily. This creates duplication or delay, which can weaken the customer response.",
+        "explanation": "The key chain is unclear authority to duplication or conflict, then to a poorer operational or customer outcome.",
+        "calc": null
+      },
+      {
+        "id": "ret-decision-right",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "What is a decision right?",
+        "answer": "Formal authority to make a specified decision.",
+        "explanation": "A decision right identifies who is authorised to decide, rather than merely who carries out a task.",
+        "calc": null
+      }
+    ]
+  }
+}

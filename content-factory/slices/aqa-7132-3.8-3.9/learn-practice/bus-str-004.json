@@ -1,0 +1,220 @@
+{
+  "node_id": "bus-str-004",
+  "learn": {
+    "title": "Ansoff product-market framework",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using Ansoff to identify growth direction",
+        "body": "The Ansoff matrix sorts a business's growth direction by asking two questions: is the product existing or new to this business, and is the market existing or new to this business? Existing product plus existing market is market penetration. Existing product plus new market is market development. New product plus existing market is product development. New product plus new market is diversification. This identifies strategic direction, not the method used to grow. For example, acquisition is a growth method and is not automatically diversification.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:product-development",
+          "aqa-7132-3.8.1:diversification"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing the four directions",
+        "body": "Market penetration aims to sell more existing products in existing markets. Market development keeps the product but finds a new market, such as a new country or customer segment. Product development serves an existing market with a new product. Diversification changes both product and market. Directions involving greater unfamiliarity can create larger information and capability gaps, but this does not make them automatically worse choices.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:product-development",
+          "aqa-7132-3.8.1:diversification"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Product-market grid",
+        "body": "Use this grid from the focal business's perspective:\n\n| | Existing market | New market |\n|---|---|---|\n| Existing product | Market penetration | Market development |\n| New product | Product development | Diversification |\n\nA market can be new to one business even if other firms already operate there. Similarly, a product is new if that business has not previously offered it.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:product-development",
+          "aqa-7132-3.8.1:diversification"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Classify direction, not method",
+        "body": "A UK coffee chain opening shops in France with its current drinks range is market development: the offer is existing but France is a new market for the chain. If it starts selling packaged coffee to its existing UK customers, this is product development. In contrast, saying that buying another business is diversification gives only a method of growth. The acquisition could support any Ansoff direction depending on the products and markets involved.",
+        "item_ids": [
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:product-development",
+          "aqa-7132-3.8.1:diversification"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "A guided classification",
+        "body": "A UK bicycle retailer currently sells adult bikes in the UK. It plans to sell the same adult bikes in Ireland. Step 1: decide whether the product is new. It is existing. Step 2: decide whether the market is new to the retailer. Ireland is new. Step 3: match existing product and new market to market development. The retailer should then investigate Irish customer demand, competitors, delivery arrangements and any resources needed before deciding to proceed.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Evaluating two possible directions",
+        "body": "A UK meal-kit business faces falling demand in its current city. It could spend heavily discounting its current boxes there, or sell the same boxes in a nearby city with growing demand and similar customer preferences. The first option is market penetration; the second is market development. Although market development involves a new geographical market, it may be the more suitable option because the new city is adjacent, customer needs are familiar and the current market is declining. Managers should also assess competition, finance, delivery capability and evidence of demand. The matrix structures the choice but does not assess financial viability by itself.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Diversification is not always the riskiest choice",
+        "body": "Diversification often creates uncertainty because both the product and market are new to the business. However, risk depends on the context. Related diversification may use existing skills, technology, suppliers or brand strengths, reducing the capability gap. Meanwhile, market penetration can be risky if a business is investing heavily in a shrinking market with strong competitors. Judge risk using adjacency, resources, finance, evidence, competitive conditions and the business's capacity to absorb failure.",
+        "item_ids": [
+          "aqa-7132-3.8.1:diversification",
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain a strategic choice",
+        "body": "Choose a business considering a growth option. Explain: (1) whether its product and market are existing or new, (2) the resulting Ansoff direction, (3) one capability or information requirement, and (4) whether market attractiveness, competition, resources, objectives, risk appetite, regulation or economic conditions make the option suitable. Finally, state why the direction is separate from the method used to pursue it.",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "Ansoff matrix",
+        "definition": "A framework that classifies growth direction using whether products and markets are existing or new to the business."
+      },
+      {
+        "term": "market penetration",
+        "definition": "Growth through existing products in existing markets."
+      },
+      {
+        "term": "market development",
+        "definition": "Growth through existing products in new markets."
+      },
+      {
+        "term": "product development",
+        "definition": "Growth through new products in existing markets."
+      },
+      {
+        "term": "diversification",
+        "definition": "Growth through new products in new markets."
+      },
+      {
+        "term": "influences on choice of markets and products",
+        "definition": "Factors affecting where a business competes and what it sells, including demand, competition, resources, objectives, risk and external conditions."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-004-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.8.1:market-penetration"
+        ],
+        "prompt": "State the product-market combination for market penetration.",
+        "answer": "Existing products in existing markets.",
+        "explanation": "Market penetration seeks greater sales from an offer and market in which the business already operates.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:product-development"
+        ],
+        "prompt": "A UK sportswear firm starts selling its current trainers to customers in Denmark. Is this market development or product development?",
+        "answer": "Market development.",
+        "explanation": "The trainers are existing products, while Denmark is a new market for the firm.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p3",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix",
+          "aqa-7132-3.8.1:diversification"
+        ],
+        "prompt": "A bakery that only serves local consumers begins selling a new range of frozen pet food online to pet owners across the UK. Use Ansoff to classify this direction.",
+        "answer": "Diversification.",
+        "explanation": "The frozen pet food is a new product and UK pet owners are a new market for the bakery.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p4",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.8.1:ansoff-matrix"
+        ],
+        "prompt": "Give the three-step procedure for classifying a proposal with the Ansoff matrix.",
+        "answer": "Identify whether the product is existing or new; identify whether the market is existing or new; match the combination to the relevant direction.",
+        "explanation": "The framework depends on classifying both dimensions from the focal business's perspective.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.8.1:product-development",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ],
+        "prompt": "A cinema chain plans to offer a new monthly membership to its current UK customers. Identify the Ansoff direction and one factor it should investigate before launch.",
+        "answer": "Product development; it should investigate whether current customers value the membership enough to buy it.",
+        "explanation": "The customer market is existing, but the membership is a new offer. Customer needs are one influence on product choice.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p6",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.8.1:market-penetration",
+          "aqa-7132-3.8.1:market-development",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ],
+        "prompt": "A home-delivery florist has weak sales in its current town, where competitors are cutting prices. A nearby town has growing population and similar customer preferences. Compare market penetration with market development and justify which may be stronger.",
+        "answer": "Market development may be stronger because the nearby town offers demand growth and similar customers, whereas penetration faces intense price competition in a weak existing market.",
+        "explanation": "Market development is not automatically low risk, but adjacency can reduce unfamiliarity. Market attractiveness and competition should shape the judgement.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.8.1:diversification",
+          "aqa-7132-3.8.1:influences-on-choice-of-markets-and-products"
+        ],
+        "prompt": "A regional dairy business wants to enter plant-based protein drinks sold to gym members. It has unused production capacity but no experience of the gym market and limited cash. Should it automatically reject diversification? Give a judgement.",
+        "answer": "No. It should assess whether its production capability can transfer, evidence of gym-member demand, competitors and whether limited cash can support launch and marketing.",
+        "explanation": "Diversification creates unfamiliarity, but unused capacity may reduce some expansion costs. The decision depends on resources, capability and market evidence rather than the label alone.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-004-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.8.1:diversification",
+          "aqa-7132-3.8.1:ansoff-matrix"
+        ],
+        "prompt": "A student says, 'Buying a competitor is diversification because acquisition is external growth.' What is wrong with this statement?",
+        "answer": "It confuses growth method with growth direction. Acquisition can support any Ansoff direction; diversification requires a new product and a new market.",
+        "explanation": "The Ansoff matrix classifies products and markets, whereas acquisition describes how growth is achieved.",
+        "calc": null
+      }
+    ]
+  }
+}

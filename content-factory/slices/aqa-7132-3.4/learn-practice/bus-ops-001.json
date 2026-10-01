@@ -1,0 +1,243 @@
+{
+  "node_id": "bus-ops-001",
+  "learn": {
+    "title": "Operations objectives and performance trade-offs",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Operations must fit the customer promise",
+        "body": "Operations designs, runs and improves the processes that transform inputs into goods and services. Its objectives commonly include cost, quality, speed, dependability and flexibility. The appropriate priority depends on what target customers value and on the wider strategy. For example, a low-cost airline and a luxury hotel should not automatically use the same operating priorities. Environmental objectives and sustainability may also need explicit consideration alongside these performance objectives.",
+        "item_ids": [
+          "aqa-7132-3.4.1:environmental-objectives",
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing operational objectives",
+        "body": "Cost is about using resources economically to deliver the required output. Quality means meeting relevant requirements and expectations; it does not simply mean luxury. Speed is the time taken to deliver or respond, while dependability is delivering consistently and reliably. Flexibility is the ability to vary volume, mix, specification or timing. A business can be strong in one objective but weak in another, so managers must compare them rather than treating them as identical.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How an operations choice affects results",
+        "body": "A useful chain is: customer promise → operating requirements → process, capacity and quality choices → customer experience → demand and financial outcome. For instance, additional capacity can shorten queues and improve response speed, but it raises fixed-resource cost. Managers should therefore consider both the direct cost and the indirect effect on service, demand and resilience.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Efficiency is not just full capacity",
+        "body": "Example: a same-day delivery business may deliberately retain spare vehicle capacity so that it can respond quickly when orders arrive. This supports its customer promise even if average utilisation is lower. Non-example: calling a warehouse efficient solely because it operates at 100% capacity. Full capacity may create delays, reduce resilience and prevent the warehouse from responding to disruption.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: calculating added value",
+        "body": "A retailer sells a customised gift box for £50. The bought-in materials and services used to make it cost £30. Added value is £20 (£50 − £30). The business creates this value through its design, quality, service or branding. Higher added value can support higher margins, but only if customers are willing to pay for the difference.",
+        "item_ids": [
+          "aqa-7132-3.4.1:added-value"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided example: choosing an operational priority",
+        "body": "Suppose a luxury hotel is considering standardising every guest interaction to reduce training complexity. Step 1: identify its positioning: guests may value personal service and quality. Step 2: identify the benefit: standardisation could lower variation and cost. Step 3: identify the trade-off: it could reduce customisation. Step 4: reach a judgement: limited standardisation may be useful for routine tasks, but excessive standardisation could weaken the hotel's customer value proposition.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "The cheapest operation is not always the best operation",
+        "body": "It is incorrect to assume that operations should simply minimise cost. A very low-inventory system may release cash, but it can increase the risk of stockouts or production disruption. Likewise, a local cost reduction may damage quality, speed or resilience. Operational excellence means delivering the mix of outcomes that customers value while remaining financially sustainable.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Linking operations to strategy and finance",
+        "body": "Operations choices affect marketing, finance and business strategy. A positioning based on rapid delivery requires processes and capacity that support speed. A decision that lowers operating cost may improve short-term financial results, but it could reduce customer value and future demand if it weakens quality or dependability. Added value is also a link: design, service, quality and branding can allow a business to charge more than the cost of bought-in inputs.",
+        "item_ids": [
+          "aqa-7132-3.4.1:added-value",
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the trade-off",
+        "body": "A business promises fast, dependable delivery but is considering reducing spare capacity to cut fixed costs. Explain, in your own words, why the decision cannot be judged by the cost saving alone. Refer to the customer promise, speed, dependability, resilience and the possible effect on demand.",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "operations",
+        "definition": "Activities and processes that transform inputs into goods and services."
+      },
+      {
+        "term": "cost objective",
+        "definition": "Delivering required output with economical use of resources."
+      },
+      {
+        "term": "quality",
+        "definition": "The ability to meet relevant requirements and expectations."
+      },
+      {
+        "term": "speed",
+        "definition": "The time taken to deliver or respond."
+      },
+      {
+        "term": "dependability",
+        "definition": "The consistency and reliability of delivery."
+      },
+      {
+        "term": "flexibility",
+        "definition": "The ability to vary volume, mix, specification or timing."
+      },
+      {
+        "term": "added value",
+        "definition": "The difference between selling price and the cost of bought-in materials and services used to make a product."
+      },
+      {
+        "term": "environmental objectives",
+        "definition": "Operational aims that give explicit consideration to environmental effects alongside other performance objectives."
+      },
+      {
+        "term": "resilience",
+        "definition": "The ability of operations to continue responding when disruption occurs."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-ops-001-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.4.1:added-value"
+        ],
+        "prompt": "Define added value.",
+        "answer": "It is the difference between a product's selling price and the cost of the bought-in materials and services used to make it.",
+        "explanation": "Added value is created when a business provides features such as design, quality, service or branding that customers value.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p2",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.4.1:added-value"
+        ],
+        "prompt": "A bakery sells a celebration cake for £42. The bought-in ingredients, packaging and services used for it cost £25. Calculate the added value.",
+        "answer": "£17.",
+        "explanation": "Added value equals selling price minus the cost of bought-in materials and services: £42 − £25 = £17.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p3",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ],
+        "prompt": "Which objective is being measured when a business considers the time customers wait for a response: quality, speed or dependability?",
+        "answer": "Speed.",
+        "explanation": "Speed concerns the time taken to deliver or respond. Dependability concerns doing so consistently and reliably.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p4",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ],
+        "prompt": "A same-day delivery firm reports that vehicle utilisation has risen to 100%, but missed delivery promises have also increased. What does this suggest about the data?",
+        "answer": "Maximum utilisation may be reducing the firm's ability to respond quickly and reliably.",
+        "explanation": "The figures indicate a trade-off: using all capacity may leave too little flexibility or resilience to protect the delivery promise.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ],
+        "prompt": "Compare speed and dependability for an emergency hospital service. Which is likely to be more important?",
+        "answer": "Both are important: speed reduces response time, while dependability means care is provided reliably. Dependability is likely to be especially important because patients must be able to rely on the service, although this should not be achieved by accepting unsafe delays.",
+        "explanation": "The best judgement recognises that objectives interact and should reflect customer needs rather than assuming one objective always dominates.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p6",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.4.1:environmental-objectives",
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ],
+        "prompt": "A manufacturer is reviewing its operations objectives. Explain why it should consider environmental objectives alongside cost, quality, speed, dependability and flexibility.",
+        "answer": "Environmental effects may need explicit consideration alongside the usual performance objectives, so the business should not assess operational choices only through cost or service outcomes.",
+        "explanation": "Operational objectives are simplifications. Sustainability may require separate attention when judging whether an operating system is appropriate.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ],
+        "prompt": "A bespoke architect plans to use an identical, highly standardised design process for every client to reduce training complexity. Judge whether this is a good decision.",
+        "answer": "It may lower variation and training complexity, but it is risky if clients choose the architect for customisation. Some standardisation may help, but excessive standardisation could reduce flexibility and customer value.",
+        "explanation": "The judgement depends on strategy and customer expectations. A bespoke provider is likely to need flexibility more than a low-cost, standardised provider.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.4.1:influences-on-operational-objectives"
+        ],
+        "prompt": "A manager says, 'Our warehouse is efficient because it is always at 100% capacity.' Is this necessarily correct?",
+        "answer": "No.",
+        "explanation": "High utilisation is not identical to efficiency. It may cause queues, reduce responsiveness and leave no capacity to deal with disruption.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ],
+        "prompt": "Construct a reasoning chain showing how a decision to hold more spare delivery capacity could affect a same-day delivery firm's financial outcome.",
+        "answer": "More spare capacity → faster response and greater resilience → better delivery experience → stronger demand or customer retention → possible financial benefit, but with higher fixed-resource cost.",
+        "explanation": "A sound answer includes both the service benefit and the cost trade-off, rather than treating capacity as only a cost.",
+        "calc": null
+      },
+      {
+        "id": "bus-ops-001-p10",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.4.1:added-value",
+          "aqa-7132-3.4.1:influences-on-operational-objectives",
+          "aqa-7132-3.4.2:using-operations-data-in-decisions"
+        ],
+        "prompt": "A premium gift company is choosing between cheaper generic packaging and distinctive packaging that costs more. Select the best basis for its decision: A) choose the cheapest option automatically; B) assess whether distinctive packaging raises customer value and added value enough to justify its cost; C) choose the option that gives 100% capacity utilisation.",
+        "answer": "B.",
+        "explanation": "The business should assess the fit with its positioning and whether design or branding increases the value customers place on the product. Lowest cost or maximum utilisation alone is not enough.",
+        "calc": null
+      }
+    ]
+  }
+}

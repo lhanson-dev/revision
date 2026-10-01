@@ -1,0 +1,206 @@
+{
+  "node_id": "bus-fnd-004",
+  "learn": {
+    "title": "Ownership, control, directors and corporate governance",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Governance can affect confidence in a company",
+        "body": "Shareholders own shares in a company, but directors and managers make or influence many decisions. This separation can create information and incentive risks because managers may know more than outside owners, and may not always have the same priorities. Corporate governance provides oversight, accountability, reporting, audit, risk control and challenge. These mechanisms cannot guarantee strong performance, but effective governance may make serious risks more visible and reduce unchecked managerial discretion. This can matter to investors’ views of the company and therefore may influence its share price.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Ownership, management and governance are different",
+        "body": "Ownership means holding a legal or economic interest, such as shares. Management is the delegated organisation of daily and strategic business activity. Governance is the system through which a company is directed, overseen and held accountable. A shareholder does not necessarily manage the company, and a manager setting staff rotas is not carrying out corporate governance. A board challenging a high-risk acquisition is governance because it involves oversight of a major decision and risk.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising a governance influence",
+        "body": "Example: A board questions an acquisition plan because it would increase debt and create difficult integration risks. Independent challenge may reveal risks earlier, helping investors assess whether the company is being overseen effectively. Non-example: A line manager allocates shifts for the week. This is operational management, not board-level governance, so it is not evidence by itself of the company’s governance quality.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "How weak governance can create concerns",
+        "body": "Separation of ownership and control can create information and incentive risks. If incentives are poorly designed, managers may game targets or focus excessively on the short term. Weak control systems may then allow risks or misconduct to accumulate. This can create financial and stakeholder consequences, which may affect how investors view the company. Conversely, effective oversight can provide earlier challenge and better risk visibility, although it does not eliminate the possibility of failure.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided example: assessing a bonus scheme",
+        "body": "A listed retailer rewards senior managers mainly for meeting a one-year sales target. First, identify the incentive: managers have a reason to prioritise immediate sales. Next, identify the risk: they could pursue short-term activity that is not in the longer-term interests of owners or other stakeholders. Then consider governance: the board should challenge whether the remuneration measure encourages the desired behaviour and whether reporting and controls reveal unintended consequences. A reasoned judgement is not that the share price must fall, but that investors may consider the incentive design and quality of oversight when judging risk.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: board challenge and investor confidence",
+        "body": "Scenario: The directors of a company propose a major acquisition financed by more debt. Independent board members ask for evidence on integration risk, long-term consequences and the effect on stakeholders. Step 1: distinguish roles: executives may prepare and implement the proposal, while the board oversees and challenges it. Step 2: identify the governance mechanism: independent challenge and risk oversight. Step 3: explain the possible link: better scrutiny can improve risk visibility and accountability, which may influence investor confidence and, in turn, the share price. Step 4: add a limitation: the outcome also depends on information quality, competence, culture and the actual quality of the acquisition.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid oversimplified conclusions",
+        "body": "It is incorrect to assume that shareholders manage a company simply because they own shares. Directors govern and managers act under delegated authority. It is also incorrect to treat governance as only legal compliance: it includes accountability, incentives, risk oversight, reporting, audit and decision challenge. Finally, more governance rules or a larger board do not automatically create better decisions. Effectiveness depends on independence, information quality, competence, culture and enforcement.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the link in your own words",
+        "body": "A company announces that its board has strengthened independent challenge of executive decisions and reviews whether executive bonuses encourage short-term behaviour. Explain: (1) the ownership-control problem this responds to; (2) how the changes could affect investor views of risk; and (3) why it would be too certain to claim that the share price will definitely rise.",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "ownership",
+        "definition": "Holding a legal or economic interest in an organisation."
+      },
+      {
+        "term": "control",
+        "definition": "Practical authority to make or influence decisions."
+      },
+      {
+        "term": "director",
+        "definition": "A person responsible for governing a company and meeting directors’ duties."
+      },
+      {
+        "term": "management",
+        "definition": "Organising and directing business activity under delegated authority."
+      },
+      {
+        "term": "corporate governance",
+        "definition": "The systems and relationships through which a company is directed, controlled and held accountable."
+      },
+      {
+        "term": "information asymmetry",
+        "definition": "A situation in which one party, such as managers, has more information than another party, such as outside owners."
+      },
+      {
+        "term": "incentive",
+        "definition": "A reward or pressure that may influence a person’s behaviour or decisions."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-004-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "State one way in which corporate governance may influence investors’ views of a company.",
+        "answer": "It may improve accountability and risk visibility through mechanisms such as board oversight, reporting or audit.",
+        "explanation": "Governance can reduce information and accountability problems, although it cannot guarantee good performance.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "Which action is corporate governance: (A) a supervisor allocating staff shifts, or (B) a board challenging the risk of a debt-financed acquisition?",
+        "answer": "B: a board challenging the acquisition risk.",
+        "explanation": "Board oversight of a major decision is governance. Allocating shifts is day-to-day management.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p3",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "A company’s share price is £4.80 before an investor announcement and £4.20 afterwards. Calculate the fall in the share price in £.",
+        "answer": "£0.60.",
+        "explanation": "Subtract the later price from the earlier price: £4.80 − £4.20 = £0.60. The calculation shows the change but does not, by itself, prove that governance caused it.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p4",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "Compare shareholders and directors, then explain why the distinction matters when considering influences on share price.",
+        "answer": "Shareholders own shares, whereas directors govern the company. The distinction matters because directors’ decisions and oversight can affect risk and accountability, which investors may consider when valuing shares.",
+        "explanation": "Ownership and control can be separated in companies, creating a need for governance.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "A UK retailer gives executives a large bonus for achieving one-year sales growth only. Apply corporate governance to explain one concern investors may have.",
+        "answer": "Investors may be concerned that the bonus encourages short-term sales growth rather than decisions that support longer-term interests and stakeholder outcomes.",
+        "explanation": "Remuneration can align incentives, but poorly designed rewards can also distort behaviour.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "A company appoints two independent directors. Judge whether this will definitely increase its share price.",
+        "answer": "No. Independent challenge may improve oversight and investor confidence, but the effect depends on information quality, competence, culture, enforcement and the company’s wider performance and risks.",
+        "explanation": "Governance structure alone does not automatically produce better decisions or a higher share price.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p7",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "A report says that a board has increased audit scrutiny and reviews major risks more frequently. What does this suggest about the board’s role?",
+        "answer": "It suggests that the board is carrying out governance through oversight, internal control and risk monitoring.",
+        "explanation": "Audit and risk oversight are governance functions rather than routine operational management.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p8",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "A student says, ‘Shareholders own the company, so they make its day-to-day decisions.’ Identify and correct the error.",
+        "answer": "The error is confusing ownership with management. Shareholders own shares, while directors govern and managers exercise delegated authority over decisions.",
+        "explanation": "Ownership is not the same as management or practical control.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-004-p9",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.1.2:influences-on-share-price"
+        ],
+        "prompt": "Complete the reasoning chain: separation of ownership and control → information and incentive risk → ________ → potentially better risk visibility and accountability.",
+        "answer": "Governance mechanisms such as independent challenge, reporting, audit and controls.",
+        "explanation": "These mechanisms are responses to the information and accountability problems created when owners are not the people making decisions.",
+        "calc": null
+      }
+    ]
+  }
+}

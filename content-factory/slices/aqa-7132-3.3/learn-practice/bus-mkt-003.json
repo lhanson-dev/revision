@@ -1,0 +1,172 @@
+{
+  "node_id": "bus-mkt-003",
+  "learn": {
+    "title": "Market research",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Choosing evidence for a marketing decision",
+        "body": "Market research is the systematic collection and interpretation of information that reduces uncertainty about customers, competitors, markets or marketing choices. Start with the decision question: for example, whether a business needs to investigate why customers are leaving. Primary research is collected specifically for that current question, whereas secondary research is evidence that already exists. Quantitative data provides numerical evidence, such as frequencies or relationships. Qualitative data explores meanings, experiences and reasons. Evidence should support judgement, not replace it: its usefulness depends on relevance, representativeness, quality and recency.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising sound and weak research claims",
+        "body": "Example: A retailer uses its sales records to identify that repeat purchases have fallen, then interviews recent customers to explore possible reasons. The sales records are secondary quantitative evidence; the interviews are primary qualitative evidence. Together, they provide a stronger diagnosis.\n\nNon-example: A business surveys only its social-media followers and claims that the results represent every potential customer. This convenient group may not represent the intended market.\n\nNon-example: Sales rose in the same month as a new advert, so the business concludes that the advert caused the rise. This is correlation, not proof that one factor caused the other.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:correlation",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guiding a method choice",
+        "body": "Decision question: Why are first-time buyers not returning to an online clothing retailer?\n\n1. Clarify what is already known. The retailer's existing order and repeat-purchase records can show when customers stop buying, but cannot fully explain their reasons.\n2. Use secondary quantitative data to identify patterns in previous customer behaviour.\n3. Add primary qualitative interviews with a relevant selection of first-time buyers to explore experiences such as delivery uncertainty.\n4. Compare the sources. If the behavioural data and interview accounts point towards delivery problems, the business has a more credible basis for action.\n5. Keep the conclusion conditional: the evidence reduces uncertainty, but does not guarantee that delivery changes will restore repeat purchases.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoiding overconfident interpretations",
+        "body": "Primary research is not automatically more reliable simply because it is new. Reliability depends on how consistently the method is designed and carried out; strong secondary data can be more useful than weak primary research.\n\nQuantitative data is not automatically objective. A large dataset may be incomplete, biased or unable to show cause and effect.\n\nA correlation means two factors are associated in the evidence. It does not by itself prove that one factor caused the other. Other influences may explain the relationship.\n\nTriangulation—using more than one relevant source or method—can reduce dependence on the weaknesses of a single source.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:correlation",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your research choice",
+        "body": "A café is considering a new lunchtime range for office workers. Explain which evidence it could use to discover both what office workers currently buy and why they make those choices. In your explanation, distinguish primary from secondary research and quantitative from qualitative data. Then identify one reason why the café should not treat a correlation in sales records as proof of causation.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:correlation",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Using marketing data without overclaiming",
+        "body": "A retailer finds from existing transaction records that customers who experience a delayed delivery are less likely to order again. Managers should treat this as an association that identifies a possible issue, rather than proof that delay alone caused customers to leave. They could conduct primary interviews with a relevant group of customers to investigate whether delivery uncertainty, price, product quality or another factor influenced the decision. Combining behavioural records with customer accounts gives managers better evidence for deciding whether to improve delivery communication.",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:correlation",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "primary research",
+        "definition": "Evidence collected specifically for the current question."
+      },
+      {
+        "term": "secondary research",
+        "definition": "Existing evidence that was collected previously."
+      },
+      {
+        "term": "quantitative data",
+        "definition": "Numerical evidence about amount, frequency or relationships."
+      },
+      {
+        "term": "qualitative data",
+        "definition": "Non-numerical evidence about meaning, experience or mechanisms."
+      },
+      {
+        "term": "validity",
+        "definition": "The extent to which evidence measures or answers what it is intended to."
+      },
+      {
+        "term": "reliability",
+        "definition": "The consistency of a measurement or method."
+      },
+      {
+        "term": "correlation",
+        "definition": "An association between factors in evidence; it does not by itself prove causation."
+      },
+      {
+        "term": "triangulation",
+        "definition": "Using multiple relevant sources or methods to reduce reliance on one source's weaknesses."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-mkt-003-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data"
+        ],
+        "prompt": "Define primary research and qualitative data.",
+        "answer": "Primary research is evidence collected specifically for the current question. Qualitative data is non-numerical evidence about meanings, experiences or reasons.",
+        "explanation": "The distinction is about both when or why evidence was collected and the type of evidence it provides.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-003-p2",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.2:correlation"
+        ],
+        "prompt": "A gym finds that monthly membership sales are higher in months when it posts more videos online. A manager says, 'The videos caused the higher sales.' What is wrong with this conclusion?",
+        "answer": "The evidence shows correlation, not proof that the videos caused sales to rise.",
+        "explanation": "Other factors may have influenced sales, so an association alone cannot establish cause and effect.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-003-p3",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ],
+        "prompt": "A takeaway has falling orders from students and wants to decide what to change. State a suitable sequence of three research actions.",
+        "answer": "First, define the decision question. Second, examine existing order data for patterns. Third, collect primary qualitative evidence from a relevant group of students to explore reasons, then compare the findings.",
+        "explanation": "The process begins with the decision, uses available behavioural evidence, then gathers evidence about the possible reasons before making a judgement.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-003-p4",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ],
+        "prompt": "Explain how combining sales records with customer interviews could improve a retailer's decision about declining repeat purchases.",
+        "answer": "Sales records can show the scale and timing of declining repeat purchases, while interviews can explore customers' reasons. Combining them can give a stronger diagnosis and reduce uncertainty before the retailer acts.",
+        "explanation": "Quantitative behavioural evidence and qualitative attitudinal evidence answer different parts of the decision problem.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-003-p5",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.2:primary-and-secondary-research",
+          "aqa-7132-3.3.2:qualitative-and-quantitative-data",
+          "aqa-7132-3.3.2:using-marketing-data-in-decisions"
+        ],
+        "prompt": "A UK skincare business plans to target customers aged 18–24 with a new product. It has website data from its current customers, who are mostly aged over 40. Recommend one further research method and justify it.",
+        "answer": "It could conduct primary research with a relevant sample of 18–24-year-olds, such as interviews or a survey. This would provide evidence from the intended market rather than relying only on historical data from an unrepresentative customer group.",
+        "explanation": "Existing data may be useful, but it may not represent a future target market. The method should match the decision question and the required type of evidence.",
+        "calc": null
+      }
+    ]
+  }
+}

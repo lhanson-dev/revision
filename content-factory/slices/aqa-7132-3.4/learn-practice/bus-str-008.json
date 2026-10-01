@@ -1,0 +1,218 @@
+{
+  "node_id": "bus-str-008",
+  "learn": {
+    "title": "Innovation, R&D, intellectual property, digital transformation and disruptive technology",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Innovation creates value when change is implemented",
+        "body": "Innovation is an implemented change intended to create value. It may be a new product, a better production method, a new service, a different way of selling, or an organisational change. Product innovation changes what customers buy; process innovation changes how the business makes or delivers it. R&D is systematic work that expands knowledge or develops possible applications. It may lead to innovation, but R&D by itself is not innovation: an unlaunched invention creates no realised value. Automation and AI can automate tasks or support employee decisions, but their effect depends on the quality of data, staff skills, controls and redesigned workflows.",
+        "item_ids": [
+          "aqa-7132-3.9.2:product-innovation",
+          "aqa-7132-3.9.2:process-innovation",
+          "aqa-7132-3.9.2:research-and-development",
+          "aqa-7132-3.9.4:automation"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Distinguish online business, e-commerce and digital transformation",
+        "body": "Growth of online business describes the increasing importance of digital channels for selling and operating. E-commerce is a strategic choice to move some or all selling and operations online. It can widen reach, alter costs and supply chains, and produce customer data, but needs investment in technology, delivery and security and may conflict with physical shops. Digital transformation is broader than putting a shop online or buying software: it redesigns processes, skills, data, customer interactions and decisions so that technology changes value creation or delivery. Big data refers to complex, fast, varied or large data flows; data mining is the analysis used to seek useful patterns within data.",
+        "item_ids": [
+          "aqa-7132-3.7.6:growth-of-online-business",
+          "aqa-7132-3.9.4:e-commerce-strategic",
+          "aqa-7132-3.9.4:big-data",
+          "aqa-7132-3.9.4:data-mining",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Technology adoption is not automatically transformation or disruption",
+        "body": "Example: a retailer uses accurate customer-support information, staff supervision and escalation rules alongside generative AI. Queries are resolved faster while complex cases are safely passed to people. This is a credible use of technology because processes and controls have changed as well as the tool being introduced. Non-example: a firm buys the same software but leaves inaccurate knowledge sources and unclear responsibility unchanged. Calling this digital transformation is incorrect if workflows and outcomes do not change. Likewise, a technology is not disruptive merely because it is new; disruption means it significantly changes competitive or business-model conditions.",
+        "item_ids": [
+          "aqa-7132-3.9.4:automation",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value",
+          "aqa-7132-3.7.6:growth-of-online-business"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid common overclaims about data, AI and IP",
+        "body": "More data is not necessarily better information. Big datasets can be biased, incomplete or poorly matched to the decision. Data mining can reveal a pattern, but a pattern may be commercially unimportant, may not persist with new data, and does not prove causation. AI is not a separate business issue: assess it through people, process, data, cost, quality, risk and customers. A patent can help an inventor protect returns from R&D, but it requires public disclosure, expires and does not guarantee commercial success. Copyright protects original creative work automatically, but it also does not guarantee a market advantage.",
+        "item_ids": [
+          "aqa-7132-3.9.4:big-data",
+          "aqa-7132-3.9.4:data-mining",
+          "aqa-7132-3.9.2:patents",
+          "aqa-7132-3.9.2:copyright",
+          "aqa-7132-3.9.4:automation"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From pressure and investment to business value",
+        "body": "A business may face pressures to innovate from rival products, changing customer preferences, technological change, ageing products or regulation. It can respond through product innovation, process innovation, R&D or digital investment. However, investment leads to value only through a chain: technology investment → suitable adoption and capability → actual use in redesigned processes → an effect on productivity, quality, customer experience or cost → customer and competitor response → value captured by the business. Security, privacy, bias, implementation failure and poor adoption can break this chain. Therefore, claims that a technology improved performance need evidence of a baseline and evidence that the technology, rather than another change, caused the improvement.",
+        "item_ids": [
+          "aqa-7132-3.9.2:pressures-for-innovation",
+          "aqa-7132-3.9.2:product-innovation",
+          "aqa-7132-3.9.2:process-innovation",
+          "aqa-7132-3.9.2:research-and-development",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value",
+          "aqa-7132-3.9.4:automation"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the strategic case before recommending technology",
+        "body": "For a business considering e-commerce, automation, big data or data mining, explain: (1) what specific customer or operational problem it solves; (2) how the technology changes a process or decision; (3) which skills, data and controls are required; (4) the likely value, such as lower cost, improved quality or greater reach; and (5) the main risks, including privacy, security, bias, channel conflict and weak customer trust. Then make a judgement based on strategic fit and implementation capability rather than novelty.",
+        "item_ids": [
+          "aqa-7132-3.9.4:e-commerce-strategic",
+          "aqa-7132-3.9.4:big-data",
+          "aqa-7132-3.9.4:data-mining",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value",
+          "aqa-7132-3.9.2:pressures-for-innovation"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "innovation",
+        "definition": "Implemented change intended to create value."
+      },
+      {
+        "term": "research and development (R&D)",
+        "definition": "Systematic work to increase knowledge or develop new applications."
+      },
+      {
+        "term": "product innovation",
+        "definition": "A new or significantly improved product that customers can buy."
+      },
+      {
+        "term": "process innovation",
+        "definition": "An improvement to how a product or service is made or delivered."
+      },
+      {
+        "term": "patent",
+        "definition": "A granted legal right giving an inventor exclusive rights to make and sell a new invention for up to 20 years."
+      },
+      {
+        "term": "copyright",
+        "definition": "Automatic legal protection against copying original creative works, including software, writing and images."
+      },
+      {
+        "term": "automation",
+        "definition": "Use of technology to carry out tasks with reduced direct human input."
+      },
+      {
+        "term": "e-commerce",
+        "definition": "Selling and related business activity through online channels."
+      },
+      {
+        "term": "big data",
+        "definition": "Data flows whose scale, speed, variety or complexity make conventional handling difficult."
+      },
+      {
+        "term": "data mining",
+        "definition": "Using analytical techniques to identify potentially useful patterns or relationships in datasets."
+      },
+      {
+        "term": "digital transformation",
+        "definition": "Organisational change using digital technology to redesign how value is created or delivered."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-008-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.9.2:research-and-development",
+          "aqa-7132-3.9.2:product-innovation",
+          "aqa-7132-3.9.2:process-innovation"
+        ],
+        "prompt": "State the difference between R&D, product innovation and process innovation.",
+        "answer": "R&D develops knowledge or possible applications; product innovation changes what is sold; process innovation changes how it is made or delivered.",
+        "explanation": "R&D can contribute to either type of innovation but is not itself proof that a change has been implemented.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.6:growth-of-online-business",
+          "aqa-7132-3.9.4:e-commerce-strategic",
+          "aqa-7132-3.9.4:automation"
+        ],
+        "prompt": "A bakery adds online ordering, changes delivery routes, trains staff to manage digital orders and uses software to send automatic collection reminders. Which description is best: (A) only growth of online business, (B) an e-commerce strategic choice supported by automation, or (C) product innovation only?",
+        "answer": "B: an e-commerce strategic choice supported by automation.",
+        "explanation": "The bakery has changed selling and operations online, while automated reminders perform a task. This is broader than simply observing that online business has grown.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.9.2:patents",
+          "aqa-7132-3.9.2:copyright"
+        ],
+        "prompt": "Compare a patent with copyright and justify which is more relevant to a firm that has designed a new machine.",
+        "answer": "A patent protects a new invention after application and grant, whereas copyright automatically protects original creative work. A patent is more relevant because the machine is an invention.",
+        "explanation": "Copyright may protect related design documents or software, but the exclusive right over the new invention itself is the purpose of a patent.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.9.2:pressures-for-innovation",
+          "aqa-7132-3.9.2:product-innovation",
+          "aqa-7132-3.9.2:process-innovation"
+        ],
+        "prompt": "A UK reusable-bottle business is losing sales after rivals introduce lighter bottles and new environmental requirements affect packaging. Identify two pressures for innovation and suggest one suitable response.",
+        "answer": "The pressures are rival products and regulation. The business could develop a lighter bottle with compliant packaging.",
+        "explanation": "Competitive and regulatory pressures can threaten market share. The proposed product innovation responds to both, although it would still need testing and investment.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.9.4:automation",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value"
+        ],
+        "prompt": "Explain a chain through which automation of invoice checking could improve a wholesaler's performance, and give one condition needed for this outcome.",
+        "answer": "Automation can check routine invoices faster, reducing processing time and errors, which may lower costs and improve supplier relationships. It needs accurate data and staff controls for exceptions.",
+        "explanation": "The outcome follows only if the automated process is adopted and works reliably. Incorrect data or weak exception handling could instead create costly errors.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.9.4:big-data",
+          "aqa-7132-3.9.4:data-mining"
+        ],
+        "prompt": "A manager says: 'Our dataset has millions of transactions, so data mining will tell us why customers stop buying.' What is the error in this claim?",
+        "answer": "A large dataset may reveal predictive patterns, but it may be biased or incomplete and cannot by itself prove why customers leave.",
+        "explanation": "Data mining discovers associations or predictions. Business interpretation and validation are needed, and correlation does not establish causation.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-008-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.9.4:e-commerce-strategic",
+          "aqa-7132-3.9.4:big-data",
+          "aqa-7132-3.9.4:data-mining",
+          "aqa-7132-3.9.4:pressures-to-adopt-digital-technology-and-its-value"
+        ],
+        "prompt": "A regional furniture retailer proposes closing all showrooms immediately and selling only online because its customer data identifies growing website visits. Make a judgement on whether it should do this now.",
+        "answer": "It should not necessarily close all showrooms immediately. Online selling may extend reach and data mining may inform decisions, but the retailer must test demand, delivery capability, security, customer preferences and the loss of showroom-based sales before making an irreversible change.",
+        "explanation": "Website visits are evidence of interest, not proof that every customer will buy furniture online. The decision depends on strategic fit, operational capability and whether the data supports the claimed causal conclusion.",
+        "calc": null
+      }
+    ]
+  }
+}

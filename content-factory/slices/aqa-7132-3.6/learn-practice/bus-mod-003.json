@@ -1,0 +1,130 @@
+{
+  "node_id": "bus-mod-003",
+  "learn": {
+    "title": "Herzberg motivator-hygiene theory",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Two types of job factor",
+        "body": "Herzberg’s theory separates factors linked to the content of work from conditions surrounding the job. Motivators, including achievement, recognition, responsibility and growth, may create positive satisfaction because they make work feel meaningful or worthwhile. Hygiene factors, such as pay, policies, supervision and working conditions, can cause dissatisfaction when they are inadequate. Improving a poor hygiene factor may prevent dissatisfaction, but it does not automatically make the job engaging.",
+        "item_ids": []
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Preventing dissatisfaction versus creating satisfaction",
+        "body": "A manager can improve hygiene by making conditions safe, supervision fair and pay acceptable. This reduces negative feelings and possible retention or performance risks. By contrast, job enrichment seeks to build motivators into the role, for example by increasing responsibility, challenge or meaningful control. The distinction is useful, but not absolute: pay, supervision and conditions can sometimes positively motivate employees, depending on the person and situation.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Applying the distinction carefully",
+        "body": "Example: A warehouse improves unsafe lighting and heating. This removes a serious source of dissatisfaction, but workers may still find their roles repetitive. The business could also give trained employees responsibility for checking stock accuracy, creating a possible achievement and responsibility motivator.\n\nNon-example: ‘Salary can never motivate because it is a hygiene factor.’ This is too absolute. Herzberg mainly places pay among hygiene factors, but employees’ responses vary with their circumstances, job type and existing pay level.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Do not treat the categories as fixed laws",
+        "body": "Hygiene factors are not unimportant: poor conditions can damage morale, retention and performance. Equally, satisfaction and dissatisfaction are not always fully separate in real workplaces. The theory does not predict every employee response because individual and occupational differences matter. Use it as a framework for investigating a problem, rather than mechanically labelling one factor as the sole cause.",
+        "item_ids": []
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "How a job factor may affect behaviour",
+        "body": "Job or context factor\n→ employee perception of the factor\n→ satisfaction or dissatisfaction\n→ possible outcome for engagement, effort, retention or performance\n\nFor example:\nPoor working conditions → employees feel dissatisfied → greater risk of absence or leaving.\n\nGreater responsibility and achievement → employees experience possible intrinsic satisfaction → greater engagement or effort.\n\nThe word ‘possible’ matters: the outcome depends on the employee and the context.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain an appropriate management response",
+        "body": "A firm has raised pay but staff turnover remains high. Explain why Herzberg’s theory suggests that managers should investigate more than pay. In your explanation, distinguish between removing dissatisfaction and creating positive satisfaction, then identify two other areas to investigate, such as work content, management, development or conditions.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "motivators",
+        "definition": "Factors associated with the work itself that may create positive satisfaction, such as achievement, recognition, responsibility and growth."
+      },
+      {
+        "term": "hygiene factors",
+        "definition": "Contextual job factors whose inadequacy may create dissatisfaction, such as pay, policies, supervision and working conditions."
+      },
+      {
+        "term": "job enrichment",
+        "definition": "Redesigning a job to increase responsibility, challenge or meaningful control."
+      },
+      {
+        "term": "intrinsic satisfaction",
+        "definition": "Positive satisfaction arising from the work itself, rather than mainly from external conditions or rewards."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "herzberg-retrieval-01",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "State one motivator and one hygiene factor in Herzberg’s theory.",
+        "answer": "A motivator could be responsibility. A hygiene factor could be working conditions.",
+        "explanation": "Responsibility is linked to the content of work and possible positive satisfaction. Working conditions are a contextual factor that may cause dissatisfaction if poor.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-discrimination-01",
+        "capability": "discrimination",
+        "item_ids": [],
+        "prompt": "A café owner installs safer kitchen equipment but gives chefs no additional control over their work. Is this mainly an attempt to improve hygiene or introduce a motivator?",
+        "answer": "It mainly improves hygiene.",
+        "explanation": "Safer equipment improves working conditions and can remove dissatisfaction. It does not necessarily add achievement, responsibility, recognition or growth.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-framework-application-01",
+        "capability": "framework_application",
+        "item_ids": [],
+        "prompt": "A call centre has complaints about rigid scripts and no opportunities to develop skills. Using Herzberg’s theory, recommend one job-enrichment change.",
+        "answer": "Allow trained advisers more responsibility to resolve suitable customer problems without approval, supported by development training.",
+        "explanation": "More meaningful control and responsibility may create a motivator. Training can also provide growth. The response uses job enrichment rather than relying only on contextual changes.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-contextual-application-01",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A small manufacturer has improved its break room and increased basic pay, but output has not risen. Give one Herzberg-based reason why.",
+        "answer": "The changes may have reduced dissatisfaction but may not have made the work more meaningful, responsible or developmental.",
+        "explanation": "Pay and conditions can matter, especially if previously poor, but removing negative conditions does not automatically create positive motivation or greater effort.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-compare-justify-01",
+        "capability": "compare_justify",
+        "item_ids": [],
+        "prompt": "Compare improving supervision with job enrichment as ways to address low morale in a retail store.",
+        "answer": "Improving supervision can reduce dissatisfaction if staff feel unfairly managed, whereas job enrichment can add responsibility or challenge and may create positive satisfaction. The better choice depends on whether the main problem is poor management, repetitive work, or both.",
+        "explanation": "The comparison distinguishes contextual conditions from work content while recognising that factors can overlap and evidence from staff is needed.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-contextual-judgement-01",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A delivery business can either spend £8,000 on improving depot heating or give drivers greater control over route planning. Which option should it choose according to Herzberg?",
+        "answer": "It should not choose solely from the theory; it should identify the actual problem first. If heating is poor, improve it urgently. If drivers are disengaged because they lack autonomy, greater route control may help. It may need both.",
+        "explanation": "Poor conditions can create serious dissatisfaction and must not be dismissed. Greater control may act as job enrichment, but employee responses and baseline conditions differ.",
+        "calc": null
+      },
+      {
+        "id": "herzberg-misconception-diagnostic-01",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A manager says: ‘Pay is a hygiene factor, so a pay rise cannot motivate anybody.’ Identify the error.",
+        "answer": "The manager treats Herzberg’s category as a universal rule. Pay is mainly classified as hygiene, but it can influence positive motivation in some contexts and people respond differently.",
+        "explanation": "The theory is a useful guide, not a complete prediction of every employee’s response. Pay may be especially important where it is perceived as inadequate or unfair.",
+        "calc": null
+      }
+    ]
+  }
+}

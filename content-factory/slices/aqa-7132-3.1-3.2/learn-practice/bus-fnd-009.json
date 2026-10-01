@@ -1,0 +1,231 @@
+{
+  "node_id": "bus-fnd-009",
+  "learn": {
+    "title": "External environment, risk and uncertainty",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "External changes work through business-specific exposure",
+        "body": "The external environment contains conditions a business cannot directly control, including economic, legal, technological, social, environmental and competitive conditions. However, a business can adapt its response. Avoid simply labelling a factor as good or bad: identify how it changes costs, customer demand, cash or decisions. The effect depends on exposure, such as the business’s debt, customers, suppliers, location, technology and regulation. Competition can affect demand and may force changes to prices or costs. Changes in incomes can alter what customers can afford, while interest rates can alter borrowing costs, household spending and investment decisions.",
+        "item_ids": [
+          "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+          "aqa-7132-3.1.3:incomes-and-demand",
+          "aqa-7132-3.1.3:interest-rates",
+          "aqa-7132-3.1.3:environmental-issues"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Scientific and intuitive decisions",
+        "body": "Scientific decision making is systematic and evidence-based: managers set an objective, gather and analyse relevant information, evaluate options, choose and then review the outcome. It is more objective and easier to defend, but requires time, reliable data and resources. Intuitive decision making relies on experience, judgement and instinct. It can be useful where time is short, data are scarce or circumstances are new, but it is more exposed to bias and overconfidence. Managers may consider the possible reward from an option against the chance and cost of it going wrong.",
+        "item_ids": [
+          "aqa-7132-3.2.2:scientific-decision-making",
+          "aqa-7132-3.2.2:intuitive-decision-making",
+          "aqa-7132-3.2.2:reward"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Build a transmission chain, not a list",
+        "body": "Use this chain: external shock → exposure channel → first-order effect → business response → second-order outcome. For example, an interest-rate rise → higher finance costs for a debt-funded housebuilder and reduced customer affordability → lower cash available and weaker house demand → the business delays investment or changes its offer → future growth and stakeholder outcomes may change. The same shock may have a different effect on a cash-rich business. For any decision, also consider mission, ethics, stakeholder expectations, external conditions and constraints on finance, time and skills.",
+        "item_ids": [
+          "aqa-7132-3.1.3:interest-rates",
+          "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+          "aqa-7132-3.2.2:reward"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Social, legal and infrastructure influences",
+        "body": "Demographic factors include the size, age structure, household type and geographic spread of a population. Demographic change and migration can alter labour supply, skills and the mix of customer demand. Consumer lifestyles and buying behaviour change what customers want, how they compare products and where they buy; health awareness, sustainability, convenience and mobile use can all matter. Online business can widen reach and reduce premises costs, while making price comparison easier. Labour market legislation creates employment-related costs and compliance duties but also protects workers and supports a level playing field. Government enterprise policy can reduce some start-up costs or risks through targeted support. Infrastructure, such as roads, broadband and energy supply, affects reliability, transport and communication costs. A useful example is an ageing population increasing healthcare demand. A weak answer is simply saying that demographic change is ‘good’ without explaining demand or labour effects.",
+        "item_ids": [
+          "aqa-7132-3.1.3:demographic-factors",
+          "aqa-7132-3.7.6:demographic-change-and-migration",
+          "aqa-7132-3.7.6:consumer-lifestyle-and-buying-behaviour",
+          "aqa-7132-3.7.4:labour-market-legislation",
+          "aqa-7132-3.7.4:government-enterprise-policy",
+          "aqa-7132-3.7.4:infrastructure"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Risk, uncertainty and regulation",
+        "body": "Uncertainty means incomplete knowledge about future assumptions, events or outcomes. Risk is the potential effect of uncertainty on business objectives. Do not assume risk always requires a precisely known probability: probability information can be strong, weak or absent. Nor can risk be fully eliminated. Insurance, contracts, diversification, hedging, buffers and contingency plans may reduce or transfer specified parts of an exposure, but residual exposure remains. Regulators and other legal requirements can constrain business actions and create compliance obligations; firms need to account for these when making decisions. Environmental issues can also change costs, customer behaviour and business choices.",
+        "item_ids": [
+          "aqa-7132-3.7.4:role-of-regulators",
+          "aqa-7132-3.1.3:environmental-issues",
+          "aqa-7132-3.2.2:scientific-decision-making"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Uncertainty changes the design of a decision",
+        "body": "A forecast is not a fact. Where future outcomes are unclear, managers can use scenarios and sensitivity analysis to test assumptions, but should also assess downside severity, reversibility, resilience costs, information quality and the value of flexibility. Staged commitments can preserve the option to adapt. Diversification reduces dependence on one source but can add complexity. Buffers such as spare capacity or inventory increase carrying costs in normal periods but may improve disruption tolerance. This links external-environment analysis to finance, operations, people and marketing decisions.",
+        "item_ids": [
+          "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources",
+          "aqa-7132-3.1.3:competition-effects-on-costs-and-demand",
+          "aqa-7132-3.7.4:infrastructure"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain a different effect",
+        "body": "A debt-funded housebuilder and a cash-rich bank face the same interest-rate rise. Explain, in a chain, why their outcomes may differ. Then identify one assumption that is uncertain and one action each business could take to adapt. Ensure your explanation refers to its particular exposure rather than claiming that higher interest rates are always harmful.",
+        "item_ids": [
+          "aqa-7132-3.1.3:interest-rates",
+          "aqa-7132-3.2.2:intuitive-decision-making",
+          "aqa-7132-3.2.2:reward"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "external environment",
+        "definition": "Conditions outside a business’s direct control that influence its decisions or outcomes."
+      },
+      {
+        "term": "uncertainty",
+        "definition": "Incomplete knowledge about future assumptions, events or outcomes."
+      },
+      {
+        "term": "risk",
+        "definition": "The potential effect of uncertainty on business objectives."
+      },
+      {
+        "term": "contingency",
+        "definition": "A prepared response for a plausible adverse event."
+      },
+      {
+        "term": "demographic factors",
+        "definition": "Measurable population characteristics, such as age structure, household type and geographic spread."
+      },
+      {
+        "term": "consumer lifestyle and buying behaviour",
+        "definition": "How people live and choose what, how and where to buy."
+      },
+      {
+        "term": "scientific decision making",
+        "definition": "A systematic, evidence-based process of setting objectives, analysing options, deciding and reviewing."
+      },
+      {
+        "term": "intuitive decision making",
+        "definition": "Decision making based mainly on experience, judgement and instinct rather than formal analysis."
+      },
+      {
+        "term": "infrastructure",
+        "definition": "Basic systems such as transport, broadband, energy and water supply that support economic activity."
+      },
+      {
+        "term": "reward",
+        "definition": "The potential benefit a business could gain from a decision."
+      },
+      {
+        "term": "residual exposure",
+        "definition": "The part of an exposure that remains after risk-reduction or transfer actions."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-fnd-009-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.1.3:demographic-factors",
+          "aqa-7132-3.7.6:demographic-change-and-migration"
+        ],
+        "prompt": "Define demographic factors and state one way demographic change or migration can affect a business.",
+        "answer": "Demographic factors are measurable characteristics of a population, such as age structure or household type. Change or migration can alter labour supply, skills or the mix of customer demand.",
+        "explanation": "Population characteristics influence both the workers a business can recruit and the customers it can serve.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.2.2:scientific-decision-making",
+          "aqa-7132-3.2.2:intuitive-decision-making"
+        ],
+        "prompt": "A manager must respond within an hour to an unexpected supplier failure and has little reliable data. Which approach is likely to be more useful initially: scientific or intuitive decision making?",
+        "answer": "Intuitive decision making, initially.",
+        "explanation": "Time is short and reliable data are scarce, so experienced judgement can provide a rapid initial response. It should still be reviewed when better information becomes available.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p3",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.1.3:incomes-and-demand",
+          "aqa-7132-3.1.3:competition-effects-on-costs-and-demand"
+        ],
+        "prompt": "A fall in household incomes occurs while several low-price competitors enter the local market for a café. Construct a chain showing a possible effect on the café.",
+        "answer": "Lower incomes and stronger low-price competition → customers become more price-sensitive or visit less often → café demand or prices fall → cash inflow is reduced → the café may alter its menu, promotion or costs.",
+        "explanation": "The answer identifies demand and cash transmission mechanisms rather than claiming that the external change is simply bad.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.1.3:environmental-issues",
+          "aqa-7132-3.7.6:consumer-lifestyle-and-buying-behaviour"
+        ],
+        "prompt": "A UK takeaway notices growing customer concern about sustainability. Give one product or operating change it could consider and explain the likely mechanism.",
+        "answer": "It could use less packaging or offer a more sustainable packaging option. This may meet changing customer preferences and protect or increase demand, although it could change costs.",
+        "explanation": "Environmental concerns influence buying behaviour, which can affect demand as well as operating costs.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.2.2:reward",
+          "aqa-7132-3.2.2:influences-on-decisions-mission-ethics-environment-resources"
+        ],
+        "prompt": "A retailer can choose a high-reward expansion that uses most of its available finance, or a smaller expansion that preserves cash. Which might be more suitable for a business whose mission stresses long-term reliability? Justify your answer.",
+        "answer": "The smaller expansion may be more suitable because it preserves finance and may better support reliable long-term service. The high-reward option could still be chosen if its potential benefits justify the greater risk and resource pressure.",
+        "explanation": "The judgement weighs reward against resources, mission and resilience; there is no automatic correct choice.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p6",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.4:labour-market-legislation",
+          "aqa-7132-3.7.4:government-enterprise-policy",
+          "aqa-7132-3.7.4:role-of-regulators"
+        ],
+        "prompt": "A new small business is considering opening a salon. Assess whether government enterprise support means it can ignore employment-related legal duties and regulatory requirements.",
+        "answer": "No. Support may lower some start-up costs or risks, but it is limited and may be targeted. The salon must still meet relevant employment and regulatory requirements, which affect costs and compliance work.",
+        "explanation": "Government support does not remove legal or regulatory obligations.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.1.3:interest-rates",
+          "aqa-7132-3.2.2:reward"
+        ],
+        "prompt": "A student writes: ‘Higher interest rates are always bad for every business, so the risk is certain.’ Identify two errors.",
+        "answer": "The effect is not the same for every business because exposure differs; for example, debt and customer affordability matter. Also, risk is the potential effect of uncertainty on objectives, not proof that one outcome is certain.",
+        "explanation": "A sound answer distinguishes a possible transmission effect from a universal, certain outcome.",
+        "calc": null
+      },
+      {
+        "id": "bus-fnd-009-p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.7.4:infrastructure",
+          "aqa-7132-3.7.6:demographic-change-and-migration",
+          "aqa-7132-3.1.3:competition-effects-on-costs-and-demand"
+        ],
+        "prompt": "An online retailer is choosing between two warehouse locations. Location A has reliable broadband and road links but faces more local competitors for staff. Location B has weaker road links but is in an area with a growing working-age population. Select three relevant factors the retailer should investigate and explain why each matters.",
+        "answer": "It should investigate transport reliability, because delivery delays can raise costs and reduce service; broadband reliability, because online operations depend on communication systems; and local labour supply and competition for staff, because these affect recruitment, skills and labour costs.",
+        "explanation": "This selects factors that connect infrastructure, demographic change and competitive pressure to the retailer’s operations rather than treating locations as automatically better or worse.",
+        "calc": null
+      }
+    ]
+  }
+}

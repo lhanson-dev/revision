@@ -1,0 +1,183 @@
+{
+  "node_id": "bus-mod-001",
+  "learn": {
+    "title": "Taylor / scientific management",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Piece-rate pay in scientific management",
+        "body": "A piece-rate incentive pays an employee according to the quantity of output they produce. In scientific management, it can be combined with task analysis, a standard method and training. The intended effect is to encourage faster output in repetitive, measurable jobs. However, managers must monitor quality as well as quantity.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Piece rate compared with a fixed wage",
+        "body": "With a fixed wage, pay does not directly rise with each additional unit produced. With a piece rate, pay is linked to output quantity, so the incentive to raise measured output is stronger. A piece rate may suit a repetitive packing task with clear quality checks, but may be less suitable where employees need judgement, teamwork or experimentation.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Recognising a piece rate",
+        "body": "Example: A bakery pays a packer 8p for every correctly packed box of biscuits. Their pay rises if they pack more acceptable boxes, so this is piece-rate pay. Non-example: A bakery gives all packers a £100 monthly attendance bonus. This is an incentive, but it is not a piece rate because it is not linked to the number of units produced.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Money does not guarantee good performance",
+        "body": "It is incorrect to conclude that piece-rate pay proves money is the main motivator for every employee. It may increase output, but employees may also value autonomy, relationships, meaningful work and fair treatment. If the reward is only for quantity, workers may rush, game the measure or neglect quality unless suitable checks are in place.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Visual: the possible incentive pathway",
+        "body": "Piece-rate payment → employee focuses on number of units → measured output may rise. But a second path is possible: focus only on quantity → rushing or shortcuts → errors, waste or customer complaints. Therefore, use quality standards alongside an output-based incentive.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Why piece rates can help or harm",
+        "body": "In a repetitive task, a clear piece rate can encourage employees to follow a trained standard method and complete more units. This can reduce variation and improve productivity. Yet where quality is difficult to observe, a narrow output incentive can encourage quantity at the expense of quality. The overall business result depends on both output and the cost of defects, rework and dissatisfied customers.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Choose an appropriate use",
+        "body": "Explain whether a piece rate would be suitable for employees assembling identical phone chargers. Then explain why your answer might change for employees designing a new phone app. Refer to task measurability, quality and autonomy.",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "scientific management",
+        "definition": "A management approach using systematic task analysis and clear work methods to improve efficiency."
+      },
+      {
+        "term": "piece-rate incentive",
+        "definition": "Pay linked to the quantity of output produced."
+      },
+      {
+        "term": "standardisation",
+        "definition": "Setting consistent methods or specifications for work."
+      },
+      {
+        "term": "time study",
+        "definition": "Measuring task duration to analyse how work is carried out."
+      },
+      {
+        "term": "task analysis",
+        "definition": "Breaking work into activities to identify an effective method."
+      },
+      {
+        "term": "autonomy",
+        "definition": "The degree of choice and control an employee has over how work is done."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-mod-001-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "What is meant by a piece-rate incentive?",
+        "answer": "Pay that is linked to the quantity of output produced.",
+        "explanation": "The defining feature is that earnings vary with output quantity, rather than simply time worked.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "Which payment method is a piece rate? A) £12 per hour worked. B) 15p for each correctly labelled parcel. C) A yearly salary. D) A bonus for attending every shift.",
+        "answer": "B) 15p for each correctly labelled parcel.",
+        "explanation": "It directly links pay to each unit of output. The other methods are not based on the number of units produced.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "A firm makes identical, simple cardboard cartons. Suggest one way it could use a piece rate and one control it should use alongside it.",
+        "answer": "Pay employees for each carton completed to the required standard, while using quality inspections.",
+        "explanation": "The repetitive task is measurable, so a piece rate may encourage output. Quality checks reduce the risk that workers rush or produce defective cartons.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p4",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "Assess whether a piece rate is suitable for a team developing new recipes for a restaurant chain.",
+        "answer": "It is likely to be of limited suitability because creative recipe development needs experimentation, judgement and collaboration, not simply high volumes of output.",
+        "explanation": "A narrow quantity incentive may discourage careful testing or teamwork. It could be more suitable for a routine, measurable production task than knowledge-based development work.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p5",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "Compare a piece rate with a fixed hourly wage for workers checking and packing identical screws. Which is more likely to raise measured output, and why?",
+        "answer": "A piece rate is more likely to raise measured output because each additional acceptable pack increases pay; an hourly wage does not directly reward extra units.",
+        "explanation": "The direct financial link between output and earnings provides an incentive to complete more packs. This conclusion assumes quality is monitored.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p6",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "Use the chain work design/incentive → employee behaviour → productivity/quality to analyse a piece rate for a parcel-sorting operation.",
+        "answer": "A piece rate may lead sorters to process more parcels, increasing measured productivity, but it may also encourage rushing and mis-sorting, reducing quality.",
+        "explanation": "The incentive changes behaviour. The business must judge both the increased volume and any quality costs.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p7",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "A manager says: ‘If we introduce a piece rate, every employee will be motivated and quality will improve.’ Identify the error in this claim.",
+        "answer": "A piece rate does not motivate every employee in the same way, and rewarding quantity can damage quality if workers rush.",
+        "explanation": "Financial incentives are not a universal explanation of motivation. Quality needs separate attention rather than being assumed to improve with output.",
+        "calc": null
+      },
+      {
+        "id": "bus-mod-001-p8",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.6.4:piece-rate"
+        ],
+        "prompt": "Explain one possible chain through which a piece rate could reduce a firm's overall performance, even if the number of units produced rises.",
+        "answer": "Piece-rate pay may encourage workers to prioritise speed, causing defects; defects create rework, waste or complaints, which can reduce overall performance.",
+        "explanation": "Higher measured output is not automatically better business performance because defect-related costs and customer dissatisfaction may outweigh the output gain.",
+        "calc": null
+      }
+    ]
+  }
+}

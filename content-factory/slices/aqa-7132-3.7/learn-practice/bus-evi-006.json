@@ -1,0 +1,153 @@
+{
+  "node_id": "bus-evi-006",
+  "learn": {
+    "title": "Functional interdependence and causal chains",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Functions work as a system",
+        "body": "Marketing, operations, people and finance are analytical categories, but they do not operate independently. A decision in one function can alter resources, processes and outcomes elsewhere. For example, a marketing decision that raises demand may change production volume, staffing requirements, cash needs and the customer experience. Good performance assessment therefore reads operations, HR and marketing indicators together rather than treating one KPI as a complete answer.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Combining KPI evidence across functions",
+        "body": "Operations data, such as productivity, capacity utilisation, defect rate and delivery time, indicate how reliably the business is producing and delivering. HR data, such as labour turnover, absenteeism, training and employee satisfaction, can help explain changes in capability and service. Marketing data, such as market share, sales growth, customer satisfaction and customer retention, show market-facing outcomes. Compare the indicators, look for plausible links, allow for time lags and weigh conflicts before reaching a judgement about whether performance is sustainable.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Build a conditional causal chain",
+        "body": "A useful chain follows: functional decision → resource or process effect → stakeholder or market effect → financial or strategic outcome → feedback. For instance: promotion → higher demand → capacity pressure → longer lead times or lower quality → weaker satisfaction and retention. This is conditional, not guaranteed: it is more likely if capacity is already tight and operations cannot respond. A later fall in retention may then reduce future demand, creating feedback to marketing performance.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Evidence-based explanation versus a single-link claim",
+        "body": "Example: high labour turnover may leave fewer experienced employees. This can reduce process quality or productivity, increasing defects or delivery times; customer satisfaction and retention may then fall. The explanation can be tested using HR, operations and marketing data. Non-example: ‘Higher motivation leads to higher profit.’ This skips the mechanisms, ignores possible delays and gives no evidence about productivity, quality, service or retention.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "A better departmental KPI may harm overall performance",
+        "body": "It is incorrect to assume that an improvement in one department’s KPI improves the whole business. Cutting staff costs might raise short-run productivity, but if it reduces service quality, customer satisfaction and retention, whole-business performance may worsen later. Check for bottlenecks, trade-offs, resource fit and stakeholder effects. A bottleneck in capacity, supply or staffing can limit performance even when another function becomes more efficient.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the links before judging performance",
+        "body": "A business reports rising sales growth, rising capacity utilisation, longer delivery times and falling customer satisfaction. Explain: (1) which indicators come from marketing and operations; (2) one plausible mechanism linking them; (3) the likely bottleneck; and (4) why the final effect on retention may be delayed. Then state what HR evidence would help test your explanation.",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "functional interdependence",
+        "definition": "Mutual dependence among business activities or functions."
+      },
+      {
+        "term": "causal chain",
+        "definition": "A linked sequence explaining how one change can influence later outcomes."
+      },
+      {
+        "term": "feedback loop",
+        "definition": "A later outcome that influences an earlier part of the business system."
+      },
+      {
+        "term": "bottleneck",
+        "definition": "A constraint that limits overall throughput or performance."
+      },
+      {
+        "term": "capacity utilisation",
+        "definition": "The extent to which available productive capacity is being used."
+      },
+      {
+        "term": "customer retention",
+        "definition": "The ability of a business to keep its existing customers over time."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-evi-006-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "Name one operations indicator, one HR indicator and one marketing indicator that could be used to assess overall business performance.",
+        "answer": "Operations: defect rate. HR: labour turnover. Marketing: customer retention.",
+        "explanation": "The three indicators represent different functions. They should be considered together because one may help explain movement in another.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-006-p2",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "A retailer increases promotional activity and sales rise quickly. Its capacity utilisation is already high. Construct a causal chain showing two possible later consequences for customers and the business.",
+        "answer": "Promotion → higher demand → capacity pressure → longer delivery times or more defects → lower customer satisfaction and retention → weaker future sales or financial performance.",
+        "explanation": "The chain identifies a mechanism through operations before reaching customer and financial consequences. The outcomes are plausible rather than guaranteed because the retailer may add capacity or improve processes.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-006-p3",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "A café chain has rising labour turnover, reduced training completion, more service errors and falling customer satisfaction. Explain how the manager could use these data together.",
+        "answer": "The manager could infer that reduced employee capability may be contributing to service errors, which may be reducing satisfaction. They should check timing and other possible causes before acting.",
+        "explanation": "Labour turnover and training are HR data, service errors are operations evidence, and customer satisfaction is marketing evidence. Their combined pattern supports a plausible cross-functional explanation.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-006-p4",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "A delivery business cuts staffing costs. Productivity rises this month, but delivery times lengthen and customer satisfaction falls. Judge whether the cost-cutting decision has improved performance overall.",
+        "answer": "It cannot yet be judged as an overall improvement. The productivity gain may be outweighed by poorer delivery and future losses of customer retention; the business should assess time lags and the sustainability of the saving.",
+        "explanation": "A local KPI improvement does not settle the whole-business judgement. The decision has a trade-off between short-run cost or productivity effects and customer outcomes that may affect later sales.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-006-p5",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "Which statement is strongest? A. ‘If sales growth rises, business performance has improved.’ B. ‘If productivity rises, all functions have benefited.’ C. ‘Sales growth should be assessed alongside capacity, people and customer data because growth can create constraints and delayed effects.’",
+        "answer": "C.",
+        "explanation": "C recognises functional interdependence, constraints and time lags. A and B draw conclusions from a single indicator and ignore possible trade-offs.",
+        "calc": null
+      },
+      {
+        "id": "bus-evi-006-p6",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.7.3:using-operations-hr-and-marketing-data-to-assess-performance"
+        ],
+        "prompt": "A manufacturer has increased sales growth and market share. At the same time, capacity utilisation is very high, defects have increased and employee absenteeism has risen. Select the best next step. A. Conclude that marketing is successful and expand promotion immediately. B. Investigate whether people and capacity constraints are causing quality problems, then assess the risk to satisfaction and retention before increasing demand further. C. Focus only on reducing defects because sales data are irrelevant.",
+        "answer": "B.",
+        "explanation": "B uses operations, HR and marketing evidence as an interdependent system. It identifies likely constraints, tests a plausible causal link and considers the customer consequences before recommending further growth.",
+        "calc": null
+      }
+    ]
+  }
+}

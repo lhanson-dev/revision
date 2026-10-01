@@ -1,0 +1,237 @@
+{
+  "node_id": "bus-mkt-004",
+  "learn": {
+    "title": "Sampling, bias, representativeness and confidence",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Why survey evidence needs checking",
+        "body": "A population is the full group a business wants to understand, while a sample is the smaller group it actually surveys. A useful sample should be representative: it should reflect the relevant features of the target population for the decision being made. Sample size matters for random sampling uncertainty, but selection method matters too. A large sample drawn from the wrong people can produce a precise-looking but misleading conclusion.",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:stratified-sampling",
+          "aqa-7132-3.3.2:quota-sampling",
+          "aqa-7132-3.3.2:confidence-intervals"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing sampling methods",
+        "body": "Random sampling gives members of the population a known chance of selection. It needs a suitable sampling frame and is not the same as casually approaching people. Stratified sampling divides the population into relevant subgroups, such as age groups or customer types, then selects respondents to reflect those groups. Quota sampling also uses predetermined categories, but respondents within each quota do not have to be selected randomly. It can be quicker, but interviewer choice can introduce bias. Convenience sampling uses easy-to-reach people and is often the weakest method for making claims about a wider population.",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:stratified-sampling",
+          "aqa-7132-3.3.2:quota-sampling"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Large does not automatically mean representative",
+        "body": "Example: a retailer wants views from all customers and uses a well-designed stratified sample that includes online and in-store customers in proportions relevant to its customer base. This is more likely to be representative. Non-example: the retailer receives 5,000 answers from its email subscribers and claims the result represents all customers. Non-digital customers and disengaged customers may have been excluded, so the survey may be biased despite its size.",
+        "item_ids": [
+          "aqa-7132-3.3.2:stratified-sampling",
+          "aqa-7132-3.3.2:confidence-intervals"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Choosing a method for a customer survey",
+        "body": "A cinema chain wants feedback from its full customer base, which includes students, families and older customers. Step 1: define the population as all relevant cinema customers, not only social-media followers. Step 2: identify important subgroups because their preferences may differ. Step 3: use stratified sampling if the business can construct a frame and select from each group in suitable proportions. Step 4: check non-response and question wording, because even a sensible sampling method cannot automatically prevent these sources of bias.",
+        "item_ids": [
+          "aqa-7132-3.3.2:stratified-sampling",
+          "aqa-7132-3.3.2:random-sampling"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Interpreting confidence intervals",
+        "body": "Two otherwise comparable surveys estimate the proportion of customers likely to buy a new meal deal. Survey A has a narrower confidence interval than Survey B. The narrower interval indicates that Survey A has greater sampling precision under the same method and assumptions. However, neither interval proves that the sample was representative. If both surveys used an incomplete sampling frame, both estimates could still be biased.",
+        "item_ids": [
+          "aqa-7132-3.3.2:confidence-intervals"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Precision and bias are different",
+        "body": "Misconception: “A bigger sample is always better.” Correction: increasing a well-selected sample can reduce random sampling error, but increasing the same biased sample does not remove systematic exclusion or non-response bias. Misconception: “A confidence interval includes every uncertainty.” Correction: it communicates sampling uncertainty under assumptions; it does not fix poor question wording, measurement problems or a biased sampling frame.",
+        "item_ids": [
+          "aqa-7132-3.3.2:confidence-intervals",
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:quota-sampling"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the evidence chain",
+        "body": "Explain in your own words how sample design affects a marketing conclusion. Include: the target population, the sampling frame, how respondents are selected, possible non-response, sample size, and why a confidence interval cannot rescue a biased sample.",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:stratified-sampling",
+          "aqa-7132-3.3.2:quota-sampling",
+          "aqa-7132-3.3.2:confidence-intervals"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "population",
+        "definition": "The full group a business wants information about."
+      },
+      {
+        "term": "sample",
+        "definition": "A subset of the population that is observed or surveyed."
+      },
+      {
+        "term": "representativeness",
+        "definition": "How far a sample reflects relevant characteristics of the target population."
+      },
+      {
+        "term": "random sampling",
+        "definition": "A method in which population members have a known chance of being selected."
+      },
+      {
+        "term": "stratified sampling",
+        "definition": "A method that selects respondents to reflect relevant population subgroups."
+      },
+      {
+        "term": "quota sampling",
+        "definition": "A method that fills predetermined respondent categories without necessarily selecting randomly within each category."
+      },
+      {
+        "term": "sampling error",
+        "definition": "Random difference between a sample estimate and the true population value."
+      },
+      {
+        "term": "sampling bias",
+        "definition": "Systematic distortion caused by selection, non-response or design."
+      },
+      {
+        "term": "confidence interval",
+        "definition": "A range used to communicate uncertainty around an estimate under stated statistical assumptions."
+      },
+      {
+        "term": "sampling frame",
+        "definition": "The list or source from which a sample is selected."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-mkt-004-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling"
+        ],
+        "prompt": "What is random sampling?",
+        "answer": "A method in which members of the population have a known chance of being selected.",
+        "explanation": "Its defining feature is a known chance of selection, usually using a suitable sampling frame.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.3.2:quota-sampling",
+          "aqa-7132-3.3.2:stratified-sampling"
+        ],
+        "prompt": "A researcher must interview 30 students, 30 parents and 30 retired customers. They approach convenient people until each category is full. Is this stratified or quota sampling?",
+        "answer": "Quota sampling.",
+        "explanation": "Predetermined categories are being filled, but respondents are chosen conveniently rather than randomly within each group.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p3",
+        "capability": "procedure_execution",
+        "item_ids": [
+          "aqa-7132-3.3.2:stratified-sampling"
+        ],
+        "prompt": "A retailer's customer base is 60% online shoppers and 40% store shoppers. Give a suitable stratified-sampling procedure for a survey of 200 customers.",
+        "answer": "Use a sampling frame, separate customers into online and store groups, then randomly select 120 online shoppers and 80 store shoppers.",
+        "explanation": "The subgroup proportions in the sample reflect the relevant population proportions, and random selection within groups helps reduce selection bias.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p4",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.3.2:stratified-sampling"
+        ],
+        "prompt": "A business plans a stratified sample of 250 customers. If 36% of its target population are business customers, how many business customers should be included to match this proportion?",
+        "answer": "90 business customers.",
+        "explanation": "Calculate 36% of 250: 0.36 × 250 = 90. This proportional allocation supports representation of that subgroup, provided selection and the sampling frame are also sound.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p5",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.3.2:confidence-intervals"
+        ],
+        "prompt": "Two otherwise comparable surveys estimate demand for a product. Survey X has a narrower confidence interval than Survey Y. What does this suggest?",
+        "answer": "Survey X has greater sampling precision under the same method and assumptions.",
+        "explanation": "A narrower interval generally signals less random sampling uncertainty. It does not show that Survey X is free from bias.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.3.2:confidence-intervals"
+        ],
+        "prompt": "A manager says, “Our confidence interval is narrow, so our email-subscriber survey represents every customer.” What is wrong with this claim?",
+        "answer": "A narrow interval concerns sampling precision, not whether the sampling frame excluded customers or whether other bias exists.",
+        "explanation": "Customers who do not receive, open or respond to emails may be missing. Confidence intervals do not automatically correct selection or non-response bias.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p7",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:stratified-sampling"
+        ],
+        "prompt": "A UK gym chain wants to assess satisfaction across members aged under 25, 25–54 and 55+. Recommend a sampling approach and justify it.",
+        "answer": "Use stratified sampling, with age groups as strata and random selection within each group.",
+        "explanation": "Satisfaction may vary by age. Ensuring all important age groups are represented makes the evidence more useful than surveying only easily reached members.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p8",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.3.2:quota-sampling"
+        ],
+        "prompt": "Explain how interviewer discretion in quota sampling could lead to a misleading marketing conclusion.",
+        "answer": "Interviewers may select easy-to-approach people within each quota, causing some views to be over-represented. The resulting estimate may be biased, so the marketing conclusion may not apply to the target population.",
+        "explanation": "Filling categories alone does not ensure random or representative selection inside those categories.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p9",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.3.2:random-sampling",
+          "aqa-7132-3.3.2:quota-sampling"
+        ],
+        "prompt": "Compare random sampling with quota sampling for a time-pressured local café survey.",
+        "answer": "Quota sampling may be quicker because staff can fill categories directly, but random sampling gives known selection chances and can provide stronger evidence if a usable sampling frame exists.",
+        "explanation": "The better choice depends on the trade-off between speed and the risk of selection bias.",
+        "calc": null
+      },
+      {
+        "id": "bus-mkt-004-p10",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.3.2:confidence-intervals",
+          "aqa-7132-3.3.2:stratified-sampling"
+        ],
+        "prompt": "A retailer has a narrow confidence interval from a survey but learns that its sampling frame excluded customers who only shop in store. Should it use the finding to make a major national pricing decision?",
+        "answer": "No, not without further evidence from a more representative design.",
+        "explanation": "The narrow interval may show precision for the surveyed group, but systematic exclusion means the result may not represent all customers. A major decision increases the importance of reducing bias.",
+        "calc": null
+      }
+    ]
+  }
+}

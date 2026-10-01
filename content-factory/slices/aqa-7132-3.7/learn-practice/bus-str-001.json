@@ -1,0 +1,223 @@
+{
+  "node_id": "bus-str-001",
+  "learn": {
+    "title": "Strategy, business model, objectives and tactics",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Strategy gives choices a direction",
+        "body": "Strategy is a coherent set of longer-term choices about where a business will operate, which customers it will serve, how it will create and capture value, and which capabilities it will develop. It includes trade-offs: using scarce resources in one area means not using them elsewhere. A business model describes the mechanism through which value is created, delivered and captured, including customers, activities, resources, partners, revenue and costs. Objectives state intended results, while tactics are specific actions used to put strategy into effect.",
+        "item_ids": [
+          "aqa-7132-3.7.1:corporate-objectives",
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Corporate and functional objectives must fit together",
+        "body": "Corporate objectives are whole-business goals set by senior managers and the board, such as survival, profit growth or market share. They give direction to strategy. Functional objectives are targets for individual departments, such as marketing, operations, finance or human resources. They should support the corporate objectives and each other. For example, if a business seeks a premium position, marketing may aim to communicate quality, operations may aim for reliable service, and HR may aim to recruit and train skilled staff. Conflicting departmental objectives can weaken the strategy.",
+        "item_ids": [
+          "aqa-7132-3.7.1:corporate-objectives",
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Classify the statement before analysing it",
+        "body": "For a low-cost airline, a strategy could involve choices about airport locations, high aircraft utilisation, service design, staffing, pricing and route economics that reinforce a low-cost position. ‘Run a social-media campaign’ is a tactic because it is one action. ‘Increase revenue by 10%’ is an objective because it is a desired result. ‘Open three new stores’ alone is not a complete strategy: it does not explain the target market, value offered, economics or capabilities needed. A cheap ticket by itself is also not the full strategy; it may be an outcome of a wider set of consistent choices.",
+        "item_ids": [
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "From purpose to performance",
+        "body": "A useful chain is: purpose and corporate objectives → strategic choices → functional plans → capability and resource commitments → outcomes. When choices are consistent, resources and activities can reinforce the intended customer value, helping the business offer differentiated or lower-cost value. The opposite chain is: contradictory functional choices → weak fit → conflict between cost, service and brand → weaker performance. A change in the environment or in the business’s capabilities can create new evidence, leading to reassessment and adaptation.",
+        "item_ids": [
+          "aqa-7132-3.7.1:corporate-objectives",
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.10.4:planned-versus-emergent-strategy",
+          "aqa-7132-3.10.4:contingency-planning"
+        ]
+      },
+      {
+        "treatment": "connection_synoptic_link",
+        "heading": "Strategic consistency links every business function",
+        "body": "Strategy is not just a statement from senior managers. It affects marketing, operations, finance and HR. A premium differentiation position can be undermined if operations provide low service, marketing discounts indiscriminately, or finance restricts investment in quality. This is why strategic consistency matters: the value proposition, activities, resources and capabilities need to fit together. When judging a strategy, consider the customer or market, value proposition, capabilities, activities, resources, trade-offs and the degree of fit between them.",
+        "item_ids": [
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.7.1:strategy-versus-tactics",
+          "aqa-7132-3.10.4:evaluating-strategic-performance"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Planning and adaptation are not opposites",
+        "body": "It is incorrect to treat a strategy as simply a long-term objective. An objective says what result is wanted; strategy explains the connected choices for pursuing it. It is also incorrect to assume that adaptation proves the original strategy failed. Strategy can develop through deliberate planning and learning from new evidence. Strategic planning can give direction, align functions, allocate resources, set targets for control and prepare for risk. However, forecasts may be wrong, planning can take time and cost money, and rigid plans can make a business slow to respond. Planning is especially valuable when conditions are relatively predictable and decisions are costly to reverse. Reviewing plans and using contingency planning can reduce the risk of inflexibility.",
+        "item_ids": [
+          "aqa-7132-3.7.1:strategy-versus-tactics",
+          "aqa-7132-3.10.4:planned-versus-emergent-strategy",
+          "aqa-7132-3.10.4:value-of-strategic-planning",
+          "aqa-7132-3.10.4:contingency-planning"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Make a balanced strategic judgement",
+        "body": "When evaluating strategic performance, ask yourself: Which objective is being assessed? What evidence compares actual results with targets? Are sales, market share, profit or ROCE improving over time and relative to competitors? What do customers and employees indicate? Then consider external conditions, the time needed for the strategy to take effect, and any short-term versus long-term trade-off. Explain why giving priority to quarterly profit or share price can create short-termism if it reduces investment in research, training or sustainability and harms future competitiveness. Reach a conclusion using stated criteria rather than relying on one result alone.",
+        "item_ids": [
+          "aqa-7132-3.7.1:short-termism",
+          "aqa-7132-3.10.4:evaluating-strategic-performance"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "strategy",
+        "definition": "Coherent longer-term choices about where and how an organisation will create and capture value."
+      },
+      {
+        "term": "objective",
+        "definition": "An intended result."
+      },
+      {
+        "term": "tactic",
+        "definition": "A specific action used to implement a strategy."
+      },
+      {
+        "term": "business model",
+        "definition": "The mechanism through which a business creates, delivers and captures value."
+      },
+      {
+        "term": "strategic consistency",
+        "definition": "The extent to which choices and activities reinforce rather than contradict each other."
+      },
+      {
+        "term": "corporate objectives",
+        "definition": "Whole-business goals set by senior managers and the board that direct strategy and departments."
+      },
+      {
+        "term": "functional objectives",
+        "definition": "Departmental goals designed to support the corporate objectives."
+      },
+      {
+        "term": "short-termism",
+        "definition": "Prioritising immediate results over long-term investment and competitiveness."
+      },
+      {
+        "term": "emergent strategy",
+        "definition": "Strategy that develops through learning and adaptation in response to new evidence."
+      },
+      {
+        "term": "contingency planning",
+        "definition": "Preparing for risk through plans that can be used or adjusted if circumstances change."
+      },
+      {
+        "term": "evaluating strategic performance",
+        "definition": "Judging how far a strategy achieved objectives using evidence, context and stated criteria."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "bus-str-001-p1",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.7.1:corporate-objectives",
+          "aqa-7132-3.7.1:functional-objectives"
+        ],
+        "prompt": "Define a corporate objective and a functional objective.",
+        "answer": "A corporate objective is a whole-business goal that directs strategy. A functional objective is a departmental goal designed to support the corporate objective.",
+        "explanation": "The distinction is the level at which each objective applies: the whole organisation or one department.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p2",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ],
+        "prompt": "Classify each statement as an objective, strategy or tactic: (a) increase UK market share, (b) offer busy commuters reliable premium coffee through convenient city-centre sites and trained baristas, (c) send customers a loyalty-app voucher.",
+        "answer": "(a) objective; (b) strategy; (c) tactic.",
+        "explanation": "Market share is a desired result, the premium-coffee statement gives connected competitive choices, and the voucher is a specific action.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p3",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.7.1:corporate-objectives",
+          "aqa-7132-3.7.1:functional-objectives"
+        ],
+        "prompt": "Compare corporate and functional objectives, and explain why both are needed by a national retailer seeking profit growth.",
+        "answer": "Corporate objectives set the retailer’s overall direction, such as profit growth. Functional objectives translate that direction into departmental goals, such as efficient operations, effective marketing and suitable staffing. Both are needed so departments contribute to, rather than conflict with, the overall goal.",
+        "explanation": "A corporate objective alone does not specify what each function must do; aligned functional objectives help implementation.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p4",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ],
+        "prompt": "A UK furniture retailer wants to compete through premium design and dependable delivery. Give one suitable operations objective and one tactic that supports this position.",
+        "answer": "An operations objective could be to improve delivery reliability. A tactic could be to train delivery teams in careful handling and customer communication.",
+        "explanation": "Reliable delivery reinforces the premium value proposition. Training is a specific implementation action, so it is a tactic.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p5",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.7.1:functional-objectives",
+          "aqa-7132-3.7.1:strategy-versus-tactics"
+        ],
+        "prompt": "Explain how indiscriminate discounting could weaken a premium differentiation strategy.",
+        "answer": "Discounting can conflict with a premium position because it may make the brand appear less exclusive or quality-focused. This weakens consistency between pricing and the promised value, which can reduce the effectiveness of the strategy.",
+        "explanation": "The reasoning is: contradictory functional choice → weaker fit between activities and value proposition → weaker strategic position.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p6",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.10.4:planned-versus-emergent-strategy"
+        ],
+        "prompt": "A student says, ‘If a business changes its strategy after customer feedback, its original strategic planning must have failed.’ Is this correct?",
+        "answer": "No. New evidence can lead to strategic learning and adaptation. Adaptation does not automatically mean the original strategy was meaningless or a failure.",
+        "explanation": "Real strategy can combine deliberate planning with learning as conditions and capabilities change.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p7",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.7.1:short-termism",
+          "aqa-7132-3.10.4:value-of-strategic-planning",
+          "aqa-7132-3.10.4:contingency-planning"
+        ],
+        "prompt": "A listed manufacturer cuts staff training and research to raise this year’s profit after pressure over its share price. Judge whether this is likely to be a sound decision.",
+        "answer": "It may improve short-term profit, but it risks short-termism because reduced training and research may damage future capability and competitiveness. It is less sound if the business needs innovation or skilled employees; managers should consider long-term objectives and contingency plans as well as current profit.",
+        "explanation": "A valid judgement weighs the immediate financial benefit against lost long-term investment and depends on the business’s circumstances.",
+        "calc": null
+      },
+      {
+        "id": "bus-str-001-p8",
+        "capability": "mixed_synoptic_selection",
+        "item_ids": [
+          "aqa-7132-3.10.4:evaluating-strategic-performance",
+          "aqa-7132-3.10.4:contingency-planning"
+        ],
+        "prompt": "A retailer’s strategy aimed to improve market share. After one year, select the best set of evidence for evaluating performance: A) only this year’s sales revenue; B) actual market share against target, trends over time, competitor benchmarks, profit, and customer and employee measures; C) the number of social-media posts. State one reason why a contingency plan would also be useful.",
+        "answer": "B. A contingency plan is useful because it prepares the business to respond if risks or changing conditions mean the original plan needs adjustment.",
+        "explanation": "Strategic performance should be judged against objectives using several measures and relevant context, not one activity measure. Contingencies support adaptation under uncertainty.",
+        "calc": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "node_id": "bus-peo-007",
+  "learn": {
+    "title": "Organisational structure, span of control and delegation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "How organisational structure shapes a business",
+        "body": "Organisational structure is the formal allocation of roles, reporting relationships, coordination mechanisms and decision authority. It influences how quickly information travels, who can make decisions and how work is coordinated. Authority is the formal right to make decisions. Hierarchy is the number of layers of formal authority, while span of control is the number of direct reports managed by one person. Centralisation keeps more decision rights at higher levels; decentralisation gives greater scope for decisions lower down or closer to local operations. Delegation gives an employee authority for defined tasks or decisions, but does not remove the wider accountability system. The most suitable structure depends on strategy, size, complexity, geography, technology, workforce capability and the need for control.",
+        "item_ids": [
+          "aqa-7132-3.6.3:authority",
+          "aqa-7132-3.6.3:span-of-control",
+          "aqa-7132-3.6.3:hierarchy",
+          "aqa-7132-3.6.3:delegation",
+          "aqa-7132-3.6.3:centralisation-and-decentralisation"
+        ]
+      },
+      {
+        "treatment": "comparison",
+        "heading": "Comparing ways of grouping work",
+        "body": "A functional structure groups specialist activities, such as finance or marketing. This can build specialist expertise, but coordination across functions may be harder. A product-based structure divides the business into product or product-range units, often with their own managers and functions. It can create product expertise and accountability, but may duplicate roles and create rivalry between units. A regional structure divides the organisation by geographical area. It can help a multinational respond to local customers and conditions, but can duplicate functions and make consistency harder. A matrix structure overlays reporting dimensions, such as function and product. It can connect functions more closely, but employees may face dual-authority conflict or unclear priorities.",
+        "item_ids": [
+          "aqa-7132-3.6.3:functional-structure",
+          "aqa-7132-3.6.3:product-based-structure",
+          "aqa-7132-3.6.3:regional-structure",
+          "aqa-7132-3.6.3:matrix-structure"
+        ]
+      },
+      {
+        "treatment": "relationship_causal_chain",
+        "heading": "Structure, communication and performance",
+        "body": "Strategy and organisational complexity influence the structure chosen. Structure then affects communication, decision speed, coordination, managerial workload and accountability, which can affect performance. For example: more layers can mean more filtering and slower decisions, although they may provide control. Delegation can speed up local decisions and develop employees, but requires capable staff and clear boundaries. A wider span may reduce layers and communication delays, but it can overload managers and reduce coaching. Technology may allow a manager to supervise more people, but it cannot replace managerial judgement.",
+        "item_ids": [
+          "aqa-7132-3.6.3:hierarchy",
+          "aqa-7132-3.6.3:span-of-control",
+          "aqa-7132-3.6.3:delegation",
+          "aqa-7132-3.6.3:authority"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Flexible and organic arrangements in context",
+        "body": "A flexible organisation can adapt quickly to changes in demand or its environment. It may use multi-skilled staff, flatter structures, outsourcing, and a permanent core workforce alongside more flexible peripheral workers. Flexible employment contracts include part-time, temporary, fixed-term, zero-hours and freelance arrangements. These can help match labour to demand and control costs, but may reduce job security and loyalty and increase labour turnover. Organic structures tend towards flexible roles, lateral communication, decentralised judgement and adaptation. Mechanistic structures tend towards clear hierarchy, formal rules, specialised roles and more centralised authority. A business can use organic arrangements in one activity while retaining mechanistic controls in a regulated or safety-critical process. Removing a middle-management layer is not, by itself, evidence that a business has decentralised decision-making.",
+        "item_ids": [
+          "aqa-7132-3.10.1:flexible-organisations",
+          "aqa-7132-3.10.1:flexible-employment-contracts",
+          "aqa-7132-3.10.1:organic-versus-mechanistic-structures",
+          "aqa-7132-3.6.3:centralisation-and-decentralisation"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Avoid simplistic structure judgements",
+        "body": "A flat structure is not automatically decentralised: senior managers may still retain decision rights. Delegation is not abdication, because authority is transferred for defined work while accountability arrangements remain. A matrix does not automatically improve collaboration, since competing priorities can create conflict. A wider span is not automatically cheaper overall, because managers may become overloaded and staff may receive less support. Likewise, neither organic nor mechanistic structures are always superior; the fit depends on uncertainty, interdependence, risk, employee capability, innovation needs and coordination costs.",
+        "item_ids": [
+          "aqa-7132-3.6.3:matrix-structure",
+          "aqa-7132-3.6.3:span-of-control",
+          "aqa-7132-3.6.3:delegation",
+          "aqa-7132-3.6.3:centralisation-and-decentralisation",
+          "aqa-7132-3.10.1:organic-versus-mechanistic-structures"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the best structural fit",
+        "body": "A UK retailer is expanding into several countries, sells distinct product ranges and must maintain central standards. Explain which combination of regional, product-based, functional or matrix features could help it respond locally while coordinating centrally. Then explain whether its customer-service teams need more organic arrangements, more mechanistic controls, or a mixture. In your explanation, consider geography, complexity, authority, coordination, employee capability and the need for consistent standards.",
+        "item_ids": [
+          "aqa-7132-3.6.3:functional-structure",
+          "aqa-7132-3.6.3:product-based-structure",
+          "aqa-7132-3.6.3:regional-structure",
+          "aqa-7132-3.6.3:matrix-structure",
+          "aqa-7132-3.6.3:authority",
+          "aqa-7132-3.10.1:organic-versus-mechanistic-structures"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "organisational structure",
+        "definition": "The formal allocation of roles, reporting relationships, coordination mechanisms and authority."
+      },
+      {
+        "term": "authority",
+        "definition": "The formal right to make decisions."
+      },
+      {
+        "term": "hierarchy",
+        "definition": "The layers of formal authority in an organisation."
+      },
+      {
+        "term": "span of control",
+        "definition": "The number of direct reports supervised by a manager."
+      },
+      {
+        "term": "delegation",
+        "definition": "Transfer of authority for defined work or decisions while the wider accountability system remains."
+      },
+      {
+        "term": "centralisation",
+        "definition": "Keeping more decision authority at higher levels of the organisation."
+      },
+      {
+        "term": "decentralisation",
+        "definition": "Giving greater scope for decisions lower down or closer to local operations."
+      },
+      {
+        "term": "functional structure",
+        "definition": "A structure that groups specialist activities by function."
+      },
+      {
+        "term": "product-based structure",
+        "definition": "A structure that divides an organisation into units based on products or product ranges."
+      },
+      {
+        "term": "regional structure",
+        "definition": "A structure that divides an organisation into geographical areas with some local independence."
+      },
+      {
+        "term": "matrix structure",
+        "definition": "A structure with overlapping reporting dimensions, such as function and product."
+      },
+      {
+        "term": "flexible organisation",
+        "definition": "An organisation able to change quickly in response to demand or environmental change."
+      },
+      {
+        "term": "flexible employment contracts",
+        "definition": "Non-standard employment arrangements, including part-time, temporary, fixed-term, zero-hours and freelance work."
+      },
+      {
+        "term": "organic structure",
+        "definition": "An arrangement tending towards flexible roles, lateral communication, decentralised judgement and adaptation."
+      },
+      {
+        "term": "mechanistic structure",
+        "definition": "An arrangement tending towards clear hierarchy, formal rules, specialised roles and more centralised authority."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-structure-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.6.3:functional-structure",
+          "aqa-7132-3.6.3:authority",
+          "aqa-7132-3.6.3:hierarchy",
+          "aqa-7132-3.6.3:span-of-control",
+          "aqa-7132-3.6.3:delegation"
+        ],
+        "prompt": "Define each term: functional structure, authority, hierarchy, span of control and delegation.",
+        "answer": "A functional structure groups specialist activities. Authority is the formal right to decide. Hierarchy is the layers of formal authority. Span of control is the number of direct reports. Delegation transfers authority for defined work or decisions while accountability arrangements remain.",
+        "explanation": "These definitions distinguish how work is grouped, where formal decision rights sit, and how managers supervise and delegate.",
+        "calc": null
+      },
+      {
+        "id": "p2-structure-discrimination",
+        "capability": "discrimination",
+        "item_ids": [
+          "aqa-7132-3.6.3:product-based-structure",
+          "aqa-7132-3.6.3:regional-structure",
+          "aqa-7132-3.6.3:matrix-structure"
+        ],
+        "prompt": "Identify the most likely structure in each case. (a) A clothing business has separate managers and support teams for childrenswear, formalwear and sportswear. (b) A multinational has UK, European and Asian units with local managers. (c) An engineer reports to both the engineering manager and the manager of a new product launch.",
+        "answer": "(a) Product-based structure. (b) Regional structure. (c) Matrix structure.",
+        "explanation": "Product-based structures group around product ranges; regional structures group around geography; matrix structures involve overlapping reporting lines.",
+        "calc": null
+      },
+      {
+        "id": "p3-delegation-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.6.3:delegation",
+          "aqa-7132-3.6.3:centralisation-and-decentralisation",
+          "aqa-7132-3.6.3:authority"
+        ],
+        "prompt": "A manager at a chain of cafés allows branch supervisors to approve refunds up to £20, but requires larger refunds to be approved by head office. Explain how this is delegation without full decentralisation.",
+        "answer": "The manager has delegated authority for a defined local decision, but head office retains authority over larger refunds. Decision rights are therefore still partly centralised.",
+        "explanation": "Delegation can give local staff authority within boundaries. It does not require all authority to move away from senior management.",
+        "calc": null
+      },
+      {
+        "id": "p4-flexibility-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.10.1:flexible-organisations",
+          "aqa-7132-3.10.1:flexible-employment-contracts",
+          "aqa-7132-3.10.1:organic-versus-mechanistic-structures"
+        ],
+        "prompt": "A seaside attraction has highly seasonal visitor numbers. Judge whether using some temporary and part-time staff would help it become more flexible.",
+        "answer": "It could help because staffing can be matched more closely to seasonal demand and labour costs can be controlled. However, temporary staff may have lower commitment or require support, so it should balance flexibility against service quality and employee loyalty.",
+        "explanation": "Flexible employment contracts can improve responsiveness and cost control, but they may create job-security concerns, higher turnover and weaker loyalty.",
+        "calc": null
+      },
+      {
+        "id": "p5-flat-misconception",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.6.3:hierarchy",
+          "aqa-7132-3.6.3:centralisation-and-decentralisation",
+          "aqa-7132-3.6.3:span-of-control"
+        ],
+        "prompt": "A business removes one management layer. A student says: 'It is now decentralised, staff are definitely more empowered, and costs must have fallen.' What is wrong with this conclusion?",
+        "answer": "Delayering may widen spans and shorten communication lines, but it does not prove that decision authority has been decentralised. Managers may be overloaded, and any cost saving may be offset by weaker coaching or coordination problems.",
+        "explanation": "A flatter hierarchy and decentralisation are different dimensions. Wider spans can have benefits and drawbacks.",
+        "calc": null
+      },
+      {
+        "id": "p6-matrix-reasoning",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.6.3:matrix-structure",
+          "aqa-7132-3.6.3:functional-structure",
+          "aqa-7132-3.6.3:authority"
+        ],
+        "prompt": "Explain one chain of reasoning for why a matrix structure could improve a business's product development, but also create a problem.",
+        "answer": "A matrix can link product and functional specialists more closely, improving cross-functional coordination during development. However, dual reporting can create conflicting priorities, making authority and accountability less clear.",
+        "explanation": "The benefit comes from stronger cross-functional connection; the risk comes from overlapping authority dimensions.",
+        "calc": null
+      },
+      {
+        "id": "p7-structure-compare-justify",
+        "capability": "compare_justify",
+        "item_ids": [
+          "aqa-7132-3.6.3:product-based-structure",
+          "aqa-7132-3.6.3:regional-structure",
+          "aqa-7132-3.10.1:organic-versus-mechanistic-structures"
+        ],
+        "prompt": "Compare a product-based structure with a regional structure for a growing business selling several product ranges in different countries. Which might be more suitable if customer needs vary strongly by country?",
+        "answer": "A product-based structure builds expertise and accountability for each product range, but can duplicate functions. A regional structure allows adaptation to local customers and conditions, although it can also duplicate functions and make central consistency harder. If national customer needs are the main issue, a regional structure is likely to be more suitable, provided central standards are retained where needed.",
+        "explanation": "The judgement follows the dominant source of complexity: geographical variation favours local responsiveness, while product differences favour product-focused accountability.",
+        "calc": null
+      }
+    ]
+  }
+}

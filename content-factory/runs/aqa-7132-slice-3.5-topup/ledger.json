@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "stage": "aqa-7132-slice-learn-practice",
+  "checklist_version": "slice-learn-practice-v1",
+  "units": {
+    "bus-evi-007": {
+      "fingerprint": "ca0d425bea10e0118a9a5f21a2a072419bcbc2ff3c31f2ed94a3e0d55a9f387b",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-003": {
+      "fingerprint": "763284adf15e9c59f8b78a1b7fc93b207840119d1772cefc8023c56408b389cd",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-005": {
+      "fingerprint": "5103b09a4dbcb06ce4d77dbe652f524a04f33d88c407d7d2dd8abd1b8282473a",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-008": {
+      "fingerprint": "7833932ec14853cbb24de5b5c5b152d7a23f8f81e2c4d2deaf277b05af6b2370",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-010": {
+      "fingerprint": "128d13dc00bbce43e6a07baca8a99c5ee762e519486aa8aed0891bf59cecd6f1",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-012": {
+      "fingerprint": "f5bb6de298c682f73785dc4026acdf815afc9b0ca236a5342409e61ea79ba73e",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    },
+    "bus-fin-014": {
+      "fingerprint": "952c476c4b900aa617bedae99a3b798d14b521deacc625f2ba8c6130597a899b",
+      "outcome": "passed",
+      "consecutive_blocking_rounds": 0,
+      "findings": [],
+      "updated_at": "2026-10-01T11:05:16.776Z"
+    }
+  }
+}
