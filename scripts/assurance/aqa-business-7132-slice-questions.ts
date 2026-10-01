@@ -123,9 +123,24 @@ function softwareFinding(checkId: string, affected: string[], finding: string, f
   return { check_id: checkId, category, affected_ids: affected.length ? affected : ['question'], finding, evidence: 'software check', contradicting_source_id: null, proposed_fix: fix, disposition: 'blocking', reason: `software-proven: ${finding}` }
 }
 
-// Every number written in the text, as a value (commas, £ and % removed).
+const magnitudeMultiplier = {
+  thousand: 1_000,
+  million: 1_000_000,
+  billion: 1_000_000_000,
+} as const
+
+// Every number written in the text, as a value. Commas, currency and percent signs are ignored;
+// explicit magnitude words are normalised so £61.20 million is compared as 61,200,000.
 export function numbersIn(text: string): number[] {
-  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?/g)].map((match) => Number(match[0].replace(/,/g, ''))).filter((value) => Number.isFinite(value))
+  return [...text.matchAll(/-?\d[\d,]*(?:\.\d+)?(?:\s*(?:thousand|million|billion)\b)?/gi)]
+    .map((match) => {
+      const numeric = match[0].match(/-?\d[\d,]*(?:\.\d+)?/)
+      if (!numeric) return Number.NaN
+      const base = Number(numeric[0].replace(/,/g, ''))
+      const magnitude = match[0].match(/\b(thousand|million|billion)\b/i)?.[1].toLowerCase() as keyof typeof magnitudeMultiplier | undefined
+      return base * (magnitude ? magnitudeMultiplier[magnitude] : 1)
+    })
+    .filter((value) => Number.isFinite(value))
 }
 
 function questionText(question: Question) {

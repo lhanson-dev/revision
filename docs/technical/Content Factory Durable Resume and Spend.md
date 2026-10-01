@@ -165,7 +165,11 @@ The AQA 7132 fast-path slice runners are lighter-weight than the general Issue-b
 
 ### Questions
 
-The first all-batch question run (`36857736736`) ended with accepted work that existed only in the retained Actions artifacts. PR #478 therefore added an explicit `resume_run_id` path to the questions workflow. The workflow restores the prior main-run artifact, reconstructs the current question/reviewer unit, and reuses a prior accepted question only when the current fingerprint still matches. Changed teaching, changed plan inputs, software-invalid content, unresolved blocking work or missing evidence remains a cache miss and is regenerated/reviewed. Provider reservations use the shared concurrency-safe budget wrapper, so parallel calls fail closed before the configured batch ceiling.
+The first all-batch question run (`36857736736`) ended with accepted work that existed only in the retained Actions artifacts. PR #478 therefore added an explicit `resume_run_id` path to the questions workflow. The workflow restores the prior main-run artifact, including the ledger, accepted question records, blind answers and the latest generated candidate for each unit. A prior accepted question is reused only when the current fingerprint still matches; changed teaching, changed plan inputs, unresolved AI blocking work or missing/corrupt evidence remains a cache miss.
+
+A prior latest candidate that was blocked **only by a deterministic software finding before any AI review** is handled more narrowly. The current software checker re-validates the retained candidate and blind answer. Generation and blind answering are reused only when the candidate now passes current software checks and reconstructs the exact prior review fingerprint. The obsolete software-block ledger entry is then excluded from that round so the unchanged candidate receives its first fresh fixed-checklist AI review; it is never silently promoted to accepted. If any of those conditions fail, normal regeneration/review applies. This covers checker corrections such as normalising `£61.20 million` to `61,200,000` rather than repurchasing an otherwise unchanged correct question.
+
+Provider reservations use the shared concurrency-safe budget wrapper, so parallel calls fail closed before the configured batch ceiling.
 
 ### Learn + Practice
 
@@ -178,7 +182,7 @@ Learn/Practice accepted assets and their ledgers are already committed to the re
 5. passes exact matches to the shared fast-path runner, which returns `reused` before any provider call; and
 6. treats every missing, corrupt, software-invalid or fingerprint-stale node as a cache miss that must be generated and freshly reviewed.
 
-This means a Foundation change invalidates only the Learn/Practice nodes whose teaching input actually changed. After PR #478, provider-free assurance proves that batch `3.8-3.9` has three reusable nodes and two stale nodes (BUS-FND-007 and BUS-FND-008), while batch `3.10` has four reusable nodes and one stale node (BUS-STR-009).
+This means a Foundation change invalidates only the Learn/Practice nodes whose teaching input actually changed. After PR #478, provider-free assurance proved that batch `3.8-3.9` had three reusable nodes and two stale nodes (BUS-FND-007 and BUS-FND-008), while batch `3.10` had four reusable nodes and one stale node (BUS-STR-009). The subsequent live refresh regenerated only those three stale nodes; PR #485 retained the refreshed assets, ledgers and proof receipts on `main`.
 
 ### Exact-course T8 ledger
 
@@ -205,7 +209,7 @@ Durable-store tests prove:
 
 Q5 assurance separately proves dependency-aware replay and narrow invalidation across content-head changes.
 
-The AQA 7132 fast-path tests additionally prove that current committed Learn/Practice assets classify into exact reusable versus stale sets before any live provider execution. The live evidence summary records `reused_unchanged`, `regenerated_or_reviewed` and the provider budget snapshot.
+The AQA 7132 fast-path tests additionally prove that current committed Learn/Practice assets classify into exact reusable versus stale sets before any live provider execution, that magnitude-word calculation answers are normalised deterministically, and that a prior software-only blocked latest question can bypass repurchase only under exact-fingerprint recovery while still requiring fresh AI review. Live evidence records reuse/regeneration and the provider budget snapshot.
 
 ## Deliberate limitations
 
@@ -219,4 +223,4 @@ The AQA 7132 fast-path tests additionally prove that current committed Learn/Pra
 
 ## Documentation impact
 
-This record reflects completion-first cost-control semantics and the bounded AQA 7132 fast-path resume implementations. Spend remains cumulative, each explicit attempt is bounded, and exact-fingerprint reuse prevents unchanged accepted work from being repurchased. Historical pilot and run evidence is not rewritten.
+This record reflects completion-first cost-control semantics and the bounded AQA 7132 fast-path resume implementations. Spend remains cumulative, each explicit attempt is bounded, and exact-fingerprint reuse prevents unchanged accepted work—and recoverable pre-review candidates invalidated only by a corrected deterministic checker—from being unnecessarily repurchased. Historical pilot and run evidence is not rewritten.
