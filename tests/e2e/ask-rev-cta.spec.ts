@@ -105,10 +105,24 @@ test('Ask REV uses one contained, centred living high-contrast CTA across breakp
   await expect(askRev).not.toContainText('✦')
 
   if (isResponsiveLayout(page)) {
-    await expect(askRev).toHaveClass(/runtime-mobile-ask-rev-dock/)
-  } else {
-    await expect(askRev).toHaveClass(/runtime-ask-rev/)
+    // Tablet: icon rail control. Phone: raised centre of the tab bar. The Living E stands alone;
+    // the accessible name carries "Ask REV".
+    const width = page.viewportSize()?.width ?? 0
+    await expect(askRev).toHaveClass(width > 620 ? /ui-rail__ask-rev/ : /ui-tabbar__ask-rev/)
+    const box = await askRev.boundingBox()
+    expect(box?.width ?? 0).toBeGreaterThanOrEqual(48)
+    expect(box?.height ?? 0).toBeGreaterThanOrEqual(48)
+    expect(await askRev.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe('rgb(43, 182, 163)')
+    const motion = () => askRev.evaluate((element) => ({
+      halo: getComputedStyle(element.querySelector('.rev-halo') as Element).animationName,
+      mark: getComputedStyle(element.querySelector('.rev-living-e') as Element).animationName,
+    }))
+    expect((await motion()).halo).not.toBe('none')
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    expect(await motion()).toEqual({ halo: 'none', mark: 'none' })
+    return
   }
+  await expect(askRev).toHaveClass(/runtime-ask-rev/)
 
   const appearance = await askRev.evaluate((element) => {
     const control = getComputedStyle(element)
@@ -186,15 +200,9 @@ test('Ask REV uses one contained, centred living high-contrast CTA across breakp
   expect(appearance.verticalCenterDelta).toBeLessThanOrEqual(0.5)
   expect(appearance.groupCenterDelta).toBeLessThanOrEqual(1)
 
-  if (isResponsiveLayout(page)) {
-    expect(appearance.minHeight).toBeGreaterThanOrEqual(58)
-    expect(appearance.borderRadius).toBe('18px')
-    expect(appearance.labelFontSize).toBe('18px')
-  } else {
-    expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
-    expect(appearance.borderRadius).toBe('14px')
-    expect(appearance.labelFontSize).toBe('16px')
-  }
+  expect(appearance.minHeight).toBeGreaterThanOrEqual(52)
+  expect(appearance.borderRadius).toBe('14px')
+  expect(appearance.labelFontSize).toBe('16px')
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   const reducedMotion = await askRev.evaluate((element) => {

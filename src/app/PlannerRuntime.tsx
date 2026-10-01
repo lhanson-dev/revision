@@ -37,19 +37,31 @@ import { PlannerRevScreen } from './PlannerRevScreen'
 import { PlanScreen } from './PlanScreen'
 import { ProgrammeProgressScreen } from './ProgrammeProgressScreen'
 import { RevPresence } from './RevPresence'
-import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Status } from './ui'
+import { BrandAsset, DrawerShell, Icon, IconButton, OverlayBackdrop, Rail, Status, TabBar, useBreakpoint, type ShellNavItem } from './ui'
 
 const catalogue = buildCatalogue(listAvailableContentAdapters())
 const themeStorageKey = 'revision:theme'
 
-type ThemeName = 'light' | 'dark'
+type ThemePreference = 'light' | 'dark' | 'system'
 type AccountSection = 'profile' | 'settings'
 
-function initialTheme(): ThemeName {
+/** Light, dark or follow the device. System is the default until the student chooses. */
+function initialThemePreference(): ThemePreference {
   const saved = window.localStorage.getItem(themeStorageKey)
-  if (saved === 'light' || saved === 'dark') return saved
-  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system'
 }
+
+function systemPrefersDark() {
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+}
+
+/** Navigation shared by the tablet rail and the phone tab bar. */
+const shellNavItems: readonly ShellNavItem[] = [
+  { key: 'home', label: 'Home', icon: 'home' },
+  { key: 'plan', label: 'Plan', icon: 'plan' },
+  { key: 'courses', label: 'Courses', icon: 'courses' },
+  { key: 'progress', label: 'Progress', icon: 'progress' },
+]
 
 function titleCaseFirstCharacter(value: string) {
   const trimmed = value.trim().replace(/\s+/g, ' ')
@@ -92,7 +104,10 @@ export function PlannerRuntime() {
   const [revPanelOpen, setRevPanelOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [adminAccessResolved, setAdminAccessResolved] = useState(false)
-  const [theme, setTheme] = useState<ThemeName>(() => initialTheme())
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() => initialThemePreference())
+  const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark())
+  const theme: 'light' | 'dark' = themePreference === 'system' ? (systemDark ? 'dark' : 'light') : themePreference
+  const { breakpoint } = useBreakpoint()
 
   const programmeProjection = useMemo(() => projectLearnerProgramme(catalogue, memberships), [memberships])
   const programme = programmeProjection.courses
@@ -164,7 +179,18 @@ export function PlannerRuntime() {
   }, [user])
 
   useEffect(() => {
-    window.localStorage.setItem(themeStorageKey, theme)
+    const query = window.matchMedia?.('(prefers-color-scheme: dark)')
+    if (!query) return undefined
+    const update = () => setSystemDark(query.matches)
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    window.localStorage.setItem(themeStorageKey, themePreference)
+  }, [themePreference])
+
+  useEffect(() => {
     document.documentElement.dataset.revisionTheme = theme
   }, [theme])
 
@@ -182,6 +208,11 @@ export function PlannerRuntime() {
 
   const learner = useMemo(() => user ? learnerName(user) : 'there', [user])
   const coursesActive = routeBelongsToCourses(route)
+  // Exam Prep is a focus mode: all navigation is hidden. A slim bar lets the student leave.
+  const focusMode = (route.kind === 'course' || route.kind === 'module') && route.section === 'exam-prep'
+  const activeNavKey = route.kind === 'home' ? 'home' : route.kind === 'plan' ? 'plan' : route.kind === 'progress' ? 'progress' : coursesActive ? 'courses' : null
+  const showRail = !focusMode && breakpoint === 'tablet'
+  const showPhoneChrome = !focusMode && breakpoint === 'phone'
   const plannerAdminActive = route.kind === 'admin' && window.location.hash.startsWith('#/admin/planner')
 
   function navigate(nextRoute: AppRoute) {
@@ -224,6 +255,18 @@ export function PlannerRuntime() {
     setAccountMenuOpen(false)
     setAccountSection(section)
     setAccountModalOpen(true)
+  }
+
+  function navigateFromShell(key: string) {
+    if (key === 'home') navigate(homeRoute())
+    else if (key === 'plan') navigate(planRoute())
+    else if (key === 'courses') navigate(coursesRoute())
+    else if (key === 'progress') navigate(progressRoute())
+  }
+
+  function leaveExamPrep() {
+    if (route.kind === 'course') navigate(learnerCourseRoute(route.courseId, 'overview'))
+    else if (route.kind === 'module') navigate(learnerModuleRoute(route.courseId, route.moduleId, 'overview'))
   }
 
   function openMobileMenu() {
@@ -279,10 +322,10 @@ export function PlannerRuntime() {
   }
 
   return (
-    <div className="planner-runtime" data-theme={theme}>
+    <div className={`planner-runtime${focusMode ? ' planner-runtime--focus' : ''}`} data-theme={theme}>
       {route.kind !== 'admin' && <PlannerActivityReconciler client={supabase} userId={user.id} routeKey={routeHash(route)} />}
 
-      <aside className="runtime-sidebar" aria-label="Learner navigation">
+      {!focusMode && <aside className="runtime-sidebar" aria-label="Learner navigation">
         <button className="runtime-sidebar-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button>
         <button className="runtime-ask-rev" onClick={() => openRev()} aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>
         <nav className="runtime-sidebar-nav" aria-label="Primary navigation">
@@ -303,20 +346,18 @@ export function PlannerRuntime() {
           </div>}
           <button className="runtime-sidebar-user" onClick={() => setAccountMenuOpen((open) => !open)} aria-haspopup="menu" aria-expanded={accountMenuOpen} aria-label={`${learner} account menu`}><span className="account-avatar">{learner.charAt(0).toUpperCase()}</span><span className="runtime-sidebar-user-name">{learner}</span></button>
         </div>
-      </aside>
+      </aside>}
 
-      <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button></header>
+      {showRail && <Rail items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revPanelOpen} onOpenMenu={openMobileMenu} menuOpen={menuOpen} />}
+
+      {showPhoneChrome && <header className="mobile-topbar runtime-mobile-topbar"><button className="burger-button runtime-mobile-menu-button" onClick={openMobileMenu} aria-label="Open menu" aria-expanded={menuOpen}><span></span><span></span></button><button className="brand-button runtime-mobile-brand" onClick={() => navigate(homeRoute())} aria-label="REV home"><BrandAsset asset="wordmark" className="runtime-shell-wordmark" width={160} /></button></header>}
+
+      {focusMode && <div className="runtime-focus-bar"><button type="button" className="runtime-focus-leave" onClick={leaveExamPrep}><Icon name="arrow-right" size="compact" />Leave Exam Prep</button></div>}
 
       <div className="runtime-screen">{screen}</div>
 
-      {route.kind !== 'admin' && <nav className="runtime-tabbar" aria-label="Quick navigation">
-        <button type="button" className={route.kind === 'home' ? 'active' : ''} aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" size="standard" /><span>Home</span></button>
-        <button type="button" className={route.kind === 'plan' ? 'active' : ''} aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" size="standard" /><span>Plan</span></button>
-        <button type="button" className={coursesActive ? 'active' : ''} aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><Icon name="courses" size="standard" /><span>Courses</span></button>
-        <button type="button" className={route.kind === 'progress' ? 'active' : ''} aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><Icon name="progress" size="standard" /><span>Progress</span></button>
-      </nav>}
+      {showPhoneChrome && route.kind !== 'admin' && <TabBar items={shellNavItems} active={activeNavKey} onNavigate={navigateFromShell} onAskRev={() => openRev()} askRevActive={revPanelOpen || route.kind === 'rev'} />}
 
-      {route.kind !== 'admin' && route.kind !== 'rev' && !revPanelOpen && <button className="runtime-mobile-ask-rev-dock" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>}
 
       {revPanelOpen && programmeResolved && !programmeError && <>
         <OverlayBackdrop className="runtime-rev-backdrop" label="Close Ask REV" onClick={() => setRevPanelOpen(false)} />
@@ -325,14 +366,14 @@ export function PlannerRuntime() {
           label="Ask REV"
           onDismiss={() => setRevPanelOpen(false)}
           initialFocusSelector=".planner-rev-input input"
-          returnFocusSelector=".runtime-ask-rev, .runtime-mobile-ask-rev-dock"
+          returnFocusSelector=".runtime-ask-rev, .ui-rail__ask-rev, .ui-tabbar__ask-rev"
         >
           <header className="runtime-rev-panel-head"><div><p className="eyebrow">Your revision guide</p><h2>Ask REV</h2></div><div className="runtime-rev-panel-actions"><button onClick={expandRev}>Expand</button><IconButton className="runtime-rev-panel-close" label="Close Ask REV" onClick={() => setRevPanelOpen(false)}><Icon name="close" size="compact" /></IconButton></div></header>
           <div className="runtime-rev-panel-body"><PlannerRevScreen client={supabase} userId={user.id} programme={programme} onOpenPlan={() => navigate(planRoute())} onOpenCourses={() => navigate(coursesRoute())} onOpenCourse={(courseId) => openCourse(courseId, 'recommendation')} /></div>
         </DrawerShell>
       </>}
 
-      {accountModalOpen && <AccountModal learnerName={learner} email={user.email} section={accountSection} theme={theme} onSectionChange={setAccountSection} onThemeChange={setTheme} onNameChange={updateLearnerFirstName} onClose={() => setAccountModalOpen(false)} />}
+      {accountModalOpen && <AccountModal learnerName={learner} email={user.email} section={accountSection} theme={themePreference} onSectionChange={setAccountSection} onThemeChange={setThemePreference} onNameChange={updateLearnerFirstName} onClose={() => setAccountModalOpen(false)} />}
 
       {menuOpen && <>
         <OverlayBackdrop className="runtime-mobile-menu-backdrop" label="Close menu" onClick={closeMobileMenu} />

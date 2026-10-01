@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Icon, IconButton, ModalShell, OverlayBackdrop } from './ui'
 
 type AccountSection = 'profile' | 'settings'
-type ThemeName = 'light' | 'dark'
+type ThemeName = 'light' | 'dark' | 'system'
 
 type AccountModalProps = {
   learnerName: string
@@ -144,6 +144,7 @@ export function AccountModal({
                 <div className="runtime-theme-choice ui-segmented-control" role="group" aria-label="Appearance">
                   <button className={`ui-button ui-button--tertiary ui-button--compact ${theme === 'light' ? 'active' : ''}`} aria-pressed={theme === 'light'} onClick={() => onThemeChange('light')}>Light</button>
                   <button className={`ui-button ui-button--tertiary ui-button--compact ${theme === 'dark' ? 'active' : ''}`} aria-pressed={theme === 'dark'} onClick={() => onThemeChange('dark')}>Dark</button>
+                  <button className={`ui-button ui-button--tertiary ui-button--compact ${theme === 'system' ? 'active' : ''}`} aria-pressed={theme === 'system'} onClick={() => onThemeChange('system')}>System</button>
                 </div>
               </section>
             </div>

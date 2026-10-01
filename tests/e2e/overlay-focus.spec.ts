@@ -143,9 +143,11 @@ test('shared learner overlays own initial focus, containment, inertness, Escape 
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey Synthetic/ })).toBeVisible()
 
-  const askRevTrigger = isMobileLayout(page)
-    ? page.locator('.runtime-mobile-ask-rev-dock')
-    : page.locator('.runtime-ask-rev')
+  const askRevTrigger = (page.viewportSize()?.width ?? 0) > 960
+    ? page.locator('.runtime-ask-rev')
+    : (page.viewportSize()?.width ?? 0) > 620
+      ? page.locator('.ui-rail__ask-rev')
+      : page.locator('.ui-tabbar__ask-rev')
   await askRevTrigger.click()
 
   let dialog = page.getByRole('dialog', { name: 'Ask REV' })
