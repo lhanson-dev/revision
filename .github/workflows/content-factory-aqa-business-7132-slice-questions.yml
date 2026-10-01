@@ -106,6 +106,47 @@ jobs:
           test -f "$target/ledger.json"
           test -d "$target/questions"
           test -d "$target/blind-answers"
+
+          RESUME_HEAD_SHA="$head_sha" RESUME_TARGET="$target" node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          import path from 'node:path'
+
+          const batch = process.env.BATCH
+          const target = process.env.RESUME_TARGET
+          const runId = Number(process.env.RESUME_RUN_ID)
+          const reviewedCommit = process.env.RESUME_HEAD_SHA
+          const ledger = JSON.parse(fs.readFileSync(path.join(target, 'ledger.json'), 'utf8'))
+          const acceptedUnits = {}
+          const latestUnits = {}
+          for (const [id, entry] of Object.entries(ledger.units ?? {})) {
+            const blindPath = path.join(target, 'blind-answers', `${id}.json`)
+            if (!fs.existsSync(blindPath)) continue
+            const blind = JSON.parse(fs.readFileSync(blindPath, 'utf8'))
+            const latestPath = path.join(target, 'questions', `${id}.latest.json`)
+            if (fs.existsSync(latestPath)) {
+              latestUnits[id] = { question: JSON.parse(fs.readFileSync(latestPath, 'utf8')), blind_answer: blind }
+            }
+            if (!['passed', 'logged'].includes(entry.outcome)) continue
+            const acceptedPath = path.join(target, 'questions', `${id}.json`)
+            if (!fs.existsSync(acceptedPath)) continue
+            const accepted = JSON.parse(fs.readFileSync(acceptedPath, 'utf8'))
+            acceptedUnits[id] = { question_record: { question: accepted.question }, blind_answer: blind }
+          }
+          const checkpoint = {
+            schema_version: 1,
+            source_run_id: runId,
+            reviewed_commit: reviewedCommit,
+            batch,
+            summary: null,
+            ledger,
+            accepted_units: acceptedUnits,
+            latest_units: latestUnits,
+          }
+          const runDir = `content-factory/runs/aqa-7132-slice-${batch}-questions`
+          fs.mkdirSync(runDir, { recursive: true })
+          fs.writeFileSync(path.join(runDir, 'resume-checkpoint.json'), `${JSON.stringify(checkpoint)}\n`)
+          console.log(`Resume checkpoint: ${Object.keys(acceptedUnits).length} accepted, ${Object.keys(latestUnits).length} generated units.`)
+          NODE
           echo "Restored ${artifact} for fingerprint-checked resume."
 
       - name: Write, answer blind, prove and review the batch questions
@@ -115,7 +156,6 @@ jobs:
           CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
           CONTENT_FACTORY_MAX_SPEND_USD: '6'
           CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
-          CONTENT_FACTORY_RESUME_DIR: .artifacts/resume-${{ matrix.batch }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npx vitest run scripts/assurance/aqa-business-7132-slice-questions.test.ts --reporter=verbose
 
