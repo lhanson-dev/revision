@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.7",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 37,
+    "marks": 182,
+    "quantitative_marks": 19,
+    "formulas": 7,
+    "items": 48,
+    "nodes": 11,
+    "estimated_spend_usd": 2.22
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "using-operations-hr-and-marketing-data-to-assess-performance"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Using operations, HR and marketing data to assess performance\". Mark scheme is level-based."
+    },
+    {
+      "id": "q02",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "international-trade-policy"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"International trade policy\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q03",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "open-trade-versus-protectionism",
+        "franchising"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Open trade versus protectionism\" and \"Franchising\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q04",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "globalisation",
+        "emerging-economies"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Globalisation\" and \"Emerging economies\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q05",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "exporting",
+        "licensing"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Exporting\" and \"Licensing\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q06",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "direct-investment",
+        "offshoring"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Direct investment\" and \"Offshoring\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q07",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "multinationals",
+        "local-responsiveness-versus-cost-reduction-pressure"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Multinationals\" and \"Local responsiveness versus cost-reduction pressure\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q08",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "market-attractiveness-factors"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Market attractiveness factors\". Mark scheme is level-based."
+    },
+    {
+      "id": "q09",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "corporate-social-responsibility"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Corporate social responsibility\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q10",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "carroll-s-csr-pyramid"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Carroll's CSR pyramid\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q11",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "payback"
+      ],
+      "formulaIds": [
+        "payback"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the payback. Show working. The inputs are a list (for example several years or outcomes), so give every value in the question. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q12",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "average-rate-of-return"
+      ],
+      "formulaIds": [
+        "average_rate_of_return"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the average rate of return. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q13",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "net-present-value"
+      ],
+      "formulaIds": [
+        "net_present_value"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the net present value. Show working. The inputs are a list (for example several years or outcomes), so give every value in the question. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q14",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "non-financial-factors-in-investment"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Non-financial factors in investment\". Mark scheme is level-based."
+    },
+    {
+      "id": "q15",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "comparing-ratios-over-time-and-with-competitors"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Comparing ratios over time and with competitors\". Mark scheme is level-based."
+    },
+    {
+      "id": "q16",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "statement-of-financial-position"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Statement of financial position\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "current-ratio"
+      ],
+      "formulaIds": [
+        "current_ratio"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the current ratio. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q18",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "payables-days"
+      ],
+      "formulaIds": [
+        "payables_days"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the payables days. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q19",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "receivables-days"
+      ],
+      "formulaIds": [
+        "receivables_days"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the receivables days. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q20",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "inventory-turnover"
+      ],
+      "formulaIds": [
+        "inventory_turnover"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the inventory turnover. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q21",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "corporate-objectives"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Corporate objectives\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q22",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "functional-objectives",
+        "short-termism"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Functional objectives\" and \"Short-termism\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q23",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "strategy-versus-tactics",
+        "planned-versus-emergent-strategy"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Strategy versus tactics\" and \"Planned versus emergent strategy\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q24",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "contingency-planning"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Contingency planning\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q25",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "evaluating-strategic-performance",
+        "value-of-strategic-planning"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Evaluating strategic performance\" and \"Value of strategic planning\". Mark scheme is level-based."
+    },
+    {
+      "id": "q26",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "core-competences"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Core competences\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q27",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "low-cost-strategy",
+        "differentiation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Low-cost strategy\" and \"Differentiation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q28",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "focus-strategy",
+        "price-and-non-price-competition"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Focus strategy\" and \"Price and non-price competition\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q29",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "competitive-advantage-and-how-to-sustain-it"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Competitive advantage and how to sustain it\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q30",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "porter-s-generic-strategies"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Porter's generic strategies\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q31",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "swot-analysis"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"SWOT analysis\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q32",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "threat-of-entry-and-barriers"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Threat of entry and barriers\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q33",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "buyer-power",
+        "supplier-power"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Buyer power\" and \"Supplier power\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q34",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "rivalry",
+        "threat-of-substitutes"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Rivalry\" and \"Threat of substitutes\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q35",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-choice-of-positioning-strategy"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on choice of positioning strategy\". Mark scheme is level-based."
+    },
+    {
+      "id": "q36",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "porter-s-five-forces"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Porter's Five Forces\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q37",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "statement-of-financial-position",
+        "comparing-ratios-over-time-and-with-competitors"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Statement of financial position\" and \"Comparing ratios over time and with competitors\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

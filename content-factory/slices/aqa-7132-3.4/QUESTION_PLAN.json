@@ -1,0 +1,692 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.4",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 43,
+    "marks": 169,
+    "quantitative_marks": 13,
+    "formulas": 6,
+    "items": 60,
+    "nodes": 11,
+    "estimated_spend_usd": 2.58
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "environmental-objectives"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Environmental objectives\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q02",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "added-value"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Added value\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q03",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-operational-objectives",
+        "using-operations-data-in-decisions"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on operational objectives\" and \"Using operations data in decisions\". Mark scheme is level-based."
+    },
+    {
+      "id": "q04",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "labour-intensive-versus-capital-intensive"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Labour-intensive versus capital-intensive\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q05",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "improving-capacity-use",
+        "increasing-efficiency-and-labour-productivity"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Improving capacity use\" and \"Increasing efficiency and labour productivity\". Mark scheme is level-based."
+    },
+    {
+      "id": "q06",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "technology-and-efficiency"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Technology and efficiency\". Mark scheme is level-based."
+    },
+    {
+      "id": "q07",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "capacity-utilisation"
+      ],
+      "formulaIds": [
+        "capacity_utilisation"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the capacity utilisation. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q08",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "capacity"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Capacity\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q09",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "labour-productivity"
+      ],
+      "formulaIds": [
+        "labour_productivity"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the labour productivity. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q10",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "lean-production"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Lean production\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q11",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "just-in-time",
+        "kaizen"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Just in time\" and \"Kaizen\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q12",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "benchmarking"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Benchmarking\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q13",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "re-order-quantity"
+      ],
+      "formulaIds": [
+        "re_order_quantity"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the re-order quantity. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q14",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "just-in-case"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Just in case\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q15",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "matching-supply-to-demand",
+        "temporary-and-part-time-staff"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Matching supply to demand\" and \"Temporary and part-time staff\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q16",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "producing-to-order",
+        "lead-time"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Producing to order\" and \"Lead time\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "re-order-level",
+        "buffer-inventory"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Re-order level\" and \"Buffer inventory\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q18",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "supply-chain-management"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Supply chain management\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q19",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "choice-of-suppliers",
+        "influences-on-inventory-levels"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Choice of suppliers\" and \"Influences on inventory levels\". Mark scheme is level-based."
+    },
+    {
+      "id": "q20",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "inventory-control-chart"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Inventory control chart\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q21",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "outsourcing"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Outsourcing\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q22",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "quality-control"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Quality control\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q23",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "quality-assurance",
+        "consequences-of-poor-quality"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Quality assurance\" and \"Consequences of poor quality\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q24",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "benefits-and-difficulties-of-improving-quality"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Benefits and difficulties of improving quality\". Mark scheme is level-based."
+    },
+    {
+      "id": "q25",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "reshoring"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Reshoring\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q26",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "labour-turnover"
+      ],
+      "formulaIds": [
+        "labour_turnover"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the labour turnover. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q27",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "labour-productivity-hr"
+      ],
+      "formulaIds": [
+        "labour_productivity"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the labour productivity. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q28",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "employee-costs-as-a-percentage-of-turnover"
+      ],
+      "formulaIds": [
+        "employee_costs_percentage_of_turnover"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the employee costs as a percentage of turnover. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q29",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "labour-cost-per-unit"
+      ],
+      "formulaIds": [
+        "labour_cost_per_unit"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the labour cost per unit. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q30",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "training"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Training\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q31",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "soft-hrm",
+        "hard-hrm"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Soft HRM\" and \"Hard HRM\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q32",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "workforce-hr-planning",
+        "recruitment"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Workforce (HR) planning\" and \"Recruitment\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q33",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "redeployment",
+        "redundancy"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Redeployment\" and \"Redundancy\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q34",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "workforce-number-skills-and-location",
+        "influences-on-hr-objectives-and-decisions"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Workforce number, skills and location\" and \"Influences on HR objectives and decisions\". Mark scheme is level-based."
+    },
+    {
+      "id": "q35",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "using-hr-data-in-decisions-and-planning",
+        "influences-on-and-value-of-changing-organisational-design"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Using HR data in decisions and planning\" and \"Influences on and value of changing organisational design\". Mark scheme is level-based."
+    },
+    {
+      "id": "q36",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "growth-of-online-business"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Growth of online business\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q37",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "product-innovation",
+        "process-innovation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Product innovation\" and \"Process innovation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q38",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "research-and-development",
+        "patents"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Research and development\" and \"Patents\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q39",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "copyright",
+        "automation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Copyright\" and \"Automation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q40",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "e-commerce-strategic",
+        "big-data"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"E-commerce (strategic)\" and \"Big data\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q41",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "data-mining"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Data mining\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q42",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "pressures-for-innovation",
+        "pressures-to-adopt-digital-technology-and-its-value"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Pressures for innovation\" and \"Pressures to adopt digital technology and its value\". Mark scheme is level-based."
+    },
+    {
+      "id": "q43",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "inventory-control-chart",
+        "choice-of-suppliers",
+        "influences-on-inventory-levels"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Inventory control chart\" and \"Choice of suppliers\" and \"Influences on inventory levels\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// AQA 7132 slice production, step 5c: exam-style questions with mark schemes for section 3.5 under the fast-path rules (ADR-0029).
+// AQA 7132 slice production, step 5c: exam-style questions with mark schemes for one batch (3.5 by default) under the fast-path rules (ADR-0029).
 // Always-on tests are software only. The live run (provider spend, capped) only runs when the proof flag is set, post-merge on main.
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
@@ -14,6 +14,7 @@ import {
   type Ledger,
 } from '../../src/content-factory/fast-path-review'
 import type { Blueprint } from './aqa-business-7132-slice-learn-practice'
+import type { QuestionPlanFile } from './aqa-business-7132-question-plan'
 import {
   BLIND_ANSWER_INSTRUCTIONS,
   QUESTIONS_CHECKLIST,
@@ -32,6 +33,7 @@ import {
   validateQuestion,
   type BlindAnswer,
   type Question,
+  type QuestionSpec,
   type QuestionTeaching,
   type QuestionUnit,
   type ResolvedSpec,
@@ -41,11 +43,23 @@ import { loadBusinessSubjectFoundationCandidate } from '../content-factory/load-
 const runtime = globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }
 const env = runtime.process?.env ?? {}
 const proofEnabled = env.CONTENT_FACTORY_AQA_7132_SLICE_QUESTIONS === '1'
+// The batch to run live (default: the first slice, 3.5). Batches are listed in content-factory/slices/aqa-7132-batches.json; their plans are built by software.
+const BATCH = env.CONTENT_FACTORY_SLICE_BATCH?.trim() || '3.5'
 const BLUEPRINT = 'content-factory/slices/aqa-7132-3.5/BLUEPRINT.json'
-const OUTPUT = '.artifacts/content-factory-aqa-business-7132-slice-3.5-questions'
-const QUESTIONS_DIR = 'content-factory/slices/aqa-7132-3.5/questions'
+const BATCH_BLUEPRINT = `content-factory/slices/aqa-7132-${BATCH}/BLUEPRINT.json`
+const OUTPUT = `.artifacts/content-factory-aqa-business-7132-slice-${BATCH}-questions`
+const QUESTIONS_DIR = `content-factory/slices/aqa-7132-${BATCH}/questions`
 // Committed between runs so unchanged questions are reused and review rounds are counted.
-const LEDGER = 'content-factory/runs/aqa-7132-slice-3.5-questions/ledger.json'
+const LEDGER = `content-factory/runs/aqa-7132-slice-${BATCH}-questions/ledger.json`
+
+// Section 3.5 keeps its hand-written plan; every other batch uses its committed plan, which must be built from the current blueprint.
+async function planFor(batch: string): Promise<readonly QuestionSpec[]> {
+  if (batch === '3.5') return QUESTION_PLAN
+  const file = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/QUESTION_PLAN.json`, 'utf8')) as QuestionPlanFile
+  const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
+  if (file.blueprint_fingerprint !== blueprint.courseKnowledgeModelFingerprint) throw new Error(`question_plan_stale:${batch}`)
+  return file.questions
+}
 
 function requiredEnv(name: string) {
   const value = env[name]?.trim()
@@ -223,20 +237,26 @@ describe('AQA 7132 slice questions (software checks)', () => {
   })
 
   it('keeps every committed question valid against its plan (software re-proof, no AI)', async () => {
-    if (!existsSync(QUESTIONS_DIR)) return
-    for (const spec of await resolved()) {
-      const path = `${QUESTIONS_DIR}/${spec.id}.json`
-      if (!existsSync(path)) continue
-      const record = JSON.parse(await readFile(path, 'utf8')) as { question: unknown }
-      const question = questionSchema.parse(record.question)
-      expect(validateQuestion(question, spec), spec.id).toEqual([])
+    const config = JSON.parse(await readFile('content-factory/slices/aqa-7132-batches.json', 'utf8')) as { batches: Array<{ id: string }>; top_up: { id: string } }
+    for (const batch of ['3.5', ...config.batches.map((b) => b.id), config.top_up.id]) {
+      const dir = `content-factory/slices/aqa-7132-${batch}/questions`
+      if (!existsSync(dir)) continue
+      const blueprint = JSON.parse(await readFile(`content-factory/slices/aqa-7132-${batch}/BLUEPRINT.json`, 'utf8')) as Blueprint
+      for (const spec of resolvePlan(blueprint, await planFor(batch))) {
+        const path = `${dir}/${spec.id}.json`
+        if (!existsSync(path)) continue
+        const record = JSON.parse(await readFile(path, 'utf8')) as { question: unknown }
+        const question = questionSchema.parse(record.question)
+        expect(validateQuestion(question, spec), `${batch}/${spec.id}`).toEqual([])
+      }
     }
   })
 
   const proofIt = proofEnabled ? it : it.skip
 
   proofIt('writes each planned question, has it answered blind, proves what software can, reviews with a fixed checklist, and never unlocks learner publication', async () => {
-    const plan = await resolved()
+    const questionPlan = await planFor(BATCH)
+    const plan = resolvePlan(JSON.parse(await readFile(BATCH_BLUEPRINT, 'utf8')) as Blueprint, questionPlan)
     const candidate = await loadBusinessSubjectFoundationCandidate()
     const rows = new Map<string, { subject_truth_sources?: string[] }>(candidate.matrix.nodes.map((row: { subject_id: string }) => [row.subject_id, row]))
     await mkdir(`${OUTPUT}/questions`, { recursive: true })
@@ -326,11 +346,11 @@ describe('AQA 7132 slice questions (software checks)', () => {
       const spec = plan.find((s) => s.id === outcome.unit_id)!
       if (!question) continue
       acceptedQuestions.push(question)
-      await writeFile(`${OUTPUT}/questions/${spec.id}.json`, `${JSON.stringify({ id: spec.id, label: 'AQA-style practice (Revision-authored, not an AQA question)', confidence_label: confidenceLabel(spec), target_item_ids: spec.items.map((i) => i.id), target_node_ids: spec.nodeIds, question }, null, 2)}\n`)
+      await writeFile(`${OUTPUT}/questions/${spec.id}.json`, `${JSON.stringify({ id: spec.id, batch: BATCH, label: 'AQA-style practice (Revision-authored, not an AQA question)', confidence_label: confidenceLabel(spec), target_item_ids: spec.items.map((i) => i.id), target_node_ids: spec.nodeIds, question }, null, 2)}\n`)
     }
     for (const [id, question] of questions) await writeFile(`${OUTPUT}/questions/${id}.latest.json`, `${JSON.stringify(question, null, 2)}\n`)
 
-    const facts = setChecks(acceptedQuestions, QUESTION_PLAN)
+    const facts = setChecks(acceptedQuestions, questionPlan)
     const summary = {
       planned: plan.length,
       accepted: accepted.length,
@@ -342,17 +362,18 @@ describe('AQA 7132 slice questions (software checks)', () => {
     }
     await writeFile(`${OUTPUT}/ledger.json`, `${JSON.stringify(ledger, null, 2)}\n`)
     await writeFile(`${OUTPUT}/escalations.json`, `${JSON.stringify(escalationEntries(ledger), null, 2)}\n`)
-    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary('AQA 7132 slice 3.5: exam-style questions', outcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.id}: ${f.error}`).join('\n')}\n` : ''}\n## Whole set\n- ${facts.questions} questions, ${facts.totalMarks} marks, quantitative ${facts.quantitativePercent}% (minimum 10%: ${facts.quantitativeShareOk ? 'met' : 'NOT met'})\n- formulas not covered: ${facts.missingFormulas.join(', ') || 'none'}\n`)
+    await writeFile(`${OUTPUT}/SUMMARY.md`, `${renderRunSummary(`AQA 7132 batch ${BATCH}: exam-style questions`, outcomes, ledger)}\n${generationFailures.length ? `## Generation failed after 3 attempts\n${generationFailures.map((f) => `- ${f.id}: ${f.error}`).join('\n')}\n` : ''}\n## Whole set\n- ${facts.questions} questions, ${facts.totalMarks} marks, quantitative ${facts.quantitativePercent}% (minimum 10%: ${facts.quantitativeShareOk ? 'met' : 'NOT met'})\n- formulas not covered: ${facts.missingFormulas.join(', ') || 'none'}\n`)
     const evidence = {
       schema_version: 1,
       artifact_type: 'aqa_7132_slice_questions_fast_path',
       recorded_at: new Date().toISOString(),
-      slice: '3.5',
+      slice: BATCH,
       reviewed_commit: env.CONTENT_FACTORY_SLICE_REVIEWED_COMMIT ?? null,
       checklist: QUESTIONS_CHECKLIST,
       summary,
       provider_budget: provider.budgetSnapshot?.() ?? null,
-      gates: { ai_assured_questions: summary.all_questions_accepted && facts.quantitativeShareOk && facts.missingFormulas.length === 0, qualified_human_review_status: 'pending', learner_publication_eligible: false },
+      // The 10% quantitative share is an Exam Truth floor for the whole qualification, so it only gates the 3.5 slice (which has most of the formulas); other batches report it.
+      gates: { ai_assured_questions: summary.all_questions_accepted && (BATCH !== '3.5' || facts.quantitativeShareOk) && facts.missingFormulas.length === 0, qualified_human_review_status: 'pending', learner_publication_eligible: false },
     }
     await writeFile(`${OUTPUT}/slice-questions-proof.json`, `${JSON.stringify(evidence, null, 2)}\n`)
     await writeFile(`${OUTPUT}/summary.json`, `${JSON.stringify({ ...summary, provider_budget: evidence.provider_budget }, null, 2)}\n`)

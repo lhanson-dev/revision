@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.8-3.9",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 18,
+    "marks": 87,
+    "quantitative_marks": 0,
+    "formulas": 0,
+    "items": 23,
+    "nodes": 5,
+    "estimated_spend_usd": 1.08
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "intrapreneurship"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Intrapreneurship\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q02",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "economies-of-scale-technical-purchasing-managerial"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Economies of scale (technical, purchasing, managerial)\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q03",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "diseconomies-of-scale",
+        "overtrading"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Diseconomies of scale\" and \"Overtrading\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q04",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "takeovers"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Takeovers\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q05",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "impact-of-growth-or-retrenchment-on-functional-areas"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Impact of growth or retrenchment on functional areas\". Mark scheme is level-based."
+    },
+    {
+      "id": "q06",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "economies-of-scope"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Economies of scope\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q07",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "synergy"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Synergy\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q08",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "market-penetration"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Market penetration\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q09",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "market-development",
+        "product-development"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Market development\" and \"Product development\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q10",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "diversification"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Diversification\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q11",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-choice-of-markets-and-products"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on choice of markets and products\". Mark scheme is level-based."
+    },
+    {
+      "id": "q12",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "ansoff-matrix"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Ansoff matrix\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q13",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "organic-growth"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Organic growth\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q14",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "external-growth",
+        "retrenchment"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"External growth\" and \"Retrenchment\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q15",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "mergers",
+        "joint-ventures"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Mergers\" and \"Joint ventures\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q16",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "vertical-integration-forward-and-backward",
+        "horizontal-integration"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Vertical integration (forward and backward)\" and \"Horizontal integration\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "conglomerate-integration",
+        "alliances"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Conglomerate integration\" and \"Alliances\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q18",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "ansoff-matrix",
+        "influences-on-choice-of-markets-and-products",
+        "market-penetration"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Ansoff matrix\" and \"Influences on choice of markets and products\" and \"Market penetration\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

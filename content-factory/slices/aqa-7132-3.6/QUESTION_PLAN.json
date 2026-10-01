@@ -1,0 +1,460 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.6",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 28,
+    "marks": 141,
+    "quantitative_marks": 0,
+    "formulas": 0,
+    "items": 40,
+    "nodes": 9,
+    "estimated_spend_usd": 1.68
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "piece-rate"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Piece rate\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q02",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "employee-engagement-and-involvement"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Employee engagement and involvement\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q03",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "talent-development"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Talent development\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q04",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "empowerment"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Empowerment\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q05",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "flexible-working",
+        "job-rotation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Flexible working\" and \"Job rotation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q06",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-choosing-financial-and-non-financial-motivatio"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on choosing financial and non-financial motivation methods\". Mark scheme is level-based."
+    },
+    {
+      "id": "q07",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "taylor-scientific-management"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Taylor (scientific management)\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q08",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "maslow-s-hierarchy-of-needs"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Maslow's hierarchy of needs\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q09",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "herzberg-s-two-factor-theory"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Herzberg's two-factor theory\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q10",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "commission"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Commission\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q11",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "salary",
+        "performance-related-pay"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Salary\" and \"Performance-related pay\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q12",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "team-working",
+        "job-enrichment"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Team working\" and \"Job enrichment\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q13",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "functional-structure"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Functional structure\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q14",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "product-based-structure",
+        "regional-structure"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Product-based structure\" and \"Regional structure\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q15",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "matrix-structure",
+        "authority"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Matrix structure\" and \"Authority\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q16",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "span-of-control",
+        "hierarchy"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Span of control\" and \"Hierarchy\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "delegation",
+        "centralisation-and-decentralisation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Delegation\" and \"Centralisation and decentralisation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q18",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "flexible-organisations",
+        "flexible-employment-contracts"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Flexible organisations\" and \"Flexible employment contracts\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q19",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "organic-versus-mechanistic-structures"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Organic versus mechanistic structures\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q20",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "diversity"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Diversity\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q21",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "alignment-of-values",
+        "employee-involvement"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Alignment of values\" and \"Employee involvement\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q22",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "trade-unions",
+        "works-councils"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Trade unions\" and \"Works councils\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q23",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "power-culture",
+        "role-culture"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Power culture\" and \"Role culture\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q24",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "task-culture",
+        "person-culture"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Task culture\" and \"Person culture\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q25",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "value-of-good-employee-relations",
+        "influences-on-organisational-culture"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Value of good employee relations\" and \"Influences on organisational culture\". Mark scheme is level-based."
+    },
+    {
+      "id": "q26",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "reasons-for-and-problems-of-changing-culture"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Reasons for and problems of changing culture\". Mark scheme is level-based."
+    },
+    {
+      "id": "q27",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "handy-s-culture-types"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Handy's culture types\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q28",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "taylor-scientific-management",
+        "maslow-s-hierarchy-of-needs",
+        "herzberg-s-two-factor-theory"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Taylor (scientific management)\" and \"Maslow's hierarchy of needs\" and \"Herzberg's two-factor theory\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}

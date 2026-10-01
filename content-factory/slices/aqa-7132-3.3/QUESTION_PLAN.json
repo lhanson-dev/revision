@@ -1,0 +1,517 @@
+{
+  "schema_version": 1,
+  "builder_version": "question-plan-v1",
+  "batch": "3.3",
+  "blueprint_fingerprint": "f22c1aba3a1432fb4486abfe508661453cb138cf5a3cd92466b89742dd71f3e5",
+  "excluded_item_ids": [],
+  "summary": {
+    "questions": 32,
+    "marks": 144,
+    "quantitative_marks": 8,
+    "formulas": 3,
+    "items": 41,
+    "nodes": 10,
+    "estimated_spend_usd": 1.92
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "market-size"
+      ],
+      "formulaIds": [
+        "market_size"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the market size. Show working. The inputs are a list (for example several years or outcomes), so give every value in the question. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q02",
+      "family": "SHORT_ANSWER",
+      "marks": 3,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "market-growth"
+      ],
+      "formulaIds": [
+        "market_growth"
+      ],
+      "brief": "Short answer: in a realistic business setting, give the figures needed and ask the student to calculate the market growth. Show working. Use the AQA calculation convention supplied for the item."
+    },
+    {
+      "id": "q03",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Calculate",
+      "ao": [
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "market-share"
+      ],
+      "formulaIds": [
+        "market_share"
+      ],
+      "brief": "Multiple choice: give the figures needed and ask which option is the market share. Distractors are common slips (using the wrong figure, forgetting a step or the unit)."
+    },
+    {
+      "id": "q04",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "sales-volume-and-sales-value"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Sales volume and sales value\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q05",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "primary-and-secondary-research"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Primary and secondary research\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q06",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "qualitative-and-quantitative-data",
+        "correlation"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Qualitative and quantitative data\" and \"Correlation\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q07",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "using-marketing-data-in-decisions"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Using marketing data in decisions\". Mark scheme is level-based."
+    },
+    {
+      "id": "q08",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "random-sampling"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Random sampling\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q09",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "stratified-sampling",
+        "quota-sampling"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Stratified sampling\" and \"Quota sampling\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q10",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "confidence-intervals"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Confidence intervals\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q11",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "segmentation-demographic-geographic-income-behaviour"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Segmentation (demographic, geographic, income, behaviour)\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q12",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "targeting",
+        "niche-marketing"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Targeting\" and \"Niche marketing\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q13",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "mass-marketing",
+        "positioning"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Mass marketing\" and \"Positioning\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q14",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-choice-of-target-market"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on choice of target market\". Mark scheme is level-based."
+    },
+    {
+      "id": "q15",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "market-mapping"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Market mapping\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q16",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "product-and-service-design"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Product and service design\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q17",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "product-portfolio-analysis",
+        "extension-strategies"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Product portfolio analysis\" and \"Extension strategies\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q18",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "new-product-development",
+        "influences-on-pricing"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"New product development\" and \"Influences on pricing\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q19",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "branding"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Branding\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q20",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "product-life-cycle"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Product life cycle\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q21",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "brand-loyalty"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Brand loyalty\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q22",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "price-elasticity-of-demand"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Price elasticity of demand\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q23",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "income-elasticity-of-demand",
+        "penetration-pricing"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Income elasticity of demand\" and \"Penetration pricing\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q24",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "price-skimming"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Price skimming\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q25",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "effect-of-price-and-income-changes-on-revenue"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Effect of price and income changes on revenue\". Mark scheme is level-based."
+    },
+    {
+      "id": "q26",
+      "family": "MCQ",
+      "marks": 1,
+      "commandWord": "Identify",
+      "ao": [
+        "AO1"
+      ],
+      "itemSuffixes": [
+        "social-media-promotion"
+      ],
+      "formulaIds": [],
+      "brief": "Multiple choice: one question that tests \"Social media promotion\" at the Identify level. One option is correct and the distractors are plausible misconceptions about it, set in a short business context."
+    },
+    {
+      "id": "q27",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "viral-marketing",
+        "distribution-and-multi-channel-distribution"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Viral marketing\" and \"Distribution and multi-channel distribution\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q28",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "physical-environment-service-mix",
+        "digital-marketing"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"Physical environment (service mix)\" and \"Digital marketing\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q29",
+      "family": "SHORT_ANSWER",
+      "marks": 4,
+      "commandWord": "Explain",
+      "ao": [
+        "AO1",
+        "AO2"
+      ],
+      "itemSuffixes": [
+        "e-commerce",
+        "integrated-marketing-mix"
+      ],
+      "formulaIds": [],
+      "brief": "Short answer: a short business scenario is given in the context, and the student explains a point that tests \"E-commerce\" and \"Integrated marketing mix\". The mark scheme credits knowledge and its application to the scenario."
+    },
+    {
+      "id": "q30",
+      "family": "DATA_RESPONSE",
+      "marks": 6,
+      "commandWord": "Analyse",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3"
+      ],
+      "itemSuffixes": [
+        "influences-on-marketing-mix-decisions"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with a small data table or short extract (include every figure the student needs), then one part asking the student to analyse a point that tests \"Influences on marketing mix decisions\". Mark scheme is level-based."
+    },
+    {
+      "id": "q31",
+      "family": "DATA_RESPONSE",
+      "marks": 9,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "boston-matrix"
+      ],
+      "formulaIds": [],
+      "brief": "Data response: a self-contained business scenario with the data needed, then one part asking the student to evaluate a decision or approach that tests \"Boston Matrix\", reaching a justified judgement. Mark scheme is level-based."
+    },
+    {
+      "id": "q32",
+      "family": "ESSAY",
+      "marks": 25,
+      "commandWord": "Evaluate",
+      "ao": [
+        "AO1",
+        "AO2",
+        "AO3",
+        "AO4"
+      ],
+      "itemSuffixes": [
+        "boston-matrix",
+        "product-life-cycle",
+        "influences-on-marketing-mix-decisions"
+      ],
+      "formulaIds": [],
+      "brief": "Essay: a statement about a business, set in a new business context, that the student evaluates, drawing on \"Boston Matrix\" and \"Product life cycle\" and \"Influences on marketing mix decisions\". Mark scheme is level-based with indicative content."
+    }
+  ]
+}
