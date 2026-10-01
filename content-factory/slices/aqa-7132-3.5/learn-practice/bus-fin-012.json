@@ -1,0 +1,376 @@
+{
+  "node_id": "bus-fin-012",
+  "learn": {
+    "title": "Profitability, return and shareholder ratios",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "What profitability ratios show",
+        "body": "Profit figures in £ are useful, but ratios show profit in relation to revenue. This makes comparisons across years, products or businesses more meaningful. Gross profit margin shows the gross profit made from each £1 of revenue before operating expenses. Operating profit margin shows the proportion of revenue left after operating expenses. Profit for the year is operating profit minus net finance costs and taxation; its margin shows the final proportion of revenue remaining after these deductions. A ratio describes a relationship, not its cause: investigate price, product mix, input costs, productivity and overheads.",
+        "item_ids": [
+          "aqa-7132-3.5.1:profit-for-the-year",
+          "aqa-7132-3.5.2:gross-profit-margin",
+          "aqa-7132-3.5.2:operating-profit-margin",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Comparison needs context",
+        "body": "Example: a rise in operating profit margin could result from higher prices, lower overheads or better productivity. The business should identify which driver caused the movement before deciding whether it is sustainable. Non-example: stating that a business is definitely healthier simply because its margin is higher. The higher figure may follow cuts to maintenance or other investment that could damage future performance.",
+        "item_ids": [
+          "aqa-7132-3.5.2:operating-profit-margin",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Following the profit stages",
+        "body": "Start with operating profit. Subtract net finance costs, then subtract taxation to find profit for the year. Next, divide profit for the year by revenue and multiply by 100 for the profit for the year margin. Keeping the stages separate helps explain why an operating margin and final margin can differ.",
+        "item_ids": [
+          "aqa-7132-3.5.1:profit-for-the-year",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Higher is not automatically better",
+        "body": "A higher margin does not prove that management is better or that the business is financially healthier. Profitability is different from liquidity, so a profitable business can still face cash pressures. Comparisons also need a trend, relevant competitors or industry information, and awareness of accounting policies, one-off events and strategy.",
+        "item_ids": [
+          "aqa-7132-3.5.2:gross-profit-margin",
+          "aqa-7132-3.5.2:operating-profit-margin",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the gap between margins",
+        "body": "A retailer has a stable gross profit margin but a falling operating profit margin. Explain what this suggests about operating expenses, and give one further piece of information you would need before reaching a judgement.",
+        "item_ids": [
+          "aqa-7132-3.5.2:gross-profit-margin",
+          "aqa-7132-3.5.2:operating-profit-margin"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Calculating the ratios",
+        "body": "Use the relevant level of profit for each margin. Do not substitute operating profit into the gross profit margin, and do not use revenue as the denominator for profit for the year itself.",
+        "item_ids": [
+          "aqa-7132-3.5.1:profit-for-the-year",
+          "aqa-7132-3.5.2:gross-profit-margin",
+          "aqa-7132-3.5.2:operating-profit-margin",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "gross profit margin",
+        "definition": "Gross profit expressed as a percentage of revenue."
+      },
+      {
+        "term": "operating profit margin",
+        "definition": "Operating profit expressed as a percentage of revenue."
+      },
+      {
+        "term": "profit for the year",
+        "definition": "Operating profit minus net finance costs and taxation."
+      },
+      {
+        "term": "profit for the year margin",
+        "definition": "Profit for the year expressed as a percentage of revenue."
+      },
+      {
+        "term": "net finance costs",
+        "definition": "The finance costs deducted from operating profit when calculating profit for the year."
+      },
+      {
+        "term": "taxation",
+        "definition": "Tax deducted when calculating profit for the year."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-profit-for-year",
+        "item_id": "aqa-7132-3.5.1:profit-for-the-year",
+        "scenario": "A Birmingham manufacturer reports operating profit of £480,000, net finance costs of £35,000 and taxation of £89,000.",
+        "steps": [
+          "Begin with operating profit of £480,000.",
+          "Subtract net finance costs of £35,000.",
+          "Subtract taxation of £89,000.",
+          "Profit for the year is £356,000."
+        ],
+        "calc": {
+          "formula_id": "profit_for_the_year",
+          "inputs": [
+            {
+              "name": "operating_profit",
+              "value": 480000
+            },
+            {
+              "name": "net_finance_costs",
+              "value": 35000
+            },
+            {
+              "name": "taxation",
+              "value": 89000
+            }
+          ],
+          "stated_answer": 356000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "worked-gross-margin",
+        "item_id": "aqa-7132-3.5.2:gross-profit-margin",
+        "scenario": "A Leeds food wholesaler earns gross profit of £255,000 on revenue of £750,000.",
+        "steps": [
+          "Divide gross profit of £255,000 by revenue of £750,000.",
+          "Multiply by 100.",
+          "The gross profit margin is 34%."
+        ],
+        "calc": {
+          "formula_id": "gross_profit_margin",
+          "inputs": [
+            {
+              "name": "gross_profit",
+              "value": 255000
+            },
+            {
+              "name": "revenue",
+              "value": 750000
+            }
+          ],
+          "stated_answer": 34,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "worked-operating-margin",
+        "item_id": "aqa-7132-3.5.2:operating-profit-margin",
+        "scenario": "A Cardiff clothing business has operating profit of £144,000 and revenue of £900,000.",
+        "steps": [
+          "Divide operating profit of £144,000 by revenue of £900,000.",
+          "Multiply by 100.",
+          "The operating profit margin is 16%."
+        ],
+        "calc": {
+          "formula_id": "operating_profit_margin",
+          "inputs": [
+            {
+              "name": "operating_profit",
+              "value": 144000
+            },
+            {
+              "name": "revenue",
+              "value": 900000
+            }
+          ],
+          "stated_answer": 16,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "worked-profit-for-year-margin",
+        "item_id": "aqa-7132-3.5.2:profit-for-the-year-margin",
+        "scenario": "A UK engineering firm makes profit for the year of £126,000 from revenue of £1,800,000.",
+        "steps": [
+          "Divide profit for the year of £126,000 by revenue of £1,800,000.",
+          "Multiply by 100.",
+          "The profit for the year margin is 7%."
+        ],
+        "calc": {
+          "formula_id": "profit_for_the_year_margin",
+          "inputs": [
+            {
+              "name": "profit_for_the_year",
+              "value": 126000
+            },
+            {
+              "name": "revenue",
+              "value": 1800000
+            }
+          ],
+          "stated_answer": 7,
+          "unit": "percent"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "p1-profit-for-year-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.1:profit-for-the-year"
+        ],
+        "prompt": "A retailer has operating profit of £620,000, net finance costs of £48,000 and taxation of £102,000. Calculate profit for the year.",
+        "answer": "£470,000",
+        "explanation": "Profit for the year is operating profit less net finance costs and taxation: £620,000 − £48,000 − £102,000.",
+        "calc": {
+          "formula_id": "profit_for_the_year",
+          "inputs": [
+            {
+              "name": "operating_profit",
+              "value": 620000
+            },
+            {
+              "name": "net_finance_costs",
+              "value": 48000
+            },
+            {
+              "name": "taxation",
+              "value": 102000
+            }
+          ],
+          "stated_answer": 470000,
+          "unit": "currency"
+        }
+      },
+      {
+        "id": "p2-gross-margin-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:gross-profit-margin"
+        ],
+        "prompt": "A bakery has gross profit of £189,000 and revenue of £540,000. Calculate its gross profit margin.",
+        "answer": "35%",
+        "explanation": "Gross profit margin is gross profit divided by revenue, multiplied by 100.",
+        "calc": {
+          "formula_id": "gross_profit_margin",
+          "inputs": [
+            {
+              "name": "gross_profit",
+              "value": 189000
+            },
+            {
+              "name": "revenue",
+              "value": 540000
+            }
+          ],
+          "stated_answer": 35,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p3-operating-margin-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:operating-profit-margin"
+        ],
+        "prompt": "A gym chain reports operating profit of £96,000 on revenue of £640,000. Calculate its operating profit margin.",
+        "answer": "15%",
+        "explanation": "Operating profit margin is £96,000 divided by £640,000, multiplied by 100.",
+        "calc": {
+          "formula_id": "operating_profit_margin",
+          "inputs": [
+            {
+              "name": "operating_profit",
+              "value": 96000
+            },
+            {
+              "name": "revenue",
+              "value": 640000
+            }
+          ],
+          "stated_answer": 15,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p4-profit-year-margin-calc",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ],
+        "prompt": "A manufacturer has profit for the year of £81,000 and revenue of £1,350,000. Calculate its profit for the year margin.",
+        "answer": "6%",
+        "explanation": "Profit for the year margin is profit for the year divided by revenue, multiplied by 100.",
+        "calc": {
+          "formula_id": "profit_for_the_year_margin",
+          "inputs": [
+            {
+              "name": "profit_for_the_year",
+              "value": 81000
+            },
+            {
+              "name": "revenue",
+              "value": 1350000
+            }
+          ],
+          "stated_answer": 6,
+          "unit": "percent"
+        }
+      },
+      {
+        "id": "p5-retrieval",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.1:profit-for-the-year"
+        ],
+        "prompt": "State the calculation for profit for the year.",
+        "answer": "Operating profit − net finance costs − taxation.",
+        "explanation": "Profit for the year is the operating profit remaining after finance costs and taxation are deducted.",
+        "calc": null
+      },
+      {
+        "id": "p6-interpret-margin",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.2:gross-profit-margin",
+          "aqa-7132-3.5.2:operating-profit-margin"
+        ],
+        "prompt": "A business keeps a gross profit margin of 40%, but its operating profit margin falls from 14% to 9%. What does this suggest?",
+        "answer": "Operating expenses have probably risen relative to revenue, assuming the figures are comparable.",
+        "explanation": "A stable gross margin suggests the relationship between revenue and cost of sales is unchanged. The fall after this stage points towards operating expenses or another factor below gross profit.",
+        "calc": null
+      },
+      {
+        "id": "p7-contextual-application",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.2:gross-profit-margin"
+        ],
+        "prompt": "A café increases its selling prices while ingredient costs stay unchanged. Identify the likely direct effect on gross profit margin, assuming sales mix is unchanged.",
+        "answer": "Gross profit margin is likely to increase.",
+        "explanation": "Higher revenue per sale with unchanged cost of sales increases gross profit relative to revenue.",
+        "calc": null
+      },
+      {
+        "id": "p8-reasoning-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.5.2:operating-profit-margin",
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ],
+        "prompt": "Explain how a rise in interest payments could affect profit for the year margin if operating profit and revenue are unchanged.",
+        "answer": "Profit for the year margin would fall because higher net finance costs reduce profit for the year while revenue stays unchanged.",
+        "explanation": "Net finance costs are deducted after operating profit. A lower final profit divided by the same revenue produces a lower profit for the year margin.",
+        "calc": null
+      },
+      {
+        "id": "p9-misconception-diagnostic",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.2:operating-profit-margin"
+        ],
+        "prompt": "A student says: “Firm X has the higher operating profit margin, so it is definitely healthier.” What is wrong with this conclusion?",
+        "answer": "The ratio alone is insufficient; cash, risk, trend, investment needs, strategy and accounting context also matter.",
+        "explanation": "A margin measures profitability relative to revenue, not every aspect of financial health or long-term performance.",
+        "calc": null
+      },
+      {
+        "id": "p10-contextual-judgement",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.5.2:profit-for-the-year-margin"
+        ],
+        "prompt": "Two firms have the same profit for the year margin. One has recently cut maintenance spending sharply. Which firm’s margin may be less sustainable, and why?",
+        "answer": "The firm cutting maintenance may have the less sustainable margin because the saving could create future costs or reduce performance.",
+        "explanation": "A stronger current ratio can result from decisions that weaken future operations, so the cause of the ratio matters.",
+        "calc": null
+      }
+    ]
+  }
+}

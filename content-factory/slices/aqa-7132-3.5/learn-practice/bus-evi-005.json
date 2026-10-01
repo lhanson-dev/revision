@@ -1,0 +1,170 @@
+{
+  "node_id": "bus-evi-005",
+  "learn": {
+    "title": "Quantitative and qualitative data interpretation",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using different types of business evidence",
+        "body": "Quantitative data is numerical, such as sales revenue, costs, ratios and survey percentages. It can show scale, frequency and patterns. Qualitative data is non-numerical, such as customer reviews, interview comments, complaints and observations. It can reveal reasons, experiences and context. Neither type is automatically more trustworthy: the quality of measurement, sample and method matters. Before interpreting evidence, check what was measured, who was included, the time period, units used and the comparison being made.",
+        "item_ids": []
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Evidence: useful interpretation and weak interpretation",
+        "body": "Example: a retailer finds that its satisfaction estimate is 72% and has a wide stated confidence interval. The percentage suggests generally positive satisfaction, but the wide interval means the estimate is not highly precise. Managers could use customer comments to investigate reasons for dissatisfaction.\n\nNon-example: rejecting interview evidence because it is ‘not data’. Interviews are qualitative data and may explain why a numerical result changed.\n\nAnother non-example is accepting a large survey as unbiased without checking who could be sampled. A large sample does not automatically remove non-sampling errors such as an unsuitable sampling frame or unclear questions.",
+        "item_ids": []
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "A routine for interpreting a survey finding",
+        "body": "Suppose a café chain reports that 60% of sampled customers would recommend it, with a stated ±4 percentage-point 95% interval.\n\n1. Identify the measure: the percentage who would recommend the café.\n2. Identify the estimate: 60% is the central survey estimate, not an exact population fact.\n3. Read the stated interval: it runs from 56% to 64%.\n4. Judge precision: the interval communicates sampling uncertainty; a wider interval would indicate lower precision, all else equal.\n5. Check other limitations: ask who was sampled, whether questions were clear and whether the evidence is recent.\n6. Triangulate: compare the survey with repeat-purchase figures, complaints and customer comments before making a decision.",
+        "item_ids": []
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Confidence intervals do not prove certainty",
+        "body": "A confidence interval should not be treated as a guarantee that a particular fixed interval has a 95% probability of containing the true value. In the standard frequentist interpretation, the method is designed so that about 95% of intervals produced from repeated comparable samples contain the true value. For business interpretation, the key point is simpler: a stated interval communicates sampling precision. It does not correct systematic bias, poor measurement or an unrepresentative sampling frame.",
+        "item_ids": []
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Visualising precision and bias",
+        "body": "Use this visual comparison:\n\nEstimate A: 70%  [68% ─── 70% ─── 72%]\nEstimate B: 70%  [60% ─────── 70% ─────── 80%]\n\nBoth estimates have the same headline result, but A has the narrower interval and is therefore more precise, all else equal. However, even A could be biased if the sample excluded an important group of customers. Precision concerns sampling uncertainty; bias concerns whether the result is systematically distorted.",
+        "item_ids": []
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain your evidence judgement",
+        "body": "A delivery business reports a rise in its customer-rating survey, while recent online reviews repeatedly mention delayed deliveries. Explain: (1) what you would check about the survey before trusting the apparent rise, (2) why the reviews should not simply be ignored, and (3) how triangulation could lead to a more useful decision.",
+        "item_ids": []
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked interpretation: combining survey and operational evidence",
+        "body": "A clothing retailer estimates that 72% of customers are satisfied, but the stated confidence interval is wide. Store interviews identify long queues at busy times, and transaction records show that queue times rose over the same period.\n\nInterpretation: the 72% figure is useful evidence, but its wide interval means the exact satisfaction level is uncertain. The interview theme offers a possible explanation, while transaction records provide operational support for the queue issue. Together, these sources give a stronger and more nuanced inference than the survey percentage alone. Managers could investigate staffing at peak periods while continuing to check sample design and other possible biases.",
+        "item_ids": []
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "quantitative data",
+        "definition": "Numerical observations or measurements, such as sales figures, costs or survey percentages."
+      },
+      {
+        "term": "qualitative data",
+        "definition": "Non-numerical evidence about meanings, experiences or mechanisms, such as interview themes or reviews."
+      },
+      {
+        "term": "confidence interval",
+        "definition": "A range constructed from sample evidence to indicate uncertainty around an estimate."
+      },
+      {
+        "term": "triangulation",
+        "definition": "Comparing multiple evidence sources or methods to test whether findings are consistent."
+      },
+      {
+        "term": "sampling error",
+        "definition": "Difference arising because a sample, rather than the whole population, is observed."
+      },
+      {
+        "term": "non-sampling error",
+        "definition": "Error not caused by sampling, such as biased coverage or poor measurement."
+      },
+      {
+        "term": "precision",
+        "definition": "How narrowly an estimate is known from the available sample evidence."
+      },
+      {
+        "term": "bias",
+        "definition": "A systematic distortion that can make evidence unrepresentative or misleading."
+      }
+    ],
+    "worked_examples": []
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "q1-retrieval-evidence-types",
+        "capability": "retrieval",
+        "item_ids": [],
+        "prompt": "State the difference between quantitative data and qualitative data.",
+        "answer": "Quantitative data is numerical; qualitative data is non-numerical evidence about meanings, experiences or mechanisms.",
+        "explanation": "The distinction is about the form of evidence, not whether it is automatically reliable.",
+        "calc": null
+      },
+      {
+        "id": "q2-calculation-interval-bounds",
+        "capability": "calculation",
+        "item_ids": [],
+        "prompt": "A survey estimates that 68% of customers would return, with a stated ±5 percentage-point interval. Calculate the lower and upper ends of the interval.",
+        "answer": "Lower end: 63%. Upper end: 73%.",
+        "explanation": "Subtract 5 percentage points from 68% for the lower end and add 5 percentage points for the upper end. The interval shows sampling uncertainty around the estimate.",
+        "calc": null
+      },
+      {
+        "id": "q3-interpretation-precision",
+        "capability": "interpretation",
+        "item_ids": [],
+        "prompt": "Two comparable surveys estimate satisfaction at 74%. Survey A has a stated interval of ±2 percentage points and Survey B has a stated interval of ±8 percentage points. Which estimate is more precise?",
+        "answer": "Survey A is more precise.",
+        "explanation": "Its narrower interval indicates less sampling uncertainty, all else equal. This does not by itself show that Survey A is free from bias.",
+        "calc": null
+      },
+      {
+        "id": "q4-graph-data-interpretation",
+        "capability": "graph_data_interpretation",
+        "item_ids": [],
+        "prompt": "A manager presents the following chart summary: customer satisfaction estimate, January 66% [64%–68%]; February 69% [61%–77%]. What cautious conclusion can be drawn about the apparent increase?",
+        "answer": "Satisfaction may have increased, but February's estimate is much less precise, so the headline difference should be treated cautiously.",
+        "explanation": "The February interval is wider and overlaps January's interval. The information does not justify treating the 3-point rise as a certain or commercially important change.",
+        "calc": null
+      },
+      {
+        "id": "q5-procedure-check-evidence",
+        "capability": "procedure_execution",
+        "item_ids": [],
+        "prompt": "Put these actions in a sensible order when interpreting a survey result: triangulate with other evidence; identify the measure and units; check sample, population and time period; judge precision and possible bias.",
+        "answer": "1. Identify the measure and units. 2. Check sample, population and time period. 3. Judge precision and possible bias. 4. Triangulate with other evidence.",
+        "explanation": "Interpretation starts by establishing what the number represents, then evaluates its quality before comparing it with other evidence.",
+        "calc": null
+      },
+      {
+        "id": "q6-reasoning-chain-sample",
+        "capability": "reasoning_chain",
+        "item_ids": [],
+        "prompt": "Explain the chain linking sample design and size to confidence in a survey estimate.",
+        "answer": "Sample design and size affect sampling variability; sampling variability affects estimate precision; precision affects how confidently managers can interpret the estimate.",
+        "explanation": "A narrower stated confidence interval indicates greater precision all else equal, but systematic non-sampling errors can still remain.",
+        "calc": null
+      },
+      {
+        "id": "q7-contextual-application-triangulation",
+        "capability": "contextual_application",
+        "item_ids": [],
+        "prompt": "A UK gym's survey score improves, but cancellation records rise and interviews mention difficulty booking evening classes. Give one triangulated action the gym could take.",
+        "answer": "Investigate evening-class capacity and booking access using survey results, cancellation data and interview comments before changing the timetable or capacity.",
+        "explanation": "The numerical score, operational records and qualitative comments should be considered together rather than allowing one source to decide the issue alone.",
+        "calc": null
+      },
+      {
+        "id": "q8-contextual-judgement-commercial-importance",
+        "capability": "contextual_judgement",
+        "item_ids": [],
+        "prompt": "A supermarket estimates that satisfaction has risen from 80% to 81%, with narrow stated intervals. Should managers automatically make this their top priority? Explain.",
+        "answer": "No. The result may be precise, but managers must also judge its practical importance and compare it with other business priorities.",
+        "explanation": "Statistical precision is not the same as commercial importance. A small, reliable change may still have limited value for decision-making.",
+        "calc": null
+      },
+      {
+        "id": "q9-misconception-diagnostic-ci",
+        "capability": "misconception_diagnostic",
+        "item_ids": [],
+        "prompt": "A student says: ‘Our survey had a large sample, so its result cannot be biased.’ Identify the error and correct it.",
+        "answer": "The error is assuming a large sample removes all bias. A large sample can reduce sampling uncertainty, but non-sampling errors such as an unsuitable sampling frame or poor questions can still bias the result.",
+        "explanation": "Confidence intervals concern sampling uncertainty, not every possible weakness in the research method.",
+        "calc": null
+      }
+    ]
+  }
+}

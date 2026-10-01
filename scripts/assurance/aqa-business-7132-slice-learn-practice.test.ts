@@ -1,5 +1,6 @@
 // AQA 7132 slice production, step 5b: Learn + Practice for section 3.5 under the fast-path rules (ADR-0029).
 // Always-on tests are software only. The live run (provider spend, capped) only runs when the proof flag is set, post-merge on main.
+import { existsSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 import { createOpenAIFoundationLiveProvider } from '../../src/content-factory/foundation-live-adapter'
@@ -168,6 +169,18 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     expect(nodeOutputSchema.safeParse(output).success).toBe(true)
     expect(reviewOutputSchema(SLICE_CHECKLIST).safeParse({ unit_id: 'x', answers: SLICE_CHECKLIST.checks.map((c) => ({ check_id: c.id, answer: 'yes', note: '' })), findings: [] }).success).toBe(true)
     expect(checklistInstructions(SLICE_CHECKLIST)).toContain('Do not look for other problems')
+  })
+
+  it('keeps every committed Learn + Practice asset valid against the blueprint (software re-proof, no AI)', async () => {
+    const dir = 'content-factory/slices/aqa-7132-3.5/learn-practice'
+    if (!existsSync(dir)) return
+    const blueprint = JSON.parse(await readFile(BLUEPRINT, 'utf8')) as Blueprint
+    for (const expectation of expectationsFromBlueprint(blueprint)) {
+      const path = `${dir}/${expectation.nodeId}.json`
+      if (!existsSync(path)) continue
+      const output = nodeOutputSchema.parse(JSON.parse(await readFile(path, 'utf8')))
+      expect(validateNodeOutput(output, expectation), expectation.nodeId).toEqual([])
+    }
   })
 
   const proofIt = proofEnabled ? it : it.skip

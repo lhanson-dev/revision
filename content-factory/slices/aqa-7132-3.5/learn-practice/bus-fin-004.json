@@ -1,0 +1,285 @@
+{
+  "node_id": "bus-fin-004",
+  "learn": {
+    "title": "Break-even and margin of safety",
+    "sections": [
+      {
+        "treatment": "core_explanation",
+        "heading": "Using break-even analysis",
+        "body": "Break-even analysis shows the output level where total contribution covers fixed costs exactly, so accounting profit is zero in the model. Break-even output is found by dividing fixed costs by contribution per unit. A higher fixed-cost commitment increases break-even output unless contribution changes; a higher contribution per unit reduces it. The analysis helps managers consider pricing, capacity and cost-structure choices, but it is a simplified estimate rather than a prediction.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output"
+        ]
+      },
+      {
+        "treatment": "example_non_example",
+        "heading": "Margin of safety: a measure, not a guarantee",
+        "body": "If a firm expects to sell 5,000 units and its break-even output is 4,000 units, its margin of safety is 1,000 units. This shows how far forecast output is above modelled break-even. It would be wrong to conclude that the firm is therefore financially secure: it may still face weak demand, cash-timing problems, inadequate returns or insufficient capacity.",
+        "item_ids": [
+          "aqa-7132-3.5.2:margin-of-safety"
+        ]
+      },
+      {
+        "treatment": "guided_example",
+        "heading": "Guided method: calculate break-even output",
+        "body": "1. Identify total fixed costs. 2. Identify contribution per unit, rather than selling price. 3. Divide fixed costs by contribution per unit. For fixed costs of £90,000 and contribution of £15 per unit: £90,000 ÷ £15 = 6,000 units. This is the sales volume needed to cover fixed costs under the model assumptions.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output"
+        ]
+      },
+      {
+        "treatment": "misconception_repair",
+        "heading": "Reaching break-even does not mean security",
+        "body": "A common error is to treat break-even as proof that a business is safe. At break-even, the model indicates zero accounting profit, not a satisfactory return. It does not automatically account for cash timing, uncertainty in demand, future investment needs, capacity limits or changes in the sales mix. Margin of safety is also not the probability that a business will survive.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ]
+      },
+      {
+        "treatment": "purposeful_visual",
+        "heading": "Reading a break-even chart",
+        "body": "On a break-even chart, output is on the horizontal axis and costs and revenue are on the vertical axis. The fixed-cost line is horizontal. The total-cost line starts at the fixed-cost level and rises as output rises. The total-revenue line starts at zero and rises with sales. Where total revenue crosses total cost is break-even output. The horizontal distance from break-even output to actual or forecast output is the margin of safety.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ]
+      },
+      {
+        "treatment": "self_explanation_prompt",
+        "heading": "Explain the operating-risk effect",
+        "body": "A manufacturer considers automation that raises fixed costs but lowers variable costs per unit. Explain, in your own words, how this could change contribution, break-even output and the risk faced if sales volume is lower than expected. Then explain why managers should test different demand assumptions rather than rely on one break-even estimate.",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ]
+      },
+      {
+        "treatment": "worked_example",
+        "heading": "Worked example: calculate margin of safety",
+        "body": "A theatre company forecasts 8,200 ticket sales. Its break-even output is 6,750 tickets. Margin of safety = forecast output − break-even output = 8,200 − 6,750 = 1,450 tickets. The forecast is 1,450 tickets above the modelled break-even point, but the company should still consider demand uncertainty and cash timing.",
+        "item_ids": [
+          "aqa-7132-3.5.2:margin-of-safety"
+        ]
+      }
+    ],
+    "key_terms": [
+      {
+        "term": "break-even output",
+        "definition": "The output level at which total contribution equals fixed costs."
+      },
+      {
+        "term": "break-even revenue",
+        "definition": "The sales value needed to cover relevant costs in the model."
+      },
+      {
+        "term": "margin of safety",
+        "definition": "Actual or forecast sales less break-even sales."
+      },
+      {
+        "term": "cost-volume-profit analysis",
+        "definition": "A framework showing links between costs, volume and profit."
+      },
+      {
+        "term": "break-even chart",
+        "definition": "A graph of output against costs and revenue that identifies the break-even point."
+      },
+      {
+        "term": "contribution per unit",
+        "definition": "The amount from each unit sold that contributes towards fixed costs and then profit."
+      },
+      {
+        "term": "fixed costs",
+        "definition": "Costs that remain stable within the relevant range of output."
+      }
+    ],
+    "worked_examples": [
+      {
+        "id": "worked-break-even-output",
+        "item_id": "aqa-7132-3.5.2:break-even-output",
+        "scenario": "A Bristol bakery has fixed costs of £72,000 and earns contribution of £24 on each celebration cake.",
+        "steps": [
+          "Use fixed costs divided by contribution per unit.",
+          "Calculate £72,000 ÷ £24.",
+          "The bakery must sell 3,000 cakes to cover its fixed costs under the model."
+        ],
+        "calc": {
+          "formula_id": "break_even_output",
+          "inputs": [
+            {
+              "name": "fixed_costs",
+              "value": 72000
+            },
+            {
+              "name": "contribution_per_unit",
+              "value": 24
+            }
+          ],
+          "stated_answer": 3000,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "worked-margin-of-safety",
+        "item_id": "aqa-7132-3.5.2:margin-of-safety",
+        "scenario": "The bakery forecasts sales of 3,650 celebration cakes. Its break-even output is 3,000 cakes.",
+        "steps": [
+          "Use forecast output minus break-even output.",
+          "Calculate 3,650 − 3,000.",
+          "Forecast sales are 650 cakes above break-even."
+        ],
+        "calc": {
+          "formula_id": "margin_of_safety",
+          "inputs": [
+            {
+              "name": "actual_output",
+              "value": 3650
+            },
+            {
+              "name": "break_even_output",
+              "value": 3000
+            }
+          ],
+          "stated_answer": 650,
+          "unit": "units"
+        }
+      }
+    ]
+  },
+  "practice": {
+    "items": [
+      {
+        "id": "retrieve-chart-features",
+        "capability": "retrieval",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart"
+        ],
+        "prompt": "State what the horizontal and vertical axes show on a break-even chart.",
+        "answer": "Horizontal axis: output. Vertical axis: costs and revenue.",
+        "explanation": "The chart compares how costs and revenue change as output changes.",
+        "calc": null
+      },
+      {
+        "id": "calculate-break-even-output",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output"
+        ],
+        "prompt": "A Leeds clothing firm has fixed costs of £96,000 and contribution of £32 per jacket. Calculate break-even output.",
+        "answer": "3,000 jackets.",
+        "explanation": "Break-even output is fixed costs divided by contribution per unit: £96,000 ÷ £32.",
+        "calc": {
+          "formula_id": "break_even_output",
+          "inputs": [
+            {
+              "name": "fixed_costs",
+              "value": 96000
+            },
+            {
+              "name": "contribution_per_unit",
+              "value": 32
+            }
+          ],
+          "stated_answer": 3000,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "calculate-margin-of-safety",
+        "capability": "calculation",
+        "item_ids": [
+          "aqa-7132-3.5.2:margin-of-safety"
+        ],
+        "prompt": "A firm expects to sell 7,400 units and has a break-even output of 6,100 units. Calculate its margin of safety.",
+        "answer": "1,300 units.",
+        "explanation": "Margin of safety is forecast output minus break-even output: 7,400 − 6,100.",
+        "calc": {
+          "formula_id": "margin_of_safety",
+          "inputs": [
+            {
+              "name": "actual_output",
+              "value": 7400
+            },
+            {
+              "name": "break_even_output",
+              "value": 6100
+            }
+          ],
+          "stated_answer": 1300,
+          "unit": "units"
+        }
+      },
+      {
+        "id": "interpret-chart-intersection",
+        "capability": "interpretation",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-chart",
+          "aqa-7132-3.5.2:break-even-output"
+        ],
+        "prompt": "On a break-even chart, total revenue and total costs cross at 2,500 units. Interpret this point.",
+        "answer": "It is the break-even output: at 2,500 units, total contribution covers fixed costs and accounting profit is zero under the model.",
+        "explanation": "The intersection shows revenue equals total costs; it does not prove the business has adequate cash or return.",
+        "calc": null
+      },
+      {
+        "id": "apply-price-change",
+        "capability": "contextual_application",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output"
+        ],
+        "prompt": "A café cuts its price, reducing contribution per meal while fixed costs remain unchanged. Explain the likely effect on break-even output.",
+        "answer": "Break-even output is likely to rise because each meal contributes less towards fixed costs.",
+        "explanation": "More meals must be sold when contribution per unit falls, unless another factor such as fixed costs changes.",
+        "calc": null
+      },
+      {
+        "id": "judge-automation",
+        "capability": "contextual_judgement",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ],
+        "prompt": "A manufacturer can automate, increasing fixed costs but reducing variable costs per unit. Give a balanced judgement on whether this is sensible.",
+        "answer": "It may be sensible if reliable high sales volumes make the lower variable cost valuable. However, higher fixed costs can increase break-even and operating risk if demand is uncertain, so capacity, demand and margin of safety should be assessed.",
+        "explanation": "Automation changes the cost structure. The decision depends on expected volume and the realism of assumptions, not on one calculation alone.",
+        "calc": null
+      },
+      {
+        "id": "framework-sensitivity",
+        "capability": "framework_application",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ],
+        "prompt": "A business is considering a price reduction. Outline a break-even sensitivity analysis it should carry out.",
+        "answer": "Recalculate contribution per unit after the price cut, calculate the new break-even output, compare it with expected demand and capacity, and recalculate margin of safety under different sales forecasts.",
+        "explanation": "A lower price can lower contribution and require more volume. Testing several demand outcomes is more useful than relying on one estimate.",
+        "calc": null
+      },
+      {
+        "id": "diagnose-financial-security",
+        "capability": "misconception_diagnostic",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ],
+        "prompt": "A manager says: “Our forecast sales are above break-even, so the business is financially secure.” Identify the error.",
+        "answer": "Being above break-even only suggests a positive accounting profit under model assumptions; it does not prove cash security, sufficient return, stable demand or future viability.",
+        "explanation": "Break-even is not cash break-even unless cash timing has been modelled, and a margin of safety is not a survival probability.",
+        "calc": null
+      },
+      {
+        "id": "reason-automation-chain",
+        "capability": "reasoning_chain",
+        "item_ids": [
+          "aqa-7132-3.5.2:break-even-output",
+          "aqa-7132-3.5.2:margin-of-safety"
+        ],
+        "prompt": "Complete the reasoning chain: automation raises fixed costs but lowers variable cost per unit. Explain how this can make a business more profitable at high volume but riskier at low volume.",
+        "answer": "Lower variable cost can raise contribution per unit, so profit can grow faster once sales are high. However, the larger fixed-cost commitment must be covered even when volume is low, which can reduce margin of safety or raise break-even if the contribution improvement is insufficient.",
+        "explanation": "The effect depends on the combined change in fixed costs and contribution, plus the volume actually achieved.",
+        "calc": null
+      }
+    ]
+  }
+}
