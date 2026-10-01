@@ -60,6 +60,7 @@ The governing process is `80-company-workflows/Content Factory Fast-Path Process
 | Trial stages T1–T12 | `docs/technical/Content Factory Subject Foundation Trial.md` |
 | Exact-course gate (T8) | `docs/technical/Content Factory AQA Exact-Course Assurance.md` |
 | Durable resume and spend implementation | `docs/technical/Content Factory Durable Resume and Spend.md` |
+| Latest AQA 7132 question remediation | `docs/technical/Content Factory AQA 7132 Question Run 369256 Remediation.md` |
 | Business Subject Foundation versions | `research/business-subject-foundation/` |
 | AQA 7132 specification mapping | `research/aqa-business-7132/2027/SPECIFICATION_MAPPING.mjs` |
 | T8 deterministic package | `scripts/assurance/materialise-aqa-business-7132-exact-course-assurance.mjs` |
@@ -72,16 +73,17 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 
 ## Current state (as of 1 October 2026 — verify on `main` before acting)
 
-- **Approved main:** PR #485 is merged at `8cec0445adaeddef72cdd0504cd32bb8b7ce7052`. It retains the targeted Learn + Practice refresh outputs/evidence after integrating the newer learner-design work. Always inspect the current head before integration.
-- **Business Subject Foundation:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. `QUESTION_ESCALATION_FIXES.json` deepens BUS-FND-007 (takeover-specific failure mechanisms), BUS-FND-008 (synergy definition/mechanisms) and BUS-STR-009 (crisis management). Current Subject Foundation fingerprint is `f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94`.
+- **Approved main at the start of the current remediation:** `f284141017a897509da6a6dfe345bd844155e03b` (PR #487, learner redesign Home). Always inspect the current head before integration because learner-design work is landing independently of Content Factory work.
+- **PR #488 is merged:** magnitude-word number normalisation and exact-fingerprint recovery for a prior software-only blocked question are on main. Live run 36925676050 proved the 3.5-topup q04 recovery path: retained generation/blind-answer evidence was reused and q04 received its required fresh review rather than being regenerated.
+- **Business Subject Foundation before the current branch:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. The last assured Foundation fingerprint was `f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94`.
 - **AQA 7132 mapping:** 42 specification subsections; item-level coverage remains 344/344 with no gaps.
-- **Fresh T8 proof:** run 36870063233 on `d7b08d2` is `ai_assured`, `can_progress=true`: 31 passed, 11 logged, 0 blocking, 0 escalated, 0 failed; official AQA source check passed; conservative spend $1.041614. PR #481 persists its ledger/receipt for future exact-fingerprint reuse.
+- **Fresh T8 proof before the current four Foundation changes:** run 36870063233 on `d7b08d2` is `ai_assured`, `can_progress=true`: 31 passed, 11 logged, 0 blocking, 0 escalated, 0 failed; official AQA source check passed; conservative spend $1.041614. PR #481 persists its ledger/receipt for exact-fingerprint reuse.
 - **Learn + Practice original whole-course build:** run 36852926789 accepted 74/74 nodes for about $4.40.
-- **Learn + Practice targeted refresh:** runs **36886805167** (batch 3.8-3.9) and **36886951118** (batch 3.10) ran on `c60fac84`. The live resume path behaved exactly as designed: **7 unchanged nodes were reused without re-review and only 3 stale nodes were regenerated/reviewed**. BUS-FND-007, BUS-FND-008 and BUS-STR-009 all passed; across both batches 10/10 nodes are accepted with 0 blocking, 0 escalated and 0 failed. Conservative spend was **$0.152482 + $0.06866 = $0.221142**. PR #485 committed the refreshed assets, ledgers and proof receipts to `main`.
+- **Learn + Practice targeted refresh after the first question escalations:** runs 36886805167 (3.8-3.9) and 36886951118 (3.10) reused seven unchanged nodes and regenerated/reviewed only BUS-FND-007, BUS-FND-008 and BUS-STR-009; 10/10 accepted; spend $0.221142. PR #485 persisted the refreshed assets/evidence.
 - **AQA 3.5 questions:** complete, 14/14 accepted in run 36830719185 and committed.
-- **Remaining course questions:** first all-batch run **36857736736** on old main `18c2e713` accepted **128/231** before provider credit exhaustion. Conservative recorded spend was about **$23.82**. PR #478 added exact-fingerprint artifact resume, concurrency-safe $6 batch reservations, correct two-round escalation handling and the three Founder-approved fixes. OpenAI API credit has been restored.
-- **3.5-topup q04 deterministic defect:** run 36857736736 generated a correct market-capitalisation MCQ (18,000,000 × £3.40 = £61,200,000; option C `£61.20 million`) but the numeric checker read `61.20 million` as `61.20`, creating a false software blocker before any AI review. PR #488 fixes magnitude-word normalisation and allows an exact-fingerprint prior latest candidate blocked only by obsolete software to skip regeneration/blind answering while still receiving a fresh AI review. Do not repurchase q04 generation if that recovery proof holds.
-- **Question escalations are resolved:** 3.8-3.9 q04 (takeover), q07 (synergy) and 3.10 q09 (crisis management) are Founder-decided `fix`, recorded against their exact prior fingerprints. Changed inputs may receive a fresh review; do not reopen the same dispute on unchanged inputs.
+- **Latest remaining-course question run:** run **36925676050** on main `f284141` resumed from run 36857736736 and accepted **219/231**. It reused **116** unchanged accepted questions without re-review. Fully complete batches: 3.6 (28/28), 3.8-3.9 (18/18) and 3.5-topup (9/9). Conservative spend was about **$4.49**.
+- **Twelve unresolved questions from run 36925676050:** two are deterministic checker defects (3.1-3.2 q03 signed currency; 3.3 q02 explicit million-unit input matching). Ten reached the two-review limit. On 1 October Lee chose **fix all ten**. Exact source fingerprints and notes are recorded in `content-factory/runs/aqa-7132-question-founder-decisions.json`.
+- **Current governed remediation branch:** `fix/aqa-7132-question-run-369256-remediation`. It adds four source-bound Foundation fixes (BUS-FND-001, BUS-FND-009, BUS-OPS-001, BUS-STR-009), six question-only Founder correction constraints, the two deterministic checker repairs, regressions, run-log evidence and technical documentation. The four Foundation changes require fresh T8 assurance and targeted Learn/Practice refresh before dependent questions resume.
 - **Human review:** no course content has qualified-human approval yet. Lee will arrange a person to review the finished course in context on the live site.
 - **Second provider:** only OpenAI is configured; second-provider checks in the process cannot yet run.
 
@@ -90,14 +92,17 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 1. ~~Lock in the fast-path process.~~ Done.
 2. ~~Split the AQA course into named items and prove item-level coverage.~~ Done: 344/344.
 3. ~~Implement fixed-checklist fast-path assurance.~~ Done.
-4. ~~Pass the exact-course T8 gate.~~ Fresh proof after PR #478: run 36870063233, `ai_assured`.
+4. ~~Pass the exact-course T8 gate.~~ Last fresh proof before current changes: run 36870063233, `ai_assured`.
 5. ~~Build the complete AQA 3.5 proof slice.~~ Done: Learn + Practice + 14 AQA-style practice questions.
 6. **In progress — finish AQA 7132:**
-   - ~~make Learn + Practice refresh incremental and merge PR #481;~~ done;
-   - ~~run targeted Learn + Practice refresh for 3.8-3.9 and 3.10;~~ done: seven reused, three refreshed, 10/10 accepted;
-   - ~~commit and merge the three refreshed Learn + Practice assets plus their new ledgers/proofs;~~ done: PR #485;
-   - fix and merge PR #488 so the known 3.5-topup q04 magnitude-format false blocker is cleared without repurchasing unchanged generation/blind-answer work;
-   - resume Questions with `batch=all` and `resume_run_id=36857736736`; unchanged accepted questions must be reused, while stale/unresolved work is generated/reviewed;
+   - ~~make Learn + Practice refresh incremental and persist the first targeted refresh;~~ done;
+   - ~~merge PR #488 and prove the 3.5-topup q04 software-only recovery live;~~ done;
+   - ~~resume Questions from run 36857736736;~~ done: run 36925676050 reached 219/231 accepted;
+   - **current:** merge the governed remediation for the 10 Founder-decided fixes and 2 software-checker defects;
+   - after that merge, run fresh T8 assurance for the four changed Foundation nodes/affected sections;
+   - refresh Learn + Practice only for BUS-FND-001 and BUS-FND-009 (3.1-3.2), BUS-OPS-001 (3.4) and BUS-STR-009 (3.10), preserving exact-fingerprint reuse elsewhere;
+   - commit/merge the refreshed Learn + Practice assets and evidence;
+   - resume Questions with `batch=all` and **`resume_run_id=36925676050`** so the 219 accepted questions are preserved and only changed/unresolved work is purchased;
    - commit the final accepted question set and evidence;
    - build whole-paper mocks and prove the course-wide quantitative/exam-structure constraints;
    - run the final release assurance required by the pipeline.
