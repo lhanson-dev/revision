@@ -5,10 +5,6 @@ const appPath = '/revision/app/'
 const userId = '00000000-0000-4000-8000-000000000128'
 const courseId = 'aqa:aqa-as:7131'
 
-function isResponsiveLayout(page: Page) {
-  return (page.viewportSize()?.width ?? 0) <= 960
-}
-
 async function seedSession(page: Page) {
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -94,34 +90,72 @@ async function seedSession(page: Page) {
 }
 
 
-test('phone and tablet get a bottom tab bar for the four main destinations; desktop does not', async ({ page }) => {
+test('desktop gets the sidebar, tablet the icon rail and phone the bottom tab bar with REV raised in the centre', async ({ page }) => {
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey CTA\.\s*Here.s what I.d do today\./ })).toBeVisible()
 
-  const bar = page.getByRole('navigation', { name: 'Quick navigation' })
-  if (!isResponsiveLayout(page)) {
-    await expect(bar).toBeHidden()
+  const width = page.viewportSize()?.width ?? 0
+  const nav = page.getByRole('navigation', { name: 'Primary navigation' })
+  const rail = page.locator('.ui-rail')
+  const tabBar = page.locator('.ui-tabbar')
+
+  if (width > 960) {
+    await expect(page.locator('.runtime-sidebar')).toBeVisible()
+    await expect(rail).toHaveCount(0)
+    await expect(tabBar).toHaveCount(0)
     return
   }
 
-  await expect(bar).toBeVisible()
-  await expect(bar.getByRole('button')).toHaveText(['Home', 'Plan', 'Courses', 'Progress'])
-  await expect(bar.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
-  expect(await bar.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
+  // Never a floating Ask REV button any more.
+  await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)
 
-  await bar.getByRole('button', { name: 'Plan' }).click()
-  await expect(page).toHaveURL(/#\/plan/)
-  await expect(bar.getByRole('button', { name: 'Plan' })).toHaveAttribute('aria-current', 'page')
+  if (width > 620) {
+    await expect(rail).toBeVisible()
+    await expect(tabBar).toHaveCount(0)
+    expect(Math.round((await rail.boundingBox())?.width ?? 0)).toBe(84)
+    await expect(rail.getByRole('button', { name: 'Open menu' })).toBeVisible()
+    for (const name of ['Ask REV', 'Home', 'Plan', 'Courses', 'Progress']) {
+      await expect(rail.getByRole('button', { name, exact: true })).toBeVisible()
+    }
+    await expect(nav.getByRole('button', { name: 'Home' })).toHaveAttribute('aria-current', 'page')
+    await nav.getByRole('button', { name: 'Plan' }).click()
+    await expect(page).toHaveURL(/#\/plan/)
+    await expect(nav.getByRole('button', { name: 'Plan' })).toHaveAttribute('aria-current', 'page')
 
-  await bar.getByRole('button', { name: 'Progress' }).click()
+    // The two-line menu opens the same full left navigation as on a phone.
+    await rail.getByRole('button', { name: 'Open menu' }).click()
+    await expect(page.getByRole('dialog', { name: 'Navigation menu' })).toBeVisible()
+    return
+  }
+
+  await expect(tabBar).toBeVisible()
+  await expect(rail).toHaveCount(0)
+  expect(await tabBar.evaluate((element) => getComputedStyle(element).position)).toBe('fixed')
+  await expect(nav.getByRole('button')).toHaveCount(5)
+  await expect(nav.getByRole('button').nth(2)).toHaveAccessibleName('Ask REV') // raised in the centre
+  await expect(nav.getByRole('button').nth(0)).toHaveText('Home')
+  await expect(nav.getByRole('button').nth(1)).toHaveText('Plan')
+  await expect(nav.getByRole('button').nth(3)).toHaveText('Courses')
+  await expect(nav.getByRole('button').nth(4)).toHaveText('Progress')
+  const revControl = nav.getByRole('button', { name: 'Ask REV' })
+  const home = nav.getByRole('button', { name: 'Home' })
+  const [revBox, homeBox] = await Promise.all([revControl.boundingBox(), home.boundingBox()])
+  expect(revBox).not.toBeNull()
+  expect(homeBox).not.toBeNull()
+  if (revBox && homeBox) expect(revBox.y).toBeLessThan(homeBox.y) // raised above the other tabs
+  await expect(home).toHaveAttribute('aria-current', 'page')
+
+  await nav.getByRole('button', { name: 'Progress' }).click()
   await expect(page).toHaveURL(/#\/progress/)
-  await expect(bar.getByRole('button', { name: 'Progress' })).toHaveAttribute('aria-current', 'page')
+  await expect(nav.getByRole('button', { name: 'Progress' })).toHaveAttribute('aria-current', 'page')
 
-  // The approved wide Ask REV button stays, sitting above the bar without overlapping it.
-  const dock = page.locator('.runtime-mobile-ask-rev-dock')
-  const [dockBox, barBox] = await Promise.all([dock.boundingBox(), bar.boundingBox()])
-  expect(dockBox).not.toBeNull()
-  expect(barBox).not.toBeNull()
-  if (dockBox && barBox) expect(dockBox.y + dockBox.height).toBeLessThanOrEqual(barBox.y + 0.5)
+  // Ask REV opens over the page and takes the whole screen on a phone.
+  await revControl.click()
+  const panel = page.getByRole('dialog', { name: 'Ask REV' })
+  await expect(panel).toBeVisible()
+  const panelBox = await panel.boundingBox()
+  expect(Math.round(panelBox?.width ?? 0)).toBe(width)
+  expect(Math.round(panelBox?.height ?? 0)).toBe(page.viewportSize()?.height)
+  await expect(page).toHaveURL(/#\/progress/)
 })

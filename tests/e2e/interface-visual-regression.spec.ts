@@ -41,12 +41,16 @@ const cases: ReadonlyArray<VisualCase> = [
  * greeting and the plain-language first recommendation reason. Re-pinned again on
  * 30 September 2026 for the Founder-supplied v2 Home design (design_handoff_revision_v2,
  * screen 01), taken from the CI run on PR 459.
+ * Re-pinned on 1 October 2026 with Founder approval ("approve the screenshots, update the baselines")
+ * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
+ * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
+ * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
  */
 const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'phone:light': '6605a76cc3d4fb1c3af7f1159d9266d245ca6f4b7d1bb9fb5fdce0d354f7fecb',
-  'phone:dark': '4405a687ccd7d69846aba1611bab972544455663f08db31cef0bddf0332ef758',
-  'desktop:light': '91860eff9077b7f7281c83b6c1082d8de1ff05183b50de8cbe0dfe232a4afd8e',
-  'desktop:dark': 'c1bb04c8a2a1d8ce448d353fddb2c711f0c3c5f9927296346eedb69247d365be',
+  'phone:light': '70587d238317442187807615fd3d8768c61aeed796d25eef2ec5ff546d249ec6',
+  'phone:dark': 'ad52b18dd4a6e1ed5cbcbfdcd01cc5b053e8b22ccd09fc9de0ac4035182615c8',
+  'desktop:light': 'b1cfc38dd83ac0d1f7fcf2dcad9302a9ff87054c10943907bb25bab6d0eddec6',
+  'desktop:dark': 'baff1da072a6e238f2035254dfe03f925ef4dc0b0d154cd3ff97789261392629',
 }
 
 /**
@@ -60,10 +64,14 @@ const approvedHomeScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = 
  * old eyebrow and intro sentence are gone). The Learn page itself is unchanged.
  * Desktop dark has two digests because the run and its retry rasterised the page
  * differently; both come from the reviewed CI run.
+ * Re-pinned on 1 October 2026 with Founder approval ("approve the screenshots, update the baselines")
+ * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
+ * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
+ * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
  */
 const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:light': '2bd68bde10ae1aab59e44d9c085eeeee5751c32f9cd9c8ba379b520c3c2816ac',
-  'desktop:dark': '52bfcaf7ff257614c1923a0506e6ad9747bbd043233ecc6e4204adf69f864468',
+  'desktop:light': '41e3d466d2e9e4fc084f50aaed539fb11429576cd5ff991d8cb18e4f05f58503',
+  'desktop:dark': 'f8ab3c815c16e585c8ef2459c7354e826aab8a34281970b1d5502f92a44bc758',
 }
 
 /**
@@ -83,16 +91,20 @@ const approvedLearnScreenshotDigests: Readonly<Record<string, ApprovedDigest>> =
  * the baselines") for the redesign PR 2 shared course header, and for Practice
  * the new single-task layout. Phone Practice light has two digests because the
  * run and its retry rasterised the page differently.
+ * Re-pinned on 1 October 2026 with Founder approval ("approve the screenshots, update the baselines")
+ * for learner shell v2.1 (PR 4): 248px sidebar, tablet icon rail, phone tab bar with REV raised in
+ * the centre, no floating Ask REV button. Digests taken from the PR 4 CI run, after the Founder
+ * reviewed the before/after screenshots in docs/design/learner-redesign-v2/screenshots/pr-04/.
  */
 const approvedCanvasScreenshotDigests: Readonly<Record<string, ApprovedDigest>> = {
-  'desktop:plan:light': 'bcb18ea96eba3442103fe1e8fb6772758f8b831a05d39fa942b5cfe6f5f1fbb9',
-  'desktop:plan:dark': 'a1c563320b0ed1b7182ef1b9c30bd6044dfd1a59afb7333c03a9d3f3e377159c',
-  'tablet:courses:light': 'b22530777afd479dc8dd7203b3a4ef2a650ca1f61165ac8417b8943c93125c05',
-  'tablet:courses:dark': '4d9a5c76bd8a3634b57c9de381c07522d992e05b4958cebc89ab5faae6e21190',
-  'phone:practice:light': '11578378079b5f22fd429cda1d55fbac82d437794df1bd80d45ee7f9bdcfa339',
-  'phone:practice:dark': 'a2a0344cc13db06139c35a9bdd8c9f1c9d7bc5cbd8c62de51208d5e21970f564',
-  'tablet:exam-prep:light': '9fe857393dc5a7f0dec3fd0ed202801d52e216f7df6d4630741b414e3cddb687',
-  'tablet:exam-prep:dark': '46b9ebf430f0ffcd596323a4841455304b5f0dd3a49d0b5bec8b081056365027',
+  'desktop:plan:light': '1c50c552c8143e7d3ec126c872609ae2995b34a8f0d1e2d335f354f09a24af9c',
+  'desktop:plan:dark': '2f588de2425292428b3eedb6a63552a7ff658e1fe63520c3b15f2c281e8bebeb',
+  'tablet:courses:light': 'c76a8a5e5eb5ffa7b1245b9303dcb2aa38a5d09dc5dd0762c003cfe976061d7c',
+  'tablet:courses:dark': '48b518057a05a3053897da8a60fc7cd9bb5344578c29524dd2d5f0dd63293cf2',
+  'phone:practice:light': '7e9733b00c8a89cb44d9f646bcd1ebb0bf7a1a1c3436d944e948b9e1aea6431f',
+  'phone:practice:dark': '3d822a0deac105cfabcd79ce70bc3ca3867f7f4217702808523074f2bd3f278a',
+  'tablet:exam-prep:light': 'b23ad3ca7b74b2b9d31630573113d4c51f4186939dbff2f30b39400bfcd930d5',
+  'tablet:exam-prep:dark': '958067a41a8c1d3b5596853a8fdc6f2200b392bc08ae0e01b0e28ac31c3c55f4',
   'tablet:timed-exam:light': '6121d7ca86804199e07e847984bb03d02d43617198b5531e7d17b8da8ab6c25e',
   'tablet:timed-exam:dark': '848c385e7e0aa086f9f34d3c2f8a7bf60a3f7b262e6d3864a80b5ad0f604c6fd',
 }

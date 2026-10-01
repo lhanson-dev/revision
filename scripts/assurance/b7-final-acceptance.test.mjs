@@ -9,7 +9,6 @@ const learnPractice = read('../../src/app/interface-learn-practice.css')
 const subjectsCourse = read('../../src/app/interface-subjects-course.css')
 const hierarchy = read('../../src/app/hierarchy.css')
 const courseExam = read('../../src/app/course-exam.css')
-const mobileNavigation = read('../../src/app/mobile-navigation.css')
 const componentIndex = read('../../src/app/ui/index.ts')
 const visualRegression = read('../../tests/e2e/interface-visual-regression.spec.ts')
 const responsiveAcceptance = read('../../tests/e2e/b7-final-acceptance.spec.ts')
@@ -70,10 +69,11 @@ describe('B7 final Interface System acceptance contract', () => {
     expect(learnPractice).toContain('border-top: 1px solid var(--color-border);')
   })
 
-  it('keeps the persistent tutor dock clear of ordinary work and absent from timed exams', () => {
-    expect(mobileNavigation).toContain('.planner-runtime:has(.exam-session-page) > .runtime-mobile-ask-rev-dock')
+  it('keeps the phone tab bar clear of ordinary work and Exam Prep a navigation-free focus mode', () => {
     expect(responsiveAcceptance).toContain('expectNoDockOverlap')
-    expect(responsiveAcceptance).toContain("await expect(page.locator('.runtime-mobile-ask-rev-dock')).toBeHidden()")
+    expect(responsiveAcceptance).toContain('phone tab bar leaves ordinary learner actions reachable without overlap')
+    expect(responsiveAcceptance).toContain('Exam Prep is a focus mode: no navigation anywhere, and a clear way out')
+    expect(responsiveAcceptance).toContain("await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)")
   })
 
   it('keeps a bounded 18-state Light/Dark visual-regression matrix across canonical breakpoints', () => {

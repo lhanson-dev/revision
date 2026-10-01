@@ -5,10 +5,6 @@ const appPath = '/revision/app/'
 const syntheticUserId = '00000000-0000-4000-8000-000000000148'
 const asCourseId = 'aqa:aqa-as:7131'
 
-function usesMobileShell(page: Page) {
-  return (page.viewportSize()?.width ?? 0) <= 960
-}
-
 async function seedSession(page: Page) {
   await page.addInitScript(({ key, id }) => {
     const header = btoa(JSON.stringify({ alg: 'none', typ: 'JWT' })).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
@@ -101,40 +97,56 @@ async function expectNoDockOverlap(dock: Locator, control: Locator) {
   expect(horizontalOverlap && verticalOverlap).toBe(false)
 }
 
-test('mobile Ask REV dock leaves ordinary learner actions reachable without overlap', async ({ page }) => {
-  test.skip(!usesMobileShell(page), 'Persistent bottom dock is a tablet/mobile contract.')
+test('phone tab bar leaves ordinary learner actions reachable without overlap', async ({ page }) => {
+  test.skip((page.viewportSize()?.width ?? 0) > 620, 'The bottom tab bar is a phone contract.')
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await seedSession(page)
   await page.goto(appPath)
   await expect(page.getByRole('heading', { name: /Hey Synthetic/ })).toBeVisible()
 
-  const dock = page.locator('.runtime-mobile-ask-rev-dock')
-  await expect(dock).toBeVisible()
+  const tabBar = page.locator('.ui-tabbar')
+  await expect(tabBar).toBeVisible()
+  await expect(page.locator('.runtime-mobile-ask-rev-dock')).toHaveCount(0)
 
   const reservedSpace = await page.locator('.runtime-screen').evaluate((element) => Number.parseFloat(getComputedStyle(element).paddingBottom))
-  const dockBox = await dock.boundingBox()
-  expect(dockBox).not.toBeNull()
-  if (dockBox) expect(reservedSpace).toBeGreaterThanOrEqual(dockBox.height + 24)
+  const barBox = await tabBar.boundingBox()
+  expect(barBox).not.toBeNull()
+  if (barBox) expect(reservedSpace).toBeGreaterThanOrEqual(barBox.height + 24)
 
-  await expectNoDockOverlap(dock, page.locator('.home-v2-ask'))
+  await expectNoDockOverlap(tabBar, page.locator('.home-v2-ask'))
   const homeButtons = page.locator('.runtime-screen button:visible')
   const count = await homeButtons.count()
-  if (count > 0) await expectNoDockOverlap(dock, homeButtons.nth(count - 1))
+  if (count > 0) await expectNoDockOverlap(tabBar, homeButtons.nth(count - 1))
 })
 
-test('active timed exam suppresses the global Ask REV dock', async ({ page }) => {
-  test.skip(!usesMobileShell(page), 'Persistent bottom dock is a tablet/mobile contract.')
+test('Exam Prep is a focus mode: no navigation anywhere, and a clear way out', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await seedSession(page)
   await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/exam-prep`)
   await expect(page.getByRole('heading', { name: 'Exam technique · AQA AS Business' })).toBeVisible()
-  await expect(page.locator('.runtime-mobile-ask-rev-dock')).toBeVisible()
 
+  for (const hidden of ['.runtime-sidebar', '.ui-rail', '.ui-tabbar', '.runtime-mobile-topbar', '.runtime-ask-rev']) {
+    await expect(page.locator(hidden)).toHaveCount(0)
+  }
+  const leave = page.getByRole('button', { name: 'Leave Exam Prep' })
+  await expect(leave).toBeVisible()
+  await expect(page.locator('.course-header .course-nav')).toBeHidden()
+  await expect(page.locator('.course-header .breadcrumbs')).toBeHidden()
+
+  // A running timed paper owns the whole viewport and has its own Stop exam confirmation.
   const paper = page.locator('details.exam-paper-card').filter({ hasText: 'Paper 2: Business 2' }).first()
   await paper.locator('summary').click()
   await paper.getByRole('button', { name: 'Start timed exam' }).first().click()
-
   await expect(page.locator('.exam-session-page')).toBeVisible()
   await expect(page.getByRole('navigation', { name: 'Exam questions' })).toBeVisible()
-  await expect(page.locator('.runtime-mobile-ask-rev-dock')).toBeHidden()
+  await expect(page.locator('.ui-tabbar')).toHaveCount(0)
+})
+
+test('Leave Exam Prep returns to the course overview with navigation back', async ({ page }) => {
+  await seedSession(page)
+  await page.goto(`${appPath}#/courses/${encodeURIComponent(asCourseId)}/exam-prep`)
+  await page.getByRole('button', { name: 'Leave Exam Prep' }).click()
+  await expect(page).toHaveURL(/\/overview/)
+  const width = page.viewportSize()?.width ?? 0
+  await expect(page.locator(width > 960 ? '.runtime-sidebar' : width > 620 ? '.ui-rail' : '.ui-tabbar')).toBeVisible()
 })
