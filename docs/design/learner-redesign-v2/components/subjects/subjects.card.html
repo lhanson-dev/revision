@@ -1,0 +1,17 @@
+<!-- @dsCard group="Components" viewport="700x560" name="Subjects" subtitle="SubjectTile, CourseCard, ProgressMeasures (no mastery %)" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../../components/_preview.js"></script></head>
+<body style="margin:0;background:var(--bg);padding:20px;box-sizing:border-box"><div id="root"></div>
+<script type="text/babel">
+mountDS(['../core/Icon.jsx','../core/Button.jsx','../core/ProgressBar.jsx','../core/StatusBadge.jsx','../core/UnderstandingBar.jsx','../subjects/SubjectTile.jsx','../subjects/ProgressMeasures.jsx'], ({SubjectTile,CourseCard,ProgressMeasures}) =>
+  <div style={{display:'flex',flexDirection:'column',gap:16}}>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(4,minmax(0,1fr))',gap:12}}>
+      <SubjectTile hue="blue" letter="B" name="Business" covered={4} total={10}/><SubjectTile hue="violet-bio" letter="Bi" name="Biology" covered={3} total={12}/><SubjectTile hue="umber" letter="Ps" name="Psychology" covered={7} total={9}/><SubjectTile hue="sky" letter="M" name="Maths" covered={5} total={14}/>
+    </div>
+    <CourseCard hue="violet-bio" letter="Bi" name="Biology" board="OCR A" covered={3} total={12} understanding={{gotit:1,nearly:1,needswork:1,notstarted:9}} next="Cell transport"/>
+    <ProgressMeasures hue="blue" covered={4} total={10} understanding={{gotit:1,nearly:2,needswork:1,notstarted:6}} readinessNote="Do two timed answers and REV can estimate this."/>
+  </div>);
+</script></body></html>

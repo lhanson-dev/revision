@@ -31,6 +31,12 @@ export type IconName =
   | 'trending'
   | 'pencil'
   | 'retry'
+  | 'clock'
+  | 'status-gotit'
+  | 'status-nearly'
+  | 'status-needswork'
+  | 'status-started'
+  | 'status-notstarted'
 
 export type IconSize = 'inline' | 'compact' | 'standard' | 'large'
 
@@ -64,6 +70,13 @@ const drawings: Record<IconName, ReactNode> = {
   pencil: <><path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z" /><path d="m14 7 3 3" /></>,
   retry: <><path d="M4 12a8 8 0 1 0 2.5-5.8" /><path d="M4 4v4.5h4.5" /></>,
   trash: <><path d="M4 7h16M9 3h6l1 4H8l1-4Z" /><path d="m7 7 1 14h8l1-14M10 11v6M14 11v6" /></>,
+  clock: <><circle cx="12" cy="12" r="8" /><path d="M12 8v4l2.5 2" /></>,
+  /* Learning status icons: shape carries the meaning, never colour alone. */
+  'status-gotit': <><circle cx="12" cy="12" r="9" /><path d="m8 12.4 2.8 2.8 5.4-5.6" /></>,
+  'status-nearly': <><circle cx="12" cy="12" r="9" /><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" /></>,
+  'status-needswork': <path d="M6 21V4.5M6 4.5h11l-2.4 4.25L17 13H6" />,
+  'status-started': <><circle cx="12" cy="12" r="9" /><path d="M8.2 12h.01M12 12h.01M15.8 12h.01" /></>,
+  'status-notstarted': <circle cx="12" cy="12" r="9" strokeDasharray="2.6 3.1" />,
 }
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {

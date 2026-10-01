@@ -1,5 +1,8 @@
 # Core screens design review (30 Sep 2026)
 
+> **SUPERSEDED on 1 October 2026.** This 30 September 2026 design review is replaced by the learner redesign v2.1: decisions in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`, design values and tracker in `docs/design/learner-redesign-v2/`. Its findings stay here as historical evidence. Do not build from it. Where it conflicts with the v2.1 decisions (for example the navigation drawer, Ask REV dock, pale subject accents and Manrope-only typography), follow the v2.1 decisions.
+
+
 Reviewed Home, Plan, REV, Progress and Courses on `main` (commit ab0c3b3), desktop 1440px and phone 390px, light and dark. Checked against the Visual Brand System, Global Learner Navigation v0.10, Product UX Principles, Tone of Voice, Emotional Experience Principles and the Interactive Component Quality Standard.
 
 Clickable mockup: https://claude.ai/artifact/6ataiym6cGxdxBx6CokSpT

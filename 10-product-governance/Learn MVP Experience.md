@@ -13,6 +13,8 @@ source_of_truth_for: ["Learn MVP learner experience", "Learn MVP content complet
 depends_on: ["Course Learning Blueprint", "Core User Journeys", "Product UX Principles", "Visual Brand System", "Educational Treatment System", "Subject Accent Colour System", "REV Guidance and Conversation Pattern", "Global Learner Navigation", "Evidence Trust and Educational Integrity"]
 supersedes: null
 ---
+> **Pointer** (1 October 2026, Founder): the Quick check treatment is unscored and never changes status, Topics covered or readiness; progress language follows `40-evidence-and-trust/Claims and Progress Governance.md` (v0.4). See `docs/design/decisions/2026-10-01-learner-redesign-v2.md`.
+
 # Learn MVP Experience
 
 ## Purpose

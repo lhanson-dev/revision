@@ -6,13 +6,13 @@ describe('REV suggestion card', () => {
   it('shows the eyebrow, the reason and both actions', () => {
     const markup = renderToStaticMarkup(
       <RevSuggestionCard
-        eyebrow="REV noticed"
+        eyebrow="REV suggests"
         reason="Psychology is strong (78%), but you haven't touched it in 9 days."
         primaryAction={{ label: 'Add to Thursday', onClick: () => undefined }}
         secondaryAction={{ label: 'Not now', onClick: () => undefined }}
       />,
     )
-    expect(markup).toContain('REV noticed')
+    expect(markup).toContain('REV suggests')
     expect(markup).toContain('touched it in 9 days')
     expect(markup).toContain('>Add to Thursday<')
     expect(markup).toContain('>Not now<')

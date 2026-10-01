@@ -4,117 +4,106 @@ document_id: "revision-subject-accent-colour-system"
 document_type: "domain-authority"
 authority: "brand-and-experience"
 status: "active"
-version: "1.0"
+version: "2.0"
 owner: "Founder"
-effective_date: "2026-08-24"
-last_reviewed: "2026-08-24"
+effective_date: "2026-10-01"
+last_reviewed: "2026-10-01"
 content_review_status: "founder-approved"
-source_of_truth_for: ["subject accent colour mapping", "subject colour usage", "subject colour accessibility"]
+source_of_truth_for: ["subject colour mapping", "subject letter marks", "subject colour usage", "subject colour accessibility"]
 depends_on: ["Visual Brand System", "Product UX Principles"]
-supersedes: ["Visual Brand System statement that no fixed subject-to-colour mapping is approved"]
+supersedes: ["Subject Accent Colour System v1.0 (pale Sage and Stone Blue accents, restrained-cue-only usage)", "Visual Brand System statement that no fixed subject-to-colour mapping is approved"]
 ---
 # Subject Accent Colour System
 
 ## Purpose
 
-Define a stable subject-colour accent system so Revision can use more visual character and faster subject recognition without turning the product into a decorative or inconsistent multi-colour interface.
-
-This authority specialises the `Subject differentiation` section of `Visual Brand System.md`. A fixed subject-colour approach is now Founder-approved. Colour remains an accent and never becomes the sole carrier of subject identity.
+Give every subject a stable, recognisable identity (a colour and a letter mark) so students can tell their subjects apart at a glance, without mixing that identity with Revision's brand colour or with learning status.
 
 ## Core rule
 
-**Primary Teal belongs to Revision / REV / primary action. Supporting accent colours identify subjects. Functional colours retain functional meaning.**
+**Three colour roles never mix.**
 
-The system must preserve a clear distinction between:
+1. **Brand teal** belongs to Revision, REV, primary actions, links and focus. No subject uses it.
+2. **Learning status** (teal, yellow, coral, neutral) is always shown as an icon plus text. No subject uses teal, yellow or coral.
+3. **Subjects** use their own palette, below, with the letter mark.
 
-1. **brand/action colour**;
-2. **subject recognition colour**; and
-3. **semantic status colour**.
+## Subject hues and letter marks
 
-Do not mix those responsibilities.
+- One hue per **top-level subject**, fixed for every student and stored in the subject catalogue (`subjects.hue`). Every course inherits it, so GCSE and A-level Business are both blue.
+- GCSE Combined Science uses the parent violet. Split subjects use variants of the parent hue: Biology, Chemistry and Physics use the `violet-*` variants; English Language and English Literature use the `magenta-*` variants.
+- The **subject icon is a letter mark**, like a periodic-table element: one or two letters, first letter capital, set in Bricolage Grotesque 800 on a rounded square. It is stored in the catalogue (`subjects.mark`). There are no pictogram icons.
+- The mark is always shown with the subject name. It is hidden from screen readers; the name carries the meaning.
+- Mark sizes: 40px on tiles, 26px in Plan blocks, 56px on course card panels. On a neutral surface the mark is a solid hue fill with `-on` text. Inside a solid-hue block (Plan) it is a `--color-surface` fill with `-ink` text so it stays visible.
 
-## Approved initial mapping
+## Palette
 
-The currently approved subject mappings are:
+Every hue ships as **solid / tint / ink / on**. Solids are the same in light and dark. `-ink` text goes on `-tint`; `-on` text goes on the solid. Every text pair passes 4.5:1 in both themes (ratios computed by the design system and recorded below).
 
-| Subject | Accent |
-| --- | --- |
-| Business | Sage `#BCE8CF` |
-| Economics | Stone Blue `#C7D9EE` |
+| Token | Subject | Mark | Solid | Text on solid | Tint / ink (light) | Tint / ink (dark) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `--subject-violet` | Science · GCSE Combined Science | **Sc** | #855bdc | #ffffff (4.6:1) | #f1edfe / #7152b5 (5.1:1) | #302846 / #b6a3f0 (6.3:1) |
+| `--subject-violet-bio` | Biology | **Bi** | #ad74dd | #21132c (5.3:1) | #f5ecfe / #814caa (5.2:1) | #352643 / #c49ee7 (6.2:1) |
+| `--subject-violet-chem` | Chemistry | **Ch** | #6d3cb3 | #ffffff (7.1:1) | #f2edfe / #7551b3 (5.1:1) | #312746 / #b9a2ee (6.2:1) |
+| `--subject-violet-phys` | Physics | **Ph** | #7679de | #161731 (4.6:1) | #edeffe / #5b5abc (5.0:1) | #292a49 / #a3a9f6 (6.3:1) |
+| `--subject-blue` | Business (GCSE + A-level) | **B** | #236bcf | #ffffff (5.2:1) | #e8f1fe / #2a67bd (4.9:1) | #1c2e49 / #85b3f7 (6.4:1) |
+| `--subject-sky` | Maths | **M** | #4caad7 | #001e2c (6.6:1) | #e0f4ff / #08729a (4.7:1) | #083245 / #60bdeb (6.4:1) |
+| `--subject-magenta` | English | **En** | #cd2e8b | #ffffff (4.8:1) | #ffe9f3 / #a53c75 (5.2:1) | #422232 / #e694bb (6.2:1) |
+| `--subject-magenta-lang` | English Language | **EL** | #e34d83 | #2d0f19 (4.7:1) | #ffeaef / #aa3a62 (5.2:1) | #44212c / #eb93ac (6.2:1) |
+| `--subject-magenta-lit` | English Literature | **Li** | #9b2d8c | #ffffff (6.6:1) | #fee9f9 / #9a418c (5.2:1) | #3e2339 / #dc96ce (6.2:1) |
+| `--subject-umber` | Psychology | **Ps** | #8a5d3e | #ffffff (5.6:1) | #ffece0 / #8a5d3e (4.9:1) | #432610 / #d7a583 (6.3:1) |
+| `--subject-plum` | History | **H** | #603367 | #ffffff (9.7:1) | #fbe9fd / #84548b (5.0:1) | #3b243e / #cf9cd7 (6.2:1) |
+| `--subject-green` | Geography | **G** | #3a9742 | #09200b (4.6:1) | #e4f6e3 / #167b26 (4.8:1) | #1b351c / #84c485 (6.5:1) |
+| `--subject-olive` | Modern Languages | **La** | #858932 | #1b1d00 (4.6:1) | #f0f3db / #6b6f0e (4.8:1) | #2f300c / #b3b862 (6.4:1) |
+| `--subject-slate` | Computer Science | **Cs** | #5a6b7d | #ffffff (5.5:1) | #e6f2fe / #5a6b7d (4.8:1) | #162f48 / #a1b3c7 (6.4:1) |
+| `--subject-navy` | Economics | **Ec** | #234077 | #ffffff (10.1:1) | #e9f1fe / #4868a2 (4.9:1) | #1e2d49 / #8eb1f1 (6.3:1) |
 
-Additional subjects must receive a deliberate mapping from the approved subject-accent palette before production use. Do not assign colours locally per component or page.
+Values live in `src/app/brand-tokens.css` as `--subject-<hue>`, `--subject-<hue>-on`, `--subject-<hue>-tint` and `--subject-<hue>-ink`. The central map from subject to hue and mark is `src/app/subject-palette.ts`. Subject hex values appear nowhere else: no page or component CSS may contain one.
 
-The available subject-accent family may use the approved supporting accents from the Visual Brand System:
+### Closest pairs
 
-- Sage `#BCE8CF`
-- Stone Blue `#C7D9EE`
-- Warm Sand `#F2E9D9`
-- Mist `#E9EEF2`
-- Soft Aqua Accent `#E6FBF4`
+Check these if a student takes both. The letter mark keeps subjects distinct even when the colours are close.
 
-Primary Teal may appear as a shared Revision accent where needed, but should not normally be assigned as a subject identity because it already carries REV/brand/action meaning.
+- Biology and History (plum): both violet-leaning, separated by lightness.
+- Blue (Business) and Navy (Economics): separated by lightness.
+- Green is nearest to teal (Got it). Olive is nearest to yellow (Nearly there). Drop these first if fewer hues are needed.
 
 ## Usage
 
-Subject colour should appear in restrained recognition cues such as:
+Subject colour appears on: the letter mark, subject tiles, **solid course card panels**, the Topics covered bar, **solid Plan session blocks** and onboarding chips.
 
-- subject chips or labels;
-- thin edge/marker bars;
-- small icon tiles;
-- small supporting accents;
-- restrained activity/context continuation where it helps the learner recognise that they remain in the same subject.
+- Use **solids** to tell subjects apart. Pale tints all look alike at a glance, so never rely on a tint alone. Use a tint only behind text that already names the subject, such as a chip label.
+- Plan blocks are solid subject colour with the letter mark. Done sessions keep the full colour, with the title struck through and a "Done" label with an icon. Never fade the text. Quizzes and exams use the same solid subject colour as any other session.
+- Subject colour is **not** used on buttons, headings, learning status or REV.
+- Activity types (Learn, Practice, Exam Prep), durations and ordinary metadata stay neutral.
 
-Subject colour should **not** normally become:
+## Functional and status colours stay reserved
 
-- a full-page background;
-- the dominant fill of ordinary content cards;
-- a substitute for headings or subject names;
-- a semantic success/warning/error signal; or
-- an excuse to make every surface colourful.
-
-The intended effect is recognisable colour rhythm, not a rainbow dashboard.
-
-## Activity type and metadata
-
-Activity types such as **Learn**, **Practice** and **Exam Prep**, durations and ordinary metadata remain neutral by default.
-
-Do not create a second competing colour taxonomy for activity mode merely because colour is available.
-
-If a later design requires mode-specific colour, it needs a separate deliberate rule with accessibility and hierarchy review.
-
-## Functional colours remain reserved
-
-The following retain their governed semantic meaning and must not be assigned as subject identities:
-
-- Success;
-- Warning;
-- Error; and
-- Information where it is being used semantically.
-
-A Business task is not "success green" and a subject must never accidentally read as a warning/error state.
+Success, Warning, Error and Information keep their governed meaning. Learning status (Got it teal, Nearly there yellow, Needs work coral, Just started and Not started neutral) is governed by `Claims and Progress Governance.md`. A subject must never read as a status.
 
 ## Accessibility
 
-Colour is supplemental. Subject identity must remain understandable through text and, where used, governed iconography.
-
-All foreground/background combinations must meet the applicable contrast requirement. Where a pale subject accent cannot carry accessible ordinary text, use the governed primary/secondary text colour rather than forcing a coloured foreground.
-
-Light and Dark themes should preserve subject recognition while translating the surface/foreground treatment appropriately. Dark-mode subject colours may use derived darker surfaces or lighter foregrounds provided the subject identity remains recognisably tied to its canonical accent.
+Colour is supplemental. Subject identity is always carried by the name plus the letter mark. All text pairs meet 4.5:1 in both themes. Dark mode uses the same solids with dark tints and lighter inks.
 
 ## Governance and expansion
 
-Subject mappings are a central brand decision, not local implementation detail.
+Subject mappings are a central brand decision, not a local implementation detail.
 
-When adding a new subject:
+When adding a subject:
 
-1. choose from the governed supporting accent family or deliberately extend the palette through brand governance;
-2. check distinction from existing subject mappings in Light and Dark;
-3. verify common colour-vision-deficiency scenarios;
-4. record the mapping here before production use; and
-5. update central design tokens/implementation mappings rather than hard-coding per screen.
+1. choose an unused hue, or a variant of the parent hue for a split subject;
+2. check distinction from existing subjects in light and dark, and for common colour-vision differences;
+3. record the hue and mark here and in `subject-palette.ts`, and add the catalogue values;
+4. never assign teal, yellow or coral.
 
-If the number of supported subjects grows beyond what can be differentiated safely with the current palette, Revision should use repeated colour families plus name/icon recognition rather than inventing many saturated colours.
+If more subjects are supported than the palette can separate safely, reuse a hue family and rely on the letter mark and name.
 
 ## Documentation impact
 
-This document records Founder approval on 24 August 2026 to use stable colours by subject. The initial locked mappings are Business = Sage and Economics = Stone Blue. Production implementation must expose these through shared tokens or a central subject-accent mapping and must not scatter subject hex values through page-specific CSS.
+Version 2.0 records the Founder decisions of 1 October 2026 (effective on merge of the design-system v2.1 PR), replacing version 1.0 of 24 August 2026:
+
+1. the saturated subject palette replaces the pale Sage (Business) and Stone Blue (Economics) accents;
+2. solid subject fills are adopted on course card panels and Plan session blocks, replacing "restrained cues only";
+3. ten-plus hues with family variants replace "reuse colour families plus name and icon";
+4. letter marks replace governed iconography as subject icons.
+
+Business is now blue (`--subject-blue`) and Economics navy (`--subject-navy`). Educational Treatment System examples that name Sage or Stone Blue are updated to say "the subject colour". Data-visualisation colours in the Visual Brand System are a separate palette and are unchanged. Full decision record: `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. Design values: `docs/design/learner-redesign-v2/guidelines/SUBJECT_PALETTE.md`.

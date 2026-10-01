@@ -1,0 +1,38 @@
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 36px;
+  --space-page-y: 36px;
+  --space-page-x: 40px;
+
+  --radius-pill: 999px;
+  --radius-hero: 28px;
+  --radius-card: 24px;
+  --radius-tile: 20px;
+  --radius-row: 16px;
+  --radius-chip: 14px;
+  --radius-icon: 12px;
+  --radius-bar: 9px;
+
+  --bar-height: 8px;
+  --bar-height-lg: 10px;
+  --button-height: 52px;
+  --button-height-md: 44px;
+  --touch-min: 44px;
+
+  --focus-ring: 0 0 0 5px var(--teal-tint);
+  --focus-border: 2px solid var(--teal);
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-sheet: 300ms;
+
+  --sidebar-width: 248px;
+  --rail-width: 84px;
+}
