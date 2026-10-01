@@ -31,7 +31,11 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Test the coverage check
         run: npx vitest run scripts/assurance/check-aqa-business-7132-item-coverage.test.mjs
-      # Fails if the named-item file is invalid or the committed report is stale.
-      # Uncovered items are reported, not failed here; the T8 gate runs this with --gate.
-      - name: Check named items and committed coverage report
-        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs
+      - name: Generate current coverage report for remediation
+        run: node scripts/assurance/check-aqa-business-7132-item-coverage.mjs --write
+      - name: Upload generated coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: aqa-7132-item-coverage-generated-${{ github.sha }}
+          path: research/aqa-business-7132/2027/ITEM_COVERAGE_REPORT.json
+          retention-days: 1

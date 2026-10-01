@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "candidate_version": "v0.8-t8-exact-course-remediation",
-  "purpose": "Additive Foundation teaching required by the Founder-approved fixes for two-round AQA 7132 question escalations from run 36857736736. These entries deepen existing nodes only; they do not replace prior teaching.",
+  "purpose": "Additive Foundation teaching required by Founder-approved fixes for two-round AQA 7132 question escalations. These entries deepen existing nodes only; they do not replace prior teaching.",
   "rights_boundary": "Revision-authored teaching supported by each node's registered promotion-eligible source. No awarding-body wording.",
   "fixes": [
     {
@@ -31,6 +31,46 @@
       "add": {
         "definitions": [
           "crisis management: preparing for and responding to a sudden event that seriously threatens a business's operations, people, reputation, finances or survival. It requires rapid assessment and decisions, clear responsibility and communication, use of contingency arrangements where available, action to contain harm and maintain critical operations, and later review so the business can learn and improve resilience; urgency may justify faster direction but does not remove the need to assess risks and consequences."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FND-001",
+      "run_log": "3.1.1 Mission/objective relationship and purpose needed after q20 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "mission and objectives: a mission is a broad statement of the business's purpose and long-term direction, while objectives translate that direction into specific results or priorities that can guide decisions and be monitored. Objectives help managers allocate scarce resources, coordinate activity across functions, measure progress and take corrective action when results move away from the intended direction; objectives should therefore support rather than contradict the mission."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-FND-009",
+      "run_log": "3.1.3 Environmental issues needed after q38 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "environmental issues: pressures and changes connected with the natural environment, including climate change, pollution, emissions, waste, energy and resource use. They can affect a business through regulation and compliance costs, customer and stakeholder expectations, access to materials and energy, transport or location constraints, and the need to change products or operations; for example an emissions or air-quality requirement may force investment in cleaner vehicles, new routes or different processes."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-OPS-001",
+      "run_log": "3.4.1 Environmental objectives needed on mapped operations node after q01 two-round escalation",
+      "source_ids": ["SRC-OER-LOUIS-BUSINESS-2022"],
+      "add": {
+        "definitions": [
+          "environmental objectives: measurable operational targets for reducing environmental impact, such as cutting energy use, emissions, waste, water use or packaging, normally with a stated measure and time period. They guide choices about materials, processes, transport, equipment and suppliers; meeting them can reduce waste or support reputation, but may require investment and can create trade-offs with cost, speed, dependability or flexibility."
+        ]
+      }
+    },
+    {
+      "subject_id": "BUS-STR-009",
+      "run_log": "3.10.1 Lewin force-field analysis structure needed after q10 two-round escalation",
+      "source_ids": ["SRC-OER-LEWIN-INTERFACE-2021"],
+      "add": {
+        "definitions": [
+          "Lewin's force-field analysis: a framework for analysing change by identifying driving forces that support or push towards the proposed change and restraining forces that oppose or slow it. Managers can judge the relative strength of the forces, consider ways to strengthen important drivers or reduce restraints, and use the comparison to inform implementation; it is an analytical aid rather than a guarantee that a change will succeed."
         ]
       }
     }
