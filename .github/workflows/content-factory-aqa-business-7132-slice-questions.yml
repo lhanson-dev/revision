@@ -1,0 +1,57 @@
+name: Content Factory AQA Business 7132 Slice Questions
+
+# Step 5c of the plan: original exam-style questions with mark schemes for one slice (first slice: AQA 7132 section 3.5), under the fast-path rules.
+# The plan is fixed in software. The AI writes each question to its spec, a fresh call answers it blind, software proves what it can,
+# and one fixed-checklist review judges the rest. Live spend is capped and only runs from main, after merge.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: content-factory-aqa-business-7132-slice-questions
+  cancel-in-progress: false
+
+jobs:
+  slice-questions:
+    name: Write, answer blind, prove and review the slice questions
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact approved main
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24.18.0'
+          cache: npm
+
+      - name: Pin npm
+        run: npm install --global npm@11.19.0 --no-audit --no-fund
+
+      - name: Install dependencies from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Write, answer blind, prove and review the questions
+        env:
+          CONTENT_FACTORY_AQA_7132_SLICE_QUESTIONS: '1'
+          CONTENT_FACTORY_SLICE_REVIEWED_COMMIT: ${{ github.sha }}
+          CONTENT_FACTORY_MAX_SPEND_USD: '6'
+          CONTENT_FACTORY_GENERATION_MODEL: gpt-5.6-terra
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npx vitest run scripts/assurance/aqa-business-7132-slice-questions.test.ts --reporter=verbose
+
+      - name: Upload slice question evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-factory-aqa-business-7132-slice-3-5-questions-${{ github.sha }}
+          path: .artifacts/content-factory-aqa-business-7132-slice-3.5-questions/
+          if-no-files-found: warn
+          retention-days: 30
