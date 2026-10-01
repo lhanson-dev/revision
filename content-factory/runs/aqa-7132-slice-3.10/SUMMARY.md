@@ -21,5 +21,4 @@
 - bus-mod-005
 - bus-str-009
 
-Reused without re-review because nothing changed: 0
-
+Reused without re-review because nothing changed: 4
