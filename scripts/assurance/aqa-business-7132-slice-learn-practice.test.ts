@@ -206,7 +206,7 @@ describe('AQA 7132 slice Learn + Practice (software checks)', () => {
     const good = validOutput(expectation)
     const bad = { ...good, node_id: 'wrong' }
     const seenFeedback: number[] = []
-    const result = await produceNode({ nodeId: 'bus-fin-003', expectation, teaching, generate: async (payload, attempt) => { seenFeedback.push((payload.fix_these as unknown[]).length); return { ok: true, output: attempt === 1 ? bad : good } })
+    const result = await produceNode({ nodeId: 'bus-fin-003', expectation, teaching, generate: async (payload, attempt) => { seenFeedback.push((payload.fix_these as unknown[]).length); return { ok: true, output: attempt === 1 ? bad : good } } })
     expect(result.attempts).toBe(2)
     expect(seenFeedback).toEqual([0, 1])
     expect(result.output?.node_id).toBe('bus-fin-003')
