@@ -309,6 +309,13 @@ export function PlannerRuntime() {
 
       <div className="runtime-screen">{screen}</div>
 
+      {route.kind !== 'admin' && <nav className="runtime-tabbar" aria-label="Quick navigation">
+        <button type="button" className={route.kind === 'home' ? 'active' : ''} aria-current={route.kind === 'home' ? 'page' : undefined} onClick={() => navigate(homeRoute())}><Icon name="home" size="standard" /><span>Home</span></button>
+        <button type="button" className={route.kind === 'plan' ? 'active' : ''} aria-current={route.kind === 'plan' ? 'page' : undefined} onClick={() => navigate(planRoute())}><Icon name="plan" size="standard" /><span>Plan</span></button>
+        <button type="button" className={coursesActive ? 'active' : ''} aria-current={coursesActive ? 'page' : undefined} onClick={() => navigate(coursesRoute())}><Icon name="courses" size="standard" /><span>Courses</span></button>
+        <button type="button" className={route.kind === 'progress' ? 'active' : ''} aria-current={route.kind === 'progress' ? 'page' : undefined} onClick={() => navigate(progressRoute())}><Icon name="progress" size="standard" /><span>Progress</span></button>
+      </nav>}
+
       {route.kind !== 'admin' && route.kind !== 'rev' && !revPanelOpen && <button className="runtime-mobile-ask-rev-dock" onClick={() => openRev()} aria-label="Ask REV" aria-haspopup="dialog"><RevPresence size="nav" state="resting" decorative /><span>Ask REV</span></button>}
 
       {revPanelOpen && programmeResolved && !programmeError && <>
