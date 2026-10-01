@@ -72,7 +72,7 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 
 ## Current state (as of 1 October 2026 — verify on `main` before acting)
 
-- **Approved main:** PR #481 is merged at `c60fac84cc422b7d9fb25a9a10c09182cd475f64`. Post-merge Revision CI run 36885593733 passed.
+- **Approved main:** PR #481 is merged at `c60fac84cc422b7d9fb25a9a10c09182cd475f64`. Later unrelated learner-design work has also landed on `main`; always inspect the current head before integration. Post-merge Revision CI run 36885593733 passed for PR #481.
 - **Business Subject Foundation:** 81 nodes in 9 domains, v0.8 plus additive fast-path overlays. `QUESTION_ESCALATION_FIXES.json` deepens BUS-FND-007 (takeover-specific failure mechanisms), BUS-FND-008 (synergy definition/mechanisms) and BUS-STR-009 (crisis management). Current Subject Foundation fingerprint is `f5477c3abeca4ddfa145d89a849ae479adcb90e7fbfa1d9dcc64eda2f8bb7a94`.
 - **AQA 7132 mapping:** 42 specification subsections; item-level coverage remains 344/344 with no gaps.
 - **Fresh T8 proof:** run 36870063233 on `d7b08d2` is `ai_assured`, `can_progress=true`: 31 passed, 11 logged, 0 blocking, 0 escalated, 0 failed; official AQA source check passed; conservative spend $1.041614. PR #481 persists its ledger/receipt for future exact-fingerprint reuse.
@@ -103,6 +103,17 @@ How the eight pipeline steps map to the trial stages: 1 Foundation = T2–T3 · 
 7. Start a second Business board and measure Foundation reuse.
 
 Keep a single run log at `content-factory/RUN_LOG.md`: one line per fix or decision (`date · item · what · why · which check`).
+
+## Design system (learner app)
+
+All UI must follow `20-brand-and-experience/` and `docs/design-system/`. Use tokens and `src/app/ui/` components only. Colour roles never mix: teal = brand, REV and actions; teal/yellow/coral/neutral = status (always icon + text); subjects = the subject palette + letter mark. Progress = Topics covered · Understanding · Exam readiness, never one %. Scroll down, never sideways.
+
+Decisions and behaviour rules for the learner app are in `docs/design/decisions/2026-10-01-learner-redesign-v2.md`. Follow them, and ask Lee before changing them.
+
+- The design package and build tracker are in `docs/design/learner-redesign-v2/` (start at `00-START-HERE.md`; progress in `STATUS.md`). Update `STATUS.md` in every redesign PR.
+- Honest data only: never hard-code numbers, names, dates or topics from mockups. If the data does not exist yet, show the honest empty state. Never fake REV: no canned replies and no made-up suggestions.
+- No raw hex colours outside `src/app/brand-tokens.css` (checked by `scripts/design-guardrails/`). No learner page may scroll sideways (checked by `tests/e2e/horizontal-scroll.spec.ts`).
+- Design decisions are logged in `STATUS.md`. `content-factory/RUN_LOG.md` is for Content Factory work.
 
 ## Switching between AI tools
 
